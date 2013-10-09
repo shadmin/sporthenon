@@ -1,0 +1,19 @@
+<div id="buttons">
+	<div id="bleft">
+		<input id="execute" type="button" class="button execute" value="RUN"/><input id="reset" type="button" class="button reset" value="Reset"/><input id="options" type="button" class="button options" value="Options"/>
+	</div>
+	<div id="bright">
+		Actions on current tab:<input id="export" type="button" class="button export-disabled" disabled="disabled" value="Export"/><input id="link" type="button" class="button link-disabled" disabled="disabled" value="Link"/><input id="print" type="button" class="button print-disabled" disabled="disabled" value="Print"/><input id="info" type="button" class="button info-disabled" disabled="disabled" value="Info"/>
+	</div>
+	<div class="clear"></div>
+</div>
+<script type="text/javascript">
+var runClick = ($('results') ? runResults : ($('usleagues') ? runUSLeagues : ($('search') ? runSearch : ($('olympics') ? runOlympics : null))));
+var resetClick = ($('results') ? resetResults : ($('usleagues') ? resetUSLeagues : ($('search') ? resetSearch : ($('olympics') ? resetOlympics : null))));
+Event.observe($('execute'), 'click', runClick);
+Event.observe($('reset'), 'click', resetClick);
+Event.observe($('export'), 'click', displayExport);
+Event.observe($('link'), 'click', displayLink);
+Event.observe($('print'), 'click', printCurrentTab);
+Event.observe($('info'), 'click', displayInfo);
+</script>

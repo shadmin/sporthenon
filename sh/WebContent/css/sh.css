@@ -1,0 +1,875 @@
+body{
+	background: #FFFFF2 url(../img/bg.gif?v=2) 0 0 repeat-y;
+	margin: 0;
+	padding: 0;
+}
+body.link{
+	background: none;
+	background-color: #F2F2F2;
+}
+/* ========== COMMON ========== */
+.separator{
+	height: 1px;
+	margin: 0;
+	margin-bottom: 5px;
+	padding: 0;
+	background-color: #BBB;
+	border: 0;
+}
+.separator{
+	margin: 6px 0px;
+}
+a{
+	color: #00F;
+	text-decoration: none;
+}
+a:visited{
+	color: #00F;
+	text-decoration: none;
+}
+a:hover{
+	color: #00F;
+	text-decoration: underline;
+}
+a:focus{
+	outline: 0;
+}
+.fieldset{
+	background: #FFF;
+	text-align: left;
+	border: 1px solid gray;
+	margin: 3px 0px;
+	margin-top: 10px;
+	margin-bottom: 0px;
+	width: auto;
+}
+.fieldset .fstitle{
+	font-weight: bold;
+	border-bottom: 1px solid gray;
+	background-color: #FFC;
+	padding: 5px;
+	padding-left: 23px;
+	background-position: 3px center;
+	background-repeat: no-repeat;
+}
+.fieldset .fscontent{
+	padding: 8px;
+}
+.fieldset .fscontent table{
+	width: 100%;
+	border-collapse: collapse;
+}
+.fieldset .fscontent th, .fieldset .fscontent td{
+	padding: 3px;
+	border: 1px solid #CCC;
+	border-collapse: collapse;
+	vertical-align: middle;
+}
+.fieldset .fscontent th{
+	font-weight: bold;
+	background-color: #EEE;
+}
+.fieldset .fscontent ul{
+	margin: 5px;
+	padding-left: 20px;
+}
+.fieldset .fscontent li{
+	list-style-image: url(../img/bullet.gif);
+}
+.legend{
+	margin-top: -12px;
+	background-color: #FFFFFF;
+	display: table;
+	padding-left: 2px;
+}
+.legend input{
+	padding: 0;
+	margin: 0;
+}
+.legend td{
+	padding: 0;
+	border: none;
+}
+.tip{
+	font: 11px Verdana;
+	text-align: left;
+	border: 1px solid #000;
+	background-color: #FFC;
+	padding: 3px;
+}
+.bold{
+	font-weight: bold;
+}
+.loading{
+	width: 100%;
+	background: #FFF url(../img/db/loading.gif)	center center no-repeat;
+	width: 180px;
+	height: 80px;
+	margin: 0 auto;
+	border: 1px solid #AAA;
+}
+#optionspanel{
+	width: 190px;
+	margin-top: 25px;
+}
+#optionspanel table{
+	margin: 2px 5px;
+}
+#optionsselect{
+	display: none;
+}
+.criteria{
+	background-image: url(../img/db/criteria.png?1);
+}
+/* ========== HEADER/MENU ========== */
+#header{
+	float: left;
+}
+#logo{
+	margin: 4px;
+	margin-top: 5px;
+	width: 210px;
+}
+#logo img{
+	padding-bottom: 8px;
+	border: none;
+}
+#shmenu{
+	width: 231px;
+	list-style-type: none;
+	text-align: right;
+	padding-bottom: 0px;
+	font: 13px Georgia;
+}
+#shmenu ul{
+	margin: 0px;
+	padding: 0;
+}
+#shmenu li{
+	margin: 0;
+	margin-bottom: 8px;
+	padding-left: 60px;
+}
+#shmenu li a{
+	display: block;
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+	margin-left: 2px;
+	padding: 4px 8px;
+	padding-left: 25px;
+	padding-right: 5px;
+	border: 1px solid #000;
+	background-color: #666;
+	background-position: 5px center;
+	background-repeat: no-repeat;
+}
+#shmenu a.selected{
+	border-right: none;
+	padding-right: 6px;
+	background-color: #FFFFF2;
+	color: #000;
+}
+#shmenu li a:hover{
+	background-color: #FFFFF2;
+	color: #000;
+}
+#shmenu a.selected:hover{
+	background-color: #FFFFF2;
+	color: #000;
+}
+#shmenu-home{
+	background-image:url(../img/menu/home.png?1);
+}
+#shmenu-results{
+	background-image:url(../img/menu/dbresults.png?1);
+}
+#shmenu-olympics{
+	background-image:url(../img/menu/dbolympics.png?1);
+}
+#shmenu-usleagues{
+	background-image:url(../img/menu/dbusleagues.png?1);
+}
+#shmenu-search{
+	background-image:url(../img/menu/dbsearch.png?1);
+}
+#shmenu-project{
+	background-image:url(../img/menu/project.png?1);
+}
+#shmenu-login{
+	background-image:url(../img/menu/login.png?1);
+}
+#shmenu-logout{
+	background-image:url(../img/menu/logout.png?1);
+}
+#links{
+	margin: 5px;
+	margin-top: 30px;
+	font: 10px Tahoma;
+}
+#links img{
+	border: none;
+	margin-top: 2px;
+	margin-bottom: 5px;
+}
+#version{
+	margin-top: 10px;
+	font: 9px Tahoma;
+	color: #888;
+}
+#content{
+	margin: 5px;
+	margin-top: 0px;
+	margin-left: 235px;
+	padding: 5px;
+	padding-top: 0px;
+	font: 11px Verdana;
+	border: 1px solid transparent;
+}
+#content select, #content input{
+	font: 11px Verdana;
+}
+.link #content{
+	margin: 0px;
+	padding: 0px;
+	margin-left: 0px;
+	border: 0px solid transparent;
+}
+/* ========== TABCONTROL ========== */
+.tabbar{
+	list-style: none;
+	margin: 0 0 0px 0;
+	padding: 0;
+	height: 19px;
+}
+.tabbar li{
+	float: left;
+	margin-right: 3px;
+	text-align: center;
+	border: 1px solid #CCC;
+	border-bottom: none;
+}
+.tabbar li a{
+	display: block;
+	height: 16px;
+	padding: 3px 4px 0px 5px;
+	background-color: #fff;
+	color: #333;
+	width: auto;
+	text-decoration: none;
+}
+.tabbar li a:hover{
+	background-color: #F2F2F2;
+}
+.tabbar li a.active{
+	background-color: #F2F2F2;
+	font-weight: bold;
+	color: #000;
+}
+.tabbar li a.active span{
+	font-weight: bold;
+}
+.tabbar li img{
+	border: none;
+	padding-left: 5px;
+}
+.tc{
+	padding: 10px 10px;
+	border: 1px solid #CCC;
+	background-color: #F2F2F2;
+}
+.link .tc{
+	border: none;
+}
+/* ========== SLIDER ========== */
+.slider .arrow{
+	float: left;
+	width: 10px;
+	border: 1px solid #FFF;
+}
+.slider .arrow img{
+	border: none;
+}
+.slider .container{
+	float: left;
+	overflow: hidden;
+	text-align: center;
+	border: none;
+}
+.slider .slide{
+    float: left;
+}
+/* ========== SELECT-MULTIPLE ========== */
+.selmultiple{
+	position: relative;
+}
+.selmultiple table{
+	margin: 0px !important;
+}
+.optcontainer{  
+	position: absolute;  
+	top: 0;  
+	left: 0;
+	z-index: 500;  
+	border: 1px solid #222;
+	background: #FFF;
+}
+.optcontainer .header{  
+	color: #FFF;  
+	font-weight: bold;
+	margin: 0;  
+	padding: 3px;  
+	background-color: #555;
+	border-bottom: 1px solid #222;
+	text-align: left;
+} 
+.optcontainer .scroll{
+	height: 200px;
+	overflow-y: scroll;
+}
+.optcontainer .scroll td{
+	padding: 0px 3px !important;
+	border-bottom: 1px solid #DDD !important;
+}
+.optcontainer .scroll td.name{
+	width: 100%;
+	cursor: pointer;
+	text-align: left !important;
+}
+.optcontainer .scroll tr.over{
+	background-color: #EEE;
+}
+.optcontainer .scroll tr.selected{
+	background-color: #FFA;
+}
+.optcontainer .scroll tr.selected td{
+	font-weight: bold;
+}
+.optcontainer .btnpanel{
+	border-top: 1px solid #222;
+	text-align: right;
+}
+.optcontainer .btnpanel .button{
+	margin: 0px;
+}
+.optcontainer .btnpanel .applyall{
+	float: left;
+	padding: 2px 2px;
+	margin: 0px;
+}
+/* ========== DISABLED ELEMENTS ========== */
+.disabled{
+	color: #888888;
+}
+.disabled input, .disabled select, select.disabled{
+	background-color: #DDDDDD;
+}
+.inactive{
+	opacity: 0.3;
+}
+.inactive-msg{
+	position: absolute;
+	z-index:2;
+	background: transparent url(../img/db/notselected.png?1) center center no-repeat;
+}
+/* ========== BUTTONS ========== */
+#buttons{
+	width: 100%;
+	margin-top: 3px;
+	margin-bottom: 5px;
+}
+#buttons #bleft{
+	float: left;
+}
+#buttons #bright{
+	float: right;
+}
+#buttons .clear{
+    overflow: hidden;
+    width: 100%;
+}
+#buttons .button{
+	height: 25px;
+	margin: 0px;
+	background-color: #DADADA;
+	background-position: 3px center;
+	background-repeat: no-repeat;
+	padding-left: 22px;
+}
+#buttons #bleft .button{
+	margin-right: 3px;
+}
+#buttons #bright .button{
+	margin-left: 3px;
+}
+#buttons .button:hover{
+	text-decoration: underline;
+}
+#buttons .execute{
+	background-image: url('../img/component/button/execute.png?1');
+	padding-left: 24px;
+	font-weight: bold;
+}
+#buttons .reset{
+	background-image: url('../img/component/button/reset.png?1');
+}
+#buttons .options{
+	background-image: url('../img/component/button/options.png');
+}
+#buttons .export{
+	background-image: url('../img/component/button/export.png');
+}
+#buttons .export-disabled{
+	background-image: url('../img/component/button/export-disabled.png');
+}
+#buttons .link{
+	background-image: url('../img/component/button/link.png');
+}
+#buttons .link-disabled{
+	background-image: url('../img/component/button/link-disabled.png');
+}
+#buttons .print{
+	background-image: url('../img/component/button/print.png');
+}
+#buttons .print-disabled{
+	background-image: url('../img/component/button/print-disabled.png');
+}
+#buttons .info{
+	background-image: url('../img/component/button/info.png');
+}
+#buttons .info-disabled{
+	background-image: url('../img/component/button/info-disabled.png');
+}
+#buttons .export-disabled:hover, #buttons .link-disabled:hover, #buttons .print-disabled:hover, #buttons .info-disabled:hover{
+	text-decoration: none;
+}
+/* ========== TREEVIEW ========== */
+#treeview{
+	width: 100%;
+	overflow-x: auto;
+	overflow-y: auto;
+	border: none;
+	margin-left: -5px;
+	margin-bottom: 0px;
+	padding-left: 3px;
+}
+#treeview table{
+	/*width: 100%;*/
+}
+#treeview td{
+	text-align: left;
+	border: none;
+	padding: 0px;
+}
+#treeview a{
+	color: black;
+}
+#treeview .nodetext{
+	padding-left: 2px;
+	cursor: pointer;
+}
+#treeview .over{
+	text-decoration: underline;
+}
+/* ========== HOME ========== */
+#home .box{
+	width: 190px;
+	border: 1px solid gray;
+	padding: 1px;
+	padding-bottom: 5px;
+	margin-bottom: 10px;
+	background: #FFF;
+}
+#home .boxtitle{
+	background-color: #059;
+	border: 1px solid gray;
+	color: #FFF;
+	font-weight: bold;
+	padding: 3px;
+	margin-bottom: 5px;
+}
+#home .box table{
+	margin: 0 auto;
+}
+#home .box ul{
+	padding-left: 10px;
+}
+#home .box hr{
+	height: 1px;
+	border: none;
+	background-color: #DDD;
+	width: 95%;
+}
+#home .box .more{
+	padding-top: 5px;
+	text-align: left;
+}
+#home .stat{
+	text-align: right;
+	font-weight: bold;
+}
+.homecontent .fieldset{
+	margin-right: 205px;
+}
+.homecontent .fieldset .fstitle{
+	font-weight: bold;
+	border-bottom: 1px solid gray;
+	background-color: #FFC;
+	padding: 5px;
+	padding-left: 23px;
+	background-position: 3px center;
+	background-repeat: no-repeat;
+}
+.homecontent .info{
+	background-image: url(../img/info.png?1);
+}
+.homecontent .contact{
+	background-image: url(../img/contact.png?1);
+}
+.homecontent .news{
+	background-image: url(../img/news.png?1);
+}
+/* ========== RESULTS ========== */
+/* ---------- PICKLIST ---------- */
+#results{
+	height: 215px;
+}
+#results .spcpdiv{
+	float: left;
+	width: 180px;
+	height: 182px;
+	border-right: 1px solid #BBB;
+	padding-left: 3px;
+	padding-right: 5px;
+	margin: 3px;
+	background: #FFF url(../img/column.png?1) 27px 127px no-repeat;
+}
+#results .spcpdiv table{
+	width: 100%;
+}
+#results .slider{
+	margin-top: 0px;
+	margin-left: 35px;
+}
+#results .slide{
+	border: none;
+	background-color: #FFF;
+	background-position: center top;
+	background-repeat: no-repeat;
+}
+#results .arrow{
+	margin-top: 14px;
+}
+#results select{
+	width: 100%;
+}
+#results .evdiv{
+	float: left;
+	width: 290px;
+	height: 182px;
+	border-right: 1px solid #BBB;
+	padding: 0px 0px;
+	padding-right: 6px;
+	margin: 3px;
+	margin-left: 0px;
+}
+#results .evdiv table{
+	width: 100%;
+}
+#results .evdiv td{
+	text-align: right;
+	border: none;
+	padding: 1px;
+}
+#results .treediv{
+	float: left;
+	padding: 0px 8px;
+	margin: 3px;
+	margin-left: 3px;
+}
+#results #treeicon{
+	position: absolute;
+	margin-left: 337px;
+	margin-top: 145px;
+	cursor: pointer;
+}
+#results #treeview{
+	position: absolute;
+	overflow-x: hidden;
+	overflow-y: auto;
+	width: 330px;
+	background-color: #FFF;
+	border: 1px solid #DDD;
+}
+#results .treediv .expanded{
+	height: auto;
+	border-right: 1px solid #DDD;
+}
+#results .treediv .collapsed{
+	height: 160px;
+	border-right: none;
+}
+/* ========== OLYMPICS ========== */
+#olympics{
+	height: 265px;
+}
+#olympics .fieldset{
+	float: left;
+	width: 277px;
+	height: 220px;
+	margin: 12px 6px;
+	margin-bottom: 0px;
+}
+#olympics .legend{
+	margin-top: -10px;
+	margin-left: 5px;
+}
+#olympics table img{
+	border: none;
+}
+#olympics table{
+	width: 100%;
+}
+#olympics td{
+	border: none;
+	padding: 0;
+}
+#olympics .select, #olympics select{
+	width: 100%;
+}
+#olympics .separator{
+	margin-bottom: 1px;
+}
+/* ========== US LEAGUES ========== */
+#usleagues{
+	height: 210px;
+	margin-bottom: 0px;
+	background: #FFF url(../img/column.png?1) 35px 150px no-repeat;
+}
+#usleagues .league{
+	float: left;
+	margin: 4px 0px;
+	margin-right: 15px;
+	width: 195px;
+	text-align: center;
+}
+#usleagues .league .slider{
+	margin-left: 40px;
+}
+#usleagues .league .slide{
+	background-color: #FFF;
+	background-position: center top;
+	background-repeat: no-repeat;
+}
+#usleagues .league .arrow{
+	margin-top: 25px;
+}
+#usleagues .league table{
+	/*margin-top: 5px;*/
+}
+#usleagues .league td{
+	padding: 0;
+	border: none;
+}
+#usleagues .league label{
+	font-weight: bold;
+}
+#usleagues .fieldset{
+	float: left;
+	width: 225px;
+	height: 65px;
+}
+#ustopics{
+	margin: 0;
+	padding: 0;
+}
+#ustopics table{
+	margin-left: auto;
+	margin-right: auto;	
+}
+#ustopics td{
+	padding: 1px;
+	border: none;
+}
+#ustopics .legend{
+	margin-top: -10px;
+	margin-left: 5px;
+}
+#ustopics .legend table{
+	border-collapse: collapse;
+}
+#ustopics .legend td{
+	margin: 0px;
+	padding: 0px;
+}
+#ustopics .select, #ustopics select{
+	width: 100%;
+}
+#ustopics .text input{
+	width: 35px;
+}
+#ustopics img{
+	border: none;
+}
+/* ========== SEARCH ========== */
+#search{
+	background: #FFF;
+	height: 160px;
+	margin-bottom: 0px;
+}
+#search .pattern{
+	float: left;
+	width: 230px;
+	margin: 4px;
+	margin-right:15px;
+}
+#search .pattern input{
+	border: 1px solid #CCC;
+}
+#search .pattern input.selected{
+	outline: none;
+	border: 1px solid #D00;
+}
+#search .scope{
+	border: 1px solid #666;
+	text-align: left;
+	width: 280px;
+	margin-top: 5px;
+}
+#search .text{
+	width: 100%;
+	margin: 3px 0px;
+}
+#search td{
+	border: none;
+	padding: 0px;
+}
+/* ========== LOGIN ========== */
+.login{
+	background-image: url(../img/menu/login.png?1);
+}
+.tlogin{
+	margin: 5px auto;
+}
+.loginmsg{
+	color: #F00;
+	font-weight: bold;
+}
+.tlogin td{
+	text-align: right;
+	padding: 2px;
+}
+.tlogin .button, .register .button{
+	margin: 0 auto;
+	float: none;
+	border: 1px solid #666;
+}
+.tlogin .button a, .register .button a{
+	display: block;
+	background-color: #FFF;
+	padding:5px 6px;
+	text-decoration: none;
+	color: #000;
+	background: #FFF url(../img/db/ok.png?1) 8px center no-repeat;
+	padding-left: 26px;
+}
+.tlogin .button a:hover, .register .button a:hover{
+	background-color: #DDD;
+}
+.register{
+	margin: 2px auto;
+}
+.register table{
+	margin: 5px auto;
+	margin-bottom: 0px;
+}
+.register td{
+	text-align: left;
+	padding: 2px;
+}
+.register .mandatory{
+	font-weight: bold;
+	color: #F00;
+}
+.register .button{
+	margin-top: 10px;
+}
+.register .button a{
+	background: #FFF url(../img//update/add.png?1) 8px center no-repeat;
+}
+#r-msg{
+	font-weight: bold;
+	border: 1px solid #666;
+	padding: 4px;
+	background-position: 2px center; 
+	background-repeat: no-repeat;
+	font-weight: bold;
+	text-align: center;
+}
+#r-msg a{
+	font-weight: bold;
+}
+.register .success{
+	background-color: #beffbc;
+	background-image: url(../img/update/success.png?1);
+}
+.register .error{
+	background-color: #e5bdbf;
+	background-image: url(../img/update/error.png?1);
+}
+.register .waiting{
+	background-color: #fff;
+	background-image: url(../img/update/waiting.gif);
+}
+/* ========== PROJECT ========== */
+.downloads{
+	background-image: url(../img/project/downloads.png?1);
+}
+.reportbug{
+	background-image: url(../img/project/reportbug.png?1);
+}
+.statistics{
+	background-image: url(../img/project/statistics.png?1);
+}
+.technicalinfo{
+	background-image: url(../img/project/technicalinfo.png?1);
+}
+.contributors{
+	background-image: url(../img/project/contributors.png?1);
+}
+/* ========== DIALOGS ========== */
+.dialog, .dialog input{
+	font: 11px Verdana;
+}
+#d-export .fstitle{
+	background-color: #DAEEFF;
+	background-image: url(../img/component/button/export.png?1);
+}
+#d-link .fstitle{
+	background-color: #DAEEFF;
+	background-image: url(../img/component/button/link.png?1);
+}
+#d-info .fstitle{
+	background-color: #DAEEFF;
+	background-image: url(../img/component/button/info.png?1);
+}
+.dialog .dlgbuttons{
+	height: 33px;
+	padding-right: 8px;
+}
+.dialog .dlgbuttons input.button, .optcontainer input.button{
+	float: right;
+	height: 25px;
+	margin: 0px;
+	margin-left: 3px;
+	background-color: #DADADA;
+	background-position: 3px center;
+	background-repeat: no-repeat;
+	padding-left: 22px;
+}
+.dialog .dlgbuttons .ok, .optcontainer .ok{
+	background-image: url('../img/component/button/ok.png?1');
+}
+.dialog .dlgbuttons .cancel, .optcontainer .cancel{
+	background-image: url('../img/component/button/cancel.png?1');
+}
