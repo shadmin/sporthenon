@@ -1,4 +1,4 @@
-references result + gestion EX-
+references result + gestion EX--
 tools updater : images manquantes + doublons pour link...
 png olympics medailles + olympics podiums
 export button + info button
