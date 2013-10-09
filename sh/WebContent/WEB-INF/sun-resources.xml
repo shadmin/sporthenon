@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//Sun Microsystems, Inc.//DTD Application Server 9.0 Resource Definitions //EN" "http://www.sun.com/software/appserver/dtds/sun-resources_1_3.dtd">
+<resources>
+ 
+	<jdbc-connection-pool 
+		datasource-classname="org.postgresql.ds.PGConnectionPoolDataSource"
+		res-type="javax.sql.ConnectionPoolDataSource"
+		name="shpool">
+      <property name="databaseName" value="shlocal" />
+      <property name="user" value="postgres" />
+      <property name="password" value="password" />
+      <property name="portNumber" value="5432" />
+      <property name="serverName" value="localhost" />
+      <property name="defaultAutoCommit" value="false" />
+    </jdbc-connection-pool>
+    
+    <jdbc-resource pool-name="shpool" jndi-name="jdbc/shpool" />
+ 
+</resources>
