@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-mappings
+	xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+	version="1.0">
+	
+	<!--
+		ENTITY_REF(varchar, integer)
+	-->
+	<named-native-query name="EntityRef" result-class="com.sporthenon.db.entity.meta.RefItem">  
+		<query>select * from "ENTITY_REF"(?, ?, ?)</query>
+		<hint name="org.hibernate.callable" value="false" />
+	</named-native-query>
+	
+	<!--
+		GET_DRAW(integer)
+	-->
+	<named-native-query name="GetDraw" result-class="com.sporthenon.db.function.DrawBean">  
+		<query>{? = call "GET_DRAW"(?)}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+	
+	<!--
+		GET_HALL_OF_FAME(integer, text, smallint)
+	-->
+	<named-native-query name="GetHallOfFame" result-class="com.sporthenon.db.function.HallOfFameBean">  
+		<query>{? = call "GET_HALL_OF_FAME"(?, ?, ?)}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+	
+	<!--
+		GET_OLYMPIC_MEDALS(text, integer, text)
+	-->
+	<named-native-query name="GetOlympicMedals" result-class="com.sporthenon.db.function.OlympicMedalsBean">  
+		<query>{? = call "GET_OLYMPIC_MEDALS"(?, ?, ?, ?)}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+	
+	<!--
+		GET_OLYMPIC_RANKINGS(text, text)
+	-->
+	<named-native-query name="GetOlympicRankings" result-class="com.sporthenon.db.function.OlympicRankingsBean">  
+		<query>{? = call "GET_OLYMPIC_RANKINGS"(?, ?)}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+	
+	<!--
+		GET_RESULTS(integer, integer, integer, integer, text)
+	-->
+	<named-native-query name="GetResults" result-class="com.sporthenon.db.function.ResultsBean">  
+		<query>{? = call "GET_RESULTS"(?, ?, ?, ?, ?)}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+	
+	<!--
+		GET_RETIRED_NUMBER(integer, text, smallint)
+	-->
+	<named-native-query name="GetRetiredNumber" result-class="com.sporthenon.db.function.RetiredNumberBean">  
+		<query>{? = call "GET_RETIRED_NUMBER"(?, ?, ?)}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+	
+	<!--
+		GET_TEAM_STADIUM(integer, text, varchar, varchar)
+	-->
+	<named-native-query name="GetTeamStadium" result-class="com.sporthenon.db.function.TeamStadiumBean">  
+		<query>{? = call "GET_TEAM_STADIUM"(?, ?, ?, ?)}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+	
+	<!--
+		GET_US_CHAMPIONSHIPS(integer, integer, text)
+	-->
+	<named-native-query name="GetUSChampionships" result-class="com.sporthenon.db.function.USChampionshipsBean">  
+		<query>{? = call "GET_US_CHAMPIONSHIPS"(?, ?)}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+	
+	<!--
+		GET_US_RECORDS(integer, text, text, text)
+	-->
+	<named-native-query name="GetUSRecords" result-class="com.sporthenon.db.function.USRecordsBean">  
+		<query>{? = call "GET_US_RECORDS"(?, ?, ?, ?)}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+
+	<!--
+		GET_WIN_LOSS(integer, text)
+	-->
+	<named-native-query name="GetWinLoss" result-class="com.sporthenon.db.function.WinLossBean">  
+		<query>{? = call "GET_WIN_LOSS"(?, ?)}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+	
+	<!--
+		SEARCH(varchar, varchar, smallint)
+	-->
+	<named-native-query name="Search" result-class="com.sporthenon.db.entity.meta.RefItem">  
+		<query>select * from "SEARCH"(?, ?, ?)</query>
+		<hint name="org.hibernate.callable" value="false" />
+	</named-native-query>
+	
+	<!--
+		TREE_RESULTS()
+	-->
+	<named-native-query name="TreeResults" result-class="com.sporthenon.db.entity.meta.TreeItem">  
+		<query>select * from "TREE_RESULTS"()</query>
+		<hint name="org.hibernate.callable" value="false" />
+	</named-native-query>
+	
+	<!--
+		WIN_RECORDS(text)
+	-->
+	<named-native-query name="WinRecords" result-class="com.sporthenon.db.function.WinRecordsBean">  
+		<query>{? = call "WIN_RECORDS"(?)}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+	
+	<!--
+		~LAST_UPDATES(integer)
+	-->
+	<named-native-query name="LastUpdates" result-class="com.sporthenon.db.function.LastUpdateBean">  
+		<query>{? = call "~LAST_UPDATES"(?)}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+	
+	<!--
+		~STATISTICS()
+	-->
+	<named-native-query name="Statistics" result-class="com.sporthenon.db.function.StatisticsBean">  
+		<query>{? = call "~STATISTICS"()}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+
+</entity-mappings>
