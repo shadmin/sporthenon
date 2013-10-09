@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Sporthenon" default="shtest.war" basedir=".">
+
+	<property name="classes" value="./classes" />
+	<property name="webcontent" value="../WebContent" />
+	<property name="temp" value="./temp" />
+	
+	<!-- SHUPDATE.JAR -->
+	<target name="shupdate.jar">
+		<mkdir dir="${temp}"/>
+		<copy todir="${temp}">
+			<fileset dir="${classes}">
+				<include name="**/sporthenon/db/**"/>
+				<include name="**/sporthenon/updater/**"/>
+				<include name="**/sporthenon/utils/**"/>
+				<include name="**/META-INF/**"/>
+				<exclude name="**/sporthenon/updater/MANIFEST.MF"/>
+			</fileset>
+		</copy>
+		<copy file="${classes}/config.prod.xml" tofile="${temp}/config.xml"/>
+		<jar jarfile="./shupdate.jar" basedir="${temp}" manifest="${classes}/com/sporthenon/updater/MANIFEST.MF"/>
+		<delete dir="${temp}" failonerror="false"/>
+	</target>
+	
+	<!-- SH.WAR -->
+	<target name="initwar">
+		<mkdir dir="${temp}"/>
+		<copy todir="${temp}">
+			<fileset dir="${webcontent}">
+				<exclude name="**/footer*.jsp"/>
+				<exclude name="**/sun-resources.xml"/>
+				<exclude name="**/web.xml"/>
+				<exclude name="**/WEB-INF/lib/postgresql**.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="${temp}/WEB-INF/classes">
+			<fileset dir="${classes}">
+				<exclude name="**/sporthenon/explorer/**"/>
+				<exclude name="**/sporthenon/updater/**"/>
+				<exclude name="**/sporthenon/test/**"/>
+				<exclude name="**/config*.xml"/>
+				<exclude name="**/log4j*.xml"/>
+			</fileset>
+		</copy>
+	</target>
+	<target name="shtest.war" depends="initwar">
+		<copy file="${webcontent}/jsp/common/footer.jsp" tofile="${temp}/jsp/common/footer.jsp"/>
+		<copy file="${classes}/config.test.xml" tofile="${temp}/WEB-INF/classes/config.xml"/>
+		<copy file="${classes}/log4j.test.xml" tofile="${temp}/WEB-INF/classes/log4j.xml"/>
+		<war destfile="./shtest.war" basedir="${temp}" manifest="${webcontent}/META-INF/MANIFEST.MF" webxml="${webcontent}/WEB-INF/web.xml"/>
+		<delete dir="${temp}" failonerror="false"/>
+	</target>
+	<target name="sh.war" depends="initwar">
+		<copy file="${webcontent}/jsp/common/footer.prod.jsp" tofile="${temp}/jsp/common/footer.jsp"/>
+		<copy file="${classes}/config.prod.xml" tofile="${temp}/WEB-INF/classes/config.xml"/>
+		<copy file="${classes}/log4j.prod.xml" tofile="${temp}/WEB-INF/classes/log4j.xml"/>
+		<war destfile="./sh.war" basedir="${temp}" manifest="${webcontent}/META-INF/MANIFEST.MF" webxml="${webcontent}/WEB-INF/web.xml"/>
+		<delete dir="${temp}" failonerror="false"/>
+	</target>
+
+</project>
