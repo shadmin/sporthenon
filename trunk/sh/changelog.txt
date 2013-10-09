@@ -1,0 +1,30 @@
++---------------------------------------------------------------+
+| Sporthenon Change Log                                         |
+| Last Version: 0.3.0                                           |
++---------------------------------------------------------------+
+
++--------+
+| v0.3.0 |
++--------+
+hall of fame + medal table + record.. updater
+event supprimée + car speciaux treeview
+
++--------+
+| v0.2.0 |
++--------+
+o Web
+	- New feature: <Print> (=> send current search tab to default printer)
+	- New feature: <Link> (=> display URL to open directly a specific page)
+	- New feature: <Sortable Columns> (=> all displayed tables can be dynamically sorted)
+	- More detailed results in record references
+	- Results tree can be extended for better view
+	- Comments appear as a yellow tip on results rows
+	- New UI for action buttons
+	- Extension of some columns size in database
+	- Fixed bug: an error occured on some olympics views with empty subevent
+o Swing application:
+	- New feature: <Import CSV> (==> a mass update of data can done with CSV files)
+	- New feature: <Pictures Management>
+	- New feature: <Refresh Tree>
+	- Draws insert/update for each result
+	- Comments textarea improved with scrollpane
