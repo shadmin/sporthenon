@@ -1,0 +1,266 @@
+.tc table{
+	border-collapse: collapse;
+	margin: 15px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #FFF;
+}
+.tc th, .tc td{
+	border: 1px solid #666;
+	padding: 3px;
+}
+.tc th{
+	font-weight: bold;
+	background-color: #FFC;
+	text-align: center;
+	padding: 3px 10px;
+}
+.tc td{
+	text-align: left;
+}
+.tc a{
+	color: #00A;
+	text-decoration: none;
+}
+.tc a:visited{
+	color: #00A;
+	text-decoration: none;
+}
+.tc a:hover{
+	color: #00A;
+	text-decoration: underline;
+}
+.tc td table, .tc th table{
+	margin: 0;
+	padding: 0;
+	background-color: transparent;
+}
+.tc th table{
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+.tc td table th, .tc th table th{
+	border: none;
+	padding: 0;
+	padding-right: 3px;
+	background-color: transparent;
+}
+.tc td table td, .tc th table td, .tc .info td table td{
+	border: none;
+	padding: 0;
+}
+.tc th table th{
+	border: none;
+	padding-left: 3px;
+}
+.tc .centered{
+	text-align: center;
+}
+.tc .bold{
+	font-weight: bold;
+	padding-left: 3px;
+}
+.tc .bold a{
+	font-weight: bold;
+}
+.tc .bordered{
+	background-color: #FFF;
+}
+.tc .bordered img{
+	border: 1px solid #AAA;
+}
+.tc .hidden, .tc span.shorttitle, .tc span.url{
+	display: none;
+}
+.tc .header{
+	margin-top: 5px;
+}
+.tc .header img{
+	border: none;
+}
+.tc .header td{
+	padding: 2px 25px;
+	font-weight: bold;
+	text-align: center;
+}
+.tc .header td table{
+	margin: 0 auto;
+}
+.tc .header a{
+	font-weight: bold;
+}
+.tc .header .logos{
+	padding: 2px 5px; 
+}
+.tc .winrec{
+	margin-bottom: 5px;
+	border: 1px solid #666;
+}
+.tc .winrec td{
+	border: none;
+}
+.tc .winrec .caption{
+	text-align: right;
+	padding-left: 10px;
+}
+.tc .winrec .count{
+	font-weight: bold;
+	padding: 5px 10px;
+}
+.tc .winrec .bar1{
+	background: url(../img/render/bar1.gif) left center no-repeat;
+}
+.tc .winrec .bar2{
+	background: url(../img/render/bar2.gif) left center repeat-x;
+}
+.tc .winrec .bar3{
+	background: url(../img/render/bar3.gif) right center no-repeat;
+}
+.tc .toggleimg{
+	cursor: pointer;
+	padding-right: 3px;
+}
+.tc .toggletext{
+	cursor: pointer;
+}
+.tc .toggletext:hover{
+	text-decoration: underline;
+}
+.tc .info{
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+.tc .info td{
+	padding: 2px 25px;
+	text-align: center;
+}
+.tc .info td table{
+	margin: auto;
+}
+.tc .info .logo{
+	padding: 10px 30px; 
+}
+.tc .info .caption{
+	padding-left: 20px;
+	padding-right: 5px;
+	text-align: right;
+}
+.tc .margintop{
+	margin-top: 2px;
+}
+.tc .marginbottom{
+	margin-bottom: 2px;
+}
+.tc .ref{
+	border: 1px solid #AAA;
+	width: auto;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+.tc .ref legend{
+	color: #333;
+	font-weight: bold;
+	margin: 5px;
+}
+.tc .ref table{
+	margin-top: 0px;
+	margin-bottom: 15px;
+}
+.tc .ref table table{
+	margin-bottom: 0px;
+}
+.tc .refseefull td{
+	color: #00A;
+	cursor: pointer;
+	text-align: center;
+	border-top: 1px solid #666;
+	height: 14px;
+	background: transparent url(../img/render/seemore.gif) center center no-repeat;
+}
+.tc .refseefull td:hover{
+	background-color: #FFC;
+}
+.tc .draw{
+	height: 540px;
+	background: transparent url(../img/render/draw-bg3.gif) top left no-repeat;
+}
+.tc .draw .box{
+	position: absolute;
+}
+.tc .draw .box table{
+	border-collapse: collapse;
+	width: 300px;
+}
+.tc .draw .box td table{
+	width: auto;
+	border: none;
+}
+.tc .draw .box td, .draw .box th{
+	font-size: 11px;
+	text-align: left;
+	padding: 2px 2px;
+}
+.tc .draw .box td table td{
+	padding: 0px;
+}
+.tc .draw .box td table th{
+	padding: 0px;
+	padding-right: 3px;
+}
+.tc .qf2, .tc .qf4{
+	margin-left: 400px;
+}
+.tc .qf3, .tc .qf4{
+	margin-top: 440px;
+}
+.tc .sf1, .tc .sf2, .tc .f{
+	margin-left: 200px;
+}
+.tc .f{
+	margin-top: 220px;
+}
+.tc .sf1{
+	margin-top: 110px;
+}
+.tc .sf2{
+	margin-top: 330px;
+}
+.tc .f table{
+	border: 2px solid #333;
+}
+.tc .tsort tr:hover{
+	background-color: #DEEFFF;
+}
+.tc .tsort table tr:hover, .tc .tsort .refseefull:hover{
+	background-color: transparent;
+}
+.tc tr.rsort th{
+	cursor: pointer;
+	text-decoration: none;
+}
+.tc tr.rsort th:hover, .tc tr.rsort th:hover td{
+	text-decoration:  underline;
+}
+.tc th.sorted{
+	padding: 1px 20px 1px 10px;
+	border: 2px solid #333;
+	background-color: #FE0;
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.tc th.asc{
+	background-image: url(../img/render/sort-asc.png);
+}
+.tc th.desc{
+	background-image: url(../img/render/sort-desc.png);
+}
+.tc .noresult{
+	width: auto;
+	padding: 5px;
+	font-weight: bold;
+	text-align: center;
+	border: 1px solid #000;
+	background: #FDD url(../img/render/noresult.gif) 2px center no-repeat;
+}
