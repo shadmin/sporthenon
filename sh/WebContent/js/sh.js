@@ -310,10 +310,10 @@ var dExport = null;
 var dLink = null;
 var dInfo = null;
 function displayExport() {
-	//var url = $$('#' + tabs.activeContainer.id + ' .url')[0].innerHTML;
 	if (dExport) {
 		$('header').setStyle({ opacity: 0.4 });
 		$('content').setStyle({ opacity: 0.4 });
+		$('ehtml').checked = true;
 		dExport.open();
 	}
 }
@@ -330,10 +330,16 @@ function displayLink() {
 }
 function displayInfo() {
 }
+function exportTab() {
+	var url = $$('#' + tabs.activeContainer.id + ' .url')[0].innerHTML;
+	if (url) {
+		location.href = url + '&export=' + ($('ehtml').checked ? 'html' : ($('eexcel').checked ? 'excel' : ($('epdf').checked ? 'pdf' : 'text')));
+	}
+}
 function printCurrentTab() {
 	var url = $$('#' + tabs.activeContainer.id + ' .url')[0].innerHTML;
 	if (url) {
-		window.open(url + '&print', '_blank');	
+		window.open(url + '&print', '_blank');
 	}
 }
 function updateTabTitles(tabselected) {

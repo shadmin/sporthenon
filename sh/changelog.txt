@@ -8,6 +8,8 @@
 +--------+
 hall of fame + medal table + record.. updater
 event supprimée + car speciaux treeview
+export button
+png olympics medailles + olympics podiums
 
 +--------+
 | v0.2.0 |
