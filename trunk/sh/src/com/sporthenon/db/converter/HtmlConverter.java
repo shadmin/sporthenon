@@ -146,8 +146,8 @@ public class HtmlConverter {
 			hHeader.put("tabshorttitle", "Olympics&nbsp;-&nbsp;" + sp.getLabel() + (ev != null ? "&nbsp;-&nbsp;" + ev.getLabel() : ""));
 			hHeader.put("title", "OLYMPICS");
 			hHeader.put("url", HtmlUtils.writeURL("olympics", "ind, " + lstParams.toString()));
-			hHeader.put("logos", HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_LARGE, false) + HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, 1, ImageUtils.SIZE_LARGE, false));
-			hHeader.put("item1", "Medals (Individuals)");
+			hHeader.put("logos", HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_LARGE, false) + HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, 1, ImageUtils.SIZE_LARGE, false) + "<img src='" + ImageUtils.getRenderUrl() + "ol-podium.png'/>");
+			hHeader.put("item1", "Events Results)");
 			hHeader.put("item2", (lstOlympics.isEmpty() ? "Games: All" : (lstOlympics.size() == 1 ? "Games: " + lstOlympics.get(0) : "Games: " + HtmlUtils.writeTip(Olympics.alias, lstOlympics))));
 			hHeader.put("item3", HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel()));
 			hHeader.put("item4", (lstEvents.isEmpty() ? "Events: All" : (lstEvents.size() == 1 ? "Event: " + lstEvents.get(0) : "Events: " + HtmlUtils.writeTip(Event.alias, lstEvents))));
@@ -158,8 +158,8 @@ public class HtmlConverter {
 			hHeader.put("tabshorttitle", "Olympics&nbsp;-&nbsp;Medals&nbsp;Table");
 			hHeader.put("title", "OLYMPICS");
 			hHeader.put("url", HtmlUtils.writeURL("olympics", "cnt, " + lstParams.toString()));
-			hHeader.put("logos", HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, 1, ImageUtils.SIZE_LARGE, false));
-			hHeader.put("item1", "Medals (Countries)");
+			hHeader.put("logos", HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, 1, ImageUtils.SIZE_LARGE, false) + "<img src='" + ImageUtils.getRenderUrl() + "ol-medals.png'/>");
+			hHeader.put("item1", "Medals Tables");
 			hHeader.put("item2", (lstOlympics.isEmpty() ? "Games: All" : (lstOlympics.size() == 1 ? "Games: " + lstOlympics.get(0) : "Games: " + HtmlUtils.writeTip(Olympics.alias, lstOlympics))));
 			hHeader.put("item3", (lstCountries.isEmpty() ? "Countries: All" : (lstCountries.size() == 1 ? "Country: " + lstCountries.get(0) : "Countries: " + HtmlUtils.writeTip(Country.alias, lstCountries))));
 		}

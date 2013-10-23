@@ -16,6 +16,7 @@
 <head>
 	<title>Sporthenon - The temple of sports results</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="google-site-verification" content="n_nDgButVt9y_pfnvobIzyrdmJTIJXYGVhjMZUKBNOY" />
 	<link rel="stylesheet" type="text/css" href="css/sh.css?v=<%=version%>" />
 	<!--[if IE 6]>
 	<link rel="stylesheet" type="text/css" href="css/ie6fix.css?v=<%=version%>" />
@@ -50,10 +51,10 @@
 		</ul>
 	</div>
 	<div id="links">
-		<a target="_blank" title="SourceForge.net" href="http://sourceforge.net/projects/sporthenon"><img style="border:1px solid #888;" src="img/header/sf.png" alt="Sourceforge.net" /></a>&nbsp;
+		<a target="_blank" title="Google Code" href="https://code.google.com/p/sporthenon/"><img src="img/header/gcode.png" alt="Google Code" /></a>&nbsp;
 		<a target="_blank" title="Valid XHTML 1.0" href="http://validator.w3.org/check?uri=referer"><img src="img/header/validxhtml10.png" alt="Valid XHTML 1.0"/></a><br/>
 		&copy;2011-13 (sporthenon.com)<br/>
-		<div id="version">v<%=ConfigUtils.getProperty("version")%></div>
+		<div id="version">Version:&nbsp;<%=ConfigUtils.getProperty("version")%></div>
 	</div>
 </div>
 

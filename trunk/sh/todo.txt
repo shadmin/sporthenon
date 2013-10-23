@@ -1,7 +1,7 @@
-references result + gestion EX--
+references result ==> gestion EX--
 tools updater : images manquantes + doublons pour link...
-png olympics medailles + olympics podiums
-export button + info button
+info button
+comment texte affiché direct ou  tooltip
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

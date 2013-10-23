@@ -15,6 +15,7 @@ import com.sporthenon.db.converter.HtmlConverter;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
+import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.web.RenderOptions;
 
@@ -62,8 +63,12 @@ public class ResultServlet extends AbstractServlet {
 				StringBuffer html = new StringBuffer();
 				html.append(HtmlConverter.getHeader(HtmlConverter.HEADER_RESULTS, lFuncParams, opts));
 				html.append(HtmlConverter.convertResults(DatabaseHelper.call("GetResults", lFuncParams), oCp, oEv, opts));
-				if (isLink)
-					ServletHelper.writeLinkHtml(request, response, html);
+				if (isLink) {
+					if (hParams.containsKey("export"))
+						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
+					else
+						ServletHelper.writeLinkHtml(request, response, html);
+				}
 				else
 					ServletHelper.writeHtml(response, html.append(isLink ? "</div>" : ""));
 			}

@@ -59,18 +59,21 @@ public class NavigationServlet extends AbstractServlet {
 			String key = request.getRequestURI().replaceAll(context, "");
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			logger.info("Loaded: " + key);
-			if (key.matches(".*update.*") && session.getAttribute("user") == null) {
-				key = "/login";
-				hParams.clear();
-			}
+//			if (key.matches(".*update.*") && session.getAttribute("user") == null) {
+//				key = "/login";
+//				hParams.clear();
+//			}
 			session.setAttribute("menu", hMenu.get(key));
 			RequestDispatcher dispatcher = null;
 			if (hParams != null && !hParams.isEmpty()) {
+				Object export = hParams.get("export");
 				boolean isPrint = hParams.containsKey("print");
+				if (export != null)
+					hParams.remove("export");
 				if (isPrint)
 					hParams.remove("print");
 				String param = new ArrayList<String>(hParams.keySet()).get(0);
-				dispatcher = request.getRequestDispatcher(hServlet.get(key) + "?run=1&p=" + param + (isPrint ? "&print" : ""));
+				dispatcher = request.getRequestDispatcher(hServlet.get(key) + "?run=1&p=" + param + (isPrint ? "&print" : "") + (export != null ? "&export=" + export : ""));
 			}
 			else
 				dispatcher = request.getRequestDispatcher("/jsp/" + hPages.get(key));	

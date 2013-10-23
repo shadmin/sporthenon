@@ -16,9 +16,9 @@
 			<tr><td colspan="2"><hr class="separator"/></td></tr>
 			<tr><td colspan="2"><table cellpadding="0" cellspacing="0" style="margin-left:2px;margin-top:2px;width:0%;"><tr>
 				<td><input type="radio" name="summer-q" id="sq1" checked="checked" onclick="$('summer-q1').show();$('summer-q2').hide();" style="margin:0px;"/></td>
-				<td style="padding-left:2px;"><label for="sq1">Event&nbsp;results</label>&nbsp;</td>
+				<td style="padding-left:2px;"><label for="sq1">Event&nbsp;Results</label>&nbsp;</td>
 				<td><input type="radio" name="summer-q" id="sq2" onclick="$('summer-q2').show();$('summer-q1').hide();" style="margin:0px;"/></td>
-				<td style="padding-left:2px;"><label for="sq2">Medals&nbsp;tables</label></td>
+				<td style="padding-left:2px;"><label for="sq2">Medals&nbsp;Tables</label></td>
 			</tr></table></td></tr>
 			<tr><td  colspan="2"><hr class="separator"/></td></tr>
 			<!-- EVENTS RESULTS -->
@@ -49,9 +49,9 @@
 			<tr><td colspan="2"><hr class="separator"/></td></tr>
 			<tr><td colspan="2"><table cellpadding="0" cellspacing="0" style="margin-left:2px;margin-top:2px;width:0%;"><tr>
 				<td><input type="radio" name="winter-q" id="wq1" checked="checked" onclick="$('winter-q1').show();$('winter-q2').hide();" style="margin:0px;"/></td>
-				<td style="padding-left:2px;"><label for="wq1">Event&nbsp;results</label>&nbsp;</td>
+				<td style="padding-left:2px;"><label for="wq1">Event&nbsp;Results</label>&nbsp;</td>
 				<td><input type="radio" name="winter-q" id="wq2" onclick="$('winter-q2').show();$('winter-q1').hide();" style="margin:0px;"/></td>
-				<td style="padding-left:2px;"><label for="wq2">Medals&nbsp;tables</label></td>
+				<td style="padding-left:2px;"><label for="wq2">Medals&nbsp;Tables</label></td>
 			</tr></table></td></tr>
 			<tr><td colspan="2"><hr class="separator"/></td></tr>
 			<!-- EVENTS RESULTS -->

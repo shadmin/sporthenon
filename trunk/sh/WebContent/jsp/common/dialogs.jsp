@@ -8,7 +8,7 @@
 		<td style="text-align:center;"><label for="epdf"><img src="img/db/pdf.png"/><br/><b>PDF File (.pdf)</b><br/></label><input id="epdf" type="radio" name="eformat"/></td>
 		<td style="text-align:center;"><label for="etext"><img src="img/db/text.png"/><br/><b>Plain Text (.txt)</b><br/></label><input id="etext" type="radio" name="eformat"/></td>
 	</tr></table></div>
-	<div class="dlgbuttons"><input type="button" class="button cancel" value="Cancel" onclick="closeDialog(dExport);"/><input type="button" class="button ok" value="OK" onclick="closeDialog(dExport);"/></div>
+	<div class="dlgbuttons"><input type="button" class="button cancel" value="Cancel" onclick="closeDialog(dExport);"/><input type="button" class="button ok" value="OK" onclick="closeDialog(dExport);exportTab();"/></div>
 </div>
 </div>
 <!-- LINK -->
