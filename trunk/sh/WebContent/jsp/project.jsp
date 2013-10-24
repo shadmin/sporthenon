@@ -9,7 +9,7 @@
 
 <div class="fieldset">
 <div class="fstitle reportbug">REPORT A BUG</div>
-<div class="fscontent">To report a bug, please connect to the link below and click on "Create ticket":<br/><a href="http://sourceforge.net/p/sporthenon/tickets/" target="_blank">http://sourceforge.net/p/sporthenon/tickets</a></div>
+<div class="fscontent">To report a bug, please connect to the link below and click on "New issue":<br/><a href="https://code.google.com/p/sporthenon/issues/list" target="_blank">https://code.google.com/p/sporthenon/issues/list</a></div>
 </div>
 
 <div class="fieldset">

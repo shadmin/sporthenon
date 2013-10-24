@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.converter.HtmlConverter;
+import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.web.RenderOptions;
 
 public class SearchServlet extends AbstractServlet {
@@ -47,8 +48,12 @@ public class SearchServlet extends AbstractServlet {
 				RenderOptions opts = ServletHelper.buildOptions(hParams);
 				StringBuffer html = HtmlConverter.getHeader(HtmlConverter.HEADER_SEARCH, lFuncParams, opts);
 				html.append(HtmlConverter.convertSearch(DatabaseHelper.call("Search", lFuncParams), String.valueOf(hParams.get("pattern")), ref, opts));
-				if (isLink)
-					ServletHelper.writeLinkHtml(request, response, html);
+				if (isLink) {
+					if (hParams.containsKey("export"))
+						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
+					else
+						ServletHelper.writeLinkHtml(request, response, html);
+				}
 				else
 					ServletHelper.writeHtml(response, html);
 			}

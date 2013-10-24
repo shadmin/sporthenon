@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.PicklistBean;
 import com.sporthenon.db.converter.HtmlConverter;
+import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.web.RenderOptions;
 
@@ -73,8 +74,12 @@ public class OlympicsServlet extends AbstractServlet {
 					html = HtmlConverter.getHeader(HtmlConverter.HEADER_OLYMPICS_COUNTRY, lFuncParams, opts);
 					html.append(HtmlConverter.convertOlympicRankings(DatabaseHelper.call("GetOlympicRankings", lFuncParams), opts));
 				}
-				if (isLink)
-					ServletHelper.writeLinkHtml(request, response, html);
+				if (isLink) {
+					if (hParams.containsKey("export"))
+						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
+					else
+						ServletHelper.writeLinkHtml(request, response, html);
+				}
 				else
 					ServletHelper.writeHtml(response, html);
 			}

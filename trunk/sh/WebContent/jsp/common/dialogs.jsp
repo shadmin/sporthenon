@@ -23,8 +23,11 @@
 <div id="d-info" class="dialog">
 <div class="fieldset">
 	<div class="fstitle">INFO</div>
-	<div class="fscontent"></div>
-	<div class="dlgbuttons"><input type="button" class="button ok" value="OK" onclick="closeDialog(dLink);"/></div>
+	<div class="fscontent">Informations/Statistics on this page:<table style="width:500px;margin-top:8px;">
+		<tr><th>Address</th><td></td></tr><tr><th>Size</th><td></td></tr>
+		<tr><th>Display&nbsp;Time</th><td></td></tr><tr><th>Pictures</th><td></td></tr>
+	</table></div>
+	<div class="dlgbuttons"><input type="button" class="button ok" value="OK" onclick="closeDialog(dInfo);"/></div>
 </div>
 </div>
 <script type="text/javascript">

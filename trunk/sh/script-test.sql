@@ -1,3 +1,130 @@
+update "RESULT" set comment = 'EX1-2;EX4-5;EX7-8' where comment = 'TRI';
+update "RESULT" set comment = '##' || comment where comment like 'World Bowl%';
+update "RESULT" set comment = '##' || comment where comment like 'Superbowl%';
+update "RESULT" set comment = '##QB' where comment = 'Pos-QB';
+update "RESULT" set comment = '##RB' where comment = 'Pos-RB';
+update "RESULT" set comment = '##WR' where comment = 'Pos-WR';
+update "RESULT" set comment = '##DE' where comment = 'Pos-DE';
+update "RESULT" set comment = '##S' where comment = 'Pos-S';
+update "RESULT" set comment = '##LB' where comment = 'Pos-LB';
+update "RESULT" set comment = '##CB' where comment = 'Pos-CB';
+update "RESULT" set comment = '##C' where comment = 'Pos-C';
+update "RESULT" set comment = '##LW' where comment = 'Pos-LW';
+update "RESULT" set comment = '##RW' where comment = 'Pos-RW';
+update "RESULT" set comment = '##G' where comment = 'Pos-G';
+update "RESULT" set comment = '##DT' where comment = 'Pos-DT';
+update "RESULT" set comment = '##K' where comment = 'Pos-K';
+update "RESULT" set comment = '##HB' where comment = 'Pos-HB';
+update "RESULT" set comment = '##P' where comment = 'Pos-P';
+update "RESULT" set comment = '##B' where comment = 'Pos-B';
+update "RESULT" set comment = '##FB' where comment = 'Pos-FB';
+update "RESULT" set comment = '##KR' where comment = 'Pos-KR';
+update "RESULT" set comment = '##DB' where comment = 'Pos-DB';
+update "RESULT" set comment = '##OT' where comment = 'Pos-OT';
+update "RESULT" set comment = '##D' where comment = 'Pos-D';
+update "RESULT" set comment = '##F' where comment = 'Pos-F';
+update "RESULT" set comment = '##T' where comment = 'Pos-T';
+update "RESULT" set comment = '##OLB' where comment = 'Pos-OLB';
+update "RESULT" set comment = '##W' where comment = 'Pos-W';
+update "RESULT" set comment = '##SS' where comment = 'Pos-SS';
+update "RESULT" set comment = '##Grass' where comment like 'S-GSS%';
+update "RESULT" set comment = '##Clay' where comment like 'S-CLY%';
+update "RESULT" set comment = '##Rebound Ace' where comment like 'S-REB%';
+update "RESULT" set comment = '##Decoturf' where comment like 'S-DEC%';
+update "RESULT" set comment = '##Tarmac' where comment like 'S-TMC%';
+update "RESULT" set comment = '##Snow' where comment like 'S-SNW%';
+update "RESULT" set comment = '##Gravel/Tarmac' where comment = 'S-GRV;S-TMC';
+update "RESULT" set comment = '##Gravel' where comment like 'S-GRV%';
+update "RESULT" set comment = '##Hard' where comment like 'S-HRD%';
+update "RESULT" set comment = '##Rank: Yokozuna' where comment like 'Rk-Y%';
+update "RESULT" set comment = '##Rank: Ozeki' where comment like 'Rk-O%';
+update "RESULT" set comment = '##Rank: Sekiwake' where comment like 'Rk-S%';
+update "RESULT" set comment = '##Rank: Komusubi' where comment like 'Rk-K%';
+update "RESULT" set comment = '##Rank: Maegashira 1' where comment like 'Rk-M1%';
+update "RESULT" set comment = '##Rank: Maegashira 2' where comment like 'Rk-M2%';
+update "RESULT" set comment = '##Rank: Maegashira 3' where comment like 'Rk-M3%';
+update "RESULT" set comment = '##Rank: Maegashira 4' where comment like 'Rk-M4%';
+update "RESULT" set comment = '##Rank: Maegashira 5' where comment like 'Rk-M5%';
+update "RESULT" set comment = '##Rank: Maegashira 6' where comment like 'Rk-M6%';
+update "RESULT" set comment = '##Rank: Maegashira 7' where comment like 'Rk-M7%';
+update "RESULT" set comment = '##Rank: Maegashira 8' where comment like 'Rk-M8%';
+update "RESULT" set comment = '##Rank: Maegashira 9' where comment like 'Rk-M9%';
+update "RESULT" set comment = '##Rank: Maegashira 10' where comment like 'Rk-M10%';
+update "RESULT" set comment = '##Rank: Maegashira 11' where comment like 'Rk-M11%';
+update "RESULT" set comment = '##Rank: Maegashira 12' where comment like 'Rk-M12%';
+update "RESULT" set comment = '##Rank: Maegashira 13' where comment like 'Rk-M13%';
+update "RESULT" set comment = '##Rank: Maegashira 14' where comment like 'Rk-M14%';
+update "RESULT" set comment = '##Rank: Maegashira 15' where comment like 'Rk-M15%';
+update "RESULT" set comment = '##Rank: Maegashira 16' where comment like 'Rk-M16%';
+update "RESULT" set comment = '##Rank: Maegashira 17' where comment like 'Rk-M17%';
+update "RESULT" set comment = null where comment like 'Zone %';
+update "RESULT" set comment = null where comment = '';
+update "RESULT" set comment = null where id in (
+6187,
+10841,
+10857,
+13920,
+13935,
+13976,
+13977,
+4554,
+10948,
+10955,
+10956,
+10982,
+11078,
+11109,
+11111,
+11118,
+7827,
+9059,
+10239,
+10242,
+10255,
+9445,
+9730,
+9737,
+9827,
+9914,
+9917,
+10925,
+4947,
+5006,
+5022,
+12156,
+12172,
+12176,
+12178,
+11203,
+14299,
+8642,
+7500,
+6735,
+6873,
+16449,
+9045,
+17952,
+5043,
+5044,
+11049,
+11262,
+11364,
+11440,
+12138,
+12205,
+10902,
+10904,
+20015,
+6551,
+6570,
+19730,
+4686,
+23234,
+23235,
+17875,
+23509
+);
+
 CREATE OR REPLACE FUNCTION "SEARCH"(_pattern character varying, _scope character varying, _ref smallint)
   RETURNS SETOF "~REF_ITEM" AS
 $BODY$

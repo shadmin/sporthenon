@@ -126,5 +126,10 @@ public class StringUtils {
 	public static final String toTree(String s) {
 		return s.replaceAll("^\\+", "&dagger;&nbsp;");
 	}
+	
+	public static final String getSizeBytes(String s) {
+		DecimalFormat df = new DecimalFormat("###,##0.00");
+		return df.format(s != null ? new Double(s.getBytes().length / 1024.0d) : 0);
+	}
 
 }

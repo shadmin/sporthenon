@@ -55,6 +55,7 @@ public class HtmlUtils {
 		StringBuffer html = new StringBuffer();
 		html.append("<span class='shorttitle'>" + h.get("tabshorttitle") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");
+		html.append("<span class='info'>" + h.get("info") + "</span>");
 		if (!b1) {
 			html.append("<table class='header'><tr><th colspan=" + (!b2 ? "2" : "1") + ">" + writeToggleTitle(h.get("title")) + "</th></tr>");
 			html.append("<tr>" + (!b2 ? "<td class='logos' rowspan=4>" + h.get("logos") + "</td>" : ""));
@@ -72,6 +73,15 @@ public class HtmlUtils {
 		long time = System.currentTimeMillis();
 		html.append((o instanceof Collection ? ((Collection)o).size() + "&nbsp;" : "") + "<a href='#" + t + "-" + time + "'><img src='" + ImageUtils.getRenderUrl() + "note.png'/></a>");
 		html.append("<div id='" + t + "-" + time + "' class='rendertip'>" + (o instanceof String ? o : StringUtils.implode((Collection<String>) o, "<br/>")) + "</div>");
+		return html.toString();
+	}
+	
+	public static String writeComment(Integer id, String s) {
+		StringBuffer html = new StringBuffer();
+		if (StringUtils.notEmpty(s)) {
+			s = s.replaceAll("\r|\n", "<br/>");
+			html.append(s.matches("^\\#\\#.*") ? s.substring(2) : writeTip("cmt-" + id, s));
+		}
 		return html.toString();
 	}
 

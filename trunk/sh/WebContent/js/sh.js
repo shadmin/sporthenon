@@ -78,6 +78,7 @@ function handleRender() {
 	var title = $('title-' + (tabindex - 1));
 	var tabId = '#t-' + (tabindex - 1);
 	var shorttitle = $$(tabId + ' .shorttitle')[0].innerHTML;
+	var info = $$(tabId + ' .info')[0];
 	title.update(shorttitle);
 	$$(tabId + ' .rendertip').each(function(el) {
 		new Control.Window($(document.body).down('[href=#' + el.id + ']'),{  
@@ -85,6 +86,8 @@ function handleRender() {
 		});
 	});
 	updateTabTitles(tabindex - 1);
+	t2 = currentTime();
+	info.update(info.innerHTML.replace('#DTIME#', elapsedTime(t1, t2)));
 }
 function toggleContent(el) {
 	if (el.tagName != 'IMG') {
@@ -112,6 +115,7 @@ function toggleContent(el) {
 	el.src = 'img/render/' + (isDisplayed ? 'expand.gif' : 'collapse.gif');
 }
 function info(s) {
+	t1 = currentTime();
 	if ($('tabcontrol')) {
 		window.scrollTo(0, 0);
 		var tab = initTab();
@@ -239,6 +243,11 @@ function toggleTreeExpand() {
 	img.title = img.alt;
 	treeExpanded = !treeExpanded;
 }
+var t1 = null;
+var t2 = null;
+function elapsedTime(t1_, t2_) {
+	return ((t2_ - t1_) / 1000);
+}
 /* ==================== TABCONTROL ==================== */
 var tabindex = 1;
 function getCloseImg(idx) {
@@ -329,6 +338,17 @@ function displayLink() {
 	}
 }
 function displayInfo() {
+	var url = $$('#' + tabs.activeContainer.id + ' .url')[0].innerHTML;
+	var info = $$('#' + tabs.activeContainer.id + ' .info')[0].innerHTML;
+	var tInfo = info.split('|');
+	var t = $$('#d-info td');
+	t[0].update(url);
+	t[1].update(tInfo[0] + '&nbsp;Kb');
+	t[2].update(tInfo[1] + '&nbsp;seconds');
+	t[3].update(tInfo[2]);
+	$('header').setStyle({ opacity: 0.4 });
+	$('content').setStyle({ opacity: 0.4 });
+	dInfo.open();
 }
 function exportTab() {
 	var url = $$('#' + tabs.activeContainer.id + ' .url')[0].innerHTML;
@@ -588,6 +608,7 @@ function getPicklist(picklistId) {
 	});
 }
 function runResults(tleaf) {
+	t1 = currentTime();
 	var tab = initTab();
 	var h = null;
 	if (tleaf && tleaf instanceof Array) { // Treeview
@@ -701,6 +722,7 @@ function getPicklistOL(picklistId) {
 	}
 }
 function runOlympics() {
+	t1 = currentTime();
 	var tab = initTab();
 	var ind = ($('olt1').checked ? $('sq1').checked : $('wq1').checked);
 	var code = ($('olt1').checked ? 'summer' : 'winter');
@@ -780,6 +802,7 @@ function changeModeUS() {
 	});
 }
 function runUSLeagues() {
+	t1 = currentTime();
 	var tab = initTab();
 	var league = ($F('nfl') ? 1 : ($F('nba') ? 2 : ($F('nhl') ? 3 : 4)));
 	var type = ($F('hof') ? 'hof' : ($F('retnum') ? 'retnum' : ($F('teamstadium') ? 'teamstadium' : ($F('championship') ? 'championship' : ($F('record') ? 'record' : 'winloss')))));
@@ -809,6 +832,7 @@ function resetUSLeagues() {
 }
 /* ==================== SEARCH ==================== */
 function runSearch() {
+	t1 = currentTime();
 	var pattern = $F('pattern');
 	if (pattern == '') { 
 		alert('No search pattern defined.');

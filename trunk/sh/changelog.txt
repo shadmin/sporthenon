@@ -9,7 +9,9 @@
 hall of fame + medal table + record.. updater
 event supprimée + car speciaux treeview
 export button
+info button
 png olympics medailles + olympics podiums
+comment texte affiché direct ou  tooltip
 
 +--------+
 | v0.2.0 |

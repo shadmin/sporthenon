@@ -110,6 +110,7 @@ public class HtmlConverter {
 		ArrayList<Object> lstParams = new ArrayList<Object>(params);
 		HashMap<String, String> hHeader = new HashMap<String, String>();
 		Logger.getLogger("sh").debug("Header - " + type + " - " + params);
+		hHeader.put("info", "#INFO#");
 		if (type == HEADER_RESULTS) {
 			Sport sp = (Sport) DatabaseHelper.loadEntity(Sport.class, lstParams.get(0));
 			Championship cp = (Championship) DatabaseHelper.loadEntity(Championship.class, lstParams.get(1));
@@ -853,7 +854,7 @@ public class HtmlConverter {
 
 			// Write line
 			html.append("<tr>" + (isDraw ? "<td>" + (bean.getDrId() != null ? draw : "") + "</td>" : ""));
-			html.append(isComment ? "<td>" + (comment != null ? HtmlUtils.writeTip("cmt-" + bean.getRsId(), comment.replaceAll("\r|\n", "<br/>")) : "") + "</td>" : "");
+			html.append(isComment ? "<td>" + (comment != null ? HtmlUtils.writeComment(bean.getRsId(), comment) : "") + "</td>" : "");
 			html.append("<td class='srt'>" + year + "</td>");
 			for (int i = 0 ; i < 9 ; i++)
 				html.append(tEntityHtml[i] != null ? tEntityHtml[i] : (entityCount > i ? "<td class='srt' colspan=" + tColspan[i] + ">" + StringUtils.EMPTY + "</td>" : ""));
