@@ -18,6 +18,7 @@ import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.RetiredNumber;
 import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.WinLoss;
+import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.web.RenderOptions;
 
@@ -151,8 +152,12 @@ public class USLeaguesServlet extends AbstractServlet {
 					}
 					html.append(HtmlConverter.convertUSRecords(DatabaseHelper.call("GetUSRecords", lFuncParams), opts));
 				}
-				if (isLink)
-					ServletHelper.writeLinkHtml(request, response, html);
+				if (isLink) {
+					if (hParams.containsKey("export"))
+						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
+					else
+						ServletHelper.writeLinkHtml(request, response, html);
+				}
 				else
 					ServletHelper.writeHtml(response, html);
 			}

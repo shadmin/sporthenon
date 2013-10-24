@@ -71,7 +71,7 @@
 .tc .bordered img{
 	border: 1px solid #AAA;
 }
-.tc .hidden, .tc span.shorttitle, .tc span.url{
+.tc .hidden, .tc span.shorttitle, .tc span.url, .tc span.info{
 	display: none;
 }
 .tc .header{

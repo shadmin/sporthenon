@@ -35,6 +35,7 @@ import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.utils.ConfigUtils;
+import com.sporthenon.utils.StringUtils;
 import com.sporthenon.web.RenderOptions;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
@@ -286,10 +287,18 @@ public class ServletHelper {
 	}
 	
 	public static void writeHtml(HttpServletResponse res, StringBuffer sb) throws IOException {
+		String s = sb.toString();
 		res.setContentType("text/html");
         res.setCharacterEncoding("utf-8");
+        if (s.matches(".*\\#INFO\\#.*")) {
+        	StringBuffer sbInfo = new StringBuffer();
+        	sbInfo.append(StringUtils.getSizeBytes(s));
+        	sbInfo.append("|#DTIME#");
+        	sbInfo.append("|" + StringUtils.countIn(s, "<img"));
+        	s = s.replaceAll("\\#INFO\\#", sbInfo.toString());
+        }
         PrintWriter writer = res.getWriter();
-        writer.write(sb.toString());
+        writer.write(s);
 	}
 	
 	public static void writeLinkHtml(HttpServletRequest req, HttpServletResponse res, StringBuffer sb) throws ServletException, IOException {
