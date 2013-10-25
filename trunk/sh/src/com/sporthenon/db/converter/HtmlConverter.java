@@ -235,6 +235,7 @@ public class HtmlConverter {
 	public static StringBuffer getRecordInfo(String type, int id, RenderOptions opts) throws Exception {
 		LinkedHashMap<String, String> hInfo = new LinkedHashMap<String, String>();
 		hInfo.put("url", HtmlUtils.writeURL("ref", type + ", " + id));
+		hInfo.put("info", "#INFO#");
 		if (type.equals(Athlete.alias)) {
 			List<Athlete> lAthlete = new ArrayList<Athlete>();
 			Athlete e = (Athlete) DatabaseHelper.loadEntity(Athlete.class, id);
@@ -471,7 +472,7 @@ public class HtmlConverter {
 			hInfo.put("title", "YEAR #" + id);
 			hInfo.put("name", e.getLabel());
 		}
-		return HtmlUtils.writeInfoTable(hInfo, opts.isPicturesDisabled());
+		return HtmlUtils.writeInfoHeader(hInfo, opts.isPicturesDisabled());
 	}
 
 	public static StringBuffer getRecordRef(ArrayList<Object> params, Collection<Object> coll, RenderOptions opts) throws Exception {

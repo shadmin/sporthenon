@@ -53,26 +53,8 @@ public class ImageServlet extends AbstractServlet {
 				sb.append("</script></head><body onload='callBack()'></body></html>");
 				ServletHelper.writeHtml(response, sb);
 			}
-			else if (hParams.containsKey("data")) {
-			}
-			else if (hParams.containsKey("missing")) {
-//				String label = null;
-//				if (entity.equalsIgnoreCase(Olympics.alias))
-//					label = "concat(concat(year.label, ' - '), city.label)";
-//				else if (entity.equalsIgnoreCase(Team.alias))
-//					label = "concat(concat(label, ' - '), sport.label)";
-//				Collection<PicklistBean> lst = DatabaseHelper.getEntityPicklist(UpdateServlet.getClassFromAlias(entity), label, null);
-//				StringBuffer sb = new StringBuffer();
-//				int n = 0;
-//				for (PicklistBean o : lst) {
-//					String ext = (entity.toUpperCase().matches("CP|EV|OL|SP|TM") ? ".png" : ".gif");
-//					String fileName = ImageUtils.getIndex(entity.toUpperCase()) + "-" + o.getValue() + "-" + hParams.get("size") + ext;
-//					File f = new File(ConfigUtils.getProperty("img.folder") + fileName);
-//					if (!f.exists())
-//						sb.append(++n + ". " + o.getText() + "<br/>");
-//				}
-//				ServletHelper.writeText(response, sb.toString());
-			}
+			else if (hParams.containsKey("data")) {} // OBSOLETE
+			else if (hParams.containsKey("missing")) {} // OBSOLETE
 		}
 		catch (Exception e) {
 			handleException(e);

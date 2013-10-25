@@ -93,6 +93,7 @@ public class JMainFrame extends JFrame {
 	private static JAddMultipleDialog jAddMultipleDialog = null;
 	private static JCharsDialog jCharsDialog = null;
 	private static JImportDialog jImportDialog = null;
+	private static JQueryDialog jQueryDialog = null;
 	private static JOptionsDialog jOptionsDialog = null;
 	private static JInfoDialog jInfoDialog = null;
 
@@ -131,6 +132,7 @@ public class JMainFrame extends JFrame {
 
 			jInfoDialog = new JInfoDialog(this);
 			jImportDialog = new JImportDialog(this);
+			jQueryDialog = new JQueryDialog(this);
 			jOptionsDialog = new JOptionsDialog(this);
 			jPasswordDialog = new JPasswordDialog(this);
 			
@@ -539,6 +541,7 @@ public class JMainFrame extends JFrame {
 				jTopPanel.getDataButton().setEnabled(false);
 				jTopPanel.getPicturesButton().setEnabled(false);
 				jTopPanel.getImportButton().setEnabled(false);
+				jTopPanel.getQueryButton().setEnabled(false);
 				jBottomPanel.getQueryStatus().set((short)-1, null);
 			}
 		}
@@ -591,6 +594,10 @@ public class JMainFrame extends JFrame {
 	
 	public static JImportDialog getImportDialog() {
 		return jImportDialog;
+	}
+
+	public static JQueryDialog getQueryDialog() {
+		return jQueryDialog;
 	}
 
 	public static JOptionsDialog getOptionsDialog() {

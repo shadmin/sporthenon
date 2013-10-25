@@ -55,7 +55,7 @@ public class HtmlUtils {
 		StringBuffer html = new StringBuffer();
 		html.append("<span class='shorttitle'>" + h.get("tabshorttitle") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");
-		html.append("<span class='info'>" + h.get("info") + "</span>");
+		html.append("<span class='infostats'>" + h.get("info") + "</span>");
 		if (!b1) {
 			html.append("<table class='header'><tr><th colspan=" + (!b2 ? "2" : "1") + ">" + writeToggleTitle(h.get("title")) + "</th></tr>");
 			html.append("<tr>" + (!b2 ? "<td class='logos' rowspan=4>" + h.get("logos") + "</td>" : ""));
@@ -65,6 +65,26 @@ public class HtmlUtils {
 			html.append("<tr><td>" + (h.containsKey("item4") &&StringUtils.notEmpty(h.get("item4")) ? h.get("item4") : "-") + "</td></tr>");			
 			html.append("</table>");
 		}
+		return html;
+	}
+	
+	public static StringBuffer writeInfoHeader(LinkedHashMap<String, String> h, boolean b) {
+		StringBuffer html = new StringBuffer();
+		String tabTitle = h.get("tabtitle");
+		html.append("<span class='shorttitle'>" + tabTitle.replaceAll(".{6}\\[.+#.*\\]$", "") + "</span>");
+		html.append("<span class='url'>" + h.get("url") + "</span>");
+		html.append("<span class='infostats'>" + h.get("info") + "</span>");
+		html.append("<table class='info'><tr><th colspan=2>" + writeToggleTitle(h.get("title")) + "</th></tr>");
+		if (h.containsKey("logo") && !b) {
+			String logo = h.get("logo");
+			String bordered = (logo.matches("^(" + ImageUtils.INDEX_COUNTRY + "|" + ImageUtils.INDEX_STATE + ").*") ? " bordered" : "");
+			html.append("<tr><td colspan=2 class='logo" + bordered + "'><img src='" + ImageUtils.getUrl() + logo + "?" + System.currentTimeMillis() + "'/></td></tr>");
+		}
+		for (String key : h.keySet()) {
+			if (!key.matches("(tab|^)title|logo|url|info"))
+				html.append("<tr><th class='caption'>" + ResourceUtils.get(key) + "</th><td>" + h.get(key) + "</td></tr>");
+		}
+		html.append("</table>");
 		return html;
 	}
 
@@ -103,25 +123,6 @@ public class HtmlUtils {
 		return html;
 	}
 
-	public static StringBuffer writeInfoTable(LinkedHashMap<String, String> h, boolean b) {
-		StringBuffer html = new StringBuffer();
-		String tabTitle = h.get("tabtitle");
-		html.append("<span class='shorttitle'>" + tabTitle.replaceAll(".{6}\\[.+#.*\\]$", "") + "</span>");
-		html.append("<span class='url'>" + h.get("url") + "</span>");
-		html.append("<table class='info'><tr><th colspan=2>" + writeToggleTitle(h.get("title")) + "</th></tr>");
-		if (h.containsKey("logo") && !b) {
-			String logo = h.get("logo");
-			String bordered = (logo.matches("^(" + ImageUtils.INDEX_COUNTRY + "|" + ImageUtils.INDEX_STATE + ").*") ? " bordered" : "");
-			html.append("<tr><td colspan=2 class='logo" + bordered + "'><img src='" + ImageUtils.getUrl() + logo + "?" + System.currentTimeMillis() + "'/></td></tr>");
-		}
-		for (String key : h.keySet()) {
-			if (!key.matches("(tab|^)title|logo|url"))
-				html.append("<tr><th class='caption'>" + ResourceUtils.get(key) + "</th><td>" + h.get(key) + "</td></tr>");
-		}
-		html.append("</table>");
-		return html;
-	}
-	
 	public static String writeURL(String main, String params) {
 		return ConfigUtils.getProperty("url") + main + "?" + params.replaceAll("\\,\\s", "-").replaceAll("[\\[\\]]", "");
 	}

@@ -213,9 +213,9 @@ a:focus{
 	margin-bottom: 5px;
 }
 #version{
-	margin-top: 10px;
+	margin-top: 5px;
 	font: 9px Tahoma;
-	color: #888;
+	color: #777;
 }
 #content{
 	margin: 5px;

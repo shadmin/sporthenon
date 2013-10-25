@@ -78,7 +78,7 @@ function handleRender() {
 	var title = $('title-' + (tabindex - 1));
 	var tabId = '#t-' + (tabindex - 1);
 	var shorttitle = $$(tabId + ' .shorttitle')[0].innerHTML;
-	var info = $$(tabId + ' .info')[0];
+	var info = $$(tabId + ' .infostats')[0];
 	title.update(shorttitle);
 	$$(tabId + ' .rendertip').each(function(el) {
 		new Control.Window($(document.body).down('[href=#' + el.id + ']'),{  
@@ -339,7 +339,7 @@ function displayLink() {
 }
 function displayInfo() {
 	var url = $$('#' + tabs.activeContainer.id + ' .url')[0].innerHTML;
-	var info = $$('#' + tabs.activeContainer.id + ' .info')[0].innerHTML;
+	var info = $$('#' + tabs.activeContainer.id + ' .infostats')[0].innerHTML;
 	var tInfo = info.split('|');
 	var t = $$('#d-info td');
 	t[0].update(url);

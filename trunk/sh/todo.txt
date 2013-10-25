@@ -1,10 +1,9 @@
 references result ==> gestion EX--
-tools updater : images manquantes + doublons pour link...
 ===
 0.4 - comment a ameliorer (nouveau champ "exa")
+0.4 - optimisation affichage tableaux olympics
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;
-select distinct last_name||','||first_name||','||id_sport as n, count(*) as c from "PERSON" where link is null group by n order by c desc;
 update "PERSON" set link=0 where id=(select id from "PERSON" where last_name || ',' || first_name || ',' || id_sport = 'Surtees,John,5' order by id limit 1);
 update "PERSON" set link=(select id from "PERSON" where last_name || ',' || first_name || ',' || id_sport = 'Surtees,John,5' and link=0) where last_name || ',' || first_name || ',' || id_sport = 'Surtees,John,5' and link is null;

@@ -262,6 +262,17 @@ public class DatabaseHelper {
 			throw e;
 		}
 	}
+	
+	public static List executeNative(String s) throws Exception {
+		try {
+			EntityManager em = getEntityManager();
+			List lResult = em.createNativeQuery(s).getResultList();
+			return lResult;
+		}
+		catch (Exception e) {
+			throw e;
+		}
+	}
 
 	public static void executeUpdate(String s) throws Exception {
 		UserTransaction tr = null;
