@@ -12,6 +12,7 @@ export button
 info button
 png olympics medailles + olympics podiums
 comment texte affiché direct ou  tooltip
+queries - tools updater : images manquantes + doublons pour link...
 
 +--------+
 | v0.2.0 |
@@ -26,7 +27,7 @@ o Web
 	- New UI for action buttons
 	- Extension of some columns size in database
 	- Fixed bug: an error occured on some olympics views with empty subevent
-o Swing application:
+o Swing application
 	- New feature: <Import CSV> (==> a mass update of data can done with CSV files)
 	- New feature: <Pictures Management>
 	- New feature: <Refresh Tree>

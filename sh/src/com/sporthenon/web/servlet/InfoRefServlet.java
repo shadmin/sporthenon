@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.converter.HtmlConverter;
 import com.sporthenon.db.entity.Draw;
+import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.web.RenderOptions;
 
 public class InfoRefServlet extends AbstractServlet {
@@ -44,8 +45,12 @@ public class InfoRefServlet extends AbstractServlet {
 				lFuncParams.add(params.length > 2 ? params[2] : "");
 				html.append(HtmlConverter.getRecordRef(lFuncParams, DatabaseHelper.call("EntityRef", lFuncParams), opts));
 			}
-			if (isLink)
-				ServletHelper.writeLinkHtml(request, response, html);
+			if (isLink) {
+				if (hParams.containsKey("export"))
+					ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
+				else
+					ServletHelper.writeLinkHtml(request, response, html);
+			}
 			else
 				ServletHelper.writeHtml(response, html);
 		}

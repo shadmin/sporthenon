@@ -25,6 +25,7 @@ public class JTopPanel extends JPanel implements ActionListener {
 	private JCustomToggleButton jDataButton = null;
 	private JCustomToggleButton jPicturesButton = null;
 	private JCustomButton jImportButton = null;
+	private JCustomButton jQueryButton = null;
 	private JCustomButton jOptionsButton = null;
 	private JCustomButton jInfoButton = null;
 	private JCustomButton jCloseButton = null;
@@ -61,6 +62,10 @@ public class JTopPanel extends JPanel implements ActionListener {
 		jImportButton.setActionCommand("import");
 		jImportButton.setEnabled(false);
 		setButtonLayout(jImportButton);
+		jQueryButton = new JCustomButton("Query", "updater/query.png");
+		jQueryButton.setActionCommand("query");
+		jQueryButton.setEnabled(false);
+		setButtonLayout(jQueryButton);
 		jOptionsButton = new JCustomButton("Options", "common/options.png");
 		jOptionsButton.setActionCommand("options");
 		setButtonLayout(jOptionsButton);
@@ -76,6 +81,7 @@ public class JTopPanel extends JPanel implements ActionListener {
 		this.add(jDataButton, null);
 		this.add(jPicturesButton, null);
 		this.add(jImportButton, null);
+		this.add(jQueryButton, null);
 		this.add(jOptionsButton, null);
 		this.add(jInfoButton, null);
 		this.add(jCloseButton, null);
@@ -93,6 +99,7 @@ public class JTopPanel extends JPanel implements ActionListener {
 							jResultsButton.setEnabled(true);
 							jDataButton.setEnabled(true);
 							jImportButton.setEnabled(true);
+							jQueryButton.setEnabled(true);
 							jPicturesButton.setEnabled(true);
 							jResultsButton.setSelected(true);
 							parent.changeTabPanel("results");
@@ -103,6 +110,9 @@ public class JTopPanel extends JPanel implements ActionListener {
 		}
 		else if (e.getActionCommand().equals("import")) {
 			JMainFrame.getImportDialog().open(this);
+		}
+		else if (e.getActionCommand().equals("query")) {
+			JMainFrame.getQueryDialog().open();
 		}
 		else if (e.getActionCommand().equals("options")) {
 			JMainFrame.getOptionsDialog().open(this);
@@ -155,6 +165,10 @@ public class JTopPanel extends JPanel implements ActionListener {
 	
 	public JCustomButton getImportButton() {
 		return jImportButton;
+	}
+	
+	public JCustomButton getQueryButton() {
+		return jQueryButton;
 	}
 	
 	//	private JSeparator getSeparator() {
