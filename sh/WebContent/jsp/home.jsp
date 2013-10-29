@@ -45,7 +45,7 @@
 		<div class="fieldset">
 			<div class="fstitle news">NEWS</div>
 			<div class="fscontent">
-				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>??, 2013</b>&nbsp;-&nbsp;Version 0.3.0 Released&nbsp;(<a target="_blank" href="changelog.txt">Change Log</a>)<br/><br/>
+				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Oct. 29, 2013</b>&nbsp;-&nbsp;Version 0.3.0 Released&nbsp;(<a target="_blank" href="changelog.txt">Change Log</a>)<br/><br/>
 				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Sep. 13, 2013</b>&nbsp;-&nbsp;Version 0.2.0 Released<br/><br/>
 				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Aug. 2, 2013</b>&nbsp;-&nbsp;Version 0.1.0 Released
 			</div>
