@@ -1,22 +1,24 @@
-+---------------------------------------------------------------+
-| Sporthenon Change Log                                         |
-| Last Version: 0.3.0                                           |
-+---------------------------------------------------------------+
++-------------------------------------------------------------------+
+| Sporthenon Change Log                                             |
+| Last Version: 0.3.0                                               |
++-------------------------------------------------------------------+
 
-+--------+
-| v0.3.0 |
-+--------+
-hall of fame + medal table + record.. updater
-event supprimée + car speciaux treeview
-export button
-info button
-png olympics medailles + olympics podiums
-comment texte affiché direct ou  tooltip
-queries - tools updater : images manquantes + doublons pour link...
++-------+
+| 0.3.0 |
++-------+
+o Web
+	- New feature: <Export> (=> export page to HTML/XLS/TXT format)
+	- New feature: <Info> (=> display metadata & statistics on current tab)
+	- New feature: <Inactive Events> (=> events not held anymore marked with specific symbol)
+	- Comments can be displayed either directly or with a tooltip icon
+	- Bugs fixed, mainly on "US leagues" page
+o Swing application
+	- New feature: <Query> (=> execute custom queries on database)
+	- Add missing tables in data panel (US leagues, Olympics, Records)
 
-+--------+
-| v0.2.0 |
-+--------+
++-------+
+| 0.2.0 |
++-------+
 o Web
 	- New feature: <Print> (=> send current search tab to default printer)
 	- New feature: <Link> (=> display URL to open directly a specific page)

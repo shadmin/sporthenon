@@ -154,7 +154,8 @@
 	margin-bottom: 2px;
 }
 .tc .ref{
-	border: 1px solid #AAA;
+	border: none;
+	border-top: 1px solid #AAA;
 	width: auto;
 	padding-top: 0px;
 	padding-bottom: 0px;
@@ -162,7 +163,7 @@
 .tc .ref legend{
 	color: #333;
 	font-weight: bold;
-	margin: 5px;
+	margin: 10px;
 }
 .tc .ref table{
 	margin-top: 0px;

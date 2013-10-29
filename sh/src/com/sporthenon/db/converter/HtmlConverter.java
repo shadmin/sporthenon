@@ -1381,7 +1381,7 @@ public class HtmlConverter {
 				rank5 = HtmlUtils.writeLink(Team.alias, bean.getRcRank5(), bean.getRcTeam5());
 
 			// Write line
-			html.append("<tr><td class='srt'>" + bean.getRcType1() + "&nbsp;-&nbsp;" + bean.getRcType2() + "</td><td class='srt'>" + bean.getRcLabel() + "</td><td class='srt'>" + holder + "</td><td class='srt'>" + bean.getRcRecord1() + "</td>");
+			html.append("<tr><td class='srt'>" + bean.getRcType1() + "&nbsp;-&nbsp;" + bean.getRcType2() + "</td><td class='srt'>" + bean.getRcLabel() + "</td><td class='srt'><b>" + holder + "</b></td><td class='srt'><b>" + bean.getRcRecord1() + "</b></td>");
 			html.append(isDate1 ? "<td class='srt'>" + (StringUtils.notEmpty(bean.getRcDate1()) ? bean.getRcDate1() : StringUtils.EMPTY) + "</td>" : "");
 			if (isRank2)
 				html.append(rank2 != null ? "<td class='srt'>" + rank2 + "</td><td class='srt'>" + bean.getRcRecord2() + "</td>" : "<td colspan=" + (isDate2 ? "3" : "2") + ">" + StringUtils.EMPTY + "</td>")
