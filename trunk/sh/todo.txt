@@ -2,6 +2,8 @@ references result ==> gestion EX--
 ===
 0.4 - comment a ameliorer (nouveau champ "exa")
 0.4 - optimisation affichage tableaux olympics
+0.4 gestion images cache
+records US : both
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;
