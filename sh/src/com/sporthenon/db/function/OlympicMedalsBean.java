@@ -14,6 +14,9 @@ public class OlympicMedalsBean {
 	@Column(name = "rs_comment")
 	private String rsComment;
 	
+	@Column(name = "rs_exa")
+	private String rsExa;
+	
 	@Column(name = "ol_id")
 	private Integer olId;
 	
@@ -828,6 +831,14 @@ public class OlympicMedalsBean {
 
 	public void setRsComment(String rsComment) {
 		this.rsComment = rsComment;
+	}
+
+	public String getRsExa() {
+		return rsExa;
+	}
+
+	public void setRsExa(String rsExa) {
+		this.rsExa = rsExa;
 	}
 
 	public void setOlCity(String olCity) {

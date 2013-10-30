@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
 
@@ -53,19 +54,18 @@ public class StringUtils {
 		return s;
 	}
 
-	public static ArrayList<Integer> eqList(String s) {
+	public static List<Integer> tieList(String s) {
 		ArrayList<Integer> lst = new ArrayList<Integer>();
 		if (s != null)
-			for (String s_ : s.split(";"))
-				if (s_.matches("EX.*")) {
-					s_ = s_.replaceAll("\\D", "");
-					int n1 = Integer.parseInt(String.valueOf(s_.charAt(0)));
-					int n2 = (s_.length() > 1 ? Integer.parseInt(String.valueOf(s_.charAt(1))) : n1) + 1;
-					if (lst.size() > 0)
-						lst.add(-1);
-					for (int i = n1 ; i <= n2 ; i++)
-						lst.add(i);
-				}
+			for (String s_ : s.split(";")) {
+				s_ = s_.replaceAll("\\D", "");
+				int n1 = Integer.parseInt(String.valueOf(s_.charAt(0)));
+				int n2 = (s_.length() > 1 ? Integer.parseInt(String.valueOf(s_.charAt(1))) : n1);
+				if (lst.size() > 0)
+					lst.add(-1);
+				for (int i = n1 ; i <= n2 ; i++)
+					lst.add(i);
+			}
 		return lst;
 	}
 

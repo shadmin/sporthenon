@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -51,6 +52,8 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private JTextField jDate1 = null;
 	private JTextField jDate2 = null;
 	private JTextArea jComment = null;
+	private JTextField jExa = null;
+	private JCheckBox[] jExaCheckbox = new JCheckBox[10];
 	private JEntityPicklist[] jRanks = new JEntityPicklist[10];
 	private JTextField[] jRes = new JTextField[10];
 	private JCommentDialog jCommentDialog = null;
@@ -90,7 +93,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jCommentDialog = new JCommentDialog(this);
 		jEditDrawDialog = new JEditDrawDialog(this);
 		
-		this.setSize(new Dimension(685, 355));
+		this.setSize(new Dimension(685, 385));
         this.setContentPane(jContentPane);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setModal(true);
@@ -123,10 +126,12 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jCommentDlg.setToolTipText("Edit Comment");
 		jCommentDlg.setActionCommand("comment");
 		jCommentDlg.addActionListener(this);
+		jExa = new JTextField();
+		jExa.setPreferredSize(new Dimension(60, 21));
 		
 		JPanel jEventPanel = new JPanel();
 		jEventPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 4));
-		jEventPanel.setPreferredSize(new Dimension(0, 120));
+		jEventPanel.setPreferredSize(new Dimension(0, 150));
 		jEventPanel.setBorder(BorderFactory.createTitledBorder(null, "Event Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 		jEventPanel.add(new JLabel("Year:"), null);
 		jEventPanel.add(jYear, null);
@@ -142,7 +147,15 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jEventPanel.add(new JLabel("Comment:"), null);
 		jEventPanel.add(jCommentPane, null);
 		jEventPanel.add(jCommentDlg, null);
-		
+		jEventPanel.add(new JLabel("Tie:"), null);
+		for (int i = 0 ; i < 10 ; i++) {
+			jExaCheckbox[i] = new JCheckBox(String.valueOf(i + 1));
+			jEventPanel.add(jExaCheckbox[i], null);
+			jExaCheckbox[i].setActionCommand("exacb-" + (i + 1));
+			jExaCheckbox[i].addActionListener(this);
+		}
+		jEventPanel.add(jExa, null);
+
 		return jEventPanel;
 	}
 
@@ -233,6 +246,23 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			jCommentDialog.getComment().setText(getComment().getText());
 			jCommentDialog.open();
 		}
+		else if (cmd.matches("exacb.*")) {
+			int min = 100;
+			int max = -1;
+			for (int i = 0 ; i < 10 ; i++) {
+				if (jExaCheckbox[i].isSelected() && i < min)
+					min = i;
+				if (jExaCheckbox[i].isSelected() && i > max)
+					max = i;
+			}
+			if (max > -1) {
+				for (int i = min ; i <= max ; i++)
+					jExaCheckbox[i].setSelected(true);
+				jExa.setText(String.valueOf(min != max ? (min + 1) + "-" + (max + 1) : (min + 1)));
+			}
+			else
+				jExa.setText(null);
+		}
 		else if (cmd.equals("ok")) {
 			Result rs = null;
 			Draw dr = null;
@@ -250,6 +280,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 				rs.setDate1(StringUtils.notEmpty(jDate1.getText()) ? jDate1.getText() : "");
 				rs.setDate2(StringUtils.notEmpty(jDate2.getText()) ? jDate2.getText() : "");
 				rs.setComment(StringUtils.notEmpty(jComment.getText()) ? jComment.getText() : "");
+				rs.setExa(StringUtils.notEmpty(jExa.getText()) ? jExa.getText() : "");
 				for (int i = 0 ; i < jRanks.length ; i++) {
 					Integer id = SwingUtils.getValue(jRanks[i]);
 					Result.class.getMethod("setIdRank" + (i + 1), Integer.class).invoke(rs, id > 0 ? id : null);
@@ -283,7 +314,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 				parent.resultCallback(mode, getDataVector(rs), msg, err);
 			}
 		}
-		this.setVisible(cmd.matches("draw|comment|today"));
+		this.setVisible(cmd.matches("draw|comment|today|exacb.*"));
 	}
 	
 	private Vector getDataVector(Result rs) {
@@ -319,6 +350,8 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		this.setTitle(mode == NEW || mode == COPY ? "New Result" : "Edit Result #" + id);
 		this.setDraw(false);
 		this.setVisible(true);
+		for (int i = 0 ; i < 10 ; i++)
+			jExaCheckbox[i].setSelected(false);
 	}
 	
 	public Integer getId() {
@@ -351,6 +384,14 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 
 	public JTextArea getComment() {
 		return jComment;
+	}
+	
+	public JTextField getExa() {
+		return jExa;
+	}
+	
+	public JCheckBox[] getExaCheckbox() {
+		return jExaCheckbox;
 	}
 
 	public JTextField[] getRes() {
