@@ -1,11 +1,10 @@
 references result ==> gestion EX--
-===
-0.4 - comment a ameliorer (nouveau champ "exa")
+updater request event/champ not used
 0.4 - optimisation affichage tableaux olympics
 0.4 gestion images cache
 records US : both
+couleurs surface avec comment ##
+android init
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;
-update "PERSON" set link=0 where id=(select id from "PERSON" where last_name || ',' || first_name || ',' || id_sport = 'Surtees,John,5' order by id limit 1);
-update "PERSON" set link=(select id from "PERSON" where last_name || ',' || first_name || ',' || id_sport = 'Surtees,John,5' and link=0) where last_name || ',' || first_name || ',' || id_sport = 'Surtees,John,5' and link is null;

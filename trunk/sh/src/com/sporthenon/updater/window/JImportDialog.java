@@ -432,6 +432,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 			String rs1 = null;String rs2 = null;String rs3 = null;String rs4 = null;String rs5 = null;
 			String dt1 = null;String dt2 = null;
 			String cmt = null;
+			String exa = null;
 			String err = null;
 			try {
 				for (int i = 0 ; i < vLine.size() ; i++) {
@@ -480,6 +481,8 @@ public class JImportDialog extends JDialog implements ActionListener {
 							dt2 = s;
 						else if (h.equalsIgnoreCase("cmt"))
 							cmt = s;
+						else if (h.equalsIgnoreCase("exa"))
+							exa = s;
 					}
 				}
 			}
@@ -501,6 +504,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 				rs.setDate1(StringUtils.notEmpty(dt1) ? dt1 : "");
 				rs.setDate2(StringUtils.notEmpty(dt2) ? dt2 : "");
 				rs.setComment(StringUtils.notEmpty(cmt) ? cmt : "");
+				rs.setExa(StringUtils.notEmpty(exa) ? exa : "");
 				rs.setIdRank1(idRk1);
 				rs.setIdRank2(idRk2);
 				rs.setIdRank3(idRk3);

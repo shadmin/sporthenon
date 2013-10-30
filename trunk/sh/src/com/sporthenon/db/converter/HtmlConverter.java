@@ -675,7 +675,7 @@ public class HtmlConverter {
 		listEqDoubles.add(7);listEqDoubles.add(8);
 		for (Object obj : coll) {
 			ResultsBean bean = (ResultsBean) obj;
-			ArrayList<Integer> listEq = StringUtils.eqList(bean.getRsComment());
+			List<Integer> listEq = StringUtils.tieList(bean.getRsExa());
 			String sListEq = listEq.toString();
 			entityCount = (entityCount < 1 && bean.getRsRank1() != null ? 1 : entityCount);
 			entityCount = (entityCount < 2 && bean.getRsRank2() != null && (listEq.indexOf(2) <= 0 || StringUtils.countIn(sListEq, "-1") >= 1) ? 2 : entityCount);
@@ -705,7 +705,7 @@ public class HtmlConverter {
 			isDates |= StringUtils.notEmpty(bean.getRsDate2());
 			isPlace |= (bean.getCxId() != null || bean.getCt2Id() != null);
 			isDraw |= (bean.getDrId() != null);
-			isComment |= StringUtils.notEmpty(bean.getRsComment() != null ? bean.getRsComment().replaceAll("EX\\d.*(\\;|$)", "") : null);
+			isComment |= StringUtils.notEmpty(bean.getRsComment());
 		}
 		entityCount /= (isDoubles ? 2 : 1);
 		tColspan[0] += (tIsEntityRel1[0] ? 1 : 0) + (tIsEntityRel2[0] ? 1 : 0);
@@ -740,7 +740,7 @@ public class HtmlConverter {
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel());
 			String dates = (StringUtils.notEmpty(bean.getRsDate1()) ? StringUtils.toTextDate(bean.getRsDate1(), Locale.ENGLISH) + "&nbsp;&rarr;&nbsp;" : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? StringUtils.toTextDate(bean.getRsDate2(), Locale.ENGLISH) : "");
 			String place = null;
-			String comment = (StringUtils.notEmpty(bean.getRsComment()) ? bean.getRsComment().replaceAll("EX\\d.*(\\;|$)", "") : null);
+			String comment = (StringUtils.notEmpty(bean.getRsComment()) ? bean.getRsComment().replaceAll("\\|", "<br/>") : null);
 			if (bean.getCxId() != null) {
 				String img1 = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, opts.isPicturesDisabled());
 				String img2 = null;
@@ -768,7 +768,7 @@ public class HtmlConverter {
 					place = HtmlUtils.writeImgTable(img2, place);
 				place = HtmlUtils.writeImgTable(img1, place);
 			}
-			ArrayList<Integer> listEq = (isDoubles ? listEqDoubles : StringUtils.eqList(bean.getRsComment()));
+			List<Integer> listEq = (isDoubles ? listEqDoubles : StringUtils.tieList(bean.getRsExa()));
 			String[] tEntity = {null, null, null, null, null, null, null, null, null};
 			String[] tEntityRel = {null, null, null, null, null, null, null, null, null};
 			String[] tEntityHtml = {null, null, null, null, null, null, null, null, null};

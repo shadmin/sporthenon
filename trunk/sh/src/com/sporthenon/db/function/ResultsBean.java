@@ -65,6 +65,9 @@ public class ResultsBean {
 	@Column(name = "rs_comment")
 	private String rsComment;
 	
+	@Column(name = "rs_exa")
+	private String rsExa;
+	
 	@Column(name = "yr_id")
 	private Integer yrId;
 
@@ -518,6 +521,14 @@ public class ResultsBean {
 
 	public void setRsComment(String rsComment) {
 		this.rsComment = rsComment;
+	}
+
+	public String getRsExa() {
+		return rsExa;
+	}
+
+	public void setRsExa(String rsExa) {
+		this.rsExa = rsExa;
 	}
 
 	public Integer getYrId() {

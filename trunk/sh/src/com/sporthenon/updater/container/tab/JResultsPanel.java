@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -397,6 +398,10 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					rd.getDate1().setText(StringUtils.notEmpty(rs.getDate1()) ? rs.getDate1() : null);
 					rd.getDate2().setText(StringUtils.notEmpty(rs.getDate2()) ? rs.getDate2() : null);
 					rd.getComment().setText(StringUtils.notEmpty(rs.getComment()) ? rs.getComment() : null);
+					rd.getExa().setText(StringUtils.notEmpty(rs.getExa()) ? rs.getExa() : null);
+					List<Integer> lTie = StringUtils.tieList(rs.getExa());
+					for (int i = 0 ; i < 10 ; i++)
+						rd.getExaCheckbox()[i].setSelected(lTie.contains(i + 1));
 					type = (rs.getSubevent() != null ? rs.getSubevent().getType().getNumber() : rs.getEvent().getType().getNumber());
 					Draw dr = (Draw) DatabaseHelper.loadEntityFromQuery("from Draw where idResult = " + resultId);
 					if (dr != null)
