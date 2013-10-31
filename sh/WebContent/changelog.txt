@@ -7,6 +7,10 @@
 | 0.4.0 |
 +-------+
 0.4 - comment a ameliorer (nouveau champ "exa" : gestoin tie)
+0.4 - optimisation affichage tableaux olympics
+updater request event/champ not used + gestion missing images remote par servlet
+records US : both
+couleurs surface avec comment ##
 
 +-------+
 | 0.3.0 |

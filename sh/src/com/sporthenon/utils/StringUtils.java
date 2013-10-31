@@ -131,5 +131,28 @@ public class StringUtils {
 		DecimalFormat df = new DecimalFormat("###,##0.00");
 		return df.format(s != null ? new Double(s.getBytes().length / 1024.0d) : 0);
 	}
+	
+	public static final String getCommentColor(String s) {
+		String color = "#FFF";
+		if (s.matches("^Clay.*"))
+			color = "#ffc24c";
+		else if (s.matches("^Decoturf.*"))
+			color = "#8cb9ff";
+		else if (s.matches("^Grass.*"))
+			color = "#0F0";
+		else if (s.matches("^Gravel\\/T.*"))
+			color = "#b4a676";
+		else if (s.matches("^Gravel.*"))
+			color = "#dcc989";
+		else if (s.matches("^Hard.*"))
+			color = "#8cb9ff";
+		else if (s.matches("^Rebound.*"))
+			color = "#9dd4fc";
+		else if (s.matches("^Snow.*"))
+			color = "#a3fffe";
+		else if (s.matches("^Tarmac.*"))
+			color = "#c1c7c1";
+		return color;
+	}
 
 }

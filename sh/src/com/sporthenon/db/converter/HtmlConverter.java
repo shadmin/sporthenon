@@ -852,10 +852,17 @@ public class HtmlConverter {
 			for (int i = 0 ; i < 9 ; i++)
 				if (tEntity[i] != null)
 					tEntityHtml[i] = ("<td class='srt'" + (i == 0 ? " style='font-weight:bold;'" : "") + ">" + tEntity[i] + "</td>" + (StringUtils.notEmpty(tEntityRel[i]) ?  tEntityRel[i] : (tIsEntityRel1[i] ? "<td></td>" : "") + (tIsEntityRel2[i] ? "<td></td>" : ""))) + (StringUtils.notEmpty(tResult[i]) ? "<td" + (isScore && i == 0 ? " class='centered'" : "") + ">" + tResult[i] + "</td>" : (tIsResult[i] ? "<td></td>" : ""));
-
+			String commentTitle = null;
+			String commentColor = null;
+			if (comment != null && comment.matches("^\\#\\#(Clay|Decoturf|Grass|Gravel|Hard|Rebound|Snow|Tarmac).*")) {
+				commentTitle = comment.substring(2);
+				commentColor = StringUtils.getCommentColor(commentTitle);
+				comment = null;
+			}
+			
 			// Write line
 			html.append("<tr>" + (isDraw ? "<td>" + (bean.getDrId() != null ? draw : "") + "</td>" : ""));
-			html.append(isComment ? "<td>" + (comment != null ? HtmlUtils.writeComment(bean.getRsId(), comment) : "") + "</td>" : "");
+			html.append(isComment ? "<td" + (StringUtils.notEmpty(commentTitle) ? " title='" + commentTitle + "' style='width:15px;background-color:" + commentColor + "';" : "") + ">" + (comment != null ? HtmlUtils.writeComment(bean.getRsId(), comment) : "") + "</td>" : "");
 			html.append("<td class='srt'>" + year + "</td>");
 			for (int i = 0 ; i < 9 ; i++)
 				html.append(tEntityHtml[i] != null ? tEntityHtml[i] : (entityCount > i ? "<td class='srt' colspan=" + tColspan[i] + ">" + StringUtils.EMPTY + "</td>" : ""));
@@ -1043,32 +1050,31 @@ public class HtmlConverter {
 			isResult |= (bean.getRsResult1() != null);
 			isIndividual |= ((bean.getTp2Number() != null ? bean.getTp2Number() : bean.getTp1Number()) <= 10);
 		}
+		int colspan = (isIndividual ? 2 : 1) + (isResult ? 1 : 0);
+		String olympics = null;
+		String tmpImg = null;
+		long id = System.currentTimeMillis();
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
+		html.append("<table class='tsort'><thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Year</th><th onclick='sort(\"" + id + "\", this, 1);'>Event</th>");
+		html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, 2);'>" + ImageUtils.getGoldHeader() + "</th>");
+		html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, 3);'>" + ImageUtils.getSilverHeader() + "</th>");
+		html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, 4);'>" + ImageUtils.getBronzeHeader() + "</th>");
+		html.append("</tr></thead><tbody id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			OlympicMedalsBean bean = (OlympicMedalsBean) obj;
 			boolean isIndividual_ = ((bean.getTp2Number() != null ? bean.getTp2Number() : bean.getTp1Number()) <= 10);
-			int colspan = (isIndividual ? 2 : 1) + (isResult ? 1 : 0);
 			if (!bean.getYrId().equals(currentOlympics)) {
-				long id = System.currentTimeMillis();
-				String olympicsHeader = "<table><tr><td class='bordered'>" + HtmlUtils.writeImage(ImageUtils.INDEX_OLYMPICS, bean.getOlId(), ImageUtils.SIZE_SMALL, opts.isPicturesDisabled()) + "</td>";
-				olympicsHeader += "<td class='bold'>" + HtmlUtils.writeLink(Olympics.alias, bean.getOlId(), bean.getYrLabel() + "&nbsp;" + (bean.getOlType() == 1 ? "Summer" : "Winter") + " Olympic Games (" + bean.getOlCity() + ")") + "</td></tr></table>";
-				html.append(currentOlympics > 0 ? "</tbody></table><table class='tsort'>" : "");
-				html.append("<thead><tr><th colspan=" + ((3 * colspan) + 3) + ">" + olympicsHeader + "</th></tr>");
-				html.append("<tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Event</th><th onclick='sort(\"" + id + "\", this, 1);'>Year</th>");
-				html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, 2);'>" + ImageUtils.getGoldHeader() + "</th>");
-				html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, 3);'>" + ImageUtils.getSilverHeader() + "</th>");
-				html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, 4);'>" + ImageUtils.getBronzeHeader() + "</th>");
-				html.append("<th onclick='sort(\"" + id + "\", this, 5);'>Place</th></tr></thead><tbody id='tb-" + id + "'>");
+				tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id() != null ? bean.getCn1Id() : bean.getCn2Id(), ImageUtils.SIZE_SMALL, opts.isPicturesDisabled());
+				olympics = HtmlUtils.writeLink(Olympics.alias, bean.getOlId(), bean.getYrLabel() + "&nbsp;-&nbsp;" + bean.getOlCity());
+				olympics = HtmlUtils.writeImgTable(tmpImg, olympics);
 				currentOlympics = bean.getYrId();
 			}
 
 			// Evaluate bean
-			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel());
 			String entity1 = null, entityCn1 = null;
 			String entity2 = null, entityCn2 = null;
 			String entity3 = null, entityCn3 = null;
 			String place = null;
-			String tmpImg = null;
 			if (bean.getRsRank1() != null) {
 				if (isIndividual_) {
 					entity1 = HtmlUtils.writeLink(Athlete.alias, bean.getRsRank1(), bean.getPr1LastName() + "," + HtmlUtils.SPACE + bean.getPr1FirstName());
@@ -1094,7 +1100,7 @@ public class HtmlConverter {
 					entity3 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank3(), ImageUtils.SIZE_SMALL, opts.isPicturesDisabled()), HtmlUtils.writeLink(Country.alias, bean.getRsRank3(), bean.getCn3Code()));
 			}
 			if (bean.getCxId() != null) {
-				tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, opts.isPicturesDisabled());
+				tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, opts.isPicturesDisabled());				
 				place = HtmlUtils.writeLink(Complex.alias, bean.getCxId(), bean.getCxLabel());
 				place += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(City.alias, bean.getCt1Id(), bean.getCt1Label());
 				if (bean.getSt1Id() != null)
@@ -1112,11 +1118,11 @@ public class HtmlConverter {
 			}
 
 			// Write line
-			html.append("<tr><th class='srt'>" + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? " - " + bean.getSeLabel() : "") + "</th><td class='srt'>" + year + "</td>");
+			html.append("<tr><td class='srt'>" + olympics + "</td><td class='srt'>" + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? " - " + bean.getSeLabel() : "") + "</td>");
 			html.append(entity1 != null ? "<td class='srt'" + (!isIndividual_ && isIndividual ? " colspan='2'" : "") + ">" + entity1 + "</td>" + (entityCn1 != null ? entityCn1 : "") + (isResult ? "<td>" + (bean.getRsResult1() != null ? bean.getRsResult1() : "") + "</td>" : "") : "<td colspan=" + colspan + ">" + StringUtils.EMPTY + "</td>");
 			html.append(entity2 != null ? "<td class='srt'" + (!isIndividual_ && isIndividual ? " colspan='2'" : "") + ">" + entity2 + "</td>" + (entityCn2 != null ? entityCn2 : "") + (isResult ? "<td>" + (bean.getRsResult2() != null ? bean.getRsResult2() : "") + "</td>" : "") : "<td colspan=" + colspan + ">" + StringUtils.EMPTY + "</td>");
 			html.append(entity3 != null ? "<td class='srt'" + (!isIndividual_ && isIndividual ? " colspan='2'" : "") + ">" + entity3 + "</td>" + (entityCn3 != null ? entityCn3 : "") + (isResult ? "<td>" + (bean.getRsResult3() != null ? bean.getRsResult3() : "") + "</td>" : "") : "<td colspan=" + colspan + ">" + StringUtils.EMPTY + "</td>");
-			html.append((place != null ? "<td class='srt'>" + place + "</td>" : "") + "</tr>");
+			html.append("</tr>");
 		}
 		html.append("</tbody></table>");
 		return html;
@@ -1124,45 +1130,32 @@ public class HtmlConverter {
 
 	public static StringBuffer convertOlympicRankings(Collection<Object> coll, RenderOptions opts) throws Exception {
 		int currentOlympics = 0;
+		String olympics = null;
+		String tmpImg = null;
+		long id = System.currentTimeMillis();
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
+		html.append("<table class='tsort'><thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Year</th><th onclick='sort(\"" + id + "\", this, 1);'>Country</th>");
+		html.append("<th onclick='sort(\"" + id + "\", this, 2);'>" + ImageUtils.getGoldHeader() + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ImageUtils.getSilverHeader() + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ImageUtils.getBronzeHeader() + "</th>");
+		html.append("</tr></thead><tbody id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			OlympicRankingsBean bean = (OlympicRankingsBean) obj;
-			int colspan = 7;
 			if (!bean.getYrId().equals(currentOlympics)) {
-				long id = System.currentTimeMillis();
-				String olympicsHeader = "<table><tr><td class='bordered'>" + HtmlUtils.writeImage(ImageUtils.INDEX_OLYMPICS, bean.getOlId(), ImageUtils.SIZE_SMALL, opts.isPicturesDisabled()) + "</td>";
-				olympicsHeader += "<td class='bold'>" + HtmlUtils.writeLink(Olympics.alias, bean.getOlId(), bean.getYrLabel() + "&nbsp;" + (bean.getOlType() == 1 ? "Summer" : "Winter") + " Olympic Games (" + bean.getCtLabel() + ")") + "</td></tr></table>";
-				html.append(currentOlympics > 0 ? "</tbody></table><table class='tsort'>" : "");
-				html.append("<thead><tr><th colspan=" + colspan + ">" + olympicsHeader + "</th></tr>");
-				html.append("<tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Year</th><th onclick='sort(\"" + id + "\", this, 1);'>Country</th>");
-				html.append("<th onclick='sort(\"" + id + "\", this, 2);'>" + ImageUtils.getGoldHeader() + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ImageUtils.getSilverHeader() + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ImageUtils.getBronzeHeader() + "</th>");
-				html.append("<th onclick='sort(\"" + id + "\", this, 5);'>Place</th></tr></thead><tbody id='tb-" + id + "'>");
+				tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn2Id(), ImageUtils.SIZE_SMALL, opts.isPicturesDisabled());
+				olympics = HtmlUtils.writeLink(Olympics.alias, bean.getOlId(), bean.getYrLabel() + "&nbsp;-&nbsp;" + bean.getCtLabel());
+				olympics = HtmlUtils.writeImgTable(tmpImg, olympics);
 				currentOlympics = bean.getYrId();
 			}
 
 			// Evaluate bean
-			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel());
-			String country = null;
-			String place = null;
-			String tmpImg = null;
-			if (bean.getCtId() != null) {
-				tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn2Id(), ImageUtils.SIZE_SMALL, opts.isPicturesDisabled());
-				place = HtmlUtils.writeLink(City.alias, bean.getCtId(), bean.getCtLabel());
-				if (bean.getStId() != null)
-					place += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(State.alias, bean.getStId(), bean.getStCode());
-				place += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(Country.alias, bean.getCn2Id(), bean.getCn2Code()); 
-				place = HtmlUtils.writeImgTable(tmpImg, place);
-			}
-			country = HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Label());
+			String country = HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Label());
 			tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, opts.isPicturesDisabled());
 			country = HtmlUtils.writeImgTable(tmpImg, country);
 
 			// Write line
-			html.append("<tr><td class='srt'>" + year + "</td><td class='srt'>" + country + "</td>");
+			html.append("<tr><td class='srt'>" + olympics + "</td><td class='srt'>" + country + "</td>");
 			html.append("<td class='srt'>" + bean.getOrCountGold() + "</td>");
 			html.append("<td class='srt'>" + bean.getOrCountSilver() + "</td>");
-			html.append("<td class='srt'>" + bean.getOrCountBronze() + "</td>");
-			html.append((place != null ? "<td class='srt'>" + place + "</td>" : "") + "</tr>");
+			html.append("<td class='srt'>" + bean.getOrCountBronze() + "</td></tr>");
 		}
 		html.append("</tbody></table>");
 		return html;

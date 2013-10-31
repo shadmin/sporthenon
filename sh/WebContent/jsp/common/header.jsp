@@ -16,7 +16,6 @@
 <head>
 	<title>Sporthenon - The temple of sports results</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="google-site-verification" content="n_nDgButVt9y_pfnvobIzyrdmJTIJXYGVhjMZUKBNOY" />
 	<link rel="stylesheet" type="text/css" href="css/sh.css?v=<%=version%>" />
 	<!--[if IE 6]>
 	<link rel="stylesheet" type="text/css" href="css/ie6fix.css?v=<%=version%>" />

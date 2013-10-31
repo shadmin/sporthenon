@@ -143,13 +143,14 @@ public class USLeaguesServlet extends AbstractServlet {
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp")) ? String.valueOf(hParams.get("tp")) : "'Individual'");
 					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_RECORD, lFuncParams, opts);
 					lFuncParams.remove(0);
-					if (String.valueOf(hParams.get("tp")).equals("'Team'") && !String.valueOf(hParams.get("se")).equals("0")) {
-						String hql = "select id from Event where type.number=50 and label in (select label from Event where id in (" + String.valueOf(hParams.get("se")) + "))";
+					if (String.valueOf(lFuncParams.get(3)).matches(".*Team.*") && !String.valueOf(lFuncParams.get(2)).equals("0")) {
+						String hql = "select id from Event where type.number<=50 and label in (select label from Event where id in (" + String.valueOf(hParams.get("se")) + "))";
 						ArrayList<String> lstSe = new ArrayList<String>();
 						for (Integer i : (ArrayList<Integer>) DatabaseHelper.execute(hql))
 							lstSe.add(String.valueOf(i));
 						lFuncParams.set(2, StringUtils.implode(lstSe , ","));
 					}
+					System.out.println(lFuncParams);
 					html.append(HtmlConverter.convertUSRecords(DatabaseHelper.call("GetUSRecords", lFuncParams), opts));
 				}
 				if (isLink) {

@@ -1,10 +1,7 @@
 references result ==> gestion EX--
-updater request event/champ not used
-0.4 - optimisation affichage tableaux olympics
 0.4 gestion images cache
-records US : both
-couleurs surface avec comment ##
 android init
+sitemap
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;
