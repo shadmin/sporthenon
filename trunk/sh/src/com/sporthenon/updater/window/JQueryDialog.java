@@ -7,9 +7,10 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.io.DataInputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
@@ -27,15 +28,12 @@ import javax.swing.table.TableColumnModel;
 
 import org.apache.log4j.Logger;
 
+import sun.net.www.content.text.PlainTextInputStream;
+
 import com.sporthenon.db.DatabaseHelper;
-import com.sporthenon.db.PicklistBean;
-import com.sporthenon.db.entity.Olympics;
-import com.sporthenon.db.entity.Team;
 import com.sporthenon.updater.component.JCustomButton;
 import com.sporthenon.updater.component.JDialogButtonBar;
-import com.sporthenon.updater.container.tab.JDataPanel;
 import com.sporthenon.utils.ConfigUtils;
-import com.sporthenon.utils.ImageUtils;
 
 public class JQueryDialog extends JDialog implements ActionListener {
 
@@ -49,7 +47,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 	static {
 		QUERIES = new ArrayList<String>();
 		QUERIES.add("SELECT DISTINCT LAST_NAME || ',' || FIRST_NAME || ',' || ID_SPORT AS N, COUNT(*) AS C\r\nFROM \"PERSON\"\r\nWHERE LINK IS NULL\r\nGROUP BY N\r\nORDER BY C DESC\r\nLIMIT 100");
-		QUERIES.add("");
+		QUERIES.add("SELECT 'EV', ID, LABEL FROM \"EVENT\" WHERE ID NOT IN (SELECT ID_EVENT FROM \"RESULT\" WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM \"RESULT\" WHERE ID_SUBEVENT IS NOT NULL) AND ID NOT IN (SELECT ID_EVENT FROM \"RECORD\" WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM \"RECORD\" WHERE ID_SUBEVENT IS NOT NULL)UNION SELECT 'CP', ID, LABEL FROM \"CHAMPIONSHIP\" WHERE ID NOT IN (SELECT ID_CHAMPIONSHIP FROM \"RESULT\" WHERE ID_CHAMPIONSHIP IS NOT NULL) AND ID NOT IN (SELECT ID_CHAMPIONSHIP FROM \"RECORD\" WHERE ID_CHAMPIONSHIP IS NOT NULL) ORDER BY 1, 3");
 		QUERIES.add("");
 	}
 	
@@ -130,7 +128,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 		jButton.addActionListener(this);
 		p.add(jButton);
 		
-		jButton = new JButton("-");
+		jButton = new JButton("Events/Championships not used");
 		jButton.setActionCommand("query1");
 		jButton.addActionListener(this);
 		p.add(jButton);
@@ -193,7 +191,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 			};
 			jResult.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			for (int i = 0 ; i < jResult.getColumnCount() ; i++)
-				jResult.getColumnModel().getColumn(i).setPreferredWidth(200);
+				jResult.getColumnModel().getColumn(i).setPreferredWidth(150);
 			jResultPane.setViewportView(jResult);
 		}
 		catch (Exception e_) {
@@ -202,6 +200,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void missingPictures() {
 		try {
 			Vector cols = new Vector();
@@ -210,26 +209,20 @@ public class JQueryDialog extends JDialog implements ActionListener {
 			cols.add("ID");
 			cols.add("NAME");
 			Vector v = new Vector();
-			for (String entity : new String[]{"CP", "EV", "SP", "CN", "OL"}) {
-				String label = null;
-				if (entity.equalsIgnoreCase(Olympics.alias))
-					label = "concat(concat(year.label, ' - '), city.label)";
-				else if (entity.equalsIgnoreCase(Team.alias))
-					label = "concat(concat(label, ' - '), sport.label)";
-				Collection<PicklistBean> lst = DatabaseHelper.getEntityPicklist(JDataPanel.getClassFromAlias(entity), label, null);
-				int n = 0;
-				for (PicklistBean o : lst) {
-					String ext = (entity.toUpperCase().matches("CP|EV|OL|SP|TM") ? ".png" : ".gif");
-					String fileName = ImageUtils.getIndex(entity.toUpperCase()) + "-" + o.getValue() + "-L" + ext;
-					File f = new File(ConfigUtils.getProperty("img.folder") + fileName);
-					if (!f.exists()) {
-						Vector v_ = new Vector();
-						v_.add(entity);
-						v_.add(++n);
-						v_.add(o.getValue());
-						v_.add(o.getText());
-						v.add(v_);
-					}
+			URL url = new URL(ConfigUtils.getProperty("url") + "ImageServlet?missing=1");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			if (conn.getResponseCode() == 200) {
+				PlainTextInputStream pis = (PlainTextInputStream) conn.getContent();
+				DataInputStream dis = new DataInputStream(pis);
+				String s = dis.readLine();
+				for (String s_ : s.split("\\|")) {
+					String[] t = s_.split(";");
+					Vector v_ = new Vector();
+					v_.add(t[0]);
+					v_.add(t[1]);
+					v_.add(t[2]);
+					v_.add(t[3]);
+					v.add(v_);
 				}
 			}
 			jResult = new JTable(v, cols) {

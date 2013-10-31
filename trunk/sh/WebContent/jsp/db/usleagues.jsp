@@ -51,7 +51,7 @@
 					<td style="width:60px;"><select id="pl-record-tp" name="pl-record-tp" style="width:75px;">
 						<option value="'Individual'">Individual</option>
 						<option value="'Team'">Team</option>
-						<option value="'Both'">Both</option>
+						<option value="'Individual', 'Team'">Both</option>
 					</select></td></tr>
 				</table>
 			</div></td>

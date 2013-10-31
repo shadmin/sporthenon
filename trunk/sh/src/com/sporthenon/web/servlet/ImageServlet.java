@@ -1,5 +1,6 @@
 package com.sporthenon.web.servlet;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
@@ -14,6 +15,11 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.sporthenon.db.DatabaseHelper;
+import com.sporthenon.db.PicklistBean;
+import com.sporthenon.db.entity.Olympics;
+import com.sporthenon.db.entity.Team;
+import com.sporthenon.updater.container.tab.JDataPanel;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
@@ -54,7 +60,28 @@ public class ImageServlet extends AbstractServlet {
 				ServletHelper.writeHtml(response, sb);
 			}
 			else if (hParams.containsKey("data")) {} // OBSOLETE
-			else if (hParams.containsKey("missing")) {} // OBSOLETE
+			else if (hParams.containsKey("missing")) {
+				StringBuffer sbResult = new StringBuffer();
+				for (String entity_ : new String[]{"CP", "EV", "SP", "CN", "OL"}) {
+					String label = null;
+					if (entity_.equalsIgnoreCase(Olympics.alias))
+						label = "concat(concat(year.label, ' - '), city.label)";
+					else if (entity_.equalsIgnoreCase(Team.alias))
+						label = "concat(concat(label, ' - '), sport.label)";
+					Collection<PicklistBean> lst = DatabaseHelper.getEntityPicklist(JDataPanel.getClassFromAlias(entity_), label, null);
+					int n = 0;
+					for (PicklistBean o : lst) {
+						String ext = (entity_.toUpperCase().matches("CP|EV|OL|SP|TM") ? ".png" : ".gif");
+						String fileName = ImageUtils.getIndex(entity_.toUpperCase()) + "-" + o.getValue() + "-L" + ext;
+						File f = new File(ConfigUtils.getProperty("img.folder") + fileName);
+						if (!f.exists())
+							sbResult.append(entity_).append(";").append(++n).append(";").append(o.getValue()).append(";").append(o.getText()).append("|");
+					}
+				}
+				response.setContentType("text/plain");
+				response.setCharacterEncoding("utf-8");
+				response.getWriter().write(sbResult.toString());
+			}
 		}
 		catch (Exception e) {
 			handleException(e);
