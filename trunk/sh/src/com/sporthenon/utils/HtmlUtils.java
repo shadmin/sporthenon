@@ -2,8 +2,10 @@ package com.sporthenon.utils;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Country;
@@ -19,10 +21,17 @@ public class HtmlUtils {
 	public static String writeImage(short type, int id, char size, boolean disabled) {
 		StringBuffer html = new StringBuffer();
 		if (!disabled) {
-			String ext = (type != ImageUtils.INDEX_COUNTRY && type != ImageUtils.INDEX_STATE ? ".png" : ".gif");
-			String name = type + "-" + id + "-" + size + ext;
-			if (new File(ConfigUtils.getProperty("img.folder") + name).exists())
-				html.append("<img alt='' src='" + ImageUtils.getUrl() + name + "?" + System.currentTimeMillis() + "'/>");
+			String folder = ConfigUtils.getProperty("img.folder");
+			String name = type + "-" + id + "-" + size;
+			
+			LinkedList<String> list = new LinkedList<String>();
+			for (File f : new File(folder).listFiles())
+				if (f.getName().indexOf(name) == 0)
+					list.add(f.getName());
+			Collections.sort(list);
+			
+			if (!list.isEmpty())
+				html.append("<img alt='' src='" + ImageUtils.getUrl() + list.getLast() + "'/>");
 		}
 		return html.toString();
 	}
@@ -78,7 +87,7 @@ public class HtmlUtils {
 		if (h.containsKey("logo") && !b) {
 			String logo = h.get("logo");
 			String bordered = (logo.matches("^(" + ImageUtils.INDEX_COUNTRY + "|" + ImageUtils.INDEX_STATE + ").*") ? " bordered" : "");
-			html.append("<tr><td colspan=2 class='logo" + bordered + "'><img src='" + ImageUtils.getUrl() + logo + "?" + System.currentTimeMillis() + "'/></td></tr>");
+			html.append("<tr><td colspan=2 class='logo" + bordered + "'>" + logo + "</td></tr>");
 		}
 		for (String key : h.keySet()) {
 			if (!key.matches("(tab|^)title|logo|url|info"))

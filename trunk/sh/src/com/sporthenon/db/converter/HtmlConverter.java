@@ -293,7 +293,7 @@ public class HtmlConverter {
 		else if (type.equals(Championship.alias)) {
 			Championship e = (Championship) DatabaseHelper.loadEntity(Championship.class, id);
 			hInfo.put("tabtitle", e.getLabel() + "&nbsp;[Championship #" + id + "]");
-			hInfo.put("logo", ImageUtils.INDEX_CHAMPIONSHIP + "-" + e.getId() + "-L.png");
+			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, e.getId(), 'L', opts.isPicturesDisabled()));
 			hInfo.put("title", "CHAMPIONSHIP #" + id);
 			hInfo.put("name", e.getLabel());
 			hInfo.put("website", (e.getWebsite() != null ? "<a href='http://" + e.getWebsite() + "' target='_blank'>" + e.getWebsite() + "</a>" : StringUtils.EMPTY));
@@ -339,7 +339,7 @@ public class HtmlConverter {
 		else if (type.equals(Country.alias)) {
 			Country e = (Country) DatabaseHelper.loadEntity(Country.class, id);
 			hInfo.put("tabtitle", e.getLabel() + " (" + e.getCode() + ")" + "&nbsp;[Country #" + id + "]");
-			hInfo.put("logo", ImageUtils.INDEX_COUNTRY + "-" + e.getId() + "-L.gif");
+			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, e.getId(), 'L', opts.isPicturesDisabled()));
 			hInfo.put("title", "COUNTRY #" + id);
 			hInfo.put("name", e.getLabel());
 			hInfo.put("code", e.getCode());
@@ -416,7 +416,7 @@ public class HtmlConverter {
 				cn = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, e.getCity().getCountry().getId(), ImageUtils.SIZE_SMALL, false), cn);
 			}
 			hInfo.put("tabtitle", e.getYear().getLabel() + " - " + e.getCity().getLabel() + "&nbsp;[Olympics #" + id + "]");
-			hInfo.put("logo", ImageUtils.INDEX_OLYMPICS + "-" + e.getId() + "-L.png");
+			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_OLYMPICS, e.getId(), 'L', opts.isPicturesDisabled()));
 			hInfo.put("title", "OLYMPICS #" + id);
 			hInfo.put("type", ResourceUtils.get(e.getType() == 0 ? "summer" : "winter") + " " + ResourceUtils.get("olympic.games"));
 			hInfo.put("year", HtmlUtils.writeLink(Year.alias, e.getYear().getId(), e.getYear().getLabel()));
@@ -433,7 +433,7 @@ public class HtmlConverter {
 		else if (type.equals(Sport.alias)) {
 			Sport e = (Sport) DatabaseHelper.loadEntity(Sport.class, id);
 			hInfo.put("tabtitle", e.getLabel() + "&nbsp;[Sport #" + id + "]");
-			hInfo.put("logo", ImageUtils.INDEX_SPORT + "-" + e.getId() + "-L.png");
+			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, e.getId(), 'L', opts.isPicturesDisabled()));
 			hInfo.put("title", "SPORT #" + id);
 			hInfo.put("name", e.getLabel());
 			hInfo.put("website", (e.getWebsite() != null ? "<a href='http://" + e.getWebsite() + "' target='_blank'>" + e.getWebsite() + "</a>" : StringUtils.EMPTY));
@@ -441,7 +441,7 @@ public class HtmlConverter {
 		else if (type.equals(State.alias)) {
 			State e = (State) DatabaseHelper.loadEntity(State.class, id);
 			hInfo.put("tabtitle", e.getLabel() + "&nbsp;[State #" + id + "]");
-			hInfo.put("logo", ImageUtils.INDEX_STATE + "-" + e.getId() + "-L.gif");
+			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_STATE, e.getId(), 'L', opts.isPicturesDisabled()));
 			hInfo.put("title", "STATE #" + id);
 			hInfo.put("name", e.getLabel());
 			hInfo.put("code", e.getCode());
@@ -455,7 +455,7 @@ public class HtmlConverter {
 				cn = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, e.getCountry().getId(), ImageUtils.SIZE_SMALL, false), cn);
 			}
 			hInfo.put("tabtitle", e.getLabel() + "&nbsp;[Team #" + id + "]");
-			hInfo.put("logo", ImageUtils.INDEX_TEAM + "-" + e.getId() + "-L.png");
+			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, e.getId(), 'L', opts.isPicturesDisabled()));
 			hInfo.put("title", "TEAM #" + id);
 			hInfo.put("name", e.getLabel());
 			//hInfo.put("code", e.getCode());
@@ -1164,18 +1164,17 @@ public class HtmlConverter {
 	public static StringBuffer convertHallOfFame(Collection<Object> coll, RenderOptions opts) throws Exception {
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		long id = System.currentTimeMillis();
-		html.append("<tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Year</th><th onclick='sort(\"" + id + "\", this, 1);'>Inductee</th></tr></thead><tbody id='tb-" + id + "'>");
+		html.append("<tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Year</th><th onclick='sort(\"" + id + "\", this, 1);'>Inductee</th><th onclick='sort(\"" + id + "\", this, 2);'>Position</th></tr></thead><tbody id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			HallOfFameBean bean = (HallOfFameBean) obj;
 
 			// Evaluate bean
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel());
 			String name = HtmlUtils.writeLink(Athlete.alias, bean.getPrId(), bean.getPrLastName() + "," + HtmlUtils.SPACE + bean.getPrFirstName());
-			if (bean.getHfDeceased())
-				name = "<b>&dagger;</b>&nbsp;" + name;
-
+			String position = bean.getHfPosition();
+			
 			// Write line
-			html.append("<tr><td class='srt'>" + year + "</td><td class='srt'>" + name + "</td></tr>");
+			html.append("<tr><td class='srt'>" + year + "</td><td class='srt'>" + name + "</td><td class='srt'>" + position + "</td></tr>");
 		}
 		html.append("</tbody></table>");
 		return html;
@@ -1193,10 +1192,11 @@ public class HtmlConverter {
 			String team = HtmlUtils.writeLink(Team.alias, bean.getTmId(), bean.getTmLabel());
 			team = HtmlUtils.writeImgTable(teamImg, team);
 			String name = HtmlUtils.writeLink(Athlete.alias, bean.getPrId(), bean.getPrLastName() + "," + HtmlUtils.SPACE + bean.getPrFirstName());
-			String number = "#" + bean.getRnNumber();
-
+			String number = String.valueOf(bean.getRnNumber());
+			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel());
+			
 			// Write line
-			html.append("<tr><td class='srt'>" + team + "</td><td class='srt' width='50'>" + number + "</td><td class='srt'>" + name + "</td></tr>");
+			html.append("<tr><td class='srt'>" + team + "</td><td class='srt' width='50'>" + number + "</td><td class='srt'>" + name + "</td><td class='srt'>" + year + "</td></tr>");
 		}
 		html.append("</tbody></table>");
 		return html;

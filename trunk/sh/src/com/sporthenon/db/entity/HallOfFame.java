@@ -36,8 +36,8 @@ public class HallOfFame {
 	@JoinColumn(name = "id_person", nullable = false)
 	private Athlete person;
 	
-	@Column(name = "deceased")
-	private Boolean deceased;
+	@Column(name = "\"position\"")
+	private String position;
 	
 	@Embedded
 	private Metadata metadata;
@@ -82,18 +82,18 @@ public class HallOfFame {
 		this.person = person;
 	}
 
-	public Boolean getDeceased() {
-		return deceased;
+	public String getPosition() {
+		return position;
 	}
 
-	public void setDeceased(Boolean deceased) {
-		this.deceased = deceased;
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
 	@Override
 	public String toString() {
 		return "HallOfFame [id=" + id + ", league=" + league + ", year=" + year
-				+ ", person=" + person + ", deceased=" + deceased + "]";
+				+ ", person=" + person + ", position=" + position + "]";
 	}
 	
 }

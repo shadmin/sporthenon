@@ -178,6 +178,7 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(jResultDialog.getYear(), hPicklists.get(Year.alias), null);
 			SwingUtils.fillPicklist(((JOlympicsPanel)jEntityPanels.get(Olympics.alias)).getYear(), hPicklists.get(Year.alias), null);
 			SwingUtils.fillPicklist(((JHallOfFamePanel)jEntityPanels.get(HallOfFame.alias)).getYear(), hPicklists.get(Year.alias), null);
+			SwingUtils.fillPicklist(((JRetiredNumberPanel)jEntityPanels.get(RetiredNumber.alias)).getYear(), hPicklists.get(Year.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(Complex.alias)) {
 			SwingUtils.fillPicklist(jResultDialog.getComplex(), hPicklists.get(Complex.alias), null);
@@ -367,7 +368,6 @@ public class JMainFrame extends JFrame {
 			JTeamPanel p = (JTeamPanel) jEntityPanels.get(alias);
 			Team en = (Team) o;
 			en.setLabel(p.getLabel().getText());
-			en.setCode(p.getCode().getText());
 			en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, SwingUtils.getValue(p.getSport())));
 			en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
 			en.setParent((Team)DatabaseHelper.loadEntity(Team.class, SwingUtils.getValue(p.getParentTeam())));
@@ -391,7 +391,7 @@ public class JMainFrame extends JFrame {
 			en.setLeague((League)DatabaseHelper.loadEntity(League.class, SwingUtils.getValue(p.getLeague())));
 			en.setYear((Year)DatabaseHelper.loadEntity(Year.class, SwingUtils.getValue(p.getYear())));
 			en.setPerson((Athlete)DatabaseHelper.loadEntity(Athlete.class, SwingUtils.getValue(p.getPerson())));
-			en.setDeceased(p.getDeceased().isSelected());
+			en.setPosition(p.getPosition().getText());
 		}
 		else if (alias.equalsIgnoreCase(OlympicRanking.alias)) {
 			JOlympicRankingPanel p = (JOlympicRankingPanel) jEntityPanels.get(alias);
@@ -437,6 +437,7 @@ public class JMainFrame extends JFrame {
 			en.setLeague((League)DatabaseHelper.loadEntity(League.class, SwingUtils.getValue(p.getLeague())));
 			en.setTeam((Team)DatabaseHelper.loadEntity(Team.class, SwingUtils.getValue(p.getTeam())));
 			en.setPerson((Athlete)DatabaseHelper.loadEntity(Athlete.class, SwingUtils.getValue(p.getPerson())));
+			en.setYear((Year)DatabaseHelper.loadEntity(Year.class, SwingUtils.getValue(p.getYear())));
 			en.setNumber(new Integer(p.getNumber().getText()));
 		}
 		else if (alias.equalsIgnoreCase(TeamStadium.alias)) {

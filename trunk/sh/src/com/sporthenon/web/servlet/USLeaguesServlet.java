@@ -125,7 +125,6 @@ public class USLeaguesServlet extends AbstractServlet {
 				}
 				else if (type.equals(TYPE_HOF)) {
 					lFuncParams.add(years);
-					lFuncParams.add(StringUtils.notEmpty(hParams.get("dec")) ? new Short(String.valueOf(hParams.get("dec"))) : 0);
 					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_HOF, lFuncParams, opts);
 					html.append(HtmlConverter.convertHallOfFame(DatabaseHelper.call("GetHallOfFame", lFuncParams), opts));
 				}

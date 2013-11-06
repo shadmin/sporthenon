@@ -3,8 +3,8 @@ package com.sporthenon.updater.container.entity;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.League;
@@ -20,7 +20,7 @@ public class JHallOfFamePanel extends JAbstractEntityPanel implements ItemListen
 	public JEntityPicklist jLeague;
 	public JEntityPicklist jYear;
 	public JEntityPicklist jPerson;
-	public JCheckBox jDeceased;
+	public JTextField jPosition;
 	
 	public JHallOfFamePanel() {
 		super(5);
@@ -52,12 +52,12 @@ public class JHallOfFamePanel extends JAbstractEntityPanel implements ItemListen
         jPerson = new JEntityPicklist(this, Athlete.alias);
         gridPanel.add(jPerson);
         
-        //Deceased
-        JLabel lDeceased = new JLabel(" Deceased:");
-        lDeceased.setHorizontalAlignment(LABEL_ALIGNMENT);
-        gridPanel.add(lDeceased);
-        jDeceased = new JCheckBox();
-        gridPanel.add(jDeceased);
+        //Position
+        JLabel lPosition = new JLabel(" Position:");
+        lPosition.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lPosition);
+        jPosition = new JTextField();
+        gridPanel.add(jPosition);
 	}
 	
 	public JEntityPicklist getLeague() {
@@ -72,8 +72,8 @@ public class JHallOfFamePanel extends JAbstractEntityPanel implements ItemListen
 		return jPerson;
 	}
 	
-	public JCheckBox getDeceased() {
-		return jDeceased;
+	public JTextField getPosition() {
+		return jPosition;
 	}
 	
 	public void setLeague(Integer id) {
@@ -88,8 +88,8 @@ public class JHallOfFamePanel extends JAbstractEntityPanel implements ItemListen
 		SwingUtils.selectValue(jPerson, id);
 	}
 	
-	public void setDeceased(Boolean b) {
-		jDeceased.setSelected(b);
+	public void setPosition(String s) {
+		jPosition.setText(s);
 	}
 
 	public void clear() {
@@ -97,7 +97,7 @@ public class JHallOfFamePanel extends JAbstractEntityPanel implements ItemListen
 		jLeague.clear();
 		jYear.clear();
 		jPerson.clear();
-		jDeceased.setText("");
+		jPosition.setText("");
 	}
 	
 	public void focus() {

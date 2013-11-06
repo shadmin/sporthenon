@@ -11,6 +11,10 @@
 updater request event/champ not used + gestion missing images remote par servlet
 records US : both
 couleurs surface avec comment ##
+0.4 gestion images cache
+hall fame remplacer deceased par position
+retired number ajouter annee
+equipe supp code
 
 +-------+
 | 0.3.0 |

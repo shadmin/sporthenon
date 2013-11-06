@@ -22,10 +22,10 @@
 	</named-native-query>
 	
 	<!--
-		GET_HALL_OF_FAME(integer, text, smallint)
+		GET_HALL_OF_FAME(integer, text)
 	-->
 	<named-native-query name="GetHallOfFame" result-class="com.sporthenon.db.function.HallOfFameBean">  
-		<query>{? = call "GET_HALL_OF_FAME"(?, ?, ?)}</query>
+		<query>{? = call "GET_HALL_OF_FAME"(?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	

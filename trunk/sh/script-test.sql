@@ -810,3 +810,282 @@ update "RESULT" set exa='1-4' where exa='1-3';
 update "RESULT" set exa='1-3' where exa='1-2';
 update "RESULT" set exa='1-2' where exa='1';
 update "RESULT" set exa='1-3;4-6;7-9' where exa='1-2;4-5;7-8';
+
+ALTER TABLE "HALL_OF_FAME" DROP DECEASED;
+ALTER TABLE "HALL_OF_FAME" ADD POSITION varchar(10);
+ALTER TABLE "RETIRED_NUMBER" ADD ID_YEAR INTEGER;
+ALTER TABLE "TEAM" DROP CODE;
+CREATE OR REPLACE FUNCTION "GET_RESULTS"(_id_sport integer, _id_championship integer, _id_event integer, _id_subevent integer, _years text)
+  RETURNS refcursor AS
+$BODY$
+declare
+    _c refcursor;
+    _type integer;
+    _columns text;
+    _joins text;
+    _event_condition text;
+    _year_condition text;
+begin
+	-- Get entity type (person, country, team)
+	IF _id_subevent <> 0 THEN
+	    SELECT
+	        TP.number
+	    INTO
+	        _type
+	    FROM
+	        "EVENT" EV
+	        LEFT JOIN "TYPE" TP ON EV.id_type = TP.id
+	    WHERE
+	        EV.id = _id_subevent;
+	ELSIF _id_event <> 0 THEN
+	    SELECT
+	        TP.number
+	    INTO
+	        _type
+	    FROM
+	        "EVENT" EV
+	        LEFT JOIN "TYPE" TP ON EV.id_type = TP.id
+	    WHERE
+	        EV.id = _id_event;	        
+	ELSE
+	    SELECT DISTINCT
+	        TP.number
+	    INTO
+	        _type
+	    FROM
+	        "RESULT" RS
+	        LEFT JOIN "EVENT" EV ON RS.id_event = EV.id
+	        LEFT JOIN "TYPE" TP ON EV.id_type = TP.id
+	    WHERE
+	         RS.id_sport = _id_sport AND RS.id_championship = _id_championship;
+	END IF;
+
+	-- Build entity-specific columns/joins
+	_columns := '';
+	_joins := '';
+	FOR i IN 1..10 LOOP
+	    IF _type < 10 THEN -- Person
+	        _columns := _columns || ', PR' || i || '.last_name AS en' || i || '_str1, PR' || i || '.first_name AS en' || i || '_str2';
+	        _columns := _columns || ', PRTM' || i || '.id AS en' || i || '_rel1_id, NULL AS en' || i || '_rel1_code, PRTM' || i || '.label AS en' || i || '_rel1_label';
+	        _columns := _columns || ', PRCN' || i || '.id AS en' || i || '_rel2_id, PRCN' || i || '.code AS en' || i || '_rel2_code, PRCN' || i || '.label AS en' || i || '_rel2_label';
+	        _joins := _joins || ' LEFT JOIN "PERSON" PR' || i || ' ON RS.id_rank' || i || ' = PR' || i || '.id';
+	        _joins := _joins || ' LEFT JOIN "TEAM" PRTM' || i || ' ON PR' || i || '.id_team = PRTM' || i || '.id';
+	        _joins := _joins || ' LEFT JOIN "COUNTRY" PRCN' || i || ' ON PR' || i || '.id_country = PRCN' || i || '.id';
+	    ELSIF _type = 50 THEN -- Team
+	        _columns := _columns || ', NULL AS en' || i || '_str1, TM' || i || '.label AS en' || i || '_str2';
+	        _columns := _columns || ', NULL AS en' || i || '_rel1_id, NULL AS en' || i || '_rel1_code, NULL AS en' || i || '_rel1_label';
+	        _columns := _columns || ', TMCN' || i || '.id AS en' || i || '_rel2_id, TMCN' || i || '.code AS en' || i || '_rel2_code, TMCN' || i || '.label AS en' || i || '_rel2_label';
+	        _joins := _joins || ' LEFT JOIN "TEAM" TM' || i || ' ON RS.id_rank' || i || ' = TM' || i || '.id';
+	        _joins := _joins || ' LEFT JOIN "COUNTRY" TMCN' || i || ' ON TM' || i || '.id_country = TMCN' || i || '.id';
+	    ELSIF _type = 99 THEN -- Country
+	        _columns := _columns || ', _CN' || i || '.code AS en' || i || '_str1, _CN' || i || '.label AS en' || i || '_str2';
+	        _columns := _columns || ', NULL AS en' || i || '_rel1_id, NULL AS en' || i || '_rel1_code, NULL AS en' || i || '_rel1_label';
+	        _columns := _columns || ', NULL AS en' || i || '_rel2_id, NULL AS en' || i || '_rel2_code, NULL AS en' || i || '_rel2_label';
+	        _joins := _joins || ' LEFT JOIN "COUNTRY" _CN' || i || ' ON RS.id_rank' || i || ' = _CN' || i || '.id';
+	    END IF;
+	END LOOP;
+
+	-- Handle null event/subevent
+	_event_condition := '';
+	IF _id_event <> 0 THEN
+	    _event_condition := ' AND RS.id_event = ' ||_id_event;
+	END IF;
+	IF _id_subevent <> 0 THEN
+	    _event_condition := _event_condition || ' AND RS.id_subevent = ' ||_id_subevent;
+	END IF;
+
+	-- Set year condition
+	_year_condition := '';
+	IF _years <> '0' THEN
+		_year_condition := ' AND YR.id IN (' || _years || ')';
+	END IF;
+	
+	-- Open cursor
+	OPEN _c FOR EXECUTE
+	'SELECT
+		RS.id AS rs_id, RS.date1 AS rs_date1, RS.date2 AS rs_date2, RS.id_rank1 AS rs_rank1, RS.id_rank2 AS rs_rank2, RS.id_rank3 AS rs_rank3, RS.id_rank4 AS rs_rank4, RS.id_rank5 AS rs_rank5,
+		RS.id_rank6 AS rs_rank6, RS.id_rank7 AS rs_rank7, RS.id_rank8 AS rs_rank8, RS.id_rank9 AS rs_rank9, RS.id_rank10 AS rs_rank10, RS.result1 AS rs_result1, RS.result2 AS rs_result2,
+		RS.result3 AS rs_result3, RS.result4 AS rs_result4, RS.result5 AS rs_result5, RS.comment AS rs_comment, RS.exa AS rs_exa, YR.id AS yr_id, YR.label AS yr_label, CX.id AS cx_id, CX.label AS cx_label,
+		CT1.id AS ct1_id, CT1.label AS ct1_label, CT2.id AS ct2_id, CT2.label AS ct2_label, ST1.id AS st1_id, ST1.code AS st1_code, ST1.label AS st1_label, ST2.id AS st2_id, ST2.code AS st2_code,
+		ST2.label AS st2_label, CN1.id AS cn1_id, CN1.code AS cn1_code, CN1.label AS cn1_label, CN2.id AS cn2_id, CN2.code AS cn2_code, CN2.label AS cn2_label, DR.id as dr_id' ||
+		_columns || '
+	FROM
+		"RESULT" RS
+		LEFT JOIN "YEAR" YR ON RS.id_year = YR.id
+		LEFT JOIN "COMPLEX" CX ON RS.id_complex = CX.id
+		LEFT JOIN "CITY" CT1 ON CX.id_city = CT1.id
+		LEFT JOIN "CITY" CT2 ON RS.id_city = CT2.id
+		LEFT JOIN "STATE" ST1 ON CT1.id_state = ST1.id
+		LEFT JOIN "STATE" ST2 ON CT2.id_state = ST2.id
+		LEFT JOIN "COUNTRY" CN1 ON CT1.id_country = CN1.id
+		LEFT JOIN "COUNTRY" CN2 ON CT2.id_country = CN2.id
+		LEFT JOIN "DRAW" DR ON DR.id_result = RS.id' ||
+		_joins || '
+	WHERE
+		RS.id_sport = ' || _id_sport || ' AND
+		RS.id_championship = ' || _id_championship ||
+		_event_condition || _year_condition || '
+	ORDER BY RS.id_year';
+	
+	RETURN  _c;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+ALTER FUNCTION "GET_RESULTS"(integer, integer, integer, integer, text) OWNER TO postgres;
+
+CREATE OR REPLACE FUNCTION "GET_HALL_OF_FAME"(_id_league integer, _years text)
+  RETURNS refcursor AS
+$BODY$
+declare
+    _c refcursor;
+    _year_condition text;
+begin
+	-- Set year condition ('All years' = Empty condition)
+	_year_condition := '';
+	IF _years <> '0' THEN
+		_year_condition := ' AND YR.id IN (' || _years || ')';
+	END IF;
+	
+	-- Open cursor
+	OPEN _c FOR EXECUTE
+	'SELECT
+		HF.id AS hf_id, YR.id AS yr_id, YR.label AS yr_label, PR.id AS pr_id, PR.last_name AS pr_last_name,
+		PR.first_name AS pr_first_name, HF.position AS hf_position
+	FROM
+		"HALL_OF_FAME" HF
+		LEFT JOIN "YEAR" YR ON HF.id_year = YR.id
+		LEFT JOIN "PERSON" PR ON HF.id_person = PR.id
+	WHERE
+		HF.id_league = ' || _id_league || _year_condition || '
+	ORDER BY
+		YR.id, PR.last_name';
+	
+	RETURN  _c;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+ALTER FUNCTION "GET_HALL_OF_FAME"(integer, text, smallint) OWNER TO postgres;
+
+CREATE OR REPLACE FUNCTION "GET_WIN_LOSS"(_id_league integer, _teams text)
+  RETURNS refcursor AS
+$BODY$
+declare
+    _c refcursor;
+    _team_condition text;
+begin
+	-- Set team condition ('All teams' = Empty condition)
+	_team_condition := '';
+	IF _teams <> '0' THEN
+		_team_condition := ' AND TM.id IN (' || _teams || ')';
+	END IF;
+	
+	-- Open cursor
+	OPEN _c FOR EXECUTE
+	'SELECT
+		WL.id AS wl_id, TM.id AS tm_id, TM.label AS tm_label, 
+		WL.type AS wl_type, WL.count_win AS wl_count_win, WL.count_loss AS wl_count_loss, WL.count_tie AS wl_count_tie,
+		WL.count_otloss AS wl_count_otloss, WL.average AS wl_average
+	FROM
+		"WIN_LOSS" WL
+		LEFT JOIN "TEAM" TM ON WL.id_team = TM.id
+	WHERE
+		WL.id_league = ' || _id_league || _team_condition || '
+	ORDER BY
+		TM.label, WL.type, WL.count_win DESC, WL.count_loss';
+	
+	RETURN  _c;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+ALTER FUNCTION "GET_WIN_LOSS"(integer, text) OWNER TO postgres;
+
+CREATE OR REPLACE FUNCTION "GET_TEAM_STADIUM"(_id_league integer, _teams text, _date1 character varying, _date2 character varying)
+  RETURNS refcursor AS
+$BODY$
+declare
+    _c refcursor;
+    _team_condition text;
+    _date_condition text;
+begin
+	-- Set team condition ('All teams' = Empty condition)
+	_team_condition := '';
+	IF _teams <> '0' THEN
+		_team_condition := ' AND TM.id IN (' || _teams || ')';
+	END IF;
+	-- Set dates condition
+	_date_condition := '';
+	IF _date1 <> '' THEN
+		_date_condition := ' AND TS.date1 >= ''' || _date1 || '''';
+	END IF;
+	IF _date2 <> '' THEN
+		_date_condition := ' AND TS.date2 <= ''' || _date2 || '''';
+	END IF;
+	
+	-- Open cursor
+	OPEN _c FOR EXECUTE
+	'SELECT
+		TS.id AS ts_id, TM.id AS tm_id, TM.label AS tm_label, TS.renamed AS ts_renamed, TS.comment AS ts_comment,
+		CX.id AS cx_id, CX.label AS cx_label, CT.id AS ct_id, CT.label AS ct_label, ST.id AS st_id, ST.code AS st_code, ST.label AS st_label,
+		CN.id AS cn_id, CN.code AS cn_code, CN.label AS cn_label, TS.date1 AS ts_date1, TS.date2 AS ts_date2
+	FROM
+		"TEAM_STADIUM" TS
+		LEFT JOIN "TEAM" TM ON TS.id_team = TM.id
+		LEFT JOIN "COMPLEX" CX ON TS.id_complex = CX.id
+		LEFT JOIN "CITY" CT ON CX.id_city = CT.id
+		LEFT JOIN "STATE" ST ON CT.id_state = ST.id
+		LEFT JOIN "COUNTRY" CN ON CT.id_country = CN.id
+	WHERE
+		TS.id_league = ' || _id_league || _team_condition || _date_condition || '
+	ORDER BY
+		TM.label, TS.date1 DESC';
+	
+	RETURN  _c;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+ALTER FUNCTION "GET_TEAM_STADIUM"(integer, text, character varying, character varying) OWNER TO postgres;
+
+CREATE OR REPLACE FUNCTION "GET_RETIRED_NUMBER"(_id_league integer, _teams text, _number smallint)
+  RETURNS refcursor AS
+$BODY$
+declare
+    _c refcursor;
+    _team_condition text;
+    _number_condition text;
+begin
+	-- Set team condition ('All teams' = Empty condition)
+	_team_condition := '';
+	IF _teams <> '0' THEN
+		_team_condition := ' AND TM.id IN (' || _teams || ')';
+	END IF;
+	-- Set deceased condition
+	_number_condition := '';
+	IF _number <> -1 THEN
+		_number_condition := ' AND RN.number = ' || _number;
+	END IF;
+	
+	-- Open cursor
+	OPEN _c FOR EXECUTE
+	'SELECT
+		RN.id AS rn_id, TM.id AS tm_id, TM.label AS tm_label, 
+		PR.id AS pr_id, PR.last_name AS pr_last_name, PR.first_name AS pr_first_name, YR.id AS yr_id, YR.label AS yr_label, RN.number AS rn_number
+	FROM
+		"RETIRED_NUMBER" RN
+		LEFT JOIN "TEAM" TM ON RN.id_team = TM.id
+		LEFT JOIN "PERSON" PR ON RN.id_person = PR.id
+		LEFT JOIN "YEAR" YR ON RN.id_year = YR.id
+	WHERE
+		RN.id_league = ' || _id_league || _team_condition || _number_condition || '
+	ORDER BY
+		TM.label, RN.number';
+	
+	RETURN  _c;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+ALTER FUNCTION "GET_RETIRED_NUMBER"(integer, text, smallint) OWNER TO postgres;

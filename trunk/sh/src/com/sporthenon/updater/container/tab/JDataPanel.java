@@ -368,7 +368,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setCountry(tm.getCountry() != null ? tm.getCountry().getId() : null);
 			p.setSport(tm.getSport() != null ? tm.getSport().getId() : null);
 			p.setLabel(tm.getLabel());
-			p.setCode(tm.getCode());
 			p.setConference(StringUtils.notEmpty(tm.getConference()) ? tm.getConference() : "");
 			p.setDivision(StringUtils.notEmpty(tm.getDivision()) ? tm.getDivision() : "");
 			p.setYear1(tm.getYear1());
@@ -389,7 +388,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLeague(hf.getLeague().getId());
 			p.setYear(hf.getYear().getId());
 			p.setPerson(hf.getPerson().getId());
-			p.setDeceased(hf.getDeceased());
+			p.setPosition(hf.getPosition());
 		}
 		else if (o instanceof OlympicRanking) {
 			OlympicRanking or = (OlympicRanking) o;
@@ -445,6 +444,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLeague(rn.getLeague().getId());
 			p.setTeam(rn.getTeam().getId());
 			p.setPerson(rn.getPerson().getId());
+			p.setYear(rn.getYear() != null ? rn.getYear().getId() : null);
 			p.setNumber(String.valueOf(rn.getNumber()));
 		}
 		else if (o instanceof TeamStadium) {
