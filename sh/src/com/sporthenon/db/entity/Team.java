@@ -27,9 +27,6 @@ public class Team {
 	@Column(name = "label", length = 35, nullable = false)
 	private String label;
 	
-	@Column(name = "code", length = 3)
-	private String code;
-	
 	@ManyToOne
 	@JoinColumn(name = "id_sport", nullable = false)
 	private Sport sport;
@@ -85,14 +82,6 @@ public class Team {
 
 	public void setLabel(String label) {
 		this.label = label;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public Sport getSport() {

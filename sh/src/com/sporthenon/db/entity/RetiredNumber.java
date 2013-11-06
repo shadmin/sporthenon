@@ -36,6 +36,10 @@ public class RetiredNumber {
 	@JoinColumn(name = "id_person", nullable = false)
 	private Athlete person;
 	
+	@ManyToOne
+	@JoinColumn(name = "id_year", nullable = false)
+	private Year year;
+	
 	@Column(name = "\"number\"", nullable = false)
 	private Integer number;
 	
@@ -88,6 +92,14 @@ public class RetiredNumber {
 
 	public void setNumber(Integer number) {
 		this.number = number;
+	}
+
+	public Year getYear() {
+		return year;
+	}
+
+	public void setYear(Year year) {
+		this.year = year;
 	}
 
 	@Override

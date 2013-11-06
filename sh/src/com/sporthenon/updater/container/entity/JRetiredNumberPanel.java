@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.League;
 import com.sporthenon.db.entity.Team;
+import com.sporthenon.db.entity.Year;
 import com.sporthenon.updater.component.JEntityPicklist;
 import com.sporthenon.updater.window.JMainFrame;
 import com.sporthenon.utils.SwingUtils;
@@ -20,8 +21,9 @@ private static final long serialVersionUID = 1L;
 	public JEntityPicklist jLeague;
 	public JEntityPicklist jTeam;
 	public JEntityPicklist jPerson;
+	public JEntityPicklist jYear;
 	public JTextField jNumber;
-	
+
 	public JRetiredNumberPanel() {
 		super(5);
 		initialize();
@@ -52,6 +54,13 @@ private static final long serialVersionUID = 1L;
         jPerson = new JEntityPicklist(this, Athlete.alias);
         gridPanel.add(jPerson);
         
+        //Year
+        JLabel lYear = new JLabel(" Year:");
+        lPerson.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lYear);
+        jYear = new JEntityPicklist(this, Year.alias);
+        gridPanel.add(jYear);
+        
         //Number
         JLabel lNumber = new JLabel(" Number:");
         lNumber.setHorizontalAlignment(LABEL_ALIGNMENT);
@@ -72,6 +81,10 @@ private static final long serialVersionUID = 1L;
 		return jPerson;
 	}
 	
+	public JEntityPicklist getYear() {
+		return jYear;
+	}
+	
 	public JTextField getNumber() {
 		return jNumber;
 	}
@@ -88,6 +101,10 @@ private static final long serialVersionUID = 1L;
 		SwingUtils.selectValue(jPerson, id);
 	}
 	
+	public void setYear(Integer id) {
+		SwingUtils.selectValue(jYear, id);
+	}
+	
 	public void setNumber(String s) {
 		jNumber.setText(s);
 	}
@@ -96,6 +113,7 @@ private static final long serialVersionUID = 1L;
 		jId.setText("");
 		jLeague.clear();
 		jTeam.clear();
+		jYear.clear();
 		jPerson.clear();
 		jNumber.setText("");
 	}

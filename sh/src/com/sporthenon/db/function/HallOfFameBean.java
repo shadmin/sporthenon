@@ -26,8 +26,8 @@ public class HallOfFameBean {
 	@Column(name = "pr_first_name")
 	private String prFirstName;
 	
-	@Column(name = "hf_deceased")
-	private Boolean hfDeceased;
+	@Column(name = "hf_position")
+	private String hfPosition;
 
 	public Integer getHfId() {
 		return hfId;
@@ -77,17 +77,17 @@ public class HallOfFameBean {
 		this.prFirstName = prFirstName;
 	}
 
-	public Boolean getHfDeceased() {
-		return hfDeceased;
+	public String getHfPosition() {
+		return hfPosition;
 	}
 
-	public void setHfDeceased(Boolean hfDeceased) {
-		this.hfDeceased = hfDeceased;
+	public void setHfPosition(String hfPosition) {
+		this.hfPosition = hfPosition;
 	}
 
 	@Override
 	public String toString() {
-		return "HallOfFameBean [hfDeceased=" + hfDeceased + ", hfId=" + hfId
+		return "HallOfFameBean [hfPosition=" + hfPosition + ", hfId=" + hfId
 				+ ", prFirstName=" + prFirstName + ", prId=" + prId
 				+ ", prLastName=" + prLastName + ", yrId=" + yrId
 				+ ", yrLabel=" + yrLabel + "]";

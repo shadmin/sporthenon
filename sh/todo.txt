@@ -1,5 +1,4 @@
 references result ==> gestion EX--
-0.4 gestion images cache
 android init
 sitemap
 -----

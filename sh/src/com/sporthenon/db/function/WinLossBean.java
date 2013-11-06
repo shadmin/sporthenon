@@ -13,9 +13,6 @@ public class WinLossBean {
 	
 	@Column(name = "tm_id")
 	private Integer tmId;
-
-	@Column(name = "tm_code")
-	private String tmCode;
 	
 	@Column(name = "tm_label")
 	private String tmLabel;
@@ -52,14 +49,6 @@ public class WinLossBean {
 
 	public void setTmId(Integer tmId) {
 		this.tmId = tmId;
-	}
-
-	public String getTmCode() {
-		return tmCode;
-	}
-
-	public void setTmCode(String tmCode) {
-		this.tmCode = tmCode;
 	}
 
 	public String getTmLabel() {
@@ -120,7 +109,7 @@ public class WinLossBean {
 
 	@Override
 	public String toString() {
-		return "WinLossBean [tmCode=" + tmCode + ", tmId=" + tmId
+		return "WinLossBean [tmId=" + tmId
 				+ ", tmLabel=" + tmLabel + ", wlAverage=" + wlAverage
 				+ ", wlCountLoss=" + wlCountLoss + ", wlCountOtloss="
 				+ wlCountOtloss + ", wlCountTie=" + wlCountTie

@@ -13,9 +13,6 @@ public class RetiredNumberBean {
 	
 	@Column(name = "tm_id")
 	private Integer tmId;
-
-	@Column(name = "tm_code")
-	private String tmCode;
 	
 	@Column(name = "tm_label")
 	private String tmLabel;
@@ -28,6 +25,12 @@ public class RetiredNumberBean {
 	
 	@Column(name = "pr_first_name")
 	private String prFirstName;
+	
+	@Column(name = "yr_id")
+	private Integer yrId;
+
+	@Column(name = "yr_label")
+	private String yrLabel;
 	
 	@Column(name = "rn_number")
 	private Integer rnNumber;
@@ -46,14 +49,6 @@ public class RetiredNumberBean {
 
 	public void setTmId(Integer tmId) {
 		this.tmId = tmId;
-	}
-
-	public String getTmCode() {
-		return tmCode;
-	}
-
-	public void setTmCode(String tmCode) {
-		this.tmCode = tmCode;
 	}
 
 	public String getTmLabel() {
@@ -96,11 +91,27 @@ public class RetiredNumberBean {
 		this.rnNumber = rnNumber;
 	}
 
+	public Integer getYrId() {
+		return yrId;
+	}
+
+	public String getYrLabel() {
+		return yrLabel;
+	}
+
+	public void setYrId(Integer yrId) {
+		this.yrId = yrId;
+	}
+
+	public void setYrLabel(String yrLabel) {
+		this.yrLabel = yrLabel;
+	}
+
 	@Override
 	public String toString() {
 		return "RetiredNumberBean [prFirstName=" + prFirstName + ", prId="
 				+ prId + ", prLastName=" + prLastName + ", rnId=" + rnId
-				+ ", rnNumber=" + rnNumber + ", tmCode=" + tmCode + ", tmId="
+				+ ", rnNumber=" + rnNumber + ", tmId="
 				+ tmId + ", tmLabel=" + tmLabel + "]";
 	}
 	

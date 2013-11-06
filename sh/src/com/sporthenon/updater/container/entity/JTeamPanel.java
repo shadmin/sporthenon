@@ -17,7 +17,6 @@ public class JTeamPanel extends JAbstractEntityPanel {
 	private static final long serialVersionUID = 1L;
 	
 	public JCustomTextField jLabel;
-	public JTextField jCode;
 	public JEntityPicklist jSport;
 	public JEntityPicklist jCountry;
 	public JEntityPicklist jParent;
@@ -29,7 +28,7 @@ public class JTeamPanel extends JAbstractEntityPanel {
 	public JTextField jYear2;
 	
 	public JTeamPanel() {
-		super(12);
+		super(11);
 		initialize();
 	}
 
@@ -41,14 +40,6 @@ public class JTeamPanel extends JAbstractEntityPanel {
         jLabel = new JCustomTextField();
         jLabel.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jLabel);
-        
-        //Code
-        JLabel lCode = new JLabel(" Code:");
-        lCode.setHorizontalAlignment(LABEL_ALIGNMENT);
-        gridPanel.add(lCode);
-        jCode = new JTextField();
-        jCode.setPreferredSize(TEXT_SIZE);
-        gridPanel.add(jCode);
         
         //Sport
         JLabel lSport = new JLabel(" Sport:");
@@ -124,10 +115,6 @@ public class JTeamPanel extends JAbstractEntityPanel {
 		return jLabel;
 	}
 
-	public JTextField getCode() {
-		return jCode;
-	}
-
 	public JEntityPicklist getSport() {
 		return jSport;
 	}
@@ -166,10 +153,6 @@ public class JTeamPanel extends JAbstractEntityPanel {
 
 	public void setLabel(String s) {
 		jLabel.setText(s);
-	}
-
-	public void setCode(String s) {
-		jCode.setText(s);
 	}
 
 	public void setSport(Integer id) {
@@ -211,7 +194,6 @@ public class JTeamPanel extends JAbstractEntityPanel {
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
-		jCode.setText("");
 		jSport.clear();
 		jCountry.clear();
 		jConference.setText("");

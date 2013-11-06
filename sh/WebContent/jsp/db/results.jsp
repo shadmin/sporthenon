@@ -4,7 +4,9 @@
 <%@ page import="com.sporthenon.db.entity.Result"%>
 <%@ page import="com.sporthenon.db.entity.Sport"%>
 <%@ page import="com.sporthenon.db.converter.HtmlConverter"%>
+<%@ page import="com.sporthenon.utils.HtmlUtils"%>
 <%@ page import="java.util.Collection"%>
+<%@ page import="java.util.HashMap"%>
 <jsp:include page="/jsp/common/header.jsp"/>
 <script type="text/javascript">
 <%HtmlConverter.convertTreeJSON(DatabaseHelper.call("TreeResults", null), out);%>
@@ -19,10 +21,13 @@
 			<td>
 			<select id="pl-sp" name="pl-sp" onchange="changeSport()">
 			<%
+			HashMap<String, String> hSportImg = new HashMap<String, String>();
 			Collection<PicklistBean> cPicklist = DatabaseHelper.getPicklist(Result.class, "sport", null, null, (short) 2);
 			int i = 0;
-			for (PicklistBean plb : cPicklist)
+			for (PicklistBean plb : cPicklist) {
 				out.println("<option class='" + (i++ % 2 == 0 ? "alternative" : "") + "' value='" + plb.getValue() + "'>" + plb.getText() + "</option>");
+				hSportImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)0, plb.getValue(), 'L', false));
+			}
 			%>
 			</select>
 			</td>
@@ -72,6 +77,10 @@
 <%@include file="../../html/buttons.html" %>
 <%@include file="../../html/tabcontrol.html" %>
 <script type="text/javascript">
+	var hSportImg = new Array();
+	<%for (String s : hSportImg.keySet()) {%>
+	hSportImg[<%=s%>] = "<%=hSportImg.get(s)%>";	
+	<%}%>
 	initSelectMult('sm-pl-yr', 'Years', 265);
 	initSliderRes('sp');
 	changeSport();

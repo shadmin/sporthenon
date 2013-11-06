@@ -63,8 +63,9 @@ public class FunctionTest extends TestCase {
 	
 	public void testSearch() throws Exception {
 		ArrayList<Object> params = new ArrayList<Object>();
-		params.add(new String("sam.*"));
+		params.add(new String("samp.*"));
 		params.add(new String("CP,PR,TM"));
+		params.add(new Short("1"));
 		Collection col = DatabaseHelper.call("Search", params);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
@@ -106,7 +107,6 @@ public class FunctionTest extends TestCase {
 		ArrayList<Object> params = new ArrayList<Object>();
 		params.add(new Integer(1));
 		params.add(new String("0"));
-		params.add(Short.valueOf("1"));
 		Collection col = DatabaseHelper.call("GetHallOfFame", params);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
@@ -174,6 +174,7 @@ public class FunctionTest extends TestCase {
 		ArrayList<Object> params = new ArrayList<Object>();
 		params.add(new String("CN"));
 		params.add(new Integer(1));
+		params.add(new String(""));
 		Collection col = DatabaseHelper.call("EntityRef", params);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);

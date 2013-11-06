@@ -21,6 +21,7 @@ import com.sporthenon.db.entity.Olympics;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.updater.container.tab.JDataPanel;
 import com.sporthenon.utils.ConfigUtils;
+import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
 
@@ -49,15 +50,25 @@ public class ImageServlet extends AbstractServlet {
 						id = fitem.getString();
 				}
 				String ext = (entity.toUpperCase().matches("CP|EV|OL|SP|TM") ? ".png" : ".gif");
-				String fileName = ImageUtils.getIndex(entity.toUpperCase()) + "-" + id + "-" + hParams.get("size") + ext;
-				FileOutputStream fos = new FileOutputStream(ConfigUtils.getProperty("img.folder") + fileName);
+				String fileName = ImageUtils.getIndex(entity.toUpperCase()) + "-" + id + "-" + hParams.get("size");
+				File f = new File(ConfigUtils.getProperty("img.folder") + fileName + ext);
+				if (f.exists()) {
+					int i = 1;
+					while (f.exists()) {
+						f = new File(ConfigUtils.getProperty("img.folder") + fileName + "_" + i + ext);
+						i++;
+					}
+				}
+				FileOutputStream fos = new FileOutputStream(f);
 				fos.write(b);
 				fos.close();
-				StringBuffer sb = new StringBuffer();
-				sb.append("<html><head><script type='text/javascript'>");
-				sb.append("function callBack(){window.parent.uploadCallBack('" + entity + "', '" + fileName + "'); }");
-				sb.append("</script></head><body onload='callBack()'></body></html>");
-				ServletHelper.writeHtml(response, sb);
+			}
+			else if (hParams.containsKey("url")) {
+				String type = String.valueOf(hParams.get("type"));
+				String id = String.valueOf(hParams.get("id"));
+				String size = String.valueOf(hParams.get("size"));
+				String s = HtmlUtils.writeImage(Short.valueOf(type), Integer.valueOf(id), size.charAt(0), false);
+				ServletHelper.writeText(response, s.replaceAll(".*src\\=\\'", "").replaceAll("\\'\\/\\>", ""));
 			}
 			else if (hParams.containsKey("data")) {} // OBSOLETE
 			else if (hParams.containsKey("missing")) {

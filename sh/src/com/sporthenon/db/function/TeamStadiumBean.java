@@ -13,9 +13,6 @@ public class TeamStadiumBean {
 	
 	@Column(name = "tm_id")
 	private Integer tmId;
-
-	@Column(name = "tm_code")
-	private String tmCode;
 	
 	@Column(name = "tm_label")
 	private String tmLabel;
@@ -76,14 +73,6 @@ public class TeamStadiumBean {
 
 	public void setTmId(Integer tmId) {
 		this.tmId = tmId;
-	}
-
-	public String getTmCode() {
-		return tmCode;
-	}
-
-	public void setTmCode(String tmCode) {
-		this.tmCode = tmCode;
 	}
 
 	public String getTmLabel() {
@@ -212,7 +201,7 @@ public class TeamStadiumBean {
 				+ ", cnLabel=" + cnLabel + ", ctId=" + ctId + ", ctLabel="
 				+ ctLabel + ", cxId=" + cxId + ", cxLabel=" + cxLabel
 				+ ", stCode=" + stCode + ", stId=" + stId + ", stLabel="
-				+ stLabel + ", tmCode=" + tmCode + ", tmId=" + tmId
+				+ stLabel + ", tmId=" + tmId
 				+ ", tmLabel=" + tmLabel + ", tsComment=" + tsComment
 				+ ", tsDate1=" + tsDate1 + ", tsDate2=" + tsDate2 + ", tsId="
 				+ tsId + ", tsRenamed=" + tsRenamed + "]";

@@ -8,8 +8,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -36,6 +38,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.apache.log4j.Logger;
+
+import sun.net.www.content.text.PlainTextInputStream;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Championship;
@@ -195,7 +199,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		p_.add(jRemotePanel);
 		pBottom.add(p_, BorderLayout.CENTER);
 		p_ = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		jRemoteFile = new JTextField(30);
+		jRemoteFile = new JTextField(40);
 		jRemoteFile.setEditable(false);
 		p_.add(jRemoteFile);
 		pBottom.add(p_, BorderLayout.SOUTH);
@@ -297,11 +301,22 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		}
 	}
 
-	private void loadImage(String alias, String currentId) throws MalformedURLException {
-		String ext = (alias.matches("CN|ST") ? ".gif" : ".png");
-		String url = ImageUtils.getUrl() + ImageUtils.getIndex(alias) + "-" + currentId + "-" + (largeRadioBtn.isSelected() ? "L" : "S") + ext + "?" + System.currentTimeMillis();
-		jRemoteFile.setText(url);
-		jRemotePanel.setImage(new URL(url));
+	@SuppressWarnings("deprecation")
+	private void loadImage(String alias, String currentId) throws IOException {
+		URL url = new URL(ConfigUtils.getProperty("url") + "ImageServlet?url=1&type=" + ImageUtils.getIndex(alias) + "&id=" + currentId + "&size=" + (largeRadioBtn.isSelected() ? "L" : "S"));
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		if (conn.getResponseCode() == 200) {
+			PlainTextInputStream pis = (PlainTextInputStream) conn.getContent();
+			DataInputStream dis = new DataInputStream(pis);
+			String s = dis.readLine();
+			jRemoteFile.setText(s);
+			try {
+				jRemotePanel.setImage(new URL(s));
+			}
+			catch (MalformedURLException e) {
+				jRemotePanel.setImage(null);
+			}
+		}
 	}
 
 	public void valueChanged(ListSelectionEvent e) {
