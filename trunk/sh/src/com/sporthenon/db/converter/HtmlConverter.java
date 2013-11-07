@@ -1171,7 +1171,7 @@ public class HtmlConverter {
 			// Evaluate bean
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel());
 			String name = HtmlUtils.writeLink(Athlete.alias, bean.getPrId(), bean.getPrLastName() + "," + HtmlUtils.SPACE + bean.getPrFirstName());
-			String position = bean.getHfPosition();
+			String position = (StringUtils.notEmpty(bean.getHfPosition()) ? bean.getHfPosition() : "-");
 			
 			// Write line
 			html.append("<tr><td class='srt'>" + year + "</td><td class='srt'>" + name + "</td><td class='srt'>" + position + "</td></tr>");
@@ -1183,7 +1183,7 @@ public class HtmlConverter {
 	public static StringBuffer convertRetiredNumber(Collection<Object> coll, RenderOptions opts) throws Exception {
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		long id = System.currentTimeMillis();
-		html.append("<tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Team</th><th onclick='sort(\"" + id + "\", this, 1);'>Number</th><th onclick='sort(\"" + id + "\", this, 2);'>Name</th></tr></thead><tbody id='tb-" + id + "'>");
+		html.append("<tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Team</th><th onclick='sort(\"" + id + "\", this, 1);'>Number</th><th onclick='sort(\"" + id + "\", this, 2);'>Name</th><th onclick='sort(\"" + id + "\", this, 3);'>Year</th></tr></thead><tbody id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			RetiredNumberBean bean = (RetiredNumberBean) obj;
 
@@ -1193,7 +1193,7 @@ public class HtmlConverter {
 			team = HtmlUtils.writeImgTable(teamImg, team);
 			String name = HtmlUtils.writeLink(Athlete.alias, bean.getPrId(), bean.getPrLastName() + "," + HtmlUtils.SPACE + bean.getPrFirstName());
 			String number = String.valueOf(bean.getRnNumber());
-			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel());
+			String year = (bean.getYrId() != null ? HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel()) : "-");
 			
 			// Write line
 			html.append("<tr><td class='srt'>" + team + "</td><td class='srt' width='50'>" + number + "</td><td class='srt'>" + name + "</td><td class='srt'>" + year + "</td></tr>");

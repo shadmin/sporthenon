@@ -1,6 +1,7 @@
-references result ==> gestion EX--
+0.5
+reference athlete : nom complet (pas first/last name)
 android init
-sitemap
+references result ==> gestion EX--
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

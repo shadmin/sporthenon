@@ -15,6 +15,7 @@ couleurs surface avec comment ##
 hall fame remplacer deceased par position
 retired number ajouter annee
 equipe supp code
+sitemap
 
 +-------+
 | 0.3.0 |

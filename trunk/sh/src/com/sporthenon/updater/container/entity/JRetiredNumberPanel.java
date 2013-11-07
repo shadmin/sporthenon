@@ -25,7 +25,7 @@ private static final long serialVersionUID = 1L;
 	public JTextField jNumber;
 
 	public JRetiredNumberPanel() {
-		super(5);
+		super(6);
 		initialize();
 	}
 

@@ -37,7 +37,7 @@ public class RetiredNumber {
 	private Athlete person;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_year", nullable = false)
+	@JoinColumn(name = "id_year")
 	private Year year;
 	
 	@Column(name = "\"number\"", nullable = false)
