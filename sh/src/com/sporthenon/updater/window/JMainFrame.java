@@ -259,7 +259,7 @@ public class JMainFrame extends JFrame {
 				sql += "from \"PERSON\" PR left join \"COUNTRY\" CN on PR.id_country=CN.id left join \"TEAM\" TM on PR.id_team=TM.id order by text";
 			}
 			else if (c_.equals(Team.class)) {
-				sql = "select TM.id, TM.label || case when id_country is not null then ' [' || CN.code || ']' else '' end || case when TM.code is not null and TM.code <> '' then ' [' || TM.code || ']' else '' end || case when TM.year1 is not null and TM.year1 <> '' then ' [' || TM.year1 || ']' else '' end || case when TM.year2 is not null and TM.year2 <> '' then ' [' || TM.year2 || ']' else '' end as text, TM.id_sport ";
+				sql = "select TM.id, TM.label || case when id_country is not null then ' [' || CN.code || ']' else '' end || case when TM.year1 is not null and TM.year1 <> '' then ' [' || TM.year1 || ']' else '' end || case when TM.year2 is not null and TM.year2 <> '' then ' [' || TM.year2 || ']' else '' end as text, TM.id_sport ";
 				sql += "from \"TEAM\" TM left join \"COUNTRY\" CN on TM.id_country=CN.id order by text";
 			}
 			ArrayList<PicklistBean> lst = new ArrayList<PicklistBean>(sql != null ? DatabaseHelper.getPicklistFromQuery(sql, true) : DatabaseHelper.getEntityPicklist(c_, label, null));

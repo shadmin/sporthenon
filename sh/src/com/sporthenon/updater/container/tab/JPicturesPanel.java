@@ -302,20 +302,25 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 	}
 
 	@SuppressWarnings("deprecation")
-	private void loadImage(String alias, String currentId) throws IOException {
-		URL url = new URL(ConfigUtils.getProperty("url") + "ImageServlet?url=1&type=" + ImageUtils.getIndex(alias) + "&id=" + currentId + "&size=" + (largeRadioBtn.isSelected() ? "L" : "S"));
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		if (conn.getResponseCode() == 200) {
-			PlainTextInputStream pis = (PlainTextInputStream) conn.getContent();
-			DataInputStream dis = new DataInputStream(pis);
-			String s = dis.readLine();
-			jRemoteFile.setText(s);
-			try {
-				jRemotePanel.setImage(new URL(s));
+	private void loadImage(String alias, String currentId) {
+		try {
+			URL url = new URL(ConfigUtils.getProperty("url") + "ImageServlet?url=1&type=" + ImageUtils.getIndex(alias) + "&id=" + currentId + "&size=" + (largeRadioBtn.isSelected() ? "L" : "S"));
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			if (conn.getResponseCode() == 200) {
+				PlainTextInputStream pis = (PlainTextInputStream) conn.getContent();
+				DataInputStream dis = new DataInputStream(pis);
+				String s = dis.readLine();
+				jRemoteFile.setText(s);
+				try {
+					jRemotePanel.setImage(new URL(s));
+				}
+				catch (MalformedURLException e) {
+					jRemotePanel.setImage(null);
+				}
 			}
-			catch (MalformedURLException e) {
-				jRemotePanel.setImage(null);
-			}
+		}
+		catch (IOException e) {
+			Logger.getLogger("sh").error(e.getMessage());
 		}
 	}
 
