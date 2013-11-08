@@ -7,20 +7,15 @@
 | 0.4.0 |
 +-------+
 o Web
-
+	- Pictures management improved significantly (better caching performance)
+	- Some comments can be displayed as a colored cell
+	- More readable display of olympics tables
+	- Fixed bug on US records for "Both" selection (individual/team)
+	- Added sitemap.xml
 o Swing application
 	- Comments management improved with specific column for ties
-
-0.4 - optimisation affichage tableaux olympics
-updater request event/champ not used + gestion missing images remote par servlet
-records US : both
-couleurs surface avec comment ##
-0.4 gestion images cache
-hall fame remplacer deceased par position
-retired number ajouter annee
-equipe supp code
-sitemap
-team parent = link comme athlete + inactive
+	- Add queries for unused events + fixed missing pictures with remote call
+	- DB structure: -TM.code / -HF.deceased / +HF.position / +TM.link / +TM.inactive / +RN.year
 
 +-------+
 | 0.3.0 |

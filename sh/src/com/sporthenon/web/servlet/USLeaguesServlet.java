@@ -87,7 +87,6 @@ public class USLeaguesServlet extends AbstractServlet {
 					}
 					else if (t[0].equals(TYPE_HOF)) {
 						hParams.put("yr", t[2]);
-						hParams.put("dec", t[3]);
 					}
 					else if (t[0].equals(TYPE_CHAMPIONSHIP)) {
 						hParams.put("yr", t[3]);
@@ -178,7 +177,7 @@ public class USLeaguesServlet extends AbstractServlet {
 					boolean isRetnum = hParams.containsKey(PICKLIST_ID_RETNUM_TEAM);
 					boolean isTeamStadium = hParams.containsKey(PICKLIST_ID_TEAMSTADIUM_TEAM);
 					cPicklist.add(new PicklistBean(0, "---&nbsp;All Teams&nbsp;---"));
-					cPicklist.addAll(DatabaseHelper.getPicklist((isRetnum ? RetiredNumber.class : (isTeamStadium ? TeamStadium.class : WinLoss.class)), "team", "league.id=" + league, "x.team.deleted || '-'", "x.team.deleted, x.team.label"));
+					cPicklist.addAll(DatabaseHelper.getPicklist((isRetnum ? RetiredNumber.class : (isTeamStadium ? TeamStadium.class : WinLoss.class)), "team", "league.id=" + league, "x.team.inactive || '-'", "x.team.inactive, x.team.label"));
 					for (PicklistBean plb : cPicklist)
 						plb.setText(plb.getText().replaceAll("^false\\-", "").replaceAll("^true\\-", "&dagger;&nbsp;"));
 					plId = (isRetnum ? PICKLIST_ID_RETNUM_TEAM : (isTeamStadium ? PICKLIST_ID_TEAMSTADIUM_TEAM : PICKLIST_ID_WINLOSS_TEAM));

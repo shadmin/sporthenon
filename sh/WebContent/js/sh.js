@@ -814,7 +814,6 @@ function runUSLeagues() {
 	h.set('se', $('pl-' + type + '-se') ? $F('pl-' + type + '-se') : null);
 	h.set('ev', $('pl-' + type + '-ev') ? $F('pl-' + type + '-ev') : null);
 	h.set('tp', $('pl-' + type + '-tp') ? $F('pl-' + type + '-tp') : null);
-	h.set('dec', $F('hof-deceased') ? 1 : 0);
 	h.set('num', $F('retnum-number'));
 	h.set('dt1', $F('teamstadium-from'));
 	h.set('dt2', $F('teamstadium-to'));
