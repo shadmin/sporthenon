@@ -76,13 +76,9 @@
 					<td><label for="hof">&nbsp;Hall of Fame</label></td></tr></table>
 				</div>
 				<div id="hof-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
-				<table>
+				<table style="margin-top:15px;">
 					<tr><td>Year:</td>
 					<td><div id="sm-pl-hof-yr" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
-				</table>
-				<table>
-					<tr><td><input type="checkbox" name="hof-deceased" id="hof-deceased" checked="checked"></input></td>
-					<td><label for="hof-deceased">Show deceased</label></td></tr>
 				</table>
 			</div></td>
 			<!-- RETIRED NUMBERS -->

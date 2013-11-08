@@ -4,7 +4,7 @@
 
 <div class="fieldset">
 <div class="fstitle downloads">DOWNLOADS</div>
-<div class="fscontent">All released files can be downloaded at this address:<br/><a href="https://sourceforge.net/projects/sporthenon/files/" target="_blank">https://sourceforge.net/projects/sporthenon/files/</a></div>
+<div class="fscontent">All released files can be downloaded at this address:<br/><a href="https://drive.google.com/?tab=wo&authuser=0#folders/0B4NAK6Vu6lbveXg1QzZDcVNGOWM" target="_blank">https://drive.google.com/?tab=wo&authuser=0#folders/0B4NAK6Vu6lbveXg1QzZDcVNGOWM</a></div>
 </div>
 
 <div class="fieldset">
