@@ -38,13 +38,6 @@ public class Team {
 	private String year2;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_parent")
-	private Team parent;
-	
-	@Column(name = "deleted")
-	private Boolean deleted;
-	
-	@ManyToOne
 	@JoinColumn(name = "id_country")
 	private Country country;
 	
@@ -56,6 +49,12 @@ public class Team {
 	
 	@Column(name = "\"comment\"", length = 500)
 	private String comment;
+	
+	@Column(name = "link")
+	private Integer link;
+	
+	@Column(name = "inactive")
+	private Boolean inactive;
 	
 	@Embedded
 	private Metadata metadata;
@@ -108,22 +107,6 @@ public class Team {
 		this.year2 = year2;
 	}
 
-	public Team getParent() {
-		return parent;
-	}
-
-	public void setParent(Team parent) {
-		this.parent = parent;
-	}
-
-	public Boolean getDeleted() {
-		return deleted;
-	}
-
-	public void setDeleted(Boolean deleted) {
-		this.deleted = deleted;
-	}
-
 	public Country getCountry() {
 		return country;
 	}
@@ -154,6 +137,22 @@ public class Team {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public Integer getLink() {
+		return link;
+	}
+
+	public Boolean getInactive() {
+		return inactive;
+	}
+
+	public void setLink(Integer link) {
+		this.link = link;
+	}
+
+	public void setInactive(Boolean inactive) {
+		this.inactive = inactive;
 	}
 
 	@Override

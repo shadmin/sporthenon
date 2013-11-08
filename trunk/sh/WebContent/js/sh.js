@@ -668,7 +668,7 @@ function updateSliderOl(code) {
 			var pattern = new RegExp('(^|.*,)' + el.value + '(,.*|$)');
 			if (currentOl == '0' || pattern.match(currentOl)) {	
 				sliderContent.push(++n > 0 && n % 5 == 0 ? '</div><div class="slide">' : '');
-				sliderContent.push('<img alt="' + el.text + '" title="' + el.text + '" src="' + imgFolder + '3-' + el.value + '-S.png?' + currentTime() + '" style="cursor:pointer;" onclick="slideOlClick(\'' + code + '\', \'' + el.value + '\');"/>');
+				sliderContent.push('<img alt="' + el.text + '" title="' + el.text + '" src="' + imgFolder + '3-' + el.value + '-S.png" style="cursor:pointer;" onclick="slideOlClick(\'' + code + '\', \'' + el.value + '\');"/>');
 			}
 		}
 	});

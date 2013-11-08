@@ -373,7 +373,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 								writeError(vLine, "ERROR: Invalid Format (Column " + h.toUpperCase() + ")");
 							}
 							else
-								hql = "select id from Team where lower(label) like '" + (s_.indexOf(" (") > -1 ? s_.substring(0, s_.indexOf(" (")) : s_) + "' and id_parent is null";
+								hql = "select id from Team where lower(label) like '" + (s_.indexOf(" (") > -1 ? s_.substring(0, s_.indexOf(" (")) : s_) + "' and (link is null or link = 0)";
 						}
 						else if (n == 99) { // Country
 							if (!s_.matches(StringUtils.PATTERN_COUNTRY)) {

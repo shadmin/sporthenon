@@ -1510,3 +1510,165 @@ $BODY$
   COST 100
   ROWS 1000;
 ALTER FUNCTION "ENTITY_REF"(character varying, integer, character varying) OWNER TO postgres;
+
+update "RESULT" set comment = replace(comment, 'Superbowl', 'Super Bowl') where comment like '%Superbowl%';
+
+ALTER TABLE "TEAM" ADD LINK INTEGER;
+UPDATE "TEAM" SET LINK=ID_PARENT;
+ALTER TABLE "TEAM" ADD inactive boolean;
+UPDATE "TEAM" SET INACTIVE=DELETED;
+ALTER TABLE "TEAM" DROP ID_PARENT;
+ALTER TABLE "TEAM" DROP DELETED;
+update "TEAM" set inactive=FALSE where inactive is NULL;
+
+CREATE OR REPLACE FUNCTION "COUNT_REF"(_entity character varying, _id integer)
+  RETURNS integer AS
+$BODY$
+declare
+	_count integer;
+	_n integer;
+	_type1 integer;
+	_type2 integer;
+begin
+	_count := 0;
+
+	-- Count '_id' referenced in: Cities
+	IF _entity = 'CN' THEN -- Country
+		SELECT COUNT(*) INTO _n FROM "CITY" CT WHERE CT.id_country = _id; _count := _count + _n;
+	ELSIF _entity = 'ST' THEN -- State
+		SELECT COUNT(*) INTO _n FROM "CITY" CT WHERE CT.id_state = _id; _count := _count + _n;
+	END IF;
+
+	-- Count '_id' referenced in: Complexes
+	IF _entity = 'CT' THEN -- City
+		SELECT COUNT(*) INTO _n FROM "COMPLEX" CX WHERE CX.id_city = _id; _count := _count + _n;
+	END IF;
+
+	-- Count '_id' referenced in: Hall of Fame
+	IF _entity = 'YR' THEN -- Year
+		SELECT COUNT(*) INTO _n FROM "HALL_OF_FAME" HF WHERE HF.id_year = _id; _count := _count + _n;
+	ELSIF _entity = 'PR' THEN -- Person
+		SELECT COUNT(*) INTO _n FROM "HALL_OF_FAME" HF WHERE HF.id_person IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id); _count := _count + _n;
+	END IF;
+
+	-- Count '_id' referenced in: Olympics
+	IF _entity = 'YR' THEN -- Year
+		SELECT COUNT(*) INTO _n FROM "OLYMPICS" OL WHERE OL.id_year = _id; _count := _count + _n;
+	ELSIF _entity = 'CT' THEN -- City
+		SELECT COUNT(*) INTO _n FROM "OLYMPICS" OL WHERE OL.id_city = _id; _count := _count + _n;
+	END IF;
+
+	-- Count '_id' referenced in: Olympic Rankings
+	IF _entity = 'OL' THEN -- Olympics
+		SELECT COUNT(*) INTO _n FROM "OLYMPIC_RANKING" OR_ WHERE OR_.id_olympics = _id; _count := _count + _n;
+	ELSIF _entity = 'CN' THEN -- Country
+		SELECT COUNT(*) INTO _n FROM "OLYMPIC_RANKING" OR_ WHERE OR_.id_country = _id; _count := _count + _n;
+	END IF;
+
+	-- Count '_id' referenced in: Persons
+	IF _entity = 'CN' THEN -- Country
+		SELECT COUNT(*) INTO _n FROM "PERSON" PR WHERE PR.id_country = _id; _count := _count + _n;
+	ELSIF _entity = 'TM' THEN -- Team
+		SELECT COUNT(*) INTO _n FROM "PERSON" PR WHERE PR.id_team = _id; _count := _count + _n;
+	ELSIF _entity = 'SP' THEN -- Sport
+		SELECT COUNT(*) INTO _n FROM "PERSON" PR WHERE PR.id_sport = _id; _count := _count + _n;
+	END IF;
+
+	-- Count '_id' referenced in: Records
+	IF _entity ~ 'CN|PR|TM' THEN -- Country/Person/Team
+		IF _entity = 'CN' THEN _type1 = 99;_type2 = 99;
+		ELSIF _entity = 'PR' THEN _type1 = 1;_type2 = 10;
+		ELSIF _entity = 'TM' THEN _type1 = 50;_type2 = 50; END IF;
+		IF _entity <> 'PR' THEN
+			SELECT COUNT(*) INTO _n FROM "RECORD" RC
+				LEFT JOIN "EVENT" EV ON RC.id_event = EV.id
+				LEFT JOIN "TYPE" TP ON EV.id_type = TP.id
+			WHERE (RC.ID_RANK1 = _id OR RC.ID_RANK2 = _id OR RC.ID_RANK3 = _id OR RC.ID_RANK4 = _id OR RC.ID_RANK5 = _id)
+				AND TP.number BETWEEN _type1 AND _type2;
+		ELSE
+			SELECT COUNT(*) INTO _n FROM "RECORD" RC
+				LEFT JOIN "EVENT" EV ON RC.id_event = EV.id
+				LEFT JOIN "TYPE" TP ON EV.id_type = TP.id
+			WHERE (RC.ID_RANK1 IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id) OR RC.ID_RANK2 IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id) OR RC.ID_RANK3 IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id) OR RC.ID_RANK4 IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id) OR RC.ID_RANK5 IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id))
+				AND TP.number BETWEEN _type1 AND _type2;
+		END IF;
+		_count := _count + _n;
+	ELSIF _entity = 'SP' THEN -- Sport
+		SELECT COUNT(*) INTO _n FROM "RECORD" RC WHERE RC.id_sport = _id; _count := _count + _n;
+	ELSIF _entity = 'CP' THEN -- Championship
+		SELECT COUNT(*) INTO _n FROM "RECORD" RC WHERE RC.id_championship = _id; _count := _count + _n;
+	ELSIF _entity = 'EV' THEN -- Event
+		SELECT COUNT(*) INTO _n FROM "RECORD" RC WHERE RC.id_event = _id OR RC.id_subevent = _id; _count := _count + _n;
+	ELSIF _entity = 'CT' THEN -- City
+		SELECT COUNT(*) INTO _n FROM "RECORD" RC WHERE RC.id_city = _id; _count := _count + _n;
+	END IF;
+
+	-- Count '_id' referenced in: Results
+	IF _entity ~ 'CN|PR|TM' THEN -- Country/Person/Team
+		IF _entity = 'CN' THEN _type1 = 99;_type2 = 99;
+		ELSIF _entity = 'PR' THEN _type1 = 1;_type2 = 10;
+		ELSIF _entity = 'TM' THEN _type1 = 50;_type2 = 50; END IF;
+		IF _entity <> 'PR' THEN
+			SELECT COUNT(*) INTO _n FROM "RESULT" RS
+				LEFT JOIN "EVENT" EV ON RS.id_event = EV.id
+				LEFT JOIN "EVENT" SE ON RS.id_subevent = SE.id
+				LEFT JOIN "TYPE" TP1 ON EV.id_type = TP1.id
+				LEFT JOIN "TYPE" TP2 ON SE.id_type = TP2.id
+			WHERE (RS.ID_RANK1 = _id OR RS.ID_RANK2 = _id OR RS.ID_RANK3 = _id OR RS.ID_RANK4 = _id OR RS.ID_RANK5 = _id OR RS.ID_RANK6 = _id OR RS.ID_RANK7 = _id OR RS.ID_RANK8 = _id OR RS.ID_RANK9 = _id OR RS.ID_RANK10 = _id)
+				AND ((TP1.number BETWEEN _type1 AND _type2 AND TP2.number IS NULL) OR TP2.number BETWEEN _type1 AND _type2);
+		ELSE
+			SELECT COUNT(*) INTO _n FROM "RESULT" RS
+				LEFT JOIN "EVENT" EV ON RS.id_event = EV.id
+				LEFT JOIN "EVENT" SE ON RS.id_subevent = SE.id
+				LEFT JOIN "TYPE" TP1 ON EV.id_type = TP1.id
+				LEFT JOIN "TYPE" TP2 ON SE.id_type = TP2.id
+			WHERE (RS.ID_RANK1 IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id) OR RS.ID_RANK2 IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id) OR RS.ID_RANK3 IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id) OR RS.ID_RANK4 IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id) OR RS.ID_RANK5 IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id) OR RS.ID_RANK6 IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id) OR RS.ID_RANK7 IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id) OR RS.ID_RANK8 IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id) OR RS.ID_RANK9 IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id) OR RS.ID_RANK10 IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id))
+				AND ((TP1.number BETWEEN _type1 AND _type2 AND TP2.number IS NULL) OR TP2.number BETWEEN _type1 AND _type2);
+		END IF;			
+		_count := _count + _n;
+	ELSIF _entity = 'SP' THEN -- Sport
+		SELECT COUNT(*) INTO _n FROM "RESULT" RS WHERE RS.id_sport = _id; _count := _count + _n;
+	ELSIF _entity = 'CP' THEN -- Championship
+		SELECT COUNT(*) INTO _n FROM "RESULT" RS WHERE RS.id_championship = _id; _count := _count + _n;
+	ELSIF _entity = 'EV' THEN -- Event
+		SELECT COUNT(*) INTO _n FROM "RESULT" RS WHERE RS.id_event = _id OR RS.id_subevent = _id; _count := _count + _n;
+	ELSIF _entity = 'CT' THEN -- City
+		SELECT COUNT(*) INTO _n FROM "RESULT" RS WHERE RS.id_city = _id; _count := _count + _n;
+	ELSIF _entity = 'CX' THEN -- Complex
+		SELECT COUNT(*) INTO _n FROM "RESULT" RS WHERE RS.id_complex = _id; _count := _count + _n;
+	ELSIF _entity = 'YR' THEN -- Year
+		SELECT COUNT(*) INTO _n FROM "RESULT" RS WHERE RS.id_year = _id; _count := _count + _n;
+	END IF;
+
+	-- Count '_id' referenced in: Retired Numbers
+	IF _entity = 'TM' THEN -- Team
+		SELECT COUNT(*) INTO _n FROM "RETIRED_NUMBER" RN WHERE RN.id_team = _id; _count := _count + _n;
+	ELSIF _entity = 'PR' THEN -- Person
+		SELECT COUNT(*) INTO _n FROM "RETIRED_NUMBER" RN WHERE RN.id_person IN (SELECT ID FROM "PERSON" PR WHERE PR.ID = _id OR PR.LINK = _id); _count := _count + _n;
+	END IF;
+
+	-- Count '_id' referenced in: Teams
+	IF _entity = 'SP' THEN -- Sport
+		SELECT COUNT(*) INTO _n FROM "TEAM" TM WHERE TM.id_sport = _id; _count := _count + _n;
+	ELSIF _entity = 'CN' THEN -- Country
+		SELECT COUNT(*) INTO _n FROM "TEAM" TM WHERE TM.id_country = _id; _count := _count + _n;
+	END IF;
+
+	-- Count '_id' referenced in: Team Stadiums
+	IF _entity = 'TM' THEN -- Team
+		SELECT COUNT(*) INTO _n FROM "TEAM_STADIUM" TS WHERE TS.id_team = _id; _count := _count + _n;
+	ELSIF _entity = 'CX' THEN -- Complex
+		SELECT COUNT(*) INTO _n FROM "TEAM_STADIUM" TS WHERE TS.id_complex = _id; _count := _count + _n;
+	END IF;
+
+	-- Count '_id' referenced in: Wins/Losses
+	IF _entity = 'TM' THEN -- Team
+		SELECT COUNT(*) INTO _n FROM "WIN_LOSS" WL WHERE WL.id_team = _id; _count := _count + _n;
+	END IF;
+	
+	RETURN _count;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+ALTER FUNCTION "COUNT_REF"(character varying, integer) OWNER TO postgres;

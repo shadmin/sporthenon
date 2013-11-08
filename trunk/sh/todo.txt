@@ -1,7 +1,7 @@
-0.5
-reference athlete : nom complet (pas first/last name)
+0.5 faciliter affichage link athlete + team (voir label)
 android init
 references result ==> gestion EX--
+bug export - gerer fusion cellules - XLS TXT
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

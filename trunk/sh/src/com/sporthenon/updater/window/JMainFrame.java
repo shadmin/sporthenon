@@ -221,7 +221,6 @@ public class JMainFrame extends JFrame {
 		}
 		if (alias == null || alias.equalsIgnoreCase(Team.alias)) {
 			SwingUtils.fillPicklist(((JAthletePanel)jEntityPanels.get(Athlete.alias)).getTeam(), hPicklists.get(Team.alias), null);
-			SwingUtils.fillPicklist(((JTeamPanel)jEntityPanels.get(Team.alias)).getParentTeam(), hPicklists.get(Team.alias), null);
 			SwingUtils.fillPicklist(((JRetiredNumberPanel)jEntityPanels.get(RetiredNumber.alias)).getTeam(), hPicklists.get(Team.alias), null);
 			SwingUtils.fillPicklist(((JTeamStadiumPanel)jEntityPanels.get(TeamStadium.alias)).getTeam(), hPicklists.get(Team.alias), null);
 			SwingUtils.fillPicklist(((JWinLossPanel)jEntityPanels.get(WinLoss.alias)).getTeam(), hPicklists.get(Team.alias), null);
@@ -370,13 +369,13 @@ public class JMainFrame extends JFrame {
 			en.setLabel(p.getLabel().getText());
 			en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, SwingUtils.getValue(p.getSport())));
 			en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
-			en.setParent((Team)DatabaseHelper.loadEntity(Team.class, SwingUtils.getValue(p.getParentTeam())));
 			en.setConference(p.getConference().getText());
 			en.setDivision(p.getDivision().getText());
 			en.setComment(p.getComment().getText());
 			en.setYear1(p.getYear1().getText());
 			en.setYear2(p.getYear2().getText());
-			en.setDeleted(p.getDeleted().isSelected());
+			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
+			en.setInactive(p.getInactive().isSelected());
 			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLabel() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : ""));
 		}
 		else if (alias.equalsIgnoreCase(Year.alias)) {

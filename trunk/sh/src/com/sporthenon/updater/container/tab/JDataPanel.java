@@ -364,7 +364,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		else if (o instanceof Team) {
 			Team tm = (Team) o;
 			JTeamPanel p = (JTeamPanel) panel;
-			p.setParentTeam(tm.getParent() != null ? tm.getParent().getId() : null);
 			p.setCountry(tm.getCountry() != null ? tm.getCountry().getId() : null);
 			p.setSport(tm.getSport() != null ? tm.getSport().getId() : null);
 			p.setLabel(tm.getLabel());
@@ -373,7 +372,8 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setYear1(tm.getYear1());
 			p.setYear2(tm.getYear2());
 			p.setComment(StringUtils.notEmpty(tm.getComment()) ? tm.getComment() : "");
-			p.setDeleted(tm.getDeleted());
+			p.setLink(tm.getLink() != null ? String.valueOf(tm.getLink()) : null);
+			p.setInactive(tm.getInactive());
 		}
 		else if (o instanceof Year) {
 			Year yr = (Year) o;

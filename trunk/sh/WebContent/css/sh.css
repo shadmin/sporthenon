@@ -212,8 +212,9 @@ a:focus{
 	margin-top: 2px;
 	margin-bottom: 5px;
 }
-#version{
-	margin-left: 165px;
+#version{	
+	width: 220px;
+	text-align: right;
 	margin-top: 5px;
 	font: 9px Tahoma;
 	color: #999;

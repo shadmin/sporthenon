@@ -6,11 +6,9 @@ import javax.swing.JTextField;
 
 import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Sport;
-import com.sporthenon.db.entity.Team;
 import com.sporthenon.updater.component.JCustomTextField;
 import com.sporthenon.updater.component.JEntityPicklist;
 import com.sporthenon.utils.SwingUtils;
-
 
 public class JTeamPanel extends JAbstractEntityPanel {
 
@@ -19,13 +17,13 @@ public class JTeamPanel extends JAbstractEntityPanel {
 	public JCustomTextField jLabel;
 	public JEntityPicklist jSport;
 	public JEntityPicklist jCountry;
-	public JEntityPicklist jParent;
 	public JTextField jConference;
 	public JTextField jDivision;
-	public JCheckBox jDeleted;
 	public JTextField jComment;
 	public JTextField jYear1;
 	public JTextField jYear2;
+	public JTextField jLink;
+	public JCheckBox jInactive;
 	
 	public JTeamPanel() {
 		super(11);
@@ -55,37 +53,6 @@ public class JTeamPanel extends JAbstractEntityPanel {
         jCountry = new JEntityPicklist(null, Country.alias);
         gridPanel.add(jCountry);
         
-        //Parent
-        JLabel lParent = new JLabel(" Parent:");
-        lParent.setHorizontalAlignment(LABEL_ALIGNMENT);
-        gridPanel.add(lParent);
-        jParent = new JEntityPicklist(null, Team.alias);
-        gridPanel.add(jParent);
-        
-        //Conference
-        JLabel lConference = new JLabel(" Conference:");
-        lConference.setHorizontalAlignment(LABEL_ALIGNMENT);
-        gridPanel.add(lConference);
-        jConference = new JTextField();
-        jConference.setPreferredSize(TEXT_SIZE);
-        gridPanel.add(jConference);
-        
-        //Division
-        JLabel lDivision = new JLabel(" Division:");
-        lDivision.setHorizontalAlignment(LABEL_ALIGNMENT);
-        gridPanel.add(lDivision);
-        jDivision = new JTextField();
-        jDivision.setPreferredSize(TEXT_SIZE);
-        gridPanel.add(jDivision);
-        
-        //Deleted
-        JLabel lDeleted = new JLabel(" Deleted (0=Yes, 1=No):");
-        lDeleted.setHorizontalAlignment(LABEL_ALIGNMENT);
-        gridPanel.add(lDeleted);
-        jDeleted = new JCheckBox();
-        jDeleted.setPreferredSize(TEXT_SIZE);
-        gridPanel.add(jDeleted);
-        
         //Comment
         JLabel lComment = new JLabel(" Comment:");
         lComment.setHorizontalAlignment(LABEL_ALIGNMENT);
@@ -94,8 +61,39 @@ public class JTeamPanel extends JAbstractEntityPanel {
         jComment.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jComment);
         
+		//Link
+		JLabel lLink = new JLabel(" Link:");
+		lLink.setHorizontalAlignment(LABEL_ALIGNMENT);
+		gridPanel.add(lLink);
+		jLink = new JTextField();
+		jLink.setPreferredSize(TEXT_SIZE);
+		gridPanel.add(jLink);
+        
+        //Inactive
+        JLabel lInactive = new JLabel(" Inactive:");
+        lInactive.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lInactive);
+        jInactive = new JCheckBox();
+        gridPanel.add(jInactive);
+        
+        //Conference
+        JLabel lConference = new JLabel(" [US] Conference:");
+        lConference.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lConference);
+        jConference = new JTextField();
+        jConference.setPreferredSize(TEXT_SIZE);
+        gridPanel.add(jConference);
+        
+        //Division
+        JLabel lDivision = new JLabel(" [US] Division:");
+        lDivision.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lDivision);
+        jDivision = new JTextField();
+        jDivision.setPreferredSize(TEXT_SIZE);
+        gridPanel.add(jDivision);
+        
         //Year1
-        JLabel lYear1 = new JLabel(" Year1:");
+        JLabel lYear1 = new JLabel(" [US] From:");
         lYear1.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lYear1);
         jYear1 = new JTextField();
@@ -103,7 +101,7 @@ public class JTeamPanel extends JAbstractEntityPanel {
         gridPanel.add(jYear1);
         
         //Year2
-        JLabel lYear2 = new JLabel(" Year2:");
+        JLabel lYear2 = new JLabel(" [US] To:");
         lYear2.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lYear2);
         jYear2 = new JTextField();
@@ -123,10 +121,6 @@ public class JTeamPanel extends JAbstractEntityPanel {
 		return jCountry;
 	}
 
-	public JEntityPicklist getParentTeam() {
-		return jParent;
-	}
-
 	public JTextField getConference() {
 		return jConference;
 	}
@@ -134,9 +128,13 @@ public class JTeamPanel extends JAbstractEntityPanel {
 	public JTextField getDivision() {
 		return jDivision;
 	}
+	
+	public JTextField getLink() {
+		return jLink;
+	}
 
-	public JCheckBox getDeleted() {
-		return jDeleted;
+	public JCheckBox getInactive() {
+		return jInactive;
 	}
 
 	public JTextField getComment() {
@@ -163,10 +161,6 @@ public class JTeamPanel extends JAbstractEntityPanel {
 		SwingUtils.selectValue(jCountry, id);
 	}
 
-	public void setParentTeam(Integer id) {
-		SwingUtils.selectValue(jParent, id);
-	}
-
 	public void setConference(String s) {
 		jConference.setText(s);
 	}
@@ -174,9 +168,13 @@ public class JTeamPanel extends JAbstractEntityPanel {
 	public void setDivision(String s) {
 		jDivision.setText(s);
 	}
+	
+	public void setLink(String s) {
+		jLink.setText(s);
+	}
 
-	public void setDeleted(boolean b) {
-		jDeleted.setSelected(b);
+	public void setInactive(Boolean b) {
+		jInactive.setSelected(b);
 	}
 
 	public void setComment(String s) {
@@ -197,7 +195,8 @@ public class JTeamPanel extends JAbstractEntityPanel {
 		jSport.clear();
 		jCountry.clear();
 		jConference.setText("");
-		jDeleted.setSelected(false);
+		jLink.setText("");
+		jInactive.setSelected(false);
 		jDivision.setText("");
 		jComment.setText("");
 		jYear1.setText("");

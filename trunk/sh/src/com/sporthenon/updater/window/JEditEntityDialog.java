@@ -86,10 +86,9 @@ public class JEditEntityDialog extends JDialog implements ActionListener {
 		p.focus();
 		if (p instanceof JAthletePanel)
 			SwingUtils.selectValue(((JAthletePanel)p).getSport(), JResultsPanel.getIdSport());
-		else if (p instanceof JTeamPanel) {
+		else if (p instanceof JTeamPanel)
 			SwingUtils.selectValue(((JTeamPanel)p).getSport(), JResultsPanel.getIdSport());
-			((JTeamPanel)p).setDeleted(false);
-		}
+//((JTeamPanel)p).setInactive(false);
 //		int width = p.getPreferredSize().width + 30;
 //		int height = p.getPreferredSize().height + 110;
 //		this.setSize(new Dimension(width, height));
