@@ -1,12 +1,16 @@
-+-------------------------------------------------------------------+
-| Sporthenon Change Log                                             |
-| Last Version: 0.4.0                                               |
-+-------------------------------------------------------------------+
++-----------------------+
+| Sporthenon Change Log |
+| Last Version: 0.4.0   |
++-----------------------+
 
 +-------+
 | 0.4.0 |
 +-------+
-0.4 - comment a ameliorer (nouveau champ "exa" : gestoin tie)
+o Web
+
+o Swing application
+	- Comments management improved with specific column for ties
+
 0.4 - optimisation affichage tableaux olympics
 updater request event/champ not used + gestion missing images remote par servlet
 records US : both
@@ -16,6 +20,7 @@ hall fame remplacer deceased par position
 retired number ajouter annee
 equipe supp code
 sitemap
+team parent = link comme athlete + inactive
 
 +-------+
 | 0.3.0 |

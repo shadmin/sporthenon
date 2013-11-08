@@ -21,7 +21,7 @@ public abstract class JAbstractEntityPanel extends JPanel implements ActionListe
 
 	private static final long serialVersionUID = 1L;
 	
-	protected static final int LINE_HEIGHT = 21;
+	protected static final int LINE_HEIGHT = 20;
 	protected static final int LINE_SPACING = 3;
 	protected static final int LABEL_ALIGNMENT = JLabel.LEFT;
 	protected static final Dimension TEXT_SIZE = new Dimension(0, 21);

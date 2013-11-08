@@ -71,7 +71,7 @@ public class JEventPanel extends JAbstractEntityPanel {
         
         //Inactive
         JLabel lInactive = new JLabel(" Inactive:");
-        lIndex.setHorizontalAlignment(LABEL_ALIGNMENT);
+        lInactive.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lInactive);
         jInactive = new JCheckBox();
         gridPanel.add(jInactive);

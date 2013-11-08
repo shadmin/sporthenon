@@ -50,7 +50,7 @@
 		</ul>
 	</div>
 	<div id="links">
-		<a target="_blank" title="Google Code" href="https://code.google.com/p/sporthenon/"><img src="img/header/gcode.png" alt="Google Code" /></a>&nbsp;
+		<a target="_blank" title="Sporthenon on Google Code" href="https://code.google.com/p/sporthenon/"><img src="img/header/gcode.png" alt="Google Code" /></a>&nbsp;
 		<a target="_blank" title="Valid XHTML 1.0" href="http://validator.w3.org/check?uri=referer"><img src="img/header/validxhtml10.png" alt="Valid XHTML 1.0"/></a><br/>
 		&copy;2011-13 (sporthenon.com)<br/>
 		<div id="version">Version&nbsp;<%=ConfigUtils.getProperty("version")%></div>
