@@ -1,7 +1,9 @@
-0.5 faciliter affichage link athlete + team (voir label)
+gerer affichage link team 0
+raccourcis clavier updater
+statistics (nombre requetes par type)
+gestion export multi tableaux (INFO REF)
+last update [+] More
 android init
-references result ==> gestion EX--
-bug export - gerer fusion cellules - XLS TXT
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

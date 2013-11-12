@@ -22,8 +22,44 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class ExportUtils {
+	
+	protected static class MergedCell {
+		private int row;
+		private int cell;
+		private int span;
+		
+		protected MergedCell(int row, int cell, int span) {
+			this.row = row;
+			this.cell = cell;
+			this.span = span;
+		}
+		
+		protected int getRow() {
+			return row;
+		}
+		protected int getCell() {
+			return cell;
+		}
+		protected int getSpan() {
+			return span;
+		}
+		protected void setRow(int row) {
+			this.row = row;
+		}
+		protected void setCell(int cell) {
+			this.cell = cell;
+		}
+		protected void setSpan(int span) {
+			this.span = span;
+		}
 
-	private static void buildExcel(OutputStream out, String title, Collection<String> cHeader, Collection<ArrayList<String>> cContent, List<Integer> lMerge , boolean[] tBold) throws Exception {
+		@Override
+		public String toString() {
+			return "MergedCell [row=" + row + ", cell=" + cell + ", span=" + span + "]";
+		}
+	}
+
+	private static void buildExcel(OutputStream out, String title, Collection<String> cHeader, Collection<ArrayList<String>> cContent, List<MergedCell> lMerge , boolean[] tBold) throws Exception {
 		HSSFWorkbook hwb = new HSSFWorkbook();
 		HSSFSheet sheet = null;
 		HSSFRow row = null;
@@ -96,13 +132,8 @@ public class ExportUtils {
 		for (int j = 1 ; j <= cHeader.size() ; j++)
 			sheet.autoSizeColumn(j - 1);
 		// Merging
-		int index = 0;
-		for (int i_ = 0 ; i_ < lMerge.size() ; i_++) {
-			Integer m = lMerge.get(i_);
-			if (m != null && m > 1)
-				sheet.addMergedRegion(new CellRangeAddress(0, 0, index, index + m - 1));
-			index += m;
-		}
+		for (MergedCell mc : lMerge)
+			sheet.addMergedRegion(new CellRangeAddress(mc.getRow(), mc.getRow(), mc.getCell(), mc.getCell() + mc.getSpan() - 1));
 		hwb.write(out);
 	}
 	
@@ -157,7 +188,7 @@ public class ExportUtils {
 	}
 
 	public static void toExcelOrText(OutputStream out, Document doc, boolean isExcel) throws Exception {
-		ArrayList<Integer> lMerge = new ArrayList<Integer>();
+		ArrayList<MergedCell> lMerge = new ArrayList<MergedCell>();
 		ArrayList<String> lHeader = new ArrayList<String>();
 		ArrayList<ArrayList<String>> lContent = new ArrayList<ArrayList<String>>();
 		Element title = doc.getElementsByAttributeValue("class", "shorttitle").first();
@@ -166,29 +197,48 @@ public class ExportUtils {
 			Element thead = table.getElementsByTag("thead").get(0);
 			Element tbody = thead.nextElementSibling();
 			Element th = thead.getElementsByTag("th").get(0);
+			int cell = 0;
 			while(th != null) {
-				Integer cs = (StringUtils.notEmpty(th.attr("colspan")) ? new Integer(th.attr("colspan")) : 1);
+				Integer span = (StringUtils.notEmpty(th.attr("colspan")) ? new Integer(th.attr("colspan")) : 1);
 				lHeader.add(th.text());
-				lMerge.add(cs);
-				if (cs != null && cs > 1) {
-					cs--;
-					while (cs > 0) {
+				if (span > 1) {
+					lMerge.add(new MergedCell(0, cell, span));
+					cell += span;
+					span--;
+					while (span > 0) {
 						lHeader.add("");
-						cs--;
+						span--;
 					}
 				}
+				else
+					cell++;
 				th = th.nextElementSibling();
 			}
 			Element tr = tbody.getElementsByTag("tr").get(0);
+			int row = 1;
 			while(tr != null) {
 				ArrayList<String> lContent_ = new ArrayList<String>();
 				Element td = tr.getElementsByTag("td").get(0);
+				cell = 0;
 				while (td != null) {
+					Integer span = (StringUtils.notEmpty(td.attr("colspan")) ? new Integer(td.attr("colspan")) : 1);
 					lContent_.add(td.text());
+					if (span > 1) {
+						lMerge.add(new MergedCell(row, cell, span));
+						cell += span;
+						span--;
+						while (span > 0) {
+							lContent_.add("");
+							span--;
+						}
+					}
+					else
+						cell++;
 					td = td.nextElementSibling();
 				}
 				lContent.add(lContent_);
 				tr = tr.nextElementSibling();
+				row++;
 			}
 		}
 		if (isExcel)
@@ -199,7 +249,10 @@ public class ExportUtils {
 
 	public static void export(HttpServletResponse response, StringBuffer html, String format) throws Exception {
 		try {
-			Document doc = Jsoup.parse(html.toString().replaceAll("&nbsp;", " "));
+			String html_ = html.toString();
+			if (format.matches("excel|text"))
+				html_ = html_.replaceAll("&nbsp;", " ").replaceAll("<br/>", "&nbsp;/&nbsp;");
+			Document doc = Jsoup.parse(html_);
 			Element title = doc.getElementsByAttributeValue("class", "shorttitle").first();
 			response.setCharacterEncoding("utf-8");
 			if (format.equalsIgnoreCase("html")) {

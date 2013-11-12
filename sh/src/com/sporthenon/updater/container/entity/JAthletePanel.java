@@ -19,6 +19,7 @@ public class JAthletePanel extends JAbstractEntityPanel {
 	public JEntityPicklist jSport;
 	public JEntityPicklist jTeam;
 	public JEntityPicklist jCountry;
+	public JLabel lLink;
 	public JTextField jLink;
 
 	public JAthletePanel() {
@@ -65,7 +66,7 @@ public class JAthletePanel extends JAbstractEntityPanel {
 		gridPanel.add(jCountry);
 
 		//Link
-		JLabel lLink = new JLabel(" Link:");
+		lLink = new JLabel(" Link:");
 		lLink.setHorizontalAlignment(LABEL_ALIGNMENT);
 		gridPanel.add(lLink);
 		jLink = new JTextField();
@@ -119,6 +120,10 @@ public class JAthletePanel extends JAbstractEntityPanel {
 
 	public void setLink(String s) {
 		jLink.setText(s);
+	}
+	
+	public void setLinkLabel(String s) {
+		lLink.setText(s);
 	}
 
 	public void clear() {

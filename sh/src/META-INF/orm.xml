@@ -65,7 +65,7 @@
 		GET_TEAM_STADIUM(integer, text, varchar, varchar)
 	-->
 	<named-native-query name="GetTeamStadium" result-class="com.sporthenon.db.function.TeamStadiumBean">  
-		<query>{? = call "GET_TEAM_STADIUM"(?, ?, ?, ?)}</query>
+		<query>{? = call "GET_TEAM_STADIUM"(?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	

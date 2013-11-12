@@ -19,7 +19,6 @@ import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.PicklistBean;
 import com.sporthenon.db.entity.Olympics;
 import com.sporthenon.db.entity.Team;
-import com.sporthenon.updater.container.tab.JDataPanel;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
@@ -79,7 +78,7 @@ public class ImageServlet extends AbstractServlet {
 						label = "concat(concat(year.label, ' - '), city.label)";
 					else if (entity_.equalsIgnoreCase(Team.alias))
 						label = "concat(concat(label, ' - '), sport.label)";
-					Collection<PicklistBean> lst = DatabaseHelper.getEntityPicklist(JDataPanel.getClassFromAlias(entity_), label, null);
+					Collection<PicklistBean> lst = DatabaseHelper.getEntityPicklist(DatabaseHelper.getClassFromAlias(entity_), label, null);
 					int n = 0;
 					for (PicklistBean o : lst) {
 						String ext = (entity_.toUpperCase().matches("CP|EV|OL|SP|TM") ? ".png" : ".gif");

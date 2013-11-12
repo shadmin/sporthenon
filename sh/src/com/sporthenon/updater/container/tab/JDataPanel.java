@@ -31,17 +31,14 @@ import com.sporthenon.db.entity.Complex;
 import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.HallOfFame;
-import com.sporthenon.db.entity.League;
 import com.sporthenon.db.entity.OlympicRanking;
 import com.sporthenon.db.entity.Olympics;
 import com.sporthenon.db.entity.Record;
-import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.RetiredNumber;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
-import com.sporthenon.db.entity.Type;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.updater.component.JCustomButton;
@@ -206,7 +203,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 				hLocs.put("previous", DatabaseHelper.PREVIOUS);
 				hLocs.put("next", DatabaseHelper.NEXT);
 				hLocs.put("last", DatabaseHelper.LAST);
-				Class c = getClassFromAlias(alias);
+				Class c = DatabaseHelper.getClassFromAlias(alias);
 				Object data = DatabaseHelper.move(c, currentId, hLocs.get(e.getActionCommand()));
 				if (data != null) {
 					currentId = String.valueOf(c.getMethod("getId").invoke(data, new Object[0]));
@@ -222,7 +219,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 				JFindEntityDialog dlg = JMainFrame.getFindDialog();
 				dlg.open(alias, null);
 				if (dlg.getSelectedItem() != null) {
-					Class c = getClassFromAlias(alias);
+					Class c = DatabaseHelper.getClassFromAlias(alias);
 					Object data = DatabaseHelper.loadEntity(c, dlg.getSelectedItem().getValue());
 					currentId = String.valueOf(c.getMethod("getId").invoke(data, new Object[0]));
 					load(data);
@@ -268,7 +265,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			String msg = null;
 			boolean err = false;
 			try {
-				DatabaseHelper.removeEntity(DatabaseHelper.loadEntity(getClassFromAlias(alias), id));
+				DatabaseHelper.removeEntity(DatabaseHelper.loadEntity(DatabaseHelper.getClassFromAlias(alias), id));
 				msg = "Object #" + id + " has been successfully removed.";
 				actionPerformed(new ActionEvent(this, 0, "previous"));
 			}
@@ -286,7 +283,27 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 	private void load(Object o) {
 		JAbstractEntityPanel panel = JMainFrame.getEntityPanels().get(alias);
 		panel.setId(currentId);
-		if (o instanceof Championship) {
+		if (o instanceof Athlete) {
+			Athlete pr = (Athlete) o;
+			JAthletePanel p = (JAthletePanel) panel;
+			p.setTeam(pr.getTeam() != null ? pr.getTeam().getId() : null);
+			p.setCountry(pr.getCountry() != null ? pr.getCountry().getId() : null);
+			p.setSport(pr.getSport() != null ? pr.getSport().getId() : null);
+			p.setLink(pr.getLink() != null ? String.valueOf(pr.getLink()) : null);
+			p.setLastName(pr.getLastName());
+			p.setFirstName(StringUtils.notEmpty(pr.getFirstName()) ? pr.getFirstName() : "");
+			p.setLinkLabel("Link:");
+			if (pr.getLink() != null && pr.getLink() > 0) {
+				try {
+					Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, pr.getLink());
+					p.setLinkLabel("Link: [" + a.getLastName() + (StringUtils.notEmpty(a.getFirstName()) ? ", " + a.getFirstName() : "") + (a.getCountry() != null ? ", " + a.getCountry().getCode() : "") + (a.getTeam() != null ? ", " + a.getTeam().getLabel() : "") + "]");
+				}
+				catch (Exception e) {
+					Logger.getLogger("sh").error(e.getMessage());
+				}
+			}
+		}
+		else if (o instanceof Championship) {
 			Championship cp = (Championship) o;
 			JChampionshipPanel p = (JChampionshipPanel) panel;
 			p.setLabel(cp.getLabel());
@@ -337,16 +354,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setCountries(String.valueOf(ol.getCountCountry()));
 			p.setPersons(String.valueOf(ol.getCountPerson()));
 		}
-		else if (o instanceof Athlete) {
-			Athlete pr = (Athlete) o;
-			JAthletePanel p = (JAthletePanel) panel;
-			p.setTeam(pr.getTeam() != null ? pr.getTeam().getId() : null);
-			p.setCountry(pr.getCountry() != null ? pr.getCountry().getId() : null);
-			p.setSport(pr.getSport() != null ? pr.getSport().getId() : null);
-			p.setLink(pr.getLink() != null ? String.valueOf(pr.getLink()) : null);
-			p.setLastName(pr.getLastName());
-			p.setFirstName(StringUtils.notEmpty(pr.getFirstName()) ? pr.getFirstName() : "");
-		}
 		else if (o instanceof Sport) {
 			Sport sp = (Sport) o;
 			JSportPanel p = (JSportPanel) panel;
@@ -374,6 +381,16 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setComment(StringUtils.notEmpty(tm.getComment()) ? tm.getComment() : "");
 			p.setLink(tm.getLink() != null ? String.valueOf(tm.getLink()) : null);
 			p.setInactive(tm.getInactive());
+			p.setLinkLabel("Link:");
+			if (tm.getLink() != null && tm.getLink() > 0) {
+				try {
+					Team a = (Team) DatabaseHelper.loadEntity(Team.class, tm.getLink());
+					p.setLinkLabel("Link: [" + a.getLabel() + "]");
+				}
+				catch (Exception e) {
+					Logger.getLogger("sh").error(e.getMessage());
+				}
+			}
 		}
 		else if (o instanceof Year) {
 			Year yr = (Year) o;
@@ -503,29 +520,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		((CardLayout) jContainer.getLayout()).show(jContainer, alias);
 		jScrollPane.getVerticalScrollBar().setValue(jScrollPane.getVerticalScrollBar().getMinimum());
 		actionPerformed(new ActionEvent(this, 0, "last"));
-	}
-	
-	public static Class getClassFromAlias(String alias) {
-		return (alias.equalsIgnoreCase(Championship.alias) ? Championship.class :
-			   (alias.equalsIgnoreCase(City.alias) ? City.class :
-			   (alias.equalsIgnoreCase(Complex.alias) ? Complex.class :
-			   (alias.equalsIgnoreCase(Country.alias) ? Country.class : 
-			   (alias.equalsIgnoreCase(Event.alias) ? Event.class : 
-	           (alias.equalsIgnoreCase(HallOfFame.alias) ? HallOfFame.class : 
-		       (alias.equalsIgnoreCase(League.alias) ? League.class : 
-			   (alias.equalsIgnoreCase(OlympicRanking.alias) ? OlympicRanking.class :
-			   (alias.equalsIgnoreCase(Olympics.alias) ? Olympics.class :
-			   (alias.equalsIgnoreCase(Athlete.alias) ? Athlete.class :
-			   (alias.equalsIgnoreCase(Record.alias) ? Record.class : 
-			   (alias.equalsIgnoreCase(Result.alias) ? Result.class :
-			   (alias.equalsIgnoreCase(RetiredNumber.alias) ? RetiredNumber.class :
-			   (alias.equalsIgnoreCase(Sport.alias) ? Sport.class :
-			   (alias.equalsIgnoreCase(State.alias) ? State.class :
-			   (alias.equalsIgnoreCase(Team.alias) ? Team.class : 
-			   (alias.equalsIgnoreCase(TeamStadium.alias) ? TeamStadium.class : 
-			   (alias.equalsIgnoreCase(Type.alias) ? Type.class : 
-			   (alias.equalsIgnoreCase(WinLoss.alias) ? WinLoss.class : 
-			   (alias.equalsIgnoreCase(Year.alias) ? Year.class : null))))))))))))))))))));
 	}
 	
 }

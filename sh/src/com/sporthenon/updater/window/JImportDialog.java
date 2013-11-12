@@ -501,10 +501,10 @@ public class JImportDialog extends JDialog implements ActionListener {
 				rs.setYear((Year)DatabaseHelper.loadEntity(Year.class, idYr));
 				rs.setComplex((Complex)DatabaseHelper.loadEntity(Complex.class, idCx));
 				rs.setCity((City)DatabaseHelper.loadEntity(City.class, idCt));
-				rs.setDate1(StringUtils.notEmpty(dt1) ? dt1 : "");
-				rs.setDate2(StringUtils.notEmpty(dt2) ? dt2 : "");
-				rs.setComment(StringUtils.notEmpty(cmt) ? cmt : "");
-				rs.setExa(StringUtils.notEmpty(exa) ? exa : "");
+				rs.setDate1(StringUtils.notEmpty(dt1) ? dt1 : null);
+				rs.setDate2(StringUtils.notEmpty(dt2) ? dt2 : null);
+				rs.setComment(StringUtils.notEmpty(cmt) ? cmt : null);
+				rs.setExa(StringUtils.notEmpty(exa) ? exa : null);
 				rs.setIdRank1(idRk1);
 				rs.setIdRank2(idRk2);
 				rs.setIdRank3(idRk3);

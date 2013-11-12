@@ -16,6 +16,26 @@ import javax.transaction.UserTransaction;
 
 import org.apache.log4j.Logger;
 
+import com.sporthenon.db.entity.Athlete;
+import com.sporthenon.db.entity.Championship;
+import com.sporthenon.db.entity.City;
+import com.sporthenon.db.entity.Complex;
+import com.sporthenon.db.entity.Country;
+import com.sporthenon.db.entity.Event;
+import com.sporthenon.db.entity.HallOfFame;
+import com.sporthenon.db.entity.League;
+import com.sporthenon.db.entity.OlympicRanking;
+import com.sporthenon.db.entity.Olympics;
+import com.sporthenon.db.entity.Record;
+import com.sporthenon.db.entity.Result;
+import com.sporthenon.db.entity.RetiredNumber;
+import com.sporthenon.db.entity.Sport;
+import com.sporthenon.db.entity.State;
+import com.sporthenon.db.entity.Team;
+import com.sporthenon.db.entity.TeamStadium;
+import com.sporthenon.db.entity.Type;
+import com.sporthenon.db.entity.WinLoss;
+import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Member;
 import com.sporthenon.db.entity.meta.Metadata;
 import com.sporthenon.utils.ConfigUtils;
@@ -288,6 +308,29 @@ public class DatabaseHelper {
 				tr.rollback();
 			throw e;
 		}
+	}
+	
+	public static Class getClassFromAlias(String alias) {
+		return (alias.equalsIgnoreCase(Championship.alias) ? Championship.class :
+			   (alias.equalsIgnoreCase(City.alias) ? City.class :
+			   (alias.equalsIgnoreCase(Complex.alias) ? Complex.class :
+			   (alias.equalsIgnoreCase(Country.alias) ? Country.class : 
+			   (alias.equalsIgnoreCase(Event.alias) ? Event.class : 
+	           (alias.equalsIgnoreCase(HallOfFame.alias) ? HallOfFame.class : 
+		       (alias.equalsIgnoreCase(League.alias) ? League.class : 
+			   (alias.equalsIgnoreCase(OlympicRanking.alias) ? OlympicRanking.class :
+			   (alias.equalsIgnoreCase(Olympics.alias) ? Olympics.class :
+			   (alias.equalsIgnoreCase(Athlete.alias) ? Athlete.class :
+			   (alias.equalsIgnoreCase(Record.alias) ? Record.class : 
+			   (alias.equalsIgnoreCase(Result.alias) ? Result.class :
+			   (alias.equalsIgnoreCase(RetiredNumber.alias) ? RetiredNumber.class :
+			   (alias.equalsIgnoreCase(Sport.alias) ? Sport.class :
+			   (alias.equalsIgnoreCase(State.alias) ? State.class :
+			   (alias.equalsIgnoreCase(Team.alias) ? Team.class : 
+			   (alias.equalsIgnoreCase(TeamStadium.alias) ? TeamStadium.class : 
+			   (alias.equalsIgnoreCase(Type.alias) ? Type.class : 
+			   (alias.equalsIgnoreCase(WinLoss.alias) ? WinLoss.class : 
+			   (alias.equalsIgnoreCase(Year.alias) ? Year.class : null))))))))))))))))))));
 	}
 
 }
