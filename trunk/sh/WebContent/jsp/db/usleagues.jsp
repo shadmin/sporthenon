@@ -104,15 +104,9 @@
 					<td><label for="teamstadium">&nbsp;Team Stadiums</label></td></tr></table>
 				</div>
 				<div id="teamstadium-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
-				<table>
+				<table style="margin-top:15px;">
 					<tr><td>Team:</td>
 					<td><div id="sm-pl-teamstadium-tm" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
-				</table>
-				<table>
-					<tr><td>From:</td>
-					<td class="text"><input type="text" name="teamstadium-from" id="teamstadium-from"></input></td>
-					<td>&nbsp;To:</td>
-					<td class="text"><input type="text" name="teamstadium-to" id="teamstadium-to"></input></td></tr>
 				</table>
 			</div></td>
 		</tr>

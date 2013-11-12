@@ -815,8 +815,6 @@ function runUSLeagues() {
 	h.set('ev', $('pl-' + type + '-ev') ? $F('pl-' + type + '-ev') : null);
 	h.set('tp', $('pl-' + type + '-tp') ? $F('pl-' + type + '-tp') : null);
 	h.set('num', $F('retnum-number'));
-	h.set('dt1', $F('teamstadium-from'));
-	h.set('dt2', $F('teamstadium-to'));
 	addOptions(h);
 	new Ajax.Updater(tab, 'USLeaguesServlet?run', {
 		parameters: h,

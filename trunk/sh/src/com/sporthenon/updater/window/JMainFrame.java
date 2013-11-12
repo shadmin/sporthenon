@@ -276,10 +276,30 @@ public class JMainFrame extends JFrame {
 	}
 
 	public static PicklistBean saveEntity(String alias, Integer id) throws Exception {
-		Class c = JDataPanel.getClassFromAlias(alias);
+		Class c = DatabaseHelper.getClassFromAlias(alias);
 		Object o = (id != null ? DatabaseHelper.loadEntity(c, id) : c.newInstance());
 		PicklistBean plb = new PicklistBean();
-		if (alias.equalsIgnoreCase(Championship.alias)) {
+		if (alias.equalsIgnoreCase(Athlete.alias)) {
+			JAthletePanel p = (JAthletePanel) jEntityPanels.get(alias);
+			Athlete en = (Athlete) o;
+			en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, SwingUtils.getValue(p.getSport())));
+			en.setTeam((Team)DatabaseHelper.loadEntity(Team.class, SwingUtils.getValue(p.getTeam())));
+			en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
+			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
+			en.setLastName(p.getLastName().getText());
+			en.setFirstName(p.getFirstName().getText());
+			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLastName() + ", " + en.getFirstName() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : "") + (en.getTeam() != null ? " [" + en.getTeam().getLabel() + "]" : ""));
+			if (en.getLink() != null && en.getLink() > 0) {
+				try {
+					Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, en.getLink());
+					p.setLinkLabel("Link: [" + a.getLastName() + (StringUtils.notEmpty(a.getFirstName()) ? ", " + a.getFirstName() : "") + (a.getCountry() != null ? ", " + a.getCountry().getCode() : "") + (a.getTeam() != null ? ", " + a.getTeam().getLabel() : "") + "]");
+				}
+				catch (Exception e) {
+					Logger.getLogger("sh").error(e.getMessage());
+				}
+			}
+		}
+		else if (alias.equalsIgnoreCase(Championship.alias)) {
 			JChampionshipPanel p = (JChampionshipPanel) jEntityPanels.get(alias);
 			Championship en = (Championship) o;
 			en.setLabel(p.getLabel().getText());
@@ -336,17 +356,6 @@ public class JMainFrame extends JFrame {
 			en.setDate2(p.getEnd().getText());
 			plb.setText(en.getYear().getLabel() + " - " + en.getCity().getLabel());
 		}
-		else if (alias.equalsIgnoreCase(Athlete.alias)) {
-			JAthletePanel p = (JAthletePanel) jEntityPanels.get(alias);
-			Athlete en = (Athlete) o;
-			en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, SwingUtils.getValue(p.getSport())));
-			en.setTeam((Team)DatabaseHelper.loadEntity(Team.class, SwingUtils.getValue(p.getTeam())));
-			en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
-			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
-			en.setLastName(p.getLastName().getText());
-			en.setFirstName(p.getFirstName().getText());
-			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLastName() + ", " + en.getFirstName() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : "") + (en.getTeam() != null ? " [" + en.getTeam().getLabel() + "]" : ""));
-		}
 		else if (alias.equalsIgnoreCase(Sport.alias)) {
 			JSportPanel p = (JSportPanel) jEntityPanels.get(alias);
 			Sport en = (Sport) o;
@@ -377,6 +386,15 @@ public class JMainFrame extends JFrame {
 			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
 			en.setInactive(p.getInactive().isSelected());
 			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLabel() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : ""));
+			if (en.getLink() != null && en.getLink() > 0) {
+				try {
+					Team a = (Team) DatabaseHelper.loadEntity(Team.class, en.getLink());
+					p.setLinkLabel("Link: [" + a.getLabel() + "]");
+				}
+				catch (Exception e) {
+					Logger.getLogger("sh").error(e.getMessage());
+				}
+			}
 		}
 		else if (alias.equalsIgnoreCase(Year.alias)) {
 			JYearPanel p = (JYearPanel) jEntityPanels.get(alias);

@@ -22,6 +22,7 @@ public class JTeamPanel extends JAbstractEntityPanel {
 	public JTextField jComment;
 	public JTextField jYear1;
 	public JTextField jYear2;
+	public JLabel lLink;
 	public JTextField jLink;
 	public JCheckBox jInactive;
 	
@@ -62,7 +63,7 @@ public class JTeamPanel extends JAbstractEntityPanel {
         gridPanel.add(jComment);
         
 		//Link
-		JLabel lLink = new JLabel(" Link:");
+        lLink = new JLabel(" Link:");
 		lLink.setHorizontalAlignment(LABEL_ALIGNMENT);
 		gridPanel.add(lLink);
 		jLink = new JTextField();
@@ -171,6 +172,10 @@ public class JTeamPanel extends JAbstractEntityPanel {
 	
 	public void setLink(String s) {
 		jLink.setText(s);
+	}
+	
+	public void setLinkLabel(String s) {
+		lLink.setText(s);
 	}
 
 	public void setInactive(Boolean b) {

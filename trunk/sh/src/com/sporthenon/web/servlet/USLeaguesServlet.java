@@ -79,8 +79,6 @@ public class USLeaguesServlet extends AbstractServlet {
 					}
 					else if (t[0].equals(TYPE_TEAMSTADIUM)) {
 						hParams.put("tm", t[2]);
-						hParams.put("dt1", t[3]);
-						hParams.put("dt2", t[4]);
 					}
 					else if (t[0].equals(TYPE_WINLOSS)) {
 						hParams.put("tm", t[2]);
@@ -112,8 +110,6 @@ public class USLeaguesServlet extends AbstractServlet {
 				}
 				else if (type.equals(TYPE_TEAMSTADIUM)) {
 					lFuncParams.add(teams);
-					lFuncParams.add(String.valueOf(hParams.get("dt1")));
-					lFuncParams.add(String.valueOf(hParams.get("dt2")));
 					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_TEAMSTADIUM, lFuncParams, opts);
 					html.append(HtmlConverter.convertTeamStadium(DatabaseHelper.call("GetTeamStadium", lFuncParams), opts));
 				}

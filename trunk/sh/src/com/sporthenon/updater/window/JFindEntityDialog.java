@@ -37,7 +37,6 @@ import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.updater.component.JDialogButtonBar;
 import com.sporthenon.updater.component.JEntityPicklist;
-import com.sporthenon.updater.container.tab.JDataPanel;
 import com.sporthenon.utils.StringUtils;
 
 
@@ -120,7 +119,7 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 					}
 				}
 				else {
-					Class c = JDataPanel.getClassFromAlias(alias);
+					Class c = DatabaseHelper.getClassFromAlias(alias);
 					String label = null;
 					if (c.equals(City.class))
 						label = "label || ', ' || country.code";

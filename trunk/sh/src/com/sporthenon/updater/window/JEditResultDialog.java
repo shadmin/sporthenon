@@ -277,10 +277,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 				rs.setYear((Year)DatabaseHelper.loadEntity(Year.class, SwingUtils.getValue(jYear)));
 				rs.setCity((City)DatabaseHelper.loadEntity(City.class, SwingUtils.getValue(jCity)));
 				rs.setComplex((Complex)DatabaseHelper.loadEntity(Complex.class, SwingUtils.getValue(jComplex)));
-				rs.setDate1(StringUtils.notEmpty(jDate1.getText()) ? jDate1.getText() : "");
-				rs.setDate2(StringUtils.notEmpty(jDate2.getText()) ? jDate2.getText() : "");
-				rs.setComment(StringUtils.notEmpty(jComment.getText()) ? jComment.getText() : "");
-				rs.setExa(StringUtils.notEmpty(jExa.getText()) ? jExa.getText() : "");
+				rs.setDate1(StringUtils.notEmpty(jDate1.getText()) ? jDate1.getText() : null);
+				rs.setDate2(StringUtils.notEmpty(jDate2.getText()) ? jDate2.getText() : null);
+				rs.setComment(StringUtils.notEmpty(jComment.getText()) ? jComment.getText() : null);
+				rs.setExa(StringUtils.notEmpty(jExa.getText()) ? jExa.getText() : null);
 				for (int i = 0 ; i < jRanks.length ; i++) {
 					Integer id = SwingUtils.getValue(jRanks[i]);
 					Result.class.getMethod("setIdRank" + (i + 1), Integer.class).invoke(rs, id > 0 ? id : null);

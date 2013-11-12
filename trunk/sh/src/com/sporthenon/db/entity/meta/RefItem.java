@@ -54,6 +54,9 @@ public class RefItem  {
 	@Column(name = "id_rel10")
 	private Integer idRel10;
 	
+	@Column(name = "id_rel11")
+	private Integer idRel11;
+	
 	@Column(name = "link")
 	private Integer link;
 	
@@ -86,6 +89,9 @@ public class RefItem  {
 	
 	@Column(name = "label_rel10", length = 50)
 	private String labelRel10;
+	
+	@Column(name = "label_rel11", length = 50)
+	private String labelRel11;
 	
 	@Column(name = "txt1", length = 40)
 	private String txt1;
@@ -348,6 +354,22 @@ public class RefItem  {
 
 	public void setTxt4(String txt4) {
 		this.txt4 = txt4;
+	}
+
+	public Integer getIdRel11() {
+		return idRel11;
+	}
+
+	public String getLabelRel11() {
+		return labelRel11;
+	}
+
+	public void setIdRel11(Integer idRel11) {
+		this.idRel11 = idRel11;
+	}
+
+	public void setLabelRel11(String labelRel11) {
+		this.labelRel11 = labelRel11;
 	}
 
 	@Override

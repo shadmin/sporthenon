@@ -217,7 +217,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 				hLocs.put("previous", DatabaseHelper.PREVIOUS);
 				hLocs.put("next", DatabaseHelper.NEXT);
 				hLocs.put("last", DatabaseHelper.LAST);
-				Class c = JDataPanel.getClassFromAlias(alias);
+				Class c = DatabaseHelper.getClassFromAlias(alias);
 				data = DatabaseHelper.move(c, currentId, hLocs.get(e.getActionCommand()));
 				if (data != null) {
 					currentId = String.valueOf(c.getMethod("getId").invoke(data, new Object[0]));
@@ -229,7 +229,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 				JFindEntityDialog dlg = JMainFrame.getFindDialog();
 				dlg.open(alias, null);
 				if (dlg.getSelectedItem() != null) {
-					Class c = JDataPanel.getClassFromAlias(alias);
+					Class c = DatabaseHelper.getClassFromAlias(alias);
 					data = DatabaseHelper.loadEntity(c, dlg.getSelectedItem().getValue());
 					currentId = String.valueOf(c.getMethod("getId").invoke(data, new Object[0]));
 					loadImage(alias, currentId);
