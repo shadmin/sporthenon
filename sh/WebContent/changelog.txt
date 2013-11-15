@@ -9,6 +9,11 @@
 0.5 faciliter affichage link athlete + team (voir label)
 0.5 references result ==> gestion EX--
 bug export - gerer fusion cellules - XLS TXT
+updater link athlete/team : mise 0 automatique source link 
+gerer affichage link team 0 + link athlete multi sport
+last update [+] More
+gestion export multi tableaux (INFO REF)
+raccourcis clavier updater
 
 +-------+
 | 0.4.0 |

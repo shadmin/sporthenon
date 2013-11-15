@@ -293,6 +293,7 @@ public class JMainFrame extends JFrame {
 				try {
 					Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, en.getLink());
 					p.setLinkLabel("Link: [" + a.getLastName() + (StringUtils.notEmpty(a.getFirstName()) ? ", " + a.getFirstName() : "") + (a.getCountry() != null ? ", " + a.getCountry().getCode() : "") + (a.getTeam() != null ? ", " + a.getTeam().getLabel() : "") + "]");
+					DatabaseHelper.executeUpdate("UPDATE \"PERSON\" SET LINK=0 WHERE ID=" + en.getLink());
 				}
 				catch (Exception e) {
 					Logger.getLogger("sh").error(e.getMessage());
@@ -390,6 +391,7 @@ public class JMainFrame extends JFrame {
 				try {
 					Team a = (Team) DatabaseHelper.loadEntity(Team.class, en.getLink());
 					p.setLinkLabel("Link: [" + a.getLabel() + "]");
+					DatabaseHelper.executeUpdate("UPDATE \"TEAM\" SET LINK=0 WHERE ID=" + en.getLink());
 				}
 				catch (Exception e) {
 					Logger.getLogger("sh").error(e.getMessage());

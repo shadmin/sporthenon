@@ -1,5 +1,7 @@
 package com.sporthenon.db.function;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -26,6 +28,27 @@ public class LastUpdateBean {
 	@Column(name = "se_label")
 	private String seLabel;
 
+	@Column(name = "rs_update")
+	private Timestamp rsUpdate;
+	
+	@Column(name = "tp1_number")
+	private Integer tp1Number;
+
+	@Column(name = "tp2_number")
+	private Integer tp2Number;
+	
+	@Column(name = "pr_first_name")
+	private String prFirstName;
+	
+	@Column(name = "pr_last_name")
+	private String prLastName;
+	
+	@Column(name = "tm_label")
+	private String tmLabel;
+	
+	@Column(name = "cn_code")
+	private String cnCode;
+	
 	public Integer getRsId() {
 		return rsId;
 	}
@@ -72,6 +95,62 @@ public class LastUpdateBean {
 
 	public void setSeLabel(String seLabel) {
 		this.seLabel = seLabel;
+	}
+
+	public Timestamp getRsUpdate() {
+		return rsUpdate;
+	}
+
+	public Integer getTp1Number() {
+		return tp1Number;
+	}
+
+	public Integer getTp2Number() {
+		return tp2Number;
+	}
+
+	public String getPrFirstName() {
+		return prFirstName;
+	}
+
+	public String getPrLastName() {
+		return prLastName;
+	}
+
+	public String getTmLabel() {
+		return tmLabel;
+	}
+
+	public String getCnCode() {
+		return cnCode;
+	}
+
+	public void setRsUpdate(Timestamp rsUpdate) {
+		this.rsUpdate = rsUpdate;
+	}
+
+	public void setTp1Number(Integer tp1Number) {
+		this.tp1Number = tp1Number;
+	}
+
+	public void setTp2Number(Integer tp2Number) {
+		this.tp2Number = tp2Number;
+	}
+
+	public void setPrFirstName(String prFirstName) {
+		this.prFirstName = prFirstName;
+	}
+
+	public void setPrLastName(String prLastName) {
+		this.prLastName = prLastName;
+	}
+
+	public void setTmLabel(String tmLabel) {
+		this.tmLabel = tmLabel;
+	}
+
+	public void setCnCode(String cnCode) {
+		this.cnCode = cnCode;
 	}
 	
 }

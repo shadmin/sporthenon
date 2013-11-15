@@ -1,8 +1,8 @@
-gerer affichage link team 0
-raccourcis clavier updater
 statistics (nombre requetes par type)
-gestion export multi tableaux (INFO REF)
-last update [+] More
+EXPORT HEADER TABLE
+CHECK RACCOURCIS CLAVIER UPDATER
+-----
+0.6
 android init
 -----
 FETCH ALL FROM "<unnamed portal 1>";

@@ -31,7 +31,8 @@ public class InfoRefServlet extends AbstractServlet {
 			RenderOptions opts = ServletHelper.buildOptions(hParams);
 			String[] params = String.valueOf(hParams.get("p")).split("-");
 			StringBuffer html = new StringBuffer();
-			boolean isLink = (hParams.containsKey("run"));
+			boolean isLink = hParams.containsKey("run");
+			boolean isExport = hParams.containsKey("export");
 			
 			// Info
 			if (params.length == 2)
@@ -43,10 +44,11 @@ public class InfoRefServlet extends AbstractServlet {
 				lFuncParams.add(params[0]);
 				lFuncParams.add(new Integer(params[1]));
 				lFuncParams.add(params.length > 2 ? params[2] : "");
-				html.append(HtmlConverter.getRecordRef(lFuncParams, DatabaseHelper.call("EntityRef", lFuncParams), opts));
+				html.append(HtmlConverter.getRecordRef(lFuncParams, DatabaseHelper.call("EntityRef", lFuncParams), isExport, opts));
 			}
+			
 			if (isLink) {
-				if (hParams.containsKey("export"))
+				if (isExport)
 					ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
 				else
 					ServletHelper.writeLinkHtml(request, response, html);

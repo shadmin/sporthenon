@@ -6,18 +6,17 @@
 		<div class="box">
 			<div class="boxtitle">Database Statistics</div>
 			<img id="img-stat" src="img/db/loading.gif" alt="Loading..."/>
-			<table id="table-stat" style="width:95%;display:none;">
-				<tr><td align="left" style="width:100%;">Sports:</td><td id="count-sport" class="stat"></td></tr>
-				<tr><td align="left">Events:</td><td id="count-event" class="stat"></td></tr>
-				<tr><td align="left">Results:</td><td id="count-result" class="stat"></td></tr>
-				<tr><td align="left">Athletes:</td><td id="count-person" class="stat"></td></tr>
+			<table id="table-stat" style="width:97%;display:none;">
+				<tr><td align="left" style="width:100%;"><img src="img/bullet.gif" alt="-"/>&nbsp;Sports</td><td id="count-sport" class="stat"></td></tr>
+				<tr><td align="left"><img src="img/bullet.gif" alt="-"/>&nbsp;Events</td><td id="count-event" class="stat"></td></tr>
+				<tr><td align="left"><img src="img/bullet.gif" alt="-"/>&nbsp;Results</td><td id="count-result" class="stat"></td></tr>
+				<tr><td align="left" style="padding-bottom:0px;"><img src="img/bullet.gif" alt="-"/>&nbsp;Athletes</td><td id="count-person" class="stat" style="padding-bottom:0px;"></td></tr>
 			</table>
 		</div>
 		<div class="box">
-			<div class="boxtitle">Last Updates</div>
+			<div class="boxtitle"><div class="more"><a href="#" title="More" onclick="displayLastUpdates();">[+]</a></div>Last Updates</div>
 			<img id="img-updates" src="img/db/loading.gif" alt="Loading..."/>
-			<div id="div-updates" style="margin:6px;"></div>
-			<div class="more">&nbsp;<a href="#">[+]&nbsp;More</a></div>
+			<div id="div-updates" class="fscontent" style="margin:6px;"></div>
 		</div>
 	</div>
 	<div class="homecontent">
@@ -54,6 +53,6 @@
 	</div>
 </div>
 <script type="text/javascript">
-	loadHomeData();
+loadHomeData();
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />
