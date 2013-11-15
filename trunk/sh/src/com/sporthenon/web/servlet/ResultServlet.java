@@ -19,7 +19,6 @@ import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.web.RenderOptions;
 
-
 public class ResultServlet extends AbstractServlet {
 
 	private static final long serialVersionUID = 1L;

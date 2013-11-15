@@ -315,9 +315,24 @@ function closeDialog(dlg) {
 	$('header').setStyle({ opacity: 1.0 });
 	$('content').setStyle({ opacity: 1.0 });
 }
+var dLastUpdates = null;
 var dExport = null;
 var dLink = null;
 var dInfo = null;
+function displayLastUpdates() {
+	if (dLastUpdates) {
+		$('header').setStyle({ opacity: 0.4 });
+		$('content').setStyle({ opacity: 0.4 });
+		$('countupdt').value = 20;
+		dLastUpdates.open();
+		refreshLastUpdates();
+	}
+}
+function refreshLastUpdates() {
+	var t = $$('#dupdates table')[0];
+	t.update('<img src="img/db/loading.gif" alt="Loading..."/>');
+	new Ajax.Updater(t, 'HomeServlet?lastupdates=1&count=' + $('countupdt').value, {});
+}
 function displayExport() {
 	if (dExport) {
 		$('header').setStyle({ opacity: 0.4 });
@@ -536,7 +551,7 @@ function loadHomeData() {
 			var root = xml.firstChild;
 			var node = null;
 			var html = null;
-			var bullet = '<img src="img/bullet.gif"/>';
+			var bullet = '<img src="img/bullet.gif"/>&nbsp;';
 			
 			// Statistics
 			var stat = root.getElementsByTagName('stats')[0];
@@ -551,10 +566,8 @@ function loadHomeData() {
 			html = [];
 			for (var i = 0 ; i < updates.childNodes.length ; i++) {
 				node = updates.childNodes[i];
-				html.push(i > 0 ? "<hr/>" : "");
-				html.push(bullet + '&nbsp;<span class="bold">' + node.getAttribute('yr') + ',&nbsp;' + node.getAttribute('sp') + '</span><br/>');
-				html.push(node.getAttribute('cp') + '<br/>');
-				html.push(node.getAttribute('ev') + ' - ' + node.getAttribute('se'));
+				html.push('<table style="margin-top:8px;"><tr><th>' + bullet + node.getAttribute('yr') + '&nbsp;-&nbsp;' + node.getAttribute('sp') + '</th></tr>');
+				html.push('<tr><td>' + node.getAttribute('cp') + '<br/>' + node.getAttribute('ev') + '<br/>' + node.getAttribute('se') + '</td></tr></table>');
 			}
 			$('div-updates').update(html.join(''));
 			$('img-updates').hide();$('div-updates').show();

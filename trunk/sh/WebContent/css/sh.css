@@ -55,17 +55,18 @@ a:focus{
 .fieldset .fscontent{
 	padding: 8px;
 }
-.fieldset .fscontent table{
+.fscontent table{
 	width: 100%;
 	border-collapse: collapse;
 }
-.fieldset .fscontent th, .fieldset .fscontent td{
+.fscontent th, .fscontent td{
+	text-align: left;
 	padding: 3px;
 	border: 1px solid #CCC;
 	border-collapse: collapse;
 	vertical-align: middle;
 }
-.fieldset .fscontent th{
+.fscontent th{
 	font-weight: bold;
 	background-color: #EEE;
 }
@@ -483,7 +484,7 @@ a:focus{
 	background: #FFF;
 }
 #home .boxtitle{
-	background-color: #059;
+	background-color: #668;
 	border: 1px solid gray;
 	color: #FFF;
 	font-weight: bold;
@@ -503,8 +504,10 @@ a:focus{
 	width: 95%;
 }
 #home .box .more{
-	padding-top: 5px;
-	text-align: left;
+	float: right;
+}
+#home .box .more a{
+	color: #FFF;
 }
 #home .stat{
 	text-align: right;
@@ -530,6 +533,9 @@ a:focus{
 }
 .homecontent .news{
 	background-image: url(../img/news.png?1);
+}
+#table-stat td{
+	padding-bottom: 5px;
 }
 /* ========== RESULTS ========== */
 /* ---------- PICKLIST ---------- */
@@ -843,6 +849,10 @@ a:focus{
 .dialog, .dialog input{
 	font: 11px Verdana;
 }
+#d-lastupdates .fstitle{
+	background-color: #DAEEFF;
+	background-image: url(../img/component/button/lastpudates.png?1);
+}
 #d-export .fstitle{
 	background-color: #DAEEFF;
 	background-image: url(../img/component/button/export.png?1);
@@ -874,4 +884,25 @@ a:focus{
 }
 .dialog .dlgbuttons .cancel, .optcontainer .cancel{
 	background-image: url('../img/component/button/cancel.png?1');
+}
+#dupdates{
+	width: 750px;
+	height: 260px;
+	margin-top: 5px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+#ctupdates{
+	width: auto;
+}
+#ctupdates td{
+	border: none;
+	padding: 0px;
+}
+#ctupdates input{
+	border: 1px solid #CCC;
+}
+#ctupdates input.selected{
+	outline: none;
+	border: 1px solid #D00;
 }
