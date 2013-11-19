@@ -13,6 +13,11 @@
 		<servlet-class>com.sporthenon.web.servlet.HomeServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<display-name>ProjectServlet</display-name>
+		<servlet-name>ProjectServlet</servlet-name>
+		<servlet-class>com.sporthenon.web.servlet.ProjectServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<display-name>ImageServlet</display-name>
 		<servlet-name>ImageServlet</servlet-name>
 		<servlet-class>com.sporthenon.web.servlet.ImageServlet</servlet-class>
@@ -68,6 +73,10 @@
 	<servlet-mapping>
 		<servlet-name>InfoRefServlet</servlet-name>
 		<url-pattern>/InfoRefServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ProjectServlet</servlet-name>
+		<url-pattern>/ProjectServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>LoginServlet</servlet-name>

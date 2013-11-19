@@ -2,6 +2,10 @@
 
 <jsp:include page="/jsp/common/header.jsp" />
 
+<script type="text/javascript" src="js/canvas2image.js"></script>
+<script type="text/javascript" src="js/canvastext.js"></script>
+<script type="text/javascript" src="js/flotr.js"></script>
+
 <div class="fieldset">
 <div class="fstitle downloads">DOWNLOADS</div>
 <div class="fscontent">All released files can be downloaded at this address:<br/><a href="https://drive.google.com/?tab=wo&authuser=0#folders/0B4NAK6Vu6lbveXg1QzZDcVNGOWM" target="_blank">https://drive.google.com/?tab=wo&authuser=0#folders/0B4NAK6Vu6lbveXg1QzZDcVNGOWM</a></div>
@@ -19,7 +23,7 @@
 
 <div class="fieldset">
 <div class="fstitle statistics">STATISTICS</div>
-<div class="fscontent">...</div>
+<div class="fscontent"><select id="charts" style="width:250px;margin:2px;" onchange="loadChart();"><option value="0">Number of Requests per Type</option><option value="1">Number of Requests per Sport</option></select><table><tr><td style="vertical-align:top;border:none;width:250px;"><table id="charttxt"></table></td><td style="vertical-align:top;border:none;"><div id="chart"></div></td></tr></table></div>
 </div>
 
 <div class="fieldset">
@@ -41,5 +45,9 @@
 	</table>
 </div>
 </div>
+
+<script type="text/javascript">
+loadChart();
+</script>
 
 <jsp:include page="/jsp/common/footer.jsp" />

@@ -99,28 +99,18 @@ public class ExportUtils {
 		boldStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
 		boldStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
 		boldStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("text"));
-		// Title
-		//		if (title != null) {
-		//			row = sheet.createRow(rowIndex++);
-		//			(cell = row.createCell(0)).setCellValue(title);
-		//			cell.setCellStyle(headerStyle);
-		//		}
-		// Header
-//		if (cHeader != null) {
-//			row = sheet.createRow(rowIndex++);
-//			for (String s : cHeader) {
-//				(cell = row.createCell(i++)).setCellValue(s);
-//				cell.setCellStyle(headerStyle);
-//			}
-//		}
 		// Content
+		ArrayList<Short> lBlankRow = new ArrayList<Short>();
 		int cols = 0;
 		int n = 0;
 		for (List<String> l : lTd) {
 			int i = 0;
 			// TH
 			if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
-				//row = sheet.createRow(rowIndex++);
+				if (rowIndex > 0) {
+					lBlankRow.add(rowIndex);
+					row = sheet.createRow(rowIndex++);
+				}
 				row = sheet.createRow(rowIndex++);
 				if (n < lTh.size()) {
 					for (String s : lTh.get(n)) {
@@ -134,23 +124,36 @@ public class ExportUtils {
 			}
 			// TD
 			else {
+				int n_ = 0;
 				row = sheet.createRow(rowIndex++);
 				for (String s : l) {
-					(cell = row.createCell(i++)).setCellValue(s);
-					cell.setCellStyle(l.size() == 1 ? headerStyle : (tBold != null && tBold.length > i - 1 && tBold[i - 1] ? boldStyle : normalStyle));
+					boolean isAlignCenter = (s != null && s.matches("^\\#ALIGN_CENTER\\#.*"));
+					(cell = row.createCell(i++)).setCellValue(s.replaceAll("^\\#.*\\#", ""));
+					HSSFCellStyle st = (l.size() == 1 ? headerStyle : (tBold != null && tBold.length > i - 1 && tBold[i - 1] ? boldStyle : normalStyle));
+					if (isAlignCenter)
+						st.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					cell.setCellStyle(st);
 					if (l.size() == 1) {
 						(cell = row.createCell(i++)).setCellValue("");
 						cell.setCellStyle(headerStyle);
 					}
+					n_++;
 				}
+				if (n_ > cols)
+					cols = n_;
 			}
 		}
 		// Auto-Sizing
-		for (int j = 1 ; j <= cols ; j++)
-			sheet.autoSizeColumn(j - 1);
+		for (int j = 0 ; j < cols ; j++)
+			sheet.autoSizeColumn(j);
 		// Merging
-		for (MergedCell mc : lMerge)
-			sheet.addMergedRegion(new CellRangeAddress(mc.getRow(), mc.getRow(), mc.getCell(), mc.getCell() + mc.getSpan() - 1));
+		for (MergedCell mc : lMerge) {
+			int offset = 0;
+			for (Short sh : lBlankRow)
+				if (mc.getRow() + offset >= sh)
+					offset++;
+			sheet.addMergedRegion(new CellRangeAddress(mc.getRow() + offset, mc.getRow() + offset, mc.getCell(), mc.getCell() + mc.getSpan() - 1));
+		}
 		hwb.write(out);
 	}
 	
@@ -167,11 +170,12 @@ public class ExportUtils {
 				ArrayList<String> lTh_ = lTh.get(n++);
 				tMaxLength = new int[lTh_.size()];
 				for (int i = 0 ; i < lTh_.size() ; i++)
-					tMaxLength[i] = lTh_.get(i).length();
+					tMaxLength[i] = lTh_.get(i).replaceAll("^\\#.*\\#", "").length();
 				for (List<String> l_ : lTd) {
 					for (int i = 0 ; i < l_.size() ; i++) {
-						if (i < tMaxLength.length && l_.get(i).length() > tMaxLength[i])
-							tMaxLength[i] = l_.get(i).length() + 1;
+						String s = l_.get(i).replaceAll("^\\#.*\\#", "");
+						if (i < tMaxLength.length && s.length() > tMaxLength[i])
+							tMaxLength[i] = s.length() + 1;
 						if (l_ != null && l_.size() == 1 && l_.get(0).equalsIgnoreCase("--NEW--"))
 							break;
 					}
@@ -195,7 +199,7 @@ public class ExportUtils {
 			else {
 				sbText.append("\r\n|");
 				for (int i = 0 ; i < l.size() ; i++) {
-					String s = l.get(i);
+					String s = l.get(i).replaceAll("^\\#.*\\#", "");
 					sbText.append(s);
 					for (int j = s.length() ; j < tMaxLength[i] ; j++)
 						sbText.append(" ");
@@ -223,8 +227,36 @@ public class ExportUtils {
 		ArrayList<ArrayList<String>> lTh = new ArrayList<ArrayList<String>>();
 		ArrayList<ArrayList<String>> lTd = new ArrayList<ArrayList<String>>();
 		Element title = doc.getElementsByAttributeValue("class", "shorttitle").first();
-		Elements tsorts = doc.getElementsByClass("tsort");
 		int row = 0;
+		Elements theaders = doc.getElementsByClass("header");
+		if (theaders == null || theaders.isEmpty())
+			theaders = doc.getElementsByClass("info");
+		if (theaders != null && !theaders.isEmpty()) {
+			Element header = theaders.get(0);
+			ArrayList<String> lTd_ = new ArrayList<String>();
+			lTd_.add("--NEW--");
+			lTd.add(lTd_);
+			Element th = header.getElementsByTag("th").get(0);
+			ArrayList<String> lTh_ = new ArrayList<String>();
+			lTh_.add(th.text());
+			if (isExcel)
+				lTh_.add("");
+			lTh.add(lTh_);
+			lMerge.add(new MergedCell(row, 0, 2));
+			row++;
+			for (Element td : header.getElementsByTag("td")) {
+				if (td.className() == null || !td.className().matches("^logo.*")) {
+					lTd_ = new ArrayList<String>();
+					lTd_.add("#ALIGN_CENTER#" + td.text());
+					lTd.add(lTd_);
+					if (isExcel)
+						lTd_.add("");
+					lMerge.add(new MergedCell(row, 0, 2));
+					row++;
+				}
+			}
+		}
+		Elements tsorts = doc.getElementsByClass("tsort");
 		for (Element table : tsorts) {
 			ArrayList<String> lTd_ = new ArrayList<String>();
 			lTd_.add("--NEW--");

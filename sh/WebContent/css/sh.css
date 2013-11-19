@@ -1,5 +1,5 @@
 body{
-	background: #FFFFF2 url(../img/bg.gif?v=2) 0 0 repeat-y;
+	background: #FFFFF2 url(../img/bg.gif?3) 0 0 repeat-y;
 	margin: 0;
 	padding: 0;
 }
@@ -120,7 +120,7 @@ a:focus{
 	display: none;
 }
 .criteria{
-	background-image: url(../img/db/criteria.png?1);
+	background-image: url(../img/db/criteria.png?3);
 }
 /* ========== HEADER/MENU ========== */
 #header{
@@ -180,28 +180,28 @@ a:focus{
 	color: #000;
 }
 #shmenu-home{
-	background-image:url(../img/menu/home.png?1);
+	background-image:url(../img/menu/home.png?3);
 }
 #shmenu-results{
-	background-image:url(../img/menu/dbresults.png?1);
+	background-image:url(../img/menu/dbresults.png?3);
 }
 #shmenu-olympics{
-	background-image:url(../img/menu/dbolympics.png?1);
+	background-image:url(../img/menu/dbolympics.png?3);
 }
 #shmenu-usleagues{
-	background-image:url(../img/menu/dbusleagues.png?1);
+	background-image:url(../img/menu/dbusleagues.png?3);
 }
 #shmenu-search{
-	background-image:url(../img/menu/dbsearch.png?1);
+	background-image:url(../img/menu/dbsearch.png?3);
 }
 #shmenu-project{
-	background-image:url(../img/menu/project.png?1);
+	background-image:url(../img/menu/project.png?3);
 }
 #shmenu-login{
-	background-image:url(../img/menu/login.png?1);
+	background-image:url(../img/menu/login.png?3);
 }
 #shmenu-logout{
-	background-image:url(../img/menu/logout.png?1);
+	background-image:url(../img/menu/logout.png?3);
 }
 #links{
 	margin: 5px;
@@ -373,7 +373,7 @@ a:focus{
 .inactive-msg{
 	position: absolute;
 	z-index:2;
-	background: transparent url(../img/db/notselected.png?1) center center no-repeat;
+	background: transparent url(../img/db/notselected.png?3) center center no-repeat;
 }
 /* ========== BUTTONS ========== */
 #buttons{
@@ -409,39 +409,39 @@ a:focus{
 	text-decoration: underline;
 }
 #buttons .execute{
-	background-image: url('../img/component/button/execute.png?1');
+	background-image: url('../img/component/button/execute.png?3');
 	padding-left: 24px;
 	font-weight: bold;
 }
 #buttons .reset{
-	background-image: url('../img/component/button/reset.png?1');
+	background-image: url('../img/component/button/reset.png?3');
 }
 #buttons .options{
-	background-image: url('../img/component/button/options.png');
+	background-image: url('../img/component/button/options.png?3');
 }
 #buttons .export{
-	background-image: url('../img/component/button/export.png');
+	background-image: url('../img/component/button/export.png?3');
 }
 #buttons .export-disabled{
-	background-image: url('../img/component/button/export-disabled.png');
+	background-image: url('../img/component/button/export-disabled.png?3');
 }
 #buttons .link{
-	background-image: url('../img/component/button/link.png');
+	background-image: url('../img/component/button/link.png?3');
 }
 #buttons .link-disabled{
-	background-image: url('../img/component/button/link-disabled.png');
+	background-image: url('../img/component/button/link-disabled.png?3');
 }
 #buttons .print{
-	background-image: url('../img/component/button/print.png');
+	background-image: url('../img/component/button/print.png?3');
 }
 #buttons .print-disabled{
-	background-image: url('../img/component/button/print-disabled.png');
+	background-image: url('../img/component/button/print-disabled.png?3');
 }
 #buttons .info{
-	background-image: url('../img/component/button/info.png');
+	background-image: url('../img/component/button/info.png?3');
 }
 #buttons .info-disabled{
-	background-image: url('../img/component/button/info-disabled.png');
+	background-image: url('../img/component/button/info-disabled.png?3');
 }
 #buttons .export-disabled:hover, #buttons .link-disabled:hover, #buttons .print-disabled:hover, #buttons .info-disabled:hover{
 	text-decoration: none;
@@ -484,7 +484,7 @@ a:focus{
 	background: #FFF;
 }
 #home .boxtitle{
-	background-color: #668;
+	background-color: #557;
 	border: 1px solid gray;
 	color: #FFF;
 	font-weight: bold;
@@ -526,13 +526,13 @@ a:focus{
 	background-repeat: no-repeat;
 }
 .homecontent .info{
-	background-image: url(../img/info.png?1);
+	background-image: url(../img/info.png?3);
 }
 .homecontent .contact{
-	background-image: url(../img/contact.png?1);
+	background-image: url(../img/contact.png?3);
 }
 .homecontent .news{
-	background-image: url(../img/news.png?1);
+	background-image: url(../img/news.png?3);
 }
 #table-stat td{
 	padding-bottom: 5px;
@@ -550,7 +550,7 @@ a:focus{
 	padding-left: 3px;
 	padding-right: 5px;
 	margin: 3px;
-	background: #FFF url(../img/column.png?1) 27px 127px no-repeat;
+	background: #FFF url(../img/column.png?3) 27px 127px no-repeat;
 }
 #results .spcpdiv table{
 	width: 100%;
@@ -652,7 +652,7 @@ a:focus{
 #usleagues{
 	height: 210px;
 	margin-bottom: 0px;
-	background: #FFF url(../img/column.png?1) 35px 150px no-repeat;
+	background: #FFF url(../img/column.png?3) 35px 150px no-repeat;
 }
 #usleagues .league{
 	float: left;
@@ -754,7 +754,7 @@ a:focus{
 }
 /* ========== LOGIN ========== */
 .login{
-	background-image: url(../img/menu/login.png?1);
+	background-image: url(../img/menu/login.png?3);
 }
 .tlogin{
 	margin: 5px auto;
@@ -778,7 +778,7 @@ a:focus{
 	padding:5px 6px;
 	text-decoration: none;
 	color: #000;
-	background: #FFF url(../img/db/ok.png?1) 8px center no-repeat;
+	background: #FFF url(../img/db/ok.png?3) 8px center no-repeat;
 	padding-left: 26px;
 }
 .tlogin .button a:hover, .register .button a:hover{
@@ -803,7 +803,7 @@ a:focus{
 	margin-top: 10px;
 }
 .register .button a{
-	background: #FFF url(../img//update/add.png?1) 8px center no-repeat;
+	background: #FFF url(../img//update/add.png?3) 8px center no-repeat;
 }
 #r-msg{
 	font-weight: bold;
@@ -819,11 +819,11 @@ a:focus{
 }
 .register .success{
 	background-color: #beffbc;
-	background-image: url(../img/update/success.png?1);
+	background-image: url(../img/update/success.png?3);
 }
 .register .error{
 	background-color: #e5bdbf;
-	background-image: url(../img/update/error.png?1);
+	background-image: url(../img/update/error.png?3);
 }
 .register .waiting{
 	background-color: #fff;
@@ -831,19 +831,19 @@ a:focus{
 }
 /* ========== PROJECT ========== */
 .downloads{
-	background-image: url(../img/project/downloads.png?1);
+	background-image: url(../img/project/downloads.png?3);
 }
 .reportbug{
-	background-image: url(../img/project/reportbug.png?1);
+	background-image: url(../img/project/reportbug.png?3);
 }
 .statistics{
-	background-image: url(../img/project/statistics.png?1);
+	background-image: url(../img/project/statistics.png?3);
 }
 .technicalinfo{
-	background-image: url(../img/project/technicalinfo.png?1);
+	background-image: url(../img/project/technicalinfo.png?3);
 }
 .contributors{
-	background-image: url(../img/project/contributors.png?1);
+	background-image: url(../img/project/contributors.png?3);
 }
 /* ========== DIALOGS ========== */
 .dialog, .dialog input{
@@ -851,19 +851,19 @@ a:focus{
 }
 #d-lastupdates .fstitle{
 	background-color: #DAEEFF;
-	background-image: url(../img/component/button/lastpudates.png?1);
+	background-image: url(../img/component/button/lastpudates.png?3);
 }
 #d-export .fstitle{
 	background-color: #DAEEFF;
-	background-image: url(../img/component/button/export.png?1);
+	background-image: url(../img/component/button/export.png?3);
 }
 #d-link .fstitle{
 	background-color: #DAEEFF;
-	background-image: url(../img/component/button/link.png?1);
+	background-image: url(../img/component/button/link.png?3);
 }
 #d-info .fstitle{
 	background-color: #DAEEFF;
-	background-image: url(../img/component/button/info.png?1);
+	background-image: url(../img/component/button/info.png?3);
 }
 .dialog .dlgbuttons{
 	height: 33px;
@@ -880,10 +880,10 @@ a:focus{
 	padding-left: 22px;
 }
 .dialog .dlgbuttons .ok, .optcontainer .ok{
-	background-image: url('../img/component/button/ok.png?1');
+	background-image: url('../img/component/button/ok.png?3');
 }
 .dialog .dlgbuttons .cancel, .optcontainer .cancel{
-	background-image: url('../img/component/button/cancel.png?1');
+	background-image: url('../img/component/button/cancel.png?3');
 }
 #dupdates{
 	width: 750px;
@@ -905,4 +905,13 @@ a:focus{
 #ctupdates input.selected{
 	outline: none;
 	border: 1px solid #D00;
+}
+#chart{
+	width: 650px;
+	height: 270px;
+	border: 1px solid #CCC;
+}
+#chart td{
+	font-size: 11px;
+	border: none;
 }
