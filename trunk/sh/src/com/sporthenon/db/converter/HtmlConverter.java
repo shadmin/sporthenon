@@ -669,7 +669,7 @@ public class HtmlConverter {
 						c5 = "<b>" + tEntity[0] + "</b>&nbsp;-&nbsp;" + tEntity[1] + "&nbsp;" + item.getTxt1();
 					else {
 						StringBuffer sb = new StringBuffer("<table><tr>");
-						sb.append("<td>" + (tEntity[1] != null ? (isMedal ? "<img src='img/render/gold-mini.png'/>" : "1.") + "&nbsp;" : "") + "</td><td><b>" + tEntity[0] + "</b>&nbsp;</td>");
+						sb.append("<td>" + (tEntity[1] != null || isMedal ? (isMedal ? "<img src='img/render/gold-mini.png'/>" : "1.") + "&nbsp;" : "") + "</td><td><b>" + tEntity[0] + "</b>&nbsp;</td>");
 						if (tEntity[1] != null)
 							sb.append("<td>" + (isMedal ? "<img src='img/render/silver-mini.png'/>" : "2.") + "&nbsp;</td><td>" + tEntity[1] + "&nbsp;</td>");
 						if (tEntity[2] != null)

@@ -136,7 +136,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		JCustomButton jFirstButton = new JCustomButton("First", "updater/first.png");
 		jFirstButton.addActionListener(this);
 		jFirstButton.setActionCommand("first");
-		jFirstButton.setMnemonic(KeyEvent.VK_BEGIN);
+		jFirstButton.setMnemonic(KeyEvent.VK_PAGE_UP);
 		JCustomButton jPreviousButton = new JCustomButton("Previous", "updater/previous.png");
 		jPreviousButton.addActionListener(this);
 		jPreviousButton.setActionCommand("previous");
@@ -152,7 +152,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		JCustomButton jLastButton = new JCustomButton("Last", "updater/last.png");
 		jLastButton.addActionListener(this);
 		jLastButton.setActionCommand("last");
-		jLastButton.setMnemonic(KeyEvent.VK_END);
+		jLastButton.setMnemonic(KeyEvent.VK_PAGE_DOWN);
 		leftPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 1));
 		leftPanel.add(jFirstButton, null);
 		leftPanel.add(jPreviousButton, null);
@@ -176,7 +176,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		JCustomButton jRemoveButton = new JCustomButton("Remove", "updater/remove.png");
 		jRemoveButton.addActionListener(this);
 		jRemoveButton.setActionCommand("remove");
-		jRemoveButton.setMnemonic(KeyEvent.VK_DELETE);
+		jRemoveButton.setMnemonic(KeyEvent.VK_R);
 		rightPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 2, 1));
 		rightPanel.add(jAddButton, null);
 		rightPanel.add(jSaveButton, null);
