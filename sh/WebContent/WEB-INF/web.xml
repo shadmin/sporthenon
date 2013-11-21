@@ -7,6 +7,13 @@
 	
 	<display-name>sh</display-name>
 	
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<page-encoding>UTF-8</page-encoding>
+		</jsp-property-group>
+	</jsp-config>
+	
 	<servlet>
 		<display-name>HomeServlet</display-name>
 		<servlet-name>HomeServlet</servlet-name>

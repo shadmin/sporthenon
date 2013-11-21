@@ -543,7 +543,7 @@ public class HtmlConverter {
 				else if (en.equals(Complex.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>Name</th><th onclick='sort(\"" + id + "\", this, 1);'>City</th><th onclick='sort(\"" + id + "\", this, 2);'>State</th><th onclick='sort(\"" + id + "\", this, 3);'>Country</th>");
 				else if (en.equals(HallOfFame.alias))
-					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>League</th><th onclick='sort(\"" + id + "\", this, 1);'>Year</th><th onclick='sort(\"" + id + "\", this, 2);'>Inductee</th>");
+					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>League</th><th onclick='sort(\"" + id + "\", this, 1);'>Year</th><th onclick='sort(\"" + id + "\", this, 2);'>Inductee</th><th onclick='sort(\"" + id + "\", this, 3);'>Position</th>");
 				else if (en.equals(Olympics.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'></th><th onclick='sort(\"" + id + "\", this, 1);'>Type</th><th onclick='sort(\"" + id + "\", this, 2);'>Year</th><th onclick='sort(\"" + id + "\", this, 3);'>City</th><th onclick='sort(\"" + id + "\", this, 4);'>State</th><th onclick='sort(\"" + id + "\", this, 5);'>Country</th>");
 				else if (en.equals(OlympicRanking.alias))
@@ -605,6 +605,13 @@ public class HtmlConverter {
 				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, l, ImageUtils.SIZE_SMALL, opts.isPicturesDisabled()), HtmlUtils.writeLink(Championship.alias, l, item.getComment()));
 				c2 = HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1());
 				c3 = HtmlUtils.writeLink(Athlete.alias, item.getIdRel2(), item.getLabelRel2());
+				c4 = "-";
+				if (StringUtils.notEmpty(item.getTxt1())) {
+					StringBuffer sbPos = new StringBuffer();
+					for (String s : item.getTxt1().split("\\-"))
+						sbPos.append((!sbPos.toString().isEmpty() ? "&nbsp;/&nbsp;" : "") + StringUtils.getUSPosition(item.getIdRel3(), s));
+					c4 = sbPos.toString();
+				}
 			}
 			else if (en.equals(Olympics.alias)) {
 				c1 = HtmlUtils.writeLink(Olympics.alias, item.getIdItem(), HtmlUtils.writeImage(ImageUtils.INDEX_OLYMPICS, item.getIdItem(), ImageUtils.SIZE_SMALL, opts.isPicturesDisabled()));
@@ -1237,8 +1244,14 @@ public class HtmlConverter {
 			// Evaluate bean
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel());
 			String name = HtmlUtils.writeLink(Athlete.alias, bean.getPrId(), bean.getPrLastName() + "," + HtmlUtils.SPACE + bean.getPrFirstName());
-			String position = (StringUtils.notEmpty(bean.getHfPosition()) ? bean.getHfPosition() : "-");
-			
+			String position = "-";
+			if (StringUtils.notEmpty(bean.getHfPosition())) {
+				StringBuffer sbPos = new StringBuffer();
+				for (String s : bean.getHfPosition().split("\\-"))
+					sbPos.append((!sbPos.toString().isEmpty() ? "&nbsp;/&nbsp;" : "") + StringUtils.getUSPosition(bean.getLgId(), s));
+				position = sbPos.toString();
+			}
+				
 			// Write line
 			html.append("<tr><td class='srt'>" + year + "</td><td class='srt'>" + name + "</td><td class='srt'>" + position + "</td></tr>");
 		}
@@ -1488,7 +1501,7 @@ public class HtmlConverter {
 	}
 	
 	public static StringBuffer convertLastUpdates(Collection<Object> coll) throws Exception {
-		StringBuffer html = new StringBuffer("<tr><th>Year</th><th>Sport</th><th>Event</th><th>1st</th><th>Updated</th></tr>");
+		StringBuffer html = new StringBuffer("<table><tr><th>Year</th><th>Sport</th><th>Event</th><th>1st</th><th>Updated</th></tr>");
 		for (Object obj : coll) {
 			LastUpdateBean bean = (LastUpdateBean) obj;
 
@@ -1506,7 +1519,7 @@ public class HtmlConverter {
 			html.append("<tr><td><b>" + bean.getYrLabel() + "</b></td><td><b>" + bean.getSpLabel() + "</b></td><td>" + bean.getCpLabel() + "&nbsp;-&nbsp;" + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? "&nbsp;-&nbsp;" + bean.getSeLabel() : "") + "</td>");
 			html.append("<td>" + (StringUtils.notEmpty(pos1) ? pos1 : "-") + "</td><td>" + update + "</td></tr>");
 		}
-		return html;
+		return html.append("</table>");
 	}
 	
 }

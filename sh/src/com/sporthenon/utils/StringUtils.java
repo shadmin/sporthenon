@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
@@ -153,6 +154,67 @@ public class StringUtils {
 		else if (s.matches("^Tarmac.*"))
 			color = "#c1c7c1";
 		return color;
+	}
+	
+	public static final String getUSPosition(Integer league, String pos) {
+		HashMap<String, String> hPos1 = new HashMap<String, String>();
+		HashMap<String, String> hPos2 = new HashMap<String, String>();
+		HashMap<String, String> hPos3 = new HashMap<String, String>();
+		HashMap<String, String> hPos4 = new HashMap<String, String>();
+		hPos1.put("C", "Center");
+		hPos1.put("CB", "Cornerback");
+		hPos1.put("CH", "Coach");
+		hPos1.put("CM", "Commissioner");
+		hPos1.put("DE", "Defensive End");
+		hPos1.put("DG", "Defensive Guard");
+		hPos1.put("DT", "Defensive Tackle");
+		hPos1.put("E", "End");
+		hPos1.put("FB", "Fullback");
+		hPos1.put("FK", "");
+		hPos1.put("G", "Guard");
+		hPos1.put("HB", "Halfback");
+		hPos1.put("K", "Kicker");
+		hPos1.put("KR", "Kick Returner");
+		hPos1.put("LB", "Linebacker");
+		hPos1.put("O", "Franchise Owner");
+		hPos1.put("OE", "Offensive End");
+		hPos1.put("OG", "Offensive Guard");
+		hPos1.put("OT", "Offensive Tackle");
+		hPos1.put("QB", "Quarterback");
+		hPos1.put("RB", "Runningback");
+		hPos1.put("S", "Safety");
+		hPos1.put("T", "Tackle");
+		hPos1.put("TE", "Tight End");
+		hPos1.put("WR", "Wide Receiver");
+		hPos2.put("C", "Center");
+		hPos2.put("CH", "Coach");
+		hPos2.put("F", "Forward");
+		hPos2.put("G", "Guard");
+		hPos2.put("PF", "Passing Forward");
+		hPos2.put("PG", "Passing Guard");
+		hPos2.put("SF", "Shooting Forward");
+		hPos2.put("SG", "Shooting Guard");
+		hPos3.put("C", "Center");
+		hPos3.put("D", "Defenseman");
+		hPos3.put("F", "Forward");
+		hPos3.put("G", "Goalie");
+		hPos3.put("LW", "Left Wing");
+		hPos3.put("OC", "Official");
+		hPos3.put("RW", "Right Wing");
+		hPos4.put("P", "Pitcher");
+		hPos4.put("C", "Catcher");
+		hPos4.put("1B", "1st Baseman");
+		hPos4.put("2B", "2nd Baseman");
+		hPos4.put("3B", "3rd Baseman");
+		hPos4.put("SS", "Shortstop");
+		hPos4.put("LF", "Left Fielder");
+		hPos4.put("CF", "Center Fielder");
+		hPos4.put("RF", "Right Fielder");
+		hPos4.put("MGR", "Manager");
+		hPos4.put("EX", "Executive");
+		hPos4.put("PIO", "Pioneer Contributor");
+		HashMap<String, String> hm = (league == 1 ? hPos1 : (league == 2 ? hPos2 : (league == 3 ? hPos3 : hPos4)));
+		return (hm.containsKey(pos) ? hm.get(pos) : pos);
 	}
 
 }
