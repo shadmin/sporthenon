@@ -2,7 +2,7 @@
 <div id="d-lastupdates" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fstitle">LAST UPDATES</div>
-	<div class="fscontent"><table id="ctupdates"><tr><td>Count:</td><td><input id="countupdt" type="text" maxlength="3" size="3" value="20" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"/></td><td><a href="#" onclick="refreshLastUpdates();">Show</a></td></tr></table><div id="dupdates"><table></table></div></div>
+	<div class="fscontent"><table id="ctupdates"><tr><td>Count:</td><td><input id="countupdt" type="text" maxlength="3" size="3" value="20" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"/></td><td><a href="#" onclick="refreshLastUpdates();">Show</a></td></tr></table><div id="dupdates"></div></div>
 	<div class="dlgbuttons"><input type="button" class="button ok" value="OK" onclick="closeDialog(dLastUpdates);"/></div>
 </div>
 </div>
@@ -11,10 +11,10 @@
 <div class="fieldset">
 	<div class="fstitle">EXPORT</div>
 	<div class="fscontent">Select an export format:<table style="margin-top:8px;"><tr>
-		<td style="text-align:center;"><label for="ehtml"><img alt="HTML" src="img/db/html.png"/><br/><b>Web Page (.html)</b><br/></label><input id="ehtml" type="radio" name="eformat" checked="checked"/></td>
-		<td style="text-align:center;"><label for="eexcel"><img alt="XLS" src="img/db/excel.png"/><br/><b>Excel Sheet (.xls)</b><br/></label><input id="eexcel" type="radio" name="eformat"/></td>
-		<td style="text-align:center;"><label for="epdf"><img alt="PDF" src="img/db/pdf.png"/><br/><b>PDF File (.pdf)</b><br/></label><input id="epdf" type="radio" name="eformat"/></td>
-		<td style="text-align:center;"><label for="etext"><img alt="TXT" src="img/db/text.png"/><br/><b>Plain Text (.txt)</b><br/></label><input id="etext" type="radio" name="eformat"/></td>
+		<td><label for="ehtml" style="display: block;"><img alt="HTML" src="img/db/html.png"/><br/><b>Web Page (.html)</b><br/></label><input id="ehtml" type="radio" name="eformat" checked="checked"/></td>
+		<td><label for="eexcel" style="display: block;"><img alt="XLS" src="img/db/excel.png"/><br/><b>Excel Sheet (.xls)</b><br/></label><input id="eexcel" type="radio" name="eformat"/></td>
+		<td><label for="epdf" style="display: block;"><img alt="PDF" src="img/db/pdf.png"/><br/><b>PDF File (.pdf)</b><br/></label><input id="epdf" type="radio" name="eformat"/></td>
+		<td><label for="etext" style="display: block;"><img alt="TXT" src="img/db/text.png"/><br/><b>Plain Text (.txt)</b><br/></label><input id="etext" type="radio" name="eformat"/></td>
 	</tr></table></div>
 	<div class="dlgbuttons"><input type="button" class="button cancel" value="Cancel" onclick="closeDialog(dExport);"/><input type="button" class="button ok" value="OK" onclick="closeDialog(dExport);exportTab();"/></div>
 </div>

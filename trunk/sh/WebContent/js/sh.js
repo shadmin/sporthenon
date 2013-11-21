@@ -329,9 +329,8 @@ function displayLastUpdates() {
 	}
 }
 function refreshLastUpdates() {
-	var t = $$('#dupdates table')[0];
-	t.update('<img src="img/db/loading.gif" alt="Loading..."/>');
-	new Ajax.Updater(t, 'HomeServlet?lastupdates=1&count=' + $('countupdt').value, {});
+	$('dupdates').update('<img src="img/db/loading.gif" alt="Loading..."/>');
+	new Ajax.Updater($('dupdates'), 'HomeServlet?lastupdates=1&count=' + $('countupdt').value, {});
 }
 function displayExport() {
 	if (dExport) {

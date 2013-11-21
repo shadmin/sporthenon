@@ -1,5 +1,5 @@
 body{
-	background: #FFFFF2 url(../img/bg.gif?3) 0 0 repeat-y;
+	background: #FFFFF2 url(../img/bg.gif?5) 0 0 repeat-y;
 	margin: 0;
 	padding: 0;
 }
@@ -32,7 +32,10 @@ a:hover{
 	text-decoration: underline;
 }
 a:focus{
-	outline: 0;
+	outline: none;
+}
+input{
+	outline: none;
 }
 .fieldset{
 	background: #FFF;
@@ -120,7 +123,7 @@ a:focus{
 	display: none;
 }
 .criteria{
-	background-image: url(../img/db/criteria.png?3);
+	background-image: url(../img/db/criteria.png?5);
 }
 /* ========== HEADER/MENU ========== */
 #header{
@@ -180,28 +183,28 @@ a:focus{
 	color: #000;
 }
 #shmenu-home{
-	background-image:url(../img/menu/home.png?3);
+	background-image:url(../img/menu/home.png?5);
 }
 #shmenu-results{
-	background-image:url(../img/menu/dbresults.png?3);
+	background-image:url(../img/menu/dbresults.png?5);
 }
 #shmenu-olympics{
-	background-image:url(../img/menu/dbolympics.png?3);
+	background-image:url(../img/menu/dbolympics.png?5);
 }
 #shmenu-usleagues{
-	background-image:url(../img/menu/dbusleagues.png?3);
+	background-image:url(../img/menu/dbusleagues.png?5);
 }
 #shmenu-search{
-	background-image:url(../img/menu/dbsearch.png?3);
+	background-image:url(../img/menu/dbsearch.png?5);
 }
 #shmenu-project{
-	background-image:url(../img/menu/project.png?3);
+	background-image:url(../img/menu/project.png?5);
 }
 #shmenu-login{
-	background-image:url(../img/menu/login.png?3);
+	background-image:url(../img/menu/login.png?5);
 }
 #shmenu-logout{
-	background-image:url(../img/menu/logout.png?3);
+	background-image:url(../img/menu/logout.png?5);
 }
 #links{
 	margin: 5px;
@@ -237,6 +240,26 @@ a:focus{
 	padding: 0px;
 	margin-left: 0px;
 	border: 0px solid transparent;
+}
+#dupdates{
+	width: 750px;
+	height: 260px;
+	margin-top: 5px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+#ctupdates{
+	width: auto;
+}
+#ctupdates td{
+	border: none;
+	padding: 0px;
+}
+#ctupdates input{
+	border: 1px solid #CCC;
+}
+#ctupdates input.selected{
+	border: 1px solid #D00;
 }
 /* ========== TABCONTROL ========== */
 .tabbar{
@@ -373,7 +396,7 @@ a:focus{
 .inactive-msg{
 	position: absolute;
 	z-index:2;
-	background: transparent url(../img/db/notselected.png?3) center center no-repeat;
+	background: transparent url(../img/db/notselected.png?5) center center no-repeat;
 }
 /* ========== BUTTONS ========== */
 #buttons{
@@ -409,39 +432,39 @@ a:focus{
 	text-decoration: underline;
 }
 #buttons .execute{
-	background-image: url('../img/component/button/execute.png?3');
+	background-image: url('../img/component/button/execute.png?5');
 	padding-left: 24px;
 	font-weight: bold;
 }
 #buttons .reset{
-	background-image: url('../img/component/button/reset.png?3');
+	background-image: url('../img/component/button/reset.png?5');
 }
 #buttons .options{
-	background-image: url('../img/component/button/options.png?3');
+	background-image: url('../img/component/button/options.png?5');
 }
 #buttons .export{
-	background-image: url('../img/component/button/export.png?3');
+	background-image: url('../img/component/button/export.png?5');
 }
 #buttons .export-disabled{
-	background-image: url('../img/component/button/export-disabled.png?3');
+	background-image: url('../img/component/button/export-disabled.png?5');
 }
 #buttons .link{
-	background-image: url('../img/component/button/link.png?3');
+	background-image: url('../img/component/button/link.png?5');
 }
 #buttons .link-disabled{
-	background-image: url('../img/component/button/link-disabled.png?3');
+	background-image: url('../img/component/button/link-disabled.png?5');
 }
 #buttons .print{
-	background-image: url('../img/component/button/print.png?3');
+	background-image: url('../img/component/button/print.png?5');
 }
 #buttons .print-disabled{
-	background-image: url('../img/component/button/print-disabled.png?3');
+	background-image: url('../img/component/button/print-disabled.png?5');
 }
 #buttons .info{
-	background-image: url('../img/component/button/info.png?3');
+	background-image: url('../img/component/button/info.png?5');
 }
 #buttons .info-disabled{
-	background-image: url('../img/component/button/info-disabled.png?3');
+	background-image: url('../img/component/button/info-disabled.png?5');
 }
 #buttons .export-disabled:hover, #buttons .link-disabled:hover, #buttons .print-disabled:hover, #buttons .info-disabled:hover{
 	text-decoration: none;
@@ -526,13 +549,13 @@ a:focus{
 	background-repeat: no-repeat;
 }
 .homecontent .info{
-	background-image: url(../img/info.png?3);
+	background-image: url(../img/info.png?5);
 }
 .homecontent .contact{
-	background-image: url(../img/contact.png?3);
+	background-image: url(../img/contact.png?5);
 }
 .homecontent .news{
-	background-image: url(../img/news.png?3);
+	background-image: url(../img/news.png?5);
 }
 #table-stat td{
 	padding-bottom: 5px;
@@ -550,7 +573,7 @@ a:focus{
 	padding-left: 3px;
 	padding-right: 5px;
 	margin: 3px;
-	background: #FFF url(../img/column.png?3) 27px 127px no-repeat;
+	background: #FFF url(../img/column.png?5) 27px 127px no-repeat;
 }
 #results .spcpdiv table{
 	width: 100%;
@@ -652,7 +675,7 @@ a:focus{
 #usleagues{
 	height: 210px;
 	margin-bottom: 0px;
-	background: #FFF url(../img/column.png?3) 35px 150px no-repeat;
+	background: #FFF url(../img/column.png?5) 35px 150px no-repeat;
 }
 #usleagues .league{
 	float: left;
@@ -735,7 +758,6 @@ a:focus{
 	border: 1px solid #CCC;
 }
 #search .pattern input.selected{
-	outline: none;
 	border: 1px solid #D00;
 }
 #search .scope{
@@ -754,7 +776,7 @@ a:focus{
 }
 /* ========== LOGIN ========== */
 .login{
-	background-image: url(../img/menu/login.png?3);
+	background-image: url(../img/menu/login.png?5);
 }
 .tlogin{
 	margin: 5px auto;
@@ -778,7 +800,7 @@ a:focus{
 	padding:5px 6px;
 	text-decoration: none;
 	color: #000;
-	background: #FFF url(../img/db/ok.png?3) 8px center no-repeat;
+	background: #FFF url(../img/db/ok.png?5) 8px center no-repeat;
 	padding-left: 26px;
 }
 .tlogin .button a:hover, .register .button a:hover{
@@ -803,7 +825,7 @@ a:focus{
 	margin-top: 10px;
 }
 .register .button a{
-	background: #FFF url(../img//update/add.png?3) 8px center no-repeat;
+	background: #FFF url(../img//update/add.png?5) 8px center no-repeat;
 }
 #r-msg{
 	font-weight: bold;
@@ -819,11 +841,11 @@ a:focus{
 }
 .register .success{
 	background-color: #beffbc;
-	background-image: url(../img/update/success.png?3);
+	background-image: url(../img/update/success.png?5);
 }
 .register .error{
 	background-color: #e5bdbf;
-	background-image: url(../img/update/error.png?3);
+	background-image: url(../img/update/error.png?5);
 }
 .register .waiting{
 	background-color: #fff;
@@ -831,19 +853,19 @@ a:focus{
 }
 /* ========== PROJECT ========== */
 .downloads{
-	background-image: url(../img/project/downloads.png?3);
+	background-image: url(../img/project/downloads.png?5);
 }
 .reportbug{
-	background-image: url(../img/project/reportbug.png?3);
+	background-image: url(../img/project/reportbug.png?5);
 }
 .statistics{
-	background-image: url(../img/project/statistics.png?3);
+	background-image: url(../img/project/statistics.png?5);
 }
 .technicalinfo{
-	background-image: url(../img/project/technicalinfo.png?3);
+	background-image: url(../img/project/technicalinfo.png?5);
 }
 .contributors{
-	background-image: url(../img/project/contributors.png?3);
+	background-image: url(../img/project/contributors.png?5);
 }
 /* ========== DIALOGS ========== */
 .dialog, .dialog input{
@@ -851,19 +873,19 @@ a:focus{
 }
 #d-lastupdates .fstitle{
 	background-color: #DAEEFF;
-	background-image: url(../img/component/button/lastpudates.png?3);
+	background-image: url(../img/component/button/lastpudates.png?5);
 }
 #d-export .fstitle{
 	background-color: #DAEEFF;
-	background-image: url(../img/component/button/export.png?3);
+	background-image: url(../img/component/button/export.png?5);
 }
 #d-link .fstitle{
 	background-color: #DAEEFF;
-	background-image: url(../img/component/button/link.png?3);
+	background-image: url(../img/component/button/link.png?5);
 }
 #d-info .fstitle{
 	background-color: #DAEEFF;
-	background-image: url(../img/component/button/info.png?3);
+	background-image: url(../img/component/button/info.png?5);
 }
 .dialog .dlgbuttons{
 	height: 33px;
@@ -880,32 +902,22 @@ a:focus{
 	padding-left: 22px;
 }
 .dialog .dlgbuttons .ok, .optcontainer .ok{
-	background-image: url('../img/component/button/ok.png?3');
+	background-image: url('../img/component/button/ok.png?5');
 }
 .dialog .dlgbuttons .cancel, .optcontainer .cancel{
-	background-image: url('../img/component/button/cancel.png?3');
+	background-image: url('../img/component/button/cancel.png?5');
 }
-#dupdates{
-	width: 750px;
-	height: 260px;
-	margin-top: 5px;
-	overflow-x: hidden;
-	overflow-y: auto;
+#d-export td{
+	background-color: #FFF;
+	text-align: center;
 }
-#ctupdates{
-	width: auto;
+#d-export td:hover{
+	background-color: #E5E5E5;
 }
-#ctupdates td{
-	border: none;
-	padding: 0px;
+#d-export label{
+	display: block;
 }
-#ctupdates input{
-	border: 1px solid #CCC;
-}
-#ctupdates input.selected{
-	outline: none;
-	border: 1px solid #D00;
-}
+/* ========== DIALOGS ========== */
 #chart{
 	width: 650px;
 	height: 270px;

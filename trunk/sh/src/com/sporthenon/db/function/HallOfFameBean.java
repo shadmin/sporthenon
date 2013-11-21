@@ -11,6 +11,9 @@ public class HallOfFameBean {
 	@Column(name = "hf_id")
 	private Integer hfId;
 	
+	@Column(name = "lg_id")
+	private Integer lgId;
+	
 	@Column(name = "yr_id")
 	private Integer yrId;
 
@@ -83,6 +86,14 @@ public class HallOfFameBean {
 
 	public void setHfPosition(String hfPosition) {
 		this.hfPosition = hfPosition;
+	}
+
+	public Integer getLgId() {
+		return lgId;
+	}
+
+	public void setLgId(Integer lgId) {
+		this.lgId = lgId;
 	}
 
 	@Override
