@@ -917,6 +917,10 @@ input{
 #d-export label{
 	display: block;
 }
+#linktxt{
+	width: 400px;
+	cursor: default;
+}
 /* ========== DIALOGS ========== */
 #chart{
 	width: 650px;

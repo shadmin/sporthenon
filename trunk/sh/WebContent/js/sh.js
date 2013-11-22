@@ -578,7 +578,7 @@ function initSliderRes(s) {
 	var sliderContent = [];
 	var t = $$('#pl-' + s + ' option');
 	t.each(function(el) {
-		sliderContent.push('<div id="' + s + '-' + el.value + '" class="slide">' + hSportImg[el.value] + '</div>');
+		sliderContent.push('<div id="' + s + '-' + el.value + '" class="slide"><img alt="" src=\'' + hSportImg[el.value] + '\'/></div>');
 	});
 	sliderContent.push('<div id="' + s + '-' + t[0].value + '" class="slide">' + hSportImg[t[0].value] + '</div>');
 	$$('#slider-' + s + ' .content')[0].update(sliderContent.join(''));
