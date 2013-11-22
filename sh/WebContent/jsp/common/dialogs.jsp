@@ -23,7 +23,7 @@
 <div id="d-link" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fstitle">LINK</div>
-	<div class="fscontent">Direct address to this result:<br/><input id="linktxt" type="text" style="width:400px;"/><br/>(use Ctrl+C or Right-click/Copy)</div>
+	<div class="fscontent">Direct address to this result:<br/><input id="linktxt" type="text" readonly="readonly" onclick="this.select();"/><br/>(use Ctrl+C or Right-click/Copy)</div>
 	<div class="dlgbuttons"><input type="button" class="button ok" value="OK" onclick="closeDialog(dLink);"/></div>
 </div>
 </div>

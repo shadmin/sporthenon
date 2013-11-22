@@ -543,7 +543,7 @@ public class HtmlConverter {
 				else if (en.equals(Complex.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>Name</th><th onclick='sort(\"" + id + "\", this, 1);'>City</th><th onclick='sort(\"" + id + "\", this, 2);'>State</th><th onclick='sort(\"" + id + "\", this, 3);'>Country</th>");
 				else if (en.equals(HallOfFame.alias))
-					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>League</th><th onclick='sort(\"" + id + "\", this, 1);'>Year</th><th onclick='sort(\"" + id + "\", this, 2);'>Inductee</th><th onclick='sort(\"" + id + "\", this, 3);'>Position</th>");
+					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>League</th><th onclick='sort(\"" + id + "\", this, 1);'>Year</th><th onclick='sort(\"" + id + "\", this, 2);'>Name</th><th onclick='sort(\"" + id + "\", this, 3);'>Inducted As</th>");
 				else if (en.equals(Olympics.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'></th><th onclick='sort(\"" + id + "\", this, 1);'>Type</th><th onclick='sort(\"" + id + "\", this, 2);'>Year</th><th onclick='sort(\"" + id + "\", this, 3);'>City</th><th onclick='sort(\"" + id + "\", this, 4);'>State</th><th onclick='sort(\"" + id + "\", this, 5);'>Country</th>");
 				else if (en.equals(OlympicRanking.alias))
@@ -647,12 +647,21 @@ public class HtmlConverter {
 					boolean isScore = (item.getIdRel6() != null && item.getIdRel7() != null && StringUtils.notEmpty(item.getTxt1()) && !StringUtils.notEmpty(item.getTxt2()));
 					boolean isMedal = String.valueOf(item.getIdRel3()).matches("1|3|4");
 					String[] tEntity = new String[6];
-					tEntity[0] = (item.getIdRel6() != null ? HtmlUtils.writeLink(alias, item.getIdRel6(), item.getLabelRel6()) : null);
-					tEntity[1] = (item.getIdRel7() != null ? HtmlUtils.writeLink(alias, item.getIdRel7(), item.getLabelRel7()) : null);
-					tEntity[2] = (item.getIdRel8() != null ? HtmlUtils.writeLink(alias, item.getIdRel8(), item.getLabelRel8()) : null);
-					tEntity[3] = (item.getIdRel9() != null ? HtmlUtils.writeLink(alias, item.getIdRel9(), item.getLabelRel9()) : null);
-					tEntity[4] = (item.getIdRel10() != null ? HtmlUtils.writeLink(alias, item.getIdRel10(), item.getLabelRel10()) : null);
-					tEntity[5] = (item.getIdRel11() != null ? HtmlUtils.writeLink(alias, item.getIdRel11(), item.getLabelRel11()) : null);
+					tEntity[0] = (item.getIdRel6() != null ? HtmlUtils.writeLink(alias, item.getIdRel6(), StringUtils.getShortName(item.getLabelRel6())) : null);
+					tEntity[1] = (item.getIdRel7() != null ? HtmlUtils.writeLink(alias, item.getIdRel7(), StringUtils.getShortName(item.getLabelRel7())) : null);
+					tEntity[2] = (item.getIdRel8() != null ? HtmlUtils.writeLink(alias, item.getIdRel8(), StringUtils.getShortName(item.getLabelRel8())) : null);
+					tEntity[3] = (item.getIdRel9() != null ? HtmlUtils.writeLink(alias, item.getIdRel9(), StringUtils.getShortName(item.getLabelRel9())) : null);
+					tEntity[4] = (item.getIdRel10() != null ? HtmlUtils.writeLink(alias, item.getIdRel10(), StringUtils.getShortName(item.getLabelRel10())) : null);
+					tEntity[5] = (item.getIdRel11() != null ? HtmlUtils.writeLink(alias, item.getIdRel11(), StringUtils.getShortName(item.getLabelRel11())) : null);
+					if (alias.equals(Country.alias) || alias.equals(Team.alias)) {
+						short index = (alias.equals(Country.alias) ? ImageUtils.INDEX_COUNTRY : ImageUtils.INDEX_TEAM);
+						tEntity[0] = (tEntity[0] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, item.getIdRel6(), 'S', false), tEntity[0]) : null);
+						tEntity[1] = (tEntity[1] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, item.getIdRel7(), 'S', false), tEntity[1]) : null);
+						tEntity[2] = (tEntity[2] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, item.getIdRel8(), 'S', false), tEntity[2]) : null);
+						tEntity[3] = (tEntity[3] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, item.getIdRel9(), 'S', false), tEntity[3]) : null);
+						tEntity[4] = (tEntity[4] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, item.getIdRel10(), 'S', false), tEntity[4]) : null);
+						tEntity[5] = (tEntity[5] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, item.getIdRel11(), 'S', false), tEntity[5]) : null);
+					}
 					List<Integer> listEq = StringUtils.tieList(item.getTxt4());
 					if (listEq != null && !listEq.isEmpty()) {
 						Integer idx = listEq.get(0) - 1;
@@ -672,15 +681,19 @@ public class HtmlConverter {
 						}
 						tEntity = StringUtils.removeNulls(tEntity);
 					}
-					if (isScore && !isMedal)
-						c5 = "<b>" + tEntity[0] + "</b>&nbsp;-&nbsp;" + tEntity[1] + "&nbsp;" + item.getTxt1();
+					isMedal = false;
+					if (isScore && !isMedal) {
+						StringBuffer sb = new StringBuffer("<table><tr>");
+						sb.append("<table><tr><td><b>" + tEntity[0] + "</b></td><td>&nbsp;-&nbsp;</td><td>" + tEntity[1] + "</td><td>&nbsp;" + item.getTxt1());
+						c5 = sb.append("</tr></table>").toString();
+					}
 					else {
 						StringBuffer sb = new StringBuffer("<table><tr>");
-						sb.append("<td>" + (tEntity[1] != null || isMedal ? (isMedal ? "<img src='img/render/gold-mini.png'/>" : "1.") + "&nbsp;" : "") + "</td><td><b>" + tEntity[0] + "</b>&nbsp;</td>");
+						sb.append("<td>" + (tEntity[0] != null || isMedal ? (isMedal ? "<img title='Gold Medal' src='img/render/gold-mini.png'/>" : "1.") + "&nbsp;" : "") + "</td><td><b>" + tEntity[0] + "</b></td>");
 						if (tEntity[1] != null)
-							sb.append("<td>" + (isMedal ? "<img src='img/render/silver-mini.png'/>" : "2.") + "&nbsp;</td><td>" + tEntity[1] + "&nbsp;</td>");
+							sb.append("<td>&nbsp;" + (isMedal ? "<img title='Silver Medal' src='img/render/silver-mini.png'/>" : "2.") + "&nbsp;</td><td>" + tEntity[1] + "</td>");
 						if (tEntity[2] != null)
-							sb.append("<td>" + (isMedal ? "<img src='img/render/bronze-mini.png'/>" : "3.") + "&nbsp;</td><td>" + tEntity[2] + "</td>");
+							sb.append("<td>&nbsp;" + (isMedal ? "<img title='Bronze Medal' src='img/render/bronze-mini.png'/>" : "3.") + "&nbsp;</td><td>" + tEntity[2] + "</td>");
 						c5 = sb.append("</tr></table>").toString();
 					}
 				}
@@ -748,7 +761,7 @@ public class HtmlConverter {
 		listEqDoubles.add(7);listEqDoubles.add(8);
 		for (Object obj : coll) {
 			ResultsBean bean = (ResultsBean) obj;
-			List<Integer> listEq = StringUtils.tieList(bean.getRsExa());
+			List<Integer> listEq = (isDoubles ? listEqDoubles : StringUtils.tieList(bean.getRsExa()));
 			String sListEq = listEq.toString();
 			entityCount = (entityCount < 1 && bean.getRsRank1() != null ? 1 : entityCount);
 			entityCount = (entityCount < 2 && bean.getRsRank2() != null && (listEq.indexOf(2) <= 0 || StringUtils.countIn(sListEq, "-1") >= 1) ? 2 : entityCount);
@@ -780,7 +793,7 @@ public class HtmlConverter {
 			isDraw |= (bean.getDrId() != null);
 			isComment |= StringUtils.notEmpty(bean.getRsComment());
 		}
-		entityCount /= (isDoubles ? 2 : 1);
+		//entityCount /= (isDoubles ? 2 : 1);
 		tColspan[0] += (tIsEntityRel1[0] ? 1 : 0) + (tIsEntityRel2[0] ? 1 : 0);
 		tColspan[1] += (tIsEntityRel1[1] ? 1 : 0) + (tIsEntityRel2[1] ? 1 : 0);
 		tColspan[2] += (tIsEntityRel1[2] ? 1 : 0) + (tIsEntityRel2[2] ? 1 : 0);
@@ -841,7 +854,10 @@ public class HtmlConverter {
 					place = HtmlUtils.writeImgTable(img2, place);
 				place = HtmlUtils.writeImgTable(img1, place);
 			}
-			List<Integer> listEq = (isDoubles ? listEqDoubles : StringUtils.tieList(bean.getRsExa()));
+			ArrayList<Integer> listEqDoubles_ = new ArrayList<Integer>(listEqDoubles);
+			if (isDoubles && StringUtils.notEmpty(bean.getRsExa()) && bean.getRsExa().equals("5-8"))
+				listEqDoubles_.remove(listEqDoubles_.lastIndexOf(-1));
+			List<Integer> listEq = (isDoubles ? listEqDoubles_ : StringUtils.tieList(bean.getRsExa()));
 			String[] tEntity = {null, null, null, null, null, null, null, null, null};
 			String[] tEntityRel = {null, null, null, null, null, null, null, null, null};
 			String[] tEntityHtml = {null, null, null, null, null, null, null, null, null};
@@ -925,6 +941,7 @@ public class HtmlConverter {
 			for (int i = 0 ; i < 9 ; i++)
 				if (tEntity[i] != null)
 					tEntityHtml[i] = ("<td class='srt'" + (i == 0 ? " style='font-weight:bold;'" : "") + ">" + tEntity[i] + "</td>" + (StringUtils.notEmpty(tEntityRel[i]) ?  tEntityRel[i] : (tIsEntityRel1[i] ? "<td></td>" : "") + (tIsEntityRel2[i] ? "<td></td>" : ""))) + (StringUtils.notEmpty(tResult[i]) ? "<td" + (isScore && i == 0 ? " class='centered'" : "") + ">" + tResult[i] + "</td>" : (tIsResult[i] ? "<td></td>" : ""));
+				
 			String commentTitle = null;
 			String commentColor = null;
 			if (comment != null && comment.matches("^\\#\\#(Clay|Decoturf|Grass|Gravel|Hard|Rebound|Snow|Tarmac).*")) {
@@ -938,9 +955,9 @@ public class HtmlConverter {
 			html.append(isComment ? "<td" + (StringUtils.notEmpty(commentTitle) ? " title='" + commentTitle + "' style='width:15px;background-color:" + commentColor + "';" : "") + ">" + (comment != null ? HtmlUtils.writeComment(bean.getRsId(), comment) : "") + "</td>" : "");
 			html.append("<td class='srt'>" + year + "</td>");
 			for (int i = 0 ; i < 9 ; i++)
-				html.append(tEntityHtml[i] != null ? tEntityHtml[i] : (entityCount > i ? "<td class='srt' colspan=" + tColspan[i] + ">" + StringUtils.EMPTY + "</td>" : ""));
-			html.append(isDates ? "<td class='srt'>" + dates + "</td>" : "");
-			html.append((isPlace ? "<td class='srt'>" + place + "</td>" : "") + "</tr>");
+				html.append(tEntityHtml[i] != null ? tEntityHtml[i] : (entityCount > i ? "<td class='srt' colspan=" + tColspan[i] + ">" + StringUtils.EMPTY + "</td>" + (isScore && i == 0 ? "<td class='srt'>" + StringUtils.EMPTY + "</td>" : "") : ""));
+			html.append(isDates ? "<td class='srt'>" + (StringUtils.notEmpty(dates) ? dates : "-") + "</td>" : "");
+			html.append((isPlace ? "<td class='srt'>" + (StringUtils.notEmpty(place) ? place : "-") + "</td>" : "") + "</tr>");
 		}
 		html.append(getWinRecords(StringUtils.implode(lIds, ",")));
 		html.append("</tbody></table>");
@@ -1237,7 +1254,7 @@ public class HtmlConverter {
 	public static StringBuffer convertHallOfFame(Collection<Object> coll, RenderOptions opts) throws Exception {
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		long id = System.currentTimeMillis();
-		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Year</th><th onclick='sort(\"" + id + "\", this, 1);'>Inductee</th><th onclick='sort(\"" + id + "\", this, 2);'>Position</th></tr></thead><tbody id='tb-" + id + "'>");
+		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Year</th><th onclick='sort(\"" + id + "\", this, 1);'>Inductee</th><th onclick='sort(\"" + id + "\", this, 2);'>Inducted As</th></tr></thead><tbody id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			HallOfFameBean bean = (HallOfFameBean) obj;
 

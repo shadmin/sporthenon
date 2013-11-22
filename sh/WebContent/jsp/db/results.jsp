@@ -79,7 +79,7 @@
 <script type="text/javascript">
 	var hSportImg = new Array();
 	<%for (String s : hSportImg.keySet()) {%>
-	hSportImg[<%=s%>] = "<%=hSportImg.get(s)%>";	
+	hSportImg[<%=s%>] = '<%=hSportImg.get(s).replaceAll("\\<img alt\\=\\'\\' src\\='|\\'\\/\\>", "")%>';	
 	<%}%>
 	initSelectMult('sm-pl-yr', 'Years', 265);
 	initSliderRes('sp');

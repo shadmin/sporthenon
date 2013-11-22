@@ -533,7 +533,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 				Athlete a = new Athlete();
 				a.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, idSp));
 				a.setLastName(s.substring(0, p > -1 ? p : p_));
-				a.setFirstName(p > -1 && s.charAt(p + 2) != '(' ? s.substring(p + 2, p_) : null);
+				a.setFirstName(p > -1 && s.charAt(p + 2) != '(' ? s.substring(p + 2, p_) : "");
 				boolean isCountryTeam = s.toLowerCase().matches(".*\\([a-z]{3}\\,\\s.+\\)$");
 				boolean isCountry = s.toLowerCase().matches(".*\\([a-z]{3}\\)$");
 				boolean isTeam = (!isCountry && s.toLowerCase().matches(".*\\([^\\,\\(\\)]+\\)$")); 
