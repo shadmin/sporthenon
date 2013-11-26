@@ -1,6 +1,7 @@
 <%@ page language="java"%>
+<%@ page import="java.util.List"%>
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
-<%@ page import="java.util.Collection"%>
+<%@ page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="usleagues" class="fieldset">
 	<div class="fstitle criteria">SEARCH CRITERIA</div>
@@ -43,15 +44,15 @@
 				</div>
 				<div id="record-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
 				<table>
-					<tr><td>Stat:</td>
+					<tr><td>Category:</td>
 					<td><div id="sm-pl-record-se" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 				</table>
 				<table>
-					<tr><td><div id="sm-pl-record-ev" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td>
-					<td style="width:60px;"><select id="pl-record-tp" name="pl-record-tp" style="width:75px;">
+					<tr><td style="width:80px;"><select id="pl-record-tp2" name="pl-record-tp2" style="width:105px;"></select></td>
+					<td style="width:80px;"><select id="pl-record-tp1" name="pl-record-tp1" style="width:105px;">
 						<option value="'Individual'">Individual</option>
 						<option value="'Team'">Team</option>
-						<option value="'Individual', 'Team'">Both</option>
+						<option value="'Individual', 'Team'">-- All --</option>
 					</select></td></tr>
 				</table>
 			</div></td>
@@ -76,9 +77,14 @@
 					<td><label for="hof">&nbsp;Hall of Fame</label></td></tr></table>
 				</div>
 				<div id="hof-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
-				<table style="margin-top:15px;">
+				<table>
 					<tr><td>Year:</td>
 					<td><div id="sm-pl-hof-yr" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
+				</table>
+				<table>
+					<tr><td>Position:</td>
+					<td class="text"><input type="text" name="hof-position" id="hof-position" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"></input></td>
+					<td><span id="hof-postip" style="color:#666;cursor:help;font-weight:bold;">[?]</span></td></tr>
 				</table>
 			</div></td>
 			<!-- RETIRED NUMBERS -->
@@ -94,7 +100,7 @@
 				</table>
 				<table>
 					<tr><td>Number:</td>
-					<td class="text"><input type="text" name="retnum-number" id="retnum-number"></input></td></tr>
+					<td class="text"><input type="text" name="retnum-number" id="retnum-number" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"></input></td></tr>
 				</table>
 			</div></td>
 			<!-- TEAM STADIUMS -->
@@ -120,11 +126,21 @@
 	initSelectMult('sm-pl-hof-yr', 'Years', 165);
 	initSelectMult('sm-pl-retnum-tm', 'Teams', 160, 60);
 	initSelectMult('sm-pl-teamstadium-tm', 'Teams', 160, 60);
-	initSelectMult('sm-pl-record-ev', 'Stats', 120, 80);
-	initSelectMult('sm-pl-record-se', 'Types', 165, 45);
+	initSelectMult('sm-pl-record-se', 'Categories', 135, 45);
 	initSelectMult('sm-pl-winloss-tm', 'Teams', 160, 60);
 	initSliderUS();
 	changeModeUS();
 	changeLeague('nfl');
+	var tPos = new Array();
+<%
+	List<Object[]> l = (List<Object[]>) DatabaseHelper.executeNative("select distinct id_league, position from \"HALL_OF_FAME\" where position is not null and position<>'' order by id_league, position");
+	for (Object[] tObj : l) {
+		String league = String.valueOf(tObj[0]);
+		String position = String.valueOf(tObj[1]);
+		String labelpos = StringUtils.getUSPosition(new Integer(league), position);
+		if (!position.matches(".*\\-.*")) {
+%>
+	tPos[<%=league%>] = (tPos[<%=league%>] ? tPos[<%=league%>] + '\r\n' : '') + <%="'" + position + "'"%> + ' - ' + <%="'" + labelpos + "'"%>;
+<%}}%>
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />

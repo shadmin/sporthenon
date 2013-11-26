@@ -92,7 +92,8 @@ public class USLeaguesServlet extends AbstractServlet {
 					else if (t[0].equals(TYPE_RECORD)) {
 						hParams.put("ev", t[2]);
 						hParams.put("se", t[3]);
-						hParams.put("tp", t[4]);
+						hParams.put("tp1", t[4]);
+						hParams.put("tp2", t[5]);
 					}
 					isLink = true;
 				}
@@ -120,6 +121,7 @@ public class USLeaguesServlet extends AbstractServlet {
 				}
 				else if (type.equals(TYPE_HOF)) {
 					lFuncParams.add(years);
+					lFuncParams.add(StringUtils.notEmpty(hParams.get("pos")) ? String.valueOf(hParams.get("pos")) : "");
 					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_HOF, lFuncParams, opts);
 					html.append(HtmlConverter.convertHallOfFame(DatabaseHelper.call("GetHallOfFame", lFuncParams), opts));
 				}
@@ -132,9 +134,10 @@ public class USLeaguesServlet extends AbstractServlet {
 				}
 				else if (type.equals(TYPE_RECORD)) {
 					lFuncParams.add(hLeagues.get(Short.valueOf(league)));
-					lFuncParams.add(StringUtils.notEmpty(hParams.get("ev")) ? String.valueOf(hParams.get("ev")) : "0");
+					lFuncParams.add("0");
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("se")) ? String.valueOf(hParams.get("se")) : "0");
-					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp")) ? String.valueOf(hParams.get("tp")) : "'Individual'");
+					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp1")) ? String.valueOf(hParams.get("tp1")) : "'Individual'");
+					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp2")) ? String.valueOf(hParams.get("tp2")) : "'Career'");
 					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_RECORD, lFuncParams, opts);
 					lFuncParams.remove(0);
 					if (String.valueOf(lFuncParams.get(3)).matches(".*Team.*") && !String.valueOf(lFuncParams.get(2)).equals("0")) {
@@ -183,7 +186,7 @@ public class USLeaguesServlet extends AbstractServlet {
 					plId = PICKLIST_ID_RECORD_EVENT;
 				}
 				else if (hParams.containsKey(PICKLIST_ID_RECORD_SUBEVENT)) {
-					cPicklist.add(new PicklistBean(0, "---&nbsp;All Stats&nbsp;---"));
+					cPicklist.add(new PicklistBean(0, "---&nbsp;All Categories&nbsp;---"));
 					cPicklist.addAll(DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + hLeagues.get(Short.valueOf(league)) + " and x.type1='Individual'", null, "x.subevent.index, x.subevent.label"));
 					plId = PICKLIST_ID_RECORD_SUBEVENT;
 				}

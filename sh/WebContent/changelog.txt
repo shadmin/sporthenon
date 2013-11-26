@@ -16,6 +16,8 @@ gestion export multi tableaux (INFO REF)
 raccourcis clavier updater
 statistics (nombre requetes par type)
 EXPORT HEADER TABLE
+hall fame us : filtre position avec tooltip
+record us : ajouter filtre game/career
 
 +-------+
 | 0.4.0 |

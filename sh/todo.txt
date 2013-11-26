@@ -1,5 +1,4 @@
-0.6
-android init
+0.6 - android init
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

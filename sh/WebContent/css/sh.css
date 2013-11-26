@@ -742,6 +742,12 @@ input{
 #ustopics img{
 	border: none;
 }
+#ustopics #hof-position, #ustopics #retnum-number{
+	border: 1px solid #CCC;
+}
+#ustopics #hof-position.selected, #ustopics #retnum-number.selected{
+	border: 1px solid #D00;
+}
 /* ========== SEARCH ========== */
 #search{
 	background: #FFF;

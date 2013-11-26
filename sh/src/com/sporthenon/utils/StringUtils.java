@@ -170,7 +170,7 @@ public class StringUtils {
 		hPos1.put("DT", "Defensive Tackle");
 		hPos1.put("E", "End");
 		hPos1.put("FB", "Fullback");
-		hPos1.put("FK", "");
+		hPos1.put("FK", "Flanker");
 		hPos1.put("G", "Guard");
 		hPos1.put("HB", "Halfback");
 		hPos1.put("K", "Kicker");
@@ -190,17 +190,18 @@ public class StringUtils {
 		hPos2.put("CH", "Coach");
 		hPos2.put("F", "Forward");
 		hPos2.put("G", "Guard");
-		hPos2.put("PF", "Passing Forward");
-		hPos2.put("PG", "Passing Guard");
-		hPos2.put("SF", "Shooting Forward");
+		hPos2.put("PF", "Power Forward");
+		hPos2.put("PG", "Point Guard");
+		hPos2.put("SF", "Small Forward");
 		hPos2.put("SG", "Shooting Guard");
 		hPos3.put("C", "Center");
 		hPos3.put("D", "Defenseman");
 		hPos3.put("F", "Forward");
-		hPos3.put("G", "Goalie");
+		hPos3.put("G", "Goaltender");
 		hPos3.put("LW", "Left Wing");
 		hPos3.put("OC", "Official");
 		hPos3.put("RW", "Right Wing");
+		hPos3.put("R", "Rover");
 		hPos4.put("P", "Pitcher");
 		hPos4.put("C", "Catcher");
 		hPos4.put("1B", "1st Baseman");
@@ -213,6 +214,7 @@ public class StringUtils {
 		hPos4.put("MGR", "Manager");
 		hPos4.put("EX", "Executive");
 		hPos4.put("PIO", "Pioneer Contributor");
+		hPos3.put("OF", "Official");
 		HashMap<String, String> hm = (league == 1 ? hPos1 : (league == 2 ? hPos2 : (league == 3 ? hPos3 : hPos4)));
 		return (hm.containsKey(pos) ? hm.get(pos) : pos);
 	}
