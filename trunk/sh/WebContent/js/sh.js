@@ -795,8 +795,24 @@ function changeLeague(id, srcsl) {
 		new Ajax.Request(url + '&pl-retnum-tm', { onSuccess: fillPicklist });
 		new Ajax.Request(url + '&pl-teamstadium-tm', { onSuccess: fillPicklist });
 		new Ajax.Request(url + '&pl-winloss-tm', { onSuccess: fillPicklist });
-		new Ajax.Request(url + '&pl-record-ev', { onSuccess: fillPicklist });
 		new Ajax.Request(url + '&pl-record-se', { onSuccess: fillPicklist });
+		$('hof-position').value = '';
+		$('hof-postip').title = tPos[league];
+		$('retnum-number').value = '';
+		var tType2 = ['Career', 'History', 'Season', 'Series', 'Game', 'Half', 'Quarter'];
+		var tAll = new Array();
+		for (var i = 0 ; i < tType2.length ; i++) {
+			if (league == 3 && tType2[i] == 'Quarter') {
+				tType2[i] = 'Period';
+			}
+			if ((league == 1 || league == 4) && tType2[i] == 'Series') {}
+			else {
+				tAll.push('\'' + tType2[i] + '\'');
+				tType2[i] = '<option value="\'' + tType2[i] + '\'">' + tType2[i] + '</option>';
+			}
+		}
+		tType2.push('<option value="' + tAll.join(',') + '">-- All --</option>');
+		$('pl-record-tp2').update(tType2.join(''));
 	}
 }
 function changeModeUS() {
@@ -824,9 +840,10 @@ function runUSLeagues() {
 	h.set('tm', $('pl-' + type + '-tm') ? $F('pl-' + type + '-tm') : null);
 	h.set('yr', $('pl-' + type + '-yr') ? $F('pl-' + type + '-yr') : null);
 	h.set('se', $('pl-' + type + '-se') ? $F('pl-' + type + '-se') : null);
-	h.set('ev', $('pl-' + type + '-ev') ? $F('pl-' + type + '-ev') : null);
-	h.set('tp', $('pl-' + type + '-tp') ? $F('pl-' + type + '-tp') : null);
+	h.set('tp1', $('pl-' + type + '-tp1') ? $F('pl-' + type + '-tp1') : null);
+	h.set('tp2', $('pl-' + type + '-tp2') ? $F('pl-' + type + '-tp2') : null);
 	h.set('num', $F('retnum-number'));
+	h.set('pos', $F('hof-position'));
 	addOptions(h);
 	new Ajax.Updater(tab, 'USLeaguesServlet?run', {
 		parameters: h,

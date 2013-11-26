@@ -107,6 +107,7 @@ public class FunctionTest extends TestCase {
 		ArrayList<Object> params = new ArrayList<Object>();
 		params.add(new Integer(1));
 		params.add(new String("0"));
+		params.add(new String("QB"));
 		Collection col = DatabaseHelper.call("GetHallOfFame", params);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
@@ -200,6 +201,7 @@ public class FunctionTest extends TestCase {
 	public void testUSRecordsBean() throws Exception {
 		ArrayList<Object> params = new ArrayList<Object>();
 		params.add(new Integer(51));
+		params.add(new String("0"));
 		params.add(new String("0"));
 		params.add(new String("0"));
 		params.add(new String("0"));

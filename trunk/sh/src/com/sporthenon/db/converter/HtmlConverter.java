@@ -644,8 +644,7 @@ public class HtmlConverter {
 				if (item.getIdRel6() != null && item.getLabelRel6() != null) {
 					String s = item.getLabelRel6().toLowerCase();
 					String alias = (s.matches(StringUtils.PATTERN_COUNTRY) ? Country.alias : (s.matches(StringUtils.PATTERN_ATHLETE) ? Athlete.alias : Team.alias));
-					boolean isScore = (item.getIdRel6() != null && item.getIdRel7() != null && StringUtils.notEmpty(item.getTxt1()) && !StringUtils.notEmpty(item.getTxt2()));
-					boolean isMedal = String.valueOf(item.getIdRel3()).matches("1|3|4");
+					boolean isMedal = String.valueOf(item.getIdRel3()).matches("1");
 					String[] tEntity = new String[6];
 					tEntity[0] = (item.getIdRel6() != null ? HtmlUtils.writeLink(alias, item.getIdRel6(), StringUtils.getShortName(item.getLabelRel6())) : null);
 					tEntity[1] = (item.getIdRel7() != null ? HtmlUtils.writeLink(alias, item.getIdRel7(), StringUtils.getShortName(item.getLabelRel7())) : null);
@@ -681,7 +680,8 @@ public class HtmlConverter {
 						}
 						tEntity = StringUtils.removeNulls(tEntity);
 					}
-					isMedal = false;
+					boolean isScore = (tEntity[0] != null && tEntity[1] != null && StringUtils.notEmpty(item.getTxt1()) && !StringUtils.notEmpty(item.getTxt2()));
+					//isMedal = false;
 					if (isScore && !isMedal) {
 						StringBuffer sb = new StringBuffer("<table><tr>");
 						sb.append("<table><tr><td><b>" + tEntity[0] + "</b></td><td>&nbsp;-&nbsp;</td><td>" + tEntity[1] + "</td><td>&nbsp;" + item.getTxt1());
@@ -761,7 +761,9 @@ public class HtmlConverter {
 		listEqDoubles.add(7);listEqDoubles.add(8);
 		for (Object obj : coll) {
 			ResultsBean bean = (ResultsBean) obj;
-			List<Integer> listEq = (isDoubles ? listEqDoubles : StringUtils.tieList(bean.getRsExa()));
+			List<Integer> listEq = (isDoubles ? new ArrayList<Integer>(listEqDoubles) : StringUtils.tieList(bean.getRsExa()));
+			if (isDoubles && StringUtils.notEmpty(bean.getRsExa()) && bean.getRsExa().equals("5-8"))
+				listEq.remove(listEq.lastIndexOf(-1));
 			String sListEq = listEq.toString();
 			entityCount = (entityCount < 1 && bean.getRsRank1() != null ? 1 : entityCount);
 			entityCount = (entityCount < 2 && bean.getRsRank2() != null && (listEq.indexOf(2) <= 0 || StringUtils.countIn(sListEq, "-1") >= 1) ? 2 : entityCount);
@@ -1375,7 +1377,7 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertUSRecords(Collection<Object> coll, RenderOptions opts) throws Exception {
-		int currentCategory = 0;
+		String currentCategory = "";
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		boolean isRank2 = false;
 		boolean isRank3 = false;
@@ -1392,7 +1394,7 @@ public class HtmlConverter {
 		long id = 0;
 		for (Object obj : coll) {
 			USRecordsBean bean = (USRecordsBean) obj;
-			if (bean.getSeId() != currentCategory) {
+			if (!currentCategory.equals(bean.getSeLabel())) {
 				id = System.currentTimeMillis();
 				isRank2 = false;
 				isRank3 = false;
@@ -1417,22 +1419,13 @@ public class HtmlConverter {
 					isDate4 |= (bean_.getRcDate4() != null);
 					isDate5 |= (bean_.getRcDate5() != null);
 				}
-				/**
-				long id = System.currentTimeMillis();
-				String teamHeader = "<table><tr><td class='bordered'>" + HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTmId(), ImageUtils.SIZE_SMALL, opts.isPicturesDisabled()) + "</td>";
-				teamHeader += "<td class='bold'>" + bean.getTmLabel() + "</td></tr></table>";
-				html.append(currentTeam > 0 ? "</tbody></table><table class='tsort'>" : "");
-				html.append("<thead><tr><th colspan='3'>" + teamHeader + "</th></tr>");
-				html.append("<tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Complex</th><th onclick='sort(\"" + id + "\", this, 1);'>City</th><th onclick='sort(\"" + id + "\", this, 2);'>Years</th></tr></thead><tbody id='tb-" + id + "'>");
-				currentTeam = bean.getTmId();
-				 */
 				colspan_ = 4 + (isRank2 ? 2 : 0) + (isRank3 ? 2 : 0) + (isRank4 ? 2 : 0) + (isRank5 ? 2 : 0) + (isDate1 ? 1 : 0) + (isDate2 ? 1 : 0) + (isDate3 ? 1 : 0) + (isDate4 ? 1 : 0) + (isDate5 ? 1 : 0);
-				html.append(currentCategory > 0 ? "</tbody></table><table class='tsort'>" : "");
-				html.append("<thead><tr><th colspan=" + colspan_ + ">" + HtmlUtils.writeToggleTitle(bean.getSeLabel().toUpperCase() + " (" + bean.getEvLabel().toUpperCase() + ")") + "</th></tr>");
+				html.append(StringUtils.notEmpty(currentCategory) ? "</tbody></table><table class='tsort'>" : "");
+				html.append("<thead><tr><th colspan=" + colspan_ + ">" + HtmlUtils.writeToggleTitle(bean.getSeLabel().toUpperCase()) + "</th></tr>");
 				html.append("<tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Scope</th><th onclick='sort(\"" + id + "\", this, 1);'>Record</th><th colspan=" + (isDate1 ? "3" : "2") + " onclick='sort(\"" + id + "\", this, 2);'>Holder</th>" + (isRank2 ? "<th colspan=" + (isDate2 ? "3" : "2") + " onclick='sort(\"" + id + "\", this, 3);'>2nd</th>" : ""));
 				html.append((isRank3 ? "<th colspan=" + (isDate3 ? "3" : "2") + " onclick='sort(\"" + id + "\", this, 4);'>3rd</th>" : "") + (isRank4 ? "<th colspan=" + (isDate4 ? "3" : "2") + " onclick='sort(\"" + id + "\", this, 5);'>4th</th>" : "") + (isRank5 ? "<th colspan=" + (isDate5 ? "3" : "2") + " onclick='sort(\"" + id + "\", this, 6);'>5th</th>" : ""));
 				html.append("</tr></thead><tbody id='tb-" + id + "'>");
-				currentCategory = bean.getSeId();
+				currentCategory = bean.getSeLabel();
 			}
 			i++;
 
@@ -1465,7 +1458,7 @@ public class HtmlConverter {
 				rank5 = HtmlUtils.writeLink(Team.alias, bean.getRcRank5(), bean.getRcTeam5());
 
 			// Write line
-			html.append("<tr><td class='srt'>" + bean.getRcType1() + "&nbsp;-&nbsp;" + bean.getRcType2() + "</td><td class='srt'>" + bean.getRcLabel() + "</td><td class='srt'><b>" + holder + "</b></td><td class='srt'><b>" + bean.getRcRecord1() + "</b></td>");
+			html.append("<tr><td class='srt'>" + bean.getEvLabel() + "&nbsp;-&nbsp;" + bean.getRcType1() + "&nbsp;-&nbsp;" + bean.getRcType2() + "</td><td class='srt'>" + bean.getRcLabel() + "</td><td class='srt'><b>" + holder + "</b></td><td class='srt'><b>" + bean.getRcRecord1() + "</b></td>");
 			html.append(isDate1 ? "<td class='srt'>" + (StringUtils.notEmpty(bean.getRcDate1()) ? bean.getRcDate1() : StringUtils.EMPTY) + "</td>" : "");
 			if (isRank2)
 				html.append(rank2 != null ? "<td class='srt'>" + rank2 + "</td><td class='srt'>" + bean.getRcRecord2() + "</td>" : "<td colspan=" + (isDate2 ? "3" : "2") + ">" + StringUtils.EMPTY + "</td>")
