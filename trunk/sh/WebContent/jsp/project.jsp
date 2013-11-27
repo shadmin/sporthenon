@@ -23,7 +23,7 @@
 
 <div class="fieldset">
 <div class="fstitle statistics">STATISTICS</div>
-<div class="fscontent"><select id="charts" style="width:250px;margin:2px;" onchange="loadChart();"><option value="0">Number of Requests per Type</option><option value="1">Number of Requests per Sport</option></select><table><tr><td style="vertical-align:top;border:none;width:250px;"><table id="charttxt"><tr><td/></table></td><td style="vertical-align:top;border:none;"><div id="chart"></div></td></tr></table></div>
+<div class="fscontent"><select id="charts" style="width:250px;margin:2px;" onchange="loadChart();"><option value="0">Number of Requests per Type</option><option value="1">Number of Requests per Sport</option></select><table><tr><td style="vertical-align:top;border:none;width:250px;"><table id="charttxt"><tr><td></td></tr></table></td><td style="vertical-align:top;border:none;"><div id="chart"></div></td></tr></table></div>
 </div>
 
 <div class="fieldset">

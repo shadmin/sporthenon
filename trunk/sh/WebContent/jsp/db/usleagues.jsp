@@ -48,7 +48,7 @@
 					<td><div id="sm-pl-record-se" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 				</table>
 				<table>
-					<tr><td style="width:80px;"><select id="pl-record-tp2" name="pl-record-tp2" style="width:105px;"></select></td>
+					<tr><td style="width:80px;"><select id="pl-record-tp2" name="pl-record-tp2" style="width:105px;"><option/></select></td>
 					<td style="width:80px;"><select id="pl-record-tp1" name="pl-record-tp1" style="width:105px;">
 						<option value="'Individual'">Individual</option>
 						<option value="'Team'">Team</option>

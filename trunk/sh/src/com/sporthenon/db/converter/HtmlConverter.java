@@ -1419,11 +1419,11 @@ public class HtmlConverter {
 					isDate4 |= (bean_.getRcDate4() != null);
 					isDate5 |= (bean_.getRcDate5() != null);
 				}
-				colspan_ = 4 + (isRank2 ? 2 : 0) + (isRank3 ? 2 : 0) + (isRank4 ? 2 : 0) + (isRank5 ? 2 : 0) + (isDate1 ? 1 : 0) + (isDate2 ? 1 : 0) + (isDate3 ? 1 : 0) + (isDate4 ? 1 : 0) + (isDate5 ? 1 : 0);
+				colspan_ = 6 + (isRank2 ? 2 : 0) + (isRank3 ? 2 : 0) + (isRank4 ? 2 : 0) + (isRank5 ? 2 : 0) + (isDate1 ? 1 : 0) + (isDate2 ? 1 : 0) + (isDate3 ? 1 : 0) + (isDate4 ? 1 : 0) + (isDate5 ? 1 : 0);
 				html.append(StringUtils.notEmpty(currentCategory) ? "</tbody></table><table class='tsort'>" : "");
 				html.append("<thead><tr><th colspan=" + colspan_ + ">" + HtmlUtils.writeToggleTitle(bean.getSeLabel().toUpperCase()) + "</th></tr>");
-				html.append("<tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Scope</th><th onclick='sort(\"" + id + "\", this, 1);'>Record</th><th colspan=" + (isDate1 ? "3" : "2") + " onclick='sort(\"" + id + "\", this, 2);'>Holder</th>" + (isRank2 ? "<th colspan=" + (isDate2 ? "3" : "2") + " onclick='sort(\"" + id + "\", this, 3);'>2nd</th>" : ""));
-				html.append((isRank3 ? "<th colspan=" + (isDate3 ? "3" : "2") + " onclick='sort(\"" + id + "\", this, 4);'>3rd</th>" : "") + (isRank4 ? "<th colspan=" + (isDate4 ? "3" : "2") + " onclick='sort(\"" + id + "\", this, 5);'>4th</th>" : "") + (isRank5 ? "<th colspan=" + (isDate5 ? "3" : "2") + " onclick='sort(\"" + id + "\", this, 6);'>5th</th>" : ""));
+				html.append("<tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Scope</th><th onclick='sort(\"" + id + "\", this, 1);'>Type</th><th onclick='sort(\"" + id + "\", this, 2);'>Period</th><th onclick='sort(\"" + id + "\", this, 3);'>Record</th><th colspan=" + (isDate1 ? "3" : "2") + " onclick='sort(\"" + id + "\", this, 4);'>Holder</th>" + (isRank2 ? "<th colspan=" + (isDate2 ? "3" : "2") + " onclick='sort(\"" + id + "\", this, 5);'>2nd</th>" : ""));
+				html.append((isRank3 ? "<th colspan=" + (isDate3 ? "3" : "2") + " onclick='sort(\"" + id + "\", this, 6);'>3rd</th>" : "") + (isRank4 ? "<th colspan=" + (isDate4 ? "3" : "2") + " onclick='sort(\"" + id + "\", this, 7);'>4th</th>" : "") + (isRank5 ? "<th colspan=" + (isDate5 ? "3" : "2") + " onclick='sort(\"" + id + "\", this, 8);'>5th</th>" : ""));
 				html.append("</tr></thead><tbody id='tb-" + id + "'>");
 				currentCategory = bean.getSeLabel();
 			}
@@ -1458,7 +1458,7 @@ public class HtmlConverter {
 				rank5 = HtmlUtils.writeLink(Team.alias, bean.getRcRank5(), bean.getRcTeam5());
 
 			// Write line
-			html.append("<tr><td class='srt'>" + bean.getEvLabel() + "&nbsp;-&nbsp;" + bean.getRcType1() + "&nbsp;-&nbsp;" + bean.getRcType2() + "</td><td class='srt'>" + bean.getRcLabel() + "</td><td class='srt'><b>" + holder + "</b></td><td class='srt'><b>" + bean.getRcRecord1() + "</b></td>");
+			html.append("<tr><td class='srt'>" + bean.getEvLabel() + "</td><td class='srt'>" + bean.getRcType1() + "</td><td class='srt'>" + bean.getRcType2() + "</td><td class='srt'>" + bean.getRcLabel() + "</td><td class='srt'><b>" + holder + "</b></td><td class='srt'><b>" + bean.getRcRecord1() + "</b></td>");
 			html.append(isDate1 ? "<td class='srt'>" + (StringUtils.notEmpty(bean.getRcDate1()) ? bean.getRcDate1() : StringUtils.EMPTY) + "</td>" : "");
 			if (isRank2)
 				html.append(rank2 != null ? "<td class='srt'>" + rank2 + "</td><td class='srt'>" + bean.getRcRecord2() + "</td>" : "<td colspan=" + (isDate2 ? "3" : "2") + ">" + StringUtils.EMPTY + "</td>")

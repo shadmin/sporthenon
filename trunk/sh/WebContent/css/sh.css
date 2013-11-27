@@ -1,5 +1,5 @@
 body{
-	background: #FFFFF2 url(../img/bg.gif?5) 0 0 repeat-y;
+	background: #FFFFF2 url(../img/bg.gif?6) 0 0 repeat-y;
 	margin: 0;
 	padding: 0;
 }
@@ -123,7 +123,7 @@ input{
 	display: none;
 }
 .criteria{
-	background-image: url(../img/db/criteria.png?5);
+	background-image: url(../img/db/criteria.png?6);
 }
 /* ========== HEADER/MENU ========== */
 #header{
@@ -183,28 +183,28 @@ input{
 	color: #000;
 }
 #shmenu-home{
-	background-image:url(../img/menu/home.png?5);
+	background-image:url(../img/menu/home.png?6);
 }
 #shmenu-results{
-	background-image:url(../img/menu/dbresults.png?5);
+	background-image:url(../img/menu/dbresults.png?6);
 }
 #shmenu-olympics{
-	background-image:url(../img/menu/dbolympics.png?5);
+	background-image:url(../img/menu/dbolympics.png?6);
 }
 #shmenu-usleagues{
-	background-image:url(../img/menu/dbusleagues.png?5);
+	background-image:url(../img/menu/dbusleagues.png?6);
 }
 #shmenu-search{
-	background-image:url(../img/menu/dbsearch.png?5);
+	background-image:url(../img/menu/dbsearch.png?6);
 }
 #shmenu-project{
-	background-image:url(../img/menu/project.png?5);
+	background-image:url(../img/menu/project.png?6);
 }
 #shmenu-login{
-	background-image:url(../img/menu/login.png?5);
+	background-image:url(../img/menu/login.png?6);
 }
 #shmenu-logout{
-	background-image:url(../img/menu/logout.png?5);
+	background-image:url(../img/menu/logout.png?6);
 }
 #links{
 	margin: 5px;
@@ -396,7 +396,7 @@ input{
 .inactive-msg{
 	position: absolute;
 	z-index:2;
-	background: transparent url(../img/db/notselected.png?5) center center no-repeat;
+	background: transparent url(../img/db/notselected.png?6) center center no-repeat;
 }
 /* ========== BUTTONS ========== */
 #buttons{
@@ -432,41 +432,47 @@ input{
 	text-decoration: underline;
 }
 #buttons .execute{
-	background-image: url('../img/component/button/execute.png?5');
+	background-image: url('../img/component/button/execute.png?6');
 	padding-left: 24px;
 	font-weight: bold;
 }
 #buttons .reset{
-	background-image: url('../img/component/button/reset.png?5');
+	background-image: url('../img/component/button/reset.png?6');
 }
 #buttons .options{
-	background-image: url('../img/component/button/options.png?5');
+	background-image: url('../img/component/button/options.png?6');
 }
 #buttons .export{
-	background-image: url('../img/component/button/export.png?5');
+	background-image: url('../img/component/button/export.png?6');
 }
 #buttons .export-disabled{
-	background-image: url('../img/component/button/export-disabled.png?5');
+	background-image: url('../img/component/button/export-disabled.png?6');
 }
 #buttons .link{
-	background-image: url('../img/component/button/link.png?5');
+	background-image: url('../img/component/button/link.png?6');
 }
 #buttons .link-disabled{
-	background-image: url('../img/component/button/link-disabled.png?5');
+	background-image: url('../img/component/button/link-disabled.png?6');
 }
 #buttons .print{
-	background-image: url('../img/component/button/print.png?5');
+	background-image: url('../img/component/button/print.png?6');
 }
 #buttons .print-disabled{
-	background-image: url('../img/component/button/print-disabled.png?5');
+	background-image: url('../img/component/button/print-disabled.png?6');
 }
 #buttons .info{
-	background-image: url('../img/component/button/info.png?5');
+	background-image: url('../img/component/button/info.png?6');
 }
 #buttons .info-disabled{
-	background-image: url('../img/component/button/info-disabled.png?5');
+	background-image: url('../img/component/button/info-disabled.png?6');
 }
-#buttons .export-disabled:hover, #buttons .link-disabled:hover, #buttons .print-disabled:hover, #buttons .info-disabled:hover{
+#buttons .close{
+	background-image: url('../img/component/button/close.png?6');
+}
+#buttons .close-disabled{
+	background-image: url('../img/component/button/close-disabled.png?6');
+}
+#buttons .export-disabled:hover, #buttons .link-disabled:hover, #buttons .print-disabled:hover, #buttons .info-disabled:hover, #buttons .close-disabled:hover{
 	text-decoration: none;
 }
 /* ========== TREEVIEW ========== */
@@ -549,13 +555,13 @@ input{
 	background-repeat: no-repeat;
 }
 .homecontent .info{
-	background-image: url(../img/info.png?5);
+	background-image: url(../img/info.png?6);
 }
 .homecontent .contact{
-	background-image: url(../img/contact.png?5);
+	background-image: url(../img/contact.png?6);
 }
 .homecontent .news{
-	background-image: url(../img/news.png?5);
+	background-image: url(../img/news.png?6);
 }
 #table-stat td{
 	padding-bottom: 5px;
@@ -573,7 +579,7 @@ input{
 	padding-left: 3px;
 	padding-right: 5px;
 	margin: 3px;
-	background: #FFF url(../img/column.png?5) 27px 127px no-repeat;
+	background: #FFF url(../img/column.png?6) 27px 127px no-repeat;
 }
 #results .spcpdiv table{
 	width: 100%;
@@ -675,7 +681,7 @@ input{
 #usleagues{
 	height: 210px;
 	margin-bottom: 0px;
-	background: #FFF url(../img/column.png?5) 35px 150px no-repeat;
+	background: #FFF url(../img/column.png?6) 35px 150px no-repeat;
 }
 #usleagues .league{
 	float: left;
@@ -782,7 +788,7 @@ input{
 }
 /* ========== LOGIN ========== */
 .login{
-	background-image: url(../img/menu/login.png?5);
+	background-image: url(../img/menu/login.png?6);
 }
 .tlogin{
 	margin: 5px auto;
@@ -806,7 +812,7 @@ input{
 	padding:5px 6px;
 	text-decoration: none;
 	color: #000;
-	background: #FFF url(../img/db/ok.png?5) 8px center no-repeat;
+	background: #FFF url(../img/db/ok.png?6) 8px center no-repeat;
 	padding-left: 26px;
 }
 .tlogin .button a:hover, .register .button a:hover{
@@ -831,7 +837,7 @@ input{
 	margin-top: 10px;
 }
 .register .button a{
-	background: #FFF url(../img//update/add.png?5) 8px center no-repeat;
+	background: #FFF url(../img//update/add.png?6) 8px center no-repeat;
 }
 #r-msg{
 	font-weight: bold;
@@ -847,11 +853,11 @@ input{
 }
 .register .success{
 	background-color: #beffbc;
-	background-image: url(../img/update/success.png?5);
+	background-image: url(../img/update/success.png?6);
 }
 .register .error{
 	background-color: #e5bdbf;
-	background-image: url(../img/update/error.png?5);
+	background-image: url(../img/update/error.png?6);
 }
 .register .waiting{
 	background-color: #fff;
@@ -859,19 +865,19 @@ input{
 }
 /* ========== PROJECT ========== */
 .downloads{
-	background-image: url(../img/project/downloads.png?5);
+	background-image: url(../img/project/downloads.png?6);
 }
 .reportbug{
-	background-image: url(../img/project/reportbug.png?5);
+	background-image: url(../img/project/reportbug.png?6);
 }
 .statistics{
-	background-image: url(../img/project/statistics.png?5);
+	background-image: url(../img/project/statistics.png?6);
 }
 .technicalinfo{
-	background-image: url(../img/project/technicalinfo.png?5);
+	background-image: url(../img/project/technicalinfo.png?6);
 }
 .contributors{
-	background-image: url(../img/project/contributors.png?5);
+	background-image: url(../img/project/contributors.png?6);
 }
 /* ========== DIALOGS ========== */
 .dialog, .dialog input{
@@ -879,19 +885,19 @@ input{
 }
 #d-lastupdates .fstitle{
 	background-color: #DAEEFF;
-	background-image: url(../img/component/button/lastpudates.png?5);
+	background-image: url(../img/component/button/lastpudates.png?6);
 }
 #d-export .fstitle{
 	background-color: #DAEEFF;
-	background-image: url(../img/component/button/export.png?5);
+	background-image: url(../img/component/button/export.png?6);
 }
 #d-link .fstitle{
 	background-color: #DAEEFF;
-	background-image: url(../img/component/button/link.png?5);
+	background-image: url(../img/component/button/link.png?6);
 }
 #d-info .fstitle{
 	background-color: #DAEEFF;
-	background-image: url(../img/component/button/info.png?5);
+	background-image: url(../img/component/button/info.png?6);
 }
 .dialog .dlgbuttons{
 	height: 33px;
@@ -908,10 +914,10 @@ input{
 	padding-left: 22px;
 }
 .dialog .dlgbuttons .ok, .optcontainer .ok{
-	background-image: url('../img/component/button/ok.png?5');
+	background-image: url('../img/component/button/ok.png?6');
 }
 .dialog .dlgbuttons .cancel, .optcontainer .cancel{
-	background-image: url('../img/component/button/cancel.png?5');
+	background-image: url('../img/component/button/cancel.png?6');
 }
 #d-export td{
 	background-color: #FFF;
