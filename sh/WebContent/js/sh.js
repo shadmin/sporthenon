@@ -263,8 +263,8 @@ function overCloseImg() {
 function outCloseImg() {
 	this.src = this.src.replace('close-over.gif', 'close.gif');
 }
-function clickCloseImg() {
-	var idx = this.id.replace('close-', '');
+function clickCloseImg(id_) {
+	var idx = (this.id == 'close' ? tabs.activeContainer.id.replace('t-', '') : this.id.replace('close-', ''));
 	$('link-' + idx).remove();
 	tabs.removeTab('t-' + idx);
 	if (tabs.activeContainer.id == 't-' + idx) {
@@ -297,6 +297,7 @@ function initTab() {
 	$('link').removeClassName('link-disabled').addClassName('link').disabled = '';
 	$('print').removeClassName('print-disabled').addClassName('print').disabled = '';
 	$('info').removeClassName('info-disabled').addClassName('info').disabled = '';
+	$('close').removeClassName('close-disabled').addClassName('close').disabled = '';
 	return tab.update('<div class="loading"></div>');
 }
 function closeTabs() {
@@ -308,6 +309,7 @@ function closeTabs() {
 	$('link').removeClassName('link').addClassName('link-disabled').disabled = 'disabled';
 	$('print').removeClassName('print').addClassName('print-disabled').disabled = 'disabled';
 	$('info').removeClassName('info').addClassName('info-disabled').disabled = 'disabled';
+	$('close').removeClassName('close').addClassName('close-disabled').disabled = 'disabled';
 	tabindex = 1;
 }
 function closeDialog(dlg) {
