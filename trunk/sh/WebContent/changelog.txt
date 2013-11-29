@@ -6,18 +6,19 @@
 +-------+
 | 0.5.0 |
 +-------+
-0.5 faciliter affichage link athlete + team (voir label)
-0.5 references result ==> gestion EX--
-bug export - gerer fusion cellules - XLS TXT
-updater link athlete/team : mise 0 automatique source link 
-gerer affichage link team 0 + link athlete multi sport
-last update [+] More
-gestion export multi tableaux (INFO REF)
-raccourcis clavier updater
-statistics (nombre requetes par type)
-EXPORT HEADER TABLE
-hall fame us : filtre position avec tooltip
-record us : ajouter filtre game/career
+o Web
+	- New feature: <Last Updates> (=> display of last DB updates with custom count)
+	- New feature: <Statistics>
+	- Added header table to export formats txt and xls
+	- Added multi-table + merged cells management on exports
+	- Added "position" filter on US leagues "hall of fame" search
+	- Added "period" filter on US leagues "records" search (season, career, game...)
+	- Improved display on "Team" references with links
+	- Fixed results references with tied entities
+o Swing application
+	- Keyboard shortcuts for "data" panel actions
+	- Automatic set to "0" for links on referenced entity
+	- Added display of referenced entity label when saving entity with link
 
 +-------+
 | 0.4.0 |

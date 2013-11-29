@@ -1331,13 +1331,15 @@ public class HtmlConverter {
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		boolean isDate = false;
 		boolean isPlace = false;
+		boolean isComment = false;
 		for (Object obj : coll) {
 			USChampionshipsBean bean = (USChampionshipsBean) obj;
 			isDate |= StringUtils.notEmpty(bean.getRsDate2());
 			isPlace |= (bean.getCxId() != null);
+			isComment |= StringUtils.notEmpty(bean.getRsComment()); 
 		}
 		long id = System.currentTimeMillis();
-		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Year</th><th onclick='sort(\"" + id + "\", this, 1);'>Champion</th><th onclick='sort(\"" + id + "\", this, 2);'>Score</th><th onclick='sort(\"" + id + "\", this, 3);'>Runner-up</th>");
+		html.append("<thead><tr class='rsort'><th" + (isComment ? " colspan='2'" : "") + " onclick='sort(\"" + id + "\", this, 0);'>Year</th><th onclick='sort(\"" + id + "\", this, 1);'>Champion</th><th onclick='sort(\"" + id + "\", this, 2);'>Score</th><th onclick='sort(\"" + id + "\", this, 3);'>Runner-up</th>");
 		html.append((isDate ? "<th onclick='sort(\"" + id + "\", this, 4);'>Date</th>" : "") + (isPlace ? "<th onclick='sort(\"" + id + "\", this, " + (isDate ? 5 : 4) + ");'>Place</th>" : "") + "</tr></thead><tbody id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			USChampionshipsBean bean = (USChampionshipsBean) obj;
@@ -1369,7 +1371,7 @@ public class HtmlConverter {
 			}
 
 			// Write line
-			html.append("<tr><td class='srt'>" + year + "</td><td class='srt'>" + (champion != null ? champion : StringUtils.EMPTY) + "</td><td class='srt'>" + (StringUtils.notEmpty(bean.getRsResult()) ? bean.getRsResult() : "") + "</td>");
+			html.append("<tr>" + (isComment ? "<td>" + HtmlUtils.writeComment(bean.getRsId(), bean.getRsComment()) + "</td>" : "") + "<td class='srt'>" + year + "</td><td class='srt'>" + (champion != null ? champion : StringUtils.EMPTY) + "</td><td class='srt'>" + (StringUtils.notEmpty(bean.getRsResult()) ? bean.getRsResult() : "") + "</td>");
 			html.append("<td class='srt'>" + (runnerup != null ? runnerup : StringUtils.EMPTY) + "</td>" + (isDate ? "<td class='srt'>" + date + "</td>" : "") + (isPlace ? "<td class='srt'>" + place + "</td>" : "") + "</tr>");
 		}
 		html.append("</tbody></table>");
@@ -1480,8 +1482,6 @@ public class HtmlConverter {
 
 	public static StringBuffer convertWinLoss(Collection<Object> coll, RenderOptions opts) throws Exception {
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
-		long id = System.currentTimeMillis();
-		html.append("<tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Team</th><th onclick='sort(\"" + id + "\", this, 1);'>Type</th><th onclick='sort(\"" + id + "\", this, 2);'>Wins</th><th onclick='sort(\"" + id + "\", this, 3);'>Losses</th><th onclick='sort(\"" + id + "\", this, 4);'>Ties</th><th onclick='sort(\"" + id + "\", this, 5);'>%</th></tr></thead><tbody id='tb-" + id + "'>");
 		boolean isTie = false;
 		boolean isOtloss = false;
 		for (Object obj : coll) {
@@ -1489,6 +1489,8 @@ public class HtmlConverter {
 			isTie |= (bean.getWlCountTie() != null);
 			isOtloss |= (bean.getWlCountOtloss() != null);
 		}
+		long id = System.currentTimeMillis();
+		html.append("<tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Team</th><th onclick='sort(\"" + id + "\", this, 1);'>Type</th><th onclick='sort(\"" + id + "\", this, 2);'>Wins</th><th onclick='sort(\"" + id + "\", this, 3);'>Losses</th>" + (isTie ? "<th onclick='sort(\"" + id + "\", this, 4);'>Ties</th>" : "") + (isOtloss ? "<th onclick='sort(\"" + id + "\", this, 5);'>Ties</th>" : "") + "<th onclick='sort(\"" + id + "\", this, " + (4 + (isTie ? 1 : 0) + (isOtloss ? 1 : 0)) + ");'>%</th></tr></thead><tbody id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			WinLossBean bean = (WinLossBean) obj;
 

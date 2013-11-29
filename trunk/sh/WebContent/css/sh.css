@@ -421,6 +421,7 @@ input{
 	background-position: 3px center;
 	background-repeat: no-repeat;
 	padding-left: 22px;
+	cursor: pointer;
 }
 #buttons #bleft .button{
 	margin-right: 3px;
@@ -474,6 +475,7 @@ input{
 }
 #buttons .export-disabled:hover, #buttons .link-disabled:hover, #buttons .print-disabled:hover, #buttons .info-disabled:hover, #buttons .close-disabled:hover{
 	text-decoration: none;
+	cursor: default;
 }
 /* ========== TREEVIEW ========== */
 #treeview{
@@ -626,8 +628,8 @@ input{
 }
 #results #treeicon{
 	position: absolute;
-	margin-left: 337px;
-	margin-top: 145px;
+	margin-left: 334px;
+	margin-top: 142px;
 	cursor: pointer;
 }
 #results #treeview{

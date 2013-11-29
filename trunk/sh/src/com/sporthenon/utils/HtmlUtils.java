@@ -100,7 +100,7 @@ public class HtmlUtils {
 	public static String writeTip(String t, Object o) {
 		StringBuffer html = new StringBuffer();
 		long time = System.currentTimeMillis();
-		html.append((o instanceof Collection ? ((Collection)o).size() + "&nbsp;" : "") + "<a style='cursor:default;' href='#" + t + "-" + time + "'><img src='" + ImageUtils.getRenderUrl() + "note.png'/></a>");
+		html.append((o instanceof Collection ? ((Collection)o).size() + "&nbsp;" : "") + "<a style='cursor:help;' href='#" + t + "-" + time + "'><img src='" + ImageUtils.getRenderUrl() + "note.png'/></a>");
 		html.append("<div id='" + t + "-" + time + "' class='rendertip'>" + (o instanceof String ? o : StringUtils.implode((Collection<String>) o, "<br/>")) + "</div>");
 		return html.toString();
 	}
