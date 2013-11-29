@@ -240,7 +240,8 @@ function toggleTreeExpand() {
 		img.src = img.src.replace('collapse', 'expand');
 		img.alt = img.alt.replace('Collapse', 'Expand');
 	}
-	img.title = img.alt;
+	$('treeicontxt').update(img.alt);
+	//img.title = img.alt;
 	treeExpanded = !treeExpanded;
 }
 var t1 = null;
@@ -580,7 +581,7 @@ function initSliderRes(s) {
 	var sliderContent = [];
 	var t = $$('#pl-' + s + ' option');
 	t.each(function(el) {
-		sliderContent.push('<div id="' + s + '-' + el.value + '" class="slide"><img alt="" src=\'' + hSportImg[el.value] + '\'/></div>');
+		sliderContent.push('<div id="' + s + '-' + el.value + '" class="slide"><img alt="" title="' + el.text + '" src=\'' + hSportImg[el.value] + '\'/></div>');
 	});
 	sliderContent.push('<div id="' + s + '-' + t[0].value + '" class="slide">' + hSportImg[t[0].value] + '</div>');
 	$$('#slider-' + s + ' .content')[0].update(sliderContent.join(''));

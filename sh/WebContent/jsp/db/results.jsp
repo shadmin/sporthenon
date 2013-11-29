@@ -57,7 +57,7 @@
 	</div>
 	<div class="treediv" style="padding-left:5px;">
 	<table>
-		<tr><td style="text-align:left;">Select in tree:</td></tr>
+		<tr><td style="text-align:left;">Select in Tree:</td></tr>
 		<tr><td>
 			<div id="treeview" class="collapsed">
 				<table cellpadding="0" cellspacing="0"><tr><td>
@@ -69,7 +69,7 @@
 		</td></tr>
 	</table>
 	<div id="treeicon">
-		<img id="treeiconimg" src="img/db/tree_expand.png" alt="Expand Tree" title="Expand Tree" class="treeicon" onclick="toggleTreeExpand();"/>
+		<table onclick="toggleTreeExpand();"><tr><td><img id="treeiconimg" src="img/db/tree_expand.png" alt="Expand" class="treeicon"/></td><td style="padding:0;"><a id="treeicontxt" href='#'>Expand</a></td></tr></table>
 	</div>
 	</div>
 	</form>
