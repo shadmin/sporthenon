@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<entry key="env">local</entry><!-- Environment (standalone|local|prod) -->
-	<entry key="version">0.5.0</entry>
+	<entry key="version">0.5.1</entry>
 	<entry key="url">http://localhost:8082/sh/</entry>
 	<entry key="img.url">http://localhost:8082/img/</entry>
 	<entry key="img.folder">C:/Program Files/GlassfishV3/glassfish/domains/domain1/docroot/img/</entry>

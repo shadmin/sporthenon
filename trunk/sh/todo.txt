@@ -1,4 +1,6 @@
 0.6 - android init
+drapeaux pays entity ref/results athlete
+tie sur records / affichage (receiving TD / NFL / shaw)
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

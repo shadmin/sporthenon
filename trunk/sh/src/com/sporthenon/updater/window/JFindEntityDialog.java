@@ -138,7 +138,7 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 					else if (c.equals(OlympicRanking.class)) 
 						label = "olympics.year.label || ' - ' || olympics.city.label || ' - ' || country.label";
 					else if (c.equals(Record.class)) 
-						label = "sport.label || ' - ' || type1 || ' - ' || type2 || ' - ' || label";
+						label = "sport.label || ' - ' || subevent.label || ' - ' || type1 || ' - ' || type2 || ' - ' || label";
 					else if (c.equals(RetiredNumber.class)) 
 						label = "league.label || ' - ' || team.label";
 					else if (c.equals(TeamStadium.class)) 

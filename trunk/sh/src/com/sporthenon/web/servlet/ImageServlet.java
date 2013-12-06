@@ -72,7 +72,7 @@ public class ImageServlet extends AbstractServlet {
 			else if (hParams.containsKey("data")) {} // OBSOLETE
 			else if (hParams.containsKey("missing")) {
 				StringBuffer sbResult = new StringBuffer();
-				for (String entity_ : new String[]{"CP", "EV", "SP", "CN", "OL"}) {
+				for (String entity_ : new String[]{"CP", "EV", "SP", "CN", "OL", "TM"}) {
 					String label = null;
 					if (entity_.equalsIgnoreCase(Olympics.alias))
 						label = "concat(concat(year.label, ' - '), city.label)";
