@@ -161,10 +161,12 @@ public class StringUtils {
 		HashMap<String, String> hPos2 = new HashMap<String, String>();
 		HashMap<String, String> hPos3 = new HashMap<String, String>();
 		HashMap<String, String> hPos4 = new HashMap<String, String>();
+		hPos1.put("AD", "Administrator");
 		hPos1.put("C", "Center");
 		hPos1.put("CB", "Cornerback");
 		hPos1.put("CH", "Coach");
 		hPos1.put("CM", "Commissioner");
+		hPos1.put("CT", "Contributor");
 		hPos1.put("DE", "Defensive End");
 		hPos1.put("DG", "Defensive Guard");
 		hPos1.put("DT", "Defensive Tackle");
@@ -178,6 +180,7 @@ public class StringUtils {
 		hPos1.put("LB", "Linebacker");
 		hPos1.put("O", "Franchise Owner");
 		hPos1.put("OE", "Offensive End");
+		hPos1.put("OF", "Official");
 		hPos1.put("OG", "Offensive Guard");
 		hPos1.put("OT", "Offensive Tackle");
 		hPos1.put("QB", "Quarterback");
