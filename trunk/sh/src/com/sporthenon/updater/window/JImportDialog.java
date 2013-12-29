@@ -340,12 +340,12 @@ public class JImportDialog extends JDialog implements ActionListener {
 						ct = t[0].replaceAll(scPattern, "_");
 					if (cx != null) {
 						h = "cx";
-						hql = "select id from Complex where lower(city.country.code) like '" + cn + "' and lower(city.label) like '" + ct + "' and lower(label) like '" + cx + "'";
+						hql = "select id from Complex where lower(city.country.code) like '" + cn + "' and lower(city.label) like '" + ct.replaceAll("'", "''") + "' and lower(label) like '" + cx.replaceAll("'", "''") + "'";
 						isComplex = true;
 					}
 					else {
 						h = "ct";
-						hql = "select id from City where lower(country.code) like '" + cn + "' and lower(label) like '" + ct + "'";
+						hql = "select id from City where lower(country.code) like '" + cn + "' and lower(label) like '" + ct.replaceAll("'", "''") + "'";
 					}
 				}
 				else if (h.matches("rk\\d")) {
@@ -548,7 +548,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 				if (isTeam || isCountryTeam) { // Team set
 					p = s.lastIndexOf(isCountryTeam ? ", " : " (") + 2;
 					String tm = s.substring(p, s.length() - 1);
-					Object o_ = DatabaseHelper.loadEntityFromQuery("from Team tm where lower(tm.label) = '" + tm.toLowerCase() + "'");
+					Object o_ = DatabaseHelper.loadEntityFromQuery("from Team tm where lower(tm.label) = '" + tm.toLowerCase().replaceAll("'", "''") + "'");
 					if (o_ == null) {
 						Integer idTm = insertEntity(row, 50, idSp, tm);
 						o_ = DatabaseHelper.loadEntity(Team.class, idTm);
@@ -606,7 +606,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 				ct = t[0];
 			City ct_ = null;
 			if (cx != null) { // Set City (for complex)
-				Object o_ = DatabaseHelper.loadEntityFromQuery("from City ct where lower(ct.label) like '" + ct.toLowerCase() + "' and lower(country.code) = '" + cn.toLowerCase() + "'");
+				Object o_ = DatabaseHelper.loadEntityFromQuery("from City ct where lower(ct.label) like '" + ct.toLowerCase().replaceAll("'", "''") + "' and lower(country.code) = '" + cn.toLowerCase() + "'");
 				if (o_ == null) {
 					Integer idCt = insertPlace(row, ct + (st != null ? ", " + st : "") + ", " + cn);
 					o_ = DatabaseHelper.loadEntity(City.class, idCt);

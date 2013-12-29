@@ -39,7 +39,7 @@ public class SearchServlet extends AbstractServlet {
 				String scope = String.valueOf(hParams.get("scope"));
 				Boolean match = (String.valueOf(hParams.get("match")).equals("on"));
 				Boolean ref = (String.valueOf(hParams.get("ref")).equals("on"));
-				pattern = pattern.replaceAll("_", ".").replaceAll("\\*", ".*")/*.replaceAll("\\s+", "|")*/;
+				pattern = pattern.replaceAll("'", "''").replaceAll("_", ".").replaceAll("\\*", ".*")/*.replaceAll("\\s+", "|")*/;
 				pattern = "^" + pattern + (match ? "$" : ".*");
 				ArrayList<Object> lFuncParams = new ArrayList<Object>();
 				lFuncParams.add(pattern);

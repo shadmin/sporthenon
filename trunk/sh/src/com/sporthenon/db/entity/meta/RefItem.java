@@ -57,6 +57,24 @@ public class RefItem  {
 	@Column(name = "id_rel11")
 	private Integer idRel11;
 	
+	@Column(name = "id_rel12")
+	private Integer idRel12;
+	
+	@Column(name = "id_rel13")
+	private Integer idRel13;
+	
+	@Column(name = "id_rel14")
+	private Integer idRel14;
+	
+	@Column(name = "id_rel15")
+	private Integer idRel15;
+	
+	@Column(name = "id_rel16")
+	private Integer idRel16;
+	
+	@Column(name = "id_rel17")
+	private Integer idRel17;
+	
 	@Column(name = "link")
 	private Integer link;
 	
@@ -370,6 +388,54 @@ public class RefItem  {
 
 	public void setLabelRel11(String labelRel11) {
 		this.labelRel11 = labelRel11;
+	}
+
+	public Integer getIdRel12() {
+		return idRel12;
+	}
+
+	public Integer getIdRel13() {
+		return idRel13;
+	}
+
+	public Integer getIdRel14() {
+		return idRel14;
+	}
+
+	public Integer getIdRel15() {
+		return idRel15;
+	}
+
+	public Integer getIdRel16() {
+		return idRel16;
+	}
+
+	public Integer getIdRel17() {
+		return idRel17;
+	}
+
+	public void setIdRel12(Integer idRel12) {
+		this.idRel12 = idRel12;
+	}
+
+	public void setIdRel13(Integer idRel13) {
+		this.idRel13 = idRel13;
+	}
+
+	public void setIdRel14(Integer idRel14) {
+		this.idRel14 = idRel14;
+	}
+
+	public void setIdRel15(Integer idRel15) {
+		this.idRel15 = idRel15;
+	}
+
+	public void setIdRel16(Integer idRel16) {
+		this.idRel16 = idRel16;
+	}
+
+	public void setIdRel17(Integer idRel17) {
+		this.idRel17 = idRel17;
 	}
 
 	@Override

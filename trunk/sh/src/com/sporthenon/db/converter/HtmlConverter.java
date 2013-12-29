@@ -462,6 +462,7 @@ public class HtmlConverter {
 			hInfo.put("capital", e.getCapital());
 		}
 		else if (type.equals(Team.alias)) {
+			int currentId = id;
 			LinkedList<Team> lTeam = new LinkedList<Team>();
 			Team e = (Team) DatabaseHelper.loadEntity(Team.class, id);
 			if (e.getLink() != null && e.getLink() >= 0) {
@@ -474,7 +475,7 @@ public class HtmlConverter {
 				lTeam.add(e);
 			StringBuffer sbTm = new StringBuffer();
 			for (Team t : lTeam)
-				sbTm.append((t.getInactive() != null && t.getInactive() ? "&dagger;&nbsp;" : "") + HtmlUtils.writeLink(Team.alias, t.getId(), t.getLabel()) + " (" + t.getYear1() + "&nbsp;-&nbsp;" + (StringUtils.notEmpty(t.getYear2()) ? t.getYear2() : "Today") + ")<br/>");
+				sbTm.append((t.getInactive() != null && t.getInactive() ? "&dagger;&nbsp;" : "") + (t.getId() == currentId ? "<b>" : "") + HtmlUtils.writeLink(Team.alias, t.getId(), t.getLabel()) + " (" + t.getYear1() + "&nbsp;-&nbsp;" + (StringUtils.notEmpty(t.getYear2()) ? t.getYear2() : "Today") + ")" + (t.getId() == currentId ? "</b>" : "") + "<br/>");
 			
 			String tm = sbTm.toString();
 			String cn = null;
@@ -652,15 +653,13 @@ public class HtmlConverter {
 					tEntity[3] = (item.getIdRel9() != null ? HtmlUtils.writeLink(alias, item.getIdRel9(), StringUtils.getShortName(item.getLabelRel9())) : null);
 					tEntity[4] = (item.getIdRel10() != null ? HtmlUtils.writeLink(alias, item.getIdRel10(), StringUtils.getShortName(item.getLabelRel10())) : null);
 					tEntity[5] = (item.getIdRel11() != null ? HtmlUtils.writeLink(alias, item.getIdRel11(), StringUtils.getShortName(item.getLabelRel11())) : null);
-					if (alias.equals(Country.alias) || alias.equals(Team.alias)) {
-						short index = (alias.equals(Country.alias) ? ImageUtils.INDEX_COUNTRY : ImageUtils.INDEX_TEAM);
-						tEntity[0] = (tEntity[0] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, item.getIdRel6(), 'S', false), tEntity[0]) : null);
-						tEntity[1] = (tEntity[1] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, item.getIdRel7(), 'S', false), tEntity[1]) : null);
-						tEntity[2] = (tEntity[2] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, item.getIdRel8(), 'S', false), tEntity[2]) : null);
-						tEntity[3] = (tEntity[3] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, item.getIdRel9(), 'S', false), tEntity[3]) : null);
-						tEntity[4] = (tEntity[4] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, item.getIdRel10(), 'S', false), tEntity[4]) : null);
-						tEntity[5] = (tEntity[5] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, item.getIdRel11(), 'S', false), tEntity[5]) : null);
-					}
+					short index = (alias.equals(Athlete.alias) || alias.equals(Country.alias) ? ImageUtils.INDEX_COUNTRY : ImageUtils.INDEX_TEAM);
+					tEntity[0] = (tEntity[0] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel12() != null ? item.getIdRel12() : item.getIdRel6(), 'S', false), tEntity[0]) : null);
+					tEntity[1] = (tEntity[1] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel13() != null ? item.getIdRel13() : item.getIdRel7(), 'S', false), tEntity[1]) : null);
+					tEntity[2] = (tEntity[2] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel14() != null ? item.getIdRel14() : item.getIdRel8(), 'S', false), tEntity[2]) : null);
+					tEntity[3] = (tEntity[3] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel15() != null ? item.getIdRel15() : item.getIdRel9(), 'S', false), tEntity[3]) : null);
+					tEntity[4] = (tEntity[4] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel16() != null ? item.getIdRel16() : item.getIdRel10(), 'S', false), tEntity[4]) : null);
+					tEntity[5] = (tEntity[5] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel17() != null ? item.getIdRel17() : item.getIdRel11(), 'S', false), tEntity[5]) : null);
 					List<Integer> listEq = StringUtils.tieList(item.getTxt4());
 					if (listEq != null && !listEq.isEmpty()) {
 						Integer idx = listEq.get(0) - 1;
