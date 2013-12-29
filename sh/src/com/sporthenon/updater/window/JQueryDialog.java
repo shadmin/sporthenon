@@ -11,6 +11,7 @@ import java.io.DataInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Vector;
 
@@ -48,7 +49,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 		QUERIES = new ArrayList<String>();
 		QUERIES.add("SELECT DISTINCT LAST_NAME || ',' || FIRST_NAME || ',' || ID_SPORT AS N, COUNT(*) AS C\r\nFROM \"PERSON\"\r\nWHERE LINK IS NULL\r\nGROUP BY N\r\nORDER BY C DESC\r\nLIMIT 100");
 		QUERIES.add("SELECT 'EV', ID, LABEL FROM \"EVENT\"\r\nWHERE ID NOT IN (SELECT ID_EVENT FROM \"RESULT\" WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM \"RESULT\" WHERE ID_SUBEVENT IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_EVENT FROM \"RECORD\" WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM \"RECORD\" WHERE ID_SUBEVENT IS NOT NULL)\r\nUNION SELECT 'CP', ID, LABEL FROM \"CHAMPIONSHIP\" WHERE ID NOT IN (SELECT ID_CHAMPIONSHIP FROM \"RESULT\" WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_CHAMPIONSHIP FROM \"RECORD\" WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nORDER BY 1, 3");
-		QUERIES.add("");
+		QUERIES.add("SELECT SP.label AS SPORT, CP.label AS CHAMPIONSHIP, EV.label AS EVENT, SE.label AS SUBEVENT, YR.label AS YEAR\r\nFROM (SELECT DISTINCT id_sport, id_championship, id_event, id_subevent FROM \"RESULT\" EXCEPT SELECT DISTINCT id_sport, id_championship, id_event, id_subevent FROM \"RESULT\" WHERE id_year = (SELECT id FROM \"YEAR\" WHERE label = '#YEAR#')) T\r\nLEFT JOIN \"SPORT\" SP ON T.id_sport = SP.id\r\nLEFT JOIN \"CHAMPIONSHIP\" CP ON T.id_championship = CP.id\r\nLEFT JOIN \"EVENT\" EV ON T.id_event = EV.id\r\nLEFT JOIN \"EVENT\" SE ON T.id_subevent = SE.id\r\nLEFT JOIN \"YEAR\" YR ON YR.label = '#YEAR#'\r\nWHERE EV.inactive = FALSE AND (SE.id IS NULL OR SE.inactive = FALSE)\r\nORDER BY SP.label, CP.index, CP.label, EV.index, EV.label, SE.index, SE.label");
 	}
 	
 	public JQueryDialog(JFrame owner) {
@@ -133,7 +134,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 		jButton.addActionListener(this);
 		p.add(jButton);
 		
-		jButton = new JButton("-");
+		jButton = new JButton("Events not completed for current year");
 		jButton.setActionCommand("query2");
 		jButton.addActionListener(this);
 		p.add(jButton);
@@ -153,7 +154,9 @@ public class JQueryDialog extends JDialog implements ActionListener {
 			executeQuery();
 		}
 		else if (cmd.matches("query\\d")) {
-			jQuery.setText(QUERIES.get(new Integer(cmd.substring(5))));
+			String query = QUERIES.get(new Integer(cmd.substring(5)));
+			query = query.replaceAll("#YEAR#", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+			jQuery.setText(query);
 			executeQuery();
 		}
 		else if (cmd.equalsIgnoreCase("missing"))
@@ -171,7 +174,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 				for (Object[] t : l)  {
 					Vector v_ = new Vector();
 					for (Object o : t)
-						v_.add(String.valueOf(o));
+						v_.add(o != null ? String.valueOf(o) : "");
 					v.add(v_);
 				}
 				for (int i = 0 ; i < l.get(0).length ; i++)

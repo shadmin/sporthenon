@@ -1,5 +1,5 @@
 body{
-	background: #FFFFF2 url(../img/bg.gif?6) 0 0 repeat-y;
+	background: #FFFFF2 url(../img/header/bg2.gif?11) 0 0 repeat-y;
 	margin: 0;
 	padding: 0;
 }
@@ -78,7 +78,7 @@ input{
 	padding-left: 20px;
 }
 .fieldset .fscontent li{
-	list-style-image: url(../img/bullet.gif);
+	list-style-image: url(../img/bullet.gif?6);
 }
 .legend{
 	margin-top: -12px;
@@ -106,7 +106,7 @@ input{
 }
 .loading{
 	width: 100%;
-	background: #FFF url(../img/db/loading.gif)	center center no-repeat;
+	background: #FFF url(../img/db/loading.gif?6)	center center no-repeat;
 	width: 180px;
 	height: 80px;
 	margin: 0 auto;
@@ -863,7 +863,7 @@ input{
 }
 .register .waiting{
 	background-color: #fff;
-	background-image: url(../img/update/waiting.gif);
+	background-image: url(../img/update/waiting.gif?6);
 }
 /* ========== PROJECT ========== */
 .downloads{

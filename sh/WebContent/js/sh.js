@@ -163,7 +163,7 @@ function replaceAll(s1, s2, s3) {
 }
 function refSeeFull(row, p) {
 	var cell = $(row).down();
-	cell.update('<img src="img/db/loading.gif"/>');
+	cell.update('<img src="img/db/loading.gif?6"/>');
 	cell.style.backgroundColor = '#FFF';
 	new Ajax.Request('InfoRefServlet?p=' + p, {
 		onSuccess: function(response){
@@ -332,7 +332,7 @@ function displayLastUpdates() {
 	}
 }
 function refreshLastUpdates() {
-	$('dupdates').update('<img src="img/db/loading.gif" alt="Loading..."/>');
+	$('dupdates').update('<img src="img/db/loading.gif?6" alt="Loading..."/>');
 	new Ajax.Updater($('dupdates'), 'HomeServlet?lastupdates=1&count=' + $('countupdt').value, {});
 }
 function displayExport() {
@@ -900,7 +900,7 @@ function resetSearch() {
 }
 /* ==================== PROJECT ==================== */
 function loadChart() {
-	$('charttxt').update('<tr><td><img src="img/db/loading.gif"/></td></tr>');
+	$('charttxt').update('<tr><td><img src="img/db/loading.gif?6"/></td></tr>');
 	new Ajax.Request('ProjectServlet?index=' + $('charts').value, {
 		onSuccess: function(response) {
 			var tData = new Array();

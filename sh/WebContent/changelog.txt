@@ -1,7 +1,16 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.5.0   |
+| Last Version: 0.5.1   |
 +-----------------------+
+
++-------+
+| 0.5.1 |
++-------+
+updater - bouton events not set for current year
+double quote dans import csv
+en gras equipe affichée sur franchise history
+drapeaux pays entity ref/results athlete
+gestion char speciaux sur search pattern
 
 +-------+
 | 0.5.0 |
