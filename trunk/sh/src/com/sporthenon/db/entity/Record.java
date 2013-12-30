@@ -107,6 +107,9 @@ public class Record {
 	@Column(name = "\"comment\"", length = 500)
 	private String comment;
 	
+	@Column(name = "exa", length = 15)
+	private String exa;
+	
 	@Embedded
 	private Metadata metadata;
 
@@ -332,6 +335,14 @@ public class Record {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public String getExa() {
+		return exa;
+	}
+
+	public void setExa(String exa) {
+		this.exa = exa;
 	}
 
 	@Override

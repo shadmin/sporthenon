@@ -1,6 +1,5 @@
 0.6 - android init
 tie sur records / affichage (receiving TD / NFL / shaw)
-creation_date
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

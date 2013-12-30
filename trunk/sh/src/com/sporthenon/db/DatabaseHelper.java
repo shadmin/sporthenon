@@ -187,8 +187,15 @@ public class DatabaseHelper {
 			if (tr != null) tr.begin();
 			else em.getTransaction().begin();
 			if (m != null) {
-				Metadata md = new Metadata();
-				md.setMember(m);
+				Object id = o.getClass().getMethod("getId").invoke(o);
+				Metadata md = null;
+				if (id == null) {
+					md = new Metadata();
+					md.setFirstUpdate(new Timestamp(System.currentTimeMillis()));
+				}
+				else
+					md = (Metadata) o.getClass().getMethod("getMetadata").invoke(o);
+				md.setMember(m);		
 				md.setLastUpdate(new Timestamp(System.currentTimeMillis()));
 				o.getClass().getMethod("setMetadata", Metadata.class).invoke(o, md);
 			}
