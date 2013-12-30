@@ -11,6 +11,7 @@ double quote dans import csv
 en gras equipe affichée sur franchise history
 drapeaux pays entity ref/results athlete
 gestion char speciaux sur search pattern
+creation_date
 
 +-------+
 | 0.5.0 |

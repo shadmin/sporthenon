@@ -1462,17 +1462,13 @@ public class HtmlConverter {
 			html.append("<tr><td class='srt'>" + bean.getEvLabel() + "</td><td class='srt'>" + bean.getRcType1() + "</td><td class='srt'>" + bean.getRcType2() + "</td><td class='srt'>" + bean.getRcLabel() + "</td><td class='srt'><b>" + holder + "</b></td><td class='srt'><b>" + bean.getRcRecord1() + "</b></td>");
 			html.append(isDate1 ? "<td class='srt'>" + (StringUtils.notEmpty(bean.getRcDate1()) ? bean.getRcDate1() : StringUtils.EMPTY) + "</td>" : "");
 			if (isRank2)
-				html.append(rank2 != null ? "<td class='srt'>" + rank2 + "</td><td class='srt'>" + bean.getRcRecord2() + "</td>" : "<td colspan=" + (isDate2 ? "3" : "2") + ">" + StringUtils.EMPTY + "</td>")
-				.append(rank2 != null && isDate2 ? "<td class='srt'>" + (StringUtils.notEmpty(bean.getRcDate2()) ? bean.getRcDate2() : StringUtils.EMPTY) + "</td>" : "");
+				html.append(rank2 != null ? "<td class='srt'>" + rank2 + "</td><td class='srt'>" + bean.getRcRecord2() + "</td>" : "<td colspan=" + (isDate2 ? "3" : "2") + ">" + StringUtils.EMPTY + "</td>").append(rank2 != null && isDate2 ? "<td class='srt'>" + (StringUtils.notEmpty(bean.getRcDate2()) ? bean.getRcDate2() : StringUtils.EMPTY) + "</td>" : "");
 			if (isRank3)
-				html.append(rank3 != null ? "<td class='srt'>" + rank3 + "</td><td class='srt'>" + bean.getRcRecord3() + "</td>" : "<td colspan=" + (isDate3 ? "3" : "2") + ">" + StringUtils.EMPTY + "</td>")
-				.append(rank3 != null && isDate3 ? "<td class='srt'>" + (StringUtils.notEmpty(bean.getRcDate3()) ? bean.getRcDate3() : StringUtils.EMPTY) + "</td>" : "");
+				html.append(rank3 != null ? "<td class='srt'>" + rank3 + "</td><td class='srt'>" + bean.getRcRecord3() + "</td>" : "<td colspan=" + (isDate3 ? "3" : "2") + ">" + StringUtils.EMPTY + "</td>").append(rank3 != null && isDate3 ? "<td class='srt'>" + (StringUtils.notEmpty(bean.getRcDate3()) ? bean.getRcDate3() : StringUtils.EMPTY) + "</td>" : "");
 			if (isRank4)
-				html.append(rank4 != null ? "<td class='srt'>" + rank4 + "</td><td class='srt'>" + bean.getRcRecord4() + "</td>" : "<td colspan=" + (isDate4 ? "3" : "2") + ">" + StringUtils.EMPTY + "</td>")
-				.append(rank4 != null && isDate4 ? "<td class='srt'>" + (StringUtils.notEmpty(bean.getRcDate4()) ? bean.getRcDate4() : StringUtils.EMPTY) + "</td>" : "");
+				html.append(rank4 != null ? "<td class='srt'>" + rank4 + "</td><td class='srt'>" + bean.getRcRecord4() + "</td>" : "<td colspan=" + (isDate4 ? "3" : "2") + ">" + StringUtils.EMPTY + "</td>").append(rank4 != null && isDate4 ? "<td class='srt'>" + (StringUtils.notEmpty(bean.getRcDate4()) ? bean.getRcDate4() : StringUtils.EMPTY) + "</td>" : "");
 			if (isRank5)
-				html.append(rank5 != null ? "<td class='srt'>" + rank5 + "</td><td class='srt'>" + bean.getRcRecord5() + "</td>" : "<td colspan=" + (isDate5 ? "3" : "2") + ">" + StringUtils.EMPTY + "</td>")
-				.append(rank5 != null && isDate5 ? "<td class='srt'>" + (StringUtils.notEmpty(bean.getRcDate5()) ? bean.getRcDate5() : StringUtils.EMPTY) + "</td>" : "");
+				html.append(rank5 != null ? "<td class='srt'>" + rank5 + "</td><td class='srt'>" + bean.getRcRecord5() + "</td>" : "<td colspan=" + (isDate5 ? "3" : "2") + ">" + StringUtils.EMPTY + "</td>").append(rank5 != null && isDate5 ? "<td class='srt'>" + (StringUtils.notEmpty(bean.getRcDate5()) ? bean.getRcDate5() : StringUtils.EMPTY) + "</td>" : "");
 			html.append("</tr>");
 		}
 		html.append("</tbody></table>");

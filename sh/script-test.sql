@@ -552,3 +552,81 @@ $BODY$
   COST 100
   ROWS 1000;
 ALTER FUNCTION "SEARCH"(character varying, character varying, smallint) OWNER TO inachos;
+
+ALTER TABLE "CHAMPIONSHIP" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "CITY" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "COMPLEX" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "COUNTRY" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "DRAW" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "EVENT" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "HALL_OF_FAME" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "LEAGUE" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "OLYMPICS" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "OLYMPIC_RANKING" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "PERSON" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "RECORD" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "RESULT" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "RETIRED_NUMBER" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "SPORT" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "STATE" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "TEAM" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "TEAM_STADIUM" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "TYPE" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "WIN_LOSS" add first_update timestamp without time zone NOT NULL DEFAULT now();
+ALTER TABLE "YEAR" add first_update timestamp without time zone NOT NULL DEFAULT now();
+UPDATE "CHAMPIONSHIP" SET first_update=last_update;
+UPDATE "CITY" SET first_update=last_update;
+UPDATE "COMPLEX" SET first_update=last_update;
+UPDATE "COUNTRY" SET first_update=last_update;
+UPDATE "DRAW" SET first_update=last_update;
+UPDATE "EVENT" SET first_update=last_update;
+UPDATE "HALL_OF_FAME" SET first_update=last_update;
+UPDATE "LEAGUE" SET first_update=last_update;
+UPDATE "OLYMPICS" SET first_update=last_update;
+UPDATE "OLYMPIC_RANKING" SET first_update=last_update;
+UPDATE "PERSON" SET first_update=last_update;
+UPDATE "RECORD" SET first_update=last_update;
+UPDATE "RESULT" SET first_update=last_update;
+UPDATE "RETIRED_NUMBER" SET first_update=last_update;
+UPDATE "SPORT" SET first_update=last_update;
+UPDATE "STATE" SET first_update=last_update;
+UPDATE "TEAM" SET first_update=last_update;
+UPDATE "TEAM_STADIUM" SET first_update=last_update;
+UPDATE "TYPE" SET first_update=last_update;
+UPDATE "WIN_LOSS" SET first_update=last_update;
+UPDATE "YEAR" SET first_update=last_update;
+
+CREATE OR REPLACE FUNCTION "~LAST_UPDATES"(_count integer)
+  RETURNS refcursor AS
+$BODY$
+declare
+	_c refcursor;
+begin
+	OPEN _c FOR EXECUTE
+	'SELECT RS.id AS rs_id, YR.label AS yr_label, SP.label AS sp_label, CP.label AS cp_label, EV.label AS ev_label, SE.label AS se_label, RS.first_update AS rs_update, TP1.number as tp1_number, TP2.number AS tp2_number, PR.first_name AS pr_first_name, PR.last_name AS pr_last_name, TM.label AS tm_label, CN.code AS cn_code FROM "RESULT" RS
+		LEFT JOIN "YEAR" YR ON RS.id_year=YR.id
+		LEFT JOIN "SPORT" SP ON RS.id_sport=SP.id
+		LEFT JOIN "CHAMPIONSHIP" CP ON RS.id_championship=CP.id
+		LEFT JOIN "EVENT" EV ON RS.id_event=EV.id
+		LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id
+		LEFT JOIN "TYPE" TP1 ON EV.id_type=TP1.id
+		LEFT JOIN "TYPE" TP2 ON SE.id_type=TP2.id
+		LEFT JOIN "PERSON" PR ON RS.id_rank1=PR.id
+		LEFT JOIN "TEAM" TM ON RS.id_rank1=TM.id
+		LEFT JOIN "COUNTRY" CN ON RS.id_rank1=CN.id
+	ORDER BY RS.first_update DESC LIMIT ' || _count;
+	RETURN  _c;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+ALTER FUNCTION "~LAST_UPDATES"(integer) OWNER TO postgres;
+
+ALTER  TABLE "RECORD" ADD exa character varying(15);
+
+update "RECORD" set comment = replace(comment, 'Times-', 'T-');
+update "RECORD" set comment = replace(comment, 'Time-', 'T-');
+update "RECORD" set comment = regexp_replace(comment, 'at-...', '', 'g');
+update "RECORD" set comment = regexp_replace(comment, 'vs-...', '', 'g');
+update "RECORD" set comment = regexp_replace(comment, 'vs-..', '', 'g');
+update "RECORD" set comment = replace(comment, ';', '');
