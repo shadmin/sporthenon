@@ -58,7 +58,7 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 	private void initialize() {
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setSize(new Dimension(330, 300));
+		this.setSize(new Dimension(400, 320));
 		this.setTitle("Find");
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
@@ -138,7 +138,7 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 					else if (c.equals(OlympicRanking.class)) 
 						label = "olympics.year.label || ' - ' || olympics.city.label || ' - ' || country.label";
 					else if (c.equals(Record.class)) 
-						label = "sport.label || ' - ' || subevent.label || ' - ' || type1 || ' - ' || type2 || ' - ' || label";
+						label = "championship.label || ' - ' || event.label || ' - ' || subevent.label || ' - ' || type1 || ' - ' || type2 || ' - ' || label";
 					else if (c.equals(RetiredNumber.class)) 
 						label = "league.label || ' - ' || team.label";
 					else if (c.equals(TeamStadium.class)) 

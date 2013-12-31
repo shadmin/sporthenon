@@ -13,12 +13,11 @@ import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.function.WinRecordsBean;
 import com.sporthenon.utils.res.ResourceUtils;
 
-
 public class HtmlUtils {
 
 	public final static String SPACE = " ";
 
-	public static String writeImage(short type, int id, char size, boolean disabled) {
+	public static String writeImage(short type, int id, char size, String title, boolean disabled) {
 		StringBuffer html = new StringBuffer();
 		if (!disabled) {
 			String folder = ConfigUtils.getProperty("img.folder");
@@ -31,7 +30,7 @@ public class HtmlUtils {
 			Collections.sort(list);
 			
 			if (!list.isEmpty())
-				html.append("<img alt='' src='" + ImageUtils.getUrl() + list.getLast() + "'/>");
+				html.append("<img alt=''" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + " src='" + ImageUtils.getUrl() + list.getLast() + "'/>");
 		}
 		return html.toString();
 	}

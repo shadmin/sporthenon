@@ -66,7 +66,7 @@ public class ImageServlet extends AbstractServlet {
 				String type = String.valueOf(hParams.get("type"));
 				String id = String.valueOf(hParams.get("id"));
 				String size = String.valueOf(hParams.get("size"));
-				String s = HtmlUtils.writeImage(Short.valueOf(type), Integer.valueOf(id), size.charAt(0), false);
+				String s = HtmlUtils.writeImage(Short.valueOf(type), Integer.valueOf(id), size.charAt(0), null, false);
 				ServletHelper.writeText(response, s.replaceAll(".*src\\=\\'", "").replaceAll("\\'\\/\\>", ""));
 			}
 			else if (hParams.containsKey("data")) {} // OBSOLETE

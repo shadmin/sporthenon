@@ -44,12 +44,13 @@ private static final long serialVersionUID = 1L;
 	public JTextField jDate5;
 	public JCheckBox jCounting;
 	public JTextField jIndex;
+	public JTextField jExa;
 	public JTextArea jComment;
 	
 	public JRecordPanel() {
 		super(27);
 		initialize();
-		setPreferredSize(new Dimension(310, (LINE_HEIGHT * 50) - 120));
+		setPreferredSize(new Dimension(310, (LINE_HEIGHT * 50) - 50));
 	}
 
 	protected void initialize() {
@@ -105,7 +106,7 @@ private static final long serialVersionUID = 1L;
         gridPanel.add(jLabel);
         
         // Rank1
-        JLabel lRank1 = new JLabel(" Rank #1:");
+        JLabel lRank1 = new JLabel(" Rank #1 (Name / Record / Date):");
         lRank1.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lRank1);
         jRank1 = new JEntityPicklist(this, null);
@@ -116,7 +117,7 @@ private static final long serialVersionUID = 1L;
         gridPanel.add(jDate1);
         
         // Rank2
-        JLabel lRank2 = new JLabel(" Rank #2:");
+        JLabel lRank2 = new JLabel(" Rank #2 (Name / Record / Date):");
         lRank2.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lRank2);
         jRank2 = new JEntityPicklist(this, null);
@@ -127,7 +128,7 @@ private static final long serialVersionUID = 1L;
         gridPanel.add(jDate2);
         
         // Rank3
-        JLabel lRank3 = new JLabel(" Rank #3:");
+        JLabel lRank3 = new JLabel(" Rank #3 (Name / Record / Date):");
         lRank3.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lRank3);
         jRank3 = new JEntityPicklist(this, null);
@@ -138,7 +139,7 @@ private static final long serialVersionUID = 1L;
         gridPanel.add(jDate3);
         
         // Rank4
-        JLabel lRank4 = new JLabel(" Rank #4:");
+        JLabel lRank4 = new JLabel(" Rank #4 (Name / Record / Date):");
         lRank4.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lRank4);
         jRank4 = new JEntityPicklist(this, null);
@@ -149,7 +150,7 @@ private static final long serialVersionUID = 1L;
         gridPanel.add(jDate4);
         
         // Rank5
-        JLabel lRank5 = new JLabel(" Rank #5:");
+        JLabel lRank5 = new JLabel(" Rank #5 (Name / Record / Date):");
         lRank5.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lRank5);
         jRank5 = new JEntityPicklist(this, null);
@@ -172,6 +173,13 @@ private static final long serialVersionUID = 1L;
         gridPanel.add(lIndex);
         jIndex = new JTextField();
         gridPanel.add(jIndex);
+        
+        //Tie
+        JLabel lExa = new JLabel(" Tie:");
+        lIndex.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lExa);
+        jExa = new JTextField();
+        gridPanel.add(jExa);
         
         //Comment
         JLabel lComment = new JLabel(" Comment:");
@@ -284,6 +292,10 @@ private static final long serialVersionUID = 1L;
 		return jIndex;
 	}
 	
+	public JTextField getExa() {
+		return jExa;
+	}
+	
 	public JTextArea getComment() {
 		return jComment;
 	}
@@ -388,6 +400,10 @@ private static final long serialVersionUID = 1L;
 		jIndex.setText(s);
 	}
 	
+	public void setExa(String s) {
+		jExa.setText(s);
+	}
+	
 	public void setComment(String s) {
 		jComment.setText(s);
 	}
@@ -409,6 +425,7 @@ private static final long serialVersionUID = 1L;
 		jRank5.clear();jRecord5.setText("");jDate5.setText("");
 		jCounting.setSelected(false);
 		jIndex.setText("");
+		jExa.setText("");
 		jComment.setText("");
 	}
 	
