@@ -83,10 +83,9 @@ public class StringUtils {
 		return t_;
 	}
 
-	public static String toTextDate(String dt, Locale l) throws ParseException {
+	public static String toTextDate(String dt, Locale l, String format) throws ParseException {
 		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-		//SimpleDateFormat dftxt = new SimpleDateFormat("MMMM d, yyyy", l);
-		SimpleDateFormat dftxt = new SimpleDateFormat("MMMM d", l);
+		SimpleDateFormat dftxt = new SimpleDateFormat(notEmpty(format) ? format : "MMMM d", l);
 		return dftxt.format(df.parse(dt));
 	}
 

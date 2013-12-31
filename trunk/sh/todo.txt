@@ -1,5 +1,4 @@
-0.6 - android init
-tie sur records / affichage (receiving TD / NFL / shaw)
+keep currentab opened + add tab button (pas ouverture onglet auto)
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

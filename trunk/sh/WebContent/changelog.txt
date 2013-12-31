@@ -12,6 +12,7 @@ en gras equipe affichée sur franchise history
 drapeaux pays entity ref/results athlete
 gestion char speciaux sur search pattern
 creation_date
+tie sur records / affichage (receiving TD / NFL / shaw)
 
 +-------+
 | 0.5.0 |

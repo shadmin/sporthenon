@@ -29,6 +29,9 @@ public class USRecordsBean {
 	@Column(name = "rc_label")
 	private String rcLabel;
 	
+	@Column(name = "rc_exa")
+	private String rcExa;
+	
 	@Column(name = "rc_comment")
 	private String rcComment;
 	
@@ -92,6 +95,9 @@ public class USRecordsBean {
 	@Column(name = "rc_team1")
 	private String rcTeam1;
 	
+	@Column(name = "rc_idprteam1")
+	private Integer rcIdPrTeam1;
+	
 	@Column(name = "rc_prteam1")
 	private String rcPrTeam1;
 	
@@ -100,6 +106,9 @@ public class USRecordsBean {
 	
 	@Column(name = "rc_team2")
 	private String rcTeam2;
+	
+	@Column(name = "rc_idprteam2")
+	private Integer rcIdPrTeam2;
 	
 	@Column(name = "rc_prteam2")
 	private String rcPrTeam2;
@@ -110,6 +119,9 @@ public class USRecordsBean {
 	@Column(name = "rc_team3")
 	private String rcTeam3;
 	
+	@Column(name = "rc_idprteam3")
+	private Integer rcIdPrTeam3;
+	
 	@Column(name = "rc_prteam3")
 	private String rcPrTeam3;
 	
@@ -119,6 +131,9 @@ public class USRecordsBean {
 	@Column(name = "rc_team4")
 	private String rcTeam4;
 	
+	@Column(name = "rc_idprteam4")
+	private Integer rcIdPrTeam4;
+	
 	@Column(name = "rc_prteam4")
 	private String rcPrTeam4;
 	
@@ -127,6 +142,9 @@ public class USRecordsBean {
 	
 	@Column(name = "rc_team5")
 	private String rcTeam5;
+	
+	@Column(name = "rc_idprteam5")
+	private Integer rcIdPrTeam5;
 	
 	@Column(name = "rc_prteam5")
 	private String rcPrTeam5;
@@ -185,6 +203,14 @@ public class USRecordsBean {
 
 	public void setRcLabel(String rcLabel) {
 		this.rcLabel = rcLabel;
+	}
+
+	public String getRcExa() {
+		return rcExa;
+	}
+
+	public void setRcExa(String rcExa) {
+		this.rcExa = rcExa;
 	}
 
 	public String getRcComment() {
@@ -457,6 +483,46 @@ public class USRecordsBean {
 
 	public void setRcPrTeam5(String rcPrTeam5) {
 		this.rcPrTeam5 = rcPrTeam5;
+	}
+
+	public Integer getRcIdPrTeam1() {
+		return rcIdPrTeam1;
+	}
+
+	public Integer getRcIdPrTeam2() {
+		return rcIdPrTeam2;
+	}
+
+	public Integer getRcIdPrTeam3() {
+		return rcIdPrTeam3;
+	}
+
+	public Integer getRcIdPrTeam4() {
+		return rcIdPrTeam4;
+	}
+
+	public Integer getRcIdPrTeam5() {
+		return rcIdPrTeam5;
+	}
+
+	public void setRcIdPrTeam1(Integer rcIdPrTeam1) {
+		this.rcIdPrTeam1 = rcIdPrTeam1;
+	}
+
+	public void setRcIdPrTeam2(Integer rcIdPrTeam2) {
+		this.rcIdPrTeam2 = rcIdPrTeam2;
+	}
+
+	public void setRcIdPrTeam3(Integer rcIdPrTeam3) {
+		this.rcIdPrTeam3 = rcIdPrTeam3;
+	}
+
+	public void setRcIdPrTeam4(Integer rcIdPrTeam4) {
+		this.rcIdPrTeam4 = rcIdPrTeam4;
+	}
+
+	public void setRcIdPrTeam5(Integer rcIdPrTeam5) {
+		this.rcIdPrTeam5 = rcIdPrTeam5;
 	}
 
 	@Override
