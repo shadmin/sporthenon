@@ -26,7 +26,7 @@
 			int i = 0;
 			for (PicklistBean plb : cPicklist) {
 				out.println("<option class='" + (i++ % 2 == 0 ? "alternative" : "") + "' value='" + plb.getValue() + "'>" + plb.getText() + "</option>");
-				hSportImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)0, plb.getValue(), 'L', false));
+				hSportImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)0, plb.getValue(), 'L', null, false));
 			}
 			%>
 			</select>

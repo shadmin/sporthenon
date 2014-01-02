@@ -5,7 +5,7 @@
 	<div style="float:right;">
 		<div class="box">
 			<div class="boxtitle">Database Statistics</div>
-			<img id="img-stat" src="img/db/loading.gif" alt="Loading..."/>
+			<img id="img-stat" src="img/db/loading.gif?6" alt="Loading..."/>
 			<table id="table-stat" style="width:97%;display:none;">
 				<tr><td align="left" style="width:100%;"><img src="img/bullet.gif" alt="-"/>&nbsp;Sports</td><td id="count-sport" class="stat"></td></tr>
 				<tr><td align="left"><img src="img/bullet.gif" alt="-"/>&nbsp;Events</td><td id="count-event" class="stat"></td></tr>
@@ -15,7 +15,7 @@
 		</div>
 		<div class="box">
 			<div class="boxtitle"><div class="more"><a href="#" title="More" onclick="displayLastUpdates();">[+]</a></div>Last Updates</div>
-			<img id="img-updates" src="img/db/loading.gif" alt="Loading..."/>
+			<img id="img-updates" src="img/db/loading.gif?6" alt="Loading..."/>
 			<div id="div-updates" class="fscontent" style="margin:6px;"></div>
 		</div>
 	</div>
