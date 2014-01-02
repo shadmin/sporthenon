@@ -1,4 +1,6 @@
 keep currentab opened + add tab button (pas ouverture onglet auto)
+boutons social network
+UPDATER merge entity
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;
