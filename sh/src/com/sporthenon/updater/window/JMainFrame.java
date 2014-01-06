@@ -447,7 +447,7 @@ public class JMainFrame extends JFrame {
 			en.setDate3(StringUtils.notEmpty(p.getDate3().getText()) ? p.getDate3().getText() : null);
 			en.setDate4(StringUtils.notEmpty(p.getDate4().getText()) ? p.getDate4().getText() : null);
 			en.setCounting(p.getCounting().isSelected());
-			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? new Integer(p.getIndex().getText()) : null);
+			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? new Float(p.getIndex().getText()) : null);
 			en.setExa(p.getExa().getText());
 			en.setComment(p.getComment().getText());
 		}

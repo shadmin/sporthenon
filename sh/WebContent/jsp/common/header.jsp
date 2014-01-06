@@ -52,6 +52,7 @@
 	<div id="links">
 		<table>
 			<tr><td style="padding-bottom:3px;">Share:</td>
+			<td><a href="https://www.facebook.com/sharer/sharer.php?u=www.sporthenon.com" target="_blank"><img src="img/header/facebook.png"/></a></td>
 			<td><a href="https://twitter.com/share?url=http%3A%2F%2Fwww.sporthenon.com" target="_blank"><img src="img/header/twitter.png"/></a></td>
 			<td><a href="https://plus.google.com/share?url=www.sporthenon.com" target="_blank"><img src="img/header/gplus.png"/></a></td></tr>
 		</table>

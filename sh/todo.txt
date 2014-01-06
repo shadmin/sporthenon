@@ -1,6 +1,18 @@
 keep currentab opened + add tab button (pas ouverture onglet auto)
 boutons social network
 UPDATER merge entity
+tied sur reference results avec drapeau
+bouton back to top
+inversion nom prenom reference results MAS + verif VIE
+record search results empty
+fussionner affichage/Search championships + events
+commentaire results a droite de year
+plusieurs ties sur meme result (golf us open 2013)
+updater jfindentitydlg pas de vidage liste onkeydown
+updater suppr image remote
+results quick event search
+design boutons couleur + degradé menu background
+search nom sens : nom+prenom (ex : ma lin)
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;
