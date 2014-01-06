@@ -96,7 +96,7 @@ public class Record {
 	private Boolean counting;
 	
 	@Column(name = "\"index\"")
-	private float index;
+	private Float index;
 	
 	@Column(name = "type1", length = 10)
 	private String type1;
@@ -305,11 +305,11 @@ public class Record {
 		this.counting = counting;
 	}
 
-	public float getIndex() {
+	public Float getIndex() {
 		return index;
 	}
 
-	public void setIndex(float index) {
+	public void setIndex(Float index) {
 		this.index = index;
 	}
 
