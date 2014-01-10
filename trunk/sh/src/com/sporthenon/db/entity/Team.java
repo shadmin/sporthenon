@@ -24,7 +24,7 @@ public class Team {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_team")
 	private Integer id;
 	
-	@Column(name = "label", length = 35, nullable = false)
+	@Column(name = "label", length = 60, nullable = false)
 	private String label;
 	
 	@ManyToOne
