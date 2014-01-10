@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -133,7 +134,6 @@ public class JImportDialog extends JDialog implements ActionListener {
 	}
 
 	public void open(JTopPanel parent) {
-		//this.parent = parent;
 		jFile.setText(null);
 		jProcessButton.setEnabled(false);
 		jScrollPane.setViewportView(null);
@@ -192,7 +192,6 @@ public class JImportDialog extends JDialog implements ActionListener {
 	private Vector<Vector<String>> getTableAsVector() {
 		final int n = jProcessTable.getColumnCount();
 		Vector v = new Vector<Vector<String>>();
-		v.add(new Vector());
 		for (int i = 0 ; i < jProcessTable.getRowCount() ; i++) {
 			Vector<String> v_ = new Vector<String>();
 			for (int j = 0 ; j < n ; j++)
@@ -208,6 +207,8 @@ public class JImportDialog extends JDialog implements ActionListener {
 			jProgressBar.setValue(0);
 			jScrollPane.setViewportView(null);
 			final HashMap<String, String> hTitle = new HashMap<String, String>();
+			vHeader = new Vector(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rk5", "rk6", "rk7", "rk8", "rk9", "dt1", "dt2", "pl", "exa", "cmt"}));
+			Vector<String> vHeaderLabel = new Vector<String>();
 			hTitle.put("msg", "Message");
 			hTitle.put("sp", "Sport");
 			hTitle.put("cp", "Championship");
@@ -219,6 +220,10 @@ public class JImportDialog extends JDialog implements ActionListener {
 			hTitle.put("rk3", "Rank 3");
 			hTitle.put("rk4", "Rank 4");
 			hTitle.put("rk5", "Rank 5");
+			hTitle.put("rk6", "Rank 6");
+			hTitle.put("rk7", "Rank 7");
+			hTitle.put("rk8", "Rank 8");
+			hTitle.put("rk9", "Rank 9");
 			hTitle.put("rs1", "Result 1");
 			hTitle.put("rs2", "Result 2");
 			hTitle.put("rs3", "Result 3");
@@ -227,29 +232,20 @@ public class JImportDialog extends JDialog implements ActionListener {
 			hTitle.put("dt1", "Date 1");
 			hTitle.put("dt2", "Date 2");
 			hTitle.put("pl", "Place");
+			hTitle.put("exa", "Tie");
 			hTitle.put("cmt", "Comment");
+			for (String s : vHeader)
+				vHeaderLabel.add(hTitle.get(s));
 			Vector<Vector<String>> vFile = (isReprocess ? getTableAsVector() : StringUtils.readCSV(jFile.getText()));
-			Vector<String> vHeaderLabel = new Vector<String>();
 			int i = 0;
 			float pg = 0.0f;
 			boolean isError = false;
 			for (Vector<String> v : vFile) {
-				if (i == 0) {
-					if (vHeader == null) {
-						vHeader = new Vector<String>();
-						vHeader.add("msg");
-						vHeader.addAll(v);
-					}
-					for (String s : vHeader)
-						vHeaderLabel.add(hTitle.get(s));
-				}
-				else {
-					if (!isReprocess)
-						v.insertElementAt("", 0);
-					else
-						v.set(0, "");
-					isError |= processLine(i, vHeader, v, isUpdate);
-				}
+				if (!isReprocess)
+					v.insertElementAt("", 0);
+				else
+					v.set(0, "");
+				isError |= processLine(i, vHeader, v, isUpdate);
 				if (i * 100 / vFile.size() > pg) {
 					incrementProgress();
 					pg = i * 100 / vFile.size();
@@ -258,7 +254,6 @@ public class JImportDialog extends JDialog implements ActionListener {
 			}
 			jUpdateButton.setEnabled(!isError);
 			jProgressBar.setValue(100);
-			vFile.remove(0);
 			jProcessTable = new JTable(vFile, vHeaderLabel) {
 				private static final long serialVersionUID = 1L;
 				public boolean isCellEditable(int row, int column) {
@@ -306,7 +301,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 		HashMap<String, Integer> hId = new HashMap();
 		Integer n = null;
 		boolean isComplex = false;
-		for (int i = 1 ; i < vLine.size() ; i++) {
+		for (int i = 0 ; i < vLine.size() ; i++) {
 			String h = vHeader.get(i).replaceAll(scPattern, "").toLowerCase();
 			String s = vLine.get(i);
 			String hql = null;
@@ -373,7 +368,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 								writeError(vLine, "ERROR: Invalid Format (Column " + h.toUpperCase() + ")");
 							}
 							else
-								hql = "select id from Team where lower(label) like '" + (s_.indexOf(" (") > -1 ? s_.substring(0, s_.indexOf(" (")) : s_) + "' and (link is null or link = 0)";
+								hql = "select id from Team where sport.id=" + hId.get("sp") + " and lower(label) like '" + (s_.indexOf(" (") > -1 ? s_.substring(0, s_.indexOf(" (")) : s_) + "' and (link is null or link = 0)";
 						}
 						else if (n == 99) { // Country
 							if (!s_.matches(StringUtils.PATTERN_COUNTRY)) {
@@ -417,6 +412,10 @@ public class JImportDialog extends JDialog implements ActionListener {
 				if (h.matches("dt\\d") && StringUtils.notEmpty(s) && !s.matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d")) {
 					isError = true;
 					writeError(vLine, "ERROR: Invalid Date (Column " + h.toUpperCase() + ")");
+				}
+				else if (h.matches("rs\\d") && StringUtils.notEmpty(s) && s.length() > (h.equalsIgnoreCase("rs1") ? 40 : 20)) {
+					isError = true;
+					writeError(vLine, "ERROR: Invalid Result - Too long (Column " + h.toUpperCase() + ")");
 				}
 			}
 		}
@@ -479,10 +478,10 @@ public class JImportDialog extends JDialog implements ActionListener {
 							dt1 = s;
 						else if (h.equalsIgnoreCase("dt2"))
 							dt2 = s;
-						else if (h.equalsIgnoreCase("cmt"))
-							cmt = s;
 						else if (h.equalsIgnoreCase("exa"))
 							exa = s;
+						else if (h.equalsIgnoreCase("cmt"))
+							cmt = s;
 					}
 				}
 			}
@@ -503,8 +502,8 @@ public class JImportDialog extends JDialog implements ActionListener {
 				rs.setCity((City)DatabaseHelper.loadEntity(City.class, idCt));
 				rs.setDate1(StringUtils.notEmpty(dt1) ? dt1 : null);
 				rs.setDate2(StringUtils.notEmpty(dt2) ? dt2 : null);
-				rs.setComment(StringUtils.notEmpty(cmt) ? cmt : null);
 				rs.setExa(StringUtils.notEmpty(exa) ? exa : null);
+				rs.setComment(StringUtils.notEmpty(cmt) ? cmt : null);
 				rs.setIdRank1(idRk1);
 				rs.setIdRank2(idRk2);
 				rs.setIdRank3(idRk3);

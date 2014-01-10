@@ -13,6 +13,11 @@ updater suppr image remote
 results quick event search
 design boutons couleur + degradé menu background
 search nom sens : nom+prenom (ex : ma lin)
+tests ie firefox safari
+updater tooltips boutons + edit folder bug niveaux 3+4
+championship+event+subevent = event dans tous les liens ref
+format dates result = 11-DEC-2011
+updater import telecharger modele CSV/XLS colonnes
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

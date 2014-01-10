@@ -1,0 +1,1 @@
+update "RESULT" set exa=replace(exa, ';', '/') where exa is not  null and exa like '%;%';

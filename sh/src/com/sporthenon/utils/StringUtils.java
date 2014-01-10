@@ -58,7 +58,7 @@ public class StringUtils {
 	public static List<Integer> tieList(String s) {
 		ArrayList<Integer> lst = new ArrayList<Integer>();
 		if (StringUtils.notEmpty(s))
-			for (String s_ : s.split(";")) {
+			for (String s_ : s.split("/")) {
 				s_ = s_.replaceAll("\\D", "");
 				int n1 = Integer.parseInt(String.valueOf(s_.charAt(0)));
 				int n2 = (s_.length() > 1 ? Integer.parseInt(String.valueOf(s_.charAt(1))) : n1);
