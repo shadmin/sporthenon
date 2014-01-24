@@ -293,7 +293,7 @@ public class HtmlConverter {
 			String sp = sbSp.toString();
 			hInfo.put("tabtitle", e.getLastName() + ", " + e.getFirstName() + (e.getCountry() != null ? " (" + e.getCountry().getCode() + ")" : "") + "&nbsp;[Athlete #" + id + "]");
 			hInfo.put("title", "ATHLETE #" + id);
-			if (e.getCountry() != null && e.getCountry().getCode().matches("CHN|KOR|PRK|TPE"))
+			if (e.getCountry() != null && e.getCountry().getCode().matches(StringUtils.PATTERN_REVERT_NAME))
 				hInfo.put("name", "<b>" + e.getLastName().toUpperCase() + (StringUtils.notEmpty(e.getFirstName()) ? " " + e.getFirstName() : "") + "</b>");
 			else
 				hInfo.put("name", "<b>" + (StringUtils.notEmpty(e.getFirstName()) ? e.getFirstName() + " " : "") + e.getLastName().toUpperCase() + "</b>");
@@ -825,7 +825,7 @@ public class HtmlConverter {
 			// Evaluate bean
 			String draw = "<a><img src='img/render/draw.gif' title='Draw' style='cursor:pointer;' onclick='javascript:info(\"DR-" + bean.getRsId() + "\")'/></a>";
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel());
-			String dates = (StringUtils.notEmpty(bean.getRsDate1()) ? StringUtils.toTextDate(bean.getRsDate1(), Locale.ENGLISH, null) + "&nbsp;&rarr;&nbsp;" : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? StringUtils.toTextDate(bean.getRsDate2(), Locale.ENGLISH, null) : "");
+			String dates = (StringUtils.notEmpty(bean.getRsDate1()) ? StringUtils.toTextDate(bean.getRsDate1(), Locale.ENGLISH, "dd-MMM") + "&nbsp;&rarr;&nbsp;" : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? StringUtils.toTextDate(bean.getRsDate2(), Locale.ENGLISH, "dd-MMM") : "");
 			String place = null;
 			String comment = (StringUtils.notEmpty(bean.getRsComment()) ? bean.getRsComment().replaceAll("\\|", "<br/>") : null);
 			if (bean.getCxId() != null) {
@@ -953,8 +953,8 @@ public class HtmlConverter {
 			
 			// Write line
 			html.append("<tr>" + (isDraw ? "<td>" + (bean.getDrId() != null ? draw : "") + "</td>" : ""));
-			html.append(isComment ? "<td" + (StringUtils.notEmpty(commentTitle) ? " title='" + commentTitle + "' style='width:15px;background-color:" + commentColor + "';" : "") + ">" + (comment != null ? HtmlUtils.writeComment(bean.getRsId(), comment) : "") + "</td>" : "");
 			html.append("<td class='srt'>" + year + "</td>");
+			html.append(isComment ? "<td" + (StringUtils.notEmpty(commentTitle) ? " title='" + commentTitle + "' style='width:15px;background-color:" + commentColor + "';" : "") + ">" + (comment != null ? HtmlUtils.writeComment(bean.getRsId(), comment) : "") + "</td>" : "");
 			for (int i = 0 ; i < 9 ; i++)
 				html.append(tEntityHtml[i] != null ? tEntityHtml[i] : (entityCount > i ? "<td class='srt' colspan=" + tColspan[i] + ">" + StringUtils.EMPTY + "</td>" + (isScore && i == 0 ? "<td class='srt'>" + StringUtils.EMPTY + "</td>" : "") : ""));
 			html.append(isDates ? "<td class='srt'>" + (StringUtils.notEmpty(dates) ? dates : "-") + "</td>" : "");

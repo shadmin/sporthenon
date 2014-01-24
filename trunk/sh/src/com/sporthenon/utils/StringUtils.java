@@ -23,7 +23,8 @@ public class StringUtils {
 	public static final String PATTERN_ATHLETE = "^[^\\,\\(\\)]+\\,\\s[^\\,\\(\\)]*([^\\s]|\\(([^\\,\\(\\)]+|[a-z]{3}\\,\\s[^\\,\\(\\)]+)\\))$";
 	public static final String PATTERN_TEAM = "^[^\\,\\(\\)]+([^\\s]|\\s\\([a-z]{3}\\))$";
 	public static final String PATTERN_COUNTRY = "^[a-z]{3}$";
-
+	public static final String PATTERN_REVERT_NAME = "CHN|KOR|PRK|TPE|MAS|VIE";
+	
 	public static boolean notEmpty(Object obj) throws ClassCastException {
 		return (obj != null && String.valueOf(obj).trim().length() > 0);
 	}
@@ -225,7 +226,7 @@ public class StringUtils {
 		if (notEmpty(name) && name.matches(PATTERN_ATHLETE)) {
 			String[] t = name.replaceAll("\\s\\(.*", "").split("\\,\\s", -1);
 			String suffix = (name.matches(".*\\s\\(.*") ? name.substring(name.indexOf(" (")) : "");
-			if (name.matches(".*\\((CHN|KOR|PRK|TPE)\\)"))
+			if (name.matches(".*\\((" + PATTERN_REVERT_NAME + ")\\)"))
 				name = t[0] + (t.length > 1 && StringUtils.notEmpty(t[1]) ? "&nbsp;" + t[1].charAt(0) + "." : "") + suffix;
 			else
 				name = (t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1].charAt(0) + ".&nbsp;" : "") + t[0] + suffix;

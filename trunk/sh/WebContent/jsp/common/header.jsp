@@ -41,21 +41,15 @@
 			<li><a id="shmenu-usleagues" <%=(mn.equals("usleagues") ? "class='selected'" : "")%> href="usleagues">US LEAGUES</a></li>
 			<li><a id="shmenu-search" <%=(mn.equals("search") ? "class='selected'" : "")%> href="search">SEARCH</a></li>
 			<li><a id="shmenu-project" <%=(mn.equals("project") ? "class='selected'" : "")%> href="project">PROJECT</a></li>
-			<% if (session.getAttribute("user") != null) { %>
-			<li><a id="shmenu-update" <%=(mn.matches(".*update.*") ? "class='selected'" : "")%> href="update?data">UPDATE</a></li>
-			<li><a id="shmenu-logout" <%=(mn.equals("logout") ? "class='selected'" : "")%> href="LoginServlet?logout">LOGOUT</a></li>
-			<% } else { %>
-			<li><a id="shmenu-login" <%=(mn.equals("login") ? "class='selected'" : "")%> href="login">LOGIN</a></li>
-			<% } %>
 		</ul>
 	</div>
 	<div id="links">
 		<table>
 			<tr><td style="padding-bottom:3px;">Share:</td>
-			<td><a href="https://www.facebook.com/sharer/sharer.php?u=www.sporthenon.com" target="_blank"><img src="img/header/facebook.png"/></a></td>
+			<td><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.sporthenon.com" target="_blank"><img src="img/header/facebook.png"/></a></td>
 			<td><a href="https://twitter.com/share?url=http%3A%2F%2Fwww.sporthenon.com" target="_blank"><img src="img/header/twitter.png"/></a></td>
 			<td><a href="https://plus.google.com/share?url=www.sporthenon.com" target="_blank"><img src="img/header/gplus.png"/></a></td></tr>
-		</table>
+		</table><br/>
 		<a target="_blank" title="Sporthenon on Google Code" href="https://code.google.com/p/sporthenon/"><img src="img/header/gcode.png" alt="Google Code" /></a>&nbsp;
 		<a target="_blank" title="Valid XHTML 1.0" href="http://validator.w3.org/check?uri=referer"><img src="img/header/validxhtml10.png" alt="Valid XHTML 1.0"/></a><br/>
 		&copy;2011-14 (sporthenon.com)<br/>

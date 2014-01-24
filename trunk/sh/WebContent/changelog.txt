@@ -6,6 +6,12 @@
 +-------+
 | 0.6.0 |
 +-------+
+search nom sens : nom+prenom (ex : ma lin)
+commentaire results a droite de year
+design boutons couleur + degradé menu background
+format dates result = 11-DEC-2011
+inversion nom prenom reference results MAS + verif VIE
+keep currentab opened + add tab button (pas ouverture onglet auto)
 
 +-------+
 | 0.5.1 |

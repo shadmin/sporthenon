@@ -11,7 +11,7 @@
 }
 .tc th{
 	font-weight: bold;
-	background-color: #FFC;
+	background-color: #FFA;
 	text-align: center;
 	padding: 3px 10px;
 }
@@ -181,7 +181,7 @@
 	background: transparent url(../img/render/seemore.gif) center center no-repeat;
 }
 .tc .refseefull td:hover{
-	background-color: #FFC;
+	background-color: #FFA;
 }
 .tc .draw{
 	height: 540px;

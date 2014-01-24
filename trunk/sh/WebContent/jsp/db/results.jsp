@@ -84,5 +84,6 @@
 	initSelectMult('sm-pl-yr', 'Years', 265);
 	initSliderRes('sp');
 	changeSport();
+	initTabControl();
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />
