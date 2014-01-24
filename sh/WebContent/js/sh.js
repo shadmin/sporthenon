@@ -75,8 +75,8 @@ function updateTip(pl) {
 	$(hTips.get(pl)).update(text);
 }
 function handleRender() {
-	var title = $('title-' + (tabindex - 1));
-	var tabId = '#t-' + (tabindex - 1);
+	var title = $('title-' + tabcurrent);
+	var tabId = '#t-' + tabcurrent;
 	var shorttitle = $$(tabId + ' .shorttitle')[0].innerHTML;
 	var info = $$(tabId + ' .infostats')[0];
 	title.update(shorttitle);
@@ -85,7 +85,6 @@ function handleRender() {
 			position: 'relative', hover: true, offsetLeft: 20, offsetTop: 0, className: 'tip'
 		});
 	});
-	updateTabTitles(tabindex - 1);
 	t2 = currentTime();
 	info.update(info.innerHTML.replace('#DTIME#', elapsedTime(t1, t2)));
 }
@@ -250,7 +249,18 @@ function elapsedTime(t1_, t2_) {
 	return ((t2_ - t1_) / 1000);
 }
 /* ==================== TABCONTROL ==================== */
-var tabindex = 1;
+var tabcurrent = 0;
+var tabcount = 0;
+function initTabControl() {
+	addTab('Blank');
+	
+	tabbar.insert('<li title="Open New Tab" id="link-add"><a href="#" onclick="javascript:void(0);"></a></li>');
+	var link = $$('#link-add a')[0];
+	link.observe('click', function(){addTab('Blank');});
+	tabs.addTab(link);
+	tabs.last();
+	tabs.previous();
+}
 function getCloseImg(idx) {
 	var img = new Element('img', {id: 'close-' + idx, src: 'img/component/tabcontrol/close.gif'});
 	img.observe('mouseover', overCloseImg)
@@ -269,31 +279,27 @@ function clickCloseImg(id_) {
 	$('link-' + idx).remove();
 	tabs.removeTab('t-' + idx);
 	if (tabs.activeContainer.id == 't-' + idx) {
-		var i = tabindex + 1;
+		var i = tabcurrent + 1;
 		while (!$('t-' + i--) && i > 0);
 		tabs.setActiveTab(i > 0 ? 't-' + (i + 1) : 0);
-		updateTabTitles(i > 0 ? i + 1 : 1);
 	}
 }
 function addTab(title) {
-	title = '<span id="title-' + tabindex + '">' + title + '</span>';
-	tabcontrol.insert('<div class="tc" id="t-' + tabindex + '"></div>');
-	tabbar.insert('<li id="link-' + tabindex + '"><a onmouseup="updateTabTitles(' + tabindex + ');" href="#t-' + tabindex + '">' + /*tabindex + '.&nbsp;' +*/ title + '</a></li>');
-	var link = $$('#link-' + tabindex + ' a')[0];
-	link.insert(getCloseImg(tabindex));
+	tabcurrent = ++tabcount;
+	title = '<span id="title-' + tabcurrent + '">' + title + '</span>';
+	tabcontrol.insert('<div class="tc" id="t-' + tabcurrent + '"><br/><br/><br/></div>');
+	tabbar.insert('<li id="link-' + tabcurrent + '"><a href="#t-' + tabcurrent + '">' + title + '</a></li>');
+	var link = $$('#link-' + tabcurrent + ' a')[0];
+	link.insert(getCloseImg(tabcurrent));
+	$('link-' + tabcurrent).observe('mouseup', function(){tabcurrent = this.id.replace('link-', '');});
 	tabs.addTab(link);
 	tabs.last();
-	return $('t-' + tabindex++);
+	tabbar.insert($('link-add'));
+	return $('t-' + tabcurrent);
 }
 function initTab() {
-	var tab = null;
-	if (!$('opt-newtab') || $('opt-newtab').checked || tabs.isEmpty()) {
-		tab = addTab('Loading...');
-	}
-	else {
-		tab = $(tabs.activeContainer.id);
-		$('title-' + tab.id.replace('t-', '')).update('Loading...');
-	}
+	var tab = $(tabs.activeContainer.id);
+	$('title-' + tab.id.replace('t-', '')).update('Loading...');
 	$('export').removeClassName('export-disabled').addClassName('export').disabled = '';
 	$('link').removeClassName('link-disabled').addClassName('link').disabled = '';
 	$('print').removeClassName('print-disabled').addClassName('print').disabled = '';
@@ -311,7 +317,7 @@ function closeTabs() {
 	$('print').removeClassName('print').addClassName('print-disabled').disabled = 'disabled';
 	$('info').removeClassName('info').addClassName('info-disabled').disabled = 'disabled';
 	$('close').removeClassName('close').addClassName('close-disabled').disabled = 'disabled';
-	tabindex = 1;
+	tabcurrent = 0;
 }
 function closeDialog(dlg) {
 	dlg.close();
@@ -378,25 +384,6 @@ function printCurrentTab() {
 	if (url) {
 		window.open(url + '&print', '_blank');
 	}
-}
-function updateTabTitles(tabselected) {
-	var i = 1;
-	var title = null;
-	var shorttitle = null;
-	$$('#tabbar li').each(function(el) {
-		if ($(el).id.indexOf('link-') == 0) {
-			i = $(el).id.replace('link-', '');
-			shorttitle = $$('#t-' + i + ' .shorttitle')[0].innerHTML;
-			title = $('title-' + i);
-			if (i != tabselected && shorttitle.indexOf('&nbsp;-') != -1) {
-				title.update(shorttitle.substring(0, shorttitle.indexOf('&nbsp;-') + 6) + '...');
-			}
-			else {
-				title.update(shorttitle);
-			}
-			i++;
-		}
-	});
 }
 /* ==================== SLIDER ==================== */
 var hSliders = new Hash();

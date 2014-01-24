@@ -1,11 +1,11 @@
 body{
-	background: #FFFFF2 url(../img/header/bg2.gif?11) 0 0 repeat-y;
+	background: #FBFBFB url(../img/header/bg2.gif?14) 0 0 repeat-y;
 	margin: 0;
 	padding: 0;
 }
 body.link{
 	background: none;
-	background-color: #F2F2F2;
+	background-color: #FBFBFB;
 }
 /* ========== COMMON ========== */
 .separator{
@@ -49,7 +49,7 @@ input{
 .fieldset .fstitle{
 	font-weight: bold;
 	border-bottom: 1px solid gray;
-	background-color: #FFC;
+	background-color: #FFA;
 	padding: 5px;
 	padding-left: 23px;
 	background-position: 3px center;
@@ -143,7 +143,7 @@ input{
 	list-style-type: none;
 	text-align: right;
 	padding-bottom: 0px;
-	font: 13px Georgia;
+	font: 12px Verdana;
 }
 #shmenu ul{
 	margin: 0px;
@@ -152,53 +152,64 @@ input{
 #shmenu li{
 	margin: 0;
 	margin-bottom: 8px;
-	padding-left: 60px;
+	padding-left: 90px;
 }
 #shmenu li a{
 	display: block;
-	color: white;
+	color: #000;
 	font-weight: bold;
 	text-decoration: none;
 	margin-left: 2px;
-	padding: 4px 8px;
+	padding: 5px 8px;
 	padding-left: 25px;
 	padding-right: 5px;
 	border: 1px solid #000;
-	background-color: #666;
+	background-color: #FAFAFA;
 	background-position: 5px center;
 	background-repeat: no-repeat;
 }
 #shmenu a.selected{
-	border-right: none;
-	padding-right: 6px;
-	background-color: #FFFFF2;
-	color: #000;
+	border-right: 1px solid #FAFAFA;
 }
-#shmenu li a:hover{
-	background-color: #FFFFF2;
-	color: #000;
-}
-#shmenu a.selected:hover{
-	background-color: #FFFFF2;
-	color: #000;
+#shmenu a:hover, #shmenu a.selected{
+	border-right: 1px solid #000;
+	color: #FFF;
 }
 #shmenu-home{
 	background-image:url(../img/menu/home.png?6);
 }
+#shmenu-home:hover, #shmenu-home.selected{
+	background-color: #0000bd;
+}
 #shmenu-results{
 	background-image:url(../img/menu/dbresults.png?6);
+}
+#shmenu-results:hover, #shmenu-results.selected{
+	background-color: #ef8300;
 }
 #shmenu-olympics{
 	background-image:url(../img/menu/dbolympics.png?6);
 }
+#shmenu-olympics:hover, #shmenu-olympics.selected{
+	background-color: #008600;
+}
 #shmenu-usleagues{
 	background-image:url(../img/menu/dbusleagues.png?6);
+}
+#shmenu-usleagues:hover, #shmenu-usleagues.selected{
+	background-color: #905f00;
 }
 #shmenu-search{
 	background-image:url(../img/menu/dbsearch.png?6);
 }
+#shmenu-search:hover, #shmenu-search.selected{
+	background-color: #900090;
+}
 #shmenu-project{
 	background-image:url(../img/menu/project.png?6);
+}
+#shmenu-project:hover, #shmenu-project.selected{
+	background-color: #00c0c4;
 }
 #shmenu-login{
 	background-image:url(../img/menu/login.png?6);
@@ -208,7 +219,7 @@ input{
 }
 #links{
 	margin: 5px;
-	margin-top: 20px;
+	margin-top: 25px;
 	font: 10px Tahoma;
 }
 #links img{
@@ -272,25 +283,26 @@ input{
 	float: left;
 	margin-right: 3px;
 	text-align: center;
-	border: 1px solid #CCC;
-	border-bottom: none;
 }
 .tabbar li a{
 	display: block;
-	height: 16px;
+	height: 15px;
 	padding: 3px 4px 0px 5px;
-	background-color: #fff;
+	margin-bottom: 1px;
+	background-color: #D6D6D6;
 	color: #333;
 	width: auto;
+	border: 1px solid #AAA;
 	text-decoration: none;
 }
 .tabbar li a:hover{
-	background-color: #F2F2F2;
+	background-color: #F3F3F3;
 }
 .tabbar li a.active{
-	background-color: #F2F2F2;
+	background-color: #F3F3F3;
 	font-weight: bold;
 	color: #000;
+	border-bottom: 1px solid #F3F3F3;
 }
 .tabbar li a.active span{
 	font-weight: bold;
@@ -301,11 +313,18 @@ input{
 }
 .tc{
 	padding: 10px 10px;
-	border: 1px solid #CCC;
-	background-color: #F2F2F2;
+	border: 1px solid #AAA;
+	background-color: #F5F5F5;
 }
 .link .tc{
 	border: none;
+}
+#link-add a {
+	background: #D6D6D6 url(../img/component/tabcontrol/add.png) center center no-repeat;
+	width: 12px;
+}
+#link-add a:hover {
+	background-color: #F5F5F5;
 }
 /* ========== SLIDER ========== */
 .slider .arrow{
@@ -401,8 +420,8 @@ input{
 /* ========== BUTTONS ========== */
 #buttons{
 	width: 100%;
-	margin-top: 3px;
-	margin-bottom: 5px;
+	margin-top: 4px;
+	margin-bottom: 8px;
 }
 #buttons #bleft{
 	float: left;
@@ -417,11 +436,12 @@ input{
 #buttons .button{
 	height: 25px;
 	margin: 0px;
-	background-color: #DADADA;
+	background-color: #E5E5E5;
 	background-position: 3px center;
 	background-repeat: no-repeat;
 	padding-left: 22px;
 	cursor: pointer;
+	border: 1px solid #AAA;
 }
 #buttons #bleft .button{
 	margin-right: 3px;
@@ -430,7 +450,8 @@ input{
 	margin-left: 3px;
 }
 #buttons .button:hover{
-	text-decoration: underline;
+	color: #FFF;
+	background-color: #444;
 }
 #buttons .execute{
 	background-image: url('../img/component/button/execute.png?6');
@@ -474,7 +495,8 @@ input{
 	background-image: url('../img/component/button/close-disabled.png?6');
 }
 #buttons .export-disabled:hover, #buttons .link-disabled:hover, #buttons .print-disabled:hover, #buttons .info-disabled:hover, #buttons .close-disabled:hover{
-	text-decoration: none;
+	color: #777;
+	background-color: #E5E5E5;
 	cursor: default;
 }
 /* ========== TREEVIEW ========== */
@@ -509,17 +531,17 @@ input{
 #home .box{
 	width: 190px;
 	border: 1px solid gray;
-	padding: 1px;
+	padding: 0px;
 	padding-bottom: 5px;
 	margin-bottom: 10px;
 	background: #FFF;
 }
 #home .boxtitle{
-	background-color: #557;
-	border: 1px solid gray;
+	background-color: #666;
+	border-bottom: 1px solid gray;
 	color: #FFF;
 	font-weight: bold;
-	padding: 3px;
+	padding: 4px;
 	margin-bottom: 5px;
 }
 #home .box table{
@@ -550,7 +572,7 @@ input{
 .homecontent .fieldset .fstitle{
 	font-weight: bold;
 	border-bottom: 1px solid gray;
-	background-color: #FFC;
+	background-color: #FFA;
 	padding: 5px;
 	padding-left: 23px;
 	background-position: 3px center;
@@ -886,19 +908,19 @@ input{
 	font: 11px Verdana;
 }
 #d-lastupdates .fstitle{
-	background-color: #DAEEFF;
+	background-color: #A8DDFF;
 	background-image: url(../img/component/button/lastpudates.png?6);
 }
 #d-export .fstitle{
-	background-color: #DAEEFF;
+	background-color: #A8DDFF;
 	background-image: url(../img/component/button/export.png?6);
 }
 #d-link .fstitle{
-	background-color: #DAEEFF;
+	background-color: #A8DDFF;
 	background-image: url(../img/component/button/link.png?6);
 }
 #d-info .fstitle{
-	background-color: #DAEEFF;
+	background-color: #A8DDFF;
 	background-image: url(../img/component/button/info.png?6);
 }
 .dialog .dlgbuttons{
