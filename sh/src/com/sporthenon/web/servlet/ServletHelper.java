@@ -64,8 +64,9 @@ public class ServletHelper {
         	sbInfo.append("|" + StringUtils.countIn(s, "<img"));
         	s = s.replaceAll("\\#INFO\\#", sbInfo.toString());
         }
+        String sBacktop = "<div class='backtop###' onclick='backTop();'><img alt='top' title='Back to top' src='img/render/back-top.gif'/></div>";
         PrintWriter writer = res.getWriter();
-        writer.write(s);
+        writer.write(s + (s.matches(".*'tsort'.*") ? sBacktop.replaceAll("\\#\\#\\#", "left") + sBacktop.replaceAll("\\#\\#\\#", "right") : ""));
 	}
 	
 	public static void writeLinkHtml(HttpServletRequest req, HttpServletResponse res, StringBuffer sb) throws ServletException, IOException {

@@ -46,7 +46,7 @@ public class JTopPanel extends JPanel implements ActionListener {
 		//this.setBorder(BorderFactory.createEtchedBorder());
 		this.setPreferredSize(new Dimension(0, 50));
 
-		jConnectButton = new JCustomButton("Connect", "common/connect.png");
+		jConnectButton = new JCustomButton("Connect", "common/connect.png", null);
 		jConnectButton.setActionCommand("connect");
 		setButtonLayout(jConnectButton);
 		jResultsButton = new JCustomToggleButton("Results", "updater/results.png", "results");
@@ -58,21 +58,21 @@ public class JTopPanel extends JPanel implements ActionListener {
 		jPicturesButton = new JCustomToggleButton("Pictures", "updater/image.png", "pictures");
 		jPicturesButton.setActionCommand("pictures");
 		setButtonLayout(jPicturesButton);
-		jImportButton = new JCustomButton("Import", "updater/import.png");
+		jImportButton = new JCustomButton("Import", "updater/import.png", null);
 		jImportButton.setActionCommand("import");
 		jImportButton.setEnabled(false);
 		setButtonLayout(jImportButton);
-		jQueryButton = new JCustomButton("Query", "updater/query.png");
+		jQueryButton = new JCustomButton("Query", "updater/query.png", null);
 		jQueryButton.setActionCommand("query");
 		jQueryButton.setEnabled(false);
 		setButtonLayout(jQueryButton);
-		jOptionsButton = new JCustomButton("Options", "common/options.png");
+		jOptionsButton = new JCustomButton("Options", "common/options.png", null);
 		jOptionsButton.setActionCommand("options");
 		setButtonLayout(jOptionsButton);
-		jInfoButton = new JCustomButton("Info", "common/info.png");
+		jInfoButton = new JCustomButton("Info", "common/info.png", null);
 		jInfoButton.setActionCommand("info");
 		setButtonLayout(jInfoButton);
-		jCloseButton = new JCustomButton("Close", "updater/close.png");
+		jCloseButton = new JCustomButton("Close", "updater/close.png", null);
 		jCloseButton.setActionCommand("close");
 		setButtonLayout(jCloseButton);
 

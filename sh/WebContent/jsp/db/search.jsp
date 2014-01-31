@@ -14,27 +14,23 @@
 	</div>
 	<fieldset class="scope">
 		<legend>Scope</legend>
-		<table cellspacing="0">
+		<table cellspacing="2">
 		<tr>
 			<td><input type="checkbox" value="PR" name="scope" id="PR" checked="checked"></input></td><td><label for="PR">Athletes</label></td>
-			<td><input type="checkbox" value="EV" name="scope" id="EV" checked="checked"></input></td><td><label for="EV">Events</label></td>
-		</tr>
-		<tr>
-			<td><input type="checkbox" value="CP" name="scope" id="CP" checked="checked"></input></td><td><label for="CP">Championships</label></td>
 			<td><input type="checkbox" value="SP" name="scope" id="SP" checked="checked"></input></td><td><label for="SP">Sports</label></td>
 		</tr>
 		<tr>
-			<td><input type="checkbox" value="CT" name="scope" id="CT" checked="checked"></input></td><td><label for="CT">Cities</label></td>
-			<td><input type="checkbox" value="ST" name="scope" id="ST" checked="checked"></input></td><td><label for="ST">States</label></td>
-		</tr>
-		<tr>
-			<td><input type="checkbox" value="CX" name="scope" id="CX" checked="checked"></input></td><td><label for="CX">Complexes</label></td>
+			<td><input type="checkbox" value="CN" name="scope" id="CN" checked="checked"></input></td><td><label for="CN">Countries</label>&nbsp;</td>
 			<td><input type="checkbox" value="TM" name="scope" id="TM" checked="checked"></input></td><td><label for="TM">Teams</label></td>
 		</tr>
 		<tr>
-			<td><input type="checkbox" value="CN" name="scope" id="CN" checked="checked"></input></td><td><label for="CN">Countries</label></td>
+			<td><input type="checkbox" value="CP,EV" name="scope" id="EV" checked="checked"></input></td><td><label for="EV">Events</label></td>
 			<td><input type="checkbox" value="YR" name="scope" id="YR" checked="checked"></input></td><td><label for="YR">Years</label></td>
-			<td style="padding-left:70px;"><label for="AL">All:</label></td><td><input type="checkbox" value="AL" name="scope" id="AL" checked="checked" onclick="toggleCheck(this);"></input></td>
+		</tr>
+		<tr>
+			<td><input type="checkbox" value="CT,CX,ST" name="scope" id="PL" checked="checked"></input></td><td><label for="PL">Places</label></td>
+			<td colspan="2"></td>
+			<td style="padding-left:50px;"><label for="AL">All:</label></td><td><input type="checkbox" value="AL" name="scope" id="AL" checked="checked" onclick="toggleCheck(this);"></input></td>
 		</tr>
 		</table>
 	</fieldset>
@@ -49,5 +45,6 @@
 			$(el).checked = cb.checked;
 		});
 	}
+	initTabControl();
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />

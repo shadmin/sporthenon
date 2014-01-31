@@ -33,9 +33,9 @@ public class JDialogButtonBar extends JPanel {
 		layout2.setHgap(3);
 		pRight.setLayout(layout2);
 		
-		jOk = new JCustomButton("OK", "updater/ok.png");
-		jCancel = new JCustomButton("Cancel", "updater/cancel.png");
-		jOptional = new JCustomButton(".", null);
+		jOk = new JCustomButton("OK", "updater/ok.png", null);
+		jCancel = new JCustomButton("Cancel", "updater/cancel.png", null);
+		jOptional = new JCustomButton(".", null, null);
 		jOptional.setVisible(false);
 		jOk.setActionCommand("ok");
 		jCancel.setActionCommand("cancel");

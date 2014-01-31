@@ -109,8 +109,8 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 	public void keyReleased(KeyEvent e) {
 		try {
 			DefaultListModel model = (DefaultListModel)jList.getModel();
-			model.clear();
 			if (e.getKeyCode() == KeyEvent.VK_ENTER && StringUtils.notEmpty(jText.getText())) {
+				model.clear();
 				if (jPicklist != null) {
 					for (int i = 1 ; i < jPicklist.getPicklist().getItemCount() ; i++) {
 						PicklistBean bean = (PicklistBean) jPicklist.getPicklist().getItemAt(i);

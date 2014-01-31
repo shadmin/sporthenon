@@ -20,7 +20,7 @@
 		</div>
 	</div>
 	<div class="homecontent">
-		<h2 style="font-family:Verdana;">Welcome to SPORTHENON.COM, the temple of sport results !</h2>
+		<h2 style="font-family:Verdana;">Welcome to SPORTHENON.COM, the temple of sport results!</h2>
 		<div class="fieldset">
 			<div class="fstitle info">WHAT IS SPORTHENON.COM ?</div>
 			<div class="fscontent">

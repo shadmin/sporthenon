@@ -1,17 +1,8 @@
-boutons social network
-tied sur reference results avec drapeau
-bouton back to top
-record search results empty
-fussionner affichage/Search championships + events
 plusieurs ties sur meme result (golf us open 2013)
-tests ie firefox safari
-championship+event+subevent = event dans tous les liens ref
 updater import telecharger modele CSV/XLS colonnes
-updater tooltips boutons + edit folder bug niveaux 3+4
-updater jfindentitydlg pas de vidage liste onkeydown
 updater suppr image remote
-UPDATER merge entity
-results quick event search
+--tests ie firefox safari
+--results quick event search
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

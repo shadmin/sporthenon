@@ -517,7 +517,7 @@ public class HtmlConverter {
 		boolean isAllRef = !StringUtils.notEmpty(params.get(2));
 		StringBuffer html = new StringBuffer();
 		if (isAllRef)
-			html.append("<fieldset class='ref'><legend>References (" + coll.size() + ")</legend><table class='tsort'>");
+			html.append("<table class='tsort'>");
 		HashMap<String, Integer> hCount = new HashMap<String, Integer>();
 		// Evaluate items
 		for (Object obj : coll) {
@@ -554,7 +554,7 @@ public class HtmlConverter {
 				else if (en.equals(Record.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>Sport</th><th onclick='sort(\"" + id + "\", this, 1);'>Category</th><th onclick='sort(\"" + id + "\", this, 2);'>Type</th><th onclick='sort(\"" + id + "\", this, 3);'>Record</th>" + (type.matches("PR|TM|CN") ? "<th onclick='sort(\"" + id + "\", this, 4);'>Rank</th>" : ""));
 				else if (en.equals(Result.alias))
-					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>Sport</th><th onclick='sort(\"" + id + "\", this, 1);'>Championship</th><th onclick='sort(\"" + id + "\", this, 2);'>Event</th><th onclick='sort(\"" + id + "\", this, 3);'>Year</th><th onclick='sort(\"" + id + "\", this, 4);'>Result</th>");
+					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>Sport</th><th onclick='sort(\"" + id + "\", this, 1);'>Event</th><th onclick='sort(\"" + id + "\", this, 2);'>Year</th><th onclick='sort(\"" + id + "\", this, 3);'>Result</th>");
 				else if (en.equals(RetiredNumber.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>League</th><th onclick='sort(\"" + id + "\", this, 1);'>Team</th><th onclick='sort(\"" + id + "\", this, 2);'>Name</th><th onclick='sort(\"" + id + "\", this, 3);'>Number</th>");
 				else if (en.equals(Team.alias))
@@ -639,13 +639,12 @@ public class HtmlConverter {
 			}
 			else if (en.equals(Result.alias)) {
 				c1 = HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2());
-				c2 = HtmlUtils.writeLink(Championship.alias, item.getIdRel3(), item.getLabelRel3());
-				c3 = HtmlUtils.writeLink(Event.alias, item.getIdRel4(), item.getLabelRel4() + (item.getIdRel5() != null ? " - " + HtmlUtils.writeLink(Event.alias, item.getIdRel5(), item.getLabelRel5()) : ""));
-				c4 = HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1());
+				c2 = HtmlUtils.writeLink(Result.alias, item.getIdItem(), item.getLabelRel3() + "&nbsp;-&nbsp;" + item.getLabelRel4() + (item.getIdRel5() != null ? "&nbsp;-&nbsp;" + item.getLabelRel5() : ""));
+				c3 = HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1());
 				if (item.getIdRel6() != null && item.getLabelRel6() != null) {
 					String s = item.getLabelRel6().toLowerCase();
 					String alias = (s.matches(StringUtils.PATTERN_COUNTRY) ? Country.alias : (s.matches(StringUtils.PATTERN_ATHLETE) ? Athlete.alias : Team.alias));
-					boolean isMedal = String.valueOf(item.getIdRel3()).matches("1");
+					boolean isMedal = String.valueOf(item.getIdRel3()).matches("1|3|4");
 					String[] tEntity = new String[6];
 					tEntity[0] = (item.getIdRel6() != null ? HtmlUtils.writeLink(alias, item.getIdRel6(), StringUtils.getShortName(item.getLabelRel6())) : null);
 					tEntity[1] = (item.getIdRel7() != null ? HtmlUtils.writeLink(alias, item.getIdRel7(), StringUtils.getShortName(item.getLabelRel7())) : null);
@@ -662,6 +661,7 @@ public class HtmlConverter {
 					tEntity[5] = (tEntity[5] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel17() != null ? item.getIdRel17() : item.getIdRel11(), ImageUtils.SIZE_SMALL, null, false), tEntity[5]) : null);
 					List<Integer> listEq = StringUtils.tieList(item.getTxt4());
 					if (listEq != null && !listEq.isEmpty()) {
+						boolean isFirst = true;
 						Integer idx = listEq.get(0) - 1;
 						for (int i = 1 ; i < listEq.size() ; i++) {
 							if (idx == null)
@@ -669,9 +669,11 @@ public class HtmlConverter {
 							else {
 								if (listEq.get(i) == -1)
 									idx = null;
+								if (idx == null || listEq.get(0) > 1)
+									isFirst = false;
 								if (idx != null) {
 									if (idx < tEntity.length && tEntity[idx] != null && (listEq.get(i) - 1) < tEntity.length && tEntity[listEq.get(i) - 1] != null) {
-										tEntity[idx] = tEntity[idx].concat("&nbsp;/&nbsp;" + tEntity[listEq.get(i) - 1]);
+										tEntity[idx] = tEntity[idx].concat((isFirst ? "</b>" : "") + "</td><td>" + (isFirst ? "<b>" : "") + "&nbsp;/&nbsp;" + (isFirst ? "</b>" : "") + "</td><td>" + (isFirst ? "<b>" : "") + tEntity[listEq.get(i) - 1]);
 										tEntity[listEq.get(i) - 1] = null;
 									}
 								}
@@ -684,7 +686,7 @@ public class HtmlConverter {
 					if (isScore && !isMedal) {
 						StringBuffer sb = new StringBuffer("<table><tr>");
 						sb.append("<table><tr><td><b>" + tEntity[0] + "</b></td><td>&nbsp;-&nbsp;</td><td>" + tEntity[1] + "</td><td>&nbsp;" + item.getTxt1());
-						c5 = sb.append("</tr></table>").toString();
+						c4 = sb.append("</tr></table>").toString();
 					}
 					else {
 						StringBuffer sb = new StringBuffer("<table><tr>");
@@ -693,7 +695,7 @@ public class HtmlConverter {
 							sb.append("<td>&nbsp;" + (isMedal ? "<img title='Silver Medal' src='img/render/silver-mini.png'/>" : "2.") + "&nbsp;</td><td>" + tEntity[1] + "</td>");
 						if (tEntity[2] != null)
 							sb.append("<td>&nbsp;" + (isMedal ? "<img title='Bronze Medal' src='img/render/bronze-mini.png'/>" : "3.") + "&nbsp;</td><td>" + tEntity[2] + "</td>");
-						c5 = sb.append("</tr></table>").toString();
+						c4 = sb.append("</tr></table>").toString();
 					}
 				}
 			}
@@ -735,11 +737,13 @@ public class HtmlConverter {
 		}
 		if (isAllRef && count > ITEM_LIMIT)
 			html.append(HTML_SEE_FULL.replaceAll("#ENTITY#", currentEntity).replaceAll("#COLSPAN#", String.valueOf(colspan)));
-		html.append(isAllRef ? "</tbody></table></fieldset>" : "");
+		html.append(isAllRef ? "</tbody></table>" : "");
 		return html;
 	}
 
 	public static StringBuffer convertResults(Collection<Object> coll, Championship cp, Event ev, RenderOptions opts) throws Exception {
+		if (coll == null || coll.isEmpty())
+			return new StringBuffer(HtmlUtils.NO_RESULT);
 		// Evaluate columns
 		short entityCount = 0;
 		short[] tColspan = {1, 1, 1, 1, 1, 1, 1, 1, 1};
@@ -1003,13 +1007,14 @@ public class HtmlConverter {
 
 	public static StringBuffer convertSearch(Collection<Object> coll, String pattern, boolean isRef, RenderOptions opts) throws Exception {
 		if (coll == null || coll.isEmpty())
-			return new StringBuffer("<div class='noresult'>No result found matching your criteria.</div>");
+			return new StringBuffer(HtmlUtils.NO_RESULT);
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		String currentEntity = "";
 		HashMap<String, Integer> hCount = new HashMap<String, Integer>();
 		// Evaluate items
 		for (Object obj : coll) {
 			String s = ((RefItem) obj).getEntity();
+			s = (s.equals(Championship.alias) ? Event.alias : s);
 			if (!hCount.containsKey(s))
 				hCount.put(s, 0);
 			hCount.put(s, hCount.get(s) + 1);
@@ -1020,6 +1025,7 @@ public class HtmlConverter {
 		for (Object obj : coll) {
 			RefItem item = (RefItem) obj;
 			String en = item.getEntity();
+			en = (en.equals(Championship.alias) ? Event.alias : en);
 			if (!en.equals(currentEntity)) {
 				String id = en + "-" + System.currentTimeMillis();
 				int sortIndex = 0;
@@ -1040,9 +1046,9 @@ public class HtmlConverter {
 				int p2 = p1 + pattern.length();
 				name = name.substring(0, p1) + "<b>" + name.substring(p1, p2) + "</b>" + name.substring(p2);
 			}
-			name = HtmlUtils.writeLink(en, item.getIdItem(), name);
-			if (en.matches("CP|CN|OL|SP|ST|TM")) {
-				img = HtmlUtils.writeImage(ImageUtils.getIndex(en), item.getIdItem(), ImageUtils.SIZE_SMALL, null, opts.isPicturesDisabled());
+			name = HtmlUtils.writeLink(item.getEntity(), item.getIdItem(), name);
+			if (item.getEntity().matches("CP|EV|CN|OL|SP|ST|TM")) {
+				img = HtmlUtils.writeImage(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_SMALL, null, opts.isPicturesDisabled());
 				name = HtmlUtils.writeImgTable(img, name);
 			}
 			// Handle relations
@@ -1132,6 +1138,8 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertOlympicMedals(Collection<Object> coll, RenderOptions opts) throws Exception {
+		if (coll == null || coll.isEmpty())
+			return new StringBuffer(HtmlUtils.NO_RESULT);
 		int currentOlympics = 0;
 		boolean isIndividual = false;
 		boolean isResult = false;
@@ -1220,6 +1228,8 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertOlympicRankings(Collection<Object> coll, RenderOptions opts) throws Exception {
+		if (coll == null || coll.isEmpty())
+			return new StringBuffer(HtmlUtils.NO_RESULT);
 		int currentOlympics = 0;
 		String olympics = null;
 		String tmpImg = null;
@@ -1253,6 +1263,8 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertHallOfFame(Collection<Object> coll, RenderOptions opts) throws Exception {
+		if (coll == null || coll.isEmpty())
+			return new StringBuffer(HtmlUtils.NO_RESULT);
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		long id = System.currentTimeMillis();
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Year</th><th onclick='sort(\"" + id + "\", this, 1);'>Inductee</th><th onclick='sort(\"" + id + "\", this, 2);'>Inducted As</th></tr></thead><tbody id='tb-" + id + "'>");
@@ -1278,6 +1290,8 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertRetiredNumber(Collection<Object> coll, RenderOptions opts) throws Exception {
+		if (coll == null || coll.isEmpty())
+			return new StringBuffer(HtmlUtils.NO_RESULT);
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		long id = System.currentTimeMillis();
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Team</th><th onclick='sort(\"" + id + "\", this, 1);'>Number</th><th onclick='sort(\"" + id + "\", this, 2);'>Name</th><th onclick='sort(\"" + id + "\", this, 3);'>Year</th></tr></thead><tbody id='tb-" + id + "'>");
@@ -1300,6 +1314,8 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertTeamStadium(Collection<Object> coll, RenderOptions opts) throws Exception {
+		if (coll == null || coll.isEmpty())
+			return new StringBuffer(HtmlUtils.NO_RESULT);
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		long id = System.currentTimeMillis();
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>Team</th><th onclick='sort(\"" + id + "\", this, 1);'>Complex</th><th onclick='sort(\"" + id + "\", this, 2);'>City</th><th onclick='sort(\"" + id + "\", this, 3);'>Years</th></tr></thead><tbody id='tb-" + id + "'>");
@@ -1327,6 +1343,8 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertUSChampionships(Collection<Object> coll, RenderOptions opts) throws Exception {
+		if (coll == null || coll.isEmpty())
+			return new StringBuffer(HtmlUtils.NO_RESULT);
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		boolean isDate = false;
 		boolean isPlace = false;
@@ -1378,6 +1396,8 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertUSRecords(Collection<Object> coll, RenderOptions opts) throws Exception {
+		if (coll == null || coll.isEmpty())
+			return new StringBuffer(HtmlUtils.NO_RESULT);
 		String currentCategory = "";
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		long id = 0;
@@ -1444,6 +1464,8 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertWinLoss(Collection<Object> coll, RenderOptions opts) throws Exception {
+		if (coll == null || coll.isEmpty())
+			return new StringBuffer(HtmlUtils.NO_RESULT);
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		boolean isTie = false;
 		boolean isOtloss = false;

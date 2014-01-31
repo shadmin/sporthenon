@@ -4,6 +4,7 @@ import java.awt.Insets;
 
 import javax.swing.JButton;
 
+import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 
 
@@ -16,13 +17,14 @@ public class JCustomButton extends JButton {
 		initialize();
 	}
 	
-	public JCustomButton(String text, String icon) {
+	public JCustomButton(String text, String icon, String tip) {
 		super();
 		initialize();
 		this.setText(text);
+		this.setToolTipText(tip);
 		if (icon != null)
 			this.setIcon(ResourceUtils.getIcon(icon));
-		this.setMargin(new Insets(2, 5, 2, 5));
+		this.setMargin(StringUtils.notEmpty(text) ? new Insets(2, 5, 2, 5) : new Insets(2, 2, 2, 2));
 	}
 
 	protected void initialize() {
