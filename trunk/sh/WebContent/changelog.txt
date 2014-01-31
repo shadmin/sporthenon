@@ -12,6 +12,14 @@ design boutons couleur + degradé menu background
 format dates result = 11-DEC-2011
 inversion nom prenom reference results MAS + verif VIE
 keep currentab opened + add tab button (pas ouverture onglet auto)
+bouton back to top
+fussionner affichage/Search championships + events = championship+event+subevent = event dans tous les liens ref
+tied sur reference results avec drapeau
+boutons social network
+record/us/search/olympics = search results empty message
+updater tooltips boutons + edit folder bug niveaux 3+4
+updater jfindentitydlg pas de vidage liste onkeydown
+UPDATER merge entity
 
 +-------+
 | 0.5.1 |

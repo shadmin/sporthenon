@@ -291,12 +291,18 @@ public class DatabaseHelper {
 	}
 	
 	public static List executeNative(String s) throws Exception {
+		UserTransaction tr = null;
 		try {
+			tr = getTransaction();
+			if (tr != null) tr.begin();
 			EntityManager em = getEntityManager();
 			List lResult = em.createNativeQuery(s).getResultList();
+			if (tr != null) tr.commit();
 			return lResult;
 		}
 		catch (Exception e) {
+			if (tr != null)
+				tr.rollback();
 			throw e;
 		}
 	}

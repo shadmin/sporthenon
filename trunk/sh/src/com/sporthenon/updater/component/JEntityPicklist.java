@@ -47,13 +47,13 @@ public class JEntityPicklist extends JPanel implements ItemListener {
 		jButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		jButtonPanel.setPreferredSize(new Dimension(46, 0));
 		
-		jAddButton = new JCustomButton(null, "updater/add.png");
+		jAddButton = new JCustomButton(null, "updater/add.png", null);
 		jAddButton.setMargin(new Insets(0, 0, 0, 0));
 		jAddButton.setToolTipText("Add");
 		jAddButton.setFocusable(false);
 		jAddButton.addActionListener(listener);
 		jAddButton.setActionCommand(alias + "-add");
-		jFindButton = new JCustomButton(null, "updater/find.png");
+		jFindButton = new JCustomButton(null, "updater/find.png", null);
 		jFindButton.setMargin(new Insets(0, 0, 0, 0));
 		jFindButton.setToolTipText("Find");
 		jFindButton.setFocusable(false);

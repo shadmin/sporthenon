@@ -16,6 +16,7 @@ import com.sporthenon.utils.res.ResourceUtils;
 public class HtmlUtils {
 
 	public final static String SPACE = " ";
+	public final static String NO_RESULT = "<div class='noresult'>No result found matching the selected criteria.</div>";
 
 	public static String writeImage(short type, int id, char size, String title, boolean disabled) {
 		StringBuffer html = new StringBuffer();

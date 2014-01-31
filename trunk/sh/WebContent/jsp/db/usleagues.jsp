@@ -131,6 +131,7 @@
 	initSliderUS();
 	changeModeUS();
 	changeLeague('nfl');
+	initTabControl();
 	var tPos = new Array();
 <%
 	List<Object[]> l = (List<Object[]>) DatabaseHelper.executeNative("select distinct id_league, position from \"HALL_OF_FAME\" where position is not null and position<>'' order by id_league, position");

@@ -104,7 +104,6 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 		this.currentCategory1 = SwingUtils.getValue(jCategory1);
 		this.currentCategory2 = SwingUtils.getValue(jCategory2);
 		this.currentCategory3 = SwingUtils.getValue(jCategory3);
-		jCategory3.setEnabled(mode == NEW || currentCategory3 > 0);
 		this.setTitle((mode == NEW ? "New" : "Edit") + " Folder");
 		this.setVisible(true);
 	}

@@ -64,6 +64,7 @@ import com.sporthenon.updater.container.entity.JWinLossPanel;
 import com.sporthenon.updater.container.entity.JYearPanel;
 import com.sporthenon.updater.window.JFindEntityDialog;
 import com.sporthenon.updater.window.JMainFrame;
+import com.sporthenon.updater.window.JMergeEntityDialog;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
 import com.sporthenon.utils.res.ResourceUtils;
@@ -133,23 +134,23 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 	
 	private JPanel getButtonPanel() {
 		JPanel leftPanel = new JPanel();
-		JCustomButton jFirstButton = new JCustomButton("First", "updater/first.png");
+		JCustomButton jFirstButton = new JCustomButton(null, "updater/first.png", "First");
 		jFirstButton.addActionListener(this);
 		jFirstButton.setActionCommand("first");
 		jFirstButton.setMnemonic(KeyEvent.VK_PAGE_UP);
-		JCustomButton jPreviousButton = new JCustomButton("Previous", "updater/previous.png");
+		JCustomButton jPreviousButton = new JCustomButton(null, "updater/previous.png", "Previous");
 		jPreviousButton.addActionListener(this);
 		jPreviousButton.setActionCommand("previous");
 		jPreviousButton.setMnemonic(KeyEvent.VK_LEFT);
-		JCustomButton jFindButton = new JCustomButton("Find", "updater/find.png");
+		JCustomButton jFindButton = new JCustomButton(null, "updater/find.png", "Find");
 		jFindButton.addActionListener(this);
 		jFindButton.setActionCommand("find");
 		jFindButton.setMnemonic(KeyEvent.VK_F);
-		JCustomButton jNextButton = new JCustomButton("Next", "updater/next.png");
+		JCustomButton jNextButton = new JCustomButton(null, "updater/next.png", "Next");
 		jNextButton.addActionListener(this);
 		jNextButton.setActionCommand("next");
 		jNextButton.setMnemonic(KeyEvent.VK_RIGHT);
-		JCustomButton jLastButton = new JCustomButton("Last", "updater/last.png");
+		JCustomButton jLastButton = new JCustomButton(null, "updater/last.png", "Last");
 		jLastButton.addActionListener(this);
 		jLastButton.setActionCommand("last");
 		jLastButton.setMnemonic(KeyEvent.VK_PAGE_DOWN);
@@ -161,27 +162,32 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		leftPanel.add(jLastButton, null);
 
 		JPanel rightPanel = new JPanel();
-		JCustomButton jAddButton = new JCustomButton("New", "updater/add.png");
+		JCustomButton jAddButton = new JCustomButton(null, "updater/add.png", "New");
 		jAddButton.addActionListener(this);
 		jAddButton.setActionCommand("new");
 		jAddButton.setMnemonic(KeyEvent.VK_N);
-		JCustomButton jSaveButton = new JCustomButton("Save", "updater/save.png");
+		JCustomButton jSaveButton = new JCustomButton(null, "updater/save.png", "Save");
 		jSaveButton.addActionListener(this);
 		jSaveButton.setActionCommand("save");
 		jSaveButton.setMnemonic(KeyEvent.VK_S);
-		JCustomButton jCopyButton = new JCustomButton("Copy", "updater/copy.png");
+		JCustomButton jCopyButton = new JCustomButton(null, "updater/copy.png", "Copy");
 		jCopyButton.addActionListener(this);
 		jCopyButton.setActionCommand("copy");
 		jCopyButton.setMnemonic(KeyEvent.VK_C);
-		JCustomButton jRemoveButton = new JCustomButton("Remove", "updater/remove.png");
+		JCustomButton jMergeButton = new JCustomButton(null, "updater/merge.png", "Merge");
+		jMergeButton.addActionListener(this);
+		jMergeButton.setActionCommand("merge");
+		jMergeButton.setMnemonic(KeyEvent.VK_M);
+		JCustomButton jRemoveButton = new JCustomButton(null, "updater/remove.png", "Remove");
 		jRemoveButton.addActionListener(this);
 		jRemoveButton.setActionCommand("remove");
 		jRemoveButton.setMnemonic(KeyEvent.VK_R);
 		rightPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 2, 1));
 		rightPanel.add(jAddButton, null);
 		rightPanel.add(jSaveButton, null);
-		rightPanel.add(jCopyButton, null);
 		rightPanel.add(jRemoveButton, null);
+		rightPanel.add(jCopyButton, null);
+		rightPanel.add(jMergeButton, null);
 		
 		JPanel p = new JPanel(new BorderLayout(0, 0));
 		p.setPreferredSize(new Dimension(0, 26));
@@ -246,6 +252,26 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		else if (e.getActionCommand().equals("copy")) {
 			panel.setId("");
 			panel.focus();
+		}
+		else if (e.getActionCommand().equals("merge")) {
+			try {
+				JFindEntityDialog dlg = JMainFrame.getFindDialog();
+				dlg.open(alias, null);
+				if (dlg.getSelectedItem() != null) {
+					Class c = DatabaseHelper.getClassFromAlias(alias);
+					Object data1 = DatabaseHelper.loadEntity(c, currentId);
+					Object data2 = DatabaseHelper.loadEntity(c, dlg.getSelectedItem().getValue());
+					String id1 = String.valueOf(c.getMethod("getId").invoke(data1, new Object[0]));
+					String id2 = String.valueOf(c.getMethod("getId").invoke(data2, new Object[0]));
+					JMergeEntityDialog dlg_ = JMainFrame.getMergeDialog();
+					dlg_.getlEntity1().setText(data1.toString());
+					dlg_.getlEntity2().setText(data2.toString());
+					dlg_.open(alias, Integer.parseInt(id1), Integer.parseInt(id2));
+				}
+			}
+			catch (Exception e_) {
+				Logger.getLogger("sh").error(e_.getMessage(), e_);
+			}
 		}
 		else if (e.getActionCommand().equals("save")) {
 			boolean err = false;

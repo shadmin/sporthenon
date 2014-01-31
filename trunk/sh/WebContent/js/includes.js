@@ -4168,7 +4168,8 @@ Control.Tabs = Class.create({
         link.key = link.getAttribute('href').replace(window.location.href.split('#')[0],'').split('#').last().replace(/#/,'');
         var container = $(link.key);
         if(!container) {
-            throw "Control.Tabs: #" + link.key + " was not found on the page."; }
+        	throw "Control.Tabs: #" + link.key + " was not found on the page.";
+        }
         this.containers.set(link.key,container);
         link[this.options.hover ? 'onmouseover' : 'onclick'] = function(link){
             if(window.event) {

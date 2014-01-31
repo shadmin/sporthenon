@@ -110,6 +110,7 @@ input{
 	width: 180px;
 	height: 80px;
 	margin: 0 auto;
+	margin-top: 12px;
 	border: 1px solid #AAA;
 }
 #optionspanel{
@@ -124,6 +125,14 @@ input{
 }
 .criteria{
 	background-image: url(../img/db/criteria.png?6);
+}
+.backtopleft {
+	float: left;
+	cursor: pointer;
+}
+.backtopright {
+	float: right;
+	cursor: pointer;
 }
 /* ========== HEADER/MENU ========== */
 #header{
@@ -160,9 +169,9 @@ input{
 	font-weight: bold;
 	text-decoration: none;
 	margin-left: 2px;
-	padding: 5px 8px;
+	padding: 4px 8px;
 	padding-left: 25px;
-	padding-right: 5px;
+	padding-right: 4px;
 	border: 1px solid #000;
 	background-color: #FAFAFA;
 	background-position: 5px center;
@@ -313,6 +322,7 @@ input{
 }
 .tc{
 	padding: 10px 10px;
+	padding-bottom: 22px;
 	border: 1px solid #AAA;
 	background-color: #F5F5F5;
 }
@@ -393,14 +403,26 @@ input{
 .optcontainer .btnpanel{
 	border-top: 1px solid #222;
 	text-align: right;
+	padding: 2px;
 }
-.optcontainer .btnpanel .button{
+.optcontainer .btnpanel input.button{
+	height: 25px;
 	margin: 0px;
+	margin-left: 2px;
+	background-color: #E5E5E5;
+	background-position: 3px center;
+	background-repeat: no-repeat;
+	padding-left: 22px;
+	cursor: pointer;
+	border: 1px solid #AAA;
+}
+.optcontainer .btnpanel input.button:hover{
+	color: #FFF;
+	background-color: #444;
 }
 .optcontainer .btnpanel .applyall{
 	float: left;
-	padding: 2px 2px;
-	margin: 0px;
+	padding: 2px;
 }
 /* ========== DISABLED ELEMENTS ========== */
 .disabled{
@@ -799,7 +821,7 @@ input{
 #search .scope{
 	border: 1px solid #666;
 	text-align: left;
-	width: 280px;
+	width: 240px;
 	margin-top: 5px;
 }
 #search .text{
@@ -907,27 +929,27 @@ input{
 .dialog, .dialog input{
 	font: 11px Verdana;
 }
+.dialog .fstitle {
+	background-color: #005090;
+	color: #FFF;
+}
 #d-lastupdates .fstitle{
-	background-color: #A8DDFF;
 	background-image: url(../img/component/button/lastpudates.png?6);
 }
 #d-export .fstitle{
-	background-color: #A8DDFF;
 	background-image: url(../img/component/button/export.png?6);
 }
 #d-link .fstitle{
-	background-color: #A8DDFF;
 	background-image: url(../img/component/button/link.png?6);
 }
 #d-info .fstitle{
-	background-color: #A8DDFF;
 	background-image: url(../img/component/button/info.png?6);
 }
 .dialog .dlgbuttons{
 	height: 33px;
 	padding-right: 8px;
 }
-.dialog .dlgbuttons input.button, .optcontainer input.button{
+.dialog .dlgbuttons input.button{
 	float: right;
 	height: 25px;
 	margin: 0px;
@@ -936,6 +958,12 @@ input{
 	background-position: 3px center;
 	background-repeat: no-repeat;
 	padding-left: 22px;
+	cursor: pointer;
+	border: 1px solid #AAA;
+}
+.dialog .dlgbuttons input.button:hover{
+	color: #FFF;
+	background-color: #444;
 }
 .dialog .dlgbuttons .ok, .optcontainer .ok{
 	background-image: url('../img/component/button/ok.png?6');
@@ -946,6 +974,10 @@ input{
 #d-export td{
 	background-color: #FFF;
 	text-align: center;
+	cursor: pointer;
+}
+#d-export td label, #d-export td input{
+	cursor: pointer;
 }
 #d-export td:hover{
 	background-color: #E5E5E5;

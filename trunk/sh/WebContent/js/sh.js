@@ -248,6 +248,9 @@ var t2 = null;
 function elapsedTime(t1_, t2_) {
 	return ((t2_ - t1_) / 1000);
 }
+function backTop() {
+	window.scrollTo(0, 0);
+}
 /* ==================== TABCONTROL ==================== */
 var tabcurrent = 0;
 var tabcount = 0;
@@ -257,9 +260,6 @@ function initTabControl() {
 	tabbar.insert('<li title="Open New Tab" id="link-add"><a href="#" onclick="javascript:void(0);"></a></li>');
 	var link = $$('#link-add a')[0];
 	link.observe('click', function(){addTab('Blank');});
-	tabs.addTab(link);
-	tabs.last();
-	tabs.previous();
 }
 function getCloseImg(idx) {
 	var img = new Element('img', {id: 'close-' + idx, src: 'img/component/tabcontrol/close.gif'});
@@ -275,6 +275,8 @@ function outCloseImg() {
 	this.src = this.src.replace('close-over.gif', 'close.gif');
 }
 function clickCloseImg(id_) {
+	if ($$('#tabbar li').length <= 3)
+		return;
 	var idx = (this.id == 'close' ? tabs.activeContainer.id.replace('t-', '') : this.id.replace('close-', ''));
 	$('link-' + idx).remove();
 	tabs.removeTab('t-' + idx);
@@ -308,7 +310,7 @@ function initTab() {
 	return tab.update('<div class="loading"></div>');
 }
 function closeTabs() {
-	$('tabbar').update('');
+	$('tabbar').update('<li/>');
 	$$('#tabcontrol .tc').each(function(el) {
 		el.remove();
 	});
@@ -318,6 +320,8 @@ function closeTabs() {
 	$('info').removeClassName('info').addClassName('info-disabled').disabled = 'disabled';
 	$('close').removeClassName('close').addClassName('close-disabled').disabled = 'disabled';
 	tabcurrent = 0;
+	tabcount = 0;
+	initTabControl();
 }
 function closeDialog(dlg) {
 	dlg.close();
@@ -844,7 +848,8 @@ function resetUSLeagues() {
 	closeTabs();
 	$('championship').checked = true;
 	changeModeUS();
-	changeLeague($F('nfl') ? 'nfl' : ($F('nba') ? 'nba' : ($F('nhl') ? 'nhl' : 'mlb')));
+	changeLeague('nfl');
+	//changeLeague($F('nfl') ? 'nfl' : ($F('nba') ? 'nba' : ($F('nhl') ? 'nhl' : 'mlb')));
 }
 /* ==================== SEARCH ==================== */
 function runSearch() {
@@ -881,7 +886,7 @@ function resetSearch() {
 	$('case').checked = false;
 	$('match').checked = false;
 	$('ref').checked = true;
-	['CP', 'PR', 'CT', 'SP', 'CX', 'ST', 'CN', 'TM', 'EV', 'YR'].each(function(id) {
+	$$('.scope input').each(function(id) {
 		$(id).checked = true;
 	});
 }

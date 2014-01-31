@@ -90,6 +90,7 @@ public class JMainFrame extends JFrame {
 	private static JEditFolderDialog jFolderDialog = null;
 	private static JEditEntityDialog jEntityDialog = null;
 	private static JFindEntityDialog jFindDialog = null;
+	private static JMergeEntityDialog jMergeDialog = null;
 	private static JAddMultipleDialog jAddMultipleDialog = null;
 	private static JCharsDialog jCharsDialog = null;
 	private static JImportDialog jImportDialog = null;
@@ -161,6 +162,7 @@ public class JMainFrame extends JFrame {
 		jFolderDialog  = new JEditFolderDialog(this);
 		jEntityDialog  = new JEditEntityDialog(this);
 		jFindDialog  = new JFindEntityDialog(this);
+		jMergeDialog  = new JMergeEntityDialog(this);
 		jAddMultipleDialog = new JAddMultipleDialog(this);
 		jCharsDialog = new JCharsDialog(this);
 		fillPicklists(null);
@@ -489,6 +491,22 @@ public class JMainFrame extends JFrame {
 		return plb;
 	}
 
+	public void mergeEntities(String alias, Integer id1, Integer id2) {
+		try {
+			ArrayList<Object> lFuncParams = new ArrayList<Object>();
+			lFuncParams.add(alias);
+			lFuncParams.add(id1);
+			lFuncParams.add(id2);
+
+			//DatabaseHelper.call("Merge", lFuncParams);
+			getQueryStatus().set(JQueryStatus.SUCCESS, "Entities #" + id1 + " and #" + id2 + " merged successfully.");
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+			getQueryStatus().set(JQueryStatus.FAILURE, "An error occured while merging.");
+		}
+	}
+	
 	private JPanel getJContentPane() {
 		jContentPane = new JPanel();
 		jBottomPanel = new JBottomPanel();
@@ -603,6 +621,10 @@ public class JMainFrame extends JFrame {
 
 	public static JFindEntityDialog getFindDialog() {
 		return jFindDialog;
+	}
+	
+	public static JMergeEntityDialog getMergeDialog() {
+		return jMergeDialog;
 	}
 
 	public static JAddMultipleDialog getAddMultipleDialog() {

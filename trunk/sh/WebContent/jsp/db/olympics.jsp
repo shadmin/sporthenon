@@ -9,7 +9,7 @@
 			<table><tr><td><input type="radio" name="ol-type" id="olt1" checked="checked" onclick="changeModeOL()"></input></td>
 			<td><img src="img/db/summer.png" alt="Summer"/></td><td><label for="olt1">Summer Olympic Games</label></td></tr></table>
 		</div>
-		<div id="summer-inactive" class="inactive-msg" style="width:275px;height:165px;"></div>
+		<div id="summer-inactive" class="inactive-msg" style="width:275px;height:210px;"></div>
 		<div id="slider-summer-ol" class="slider"><%@include file="../../html/slider.html" %></div>
 		<table id="summer-tb" style="margin-top:5px;">
 			<tr><td><div id="sm-summer-pl-ol" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
@@ -42,7 +42,7 @@
 			<table><tr><td><input type="radio" name="ol-type" id="olt2" onclick="changeModeOL()"></input></td>
 			<td><img src="img/db/winter.png" alt="Winter"/></td><td><label for="olt2">Winter Olympic Games</label></td></tr></table>
 		</div>
-		<div id="winter-inactive" class="inactive-msg" style="width:275px;height:165px;"></div>
+		<div id="winter-inactive" class="inactive-msg" style="width:275px;height:210px;"></div>
 		<div id="slider-winter-ol" class="slider"><%@include file="../../html/slider.html" %></div>
 		<table id="winter-tb" style="margin-top:5px;">
 			<tr><td><div id="sm-winter-pl-ol" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
@@ -96,5 +96,6 @@
 	initOlympics('summer-pl-ol');
 	initOlympics('winter-pl-ol');
 	changeModeOL();
+	initTabControl();
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />

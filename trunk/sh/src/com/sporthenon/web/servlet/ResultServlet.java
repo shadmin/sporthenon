@@ -41,7 +41,7 @@ public class ResultServlet extends AbstractServlet {
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			if (hParams.containsKey("run")) { // View results
 				boolean isLink = false;
-				if (hParams.containsKey("p")) {
+				if (hParams.containsKey("p") && !hParams.containsKey("redirect")) {
 					String[] t = String.valueOf(hParams.get("p")).split("\\-");
 					hParams.put("sp", t[0]);
 					hParams.put("cp", t[1]);

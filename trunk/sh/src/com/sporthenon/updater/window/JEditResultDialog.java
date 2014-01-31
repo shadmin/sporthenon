@@ -112,7 +112,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jDate1.setPreferredSize(new Dimension(72, 21));
 		jDate2 = new JTextField();
 		jDate2.setPreferredSize(new Dimension(72, 21));
-		JCustomButton jToday = new JCustomButton(null, "updater/today.png");
+		JCustomButton jToday = new JCustomButton(null, "updater/today.png", null);
 		jToday.setMargin(new Insets(0, 0, 0, 0));
 		jToday.setToolTipText("Today");
 		jToday.setActionCommand("today");
@@ -121,7 +121,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jComment.setFont(SwingUtils.getDefaultFont());
 		JScrollPane jCommentPane = new JScrollPane(jComment);
 		jCommentPane.setPreferredSize(new Dimension(240, 60));
-		JCustomButton jCommentDlg = new JCustomButton("...", null);
+		JCustomButton jCommentDlg = new JCustomButton("...", null, null);
 		jCommentDlg.setMargin(new Insets(0, 0, 0, 0));
 		jCommentDlg.setToolTipText("Edit Comment");
 		jCommentDlg.setActionCommand("comment");
