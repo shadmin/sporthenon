@@ -126,14 +126,6 @@
 	</named-native-query>
 
 	<!--
-		~MERGE(varchar, integer, integer)
-	-->
-	<named-native-query name="Merge" result-class="com.sporthenon.db.entity.Year">  
-		<query>{? = call "~MERGE"(?, ?, ?)}</query>
-		<hint name="org.hibernate.callable" value="true" />
-	</named-native-query>
-	
-	<!--
 		~STATISTICS()
 	-->
 	<named-native-query name="Statistics" result-class="com.sporthenon.db.function.StatisticsBean">  

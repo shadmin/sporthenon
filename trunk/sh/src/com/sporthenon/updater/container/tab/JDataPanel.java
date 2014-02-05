@@ -253,26 +253,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			panel.setId("");
 			panel.focus();
 		}
-		else if (e.getActionCommand().equals("merge")) {
-			try {
-				JFindEntityDialog dlg = JMainFrame.getFindDialog();
-				dlg.open(alias, null);
-				if (dlg.getSelectedItem() != null) {
-					Class c = DatabaseHelper.getClassFromAlias(alias);
-					Object data1 = DatabaseHelper.loadEntity(c, currentId);
-					Object data2 = DatabaseHelper.loadEntity(c, dlg.getSelectedItem().getValue());
-					String id1 = String.valueOf(c.getMethod("getId").invoke(data1, new Object[0]));
-					String id2 = String.valueOf(c.getMethod("getId").invoke(data2, new Object[0]));
-					JMergeEntityDialog dlg_ = JMainFrame.getMergeDialog();
-					dlg_.getlEntity1().setText(data1.toString());
-					dlg_.getlEntity2().setText(data2.toString());
-					dlg_.open(alias, Integer.parseInt(id1), Integer.parseInt(id2));
-				}
-			}
-			catch (Exception e_) {
-				Logger.getLogger("sh").error(e_.getMessage(), e_);
-			}
-		}
 		else if (e.getActionCommand().equals("save")) {
 			boolean err = false;
 			String msg = null;
@@ -312,6 +292,38 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			}
 			finally {
 				jQueryStatus.set(err ? JQueryStatus.FAILURE : JQueryStatus.SUCCESS, msg);
+			}
+		}
+		else if (e.getActionCommand().equals("merge")) {
+			String msg = null;
+			boolean err = false;
+			try {
+				JFindEntityDialog dlg = JMainFrame.getFindDialog();
+				dlg.open(alias, null);
+				if (dlg.getSelectedItem() != null) {
+					Class c = DatabaseHelper.getClassFromAlias(alias);
+					Object data1 = DatabaseHelper.loadEntity(c, currentId);
+					Object data2 = DatabaseHelper.loadEntity(c, dlg.getSelectedItem().getValue());
+					String id1 = String.valueOf(c.getMethod("getId").invoke(data1, new Object[0]));
+					String id2 = String.valueOf(c.getMethod("getId").invoke(data2, new Object[0]));
+					JMergeEntityDialog dlg_ = JMainFrame.getMergeDialog();
+					dlg_.getlEntity1().setText(data1.toString());
+					dlg_.getlEntity2().setText(data2.toString());
+					dlg_.open(alias, Integer.parseInt(id1), Integer.parseInt(id2));
+					if (dlg_.getAlias() != null) {
+						JMainFrame.mergeEntities(dlg_.getAlias(), dlg_.getIdEntity1(), dlg_.getIdEntity2());
+						msg = "Entities #" + id1 + " and #" + id2 + " merged successfully.";
+					}
+				}
+			}
+			catch (Exception e_) {
+				err = true;
+				msg = "An error occured while merging - " + e_.getMessage();
+				Logger.getLogger("sh").error(e_.getMessage(), e_);
+			}
+			finally {
+				if (msg != null)
+					jQueryStatus.set(err ? JQueryStatus.FAILURE : JQueryStatus.SUCCESS, msg);
 			}
 		}
 	}

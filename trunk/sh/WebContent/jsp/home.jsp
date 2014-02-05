@@ -20,7 +20,7 @@
 		</div>
 	</div>
 	<div class="homecontent">
-		<h2 style="font-family:Verdana;">Welcome to SPORTHENON.COM, the temple of sport results!</h2>
+		<!--<h2 style="font-family:Verdana;">Welcome to SPORTHENON.COM, the temple of sport results!</h2>-->
 		<div class="fieldset">
 			<div class="fstitle info">WHAT IS SPORTHENON.COM ?</div>
 			<div class="fscontent">
@@ -33,7 +33,6 @@
 					<tr><td style="background:url(img/menu/dbusleagues.png) 5px center no-repeat;padding:5px;padding-left:25px;"><b><a href="usleagues" style="color:#000;">US LEAGUES</a></b></td><td>Championships history, individual &amp; team records and statistics from the 4 major US leagues (NFL/NBA/NHL/MLB). For example:<ul><li>NBA&nbsp;<img src="img/arrow.gif" alt="-"/>&nbsp;Records&nbsp;<img src="img/arrow.gif" alt="-"/>&nbsp;Rebounds&nbsp;<img src="img/arrow.gif" alt="-"/>&nbsp;Regular Season</li><li>NHL&nbsp;<img src="img/arrow.gif" alt="-"/>&nbsp;Hall of Fame&nbsp;<img src="img/arrow.gif" alt="-"/>&nbsp;1985</li></ul></td></tr>
 					<tr><td style="background:url(img/menu/dbsearch.png) 5px center no-repeat;padding:5px;padding-left:25px;"><b><a href="search" style="color:#000;">SEARCH</a></b></td><td>Search engine to look quickly for a specific term in the entire database.</td></tr>
 					<tr><td style="background:url(img/menu/project.png) 5px center no-repeat;padding:5px;padding-left:25px;"><b><a href="project" style="color:#000;">PROJECT</a></b></td><td>Some extra information about the Sporthenon project (downloads, statistics...).</td></tr>
-					<tr><td style="background:url(img/menu/login.png) 5px center no-repeat;padding:5px;padding-left:25px;"><b><a href="login" style="color:#000;">LOGIN</a></b></td><td>Login as a member. Members have access to specific features and can contribute to update the database.</td></tr>
 				</table>
 			</div>
 		</div>

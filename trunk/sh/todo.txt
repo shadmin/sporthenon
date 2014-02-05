@@ -1,8 +1,7 @@
 plusieurs ties sur meme result (golf us open 2013)
-updater import telecharger modele CSV/XLS colonnes
-updater suppr image remote
 --tests ie firefox safari
 --results quick event search
+--draws + records dans import CSV 
 -----
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

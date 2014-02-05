@@ -62,6 +62,18 @@ public class ImageServlet extends AbstractServlet {
 				fos.write(b);
 				fos.close();
 			}
+			else if (hParams.containsKey("remove")) {
+				String id = String.valueOf(hParams.get("id"));
+				String ext = (entity.toUpperCase().matches("CP|EV|OL|SP|TM") ? ".png" : ".gif");
+				String fileName = ImageUtils.getIndex(entity.toUpperCase()) + "-" + id + "-" + hParams.get("size");
+				File f = new File(ConfigUtils.getProperty("img.folder") + fileName + ext);
+				int i = 1;
+				while (f.exists()) {
+					f.delete();
+					f = new File(ConfigUtils.getProperty("img.folder") + fileName + "_" + i + ext);
+					i++;
+				}
+			}
 			else if (hParams.containsKey("url")) {
 				String type = String.valueOf(hParams.get("type"));
 				String id = String.valueOf(hParams.get("id"));

@@ -58,12 +58,12 @@ public class ExportUtils {
 		}
 	}
 
-	private static void buildExcel(OutputStream out, String title, List<ArrayList<String>> lTh, List<ArrayList<String>> lTd, List<MergedCell> lMerge , boolean[] tBold) throws Exception {
+	public static void buildExcel(OutputStream out, String title, List<ArrayList<String>> lTh, List<ArrayList<String>> lTd, List<MergedCell> lMerge , boolean[] tBold) throws Exception {
 		HSSFWorkbook hwb = new HSSFWorkbook();
 		HSSFSheet sheet = null;
 		HSSFRow row = null;
 		HSSFCell cell = null;
-		sheet = hwb.createSheet(title);
+		sheet = hwb.createSheet(title != null ? title : "Untitled");
 		short rowIndex = 0;
 		// Styles
 		HSSFCellStyle headerStyle = hwb.createCellStyle();
@@ -147,12 +147,14 @@ public class ExportUtils {
 		for (int j = 0 ; j < cols ; j++)
 			sheet.autoSizeColumn(j);
 		// Merging
-		for (MergedCell mc : lMerge) {
-			int offset = 0;
-			for (Short sh : lBlankRow)
-				if (mc.getRow() + offset >= sh)
-					offset++;
-			sheet.addMergedRegion(new CellRangeAddress(mc.getRow() + offset, mc.getRow() + offset, mc.getCell(), mc.getCell() + mc.getSpan() - 1));
+		if (lMerge != null) {
+			for (MergedCell mc : lMerge) {
+				int offset = 0;
+				for (Short sh : lBlankRow)
+					if (mc.getRow() + offset >= sh)
+						offset++;
+				sheet.addMergedRegion(new CellRangeAddress(mc.getRow() + offset, mc.getRow() + offset, mc.getCell(), mc.getCell() + mc.getSpan() - 1));
+			}
 		}
 		hwb.write(out);
 	}
