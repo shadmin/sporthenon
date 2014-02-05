@@ -94,14 +94,15 @@ public class DatabaseHelper {
 		UserTransaction tr = null;
 		try {
 			tr = getTransaction();
-			if (tr != null) tr.begin();
-			Query query = getEntityManager().createNamedQuery(name);
+			EntityManager em = getEntityManager();
+			if (tr != null) tr.begin(); else em.getTransaction().begin();
+			Query query = em.createNamedQuery(name);
 			int i = 0;
 			if (params != null)
 				for (Object obj : params)
 					query.setParameter(++i, obj);
 			Collection c = query.getResultList();
-			if (tr != null) tr.commit();
+			if (tr != null) tr.commit(); else em.getTransaction().commit();
 			return c;
 		}
 		catch (Exception e) {
@@ -184,8 +185,7 @@ public class DatabaseHelper {
 		try {
 			EntityManager em = getEntityManager();
 			tr = getTransaction();
-			if (tr != null) tr.begin();
-			else em.getTransaction().begin();
+			if (tr != null) tr.begin(); else em.getTransaction().begin();
 			if (m != null) {
 				Object id = o.getClass().getMethod("getId").invoke(o);
 				Metadata md = null;
@@ -200,8 +200,7 @@ public class DatabaseHelper {
 				o.getClass().getMethod("setMetadata", Metadata.class).invoke(o, md);
 			}
 			o = em.merge(o);
-			if (tr != null) {em.flush(); tr.commit();}
-			else em.getTransaction().commit();
+			if (tr != null) {em.flush(); tr.commit();} else em.getTransaction().commit();
 			return o;
 		}
 		catch (Exception e) {
@@ -216,12 +215,10 @@ public class DatabaseHelper {
 		try {
 			EntityManager em = getEntityManager();
 			tr = getTransaction();
-			if (tr != null) tr.begin();
-			else em.getTransaction().begin();
+			if (tr != null) tr.begin(); else em.getTransaction().begin();
 			o = em.merge(o);
 			em.remove(o);
-			if (tr != null) {em.flush(); tr.commit();}
-			else em.getTransaction().commit();
+			if (tr != null) {em.flush(); tr.commit();} else em.getTransaction().commit();
 		}
 		catch (Exception e) {
 			if (tr != null)
@@ -294,10 +291,10 @@ public class DatabaseHelper {
 		UserTransaction tr = null;
 		try {
 			tr = getTransaction();
-			if (tr != null) tr.begin();
 			EntityManager em = getEntityManager();
+			if (tr != null) tr.begin(); else em.getTransaction().begin();
 			List lResult = em.createNativeQuery(s).getResultList();
-			if (tr != null) tr.commit();
+			if (tr != null) tr.commit(); else em.getTransaction().commit();
 			return lResult;
 		}
 		catch (Exception e) {

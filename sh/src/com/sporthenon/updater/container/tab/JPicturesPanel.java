@@ -190,6 +190,10 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		uploadBtn.setActionCommand("upload");
 		uploadBtn.addActionListener(this);
 		pMiddle.add(uploadBtn);
+		JCustomButton removeBtn = new JCustomButton("Remove", "updater/remove.png", null);
+		removeBtn.setActionCommand("remove");
+		removeBtn.addActionListener(this);
+		pMiddle.add(removeBtn);
 		p.add(pMiddle, BorderLayout.CENTER);
 
 		JPanel pBottom = new JPanel(new BorderLayout(5, 5));
@@ -270,6 +274,14 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 				writer.append("\r\n").flush(); 
 				writer.append("\r\n").flush();
 				writer.append("--" + bnd + "--").append("\r\n").close();
+		        int status = conn.getResponseCode();
+		        if (status == 200)
+		        	loadImage(alias, currentId);
+			}
+			else if (e.getActionCommand().equals("remove")) {
+				String params = "remove&entity=" + alias + "&id=" + currentId + "&size=" + (largeRadioBtn.isSelected() ? "L" : "S");
+				URL url = new URL(ConfigUtils.getProperty("url") + "ImageServlet?" + params);
+				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		        int status = conn.getResponseCode();
 		        if (status == 200)
 		        	loadImage(alias, currentId);

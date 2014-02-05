@@ -20,6 +20,9 @@ record/us/search/olympics = search results empty message
 updater tooltips boutons + edit folder bug niveaux 3+4
 updater jfindentitydlg pas de vidage liste onkeydown
 UPDATER merge entity
+updater suppr image remote
+updater import telecharger modele CSV/XLS colonnes
+check chargement piklist avec Tree json
 
 +-------+
 | 0.5.1 |

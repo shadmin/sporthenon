@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -23,23 +24,22 @@ public class JMergeEntityDialog extends JDialog implements ActionListener {
 	private String alias;
 	private Integer idEntity1;
 	private Integer idEntity2;
-	private JMainFrame parent;
 	private JLabel lEntity1 = null;
 	private JLabel lEntity2 = null;
 	
-	public JMergeEntityDialog(JMainFrame parent) {
-		this.parent = parent;
+	public JMergeEntityDialog(JFrame owner) {
+		super(owner);
 		initialize();
 	}
 	
 	private void initialize() {
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(500, 130));
+		this.setPreferredSize(new Dimension(500, 150));
 		this.setSize(this.getPreferredSize());
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
-		this.setResizable(false);
+		this.setResizable(true);
 		this.setContentPane(jContentPane);
 		
 		BorderLayout layout = new BorderLayout();
@@ -84,8 +84,10 @@ public class JMergeEntityDialog extends JDialog implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-		if (cmd.equals("ok")) {
-			parent.mergeEntities(getAlias(), getIdEntity1(), getIdEntity2());
+		if (!cmd.equals("ok")) {
+			setAlias(null);
+			setIdEntity1(null);
+			setIdEntity2(null);
 		}
 		this.setVisible(false);
 	}
@@ -102,10 +104,6 @@ public class JMergeEntityDialog extends JDialog implements ActionListener {
 		return idEntity2;
 	}
 
-	public JMainFrame getParent() {
-		return parent;
-	}
-
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
@@ -116,10 +114,6 @@ public class JMergeEntityDialog extends JDialog implements ActionListener {
 
 	public void setIdEntity2(Integer idEntity2) {
 		this.idEntity2 = idEntity2;
-	}
-
-	public void setParent(JMainFrame parent) {
-		this.parent = parent;
 	}
 
 	public JLabel getlEntity1() {

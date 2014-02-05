@@ -491,20 +491,8 @@ public class JMainFrame extends JFrame {
 		return plb;
 	}
 
-	public void mergeEntities(String alias, Integer id1, Integer id2) {
-		try {
-			ArrayList<Object> lFuncParams = new ArrayList<Object>();
-			lFuncParams.add(alias);
-			lFuncParams.add(id1);
-			lFuncParams.add(id2);
-
-			//DatabaseHelper.call("Merge", lFuncParams);
-			getQueryStatus().set(JQueryStatus.SUCCESS, "Entities #" + id1 + " and #" + id2 + " merged successfully.");
-		}
-		catch (Exception e) {
-			Logger.getLogger("sh").error(e.getMessage(), e);
-			getQueryStatus().set(JQueryStatus.FAILURE, "An error occured while merging.");
-		}
+	public static void mergeEntities(String alias, Integer id1, Integer id2) throws Exception {
+		DatabaseHelper.executeNative("select \"~MERGE\"('" + alias + "', " + id1 + ", " + id2 + ")");
 	}
 	
 	private JPanel getJContentPane() {

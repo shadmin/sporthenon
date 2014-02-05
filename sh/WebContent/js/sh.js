@@ -1,11 +1,10 @@
 /* ==================== COMMON ==================== */
-function fillPicklist(response) {
-	var xml = response.responseXML;
+function fillPicklistXML(response) {
+	var xml = (response != null ? response.responseXML : pl.outerHTML);
 	if (!xml) return;
 	var root = xml.firstChild;
 	var picklistId = root.getAttribute('id');
 	var picklist = $(picklistId);
-	
 	if (root.childNodes.length > 0) {
 		var tHtml = new Array();
 		var node = null;
@@ -22,6 +21,30 @@ function fillPicklist(response) {
 		});
 		updateTip(picklistId);
 		updateSelectMult(picklistId);
+	}
+	else {
+		picklist.update('');
+		picklist.addClassName('disabled');
+		picklist.writeAttribute('disabled', 'disabled');
+	}
+	fireEvent(picklist, 'change');
+}
+function fillPicklistArray(id, array) {
+	var picklist = $(id);
+	if (array.length > 0) {
+		var tHtml = new Array();
+		for (var i = 0 ; i < array.length ; i++) {
+			tHtml.push('<option value="' + array[i].value + '">' + array[i].text + '</option>');
+		}
+		id.split(',').each(function(pl) {
+			if ($(pl)) {
+				$(pl).update(tHtml.join(''));
+				$(pl).removeClassName('disabled');
+				$(pl).writeAttribute('disabled', null);
+			}
+		});
+		updateTip(id);
+		updateSelectMult(id);
 	}
 	else {
 		picklist.update('');
@@ -605,13 +628,45 @@ function changeSport(srcsl) {
 	}
 }
 function getPicklist(picklistId) {
-	var h = $H({sp: $F('pl-sp'), cp: $F('pl-cp'), ev: $F('pl-ev'), se: $F('pl-se')});
-	new Ajax.Request('ResultServlet?' + picklistId, {
-		onSuccess: function(response) {
-			fillPicklist(response);
-		},
-		parameters: h
-	});
+	if (picklistId != 'pl-yr') {
+		var spIndex = $('pl-sp').options.selectedIndex;
+		var cpIndex = $('pl-cp').options.selectedIndex;
+		var evIndex = $('pl-ev').options.selectedIndex;
+		var t = null;
+		if (picklistId == 'pl-sp') {
+			t = treeItems[0];
+		}
+		else if (picklistId == 'pl-cp') {
+			t = treeItems[0][spIndex + 2];
+		}
+		else if (picklistId == 'pl-ev') {
+			t = treeItems[0][spIndex + 2][cpIndex + 2];
+		}
+		else if (picklistId == 'pl-se') {
+			t = treeItems[0][spIndex + 2][cpIndex + 2][evIndex + 2];
+		}
+		var array = new Array();
+		var val = null;
+		var txt = null;
+		for (var i = 2 ; i < t.length ; i++) {
+			val = t[i][1];
+			if (val.indexOf('_') != -1) {
+				val = val.substring(val.lastIndexOf('_') + 1);
+			}
+			txt = t[i][0];
+			array.push({value: val, text: txt});
+		}
+		fillPicklistArray(picklistId, array);
+	}
+	else {
+		var h = $H({sp: $F('pl-sp'), cp: $F('pl-cp'), ev: $F('pl-ev'), se: $F('pl-se')});
+		new Ajax.Request('ResultServlet?' + picklistId, {
+			onSuccess: function(response) {
+				fillPicklistXML(response);
+			},
+			parameters: h
+		});
+	}
 }
 function runResults(tleaf) {
 	t1 = currentTime();
@@ -649,7 +704,7 @@ function initOlympics(picklistId) {
 	var type = (picklistId.indexOf('summer') == 0 ? 'summer' : 'winter');
 	var url = 'OlympicsServlet?type=' + type;
 	new Ajax.Request(url, {
-		onSuccess: fillPicklist,
+		onSuccess: fillPicklistXML,
 		onFailure: function(response) {}
 	});
 }
@@ -715,7 +770,7 @@ function getPicklistOL(picklistId) {
 	h.set('sp', $F(code + '-pl-sp'));
 	var url = 'OlympicsServlet?type=' + code + '&' + picklistId.replace(code + '-', '');
 	new Ajax.Request(url, {
-		onSuccess: fillPicklist,
+		onSuccess: fillPicklistXML,
 		onFailure: function(response) {},
 		parameters: h
 	});
@@ -784,12 +839,12 @@ function changeLeague(id, srcsl) {
 	else {
 		var league = ($F('nfl') ? 1 : ($F('nba') ? 2 : ($F('nhl') ? 3 : 4)));
 		var url = 'USLeaguesServlet?league=' + league;
-		new Ajax.Request(url + '&pl-hof-yr', { onSuccess: fillPicklist });
-		new Ajax.Request(url + '&pl-championship-yr', { onSuccess: fillPicklist });
-		new Ajax.Request(url + '&pl-retnum-tm', { onSuccess: fillPicklist });
-		new Ajax.Request(url + '&pl-teamstadium-tm', { onSuccess: fillPicklist });
-		new Ajax.Request(url + '&pl-winloss-tm', { onSuccess: fillPicklist });
-		new Ajax.Request(url + '&pl-record-se', { onSuccess: fillPicklist });
+		new Ajax.Request(url + '&pl-hof-yr', { onSuccess: fillPicklistXML });
+		new Ajax.Request(url + '&pl-championship-yr', { onSuccess: fillPicklistXML });
+		new Ajax.Request(url + '&pl-retnum-tm', { onSuccess: fillPicklistXML });
+		new Ajax.Request(url + '&pl-teamstadium-tm', { onSuccess: fillPicklistXML });
+		new Ajax.Request(url + '&pl-winloss-tm', { onSuccess: fillPicklistXML });
+		new Ajax.Request(url + '&pl-record-se', { onSuccess: fillPicklistXML });
 		$('hof-position').value = '';
 		$('hof-postip').title = tPos[league];
 		$('retnum-number').value = '';

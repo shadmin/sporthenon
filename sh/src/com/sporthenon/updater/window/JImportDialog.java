@@ -9,6 +9,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +39,9 @@ import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
 import com.sporthenon.db.entity.Country;
+import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Event;
+import com.sporthenon.db.entity.Record;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
@@ -45,6 +49,7 @@ import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.updater.component.JCustomButton;
 import com.sporthenon.updater.container.JTopPanel;
+import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.StringUtils;
 
 public class JImportDialog extends JDialog implements ActionListener {
@@ -84,12 +89,19 @@ public class JImportDialog extends JDialog implements ActionListener {
 		//layout.setVgap(5);
 		jContentPane.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 3));
 		jContentPane.setLayout(layout);
-		jContentPane.add(getSettingsPanel(), BorderLayout.NORTH);
+		jContentPane.add(getTopPanel(), BorderLayout.NORTH);
 		jContentPane.add(getTablePanel(), BorderLayout.CENTER);
+	}
+	
+	private JPanel getTopPanel() {
+		JPanel p = new JPanel(new BorderLayout());
+		p.add(getSettingsPanel(), BorderLayout.NORTH);
+		p.add(getTemplatePanel(), BorderLayout.SOUTH);
+		return p;
 	}
 
 	private JPanel getSettingsPanel() {
-		JPanel p = new JPanel(new FlowLayout(0, 2, 2));
+		JPanel p = new JPanel(new FlowLayout(0, 2, 0));
 		p.setBorder(BorderFactory.createTitledBorder(null, "Import File", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 		JLabel label = new JLabel("CSV File:");
 		p.add(label);
@@ -122,6 +134,36 @@ public class JImportDialog extends JDialog implements ActionListener {
 		p.add(jProgressBar);
 		return p;
 	}
+	
+	private JPanel getTemplatePanel() {
+		JPanel p = new JPanel(new FlowLayout(0, 2, 2));
+		p.setBorder(BorderFactory.createTitledBorder(null, "Templates", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
+		JCustomButton btn = new JCustomButton("Results (XLS)", null, null);
+		btn.setActionCommand("template-RS-xls");
+		btn.addActionListener(this);
+		p.add(btn);
+		btn = new JCustomButton("Results (CSV)", null, null);
+		btn.setActionCommand("template-RS-csv");
+		btn.addActionListener(this);
+		p.add(btn);
+		btn = new JCustomButton("Draws (XLS)", null, null);
+		btn.setActionCommand("template-DR-xls");
+		btn.addActionListener(this);
+		p.add(btn);
+		btn = new JCustomButton("Draws (CSV)", null, null);
+		btn.setActionCommand("template-DR-csv");
+		btn.addActionListener(this);
+		p.add(btn);
+		btn = new JCustomButton("Records (XLS)", null, null);
+		btn.setActionCommand("template-RC-xls");
+		btn.addActionListener(this);
+		p.add(btn);
+		btn = new JCustomButton("Records (CSV)", null, null);
+		btn.setActionCommand("template-RC-csv");
+		btn.addActionListener(this);
+		p.add(btn);
+		return p;
+	}
 
 	private JPanel getTablePanel() {
 		JPanel p = new JPanel(new BorderLayout());
@@ -150,6 +192,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 		}
 		else if (e.getActionCommand().equals("browse")) {
 			jFileChooser = new JFileChooser();
+			jFileChooser.setDialogTitle("Select File for Import");
 			if (jFileChooser.showOpenDialog(this) == 0) {
 				File f = jFileChooser.getSelectedFile();
 				if (f != null) {
@@ -175,6 +218,66 @@ public class JImportDialog extends JDialog implements ActionListener {
 					jImportReportDialog.open();
 				}
 			}).start ();
+		}
+		else if (e.getActionCommand().matches("template.*")) {
+			jFileChooser = new JFileChooser();
+			jFileChooser.setDialogTitle("Select Folder for Template");
+			jFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			if (jFileChooser.showOpenDialog(this) == 0) {
+				int x = e.getActionCommand().lastIndexOf("-");
+				String type = e.getActionCommand().substring(x - 2, x);
+				String ext = e.getActionCommand().substring(x + 1);
+				ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+				if (type.equalsIgnoreCase(Result.alias)) {
+					ArrayList<String> list_ = new ArrayList<String>();
+					for (String s : new String[] {"Sport", "Event 1", "Event 2", "Event 3", "Year", "Winner / Gold Medal / 1st Place", "Winner Result (or Game Score)", "Runner-up / Silver Medal / 2nd Place", "2nd Result", "Bronze Medal / 3rd Place", "3rd Result", "4th Place", "5th Place", "6th Place", "7th Place", "8th Place", "9th Place", "Start Date (MM/DD/YYYY)", "End Date (MM/DD/YYYY)", "Place (Complex Name or City)", "Tie", "Comment"})
+						list_.add(s);
+					list.add(list_);
+					list.add(new ArrayList<String>());
+					list_ = new ArrayList<String>();
+					for (String s : new String[] {"Athletics", "Olympic Games", "Men", "100 M", "1936", "Owens, Jessie (USA)", "10.30", "Metcalfe, Ralf (USA)", "10.40", "Osendarp, Tinus (NED)", "10.50", "", "", "", "", "", "", "", "08/03/1936", "Olympiastadion, Berlin, GER", "", ""})
+						list_.add(s);
+					list.add(list_);
+					list_ = new ArrayList<String>();
+					for (String s : new String[] {"Tennis", "Grand Slam", "Men", "French Open", "2005", "Nadal, Rafael (ESP)", "6/7 6/3 6/1 7/5", "Puerta, Mariano (ARG)", "", "", "", "", "", "", "", "", "", "", "06/05/2005", "	Roland Garros, Paris, FRA", "", ""})
+						list_.add(s);
+					list.add(list_);
+				}
+				else if (type.equalsIgnoreCase(Draw.alias)) {
+				}
+				else if (type.equalsIgnoreCase(Record.alias)) {
+				}
+				FileOutputStream fos = null;
+				try {
+					File f = jFileChooser.getCurrentDirectory();
+					fos = new FileOutputStream(new File(f.getPath() + "\\SH-Template-" + type + "." + ext));
+					if (ext.equalsIgnoreCase("xls")) {
+						ExportUtils.buildExcel(fos, null, null, list, null, new boolean[]{false});
+					}
+					else if (ext.equalsIgnoreCase("csv")) {
+						StringBuffer sb = new StringBuffer();
+						for (ArrayList<String> list_ : list) {
+							int i = 0;
+							for (String s : list_)
+								sb.append(i++ > 0 ? ";" : "").append(s);
+							sb.append("\r\n");
+						}
+						fos.write(sb.toString().getBytes());
+					}
+				}
+				catch (Exception e_) {
+					Logger.getLogger("sh").error(e_.getMessage(), e_);
+				}
+				finally {
+					try {
+						if (fos != null)
+							fos.close();
+					}
+					catch (Exception e_) {
+						Logger.getLogger("sh").error(e_.getMessage(), e_);
+					}
+				}
+			}
 		}
 	}
 

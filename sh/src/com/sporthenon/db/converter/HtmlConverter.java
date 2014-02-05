@@ -969,7 +969,7 @@ public class HtmlConverter {
 		return html;
 	}
 
-	public static void convertTreeJSON(Collection<Object> coll, Writer writer) throws IOException {
+	public static void convertTreeArray(Collection<Object> coll, Writer writer) throws IOException {
 		writer.write("var treeItems=[['',null,");
 		ArrayList<Object> lst = new ArrayList<Object>(coll);
 		int i, j, k, l;

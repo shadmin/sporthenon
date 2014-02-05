@@ -8,6 +8,7 @@ import javax.persistence.Persistence;
 
 import junit.framework.TestCase;
 
+import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
@@ -17,7 +18,6 @@ import com.sporthenon.db.entity.HallOfFame;
 import com.sporthenon.db.entity.League;
 import com.sporthenon.db.entity.OlympicRanking;
 import com.sporthenon.db.entity.Olympics;
-import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Record;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.RetiredNumber;

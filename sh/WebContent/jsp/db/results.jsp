@@ -9,7 +9,7 @@
 <%@ page import="java.util.HashMap"%>
 <jsp:include page="/jsp/common/header.jsp"/>
 <script type="text/javascript">
-<%HtmlConverter.convertTreeJSON(DatabaseHelper.call("TreeResults", null), out);%>
+<%HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", null), out);%>
 </script>
 <div id="results" class="fieldset">
 	<div class="fstitle criteria">SEARCH CRITERIA</div>
@@ -17,21 +17,7 @@
 	<div class="spcpdiv">
 	<table>
 		<tr><td style="text-align:left;">Sport:</td></tr>
-		<tr>
-			<td>
-			<select id="pl-sp" name="pl-sp" onchange="changeSport()">
-			<%
-			HashMap<String, String> hSportImg = new HashMap<String, String>();
-			Collection<PicklistBean> cPicklist = DatabaseHelper.getPicklist(Result.class, "sport", null, null, (short) 2);
-			int i = 0;
-			for (PicklistBean plb : cPicklist) {
-				out.println("<option class='" + (i++ % 2 == 0 ? "alternative" : "") + "' value='" + plb.getValue() + "'>" + plb.getText() + "</option>");
-				hSportImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)0, plb.getValue(), 'L', null, false));
-			}
-			%>
-			</select>
-			</td>
-		</tr>
+		<tr><td><select id="pl-sp" name="pl-sp" onchange="changeSport()"><option/></select></td></tr>
 		<tr><td><div id="slider-sp" class="slider"><%@include file="../../html/slider.html" %></div></td></tr>
 	</table>
 	</div>
@@ -76,12 +62,20 @@
 </div>
 <%@include file="../../html/buttons.html" %>
 <%@include file="../../html/tabcontrol.html" %>
+<%
+HashMap<String, String> hSportImg = new HashMap<String, String>();
+Collection<PicklistBean> cPicklist = DatabaseHelper.getPicklist(Result.class, "sport", null, null, (short) 2);
+for (PicklistBean plb : cPicklist) {
+	hSportImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)0, plb.getValue(), 'L', null, false));
+}
+%>
 <script type="text/javascript">
 	var hSportImg = new Array();
 	<%for (String s : hSportImg.keySet()) {%>
 	hSportImg[<%=s%>] = '<%=hSportImg.get(s).replaceAll("\\<img alt\\=\\'\\' src\\='|\\'\\/\\>", "")%>';	
 	<%}%>
 	initSelectMult('sm-pl-yr', 'Years', 265);
+	getPicklist('pl-sp');
 	initSliderRes('sp');
 	changeSport();
 	initTabControl();
