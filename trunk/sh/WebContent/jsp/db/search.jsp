@@ -39,6 +39,7 @@
 <%@include file="../../html/buttons.html" %>
 <%@include file="../../html/tabcontrol.html" %>
 <script type="text/javascript">
+window.onload = function() {
 	$('pattern').activate();
 	function toggleCheck(cb) {
 		$$('#search .scope input').each(function(el){
@@ -46,5 +47,6 @@
 		});
 	}
 	initTabControl();
+}
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />

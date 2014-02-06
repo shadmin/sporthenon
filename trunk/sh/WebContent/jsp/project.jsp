@@ -1,7 +1,5 @@
 <%@ page language="java" %>
-
 <jsp:include page="/jsp/common/header.jsp" />
-
 <script type="text/javascript" src="js/canvas2image.js"></script>
 <script type="text/javascript" src="js/canvastext.js"></script>
 <script type="text/javascript" src="js/flotr.js"></script>
@@ -45,9 +43,9 @@
 	</table>
 </div>
 </div>
-
 <script type="text/javascript">
-loadChart();
+window.onload = function() {
+	loadChart();	
+}
 </script>
-
 <jsp:include page="/jsp/common/footer.jsp" />

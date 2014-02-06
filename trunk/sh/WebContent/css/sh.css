@@ -188,43 +188,37 @@ input{
 	background-image:url(../img/menu/home.png?6);
 }
 #shmenu-home:hover, #shmenu-home.selected{
-	background-color: #0000bd;
+	background-color: #e87f00;
 }
 #shmenu-results{
 	background-image:url(../img/menu/dbresults.png?6);
 }
 #shmenu-results:hover, #shmenu-results.selected{
-	background-color: #ef8300;
+	background-color: #04a204;
 }
 #shmenu-olympics{
 	background-image:url(../img/menu/dbolympics.png?6);
 }
 #shmenu-olympics:hover, #shmenu-olympics.selected{
-	background-color: #008600;
+	background-color: #e90e0e;
 }
 #shmenu-usleagues{
 	background-image:url(../img/menu/dbusleagues.png?6);
 }
 #shmenu-usleagues:hover, #shmenu-usleagues.selected{
-	background-color: #905f00;
+	background-color: #b900b0;
 }
 #shmenu-search{
 	background-image:url(../img/menu/dbsearch.png?6);
 }
 #shmenu-search:hover, #shmenu-search.selected{
-	background-color: #900090;
+	background-color: #0018f4;
 }
 #shmenu-project{
 	background-image:url(../img/menu/project.png?6);
 }
 #shmenu-project:hover, #shmenu-project.selected{
-	background-color: #00c0c4;
-}
-#shmenu-login{
-	background-image:url(../img/menu/login.png?6);
-}
-#shmenu-logout{
-	background-image:url(../img/menu/logout.png?6);
+	background-color: #b84c0e;
 }
 #links{
 	margin: 5px;
@@ -612,6 +606,15 @@ input{
 #table-stat td{
 	padding-bottom: 5px;
 }
+.table-update{
+	cursor: pointer;
+}
+.table-update:hover th, .table-update:hover td{
+	border: 1px solid #000;
+}
+.table-update:hover td{
+	background-color: #DEEFFF;
+}
 /* ========== RESULTS ========== */
 /* ---------- PICKLIST ---------- */
 #results{
@@ -819,7 +822,7 @@ input{
 	border: 1px solid #D00;
 }
 #search .scope{
-	border: 1px solid #666;
+	border: 1px solid gray;
 	text-align: left;
 	width: 240px;
 	margin-top: 5px;

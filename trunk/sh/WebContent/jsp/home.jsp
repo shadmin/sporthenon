@@ -54,6 +54,8 @@
 	</div>
 </div>
 <script type="text/javascript">
-loadHomeData();
+window.onload = function() {
+	loadHomeData();	
+}
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />

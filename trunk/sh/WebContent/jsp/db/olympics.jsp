@@ -75,6 +75,7 @@
 <%@include file="../../html/buttons.html" %>
 <%@include file="../../html/tabcontrol.html" %>
 <script type="text/javascript">
+window.onload = function() {
 	initSelectMult('sm-summer-pl-ol', 'Olympic Games', 255);
 	initSelectMult('sm-winter-pl-ol', 'Olympic Games', 255);
 	initSelectMult('sm-summer-pl-ev', 'Events', 255);
@@ -97,5 +98,6 @@
 	initOlympics('winter-pl-ol');
 	changeModeOL();
 	initTabControl();
+}
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />

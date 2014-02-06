@@ -73,6 +73,7 @@ private static final long serialVersionUID = 1L;
 			        item.setAttribute("cp", bean.getCpLabel());
 			        item.setAttribute("ev", bean.getEvLabel());
 			        item.setAttribute("se", bean.getSeLabel());
+			        item.setAttribute("link", "results?" + bean.getSpId() + "-" + bean.getCpId() + "-" + bean.getEvId() + "-" + (bean.getSeId() != null ? bean.getSeId() : 0) + "-0");
 			        updates.appendChild(item);
 		        }
 		        root.appendChild(updates);

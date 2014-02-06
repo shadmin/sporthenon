@@ -582,7 +582,7 @@ function loadHomeData() {
 			html = [];
 			for (var i = 0 ; i < updates.childNodes.length ; i++) {
 				node = updates.childNodes[i];
-				html.push('<table style="margin-top:8px;"><tr><th>' + bullet + node.getAttribute('yr') + '&nbsp;-&nbsp;' + node.getAttribute('sp') + '</th></tr>');
+				html.push('<table class="table-update" style="margin-top:8px;" onclick="window.open(\'' + node.getAttribute('link') + '\', \'_blank\');"><tr><th>' + bullet + node.getAttribute('yr') + '&nbsp;-&nbsp;' + node.getAttribute('sp') + '</th></tr>');
 				html.push('<tr><td>' + node.getAttribute('cp') + '<br/>' + node.getAttribute('ev') + '<br/>' + node.getAttribute('se') + '</td></tr></table>');
 			}
 			$('div-updates').update(html.join(''));
