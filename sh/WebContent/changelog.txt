@@ -23,6 +23,7 @@ UPDATER merge entity
 updater suppr image remote
 updater import telecharger modele CSV/XLS colonnes
 check chargement piklist avec Tree json
+plusieurs ties sur meme result (golf us open 2013)
 
 +-------+
 | 0.5.1 |

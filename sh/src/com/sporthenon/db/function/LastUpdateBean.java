@@ -16,6 +16,18 @@ public class LastUpdateBean {
 	@Column(name = "yr_label")
 	private String yrLabel;
 	
+	@Column(name = "sp_id")
+	private Integer spId;
+	
+	@Column(name = "cp_id")
+	private Integer cpId;
+	
+	@Column(name = "ev_id")
+	private Integer evId;
+	
+	@Column(name = "se_id")
+	private Integer seId;
+	
 	@Column(name = "sp_label")
 	private String spLabel;
 	
@@ -151,6 +163,38 @@ public class LastUpdateBean {
 
 	public void setCnCode(String cnCode) {
 		this.cnCode = cnCode;
+	}
+
+	public Integer getSpId() {
+		return spId;
+	}
+
+	public Integer getCpId() {
+		return cpId;
+	}
+
+	public Integer getEvId() {
+		return evId;
+	}
+
+	public Integer getSeId() {
+		return seId;
+	}
+
+	public void setSpId(Integer spId) {
+		this.spId = spId;
+	}
+
+	public void setCpId(Integer cpId) {
+		this.cpId = cpId;
+	}
+
+	public void setEvId(Integer evId) {
+		this.evId = evId;
+	}
+
+	public void setSeId(Integer seId) {
+		this.seId = seId;
 	}
 	
 }

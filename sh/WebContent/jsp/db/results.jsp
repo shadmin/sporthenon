@@ -70,7 +70,8 @@ for (PicklistBean plb : cPicklist) {
 }
 %>
 <script type="text/javascript">
-	var hSportImg = new Array();
+var hSportImg = new Array();
+window.onload = function() {
 	<%for (String s : hSportImg.keySet()) {%>
 	hSportImg[<%=s%>] = '<%=hSportImg.get(s).replaceAll("\\<img alt\\=\\'\\' src\\='|\\'\\/\\>", "")%>';	
 	<%}%>
@@ -79,5 +80,6 @@ for (PicklistBean plb : cPicklist) {
 	initSliderRes('sp');
 	changeSport();
 	initTabControl();
+}
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />

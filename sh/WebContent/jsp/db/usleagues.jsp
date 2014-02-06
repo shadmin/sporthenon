@@ -122,6 +122,8 @@
 <%@include file="../../html/buttons.html"%>
 <%@include file="../../html/tabcontrol.html"%>
 <script type="text/javascript">
+var tPos = new Array();
+window.onload = function() {
 	initSelectMult('sm-pl-championship-yr', 'Years', 165);
 	initSelectMult('sm-pl-hof-yr', 'Years', 165);
 	initSelectMult('sm-pl-retnum-tm', 'Teams', 160, 60);
@@ -132,7 +134,6 @@
 	changeModeUS();
 	changeLeague('nfl');
 	initTabControl();
-	var tPos = new Array();
 <%
 	List<Object[]> l = (List<Object[]>) DatabaseHelper.executeNative("select distinct id_league, position from \"HALL_OF_FAME\" where position is not null and position<>'' order by id_league, position");
 	for (Object[] tObj : l) {
@@ -143,5 +144,6 @@
 %>
 	tPos[<%=league%>] = (tPos[<%=league%>] ? tPos[<%=league%>] + '\r\n' : '') + <%="'" + position + "'"%> + ' - ' + <%="'" + labelpos + "'"%>;
 <%}}%>
+}
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />

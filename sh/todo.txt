@@ -1,6 +1,4 @@
-plusieurs ties sur meme result (golf us open 2013)
 --tests ie firefox safari
---results quick event search
 --draws + records dans import CSV 
 -----
 FETCH ALL FROM "<unnamed portal 1>";
