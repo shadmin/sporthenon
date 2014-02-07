@@ -3,7 +3,7 @@
 <properties>
 	<entry key="env">local</entry><!-- Environment (standalone|local|prod) -->
 	<entry key="version">0.6.0</entry>
-	<entry key="url">http://localhost:8082/sh/</entry>
-	<entry key="img.url">http://localhost:8082/img/</entry>
+	<entry key="url">http://localhost:8082/</entry>
+	<entry key="img.url">http://localhost:8083/</entry>
 	<entry key="img.folder">C:/Program Files/GlassfishV3/glassfish/domains/domain1/docroot/img/</entry>
 </properties>

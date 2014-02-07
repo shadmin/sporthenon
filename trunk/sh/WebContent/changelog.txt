@@ -6,40 +6,44 @@
 +-------+
 | 0.6.0 |
 +-------+
-search nom sens : nom+prenom (ex : ma lin)
-commentaire results a droite de year
-design boutons couleur + degradé menu background
-format dates result = 11-DEC-2011
-inversion nom prenom reference results MAS + verif VIE
-keep currentab opened + add tab button (pas ouverture onglet auto)
-bouton back to top
-fussionner affichage/Search championships + events = championship+event+subevent = event dans tous les liens ref
-tied sur reference results avec drapeau
-boutons social network
-record/us/search/olympics = search results empty message
-updater tooltips boutons + edit folder bug niveaux 3+4
-updater jfindentitydlg pas de vidage liste onkeydown
-UPDATER merge entity
-updater suppr image remote
-updater import telecharger modele CSV/XLS colonnes
-check chargement piklist avec Tree json
-plusieurs ties sur meme result (golf us open 2013)
+o Website
+	- New feature: <Back to top>
+	- New feature: <Share> (=> added "share" buttons for social networks (Facebook, Twitter, Google+))
+	- Improved loading of picklists on "Results" page (use of tree)
+	- Improved tabs management (removed auto-opening tab for each request)
+	- Changed logo: 2 icons updated + lighter background
+	- Changed UI design/colors for brighter display
+	- Added link to all event results for selected row in "Results" references
+	- Merged "Championship" and "Event" entities at display
+	- Position of comments moved to the right of 'Year' column
+	- Fixed bug: search failed with "last name + first name" in that order
+	- Fixed bug: result with ties in entity references not displayed properly
+o Updater (Swing app)
+	- New feature: <Merge> (=> selected record is removed and merged with another record)
+	- New feature: <Templates> (=> xls/csv templates for import tool)
+	- Changed buttons: label replaced by tooltip
+	- Removal available for remote picture
+	- Fixed bug: folder edit not available for 'subevent' level
+	- Fixed bug with use of quote ' in CSV import
+	- Add query for events not set on current year
+	- DB structure: +[all].first_update
 
 +-------+
 | 0.5.1 |
 +-------+
-updater - bouton events not set for current year
-double quote dans import csv
-en gras equipe affichée sur franchise history
-drapeaux pays entity ref/results athlete
-gestion char speciaux sur search pattern
-creation_date
-tie sur records / affichage (receiving TD / NFL / shaw)
+o Website
+	- Added display of country flag in entity references (column 'Result')
+	- Fixed bug: use of special characters in search patterns
+	- Fixed bug: ties on record not displayed properly
+o Updater (Swing app)
+	- Fixed bug with use of quote ' in CSV import
+	- Add query for events not set on current year
+	- DB structure: +[all].first_update
 
 +-------+
 | 0.5.0 |
 +-------+
-o Web
+o Website
 	- New feature: <Last Updates> (=> display of last DB updates with custom count)
 	- New feature: <Statistics>
 	- Added header table to export formats txt and xls
@@ -48,7 +52,7 @@ o Web
 	- Added "period" filter on US leagues "records" search (season, career, game...)
 	- Improved display on "Team" references with links
 	- Fixed results references with tied entities
-o Swing application
+o Updater (Swing app)
 	- Keyboard shortcuts for "data" panel actions
 	- Automatic set to "0" for links on referenced entity
 	- Added display of referenced entity label when saving entity with link
@@ -56,13 +60,13 @@ o Swing application
 +-------+
 | 0.4.0 |
 +-------+
-o Web
+o Website
 	- Pictures management improved significantly (better caching performance)
 	- Some comments can be displayed as a colored cell
 	- More readable display of olympics tables
 	- Fixed bug on US records for "Both" selection (individual/team)
 	- Added sitemap.xml
-o Swing application
+o Updater (Swing app)
 	- Comments management improved with specific column for ties
 	- Add queries for unused events + fixed missing pictures with remote call
 	- DB structure: -TM.code / -HF.deceased / +HF.position / +TM.link / +TM.inactive / +RN.year
@@ -70,20 +74,20 @@ o Swing application
 +-------+
 | 0.3.0 |
 +-------+
-o Web
+o Website
 	- New feature: <Export> (=> export page to HTML/XLS/TXT format)
 	- New feature: <Info> (=> display metadata & statistics on current tab)
 	- New feature: <Inactive Events> (=> events not held anymore marked with specific symbol)
 	- Comments can be displayed either directly or with a tooltip icon
 	- Bugs fixed, mainly on "US leagues" page
-o Swing application
+o Updater (Swing app)
 	- New feature: <Query> (=> execute custom queries on database)
 	- Add missing tables in data panel (US leagues, Olympics, Records)
 
 +-------+
 | 0.2.0 |
 +-------+
-o Web
+o Website
 	- New feature: <Print> (=> send current search tab to default printer)
 	- New feature: <Link> (=> display URL to open directly a specific page)
 	- New feature: <Sortable Columns> (=> all displayed tables can be dynamically sorted)
@@ -93,7 +97,7 @@ o Web
 	- New UI for action buttons
 	- Extension of some columns size in database
 	- Fixed bug: an error occured on some olympics views with empty subevent
-o Swing application
+o Updater (Swing app)
 	- New feature: <Import CSV> (==> a mass update of data can done with CSV files)
 	- New feature: <Pictures Management>
 	- New feature: <Refresh Tree>

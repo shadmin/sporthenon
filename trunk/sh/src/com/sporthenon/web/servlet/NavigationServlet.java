@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.sporthenon.utils.ConfigUtils;
-
 public class NavigationServlet extends AbstractServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -22,7 +20,7 @@ public class NavigationServlet extends AbstractServlet {
 	
 	static {
 		hPages = new HashMap<String, String>();
-		hPages.put("/home", "home.jsp");
+		hPages.put("/home", "index.jsp");
 		hPages.put("/results", "db/results.jsp");
 		hPages.put("/olympics", "db/olympics.jsp");
 		hPages.put("/usleagues", "db/usleagues.jsp");
@@ -53,16 +51,11 @@ public class NavigationServlet extends AbstractServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			String env = ConfigUtils.getProperty("env");
 			HttpSession session = request.getSession();
-			String context = "/sh" + (env != null && env.equalsIgnoreCase("test") ? "test" : "");
-			String key = request.getRequestURI().replaceAll(context, "");
+			String uri = request.getRequestURI();
+			String key = uri.substring(uri.lastIndexOf("/"));
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			logger.info("Loaded: " + key);
-//			if (key.matches(".*update.*") && session.getAttribute("user") == null) {
-//				key = "/login";
-//				hParams.clear();
-//			}
 			session.setAttribute("menu", hMenu.get(key));
 			RequestDispatcher dispatcher = null;
 			if (hParams != null && !hParams.isEmpty()) {

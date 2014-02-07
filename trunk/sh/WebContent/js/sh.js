@@ -2,7 +2,7 @@
 function fillPicklistXML(response) {
 	var xml = (response != null ? response.responseXML : pl.outerHTML);
 	if (!xml) return;
-	var root = xml.firstChild;
+	var root = xml.documentElement;
 	var picklistId = root.getAttribute('id');
 	var picklist = $(picklistId);
 	if (root.childNodes.length > 0) {
@@ -564,11 +564,11 @@ function loadHomeData() {
 		onSuccess: function(response) {
 			var xml = response.responseXML;
 			if (!xml) return;
-			var root = xml.firstChild;
+			var root = xml.documentElement;
 			var node = null;
 			var html = null;
 			var bullet = '<img src="img/bullet.gif"/>&nbsp;';
-			
+
 			// Statistics
 			var stat = root.getElementsByTagName('stats')[0];
 			for (var i = 0 ; i < stat.childNodes.length ; i++) {
@@ -582,7 +582,7 @@ function loadHomeData() {
 			html = [];
 			for (var i = 0 ; i < updates.childNodes.length ; i++) {
 				node = updates.childNodes[i];
-				html.push('<table class="table-update" style="margin-top:8px;" onclick="window.open(\'' + node.getAttribute('link') + '\', \'_blank\');"><tr><th>' + bullet + node.getAttribute('yr') + '&nbsp;-&nbsp;' + node.getAttribute('sp') + '</th></tr>');
+				html.push('<table class="table-update" style="margin-bottom:8px;" onclick="window.open(\'' + node.getAttribute('link') + '\', \'_blank\');"><tr><th>' + bullet + node.getAttribute('yr') + '&nbsp;-&nbsp;' + node.getAttribute('sp') + '</th></tr>');
 				html.push('<tr><td>' + node.getAttribute('cp') + '<br/>' + node.getAttribute('ev') + '<br/>' + node.getAttribute('se') + '</td></tr></table>');
 			}
 			$('div-updates').update(html.join(''));
@@ -953,7 +953,7 @@ function loadChart() {
 			var tData = new Array();
 			var xml = response.responseXML;
 			if (!xml) return;
-			var root = xml.firstChild;
+			var root = xml.documentElement;
 			var node = null;
 			var tHtml = new Array();
 			var key = null;
