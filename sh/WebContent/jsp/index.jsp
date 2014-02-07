@@ -43,19 +43,30 @@
 		<div class="fieldset">
 			<div class="fstitle news">NEWS</div>
 			<div class="fscontent">
-				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Jan. 2, 2014</b>&nbsp;-&nbsp;Version 0.5.1 Released&nbsp;(<a target="_blank" href="changelog.txt?v=<%=ConfigUtils.getProperty("version")%>">Change Log</a>)<br/><br/>
+				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Feb. ??, 2014</b>&nbsp;-&nbsp;Version 0.6.0 Released&nbsp;(<a target="_blank" href="changelog.txt?v=<%=ConfigUtils.getProperty("version")%>">Change Log</a>)<br/><br/>
+				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Jan. 2, 2014</b>&nbsp;-&nbsp;Version 0.5.1 Released<br/><br/>
 				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Nov. 29, 2013</b>&nbsp;-&nbsp;Version 0.5.0 Released<br/><br/>
 				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Nov. 8, 2013</b>&nbsp;-&nbsp;Version 0.4.0 Released<br/><br/>
 				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Oct. 29, 2013</b>&nbsp;-&nbsp;Version 0.3.0 Released<br/><br/>
+				<a id="amnews" href="javascript:$('amnews').remove();$('mnews').show();">More</a><span id="mnews" style="display:none;">
 				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Sep. 13, 2013</b>&nbsp;-&nbsp;Version 0.2.0 Released<br/><br/>
 				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Aug. 2, 2013</b>&nbsp;-&nbsp;Version 0.1.0 Released
+				</span>
 			</div>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
 window.onload = function() {
-	loadHomeData();	
+	$$('#shmenu a').each(function(el){
+		if ($(el).id == 'shmenu-home') {
+			$(el).addClassName('selected');
+		}
+		else {
+			$(el).removeClassName('selected');
+		}
+	});
+	loadHomeData();
 }
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />

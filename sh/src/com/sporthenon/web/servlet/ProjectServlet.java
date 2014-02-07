@@ -37,6 +37,7 @@ private static final long serialVersionUID = 1L;
 			String index = String.valueOf(hParams.get("index"));
 			ArrayList<Object> lFuncParams = new ArrayList<Object>();
 			lFuncParams.add(Short.valueOf(index));
+			int i = 0;
 			for (Object o : DatabaseHelper.call("StatRequest", lFuncParams)) {
 				StatRequestBean srb = (StatRequestBean) o;
 				Element item = doc.createElement("stat");
@@ -45,6 +46,8 @@ private static final long serialVersionUID = 1L;
 					key = key.replaceAll("RS", "Results").replaceAll("OL", "Olympics").replaceAll("US", "US Leagues").replaceAll("SC", "Search").replaceAll("IF", "Info");
 				item.setAttribute("key", key); item.setAttribute("value", String.valueOf(srb.getValue()));
 				root.appendChild(item);
+				if (++i == 12)
+					break;
 			}
 
 			response.setContentType("text/xml");
