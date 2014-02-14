@@ -4,9 +4,10 @@
 	<div class="fstitle criteria">SEARCH CRITERIA</div>
 	<form id="search-form" action="/search" onsubmit="return false;">
 	<div class="pattern">
-		<input type="text" class="text" name="pattern" id="pattern" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');" onkeydown="if(event.keyCode == 13){runSearch();}"></input><br/>
-		&nbsp;* = Many characters<br/>&nbsp;_ = Single character<br/><br/>
-		<table cellspacing="0">
+		Search for:<br/><input type="text" class="text" name="pattern" id="pattern" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');" onkeydown="if(event.keyCode == 13){runSearch();}"></input>
+		<a href="javascript:$('pattern').focus();" title="Use * for multiple characters and _ for a single character" style="color:#000;">[?]</a>
+		<span><br/><br/>&nbsp;<a href="javascript:void(0);" onclick="$(this).up().hide();$('advtable').show();">Advanced</a></span>
+		<br/><br/><table id="advtable" cellspacing="0" style="display:none;">
 			<tr><td><input type="checkbox" name="case" id="case"></input></td><td><label for="case">Case Sensitive</label></td></tr>
 			<tr><td><input type="checkbox" name="match" id="match"></input></td><td><label for="match">Exact Match</label></td></tr>
 			<tr><td><input type="checkbox" name="ref" id="ref" checked="checked"></input></td><td><label for="ref">Count References</label></td></tr>

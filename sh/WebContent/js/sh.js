@@ -27,7 +27,9 @@ function fillPicklistXML(response) {
 		picklist.addClassName('disabled');
 		picklist.writeAttribute('disabled', 'disabled');
 	}
-	fireEvent(picklist, 'change');
+	if (picklist.onchange) {
+		picklist.onchange();
+	}
 }
 function fillPicklistArray(id, array) {
 	var picklist = $(id);
@@ -51,18 +53,9 @@ function fillPicklistArray(id, array) {
 		picklist.addClassName('disabled');
 		picklist.writeAttribute('disabled', 'disabled');
 	}
-	fireEvent(picklist, 'change');
-}
-function fireEvent(element, event) {
-    if (document.createEventObject) { //IE
-        var evt = document.createEventObject();
-        return element.fireEvent('on' + event, evt);
-    }
-    else {//Other browsers
-        var evt = document.createEvent("HTMLEvents");
-        evt.initEvent(event, false, false);
-        return !element.dispatchEvent(evt);
-    }
+	if (picklist.onchange) {
+		picklist.onchange();
+	}
 }
 var hTips = new Hash();
 function createTip(name, pl) {
@@ -280,7 +273,7 @@ var tabcount = 0;
 function initTabControl() {
 	addTab('Blank');
 	
-	tabbar.insert('<li title="Open New Tab" id="link-add"><a href="#" onclick="javascript:void(0);"></a></li>');
+	tabbar.insert('<li title="Open New Tab" id="link-add"><a href="javascript:void(0);"></a></li>');
 	var link = $$('#link-add a')[0];
 	link.observe('click', function(){addTab('Blank');});
 }
@@ -495,7 +488,9 @@ function initSelectMult(id, s, w, o) {
 	}.bindAsEventListener(selMult));
 	btnOk.observe('click', function(event){
 		$(this.select).style.visibility = 'visible';
-		fireEvent($(id), 'change');
+		if ($(id).onchange) {
+			$(id).onchange();
+		}
 		new Effect.BlindUp(this.container,{ duration: 0.4 });
 		return false;
 	}.bindAsEventListener(selMult));
@@ -608,9 +603,6 @@ function initSliderRes(s) {
 			if (s == 'sp') {
 				changeSport(true);
 			}
-			else {
-				changeChampionship(true);
-			}
 		};
 	}
 	else {
@@ -711,13 +703,27 @@ function initOlympics(picklistId) {
 function changeOlympics(id) {
 	var isSummer = (id.indexOf('summer') == 0);
 	var code = (isSummer ? 'summer' : 'winter');
-	updateSliderOl(code);
 	getPicklistOL(code + '-pl-sp');
 	getPicklistOL(code + '-pl-cn');
+	updateSliderOl(code);
 	var plev = $(code + '-pl-ev');
 	plev.update('');
 	plev.addClassName('disabled');
 	plev.writeAttribute('disabled', 'disabled');
+}
+function changeSportOL(obj, code, srcsl) {
+	if (!srcsl) {
+		var sl = hSliders.get('slider-' + code + '-sp');
+		if (sl) {
+			var slide = $(code + '-sp-' + $F(code + '-pl-sp'));
+			if (slide) {
+				sl.moveTo(slide);
+			}
+		}
+	}
+	else {
+		getPicklistOL(code + '-pl-ev', true);
+	}
 }
 function updateSliderOl(code) {
 	var slider = $$('#slider-' + code + '-ol .content')[0];
@@ -727,9 +733,12 @@ function updateSliderOl(code) {
 	$$('#' + code + '-pl-ol option').each(function(el) {
 		if (el.text.indexOf('---') != 0) {
 			var pattern = new RegExp('(^|.*,)' + el.value + '(,.*|$)');
-			if (currentOl == '0' || pattern.match(currentOl)) {	
-				sliderContent.push(++n > 0 && n % 5 == 0 ? '</div><div class="slide">' : '');
-				sliderContent.push('<img alt="' + el.text + '" title="' + el.text + '" src="' + imgFolder + '3-' + el.value + '-S.png" style="cursor:pointer;" onclick="slideOlClick(\'' + code + '\', \'' + el.value + '\');"/>');
+			var text = null;
+			if (currentOl == '0' || pattern.match(currentOl)) {
+				text = el.text;
+				text = text.substring(text.indexOf(' - ') + 3) + ' ' + text.substring(0, 4);
+				sliderContent.push(++n > 0 && n % 8 == 0 ? '</div><div class="slide">' : '');
+				sliderContent.push('<img alt="' + text + '" title="' + text + '" src="' + imgFolder + '3-' + el.value + '-S.png" style="cursor:pointer;" onclick="slideOlClick(\'' + code + '\', \'' + el.value + '\');"/>');
 			}
 		}
 	});
@@ -741,6 +750,26 @@ function updateSliderOl(code) {
 	sl.moveTo($(code + '-sl1'));
 	handleSliderArr('slider-' + code + '-ol');
 }
+function updateSliderSp(code) {
+	var slider = $$('#slider-' + code + '-sp .content')[0];
+	var sliderContent = [];
+	$$('#' + code + '-pl-sp option').each(function(el) {
+		sliderContent.push('<div id="' + code + '-sp-' + el.value + '" class="slide">');
+		sliderContent.push('<img alt="' + el.text + '" title="' + el.text + '" src="' + imgFolder + '0-' + el.value + '-L.png"/></div>');
+	});
+	sliderContent.push('</div>');
+	slider.update(sliderContent.join(''));
+	var sl = hSliders.get('slider-' + code + '-sp');
+	var slides = $$('#slider-' + code + '-sp .slide');
+	sl.options.afterMove = function() {
+		$(code + '-pl-sp').setValue(sl.current.id.replace(code + '-sp-', ''));
+		changeSportOL(null, code, true);
+		handleSliderArr('slider-' + code + '-sp');
+	};
+	sl.initialize(sl.scroller, slides, sl.controls, sl.options);
+	sl.first();
+	handleSliderArr('slider-' + code + '-sp');
+}
 function slideOlClick(code, value) {
 	var list = $(code + '-pl-ol');
 	list.value = value;
@@ -749,19 +778,13 @@ function slideOlClick(code, value) {
 function changeModeOL() {
 	var isSummer = $F('olt1');
 	if (isSummer) {
-		$('slider-summer-ol').removeClassName('inactive');
-		$('summer-tb').removeClassName('inactive');
-		$('slider-winter-ol').addClassName('inactive');
-		$('winter-tb').addClassName('inactive');
+		$('summerfs').show();
+		$('winterfs').hide();
 	}
 	else {
-		$('slider-summer-ol').addClassName('inactive');
-		$('summer-tb').addClassName('inactive');
-		$('slider-winter-ol').removeClassName('inactive');
-		$('winter-tb').removeClassName('inactive');
+		$('summerfs').hide();
+		$('winterfs').show();
 	}
-	$('summer-inactive').setStyle({display: (isSummer ? 'none' : 'block')});
-	$('winter-inactive').setStyle({display: (isSummer ? 'block' : 'none')});
 }
 function getPicklistOL(picklistId) {
 	var isSummer = (picklistId.indexOf('summer') == 0);
@@ -770,8 +793,13 @@ function getPicklistOL(picklistId) {
 	h.set('sp', $F(code + '-pl-sp'));
 	var url = 'OlympicsServlet?type=' + code + '&' + picklistId.replace(code + '-', '');
 	new Ajax.Request(url, {
-		onSuccess: fillPicklistXML,
-		onFailure: function(response) {},
+		onSuccess: function(response){
+			fillPicklistXML(response);
+			if (picklistId.indexOf('-sp') > -1) {
+				updateSliderSp(code);
+			}
+		},
+		onFailure: function(response){},
 		parameters: h
 	});
 	if (picklistId.indexOf('-ev') > -1) {
@@ -904,7 +932,6 @@ function resetUSLeagues() {
 	$('championship').checked = true;
 	changeModeUS();
 	changeLeague('nfl');
-	//changeLeague($F('nfl') ? 'nfl' : ($F('nba') ? 'nba' : ($F('nhl') ? 'nhl' : 'mlb')));
 }
 /* ==================== SEARCH ==================== */
 function runSearch() {

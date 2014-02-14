@@ -17,7 +17,7 @@
 	<div class="spcpdiv">
 	<table>
 		<tr><td style="text-align:left;">Sport:</td></tr>
-		<tr><td><select id="pl-sp" name="pl-sp" onchange="changeSport()"><option/></select></td></tr>
+		<tr><td><select id="pl-sp" name="pl-sp"><option/></select></td></tr>
 		<tr><td><div id="slider-sp" class="slider"><%@include file="../../html/slider.html" %></div></td></tr>
 	</table>
 	</div>
@@ -55,7 +55,7 @@
 		</td></tr>
 	</table>
 	<div id="treeicon">
-		<table onclick="toggleTreeExpand();"><tr><td><img id="treeiconimg" src="img/db/tree_expand.png" alt="Expand" class="treeicon"/></td><td style="padding:0;"><a id="treeicontxt" href='#'>Expand</a></td></tr></table>
+		<table onclick="toggleTreeExpand();"><tr><td><img id="treeiconimg" src="img/db/tree_expand.png" alt="Expand" class="treeicon"/></td><td style="padding:0;"><a id="treeicontxt" href='javascript:void(0);'>Expand</a></td></tr></table>
 	</div>
 	</div>
 	</form>
@@ -75,9 +75,12 @@ window.onload = function() {
 	<%for (String s : hSportImg.keySet()) {%>
 	hSportImg[<%=s%>] = '<%=hSportImg.get(s).replaceAll("\\<img alt\\=\\'\\' src\\='|\\'\\/\\>", "")%>';	
 	<%}%>
-	initSelectMult('sm-pl-yr', 'Years', 265);
 	getPicklist('pl-sp');
 	initSliderRes('sp');
+	initSelectMult('sm-pl-yr', 'Years', 265);
+	$('pl-sp').onchange = function(){
+		changeSport(false);
+	};
 	changeSport();
 	initTabControl();
 }
