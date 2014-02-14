@@ -699,18 +699,32 @@ input{
 }
 /* ========== OLYMPICS ========== */
 #olympics{
-	height: 265px;
+	height: 253px;
+}
+#olympics #oltype{
+	float: left;
+}
+#olympics #oltype div{
+	float: left;
+	width: 165px;
+	margin: 6px 6px;
+	margin-right: 0px;
+	padding: 3px;
+	border: 1px solid #FFF;
+	text-align: center;
+	cursor: pointer;
+}
+#olympics #oltype div:hover{
+	border: 1px solid #000;
+	background-color: #FFC;
 }
 #olympics .fieldset{
 	float: left;
-	width: 277px;
-	height: 220px;
-	margin: 12px 6px;
+	width: 425px;
+	height: 206px;
+	margin: 6px 6px;
 	margin-bottom: 0px;
-}
-#olympics .legend{
-	margin-top: -10px;
-	margin-left: 5px;
+	padding: 5px;
 }
 #olympics table img{
 	border: none;
@@ -727,6 +741,9 @@ input{
 }
 #olympics .separator{
 	margin-bottom: 1px;
+}
+#olympics #summer-q1 .arrow, #olympics #winter-q1 .arrow{
+	margin-top: 14px;
 }
 /* ========== US LEAGUES ========== */
 #usleagues{
@@ -813,15 +830,19 @@ input{
 }
 #search .pattern{
 	float: left;
-	width: 230px;
 	margin: 4px;
-	margin-right:15px;
+	padding-left: 3px;
+	width: 330px;
 }
 #search .pattern input{
 	border: 1px solid #CCC;
+	font-size: 13px;
 }
 #search .pattern input.selected{
 	border: 1px solid #D00;
+}
+#search #pattern{
+	width: 300px;
 }
 #search .scope{
 	border: 1px solid gray;

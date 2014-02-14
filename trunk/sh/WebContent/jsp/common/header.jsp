@@ -11,7 +11,7 @@
 	String userTxt = (m != null ? (StringUtils.notEmpty(m.getLastName()) ? m.getFirstName() + " " + m.getLastName() + " [" + m.getLogin() + "]" : "[" + m.getLogin() + "]") : "[Anonymous]");
 	String version = ConfigUtils.getProperty("version");
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-2.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 	<title>SPORTHENON&nbsp;-&nbsp;Temple of Sports Results</title>
@@ -21,7 +21,7 @@
 	<meta name="author" content="inachos"/>
 	<meta property="og:title" content="SPORTHENON - Temple of Sports Results"/>
 	<meta property="og:type" content="website"/>
-	<meta property="og:image" content="http://92.243.3.85/test/img/icon2.png?v=4"/>
+	<meta property="og:image" content="http://92.243.3.85/test/img/icon-notext.png?v=4"/>
 	<meta property="og:description" content="Search for results in various sports and events."/>
 	<link rel="stylesheet" type="text/css" href="css/sh.css?v=<%=version%>"/>
 	<!--[if IE 6]>

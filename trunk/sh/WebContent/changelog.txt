@@ -13,6 +13,7 @@ o Website
 	- Improved tabs management (removed auto-opening tab for each request)
 	- Changed logo: 2 icons updated + lighter background
 	- Changed UI design/colors for brighter display
+	- Improved search criteria layout for "Olympics" page
 	- Added link to all event results for selected row in "Results" references
 	- Merged "Championship" and "Event" entities at display
 	- Position of comments moved to the right of 'Year' column
