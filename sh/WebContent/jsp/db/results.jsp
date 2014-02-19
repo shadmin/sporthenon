@@ -2,7 +2,6 @@
 <%@ page import="com.sporthenon.db.PicklistBean"%>
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
 <%@ page import="com.sporthenon.db.entity.Result"%>
-<%@ page import="com.sporthenon.db.entity.Sport"%>
 <%@ page import="com.sporthenon.db.converter.HtmlConverter"%>
 <%@ page import="com.sporthenon.utils.HtmlUtils"%>
 <%@ page import="java.util.Collection"%>
@@ -65,9 +64,8 @@
 <%
 HashMap<String, String> hSportImg = new HashMap<String, String>();
 Collection<PicklistBean> cPicklist = DatabaseHelper.getPicklist(Result.class, "sport", null, null, (short) 2);
-for (PicklistBean plb : cPicklist) {
+for (PicklistBean plb : cPicklist)
 	hSportImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)0, plb.getValue(), 'L', null, false));
-}
 %>
 <script type="text/javascript">
 var hSportImg = new Array();

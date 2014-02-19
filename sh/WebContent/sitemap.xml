@@ -7,31 +7,31 @@
 		<priority>0.9</priority>
 	</url>
 	<url>
-		<loc>http://www.sporthenon.com/sh/results</loc>
+		<loc>http://www.sporthenon.com/results</loc>
 		<lastmod>2014-01-02</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.7</priority>
 	</url>
 	<url>
-		<loc>http://www.sporthenon.com/sh/olympics</loc>
+		<loc>http://www.sporthenon.com/olympics</loc>
 		<lastmod>2014-01-02</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.6</priority>
 	</url>
 	<url>
-		<loc>http://www.sporthenon.com/sh/usleagues</loc>
+		<loc>http://www.sporthenon.com/usleagues</loc>
 		<lastmod>2014-01-02</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>http://www.sporthenon.com/sh/search</loc>
+		<loc>http://www.sporthenon.com/search</loc>
 		<lastmod>2014-01-02</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.5</priority>
 	</url>
 	<url>
-		<loc>http://www.sporthenon.com/sh/project</loc>
+		<loc>http://www.sporthenon.com/project</loc>
 		<lastmod>2014-01-02</lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.2</priority>

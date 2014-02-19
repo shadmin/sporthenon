@@ -249,11 +249,13 @@ function toggleTreeExpand() {
 		$('treeview').removeClassName('collapsed').addClassName('expanded');
 		img.src = img.src.replace('expand', 'collapse');
 		img.alt = img.alt.replace('Expand', 'Collapse');
+		$('treeview').style.border = '1px solid #000';
 	}
 	else {
 		$('treeview').removeClassName('expanded').addClassName('collapsed');
 		img.src = img.src.replace('collapse', 'expand');
 		img.alt = img.alt.replace('Collapse', 'Expand');
+		$('treeview').style.border = '1px solid #DDD';
 	}
 	$('treeicontxt').update(img.alt);
 	//img.title = img.alt;
@@ -555,7 +557,7 @@ function selMultClick() {
 }
 /* ==================== HOME ==================== */
 function loadHomeData() {
-	new Ajax.Request('HomeServlet', {
+	new Ajax.Request('HomeServlet?t=' + currentTime(), {
 		onSuccess: function(response) {
 			var xml = response.responseXML;
 			if (!xml) return;
@@ -738,7 +740,7 @@ function updateSliderOl(code) {
 				text = el.text;
 				text = text.substring(text.indexOf(' - ') + 3) + ' ' + text.substring(0, 4);
 				sliderContent.push(++n > 0 && n % 8 == 0 ? '</div><div class="slide">' : '');
-				sliderContent.push('<img alt="' + text + '" title="' + text + '" src="' + imgFolder + '3-' + el.value + '-S.png" style="cursor:pointer;" onclick="slideOlClick(\'' + code + '\', \'' + el.value + '\');"/>');
+				sliderContent.push('<img alt="' + text + '" title="' + text + '" src="' + hOlympicsImg[el.value] + '" style="cursor:pointer;" onclick="slideOlClick(\'' + code + '\', \'' + el.value + '\');"/>');
 			}
 		}
 	});
@@ -755,7 +757,7 @@ function updateSliderSp(code) {
 	var sliderContent = [];
 	$$('#' + code + '-pl-sp option').each(function(el) {
 		sliderContent.push('<div id="' + code + '-sp-' + el.value + '" class="slide">');
-		sliderContent.push('<img alt="' + el.text + '" title="' + el.text + '" src="' + imgFolder + '0-' + el.value + '-L.png"/></div>');
+		sliderContent.push('<img alt="' + el.text + '" title="' + el.text + '" src="' + hSportImg[el.value] + '"/></div>');
 	});
 	sliderContent.push('</div>');
 	slider.update(sliderContent.join(''));

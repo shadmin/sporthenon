@@ -1,11 +1,11 @@
-<%@ page language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="search" class="fieldset">
 	<div class="fstitle criteria">SEARCH CRITERIA</div>
 	<form id="search-form" action="/search" onsubmit="return false;">
 	<div class="pattern">
 		Search for:<br/><input type="text" class="text" name="pattern" id="pattern" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');" onkeydown="if(event.keyCode == 13){runSearch();}"></input>
-		<a href="javascript:$('pattern').focus();" title="Use * for multiple characters and _ for a single character" style="color:#000;">[?]</a>
+		<a href="#helplink" style="cursor:help;color:#000;">[?]</a>
 		<span><br/><br/>&nbsp;<a href="javascript:void(0);" onclick="$(this).up().hide();$('advtable').show();">Advanced</a></span>
 		<br/><br/><table id="advtable" cellspacing="0" style="display:none;">
 			<tr><td><input type="checkbox" name="case" id="case"></input></td><td><label for="case">Case Sensitive</label></td></tr>
@@ -13,6 +13,7 @@
 			<tr><td><input type="checkbox" name="ref" id="ref" checked="checked"></input></td><td><label for="ref">Count References</label></td></tr>
 		</table>
 	</div>
+	<div id="helplink" class="rendertip">Use * for multiple characters and _ for a single character</div>
 	<fieldset class="scope">
 		<legend>Scope</legend>
 		<table cellspacing="2">
@@ -40,13 +41,16 @@
 <%@include file="../../html/buttons.html" %>
 <%@include file="../../html/tabcontrol.html" %>
 <script type="text/javascript">
+function toggleCheck(cb) {
+	$$('#search .scope input').each(function(el){
+		$(el).checked = cb.checked;
+	});
+}
 window.onload = function() {
 	$('pattern').activate();
-	function toggleCheck(cb) {
-		$$('#search .scope input').each(function(el){
-			$(el).checked = cb.checked;
-		});
-	}
+	new Control.Window($(document.body).down('[href=#helplink]'),{  
+		position: 'relative', hover: true, offsetLeft: 20, offsetTop: 0, className: 'tip'
+	});
 	initTabControl();
 }
 </script>

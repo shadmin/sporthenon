@@ -21,14 +21,14 @@
 	<meta name="author" content="inachos"/>
 	<meta property="og:title" content="SPORTHENON - Temple of Sports Results"/>
 	<meta property="og:type" content="website"/>
-	<meta property="og:image" content="http://92.243.3.85/test/img/icon-notext.png?v=4"/>
+	<meta property="og:image" content="http://92.243.3.85/img/icon-notext.png?v=6"/>
 	<meta property="og:description" content="Search for results in various sports and events."/>
 	<link rel="stylesheet" type="text/css" href="css/sh.css?v=<%=version%>"/>
 	<!--[if IE 6]>
 	<link rel="stylesheet" type="text/css" href="css/ie6fix.css?v=<%=version%>"/>
 	<![endif]-->
 	<link rel="stylesheet" type="text/css" href="css/render.css?v=<%=version%>"/>
-	<link rel="shortcut icon" type="image/x-icon" href="img/iconfav.ico?v=4"/>
+	<link rel="shortcut icon" type="image/x-icon" href="img/iconfav.ico?v=6"/>
 	<script type="text/javascript" src="js/prototype.js?v=<%=version%>"></script>
 	<script type="text/javascript" src="js/includes.js?v=<%=version%>"></script>
 	<script type="text/javascript" src="js/sh.js?v=<%=version%>"></script>
@@ -39,7 +39,7 @@
 
 <body>
 <div id="header">
-	<div id="logo"><a href="/" title="Home Page"><img src="img/icon.png?v=4" alt="Sporthenon.com"/></a></div>
+	<div id="logo"><a href="/" title="Home Page"><img src="img/icon.png?v=6" alt="Sporthenon.com"/></a></div>
 	<div id="shmenu">
 		<ul>
 			<li><a id="shmenu-home" <%=(mn.equals("home") ? "class='selected'" : "")%> href="/">HOME</a></li>
@@ -53,12 +53,12 @@
 	<div id="links">
 		<table>
 			<tr><td style="padding-bottom:3px;">Share:</td>
-			<td><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.sporthenon.com" target="_blank"><img alt="facebook" title="Share on Facebook" src="img/header/facebook.png"/></a></td>
+			<td><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.sporthenon.com%2F" target="_blank"><img alt="facebook" title="Share on Facebook" src="img/header/facebook.png"/></a></td>
 			<td><a href="https://twitter.com/share?text=Visit%20http%3A%2F%2Fwww.sporthenon.com%20the%20temple%20of%20sports%20results%21" target="_blank"><img alt="twitter" title="Share on Twitter" src="img/header/twitter.png"/></a></td>
 			<td><a href="https://plus.google.com/share?url=www.sporthenon.com" target="_blank"><img alt="gplus" title="Share on Google+" src="img/header/gplus.png"/></a></td></tr>
 		</table><br/>
 		<a target="_blank" title="Sporthenon on Google Code" href="https://code.google.com/p/sporthenon/"><img src="img/header/gcode.png" alt="Google Code"/></a>&nbsp;
-		<a target="_blank" title="Valid XHTML 1.0" href="http://validator.w3.org/check?uri=referer"><img src="img/header/validxhtml10.png" alt="Valid XHTML 1.0"/></a><br/>
+		<a target="_blank" title="Valid XHTML 1.1" href="http://validator.w3.org/check?uri=referer"><img src="img/header/validxhtml11.png" alt="Valid XHTML 1.1"/></a><br/>
 		&copy;2011-14 (sporthenon.com)<br/>
 		<div id="version">Version&nbsp;<%=ConfigUtils.getProperty("version")%></div>
 	</div>
