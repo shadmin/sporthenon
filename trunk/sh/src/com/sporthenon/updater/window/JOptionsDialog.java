@@ -46,7 +46,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 	private Properties props = null;
 	private HashMap<String, String> hConfig = null;
 	private String configDir = null;
-	private final String[] tHost = new String[] {"sporthenon.com", "sporthenon.com", "localhost"};
+	private final String[] tHost = new String[] {"92.243.3.85", "92.243.3.85", "localhost"};
 	private final String[] tDatabase = new String[] {"shprod", "shtest", "shlocal"};
 
 	public JOptionsDialog(JFrame owner) {

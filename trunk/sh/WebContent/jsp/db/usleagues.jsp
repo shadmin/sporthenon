@@ -1,4 +1,4 @@
-<%@ page language="java"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.util.List"%>
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>

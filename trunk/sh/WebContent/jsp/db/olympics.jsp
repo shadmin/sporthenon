@@ -1,4 +1,12 @@
-<%@ page language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page import="com.sporthenon.db.PicklistBean"%>
+<%@ page import="com.sporthenon.db.DatabaseHelper"%>
+<%@ page import="com.sporthenon.db.entity.Olympics"%>
+<%@ page import="com.sporthenon.db.entity.Sport"%>
+<%@ page import="com.sporthenon.db.converter.HtmlConverter"%>
+<%@ page import="com.sporthenon.utils.HtmlUtils"%>
+<%@ page import="java.util.Collection"%>
+<%@ page import="java.util.HashMap"%>
 <jsp:include page="/jsp/common/header.jsp"/>
 <div id="olympics" class="fieldset">
 	<div class="fstitle criteria">SEARCH CRITERIA</div>
@@ -6,12 +14,12 @@
 	<!-- TYPE SELECTION -->
 	<div id="oltype">
 		<div onclick="$('olt1').checked = true;$('olt1').onclick();">
-			<img src="img/db/summer2.png"/><br/>
+			<img alt="Summer" src="img/db/summer2.png"/><br/>
 			<input type="radio" name="ol-type" id="olt1" checked="checked" onclick="changeModeOL()"/><br/>
 			<b>Summer Olympic Games</b>
 		</div>
 		<div style="clear:left;margin-top:0px;" onclick="$('olt2').checked = true;$('olt2').onclick();">
-			<img src="img/db/winter2.png"/><br/>
+			<img alt="Winter" src="img/db/winter2.png"/><br/>
 			<input type="radio" name="ol-type" id="olt2" onclick="changeModeOL()"/><br/>
 			<b>Winter Olympic Games</b>
 		</div>
@@ -74,8 +82,26 @@
 </div>
 <%@include file="../../html/buttons.html" %>
 <%@include file="../../html/tabcontrol.html" %>
+<%
+HashMap<String, String> hOlympicsImg = new HashMap<String, String>();
+HashMap<String, String> hSportImg = new HashMap<String, String>();
+Collection<PicklistBean> cPicklist = DatabaseHelper.getEntityPicklist(Olympics.class, "id", null);
+for (PicklistBean plb : cPicklist)
+	hOlympicsImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)3, plb.getValue(), 'S', null, false));
+cPicklist = DatabaseHelper.getEntityPicklist(Sport.class, "id", null);
+for (PicklistBean plb : cPicklist)
+	hSportImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)0, plb.getValue(), 'L', null, false));
+%>
 <script type="text/javascript">
+var hOlympicsImg = new Array();
+var hSportImg = new Array();
 window.onload = function() {
+	<%for (String s : hOlympicsImg.keySet()) {%>
+	hOlympicsImg[<%=s%>] = '<%=hOlympicsImg.get(s).replaceAll("\\<img alt\\=\\'\\' src\\='|\\'\\/\\>", "")%>';	
+	<%}%>
+	<%for (String s : hSportImg.keySet()) {%>
+	hSportImg[<%=s%>] = '<%=hSportImg.get(s).replaceAll("\\<img alt\\=\\'\\' src\\='|\\'\\/\\>", "")%>';	
+	<%}%>
 	initSelectMult('sm-summer-pl-ol', 'Olympic Games', 403);
 	initSelectMult('sm-winter-pl-ol', 'Olympic Games', 403);
 	initSelectMult('sm-summer-pl-ev', 'Events', 295);

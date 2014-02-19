@@ -1,6 +1,8 @@
 --tests ie firefox safari
 --draws + records dans import CSV
 --updater:news management
+--LIENS WIKI
+--PLACE1 - PLACE2
 ----------------------------------------
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;
