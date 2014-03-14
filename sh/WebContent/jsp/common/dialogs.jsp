@@ -2,7 +2,7 @@
 <div id="d-lastupdates" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fstitle">LAST UPDATES</div>
-	<div class="fscontent"><table id="ctupdates"><tr><td>Count:</td><td><input id="countupdt" type="text" maxlength="3" size="3" value="20" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"/></td><td><a href="#" onclick="refreshLastUpdates();">Show</a></td></tr></table><div id="dupdates"></div></div>
+	<div class="fscontent"><table id="ctupdates"><tr><td>Count:</td><td><input id="countupdt" type="text" maxlength="3" size="3" value="20" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"/></td><td><a href="javascript:refreshLastUpdates();">Show</a></td></tr></table><div id="dupdates"></div></div>
 	<div class="dlgbuttons"><input type="button" class="button ok" value="OK" onclick="closeDialog(dLastUpdates);"/></div>
 </div>
 </div>

@@ -1,8 +1,17 @@
+country/athlete fiche affichage total medailles olympic + world + grand chelem tennis etc...
+LIENS WIKI / SPORTS-REFERENCE sur TOUTES entités...
+BUG OLYMPICS EVENTS DOUBLONS (patinage vitesse / All / 10000 M) + AJOUT COMPLEXE
+BUG TIE 1-2 (ex. downhill women 2014 JO)
+balises META (check l'equipe.Fr)
+icons 16*16 visu sports
+title sur code country XXX
+UPDATER draws + records dans import CSV
+UPDATER updater:news management
+UPDATER bug import updater sur country inconnue pasdde warning
+UPDATER import coche "load picklists"
+-- LANG EN FR LOCALIZE
+-- 3 NIVEAUX EVENTS
 --tests ie firefox safari
---draws + records dans import CSV
---updater:news management
---LIENS WIKI / SPORTS-REFERENCE...
---PLACE1 - PLACE2
 ----------------------------------------
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

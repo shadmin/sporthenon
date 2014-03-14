@@ -18,7 +18,7 @@ public class HtmlUtils {
 	public final static String SPACE = " ";
 	public final static String NO_RESULT = "<div class='noresult'>No result found matching the selected criteria.</div>";
 
-	public static String writeImage(short type, int id, char size, String title, boolean disabled) {
+	public static String writeImage(short type, int id, char size, String year, String title, boolean disabled) {
 		StringBuffer html = new StringBuffer();
 		if (!disabled) {
 			String folder = ConfigUtils.getProperty("img.folder");
@@ -26,8 +26,20 @@ public class HtmlUtils {
 			
 			LinkedList<String> list = new LinkedList<String>();
 			for (File f : new File(folder).listFiles())
-				if (f.getName().indexOf(name) == 0)
-					list.add(f.getName());
+				if (f.getName().indexOf(name) == 0) {
+					boolean isInclude = true;
+					if (StringUtils.notEmpty(year)) {
+						String[] t = f.getName().replaceAll("^" + name + "(\\_|)|(gif|png)$|(\\_\\d+|)\\.", "").split("\\-");
+						if (t.length > 1) {
+							Integer y = Integer.parseInt(year);
+							Integer y1 = Integer.parseInt(t[0].equalsIgnoreCase("X") ? "0" : t[0]);
+							Integer y2 = Integer.parseInt(t[1].equalsIgnoreCase("X") ? "5000" : t[1]);
+							isInclude = (y >= y1 && y <= y2);
+						}
+					}
+					if (isInclude)
+						list.add(f.getName());
+				}
 			Collections.sort(list);
 			
 			if (!list.isEmpty())

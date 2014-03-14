@@ -1,7 +1,15 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.6.0   |
+| Last Version: 0.7.0   |
 +-----------------------+
+
++-------+
+| 0.7.0 |
++-------+
+PERSONNE MULTI NOMS (EX. RYOKO TANI / TAMURA)
+TITRS PAGES (Results | Sporthenon.com)
+PLACE1 - PLACE2
+IMAGES / YEAR (COUNTRY / TEAM)
 
 +-------+
 | 0.6.0 |

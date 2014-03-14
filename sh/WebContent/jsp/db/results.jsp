@@ -65,7 +65,7 @@
 HashMap<String, String> hSportImg = new HashMap<String, String>();
 Collection<PicklistBean> cPicklist = DatabaseHelper.getPicklist(Result.class, "sport", null, null, (short) 2);
 for (PicklistBean plb : cPicklist)
-	hSportImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)0, plb.getValue(), 'L', null, false));
+	hSportImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)0, plb.getValue(), 'L', null, null, false));
 %>
 <script type="text/javascript">
 var hSportImg = new Array();

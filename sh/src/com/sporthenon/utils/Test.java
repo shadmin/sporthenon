@@ -4,6 +4,7 @@ package com.sporthenon.utils;
 public class Test {
 
 	public static void main(String[] args) throws Exception {
+		//TESTS EXPORTS
 //		DatabaseHelper.setFactory(null, "standalone");
 //		RenderOptions opts = ServletHelper.buildOptions(new HashMap());
 //		StringBuffer html = new StringBuffer();

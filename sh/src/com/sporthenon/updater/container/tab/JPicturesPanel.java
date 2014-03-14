@@ -55,6 +55,7 @@ import com.sporthenon.updater.window.JFindEntityDialog;
 import com.sporthenon.updater.window.JMainFrame;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.ImageUtils;
+import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
 
 public class JPicturesPanel extends JSplitPane implements ActionListener, ListSelectionListener {
@@ -66,6 +67,8 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 	private String currentId;
 	private JRadioButton largeRadioBtn = null;
 	private JRadioButton smallRadioBtn = null;
+	private JTextField jYear1 = null;
+	private JTextField jYear2 = null;
 	private JImagePanel jLocalPanel = null;
 	private JImagePanel jRemotePanel = null;
 	private JTextField jLocalFile = null;
@@ -115,12 +118,20 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 
 	private JPanel getButtonPanel() {
 		JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 1, 8));
-		largeRadioBtn = new JRadioButton("Large Size");
+		jYear1 = new JTextField();
+		jYear1.setPreferredSize(new Dimension(40, 20));
+		leftPanel.add(new JLabel("From:"));
+		leftPanel.add(jYear1);
+		jYear2 = new JTextField();
+		jYear2.setPreferredSize(new Dimension(40, 20));
+		leftPanel.add(new JLabel("to:"));
+		leftPanel.add(jYear2);
+		largeRadioBtn = new JRadioButton("Large");
 		largeRadioBtn.setMargin(new Insets(0, 0, 0, 0));
 		largeRadioBtn.addActionListener(this);
 		largeRadioBtn.setSelected(true);
 		leftPanel.add(largeRadioBtn);
-		smallRadioBtn = new JRadioButton("Small Size");
+		smallRadioBtn = new JRadioButton("Small");
 		smallRadioBtn.setMargin(new Insets(0, 0, 0, 0));
 		smallRadioBtn.addActionListener(this);
 		leftPanel.add(smallRadioBtn);
@@ -249,7 +260,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 				}
 			}
 			else if (e.getActionCommand().equals("upload")) {
-				String params = "upload&entity=" + alias + "&size=" + (largeRadioBtn.isSelected() ? "L" : "S");
+				String params = "upload&entity=" + alias + "&size=" + (largeRadioBtn.isSelected() ? "L" : "S") + (StringUtils.notEmpty(jYear1.getText()) ? "&y1=" + jYear1.getText() + "&y2=" + jYear2.getText() : "");
 				URL url = new URL(ConfigUtils.getProperty("url") + "ImageServlet?" + params);
 				String bnd = "==" + System.currentTimeMillis() + "==";
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();

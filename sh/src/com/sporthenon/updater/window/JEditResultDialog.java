@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
@@ -47,8 +48,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	
 	private JDialogButtonBar jButtonBar = null;
 	private JEntityPicklist jYear = null;
-	private JEntityPicklist jCity = null;
-	private JEntityPicklist jComplex = null;
+	private JEntityPicklist jCity1 = null;
+	private JEntityPicklist jComplex1 = null;
+	private JEntityPicklist jCity2 = null;
+	private JEntityPicklist jComplex2 = null;
 	private JTextField jDate1 = null;
 	private JTextField jDate2 = null;
 	private JTextArea jComment = null;
@@ -93,7 +96,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jCommentDialog = new JCommentDialog(this);
 		jEditDrawDialog = new JEditDrawDialog(this);
 		
-		this.setSize(new Dimension(685, 385));
+		this.setSize(new Dimension(685, 395));
         this.setContentPane(jContentPane);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setModal(true);
@@ -104,10 +107,14 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private JPanel getEventPanel() {
 		jYear = new JEntityPicklist(this, Year.alias);
 		jYear.setPreferredSize(new Dimension(130, 21));
-		jCity = new JEntityPicklist(this, City.alias);
-		jCity.setPreferredSize(new Dimension(240, 21));
-		jComplex = new JEntityPicklist(this, Complex.alias);
-		jComplex.setPreferredSize(new Dimension(280, 21));
+		jCity1 = new JEntityPicklist(this, City.alias);
+		jCity1.setPreferredSize(new Dimension(250, 21));
+		jComplex1 = new JEntityPicklist(this, Complex.alias);
+		jComplex1.setPreferredSize(new Dimension(280, 21));
+		jCity2 = new JEntityPicklist(this, City.alias);
+		jCity2.setPreferredSize(new Dimension(250, 21));
+		jComplex2 = new JEntityPicklist(this, Complex.alias);
+		jComplex2.setPreferredSize(new Dimension(280, 21));
 		jDate1 = new JTextField();
 		jDate1.setPreferredSize(new Dimension(72, 21));
 		jDate2 = new JTextField();
@@ -120,7 +127,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jComment = new JTextArea();
 		jComment.setFont(SwingUtils.getDefaultFont());
 		JScrollPane jCommentPane = new JScrollPane(jComment);
-		jCommentPane.setPreferredSize(new Dimension(240, 60));
+		jCommentPane.setPreferredSize(new Dimension(150, 60));
 		JCustomButton jCommentDlg = new JCustomButton("...", null, null);
 		jCommentDlg.setMargin(new Insets(0, 0, 0, 0));
 		jCommentDlg.setToolTipText("Edit Comment");
@@ -129,24 +136,28 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jExa = new JTextField();
 		jExa.setPreferredSize(new Dimension(60, 21));
 		
+		JSeparator jSeparator1 = new JSeparator(JSeparator.HORIZONTAL);
+		jSeparator1.setPreferredSize(new Dimension(250, 0));
 		JPanel jEventPanel = new JPanel();
 		jEventPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 4));
-		jEventPanel.setPreferredSize(new Dimension(0, 150));
+		jEventPanel.setPreferredSize(new Dimension(0, 170));
 		jEventPanel.setBorder(BorderFactory.createTitledBorder(null, "Event Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 		jEventPanel.add(new JLabel("Year:"), null);
 		jEventPanel.add(jYear, null);
-		jEventPanel.add(new JLabel("City:"), null);
-		jEventPanel.add(jCity, null);
 		jEventPanel.add(new JLabel("From:"), null);
 		jEventPanel.add(jDate1, null);
 		jEventPanel.add(new JLabel("to:"), null);
 		jEventPanel.add(jDate2, null);
 		jEventPanel.add(jToday, null);
-		jEventPanel.add(new JLabel("Complex:"), null);
-		jEventPanel.add(jComplex, null);
-		jEventPanel.add(new JLabel("Comment:"), null);
-		jEventPanel.add(jCommentPane, null);
-		jEventPanel.add(jCommentDlg, null);
+		jEventPanel.add(jSeparator1);
+		jEventPanel.add(new JLabel("Complex #1:"), null);
+		jEventPanel.add(jComplex1, null);
+		jEventPanel.add(new JLabel("City #1:"), null);
+		jEventPanel.add(jCity1, null);
+		jEventPanel.add(new JLabel("Complex #2:"), null);
+		jEventPanel.add(jComplex2, null);
+		jEventPanel.add(new JLabel("City #2:"), null);
+		jEventPanel.add(jCity2, null);
 		jEventPanel.add(new JLabel("Tie:"), null);
 		for (int i = 0 ; i < 10 ; i++) {
 			jExaCheckbox[i] = new JCheckBox(String.valueOf(i + 1));
@@ -155,6 +166,9 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			jExaCheckbox[i].addActionListener(this);
 		}
 		jEventPanel.add(jExa, null);
+		jEventPanel.add(new JLabel("Comment:"), null);
+		jEventPanel.add(jCommentPane, null);
+		jEventPanel.add(jCommentDlg, null);
 
 		return jEventPanel;
 	}
@@ -275,8 +289,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 				rs.setEvent((Event)DatabaseHelper.loadEntity(Event.class, JResultsPanel.getIdEvent()));
 				rs.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, JResultsPanel.getIdSubevent() != null ? JResultsPanel.getIdSubevent() : 0));
 				rs.setYear((Year)DatabaseHelper.loadEntity(Year.class, SwingUtils.getValue(jYear)));
-				rs.setCity((City)DatabaseHelper.loadEntity(City.class, SwingUtils.getValue(jCity)));
-				rs.setComplex((Complex)DatabaseHelper.loadEntity(Complex.class, SwingUtils.getValue(jComplex)));
+				rs.setCity1((City)DatabaseHelper.loadEntity(City.class, SwingUtils.getValue(jCity1)));
+				rs.setComplex1((Complex)DatabaseHelper.loadEntity(Complex.class, SwingUtils.getValue(jComplex1)));
+				rs.setCity2((City)DatabaseHelper.loadEntity(City.class, SwingUtils.getValue(jCity2)));
+				rs.setComplex2((Complex)DatabaseHelper.loadEntity(Complex.class, SwingUtils.getValue(jComplex2)));
 				rs.setDate1(StringUtils.notEmpty(jDate1.getText()) ? jDate1.getText() : null);
 				rs.setDate2(StringUtils.notEmpty(jDate2.getText()) ? jDate2.getText() : null);
 				rs.setComment(StringUtils.notEmpty(jComment.getText()) ? jComment.getText() : null);
@@ -321,17 +337,21 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		Vector<Object> v = new Vector<Object>();
 		v.add(rs.getId());
 		v.add(SwingUtils.getText(jYear));
-		v.add(StringUtils.notEmpty(SwingUtils.getText(jComplex)) ? SwingUtils.getText(jComplex) : SwingUtils.getText(jCity));
-		v.add((StringUtils.notEmpty(jDate1.getText()) ? jDate1.getText() + "-" : "") + (StringUtils.notEmpty(jDate2.getText()) ? jDate2.getText() : ""));
 		for (int i = 0 ; i < jRanks.length ; i++)
 			v.add(SwingUtils.getText(jRanks[i]) + (StringUtils.notEmpty(jRes[i].getText()) ? " - " + jRes[i].getText() : ""));
+		v.add(StringUtils.notEmpty(jDate1.getText()) ? jDate1.getText() : "");
+		v.add(StringUtils.notEmpty(jDate2.getText()) ? jDate2.getText() : "");
+		v.add(StringUtils.notEmpty(SwingUtils.getText(jComplex1)) ? SwingUtils.getText(jComplex1) : SwingUtils.getText(jCity1));
+		v.add(StringUtils.notEmpty(SwingUtils.getText(jComplex2)) ? SwingUtils.getText(jComplex2) : SwingUtils.getText(jCity2));
 		return v;
 	}
 	
 	public void clear() {
 		jYear.getPicklist().setSelectedIndex(-1);
-		jComplex.getPicklist().setSelectedIndex(-1);
-		jCity.getPicklist().setSelectedIndex(-1);
+		jComplex1.getPicklist().setSelectedIndex(-1);
+		jCity1.getPicklist().setSelectedIndex(-1);
+		jComplex2.getPicklist().setSelectedIndex(-1);
+		jCity2.getPicklist().setSelectedIndex(-1);
 		jDate1.setText("");
 		jDate2.setText("");
 		jComment.setText("");
@@ -362,12 +382,20 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		return jYear;
 	}
 
-	public JEntityPicklist getCity() {
-		return jCity;
+	public JEntityPicklist getCity1() {
+		return jCity1;
 	}
 
-	public JEntityPicklist getComplex() {
-		return jComplex;
+	public JEntityPicklist getComplex1() {
+		return jComplex1;
+	}
+
+	public JEntityPicklist getCity2() {
+		return jCity2;
+	}
+
+	public JEntityPicklist getComplex2() {
+		return jComplex2;
 	}
 	
 	public JEntityPicklist[] getRanks() {

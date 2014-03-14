@@ -183,11 +183,13 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(((JRetiredNumberPanel)jEntityPanels.get(RetiredNumber.alias)).getYear(), hPicklists.get(Year.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(Complex.alias)) {
-			SwingUtils.fillPicklist(jResultDialog.getComplex(), hPicklists.get(Complex.alias), null);
+			SwingUtils.fillPicklist(jResultDialog.getComplex1(), hPicklists.get(Complex.alias), null);
+			SwingUtils.fillPicklist(jResultDialog.getComplex2(), hPicklists.get(Complex.alias), null);
 			SwingUtils.fillPicklist(((JTeamStadiumPanel)jEntityPanels.get(TeamStadium.alias)).getComplex(), hPicklists.get(Complex.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(City.alias)) {
-			SwingUtils.fillPicklist(jResultDialog.getCity(), hPicklists.get(City.alias), null);
+			SwingUtils.fillPicklist(jResultDialog.getCity1(), hPicklists.get(City.alias), null);
+			SwingUtils.fillPicklist(jResultDialog.getCity2(), hPicklists.get(City.alias), null);
 			SwingUtils.fillPicklist(((JComplexPanel)jEntityPanels.get(Complex.alias)).getCity(), hPicklists.get(City.alias), null);
 			SwingUtils.fillPicklist(((JOlympicsPanel)jEntityPanels.get(Olympics.alias)).getCity(), hPicklists.get(City.alias), null);
 			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getCity(), hPicklists.get(City.alias), null);

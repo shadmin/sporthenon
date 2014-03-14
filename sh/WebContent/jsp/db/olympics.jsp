@@ -87,10 +87,10 @@ HashMap<String, String> hOlympicsImg = new HashMap<String, String>();
 HashMap<String, String> hSportImg = new HashMap<String, String>();
 Collection<PicklistBean> cPicklist = DatabaseHelper.getEntityPicklist(Olympics.class, "id", null);
 for (PicklistBean plb : cPicklist)
-	hOlympicsImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)3, plb.getValue(), 'S', null, false));
+	hOlympicsImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)3, plb.getValue(), 'S', null, null, false));
 cPicklist = DatabaseHelper.getEntityPicklist(Sport.class, "id", null);
 for (PicklistBean plb : cPicklist)
-	hSportImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)0, plb.getValue(), 'L', null, false));
+	hSportImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)0, plb.getValue(), 'L', null, null, false));
 %>
 <script type="text/javascript">
 var hOlympicsImg = new Array();
