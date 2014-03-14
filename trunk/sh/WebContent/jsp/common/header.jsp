@@ -14,7 +14,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-2.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-	<title>SPORTHENON&nbsp;-&nbsp;Temple of Sports Results</title>
+	<title><%=(session.getAttribute("title") != null ? session.getAttribute("title") : "SPORTHENON&nbsp;-&nbsp;Temple of Sports Results")%></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta name="description" content="Search for results in various sports and events."/>
 	<meta name="keywords" content="sport, results, database, records, olympics"/>

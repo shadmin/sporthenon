@@ -41,12 +41,20 @@ public class Result {
 	private Event subevent;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_city")
-	private City city;
+	@JoinColumn(name = "id_city1")
+	private City city1;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_complex")
-	private Complex complex;
+	@JoinColumn(name = "id_city2")
+	private City city2;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_complex1")
+	private Complex complex1;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_complex2")
+	private Complex complex2;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_year", nullable = false)
@@ -166,20 +174,36 @@ public class Result {
 		this.subevent = subevent;
 	}
 
-	public City getCity() {
-		return city;
+	public City getCity1() {
+		return city1;
 	}
 
-	public void setCity(City city) {
-		this.city = city;
+	public City getCity2() {
+		return city2;
 	}
 
-	public Complex getComplex() {
-		return complex;
+	public Complex getComplex1() {
+		return complex1;
 	}
 
-	public void setComplex(Complex complex) {
-		this.complex = complex;
+	public Complex getComplex2() {
+		return complex2;
+	}
+
+	public void setCity1(City city1) {
+		this.city1 = city1;
+	}
+
+	public void setCity2(City city2) {
+		this.city2 = city2;
+	}
+
+	public void setComplex1(Complex complex1) {
+		this.complex1 = complex1;
+	}
+
+	public void setComplex2(Complex complex2) {
+		this.complex2 = complex2;
 	}
 
 	public Year getYear() {

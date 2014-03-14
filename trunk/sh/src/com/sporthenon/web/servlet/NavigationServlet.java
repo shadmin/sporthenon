@@ -17,17 +17,16 @@ public class NavigationServlet extends AbstractServlet {
 	private static HashMap<String, String> hPages;
 	private static HashMap<String, String> hServlet;
 	private static HashMap<String, String> hMenu;
+	private static HashMap<String, String> hTitle;
 	
 	static {
 		hPages = new HashMap<String, String>();
-		hPages.put("/home", "index.jsp");
+//		hPages.put("/home", "index.jsp");
 		hPages.put("/results", "db/results.jsp");
 		hPages.put("/olympics", "db/olympics.jsp");
 		hPages.put("/usleagues", "db/usleagues.jsp");
 		hPages.put("/search", "db/search.jsp");
 		hPages.put("/project", "project.jsp");
-		hPages.put("/login", "login.jsp");
-		hPages.put("/logout", "login.jsp");
 		hServlet = new HashMap<String, String>();
 		hServlet.put("/results", "/ResultServlet");
 		hServlet.put("/olympics", "/OlympicsServlet");
@@ -35,14 +34,18 @@ public class NavigationServlet extends AbstractServlet {
 		hServlet.put("/search", "/SearchServlet");
 		hServlet.put("/ref", "/InfoRefServlet");
 		hMenu = new HashMap<String, String>();
-		hMenu.put("/home", "home");
+//		hMenu.put("/home", "home");
 		hMenu.put("/results", "results");
 		hMenu.put("/olympics", "olympics");
 		hMenu.put("/usleagues", "usleagues");
 		hMenu.put("/search", "search");
 		hMenu.put("/project", "project");
-		hMenu.put("/login", "login");
-		hMenu.put("/logout", "login");
+		hTitle = new HashMap<String, String>();
+		hTitle.put("/results", "Results | SPORTHENON.com");
+		hTitle.put("/olympics", "Olympics | SPORTHENON.com");
+		hTitle.put("/usleagues", "US Leagues | SPORTHENON.com");
+		hTitle.put("/search", "Search | SPORTHENON.com");
+		hTitle.put("/project", "Project | SPORTHENON.com");
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -57,6 +60,7 @@ public class NavigationServlet extends AbstractServlet {
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			logger.info("Loaded: " + key);
 			session.setAttribute("menu", hMenu.get(key));
+			session.setAttribute("title", hTitle.containsKey(key) ? hTitle.get(key) : null);
 			RequestDispatcher dispatcher = null;
 			if (hParams != null && !hParams.isEmpty()) {
 				Object export = hParams.get("export");

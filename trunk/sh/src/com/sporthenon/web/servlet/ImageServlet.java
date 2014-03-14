@@ -48,8 +48,10 @@ public class ImageServlet extends AbstractServlet {
 					else if (StringUtils.notEmpty(fitem.getFieldName()) && fitem.getFieldName().equalsIgnoreCase(entity + "-id"))
 						id = fitem.getString();
 				}
+				String y1 = String.valueOf(hParams.get("y1"));
+				String y2 = String.valueOf(hParams.get("y2"));
 				String ext = (entity.toUpperCase().matches("CP|EV|OL|SP|TM") ? ".png" : ".gif");
-				String fileName = ImageUtils.getIndex(entity.toUpperCase()) + "-" + id + "-" + hParams.get("size");
+				String fileName = ImageUtils.getIndex(entity.toUpperCase()) + "-" + id + "-" + hParams.get("size") + (StringUtils.notEmpty(y1) ? "_" + y1 + "-" + y2 : "");
 				File f = new File(ConfigUtils.getProperty("img.folder") + fileName + ext);
 				if (f.exists()) {
 					int i = 1;
@@ -78,7 +80,7 @@ public class ImageServlet extends AbstractServlet {
 				String type = String.valueOf(hParams.get("type"));
 				String id = String.valueOf(hParams.get("id"));
 				String size = String.valueOf(hParams.get("size"));
-				String s = HtmlUtils.writeImage(Short.valueOf(type), Integer.valueOf(id), size.charAt(0), null, false);
+				String s = HtmlUtils.writeImage(Short.valueOf(type), Integer.valueOf(id), size.charAt(0), null, null, false);
 				ServletHelper.writeText(response, s.replaceAll(".*src\\=\\'", "").replaceAll("\\'\\/\\>", ""));
 			}
 			else if (hParams.containsKey("data")) {} // OBSOLETE

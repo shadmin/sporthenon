@@ -261,19 +261,22 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			Collection<ResultsBean> list = (Collection<ResultsBean>) DatabaseHelper.call("GetResults", params);
 			Vector<Vector> v = new Vector<Vector>();
 			for (ResultsBean rb : list) {
-				Vector v_ = new Vector();
+				Vector v_ = new Vector();				
 				v_.add(rb.getRsId());
 				v_.add(rb.getYrLabel());
-				v_.add((rb.getCxId() != null ? rb.getCxLabel() + " [" : "") + (rb.getCt1Id() != null ? rb.getCt1Label() + (rb.getSt1Id() != null ? ", " + rb.getSt1Code() : "") + ", " + rb.getCn1Code() : (rb.getCt2Id() != null ? rb.getCt2Label() + (rb.getSt2Id() != null ? ", " + rb.getSt2Code() : "") + ", " + rb.getCn2Code() : "")) + (rb.getCxId() != null ? "]" : ""));
-				v_.add((StringUtils.notEmpty(rb.getRsDate1()) ? rb.getRsDate1() + "-" : "") + (StringUtils.notEmpty(rb.getRsDate2()) ? rb.getRsDate2() : ""));
 				for (int i = 1 ; i <= 10 ; i++)
 					v_.add(getEntityTxt(type, rb, i));
+				v_.add(StringUtils.notEmpty(rb.getRsDate1()) ? rb.getRsDate1() : "");
+				v_.add(StringUtils.notEmpty(rb.getRsDate2()) ? rb.getRsDate2() : "");
+				v_.add((rb.getCx1Id() != null ? rb.getCx1Label() + " [" : "") + (rb.getCt1Id() != null ? rb.getCt1Label() + (rb.getSt1Id() != null ? ", " + rb.getSt1Code() : "") + ", " + rb.getCn1Code() : (rb.getCt2Id() != null ? rb.getCt2Label() + (rb.getSt2Id() != null ? ", " + rb.getSt2Code() : "") + ", " + rb.getCn2Code() : "")) + (rb.getCx1Id() != null ? "]" : ""));
+				v_.add((rb.getCx2Id() != null ? rb.getCx2Label() + " [" : "") + (rb.getCt3Id() != null ? rb.getCt3Label() + (rb.getSt3Id() != null ? ", " + rb.getSt3Code() : "") + ", " + rb.getCn3Code() : (rb.getCt4Id() != null ? rb.getCt4Label() + (rb.getSt4Id() != null ? ", " + rb.getSt4Code() : "") + ", " + rb.getCn4Code() : "")) + (rb.getCx2Id() != null ? "]" : ""));
 				v.add(v_);
 			}
 			Vector<String> cols = new Vector<String>();
-			cols.add("ID");cols.add("Year");cols.add("Place");cols.add("Dates");
+			cols.add("ID");cols.add("Year");
 			cols.add("1st");cols.add("2nd");cols.add("3rd");cols.add("4th");cols.add("5th");
 			cols.add("6th");cols.add("7th");cols.add("8th");cols.add("9th");cols.add("10th");
+			cols.add("Date #1");cols.add("Date #2");cols.add("Place #1");cols.add("Place #2");
 			jResultTable = new JTable(v, cols) {
 				private static final long serialVersionUID = 1L;
 				public boolean isCellEditable(int row, int column) {
@@ -292,7 +295,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			jResultTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			jResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			for (int i = 0 ; i < jResultTable.getColumnCount() ; i++)
-				jResultTable.getColumnModel().getColumn(i).setPreferredWidth(i < 4 ? (i < 2 ? 50 : (i == 3 ? 70 : 100)) : 160);
+				jResultTable.getColumnModel().getColumn(i).setPreferredWidth(i < 2 ? 50 : (i == 12 || i == 13 ? 80 : 200));
 			jScrollPane.setViewportView(jResultTable);
 			jEditButton.setEnabled(false);
 			jCopyButton.setEnabled(false);
@@ -391,10 +394,14 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					resultId = String.valueOf(jResultTable.getValueAt(jResultTable.getSelectedRow(), 0));
 					rs = (Result) DatabaseHelper.loadEntity(Result.class, new Integer(resultId));
 					SwingUtils.selectValue(rd.getYear(), rs.getYear().getId());
-					if (rs.getComplex() != null)
-						SwingUtils.selectValue(rd.getComplex(), rs.getComplex().getId());
-					if (rs.getCity() != null)
-						SwingUtils.selectValue(rd.getCity(), rs.getCity().getId());
+					if (rs.getComplex1() != null)
+						SwingUtils.selectValue(rd.getComplex1(), rs.getComplex1().getId());
+					if (rs.getCity1() != null)
+						SwingUtils.selectValue(rd.getCity1(), rs.getCity1().getId());
+					if (rs.getComplex2() != null)
+						SwingUtils.selectValue(rd.getComplex2(), rs.getComplex2().getId());
+					if (rs.getCity2() != null)
+						SwingUtils.selectValue(rd.getCity2(), rs.getCity2().getId());
 					rd.getDate1().setText(StringUtils.notEmpty(rs.getDate1()) ? rs.getDate1() : null);
 					rd.getDate2().setText(StringUtils.notEmpty(rs.getDate2()) ? rs.getDate2() : null);
 					rd.getComment().setText(StringUtils.notEmpty(rs.getComment()) ? rs.getComment() : null);

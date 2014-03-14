@@ -311,7 +311,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 			jProgressBar.setValue(0);
 			jScrollPane.setViewportView(null);
 			final HashMap<String, String> hTitle = new HashMap<String, String>();
-			vHeader = new Vector(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rk5", "rk6", "rk7", "rk8", "rk9", "dt1", "dt2", "pl", "exa", "cmt"}));
+			vHeader = new Vector(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rk5", "rk6", "rk7", "rk8", "rk9", "dt1", "dt2", "pl1", "pl2", "exa", "cmt"}));
 			Vector<String> vHeaderLabel = new Vector<String>();
 			hTitle.put("msg", "Message");
 			hTitle.put("sp", "Sport");
@@ -319,23 +319,24 @@ public class JImportDialog extends JDialog implements ActionListener {
 			hTitle.put("ev", "Event");
 			hTitle.put("se", "Subevent");
 			hTitle.put("yr", "Year");
-			hTitle.put("rk1", "Rank 1");
-			hTitle.put("rk2", "Rank 2");
-			hTitle.put("rk3", "Rank 3");
-			hTitle.put("rk4", "Rank 4");
-			hTitle.put("rk5", "Rank 5");
-			hTitle.put("rk6", "Rank 6");
-			hTitle.put("rk7", "Rank 7");
-			hTitle.put("rk8", "Rank 8");
-			hTitle.put("rk9", "Rank 9");
-			hTitle.put("rs1", "Result 1");
-			hTitle.put("rs2", "Result 2");
-			hTitle.put("rs3", "Result 3");
-			hTitle.put("rs4", "Result 4");
-			hTitle.put("rs5", "Result 5");
-			hTitle.put("dt1", "Date 1");
-			hTitle.put("dt2", "Date 2");
-			hTitle.put("pl", "Place");
+			hTitle.put("rk1", "Rank #1");
+			hTitle.put("rk2", "Rank #2");
+			hTitle.put("rk3", "Rank #3");
+			hTitle.put("rk4", "Rank #4");
+			hTitle.put("rk5", "Rank #5");
+			hTitle.put("rk6", "Rank #6");
+			hTitle.put("rk7", "Rank #7");
+			hTitle.put("rk8", "Rank #8");
+			hTitle.put("rk9", "Rank #9");
+			hTitle.put("rs1", "Result #1");
+			hTitle.put("rs2", "Result #2");
+			hTitle.put("rs3", "Result #3");
+			hTitle.put("rs4", "Result #4");
+			hTitle.put("rs5", "Result #5");
+			hTitle.put("dt1", "Date #1");
+			hTitle.put("dt2", "Date #2");
+			hTitle.put("pl1", "Place #1");
+			hTitle.put("pl2", "Place #2");
 			hTitle.put("exa", "Tie");
 			hTitle.put("cmt", "Comment");
 			for (String s : vHeader)
@@ -388,7 +389,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 			jProcessTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			for (int j = 0 ; j < jProcessTable.getColumnCount() ; j++) {
 				String h = vHeader.get(j);
-				jProcessTable.getColumnModel().getColumn(j).setPreferredWidth(h.matches("rk\\d|pl") ? 200 : (h.matches("(rs|dt)\\d") ? 80 : 150));
+				jProcessTable.getColumnModel().getColumn(j).setPreferredWidth(h.matches("rk\\d|pl\\d") ? 200 : (h.matches("(rs|dt)\\d") ? 80 : 150));
 			}
 			jProcessTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			jScrollPane.setViewportView(jProcessTable);
@@ -404,7 +405,8 @@ public class JImportDialog extends JDialog implements ActionListener {
 		List<Integer> lId = null;
 		HashMap<String, Integer> hId = new HashMap();
 		Integer n = null;
-		boolean isComplex = false;
+		boolean isComplex1 = false;
+		boolean isComplex2 = false;
 		for (int i = 0 ; i < vLine.size() ; i++) {
 			String h = vHeader.get(i).replaceAll(scPattern, "").toLowerCase();
 			String s = vLine.get(i);
@@ -423,7 +425,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 				}
 				else if (h.equalsIgnoreCase(Year.alias))
 					hql = "select id from Year where lower(label) like '" + s_ + "'";
-				else if (h.equalsIgnoreCase("pl")) {
+				else if (h.matches("pl\\d")) {
 					String[] t = s.toLowerCase().split("\\,\\s");
 					String cx = null;
 					String ct = null;
@@ -438,12 +440,15 @@ public class JImportDialog extends JDialog implements ActionListener {
 					else
 						ct = t[0].replaceAll(scPattern, "_");
 					if (cx != null) {
-						h = "cx";
+						h = "cx" + h.replaceAll("pl", "");
 						hql = "select id from Complex where lower(city.country.code) like '" + cn + "' and lower(city.label) like '" + ct.replaceAll("'", "''") + "' and lower(label) like '" + cx.replaceAll("'", "''") + "'";
-						isComplex = true;
+						if (h.equals("cx1"))
+							isComplex1 = true;
+						else
+							isComplex2 = true;
 					}
 					else {
-						h = "ct";
+						h = "ct" + h.replaceAll("pl", "");
 						hql = "select id from City where lower(country.code) like '" + cn + "' and lower(label) like '" + ct.replaceAll("'", "''") + "'";
 					}
 				}
@@ -529,8 +534,10 @@ public class JImportDialog extends JDialog implements ActionListener {
 			Integer idEv = hId.get("ev");
 			Integer idSe = hId.get("se");
 			Integer idYr = hId.get("yr");
-			Integer idCx = hId.get("cx");
-			Integer idCt = hId.get("ct");
+			Integer idCx1 = hId.get("cx1");
+			Integer idCt1 = hId.get("ct1");
+			Integer idCx2 = hId.get("cx2");
+			Integer idCt2 = hId.get("ct2");
 			Integer idRk1 = hId.get("rk1");Integer idRk2 = hId.get("rk2");Integer idRk3 = hId.get("rk3");Integer idRk4 = hId.get("rk4");Integer idRk5 = hId.get("rk5");
 			String rs1 = null;String rs2 = null;String rs3 = null;String rs4 = null;String rs5 = null;
 			String dt1 = null;String dt2 = null;
@@ -562,11 +569,17 @@ public class JImportDialog extends JDialog implements ActionListener {
 							updateEntity(row, n, idRk4, s);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk5"))
 							updateEntity(row, n, idRk5, s);
-						else if (idCx == null && idCt == null && h.equalsIgnoreCase("pl")) {
-							if (isComplex)
-								idCx = insertPlace(row, s);
+						else if (idCx1 == null && idCt1 == null && h.matches("pl1")) {
+							if (isComplex1)
+								idCx1 = insertPlace(row, s);
 							else
-								idCt = insertPlace(row, s);
+								idCt1 = insertPlace(row, s);
+						}
+						else if (idCx2 == null && idCt2 == null && h.matches("pl2")) {
+							if (isComplex2)
+								idCx2 = insertPlace(row, s);
+							else
+								idCt2 = insertPlace(row, s);
 						}
 						else if (h.equalsIgnoreCase("rs1"))
 							rs1 = s;
@@ -602,8 +615,10 @@ public class JImportDialog extends JDialog implements ActionListener {
 				rs.setEvent((Event)DatabaseHelper.loadEntity(Event.class, idEv != null ? idEv : 0));
 				rs.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, idSe != null ? idSe : 0));
 				rs.setYear((Year)DatabaseHelper.loadEntity(Year.class, idYr));
-				rs.setComplex((Complex)DatabaseHelper.loadEntity(Complex.class, idCx));
-				rs.setCity((City)DatabaseHelper.loadEntity(City.class, idCt));
+				rs.setComplex1((Complex)DatabaseHelper.loadEntity(Complex.class, idCx1));
+				rs.setComplex2((Complex)DatabaseHelper.loadEntity(Complex.class, idCx2));
+				rs.setCity1((City)DatabaseHelper.loadEntity(City.class, idCt1));
+				rs.setCity2((City)DatabaseHelper.loadEntity(City.class, idCt2));
 				rs.setDate1(StringUtils.notEmpty(dt1) ? dt1 : null);
 				rs.setDate2(StringUtils.notEmpty(dt2) ? dt2 : null);
 				rs.setExa(StringUtils.notEmpty(exa) ? exa : null);
