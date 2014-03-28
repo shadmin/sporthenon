@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="css/sh.css?${version}" />
 	<link rel="stylesheet" type="text/css" href="css/render.css?${version}" />
-	<link rel="icon" type="image/x-icon" href="img/icon16.ico?v=10" />
+	<link rel="shortcut icon" type="image/x-icon" href="img/iconfav.ico?v=6"/>
 	<script type="text/javascript" src="js/prototype.js?${version}"></script>
 	<script type="text/javascript" src="js/includes.js?${version}"></script>
 	<script type="text/javascript" src="js/sh.js?${version}"></script>
@@ -15,7 +15,7 @@
 <div class="tc">${html}</div>
 <jsp:include page="/jsp/common/footer.jsp" />
 <script type="text/javascript">
-var title = $$('.shorttitle')[0].innerHTML;
+var title = $$('.shorttitle')[0].innerHTML + ' | SPORTHENON';
 if (title) {
 	document.title = replaceAll(title, '&nbsp;', ' ');
 }

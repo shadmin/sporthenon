@@ -40,6 +40,18 @@ public class ImageUtils {
 		return "img/render/";
 	}
 	
+	public static String getGoldMedImg() {
+		return "<img title='Gold' src='" + getRenderUrl() + "gold-mini.png?2'/>";
+	}
+	
+	public static String getSilverMedImg() {
+		return "<img title='Silver' src='" + getRenderUrl() + "silver-mini.png?2'/>";
+	}
+	
+	public static String getBronzeMedImg() {
+		return "<img title='Bronze' src='" + getRenderUrl() + "bronze-mini.png?2'/>";
+	}
+	
 	public static String getGoldHeader() {
 		return "<table><tr><td><img src='" + getRenderUrl() + "gold.png'/></td><td class='bold'>Gold</td></tr></table>";
 	}

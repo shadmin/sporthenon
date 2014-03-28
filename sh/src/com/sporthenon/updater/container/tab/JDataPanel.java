@@ -81,7 +81,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 	private JQueryStatus jQueryStatus = null;
 	
 	public JDataPanel(JMainFrame parent) {
-		this.jQueryStatus = parent.getQueryStatus();
 		initialize();
 	}
 	
@@ -155,11 +154,15 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		jLastButton.setActionCommand("last");
 		jLastButton.setMnemonic(KeyEvent.VK_PAGE_DOWN);
 		leftPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 1));
+		JCustomButton jUrlUpdateButton = new JCustomButton("URL Update", "updater/url.png", null);
+		jUrlUpdateButton.addActionListener(this);
+		jUrlUpdateButton.setActionCommand("urlupdate");
 		leftPanel.add(jFirstButton, null);
 		leftPanel.add(jPreviousButton, null);
 		leftPanel.add(jFindButton, null);
 		leftPanel.add(jNextButton, null);
 		leftPanel.add(jLastButton, null);
+		leftPanel.add(jUrlUpdateButton, null);
 
 		JPanel rightPanel = new JPanel();
 		JCustomButton jAddButton = new JCustomButton(null, "updater/add.png", "New");
@@ -244,6 +247,9 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			catch (Exception e_) {
 				Logger.getLogger("sh").error(e_.getMessage(), e_);
 			}
+		}
+		else if (e.getActionCommand().equals("urlupdate")) {
+			JMainFrame.getUrlUpdateDialog().open();
 		}
 		else if (e.getActionCommand().equals("new")) {
 			panel.clear();
@@ -340,6 +346,8 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLink(pr.getLink() != null ? String.valueOf(pr.getLink()) : null);
 			p.setLastName(pr.getLastName());
 			p.setFirstName(StringUtils.notEmpty(pr.getFirstName()) ? pr.getFirstName() : "");
+			p.setUrlWiki(pr.getUrlWiki());
+			p.setUrlOlyref(pr.getUrlOlyref());
 			p.setLinkLabel("Link:");
 			if (pr.getLink() != null && pr.getLink() > 0) {
 				try {
@@ -358,6 +366,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setWebsite(cp.getWebsite());
 			p.setComment(cp.getComment());
 			p.setIndex(cp.getIndex() != null ? String.valueOf(cp.getIndex()) : null);
+			p.setUrlWiki(cp.getUrlWiki());
 			p.setInactive(cp.getInactive());
 		}
 		else if (o instanceof City) {
@@ -366,18 +375,22 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabel(ct.getLabel());
 			p.setState(ct.getState() != null ? ct.getState().getId() : null);
 			p.setCountry(ct.getCountry() != null ? ct.getCountry().getId() : null);
+			p.setUrlWiki(ct.getUrlWiki());
 		}
 		else if (o instanceof Complex) {
 			Complex cx = (Complex) o;
 			JComplexPanel p = (JComplexPanel) panel;
 			p.setLabel(cx.getLabel());
 			p.setCity(cx.getCity() != null ? cx.getCity().getId() : null);
+			p.setUrlWiki(cx.getUrlWiki());
 		}
 		else if (o instanceof Country) {
 			Country cn = (Country) o;
 			JCountryPanel p = (JCountryPanel) panel;
 			p.setLabel(cn.getLabel());
 			p.setCode(cn.getCode());
+			p.setUrlWiki(cn.getUrlWiki());
+			p.setUrlOlyref(cn.getUrlOlyref());
 		}
 		else if (o instanceof Event) {
 			Event ev = (Event) o;
@@ -387,6 +400,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setWebsite(ev.getWebsite());
 			p.setComment(StringUtils.notEmpty(ev.getComment()) ? ev.getComment() : "");
 			p.setIndex(ev.getIndex() != null ? String.valueOf(ev.getIndex()) : null);
+			p.setUrlWiki(ev.getUrlWiki());
 			p.setInactive(ev.getInactive());
 		}
 		else if (o instanceof Olympics) {
@@ -401,6 +415,8 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setEvents(String.valueOf(ol.getCountEvent()));
 			p.setCountries(String.valueOf(ol.getCountCountry()));
 			p.setPersons(String.valueOf(ol.getCountPerson()));
+			p.setUrlWiki(ol.getUrlWiki());
+			p.setUrlOlyref(ol.getUrlOlyref());
 		}
 		else if (o instanceof Sport) {
 			Sport sp = (Sport) o;
@@ -408,6 +424,9 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabel(sp.getLabel());
 			p.setWebsite(sp.getWebsite());
 			p.setType(String.valueOf(sp.getType()));
+			p.setUrlWiki(sp.getUrlWiki());
+			p.setUrlOlyref(sp.getUrlOlyref());
+			p.setWikiPattern(sp.getWikiPattern());
 		}
 		else if (o instanceof State) {
 			State st = (State) o;
@@ -415,6 +434,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabel(st.getLabel());
 			p.setCode(st.getCode());
 			p.setCapital(st.getCapital());
+			p.setUrlWiki(st.getUrlWiki());
 		}
 		else if (o instanceof Team) {
 			Team tm = (Team) o;
@@ -428,6 +448,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setYear2(tm.getYear2());
 			p.setComment(StringUtils.notEmpty(tm.getComment()) ? tm.getComment() : "");
 			p.setLink(tm.getLink() != null ? String.valueOf(tm.getLink()) : null);
+			p.setUrlWiki(tm.getUrlWiki());
 			p.setInactive(tm.getInactive());
 			p.setLinkLabel("Link:");
 			if (tm.getLink() != null && tm.getLink() > 0) {
@@ -538,7 +559,8 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setOtLoss(wl.getCountOtloss() != null ? String.valueOf(wl.getCountOtloss()) : "");
 			p.setAverage(wl.getAverage() != null ? wl.getAverage() : "");
 		}
-		jQueryStatus.clear();
+		if (jQueryStatus != null)
+			jQueryStatus.clear();
 	}
 
 	public void valueChanged(ListSelectionEvent e) {

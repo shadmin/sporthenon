@@ -53,6 +53,12 @@ public class Olympics {
 	@Column(name = "type", nullable = false)
 	private Integer type;
 	
+	@Column(name = "url_wiki")
+	private String urlWiki;
+	
+	@Column(name = "url_olyref")
+	private String urlOlyref;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -142,6 +148,22 @@ public class Olympics {
 
 	public void setType(Integer type) {
 		this.type = type;
+	}
+
+	public String getUrlWiki() {
+		return urlWiki;
+	}
+
+	public String getUrlOlyref() {
+		return urlOlyref;
+	}
+
+	public void setUrlWiki(String urlWiki) {
+		this.urlWiki = urlWiki;
+	}
+
+	public void setUrlOlyref(String urlOlyref) {
+		this.urlOlyref = urlOlyref;
 	}
 
 	@Override

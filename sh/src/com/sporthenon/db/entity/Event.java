@@ -42,6 +42,9 @@ public class Event {
 	@Column(name = "inactive")
 	private Boolean inactive;
 	
+	@Column(name = "url_wiki")
+	private String urlWiki;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_type", nullable = false)
 	private Type type;
@@ -120,6 +123,14 @@ public class Event {
 
 	public void setInactive(Boolean inactive) {
 		this.inactive = inactive;
+	}
+
+	public String getUrlWiki() {
+		return urlWiki;
+	}
+
+	public void setUrlWiki(String urlWiki) {
+		this.urlWiki = urlWiki;
 	}
 
 	@Override

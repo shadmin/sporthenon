@@ -24,6 +24,7 @@ public class JTopPanel extends JPanel implements ActionListener {
 	private JCustomToggleButton jResultsButton = null;
 	private JCustomToggleButton jDataButton = null;
 	private JCustomToggleButton jPicturesButton = null;
+	private JCustomToggleButton jNewsButton = null;
 	private JCustomButton jImportButton = null;
 	private JCustomButton jQueryButton = null;
 	private JCustomButton jOptionsButton = null;
@@ -58,6 +59,9 @@ public class JTopPanel extends JPanel implements ActionListener {
 		jPicturesButton = new JCustomToggleButton("Pictures", "updater/image.png", "pictures");
 		jPicturesButton.setActionCommand("pictures");
 		setButtonLayout(jPicturesButton);
+		jNewsButton = new JCustomToggleButton("News", "updater/news.png", "news");
+		jNewsButton.setActionCommand("news");
+		setButtonLayout(jNewsButton);
 		jImportButton = new JCustomButton("Import", "updater/import.png", null);
 		jImportButton.setActionCommand("import");
 		jImportButton.setEnabled(false);
@@ -80,6 +84,7 @@ public class JTopPanel extends JPanel implements ActionListener {
 		this.add(jResultsButton, null);
 		this.add(jDataButton, null);
 		this.add(jPicturesButton, null);
+		this.add(jNewsButton, null);
 		this.add(jImportButton, null);
 		this.add(jQueryButton, null);
 		this.add(jOptionsButton, null);
@@ -101,6 +106,7 @@ public class JTopPanel extends JPanel implements ActionListener {
 							jImportButton.setEnabled(true);
 							jQueryButton.setEnabled(true);
 							jPicturesButton.setEnabled(true);
+							jNewsButton.setEnabled(true);
 							jResultsButton.setSelected(true);
 							parent.changeTabPanel("results");
 						}
@@ -146,6 +152,7 @@ public class JTopPanel extends JPanel implements ActionListener {
 					jResultsButton.setSelected(e.getActionCommand().equalsIgnoreCase("results"));
 					jDataButton.setSelected(e.getActionCommand().equalsIgnoreCase("data"));
 					jPicturesButton.setSelected(e.getActionCommand().equalsIgnoreCase("pictures"));
+					jNewsButton.setSelected(e.getActionCommand().equalsIgnoreCase("news"));
 				}
 			});
 		}
@@ -161,6 +168,10 @@ public class JTopPanel extends JPanel implements ActionListener {
 
 	public JCustomToggleButton getPicturesButton() {
 		return jPicturesButton;
+	}
+	
+	public JCustomToggleButton getNewsButton() {
+		return jNewsButton;
 	}
 	
 	public JCustomButton getImportButton() {

@@ -10,6 +10,13 @@ PERSONNE MULTI NOMS (EX. RYOKO TANI / TAMURA)
 TITRS PAGES (Results | Sporthenon.com)
 PLACE1 - PLACE2
 IMAGES / YEAR (COUNTRY / TEAM)
+country/athlete fiche affichage total medailles olympic + world + grand chelem tennis etc...
+UPDATER import coche "load picklists"
+LIENS WIKI / SPORTS-REFERENCE sur TOUTES entités...
+BUG OLYMPICS EVENTS DOUBLONS (patinage vitesse / All / 10000 M) + AJOUT COMPLEXE
+balises META (check l'equipe.Fr) + ajouter | SPORTHENON sur link ref nouvelle fenetre
+BUG TIE 1-2 (ex. downhill women 2014 JO)
+title sur code country XXX
 
 +-------+
 | 0.6.0 |

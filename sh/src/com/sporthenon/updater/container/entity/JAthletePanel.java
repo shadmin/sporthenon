@@ -21,9 +21,11 @@ public class JAthletePanel extends JAbstractEntityPanel {
 	public JEntityPicklist jCountry;
 	public JLabel lLink;
 	public JTextField jLink;
+	public JTextField jUrlWiki;
+	public JTextField jUrlOlyref;
 
 	public JAthletePanel() {
-		super(8);
+		super(10);
 		initialize();
 	}
 
@@ -72,6 +74,22 @@ public class JAthletePanel extends JAbstractEntityPanel {
 		jLink = new JTextField();
 		jLink.setPreferredSize(TEXT_SIZE);
 		gridPanel.add(jLink);
+		
+		//URL (WIKI)
+		JLabel lUrlWiki = new JLabel(" URL (Wikipedia):");
+		lUrlWiki.setHorizontalAlignment(LABEL_ALIGNMENT);
+		gridPanel.add(lUrlWiki);
+		jUrlWiki = new JTextField();
+		jUrlWiki.setPreferredSize(TEXT_SIZE);
+		gridPanel.add(jUrlWiki);
+		
+		//URL (OLYMPICS-REFERENCE)
+		JLabel lUrlOlyref = new JLabel(" URL (Olympics-reference):");
+		lUrlOlyref.setHorizontalAlignment(LABEL_ALIGNMENT);
+		gridPanel.add(lUrlOlyref);
+		jUrlOlyref = new JTextField();
+		jUrlOlyref.setPreferredSize(TEXT_SIZE);
+		gridPanel.add(jUrlOlyref);
 	}
 
 	public JCustomTextField getLastName() {
@@ -97,6 +115,14 @@ public class JAthletePanel extends JAbstractEntityPanel {
 	public JTextField getLink() {
 		return jLink;
 	}
+	
+	public JTextField getUrlWiki() {
+		return jUrlWiki;
+	}
+	
+	public JTextField getUrlOlyref() {
+		return jUrlOlyref;
+	}
 
 	public void setLastName(String s) {
 		jLastName.setText(s);
@@ -121,6 +147,14 @@ public class JAthletePanel extends JAbstractEntityPanel {
 	public void setLink(String s) {
 		jLink.setText(s);
 	}
+
+	public void setUrlWiki(String s) {
+		jUrlWiki.setText(s);
+	}
+	
+	public void setUrlOlyref(String s) {
+		jUrlOlyref.setText(s);
+	}
 	
 	public void setLinkLabel(String s) {
 		lLink.setText(s);
@@ -134,6 +168,8 @@ public class JAthletePanel extends JAbstractEntityPanel {
 		jSport.clear();
 		jCountry.clear();
 		jTeam.clear();
+		jUrlWiki.setText("");
+		jUrlOlyref.setText("");
 	}
 
 	public void focus() {

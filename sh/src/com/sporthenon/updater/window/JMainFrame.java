@@ -67,6 +67,7 @@ import com.sporthenon.updater.container.entity.JTeamStadiumPanel;
 import com.sporthenon.updater.container.entity.JWinLossPanel;
 import com.sporthenon.updater.container.entity.JYearPanel;
 import com.sporthenon.updater.container.tab.JDataPanel;
+import com.sporthenon.updater.container.tab.JNewsPanel;
 import com.sporthenon.updater.container.tab.JPicturesPanel;
 import com.sporthenon.updater.container.tab.JResultsPanel;
 import com.sporthenon.utils.ConfigUtils;
@@ -84,6 +85,7 @@ public class JMainFrame extends JFrame {
 	private JResultsPanel jResultsPanel = null;
 	private JDataPanel jDataPanel = null;
 	private JPicturesPanel jPicturesPanel = null;
+	private JNewsPanel jNewsPanel = null;
 	private JLabel jConnectInfoLabel = null;
 	private static JPasswordDialog jPasswordDialog = null;
 	private static JEditResultDialog jResultDialog = null;
@@ -92,6 +94,7 @@ public class JMainFrame extends JFrame {
 	private static JFindEntityDialog jFindDialog = null;
 	private static JMergeEntityDialog jMergeDialog = null;
 	private static JAddMultipleDialog jAddMultipleDialog = null;
+	private static JUrlUpdateDialog jUrlUpdateDialog = null;
 	private static JCharsDialog jCharsDialog = null;
 	private static JImportDialog jImportDialog = null;
 	private static JQueryDialog jQueryDialog = null;
@@ -155,8 +158,9 @@ public class JMainFrame extends JFrame {
 		}
 	}
 
-	private void initAll() throws Exception {
-		initPicklists();
+	private void initAll(boolean quickload) throws Exception {
+		if (!quickload)
+			initPicklists();
 		jResultsPanel.setTree();
 		jResultDialog  = new JEditResultDialog(this);
 		jFolderDialog  = new JEditFolderDialog(this);
@@ -164,8 +168,10 @@ public class JMainFrame extends JFrame {
 		jFindDialog  = new JFindEntityDialog(this);
 		jMergeDialog  = new JMergeEntityDialog(this);
 		jAddMultipleDialog = new JAddMultipleDialog(this);
+		jUrlUpdateDialog = new JUrlUpdateDialog(this);
 		jCharsDialog = new JCharsDialog(this);
-		fillPicklists(null);
+		if (!quickload)
+			fillPicklists(null);
 	}
 
 	public static void fillPicklists(String alias) {
@@ -292,6 +298,8 @@ public class JMainFrame extends JFrame {
 			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
 			en.setLastName(p.getLastName().getText());
 			en.setFirstName(p.getFirstName().getText());
+			en.setUrlWiki(p.getUrlWiki().getText());
+			en.setUrlOlyref(p.getUrlOlyref().getText());
 			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLastName() + ", " + en.getFirstName() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : "") + (en.getTeam() != null ? " [" + en.getTeam().getLabel() + "]" : ""));
 			if (en.getLink() != null && en.getLink() > 0) {
 				try {
@@ -311,6 +319,7 @@ public class JMainFrame extends JFrame {
 			en.setWebsite(p.getWebsite().getText());
 			en.setComment(p.getComment().getText());
 			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Integer.parseInt(p.getIndex().getText()) : Integer.MAX_VALUE);
+			en.setUrlWiki(p.getUrlWiki().getText());
 			en.setInactive(p.getInactive().isSelected());
 			plb.setText(en.getLabel());
 		}
@@ -320,6 +329,7 @@ public class JMainFrame extends JFrame {
 			en.setLabel(p.getLabel().getText());
 			en.setState((State)DatabaseHelper.loadEntity(State.class, SwingUtils.getValue(p.getState())));
 			en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
+			en.setUrlWiki(p.getUrlWiki().getText());
 			plb.setText(en.getLabel() + ", " + en.getCountry().getCode());
 		}
 		else if (alias.equalsIgnoreCase(Complex.alias)) {
@@ -327,6 +337,7 @@ public class JMainFrame extends JFrame {
 			Complex en = (Complex) o;
 			en.setLabel(p.getLabel().getText());
 			en.setCity((City)DatabaseHelper.loadEntity(City.class, SwingUtils.getValue(p.getCity())));
+			en.setUrlWiki(p.getUrlWiki().getText());
 			plb.setText(en.getLabel() + " [" + en.getCity().getLabel() + ", " + en.getCity().getCountry().getCode() + "]");
 		}
 		else if (alias.equalsIgnoreCase(Country.alias)) {
@@ -334,6 +345,8 @@ public class JMainFrame extends JFrame {
 			Country en = (Country) o;
 			en.setLabel(p.getLabel().getText());
 			en.setCode(p.getCode().getText());
+			en.setUrlWiki(p.getUrlWiki().getText());
+			en.setUrlOlyref(p.getUrlOlyref().getText());
 			plb.setText(en.getLabel() + " [" + en.getCode() + "]");
 		}
 		else if (alias.equalsIgnoreCase(Event.alias)) {
@@ -345,6 +358,7 @@ public class JMainFrame extends JFrame {
 			en.setComment(p.getComment().getText());
 			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Integer.parseInt(p.getIndex().getText()) : Integer.MAX_VALUE);
 			en.setInactive(p.getInactive().isSelected());
+			en.setUrlWiki(p.getUrlWiki().getText());
 			plb.setText(en.getLabel());
 		}
 		else if (alias.equalsIgnoreCase(Olympics.alias)) {
@@ -359,6 +373,8 @@ public class JMainFrame extends JFrame {
 			en.setCountCountry(new Integer(p.getCountries().getText()));
 			en.setDate1(p.getStart().getText());
 			en.setDate2(p.getEnd().getText());
+			en.setUrlWiki(p.getUrlWiki().getText());
+			en.setUrlOlyref(p.getUrlOlyref().getText());
 			plb.setText(en.getYear().getLabel() + " - " + en.getCity().getLabel());
 		}
 		else if (alias.equalsIgnoreCase(Sport.alias)) {
@@ -367,6 +383,9 @@ public class JMainFrame extends JFrame {
 			en.setLabel(p.getLabel().getText());
 			en.setType(new Integer(p.getType().getText()));
 			en.setWebsite(p.getWebsite().getText());
+			en.setUrlWiki(p.getUrlWiki().getText());
+			en.setUrlOlyref(p.getUrlOlyref().getText());
+			en.setWikiPattern(p.getWikiPattern().getText());
 			plb.setText(en.getLabel());
 		}
 		else if (alias.equalsIgnoreCase(State.alias)) {
@@ -375,6 +394,7 @@ public class JMainFrame extends JFrame {
 			en.setLabel(p.getLabel().getText());
 			en.setCode(p.getCode().getText());
 			en.setCapital(p.getCapital().getText());
+			en.setUrlWiki(p.getUrlWiki().getText());
 			plb.setText(en.getLabel());
 		}
 		else if (alias.equalsIgnoreCase(Team.alias)) {
@@ -389,6 +409,7 @@ public class JMainFrame extends JFrame {
 			en.setYear1(p.getYear1().getText());
 			en.setYear2(p.getYear2().getText());
 			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
+			en.setUrlWiki(p.getUrlWiki().getText());
 			en.setInactive(p.getInactive().isSelected());
 			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLabel() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : ""));
 			if (en.getLink() != null && en.getLink() > 0) {
@@ -519,6 +540,7 @@ public class JMainFrame extends JFrame {
 		jResultsPanel = new JResultsPanel(this);
 		jDataPanel = new JDataPanel(this);
 		jPicturesPanel = new JPicturesPanel(this);
+		jNewsPanel = new JNewsPanel(this);
 		JPanel p = new JPanel();
 		CardLayout cardLayout = new CardLayout();
 		p.setLayout(cardLayout);
@@ -526,6 +548,7 @@ public class JMainFrame extends JFrame {
 		p.add(jResultsPanel, "results");
 		p.add(jDataPanel, "data");
 		p.add(jPicturesPanel, "pictures");
+		p.add(jNewsPanel, "news");
 		return p;
 	}
 	
@@ -553,7 +576,7 @@ public class JMainFrame extends JFrame {
 				String hql = "from Member where login='" + jOptionsDialog.getLogin().getText() + "' and active=true";
 				ArrayList<Member> lst = (ArrayList<Member>) DatabaseHelper.execute(hql);
 				member = lst.get(0);
-				initAll();
+				initAll(jPasswordDialog.getQuickLoading().isSelected());
 				jDataPanel.getList().setSelectedIndex(0);
 				jDataPanel.valueChanged(new ListSelectionEvent(this, 0, 0, true));
 				jPicturesPanel.getList().setSelectedIndex(0);
@@ -566,9 +589,7 @@ public class JMainFrame extends JFrame {
 				jTopPanel.getResultsButton().setSelected(false);
 				jTopPanel.getDataButton().setSelected(false);
 				jTopPanel.getPicturesButton().setSelected(false);
-				jTopPanel.getResultsButton().setEnabled(false);
-				jTopPanel.getDataButton().setEnabled(false);
-				jTopPanel.getPicturesButton().setEnabled(false);
+				jTopPanel.getNewsButton().setSelected(false);
 				jTopPanel.getImportButton().setEnabled(false);
 				jTopPanel.getQueryButton().setEnabled(false);
 				jBottomPanel.getQueryStatus().set((short)-1, null);
@@ -619,6 +640,10 @@ public class JMainFrame extends JFrame {
 
 	public static JAddMultipleDialog getAddMultipleDialog() {
 		return jAddMultipleDialog;
+	}
+	
+	public static JUrlUpdateDialog getUrlUpdateDialog() {
+		return jUrlUpdateDialog;
 	}
 
 	public static JCharsDialog getCharsDialog() {

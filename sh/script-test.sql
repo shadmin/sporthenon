@@ -1,4 +1,4 @@
-ALTER TABLE "RESULT" RENAME COLUMN id_city TO id_city2;
+TABLE "RESULT" RENAME COLUMN id_city TO id_city2;
 ALTER TABLE "RESULT" RENAME COLUMN id_complex TO id_complex2;
 ALTER TABLE "RESULT" ADD COLUMN id_city1 INTEGER;
 ALTER TABLE "RESULT" ADD COLUMN id_complex1 INTEGER;
@@ -1728,5 +1728,291 @@ end;
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
+
+ALTER TABLE "~REF_ITEM" ADD count1 smallint;
+ALTER TABLE "~REF_ITEM" ADD count2 smallint;
+ALTER TABLE "~REF_ITEM" ADD count3 smallint;
+ALTER TABLE "~REF_ITEM" ADD count4 smallint;
+ALTER TABLE "~REF_ITEM" ADD count5 smallint;
+
+
+CREATE OR REPLACE FUNCTION "GET_MEDAL_COUNT"(_entity character varying, _id_sport integer, _id integer)
+  RETURNS SETOF "~REF_ITEM" AS
+$BODY$
+declare
+	_item "~REF_ITEM"%rowtype;
+	_type integer;
+	_sport_txt varchar(3);
+	_index smallint;
+begin
+	_index := 1;
+	_sport_txt := CAST(_id_sport AS varchar);
+	IF (_entity = 'PR') THEN
+		_type := 10;
+	ELSIF (_entity = 'TM') THEN
+		_type := 50;
+	ELSIF (_entity = 'CN') THEN
+		_type := 99;
+	END IF;
+	-- Olympics
+	IF _sport_txt !~ '20' THEN
+		_item.id := _index;
+		_item.label := 'OLYMP';
+		_item.txt1 := '#GOLD#';
+		_item.txt2 := '#SILVER#';
+		_item.txt3 := '#BRONZE#';
+		SELECT COUNT(*) INTO _item.count1 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id WHERE id_championship=1 AND ((id_subevent IS NOT NULL AND T2.number<=_type) OR (id_subevent IS NULL AND T1.number<=_type)) AND (id_rank1=_id OR (id_rank2=_id AND exa ~* '.*1-(2|3|4|5|6).*') OR (id_rank3=_id AND exa ~* '.*1-(3|4|5|6).*'));
+		SELECT COUNT(*) INTO _item.count2 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id WHERE id_championship=1 AND ((id_subevent IS NOT NULL AND T2.number<=_type) OR (id_subevent IS NULL AND T1.number<=_type)) AND (id_rank2=_id OR (id_rank3=_id AND exa ~* '.*2-(3|4|5|6).*') OR (id_rank4=_id AND exa ~* '.*2-(4|5|6).*'));
+		SELECT COUNT(*) INTO _item.count3 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id WHERE id_championship=1 AND ((id_subevent IS NOT NULL AND T2.number<=_type) OR (id_subevent IS NULL AND T1.number<=_type)) AND (id_rank3=_id OR (id_rank4=_id AND exa ~* '.*3-(4|5|6).*') OR (id_rank5=_id AND exa ~* '.*3-(5|6).*'));
+		RETURN NEXT _item;
+		_index := _index + 1;
+	END IF;
+	-- World Championships
+	IF _sport_txt !~ '20|22' THEN
+		_item.id := _index;	
+		_item.label := 'WORLDCP';
+		_item.txt1 := '#GOLD#';
+		_item.txt2 := '#SILVER#';
+		_item.txt3 := '#BRONZE#';
+		SELECT COUNT(*) INTO _item.count1 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id WHERE id_championship=3 AND ((id_subevent IS NOT NULL AND T2.number<=_type) OR (id_subevent IS NULL AND T1.number<=_type)) AND (id_rank1=_id OR (id_rank2=_id AND exa ~* '.*1-(2|3|4|5|6).*') OR (id_rank3=_id AND exa ~* '.*1-(3|4|5|6).*'));
+		SELECT COUNT(*) INTO _item.count2 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id WHERE id_championship=3 AND ((id_subevent IS NOT NULL AND T2.number<=_type) OR (id_subevent IS NULL AND T1.number<=_type)) AND (id_rank2=_id OR (id_rank3=_id AND exa ~* '.*2-(3|4|5|6).*') OR (id_rank4=_id AND exa ~* '.*2-(4|5|6).*'));
+		SELECT COUNT(*) INTO _item.count3 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id WHERE id_championship=3 AND ((id_subevent IS NOT NULL AND T2.number<=_type) OR (id_subevent IS NULL AND T1.number<=_type)) AND (id_rank3=_id OR (id_rank4=_id AND exa ~* '.*3-(4|5|6).*') OR (id_rank5=_id AND exa ~* '.*3-(5|6).*'));
+		RETURN NEXT _item;
+		_index := _index + 1;
+	END IF;
+	-- Grand Slam (Tennis)
+	IF (_id_sport = 22) THEN
+		_item.id := _index;
+		_item.label := 'GSLAM';
+		_item.txt1 := 'Aus';
+		_item.txt2 := 'RG';
+		_item.txt3 := 'Wim';
+		_item.txt4 := 'US';
+		SELECT COUNT(*) INTO _item.count1 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id WHERE id_championship=35 AND SE.label='Australian Open' AND id_rank1=_id;
+		SELECT COUNT(*) INTO _item.count2 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id WHERE id_championship=35 AND SE.label='French Open' AND id_rank1=_id;
+		SELECT COUNT(*) INTO _item.count3 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id WHERE id_championship=35 AND SE.label='British Open' AND id_rank1=_id;
+		SELECT COUNT(*) INTO _item.count4 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id WHERE id_championship=35 AND SE.label='US Open' AND id_rank1=_id;
+		RETURN NEXT _item;
+		_index := _index + 1;
+	END IF;
+	-- Majors (Golf)
+	IF (_id_sport = 20) THEN
+		_item.id := _index;
+		_item.label := 'MAJORS';
+		_item.txt1 := 'Mas';
+		_item.txt2 := 'US';
+		_item.txt3 := 'Brit';
+		_item.txt4 := 'PGA';
+		SELECT COUNT(*) INTO _item.count1 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id WHERE id_championship=69 AND SE.label='Masters' AND id_rank1=_id;
+		SELECT COUNT(*) INTO _item.count2 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id WHERE id_championship=69 AND SE.label='US Open' AND id_rank1=_id;
+		SELECT COUNT(*) INTO _item.count3 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id WHERE id_championship=69 AND SE.label='British Open' AND id_rank1=_id;
+		SELECT COUNT(*) INTO _item.count4 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id WHERE id_championship=69 AND SE.label='PGA Championship' AND id_rank1=_id;
+		RETURN NEXT _item;
+		_index := _index + 1;
+	END IF;
+	RETURN;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION "GET_MEDAL_COUNT"(character varying, integer, integer) OWNER TO postgres;
+
+ALTER TABLE "PERSON"  ADD url_wiki varchar(200);
+ALTER TABLE "PERSON" ADD url_olyref varchar(200);
+ALTER TABLE "CHAMPIONSHIP" ADD url_wiki varchar(200);
+ALTER TABLE "CITY" ADD url_wiki varchar(200);
+ALTER TABLE "COMPLEX" ADD  url_wiki varchar(200);
+ALTER TABLE "COUNTRY" ADD url_wiki varchar(200);
+ALTER TABLE "COUNTRY" ADD url_olyref varchar(200);
+ALTER TABLE "EVENT" ADD url_wiki varchar(200);
+ALTER TABLE "OLYMPICS" ADD url_wiki varchar(200);
+ALTER TABLE "OLYMPICS" ADD url_olyref varchar(200);
+ALTER TABLE "SPORT" ADD url_wiki varchar(200);
+ALTER TABLE "SPORT" ADD url_olyref varchar(200);
+ALTER TABLE "STATE" ADD url_wiki varchar(200);
+ALTER TABLE "TEAM" ADD url_wiki varchar(200);
+
+ALTER TABLE "SPORT" ADD COLUMN wiki_pattern VARCHAR(30);
+
+
+CREATE OR REPLACE FUNCTION "GET_OLYMPIC_MEDALS"(_olympics text, _id_sport integer, _events text, _subevents text)
+  RETURNS refcursor AS
+$BODY$
+declare
+    _c refcursor;
+    _ol_type smallint;
+    _ol_date1 varchar(10);
+    _ol_date2 varchar(10);
+    _id_year integer;
+    _columns text;
+    _joins text;
+    _olympics_condition text;
+    _event_condition text;
+    _subevent_condition text;
+begin
+	INSERT INTO "~REQUEST" VALUES (NEXTVAL('"~SQ_REQUEST"'), 'OL', 'IN-' || _id_sport, current_date);
+
+	-- Build entity columns/joins
+	_columns := '';
+	_joins := '';
+	FOR i IN 1..5 LOOP
+		-- Person
+	        _columns := _columns || ', PR' || i || '.last_name AS pr' || i || '_last_name, PR' || i || '.first_name AS pr' || i || '_first_name';
+	        _columns := _columns || ', PRCN' || i || '.id AS pr' || i || '_cn_id, PRCN' || i || '.code AS pr' || i || '_cn_code, PRCN' || i || '.label AS pr' || i || '_cn_label';
+	        _joins := _joins || ' LEFT JOIN "PERSON" PR' || i || ' ON RS.id_rank' || i || ' = PR' || i || '.id';
+	        _joins := _joins || ' LEFT JOIN "COUNTRY" PRCN' || i || ' ON PR' || i || '.id_country = PRCN' || i || '.id';
+		-- Country
+	        _columns := _columns || ', _CN' || i || '.code AS cn' || i || '_code, _CN' || i || '.label AS cn' || i || '_label';
+	        _joins := _joins || ' LEFT JOIN "COUNTRY" _CN' || i || ' ON RS.id_rank' || i || ' = _CN' || i || '.id';
+	END LOOP;
+
+	-- Set year condition
+	_olympics_condition := '';
+	IF _olympics <> '0' THEN
+		_olympics_condition := ' AND OL.id IN (' || _olympics || ')';
+	ELSE
+		_olympics_condition := ' AND OL.type = (SELECT type FROM "SPORT" WHERE id=' || _id_sport || ')';
+	END IF;
+
+	-- Set event condition
+	_event_condition := '';
+	IF _events <> '0' THEN
+		_event_condition := ' AND RS.id_event IN (' || _events || ')';
+	END IF;
+
+	-- Set subevent condition
+	_subevent_condition := '';
+	IF _subevents <> '0' THEN
+		_subevent_condition := ' AND RS.id_subevent IN (' || _subevents || ')';
+	END IF;
+	
+	-- Open cursor
+	OPEN _c FOR EXECUTE
+	'SELECT
+		RS.id AS rs_id, EV.id AS ev_id, EV.label AS ev_label, SE.id AS se_id, SE.label AS se_label, YR.id as yr_id, YR.label as yr_label, RS.date1 AS rs_date1, RS.date2 AS rs_date2,
+		CX.id AS cx_id, CX.label AS cx_label,CT1.id AS ct1_id, CT1.label AS ct1_label, CT2.id AS ct2_id, CT2.label AS ct2_label, ST1.id AS st1_id, ST1.code AS st1_code, ST1.label AS st1_label, ST2.id AS st2_id, ST2.code AS st2_code,
+		ST2.label AS st2_label, CN1.id AS cn1_id, CN1.code AS cn1_code_, CN1.label AS cn1_label_, CN2.id AS cn2_id, CN2.code AS cn2_code_, CN2.label AS cn2_label_,
+		RS.id_rank1 AS rs_rank1, RS.id_rank2 AS rs_rank2, RS.id_rank3 AS rs_rank3, RS.id_rank4 AS rs_rank4, RS.id_rank5 AS rs_rank5,
+		RS.result1 AS rs_result1, RS.result2 AS rs_result2, RS.result3 AS rs_result3, TP1.number AS tp1_number, TP2.number AS tp2_number, OL.id AS ol_id, OL.type AS ol_type, OL.date1 AS ol_date1, OL.date2 AS ol_date2, CT3.label AS ol_city, RS.comment as rs_comment, RS.exa as rs_exa'
+		|| _columns || '
+	FROM
+		"RESULT" RS
+		LEFT JOIN "EVENT" EV ON RS.id_event = EV.id
+		LEFT JOIN "EVENT" SE ON RS.id_subevent = SE.id
+		LEFT JOIN "COMPLEX" CX ON RS.id_complex2 = CX.id
+		LEFT JOIN "CITY" CT1 ON CX.id_city = CT1.id
+		LEFT JOIN "CITY" CT2 ON RS.id_city2 = CT2.id
+		LEFT JOIN "STATE" ST1 ON CT1.id_state = ST1.id
+		LEFT JOIN "STATE" ST2 ON CT2.id_state = ST2.id
+		LEFT JOIN "COUNTRY" CN1 ON CT1.id_country = CN1.id
+		LEFT JOIN "COUNTRY" CN2 ON CT2.id_country = CN2.id
+		LEFT JOIN "YEAR" YR ON RS.id_year = YR.id
+		LEFT JOIN "TYPE" TP1 ON EV.id_type = TP1.id
+		LEFT JOIN "TYPE" TP2 ON SE.id_type = TP2.id
+		LEFT JOIN "OLYMPICS" OL ON RS.id_year = OL.id_year
+		LEFT JOIN "CITY" CT3 ON OL.id_city = CT3.id'
+		|| _joins || '
+	WHERE 
+		RS.id_championship = 1 AND RS.id_sport = ' || _id_sport
+		|| _olympics_condition || _event_condition || _subevent_condition || '
+	ORDER BY OL.id DESC, EV.id';
+	
+	RETURN  _c;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+ALTER FUNCTION "GET_OLYMPIC_MEDALS"(text, integer, text, text) OWNER TO postgres;
+
+
+CREATE OR REPLACE FUNCTION "GET_OLYMPIC_MEDALS"(_olympics text, _id_sport integer, _events text, _subevents text)
+  RETURNS refcursor AS
+$BODY$
+declare
+    _c refcursor;
+    _ol_type smallint;
+    _ol_date1 varchar(10);
+    _ol_date2 varchar(10);
+    _id_year integer;
+    _columns text;
+    _joins text;
+    _olympics_condition text;
+    _event_condition text;
+    _subevent_condition text;
+begin
+	INSERT INTO "~REQUEST" VALUES (NEXTVAL('"~SQ_REQUEST"'), 'OL', 'IN-' || _id_sport, current_date);
+
+	-- Build entity columns/joins
+	_columns := '';
+	_joins := '';
+	FOR i IN 1..5 LOOP
+		-- Person
+	        _columns := _columns || ', PR' || i || '.last_name AS pr' || i || '_last_name, PR' || i || '.first_name AS pr' || i || '_first_name';
+	        _columns := _columns || ', PRCN' || i || '.id AS pr' || i || '_cn_id, PRCN' || i || '.code AS pr' || i || '_cn_code, PRCN' || i || '.label AS pr' || i || '_cn_label';
+	        _joins := _joins || ' LEFT JOIN "PERSON" PR' || i || ' ON RS.id_rank' || i || ' = PR' || i || '.id';
+	        _joins := _joins || ' LEFT JOIN "COUNTRY" PRCN' || i || ' ON PR' || i || '.id_country = PRCN' || i || '.id';
+		-- Country
+	        _columns := _columns || ', _CN' || i || '.code AS cn' || i || '_code, _CN' || i || '.label AS cn' || i || '_label';
+	        _joins := _joins || ' LEFT JOIN "COUNTRY" _CN' || i || ' ON RS.id_rank' || i || ' = _CN' || i || '.id';
+	END LOOP;
+
+	-- Set year condition
+	_olympics_condition := '';
+	IF _olympics <> '0' THEN
+		_olympics_condition := ' AND OL.id IN (' || _olympics || ')';
+	END IF;
+
+	-- Set event condition
+	_event_condition := '';
+	IF _events <> '0' THEN
+		_event_condition := ' AND RS.id_event IN (' || _events || ')';
+	END IF;
+
+	-- Set subevent condition
+	_subevent_condition := '';
+	IF _subevents <> '0' THEN
+		_subevent_condition := ' AND RS.id_subevent IN (' || _subevents || ')';
+	END IF;
+	
+	-- Open cursor
+	OPEN _c FOR EXECUTE
+	'SELECT 
+		RS.id AS rs_id, EV.id AS ev_id, EV.label AS ev_label, SE.id AS se_id, SE.label AS se_label, YR.id as yr_id, YR.label as yr_label, RS.date1 AS rs_date1, RS.date2 AS rs_date2,
+		CX.id AS cx_id, CX.label AS cx_label,CT1.id AS ct1_id, CT1.label AS ct1_label, CT2.id AS ct2_id, CT2.label AS ct2_label, ST1.id AS st1_id, ST1.code AS st1_code, ST1.label AS st1_label, ST2.id AS st2_id, ST2.code AS st2_code,
+		ST2.label AS st2_label, CN1.id AS cn1_id, CN1.code AS cn1_code_, CN1.label AS cn1_label_, CN2.id AS cn2_id, CN2.code AS cn2_code_, CN2.label AS cn2_label_,
+		RS.id_rank1 AS rs_rank1, RS.id_rank2 AS rs_rank2, RS.id_rank3 AS rs_rank3, RS.id_rank4 AS rs_rank4, RS.id_rank5 AS rs_rank5,
+		RS.result1 AS rs_result1, RS.result2 AS rs_result2, RS.result3 AS rs_result3, TP1.number AS tp1_number, TP2.number AS tp2_number, OL.id AS ol_id, OL.type AS ol_type, OL.date1 AS ol_date1, OL.date2 AS ol_date2, CT3.label AS ol_city, RS.comment as rs_comment, RS.exa as rs_exa'
+		|| _columns || '
+	FROM
+		"RESULT" RS
+		LEFT JOIN "EVENT" EV ON RS.id_event = EV.id
+		LEFT JOIN "EVENT" SE ON RS.id_subevent = SE.id
+		LEFT JOIN "COMPLEX" CX ON RS.id_complex2 = CX.id
+		LEFT JOIN "CITY" CT1 ON CX.id_city = CT1.id
+		LEFT JOIN "CITY" CT2 ON RS.id_city2 = CT2.id
+		LEFT JOIN "STATE" ST1 ON CT1.id_state = ST1.id
+		LEFT JOIN "STATE" ST2 ON CT2.id_state = ST2.id
+		LEFT JOIN "COUNTRY" CN1 ON CT1.id_country = CN1.id
+		LEFT JOIN "COUNTRY" CN2 ON CT2.id_country = CN2.id
+		LEFT JOIN "YEAR" YR ON RS.id_year = YR.id
+		LEFT JOIN "TYPE" TP1 ON EV.id_type = TP1.id
+		LEFT JOIN "TYPE" TP2 ON SE.id_type = TP2.id
+		LEFT JOIN "OLYMPICS" OL ON RS.id_year = OL.id_year
+		LEFT JOIN "CITY" CT3 ON OL.id_city = CT3.id'
+		|| _joins || '
+	WHERE 
+		RS.id_championship = 1 AND RS.id_sport = ' || _id_sport
+		|| _olympics_condition || _event_condition || _subevent_condition || '
+	ORDER BY OL.id DESC, EV.index, SE.index, EV.label, SE.label';
+	
+	RETURN  _c;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+ALTER FUNCTION "GET_OLYMPIC_MEDALS"(text, integer, text, text) OWNER TO postgres;
+
+
 
 

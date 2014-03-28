@@ -1,6 +1,7 @@
 package com.sporthenon.updater.container.entity;
 
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.State;
@@ -16,9 +17,10 @@ public class JCityPanel extends JAbstractEntityPanel {
 	public JCustomTextField jLabel;
 	public JEntityPicklist jState;
 	public JEntityPicklist jCountry;
+	public JTextField jUrlWiki;
 
 	public JCityPanel() {
-		super(4);
+		super(5);
 		initialize();
 	}
 
@@ -44,6 +46,14 @@ public class JCityPanel extends JAbstractEntityPanel {
         gridPanel.add(lCountry);
         jCountry = new JEntityPicklist(this, Country.alias);
         gridPanel.add(jCountry);
+        
+		//URL (WIKI)
+		JLabel lUrlWiki = new JLabel(" URL (Wikipedia):");
+		lUrlWiki.setHorizontalAlignment(LABEL_ALIGNMENT);
+		gridPanel.add(lUrlWiki);
+		jUrlWiki = new JTextField();
+		jUrlWiki.setPreferredSize(TEXT_SIZE);
+		gridPanel.add(jUrlWiki);
 	}
 
 	public JCustomTextField getLabel() {
@@ -57,6 +67,10 @@ public class JCityPanel extends JAbstractEntityPanel {
 	public JEntityPicklist getCountry() {
 		return jCountry;
 	}
+	
+	public JTextField getUrlWiki() {
+		return jUrlWiki;
+	}
 
 	public void setLabel(String s) {
 		jLabel.setText(s);
@@ -69,12 +83,17 @@ public class JCityPanel extends JAbstractEntityPanel {
 	public void setCountry(Integer id) {
 		SwingUtils.selectValue(jCountry, id);
 	}
+	
+	public void setUrlWiki(String s) {
+		jUrlWiki.setText(s);
+	}
 
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
 		jState.clear();
 		jCountry.clear();
+		jUrlWiki.setText("");
 	}
 	
 	public void focus() {

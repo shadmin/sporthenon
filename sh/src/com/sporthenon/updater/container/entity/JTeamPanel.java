@@ -24,10 +24,11 @@ public class JTeamPanel extends JAbstractEntityPanel {
 	public JTextField jYear2;
 	public JLabel lLink;
 	public JTextField jLink;
+	public JTextField jUrlWiki;
 	public JCheckBox jInactive;
 	
 	public JTeamPanel() {
-		super(11);
+		super(12);
 		initialize();
 	}
 
@@ -108,6 +109,14 @@ public class JTeamPanel extends JAbstractEntityPanel {
         jYear2 = new JTextField();
         jYear2.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jYear2);
+        
+		//URL (WIKI)
+		JLabel lUrlWiki = new JLabel(" URL (Wikipedia):");
+		lUrlWiki.setHorizontalAlignment(LABEL_ALIGNMENT);
+		gridPanel.add(lUrlWiki);
+		jUrlWiki = new JTextField();
+		jUrlWiki.setPreferredSize(TEXT_SIZE);
+		gridPanel.add(jUrlWiki);
 	}
 
 	public JCustomTextField getLabel() {
@@ -148,6 +157,10 @@ public class JTeamPanel extends JAbstractEntityPanel {
 
 	public JTextField getYear2() {
 		return jYear2;
+	}
+	
+	public JTextField getUrlWiki() {
+		return jUrlWiki;
 	}
 
 	public void setLabel(String s) {
@@ -194,6 +207,10 @@ public class JTeamPanel extends JAbstractEntityPanel {
 		jYear2.setText(s);
 	}
 
+	public void setUrlWiki(String s) {
+		jUrlWiki.setText(s);
+	}
+	
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
@@ -206,6 +223,7 @@ public class JTeamPanel extends JAbstractEntityPanel {
 		jComment.setText("");
 		jYear1.setText("");
 		jYear2.setText("");
+		jUrlWiki.setText("");
 	}
 	
 	public void focus() {

@@ -16,9 +16,8 @@
 <head>
 	<title><%=(session.getAttribute("title") != null ? session.getAttribute("title") : "SPORTHENON&nbsp;-&nbsp;Temple of Sports Results")%></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta name="description" content="Search for results in various sports and events."/>
+	<meta name="Description" content="Search for results in various sports and events."/>
 	<meta name="keywords" content="sport, results, database, records, olympics"/>
-	<meta name="author" content="inachos"/>
 	<meta property="og:title" content="SPORTHENON - Temple of Sports Results"/>
 	<meta property="og:type" content="website"/>
 	<meta property="og:image" content="http://92.243.3.85/img/icon-notext.png?v=6"/>

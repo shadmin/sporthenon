@@ -38,6 +38,9 @@ public class City {
 	@JoinColumn(name = "id_state")
 	private State state;
 	
+	@Column(name = "url_wiki")
+	private String urlWiki;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -88,6 +91,14 @@ public class City {
 
 	public void setMetadata(Metadata metadata) {
 		this.metadata = metadata;
+	}
+
+	public String getUrlWiki() {
+		return urlWiki;
+	}
+
+	public void setUrlWiki(String urlWiki) {
+		this.urlWiki = urlWiki;
 	}
 
 	@Override

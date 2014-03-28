@@ -9,9 +9,11 @@ public class JCountryPanel extends JAbstractEntityPanel {
 	
 	public JTextField jLabel;
 	public JTextField jCode;
+	public JTextField jUrlWiki;
+	public JTextField jUrlOlyref;
 
 	public JCountryPanel() {
-		super(4);
+		super(5);
 		initialize();
 	}
 
@@ -31,6 +33,22 @@ public class JCountryPanel extends JAbstractEntityPanel {
         jCode = new JTextField();
         jCode.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jCode);
+        
+		//URL (WIKI)
+		JLabel lUrlWiki = new JLabel(" URL (Wikipedia):");
+		lUrlWiki.setHorizontalAlignment(LABEL_ALIGNMENT);
+		gridPanel.add(lUrlWiki);
+		jUrlWiki = new JTextField();
+		jUrlWiki.setPreferredSize(TEXT_SIZE);
+		gridPanel.add(jUrlWiki);
+		
+		//URL (OLYMPICS-REFERENCE)
+		JLabel lUrlOlyref = new JLabel(" URL (Olympics-reference):");
+		lUrlOlyref.setHorizontalAlignment(LABEL_ALIGNMENT);
+		gridPanel.add(lUrlOlyref);
+		jUrlOlyref = new JTextField();
+		jUrlOlyref.setPreferredSize(TEXT_SIZE);
+		gridPanel.add(jUrlOlyref);
 	}
 
 	public JTextField getLabel() {
@@ -40,6 +58,14 @@ public class JCountryPanel extends JAbstractEntityPanel {
 	public JTextField getCode() {
 		return jCode;
 	}
+	
+	public JTextField getUrlWiki() {
+		return jUrlWiki;
+	}
+	
+	public JTextField getUrlOlyref() {
+		return jUrlOlyref;
+	}
 
 	public void setLabel(String s) {
 		jLabel.setText(s);
@@ -48,11 +74,21 @@ public class JCountryPanel extends JAbstractEntityPanel {
 	public void setCode(String s) {
 		jCode.setText(s);
 	}
+	
+	public void setUrlWiki(String s) {
+		jUrlWiki.setText(s);
+	}
+	
+	public void setUrlOlyref(String s) {
+		jUrlOlyref.setText(s);
+	}
 
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
 		jCode.setText("");
+		jUrlWiki.setText("");
+		jUrlOlyref.setText("");
 	}
 	
 	public void focus() {
