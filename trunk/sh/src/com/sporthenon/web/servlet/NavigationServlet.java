@@ -41,11 +41,11 @@ public class NavigationServlet extends AbstractServlet {
 		hMenu.put("/search", "search");
 		hMenu.put("/project", "project");
 		hTitle = new HashMap<String, String>();
-		hTitle.put("/results", "Results | SPORTHENON.com");
-		hTitle.put("/olympics", "Olympics | SPORTHENON.com");
-		hTitle.put("/usleagues", "US Leagues | SPORTHENON.com");
-		hTitle.put("/search", "Search | SPORTHENON.com");
-		hTitle.put("/project", "Project | SPORTHENON.com");
+		hTitle.put("/results", "Results | SPORTHENON");
+		hTitle.put("/olympics", "Olympics | SPORTHENON");
+		hTitle.put("/usleagues", "US Leagues | SPORTHENON");
+		hTitle.put("/search", "Search | SPORTHENON");
+		hTitle.put("/project", "Project | SPORTHENON");
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

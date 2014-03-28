@@ -1,19 +1,20 @@
 package com.sporthenon.updater.window;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
-import com.sporthenon.updater.component.JDialogButtonBar;
+import com.sporthenon.updater.component.JCustomButton;
 
 public class JPasswordDialog extends JDialog implements ActionListener {
 
@@ -21,6 +22,7 @@ public class JPasswordDialog extends JDialog implements ActionListener {
 	
 	private JLabel jLabel;
 	private JPasswordField jPassword;
+	private JCheckBox jQuickLoading;
 	
 	public JPasswordDialog(JFrame owner) {
 		super(owner);
@@ -30,7 +32,7 @@ public class JPasswordDialog extends JDialog implements ActionListener {
 	private void initialize() {
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(280, 90));
+		this.setPreferredSize(new Dimension(280, 125));
 		this.setSize(this.getPreferredSize());
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
@@ -38,18 +40,24 @@ public class JPasswordDialog extends JDialog implements ActionListener {
 		this.setTitle("Password");
 		this.setContentPane(jContentPane);
 		
-		BorderLayout layout = new BorderLayout();
-		layout.setVgap(5);
-		JDialogButtonBar jButtonBar = new JDialogButtonBar(this);
-		jButtonBar.getCancel().setVisible(false);
+		FlowLayout layout = new FlowLayout();
+		layout.setVgap(0);
 		jContentPane.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 5));
 		jContentPane.setLayout(layout);
 		jLabel = new JLabel();
-		jContentPane.add(jLabel, BorderLayout.WEST);
+		jContentPane.add(jLabel);
+		jLabel.setPreferredSize(new Dimension(260, 20));
 		jPassword = new JPasswordField();
 		jPassword.addActionListener(this);
-		jContentPane.add(jPassword, BorderLayout.CENTER);
-		jContentPane.add(jButtonBar, BorderLayout.SOUTH);
+		jPassword.setPreferredSize(new Dimension(260, 20));
+		jQuickLoading = new JCheckBox("Quick connect");
+		jQuickLoading.setPreferredSize(new Dimension(265, 20));
+		JCustomButton jOk = new JCustomButton("OK", "updater/ok.png", null);
+		jOk.setActionCommand("ok");
+		jOk.addActionListener(this);
+		jContentPane.add(jPassword);
+		jContentPane.add(jQuickLoading);
+		jContentPane.add(jOk);
 	}
 	
 	public void open() {
@@ -65,6 +73,10 @@ public class JPasswordDialog extends JDialog implements ActionListener {
 
 	public JPasswordField getPassword() {
 		return jPassword;
+	}
+	
+	public JCheckBox getQuickLoading() {
+		return jQuickLoading;
 	}
 
 }

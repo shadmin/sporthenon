@@ -133,11 +133,11 @@
 	margin-bottom: 10px;
 }
 .tc .info td{
-	padding: 2px 25px;
-	text-align: center;
+	padding: 5px 5px;
+	text-align: left;
 }
 .tc .info td table{
-	margin: auto;
+	/*margin: auto;*/
 }
 .tc .info .logo{
 	padding: 10px 30px; 
@@ -264,4 +264,36 @@
 	text-align: center;
 	border: 1px solid #000;
 	background: #FDD url(../img/render/noresult.gif) 2px center no-repeat;
+}
+.tc .info td.record {
+	text-align: center;
+}
+.tc .info td.record table{
+	border-collapse: collapse;
+	margin: 0px;
+}
+.tc .info td.record  th, .tc .info td.record td, .tc .info td.extlinks  th, .tc .info td.extlinks td{
+	text-align: center;
+	width: 25px;
+	padding: 3px;
+	border: 1px solid #CCC;
+	border-collapse: collapse;
+	vertical-align: middle;
+}
+.tc .info td.record th, .tc .info td.extlinks th{
+	font-weight: bold;
+	background-color: #EEE;
+}
+.tc .info td.record th{
+	width: 28px;
+}
+.tc .info td.record td, .tc .info td.extlinks td{
+	white-space: nowrap;
+}
+.tc .info .extlinks td table{
+	margin: auto;
+}
+.tc .info .extlinks td table td{
+	padding: 0px;
+	border: none;
 }

@@ -34,6 +34,9 @@ public class State {
 	@Column(name = "capital", length = 20, nullable = false)
 	private String capital;
 	
+	@Column(name = "url_wiki")
+	private String urlWiki;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -84,6 +87,14 @@ public class State {
 
 	public void setCapital(String capital) {
 		this.capital = capital;
+	}
+
+	public String getUrlWiki() {
+		return urlWiki;
+	}
+
+	public void setUrlWiki(String urlWiki) {
+		this.urlWiki = urlWiki;
 	}
 
 	@Override

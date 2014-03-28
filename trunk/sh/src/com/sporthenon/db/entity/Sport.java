@@ -34,6 +34,15 @@ public class Sport {
 	@Column(name = "\"type\"")
 	private Integer type;
 	
+	@Column(name = "url_wiki")
+	private String urlWiki;
+	
+	@Column(name = "url_olyref")
+	private String urlOlyref;
+	
+	@Column(name = "wiki_pattern")
+	private String wikiPattern;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -84,6 +93,30 @@ public class Sport {
 
 	public void setType(Integer type) {
 		this.type = type;
+	}
+
+	public String getUrlWiki() {
+		return urlWiki;
+	}
+
+	public String getUrlOlyref() {
+		return urlOlyref;
+	}
+
+	public void setUrlWiki(String urlWiki) {
+		this.urlWiki = urlWiki;
+	}
+
+	public void setUrlOlyref(String urlOlyref) {
+		this.urlOlyref = urlOlyref;
+	}
+
+	public String getWikiPattern() {
+		return wikiPattern;
+	}
+
+	public void setWikiPattern(String wikiPattern) {
+		this.wikiPattern = wikiPattern;
 	}
 
 	@Override

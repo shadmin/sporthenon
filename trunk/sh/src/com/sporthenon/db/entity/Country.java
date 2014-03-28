@@ -31,6 +31,12 @@ public class Country {
 	@Column(name = "label_fr", length = 35, nullable = false)
 	private String labelFr;
 	
+	@Column(name = "url_wiki")
+	private String urlWiki;
+	
+	@Column(name = "url_olyref")
+	private String urlOlyref;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -73,6 +79,22 @@ public class Country {
 
 	public void setLabelFr(String labelFr) {
 		this.labelFr = labelFr;
+	}
+
+	public String getUrlWiki() {
+		return urlWiki;
+	}
+
+	public String getUrlOlyref() {
+		return urlOlyref;
+	}
+
+	public void setUrlWiki(String urlWiki) {
+		this.urlWiki = urlWiki;
+	}
+
+	public void setUrlOlyref(String urlOlyref) {
+		this.urlOlyref = urlOlyref;
 	}
 
 	@Override

@@ -40,6 +40,9 @@ public class Championship {
 	@Column(name = "inactive")
 	private Boolean inactive;
 	
+	@Column(name = "url_wiki")
+	private String urlWiki;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -106,6 +109,14 @@ public class Championship {
 
 	public void setInactive(Boolean inactive) {
 		this.inactive = inactive;
+	}
+
+	public String getUrlWiki() {
+		return urlWiki;
+	}
+
+	public void setUrlWiki(String urlWiki) {
+		this.urlWiki = urlWiki;
 	}
 
 	@Override

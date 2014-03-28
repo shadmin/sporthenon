@@ -45,6 +45,12 @@ public class Athlete {
 	@Column(name = "link")
 	private Integer link;
 	
+	@Column(name = "url_wiki")
+	private String urlWiki;
+	
+	@Column(name = "url_olyref")
+	private String urlOlyref;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -110,6 +116,22 @@ public class Athlete {
 
 	public void setLink(Integer link) {
 		this.link = link;
+	}
+
+	public String getUrlWiki() {
+		return urlWiki;
+	}
+
+	public String getUrlOlyref() {
+		return urlOlyref;
+	}
+
+	public void setUrlWiki(String urlWiki) {
+		this.urlWiki = urlWiki;
+	}
+
+	public void setUrlOlyref(String urlOlyref) {
+		this.urlOlyref = urlOlyref;
 	}
 
 	@Override

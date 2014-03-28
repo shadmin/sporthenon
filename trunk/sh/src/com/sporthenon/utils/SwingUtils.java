@@ -49,7 +49,8 @@ public class SwingUtils {
 				break;
 			}
 		}
-		pl.getPicklist().setSelectedIndex(x);
+		if (pl.getPicklist().getItemCount() > 0)
+			pl.getPicklist().setSelectedIndex(x);
 	}
 	
 	public static Integer getValue(JEntityPicklist pl) {

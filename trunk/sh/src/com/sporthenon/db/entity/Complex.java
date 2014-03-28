@@ -34,6 +34,9 @@ public class Complex {
 	@JoinColumn(name = "id_city", nullable = false)
 	private City city;
 	
+	@Column(name = "url_wiki")
+	private String urlWiki;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -76,6 +79,14 @@ public class Complex {
 
 	public void setCity(City city) {
 		this.city = city;
+	}
+
+	public String getUrlWiki() {
+		return urlWiki;
+	}
+
+	public void setUrlWiki(String urlWiki) {
+		this.urlWiki = urlWiki;
 	}
 
 	@Override

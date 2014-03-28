@@ -19,9 +19,10 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 	public JTextArea jComment;
 	public JTextField jIndex;
 	public JCheckBox jInactive;
+	public JTextField jUrlWiki;
 
 	public JChampionshipPanel() {
-		super(6);
+		super(7);
 		initialize();
 	}
 
@@ -59,6 +60,14 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
         jIndex = new JTextField();
         gridPanel.add(jIndex);
         
+		//URL (WIKI)
+		JLabel lUrlWiki = new JLabel(" URL (Wikipedia):");
+		lUrlWiki.setHorizontalAlignment(LABEL_ALIGNMENT);
+		gridPanel.add(lUrlWiki);
+		jUrlWiki = new JTextField();
+		jUrlWiki.setPreferredSize(TEXT_SIZE);
+		gridPanel.add(jUrlWiki);
+        
         //Inactive
         JLabel lInactive = new JLabel(" Inactive:");
         lIndex.setHorizontalAlignment(LABEL_ALIGNMENT);
@@ -83,6 +92,10 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 		return jIndex;
 	}
 	
+	public JTextField getUrlWiki() {
+		return jUrlWiki;
+	}
+	
 	public JCheckBox getInactive() {
 		return jInactive;
 	}
@@ -102,6 +115,10 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 	public void setIndex(String s) {
 		jIndex.setText(s);
 	}
+	
+	public void setUrlWiki(String s) {
+		jUrlWiki.setText(s);
+	}
 
 	public void setInactive(Boolean b) {
 		jInactive.setSelected(b);
@@ -113,6 +130,7 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 		jWebsite.setText("");
 		jComment.setText("");
 		jIndex.setText("");
+		jUrlWiki.setText("");
 		jInactive.setSelected(false);
 	}
 	

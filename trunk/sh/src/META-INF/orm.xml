@@ -30,14 +30,14 @@
 	</named-native-query>
 	
 	<!--
-		GET_MEDAL_COUNT(varchar, integer, integer, integer)
+		GET_MEDAL_COUNT(varchar, integer, integer)
 	-->
-	<named-native-query name="MedalCount" result-class="com.sporthenon.db.function.MedalCountBean">  
-		<query>{? = call "GET_MEDAL_COUNT"(?, ?, ?, ?)}</query>
-		<hint name="org.hibernate.callable" value="true" />
+	<named-native-query name="MedalCount" result-class="com.sporthenon.db.entity.meta.RefItem">  
+		<query>select * from "GET_MEDAL_COUNT"(?, ?, ?)</query>
+		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
-	
-	<!--
+
+		<!--
 		GET_OLYMPIC_MEDALS(text, integer, text)
 	-->
 	<named-native-query name="GetOlympicMedals" result-class="com.sporthenon.db.function.OlympicMedalsBean">  
