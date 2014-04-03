@@ -61,6 +61,12 @@ public class Draw {
 	@Column(name = "id2_sf2")
 	private Integer id2Sf2;
 	
+	@Column(name = "id1_thd")
+	private Integer id1Thd;
+	
+	@Column(name = "id2_thd")
+	private Integer id2Thd;
+	
 	@Column(name = "result_qf1")
 	private String result_qf1;
 	
@@ -78,6 +84,9 @@ public class Draw {
 	
 	@Column(name = "result_sf2")
 	private String result_sf2;
+	
+	@Column(name = "result_thd")
+	private String result_thd;
 	
 	@Embedded
 	private Metadata metadata;
@@ -250,17 +259,43 @@ public class Draw {
 		this.metadata = metadata;
 	}
 
+	public Integer getId1Thd() {
+		return id1Thd;
+	}
+
+	public Integer getId2Thd() {
+		return id2Thd;
+	}
+
+	public String getResult_thd() {
+		return result_thd;
+	}
+
+	public void setId1Thd(Integer id1Thd) {
+		this.id1Thd = id1Thd;
+	}
+
+	public void setId2Thd(Integer id2Thd) {
+		this.id2Thd = id2Thd;
+	}
+
+	public void setResult_thd(String result_thd) {
+		this.result_thd = result_thd;
+	}
+
 	@Override
 	public String toString() {
-		return "Draw [id=" + id + ", id1Qf1=" + id1Qf1 + ", id2Qf1=" + id2Qf1
-				+ ", id1Qf2=" + id1Qf2 + ", id2Qf2=" + id2Qf2 + ", id1Qf3="
-				+ id1Qf3 + ", id2Qf3=" + id2Qf3 + ", id1Qf4=" + id1Qf4
-				+ ", id2Qf4=" + id2Qf4 + ", id1Sf1=" + id1Sf1 + ", id2Sf1="
-				+ id2Sf1 + ", id1Sf2=" + id1Sf2 + ", id2Sf2=" + id2Sf2
-				+ ", result_qf1=" + result_qf1 + ", result_qf2=" + result_qf2
-				+ ", result_qf3=" + result_qf3 + ", result_qf4=" + result_qf4
-				+ ", result_sf1=" + result_sf1 + ", result_sf2=" + result_sf2
-				+ "]";
+		return "Draw [id=" + id + ", idResult=" + idResult + ", id1Qf1="
+				+ id1Qf1 + ", id2Qf1=" + id2Qf1 + ", id1Qf2=" + id1Qf2
+				+ ", id2Qf2=" + id2Qf2 + ", id1Qf3=" + id1Qf3 + ", id2Qf3="
+				+ id2Qf3 + ", id1Qf4=" + id1Qf4 + ", id2Qf4=" + id2Qf4
+				+ ", id1Sf1=" + id1Sf1 + ", id2Sf1=" + id2Sf1 + ", id1Sf2="
+				+ id1Sf2 + ", id2Sf2=" + id2Sf2 + ", id1Thd=" + id1Thd
+				+ ", id2Thd=" + id2Thd + ", result_qf1=" + result_qf1
+				+ ", result_qf2=" + result_qf2 + ", result_qf3=" + result_qf3
+				+ ", result_qf4=" + result_qf4 + ", result_sf1=" + result_sf1
+				+ ", result_sf2=" + result_sf2 + ", result_thd=" + result_thd
+				+ ", metadata=" + metadata + "]";
 	}
 	
 }

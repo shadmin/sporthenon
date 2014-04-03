@@ -1,5 +1,8 @@
 <%@ page language="java" %>
+<%@ page import="com.sporthenon.db.DatabaseHelper"%>
+<%@ page import="com.sporthenon.db.entity.meta.News"%>
 <%@ page import="com.sporthenon.utils.ConfigUtils" %>
+<%@ page import="java.util.List" %>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="home">
 	<div style="float:right;">
@@ -43,15 +46,20 @@
 		<div class="fieldset">
 			<div class="fstitle news">NEWS</div>
 			<div class="fscontent">
-				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Feb. 19, 2014</b>&nbsp;-&nbsp;Version 0.6.0 Released&nbsp;(<a target="_blank" href="changelog.txt?v=<%=ConfigUtils.getProperty("version")%>">Change Log</a>)<br/><br/>
-				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Jan. 2, 2014</b>&nbsp;-&nbsp;Version 0.5.1 Released<br/><br/>
-				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Nov. 29, 2013</b>&nbsp;-&nbsp;Version 0.5.0 Released<br/><br/>
-				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Nov. 8, 2013</b>&nbsp;-&nbsp;Version 0.4.0 Released<br/><br/>
-				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Oct. 29, 2013</b>&nbsp;-&nbsp;Version 0.3.0 Released<br/><br/>
-				<a id="amnews" href="javascript:$('amnews').remove();$('mnews').show();">More</a><span id="mnews" style="display:none;">
-				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Sep. 13, 2013</b>&nbsp;-&nbsp;Version 0.2.0 Released<br/><br/>
-				<img src="img/bullet.gif" alt="-"/>&nbsp;<b>Aug. 2, 2013</b>&nbsp;-&nbsp;Version 0.1.0 Released
-				</span>
+			<%
+				boolean isMore = false;
+				int i = 0;
+				for (News n : (List<News>) DatabaseHelper.execute("from News order by date desc")) {
+					if (++i % 5 == 0) {
+						isMore = true;
+						out.print("<a id='amnews' href=\"javascript:$('amnews').remove();$('mnews').show();\"><br/><br/>More</a><span id='mnews' style='display:none;'>");
+					}
+					out.print((i > 1 ? "<br/><br/>" : "") + "<img src='img/bullet.gif' alt='-'/>&nbsp;<b>");
+					out.print(n.getDateText() + "</b>&nbsp;-&nbsp;" + n.getTextHtml());
+				}
+				if (isMore)
+					out.print("</span>");
+			%>
 			</div>
 		</div>
 	</div>

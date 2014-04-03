@@ -239,12 +239,15 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 					SwingUtils.selectValue(jEditDrawDialog.getEntity()[9], dr.getId2Sf1());
 					SwingUtils.selectValue(jEditDrawDialog.getEntity()[10], dr.getId1Sf2());
 					SwingUtils.selectValue(jEditDrawDialog.getEntity()[11], dr.getId2Sf2());
+					SwingUtils.selectValue(jEditDrawDialog.getEntity()[12], dr.getId1Thd());
+					SwingUtils.selectValue(jEditDrawDialog.getEntity()[13], dr.getId2Thd());
 					jEditDrawDialog.getRes()[0].setText(dr.getResult_qf1());
 					jEditDrawDialog.getRes()[1].setText(dr.getResult_qf2());
 					jEditDrawDialog.getRes()[2].setText(dr.getResult_qf3());
 					jEditDrawDialog.getRes()[3].setText(dr.getResult_qf4());
 					jEditDrawDialog.getRes()[4].setText(dr.getResult_sf1());
 					jEditDrawDialog.getRes()[5].setText(dr.getResult_sf2());
+					jEditDrawDialog.getRes()[6].setText(dr.getResult_thd());
 				}
 			}
 			catch (Exception e_) {
@@ -307,7 +310,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 					dr = (Draw)(drawId != null && drawId > 0 ? DatabaseHelper.loadEntity(Draw.class, drawId) : new Draw());
 					dr.setIdResult(rs.getId());
 					int i = 0;
-					for (String m : new String[]{"Id1Qf1", "Id2Qf1", "Id1Qf2", "Id2Qf2", "Id1Qf3", "Id2Qf3", "Id1Qf4", "Id2Qf4", "Id1Sf1", "Id2Sf1", "Id1Sf2", "Id2Sf2"}) {
+					for (String m : new String[]{"Id1Qf1", "Id2Qf1", "Id1Qf2", "Id2Qf2", "Id1Qf3", "Id2Qf3", "Id1Qf4", "Id2Qf4", "Id1Sf1", "Id2Sf1", "Id1Sf2", "Id2Sf2", "Id1Thd", "Id2Thd"}) {
 						Integer value = SwingUtils.getValue(jEditDrawDialog.getEntity()[i++]);
 						Draw.class.getMethod("set" + m, Integer.class).invoke(dr, value > 0 ? value : null);
 					}
@@ -317,6 +320,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 					dr.setResult_qf4(jEditDrawDialog.getRes()[3].getText());
 					dr.setResult_sf1(jEditDrawDialog.getRes()[4].getText());
 					dr.setResult_sf2(jEditDrawDialog.getRes()[5].getText());
+					dr.setResult_thd(jEditDrawDialog.getRes()[6].getText());
 					dr = (Draw) DatabaseHelper.saveEntity(dr, JMainFrame.getMember());
 				}
 				msg = "Result #" + rs.getId() + (isDraw() ? "/Draw #" + dr.getId() : "") + " has been successfully " + (mode == EDIT ? "updated" : "created") + ".";

@@ -1,10 +1,10 @@
-UPDATER updater:news management
-UPDATER draws (changer affichage tableau results) + records dans import CSV
-UPDATER bug import updater sur country inconnue pasdde warning
 -- LANG EN FR LOCALIZE
 -- 3 NIVEAUX EVENTS
---(icons 16*16 visu sports)
 --tests ie firefox safari
+--results: onclick sur tree = chargement automatique selection dans picklists
+-- ouverture nouvel onglet sur DRAWS + fiche INFO
+--ECRAN HOME MULTI DIV
+-- supp opts.ispicturedisabled
 ----------------------------------------
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

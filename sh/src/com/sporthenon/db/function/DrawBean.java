@@ -37,6 +37,9 @@ public class DrawBean {
 	
 	@Column(name = "rs_result_f")
 	private String rsResultF;
+
+	@Column(name = "dr_result_thd")
+	private String drResultThd;
 	
 	@Column(name = "en1_qf1_id")
 	private Integer en1Qf1Id;
@@ -415,6 +418,60 @@ public class DrawBean {
 	
 	@Column(name = "en2_f_rel2_label")
 	private String en2FRel2Label;
+	
+	@Column(name = "en1_thd_id")
+	private Integer en1ThdId;
+	
+	@Column(name = "en1_thd_str1")
+	private String en1ThdStr1;
+	
+	@Column(name = "en1_thd_str2")
+	private String en1ThdStr2;
+	
+	@Column(name = "en1_thd_rel1_id")
+	private Integer en1ThdRel1Id;
+	
+	@Column(name = "en1_thd_rel1_code")
+	private String en1ThdRel1Code;
+	
+	@Column(name = "en1_thd_rel1_label")
+	private String en1ThdRel1Label;
+	
+	@Column(name = "en1_thd_rel2_id")
+	private Integer en1ThdRel2Id;
+	
+	@Column(name = "en1_thd_rel2_code")
+	private String en1ThdRel2Code;
+	
+	@Column(name = "en1_thd_rel2_label")
+	private String en1ThdRel2Label;
+	
+	@Column(name = "en2_thd_id")
+	private Integer en2ThdId;
+	
+	@Column(name = "en2_thd_str1")
+	private String en2ThdStr1;
+	
+	@Column(name = "en2_thd_str2")
+	private String en2ThdStr2;
+	
+	@Column(name = "en2_thd_rel1_id")
+	private Integer en2ThdRel1Id;
+	
+	@Column(name = "en2_thd_rel1_code")
+	private String en2ThdRel1Code;
+	
+	@Column(name = "en2_thd_rel1_label")
+	private String en2ThdRel1Label;
+	
+	@Column(name = "en2_thd_rel2_id")
+	private Integer en2ThdRel2Id;
+	
+	@Column(name = "en2_thd_rel2_code")
+	private String en2ThdRel2Code;
+	
+	@Column(name = "en2_thd_rel2_label")
+	private String en2ThdRel2Label;
 
 	public Integer getDrId() {
 		return drId;
@@ -1502,6 +1559,158 @@ public class DrawBean {
 
 	public void setYrLabel(String yrLabel) {
 		this.yrLabel = yrLabel;
+	}
+
+	public String getDrResultThd() {
+		return drResultThd;
+	}
+
+	public Integer getEn1ThdId() {
+		return en1ThdId;
+	}
+
+	public String getEn1ThdStr1() {
+		return en1ThdStr1;
+	}
+
+	public String getEn1ThdStr2() {
+		return en1ThdStr2;
+	}
+
+	public Integer getEn1ThdRel1Id() {
+		return en1ThdRel1Id;
+	}
+
+	public String getEn1ThdRel1Code() {
+		return en1ThdRel1Code;
+	}
+
+	public String getEn1ThdRel1Label() {
+		return en1ThdRel1Label;
+	}
+
+	public String getEn1ThdRel2Label() {
+		return en1ThdRel2Label;
+	}
+
+	public Integer getEn2ThdId() {
+		return en2ThdId;
+	}
+
+	public String getEn2ThdStr1() {
+		return en2ThdStr1;
+	}
+
+	public String getEn2ThdStr2() {
+		return en2ThdStr2;
+	}
+
+	public Integer getEn2ThdRel1Id() {
+		return en2ThdRel1Id;
+	}
+
+	public String getEn2ThdRel1Code() {
+		return en2ThdRel1Code;
+	}
+
+	public String getEn2ThdRel1Label() {
+		return en2ThdRel1Label;
+	}
+
+	public Integer getEn2ThdRel2Id() {
+		return en2ThdRel2Id;
+	}
+
+	public String getEn2ThdRel2Code() {
+		return en2ThdRel2Code;
+	}
+
+	public String getEn2ThdRel2Label() {
+		return en2ThdRel2Label;
+	}
+
+	public void setDrResultThd(String drResultThd) {
+		this.drResultThd = drResultThd;
+	}
+
+	public void setEn1ThdId(Integer en1ThdId) {
+		this.en1ThdId = en1ThdId;
+	}
+
+	public void setEn1ThdStr1(String en1ThdStr1) {
+		this.en1ThdStr1 = en1ThdStr1;
+	}
+
+	public void setEn1ThdStr2(String en1ThdStr2) {
+		this.en1ThdStr2 = en1ThdStr2;
+	}
+
+	public void setEn1ThdRel1Id(Integer en1ThdRel1Id) {
+		this.en1ThdRel1Id = en1ThdRel1Id;
+	}
+
+	public void setEn1ThdRel1Code(String en1ThdRel1Code) {
+		this.en1ThdRel1Code = en1ThdRel1Code;
+	}
+
+	public void setEn1ThdRel1Label(String en1ThdRel1Label) {
+		this.en1ThdRel1Label = en1ThdRel1Label;
+	}
+
+	public void setEn1ThdRel2Label(String en1ThdRel2Label) {
+		this.en1ThdRel2Label = en1ThdRel2Label;
+	}
+
+	public void setEn2ThdId(Integer en2ThdId) {
+		this.en2ThdId = en2ThdId;
+	}
+
+	public void setEn2ThdStr1(String en2ThdStr1) {
+		this.en2ThdStr1 = en2ThdStr1;
+	}
+
+	public void setEn2ThdStr2(String en2ThdStr2) {
+		this.en2ThdStr2 = en2ThdStr2;
+	}
+
+	public void setEn2ThdRel1Id(Integer en2ThdRel1Id) {
+		this.en2ThdRel1Id = en2ThdRel1Id;
+	}
+
+	public void setEn2ThdRel1Code(String en2ThdRel1Code) {
+		this.en2ThdRel1Code = en2ThdRel1Code;
+	}
+
+	public void setEn2ThdRel1Label(String en2ThdRel1Label) {
+		this.en2ThdRel1Label = en2ThdRel1Label;
+	}
+
+	public void setEn2ThdRel2Id(Integer en2ThdRel2Id) {
+		this.en2ThdRel2Id = en2ThdRel2Id;
+	}
+
+	public void setEn2ThdRel2Code(String en2ThdRel2Code) {
+		this.en2ThdRel2Code = en2ThdRel2Code;
+	}
+
+	public void setEn2ThdRel2Label(String en2ThdRel2Label) {
+		this.en2ThdRel2Label = en2ThdRel2Label;
+	}
+
+	public Integer getEn1ThdRel2Id() {
+		return en1ThdRel2Id;
+	}
+
+	public String getEn1ThdRel2Code() {
+		return en1ThdRel2Code;
+	}
+
+	public void setEn1ThdRel2Id(Integer en1ThdRel2Id) {
+		this.en1ThdRel2Id = en1ThdRel2Id;
+	}
+
+	public void setEn1ThdRel2Code(String en1ThdRel2Code) {
+		this.en1ThdRel2Code = en1ThdRel2Code;
 	}
 	
 }

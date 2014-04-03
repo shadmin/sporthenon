@@ -55,8 +55,8 @@ public class JEditDrawDialog extends JDialog implements ActionListener {
 		JPanel jDrawPanel = new JPanel();
 		jDrawPanel.setLayout(new GridLayout(0, 3));
 
-		jEntity = new JEntityPicklist[12];
-		jRes = new JTextField[6];
+		jEntity = new JEntityPicklist[14];
+		jRes = new JTextField[7];
 
 		JPanel jQf1Panel = new JPanel();
 		jQf1Panel.setBorder(BorderFactory.createTitledBorder(null, "Quarterfinal 1", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
@@ -117,10 +117,20 @@ public class JEditDrawDialog extends JDialog implements ActionListener {
 		jSf2Panel.add(jEntity[10]);
 		jSf2Panel.add(jEntity[11]);
 		jSf2Panel.add(jRes[5]);
+		
+		JPanel jThdPanel = new JPanel();
+		jThdPanel.setBorder(BorderFactory.createTitledBorder(null, "Third Place", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
+		jThdPanel.setLayout(new GridLayout(3, 0, 2, 2));
+		jEntity[12] = new JEntityPicklist(parent, "EN");
+		jEntity[13] = new JEntityPicklist(parent, "EN");
+		jRes[6] = new JTextField();
+		jThdPanel.add(jEntity[12]);
+		jThdPanel.add(jEntity[13]);
+		jThdPanel.add(jRes[6]);
 
 		jDrawPanel.add(jQf1Panel);jDrawPanel.add(new Panel());jDrawPanel.add(jQf2Panel);
 		jDrawPanel.add(new Panel());jDrawPanel.add(jSf1Panel);jDrawPanel.add(new Panel());
-		jDrawPanel.add(new Panel());jDrawPanel.add(jSf2Panel);jDrawPanel.add(new Panel());
+		jDrawPanel.add(new Panel());jDrawPanel.add(jSf2Panel);jDrawPanel.add(jThdPanel);
 		jDrawPanel.add(jQf3Panel);jDrawPanel.add(new Panel());jDrawPanel.add(jQf4Panel);
 
 		return jDrawPanel;

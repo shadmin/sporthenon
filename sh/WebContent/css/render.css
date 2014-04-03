@@ -189,6 +189,7 @@
 }
 .tc .draw .box{
 	position: absolute;
+	z-index: 0;
 }
 .tc .draw .box table{
 	border-collapse: collapse;
@@ -213,13 +214,16 @@
 .tc .qf2, .tc .qf4{
 	margin-left: 400px;
 }
+.tc .thd{
+	margin-left: 520px;
+}
 .tc .qf3, .tc .qf4{
 	margin-top: 440px;
 }
 .tc .sf1, .tc .sf2, .tc .f{
 	margin-left: 200px;
 }
-.tc .f{
+.tc .f, .tc .thd{
 	margin-top: 220px;
 }
 .tc .sf1{
