@@ -33,10 +33,11 @@ public class SwingUtils {
 	public static void fillPicklist(JEntityPicklist pl, Collection<PicklistBean> cl, Object param) {
 		pl.getPicklist().removeAllItems();
 		pl.getPicklist().addItem(new PicklistBean(0, ""));
-		for (PicklistBean bean : cl) {
-			if (param == null || bean.getParam() == null || (bean.getParam() != null && bean.getParam().equals(String.valueOf(param))))
-				pl.getPicklist().addItem(bean);
-		}
+		if (cl != null && !cl.isEmpty())
+			for (PicklistBean bean : cl) {
+				if (param == null || bean.getParam() == null || (bean.getParam() != null && bean.getParam().equals(String.valueOf(param))))
+					pl.getPicklist().addItem(bean);
+			}
 	}
 
 	public static void selectValue(JEntityPicklist pl, Integer id) {

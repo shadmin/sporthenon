@@ -72,17 +72,19 @@ public class HtmlConverter {
 
 	private static String getResultsEntity(int type, Integer rank, String str1, String str2, String year, boolean picDisabled) {
 		String s = null;
-		if (type < 10)
-			s = HtmlUtils.writeLink(Athlete.alias, rank, str1 + (StringUtils.notEmpty(str2) ? "," + HtmlUtils.SPACE + str2 : ""), null);
-		else if (type == 50) {
-			String img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, rank, ImageUtils.SIZE_SMALL, year, null, picDisabled);
-			s = HtmlUtils.writeLink(Team.alias, rank, str2, null);
-			s = HtmlUtils.writeImgTable(img, s);
-		}
-		else if (type == 99) {
-			String img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, rank, ImageUtils.SIZE_SMALL, year, null, picDisabled);
-			s = HtmlUtils.writeLink(Country.alias, rank, str2, null);
-			s = HtmlUtils.writeImgTable(img, s);
+		if (rank != null && rank > 0) {
+			if (type < 10)
+				s = HtmlUtils.writeLink(Athlete.alias, rank, str1 + (StringUtils.notEmpty(str2) ? "," + HtmlUtils.SPACE + str2 : ""), null);
+			else if (type == 50) {
+				String img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, rank, ImageUtils.SIZE_SMALL, year, null, picDisabled);
+				s = HtmlUtils.writeLink(Team.alias, rank, str2, null);
+				s = HtmlUtils.writeImgTable(img, s);
+			}
+			else if (type == 99) {
+				String img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, rank, ImageUtils.SIZE_SMALL, year, null, picDisabled);
+				s = HtmlUtils.writeLink(Country.alias, rank, str2, null);
+				s = HtmlUtils.writeImgTable(img, s);
+			}
 		}
 		return s;
 	}
@@ -398,9 +400,9 @@ public class HtmlConverter {
 			List<DrawBean> lDraw = (List<DrawBean>) DatabaseHelper.call("GetDraw", lFuncParams);
 			if (lDraw != null) {
 				DrawBean bean = (DrawBean) lDraw.get(0);
-				html.append("<div class='shorttitle'>" + bean.getYrLabel() + "&nbsp;Draw</div>");
+				html.append("<span class='shorttitle'>" + bean.getYrLabel() + "&nbsp;Draw</span>");
 				html.append("<div class='draw'>");
-				String[] tLevel = {"Qf1", "Qf2", "Qf3", "Qf4", "Sf1", "Sf2", "F"};
+				String[] tLevel = {"Qf1", "Qf2", "Qf3", "Qf4", "Sf1", "Sf2", "F", "Thd"};
 				HashMap<String, String> hLvlLabel = new HashMap<String, String>();
 				hLvlLabel.put("Qf1", "Quarterfinal #1");
 				hLvlLabel.put("Qf2", "Quarterfinal #2");
@@ -409,6 +411,7 @@ public class HtmlConverter {
 				hLvlLabel.put("Sf1", "Semifinal #1");
 				hLvlLabel.put("Sf2", "Semifinal #2");
 				hLvlLabel.put("F", "FINAL");
+				hLvlLabel.put("Thd", "Third Place");
 				for (String level : tLevel) {
 					Method m1 = DrawBean.class.getMethod("getEn1" + level + "Str1");
 					Method m2 = DrawBean.class.getMethod("getEn1" + level + "Str2");
@@ -428,15 +431,17 @@ public class HtmlConverter {
 					Method mRel10 = DrawBean.class.getMethod("getEn2" + level + "Rel2Id");
 					Method mRel11 = DrawBean.class.getMethod("getEn2" + level + "Rel2Code");
 					Method mRel12 = DrawBean.class.getMethod("getEn2" + level + "Rel2Label");
-					html.append("<div class='box " + level.toLowerCase() + "'><table><tr><th colspan='3'>" + hLvlLabel.get(level) + "</th></tr>");
 					String e = getResultsEntity(bean.getDrType(), StringUtils.toInt(m5.invoke(bean)), String.valueOf(m1.invoke(bean)), String.valueOf(m2.invoke(bean)), bean.getYrLabel(), opts.isPicturesDisabled());
-					String r = getResultsEntityRel(StringUtils.toInt(mRel1.invoke(bean)), String.valueOf(mRel2.invoke(bean)), String.valueOf(mRel3.invoke(bean)), StringUtils.toInt(mRel4.invoke(bean)), String.valueOf(mRel5.invoke(bean)), String.valueOf(mRel6.invoke(bean)), false, false, bean.getYrLabel(), opts.isPicturesDisabled());
-					html.append("<td style='font-weight:bold;'>" + e + "</td>" + (r != null ? r : ""));
-					html.append("<td rowspan='2'>" + DrawBean.class.getMethod("get" + (level.equalsIgnoreCase("F") ? "Rs" : "Dr") + "Result" + level).invoke(bean) + "</td></tr>");
-					e = getResultsEntity(bean.getDrType(), StringUtils.toInt(m6.invoke(bean)), String.valueOf(m3.invoke(bean)), String.valueOf(m4.invoke(bean)), bean.getYrLabel(), opts.isPicturesDisabled());
-					r = getResultsEntityRel(StringUtils.toInt(mRel7.invoke(bean)), String.valueOf(mRel8.invoke(bean)), String.valueOf(mRel9.invoke(bean)), StringUtils.toInt(mRel10.invoke(bean)), String.valueOf(mRel11.invoke(bean)), String.valueOf(mRel12.invoke(bean)), false, false, bean.getYrLabel(), opts.isPicturesDisabled());
-					html.append("<td>" + e + "</td>" + (r != null ? r : ""));
-					html.append("</table></div>");
+					if (e != null) {
+						html.append("<div class='box " + level.toLowerCase() + "'><table><tr><th colspan='" + (bean.getDrType() < 10 ? 3 : 2) + "'>" + hLvlLabel.get(level) + "</th></tr>");
+						String r = getResultsEntityRel(StringUtils.toInt(mRel1.invoke(bean)), String.valueOf(mRel2.invoke(bean)), String.valueOf(mRel3.invoke(bean)), StringUtils.toInt(mRel4.invoke(bean)), String.valueOf(mRel5.invoke(bean)), String.valueOf(mRel6.invoke(bean)), false, false, bean.getYrLabel(), opts.isPicturesDisabled());
+						html.append("<tr><td style='font-weight:bold;'>" + e + "</td>" + (r != null ? r : ""));
+						html.append("<td rowspan='2' style='width:33%;'>" + DrawBean.class.getMethod("get" + (level.equalsIgnoreCase("F") ? "Rs" : "Dr") + "Result" + level).invoke(bean) + "</td></tr>");
+						e = getResultsEntity(bean.getDrType(), StringUtils.toInt(m6.invoke(bean)), String.valueOf(m3.invoke(bean)), String.valueOf(m4.invoke(bean)), bean.getYrLabel(), opts.isPicturesDisabled());
+						r = getResultsEntityRel(StringUtils.toInt(mRel7.invoke(bean)), String.valueOf(mRel8.invoke(bean)), String.valueOf(mRel9.invoke(bean)), StringUtils.toInt(mRel10.invoke(bean)), String.valueOf(mRel11.invoke(bean)), String.valueOf(mRel12.invoke(bean)), false, false, bean.getYrLabel(), opts.isPicturesDisabled());
+						html.append("<tr><td>" + e + "</td>" + (r != null ? r : "") + "</tr>");
+						html.append("</table></div>");
+					}
 				}
 				html.append("</div>");
 			}
@@ -860,9 +865,11 @@ public class HtmlConverter {
 		long id = System.currentTimeMillis();
 		ArrayList<String> lIds = new ArrayList<String>();
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
-		html.append("<thead><tr class='rsort'><th" + (isDraw || isComment ? " colspan='" + (isDraw && isComment ? 3 : 2) + "'" : "") + " onclick='sort(\"" + id + "\", this, 0);'>Year</th>");
+		html.append("<thead><tr class='rsort'>" + (isComment ? "<th/>" : "") + "<th onclick='sort(\"" + id + "\", this, 0);'>Year</th>");
 		for (int i = 1 ; i <= entityCount ; i++)
 			html.append(i == 2 && isScore ? "<th onclick='sort(\"" + id + "\", this, " + i + ");'>Score</th>" : "").append("<th colspan='" + tColspan[i - 1] + "' onclick='sort(\"" + id + "\", this, " + i + ");'>" + (isMedal ? (i == 1 ? ImageUtils.getGoldHeader() : (i == 2 ? ImageUtils.getSilverHeader() : ImageUtils.getBronzeHeader())) : ResourceUtils.get("rank." + i)) + "</th>");
+		if (isDraw)
+			html.append("<th/>");
 		if (isDates)
 			html.append("<th onclick='sort(\"" + id + "\", this, " + (entityCount + 1) + ");'>Date</th>");
 		if (isPlace)
@@ -873,7 +880,7 @@ public class HtmlConverter {
 			lIds.add(String.valueOf(bean.getRsId()));
 
 			// Evaluate bean
-			String draw = "<a><img src='img/render/draw.gif' title='Draw' style='cursor:pointer;' onclick='javascript:info(\"DR-" + bean.getRsId() + "\")'/></a>";
+			String draw = "<table><tr><td><img src='img/render/draw.gif?3' title='Draw'/></td><td style='padding-left:3px;'><a href='javascript:info(\"DR-" + bean.getRsId() + "\")'>Draw</a></td></tr></table>";
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
 			String dates = (StringUtils.notEmpty(bean.getRsDate1()) ? StringUtils.toTextDate(bean.getRsDate1(), Locale.ENGLISH, "dd MMMM") + "&nbsp;&rarr;&nbsp;" : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? StringUtils.toTextDate(bean.getRsDate2(), Locale.ENGLISH, "dd MMMM") : "");
 			String place1 = null, place2 = null;
@@ -1029,13 +1036,14 @@ public class HtmlConverter {
 			}
 			
 			// Write line
-			html.append("<tr>" + (isDraw ? "<td>" + (bean.getDrId() != null ? draw : "") + "</td>" : ""));
-			html.append("<td class='srt'>" + year + "</td>");
+			html.append("<tr>");
 			html.append(isComment ? "<td" + (StringUtils.notEmpty(commentTitle) ? " title='" + commentTitle + "' style='width:15px;background-color:" + commentColor + "';" : "") + ">" + (comment != null ? HtmlUtils.writeComment(bean.getRsId(), comment) : "") + "</td>" : "");
+			html.append("<td class='srt'>" + year + "</td>");
 			for (int i = 0 ; i < 9 ; i++)
 				html.append(tEntityHtml[i] != null ? tEntityHtml[i] : (entityCount > i ? "<td class='srt' colspan=" + tColspan[i] + ">" + StringUtils.EMPTY + "</td>" + (isScore && i == 0 ? "<td class='srt'>" + StringUtils.EMPTY + "</td>" : "") : ""));
-			html.append(isDates ? "<td class='srt'>" + (StringUtils.notEmpty(dates) ? dates : "-") + "</td>" : "");
-			html.append((isPlace ? "<td class='srt'>" + (StringUtils.notEmpty(place1) ? place1 : "") + (StringUtils.notEmpty(place2) ? place2 : "-") + "</td>" : "") + "</tr>");
+			html.append(isDraw ? "<td>" + (bean.getDrId() != null ? draw : "") + "</td>" : "");
+			html.append(isDates ? "<td class='srt'>" + (StringUtils.notEmpty(dates) ? dates : "") + "</td>" : "");
+			html.append((isPlace ? "<td class='srt'>" + (StringUtils.notEmpty(place1) ? place1 : "") + (StringUtils.notEmpty(place2) ? place2 : "") + "</td>" : "") + "</tr>");
 		}
 		html.append(getWinRecords(StringUtils.implode(lIds, ",")));
 		html.append("</tbody></table>");

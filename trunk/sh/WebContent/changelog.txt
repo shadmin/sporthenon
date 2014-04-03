@@ -17,6 +17,8 @@ BUG OLYMPICS EVENTS DOUBLONS (patinage vitesse / All / 10000 M) + AJOUT COMPLEXE
 balises META (check l'equipe.Fr) + ajouter | SPORTHENON sur link ref nouvelle fenetre
 BUG TIE 1-2 (ex. downhill women 2014 JO)
 title sur code country XXX
+UPDATER updater:news management
+UPDATER draws (changer affichage tableau results) + records dans import CSV
 
 +-------+
 | 0.6.0 |
