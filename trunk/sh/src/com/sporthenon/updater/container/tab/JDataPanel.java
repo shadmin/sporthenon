@@ -81,6 +81,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 	private JQueryStatus jQueryStatus = null;
 	
 	public JDataPanel(JMainFrame parent) {
+		this.jQueryStatus = parent.getQueryStatus();
 		initialize();
 	}
 	
@@ -559,8 +560,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setOtLoss(wl.getCountOtloss() != null ? String.valueOf(wl.getCountOtloss()) : "");
 			p.setAverage(wl.getAverage() != null ? wl.getAverage() : "");
 		}
-		if (jQueryStatus != null)
-			jQueryStatus.clear();
+		jQueryStatus.clear();
 	}
 
 	public void valueChanged(ListSelectionEvent e) {

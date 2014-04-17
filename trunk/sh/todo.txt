@@ -1,10 +1,13 @@
--- LANG EN FR LOCALIZE
--- 3 NIVEAUX EVENTS
---tests ie firefox safari
---results: onclick sur tree = chargement automatique selection dans picklists
--- ouverture nouvel onglet sur DRAWS + fiche INFO
---ECRAN HOME MULTI DIV
--- supp opts.ispicturedisabled
+LANG EN FR LOCALIZE
+3 NIVEAUX EVENTS
+tests ie firefox safari
+results: onclick sur tree = chargement automatique selection dans picklists
+ouverture nouvel onglet sur DRAWS + fiche INFO
+ECRAN HOME MULTI DIV
+supp opts.ispicturedisabled
+event inactive en fonction sport+champ+ev1/2
+links sports-ref pour sports-us
+ajouter QF/SF sur ref entity results
 ----------------------------------------
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

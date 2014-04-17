@@ -100,7 +100,7 @@ public class HtmlUtils {
 		html.append("<table class='info'><tr><th colspan=2>" + writeToggleTitle(h.get("title")) + "</th></tr>");
 		if (h.containsKey("logo") && !b) {
 			String logo = h.get("logo");
-			String bordered = (logo.matches("^(" + ImageUtils.INDEX_COUNTRY + "|" + ImageUtils.INDEX_STATE + ").*") ? " bordered" : "");
+			String bordered = (logo.matches("^.*" + ConfigUtils.getProperty("app.url") + "(" + ImageUtils.INDEX_COUNTRY + "|" + ImageUtils.INDEX_STATE + ").*") ? " bordered" : "");
 			html.append("<tr><td colspan=2 class='logo" + bordered + "'>" + logo + "</td></tr>");
 		}
 		for (String key : h.keySet()) {
