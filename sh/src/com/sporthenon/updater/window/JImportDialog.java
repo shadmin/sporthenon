@@ -626,6 +626,10 @@ public class JImportDialog extends JDialog implements ActionListener {
 							isError = true;
 							writeError(vLine, "ERROR: Invalid Year");
 						}
+						else if (n == 99 && h.matches("rk\\d")) {
+							isError = true;
+							writeError(vLine, "ERROR: Invalid Country (column " + h.toUpperCase() + ")");
+						}
 						vLine.set(i, s);
 					}
 				}
@@ -845,6 +849,10 @@ public class JImportDialog extends JDialog implements ActionListener {
 						else if (h.equalsIgnoreCase(Year.alias)) {
 							isError = true;
 							writeError(vLine, "ERROR: Result does not exist");
+						}
+						else if (n == 99 && h.matches("(qf|sf|thd)\\d*(w|r)")) {
+							isError = true;
+							writeError(vLine, "ERROR: Invalid Country (column " + h.toUpperCase() + ")");
 						}
 						vLine.set(i, s);
 					}

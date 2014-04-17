@@ -239,7 +239,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 		}
 		Integer id = (Integer) o.getClass().getMethod("getId").invoke(o);
 		// WIKIPEDIA
-		String url = "http://en.wikipedia.org/wiki/" + str1.replaceAll("\\s", "_");
+		String url = "http://en.wikipedia.org/wiki/" + str1.replaceAll("\\s", "_").replaceAll("'", "%27");
 		URL url_ = new URL(url + "_(disambiguation)");
 		HttpURLConnection conn = (HttpURLConnection) url_.openConnection();
 		conn.setDoOutput(true);

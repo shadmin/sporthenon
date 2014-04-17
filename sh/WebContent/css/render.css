@@ -140,6 +140,7 @@
 	/*margin: auto;*/
 }
 .tc .info .logo{
+	text-align: center;
 	padding: 10px 30px; 
 }
 .tc .info .caption{
