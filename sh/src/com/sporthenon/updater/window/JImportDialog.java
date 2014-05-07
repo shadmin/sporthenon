@@ -889,32 +889,60 @@ public class JImportDialog extends JDialog implements ActionListener {
 					if (StringUtils.notEmpty(s)) {
 						if(id1Qf1 == null && h.equalsIgnoreCase("qf1w"))
 							id1Qf1 = insertEntity(row, n, idSp, s);
-						if(id2Qf1 == null && h.equalsIgnoreCase("qf1r"))
+						else if(id2Qf1 == null && h.equalsIgnoreCase("qf1r"))
 							id2Qf1 = insertEntity(row, n, idSp, s);
-						if(id1Qf2 == null && h.equalsIgnoreCase("qf2w"))
+						else if(id1Qf2 == null && h.equalsIgnoreCase("qf2w"))
 							id1Qf2 = insertEntity(row, n, idSp, s);
-						if(id2Qf2 == null && h.equalsIgnoreCase("qf2r"))
+						else if(id2Qf2 == null && h.equalsIgnoreCase("qf2r"))
 							id2Qf2 = insertEntity(row, n, idSp, s);
-						if(id1Qf3 == null && h.equalsIgnoreCase("qf3w"))
+						else if(id1Qf3 == null && h.equalsIgnoreCase("qf3w"))
 							id1Qf3 = insertEntity(row, n, idSp, s);
-						if(id2Qf3 == null && h.equalsIgnoreCase("qf3r"))
+						else if(id2Qf3 == null && h.equalsIgnoreCase("qf3r"))
 							id2Qf3 = insertEntity(row, n, idSp, s);
-						if(id1Qf4 == null && h.equalsIgnoreCase("qf4w"))
+						else if(id1Qf4 == null && h.equalsIgnoreCase("qf4w"))
 							id1Qf4 = insertEntity(row, n, idSp, s);
-						if(id2Qf4 == null && h.equalsIgnoreCase("qf4r"))
+						else if(id2Qf4 == null && h.equalsIgnoreCase("qf4r"))
 							id2Qf4 = insertEntity(row, n, idSp, s);
-						if(id1Sf1 == null && h.equalsIgnoreCase("sf1w"))
+						else if(id1Sf1 == null && h.equalsIgnoreCase("sf1w"))
 							id1Sf1 = insertEntity(row, n, idSp, s);
-						if(id2Sf1 == null && h.equalsIgnoreCase("sf1r"))
+						else if(id2Sf1 == null && h.equalsIgnoreCase("sf1r"))
 							id2Sf1 = insertEntity(row, n, idSp, s);
-						if(id1Sf2 == null && h.equalsIgnoreCase("sf2w"))
+						else if(id1Sf2 == null && h.equalsIgnoreCase("sf2w"))
 							id1Sf2 = insertEntity(row, n, idSp, s);
-						if(id2Sf2 == null && h.equalsIgnoreCase("sf2r"))
+						else if(id2Sf2 == null && h.equalsIgnoreCase("sf2r"))
 							id2Sf2 = insertEntity(row, n, idSp, s);
-						if(id1Thd == null && h.equalsIgnoreCase("thdw"))
+						else if(id1Thd == null && h.equalsIgnoreCase("thdw"))
 							id1Thd = insertEntity(row, n, idSp, s);
-						if(id2Thd == null && h.equalsIgnoreCase("thdr"))
+						else if(id2Thd == null && h.equalsIgnoreCase("thdr"))
 							id2Thd = insertEntity(row, n, idSp, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf1w"))
+							updateEntity(row, n, id1Qf1, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf1r"))
+							updateEntity(row, n, id2Qf1, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf2w"))
+							updateEntity(row, n, id1Qf2, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf2r"))
+							updateEntity(row, n, id2Qf2, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf3w"))
+							updateEntity(row, n, id1Qf3, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf3r"))
+							updateEntity(row, n, id2Qf3, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf4w"))
+							updateEntity(row, n, id1Qf4, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf4r"))
+							updateEntity(row, n, id2Qf4, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("sf1w"))
+							updateEntity(row, n, id1Sf1, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("sf1r"))
+							updateEntity(row, n, id2Sf1, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("sf2w"))
+							updateEntity(row, n, id1Sf2, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("sf2r"))
+							updateEntity(row, n, id2Sf2, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("thdw"))
+							updateEntity(row, n, id1Thd, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("thdr"))
+							updateEntity(row, n, id2Thd, s);
 						else if (h.equalsIgnoreCase("qf1s"))
 							sQf1 = s;
 						else if (h.equalsIgnoreCase("qf2s"))

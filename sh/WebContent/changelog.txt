@@ -6,19 +6,20 @@
 +-------+
 | 0.7.0 |
 +-------+
-PERSONNE MULTI NOMS (EX. RYOKO TANI / TAMURA)
-TITRS PAGES (Results | Sporthenon.com)
-PLACE1 - PLACE2
-IMAGES / YEAR (COUNTRY / TEAM)
-country/athlete fiche affichage total medailles olympic + world + grand chelem tennis etc...
-UPDATER import coche "load picklists"
-LIENS WIKI / SPORTS-REFERENCE sur TOUTES entités...
-BUG OLYMPICS EVENTS DOUBLONS (patinage vitesse / All / 10000 M) + AJOUT COMPLEXE
-balises META (check l'equipe.Fr) + ajouter | SPORTHENON sur link ref nouvelle fenetre
-BUG TIE 1-2 (ex. downhill women 2014 JO)
-title sur code country XXX
-UPDATER updater:news management
-UPDATER draws (changer affichage tableau results) + records dans import CSV
+o Website
+	- New feature: <Entity Statistics> (==> medals/titles records for athletes/countries/teams)
+	- New feature: <External Links> (==> display URLs to external sites, i.e. wikipedia)
+	- Added year filter availability for country/team pictures
+	- Added tooltips on country codes
+	- Added "complex" column in Olympics results
+	- Current menu made visible in <TITLE> tag
+	- Fixed display bug on tied entities (1st + 2nd)
+	- Fixed bug on linked athletes with different names (only 1 name was displayed)
+o Updater (Swing app)
+	- New feature: <Quick Connect> (==> picklist loading can be disabled)
+	- New feature: <News Menu>
+	- Added draws/records in import tool
+	- DB structure: +RS.id_city1 / +RS.id_city2 / +RS.id_complex1 / +RS.id_complex2
 
 +-------+
 | 0.6.0 |
@@ -117,7 +118,7 @@ o Website
 	- Fixed bug: an error occured on some olympics views with empty subevent
 o Updater (Swing app)
 	- New feature: <Import CSV> (==> a mass update of data can done with CSV files)
-	- New feature: <Pictures Management>
+	- New feature: <Pictures Menu>
 	- New feature: <Refresh Tree>
 	- Draws insert/update for each result
 	- Comments textarea improved with scrollpane
