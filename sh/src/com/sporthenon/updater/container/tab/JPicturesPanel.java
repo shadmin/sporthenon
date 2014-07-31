@@ -24,6 +24,7 @@ import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -73,6 +74,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 	private JImagePanel jRemotePanel = null;
 	private JTextField jLocalFile = null;
 	private JTextField jRemoteFile = null;
+	private JList jRemoteList = null;
 	private JFileChooser jFileChooser = null;
 	private JLabel jDescription = null;
 
@@ -90,10 +92,10 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		JScrollPane leftPanel = new JScrollPane(jList);
 		leftPanel.setPreferredSize(new Dimension(150, 0));
 		leftPanel.setBorder(BorderFactory.createEmptyBorder());
-		leftPanel.setMinimumSize(new Dimension(0, 0));
+		leftPanel.setMinimumSize(new Dimension(100, 0));
 		JPanel rightPanel = new JPanel();
 		rightPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 5));
-		rightPanel.setLayout(new BorderLayout(50, 50));
+		rightPanel.setLayout(new BorderLayout(40, 40));
 		rightPanel.add(getButtonPanel(), BorderLayout.SOUTH);
 		rightPanel.add(getImagePanel(), BorderLayout.CENTER);
 		this.setTopComponent(leftPanel);
@@ -110,6 +112,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		v.add("State");
 		v.add("Team");
 		jList = new JList(v);
+		jList.setName("mainlist");
 		jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jList.setLayoutOrientation(JList.VERTICAL);
 		jList.setSelectedIndex(0);
@@ -217,6 +220,15 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		jRemoteFile = new JTextField(40);
 		jRemoteFile.setEditable(false);
 		p_.add(jRemoteFile);
+		jRemoteList = new JList(new DefaultListModel());
+		jRemoteList.setName("remotelist");
+		jRemoteList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		jRemoteList.setLayoutOrientation(JList.VERTICAL);
+		jRemoteList.setSelectedIndex(0);
+		jRemoteList.addListSelectionListener(this);
+		JScrollPane sp = new JScrollPane(jRemoteList);
+		sp.setPreferredSize(new Dimension(180, 55));
+		p_.add(sp);
 		pBottom.add(p_, BorderLayout.SOUTH);
 		p.add(pBottom, BorderLayout.SOUTH);
 
@@ -286,11 +298,14 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 				writer.append("\r\n").flush();
 				writer.append("--" + bnd + "--").append("\r\n").close();
 		        int status = conn.getResponseCode();
-		        if (status == 200)
+		        if (status == 200) {
+		        	jYear1.setText("");
+		        	jYear2.setText("");
 		        	loadImage(alias, currentId);
+		        }
 			}
 			else if (e.getActionCommand().equals("remove")) {
-				String params = "remove&entity=" + alias + "&id=" + currentId + "&size=" + (largeRadioBtn.isSelected() ? "L" : "S");
+				String params = "remove=1&name=" + jRemoteList.getSelectedValue();
 				URL url = new URL(ConfigUtils.getProperty("url") + "ImageServlet?" + params);
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		        int status = conn.getResponseCode();
@@ -327,18 +342,21 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 	@SuppressWarnings("deprecation")
 	private void loadImage(String alias, String currentId) {
 		try {
-			URL url = new URL(ConfigUtils.getProperty("url") + "ImageServlet?url=1&type=" + ImageUtils.getIndex(alias) + "&id=" + currentId + "&size=" + (largeRadioBtn.isSelected() ? "L" : "S"));
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			if (conn.getResponseCode() == 200) {
-				PlainTextInputStream pis = (PlainTextInputStream) conn.getContent();
-				DataInputStream dis = new DataInputStream(pis);
-				String s = dis.readLine();
-				jRemoteFile.setText(s);
-				try {
-					jRemotePanel.setImage(new URL(s));
-				}
-				catch (MalformedURLException e) {
-					jRemotePanel.setImage(null);
+			jRemoteFile.setText("");
+			URL url_ = new URL(ConfigUtils.getProperty("url") + "ImageServlet?list=1&type=" + ImageUtils.getIndex(alias) + "&id=" + currentId + "&size=" + (largeRadioBtn.isSelected() ? "L" : "S"));
+			HttpURLConnection conn_ = (HttpURLConnection) url_.openConnection();
+			if (conn_.getResponseCode() == 200) {
+				PlainTextInputStream pis_ = (PlainTextInputStream) conn_.getContent();
+				DataInputStream dis_ = new DataInputStream(pis_);
+				String s_ = dis_.readLine();
+				DefaultListModel model = (DefaultListModel) jRemoteList.getModel();
+				model.clear();
+				if (StringUtils.notEmpty(s_)) {
+					for (String s__ : s_.split(","))
+						if (StringUtils.notEmpty(s__))
+							model.addElement(s__);
+					if (model.getSize() > 0)
+						jRemoteList.setSelectedIndex(0);
 				}
 			}
 		}
@@ -349,18 +367,35 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 
 	public void valueChanged(ListSelectionEvent e) {
 		int index = 0;
-		if (e != null && e.getSource() instanceof JList)
+		if (e != null && e.getSource() instanceof JList) {
 			index = ((JList)e.getSource()).getSelectedIndex();
-		switch (index) {
-		case 0: alias = Championship.alias; break;
-		case 1: alias = Country.alias; break;
-		case 2: alias = Event.alias; break;
-		case 3: alias = Olympics.alias; break;
-		case 4: alias = Sport.alias; break;
-		case 5: alias = State.alias; break;
-		case 6: alias = Team.alias; break;
+			boolean isMainList = ((JList)e.getSource()).getName().equalsIgnoreCase("mainlist");
+			if (isMainList) {
+				switch (index) {
+					case 0: alias = Championship.alias; break;
+					case 1: alias = Country.alias; break;
+					case 2: alias = Event.alias; break;
+					case 3: alias = Olympics.alias; break;
+					case 4: alias = Sport.alias; break;
+					case 5: alias = State.alias; break;
+					case 6: alias = Team.alias; break;
+				}
+				actionPerformed(new ActionEvent(this, 0, "last"));
+			}
+			else {
+				try {
+					String value = String.valueOf(((JList)e.getSource()).getSelectedValue());
+					if (StringUtils.notEmpty(value) && !value.equals("null")) {
+						jRemoteFile.setText(ConfigUtils.getProperty("img.url") + value);
+						jRemotePanel.setImage(new URL(jRemoteFile.getText()));						
+					}
+				}
+				catch (MalformedURLException e_) {
+					jRemoteFile.setText("");
+					jRemotePanel.setImage(null);
+				}
+			}
 		}
-		actionPerformed(new ActionEvent(this, 0, "last"));
 	}
 
 }

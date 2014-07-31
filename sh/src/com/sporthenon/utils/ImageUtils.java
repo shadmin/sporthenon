@@ -1,6 +1,10 @@
 package com.sporthenon.utils;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class ImageUtils {
 
@@ -62,6 +66,17 @@ public class ImageUtils {
 	
 	public static String getBronzeHeader() {
 		return "<table><tr><td><img src='" + getRenderUrl() + "bronze.png'/></td><td class='bold'>Bronze</td></tr></table>";
+	}
+	
+	public static Collection<String> getImageList(short type, int id, char size) {
+		LinkedList<String> list = new LinkedList<String>();
+		String folder = ConfigUtils.getProperty("img.folder");
+		String name = type + "-" + id + "-" + size;
+		for (File f : new File(folder).listFiles())
+			if (f.getName().indexOf(name) == 0)
+				list.add(f.getName());
+		Collections.sort(list);
+		return list;
 	}
 	
 }

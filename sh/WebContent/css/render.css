@@ -69,7 +69,7 @@
 	background-color: #FFF;
 }
 .tc .bordered img{
-	border: 1px solid #AAA;
+	border: 1px solid #666;
 }
 .tc .hidden, .tc span.shorttitle, .tc span.url, .tc span.infostats{
 	display: none;

@@ -20,33 +20,31 @@ public class HtmlUtils {
 	public final static String SPACE = " ";
 	public final static String NO_RESULT = "<div class='noresult'>No result found matching the selected criteria.</div>";
 
-	public static String writeImage(short type, int id, char size, String year, String title, boolean disabled) {
+	public static String writeImage(short type, int id, char size, String year, String title) {
 		StringBuffer html = new StringBuffer();
-		if (!disabled) {
-			String folder = ConfigUtils.getProperty("img.folder");
-			String name = type + "-" + id + "-" + size;
-			
-			LinkedList<String> list = new LinkedList<String>();
-			for (File f : new File(folder).listFiles())
-				if (f.getName().indexOf(name) == 0) {
-					boolean isInclude = true;
-					if (StringUtils.notEmpty(year)) {
-						String[] t = f.getName().replaceAll("^" + name + "(\\_|)|(gif|png)$|(\\_\\d+|)\\.", "").split("\\-");
-						if (t.length > 1) {
-							Integer y = Integer.parseInt(year);
-							Integer y1 = Integer.parseInt(t[0].equalsIgnoreCase("X") ? "0" : t[0]);
-							Integer y2 = Integer.parseInt(t[1].equalsIgnoreCase("X") ? "5000" : t[1]);
-							isInclude = (y >= y1 && y <= y2);
-						}
+		String folder = ConfigUtils.getProperty("img.folder");
+		String name = type + "-" + id + "-" + size;
+		LinkedList<String> list = new LinkedList<String>();
+		for (File f : new File(folder).listFiles())
+			if (f.getName().indexOf(name) == 0) {
+				boolean isInclude = true;
+				if (StringUtils.notEmpty(year)) {
+					String[] t = f.getName().replaceAll("^" + name + "(\\_|)|(gif|png)$|(\\_\\d+|)\\.", "").split("\\-");
+					if (t.length > 1) {
+						Integer y = Integer.parseInt(year);
+						Integer y1 = Integer.parseInt(t[0].equalsIgnoreCase("X") ? "0" : t[0]);
+						Integer y2 = Integer.parseInt(t[1].equalsIgnoreCase("X") ? "5000" : t[1]);
+						isInclude = (y >= y1 && y <= y2);
 					}
-					if (isInclude)
-						list.add(f.getName());
 				}
-			Collections.sort(list);
-			
-			if (!list.isEmpty())
-				html.append("<img alt=''" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + " src='" + ImageUtils.getUrl() + list.getLast() + "'/>");
-		}
+				else
+					isInclude = !f.getName().matches(".*\\d{4}\\-\\d{4}\\.(gif|png)$");
+				if (isInclude)
+					list.add(f.getName());
+			}
+		Collections.sort(list);
+		if (!list.isEmpty())
+			html.append("<img alt=''" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + " src='" + ImageUtils.getUrl() + list.getLast() + "'/>");
 		return html.toString();
 	}
 
@@ -74,31 +72,29 @@ public class HtmlUtils {
 		return html.toString();
 	}
 
-	public static StringBuffer writeHeader(HashMap<String, String> h, boolean b1, boolean b2) {
+	public static StringBuffer writeHeader(HashMap<String, String> h) {
 		StringBuffer html = new StringBuffer();
 		html.append("<span class='shorttitle'>" + h.get("tabshorttitle") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
-		if (!b1) {
-			html.append("<table class='header'><tr><th colspan=" + (!b2 ? "2" : "1") + ">" + writeToggleTitle(h.get("title")) + "</th></tr>");
-			html.append("<tr>" + (!b2 ? "<td class='logos' rowspan=4>" + h.get("logos") + "</td>" : ""));
-			html.append("<td>" + h.get("item1") + "</td></tr>");
-			html.append("<tr><td>" + (h.containsKey("item2") && StringUtils.notEmpty(h.get("item2")) ? h.get("item2") : "-") + "</td></tr>");
-			html.append("<tr><td>" + (h.containsKey("item3") &&StringUtils.notEmpty(h.get("item3")) ? h.get("item3") : "-") + "</td></tr>");
-			html.append("<tr><td>" + (h.containsKey("item4") &&StringUtils.notEmpty(h.get("item4")) ? h.get("item4") : "-") + "</td></tr>");			
-			html.append("</table>");
-		}
+		html.append("<table class='header'><tr><th colspan='2'>" + writeToggleTitle(h.get("title")) + "</th></tr>");
+		html.append("<tr><td class='logos' rowspan=4>" + h.get("logos") + "</td>");
+		html.append("<td>" + h.get("item1") + "</td></tr>");
+		html.append("<tr><td>" + (h.containsKey("item2") && StringUtils.notEmpty(h.get("item2")) ? h.get("item2") : "-") + "</td></tr>");
+		html.append("<tr><td>" + (h.containsKey("item3") &&StringUtils.notEmpty(h.get("item3")) ? h.get("item3") : "-") + "</td></tr>");
+		html.append("<tr><td>" + (h.containsKey("item4") &&StringUtils.notEmpty(h.get("item4")) ? h.get("item4") : "-") + "</td></tr>");			
+		html.append("</table>");
 		return html;
 	}
 	
-	public static StringBuffer writeInfoHeader(LinkedHashMap<String, String> h, boolean b) {
+	public static StringBuffer writeInfoHeader(LinkedHashMap<String, String> h) {
 		StringBuffer html = new StringBuffer();
 		String tabTitle = h.get("tabtitle");
 		html.append("<span class='shorttitle'>" + tabTitle.replaceAll(".{6}\\[.+#.*\\]$", "") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
 		html.append("<table class='info'><tr><th colspan=2>" + writeToggleTitle(h.get("title")) + "</th></tr>");
-		if (h.containsKey("logo") && !b) {
+		if (h.containsKey("logo")) {
 			String logo = h.get("logo");
 			String bordered = (logo.matches("^.*" + ConfigUtils.getProperty("app.url") + "(" + ImageUtils.INDEX_COUNTRY + "|" + ImageUtils.INDEX_STATE + ").*") ? " bordered" : "");
 			html.append("<tr><td colspan=2 class='logo" + bordered + "'>" + logo + "</td></tr>");
