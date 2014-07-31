@@ -50,8 +50,8 @@ public class ImageServlet extends AbstractServlet {
 				}
 				String y1 = String.valueOf(hParams.get("y1"));
 				String y2 = String.valueOf(hParams.get("y2"));
-				String ext = (entity.toUpperCase().matches("CP|EV|OL|SP|TM") ? ".png" : ".gif");
-				String fileName = ImageUtils.getIndex(entity.toUpperCase()) + "-" + id + "-" + hParams.get("size") + (StringUtils.notEmpty(y1) ? "_" + y1 + "-" + y2 : "");
+				String ext = ".png";
+				String fileName = ImageUtils.getIndex(entity.toUpperCase()) + "-" + id + "-" + hParams.get("size") + (StringUtils.notEmpty(y1) && !y1.equals("null") ? "_" + y1 + "-" + y2 : "");
 				File f = new File(ConfigUtils.getProperty("img.folder") + fileName + ext);
 				if (f.exists()) {
 					int i = 1;
@@ -65,23 +65,26 @@ public class ImageServlet extends AbstractServlet {
 				fos.close();
 			}
 			else if (hParams.containsKey("remove")) {
-				String id = String.valueOf(hParams.get("id"));
-				String ext = (entity.toUpperCase().matches("CP|EV|OL|SP|TM") ? ".png" : ".gif");
-				String fileName = ImageUtils.getIndex(entity.toUpperCase()) + "-" + id + "-" + hParams.get("size");
-				File f = new File(ConfigUtils.getProperty("img.folder") + fileName + ext);
-				int i = 1;
-				while (f.exists()) {
+				String fname = String.valueOf(hParams.get("name"));
+				File f = new File(ConfigUtils.getProperty("img.folder") + fname);
+				if (f.exists())
 					f.delete();
-					f = new File(ConfigUtils.getProperty("img.folder") + fileName + "_" + i + ext);
-					i++;
-				}
 			}
 			else if (hParams.containsKey("url")) {
 				String type = String.valueOf(hParams.get("type"));
 				String id = String.valueOf(hParams.get("id"));
 				String size = String.valueOf(hParams.get("size"));
-				String s = HtmlUtils.writeImage(Short.valueOf(type), Integer.valueOf(id), size.charAt(0), null, null, false);
+				String s = HtmlUtils.writeImage(Short.valueOf(type), Integer.valueOf(id), size.charAt(0), null, null);
 				ServletHelper.writeText(response, s.replaceAll(".*src\\=\\'", "").replaceAll("\\'\\/\\>", ""));
+			}
+			else if (hParams.containsKey("list")) {
+				String type = String.valueOf(hParams.get("type"));
+				String id = String.valueOf(hParams.get("id"));
+				String size = String.valueOf(hParams.get("size"));
+				StringBuffer sb = new StringBuffer();
+				for (String s : ImageUtils.getImageList(Short.valueOf(type), Integer.valueOf(id), size.charAt(0)))
+					sb.append(s).append(",");
+				ServletHelper.writeText(response, sb.toString());
 			}
 			else if (hParams.containsKey("data")) {} // OBSOLETE
 			else if (hParams.containsKey("missing")) {
@@ -95,7 +98,7 @@ public class ImageServlet extends AbstractServlet {
 					Collection<PicklistBean> lst = DatabaseHelper.getEntityPicklist(DatabaseHelper.getClassFromAlias(entity_), label, null);
 					int n = 0;
 					for (PicklistBean o : lst) {
-						String ext = (entity_.toUpperCase().matches("CP|EV|OL|SP|TM") ? ".png" : ".gif");
+						String ext = ".png";
 						String fileName = ImageUtils.getIndex(entity_.toUpperCase()) + "-" + o.getValue() + "-L" + ext;
 						File f = new File(ConfigUtils.getProperty("img.folder") + fileName);
 						if (!f.exists())

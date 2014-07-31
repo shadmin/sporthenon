@@ -1,7 +1,14 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.7.0   |
+| Last Version: 0.8.0   |
 +-----------------------+
+
++-------+
+| 0.8.0 |
++-------+
+FLAG IMPROVEMENTS - affichage "former flags" sur fiche pays
+TEAM LOGO IMPROVEMENTS - CURRENT +  PREVIOUS LOGOS
+supp opts.ispicturedisabled
 
 +-------+
 | 0.7.0 |
