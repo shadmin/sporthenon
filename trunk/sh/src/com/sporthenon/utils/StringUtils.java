@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
+import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,8 +15,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+
+import com.sporthenon.utils.res.ResourceUtils;
 
 public class StringUtils {
 
@@ -29,6 +35,10 @@ public class StringUtils {
 		return (obj != null && String.valueOf(obj).trim().length() > 0);
 	}
 
+	public static String text(String key, HttpSession session) {
+		return ResourceUtils.getText(key, String.valueOf(session.getAttribute("locale")));
+	}
+	
 	public static String implode(Iterable<String> tValues, String sSeparator) {
 		StringBuffer sb = new StringBuffer();
 		for (String s : tValues)
@@ -131,6 +141,13 @@ public class StringUtils {
 	public static final String getSizeBytes(String s) {
 		DecimalFormat df = new DecimalFormat("###,##0.00");
 		return df.format(s != null ? new Double(s.getBytes().length / 1024.0d) : 0);
+	}
+	
+	public static String normalize(String s) {
+		final Pattern P = Pattern.compile("[\\p{InCombiningDiacriticalMarks}\\p{IsLm}\\p{IsSk}]+");
+	    s = Normalizer.normalize(s, Normalizer.Form.NFD);
+	    s = P.matcher(s).replaceAll("");
+	    return s;
 	}
 	
 	public static final String getCommentColor(String s) {

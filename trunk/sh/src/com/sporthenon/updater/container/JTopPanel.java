@@ -50,23 +50,23 @@ public class JTopPanel extends JPanel implements ActionListener {
 		jConnectButton = new JCustomButton("Connect", "common/connect.png", null);
 		jConnectButton.setActionCommand("connect");
 		setButtonLayout(jConnectButton);
-		jResultsButton = new JCustomToggleButton("Results", "updater/results.png", "results");
+		jResultsButton = new JCustomToggleButton("Results", "results.png", "results");
 		jResultsButton.setActionCommand("results");
 		setButtonLayout(jResultsButton);
-		jDataButton = new JCustomToggleButton("Data", "updater/data.png", "data");
+		jDataButton = new JCustomToggleButton("Data", "data.png", "data");
 		jDataButton.setActionCommand("data");
 		setButtonLayout(jDataButton);
-		jPicturesButton = new JCustomToggleButton("Pictures", "updater/image.png", "pictures");
+		jPicturesButton = new JCustomToggleButton("Pictures", "image.png", "pictures");
 		jPicturesButton.setActionCommand("pictures");
 		setButtonLayout(jPicturesButton);
-		jNewsButton = new JCustomToggleButton("News", "updater/news.png", "news");
+		jNewsButton = new JCustomToggleButton("News", "news.png", "news");
 		jNewsButton.setActionCommand("news");
 		setButtonLayout(jNewsButton);
-		jImportButton = new JCustomButton("Import", "updater/import.png", null);
+		jImportButton = new JCustomButton("Import", "import.png", null);
 		jImportButton.setActionCommand("import");
 		jImportButton.setEnabled(false);
 		setButtonLayout(jImportButton);
-		jQueryButton = new JCustomButton("Query", "updater/query.png", null);
+		jQueryButton = new JCustomButton("Query", "query.png", null);
 		jQueryButton.setActionCommand("query");
 		jQueryButton.setEnabled(false);
 		setButtonLayout(jQueryButton);
@@ -76,7 +76,7 @@ public class JTopPanel extends JPanel implements ActionListener {
 		jInfoButton = new JCustomButton("Info", "common/info.png", null);
 		jInfoButton.setActionCommand("info");
 		setButtonLayout(jInfoButton);
-		jCloseButton = new JCustomButton("Close", "updater/close.png", null);
+		jCloseButton = new JCustomButton("Close", "close.png", null);
 		jCloseButton.setActionCommand("close");
 		setButtonLayout(jCloseButton);
 
@@ -100,16 +100,15 @@ public class JTopPanel extends JPanel implements ActionListener {
 						connected = !connected;
 						jConnectButton.setText(connected ? "Disconnect" : "Connect");
 						jConnectButton.setIcon("common/" + (connected ? "disconnect" : "connect") + ".png");
-						if (connected) {
-							jResultsButton.setEnabled(true);
-							jDataButton.setEnabled(true);
-							jImportButton.setEnabled(true);
-							jQueryButton.setEnabled(true);
-							jPicturesButton.setEnabled(true);
-							jNewsButton.setEnabled(true);
-							jResultsButton.setSelected(true);
+						jResultsButton.setEnabled(connected);
+						jDataButton.setEnabled(connected);
+						jImportButton.setEnabled(connected);
+						jQueryButton.setEnabled(connected);
+						jPicturesButton.setEnabled(connected);
+						jNewsButton.setEnabled(connected);
+						jResultsButton.setSelected(connected);
+						if (connected)
 							parent.changeTabPanel("results");
-						}
 					}
 				}
 			}).start();

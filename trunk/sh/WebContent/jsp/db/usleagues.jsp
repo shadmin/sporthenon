@@ -4,7 +4,7 @@
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="usleagues" class="fieldset">
-	<div class="fstitle criteria">SEARCH CRITERIA</div>
+	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
 	<form id="usleagues-form" action="/usleagues">
 	<div class="league">
 		<!-- LEAGUE -->
@@ -28,11 +28,11 @@
 			<td><div id="f-championship" class="fieldset">
 				<div class="legend">
 					<table><tr><td><input type="radio" name="topic" id="championship" checked="checked" onclick="changeModeUS()"></input></td>
-					<td><label for="championship">&nbsp;Championships</label></td></tr></table>
+					<td><label for="championship">&nbsp;<%=StringUtils.text("championships", session)%></label></td></tr></table>
 				</div>
 				<div id="championship-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
 				<table style="margin-top:15px;">
-					<tr><td>Year:</td>
+					<tr><td><%=StringUtils.text("year", session)%>:</td>
 					<td><div id="sm-pl-championship-yr" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 				</table>
 			</div></td>
@@ -40,19 +40,19 @@
 			<td><div id="f-record" class="fieldset">
 				<div class="legend">
 					<table><tr><td><input type="radio" name="topic" id="record" onclick="changeModeUS()"></input></td>
-					<td><label for="record">&nbsp;Records</label></td></tr></table>
+					<td><label for="record">&nbsp;<%=StringUtils.text("records", session)%></label></td></tr></table>
 				</div>
 				<div id="record-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
 				<table>
-					<tr><td>Category:</td>
+					<tr><td><%=StringUtils.text("category", session)%>:</td>
 					<td><div id="sm-pl-record-se" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 				</table>
 				<table>
 					<tr><td style="width:80px;"><select id="pl-record-tp2" name="pl-record-tp2" style="width:105px;"><option/></select></td>
 					<td style="width:80px;"><select id="pl-record-tp1" name="pl-record-tp1" style="width:105px;">
-						<option value="'Individual'">Individual</option>
-						<option value="'Team'">Team</option>
-						<option value="'Individual', 'Team'">-- All --</option>
+						<option value="'Individual'"><%=StringUtils.text("individual", session)%></option>
+						<option value="'Team'"><%=StringUtils.text("team", session)%></option>
+						<option value="'Individual', 'Team'">-- <%=StringUtils.text("all", session)%> --</option>
 					</select></td></tr>
 				</table>
 			</div></td>
@@ -60,11 +60,11 @@
 			<td><div id="f-winloss" class="fieldset">
 				<div class="legend">
 					<table><tr><td><input type="radio" name="topic" id="winloss" onclick="changeModeUS()"></input></td>
-					<td><label for="winloss">&nbsp;Wins/Losses</label></td></tr></table>
+					<td><label for="winloss">&nbsp;<%=StringUtils.text("wins.losses", session)%></label></td></tr></table>
 				</div>
 				<div id="winloss-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
 				<table style="margin-top:15px;">
-					<tr><td>Team:</td>
+					<tr><td><%=StringUtils.text("team", session)%>:</td>
 					<td><div id="sm-pl-winloss-tm" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 				</table>
 			</div></td>
@@ -74,15 +74,15 @@
 			<td><div id="f-hof" class="fieldset">
 				<div class="legend">
 					<table><tr><td><input type="radio" name="topic" id="hof" onclick="changeModeUS()"></input></td>
-					<td><label for="hof">&nbsp;Hall of Fame</label></td></tr></table>
+					<td><label for="hof">&nbsp;<%=StringUtils.text("hall.fame", session)%></label></td></tr></table>
 				</div>
 				<div id="hof-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
 				<table>
-					<tr><td>Year:</td>
+					<tr><td><%=StringUtils.text("year", session)%>:</td>
 					<td><div id="sm-pl-hof-yr" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 				</table>
 				<table>
-					<tr><td>Position:</td>
+					<tr><td><%=StringUtils.text("position", session)%>:</td>
 					<td class="text"><input type="text" name="hof-position" id="hof-position" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"></input></td>
 					<td><span id="hof-postip" style="color:#666;cursor:help;font-weight:bold;">[?]</span></td></tr>
 				</table>
@@ -91,15 +91,15 @@
 			<td><div id="f-retnum" class="fieldset">
 				<div class="legend">
 					<table><tr><td><input type="radio" name="topic" id="retnum" onclick="changeModeUS()"></input></td>
-					<td><label for="retnum">&nbsp;Retired Numbers</label></td></tr></table>
+					<td><label for="retnum">&nbsp;<%=StringUtils.text("retired.numbers", session)%></label></td></tr></table>
 				</div>
 				<div id="retnum-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
 				<table>
-					<tr><td>Team:</td>
+					<tr><td><%=StringUtils.text("team", session)%>:</td>
 					<td><div id="sm-pl-retnum-tm" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 				</table>
 				<table>
-					<tr><td>Number:</td>
+					<tr><td><%=StringUtils.text("number", session)%>:</td>
 					<td class="text"><input type="text" name="retnum-number" id="retnum-number" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"></input></td></tr>
 				</table>
 			</div></td>
@@ -107,11 +107,11 @@
 			<td><div id="f-teamstadium" class="fieldset">
 				<div class="legend">
 					<table><tr><td><input type="radio" name="topic" id="teamstadium" onclick="changeModeUS()"></input></td>
-					<td><label for="teamstadium">&nbsp;Team Stadiums</label></td></tr></table>
+					<td><label for="teamstadium">&nbsp;<%=StringUtils.text("team.stadiums", session)%></label></td></tr></table>
 				</div>
 				<div id="teamstadium-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
 				<table style="margin-top:15px;">
-					<tr><td>Team:</td>
+					<tr><td><%=StringUtils.text("team", session)%>:</td>
 					<td><div id="sm-pl-teamstadium-tm" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 				</table>
 			</div></td>
@@ -124,12 +124,12 @@
 <script type="text/javascript">
 var tPos = new Array();
 window.onload = function() {
-	initSelectMult('sm-pl-championship-yr', 'Years', 165);
-	initSelectMult('sm-pl-hof-yr', 'Years', 165);
-	initSelectMult('sm-pl-retnum-tm', 'Teams', 160, 60);
-	initSelectMult('sm-pl-teamstadium-tm', 'Teams', 160, 60);
-	initSelectMult('sm-pl-record-se', 'Categories', 135, 45);
-	initSelectMult('sm-pl-winloss-tm', 'Teams', 160, 60);
+	initSelectMult('sm-pl-championship-yr', TEXT_YEARS, 165);
+	initSelectMult('sm-pl-hof-yr', TEXT_YEARS, 165);
+	initSelectMult('sm-pl-retnum-tm', TEXT_TEAMS, 160, 60);
+	initSelectMult('sm-pl-teamstadium-tm', TEXT_TEAMS, 160, 60);
+	initSelectMult('sm-pl-record-se', TEXT_CATEGORIES, 135, 45);
+	initSelectMult('sm-pl-winloss-tm', TEXT_TEAMS, 160, 60);
 	initSliderUS();
 	changeModeUS();
 	changeLeague('nfl');

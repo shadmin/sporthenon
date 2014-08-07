@@ -52,7 +52,7 @@ public class JInfoDialog extends JDialog implements ActionListener {
 	private JPanel getPanel() {
 		JPanel p = new JPanel(new BorderLayout());
 		p.setBorder(BorderFactory.createEtchedBorder());
-		p.add(new JLabel(ResourceUtils.getIcon("updater/logo.png")), BorderLayout.WEST);
+		p.add(new JLabel(ResourceUtils.getIcon("logo.png")), BorderLayout.WEST);
 		
 		JPanel p_ = new JPanel(new GridLayout(0, 1));
 		p_.add(new JLabel());

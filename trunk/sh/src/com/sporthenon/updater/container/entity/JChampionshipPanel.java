@@ -15,6 +15,7 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 	private static final long serialVersionUID = 1L;
 	
 	public JTextField jLabel;
+	public JTextField jLabelFR;
 	public JTextField jWebsite;
 	public JTextArea jComment;
 	public JTextField jIndex;
@@ -22,7 +23,7 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 	public JTextField jUrlWiki;
 
 	public JChampionshipPanel() {
-		super(7);
+		super(8);
 		initialize();
 	}
 
@@ -34,6 +35,14 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
         jLabel = new JTextField();
         jLabel.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jLabel);
+        
+        //Name (FR)
+        JLabel lLabelFR = new JLabel(" Name (FR):");
+        lLabelFR.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lLabelFR);
+        jLabelFR = new JTextField();
+        jLabelFR.setPreferredSize(TEXT_SIZE);
+        gridPanel.add(jLabelFR);
         
         //Website
         JLabel lWebsite = new JLabel(" Website:");
@@ -79,6 +88,10 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 	public JTextField getLabel() {
 		return jLabel;
 	}
+	
+	public JTextField getLabelFR() {
+		return jLabelFR;
+	}
 
 	public JTextField getWebsite() {
 		return jWebsite;
@@ -104,6 +117,10 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 		jLabel.setText(s);
 	}
 	
+	public void setLabelFR(String s) {
+		jLabelFR.setText(s);
+	}
+	
 	public void setWebsite(String s) {
 		jWebsite.setText(s);
 	}
@@ -127,6 +144,7 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
+		jLabelFR.setText("");
 		jWebsite.setText("");
 		jComment.setText("");
 		jIndex.setText("");

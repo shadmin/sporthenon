@@ -89,11 +89,11 @@ public class JQueryDialog extends JDialog implements ActionListener {
 		p.add(jScrollPane, BorderLayout.CENTER);
 		
 		JPanel p_ = new JPanel(new FlowLayout());
-		JCustomButton jExecuteButton = new JCustomButton("Execute", "updater/ok.png", null);
+		JCustomButton jExecuteButton = new JCustomButton("Execute", "ok.png", null);
 		jExecuteButton.setActionCommand("execute");
 		jExecuteButton.addActionListener(this);
 		p_.add(jExecuteButton);
-		JCustomButton jCloseButton = new JCustomButton("Close", "updater/cancel.png", null);
+		JCustomButton jCloseButton = new JCustomButton("Close", "cancel.png", null);
 		jCloseButton.setActionCommand("close");
 		jCloseButton.addActionListener(this);
 		p_.add(jCloseButton);

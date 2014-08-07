@@ -8,6 +8,7 @@ public class JStatePanel extends JAbstractEntityPanel {
 	private static final long serialVersionUID = 1L;
 	
 	public JTextField jLabel;
+	public JTextField jLabelFR;
 	public JTextField jCode;
 	public JTextField jCapital;
 	public JTextField jUrlWiki;
@@ -25,6 +26,14 @@ public class JStatePanel extends JAbstractEntityPanel {
         jLabel = new JTextField();
         jLabel.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jLabel);
+        
+        //Name (FR)
+        JLabel lLabelFR = new JLabel(" Name (FR):");
+        lLabelFR.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lLabelFR);
+        jLabelFR = new JTextField();
+        jLabelFR.setPreferredSize(TEXT_SIZE);
+        gridPanel.add(jLabelFR);
         
         //Code
         JLabel lCode = new JLabel(" Code:");
@@ -55,6 +64,10 @@ public class JStatePanel extends JAbstractEntityPanel {
 		return jLabel;
 	}
 
+	public JTextField getLabelFR() {
+		return jLabelFR;
+	}
+	
 	public JTextField getCode() {
 		return jCode;
 	}
@@ -71,6 +84,10 @@ public class JStatePanel extends JAbstractEntityPanel {
 		jLabel.setText(s);
 	}
 
+	public void setLabelFR(String s) {
+		jLabelFR.setText(s);
+	}
+	
 	public void setCode(String s) {
 		jCode.setText(s);
 	}
@@ -86,6 +103,7 @@ public class JStatePanel extends JAbstractEntityPanel {
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
+		jLabelFR.setText("");
 		jCode.setText("");
 		jCapital.setText("");
 		jUrlWiki.setText("");

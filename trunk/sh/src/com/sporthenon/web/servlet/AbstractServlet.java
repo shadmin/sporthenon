@@ -21,6 +21,10 @@ public abstract class AbstractServlet extends HttpServlet {
 	@Override
 	protected abstract void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;
 	
+	protected String getLocale(HttpServletRequest req) {
+		return String.valueOf(req.getSession().getAttribute("locale"));
+	}
+	
 	protected void handleException(Throwable e) {
 		logger.error(e.getMessage(), e);
 	}

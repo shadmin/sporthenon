@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.converter.HtmlConverter;
 import com.sporthenon.utils.ExportUtils;
-import com.sporthenon.web.RenderOptions;
 
 public class SearchServlet extends AbstractServlet {
 
@@ -45,9 +44,9 @@ public class SearchServlet extends AbstractServlet {
 				lFuncParams.add(pattern);
 				lFuncParams.add(scope);
 				lFuncParams.add((short)(ref ? 1 : 0));
-				RenderOptions opts = ServletHelper.buildOptions(hParams);
-				StringBuffer html = HtmlConverter.getHeader(HtmlConverter.HEADER_SEARCH, lFuncParams, opts);
-				html.append(HtmlConverter.convertSearch(DatabaseHelper.call("Search", lFuncParams), String.valueOf(hParams.get("pattern")), ref, opts));
+				lFuncParams.add("_" + getLocale(request));
+				StringBuffer html = HtmlConverter.getHeader(HtmlConverter.HEADER_SEARCH, lFuncParams, getLocale(request));
+				html.append(HtmlConverter.convertSearch(DatabaseHelper.call("Search", lFuncParams), String.valueOf(hParams.get("pattern")), ref, getLocale(request)));
 				if (isLink) {
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));

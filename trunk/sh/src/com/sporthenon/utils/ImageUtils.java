@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import com.sporthenon.utils.res.ResourceUtils;
+
 public class ImageUtils {
 
 	public static final short INDEX_SPORT = 0;
@@ -56,16 +58,16 @@ public class ImageUtils {
 		return "<img title='Bronze' src='" + getRenderUrl() + "bronze-mini.png?2'/>";
 	}
 	
-	public static String getGoldHeader() {
-		return "<table><tr><td><img src='" + getRenderUrl() + "gold.png'/></td><td class='bold'>Gold</td></tr></table>";
+	public static String getGoldHeader(String lang) {
+		return "<table><tr><td><img src='" + getRenderUrl() + "gold.png'/></td><td class='bold'>" + ResourceUtils.getText("gold", lang) + "</td></tr></table>";
 	}
 	
-	public static String getSilverHeader() {
-		return "<table><tr><td><img src='" + getRenderUrl() + "silver.png'/></td><td class='bold'>Silver</td></tr></table>";
+	public static String getSilverHeader(String lang) {
+		return "<table><tr><td><img src='" + getRenderUrl() + "silver.png'/></td><td class='bold'>" + ResourceUtils.getText("silver", lang) + "</td></tr></table>";
 	}
 	
-	public static String getBronzeHeader() {
-		return "<table><tr><td><img src='" + getRenderUrl() + "bronze.png'/></td><td class='bold'>Bronze</td></tr></table>";
+	public static String getBronzeHeader(String lang) {
+		return "<table><tr><td><img src='" + getRenderUrl() + "bronze.png'/></td><td class='bold'>" + ResourceUtils.getText("bronze", lang) + "</td></tr></table>";
 	}
 	
 	public static Collection<String> getImageList(short type, int id, char size) {

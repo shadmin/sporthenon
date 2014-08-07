@@ -17,7 +17,7 @@ import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.StringUtils;
-import com.sporthenon.web.RenderOptions;
+import com.sporthenon.utils.res.ResourceUtils;
 
 public class ResultServlet extends AbstractServlet {
 
@@ -56,12 +56,12 @@ public class ResultServlet extends AbstractServlet {
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("ev")) ? new Integer(String.valueOf(hParams.get("ev"))) : 0);
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("se")) ? new Integer(String.valueOf(hParams.get("se"))) : 0);
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("yr")) ? String.valueOf(hParams.get("yr")) : "0");
+				lFuncParams.add("_" + getLocale(request));
 				Championship oCp = (Championship) DatabaseHelper.loadEntity(Championship.class, new Integer(String.valueOf(lFuncParams.get(1))));
 				Event oEv = (Event) DatabaseHelper.loadEntity(Event.class, new Integer(String.valueOf(lFuncParams.get(3)).equals("0") ? String.valueOf(lFuncParams.get(2)) : String.valueOf(lFuncParams.get(3))));
-				RenderOptions opts = ServletHelper.buildOptions(hParams);
 				StringBuffer html = new StringBuffer();
-				html.append(HtmlConverter.getHeader(HtmlConverter.HEADER_RESULTS, lFuncParams, opts));
-				html.append(HtmlConverter.convertResults(DatabaseHelper.call("GetResults", lFuncParams), oCp, oEv, opts));
+				html.append(HtmlConverter.getHeader(HtmlConverter.HEADER_RESULTS, lFuncParams, getLocale(request)));
+				html.append(HtmlConverter.convertResults(DatabaseHelper.call("GetResults", lFuncParams), oCp, oEv, getLocale(request)));
 				if (isLink) {
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
@@ -80,20 +80,20 @@ public class ResultServlet extends AbstractServlet {
 				boolean isEv = StringUtils.notEmpty(hParams.get("ev"));
 				boolean isSe = StringUtils.notEmpty(hParams.get("se"));
 				if (hParams.containsKey(PICKLIST_ID_SPORT)) {
-					cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "sport", null, null, 2));
+					cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "sport", null, null, 2, getLocale(request)));
 					plId = PICKLIST_ID_SPORT;
 				}
 				else if (hParams.containsKey(PICKLIST_ID_CHAMPIONSHIP)) {
 					filter = "sport.id=" + hParams.get("sp");
 					if (isSp)
-						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "championship", filter, "x.championship.inactive || '-'", "x.championship.inactive, x.championship.index, x.championship.label"));
+						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "championship", filter, "x.championship.inactive || '-'", "x.championship.inactive, x.championship.index, x.championship.label", getLocale(request)));
 					plId = PICKLIST_ID_CHAMPIONSHIP;
 				}
 				else if (hParams.containsKey(PICKLIST_ID_EVENT)) {
 					filter = "sport.id=" + hParams.get("sp");
 					filter += " and championship.id=" + hParams.get("cp");
 					if (isSp && isCp)
-						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "event", filter, "x.event.inactive || '-'", "x.event.inactive, x.event.index, x.event.label"));
+						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "event", filter, "x.event.inactive || '-'", "x.event.inactive, x.event.index, x.event.label", getLocale(request)));
 					plId = PICKLIST_ID_EVENT;
 				}
 				else if (hParams.containsKey(PICKLIST_ID_SUBEVENT)) {
@@ -101,7 +101,7 @@ public class ResultServlet extends AbstractServlet {
 					filter += " and championship.id=" + hParams.get("cp");
 					filter += " and event.id=" + hParams.get("ev");
 					if (isSp && isCp && isEv)
-						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "subevent", filter, "x.subevent.inactive || '-'", "x.subevent.inactive, x.subevent.index, x.subevent.label"));
+						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "subevent", filter, "x.subevent.inactive || '-'", "x.subevent.inactive, x.subevent.index, x.subevent.label", getLocale(request)));
 					plId = PICKLIST_ID_SUBEVENT;
 				}
 				else if (hParams.containsKey(PICKLIST_ID_YEAR)) {
@@ -112,8 +112,8 @@ public class ResultServlet extends AbstractServlet {
 							filter += " and event.id=" + hParams.get("ev");
 						if (isSe)
 							filter += " and subevent=" + hParams.get("se");
-						cPicklist.add(new PicklistBean(0, "---&nbsp;All Years&nbsp;---"));
-						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "year", filter, null, (short) 1));	
+						cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.years", getLocale(request)) + "&nbsp;---"));
+						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "year", filter, null, (short) 1, getLocale(request)));	
 					}
 					plId = PICKLIST_ID_YEAR;
 				}

@@ -106,7 +106,7 @@ input{
 }
 .loading{
 	width: 100%;
-	background: #FFF url(../img/db/loading.gif?0)	center center no-repeat;
+	background: #FFF url(../img/db/loading.gif?0) center center no-repeat;
 	width: 180px;
 	height: 80px;
 	margin: 0 auto;
@@ -144,7 +144,7 @@ input{
 	width: 210px;
 }
 #logo img{
-	padding-bottom: 8px;
+	/*padding-bottom: 0px;*/
 	border: none;
 }
 #shmenu{
@@ -223,9 +223,15 @@ input{
 #shmenu-project:hover, #shmenu-project.selected{
 	background-color: #9F2c0a;
 }
+#flags{
+	width: 231px;
+	/*margin: 5px;
+	padding-right: 25px;*/
+	text-align: right;
+}
 #links{
 	margin: 5px;
-	margin-top: 25px;
+	/*margin-top: 25px;*/
 	font: 10px Tahoma;
 }
 #links img{

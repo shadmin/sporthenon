@@ -6,6 +6,8 @@
 	<entry key="db.name">shprod</entry>
 	<entry key="db.user">***UserID***</entry>
 	<entry key="alwaystop">0</entry>
+	<entry key="proxy.addr"></entry>
+	<entry key="proxy.port"></entry>
 -->
 	<entry key="db.host">localhost</entry>
 	<entry key="db.name">shlocal</entry>

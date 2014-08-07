@@ -72,10 +72,10 @@ function createTip(name, pl) {
 }
 function updateTip(pl) {
 	if (hTips.size() == 0 || !hTips.get(pl)) return;
-	var text = 'Currently selected:';
+	var text = TEXT_CURRENTLY_SELECTED + ':';
 	var t = $(pl).value.split(',');
 	if (t[0] == 0) {
-		text += '<br/>[All]';
+		text += '<br/>[' + TEXT_ALL + ']';
 	}
 	else {
 		var h = new Hash();
@@ -87,7 +87,7 @@ function updateTip(pl) {
 		}
 		text += (t.length > 10 ? '<br/>(+' + (t.length - 10) + ' more)' : '');
 	}
-	text += '<br/><br/><span class="bold">(Click to change selection)</span>';
+	text += '<br/><br/><span class="bold">(' + TEXT_CLICK_CHANGE + ')</span>';
 	$(hTips.get(pl)).update(text);
 }
 function handleRender() {
@@ -133,6 +133,7 @@ function info(s) {
 	t1 = currentTime();
 	if ($('tabcontrol')) {
 		window.scrollTo(0, 0);
+		addTab(TEXT_BLANK);
 		var tab = initTab();
 		new Ajax.Updater(tab, 'InfoRefServlet?p=' + s, {
 			onComplete: handleRender,
@@ -248,19 +249,20 @@ function toggleTreeExpand() {
 	if (!treeExpanded) {
 		$('treeview').removeClassName('collapsed').addClassName('expanded');
 		img.src = img.src.replace('expand', 'collapse');
-		img.alt = img.alt.replace('Expand', 'Collapse');
+		img.alt = img.alt.replace(TEXT_EXPAND, TEXT_COLLAPSE);
 		$('treeview').style.border = '1px solid #000';
 	}
 	else {
 		$('treeview').removeClassName('expanded').addClassName('collapsed');
 		img.src = img.src.replace('collapse', 'expand');
-		img.alt = img.alt.replace('Collapse', 'Expand');
+		img.alt = img.alt.replace(TEXT_COLLAPSE, TEXT_EXPAND);
 		$('treeview').style.border = '1px solid #DDD';
 	}
 	$('treeicontxt').update(img.alt);
 	//img.title = img.alt;
 	treeExpanded = !treeExpanded;
 }
+/* ==================== UTILS ==================== */
 var t1 = null;
 var t2 = null;
 function elapsedTime(t1_, t2_) {
@@ -269,15 +271,22 @@ function elapsedTime(t1_, t2_) {
 function backTop() {
 	window.scrollTo(0, 0);
 }
+function setLang(s) {
+	new Ajax.Request('IndexServlet?lang=1&value=' + s, {
+		onSuccess: function(response){
+			window.location.reload();
+		}
+	});
+}
 /* ==================== TABCONTROL ==================== */
 var tabcurrent = 0;
 var tabcount = 0;
 function initTabControl() {
-	addTab('Blank');
+	addTab(TEXT_BLANK);
 	
 	tabbar.insert('<li title="Open New Tab" id="link-add"><a href="javascript:void(0);"></a></li>');
 	var link = $$('#link-add a')[0];
-	link.observe('click', function(){addTab('Blank');});
+	link.observe('click', function(){addTab(TEXT_BLANK);});
 }
 function getCloseImg(idx) {
 	var img = new Element('img', {id: 'close-' + idx, src: 'img/component/tabcontrol/close.gif'});
@@ -319,7 +328,7 @@ function addTab(title) {
 }
 function initTab() {
 	var tab = $(tabs.activeContainer.id);
-	$('title-' + tab.id.replace('t-', '')).update('Loading...');
+	$('title-' + tab.id.replace('t-', '')).update(TEXT_LOADING);
 	$('export').removeClassName('export-disabled').addClassName('export').disabled = '';
 	$('link').removeClassName('link-disabled').addClassName('link').disabled = '';
 	$('print').removeClassName('print-disabled').addClassName('print').disabled = '';
@@ -361,7 +370,7 @@ function displayLastUpdates() {
 }
 function refreshLastUpdates() {
 	$('dupdates').update('<img src="img/db/loading.gif?6" alt="Loading..."/>');
-	new Ajax.Updater($('dupdates'), 'HomeServlet?lastupdates=1&count=' + $('countupdt').value, {});
+	new Ajax.Updater($('dupdates'), 'IndexServlet?lastupdates=1&count=' + $('countupdt').value, {});
 }
 function displayExport() {
 	if (dExport) {
@@ -388,8 +397,8 @@ function displayInfo() {
 	var tInfo = info.split('|');
 	var t = $$('#d-info td');
 	t[0].update(url);
-	t[1].update(tInfo[0] + '&nbsp;Kb');
-	t[2].update(tInfo[1] + '&nbsp;seconds');
+	t[1].update(tInfo[0] + '&nbsp;' + TEXT_KB);
+	t[2].update(tInfo[1] + '&nbsp;' + TEXT_SECONDS);
 	t[3].update(tInfo[2]);
 	$('header').setStyle({ opacity: 0.4 });
 	$('content').setStyle({ opacity: 0.4 });
@@ -557,7 +566,7 @@ function selMultClick() {
 }
 /* ==================== HOME ==================== */
 function loadHomeData() {
-	new Ajax.Request('HomeServlet?t=' + currentTime(), {
+	new Ajax.Request('IndexServlet?t=' + currentTime(), {
 		onSuccess: function(response) {
 			var xml = response.responseXML;
 			if (!xml) return;
@@ -691,7 +700,23 @@ function treeLeafClick(anchor, value) {
 	if (treeExpanded) {
 		toggleTreeExpand();
 	}
-	runResults(value.split('_'));
+	var t = value.split('_');
+	runResults(t);
+	$('pl-sp').value = t[0];
+	$('pl-sp').onchange();
+	setTimeout(function(){
+		$('pl-cp').value = t[1];
+		$('pl-cp').onchange();
+		setTimeout(function(){
+			$('pl-ev').value = t[2];
+			$('pl-ev').onchange();
+			if (t.length > 3 && t[3] != '') {
+				setTimeout(function(){
+					$('pl-se').value = t[3];
+				}, 600);
+			}
+		}, 600);
+	}, 600);
 }
 /* ==================== OLYMPICS ==================== */
 function initOlympics(picklistId) {

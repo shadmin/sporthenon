@@ -9,6 +9,14 @@
 FLAG IMPROVEMENTS - affichage "former flags" sur fiche pays
 TEAM LOGO IMPROVEMENTS - CURRENT +  PREVIOUS LOGOS
 supp opts.ispicturedisabled
+ajouter serveur proxy dans options.xml (supprimer proxy dans URL update)
+UPDATER bug pictures mgt titre fichier null-null.png (years)
+UPDATE improve pictures with list remote files
+ouverture nouvel onglet sur DRAWS + fiche INFO
+bug title conserve titre ancienne session
+results: onclick sur tree = chargement automatique selection dans picklists
+links sports-ref pour sports-us
+UPDATER download remote pic
 
 +-------+
 | 0.7.0 |

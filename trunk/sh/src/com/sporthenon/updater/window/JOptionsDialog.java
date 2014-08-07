@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Properties;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -42,7 +43,9 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 	private JTextField jDatabase;
 	private JTextField jLogin;
 	private JCheckBox jAlwaysTop = null;
-
+	private JTextField jProxyAddr;
+	private JTextField jProxyPort;
+	
 	private Properties props = null;
 	private HashMap<String, String> hConfig = null;
 	private String configDir = null;
@@ -62,7 +65,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 			catch (Exception e) {}
 			props = new Properties();
 			File f = new File(configDir + "\\options.xml");
-			InputStream is = (StringUtils.notEmpty(configDir) && f.exists() ? new FileInputStream(f) : ConfigUtils.class.getResourceAsStream("/com/sporthenon/updater/options.xml"));
+			InputStream is = (StringUtils.notEmpty(configDir) && f.exists() ? new FileInputStream(f) : ConfigUtils.class.getResourceAsStream("/com/sporthenon/options.xml"));
 			props.loadFromXML(is);
 			hConfig = new HashMap<String, String>();
 			for (Object key : props.keySet())
@@ -73,7 +76,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		}
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(350, 250));
+		this.setPreferredSize(new Dimension(350, 310));
 		this.setSize(this.getPreferredSize());
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
@@ -84,8 +87,13 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		JDialogButtonBar jButtonBar = new JDialogButtonBar(this);
 		jContentPane.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 4));
 		jContentPane.setLayout(new BorderLayout());
-		jContentPane.add(getDatabasePanel(), BorderLayout.NORTH);
-		jContentPane.add(getWindowPanel(), BorderLayout.CENTER);
+		
+		JPanel p = new JPanel();
+		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+		p.add(getDatabasePanel());
+		p.add(getWindowPanel());
+		p.add(getProxyPanel());
+		jContentPane.add(p, BorderLayout.NORTH);
 		jContentPane.add(jButtonBar, BorderLayout.SOUTH);
 	}
 
@@ -98,6 +106,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		jEnvironment.addItem("Local");
 		jEnvironment.addItem("Custom");
 		jEnvironment.setSelectedIndex(-1);
+		jEnvironment.setPreferredSize(new Dimension(350, 20));
 		for (int i = 0 ; i < 3 ; i++)
 			if (tHost[i].equals(hConfig.get("db.host")) && tDatabase[i].equals(hConfig.get("db.name")))
 				jEnvironment.setSelectedIndex(i);
@@ -129,6 +138,18 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		p.add(jAlwaysTop);
 		return p;
 	}
+	
+	private JPanel getProxyPanel() {
+		JPanel p = new JPanel(new GridLayout(2, 2, 5, 5));
+		p.setBorder(BorderFactory.createTitledBorder(null, "Proxy", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
+		jProxyAddr = new JTextField(hConfig.get("proxy.addr"));
+		p.add(new JLabel(" Address:"));
+		p.add(jProxyAddr);
+		jProxyPort = new JTextField(hConfig.get("proxy.port"));
+		p.add(new JLabel(" Port:"));
+		p.add(jProxyPort);
+		return p;
+	}
 
 	public void open(JTopPanel parent) {
 		this.parent = parent;
@@ -144,6 +165,8 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 					props.setProperty("db.name", jDatabase.getText());
 					props.setProperty("db.user", jLogin.getText());
 					props.setProperty("alwaystop", jAlwaysTop.isSelected() ? "1" : "0");
+					props.setProperty("proxy.addr", jProxyAddr.getText());
+					props.setProperty("proxy.port", jProxyPort.getText());
 					props.storeToXML(new FileOutputStream(new File(configDir + "\\options.xml")), null);
 				}
 			}
@@ -177,6 +200,14 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 
 	public JCheckBox getAlwaysTop() {
 		return jAlwaysTop;
+	}
+	
+	public JTextField getProxyAddr() {
+		return jProxyAddr;
+	}
+	
+	public JTextField getProxyPort() {
+		return jProxyPort;
 	}
 
 }

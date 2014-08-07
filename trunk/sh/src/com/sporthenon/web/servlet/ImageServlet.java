@@ -95,7 +95,7 @@ public class ImageServlet extends AbstractServlet {
 						label = "concat(concat(year.label, ' - '), city.label)";
 					else if (entity_.equalsIgnoreCase(Team.alias))
 						label = "concat(concat(label, ' - '), sport.label)";
-					Collection<PicklistBean> lst = DatabaseHelper.getEntityPicklist(DatabaseHelper.getClassFromAlias(entity_), label, null);
+					Collection<PicklistBean> lst = DatabaseHelper.getEntityPicklist(DatabaseHelper.getClassFromAlias(entity_), label, null, getLocale(request));
 					int n = 0;
 					for (PicklistBean o : lst) {
 						String ext = ".png";

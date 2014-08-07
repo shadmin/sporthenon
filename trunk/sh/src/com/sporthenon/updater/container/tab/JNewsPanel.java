@@ -61,7 +61,7 @@ public class JNewsPanel extends JPanel implements ActionListener {
 		JScrollPane commentPane = new JScrollPane(jText);
 		commentPane.setPreferredSize(new Dimension(400, 200));
 		this.add(commentPane);
-		JCustomButton saveButton = new JCustomButton("Save", "updater/save.png", null);
+		JCustomButton saveButton = new JCustomButton("Save", "save.png", null);
 		saveButton.addActionListener(this);
 		saveButton.setActionCommand("save");
 		this.add(saveButton);

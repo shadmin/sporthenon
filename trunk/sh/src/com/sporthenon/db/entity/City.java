@@ -28,7 +28,7 @@ public class City {
 	private String label;
 	
 	@Column(name = "label_fr", length = 25, nullable = false)
-	private String labelFr;
+	private String labelFR;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_country", nullable = false)
@@ -58,15 +58,14 @@ public class City {
 
 	public void setLabel(String label) {
 		this.label = label;
-		this.labelFr = label;
 	}
 
 	public String getLabelFr() {
-		return labelFr;
+		return labelFR;
 	}
 
 	public void setLabelFr(String labelFr) {
-		this.labelFr = labelFr;
+		this.labelFR = labelFr;
 	}
 
 	public Country getCountry() {
@@ -101,6 +100,10 @@ public class City {
 		this.urlWiki = urlWiki;
 	}
 
+	public String getLabel(String lang) {
+		return (lang != null && lang.equalsIgnoreCase("fr") ? labelFR : label);
+	}
+	
 	@Override
 	public String toString() {
 		return label + (country != null ? ", " + country : "") + " [#" + id + "]";
