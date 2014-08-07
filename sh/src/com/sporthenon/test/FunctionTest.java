@@ -52,7 +52,9 @@ public class FunctionTest extends TestCase {
 	}
 	
 	public void testTreeResults() throws Exception {
-		Collection col = DatabaseHelper.call("TreeResults", null);
+		ArrayList<Object> params = new ArrayList<Object>();
+		params.add(new String(""));
+		Collection col = DatabaseHelper.call("TreeResults", params);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
 		ArrayList<Object> lst = new ArrayList<Object>(col);

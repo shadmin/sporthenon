@@ -15,9 +15,9 @@
 	</jsp-config>
 	
 	<servlet>
-		<display-name>HomeServlet</display-name>
-		<servlet-name>HomeServlet</servlet-name>
-		<servlet-class>com.sporthenon.web.servlet.HomeServlet</servlet-class>
+		<display-name>IndexServlet</display-name>
+		<servlet-name>IndexServlet</servlet-name>
+		<servlet-class>com.sporthenon.web.servlet.IndexServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<display-name>ProjectServlet</display-name>
@@ -70,8 +70,8 @@
 		<servlet-class>com.sporthenon.web.servlet.USLeaguesServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>HomeServlet</servlet-name>
-		<url-pattern>/HomeServlet</url-pattern>
+		<servlet-name>IndexServlet</servlet-name>
+		<url-pattern>/IndexServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>ImageServlet</servlet-name>

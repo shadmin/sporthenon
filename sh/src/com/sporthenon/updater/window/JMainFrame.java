@@ -148,7 +148,7 @@ public class JMainFrame extends JFrame {
 			this.setLocationRelativeTo(null);
 			List<Image> lIcons = new ArrayList<Image>();
 			for (String size : new String[]{"16", "32", "48", "64", "72", "128", "256"})
-				lIcons.add(Toolkit.getDefaultToolkit().getImage(JMainFrame.class.getResource("/com/sporthenon/utils/res/img/updater/icon" + size + ".png")));
+				lIcons.add(Toolkit.getDefaultToolkit().getImage(JMainFrame.class.getResource("/com/sporthenon/utils/res/img/icon" + size + ".png")));
 			this.setIconImages(lIcons);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}
@@ -271,7 +271,7 @@ public class JMainFrame extends JFrame {
 				sql = "select TM.id, TM.label || case when id_country is not null then ' [' || CN.code || ']' else '' end || case when TM.year1 is not null and TM.year1 <> '' then ' [' || TM.year1 || ']' else '' end || case when TM.year2 is not null and TM.year2 <> '' then ' [' || TM.year2 || ']' else '' end as text, TM.id_sport ";
 				sql += "from \"TEAM\" TM left join \"COUNTRY\" CN on TM.id_country=CN.id order by text";
 			}
-			ArrayList<PicklistBean> lst = new ArrayList<PicklistBean>(sql != null ? DatabaseHelper.getPicklistFromQuery(sql, true) : DatabaseHelper.getEntityPicklist(c_, label, null));
+			ArrayList<PicklistBean> lst = new ArrayList<PicklistBean>(sql != null ? DatabaseHelper.getPicklistFromQuery(sql, true) : DatabaseHelper.getEntityPicklist(c_, label, null, "en"));
 			Field alias = c_.getDeclaredField("alias");
 			alias.setAccessible(true);
 			hPicklists.put(String.valueOf(alias.get(null)), lst);
@@ -300,6 +300,10 @@ public class JMainFrame extends JFrame {
 			en.setFirstName(p.getFirstName().getText());
 			en.setUrlWiki(p.getUrlWiki().getText());
 			en.setUrlOlyref(p.getUrlOlyref().getText());
+			en.setUrlBktref(p.getUrlBktref().getText());
+			en.setUrlBbref(p.getUrlBbref().getText());
+			en.setUrlFtref(p.getUrlFtref().getText());
+			en.setUrlHkref(p.getUrlHkref().getText());
 			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLastName() + ", " + en.getFirstName() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : "") + (en.getTeam() != null ? " [" + en.getTeam().getLabel() + "]" : ""));
 			if (en.getLink() != null && en.getLink() > 0) {
 				try {
@@ -316,6 +320,7 @@ public class JMainFrame extends JFrame {
 			JChampionshipPanel p = (JChampionshipPanel) jEntityPanels.get(alias);
 			Championship en = (Championship) o;
 			en.setLabel(p.getLabel().getText());
+			en.setLabelFr(p.getLabelFR().getText());
 			en.setWebsite(p.getWebsite().getText());
 			en.setComment(p.getComment().getText());
 			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Integer.parseInt(p.getIndex().getText()) : Integer.MAX_VALUE);
@@ -327,6 +332,7 @@ public class JMainFrame extends JFrame {
 			JCityPanel p = (JCityPanel) jEntityPanels.get(alias);
 			City en = (City) o;
 			en.setLabel(p.getLabel().getText());
+			en.setLabelFr(p.getLabelFR().getText());
 			en.setState((State)DatabaseHelper.loadEntity(State.class, SwingUtils.getValue(p.getState())));
 			en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
 			en.setUrlWiki(p.getUrlWiki().getText());
@@ -336,6 +342,7 @@ public class JMainFrame extends JFrame {
 			JComplexPanel p = (JComplexPanel) jEntityPanels.get(alias);
 			Complex en = (Complex) o;
 			en.setLabel(p.getLabel().getText());
+			en.setLabelFr(p.getLabelFR().getText());
 			en.setCity((City)DatabaseHelper.loadEntity(City.class, SwingUtils.getValue(p.getCity())));
 			en.setUrlWiki(p.getUrlWiki().getText());
 			plb.setText(en.getLabel() + " [" + en.getCity().getLabel() + ", " + en.getCity().getCountry().getCode() + "]");
@@ -344,6 +351,7 @@ public class JMainFrame extends JFrame {
 			JCountryPanel p = (JCountryPanel) jEntityPanels.get(alias);
 			Country en = (Country) o;
 			en.setLabel(p.getLabel().getText());
+			en.setLabelFr(p.getLabelFR().getText());
 			en.setCode(p.getCode().getText());
 			en.setUrlWiki(p.getUrlWiki().getText());
 			en.setUrlOlyref(p.getUrlOlyref().getText());
@@ -353,6 +361,7 @@ public class JMainFrame extends JFrame {
 			JEventPanel p = (JEventPanel) jEntityPanels.get(alias);
 			Event en = (Event) o;
 			en.setLabel(p.getLabel().getText());
+			en.setLabelFr(p.getLabelFR().getText());
 			en.setType((Type)DatabaseHelper.loadEntity(Type.class, SwingUtils.getValue(p.getType())));
 			en.setWebsite(p.getWebsite().getText());
 			en.setComment(p.getComment().getText());
@@ -381,6 +390,7 @@ public class JMainFrame extends JFrame {
 			JSportPanel p = (JSportPanel) jEntityPanels.get(alias);
 			Sport en = (Sport) o;
 			en.setLabel(p.getLabel().getText());
+			en.setLabelFr(p.getLabelFR().getText());
 			en.setType(new Integer(p.getType().getText()));
 			en.setWebsite(p.getWebsite().getText());
 			en.setUrlWiki(p.getUrlWiki().getText());
@@ -392,6 +402,7 @@ public class JMainFrame extends JFrame {
 			JStatePanel p = (JStatePanel) jEntityPanels.get(alias);
 			State en = (State) o;
 			en.setLabel(p.getLabel().getText());
+			en.setLabelFr(p.getLabelFR().getText());
 			en.setCode(p.getCode().getText());
 			en.setCapital(p.getCapital().getText());
 			en.setUrlWiki(p.getUrlWiki().getText());
@@ -410,6 +421,10 @@ public class JMainFrame extends JFrame {
 			en.setYear2(p.getYear2().getText());
 			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
 			en.setUrlWiki(p.getUrlWiki().getText());
+			en.setUrlBktref(p.getUrlBktref().getText());
+			en.setUrlBbref(p.getUrlBbref().getText());
+			en.setUrlFtref(p.getUrlFtref().getText());
+			en.setUrlHkref(p.getUrlHkref().getText());
 			en.setInactive(p.getInactive().isSelected());
 			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLabel() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : ""));
 			if (en.getLink() != null && en.getLink() > 0) {

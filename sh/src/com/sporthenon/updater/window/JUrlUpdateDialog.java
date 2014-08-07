@@ -107,11 +107,11 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 		jMax.setPreferredSize(new Dimension(50, 20));
 		p.add(jMax);
 		
-		JCustomButton jExecuteButton = new JCustomButton("Execute", "updater/ok.png", null);
+		JCustomButton jExecuteButton = new JCustomButton("Execute", "ok.png", null);
 		jExecuteButton.setActionCommand("execute");
 		jExecuteButton.addActionListener(this);
 		p.add(jExecuteButton);
-		JCustomButton jCloseButton = new JCustomButton("Close", "updater/cancel.png", null);
+		JCustomButton jCloseButton = new JCustomButton("Close", "cancel.png", null);
 		jCloseButton.setActionCommand("close");
 		jCloseButton.addActionListener(this);
 		p.add(jCloseButton);
@@ -144,12 +144,17 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 	
 	private void executeUpdate() {
 		try {
-			System.getProperties().setProperty("http.proxyHost" ,"globalproxy-emea.pharma.aventis.com");
-			System.getProperties().setProperty("http.proxyPort","3129");
+			String proxyAddr = JMainFrame.getOptionsDialog().getProxyAddr().getText();
+			String proxyPort = JMainFrame.getOptionsDialog().getProxyPort().getText();
+			if (StringUtils.notEmpty(proxyAddr)) {
+				System.getProperties().setProperty("http.proxyHost", proxyAddr);
+				System.getProperties().setProperty("http.proxyPort", proxyPort);
+			}
+			
 			int MAX = (StringUtils.notEmpty(jMax.getText()) ? Integer.parseInt(jMax.getText()) : Integer.MAX_VALUE);
 			StringBuffer sbUpdateSql = new StringBuffer();
 			List<String> lHql = new ArrayList<String>();
-			lHql.add("from Athlete where (urlWiki is null or urlOlyref is null) order by id");
+			lHql.add("from Athlete where (urlWiki is null or urlOlyref is null or urlBktref is null or urlBbref is null or urlFtref is null or urlHkref is null) order by id");
 			lHql.add("from Championship where (urlWiki is null) order by id");
 			lHql.add("from City where (urlWiki is null) order by id");
 			lHql.add("from Complex where (urlWiki is null) order by id");
@@ -158,7 +163,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 			lHql.add("from Olympics where (urlWiki is null or urlOlyref is null) order by id");
 			lHql.add("from Sport where (urlWiki is null or urlOlyref is null) order by id");
 			lHql.add("from State where (urlWiki is null) order by id");
-			lHql.add("from Team where (urlWiki is null) order by id");
+			lHql.add("from Team where (urlWiki is null or urlBktref is null or urlBbref is null or urlFtref is null or urlHkref is null) order by id");
 			int i = 0;
 			for (String hql : lHql) {
 				if (!jEntity[i++].isSelected())
@@ -277,7 +282,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 		// OLYMPICS-REFERENCE
 		url = null;
 		if (o instanceof Athlete) {
-			url = "http://www.sports-reference.com/olympics/athletes/" + str2.substring(0, 2) + "/" + str1.replaceAll("\\s", "-") + "-1.html";	
+			url = "http://www.sports-reference.com/olympics/athletes/" + str2.substring(0, 2).toLowerCase() + "/" + str1.replaceAll("\\s", "-").toLowerCase() + "-1.html";	
 		}
 		else if (o instanceof Country) {
 			url = "http://www.sports-reference.com/olympics/countries/" + str2;
@@ -286,11 +291,79 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 			url = "http://www.sports-reference.com/olympics/" + str2;
 		}
 		if (url != null) {
-			url_ = new URL(url);
+			url_ = new URL(StringUtils.normalize(url));
 			conn = (HttpURLConnection) url_.openConnection();
 			conn.setDoOutput(true);
-			if (conn.getResponseCode() == 200)
-				sql += "UPDATE " + table + " SET url_olyref='" + url + "' WHERE id=" + id + ";\r\n";
+			if (conn.getResponseCode() == 200) {
+				StringWriter writer = new StringWriter();
+				IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+				if (writer.toString().indexOf("File Not Found") == -1 && writer.toString().indexOf("0 hits") == -1)
+					sql += "UPDATE " + table + " SET url_olyref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+			}
+		}
+		// BASKETBALL-REFERENCE
+		url = null;
+		if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 24) {
+			url = "http://www.basketball-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.html";	
+		}
+		if (url != null) {
+			url_ = new URL(StringUtils.normalize(url));
+			conn = (HttpURLConnection) url_.openConnection();
+			conn.setDoOutput(true);
+			if (conn.getResponseCode() == 200) {
+				StringWriter writer = new StringWriter();
+				IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+				if (writer.toString().indexOf("File Not Found") == -1)
+					sql += "UPDATE " + table + " SET url_bktref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+			}
+		}
+		// BASEBALL-REFERENCE
+		url = null;
+		if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 26) {
+			url = "http://www.baseball-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.shtml";	
+		}
+		if (url != null) {
+			url_ = new URL(StringUtils.normalize(url));
+			conn = (HttpURLConnection) url_.openConnection();
+			conn.setDoOutput(true);
+			if (conn.getResponseCode() == 200) {
+				StringWriter writer = new StringWriter();
+				IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+				if (writer.toString().indexOf("File Not Found") == -1)
+					sql += "UPDATE " + table + " SET url_bbref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+			}
+		}
+		// PRO-FOOTBALL-REFERENCE
+		url = null;
+		if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 23) {
+			url = "http://www.pro-football-reference.com/players/" + str2.substring(0, 1) + "/" + str2.substring(0, str2.length() > 4 ? 4 : str2.length()) + str1.substring(0, 2) + "00.htm";	
+		}
+		if (url != null) {
+			url_ = new URL(StringUtils.normalize(url));
+			conn = (HttpURLConnection) url_.openConnection();
+			conn.setDoOutput(true);
+			if (conn.getResponseCode() == 200) {
+				StringWriter writer = new StringWriter();
+				IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+				if (writer.toString().indexOf("File Not Found") == -1)
+					sql += "UPDATE " + table + " SET url_ftref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+			}
+		}
+		// HOCKEY-REFERENCE
+		url = null;
+		if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 25) {
+			url = "http://www.hockey-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.html";	
+		}
+		if (url != null) {
+			url_ = new URL(StringUtils.normalize(url));
+			conn = (HttpURLConnection) url_.openConnection();
+			conn.setDoOutput(true);
+			if (conn.getResponseCode() == 200) {
+				StringWriter writer = new StringWriter();
+				IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+				if (writer.toString().indexOf("File Not Found") == -1)
+					sql += "UPDATE " + table + " SET url_hkref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+			}
 		}
 		jResult.setText(jResult.getText() + sql);
 		return sql;

@@ -26,7 +26,7 @@ public class Championship {
 	private String label;
 	
 	@Column(name = "label_fr", length = 40, nullable = false)
-	private String labelFr;
+	private String labelFR;
 
 	@Column(name = "website", length = 50)
 	private String website;
@@ -60,15 +60,15 @@ public class Championship {
 
 	public void setLabel(String label) {
 		this.label = label;
-		this.labelFr = label;
+		this.labelFR = label;
 	}
 
 	public String getLabelFr() {
-		return labelFr;
+		return labelFR;
 	}
 
 	public void setLabelFr(String labelFr) {
-		this.labelFr = labelFr;
+		this.labelFR = labelFr;
 	}
 
 	public String getWebsite() {
@@ -119,6 +119,10 @@ public class Championship {
 		this.urlWiki = urlWiki;
 	}
 
+	public String getLabel(String lang) {
+		return (lang != null && lang.equalsIgnoreCase("fr") ? labelFR : label);
+	}
+	
 	@Override
 	public String toString() {
 		return label + " [#" + id + "]";

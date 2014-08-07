@@ -28,7 +28,7 @@ public class Event {
 	private String label;
 	
 	@Column(name = "label_fr", length = 45, nullable = false)
-	private String labelFr;
+	private String labelFR;
 	
 	@Column(name = "website", length = 50)
 	private String website;
@@ -74,15 +74,14 @@ public class Event {
 
 	public void setLabel(String label) {
 		this.label = label;
-		this.labelFr = label;
 	}
 
 	public String getLabelFr() {
-		return labelFr;
+		return labelFR;
 	}
 
 	public void setLabelFr(String labelFr) {
-		this.labelFr = labelFr;
+		this.labelFR = labelFr;
 	}
 
 	public String getComment() {
@@ -131,6 +130,10 @@ public class Event {
 
 	public void setUrlWiki(String urlWiki) {
 		this.urlWiki = urlWiki;
+	}
+	
+	public String getLabel(String lang) {
+		return (lang != null && lang.equalsIgnoreCase("fr") ? labelFR : label);
 	}
 
 	@Override

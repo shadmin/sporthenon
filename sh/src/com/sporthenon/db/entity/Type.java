@@ -26,7 +26,7 @@ public class Type {
 	private String label;
 	
 	@Column(name = "label_fr", length = 25, nullable = false)
-	private String labelFr;
+	private String labelFR;
 	
 	@Column(name = "\"number\"", nullable = false)
 	private Integer number;
@@ -56,15 +56,14 @@ public class Type {
 
 	public void setLabel(String label) {
 		this.label = label;
-		this.labelFr = label;
 	}
 
 	public String getLabelFr() {
-		return labelFr;
+		return labelFR;
 	}
 
 	public void setLabelFr(String labelFr) {
-		this.labelFr = labelFr;
+		this.labelFR = labelFr;
 	}
 
 	public Integer getNumber() {

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sporthenon.utils.res.ResourceUtils;
+
 public class NavigationServlet extends AbstractServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -41,11 +43,11 @@ public class NavigationServlet extends AbstractServlet {
 		hMenu.put("/search", "search");
 		hMenu.put("/project", "project");
 		hTitle = new HashMap<String, String>();
-		hTitle.put("/results", "Results | SPORTHENON");
-		hTitle.put("/olympics", "Olympics | SPORTHENON");
-		hTitle.put("/usleagues", "US Leagues | SPORTHENON");
-		hTitle.put("/search", "Search | SPORTHENON");
-		hTitle.put("/project", "Project | SPORTHENON");
+		hTitle.put("/results", "menu.results.2");
+		hTitle.put("/olympics", "menu.olympics.2");
+		hTitle.put("/usleagues", "menu.usleagues.2");
+		hTitle.put("/search", "menu.search.2");
+		hTitle.put("/project", "menu.project.2");
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -60,7 +62,7 @@ public class NavigationServlet extends AbstractServlet {
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			logger.info("Loaded: " + key);
 			session.setAttribute("menu", hMenu.get(key));
-			session.setAttribute("title", hTitle.containsKey(key) ? hTitle.get(key) : null);
+			session.setAttribute("title", hTitle.containsKey(key) ? ResourceUtils.getText(hTitle.get(key), getLocale(request)) + " | SPORTHENON" : null);
 			RequestDispatcher dispatcher = null;
 			if (hParams != null && !hParams.isEmpty()) {
 				Object export = hParams.get("export");

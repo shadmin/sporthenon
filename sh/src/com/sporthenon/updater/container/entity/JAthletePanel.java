@@ -23,9 +23,13 @@ public class JAthletePanel extends JAbstractEntityPanel {
 	public JTextField jLink;
 	public JTextField jUrlWiki;
 	public JTextField jUrlOlyref;
+	public JTextField jUrlBktref;
+	public JTextField jUrlBbref;
+	public JTextField jUrlFtref;
+	public JTextField jUrlHkref;
 
 	public JAthletePanel() {
-		super(10);
+		super(14);
 		initialize();
 	}
 
@@ -90,6 +94,38 @@ public class JAthletePanel extends JAbstractEntityPanel {
 		jUrlOlyref = new JTextField();
 		jUrlOlyref.setPreferredSize(TEXT_SIZE);
 		gridPanel.add(jUrlOlyref);
+		
+		//URL (BASKETBALL-REFERENCE)
+		JLabel lUrlBktref = new JLabel(" URL (Basketball-reference):");
+		lUrlBktref.setHorizontalAlignment(LABEL_ALIGNMENT);
+		gridPanel.add(lUrlBktref);
+		jUrlBktref = new JTextField();
+		jUrlBktref.setPreferredSize(TEXT_SIZE);
+		gridPanel.add(jUrlBktref);
+		
+		//URL (BASEBALL-REFERENCE)
+		JLabel lUrlBbref = new JLabel(" URL (Baseball-reference):");
+		lUrlBbref.setHorizontalAlignment(LABEL_ALIGNMENT);
+		gridPanel.add(lUrlBbref);
+		jUrlBbref = new JTextField();
+		jUrlBbref.setPreferredSize(TEXT_SIZE);
+		gridPanel.add(jUrlBbref);
+		
+		//URL (PRO-FOOTBALL-REFERENCE)
+		JLabel lUrlFtref = new JLabel(" URL (Pro-football-reference):");
+		lUrlFtref.setHorizontalAlignment(LABEL_ALIGNMENT);
+		gridPanel.add(lUrlFtref);
+		jUrlFtref = new JTextField();
+		jUrlFtref.setPreferredSize(TEXT_SIZE);
+		gridPanel.add(jUrlFtref);
+		
+		//URL (HOCKEY-REFERENCE)
+		JLabel lUrlHkref = new JLabel(" URL (Hockey-reference):");
+		lUrlHkref.setHorizontalAlignment(LABEL_ALIGNMENT);
+		gridPanel.add(lUrlHkref);
+		jUrlHkref = new JTextField();
+		jUrlHkref.setPreferredSize(TEXT_SIZE);
+		gridPanel.add(jUrlHkref);
 	}
 
 	public JCustomTextField getLastName() {
@@ -122,6 +158,22 @@ public class JAthletePanel extends JAbstractEntityPanel {
 	
 	public JTextField getUrlOlyref() {
 		return jUrlOlyref;
+	}
+	
+	public JTextField getUrlBktref() {
+		return jUrlBktref;
+	}
+	
+	public JTextField getUrlBbref() {
+		return jUrlBbref;
+	}
+	
+	public JTextField getUrlFtref() {
+		return jUrlFtref;
+	}
+	
+	public JTextField getUrlHkref() {
+		return jUrlHkref;
 	}
 
 	public void setLastName(String s) {
@@ -156,6 +208,22 @@ public class JAthletePanel extends JAbstractEntityPanel {
 		jUrlOlyref.setText(s);
 	}
 	
+	public void setUrlBktref(String s) {
+		jUrlBktref.setText(s);
+	}
+	
+	public void setUrlBbref(String s) {
+		jUrlBbref.setText(s);
+	}
+	
+	public void setUrlFtref(String s) {
+		jUrlFtref.setText(s);
+	}
+	
+	public void setUrlHkref(String s) {
+		jUrlHkref.setText(s);
+	}
+	
 	public void setLinkLabel(String s) {
 		lLink.setText(s);
 	}
@@ -170,6 +238,10 @@ public class JAthletePanel extends JAbstractEntityPanel {
 		jTeam.clear();
 		jUrlWiki.setText("");
 		jUrlOlyref.setText("");
+		jUrlBktref.setText("");
+		jUrlBbref.setText("");
+		jUrlFtref.setText("");
+		jUrlHkref.setText("");
 	}
 
 	public void focus() {

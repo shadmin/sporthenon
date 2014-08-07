@@ -51,6 +51,18 @@ public class Athlete {
 	@Column(name = "url_olyref")
 	private String urlOlyref;
 	
+	@Column(name = "url_bktref")
+	private String urlBktref;
+	
+	@Column(name = "url_bbref")
+	private String urlBbref;
+	
+	@Column(name = "url_ftref")
+	private String urlFtref;
+	
+	@Column(name = "url_hkref")
+	private String urlHkref;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -132,6 +144,38 @@ public class Athlete {
 
 	public void setUrlOlyref(String urlOlyref) {
 		this.urlOlyref = urlOlyref;
+	}
+
+	public String getUrlBktref() {
+		return urlBktref;
+	}
+
+	public String getUrlBbref() {
+		return urlBbref;
+	}
+
+	public String getUrlFtref() {
+		return urlFtref;
+	}
+
+	public String getUrlHkref() {
+		return urlHkref;
+	}
+
+	public void setUrlBktref(String urlBktref) {
+		this.urlBktref = urlBktref;
+	}
+
+	public void setUrlBbref(String urlBbref) {
+		this.urlBbref = urlBbref;
+	}
+
+	public void setUrlFtref(String urlFtref) {
+		this.urlFtref = urlFtref;
+	}
+
+	public void setUrlHkref(String urlHkref) {
+		this.urlHkref = urlHkref;
 	}
 
 	@Override

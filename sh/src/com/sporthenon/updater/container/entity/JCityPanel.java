@@ -15,12 +15,13 @@ public class JCityPanel extends JAbstractEntityPanel {
 	private static final long serialVersionUID = 1L;
 	
 	public JCustomTextField jLabel;
+	public JTextField jLabelFR;
 	public JEntityPicklist jState;
 	public JEntityPicklist jCountry;
 	public JTextField jUrlWiki;
 
 	public JCityPanel() {
-		super(5);
+		super(6);
 		initialize();
 	}
 
@@ -32,6 +33,14 @@ public class JCityPanel extends JAbstractEntityPanel {
         jLabel = new JCustomTextField();
         jLabel.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jLabel);
+        
+        //Name (FR)
+        JLabel lLabelFR = new JLabel(" Name (FR):");
+        lLabelFR.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lLabelFR);
+        jLabelFR = new JTextField();
+        jLabelFR.setPreferredSize(TEXT_SIZE);
+        gridPanel.add(jLabelFR);
 
         //State
         JLabel lState = new JLabel(" State:");
@@ -60,6 +69,10 @@ public class JCityPanel extends JAbstractEntityPanel {
 		return jLabel;
 	}
 
+	public JTextField getLabelFR() {
+		return jLabelFR;
+	}
+	
 	public JEntityPicklist getState() {
 		return jState;
 	}
@@ -76,6 +89,10 @@ public class JCityPanel extends JAbstractEntityPanel {
 		jLabel.setText(s);
 	}
 
+	public void setLabelFR(String s) {
+		jLabelFR.setText(s);
+	}
+	
 	public void setState(Integer id) {
 		SwingUtils.selectValue(jState, id);
 	}
@@ -91,6 +108,7 @@ public class JCityPanel extends JAbstractEntityPanel {
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
+		jLabelFR.setText("");
 		jState.clear();
 		jCountry.clear();
 		jUrlWiki.setText("");

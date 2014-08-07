@@ -42,7 +42,7 @@ public class JImagePanel extends JPanel {
 		catch (Exception e) {
 			//Logger.getLogger("sh").error(e.getMessage());
 			try {
-				label.setIcon(new ImageIcon(ImageIO.read(JImagePanel.class.getResourceAsStream("/com/sporthenon/utils/res/img/updater/noimage.png"))));
+				label.setIcon(new ImageIcon(ImageIO.read(JImagePanel.class.getResourceAsStream("/com/sporthenon/utils/res/img/noimage.png"))));
 			}
 			catch (Exception e_) {}
 		}

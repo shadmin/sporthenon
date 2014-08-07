@@ -59,6 +59,18 @@ public class Team {
 	@Column(name = "url_wiki")
 	private String urlWiki;
 	
+	@Column(name = "url_bktref")
+	private String urlBktref;
+	
+	@Column(name = "url_bbref")
+	private String urlBbref;
+	
+	@Column(name = "url_ftref")
+	private String urlFtref;
+	
+	@Column(name = "url_hkref")
+	private String urlHkref;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -164,6 +176,38 @@ public class Team {
 
 	public void setUrlWiki(String urlWiki) {
 		this.urlWiki = urlWiki;
+	}
+
+	public String getUrlBktref() {
+		return urlBktref;
+	}
+
+	public String getUrlBbref() {
+		return urlBbref;
+	}
+
+	public String getUrlFtref() {
+		return urlFtref;
+	}
+
+	public String getUrlHkref() {
+		return urlHkref;
+	}
+
+	public void setUrlBktref(String urlBktref) {
+		this.urlBktref = urlBktref;
+	}
+
+	public void setUrlBbref(String urlBbref) {
+		this.urlBbref = urlBbref;
+	}
+
+	public void setUrlFtref(String urlFtref) {
+		this.urlFtref = urlFtref;
+	}
+
+	public void setUrlHkref(String urlHkref) {
+		this.urlHkref = urlHkref;
 	}
 
 	@Override

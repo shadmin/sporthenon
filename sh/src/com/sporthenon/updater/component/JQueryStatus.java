@@ -45,7 +45,7 @@ public class JQueryStatus extends JPanel {
 			this.add(jLabel, BorderLayout.CENTER);
 			jLabel.setText(msg);
 			jLabel.setForeground(status == SUCCESS ? new Color(0, 153, 51) : Color.red);
-			jLabel.setIcon(ResourceUtils.getIcon(status == SUCCESS ? "updater/success.png" : "updater/failure.png"));
+			jLabel.setIcon(ResourceUtils.getIcon(status == SUCCESS ? "success.png" : "failure.png"));
 		}
 		else {
 			jLabel.setText("");

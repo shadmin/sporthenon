@@ -100,7 +100,9 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			DefaultMutableTreeNode level2Node = null;
 			DefaultMutableTreeNode level3Node = null;
 			DefaultMutableTreeNode level4Node = null;
-			Collection<Object> coll = DatabaseHelper.call("TreeResults", null);
+			ArrayList<Object> params = new ArrayList<Object>();
+			params.add(new String(""));
+			Collection<Object> coll = DatabaseHelper.call("TreeResults", params);
 			ArrayList<Object> lst = new ArrayList<Object>(coll);
 			int i, j, k, l;
 			for (i = 0 ; i < lst.size() ; i++) {
@@ -158,10 +160,10 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 		JCustomButton jRefreshTreeButton = new JCustomButton(null, "common/refresh.png", "Refresh Tree");
 		jRefreshTreeButton.addActionListener(this);
 		jRefreshTreeButton.setActionCommand("refresh-tree");
-		JCustomButton jNewFolderButton = new JCustomButton(null, "updater/newfolder.png", "New Folder");
+		JCustomButton jNewFolderButton = new JCustomButton(null, "newfolder.png", "New Folder");
 		jNewFolderButton.addActionListener(this);
 		jNewFolderButton.setActionCommand("add-folder");
-		JCustomButton jEditFolderButton = new JCustomButton(null, "updater/editfolder.png", "Edit Folder");
+		JCustomButton jEditFolderButton = new JCustomButton(null, "editfolder.png", "Edit Folder");
 		jEditFolderButton.addActionListener(this);
 		jEditFolderButton.setActionCommand("edit-folder");
 		leftPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 1));
@@ -170,21 +172,21 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 		leftPanel.add(jEditFolderButton, null);
 
 		JPanel rightPanel = new JPanel();
-		JCustomButton jAddButton = new JCustomButton(null, "updater/add.png", "Add");
+		JCustomButton jAddButton = new JCustomButton(null, "add.png", "Add");
 		jAddButton.addActionListener(this);
 		jAddButton.setActionCommand("add-result");
-		jEditButton = new JCustomButton(null, "updater/edit.png", "Edit");
+		jEditButton = new JCustomButton(null, "edit.png", "Edit");
 		jEditButton.addActionListener(this);
 		jEditButton.setActionCommand("edit-result");
 		jEditButton.setEnabled(false);
-		jCopyButton = new JCustomButton(null, "updater/copy.png", "Copy");
+		jCopyButton = new JCustomButton(null, "copy.png", "Copy");
 		jCopyButton.addActionListener(this);
 		jCopyButton.setActionCommand("copy-result");
 		jCopyButton.setEnabled(false);
-		JCustomButton jAddMultipleButton = new JCustomButton(null, "updater/addmultiple.png", "Add Multiple");
+		JCustomButton jAddMultipleButton = new JCustomButton(null, "addmultiple.png", "Add Multiple");
 		jAddMultipleButton.addActionListener(this);
 		jAddMultipleButton.setActionCommand("addmultiple-result");
-		jRemoveButton = new JCustomButton(null, "updater/remove.png", "Remove");
+		jRemoveButton = new JCustomButton(null, "remove.png", "Remove");
 		jRemoveButton.addActionListener(this);
 		jRemoveButton.setActionCommand("remove-result");
 		jRemoveButton.setEnabled(false);
@@ -256,6 +258,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			params.add(idEvent);
 			params.add(idSubevent != null ? idSubevent : 0);
 			params.add("0");
+			params.add("");
 			Event ev = (Event) DatabaseHelper.loadEntity(Event.class, new Integer(String.valueOf(t.length > 3 ? params.get(3) : params.get(2))));
 			int type = ev.getType().getNumber();
 			Collection<ResultsBean> list = (Collection<ResultsBean>) DatabaseHelper.call("GetResults", params);

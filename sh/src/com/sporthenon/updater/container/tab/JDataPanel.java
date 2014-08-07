@@ -134,28 +134,28 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 	
 	private JPanel getButtonPanel() {
 		JPanel leftPanel = new JPanel();
-		JCustomButton jFirstButton = new JCustomButton(null, "updater/first.png", "First");
+		JCustomButton jFirstButton = new JCustomButton(null, "first.png", "First");
 		jFirstButton.addActionListener(this);
 		jFirstButton.setActionCommand("first");
 		jFirstButton.setMnemonic(KeyEvent.VK_PAGE_UP);
-		JCustomButton jPreviousButton = new JCustomButton(null, "updater/previous.png", "Previous");
+		JCustomButton jPreviousButton = new JCustomButton(null, "previous.png", "Previous");
 		jPreviousButton.addActionListener(this);
 		jPreviousButton.setActionCommand("previous");
 		jPreviousButton.setMnemonic(KeyEvent.VK_LEFT);
-		JCustomButton jFindButton = new JCustomButton(null, "updater/find.png", "Find");
+		JCustomButton jFindButton = new JCustomButton(null, "find.png", "Find");
 		jFindButton.addActionListener(this);
 		jFindButton.setActionCommand("find");
 		jFindButton.setMnemonic(KeyEvent.VK_F);
-		JCustomButton jNextButton = new JCustomButton(null, "updater/next.png", "Next");
+		JCustomButton jNextButton = new JCustomButton(null, "next.png", "Next");
 		jNextButton.addActionListener(this);
 		jNextButton.setActionCommand("next");
 		jNextButton.setMnemonic(KeyEvent.VK_RIGHT);
-		JCustomButton jLastButton = new JCustomButton(null, "updater/last.png", "Last");
+		JCustomButton jLastButton = new JCustomButton(null, "last.png", "Last");
 		jLastButton.addActionListener(this);
 		jLastButton.setActionCommand("last");
 		jLastButton.setMnemonic(KeyEvent.VK_PAGE_DOWN);
 		leftPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 1));
-		JCustomButton jUrlUpdateButton = new JCustomButton("URL Update", "updater/url.png", null);
+		JCustomButton jUrlUpdateButton = new JCustomButton("URL Update", "url.png", null);
 		jUrlUpdateButton.addActionListener(this);
 		jUrlUpdateButton.setActionCommand("urlupdate");
 		leftPanel.add(jFirstButton, null);
@@ -166,23 +166,23 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		leftPanel.add(jUrlUpdateButton, null);
 
 		JPanel rightPanel = new JPanel();
-		JCustomButton jAddButton = new JCustomButton(null, "updater/add.png", "New");
+		JCustomButton jAddButton = new JCustomButton(null, "add.png", "New");
 		jAddButton.addActionListener(this);
 		jAddButton.setActionCommand("new");
 		jAddButton.setMnemonic(KeyEvent.VK_N);
-		JCustomButton jSaveButton = new JCustomButton(null, "updater/save.png", "Save");
+		JCustomButton jSaveButton = new JCustomButton(null, "save.png", "Save");
 		jSaveButton.addActionListener(this);
 		jSaveButton.setActionCommand("save");
 		jSaveButton.setMnemonic(KeyEvent.VK_S);
-		JCustomButton jCopyButton = new JCustomButton(null, "updater/copy.png", "Copy");
+		JCustomButton jCopyButton = new JCustomButton(null, "copy.png", "Copy");
 		jCopyButton.addActionListener(this);
 		jCopyButton.setActionCommand("copy");
 		jCopyButton.setMnemonic(KeyEvent.VK_C);
-		JCustomButton jMergeButton = new JCustomButton(null, "updater/merge.png", "Merge");
+		JCustomButton jMergeButton = new JCustomButton(null, "merge.png", "Merge");
 		jMergeButton.addActionListener(this);
 		jMergeButton.setActionCommand("merge");
 		jMergeButton.setMnemonic(KeyEvent.VK_M);
-		JCustomButton jRemoveButton = new JCustomButton(null, "updater/remove.png", "Remove");
+		JCustomButton jRemoveButton = new JCustomButton(null, "remove.png", "Remove");
 		jRemoveButton.addActionListener(this);
 		jRemoveButton.setActionCommand("remove");
 		jRemoveButton.setMnemonic(KeyEvent.VK_R);
@@ -266,7 +266,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			try {
 				String id = panel.getId().getText();
 				PicklistBean plb = JMainFrame.saveEntity(alias, StringUtils.notEmpty(id) ? new Integer(id) : null);
-				msg = ResourceUtils.get("entity." + alias.toUpperCase() + ".1") + " #" + plb.getValue() + " successfully " + (StringUtils.notEmpty(id) ? "updated" : "created") + ".";
+				msg = ResourceUtils.getText("entity." + alias.toUpperCase() + ".1", "en") + " #" + plb.getValue() + " successfully " + (StringUtils.notEmpty(id) ? "updated" : "created") + ".";
 				panel.setId(String.valueOf(plb.getValue()));
 				currentId = panel.getId().getText();
 			}
@@ -349,6 +349,10 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setFirstName(StringUtils.notEmpty(pr.getFirstName()) ? pr.getFirstName() : "");
 			p.setUrlWiki(pr.getUrlWiki());
 			p.setUrlOlyref(pr.getUrlOlyref());
+			p.setUrlBktref(pr.getUrlBktref());
+			p.setUrlBbref(pr.getUrlBbref());
+			p.setUrlFtref(pr.getUrlFtref());
+			p.setUrlHkref(pr.getUrlHkref());
 			p.setLinkLabel("Link:");
 			if (pr.getLink() != null && pr.getLink() > 0) {
 				try {
@@ -364,6 +368,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			Championship cp = (Championship) o;
 			JChampionshipPanel p = (JChampionshipPanel) panel;
 			p.setLabel(cp.getLabel());
+			p.setLabelFR(cp.getLabelFr());
 			p.setWebsite(cp.getWebsite());
 			p.setComment(cp.getComment());
 			p.setIndex(cp.getIndex() != null ? String.valueOf(cp.getIndex()) : null);
@@ -374,6 +379,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			City ct = (City) o;
 			JCityPanel p = (JCityPanel) panel;
 			p.setLabel(ct.getLabel());
+			p.setLabelFR(ct.getLabelFr());
 			p.setState(ct.getState() != null ? ct.getState().getId() : null);
 			p.setCountry(ct.getCountry() != null ? ct.getCountry().getId() : null);
 			p.setUrlWiki(ct.getUrlWiki());
@@ -382,6 +388,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			Complex cx = (Complex) o;
 			JComplexPanel p = (JComplexPanel) panel;
 			p.setLabel(cx.getLabel());
+			p.setLabelFR(cx.getLabelFr());
 			p.setCity(cx.getCity() != null ? cx.getCity().getId() : null);
 			p.setUrlWiki(cx.getUrlWiki());
 		}
@@ -389,6 +396,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			Country cn = (Country) o;
 			JCountryPanel p = (JCountryPanel) panel;
 			p.setLabel(cn.getLabel());
+			p.setLabelFR(cn.getLabelFr());
 			p.setCode(cn.getCode());
 			p.setUrlWiki(cn.getUrlWiki());
 			p.setUrlOlyref(cn.getUrlOlyref());
@@ -397,6 +405,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			Event ev = (Event) o;
 			JEventPanel p = (JEventPanel) panel;
 			p.setLabel(ev.getLabel());
+			p.setLabelFR(ev.getLabelFr());
 			p.setType(ev.getType() != null ? ev.getType().getId() : null);
 			p.setWebsite(ev.getWebsite());
 			p.setComment(StringUtils.notEmpty(ev.getComment()) ? ev.getComment() : "");
@@ -423,6 +432,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			Sport sp = (Sport) o;
 			JSportPanel p = (JSportPanel) panel;
 			p.setLabel(sp.getLabel());
+			p.setLabelFR(sp.getLabelFr());
 			p.setWebsite(sp.getWebsite());
 			p.setType(String.valueOf(sp.getType()));
 			p.setUrlWiki(sp.getUrlWiki());
@@ -433,6 +443,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			State st = (State) o;
 			JStatePanel p = (JStatePanel) panel;
 			p.setLabel(st.getLabel());
+			p.setLabelFR(st.getLabelFr());
 			p.setCode(st.getCode());
 			p.setCapital(st.getCapital());
 			p.setUrlWiki(st.getUrlWiki());
@@ -450,6 +461,10 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setComment(StringUtils.notEmpty(tm.getComment()) ? tm.getComment() : "");
 			p.setLink(tm.getLink() != null ? String.valueOf(tm.getLink()) : null);
 			p.setUrlWiki(tm.getUrlWiki());
+			p.setUrlBktref(tm.getUrlBktref());
+			p.setUrlBbref(tm.getUrlBbref());
+			p.setUrlFtref(tm.getUrlFtref());
+			p.setUrlHkref(tm.getUrlHkref());
 			p.setInactive(tm.getInactive());
 			p.setLinkLabel("Link:");
 			if (tm.getLink() != null && tm.getLink() > 0) {

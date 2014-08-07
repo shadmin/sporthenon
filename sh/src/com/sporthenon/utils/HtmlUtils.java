@@ -87,7 +87,7 @@ public class HtmlUtils {
 		return html;
 	}
 	
-	public static StringBuffer writeInfoHeader(LinkedHashMap<String, String> h) {
+	public static StringBuffer writeInfoHeader(LinkedHashMap<String, String> h, String lang) {
 		StringBuffer html = new StringBuffer();
 		String tabTitle = h.get("tabtitle");
 		html.append("<span class='shorttitle'>" + tabTitle.replaceAll(".{6}\\[.+#.*\\]$", "") + "</span>");
@@ -101,7 +101,7 @@ public class HtmlUtils {
 		}
 		for (String key : h.keySet()) {
 			if (!key.matches("(tab|^)title|logo|url|info") && StringUtils.notEmpty(h.get(key)))
-				html.append("<tr><th class='caption'>" + ResourceUtils.get(key) + "</th><td" + (key.matches("record|extlinks") ? " class='" + key + "'" : "") + ">" + h.get(key) + "</td></tr>");
+				html.append("<tr><th class='caption'>" + ResourceUtils.getText(key, lang) + "</th><td" + (key.matches("record|extlinks") ? " class='" + key + "'" : "") + ">" + h.get(key) + "</td></tr>");
 		}
 		html.append("</table>");
 		return html;
@@ -146,10 +146,10 @@ public class HtmlUtils {
 		return ConfigUtils.getProperty("url") + main + "?" + params.replaceAll("\\,\\s", "-").replaceAll("[\\[\\]]", "");
 	}
 	
-	public static String writeRecordItems(Collection<RefItem> cRecord) {
+	public static String writeRecordItems(Collection<RefItem> cRecord, String lang) {
 		StringBuffer sbRecord = new StringBuffer();
 		for (RefItem item : cRecord) {
-			sbRecord.append("<table" + (sbRecord.toString().length() > 0 ? "style='margin-top:5px;'" : "") + "><tr><td rowspan='2' style='text-align:right;width:125px;font-weight:normal;'><u>" + ResourceUtils.get("rec." + item.getLabel()).replaceAll("\\s", "&nbsp;") + "</u></td>");
+			sbRecord.append("<table" + (sbRecord.toString().length() > 0 ? "style='margin-top:5px;'" : "") + "><tr><td rowspan='2' style='text-align:right;width:125px;font-weight:normal;'><u>" + ResourceUtils.getText("rec." + item.getLabel(), lang).replaceAll("\\s", "&nbsp;") + "</u></td>");
 			if (StringUtils.notEmpty(item.getTxt1()))
 				sbRecord.append("<th>" + (item.getTxt1().equalsIgnoreCase("#GOLD#") ? ImageUtils.getGoldMedImg() : item.getTxt1()) + "</th>");
 			if (StringUtils.notEmpty(item.getTxt2()))
@@ -185,20 +185,30 @@ public class HtmlUtils {
 		if (m != null) {
 			if (m.invoke(o) != null) {
 				String url = (String) m.invoke(o);
-				sbHtml.append("<tr><th>Wikipedia</th></tr><tr><td><table><tr><td style='width:16px;'><img src='img/render/link-wiki.png'/></td><td>&nbsp;<a href='" + url + "' target='_blank'>" + url + "</a></td></tr></table></td></tr>");				
+				if (StringUtils.notEmpty(url))
+					sbHtml.append("<tr><th>Wikipedia</th></tr><tr><td><table><tr><td style='width:16px;'><img src='img/render/link-wiki.png'/></td><td>&nbsp;<a href='" + url + "' target='_blank'>" + url + "</a></td></tr></table></td></tr>");				
 			}
 		}
-		m = null;
-		try {
-			m = o.getClass().getMethod("getUrlOlyref");
-		}
-		catch (NoSuchMethodException e) {
+		HashMap<String, String> h = new HashMap<String, String>();
+		h.put("Oly", "Olympics");
+		h.put("Bkt", "Basketball");
+		h.put("Bb", "Baseball");
+		h.put("Ft", "Pro-football");
+		h.put("Hk", "Hockey");
+		for (String s : new String[]{ "Oly", "Bkt", "Bb", "Ft", "Hk" }) {
 			m = null;
-		}
-		if (m != null) {
-			if (m.invoke(o) != null) {
-				String url = (String) m.invoke(o);
-				sbHtml.append("<tr><th>Olympics-Reference</th></tr><tr><td><table><tr><td style='width:16px;'><img src='img/render/link-olyref.png'/></td><td>&nbsp;<a href='" + url + "' target='_blank'>" + url + "</a></td></tr></table></td></tr>");				
+			try {
+				m = o.getClass().getMethod("getUrl" + s + "ref");
+			}
+			catch (NoSuchMethodException e) {
+				m = null;
+			}
+			if (m != null) {
+				if (m.invoke(o) != null) {
+					String url = (String) m.invoke(o);
+					if (StringUtils.notEmpty(url))
+						sbHtml.append("<tr><th>" + h.get(s) + "-reference</th></tr><tr><td><table><tr><td style='width:16px;'><img src='img/render/link-" + s.toLowerCase() + "ref.png'/></td><td>&nbsp;<a href='" + url + "' target='_blank'>" + url + "</a></td></tr></table></td></tr>");				
+				}
 			}
 		}
 		return (sbHtml.toString().length() > 0 ? "<table>" + sbHtml.append("</table>").toString() : "");

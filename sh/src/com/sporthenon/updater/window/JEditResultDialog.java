@@ -85,7 +85,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jContentPane.setLayout(layout);
 		jButtonBar = new JDialogButtonBar(this);
 		jButtonBar.getOptional().setText("Draw");
-		jButtonBar.getOptional().setIcon("updater/draw.png");
+		jButtonBar.getOptional().setIcon("draw.png");
 		jButtonBar.getOptional().setVisible(true);
 		jButtonBar.getOptional().setActionCommand("draw");
 		jButtonBar.getOptional().addActionListener(this);
@@ -119,7 +119,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jDate1.setPreferredSize(new Dimension(72, 21));
 		jDate2 = new JTextField();
 		jDate2.setPreferredSize(new Dimension(72, 21));
-		JCustomButton jToday = new JCustomButton(null, "updater/today.png", null);
+		JCustomButton jToday = new JCustomButton(null, "today.png", null);
 		jToday.setMargin(new Insets(0, 0, 0, 0));
 		jToday.setToolTipText("Today");
 		jToday.setActionCommand("today");
@@ -178,7 +178,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		for (int i = 0 ; i < jRanks.length ; i++) {
 			jRanks[i] = new JEntityPicklist(this, "EN");
 			jRanks[i].setPreferredSize(new Dimension(220, 21));
-			labels[i] = new JLabel(ResourceUtils.get("rank.short." + (i + 1)) + ":");
+			labels[i] = new JLabel(ResourceUtils.getText("rank." + (i + 1), "en") + ":");
 			labels[i].setPreferredSize(new Dimension(28, 21));
 			jRes[i] = new JTextField();
 			jRes[i].setPreferredSize(new Dimension(70, 21));

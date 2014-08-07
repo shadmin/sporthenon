@@ -13,7 +13,6 @@ import com.sporthenon.db.converter.HtmlConverter;
 import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.utils.ExportUtils;
-import com.sporthenon.web.RenderOptions;
 
 public class InfoRefServlet extends AbstractServlet {
 
@@ -29,7 +28,6 @@ public class InfoRefServlet extends AbstractServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
-			RenderOptions opts = ServletHelper.buildOptions(hParams);
 			String[] params = String.valueOf(hParams.get("p")).split("-");
 			StringBuffer html = new StringBuffer();
 			boolean isLink = hParams.containsKey("run");
@@ -44,7 +42,7 @@ public class InfoRefServlet extends AbstractServlet {
 			else {
 				// Info
 				if (params.length == 2)
-					html.append(HtmlConverter.getRecordInfo(params[0], new Integer(params[1]), opts));
+					html.append(HtmlConverter.getRecordInfo(params[0], new Integer(params[1]), getLocale(request)));
 				
 				// References
 				if (!isDraw) {
@@ -52,7 +50,8 @@ public class InfoRefServlet extends AbstractServlet {
 					lFuncParams.add(params[0]);
 					lFuncParams.add(new Integer(params[1]));
 					lFuncParams.add(params.length > 2 ? params[2] : "");
-					html.append(HtmlConverter.getRecordRef(lFuncParams, DatabaseHelper.call("EntityRef", lFuncParams), isExport, opts));
+					lFuncParams.add("_" + getLocale(request));
+					html.append(HtmlConverter.getRecordRef(lFuncParams, DatabaseHelper.call("EntityRef", lFuncParams), isExport, getLocale(request)));
 				}
 				
 				if (isLink) {

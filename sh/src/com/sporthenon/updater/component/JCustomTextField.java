@@ -39,7 +39,7 @@ public class JCustomTextField extends JPanel implements ActionListener {
 		jButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		jButtonPanel.setPreferredSize(new Dimension(23, 0));
 		
-		jCharsButton = new JCustomButton(null, "updater/chars.png", null);
+		jCharsButton = new JCustomButton(null, "chars.png", null);
 		jCharsButton.setMargin(new Insets(0, 0, 0, 0));
 		jCharsButton.setToolTipText("Select Character");
 		jCharsButton.setFocusable(false);

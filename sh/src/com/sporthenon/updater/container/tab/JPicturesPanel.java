@@ -8,9 +8,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -145,19 +148,19 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		jDescription.setFont(SwingUtils.getBoldFont());
 		leftPanel.add(jDescription);
 		JPanel rightPanel = new JPanel();
-		JCustomButton jFirstButton = new JCustomButton(null, "updater/first.png", "First");
+		JCustomButton jFirstButton = new JCustomButton(null, "first.png", "First");
 		jFirstButton.addActionListener(this);
 		jFirstButton.setActionCommand("first");
-		JCustomButton jPreviousButton = new JCustomButton(null, "updater/previous.png", "Previous");
+		JCustomButton jPreviousButton = new JCustomButton(null, "previous.png", "Previous");
 		jPreviousButton.addActionListener(this);
 		jPreviousButton.setActionCommand("previous");
-		JCustomButton jFindButton = new JCustomButton(null, "updater/find.png", "Find");
+		JCustomButton jFindButton = new JCustomButton(null, "find.png", "Find");
 		jFindButton.addActionListener(this);
 		jFindButton.setActionCommand("find");
-		JCustomButton jNextButton = new JCustomButton(null, "updater/next.png", "Next");
+		JCustomButton jNextButton = new JCustomButton(null, "next.png", "Next");
 		jNextButton.addActionListener(this);
 		jNextButton.setActionCommand("next");
-		JCustomButton jLastButton = new JCustomButton(null, "updater/last.png", "Last");
+		JCustomButton jLastButton = new JCustomButton(null, "last.png", "Last");
 		jLastButton.addActionListener(this);
 		jLastButton.setActionCommand("last");
 		rightPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 1));
@@ -200,11 +203,15 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		JPanel pMiddle = new JPanel(new GridBagLayout());
 		pMiddle.setBorder(BorderFactory.createEmptyBorder());
 		pMiddle.setPreferredSize(new Dimension(500, 50));
-		JCustomButton uploadBtn = new JCustomButton("Upload", "updater/upload.png", null);
+		JCustomButton downloadBtn = new JCustomButton("Download", "download.png", null);
+		downloadBtn.setActionCommand("download");
+		downloadBtn.addActionListener(this);
+		pMiddle.add(downloadBtn);
+		JCustomButton uploadBtn = new JCustomButton("Upload", "upload.png", null);
 		uploadBtn.setActionCommand("upload");
 		uploadBtn.addActionListener(this);
 		pMiddle.add(uploadBtn);
-		JCustomButton removeBtn = new JCustomButton("Remove", "updater/remove.png", null);
+		JCustomButton removeBtn = new JCustomButton("Remove", "remove.png", null);
 		removeBtn.setActionCommand("remove");
 		removeBtn.addActionListener(this);
 		pMiddle.add(removeBtn);
@@ -268,6 +275,26 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 					if (f != null) {
 						jLocalFile.setText(f.getPath());
 						jLocalPanel.setImage(new File(f.getPath()));
+					}
+				}
+			}
+			else if (e.getActionCommand().equals("download")) {
+				if (StringUtils.notEmpty(jRemoteFile.getText())) {
+					if (jFileChooser.showOpenDialog(this) == 0) {
+						File f = jFileChooser.getSelectedFile();
+						if (f != null) {
+							HttpURLConnection conn_ = (HttpURLConnection) new URL(jRemoteFile.getText()).openConnection();
+							if (conn_.getResponseCode() == 200) {
+								BufferedInputStream in = new BufferedInputStream(conn_.getInputStream());
+								BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(f));
+								int i;
+								while ((i = in.read()) != -1) {
+								    out.write(i);
+								}
+								out.flush();
+								out.close();
+							}
+						}
 					}
 				}
 			}

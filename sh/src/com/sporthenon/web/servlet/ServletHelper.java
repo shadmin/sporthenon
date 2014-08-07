@@ -18,7 +18,6 @@ import org.w3c.dom.Element;
 import com.sporthenon.db.PicklistBean;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
-import com.sporthenon.web.RenderOptions;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 public class ServletHelper {
@@ -80,14 +79,6 @@ public class ServletHelper {
         res.setCharacterEncoding("utf-8");
         PrintWriter writer = res.getWriter();
         writer.write(s);
-	}
-
-	public static RenderOptions buildOptions(HashMap<String, Object> h) {
-		RenderOptions opts = new RenderOptions();
-		opts.setHeaderDisabled(h.containsKey("opt-header") && String.valueOf(h.get("opt-header")).equals("1"));
-		opts.setPicturesDisabled(h.containsKey("opt-pic") && String.valueOf(h.get("opt-pic")).equals("1"));
-		opts.setStyle(String.valueOf(h.get("opt-style")));
-		return opts;
 	}
 
 }

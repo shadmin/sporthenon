@@ -2,6 +2,7 @@
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
 <%@ page import="com.sporthenon.db.entity.meta.News"%>
 <%@ page import="com.sporthenon.utils.ConfigUtils" %>
+<%@ page import="com.sporthenon.utils.StringUtils" %>
 <%@ page import="java.util.List" %>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="home">
@@ -66,6 +67,7 @@
 </div>
 <script type="text/javascript">
 window.onload = function() {
+	document.title = '<%=StringUtils.text("title", session)%>';
 	$$('#shmenu a').each(function(el){
 		if ($(el).id == 'shmenu-home') {
 			$(el).addClassName('selected');

@@ -29,7 +29,7 @@ public class State {
 	private String label;
 	
 	@Column(name = "label_fr", length = 25, nullable = false)
-	private String labelFr;
+	private String labelFR;
 	
 	@Column(name = "capital", length = 20, nullable = false)
 	private String capital;
@@ -70,15 +70,14 @@ public class State {
 
 	public void setLabel(String label) {
 		this.label = label;
-		this.labelFr = label;
 	}
 
 	public String getLabelFr() {
-		return labelFr;
+		return labelFR;
 	}
 
 	public void setLabelFr(String labelFr) {
-		this.labelFr = labelFr;
+		this.labelFR = labelFr;
 	}
 
 	public String getCapital() {
@@ -97,6 +96,10 @@ public class State {
 		this.urlWiki = urlWiki;
 	}
 
+	public String getLabel(String lang) {
+		return (lang != null && lang.equalsIgnoreCase("fr") ? labelFR : label);
+	}
+	
 	@Override
 	public String toString() {
 		return label + " [#" + id + "]";

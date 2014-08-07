@@ -1,38 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="search" class="fieldset">
-	<div class="fstitle criteria">SEARCH CRITERIA</div>
+	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
 	<form id="search-form" action="/search" onsubmit="return false;">
 	<div class="pattern">
-		Search for:<br/><input type="text" class="text" name="pattern" id="pattern" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');" onkeydown="if(event.keyCode == 13){runSearch();}"></input>
+		<%=StringUtils.text("search.for", session)%>:<br/><input type="text" class="text" name="pattern" id="pattern" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');" onkeydown="if(event.keyCode == 13){runSearch();}"></input>
 		<a href="#helplink" style="cursor:help;color:#000;">[?]</a>
-		<span><br/><br/>&nbsp;<a href="javascript:void(0);" onclick="$(this).up().hide();$('advtable').show();">Advanced</a></span>
+		<span><br/><br/>&nbsp;<a href="javascript:void(0);" onclick="$(this).up().hide();$('advtable').show();"><%=StringUtils.text("advanced", session)%></a></span>
 		<br/><br/><table id="advtable" cellspacing="0" style="display:none;">
-			<tr><td><input type="checkbox" name="case" id="case"></input></td><td><label for="case">Case Sensitive</label></td></tr>
-			<tr><td><input type="checkbox" name="match" id="match"></input></td><td><label for="match">Exact Match</label></td></tr>
-			<tr><td><input type="checkbox" name="ref" id="ref" checked="checked"></input></td><td><label for="ref">Count References</label></td></tr>
+			<tr><td><input type="checkbox" name="case" id="case"></input></td><td><label for="case"><%=StringUtils.text("case.sensitive", session)%></label></td></tr>
+			<tr><td><input type="checkbox" name="match" id="match"></input></td><td><label for="match"><%=StringUtils.text("exact.match", session)%></label></td></tr>
+			<tr><td><input type="checkbox" name="ref" id="ref" checked="checked"></input></td><td><label for="ref"><%=StringUtils.text("count.references", session)%></label></td></tr>
 		</table>
 	</div>
-	<div id="helplink" class="rendertip">Use * for multiple characters and _ for a single character</div>
+	<div id="helplink" class="rendertip"><%=StringUtils.text("pattern.tip", session)%></div>
 	<fieldset class="scope">
-		<legend>Scope</legend>
+		<legend><%=StringUtils.text("scope", session)%></legend>
 		<table cellspacing="2">
 		<tr>
-			<td><input type="checkbox" value="PR" name="scope" id="PR" checked="checked"></input></td><td><label for="PR">Athletes</label></td>
-			<td><input type="checkbox" value="SP" name="scope" id="SP" checked="checked"></input></td><td><label for="SP">Sports</label></td>
+			<td><input type="checkbox" value="PR" name="scope" id="PR" checked="checked"></input></td><td><label for="PR"><%=StringUtils.text("athletes", session)%></label></td>
+			<td><input type="checkbox" value="SP" name="scope" id="SP" checked="checked"></input></td><td><label for="SP"><%=StringUtils.text("sports", session)%></label></td>
 		</tr>
 		<tr>
-			<td><input type="checkbox" value="CN" name="scope" id="CN" checked="checked"></input></td><td><label for="CN">Countries</label>&nbsp;</td>
-			<td><input type="checkbox" value="TM" name="scope" id="TM" checked="checked"></input></td><td><label for="TM">Teams</label></td>
+			<td><input type="checkbox" value="CN" name="scope" id="CN" checked="checked"></input></td><td><label for="CN"><%=StringUtils.text("countries", session)%></label>&nbsp;</td>
+			<td><input type="checkbox" value="TM" name="scope" id="TM" checked="checked"></input></td><td><label for="TM"><%=StringUtils.text("teams", session)%></label></td>
 		</tr>
 		<tr>
-			<td><input type="checkbox" value="CP,EV" name="scope" id="EV" checked="checked"></input></td><td><label for="EV">Events</label></td>
-			<td><input type="checkbox" value="YR" name="scope" id="YR" checked="checked"></input></td><td><label for="YR">Years</label></td>
+			<td><input type="checkbox" value="CP,EV" name="scope" id="EV" checked="checked"></input></td><td><label for="EV"><%=StringUtils.text("events", session)%></label></td>
+			<td><input type="checkbox" value="YR" name="scope" id="YR" checked="checked"></input></td><td><label for="YR"><%=StringUtils.text("years", session)%></label></td>
 		</tr>
 		<tr>
-			<td><input type="checkbox" value="CT,CX,ST" name="scope" id="PL" checked="checked"></input></td><td><label for="PL">Places</label></td>
+			<td><input type="checkbox" value="CT,CX,ST" name="scope" id="PL" checked="checked"></input></td><td><label for="PL"><%=StringUtils.text("places", session)%></label></td>
 			<td colspan="2"></td>
-			<td style="padding-left:50px;"><label for="AL">All:</label></td><td><input type="checkbox" value="AL" name="scope" id="AL" checked="checked" onclick="toggleCheck(this);"></input></td>
+			<td style="padding-left:50px;"><label for="AL"><%=StringUtils.text("all", session)%>:</label></td><td><input type="checkbox" value="AL" name="scope" id="AL" checked="checked" onclick="toggleCheck(this);"></input></td>
 		</tr>
 		</table>
 	</fieldset>

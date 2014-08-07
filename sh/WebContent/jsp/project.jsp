@@ -1,31 +1,32 @@
-<%@ page language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
 <script type="text/javascript" src="js/canvas2image.js"></script>
 <script type="text/javascript" src="js/canvastext.js"></script>
 <script type="text/javascript" src="js/flotr.js"></script>
 
 <div class="fieldset">
-<div class="fstitle downloads">DOWNLOADS</div>
+<div class="fstitle downloads"><%=StringUtils.text("downloads", session)%></div>
 <div class="fscontent">All released files can be downloaded at this address:<br/><a href="https://drive.google.com/folderview?id=0B4NAK6Vu6lbveXg1QzZDcVNGOWM&amp;usp=sharing" target="_blank">https://drive.google.com/folderview?id=0B4NAK6Vu6lbveXg1QzZDcVNGOWM&amp;usp=sharing</a></div>
 </div>
 
 <div class="fieldset">
-<div class="fstitle reportbug">REPORT A BUG</div>
+<div class="fstitle reportbug"><%=StringUtils.text("report.bug", session)%></div>
 <div class="fscontent">To report a bug, please connect to the link below and click on "New issue":<br/><a href="https://code.google.com/p/sporthenon/issues/list" target="_blank">https://code.google.com/p/sporthenon/issues/list</a></div>
 </div>
 
 <div class="fieldset">
-<div class="fstitle contributors">CONTRIBUTORS</div>
+<div class="fstitle contributors"><%=StringUtils.text("contributors", session)%></div>
 <div class="fscontent">The project is not yet opened to external contributors.</div>
 </div>
 
 <div class="fieldset">
-<div class="fstitle statistics">STATISTICS</div>
+<div class="fstitle statistics"><%=StringUtils.text("statistics", session)%></div>
 <div class="fscontent"><select id="charts" style="width:250px;margin:2px;" onchange="loadChart();"><option value="0">Number of Requests per Type</option><option value="1">Number of Requests per Sport</option></select><table><tr><td style="vertical-align:top;border:none;width:250px;"><table id="charttxt"><tr><td></td></tr></table></td><td style="vertical-align:top;border:none;"><div id="chart"></div></td></tr></table></div>
 </div>
 
 <div class="fieldset">
-<div class="fstitle technicalinfo">TECHNICAL INFO</div>
+<div class="fstitle technicalinfo"><%=StringUtils.text("technical.info", session)%></div>
 <div class="fscontent">
 	<table>
 		<tr><th>Category</th><th>Tool</th><th>Version</th><th>Description</th><th>Website</th></tr>

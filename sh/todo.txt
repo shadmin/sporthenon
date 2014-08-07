@@ -1,19 +1,11 @@
---tests ie firefox safari
 LANG EN FR LOCALIZE
 3 NIVEAUX EVENTS
-results: onclick sur tree = chargement automatique selection dans picklists
-ouverture nouvel onglet sur DRAWS + fiche INFO
-ECRAN HOME MULTI DIV
-MODIFICATION  LAYOUT MENU GAUCHE
+ECRAN HOME MULTI DIV + MODIFICATION  LAYOUT MENU GAUCHE
 event inactive en fonction sport+champ+ev1/2
-links sports-ref pour sports-us
 ajouter QF/SF sur ref entity results
-bug title conserve titre ancienne session
-bug affichage ex aequo references (exemple fiche D.Koranyi)
-ajouter serveur proxy dans options.xml (supprimer proxy dans URL update)
-UPDATER bug pictures mgt titre fichier null-null.png (years)
-UPDATE improve pictures with list remote files
 ----------------------------------------
+--tests ie firefox safari
+--bug affichage ex aequo references (exemple fiche D.Koranyi)
 gestion detail personnes (equipes + relais)
 ----------------------------------------
 FETCH ALL FROM "<unnamed portal 1>";

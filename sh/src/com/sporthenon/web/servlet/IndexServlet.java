@@ -20,7 +20,7 @@ import com.sporthenon.db.function.StatisticsBean;
 import com.sporthenon.utils.StringUtils;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
-public class HomeServlet extends AbstractServlet {
+public class IndexServlet extends AbstractServlet {
 
 private static final long serialVersionUID = 1L;
 	
@@ -31,10 +31,14 @@ private static final long serialVersionUID = 1L;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
-			if (hParams.containsKey("lastupdates")) { // Last Updates
+			if (hParams.containsKey("lang")) { // Language
+		        request.getSession().setAttribute("locale", String.valueOf(hParams.get("value")));
+			}
+			else if (hParams.containsKey("lastupdates")) { // Last Updatess
 		        ArrayList<Object> lParams = new ArrayList<Object>();
 		        lParams.add(new Integer(String.valueOf(hParams.get("count"))));
-		        ServletHelper.writeHtml(response, HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams)));
+		        lParams.add("_" + getLocale(request));
+		        ServletHelper.writeHtml(response, HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams), getLocale(request)));
 			}
 			else {
 				DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
@@ -64,6 +68,7 @@ private static final long serialVersionUID = 1L;
 		        // Last Updates
 		        ArrayList<Object> lParams = new ArrayList<Object>();
 		        lParams.add(new Integer(10));
+		        lParams.add("_" + getLocale(request));
 		        ArrayList<LastUpdateBean> lUpdates = new ArrayList(DatabaseHelper.call("LastUpdates", lParams));
 		        Element updates = doc.createElement("updates");
 		        for (LastUpdateBean bean : lUpdates) {
