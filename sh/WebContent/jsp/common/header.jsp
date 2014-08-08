@@ -67,31 +67,31 @@
 </div>
 
 <script type="text/javascript">
-	var TEXT_OK = '<%=StringUtils.text("ok", session)%>';
-	var TEXT_CANCEL = '<%=StringUtils.text("cancel", session)%>';
-	var TEXT_ACTIONS_TAB = '<%=StringUtils.text("actions.currenttab", session)%>';
-	var TEXT_RUN = '<%=StringUtils.text("button.run", session)%>';
-	var TEXT_RESET = '<%=StringUtils.text("button.reset", session)%>';
-	var TEXT_EXPORT = '<%=StringUtils.text("button.export", session)%>';
-	var TEXT_LINK = '<%=StringUtils.text("button.link", session)%>';
-	var TEXT_PRINT = '<%=StringUtils.text("button.print", session)%>';
-	var TEXT_INFO = '<%=StringUtils.text("button.info", session)%>';
-	var TEXT_CLOSE = '<%=StringUtils.text("button.close", session)%>';
-	var TEXT_BLANK = '<%=StringUtils.text("blank", session)%>';
-	var TEXT_CURRENTLY_SELECTED = '<%=StringUtils.text("currently.selected", session)%>';
-	var TEXT_ALL = '<%=StringUtils.text("all", session)%>';
-	var TEXT_CLICK_CHANGE = '<%=StringUtils.text("click.change", session)%>';
-	var TEXT_EXPAND = '<%=StringUtils.text("expand", session)%>';
-	var TEXT_COLLAPSE = '<%=StringUtils.text("collapse", session)%>';
-	var TEXT_KB = '<%=StringUtils.text("kb", session)%>';
-	var TEXT_SECONDS = '<%=StringUtils.text("seconds", session)%>';
-	var TEXT_YEARS = '<%=StringUtils.text("years", session)%>';
-	var TEXT_OLYMPIC_GAMES = '<%=StringUtils.text("olympic.games", session)%>';
-	var TEXT_EVENTS = '<%=StringUtils.text("events", session)%>';
-	var TEXT_COUNTRIES = '<%=StringUtils.text("countries", session)%>';
-	var TEXT_TEAMS = '<%=StringUtils.text("teams", session)%>';
-	var TEXT_CATEGORIES = '<%=StringUtils.text("categories", session)%>';
-	var TEXT_LOADING = '<%=StringUtils.text("loading", session)%>';
+	var TEXT_OK = "<%=StringUtils.text("ok", session)%>";
+	var TEXT_CANCEL = "<%=StringUtils.text("cancel", session)%>";
+	var TEXT_ACTIONS_TAB = "<%=StringUtils.text("actions.currenttab", session)%>";
+	var TEXT_RUN = "<%=StringUtils.text("button.run", session)%>";
+	var TEXT_RESET = "<%=StringUtils.text("button.reset", session)%>";
+	var TEXT_EXPORT = "<%=StringUtils.text("button.export", session)%>";
+	var TEXT_LINK = "<%=StringUtils.text("button.link", session)%>";
+	var TEXT_PRINT = "<%=StringUtils.text("button.print", session)%>";
+	var TEXT_INFO = "<%=StringUtils.text("button.info", session)%>";
+	var TEXT_CLOSE = "<%=StringUtils.text("button.close", session)%>";
+	var TEXT_BLANK = "<%=StringUtils.text("blank", session)%>";
+	var TEXT_CURRENTLY_SELECTED = "<%=StringUtils.text("currently.selected", session)%>";
+	var TEXT_ALL = "<%=StringUtils.text("all", session)%>";
+	var TEXT_CLICK_CHANGE = "<%=StringUtils.text("click.change", session)%>";
+	var TEXT_EXPAND = "<%=StringUtils.text("expand", session)%>";
+	var TEXT_COLLAPSE = "<%=StringUtils.text("collapse", session)%>";
+	var TEXT_KB = "<%=StringUtils.text("kb", session)%>";
+	var TEXT_SECONDS = "<%=StringUtils.text("seconds", session)%>";
+	var TEXT_YEARS = "<%=StringUtils.text("years", session)%>";
+	var TEXT_OLYMPIC_GAMES = "<%=StringUtils.text("olympic.games", session)%>";
+	var TEXT_EVENTS = "<%=StringUtils.text("events", session)%>";
+	var TEXT_COUNTRIES = "<%=StringUtils.text("countries", session)%>";
+	var TEXT_TEAMS = "<%=StringUtils.text("teams", session)%>";
+	var TEXT_CATEGORIES = "<%=StringUtils.text("categories", session)%>";
+	var TEXT_LOADING = "<%=StringUtils.text("loading", session)%>";
 </script>
 
 <div id="content">

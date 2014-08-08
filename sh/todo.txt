@@ -1,12 +1,12 @@
-LANG EN FR LOCALIZE
 3 NIVEAUX EVENTS
-ECRAN HOME MULTI DIV + MODIFICATION  LAYOUT MENU GAUCHE
 event inactive en fonction sport+champ+ev1/2
+ECRAN HOME MULTI DIV + MODIF TREE RESULTS + MODIFICATION  LAYOUT MENU GAUCHE + page project avec downloads hors google drive
 ajouter QF/SF sur ref entity results
 ----------------------------------------
 --tests ie firefox safari
 --bug affichage ex aequo references (exemple fiche D.Koranyi)
 gestion detail personnes (equipes + relais)
+pattern date en bdd : dd/mm/yyyy
 ----------------------------------------
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

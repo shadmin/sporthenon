@@ -37,9 +37,6 @@ public class Championship {
 	@Column(name = "index")
 	private Integer index;
 	
-	@Column(name = "inactive")
-	private Boolean inactive;
-	
 	@Column(name = "url_wiki")
 	private String urlWiki;
 	
@@ -101,14 +98,6 @@ public class Championship {
 
 	public void setIndex(Integer index) {
 		this.index = index;
-	}
-
-	public Boolean getInactive() {
-		return inactive;
-	}
-
-	public void setInactive(Boolean inactive) {
-		this.inactive = inactive;
 	}
 
 	public String getUrlWiki() {

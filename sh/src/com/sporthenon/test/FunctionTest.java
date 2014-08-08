@@ -42,6 +42,7 @@ public class FunctionTest extends TestCase {
 		params.add(new Integer(188));
 		params.add(new Integer(0));
 		params.add(new String("146,154"));
+		params.add(new String(""));
 		Collection<Object> col = DatabaseHelper.call("GetResults", params);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
@@ -68,6 +69,7 @@ public class FunctionTest extends TestCase {
 		params.add(new String("samp.*"));
 		params.add(new String("CP,PR,TM"));
 		params.add(new Short("1"));
+		params.add(new String(""));
 		Collection col = DatabaseHelper.call("Search", params);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
@@ -83,6 +85,7 @@ public class FunctionTest extends TestCase {
 		params.add(new Integer(1));
 		params.add(new String("188,189"));
 		params.add(new String("1"));
+		params.add(new String(""));
 		Collection col = DatabaseHelper.call("GetOlympicMedals", params);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
@@ -96,6 +99,7 @@ public class FunctionTest extends TestCase {
 		ArrayList<Object> params = new ArrayList<Object>();
 		params.add(new String("0"));
 		params.add(new String("0"));
+		params.add(new String(""));
 		Collection col = DatabaseHelper.call("GetOlympicRankings", params);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
@@ -137,8 +141,7 @@ public class FunctionTest extends TestCase {
 		ArrayList<Object> params = new ArrayList<Object>();
 		params.add(new Integer(1));
 		params.add(new String("0"));
-		params.add(new String("1950"));
-		params.add(new String("1970"));
+		params.add(new String(""));
 		Collection col = DatabaseHelper.call("GetTeamStadium", params);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
@@ -164,6 +167,7 @@ public class FunctionTest extends TestCase {
 	public void testWinRecords() throws Exception {
 		ArrayList<Object> params = new ArrayList<Object>();
 		params.add(new String("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26"));
+		params.add(new String(""));
 		Collection col = DatabaseHelper.call("WinRecords", params);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
@@ -178,6 +182,7 @@ public class FunctionTest extends TestCase {
 		params.add(new String("CN"));
 		params.add(new Integer(1));
 		params.add(new String(""));
+		params.add(new String(""));
 		Collection col = DatabaseHelper.call("EntityRef", params);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
@@ -191,6 +196,7 @@ public class FunctionTest extends TestCase {
 		ArrayList<Object> params = new ArrayList<Object>();
 		params.add(new Integer(51));
 		params.add(new String("0"));
+		params.add(new String(""));
 		Collection col = DatabaseHelper.call("GetUSChampionships", params);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
@@ -207,6 +213,7 @@ public class FunctionTest extends TestCase {
 		params.add(new String("0"));
 		params.add(new String("0"));
 		params.add(new String("0"));
+		params.add(new String(""));
 		Collection col = DatabaseHelper.call("GetUSRecords", params);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);

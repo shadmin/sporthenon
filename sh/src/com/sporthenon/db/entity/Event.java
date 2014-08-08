@@ -39,9 +39,6 @@ public class Event {
 	@Column(name = "index")
 	private Integer index;
 	
-	@Column(name = "inactive")
-	private Boolean inactive;
-	
 	@Column(name = "url_wiki")
 	private String urlWiki;
 	
@@ -114,14 +111,6 @@ public class Event {
 
 	public void setWebsite(String website) {
 		this.website = website;
-	}
-
-	public Boolean getInactive() {
-		return inactive;
-	}
-
-	public void setInactive(Boolean inactive) {
-		this.inactive = inactive;
 	}
 
 	public String getUrlWiki() {

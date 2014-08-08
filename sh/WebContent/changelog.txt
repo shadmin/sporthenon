@@ -17,6 +17,7 @@ bug title conserve titre ancienne session
 results: onclick sur tree = chargement automatique selection dans picklists
 links sports-ref pour sports-us
 UPDATER download remote pic
+LANG EN FR LOCALIZE
 
 +-------+
 | 0.7.0 |

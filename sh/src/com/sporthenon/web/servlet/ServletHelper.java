@@ -18,6 +18,7 @@ import org.w3c.dom.Element;
 import com.sporthenon.db.PicklistBean;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
+import com.sporthenon.utils.res.ResourceUtils;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 public class ServletHelper {
@@ -52,7 +53,7 @@ public class ServletHelper {
         serializer.serialize(doc);
 	}
 	
-	public static void writeHtml(HttpServletResponse res, StringBuffer sb) throws IOException {
+	public static void writeHtml(HttpServletResponse res, StringBuffer sb, String lang) throws IOException {
 		String s = sb.toString();
 		res.setContentType("text/html");
         res.setCharacterEncoding("utf-8");
@@ -63,7 +64,7 @@ public class ServletHelper {
         	sbInfo.append("|" + StringUtils.countIn(s, "<img"));
         	s = s.replaceAll("\\#INFO\\#", sbInfo.toString());
         }
-        String sBacktop = "<div class='backtop###' onclick='backTop();'><img alt='top' title='Back to top' src='img/render/back-top.gif'/></div>";
+        String sBacktop = "<div class='backtop###' onclick='backTop();'><img alt='top' title='" + ResourceUtils.getText("back.top", lang) + "' src='img/render/back-top.gif'/></div>";
         PrintWriter writer = res.getWriter();
         writer.write(s + (s.matches(".*'tsort'.*") ? sBacktop.replaceAll("\\#\\#\\#", "left") + sBacktop.replaceAll("\\#\\#\\#", "right") : ""));
 	}
