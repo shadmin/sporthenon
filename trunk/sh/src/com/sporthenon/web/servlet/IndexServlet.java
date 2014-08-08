@@ -38,7 +38,7 @@ private static final long serialVersionUID = 1L;
 		        ArrayList<Object> lParams = new ArrayList<Object>();
 		        lParams.add(new Integer(String.valueOf(hParams.get("count"))));
 		        lParams.add("_" + getLocale(request));
-		        ServletHelper.writeHtml(response, HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams), getLocale(request)));
+		        ServletHelper.writeHtml(response, HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams), getLocale(request)), getLocale(request));
 			}
 			else {
 				DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();

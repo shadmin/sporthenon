@@ -373,7 +373,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setComment(cp.getComment());
 			p.setIndex(cp.getIndex() != null ? String.valueOf(cp.getIndex()) : null);
 			p.setUrlWiki(cp.getUrlWiki());
-			p.setInactive(cp.getInactive());
 		}
 		else if (o instanceof City) {
 			City ct = (City) o;
@@ -411,7 +410,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setComment(StringUtils.notEmpty(ev.getComment()) ? ev.getComment() : "");
 			p.setIndex(ev.getIndex() != null ? String.valueOf(ev.getIndex()) : null);
 			p.setUrlWiki(ev.getUrlWiki());
-			p.setInactive(ev.getInactive());
 		}
 		else if (o instanceof Olympics) {
 			Olympics ol = (Olympics) o;

@@ -325,7 +325,6 @@ public class JMainFrame extends JFrame {
 			en.setComment(p.getComment().getText());
 			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Integer.parseInt(p.getIndex().getText()) : Integer.MAX_VALUE);
 			en.setUrlWiki(p.getUrlWiki().getText());
-			en.setInactive(p.getInactive().isSelected());
 			plb.setText(en.getLabel());
 		}
 		else if (alias.equalsIgnoreCase(City.alias)) {
@@ -366,7 +365,6 @@ public class JMainFrame extends JFrame {
 			en.setWebsite(p.getWebsite().getText());
 			en.setComment(p.getComment().getText());
 			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Integer.parseInt(p.getIndex().getText()) : Integer.MAX_VALUE);
-			en.setInactive(p.getInactive().isSelected());
 			en.setUrlWiki(p.getUrlWiki().getText());
 			plb.setText(en.getLabel());
 		}

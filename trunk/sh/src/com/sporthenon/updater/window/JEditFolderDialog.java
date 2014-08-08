@@ -36,10 +36,12 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 	private JEntityPicklist jCategory1 = null;
 	private JEntityPicklist jCategory2 = null;
 	private JEntityPicklist jCategory3 = null;
+	private JEntityPicklist jCategory4 = null;
 	private Integer currentSport;
 	private Integer currentCategory1;
 	private Integer currentCategory2;
 	private Integer currentCategory3;
+	private Integer currentCategory4;
 	private short mode;
 	private JResultsPanel parent;
 	
@@ -54,7 +56,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 	private void initialize() {
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(300, 270));
+		this.setPreferredSize(new Dimension(350, 300));
 		this.setSize(this.getPreferredSize());
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
@@ -71,7 +73,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 	}
 	
 	private JPanel getMainPanel() {
-		JPanel jMainPanel = new JPanel(new GridLayout(8, 1, 0, 0));
+		JPanel jMainPanel = new JPanel(new GridLayout(10, 1, 0, 0));
 		jMainPanel.setBorder(BorderFactory.createTitledBorder(null, "Folder Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 		
 		JLabel lSport = new JLabel(" Sport:");
@@ -94,6 +96,11 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 		jMainPanel.add(lCategory3, null);
 		jMainPanel.add(jCategory3, null);
 		
+		JLabel lCategory4 = new JLabel(" Category #4:");
+		jCategory4 = new JEntityPicklist(this, Event.alias);
+		jMainPanel.add(lCategory4, null);
+		jMainPanel.add(jCategory4, null);
+		
 		return jMainPanel;
 	}
 
@@ -104,6 +111,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 		this.currentCategory1 = SwingUtils.getValue(jCategory1);
 		this.currentCategory2 = SwingUtils.getValue(jCategory2);
 		this.currentCategory3 = SwingUtils.getValue(jCategory3);
+		this.currentCategory4 = SwingUtils.getValue(jCategory4);
 		this.setTitle((mode == NEW ? "New" : "Edit") + " Folder");
 		this.setVisible(true);
 	}
@@ -150,7 +158,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 				}
 				else if (mode == EDIT) {
 					String sql = "UPDATE \"RESULT\" SET id_sport=" + sp + ", id_championship=" + c1 + ", id_event=" + (c2 > 0 ? c2 : "NULL") + ", id_subevent=" + (c3 > 0 ? c3 : "NULL") + " ";
-					sql += "WHERE id_sport=" + currentSport + " AND id_championship=" + currentCategory1 + (currentCategory2 > 0 ? " AND id_event=" + currentCategory2 : "") + (currentCategory3 > 0 ? " AND id_subevent=" + currentCategory3 : "");
+					sql += "WHERE id_sport=" + currentSport + " AND id_championship=" + currentCategory1 + (currentCategory2 > 0 ? " AND id_event=" + currentCategory2 : "") + (currentCategory3 > 0 ? " AND id_subevent=" + currentCategory3 : "") + (currentCategory4 > 0 ? " AND id_subevent2=" + currentCategory4 : "");
 					DatabaseHelper.executeUpdate(sql);
 				}
 				msg = "Folder has been " + (mode == NEW ? "created" : "updated") + " successfully.";
@@ -181,6 +189,10 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 
 	public JEntityPicklist getCategory3() {
 		return jCategory3;
+	}
+	
+	public JEntityPicklist getCategory4() {
+		return jCategory4;
 	}
 	
 }

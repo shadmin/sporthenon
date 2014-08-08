@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -42,6 +43,7 @@ import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Team;
+import com.sporthenon.db.entity.meta.InactiveItem;
 import com.sporthenon.db.entity.meta.TreeItem;
 import com.sporthenon.db.function.ResultsBean;
 import com.sporthenon.updater.component.JCustomButton;
@@ -66,9 +68,11 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 	private static Integer idChampionship = null;
 	private static Integer idEvent = null;
 	private static Integer idSubevent = null;
+	private static Integer idSubevent2 = null;
 	private JCustomButton jEditButton = null;
 	private JCustomButton jCopyButton = null;
 	private JCustomButton jRemoveButton = null;
+	private JCheckBox jInactive = null;
 	private JQueryStatus jQueryStatus = null;
 
 	public JResultsPanel(JMainFrame parent) {
@@ -167,9 +171,13 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 		jEditFolderButton.addActionListener(this);
 		jEditFolderButton.setActionCommand("edit-folder");
 		leftPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 1));
+		jInactive = new JCheckBox("Inactive event");
+		jInactive.addActionListener(this);
+		jInactive.setActionCommand("set-inactive");
 		leftPanel.add(jRefreshTreeButton, null);
 		leftPanel.add(jNewFolderButton, null);
 		leftPanel.add(jEditFolderButton, null);
+		leftPanel.add(jInactive, null);
 
 		JPanel rightPanel = new JPanel();
 		JCustomButton jAddButton = new JCustomButton(null, "add.png", "Add");
@@ -215,6 +223,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			idChampionship = (t.length > 1 ? new Integer(t[1]) : null);
 			idEvent = (t.length > 2 ? new Integer(t[2]) : null);
 			idSubevent = (t.length > 3 ? new Integer(t[3]) : null);
+			idSubevent2 = (t.length > 4 ? new Integer(t[4]) : null);
 			if (node.isLeaf())
 				loadData(param);
 		}
@@ -257,6 +266,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			params.add(idChampionship);
 			params.add(idEvent);
 			params.add(idSubevent != null ? idSubevent : 0);
+			params.add(idSubevent2 != null ? idSubevent2 : 0);
 			params.add("0");
 			params.add("");
 			Event ev = (Event) DatabaseHelper.loadEntity(Event.class, new Integer(String.valueOf(t.length > 3 ? params.get(3) : params.get(2))));
@@ -303,6 +313,11 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			jEditButton.setEnabled(false);
 			jCopyButton.setEnabled(false);
 			jRemoveButton.setEnabled(false);
+			String hql = "from InactiveItem where id_sport=" + idSport + " and id_championship=" + idChampionship + " and id_event=" + idEvent;
+			hql += (idSubevent != null ? " and id_subevent=" + idSubevent : "");
+			hql += (idSubevent2 != null ? " and id_subevent2=" + idSubevent2 : "");
+			Object o = DatabaseHelper.loadEntityFromQuery(hql);
+			jInactive.setSelected(o != null);
 		}
 		catch (Exception e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);
@@ -329,6 +344,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				lst.add(idChampionship);
 				lst.add(idEvent);
 				lst.add(idSubevent != null ? idSubevent : 0);
+				lst.add(idSubevent2 != null ? idSubevent2 : 0);
 				lstChilds = SwingUtils.removeTreeItem(jTree, lst);
 			}
 			JEditFolderDialog dlg = JMainFrame.getFolderDialog();
@@ -341,7 +357,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			lst.add(cat3);
 			DefaultMutableTreeNode node = SwingUtils.getTreeItem(jTree, lst, true);
 			if (mode == JEditFolderDialog.EDIT) {
-				String oldEvent = "," + String.valueOf((idSubevent != null ? idSubevent : idEvent)) + "(?=$|,)";
+				String oldEvent = "," + String.valueOf(idSubevent2 != null ? idSubevent2 : (idSubevent != null ? idSubevent : idEvent)) + "(?=$|,)";
 				String newEvent = "," + String.valueOf((cat3 > 0 ? cat3 : cat2));
 				DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
 				for (DefaultMutableTreeNode node_ : lstChilds) {
@@ -357,7 +373,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 
 	public void addMultipleCallback(String msg, boolean err) {
 		if (!err)
-			loadData(idSport + "," + idChampionship + "," + idEvent + (idSubevent != null && idSubevent > 0 ? "," + idSubevent : ""));
+			loadData(idSport + "," + idChampionship + "," + idEvent + (idSubevent != null && idSubevent > 0 ? "," + idSubevent : "") + (idSubevent2 != null && idSubevent2 > 0 ? "," + idSubevent2 : ""));
 		jQueryStatus.set(err ? JQueryStatus.FAILURE : JQueryStatus.SUCCESS, msg);
 	}
 
@@ -375,7 +391,25 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				SwingUtils.selectValue(dlg.getCategory1(), idChampionship);
 				SwingUtils.selectValue(dlg.getCategory2(), idEvent);
 				SwingUtils.selectValue(dlg.getCategory3(), idSubevent);
+				SwingUtils.selectValue(dlg.getCategory4(), idSubevent2);
 				dlg.open(this, e.getActionCommand().matches("add.*") ? JEditFolderDialog.NEW : JEditFolderDialog.EDIT);
+			}
+			else if (e.getActionCommand().matches("set-inactive")) {
+				String hql = "from InactiveItem where id_sport=" + idSport + " and id_championship=" + idChampionship + " and id_event=" + idEvent;
+				hql += (idSubevent != null ? " and id_subevent=" + idSubevent : "");
+				hql += (idSubevent2 != null ? " and id_subevent2=" + idSubevent2 : "");
+				Object o = DatabaseHelper.loadEntityFromQuery(hql);
+				if (o != null)
+					DatabaseHelper.removeEntity(o);
+				if (jInactive.isSelected()) {
+					InactiveItem item = new InactiveItem();
+					item.setIdSport(idSport);
+					item.setIdChampionship(idChampionship);
+					item.setIdEvent(idEvent);
+					item.setIdSubevent(idSubevent);
+					item.setIdSubevent2(idSubevent2);
+					DatabaseHelper.saveEntity(item, null);
+				}
 			}
 			else if (e.getActionCommand().matches("(add|copy|edit)-result")) {
 				boolean isAdd = e.getActionCommand().matches("add.*");
@@ -391,7 +425,8 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				if (isAdd) {
 					Event ev = (Event)DatabaseHelper.loadEntity(Event.class, new Integer(idEvent));
 					Event se = (Event)(idSubevent != null ? DatabaseHelper.loadEntity(Event.class, new Integer(idSubevent)) : null);
-					type = (se != null ? se.getType().getNumber() : ev.getType().getNumber());
+					Event se2 = (Event)(idSubevent2 != null ? DatabaseHelper.loadEntity(Event.class, new Integer(idSubevent2)) : null);
+					type = (se2 != null ? se2.getType().getNumber() : (se != null ? se.getType().getNumber() : ev.getType().getNumber()));
 				}
 				else {
 					resultId = String.valueOf(jResultTable.getValueAt(jResultTable.getSelectedRow(), 0));
@@ -412,7 +447,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					List<Integer> lTie = StringUtils.tieList(rs.getExa());
 					for (int i = 0 ; i < 10 ; i++)
 						rd.getExaCheckbox()[i].setSelected(lTie.contains(i + 1));
-					type = (rs.getSubevent() != null ? rs.getSubevent().getType().getNumber() : rs.getEvent().getType().getNumber());
+					type = (rs.getSubevent2() != null ? rs.getSubevent2().getType().getNumber() : (rs.getSubevent() != null ? rs.getSubevent().getType().getNumber() : rs.getEvent().getType().getNumber()));
 					Draw dr = (Draw) DatabaseHelper.loadEntityFromQuery("from Draw where idResult = " + resultId);
 					if (dr != null)
 						drawId = dr.getId();
@@ -476,6 +511,10 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 
 	public static Integer getIdSubevent() {
 		return idSubevent;
+	}
+	
+	public static Integer getIdSubevent2() {
+		return idSubevent2;
 	}
 
 }

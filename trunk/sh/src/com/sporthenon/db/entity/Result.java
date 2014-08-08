@@ -41,6 +41,10 @@ public class Result {
 	private Event subevent;
 	
 	@ManyToOne
+	@JoinColumn(name = "id_subevent2")
+	private Event subevent2;
+	
+	@ManyToOne
 	@JoinColumn(name = "id_city1")
 	private City city1;
 	
@@ -404,6 +408,14 @@ public class Result {
 
 	public void setExa(String exa) {
 		this.exa = exa;
+	}
+
+	public Event getSubevent2() {
+		return subevent2;
+	}
+
+	public void setSubevent2(Event subevent2) {
+		this.subevent2 = subevent2;
 	}
 
 	@Override

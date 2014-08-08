@@ -2,7 +2,6 @@ package com.sporthenon.updater.container.entity;
 
 import java.awt.Dimension;
 
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -19,7 +18,6 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 	public JTextField jWebsite;
 	public JTextArea jComment;
 	public JTextField jIndex;
-	public JCheckBox jInactive;
 	public JTextField jUrlWiki;
 
 	public JChampionshipPanel() {
@@ -76,13 +74,6 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 		jUrlWiki = new JTextField();
 		jUrlWiki.setPreferredSize(TEXT_SIZE);
 		gridPanel.add(jUrlWiki);
-        
-        //Inactive
-        JLabel lInactive = new JLabel(" Inactive:");
-        lIndex.setHorizontalAlignment(LABEL_ALIGNMENT);
-        gridPanel.add(lInactive);
-        jInactive = new JCheckBox();
-        gridPanel.add(jInactive);
 	}
 
 	public JTextField getLabel() {
@@ -109,10 +100,6 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 		return jUrlWiki;
 	}
 	
-	public JCheckBox getInactive() {
-		return jInactive;
-	}
-
 	public void setLabel(String s) {
 		jLabel.setText(s);
 	}
@@ -137,10 +124,6 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 		jUrlWiki.setText(s);
 	}
 
-	public void setInactive(Boolean b) {
-		jInactive.setSelected(b);
-	}
-	
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
@@ -149,7 +132,6 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 		jComment.setText("");
 		jIndex.setText("");
 		jUrlWiki.setText("");
-		jInactive.setSelected(false);
 	}
 	
 	public void focus() {

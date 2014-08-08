@@ -18,8 +18,11 @@ import com.sporthenon.utils.res.ResourceUtils;
 public class HtmlUtils {
 
 	public final static String SPACE = " ";
-	public final static String NO_RESULT = "<div class='noresult'>No result found matching the selected criteria.</div>";
 
+	public static String writeNoResult(String lang) {
+		return "<div class='noresult'>" + ResourceUtils.getText("no.result", lang) + "</div>";
+	}
+	
 	public static String writeImage(short type, int id, char size, String year, String title) {
 		StringBuffer html = new StringBuffer();
 		String folder = ConfigUtils.getProperty("img.folder");
@@ -124,9 +127,9 @@ public class HtmlUtils {
 		return html.toString();
 	}
 
-	public static StringBuffer writeWinRecTable(Collection<WinRecordsBean> c) {
+	public static StringBuffer writeWinRecTable(Collection<WinRecordsBean> c, String lang) {
 		StringBuffer html = new StringBuffer();
-		html.append("<table class='winrec'><tr><th colspan=3>" + writeToggleTitle("WIN RECORDS") + "</th></tr>");
+		html.append("<table class='winrec'><tr><th colspan=3>" + writeToggleTitle(ResourceUtils.getText("win.records", lang)) + "</th></tr>");
 		int max = -1;
 		int i = 0;
 		for (WinRecordsBean bean : c) {

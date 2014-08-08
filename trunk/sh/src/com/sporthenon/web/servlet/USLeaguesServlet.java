@@ -159,7 +159,7 @@ public class USLeaguesServlet extends AbstractServlet {
 						ServletHelper.writeLinkHtml(request, response, html);
 				}
 				else
-					ServletHelper.writeHtml(response, html);
+					ServletHelper.writeHtml(response, html, getLocale(request));
 			}
 			else { // Picklists
 				String plId = null;

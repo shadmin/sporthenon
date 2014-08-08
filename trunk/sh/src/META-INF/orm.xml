@@ -54,10 +54,10 @@
 	</named-native-query>
 	
 	<!--
-		GET_RESULTS(integer, integer, integer, integer, text, varchar)
+		GET_RESULTS(integer, integer, integer, integer, integer, text, varchar)
 	-->
 	<named-native-query name="GetResults" result-class="com.sporthenon.db.function.ResultsBean">  
-		<query>{? = call "GET_RESULTS"(?, ?, ?, ?, ?, ?)}</query>
+		<query>{? = call "GET_RESULTS"(?, ?, ?, ?, ?, ?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	

@@ -69,7 +69,7 @@ public class ResultServlet extends AbstractServlet {
 						ServletHelper.writeLinkHtml(request, response, html);
 				}
 				else
-					ServletHelper.writeHtml(response, html.append(isLink ? "</div>" : ""));
+					ServletHelper.writeHtml(response, html.append(isLink ? "</div>" : ""), getLocale(request));
 			}
 			else { // Picklists
 				Collection<PicklistBean> cPicklist = new ArrayList<PicklistBean>();

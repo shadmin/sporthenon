@@ -59,8 +59,7 @@ public class TreeItem  {
 
 	@Override
 	public String toString() {
-		return "TreeItem [id=" + id + ", idItem=" + idItem + ", label=" + label
-				+ ", level=" + level + "]";
+		return "TreeItem [id=" + id + ", idItem=" + idItem + ", label=" + label + ", level=" + level + "]";
 	}
 
 }
