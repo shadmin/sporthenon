@@ -1,4 +1,4 @@
-<%@ page language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.sporthenon.utils.ConfigUtils" %>
 <%@ page import="com.sporthenon.utils.StringUtils" %>
 <%@ page import="com.sporthenon.db.entity.meta.Member" %>
@@ -51,7 +51,7 @@
 			<li><a id="shmenu-project" <%=(mn.equals("project") ? "class='selected'" : "")%> href="project"><%=StringUtils.text("menu.project", session)%></a></li>
 		</ul>
 	</div>
-	<div id="flags"><a title="English" href="javascript:setLang('en');"><img src="img/header/lang-en.png"/></a>&nbsp;<a title="Français" href="javascript:setLang('fr');"><img src="img/header/lang-fr.png"/></a>&nbsp;</div>
+	<div id="flags"><a title="English" href="javascript:setLang('en');"><img src="img/header/lang-en.png"/></a>&nbsp;<a title="FranÃ§ais" href="javascript:setLang('fr');"><img src="img/header/lang-fr.png"/></a>&nbsp;</div>
 	<div id="links">
 		<table>
 			<tr><td style="padding-bottom:3px;"><%=StringUtils.text("share", session)%>:</td>
@@ -91,6 +91,8 @@
 	var TEXT_COUNTRIES = "<%=StringUtils.text("countries", session)%>";
 	var TEXT_TEAMS = "<%=StringUtils.text("teams", session)%>";
 	var TEXT_CATEGORIES = "<%=StringUtils.text("categories", session)%>";
+	var TEXT_SELECT = "<%=StringUtils.text("select", session)%>";
+	var TEXT_SELECTION = "<%=StringUtils.text("selection", session)%>";
 	var TEXT_LOADING = "<%=StringUtils.text("loading", session)%>";
 </script>
 

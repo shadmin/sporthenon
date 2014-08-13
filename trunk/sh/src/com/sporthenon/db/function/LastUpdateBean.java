@@ -27,6 +27,9 @@ public class LastUpdateBean {
 	
 	@Column(name = "se_id")
 	private Integer seId;
+
+	@Column(name = "se2_id")
+	private Integer se2Id;
 	
 	@Column(name = "sp_label")
 	private String spLabel;
@@ -40,6 +43,9 @@ public class LastUpdateBean {
 	@Column(name = "se_label")
 	private String seLabel;
 
+	@Column(name = "se2_label")
+	private String se2Label;
+	
 	@Column(name = "rs_update")
 	private Timestamp rsUpdate;
 	
@@ -48,6 +54,9 @@ public class LastUpdateBean {
 
 	@Column(name = "tp2_number")
 	private Integer tp2Number;
+	
+	@Column(name = "tp3_number")
+	private Integer tp3Number;
 	
 	@Column(name = "pr_first_name")
 	private String prFirstName;
@@ -119,6 +128,10 @@ public class LastUpdateBean {
 
 	public Integer getTp2Number() {
 		return tp2Number;
+	}
+	
+	public Integer getTp3Number() {
+		return tp3Number;
 	}
 
 	public String getPrFirstName() {
@@ -195,6 +208,26 @@ public class LastUpdateBean {
 
 	public void setSeId(Integer seId) {
 		this.seId = seId;
+	}
+
+	public String getSe2Label() {
+		return se2Label;
+	}
+
+	public void setSe2Label(String se2Label) {
+		this.se2Label = se2Label;
+	}
+
+	public void setTp3Number(Integer tp3Number) {
+		this.tp3Number = tp3Number;
+	}
+
+	public Integer getSe2Id() {
+		return se2Id;
+	}
+
+	public void setSe2Id(Integer se2Id) {
+		this.se2Id = se2Id;
 	}
 	
 }

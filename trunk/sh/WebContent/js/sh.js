@@ -1,7 +1,7 @@
 /* ==================== COMMON ==================== */
 function fillPicklistXML(response) {
 	var xml = (response != null ? response.responseXML : pl.outerHTML);
-	if (!xml) return;
+	if (!xml) {return;}
 	var root = xml.documentElement;
 	var picklistId = root.getAttribute('id');
 	var picklist = $(picklistId);
@@ -26,6 +26,7 @@ function fillPicklistXML(response) {
 		picklist.update('');
 		picklist.addClassName('disabled');
 		picklist.writeAttribute('disabled', 'disabled');
+		updateTip(picklistId, true);
 	}
 	if (picklist.onchange) {
 		picklist.onchange();
@@ -52,6 +53,7 @@ function fillPicklistArray(id, array) {
 		picklist.update('');
 		picklist.addClassName('disabled');
 		picklist.writeAttribute('disabled', 'disabled');
+		updateTip(id, true);
 	}
 	if (picklist.onchange) {
 		picklist.onchange();
@@ -70,24 +72,29 @@ function createTip(name, pl) {
 	hTips.set(pl, name);
 	updateTip(pl);
 }
-function updateTip(pl) {
-	if (hTips.size() == 0 || !hTips.get(pl)) return;
+function updateTip(pl, empty) {
+	if (hTips.size() == 0 || !hTips.get(pl)) {return;}
 	var text = TEXT_CURRENTLY_SELECTED + ':';
-	var t = $(pl).value.split(',');
-	if (t[0] == 0) {
-		text += '<br/>[' + TEXT_ALL + ']';
+	if (empty) {
+		text = '';
 	}
 	else {
-		var h = new Hash();
-		$$('#' + pl + ' option').each(function(el) {
-			h.set(el.value, el.text);
-		});
-		for (var i = 0 ; i < t.length && i < 10 ; i++) {
-			text += '<br/>-&nbsp;' + h.get(t[i]);
+		var t = $(pl).value.split(',');
+		if (t[0] == 0) {
+			text += '<br/>[' + TEXT_ALL + ']';
 		}
-		text += (t.length > 10 ? '<br/>(+' + (t.length - 10) + ' more)' : '');
+		else {
+			var h = new Hash();
+			$$('#' + pl + ' option').each(function(el) {
+				h.set(el.value, el.text);
+			});
+			for (var i = 0 ; i < t.length && i < 10 ; i++) {
+				text += '<br/>-&nbsp;' + h.get(t[i]);
+			}
+			text += (t.length > 10 ? '<br/>(+' + (t.length - 10) + ' more)' : '');
+		}
+		text += '<br/><br/><span class="bold">(' + TEXT_CLICK_CHANGE + ')</span>';
 	}
-	text += '<br/><br/><span class="bold">(' + TEXT_CLICK_CHANGE + ')</span>';
 	$(hTips.get(pl)).update(text);
 }
 function handleRender() {
@@ -302,8 +309,6 @@ function outCloseImg() {
 	this.src = this.src.replace('close-over.gif', 'close.gif');
 }
 function clickCloseImg(id_) {
-	if ($$('#tabbar li').length <= 3)
-		return;
 	var idx = (this.id == 'close' ? tabs.activeContainer.id.replace('t-', '') : this.id.replace('close-', ''));
 	$('link-' + idx).remove();
 	tabs.removeTab('t-' + idx);
@@ -311,6 +316,9 @@ function clickCloseImg(id_) {
 		var i = tabcurrent + 1;
 		while (!$('t-' + i--) && i > 0);
 		tabs.setActiveTab(i > 0 ? 't-' + (i + 1) : 0);
+	}
+	if ($$('#tabbar li').length <= 2) {
+		addTab(TEXT_BLANK);
 	}
 }
 function addTab(title) {
@@ -468,7 +476,7 @@ function initSelectMult(id, s, w, o) {
 	container.writeAttribute('id', id + '-options');
 	label.writeAttribute('for', id + '-applyall');
 	input.writeAttribute('id', id + '-applyall');
-	container.down().innerHTML = 'Select ' + s;
+	container.down().innerHTML = TEXT_SELECT + ': ' + s;
 	$(id).setStyle({width: w + 'px'});
 	container.setStyle({width: (w + (o ? o : 20)) + 'px'});
 	openLink.writeAttribute('href', '#tip-' + id);
@@ -480,6 +488,7 @@ function initSelectMult(id, s, w, o) {
 		afterChange: function(){ if (this.setSelectedRows) {this.setSelectedRows();} }
 	});
 	openLink.observe('click', function(event){
+		if ($(this.select).disabled) {return;}
 		$(this.select).style.visibility = 'hidden';
 		this.set();
 		new Effect.BlindDown(this.container,{ duration: 0.4 });
@@ -526,14 +535,14 @@ function initSelectMult(id, s, w, o) {
 	hSelMult.set(id, selMult);
 }
 function updateSelectMult(id) {
-	if (hSelMult.size() == 0 || !hSelMult.get(id)) return;
+	if (hSelMult.size() == 0 || !hSelMult.get(id)) {return;}
 	var selMult = hSelMult.get(id);
 	if (selMult) {
-		var tRows = [];
+		var tRows = [''];
 		var n = 0;
 		$$('#' + id + ' option').each(function(el) {
 			if (el.value > 0) {
-				tRows.push('<tr><td id="' + id + n++ + '" class="name">' + el.text + '</td><td><input type="checkbox" value="' + el.value + '"/></td></tr>');
+				tRows.push('<tr><td id="' + id + '-' + n++ + '" class="name">' + el.text + '</td><td><input type="checkbox" value="' + el.value + '"/></td></tr>');
 			}
 		});
 		$$('#' + id + '-options .scroll table')[0].update(tRows.join(''));
@@ -559,8 +568,8 @@ function updateSelectMult(id) {
 }
 function selMultClick() {
 	var id = this.id;
-	var sel = hSelMult.get(id.replace(/\d+/, ''));
-	var c = sel.checkboxes[id.replace(/[^\d]+/, '')];
+	var sel = hSelMult.get(id.replace(/-\d+/, ''));
+	var c = sel.checkboxes[id.replace(/[^\d]+/, '').replace('2-', '')];
 	c.checked = (c.checked ? false : true);
 	sel.checkboxOnClick(c);
 }
@@ -569,7 +578,7 @@ function loadHomeData() {
 	new Ajax.Request('IndexServlet?t=' + currentTime(), {
 		onSuccess: function(response) {
 			var xml = response.responseXML;
-			if (!xml) return;
+			if (!xml) {return;}
 			var root = xml.documentElement;
 			var node = null;
 			var html = null;
@@ -607,7 +616,7 @@ function initSliderRes(s) {
 	$$('#slider-' + s + ' .content')[0].update(sliderContent.join(''));
 	var sl = hSliders.get('slider-' + s);
 	if (!sl) {
-		sl = createSlider('slider-' + s, 82, 82, true);
+		sl = createSlider('slider-' + s, 102, 102, true);
 		sl.options.afterMove = function() {
 			var currentId = sl.current.id;
 			$('pl-' + s).setValue(currentId.replace(s + '-', ''));
@@ -635,6 +644,7 @@ function getPicklist(picklistId) {
 		var spIndex = $('pl-sp').options.selectedIndex;
 		var cpIndex = $('pl-cp').options.selectedIndex;
 		var evIndex = $('pl-ev').options.selectedIndex;
+		var seIndex = $('pl-se').options.selectedIndex;
 		var t = null;
 		if (picklistId == 'pl-sp') {
 			t = treeItems[0];
@@ -647,6 +657,9 @@ function getPicklist(picklistId) {
 		}
 		else if (picklistId == 'pl-se') {
 			t = treeItems[0][spIndex + 2][cpIndex + 2][evIndex + 2];
+		}
+		else if (picklistId == 'pl-se2') {
+			t = treeItems[0][spIndex + 2][cpIndex + 2][evIndex + 2][seIndex + 2];
 		}
 		var array = new Array();
 		var val = null;
@@ -662,7 +675,7 @@ function getPicklist(picklistId) {
 		fillPicklistArray(picklistId, array);
 	}
 	else {
-		var h = $H({sp: $F('pl-sp'), cp: $F('pl-cp'), ev: $F('pl-ev'), se: $F('pl-se')});
+		var h = $H({sp: $F('pl-sp'), cp: $F('pl-cp'), ev: $F('pl-ev'), se: $F('pl-se'), se2: $F('pl-se2')});
 		new Ajax.Request('ResultServlet?' + picklistId, {
 			onSuccess: function(response) {
 				fillPicklistXML(response);
@@ -683,7 +696,7 @@ function runResults(tleaf) {
 		h = $H({sp: sp_, cp: cp_, ev: ev_, se: se_, yr: 0});
 	}
 	else { // Picklist
-		h = $H({sp: $F('pl-sp'), cp: $F('pl-cp'), ev: $F('pl-ev'), se: $F('pl-se'), yr: $F('pl-yr')});
+		h = $H({sp: $F('pl-sp'), cp: $F('pl-cp'), ev: $F('pl-ev'), se: $F('pl-se'), se2: $F('pl-se2'), yr: $F('pl-yr')});
 	}
 	addOptions(h);
 	new Ajax.Updater(tab, 'ResultServlet?run', {
@@ -713,6 +726,12 @@ function treeLeafClick(anchor, value) {
 			if (t.length > 3 && t[3] != '') {
 				setTimeout(function(){
 					$('pl-se').value = t[3];
+					$('pl-se').onchange();
+					if (t.length > 4 && t[4] != '') {
+						setTimeout(function(){
+							$('pl-se2').value = t[4];
+						}, 600);
+					}
 				}, 600);
 			}
 		}, 600);
@@ -727,16 +746,33 @@ function initOlympics(picklistId) {
 		onFailure: function(response) {}
 	});
 }
+function changeModeOL() {
+	var isSummer = $F('olt1');
+	if (isSummer) {
+		$('summerfs').show();
+		$('winterfs').hide();
+		changeOlympics('summer-pl-ol');
+	}
+	else {
+		$('summerfs').hide();
+		$('winterfs').show();
+		changeOlympics('winter-pl-ol');
+	}
+}
 function changeOlympics(id) {
 	var isSummer = (id.indexOf('summer') == 0);
 	var code = (isSummer ? 'summer' : 'winter');
-	getPicklistOL(code + '-pl-sp');
-	getPicklistOL(code + '-pl-cn');
+	var h = $H({ol: $F(code + '-pl-ol')});
+	h.set('type', code);
+	new Ajax.Request('OlympicsServlet?tree=1', {
+		onSuccess: function(response){
+			eval(response.responseText);
+			getPicklistOL(code + '-pl-sp');
+			updateSliderSp(code);
+		},
+		parameters: h
+	});
 	updateSliderOl(code);
-	var plev = $(code + '-pl-ev');
-	plev.update('');
-	plev.addClassName('disabled');
-	plev.writeAttribute('disabled', 'disabled');
 }
 function changeSportOL(obj, code, srcsl) {
 	if (!srcsl) {
@@ -751,6 +787,45 @@ function changeSportOL(obj, code, srcsl) {
 	else {
 		getPicklistOL(code + '-pl-ev', true);
 	}
+}
+function getPicklistOL(picklistId) {
+	var isSummer = (picklistId.indexOf('summer') == 0);
+	var code = (isSummer ? 'summer' : 'winter');
+	var spIndex = $(code + '-pl-sp').options.selectedIndex;
+	var evIndex = $(code + '-pl-ev').options.selectedIndex;
+	var seIndex = $(code + '-pl-se').options.selectedIndex;
+	var t = null;
+	if (picklistId == code + '-pl-sp') {
+		t = treeItems[0];
+	}
+	else if (picklistId == code + '-pl-ev') {
+		t = treeItems[0][spIndex + 2][2];
+	}
+	else if (picklistId == code + '-pl-se') {
+		t = treeItems[0][spIndex + 2][2][evIndex + 2];
+	}
+	else if (picklistId == code + '-pl-se2') {
+		t = treeItems[0][spIndex + 2][2][evIndex + 2][seIndex + 2];
+	}
+	var array = [];
+	var val = null;
+	var txt = null;
+	if (t != null) {
+		for (var i = 2 ; i < t.length ; i++) {
+			val = t[i][1];
+			if (val) {
+				if (val.indexOf('_') != -1) {
+					val = val.substring(val.lastIndexOf('_') + 1);
+				}
+				txt = t[i][0];
+				array.push({value: val, text: txt});	
+			}
+		}	
+	}
+	if (picklistId != code + '-pl-sp' && array.length > 1) {
+		array.push({value: 0, text: '[' + TEXT_ALL + ']'});
+	}
+	fillPicklistArray(picklistId, array);
 }
 function updateSliderOl(code) {
 	var slider = $$('#slider-' + code + '-ol .content')[0];
@@ -802,41 +877,6 @@ function slideOlClick(code, value) {
 	list.value = value;
 	changeOlympics(list.id);
 }
-function changeModeOL() {
-	var isSummer = $F('olt1');
-	if (isSummer) {
-		$('summerfs').show();
-		$('winterfs').hide();
-	}
-	else {
-		$('summerfs').hide();
-		$('winterfs').show();
-	}
-}
-function getPicklistOL(picklistId) {
-	var isSummer = (picklistId.indexOf('summer') == 0);
-	var code = (isSummer ? 'summer' : 'winter');
-	var h = $H({ol: $F(code + '-pl-ol')});
-	h.set('sp', $F(code + '-pl-sp'));
-	var url = 'OlympicsServlet?type=' + code + '&' + picklistId.replace(code + '-', '');
-	new Ajax.Request(url, {
-		onSuccess: function(response){
-			fillPicklistXML(response);
-			if (picklistId.indexOf('-sp') > -1) {
-				updateSliderSp(code);
-			}
-		},
-		onFailure: function(response){},
-		parameters: h
-	});
-	if (picklistId.indexOf('-ev') > -1) {
-		var plse = $(code + '-pl-se');
-		plse.update('');
-		plse.addClassName('disabled');
-		plse.writeAttribute('disabled', 'disabled');
-		getPicklistOL(code + '-pl-se');
-	}
-}
 function runOlympics() {
 	t1 = currentTime();
 	var tab = initTab();
@@ -847,6 +887,7 @@ function runOlympics() {
 		h.set('sp', $F(code + '-pl-sp'));
 		h.set('ev', $F(code + '-pl-ev'));
 		h.set('se', $F(code + '-pl-se'));
+		h.set('se2', $F(code + '-pl-se2'));
 	}
 	else {
 		h.set('cn', $F(code + '-pl-cn'));
@@ -915,7 +956,7 @@ function changeLeague(id, srcsl) {
 				tType2[i] = '<option value="\'' + tType2[i] + '\'">' + tType2[i] + '</option>';
 			}
 		}
-		tType2.push('<option value="' + tAll.join(',') + '">-- All --</option>');
+		tType2.push('<option value="' + tAll.join(',') + '">[' + TEXT_ALL + ']</option>');
 		$('pl-record-tp2').update(tType2.join(''));
 	}
 }
@@ -1006,7 +1047,7 @@ function loadChart() {
 		onSuccess: function(response) {
 			var tData = new Array();
 			var xml = response.responseXML;
-			if (!xml) return;
+			if (!xml) {return;}
 			var root = xml.documentElement;
 			var node = null;
 			var tHtml = new Array();
@@ -1062,27 +1103,27 @@ function createAccount() {
 	if ($('r-login').value == '') {
 		accountErr('Field "Login" is mandatory.');
 		$('r-login').focus();
-		return;
+		{return;}
 	}
 	else if ($('r-password').value == '') {
 		accountErr('Field "Password" is mandatory.');
 		$('r-password').focus();
-		return;
+		{return;}
 	}
 	else if ($('r-password2').value == '') {
 		accountErr('You must confirm the password.');
 		$('r-password2').focus();
-		return;
+		{return;}
 	}
 	else if ($('r-email').value == '') {
 		accountErr('Field "E-Mail Address" is mandatory.');
 		$('r-email').focus();
-		return;
+		{return;}
 	}
 	else if ($('r-password').value != $('r-password2').value) {
 		accountErr('The entered passwords do not match.');
 		$('r-password2').focus();
-		return;
+		{return;}
 	}
 	$('r-msg').update('Please wait...').removeClassName('error').removeClassName('success').addClassName('waiting').show();
 	var h = $H();

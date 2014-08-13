@@ -18,6 +18,9 @@ results: onclick sur tree = chargement automatique selection dans picklists
 links sports-ref pour sports-us
 UPDATER download remote pic
 LANG EN FR LOCALIZE
+event inactive en fonction sport+champ+ev1/2
+3 NIVEAUX EVENTS
+MODIF TREE RESULTS + ICONES LEAFS
 
 +-------+
 | 0.7.0 |

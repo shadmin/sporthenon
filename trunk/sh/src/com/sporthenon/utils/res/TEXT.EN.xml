@@ -161,6 +161,9 @@
 	<entry key="pictures">Pictures</entry>
 	<entry key="display.time">Display Time</entry>
 	<entry key="show">Show</entry>
+	<entry key="select">Select</entry>
+	<entry key="selection">Selection</entry>
+	<entry key="tree">TREE VIEW</entry>
 <!-- RESULTS -->
 	<entry key="sport">Sport</entry>
 	<entry key="event">Event</entry>

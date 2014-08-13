@@ -291,6 +291,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 				rs.setChampionship((Championship)DatabaseHelper.loadEntity(Championship.class, JResultsPanel.getIdChampionship()));
 				rs.setEvent((Event)DatabaseHelper.loadEntity(Event.class, JResultsPanel.getIdEvent()));
 				rs.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, JResultsPanel.getIdSubevent() != null ? JResultsPanel.getIdSubevent() : 0));
+				rs.setSubevent2((Event)DatabaseHelper.loadEntity(Event.class, JResultsPanel.getIdSubevent2() != null ? JResultsPanel.getIdSubevent2() : 0));
 				rs.setYear((Year)DatabaseHelper.loadEntity(Year.class, SwingUtils.getValue(jYear)));
 				rs.setCity1((City)DatabaseHelper.loadEntity(City.class, SwingUtils.getValue(jCity1)));
 				rs.setComplex1((Complex)DatabaseHelper.loadEntity(Complex.class, SwingUtils.getValue(jComplex1)));

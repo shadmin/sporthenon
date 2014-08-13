@@ -41,7 +41,7 @@
 		GET_OLYMPIC_MEDALS(text, integer, text, varchar)
 	-->
 	<named-native-query name="GetOlympicMedals" result-class="com.sporthenon.db.function.OlympicMedalsBean">  
-		<query>{? = call "GET_OLYMPIC_MEDALS"(?, ?, ?, ?, ?)}</query>
+		<query>{? = call "GET_OLYMPIC_MEDALS"(?, ?, ?, ?, ?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	
@@ -110,10 +110,10 @@
 	</named-native-query>
 	
 	<!--
-		TREE_RESULTS(varchar)
+		TREE_RESULTS(varchar, varchar)
 	-->
 	<named-native-query name="TreeResults" result-class="com.sporthenon.db.entity.meta.TreeItem">  
-		<query>select * from "TREE_RESULTS"(?)</query>
+		<query>select * from "TREE_RESULTS"(?, ?)</query>
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 	

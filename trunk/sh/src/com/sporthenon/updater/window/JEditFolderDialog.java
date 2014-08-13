@@ -151,13 +151,14 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 				Integer c1 = SwingUtils.getValue(jCategory1);
 				Integer c2 = SwingUtils.getValue(jCategory2);
 				Integer c3 = SwingUtils.getValue(jCategory3);
+				Integer c4 = SwingUtils.getValue(jCategory4);
 				if (mode == NEW) {
-					String sql = "INSERT INTO \"RESULT\"(id, id_sport, id_championship, id_event, id_subevent, id_year, id_member, last_update) ";
-					sql += "VALUES (nextval('\"SQ_RESULT\"')," + sp + "," + c1 + "," + (c2 > 0 ? c2 : "NULL") + "," + (c3 > 0 ? c3 : "NULL") + ",1," + JMainFrame.getMember().getId() + ",now())";
+					String sql = "INSERT INTO \"RESULT\"(id, id_sport, id_championship, id_event, id_subevent, id_subevent2, id_year, id_member, last_update) ";
+					sql += "VALUES (nextval('\"SQ_RESULT\"')," + sp + "," + c1 + "," + (c2 > 0 ? c2 : "NULL") + "," + (c3 > 0 ? c3 : "NULL") + "," + (c4 > 0 ? c4 : "NULL") + ",1," + JMainFrame.getMember().getId() + ",now())";
 					DatabaseHelper.executeUpdate(sql);
 				}
 				else if (mode == EDIT) {
-					String sql = "UPDATE \"RESULT\" SET id_sport=" + sp + ", id_championship=" + c1 + ", id_event=" + (c2 > 0 ? c2 : "NULL") + ", id_subevent=" + (c3 > 0 ? c3 : "NULL") + " ";
+					String sql = "UPDATE \"RESULT\" SET id_sport=" + sp + ", id_championship=" + c1 + ", id_event=" + (c2 > 0 ? c2 : "NULL") + ", id_subevent=" + (c3 > 0 ? c3 : "NULL") + ", id_subevent2=" + (c4 > 0 ? c4 : "NULL") + " ";
 					sql += "WHERE id_sport=" + currentSport + " AND id_championship=" + currentCategory1 + (currentCategory2 > 0 ? " AND id_event=" + currentCategory2 : "") + (currentCategory3 > 0 ? " AND id_subevent=" + currentCategory3 : "") + (currentCategory4 > 0 ? " AND id_subevent2=" + currentCategory4 : "");
 					DatabaseHelper.executeUpdate(sql);
 				}

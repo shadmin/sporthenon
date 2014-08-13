@@ -214,6 +214,7 @@ public class JMainFrame extends JFrame {
 		if (alias == null || alias.equalsIgnoreCase(Event.alias)) {
 			SwingUtils.fillPicklist(jFolderDialog.getCategory2(), hPicklists.get(Event.alias), null);
 			SwingUtils.fillPicklist(jFolderDialog.getCategory3(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(jFolderDialog.getCategory4(), hPicklists.get(Event.alias), null);
 			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getEvent(), hPicklists.get(Event.alias), null);
 			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getSubevent(), hPicklists.get(Event.alias), null);
 		}

@@ -2,7 +2,10 @@ package com.sporthenon.db.entity.meta;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -10,6 +13,10 @@ import javax.persistence.Table;
 public class InactiveItem  {
 
 	@Id
+	@SequenceGenerator(name = "sq_inactive_item", sequenceName = "\"~SQ_INACTIVE_ITEM\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_inactive_item")
+	private Integer id;
+	
 	@Column(name = "id_sport", nullable = false)
 	private Integer idSport;
 	

@@ -34,7 +34,7 @@ private static final long serialVersionUID = 1L;
 			if (hParams.containsKey("lang")) { // Language
 		        request.getSession().setAttribute("locale", String.valueOf(hParams.get("value")));
 			}
-			else if (hParams.containsKey("lastupdates")) { // Last Updatess
+			else if (hParams.containsKey("lastupdates")) { // Last Updates
 		        ArrayList<Object> lParams = new ArrayList<Object>();
 		        lParams.add(new Integer(String.valueOf(hParams.get("count"))));
 		        lParams.add("_" + getLocale(request));

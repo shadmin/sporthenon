@@ -79,6 +79,12 @@ public class OlympicMedalsBean {
 
 	@Column(name = "se_label")
 	private String seLabel;
+
+	@Column(name = "se2_id")
+	private Integer se2Id;
+
+	@Column(name = "se2_label")
+	private String se2Label;
 	
 	@Column(name = "cx_id")
 	private Integer cxId;
@@ -244,6 +250,9 @@ public class OlympicMedalsBean {
 
 	@Column(name = "tp2_number")
 	private Integer tp2Number;
+
+	@Column(name = "tp3_number")
+	private Integer tp3Number;
 	
 	public Integer getRsId() {
 		return rsId;
@@ -877,99 +886,28 @@ public class OlympicMedalsBean {
 		this.tp2Number = tp2Number;
 	}
 
-	@Override
-	public String toString() {
-		return "OlympicMedalsBean [rsId=" + rsId + ", rsComment=" + rsComment
-				+ ", olId=" + olId + ", olType=" + olType + ", olDate1="
-				+ olDate1 + ", olDate2=" + olDate2 + ", olCity=" + olCity
-				+ ", rsDate1=" + rsDate1 + ", rsDate2=" + rsDate2
-				+ ", rsRank1=" + rsRank1 + ", rsRank2=" + rsRank2
-				+ ", rsRank3=" + rsRank3 + ", rsRank4=" + rsRank4
-				+ ", rsRank5=" + rsRank5 + ", rsResult1=" + rsResult1
-				+ ", rsResult2=" + rsResult2 + ", rsResult3=" + rsResult3
-				+ ", yrId=" + yrId + ", yrLabel=" + yrLabel + ", evId=" + evId
-				+ ", evLabel=" + evLabel + ", seId=" + seId + ", seLabel="
-				+ seLabel + ", cxId=" + cxId + ", cxLabel=" + cxLabel
-				+ ", ct1Id=" + ct1Id + ", ct1Label=" + ct1Label + ", st1Id="
-				+ st1Id + ", st1Code=" + st1Code + ", st1Label=" + st1Label
-				+ ", cn1Id=" + cn1Id + ", cn1Code_=" + cn1Code_
-				+ ", cn1Label_=" + cn1Label_ + ", ct2Id=" + ct2Id
-				+ ", ct2Label=" + ct2Label + ", st2Id=" + st2Id + ", st2Code="
-				+ st2Code + ", st2Label=" + st2Label + ", cn2Id=" + cn2Id
-				+ ", cn2Code_=" + cn2Code_ + ", cn2Label_=" + cn2Label_
-				+ ", pr1LastName=" + pr1LastName + ", pr1FirstName="
-				+ pr1FirstName + ", pr1CnId=" + pr1CnId + ", pr1CnCode="
-				+ pr1CnCode + ", pr1CnLabel=" + pr1CnLabel + ", cn1Code="
-				+ cn1Code + ", cn1Label=" + cn1Label + ", pr2LastName="
-				+ pr2LastName + ", pr2FirstName=" + pr2FirstName + ", pr2CnId="
-				+ pr2CnId + ", pr2CnCode=" + pr2CnCode + ", pr2CnLabel="
-				+ pr2CnLabel + ", cn2Code=" + cn2Code + ", cn2Label="
-				+ cn2Label + ", pr3LastName=" + pr3LastName + ", pr3FirstName="
-				+ pr3FirstName + ", pr3CnId=" + pr3CnId + ", pr3CnCode="
-				+ pr3CnCode + ", pr3CnLabel=" + pr3CnLabel + ", cn3Code="
-				+ cn3Code + ", cn3Label=" + cn3Label + ", pr4LastName="
-				+ pr4LastName + ", pr4FirstName=" + pr4FirstName + ", pr4CnId="
-				+ pr4CnId + ", pr4CnCode=" + pr4CnCode + ", pr4CnLabel="
-				+ pr4CnLabel + ", cn4Code=" + cn4Code + ", cn4Label="
-				+ cn4Label + ", pr5LastName=" + pr5LastName + ", pr5FirstName="
-				+ pr5FirstName + ", pr5CnId=" + pr5CnId + ", pr5CnCode="
-				+ pr5CnCode + ", pr5CnLabel=" + pr5CnLabel + ", cn5Code="
-				+ cn5Code + ", cn5Label=" + cn5Label + ", tp1Number="
-				+ tp1Number + ", tp2Number=" + tp2Number + ", getRsId()="
-				+ getRsId() + ", getRsDate1()=" + getRsDate1()
-				+ ", getRsDate2()=" + getRsDate2() + ", getRsRank1()="
-				+ getRsRank1() + ", getRsRank2()=" + getRsRank2()
-				+ ", getRsRank3()=" + getRsRank3() + ", getRsRank4()="
-				+ getRsRank4() + ", getRsRank5()=" + getRsRank5()
-				+ ", getRsResult1()=" + getRsResult1() + ", getRsResult2()="
-				+ getRsResult2() + ", getRsResult3()=" + getRsResult3()
-				+ ", getYrId()=" + getYrId() + ", getYrLabel()=" + getYrLabel()
-				+ ", getEvId()=" + getEvId() + ", getEvLabel()=" + getEvLabel()
-				+ ", getPr1LastName()=" + getPr1LastName()
-				+ ", getPr1FirstName()=" + getPr1FirstName()
-				+ ", getPr1CnId()=" + getPr1CnId() + ", getPr1CnCode()="
-				+ getPr1CnCode() + ", getPr1CnLabel()=" + getPr1CnLabel()
-				+ ", getCn1Code()=" + getCn1Code() + ", getCn1Label()="
-				+ getCn1Label() + ", getPr2LastName()=" + getPr2LastName()
-				+ ", getPr2FirstName()=" + getPr2FirstName()
-				+ ", getPr2CnId()=" + getPr2CnId() + ", getPr2CnCode()="
-				+ getPr2CnCode() + ", getPr2CnLabel()=" + getPr2CnLabel()
-				+ ", getCn2Code()=" + getCn2Code() + ", getCn2Label()="
-				+ getCn2Label() + ", getPr3LastName()=" + getPr3LastName()
-				+ ", getPr3FirstName()=" + getPr3FirstName()
-				+ ", getPr3CnId()=" + getPr3CnId() + ", getPr3CnCode()="
-				+ getPr3CnCode() + ", getPr3CnLabel()=" + getPr3CnLabel()
-				+ ", getCn3Code()=" + getCn3Code() + ", getCn3Label()="
-				+ getCn3Label() + ", getPr4LastName()=" + getPr4LastName()
-				+ ", getPr4FirstName()=" + getPr4FirstName()
-				+ ", getPr4CnId()=" + getPr4CnId() + ", getPr4CnCode()="
-				+ getPr4CnCode() + ", getPr4CnLabel()=" + getPr4CnLabel()
-				+ ", getCn4Code()=" + getCn4Code() + ", getCn4Label()="
-				+ getCn4Label() + ", getPr5LastName()=" + getPr5LastName()
-				+ ", getPr5FirstName()=" + getPr5FirstName()
-				+ ", getPr5CnId()=" + getPr5CnId() + ", getPr5CnCode()="
-				+ getPr5CnCode() + ", getPr5CnLabel()=" + getPr5CnLabel()
-				+ ", getCn5Code()=" + getCn5Code() + ", getCn5Label()="
-				+ getCn5Label() + ", getOlId()=" + getOlId() + ", getOlType()="
-				+ getOlType() + ", getOlDate1()=" + getOlDate1()
-				+ ", getOlDate2()=" + getOlDate2() + ", getCxId()=" + getCxId()
-				+ ", getCxLabel()=" + getCxLabel() + ", getCt1Id()="
-				+ getCt1Id() + ", getCt1Label()=" + getCt1Label()
-				+ ", getSt1Id()=" + getSt1Id() + ", getSt1Code()="
-				+ getSt1Code() + ", getSt1Label()=" + getSt1Label()
-				+ ", getCn1Id()=" + getCn1Id() + ", getCn1Code_()="
-				+ getCn1Code_() + ", getCn1Label_()=" + getCn1Label_()
-				+ ", getCt2Id()=" + getCt2Id() + ", getCt2Label()="
-				+ getCt2Label() + ", getSt2Id()=" + getSt2Id()
-				+ ", getSt2Code()=" + getSt2Code() + ", getSt2Label()="
-				+ getSt2Label() + ", getCn2Id()=" + getCn2Id()
-				+ ", getCn2Code_()=" + getCn2Code_() + ", getCn2Label_()="
-				+ getCn2Label_() + ", getRsComment()=" + getRsComment()
-				+ ", getOlCity()=" + getOlCity() + ", getSeId()=" + getSeId()
-				+ ", getSeLabel()=" + getSeLabel() + ", getTp1Number()="
-				+ getTp1Number() + ", getTp2Number()=" + getTp2Number()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
+	public Integer getSe2Id() {
+		return se2Id;
+	}
+
+	public String getSe2Label() {
+		return se2Label;
+	}
+
+	public Integer getTp3Number() {
+		return tp3Number;
+	}
+
+	public void setSe2Id(Integer se2Id) {
+		this.se2Id = se2Id;
+	}
+
+	public void setSe2Label(String se2Label) {
+		this.se2Label = se2Label;
+	}
+
+	public void setTp3Number(Integer tp3Number) {
+		this.tp3Number = tp3Number;
 	}
 	
 }

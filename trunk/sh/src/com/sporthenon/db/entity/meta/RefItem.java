@@ -75,6 +75,9 @@ public class RefItem  {
 	@Column(name = "id_rel17")
 	private Integer idRel17;
 	
+	@Column(name = "id_rel18")
+	private Integer idRel18;
+	
 	@Column(name = "link")
 	private Integer link;
 	
@@ -110,6 +113,12 @@ public class RefItem  {
 	
 	@Column(name = "label_rel11", length = 50)
 	private String labelRel11;
+
+	@Column(name = "label_rel12", length = 50)
+	private String labelRel12;
+	
+	@Column(name = "label_rel18", length = 50)
+	private String labelRel18;
 	
 	@Column(name = "txt1", length = 40)
 	private String txt1;
@@ -492,6 +501,30 @@ public class RefItem  {
 
 	public void setCount5(Integer count5) {
 		this.count5 = count5;
+	}
+
+	public String getLabelRel12() {
+		return labelRel12;
+	}
+
+	public void setLabelRel12(String labelRel12) {
+		this.labelRel12 = labelRel12;
+	}
+
+	public Integer getIdRel18() {
+		return idRel18;
+	}
+
+	public String getLabelRel18() {
+		return labelRel18;
+	}
+
+	public void setIdRel18(Integer idRel18) {
+		this.idRel18 = idRel18;
+	}
+
+	public void setLabelRel18(String labelRel18) {
+		this.labelRel18 = labelRel18;
 	}
 
 	@Override

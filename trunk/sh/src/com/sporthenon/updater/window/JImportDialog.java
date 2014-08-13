@@ -255,35 +255,35 @@ public class JImportDialog extends JDialog implements ActionListener {
 				ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
 				if (type.equalsIgnoreCase(Result.alias)) {
 					ArrayList<String> list_ = new ArrayList<String>();
-					for (String s : new String[] {"Sport", "Event 1", "Event 2", "Event 3", "Year", "Winner / Gold Medal / 1st Place", "Winner Result (or Game Score)", "Runner-up / Silver Medal / 2nd Place", "2nd Result", "Bronze Medal / 3rd Place", "3rd Result", "4th Place", "5th Place", "6th Place", "7th Place", "8th Place", "9th Place", "Start Date (MM/DD/YYYY)", "End Date (MM/DD/YYYY)", "Place #1 (Complex Name or City)", "Place #2 (Complex Name or City)", "Tie", "Comment"})
+					for (String s : new String[] {"Sport", "Event 1", "Event 2", "Event 3", "Event 4", "Year", "Winner / Gold Medal / 1st Place", "Winner Result (or Game Score)", "Runner-up / Silver Medal / 2nd Place", "2nd Result", "Bronze Medal / 3rd Place", "3rd Result", "4th Place", "5th Place", "6th Place", "7th Place", "8th Place", "9th Place", "Start Date (MM/DD/YYYY)", "End Date (MM/DD/YYYY)", "Place #1 (Complex Name or City)", "Place #2 (Complex Name or City)", "Tie", "Comment"})
 						list_.add(s);
 					list.add(list_);
 					list.add(new ArrayList<String>());
 					list_ = new ArrayList<String>();
-					for (String s : new String[] {"Athletics", "Olympic Games", "Men", "100 M", "1936", "Owens, Jessie (USA)", "10.30", "Metcalfe, Ralf (USA)", "10.40", "Osendarp, Tinus (NED)", "10.50", "", "", "", "", "", "", "", "08/03/1936", "", "Olympiastadion, Berlin, GER", "", ""})
+					for (String s : new String[] {"Athletics", "Olympic Games", "Men", "100 M", "", "1936", "Owens, Jessie (USA)", "10.30", "Metcalfe, Ralf (USA)", "10.40", "Osendarp, Tinus (NED)", "10.50", "", "", "", "", "", "", "", "08/03/1936", "", "Olympiastadion, Berlin, GER", "", ""})
 						list_.add(s);
 					list.add(list_);
 					list_ = new ArrayList<String>();
-					for (String s : new String[] {"Tennis", "Grand Slam", "Men", "French Open", "2005", "Nadal, Rafael (ESP)", "6/7 6/3 6/1 7/5", "Puerta, Mariano (ARG)", "", "", "", "", "", "", "", "", "", "", "06/05/2005", "", "Roland Garros, Paris, FRA", "", ""})
+					for (String s : new String[] {"Tennis", "Grand Slam", "Men", "French Open", "", "2005", "Nadal, Rafael (ESP)", "6/7 6/3 6/1 7/5", "Puerta, Mariano (ARG)", "", "", "", "", "", "", "", "", "", "", "06/05/2005", "", "Roland Garros, Paris, FRA", "", ""})
 						list_.add(s);
 					list.add(list_);
 					list_ = new ArrayList<String>();
-					for (String s : new String[] {"Road Cycling", "UCI World Tour", "Milan-San Remo", "", "2004", "Cancellara, Fabian (SUI)", "", "Contador, Albero (ESP)", "Rodriguez, Joaquin (ESP)", "", "", "", "", "", "", "", "", "", "06/03/2004", "Milan, ITA", "San Remo, ITA", "", ""})
+					for (String s : new String[] {"Road Cycling", "UCI World Tour", "Milan-San Remo", "", "", "2004", "Cancellara, Fabian (SUI)", "", "Contador, Albero (ESP)", "Rodriguez, Joaquin (ESP)", "", "", "", "", "", "", "", "", "", "06/03/2004", "Milan, ITA", "San Remo, ITA", "", ""})
 						list_.add(s);
 					list.add(list_);
 				}
 				else if (type.equalsIgnoreCase(Draw.alias)) {
 					ArrayList<String> list_ = new ArrayList<String>();
-					for (String s : new String[] {"Sport", "Event 1", "Event 2", "Event 3", "Year", "QF #1 - Winner", "QF #1 - Runner-up", "QF #1 - Score", "QF #2 - Winner", "QF #2 - Runner-up", "QF #2 - Score", "QF #3 - Winner", "QF #3 - Runner-up", "QF #3 - Score", "QF #4 - Winner", "QF #4 - Runner-up", "QF #4 - Score", "SF #1 - Winner", "SF #1 - Runner-up", "SF #1 - Score", "SF #2 - Winner", "SF #2 - Runner-up", "SF #2 - Score", "3rd pl. - Winner", "3rd pl. - Runner-up", "3rd pl. - Score"})
+					for (String s : new String[] {"Sport", "Event 1", "Event 2", "Event 3", "Event 4", "Year", "QF #1 - Winner", "QF #1 - Runner-up", "QF #1 - Score", "QF #2 - Winner", "QF #2 - Runner-up", "QF #2 - Score", "QF #3 - Winner", "QF #3 - Runner-up", "QF #3 - Score", "QF #4 - Winner", "QF #4 - Runner-up", "QF #4 - Score", "SF #1 - Winner", "SF #1 - Runner-up", "SF #1 - Score", "SF #2 - Winner", "SF #2 - Runner-up", "SF #2 - Score", "3rd pl. - Winner", "3rd pl. - Runner-up", "3rd pl. - Score"})
 						list_.add(s);
 					list.add(list_);
 					list.add(new ArrayList<String>());
 					list_ = new ArrayList<String>();
-					for (String s : new String[] {"Football", "Word Cup", "Men", "Results", "2006", "GER", "ARG", "1-1 (4-2 ap.)", "ITA", "UKR", "3-0", "POR", "ENG", "0-0 (3-1 ap.)", "FRA", "BRA", "1-0", "ITA", "GER", "2-0", "FRA", "POR", "1-0", "GER", "POR", "3-1"})
+					for (String s : new String[] {"Football", "Word Cup", "Men", "Results", "", "2006", "GER", "ARG", "1-1 (4-2 ap.)", "ITA", "UKR", "3-0", "POR", "ENG", "0-0 (3-1 ap.)", "FRA", "BRA", "1-0", "ITA", "GER", "2-0", "FRA", "POR", "1-0", "GER", "POR", "3-1"})
 						list_.add(s);
 					list.add(list_);
 					list_ = new ArrayList<String>();
-					for (String s : new String[] {"American Football", "NFL", "Championships", "Super Bowl", "2000", "Tampa Bay Buccaneers", "Washington Redskins", "14-13", "Saint Louis Rams", "Minnesota Vikings", "49-37", "Tennessee Titans", "Indianapolis Colts", "19-16", "Jacksonville Jaguars", "Miami Dolphins", "62-7", "Saint Louis Rams", "Tampa Bay Buccaneers", "11-6", "Tennessee Titans", "Jacksonville Jaguars", "33-14", "", "", ""})
+					for (String s : new String[] {"American Football", "NFL", "Championships", "Super Bowl", "", "2000", "Tampa Bay Buccaneers", "Washington Redskins", "14-13", "Saint Louis Rams", "Minnesota Vikings", "49-37", "Tennessee Titans", "Indianapolis Colts", "19-16", "Jacksonville Jaguars", "Miami Dolphins", "62-7", "Saint Louis Rams", "Tampa Bay Buccaneers", "11-6", "Tennessee Titans", "Jacksonville Jaguars", "33-14", "", "", ""})
 						list_.add(s);
 					list.add(list_);
 				}
@@ -366,12 +366,13 @@ public class JImportDialog extends JDialog implements ActionListener {
 			final HashMap<String, String> hTitle = new HashMap<String, String>();
 			Vector<String> vHeaderLabel = new Vector<String>();
 			if (jTypeRS.isSelected()) {
-				vHeader = new Vector(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rk5", "rk6", "rk7", "rk8", "rk9", "dt1", "dt2", "pl1", "pl2", "exa", "cmt"}));
+				vHeader = new Vector(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rk5", "rk6", "rk7", "rk8", "rk9", "dt1", "dt2", "pl1", "pl2", "exa", "cmt"}));
 				hTitle.put("msg", "Message");
 				hTitle.put("sp", "Sport");
 				hTitle.put("cp", "Championship");
-				hTitle.put("ev", "Event");
-				hTitle.put("se", "Subevent");
+				hTitle.put("ev", "Event #1");
+				hTitle.put("se", "Event #2");
+				hTitle.put("se2", "Event #3");
 				hTitle.put("yr", "Year");
 				hTitle.put("rk1", "Rank #1"); hTitle.put("rk2", "Rank #2"); hTitle.put("rk3", "Rank #3"); hTitle.put("rk4", "Rank #4"); hTitle.put("rk5", "Rank #5"); hTitle.put("rk6", "Rank #6"); hTitle.put("rk7", "Rank #7"); hTitle.put("rk8", "Rank #8"); hTitle.put("rk9", "Rank #9");
 				hTitle.put("rs1", "Result #1");
@@ -387,12 +388,13 @@ public class JImportDialog extends JDialog implements ActionListener {
 				hTitle.put("cmt", "Comment");
 			}
 			else if (jTypeDR.isSelected()) {
-				vHeader = new Vector(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "yr", "qf1w", "qf1r", "qf1s", "qf2w", "qf2r", "qf2s", "qf3w", "qf3r", "qf3s", "qf4w", "qf4r", "qf4s", "sf1w", "sf1r", "sf1s", "sf2w", "sf2r", "sf2s", "thdw", "thdr", "thds"}));
+				vHeader = new Vector(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "qf1w", "qf1r", "qf1s", "qf2w", "qf2r", "qf2s", "qf3w", "qf3r", "qf3s", "qf4w", "qf4r", "qf4s", "sf1w", "sf1r", "sf1s", "sf2w", "sf2r", "sf2s", "thdw", "thdr", "thds"}));
 				hTitle.put("msg", "Message");
 				hTitle.put("sp", "Sport");
 				hTitle.put("cp", "Championship");
-				hTitle.put("ev", "Event");
-				hTitle.put("se", "Subevent");
+				hTitle.put("ev", "Event #1");
+				hTitle.put("se", "Event #2");
+				hTitle.put("se2", "Event #3");
 				hTitle.put("yr", "Year");
 				hTitle.put("qf1w", "Quarterfinal #1 - W");
 				hTitle.put("qf1r", "Quarterfinal #1 - L");
@@ -656,6 +658,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 			Integer idCp = hId.get("cp");
 			Integer idEv = hId.get("ev");
 			Integer idSe = hId.get("se");
+			Integer idSe2 = hId.get("se2");
 			Integer idYr = hId.get("yr");
 			Integer idCx1 = hId.get("cx1");
 			Integer idCt1 = hId.get("ct1");
@@ -737,6 +740,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 				rs.setChampionship((Championship)DatabaseHelper.loadEntity(Championship.class, idCp));
 				rs.setEvent((Event)DatabaseHelper.loadEntity(Event.class, idEv != null ? idEv : 0));
 				rs.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, idSe != null ? idSe : 0));
+				rs.setSubevent2((Event)DatabaseHelper.loadEntity(Event.class, idSe2 != null ? idSe2 : 0));
 				rs.setYear((Year)DatabaseHelper.loadEntity(Year.class, idYr));
 				rs.setComplex1((Complex)DatabaseHelper.loadEntity(Complex.class, idCx1));
 				rs.setComplex2((Complex)DatabaseHelper.loadEntity(Complex.class, idCx2));
@@ -787,7 +791,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 						hql = "select id from Event where lower(label) like '" + tEv[0] + "'" + (tEv.length > 1 ? " and lower(type.label)='" + tEv[1] + "'" : "") + " order by id";
 					}
 					else if (h.equalsIgnoreCase(Year.alias))
-						hql = "select id from Result where year.label='" + s_ + "' and sport.id=" + hId.get("sp") + " and championship.id=" + hId.get("cp") + " and event.id=" + hId.get("ev") + (hId.containsKey("se") ? " and subevent.id=" + hId.get("se") : "");
+						hql = "select id from Result where year.label='" + s_ + "' and sport.id=" + hId.get("sp") + " and championship.id=" + hId.get("cp") + " and event.id=" + hId.get("ev") + (hId.containsKey("se") ? " and subevent.id=" + hId.get("se") : "") + (hId.containsKey("se2") ? " and subevent2.id=" + hId.get("se2") : "");
 					else if (h.matches("(qf|sf|thd)\\d*(w|r)")) {
 						if (n == null) {
 							List<Integer> lNumber = (List<Integer>) DatabaseHelper.execute("select type.number from Event ev where ev.id = " + hId.get(hId.containsKey("se") ? "se" : "ev"));

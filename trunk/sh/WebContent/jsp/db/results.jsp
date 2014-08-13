@@ -10,13 +10,27 @@
 <%@ page import="java.util.HashMap"%>
 <jsp:include page="/jsp/common/header.jsp"/>
 <script type="text/javascript">
+var treeItems = null;
 <%
 String lang = String.valueOf(session.getAttribute("locale"));
 ArrayList<Object> params = new ArrayList<Object>();
+params.add("");
 params.add("_" + lang.toLowerCase());
 HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", params), out);
 %>
 </script>
+<div id="tree" class="fieldset">
+<div class="fstitle treetitle">
+<%=StringUtils.text("tree", session)%>&nbsp;(<img style="display:none"; id="treeiconimg" src="img/db/tree_expand.png" alt="<%=StringUtils.text("expand", session)%>" class="treeicon"/><a id="treeicontxt" href='javascript:toggleTreeExpand();'><%=StringUtils.text("expand", session)%></a>)
+</div>
+	<div class="treediv"><div id="treeview" class="collapsed">
+		<table cellpadding="0" cellspacing="0"><tr><td>
+		<script type="text/javascript">
+			new Tree(treeItems, treeTemplate);
+		</script>
+		</td></tr></table>
+	</div></div>
+</div>
 <div id="results" class="fieldset">
 	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
 	<form action="/results">
@@ -29,40 +43,29 @@ HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", params), out);
 	</div>
 	<div class="evdiv" style="padding-left:5px;">
 	<table>
-		<tr><td colspan="3" style="text-align:left;"><%=StringUtils.text("event", session)%>:</td></tr>
+		<tr><td colspan="4" style="text-align:left;"><%=StringUtils.text("event", session)%>:</td></tr>
 		<tr>
-			<td colspan="3"><select disabled="disabled" class="disabled" id="pl-cp" name="pl-cp" onchange="getPicklist('pl-ev');"><option/></select></td>
+			<td colspan="4"><select disabled="disabled" class="disabled" id="pl-cp" name="pl-cp" onchange="getPicklist('pl-ev');"><option/></select></td>
 		</tr>
 		<tr>
 			<td style="width:1px;"><img src="img/component/treeview/join.gif" alt="L"/></td>
-			<td colspan="2"><select disabled="disabled" class="disabled" id="pl-ev" name="pl-ev" onchange="getPicklist('pl-se');getPicklist('pl-yr');"><option/></select></td>
+			<td colspan="3"><select disabled="disabled" class="disabled" id="pl-ev" name="pl-ev" onchange="getPicklist('pl-se');getPicklist('pl-yr');"><option/></select></td>
 		</tr>
 		<tr>
 			<td style="width:1px;"><img src="img/component/treeview/empty.gif" alt=""/></td>
 			<td style="width:1px;"><img src="img/component/treeview/join.gif" alt="L"/></td>
-			<td><select disabled="disabled" class="disabled" id="pl-se" name="pl-se" onchange="getPicklist('pl-yr')"><option/></select></td>
+			<td colspan="2"><select disabled="disabled" class="disabled" id="pl-se" name="pl-se" onchange="getPicklist('pl-se2');getPicklist('pl-yr');"><option/></select></td>
 		</tr>
-		<tr><td colspan="3" style="text-align:left;"><%=StringUtils.text("years", session)%>:</td></tr>
-		<tr><td colspan="3" style="padding:0;"><div id="sm-pl-yr" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
-		<tr><td colspan="3" style="padding-top:32px;text-align:right;">(&dagger;&nbsp;<%=StringUtils.text("event.notheld", session)%>)</td></tr>
+		<tr>
+			<td style="width:1px;"><img src="img/component/treeview/empty.gif" alt=""/></td>
+			<td style="width:1px;"><img src="img/component/treeview/empty.gif" alt=""/></td>
+			<td style="width:1px;"><img src="img/component/treeview/join.gif" alt="L"/></td>
+			<td><select disabled="disabled" class="disabled" id="pl-se2" name="pl-se2" onchange="getPicklist('pl-yr')"><option/></select></td>
+		</tr>
+		<tr><td colspan="4" style="text-align:left;padding-top:5px;"><%=StringUtils.text("years", session)%>:</td></tr>
+		<tr><td colspan="4" style="padding:0;"><div id="sm-pl-yr" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
+		<tr><td colspan="4" style="padding-top:20px;text-align:right;">(&dagger;&nbsp;<%=StringUtils.text("event.notheld", session)%>)</td></tr>
 	</table>
-	</div>
-	<div class="treediv" style="padding-left:5px;">
-	<table>
-		<tr><td style="text-align:left;"><%=StringUtils.text("select.tree", session)%>:</td></tr>
-		<tr><td>
-			<div id="treeview" class="collapsed">
-				<table cellpadding="0" cellspacing="0"><tr><td>
-				<script type="text/javascript">
-					new Tree(treeItems, treeTemplate);
-				</script>
-				</td></tr></table>
-			</div>
-		</td></tr>
-	</table>
-	<div id="treeicon">
-		<table onclick="toggleTreeExpand();"><tr><td><img id="treeiconimg" src="img/db/tree_expand.png" alt="Expand" class="treeicon"/></td><td style="padding:0;"><a id="treeicontxt" href='javascript:void(0);'><%=StringUtils.text("expand", session)%></a></td></tr></table>
-	</div>
 	</div>
 	</form>
 </div>
