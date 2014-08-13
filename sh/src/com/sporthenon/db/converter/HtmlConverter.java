@@ -120,11 +120,13 @@ public class HtmlConverter {
 			Championship cp = (Championship) DatabaseHelper.loadEntity(Championship.class, lstParams.get(1));
 			Event ev = (Event) DatabaseHelper.loadEntity(Event.class, lstParams.get(2));
 			Event se = (Event) DatabaseHelper.loadEntity(Event.class, lstParams.get(3));
-			ArrayList<String> lstYears = DatabaseHelper.loadLabels(Year.class, String.valueOf(lstParams.get(4)), lang);
+			Event se2 = (Event) DatabaseHelper.loadEntity(Event.class, lstParams.get(4));
+			ArrayList<String> lstYears = DatabaseHelper.loadLabels(Year.class, String.valueOf(lstParams.get(5)), lang);
 			String logoSp = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_LARGE, null, sp.getLabel(lang));
 			String logoCp = HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, cp.getId(), ImageUtils.SIZE_LARGE, null, cp.getLabel(lang));
 			String logoEv = HtmlUtils.writeImage(ImageUtils.INDEX_EVENT, ev.getId(), ImageUtils.SIZE_LARGE, null, ev.getLabel(lang));
 			String logoSe = (se != null ? HtmlUtils.writeImage(ImageUtils.INDEX_EVENT, se.getId(), ImageUtils.SIZE_LARGE, null, se.getLabel(lang)) : "");
+			String logoSe2 = (se2 != null ? HtmlUtils.writeImage(ImageUtils.INDEX_EVENT, se2.getId(), ImageUtils.SIZE_LARGE, null, se2.getLabel(lang)) : "");
 			if (StringUtils.notEmpty(sp.getWebsite()))
 				logoSp = "<a href='http://" + sp.getWebsite() + "' target='_blank'>" + logoSp + "</a>";
 			if (StringUtils.notEmpty(cp.getWebsite()))
@@ -133,14 +135,16 @@ public class HtmlConverter {
 				logoEv = "<a href='http://" + ev.getWebsite() + "' target='_blank'>" + logoEv + "</a>";
 			if (se != null && StringUtils.notEmpty(se.getWebsite()))
 				logoSe = "<a href='http://" + se.getWebsite() + "' target='_blank'>" + logoSe + "</a>";
-			hHeader.put("tabshorttitle", sp.getLabel(lang) + "&nbsp;-&nbsp;" + cp.getLabel(lang) + (ev != null ? "&nbsp;-&nbsp;" + ev.getLabel(lang) + (se != null ? "&nbsp;-&nbsp;" + se.getLabel(lang) : "") : ""));
+			if (se2 != null && StringUtils.notEmpty(se2.getWebsite()))
+				logoSe2 = "<a href='http://" + se2.getWebsite() + "' target='_blank'>" + logoSe2 + "</a>";
+			hHeader.put("tabshorttitle", sp.getLabel(lang) + "&nbsp;-&nbsp;" + cp.getLabel(lang) + (ev != null ? "&nbsp;-&nbsp;" + ev.getLabel(lang) + (se != null ? "&nbsp;-&nbsp;" + se.getLabel(lang) : "") + (se2 != null ? "&nbsp;-&nbsp;" + se2.getLabel(lang) : "") : ""));
 			hHeader.put("title", ResourceUtils.getText("menu.results", lang));
 			hHeader.put("url", HtmlUtils.writeURL("results", lstParams.toString()));
-			hHeader.put("logos", logoSp + logoCp + logoEv + logoSe);
+			hHeader.put("logos", logoSp + logoCp + logoEv + logoSe + logoSe2);
 			hHeader.put("item1", HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel(lang), null));
 			hHeader.put("item2", HtmlUtils.writeLink(Championship.alias, cp.getId(), cp.getLabel(lang), null));
 			if (ev != null)
-				hHeader.put("item3", HtmlUtils.writeLink(Event.alias, ev.getId(), ev.getLabel(lang), null) + (se != null ? "<br/>" + HtmlUtils.writeLink(Event.alias, se.getId(), se.getLabel(lang), null) : ""));
+				hHeader.put("item3", HtmlUtils.writeLink(Event.alias, ev.getId(), ev.getLabel(lang), null) + (se != null ? "<br/>" + HtmlUtils.writeLink(Event.alias, se.getId(), se.getLabel(lang), null) : "") + (se2 != null ? "<br/>" + HtmlUtils.writeLink(Event.alias, se2.getId(), se2.getLabel(lang), null) : ""));
 			hHeader.put("item4", (lstYears.isEmpty() ? ResourceUtils.getText("all.years", lang) : (lstYears.size() == 1 ? ResourceUtils.getText("year", lang) + ": " + lstYears.get(0) : ResourceUtils.getText("years", lang) + ": " + HtmlUtils.writeTip(Year.alias, lstYears))));
 		}
 		else if (type == HEADER_OLYMPICS_INDIVIDUAL) {
@@ -625,7 +629,7 @@ public class HtmlConverter {
 				else if (en.equals(Record.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("category", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>Type</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("record", lang) + "</th>" + (type.matches("PR|TM|CN") ? "<th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("rank", lang) + "</th>" : ""));
 				else if (en.equals(Result.alias))
-					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>Year</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("result", lang) + "</th>");
+					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>Year</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("entity.RS.1", lang) + "</th>");
 				else if (en.equals(RetiredNumber.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("league", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("name", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("number", lang) + "</th>");
 				else if (en.equals(Team.alias))
@@ -710,7 +714,7 @@ public class HtmlConverter {
 			}
 			else if (en.equals(Result.alias)) {
 				c1 = HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2(), null);
-				c2 = HtmlUtils.writeLink(Result.alias, item.getIdItem(), item.getLabelRel3() + "&nbsp;-&nbsp;" + item.getLabelRel4() + (item.getIdRel5() != null ? "&nbsp;-&nbsp;" + item.getLabelRel5() : ""), null);
+				c2 = HtmlUtils.writeLink(Result.alias, item.getIdItem(), item.getLabelRel3() + "&nbsp;-&nbsp;" + item.getLabelRel4() + (item.getIdRel5() != null ? "&nbsp;-&nbsp;" + item.getLabelRel5() : "") + (item.getIdRel18() != null ? "&nbsp;-&nbsp;" + item.getLabelRel18() : ""), null);
 				c3 = HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1(), null);
 				if (item.getIdRel6() != null && item.getLabelRel6() != null) {
 					String s = item.getLabelRel6().toLowerCase();
@@ -1071,9 +1075,9 @@ public class HtmlConverter {
 	}
 
 	public static void convertTreeArray(Collection<Object> coll, Writer writer) throws IOException {
-		writer.write("var treeItems=[['',null,");
+		writer.write("treeItems=[['',null,");
 		ArrayList<Object> lst = new ArrayList<Object>(coll);
-		int i, j, k, l;
+		int i, j, k, l, m;
 		for (i = 0 ; i < lst.size() ; i++) {
 			TreeItem item = (TreeItem) lst.get(i);
 			writer.write(i > 0 ? "," : "");
@@ -1092,7 +1096,15 @@ public class HtmlConverter {
 						TreeItem item4 = (TreeItem) lst.get(l);
 						if (item4.getLevel() < 4) {l--; break;}
 						writer.write(l > k + 1 ? "," : "");
-						writer.write("['" + StringUtils.toTree(item4.getLabel()) + "','" + item.getIdItem() + "_" + item2.getIdItem() + "_" + item3.getIdItem() + "_" + item4.getIdItem() + "']");
+						writer.write("['" + StringUtils.toTree(item4.getLabel()) + "','" + item.getIdItem() + "_" + item2.getIdItem() + "_" + item3.getIdItem() + "_" + item4.getIdItem() + "',");
+						for (m = l + 1 ; m < lst.size() ; m++) {
+							TreeItem item5 = (TreeItem) lst.get(m);
+							if (item5.getLevel() < 5) {m--; break;}
+							writer.write(m > l + 1 ? "," : "");
+							writer.write("['" + StringUtils.toTree(item5.getLabel()) + "','" + item.getIdItem() + "_" + item2.getIdItem() + "_" + item3.getIdItem() + "_" + item4.getIdItem() + "_" + item5.getIdItem() + "']");
+						}
+						l = m;
+						writer.write("]");
 					}
 					k = l;
 					writer.write("]");
@@ -1261,12 +1273,12 @@ public class HtmlConverter {
 		String tmpImg = null;
 		long id = System.currentTimeMillis();
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
-		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("olympics", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th>");
+		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("entity.OL", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th>");
 		html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, 2);'>" + ImageUtils.getGoldHeader(lang) + "</th>");
 		html.append(isScore ? "<th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("score", lang) + "</th>" : "");
 		html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, " + (3 + (isScore ? 1 : 0)) + ");'>" + ImageUtils.getSilverHeader(lang) + "</th>");
 		html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, " + (4 + (isScore ? 1 : 0)) + ");'>" + ImageUtils.getBronzeHeader(lang) + "</th>");
-		html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, " + (5 + (isScore ? 1 : 0)) + ");'>Venue</th>");
+		html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, " + (5 + (isScore ? 1 : 0)) + ");'>" + ResourceUtils.getText("place", lang) + "</th>");
 		html.append("</tr></thead><tbody id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			OlympicMedalsBean bean = (OlympicMedalsBean) obj;
@@ -1540,11 +1552,11 @@ public class HtmlConverter {
 			tDate[2] = (bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate3() != null ? bean.getRcDate3() : StringUtils.EMPTY);
 			tDate[3] = (bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate4() != null ? bean.getRcDate4() : StringUtils.EMPTY);
 			tDate[4] = (bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate5() != null ? bean.getRcDate5() : StringUtils.EMPTY);
-			tDate[0] = (tDate[0] != null && tDate[0].matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d") ? StringUtils.toTextDate(tDate[0], lang, "dd-MMM-yyyy") : tDate[0]);
-			tDate[1] = (tDate[1] != null && tDate[1].matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d") ? StringUtils.toTextDate(tDate[1], lang, "dd-MMM-yyyy") : tDate[1]);
-			tDate[2] = (tDate[2] != null && tDate[2].matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d") ? StringUtils.toTextDate(tDate[2], lang, "dd-MMM-yyyy") : tDate[2]);
-			tDate[3] = (tDate[3] != null && tDate[3].matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d") ? StringUtils.toTextDate(tDate[3], lang, "dd-MMM-yyyy") : tDate[3]);
-			tDate[4] = (tDate[4] != null && tDate[4].matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d") ? StringUtils.toTextDate(tDate[4], lang, "dd-MMM-yyyy") : tDate[4]);
+			tDate[0] = (tDate[0] != null && tDate[0].matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d") ? StringUtils.toTextDate(tDate[0], lang, "dd MMM yyyy") : tDate[0]);
+			tDate[1] = (tDate[1] != null && tDate[1].matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d") ? StringUtils.toTextDate(tDate[1], lang, "dd MMM yyyy") : tDate[1]);
+			tDate[2] = (tDate[2] != null && tDate[2].matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d") ? StringUtils.toTextDate(tDate[2], lang, "dd MMM yyyy") : tDate[2]);
+			tDate[3] = (tDate[3] != null && tDate[3].matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d") ? StringUtils.toTextDate(tDate[3], lang, "dd MMM yyyy") : tDate[3]);
+			tDate[4] = (tDate[4] != null && tDate[4].matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d") ? StringUtils.toTextDate(tDate[4], lang, "dd MMM yyyy") : tDate[4]);
 			if (StringUtils.notEmpty(bean.getRcExa())) {
 				List<Integer> lTie = StringUtils.tieList(bean.getRcExa());
 				for (int i = 2 ; i <= 5 ; i++) {
@@ -1606,7 +1618,7 @@ public class HtmlConverter {
 			LastUpdateBean bean = (LastUpdateBean) obj;
 
 			String pos1 = null;
-			int number = (bean.getTp2Number() != null ? bean.getTp2Number() : bean.getTp1Number());
+			int number = (bean.getTp3Number() != null ? bean.getTp3Number() : (bean.getTp2Number() != null ? bean.getTp2Number() : bean.getTp1Number()));
 			if (number < 10 && bean.getPrLastName() != null)
 				pos1 = (StringUtils.notEmpty(bean.getPrFirstName()) ? bean.getPrFirstName().substring(0, 1) + "." : "") + bean.getPrLastName();
 			else if (number == 50)
@@ -1616,7 +1628,7 @@ public class HtmlConverter {
 			String update = new SimpleDateFormat("MM/dd/yyyy hh:mm").format(bean.getRsUpdate());
 			
 			// Write line
-			html.append("<tr><td><b>" + bean.getYrLabel() + "</b></td><td><b>" + bean.getSpLabel() + "</b></td><td>" + bean.getCpLabel() + "&nbsp;-&nbsp;" + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? "&nbsp;-&nbsp;" + bean.getSeLabel() : "") + "</td>");
+			html.append("<tr><td><b>" + bean.getYrLabel() + "</b></td><td><b>" + bean.getSpLabel() + "</b></td><td>" + bean.getCpLabel() + "&nbsp;-&nbsp;" + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? "&nbsp;-&nbsp;" + bean.getSeLabel() : "") + (StringUtils.notEmpty(bean.getSe2Label()) ? "&nbsp;-&nbsp;" + bean.getSe2Label() : "") + "</td>");
 			html.append("<td>" + (StringUtils.notEmpty(pos1) ? pos1 : "-") + "</td><td>" + update + "</td></tr>");
 		}
 		return html.append("</table>");

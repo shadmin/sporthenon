@@ -161,6 +161,9 @@
 	<entry key="pictures">Images</entry>
 	<entry key="display.time">Temps d'affichage</entry>
 	<entry key="show">Afficher</entry>
+	<entry key="select">Sélectionner</entry>
+	<entry key="selection">Sélection</entry>
+	<entry key="tree">ARBORESCENCE</entry>
 <!-- RESULTS -->
 	<entry key="sport">Sport</entry>
 	<entry key="event">Epreuve</entry>

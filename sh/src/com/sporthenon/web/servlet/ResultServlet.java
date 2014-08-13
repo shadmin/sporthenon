@@ -23,10 +23,6 @@ public class ResultServlet extends AbstractServlet {
 
 	private static final long serialVersionUID = 1L;
 	
-	private static final String PICKLIST_ID_SPORT = "pl-sp";
-	private static final String PICKLIST_ID_CHAMPIONSHIP = "pl-cp";
-	private static final String PICKLIST_ID_EVENT = "pl-ev";
-	private static final String PICKLIST_ID_SUBEVENT = "pl-se";
 	private static final String PICKLIST_ID_YEAR = "pl-yr";
 
 	public ResultServlet() {
@@ -47,7 +43,8 @@ public class ResultServlet extends AbstractServlet {
 					hParams.put("cp", t[1]);
 					hParams.put("ev", t[2]);
 					hParams.put("se", t[3]);
-					hParams.put("yr", t[4]);
+					hParams.put("se2", t[4]);
+					hParams.put("yr", t[5]);
 					isLink = true;
 				}
 				ArrayList<Object> lFuncParams = new ArrayList<Object>();
@@ -55,6 +52,7 @@ public class ResultServlet extends AbstractServlet {
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("cp")) ? new Integer(String.valueOf(hParams.get("cp"))) : 0);
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("ev")) ? new Integer(String.valueOf(hParams.get("ev"))) : 0);
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("se")) ? new Integer(String.valueOf(hParams.get("se"))) : 0);
+				lFuncParams.add(StringUtils.notEmpty(hParams.get("se2")) ? new Integer(String.valueOf(hParams.get("se2"))) : 0);
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("yr")) ? String.valueOf(hParams.get("yr")) : "0");
 				lFuncParams.add("_" + getLocale(request));
 				Championship oCp = (Championship) DatabaseHelper.loadEntity(Championship.class, new Integer(String.valueOf(lFuncParams.get(1))));
@@ -75,45 +73,21 @@ public class ResultServlet extends AbstractServlet {
 				Collection<PicklistBean> cPicklist = new ArrayList<PicklistBean>();
 				String plId = null;
 				String filter = null;
-				boolean isSp = StringUtils.notEmpty(hParams.get("sp"));
-				boolean isCp = StringUtils.notEmpty(hParams.get("cp"));
 				boolean isEv = StringUtils.notEmpty(hParams.get("ev"));
 				boolean isSe = StringUtils.notEmpty(hParams.get("se"));
-				if (hParams.containsKey(PICKLIST_ID_SPORT)) {
-					cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "sport", null, null, 2, getLocale(request)));
-					plId = PICKLIST_ID_SPORT;
-				}
-				else if (hParams.containsKey(PICKLIST_ID_CHAMPIONSHIP)) {
-					filter = "sport.id=" + hParams.get("sp");
-					if (isSp)
-						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "championship", filter, "x.championship.inactive || '-'", "x.championship.inactive, x.championship.index, x.championship.label", getLocale(request)));
-					plId = PICKLIST_ID_CHAMPIONSHIP;
-				}
-				else if (hParams.containsKey(PICKLIST_ID_EVENT)) {
-					filter = "sport.id=" + hParams.get("sp");
-					filter += " and championship.id=" + hParams.get("cp");
-					if (isSp && isCp)
-						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "event", filter, "x.event.inactive || '-'", "x.event.inactive, x.event.index, x.event.label", getLocale(request)));
-					plId = PICKLIST_ID_EVENT;
-				}
-				else if (hParams.containsKey(PICKLIST_ID_SUBEVENT)) {
-					filter = "sport.id=" + hParams.get("sp");
-					filter += " and championship.id=" + hParams.get("cp");
-					filter += " and event.id=" + hParams.get("ev");
-					if (isSp && isCp && isEv)
-						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "subevent", filter, "x.subevent.inactive || '-'", "x.subevent.inactive, x.subevent.index, x.subevent.label", getLocale(request)));
-					plId = PICKLIST_ID_SUBEVENT;
-				}
-				else if (hParams.containsKey(PICKLIST_ID_YEAR)) {
+				boolean isSe2 = StringUtils.notEmpty(hParams.get("se2"));
+				if (hParams.containsKey(PICKLIST_ID_YEAR)) {
 					filter = "sport.id=" + hParams.get("sp");
 					filter += " and championship.id=" + hParams.get("cp");
 					if (isEv || isSe) {
 						if (isEv)
 							filter += " and event.id=" + hParams.get("ev");
 						if (isSe)
-							filter += " and subevent=" + hParams.get("se");
+							filter += " and subevent.id=" + hParams.get("se");
+						if (isSe2)
+							filter += " and subevent2.id=" + hParams.get("se2");
 						cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.years", getLocale(request)) + "&nbsp;---"));
-						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "year", filter, null, (short) 1, getLocale(request)));	
+						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "year", filter, null, (short) 1, getLocale(request)));
 					}
 					plId = PICKLIST_ID_YEAR;
 				}

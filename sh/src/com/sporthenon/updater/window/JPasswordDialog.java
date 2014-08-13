@@ -63,6 +63,7 @@ public class JPasswordDialog extends JDialog implements ActionListener {
 	public void open() {
 		jLabel.setText("Password for " + JMainFrame.getOptionsDialog().getLogin().getText() + ": ");
 		jPassword.setText("");
+		jQuickLoading.setSelected(false);
 		this.setVisible(true);
 		jPassword.requestFocus();
 	}

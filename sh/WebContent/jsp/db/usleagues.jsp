@@ -30,7 +30,7 @@
 					<table><tr><td><input type="radio" name="topic" id="championship" checked="checked" onclick="changeModeUS()"></input></td>
 					<td><label for="championship">&nbsp;<%=StringUtils.text("championships", session)%></label></td></tr></table>
 				</div>
-				<div id="championship-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
+				<div id="championship-inactive" class="inactive-msg" style="width:250px; height:50px;"></div>
 				<table style="margin-top:15px;">
 					<tr><td><%=StringUtils.text("year", session)%>:</td>
 					<td><div id="sm-pl-championship-yr" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
@@ -42,17 +42,17 @@
 					<table><tr><td><input type="radio" name="topic" id="record" onclick="changeModeUS()"></input></td>
 					<td><label for="record">&nbsp;<%=StringUtils.text("records", session)%></label></td></tr></table>
 				</div>
-				<div id="record-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
+				<div id="record-inactive" class="inactive-msg" style="width:250px; height:50px;"></div>
 				<table>
 					<tr><td><%=StringUtils.text("category", session)%>:</td>
 					<td><div id="sm-pl-record-se" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 				</table>
 				<table>
-					<tr><td style="width:80px;"><select id="pl-record-tp2" name="pl-record-tp2" style="width:105px;"><option/></select></td>
-					<td style="width:80px;"><select id="pl-record-tp1" name="pl-record-tp1" style="width:105px;">
+					<tr><td style="width:80px;"><select id="pl-record-tp2" name="pl-record-tp2" style="width:115px;"><option/></select></td>
+					<td style="width:80px;"><select id="pl-record-tp1" name="pl-record-tp1" style="width:115px;">
 						<option value="'Individual'"><%=StringUtils.text("individual", session)%></option>
 						<option value="'Team'"><%=StringUtils.text("team", session)%></option>
-						<option value="'Individual', 'Team'">-- <%=StringUtils.text("all", session)%> --</option>
+						<option value="'Individual', 'Team'">[<%=StringUtils.text("all", session)%>]</option>
 					</select></td></tr>
 				</table>
 			</div></td>
@@ -62,7 +62,7 @@
 					<table><tr><td><input type="radio" name="topic" id="winloss" onclick="changeModeUS()"></input></td>
 					<td><label for="winloss">&nbsp;<%=StringUtils.text("wins.losses", session)%></label></td></tr></table>
 				</div>
-				<div id="winloss-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
+				<div id="winloss-inactive" class="inactive-msg" style="width:250px; height:50px;"></div>
 				<table style="margin-top:15px;">
 					<tr><td><%=StringUtils.text("team", session)%>:</td>
 					<td><div id="sm-pl-winloss-tm" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
@@ -76,7 +76,7 @@
 					<table><tr><td><input type="radio" name="topic" id="hof" onclick="changeModeUS()"></input></td>
 					<td><label for="hof">&nbsp;<%=StringUtils.text("hall.fame", session)%></label></td></tr></table>
 				</div>
-				<div id="hof-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
+				<div id="hof-inactive" class="inactive-msg" style="width:250px; height:50px;"></div>
 				<table>
 					<tr><td><%=StringUtils.text("year", session)%>:</td>
 					<td><div id="sm-pl-hof-yr" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
@@ -93,7 +93,7 @@
 					<table><tr><td><input type="radio" name="topic" id="retnum" onclick="changeModeUS()"></input></td>
 					<td><label for="retnum">&nbsp;<%=StringUtils.text("retired.numbers", session)%></label></td></tr></table>
 				</div>
-				<div id="retnum-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
+				<div id="retnum-inactive" class="inactive-msg" style="width:250px; height:50px;"></div>
 				<table>
 					<tr><td><%=StringUtils.text("team", session)%>:</td>
 					<td><div id="sm-pl-retnum-tm" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
@@ -109,7 +109,7 @@
 					<table><tr><td><input type="radio" name="topic" id="teamstadium" onclick="changeModeUS()"></input></td>
 					<td><label for="teamstadium">&nbsp;<%=StringUtils.text("team.stadiums", session)%></label></td></tr></table>
 				</div>
-				<div id="teamstadium-inactive" class="inactive-msg" style="width:230px; height:50px;"></div>
+				<div id="teamstadium-inactive" class="inactive-msg" style="width:250px; height:50px;"></div>
 				<table style="margin-top:15px;">
 					<tr><td><%=StringUtils.text("team", session)%>:</td>
 					<td><div id="sm-pl-teamstadium-tm" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
@@ -124,12 +124,12 @@
 <script type="text/javascript">
 var tPos = new Array();
 window.onload = function() {
-	initSelectMult('sm-pl-championship-yr', TEXT_YEARS, 165);
-	initSelectMult('sm-pl-hof-yr', TEXT_YEARS, 165);
-	initSelectMult('sm-pl-retnum-tm', TEXT_TEAMS, 160, 60);
-	initSelectMult('sm-pl-teamstadium-tm', TEXT_TEAMS, 160, 60);
-	initSelectMult('sm-pl-record-se', TEXT_CATEGORIES, 135, 45);
-	initSelectMult('sm-pl-winloss-tm', TEXT_TEAMS, 160, 60);
+	initSelectMult('sm-pl-championship-yr', TEXT_YEARS, 175);
+	initSelectMult('sm-pl-hof-yr', TEXT_YEARS, 175);
+	initSelectMult('sm-pl-retnum-tm', TEXT_TEAMS, 170, 60);
+	initSelectMult('sm-pl-teamstadium-tm', TEXT_TEAMS, 170, 60);
+	initSelectMult('sm-pl-record-se', TEXT_CATEGORIES, 145, 45);
+	initSelectMult('sm-pl-winloss-tm', TEXT_TEAMS, 170, 60);
 	initSliderUS();
 	changeModeUS();
 	changeLeague('nfl');

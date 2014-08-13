@@ -104,11 +104,13 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			DefaultMutableTreeNode level2Node = null;
 			DefaultMutableTreeNode level3Node = null;
 			DefaultMutableTreeNode level4Node = null;
+			DefaultMutableTreeNode level5Node = null;
 			ArrayList<Object> params = new ArrayList<Object>();
+			params.add(new String(""));
 			params.add(new String(""));
 			Collection<Object> coll = DatabaseHelper.call("TreeResults", params);
 			ArrayList<Object> lst = new ArrayList<Object>(coll);
-			int i, j, k, l;
+			int i, j, k, l, m;
 			for (i = 0 ; i < lst.size() ; i++) {
 				TreeItem item = (TreeItem) lst.get(i);
 				level1Node = new DefaultMutableTreeNode(new PicklistBean(item.getIdItem(), item.getStdLabel(), item.getIdItem()));
@@ -128,6 +130,13 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 							if (item4.getLevel() < 4) {l--; break;}
 							level4Node = new DefaultMutableTreeNode(new PicklistBean(item4.getIdItem(), item4.getStdLabel(), item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem() + "," + item4.getIdItem()));
 							level3Node.add(level4Node);
+							for (m = l + 1 ; m < lst.size() ; m++) {
+								TreeItem item5 = (TreeItem) lst.get(m);
+								if (item5.getLevel() < 5) {m--; break;}
+								level5Node = new DefaultMutableTreeNode(new PicklistBean(item5.getIdItem(), item5.getStdLabel(), item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem() + "," + item4.getIdItem() + "," + item5.getIdItem()));
+								level4Node.add(level5Node);
+							}
+							l = m;
 						}
 						k = l;
 					}
@@ -395,20 +404,33 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				dlg.open(this, e.getActionCommand().matches("add.*") ? JEditFolderDialog.NEW : JEditFolderDialog.EDIT);
 			}
 			else if (e.getActionCommand().matches("set-inactive")) {
-				String hql = "from InactiveItem where id_sport=" + idSport + " and id_championship=" + idChampionship + " and id_event=" + idEvent;
-				hql += (idSubevent != null ? " and id_subevent=" + idSubevent : "");
-				hql += (idSubevent2 != null ? " and id_subevent2=" + idSubevent2 : "");
-				Object o = DatabaseHelper.loadEntityFromQuery(hql);
-				if (o != null)
-					DatabaseHelper.removeEntity(o);
-				if (jInactive.isSelected()) {
-					InactiveItem item = new InactiveItem();
-					item.setIdSport(idSport);
-					item.setIdChampionship(idChampionship);
-					item.setIdEvent(idEvent);
-					item.setIdSubevent(idSubevent);
-					item.setIdSubevent2(idSubevent2);
-					DatabaseHelper.saveEntity(item, null);
+				String msg = null;
+				boolean err = false;
+				try {
+					String hql = "from InactiveItem where id_sport=" + idSport + " and id_championship=" + idChampionship + " and id_event=" + idEvent;
+					hql += (idSubevent != null ? " and id_subevent=" + idSubevent : "");
+					hql += (idSubevent2 != null ? " and id_subevent2=" + idSubevent2 : "");
+					Object o = DatabaseHelper.loadEntityFromQuery(hql);
+					if (o != null)
+						DatabaseHelper.removeEntity(o);
+					if (jInactive.isSelected()) {
+						InactiveItem item = new InactiveItem();
+						item.setIdSport(idSport);
+						item.setIdChampionship(idChampionship);
+						item.setIdEvent(idEvent);
+						item.setIdSubevent(idSubevent);
+						item.setIdSubevent2(idSubevent2);
+						DatabaseHelper.saveEntity(item, null);
+					}
+					msg = "Inactive item has been successfully updated.";
+				}
+				catch (Exception e_) {
+					err = true;
+					msg = e_.getMessage();
+					Logger.getLogger("sh").error(e_.getMessage(), e_);
+				}
+				finally {
+					jQueryStatus.set(err ? JQueryStatus.FAILURE : JQueryStatus.SUCCESS, msg);
 				}
 			}
 			else if (e.getActionCommand().matches("(add|copy|edit)-result")) {

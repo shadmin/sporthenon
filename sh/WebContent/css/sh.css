@@ -628,18 +628,25 @@ input{
 }
 /* ========== RESULTS ========== */
 /* ---------- PICKLIST ---------- */
+#tree{
+	float: left;
+	width: 368px;
+	height: 235px;
+	margin-right: 5px;
+}
 #results{
-	height: 215px;
+	height: 235px;
+	margin-left: 378px;
 }
 #results .spcpdiv{
 	float: left;
-	width: 180px;
-	height: 182px;
+	width: 200px;
+	height: 202px;
 	border-right: 1px solid #BBB;
 	padding-left: 3px;
 	padding-right: 5px;
 	margin: 3px;
-	background: #FFF url(../img/column.png?0) 27px 127px no-repeat;
+	background: #FFF url(../img/column.png?0) 37px 147px no-repeat;
 }
 #results .spcpdiv table{
 	width: 100%;
@@ -664,7 +671,6 @@ input{
 	float: left;
 	width: 290px;
 	height: 182px;
-	border-right: 1px solid #BBB;
 	padding: 0px 0px;
 	padding-right: 6px;
 	margin: 3px;
@@ -678,37 +684,34 @@ input{
 	border: none;
 	padding: 1px;
 }
-#results .treediv{
+#tree .treediv{
 	float: left;
-	padding: 0px 8px;
+	padding: 3px 8px;
 	margin: 3px;
 	margin-left: 3px;
 }
-#results #treeicon{
-	position: absolute;
-	margin-left: 334px;
-	margin-top: 142px;
-	cursor: pointer;
-}
-#results #treeview{
+#tree #treeview{
 	position: absolute;
 	overflow-x: hidden;
 	overflow-y: auto;
-	width: 330px;
+	width: 350px;
 	background-color: #FFF;
 	border: 1px solid #DDD;
 }
-#results .treediv .expanded{
+#tree .treediv .expanded{
 	height: auto;
 	border-right: 1px solid #DDD;
 }
-#results .treediv .collapsed{
-	height: 160px;
+#tree .treediv .collapsed{
+	height: 197px;
 	border-right: none;
+}
+#tree .treetitle{
+	background-image: url(../img/db/tree.png?0);
 }
 /* ========== OLYMPICS ========== */
 #olympics{
-	height: 253px;
+	height: 273px;
 }
 #olympics #oltype{
 	float: left;
@@ -733,7 +736,7 @@ input{
 #olympics .fieldset{
 	float: left;
 	width: 425px;
-	height: 206px;
+	height: 226px;
 	margin: 6px 6px;
 	margin-bottom: 0px;
 	padding: 5px;
@@ -793,7 +796,7 @@ input{
 }
 #usleagues .fieldset{
 	float: left;
-	width: 225px;
+	width: 250px;
 	height: 65px;
 }
 #ustopics{

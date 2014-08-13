@@ -416,6 +416,8 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 						jRemoteFile.setText(ConfigUtils.getProperty("img.url") + value);
 						jRemotePanel.setImage(new URL(jRemoteFile.getText()));						
 					}
+					else
+						throw new MalformedURLException();
 				}
 				catch (MalformedURLException e_) {
 					jRemoteFile.setText("");
