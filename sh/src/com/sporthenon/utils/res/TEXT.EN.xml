@@ -143,7 +143,6 @@
 	<entry key="info.snow">Snow</entry>
 	<entry key="info.tarmac">Tarmac</entry>
 	<entry key="back.top">Back to top</entry>
-	<entry key="dialog.last.updates">LAST UPDATES</entry>
 	<entry key="dialog.export">EXPORT</entry>
 	<entry key="dialog.link">LINK</entry>
 	<entry key="dialog.info">INFO</entry>
@@ -163,7 +162,22 @@
 	<entry key="show">Show</entry>
 	<entry key="select">Select</entry>
 	<entry key="selection">Selection</entry>
-	<entry key="tree">TREE VIEW</entry>
+<!-- HOME -->
+	<entry key="title.info">WHAT IS SPORTHENON ?</entry>
+	<entry key="title.news">NEWS</entry>
+	<entry key="title.last.updates">LAST UPDATES</entry>
+	<entry key="title.statistics">STATISTICS</entry>
+	<entry key="title.contact">CONTACT</entry>
+	<entry key="display.the">Display the</entry>
+	<entry key="last.updates.2">last updates</entry>
+	<entry key="desc.site"><![CDATA[Sporthenon aims to be a large database of sport results.<br/><br/>Description of the site pages:]]></entry>
+	<entry key="desc.results">Complete results organized by sport / championship / event</entry>
+	<entry key="desc.olympics">Podiums and medals tables of winter and summer Olympic Games</entry>
+	<entry key="desc.usleagues">Specific page for the 4 major US leagues (NFL / NBA / NHL / MLB))</entry>
+	<entry key="desc.search">Search engine with keywords</entry>
+	<entry key="desc.project">Informations on project and contributors</entry>
+	<entry key="page">Page</entry>
+	<entry key="description">Description</entry>
 <!-- RESULTS -->
 	<entry key="sport">Sport</entry>
 	<entry key="event">Event</entry>
@@ -172,6 +186,7 @@
 	<entry key="select.tree">Select in Tree</entry>
 	<entry key="expand">Expand</entry>
 	<entry key="collapse">Collapse</entry>
+	<entry key="tree">TREE VIEW</entry>
 <!-- OLYMPICS -->
 	<entry key="summer.games">Summer Olympic Games</entry>
 	<entry key="winter.games">Winter Olympic Games</entry>

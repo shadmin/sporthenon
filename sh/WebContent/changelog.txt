@@ -21,6 +21,9 @@ LANG EN FR LOCALIZE
 event inactive en fonction sport+champ+ev1/2
 3 NIVEAUX EVENTS
 MODIF TREE RESULTS + ICONES LEAFS
+MODIFICATION  LAYOUT MENU GAUCHE
+ECRAN HOME MULTI DIV
+pattern date en bdd : dd/mm/yyyy
 
 +-------+
 | 0.7.0 |

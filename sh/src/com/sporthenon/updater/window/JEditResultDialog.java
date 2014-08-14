@@ -256,7 +256,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			jEditDrawDialog.open();
 		}
 		else if (cmd.equals("today")) {
-			SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 			jDate2.setText(df.format(Calendar.getInstance().getTime()));
 		}
 		else if (cmd.equals("comment")) {

@@ -31,7 +31,7 @@ public class JInfoDialog extends JDialog implements ActionListener {
 	private void initialize() {
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(310, 210));
+		this.setPreferredSize(new Dimension(450, 300));
 		this.setSize(this.getPreferredSize());
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
@@ -51,7 +51,7 @@ public class JInfoDialog extends JDialog implements ActionListener {
 	
 	private JPanel getPanel() {
 		JPanel p = new JPanel(new BorderLayout());
-		p.setBorder(BorderFactory.createEtchedBorder());
+		p.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		p.add(new JLabel(ResourceUtils.getIcon("logo.png")), BorderLayout.WEST);
 		
 		JPanel p_ = new JPanel(new GridLayout(0, 1));
@@ -63,9 +63,12 @@ public class JInfoDialog extends JDialog implements ActionListener {
 		JLabel l2 = new JLabel("Version " + ConfigUtils.getProperty("version"));
 		l2.setHorizontalAlignment(JLabel.CENTER);
 		p_.add(l2);
-		JLabel l3 = new JLabel("©2011-14 sporthenon.com");
+		JLabel l3 = new JLabel("©2011-14");
 		l3.setHorizontalAlignment(JLabel.CENTER);
 		p_.add(l3);
+		JLabel l4 = new JLabel("http://www.sporthenon.com");
+		l4.setHorizontalAlignment(JLabel.CENTER);
+		p_.add(l4);
 		p_.add(new JLabel());
 		p.add(p_, BorderLayout.CENTER);
 		

@@ -144,7 +144,7 @@ input{
 	width: 210px;
 }
 #logo img{
-	/*padding-bottom: 0px;*/
+	padding-bottom: 5px;
 	border: none;
 }
 #shmenu{
@@ -161,9 +161,9 @@ input{
 #shmenu li{
 	list-style: none;
 	margin: 0;
-	margin-bottom: 10px;
-	padding-left: 40px;
-	padding-right: 40px;
+	margin-bottom: 12px;
+	padding-left: 42px;
+	padding-right: 42px;
 	text-align: center;
 }
 #shmenu li a{
@@ -172,7 +172,7 @@ input{
 	font-weight: bold;
 	text-decoration: none;
 	margin-left: 2px;
-	padding: 4px 8px;
+	padding: 5px 8px;
 	padding-left: 25px;
 	padding-right: 4px;
 	border: 1px solid #000;
@@ -191,13 +191,13 @@ input{
 	background-image:url(../img/menu/home.png?0);
 }
 #shmenu-home:hover, #shmenu-home.selected{
-	background-color: #f87f00;
+	background-color: #ec7900;
 }
 #shmenu-results{
 	background-image:url(../img/menu/dbresults.png?0);
 }
 #shmenu-results:hover, #shmenu-results.selected{
-	background-color: #02A21F;
+	background-color: #02901c;
 }
 #shmenu-olympics{
 	background-image:url(../img/menu/dbolympics.png?3);
@@ -209,24 +209,43 @@ input{
 	background-image:url(../img/menu/dbusleagues.png?0);
 }
 #shmenu-usleagues:hover, #shmenu-usleagues.selected{
-	background-color: #b900b0;
+	background-color: #865c1a;
 }
 #shmenu-search{
 	background-image:url(../img/menu/dbsearch.png?3);
 }
 #shmenu-search:hover, #shmenu-search.selected{
-	background-color: #0039ff;
+	background-color: #0028d9;
 }
 #shmenu-project{
 	background-image:url(../img/menu/project.png?0);
 }
 #shmenu-project:hover, #shmenu-project.selected{
-	background-color: #9F2c0a;
+	background-color: #a30096;
+}
+.bgresults, .fscontent td.bgresults{
+	background:url(../img/menu/bg-results.png?0) left top repeat-y;
+	padding-left: 10px;
+}
+.bgolympics, .fscontent td.bgolympics{
+	background:url(../img/menu/bg-olympics.png?0) left top repeat-y;
+	padding-left: 10px;
+}
+.bgusleagues, .fscontent td.bgusleagues{
+	background:url(../img/menu/bg-usleagues.png?0) left top repeat-y;
+	padding-left: 10px;
+}
+.bgsearch, .fscontent td.bgsearch{
+	background:url(../img/menu/bg-search.png?0) left top repeat-y;
+	padding-left: 10px;
+}
+.bgproject, .fscontent td.bgproject{
+	background:url(../img/menu/bg-project.png?0) left top repeat-y;
+	padding-left: 10px;
 }
 #flags{
-	width: 231px;
-	/*margin: 5px;
-	padding-right: 25px;*/
+	width: 230px;
+	margin-top: 30px;
 	text-align: right;
 }
 #links{
@@ -265,8 +284,8 @@ input{
 	border: 0px solid transparent;
 }
 #dupdates{
-	width: 750px;
-	height: 260px;
+	width: 100%;
+	height: 400px;
 	margin-top: 5px;
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -592,8 +611,12 @@ input{
 	text-align: right;
 	font-weight: bold;
 }
-.homecontent .fieldset{
-	margin-right: 205px;
+#home .left{
+	padding-right: 360px;
+}
+#home .right{
+	float: right;
+	width: 350px;
 }
 .homecontent .fieldset .fstitle{
 	font-weight: bold;
@@ -610,21 +633,14 @@ input{
 .homecontent .contact{
 	background-image: url(../img/contact.png?0);
 }
+.homecontent .statistics{
+	background-image: url(../img/project/statistics.png?0);
+}
+.homecontent .lastupdates{
+	background-image: url(../img/component/button/lastpudates.png?0);
+}
 .homecontent .news{
 	background-image: url(../img/news.png?0);
-}
-#table-stat td{
-	padding-bottom: 5px;
-}
-.table-update{
-	margin-top: 8px;
-	cursor: pointer;
-}
-.table-update:hover th, .table-update:hover td{
-	border: 1px solid #000;
-}
-.table-update:hover td{
-	background-color: #DEEFFF;
 }
 /* ========== RESULTS ========== */
 /* ---------- PICKLIST ---------- */
@@ -874,6 +890,23 @@ input{
 	padding: 0px;
 }
 /* ========== LOGIN ========== */
+#project .left{
+	padding-right: 360px;
+}
+#project .right{
+	float: right;
+	width: 350px;
+}
+#chart{
+	width: 450px;
+	height: 270px;
+	border: 1px solid #CCC;
+}
+#chart td{
+	font-size: 11px;
+	border: none;
+}
+/* ========== LOGIN ========== */
 .login{
 	background-image: url(../img/menu/login.png?0);
 }
@@ -1029,14 +1062,4 @@ input{
 #linktxt{
 	width: 400px;
 	cursor: default;
-}
-/* ========== DIALOGS ========== */
-#chart{
-	width: 650px;
-	height: 270px;
-	border: 1px solid #CCC;
-}
-#chart td{
-	font-size: 11px;
-	border: none;
 }
