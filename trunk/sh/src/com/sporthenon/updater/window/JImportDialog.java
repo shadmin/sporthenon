@@ -255,7 +255,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 				ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
 				if (type.equalsIgnoreCase(Result.alias)) {
 					ArrayList<String> list_ = new ArrayList<String>();
-					for (String s : new String[] {"Sport", "Event 1", "Event 2", "Event 3", "Event 4", "Year", "Winner / Gold Medal / 1st Place", "Winner Result (or Game Score)", "Runner-up / Silver Medal / 2nd Place", "2nd Result", "Bronze Medal / 3rd Place", "3rd Result", "4th Place", "5th Place", "6th Place", "7th Place", "8th Place", "9th Place", "Start Date (MM/DD/YYYY)", "End Date (MM/DD/YYYY)", "Place #1 (Complex Name or City)", "Place #2 (Complex Name or City)", "Tie", "Comment"})
+					for (String s : new String[] {"Sport", "Event 1", "Event 2", "Event 3", "Event 4", "Year", "Winner / Gold Medal / 1st Place", "Winner Result (or Game Score)", "Runner-up / Silver Medal / 2nd Place", "2nd Result", "Bronze Medal / 3rd Place", "3rd Result", "4th Place", "5th Place", "6th Place", "7th Place", "8th Place", "9th Place", "Start Date (DD/MM/YYYY)", "End Date (DD/MM/YYYY)", "Place #1 (Complex Name or City)", "Place #2 (Complex Name or City)", "Tie", "Comment"})
 						list_.add(s);
 					list.add(list_);
 					list.add(new ArrayList<String>());

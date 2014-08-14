@@ -76,7 +76,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		}
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(350, 310));
+		this.setPreferredSize(new Dimension(350, 320));
 		this.setSize(this.getPreferredSize());
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
@@ -106,7 +106,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		jEnvironment.addItem("Local");
 		jEnvironment.addItem("Custom");
 		jEnvironment.setSelectedIndex(-1);
-		jEnvironment.setPreferredSize(new Dimension(350, 20));
+		jEnvironment.setPreferredSize(new Dimension(350, 22));
 		for (int i = 0 ; i < 3 ; i++)
 			if (tHost[i].equals(hConfig.get("db.host")) && tDatabase[i].equals(hConfig.get("db.name")))
 				jEnvironment.setSelectedIndex(i);
@@ -143,6 +143,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		JPanel p = new JPanel(new GridLayout(2, 2, 5, 5));
 		p.setBorder(BorderFactory.createTitledBorder(null, "Proxy", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 		jProxyAddr = new JTextField(hConfig.get("proxy.addr"));
+		jProxyAddr.setPreferredSize(new Dimension(350, 22));
 		p.add(new JLabel(" Address:"));
 		p.add(jProxyAddr);
 		jProxyPort = new JTextField(hConfig.get("proxy.port"));

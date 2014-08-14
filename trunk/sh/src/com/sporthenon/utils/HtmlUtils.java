@@ -80,7 +80,7 @@ public class HtmlUtils {
 		html.append("<span class='shorttitle'>" + h.get("tabshorttitle") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
-		html.append("<table class='header'><tr><th colspan='2'>" + writeToggleTitle(h.get("title")) + "</th></tr>");
+		html.append("<table class='header'><tr><th colspan='2' class='" + h.get("bgtitle") + "'>" + writeToggleTitle(h.get("title")) + "</th></tr>");
 		html.append("<tr><td class='logos' rowspan=4>" + h.get("logos") + "</td>");
 		html.append("<td>" + h.get("item1") + "</td></tr>");
 		html.append("<tr><td>" + (h.containsKey("item2") && StringUtils.notEmpty(h.get("item2")) ? h.get("item2") : "-") + "</td></tr>");

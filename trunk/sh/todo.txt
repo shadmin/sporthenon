@@ -1,10 +1,12 @@
-ECRAN HOME MULTI DIV + MODIFICATION  LAYOUT MENU GAUCHE + page project avec downloads hors google drive
+--page project avec downloads hors google drive
 ----------------------------------------
-pattern date en bdd : dd/mm/yyyy
 ajouter QF/SF sur ref entity results
+gestion news ameliorée + FR/EN
+logo fond jaune degradé
+graphique pour stats home
+--bug affichage ex aequo references (exemple fiche D.Koranyi)
 ----------------------------------------
 --tests ie firefox safari
---bug affichage ex aequo references (exemple fiche D.Koranyi)
 gestion detail personnes (equipes + relais)
 ----------------------------------------
 FETCH ALL FROM "<unnamed portal 1>";

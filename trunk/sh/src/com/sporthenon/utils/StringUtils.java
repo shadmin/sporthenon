@@ -96,7 +96,7 @@ public class StringUtils {
 
 	public static String toTextDate(String dt, String lang, String format) throws ParseException {
 		Locale l = (lang != null && lang.equalsIgnoreCase("fr") ? Locale.FRENCH : Locale.ENGLISH);
-		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		SimpleDateFormat dftxt = new SimpleDateFormat(notEmpty(format) ? format : "dd MMMM", l);
 		return dftxt.format(df.parse(dt));
 	}

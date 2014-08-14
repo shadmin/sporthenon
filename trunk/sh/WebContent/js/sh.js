@@ -363,19 +363,9 @@ function closeDialog(dlg) {
 	$('header').setStyle({ opacity: 1.0 });
 	$('content').setStyle({ opacity: 1.0 });
 }
-var dLastUpdates = null;
 var dExport = null;
 var dLink = null;
 var dInfo = null;
-function displayLastUpdates() {
-	if (dLastUpdates) {
-		$('header').setStyle({ opacity: 0.4 });
-		$('content').setStyle({ opacity: 0.4 });
-		$('countupdt').value = 20;
-		dLastUpdates.open();
-		refreshLastUpdates();
-	}
-}
 function refreshLastUpdates() {
 	$('dupdates').update('<img src="img/db/loading.gif?6" alt="Loading..."/>');
 	new Ajax.Updater($('dupdates'), 'IndexServlet?lastupdates=1&count=' + $('countupdt').value, {});
@@ -581,8 +571,6 @@ function loadHomeData() {
 			if (!xml) {return;}
 			var root = xml.documentElement;
 			var node = null;
-			var html = null;
-			var bullet = '<img src="img/bullet.gif"/>&nbsp;';
 
 			// Statistics
 			var stat = root.getElementsByTagName('stats')[0];
@@ -591,19 +579,9 @@ function loadHomeData() {
 				$(node.getAttribute('id')).update(node.getAttribute('value'));
 			}
 			$('img-stat').hide();$('table-stat').show();
-			
-			// Last Updates
-			var updates = root.getElementsByTagName('updates')[0];
-			html = [];
-			for (var i = 0 ; i < updates.childNodes.length ; i++) {
-				node = updates.childNodes[i];
-				html.push('<table class="table-update" style="margin-bottom:8px;" onclick="window.open(\'' + node.getAttribute('link') + '\', \'_blank\');"><tr><th>' + bullet + node.getAttribute('yr') + '&nbsp;-&nbsp;' + node.getAttribute('sp') + '</th></tr>');
-				html.push('<tr><td>' + node.getAttribute('cp') + '<br/>' + node.getAttribute('ev') + '<br/>' + node.getAttribute('se') + '</td></tr></table>');
-			}
-			$('div-updates').update(html.join(''));
-			$('img-updates').hide();$('div-updates').show();
 		}
 	});
+	refreshLastUpdates();
 }
 /* ==================== RESULTS ==================== */
 function initSliderRes(s) {

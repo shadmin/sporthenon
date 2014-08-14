@@ -1,13 +1,5 @@
 <%@ page language="java" %>
 <%@ page import="com.sporthenon.utils.StringUtils" %>
-<!-- LAST UPDATES -->
-<div id="d-lastupdates" class="dialog" style="display:none;">
-<div class="fieldset">
-	<div class="fstitle"><%=StringUtils.text("dialog.last.updates", session)%></div>
-	<div class="fscontent"><table id="ctupdates"><tr><td><%=StringUtils.text("count", session)%>:</td><td><input id="countupdt" type="text" maxlength="3" size="3" value="20" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"/></td><td><a href="javascript:refreshLastUpdates();"><%=StringUtils.text("show", session)%></a></td></tr></table><div id="dupdates"></div></div>
-	<div class="dlgbuttons"><input type="button" class="button ok" value="OK" onclick="closeDialog(dLastUpdates);"/></div>
-</div>
-</div>
 <!-- EXPORT -->
 <div id="d-export" class="dialog" style="display:none;">
 <div class="fieldset">
