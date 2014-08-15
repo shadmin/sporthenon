@@ -2,7 +2,7 @@
 ; Sporthenon Setup Script ;
 ;-------------------------;
 
-!define VERSION "0.7.0"
+!define VERSION "0.8.0"
 !define OUTPUT "C:\Docs\Sporthenon\Setup"
 !define IMGPATH "C:\Docs\Sporthenon\Setup\Graphics"
 !define EXEPATH "C:\Docs\Sporthenon\Workspace\Sporthenon\build"
@@ -54,9 +54,6 @@ Section "Sporthenon Update" Main
   File "${EXEPATH}\shupdate.jar"
   
   CreateDirectory "$APPDATA\Sporthenon"
-  ;SetOutPath "$APPDATA\Sporthenon"
-  ;File "${EXEPATH}\classes\com\sporthenon\updater\options.swing.xml"
-  ;Rename "$APPDATA\Sporthenon\options.swing.xml" "$APPDATA\Sporthenon\options.xml"
 
   SetOutPath "$INSTDIR\Lib"
   File "${LIBPATH}\*.jar"

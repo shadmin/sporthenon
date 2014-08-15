@@ -9,7 +9,7 @@
 	<div class="right">
 		<div class="fieldset" style="margin-top:0px;">
 			<div class="fstitle downloads"><%=StringUtils.text("downloads", session)%></div>
-			<div class="fscontent"><table"><tr><td><img src="img/project/download.png"/></td><td><a href="#"><b>Télécharger la dernière version (<%=ConfigUtils.getProperty("version")%>)</b></a></td></tr></table><br/><br/><a href="#">Versions précédentes</a></div>
+			<div class="fscontent"><table"><tr><td><img src="img/project/download.png"/></td><td><a href="http://92.243.3.85:82/Sporthenon-<%=ConfigUtils.getProperty("version")%>-setup.exe"><b><%=StringUtils.text("download.last", session)%>&nbsp;(<%=ConfigUtils.getProperty("version")%>)</b></a></td></tr></table><br/><br/><a href="#"><%=StringUtils.text("download.previous", session)%></a></div>
 		</div>
 		
 		<div class="fieldset">

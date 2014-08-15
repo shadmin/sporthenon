@@ -1,5 +1,3 @@
---page project avec downloads hors google drive
-----------------------------------------
 ajouter QF/SF sur ref entity results
 gestion news ameliorée + FR/EN
 logo fond jaune degradé

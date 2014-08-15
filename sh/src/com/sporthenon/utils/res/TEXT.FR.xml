@@ -236,4 +236,6 @@
 	<entry key="contributors">CONTRIBUTEURS</entry>
 	<entry key="statistics">STATISTIQUES</entry>
 	<entry key="technical.info">INFOS TECHNIQUES</entry>
+	<entry key="download.last">Télécharger la dernière version</entry>
+	<entry key="download.previous">Versions précédentes</entry>
 </properties>
