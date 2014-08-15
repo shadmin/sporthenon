@@ -6,24 +6,23 @@
 +-------+
 | 0.8.0 |
 +-------+
-FLAG IMPROVEMENTS - affichage "former flags" sur fiche pays
-TEAM LOGO IMPROVEMENTS - CURRENT +  PREVIOUS LOGOS
-supp opts.ispicturedisabled
-ajouter serveur proxy dans options.xml (supprimer proxy dans URL update)
-UPDATER bug pictures mgt titre fichier null-null.png (years)
-UPDATE improve pictures with list remote files
-ouverture nouvel onglet sur DRAWS + fiche INFO
-bug title conserve titre ancienne session
-results: onclick sur tree = chargement automatique selection dans picklists
-links sports-ref pour sports-us
-UPDATER download remote pic
-LANG EN FR LOCALIZE
-event inactive en fonction sport+champ+ev1/2
-3 NIVEAUX EVENTS
-MODIF TREE RESULTS + ICONES LEAFS
-MODIFICATION  LAYOUT MENU GAUCHE
-ECRAN HOME MULTI DIV
-pattern date en bdd : dd/mm/yyyy
+o Website
+	- New feature: <Localization> (==> site and database available in EN/FR)
+	- New feature: <Previous flags> (==> display previous versions of countries flags)
+	- New feature: <Previous logos> (==> display previous versions of teams logos)
+	- New tab opens automatically on entity details and draws
+	- Added 1 new sub-level for events organization
+	- Added automatic loading of picklists when running a search using the treeview
+	- Added external links for US leagues (sports-reference.com)
+	- Handle inactive events based on sport+championship
+	- Changed the date pattern to DD/MM/YYYY
+	- Setup files for SH Update can be downloaded directly on website (removed from GDrive)
+	- Improved layout of pages: Home, Results, Olympics, Project
+o SH Update (Swing app)
+	- Added list of remote files for pictures management
+	- Remote picture files can be downloaded
+	- Added proxy address/port in options (for URL updates)
+	- Fixed bug: pictures uploaded with "*null-null.png" file name
 
 +-------+
 | 0.7.0 |
@@ -37,7 +36,7 @@ o Website
 	- Current menu made visible in <TITLE> tag
 	- Fixed display bug on tied entities (1st + 2nd)
 	- Fixed bug on linked athletes with different names (only 1 name was displayed)
-o Updater (Swing app)
+o SH Update (Swing app)
 	- New feature: <Quick Connect> (==> picklist loading can be disabled)
 	- New feature: <News Menu>
 	- Added draws/records in import tool
@@ -59,7 +58,7 @@ o Website
 	- Position of comments moved to the right of 'Year' column
 	- Fixed bug: search failed with "last name + first name" in that order
 	- Fixed bug: result with ties in entity references not displayed properly
-o Updater (Swing app)
+o SH Update (Swing app)
 	- New feature: <Merge> (=> selected record is removed and merged with another record)
 	- New feature: <Templates> (=> xls/csv templates for import tool)
 	- Changed buttons: label replaced by tooltip
@@ -76,7 +75,7 @@ o Website
 	- Added display of country flag in entity references (column 'Result')
 	- Fixed bug: use of special characters in search patterns
 	- Fixed bug: ties on record not displayed properly
-o Updater (Swing app)
+o SH Update (Swing app)
 	- Fixed bug with use of quote ' in CSV import
 	- Add query for events not set on current year
 	- DB structure: +[all].first_update
@@ -93,7 +92,7 @@ o Website
 	- Added "period" filter on US leagues "records" search (season, career, game...)
 	- Improved display on "Team" references with links
 	- Fixed results references with tied entities
-o Updater (Swing app)
+o SH Update (Swing app)
 	- Keyboard shortcuts for "data" panel actions
 	- Automatic set to "0" for links on referenced entity
 	- Added display of referenced entity label when saving entity with link
@@ -107,7 +106,7 @@ o Website
 	- More readable display of olympics tables
 	- Fixed bug on US records for "Both" selection (individual/team)
 	- Added sitemap.xml
-o Updater (Swing app)
+o SH Update (Swing app)
 	- Comments management improved with specific column for ties
 	- Add queries for unused events + fixed missing pictures with remote call
 	- DB structure: -TM.code / -HF.deceased / +HF.position / +TM.link / +TM.inactive / +RN.year
@@ -121,7 +120,7 @@ o Website
 	- New feature: <Inactive Events> (=> events not held anymore marked with specific symbol)
 	- Comments can be displayed either directly or with a tooltip icon
 	- Bugs fixed, mainly on "US leagues" page
-o Updater (Swing app)
+o SH Update (Swing app)
 	- New feature: <Query> (=> execute custom queries on database)
 	- Add missing tables in data panel (US leagues, Olympics, Records)
 
@@ -138,7 +137,7 @@ o Website
 	- New UI for action buttons
 	- Extension of some columns size in database
 	- Fixed bug: an error occured on some olympics views with empty subevent
-o Updater (Swing app)
+o SH Update (Swing app)
 	- New feature: <Import CSV> (==> a mass update of data can done with CSV files)
 	- New feature: <Pictures Menu>
 	- New feature: <Refresh Tree>
