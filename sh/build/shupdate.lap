@@ -13,6 +13,7 @@
 .\lib\javassist-3.9.0.GA.jar;^
 #.\lib\javax.ejb.jar;^
 #.\lib\javax.servlet.jar;^
+.\lib\jsoup.jar;^
 .\lib\jta-1.1.jar;^
 .\lib\log4j.jar;^
 .\lib\mini-j2ee.jar;^
