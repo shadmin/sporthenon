@@ -14,7 +14,7 @@ public class JStatePanel extends JAbstractEntityPanel {
 	public JTextField jUrlWiki;
 	
 	public JStatePanel() {
-		super(5);
+		super(6);
 		initialize();
 	}
 

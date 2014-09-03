@@ -33,9 +33,6 @@ public class Event {
 	@Column(name = "website", length = 50)
 	private String website;
 	
-	@Column(name = "\"comment\"", length = 500)
-	private String comment;
-	
 	@Column(name = "index")
 	private Integer index;
 	
@@ -79,14 +76,6 @@ public class Event {
 
 	public void setLabelFr(String labelFr) {
 		this.labelFR = labelFr;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
 	}
 
 	public Type getType() {

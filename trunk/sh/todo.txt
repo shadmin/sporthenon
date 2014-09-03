@@ -1,16 +1,11 @@
-bordure sur logo equipe
-resourcehacker logo sh update
 ajouter QF/SF sur ref entity results
 gestion news ameliorée + FR/EN
-logo fond jaune degradé
-fond blanc sur entete resultats de rehreche + bordures tableaux 2px
-graphique pour stats home
-supp comments sur EV CP
-TRADUIRE TODAY HISTORIQUE FRANCHISE
-UPDATER effacer msg status apres chargement results
-UPDATER ,selectionner par defaut derniere image liste
-supp medal count sur teams / remplacer palmarès equipes championships
 --bug affichage ex aequo references (exemple fiche D.Koranyi)
+----------------------------------------
+optimiser affichage sur references pays (pas tout charger)
+graphique pour stats home
+trigger calcul references + stats
+logo par sport+event (foot-coupe de france / tennis-us open)
 ----------------------------------------
 --tests ie firefox safari
 gestion detail personnes (equipes + relais)

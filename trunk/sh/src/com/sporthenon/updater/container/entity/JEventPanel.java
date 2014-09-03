@@ -1,10 +1,6 @@
 package com.sporthenon.updater.container.entity;
 
-import java.awt.Dimension;
-
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.sporthenon.db.entity.Type;
@@ -20,12 +16,11 @@ public class JEventPanel extends JAbstractEntityPanel {
 	public JTextField jLabelFR;
 	public JEntityPicklist jType;
 	public JTextField jWebsite;
-	public JTextArea jComment;
 	public JTextField jIndex;
 	public JTextField jUrlWiki;
 	
 	public JEventPanel() {
-		super(9);
+		super(8);
 		initialize();
 	}
 
@@ -60,16 +55,6 @@ public class JEventPanel extends JAbstractEntityPanel {
         jWebsite = new JTextField();
         gridPanel.add(jWebsite);
         
-        //Comment
-        JLabel lComment = new JLabel(" Comment:");
-        lComment.setHorizontalAlignment(LABEL_ALIGNMENT);
-        gridPanel.add(lComment);
-        jComment = new JTextArea();
-		jComment.setFont(SwingUtils.getDefaultFont());
-		JScrollPane jCommentPane = new JScrollPane(jComment);
-		jCommentPane.setPreferredSize(new Dimension(0, 21));
-        gridPanel.add(jCommentPane);
-        
         //Index
         JLabel lIndex = new JLabel(" Index:");
         lIndex.setHorizontalAlignment(LABEL_ALIGNMENT);
@@ -102,10 +87,6 @@ public class JEventPanel extends JAbstractEntityPanel {
 		return jWebsite;
 	}
 	
-	public JTextArea getComment() {
-		return jComment;
-	}
-	
 	public JTextField getIndex() {
 		return jIndex;
 	}
@@ -130,10 +111,6 @@ public class JEventPanel extends JAbstractEntityPanel {
 		jWebsite.setText(s);
 	}
 
-	public void setComment(String s) {
-		jComment.setText(s);
-	}
-	
 	public void setIndex(String s) {
 		jIndex.setText(s);
 	}
@@ -146,7 +123,6 @@ public class JEventPanel extends JAbstractEntityPanel {
 		jId.setText("");
 		jLabel.setText("");
 		jLabelFR.setText("");
-		jComment.setText("");
 		jType.clear();
 		jIndex.setText("");
 		jUrlWiki.setText("");

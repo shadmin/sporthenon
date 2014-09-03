@@ -22,7 +22,7 @@ public class JImagePanel extends JPanel {
 	public JImagePanel() {
 		super();
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(205, 135));
+		setPreferredSize(new Dimension(240, 130));
 		setBorder(BorderFactory.createBevelBorder(1));
 		setBackground(Color.white);
 		label = new JLabel();

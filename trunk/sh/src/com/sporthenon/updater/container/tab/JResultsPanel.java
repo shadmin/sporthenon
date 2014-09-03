@@ -327,6 +327,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			hql += (idSubevent2 != null ? " and id_subevent2=" + idSubevent2 : "");
 			Object o = DatabaseHelper.loadEntityFromQuery(hql);
 			jInactive.setSelected(o != null);
+			jQueryStatus.clear();
 		}
 		catch (Exception e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);

@@ -31,9 +31,6 @@ public class Championship {
 	@Column(name = "website", length = 50)
 	private String website;
 	
-	@Column(name = "\"comment\"", length = 500)
-	private String comment;
-	
 	@Column(name = "index")
 	private Integer index;
 	
@@ -74,14 +71,6 @@ public class Championship {
 
 	public void setWebsite(String website) {
 		this.website = website;
-	}
-
-	public String getComment() {
-		return comment;
-	}
-
-	public void setComment(String comment) {
-		this.comment = comment;
 	}
 
 	public Metadata getMetadata() {
