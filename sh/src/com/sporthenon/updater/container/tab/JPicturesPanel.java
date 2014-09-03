@@ -98,7 +98,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		leftPanel.setMinimumSize(new Dimension(100, 0));
 		JPanel rightPanel = new JPanel();
 		rightPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 5));
-		rightPanel.setLayout(new BorderLayout(40, 40));
+		rightPanel.setLayout(new BorderLayout(10, 10));
 		rightPanel.add(getButtonPanel(), BorderLayout.SOUTH);
 		rightPanel.add(getImagePanel(), BorderLayout.CENTER);
 		this.setTopComponent(leftPanel);
@@ -138,6 +138,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		largeRadioBtn.setSelected(true);
 		leftPanel.add(largeRadioBtn);
 		smallRadioBtn = new JRadioButton("Small");
+		smallRadioBtn.setEnabled(false);
 		smallRadioBtn.setMargin(new Insets(0, 0, 0, 0));
 		smallRadioBtn.addActionListener(this);
 		leftPanel.add(smallRadioBtn);
@@ -234,7 +235,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		jRemoteList.setSelectedIndex(0);
 		jRemoteList.addListSelectionListener(this);
 		JScrollPane sp = new JScrollPane(jRemoteList);
-		sp.setPreferredSize(new Dimension(180, 55));
+		sp.setPreferredSize(new Dimension(230, 100));
 		p_.add(sp);
 		pBottom.add(p_, BorderLayout.SOUTH);
 		p.add(pBottom, BorderLayout.SOUTH);
@@ -383,7 +384,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 						if (StringUtils.notEmpty(s__))
 							model.addElement(s__);
 					if (model.getSize() > 0)
-						jRemoteList.setSelectedIndex(0);
+						jRemoteList.setSelectedIndex(model.getSize() - 1);
 				}
 			}
 		}
@@ -398,10 +399,11 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 			index = ((JList)e.getSource()).getSelectedIndex();
 			boolean isMainList = ((JList)e.getSource()).getName().equalsIgnoreCase("mainlist");
 			if (isMainList) {
+				smallRadioBtn.setEnabled(true);
 				switch (index) {
-					case 0: alias = Championship.alias; break;
+					case 0: alias = Championship.alias; largeRadioBtn.setSelected(true); smallRadioBtn.setEnabled(false); break;
 					case 1: alias = Country.alias; break;
-					case 2: alias = Event.alias; break;
+					case 2: alias = Event.alias; largeRadioBtn.setSelected(true); smallRadioBtn.setEnabled(false); break;
 					case 3: alias = Olympics.alias; break;
 					case 4: alias = Sport.alias; break;
 					case 5: alias = State.alias; break;

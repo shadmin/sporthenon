@@ -40,7 +40,7 @@
 
 <body>
 <div id="header">
-	<div id="logo"><a href="/" title="Home Page"><img src="img/icon.png?v=6" alt="Sporthenon.com"/></a></div>
+	<div id="logo"><a href="/" title="Home Page"><img src="img/icon.png?v=8" alt="Sporthenon.com"/></a></div>
 	<div id="shmenu">
 		<ul>
 			<li><a id="shmenu-home" <%=(mn.equals("home") ? "class='selected'" : "")%> href="/"><%=StringUtils.text("menu.home", session)%></a></li>

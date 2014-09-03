@@ -370,7 +370,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabel(cp.getLabel());
 			p.setLabelFR(cp.getLabelFr());
 			p.setWebsite(cp.getWebsite());
-			p.setComment(cp.getComment());
 			p.setIndex(cp.getIndex() != null ? String.valueOf(cp.getIndex()) : null);
 			p.setUrlWiki(cp.getUrlWiki());
 		}
@@ -407,7 +406,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabelFR(ev.getLabelFr());
 			p.setType(ev.getType() != null ? ev.getType().getId() : null);
 			p.setWebsite(ev.getWebsite());
-			p.setComment(StringUtils.notEmpty(ev.getComment()) ? ev.getComment() : "");
 			p.setIndex(ev.getIndex() != null ? String.valueOf(ev.getIndex()) : null);
 			p.setUrlWiki(ev.getUrlWiki());
 		}

@@ -323,7 +323,6 @@ public class JMainFrame extends JFrame {
 			en.setLabel(p.getLabel().getText());
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setWebsite(p.getWebsite().getText());
-			en.setComment(p.getComment().getText());
 			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Integer.parseInt(p.getIndex().getText()) : Integer.MAX_VALUE);
 			en.setUrlWiki(p.getUrlWiki().getText());
 			plb.setText(en.getLabel());
@@ -364,7 +363,6 @@ public class JMainFrame extends JFrame {
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setType((Type)DatabaseHelper.loadEntity(Type.class, SwingUtils.getValue(p.getType())));
 			en.setWebsite(p.getWebsite().getText());
-			en.setComment(p.getComment().getText());
 			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Integer.parseInt(p.getIndex().getText()) : Integer.MAX_VALUE);
 			en.setUrlWiki(p.getUrlWiki().getText());
 			plb.setText(en.getLabel());

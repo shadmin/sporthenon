@@ -101,6 +101,13 @@
 	<entry key="rec.WORLDCP">Championnats du Monde</entry>
 	<entry key="rec.GSLAM">Grand Chelem</entry>
 	<entry key="rec.MAJORS">Majeurs</entry>
+	<entry key="rec.NFLCP1">Super Bowl</entry>
+	<entry key="rec.NFLCP2">NFL Championship</entry>
+	<entry key="rec.NBACP">Championnat NBA</entry>
+	<entry key="rec.NHLCP">Stanley Cup</entry>
+	<entry key="rec.MLBCP">World Series</entry>
+	<entry key="flag">Drapeau</entry>
+	<entry key="logo">Logo</entry>
 	<entry key="otherflags">Précédents drapeaux</entry>
 	<entry key="otherlogos">Précédents logos</entry>
 	<entry key="extlinks">Liens externes</entry>
@@ -162,6 +169,7 @@
 	<entry key="show">Afficher</entry>
 	<entry key="select">Sélectionner</entry>
 	<entry key="selection">Sélection</entry>
+	<entry key="today">Aujourd'hui</entry>
 <!-- HOME -->
 	<entry key="title.info">SPORTHENON, QU'EST-CE QUE C'EST ?</entry>
 	<entry key="title.news">NEWS</entry>

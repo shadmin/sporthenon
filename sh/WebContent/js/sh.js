@@ -750,6 +750,12 @@ function changeOlympics(id) {
 		},
 		parameters: h
 	});
+	new Ajax.Request('OlympicsServlet?pl-cn', {
+		onSuccess: function(response){
+			fillPicklistXML(response);
+		},
+		parameters: h
+	});
 	updateSliderOl(code);
 }
 function changeSportOL(obj, code, srcsl) {

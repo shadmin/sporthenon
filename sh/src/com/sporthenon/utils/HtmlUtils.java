@@ -80,8 +80,8 @@ public class HtmlUtils {
 		html.append("<span class='shorttitle'>" + h.get("tabshorttitle") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
-		html.append("<table class='header'><tr><th colspan='2' class='" + h.get("bgtitle") + "'>" + writeToggleTitle(h.get("title")) + "</th></tr>");
-		html.append("<tr><td class='logos' rowspan=4>" + h.get("logos") + "</td>");
+		html.append("<table class='header'><tr><th colspan='2' class='" + h.get("bgtitle") + "'>" + h.get("title") + "</th></tr>");
+		html.append("<tr><td class='logos' rowspan='4'>" + h.get("logos") + "</td>");
 		html.append("<td>" + h.get("item1") + "</td></tr>");
 		html.append("<tr><td>" + (h.containsKey("item2") && StringUtils.notEmpty(h.get("item2")) ? h.get("item2") : "-") + "</td></tr>");
 		html.append("<tr><td>" + (h.containsKey("item3") &&StringUtils.notEmpty(h.get("item3")) ? h.get("item3") : "-") + "</td></tr>");
@@ -97,14 +97,9 @@ public class HtmlUtils {
 		html.append("<span class='url'>" + h.get("url") + "</span>");
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
 		html.append("<table class='info'><tr><th colspan=2>" + writeToggleTitle(h.get("title")) + "</th></tr>");
-		if (h.containsKey("logo")) {
-			String logo = h.get("logo");
-			String bordered = (logo.matches("^.*" + ConfigUtils.getProperty("app.url") + "(" + ImageUtils.INDEX_COUNTRY + "|" + ImageUtils.INDEX_STATE + ").*") ? " bordered" : "");
-			html.append("<tr><td colspan=2 class='logo" + bordered + "'>" + logo + "</td></tr>");
-		}
 		for (String key : h.keySet()) {
-			if (!key.matches("(tab|^)title|logo|url|info") && StringUtils.notEmpty(h.get(key)))
-				html.append("<tr><th class='caption'>" + ResourceUtils.getText(key, lang) + "</th><td" + (key.matches("record|extlinks") ? " class='" + key + "'" : "") + ">" + h.get(key) + "</td></tr>");
+			if (!key.matches("(tab|^)title|url|info") && StringUtils.notEmpty(h.get(key)))
+				html.append("<tr><th class='caption'>" + ResourceUtils.getText(key, lang) + "</th><td" + (key.matches("logo|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + ">" + h.get(key) + "</td></tr>");
 		}
 		html.append("</table>");
 		return html;

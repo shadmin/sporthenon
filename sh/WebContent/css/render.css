@@ -76,6 +76,7 @@
 }
 .tc .header{
 	margin-top: 5px;
+	/*border: 2px solid #000;*/
 }
 .tc .header img{
 	border: none;
@@ -85,14 +86,20 @@
 	font-weight: bold;
 	text-align: center;
 }
+.tc .header td.logos{
+	padding: 0px;
+}
+.tc .header td.logos img{
+	margin: 3px 10px;
+}
+.tc .header th, .tc .header td{
+	line-height: 16px;
+}
 .tc .header td table{
 	margin: 0 auto;
 }
 .tc .header a{
 	font-weight: bold;
-}
-.tc .header .logos{
-	padding: 2px 5px; 
 }
 .tc .winrec{
 	margin-bottom: 5px;
@@ -131,6 +138,7 @@
 .tc .info{
 	margin-top: 5px;
 	margin-bottom: 10px;
+	border: 2px solid #000;
 }
 .tc .info td{
 	padding: 5px 5px;
@@ -139,9 +147,14 @@
 .tc .info td table{
 	/*margin: auto;*/
 }
-.tc .info .logo{
-	text-align: center;
-	padding: 10px 30px; 
+.tc .info .logo, .tc .info .flag{
+	padding: 5px 10px;
+}
+.tc .info .flag img, .tc .info .otherflags img{
+	border: 1px solid #666;
+}
+.tc .info .otherflags, .tc .info .otherlogos{
+	padding: 0px;
 }
 .tc .info .caption{
 	padding-left: 20px;

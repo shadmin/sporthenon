@@ -224,23 +224,23 @@ input{
 	background-color: #a30096;
 }
 .bgresults, .fscontent td.bgresults{
-	background:url(../img/menu/bg-results.png?0) left top repeat-y;
+	background:url(../img/menu/bg-results.png?2) left top repeat-y;
 	padding-left: 10px;
 }
 .bgolympics, .fscontent td.bgolympics{
-	background:url(../img/menu/bg-olympics.png?0) left top repeat-y;
+	background:url(../img/menu/bg-olympics.png?2) left top repeat-y;
 	padding-left: 10px;
 }
 .bgusleagues, .fscontent td.bgusleagues{
-	background:url(../img/menu/bg-usleagues.png?0) left top repeat-y;
+	background:url(../img/menu/bg-usleagues.png?2) left top repeat-y;
 	padding-left: 10px;
 }
 .bgsearch, .fscontent td.bgsearch{
-	background:url(../img/menu/bg-search.png?0) left top repeat-y;
+	background:url(../img/menu/bg-search.png?2) left top repeat-y;
 	padding-left: 10px;
 }
 .bgproject, .fscontent td.bgproject{
-	background:url(../img/menu/bg-project.png?0) left top repeat-y;
+	background:url(../img/menu/bg-project.png?2) left top repeat-y;
 	padding-left: 10px;
 }
 #flags{
