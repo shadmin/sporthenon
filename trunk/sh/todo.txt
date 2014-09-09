@@ -1,11 +1,11 @@
-ajouter QF/SF sur ref entity results
-gestion news ameliorée + FR/EN
---bug affichage ex aequo references (exemple fiche D.Koranyi)
-----------------------------------------
+ligues us : reformater ecran + changer marron couleur menu
 optimiser affichage sur references pays (pas tout charger)
 graphique pour stats home
 trigger calcul references + stats
 logo par sport+event (foot-coupe de france / tennis-us open)
+ajouter QF/SF sur ref entity results
+--bug affichage ex aequo references (exemple fiche D.Koranyi)
+UPDATER win64 compliant
 ----------------------------------------
 --tests ie firefox safari
 gestion detail personnes (equipes + relais)

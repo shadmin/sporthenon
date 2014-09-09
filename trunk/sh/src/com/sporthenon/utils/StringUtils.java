@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.Normalizer;
 import java.text.ParseException;
@@ -99,6 +100,11 @@ public class StringUtils {
 		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		SimpleDateFormat dftxt = new SimpleDateFormat(notEmpty(format) ? format : "dd MMMM", l);
 		return dftxt.format(df.parse(dt));
+	}
+	
+	public static String toTextDate(Timestamp dt, String lang, String format) throws ParseException {
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		return toTextDate(df.format(dt), lang, format);
 	}
 
 	public static String formatNumber(Integer n) {

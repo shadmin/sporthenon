@@ -29,15 +29,23 @@
 		<div class="fstitle news"><%=StringUtils.text("title.news", session)%></div>
 		<div class="fscontent">
 		<%
+			String lang = String.valueOf(session.getAttribute("locale"));
 			boolean isMore = false;
 			int i = 0;
-			for (News n : (List<News>) DatabaseHelper.execute("from News order by date desc")) {
+			for (News n : (List<News>) DatabaseHelper.execute("from News order by id desc")) {
 				if (++i % 5 == 0) {
 					isMore = true;
 					out.print("<a id='amnews' href=\"javascript:$('amnews').remove();$('mnews').show();\"><br/><br/>More</a><span id='mnews' style='display:none;'>");
 				}
+				String title = n.getTitle();
+				String text = n.getTextHtml();
+				if (lang.equalsIgnoreCase("fr")) {
+					title = n.getTitleFR();
+					text = n.getTextHtmlFR();
+				}
 				out.print((i > 1 ? "<br/><br/>" : "") + "<img src='img/bullet.gif' alt='-'/>&nbsp;<b>");
-				out.print(n.getDateText() + "</b>&nbsp;-&nbsp;" + n.getTextHtml());
+				out.print(title + "</b>&nbsp;(" + StringUtils.toTextDate(n.getDate(), lang, "d MMM yyyy") + ")");
+				out.print(StringUtils.notEmpty(text) ? "&nbsp;" + text : "");
 			}
 			if (isMore)
 				out.print("</span>");

@@ -18,6 +18,7 @@ utilisation logos par années sur championships US + records US
 fond blanc sur entete resultats de rehreche + bordures tableaux 2px
 fusionner legende annee si meme année  (ex. 1982-1982 = 1982)
 supp medal count sur teams / remplacer palmarès equipes championships
+gestion news ameliorée + FR/EN
 
 +-------+
 | 0.8.0 |
