@@ -593,6 +593,7 @@ public class JMainFrame extends JFrame {
 				jDataPanel.valueChanged(new ListSelectionEvent(this, 0, 0, true));
 				jPicturesPanel.getList().setSelectedIndex(0);
 				jPicturesPanel.valueChanged(new ListSelectionEvent(this, 0, 0, true));
+				jNewsPanel.initList(DatabaseHelper.execute("from News order by id"));
 			}
 			else {
 				DatabaseHelper.unsetFactory();
