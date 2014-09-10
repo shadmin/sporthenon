@@ -92,7 +92,12 @@
 .tc .header td.logos img{
 	margin: 3px 10px;
 }
-.tc .header th, .tc .header td{
+.tc .header th{
+	/*line-height: 18px;*/
+	font-size: 12px;
+	padding: 5px;
+}
+.tc .header td{
 	line-height: 16px;
 }
 .tc .header td table{
