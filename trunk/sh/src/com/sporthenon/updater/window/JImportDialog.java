@@ -533,7 +533,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 						hql = "select id from Sport where lower(label) like '" + s_ + "'";
 					else if (h.equalsIgnoreCase(Championship.alias))
 						hql = "select id from Championship where lower(label) like '" + s_ + "'";
-					else if (h.matches("ev|se")) {
+					else if (h.matches("ev|se|se2")) {
 						String[] tEv = s_.split("\\|");
 						hql = "select id from Event where lower(label) like '" + tEv[0] + "'" + (tEv.length > 1 ? " and lower(type.label)='" + tEv[1] + "'" : "") + " order by id";
 					}
@@ -568,7 +568,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 					}
 					else if (h.matches("rk\\d")) {
 						if (n == null) {
-							List<Integer> lNumber = (List<Integer>) DatabaseHelper.execute("select type.number from Event ev where ev.id = " + hId.get(hId.containsKey("se") ? "se" : "ev"));
+							List<Integer> lNumber = (List<Integer>) DatabaseHelper.execute("select type.number from Event ev where ev.id = " + hId.get(hId.containsKey("se2") ? "se2" : (hId.containsKey("se") ? "se" : "ev")));
 							if (lNumber != null && lNumber.size() > 0)
 								n = lNumber.get(0);
 						}
@@ -786,7 +786,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 						hql = "select id from Sport where lower(label) like '" + s_ + "'";
 					else if (h.equalsIgnoreCase(Championship.alias))
 						hql = "select id from Championship where lower(label) like '" + s_ + "'";
-					else if (h.matches("ev|se")) {
+					else if (h.matches("ev|se|se2")) {
 						String[] tEv = s_.split("\\|");
 						hql = "select id from Event where lower(label) like '" + tEv[0] + "'" + (tEv.length > 1 ? " and lower(type.label)='" + tEv[1] + "'" : "") + " order by id";
 					}
@@ -794,7 +794,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 						hql = "select id from Result where year.label='" + s_ + "' and sport.id=" + hId.get("sp") + " and championship.id=" + hId.get("cp") + " and event.id=" + hId.get("ev") + (hId.containsKey("se") ? " and subevent.id=" + hId.get("se") : "") + (hId.containsKey("se2") ? " and subevent2.id=" + hId.get("se2") : "");
 					else if (h.matches("(qf|sf|thd)\\d*(w|r)")) {
 						if (n == null) {
-							List<Integer> lNumber = (List<Integer>) DatabaseHelper.execute("select type.number from Event ev where ev.id = " + hId.get(hId.containsKey("se") ? "se" : "ev"));
+							List<Integer> lNumber = (List<Integer>) DatabaseHelper.execute("select type.number from Event ev where ev.id = " + hId.get(hId.containsKey("se2") ? "se2" : (hId.containsKey("se") ? "se" : "ev")));
 							if (lNumber != null && lNumber.size() > 0)
 								n = lNumber.get(0);
 						}
