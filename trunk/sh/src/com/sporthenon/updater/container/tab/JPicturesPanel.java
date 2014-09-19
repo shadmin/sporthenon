@@ -28,6 +28,7 @@ import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -46,6 +47,7 @@ import org.apache.log4j.Logger;
 import sun.net.www.content.text.PlainTextInputStream;
 
 import com.sporthenon.db.DatabaseHelper;
+import com.sporthenon.db.PicklistBean;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Event;
@@ -80,6 +82,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 	private JList jRemoteList = null;
 	private JFileChooser jFileChooser = null;
 	private JLabel jDescription = null;
+	private JComboBox jSportList = null;
 
 	public JPicturesPanel(JMainFrame parent) {
 		initialize();
@@ -89,6 +92,10 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		return jList;
 	}
 
+	public JComboBox getSportList() {
+		return jSportList;
+	}
+	
 	private void initialize() {
 		initList();
 		jFileChooser = new JFileChooser();
@@ -149,6 +156,8 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		jDescription.setFont(SwingUtils.getBoldFont());
 		leftPanel.add(jDescription);
 		JPanel rightPanel = new JPanel();
+		jSportList = new JComboBox();
+		jSportList.setVisible(false);
 		JCustomButton jFirstButton = new JCustomButton(null, "first.png", "First");
 		jFirstButton.addActionListener(this);
 		jFirstButton.setActionCommand("first");
@@ -165,6 +174,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		jLastButton.addActionListener(this);
 		jLastButton.setActionCommand("last");
 		rightPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 1));
+		rightPanel.add(jSportList, null);
 		rightPanel.add(jFirstButton, null);
 		rightPanel.add(jPreviousButton, null);
 		rightPanel.add(jFindButton, null);
@@ -252,13 +262,14 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 				hLocs.put("previous", DatabaseHelper.PREVIOUS);
 				hLocs.put("next", DatabaseHelper.NEXT);
 				hLocs.put("last", DatabaseHelper.LAST);
-				Class c = DatabaseHelper.getClassFromAlias(alias);
-				data = DatabaseHelper.move(c, currentId, hLocs.get(e.getActionCommand()));
+				Integer sportValue = ((PicklistBean)jSportList.getSelectedItem()).getValue();
+				String filter = (alias.equals(Team.alias) && sportValue != null && sportValue > 0 ? "id_sport=" + sportValue : null);
+				Class c = DatabaseHelper.getClassFromAlias(alias);;
+				data = DatabaseHelper.move(c, currentId, hLocs.get(e.getActionCommand()), filter);
 				if (data != null) {
 					currentId = String.valueOf(c.getMethod("getId").invoke(data, new Object[0]));
 					loadImage(alias, currentId);
 				}
-
 			}
 			else if (e.getActionCommand().equals("find")) {
 				JFindEntityDialog dlg = JMainFrame.getFindDialog();
@@ -409,6 +420,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 					case 5: alias = State.alias; break;
 					case 6: alias = Team.alias; break;
 				}
+				jSportList.setVisible(alias.equals(Team.alias));
 				actionPerformed(new ActionEvent(this, 0, "last"));
 			}
 			else {

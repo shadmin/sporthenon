@@ -170,8 +170,12 @@ public class JMainFrame extends JFrame {
 		jAddMultipleDialog = new JAddMultipleDialog(this);
 		jUrlUpdateDialog = new JUrlUpdateDialog(this);
 		jCharsDialog = new JCharsDialog(this);
-		if (!quickload)
+		if (!quickload) {
 			fillPicklists(null);
+			jPicturesPanel.getSportList().removeAllItems();
+			for (int i = 0 ; i < jFolderDialog.getSport().getPicklist().getItemCount() ; i++)
+				jPicturesPanel.getSportList().addItem(jFolderDialog.getSport().getPicklist().getItemAt(i));	
+		}
 	}
 
 	public static void fillPicklists(String alias) {
