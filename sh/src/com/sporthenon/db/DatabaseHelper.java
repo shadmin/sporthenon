@@ -227,7 +227,7 @@ public class DatabaseHelper {
 		}
 	}
 
-	public static Object move(Class entity, Object id, short l) throws Exception {
+	public static Object move(Class entity, Object id, short l, String filter) throws Exception {
 		UserTransaction tr = null;
 		try {
 			tr = getTransaction();
@@ -235,6 +235,8 @@ public class DatabaseHelper {
 			String hql = "select " + (l == FIRST || l == NEXT ? "min" : "max") + "(id) from " + entity.getSimpleName();
 			if (l == PREVIOUS || l == NEXT)
 				hql += " where id" + (l == PREVIOUS ? "<" : ">") + id;
+			if (StringUtils.notEmpty(filter))
+				hql += (hql.indexOf(" where ") != -1 ? " and " : " where ") + filter;
 			EntityManager em = getEntityManager();
 			Integer id_ = (Integer) em.createQuery(hql).getSingleResult();
 			id_ = (id_ == null ? 0 : id_);

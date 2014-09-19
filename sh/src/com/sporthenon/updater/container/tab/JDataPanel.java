@@ -224,7 +224,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 				hLocs.put("next", DatabaseHelper.NEXT);
 				hLocs.put("last", DatabaseHelper.LAST);
 				Class c = DatabaseHelper.getClassFromAlias(alias);
-				Object data = DatabaseHelper.move(c, currentId, hLocs.get(e.getActionCommand()));
+				Object data = DatabaseHelper.move(c, currentId, hLocs.get(e.getActionCommand()), null);
 				if (data != null) {
 					currentId = String.valueOf(c.getMethod("getId").invoke(data, new Object[0]));
 					load(data);

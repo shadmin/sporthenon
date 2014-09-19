@@ -1,7 +1,13 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.8.1   |
+| Last Version: 0.8.2   |
 +-----------------------+
+
++-------+
+| 0.8.2 |
++-------+
+"image not available" sur fiches sans logo
+UPDATER filter pictures teams par sport
 
 +-------+
 | 0.8.1 |
