@@ -20,6 +20,7 @@ InstallDir "$PROGRAMFILES\Sporthenon"
 
 !include "MUI.nsh"
 !include "Sections.nsh"
+!include "x64.nsh"
 
 !define MUI_ICON "${IMGPATH}\install.ico"
 !define MUI_UNICON "${IMGPATH}\uninstall.ico"
@@ -49,7 +50,12 @@ Section "Sporthenon Update" Main
   SetShellVarContext all
 
   SetOutPath "$INSTDIR"
-  File "${EXEPATH}\shupdate.exe"
+  ${If} ${RunningX64}
+    File /oname=shupdate.exe "${EXEPATH}\shupdate64.exe"
+  ${Else}
+    File /oname=shupdate.exe "${EXEPATH}\shupdate32.exe"
+  ${EndIf}
+  
   File "${EXEPATH}\shupdate.lap"
   File "${EXEPATH}\shupdate.jar"
   

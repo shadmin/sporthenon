@@ -1,5 +1,5 @@
 body{
-	background: #FBFBFB url(../img/header/bg2.png?0) 0 0 repeat-y;
+	background: #FBFBFB url(../img/header/bg2.png?3) 0 0 repeat-y;
 	margin: 0;
 	padding: 0;
 }
@@ -124,7 +124,7 @@ input{
 	display: none;
 }
 .criteria{
-	background-image: url(../img/db/criteria.png?0);
+	background-image: url(../img/db/criteria.png?3);
 }
 .backtopleft {
 	float: left;
@@ -188,13 +188,13 @@ input{
 	color: #FFF;
 }
 #shmenu-home{
-	background-image:url(../img/menu/home.png?0);
+	background-image:url(../img/menu/home.png?3);
 }
 #shmenu-home:hover, #shmenu-home.selected{
 	background-color: #ec7900;
 }
 #shmenu-results{
-	background-image:url(../img/menu/dbresults.png?0);
+	background-image:url(../img/menu/dbresults.png?3);
 }
 #shmenu-results:hover, #shmenu-results.selected{
 	background-color: #02901c;
@@ -206,10 +206,10 @@ input{
 	background-color: #d00c0c;
 }
 #shmenu-usleagues{
-	background-image:url(../img/menu/dbusleagues.png?0);
+	background-image:url(../img/menu/dbusleagues.png?3);
 }
 #shmenu-usleagues:hover, #shmenu-usleagues.selected{
-	background-color: #865c1a;
+	background-color: #593100;
 }
 #shmenu-search{
 	background-image:url(../img/menu/dbsearch.png?3);
@@ -218,29 +218,29 @@ input{
 	background-color: #0028d9;
 }
 #shmenu-project{
-	background-image:url(../img/menu/project.png?0);
+	background-image:url(../img/menu/project.png?3);
 }
 #shmenu-project:hover, #shmenu-project.selected{
 	background-color: #a30096;
 }
 .bgresults, .fscontent td.bgresults{
-	background:url(../img/menu/bg-results.png?2) left top repeat-y;
+	background:url(../img/menu/bg-results.png?3) left top repeat-y;
 	padding-left: 10px;
 }
 .bgolympics, .fscontent td.bgolympics{
-	background:url(../img/menu/bg-olympics.png?2) left top repeat-y;
+	background:url(../img/menu/bg-olympics.png?3) left top repeat-y;
 	padding-left: 10px;
 }
 .bgusleagues, .fscontent td.bgusleagues{
-	background:url(../img/menu/bg-usleagues.png?2) left top repeat-y;
+	background:url(../img/menu/bg-usleagues.png?3) left top repeat-y;
 	padding-left: 10px;
 }
 .bgsearch, .fscontent td.bgsearch{
-	background:url(../img/menu/bg-search.png?2) left top repeat-y;
+	background:url(../img/menu/bg-search.png?3) left top repeat-y;
 	padding-left: 10px;
 }
 .bgproject, .fscontent td.bgproject{
-	background:url(../img/menu/bg-project.png?2) left top repeat-y;
+	background:url(../img/menu/bg-project.png?3) left top repeat-y;
 	padding-left: 10px;
 }
 #flags{
@@ -459,7 +459,7 @@ input{
 .inactive-msg{
 	position: absolute;
 	z-index:2;
-	background: transparent url(../img/db/notselected.png?0) center center no-repeat;
+	background: transparent url(../img/db/notselected.png?3) center center no-repeat;
 }
 /* ========== BUTTONS ========== */
 #buttons{
@@ -499,45 +499,45 @@ input{
 	background-color: #444;
 }
 #buttons .execute{
-	background-image: url('../img/component/button/execute.png?0');
+	background-image: url('../img/component/button/execute.png?3');
 	padding-left: 24px;
 	font-weight: bold;
 }
 #buttons .reset{
-	background-image: url('../img/component/button/reset.png?0');
+	background-image: url('../img/component/button/reset.png?3');
 }
 #buttons .options{
-	background-image: url('../img/component/button/options.png?0');
+	background-image: url('../img/component/button/options.png?3');
 }
 #buttons .export{
-	background-image: url('../img/component/button/export.png?0');
+	background-image: url('../img/component/button/export.png?3');
 }
 #buttons .export-disabled{
-	background-image: url('../img/component/button/export-disabled.png?0');
+	background-image: url('../img/component/button/export-disabled.png?3');
 }
 #buttons .link{
-	background-image: url('../img/component/button/link.png?0');
+	background-image: url('../img/component/button/link.png?3');
 }
 #buttons .link-disabled{
-	background-image: url('../img/component/button/link-disabled.png?0');
+	background-image: url('../img/component/button/link-disabled.png?3');
 }
 #buttons .print{
-	background-image: url('../img/component/button/print.png?0');
+	background-image: url('../img/component/button/print.png?3');
 }
 #buttons .print-disabled{
-	background-image: url('../img/component/button/print-disabled.png?0');
+	background-image: url('../img/component/button/print-disabled.png?3');
 }
 #buttons .info{
-	background-image: url('../img/component/button/info.png?0');
+	background-image: url('../img/component/button/info.png?3');
 }
 #buttons .info-disabled{
-	background-image: url('../img/component/button/info-disabled.png?0');
+	background-image: url('../img/component/button/info-disabled.png?3');
 }
 #buttons .close{
-	background-image: url('../img/component/button/close.png?0');
+	background-image: url('../img/component/button/close.png?3');
 }
 #buttons .close-disabled{
-	background-image: url('../img/component/button/close-disabled.png?0');
+	background-image: url('../img/component/button/close-disabled.png?3');
 }
 #buttons .export-disabled:hover, #buttons .link-disabled:hover, #buttons .print-disabled:hover, #buttons .info-disabled:hover, #buttons .close-disabled:hover{
 	color: #777;
@@ -628,19 +628,19 @@ input{
 	background-repeat: no-repeat;
 }
 .homecontent .info{
-	background-image: url(../img/info.png?0);
+	background-image: url(../img/info.png?3);
 }
 .homecontent .contact{
-	background-image: url(../img/contact.png?0);
+	background-image: url(../img/contact.png?3);
 }
 .homecontent .statistics{
-	background-image: url(../img/project/statistics.png?0);
+	background-image: url(../img/project/statistics.png?3);
 }
 .homecontent .lastupdates{
-	background-image: url(../img/component/button/lastpudates.png?0);
+	background-image: url(../img/component/button/lastpudates.png?3);
 }
 .homecontent .news{
-	background-image: url(../img/news.png?0);
+	background-image: url(../img/news.png?3);
 }
 /* ========== RESULTS ========== */
 /* ---------- PICKLIST ---------- */
@@ -662,7 +662,7 @@ input{
 	padding-left: 3px;
 	padding-right: 5px;
 	margin: 3px;
-	background: #FFF url(../img/column.png?0) 37px 147px no-repeat;
+	background: #FFF url(../img/column.png?3) 37px 147px no-repeat;
 }
 #results .spcpdiv table{
 	width: 100%;
@@ -723,7 +723,7 @@ input{
 	border-right: none;
 }
 #tree .treetitle{
-	background-image: url(../img/db/tree.png?0);
+	background-image: url(../img/db/tree.png?3);
 }
 /* ========== OLYMPICS ========== */
 #olympics{
@@ -778,19 +778,19 @@ input{
 }
 /* ========== US LEAGUES ========== */
 #usleagues{
-	height: 210px;
+	height: 205px;
 	margin-bottom: 0px;
-	background: #FFF url(../img/column.png?0) 35px 150px no-repeat;
+	background: #FFF url(../img/column.png?3) 20px 140px no-repeat;
 }
 #usleagues .league{
 	float: left;
-	margin: 4px 0px;
-	margin-right: 15px;
-	width: 195px;
+	margin: 10px 0px;
+	margin-right: 5px;
+	width: 155px;
 	text-align: center;
 }
 #usleagues .league .slider{
-	margin-left: 38px;
+	margin-left: 23px;
 }
 #usleagues .league .slide{
 	background-color: #FFF;
@@ -800,15 +800,35 @@ input{
 #usleagues .league .arrow{
 	margin-top: 25px;
 }
-#usleagues .league table{
-	/*margin-top: 5px;*/
+#usleagues #usltype{
+	float: left;
+	padding: 10px;
+	margin-top: 5px;
 }
-#usleagues .league td{
-	padding: 0;
-	border: none;
-}
-#usleagues .league label{
+#usleagues #usltype div{
+	width: 250px;
+	border: 1px solid #CCC;
+	margin-bottom: 15px;
+	padding: 5px; 
 	font-weight: bold;
+	cursor: pointer;
+}
+#usleagues #usltype div:hover, #usleagues #usltype .selected{
+	border: 1px solid #000;
+	background-color: #FFC;
+}
+#usleagues #usstype{
+	margin: 10px;
+}
+#usleagues #usstype td{
+	border: 1px solid #FFF;
+	padding: 3px; 
+	font-weight: bold;
+	cursor: pointer;
+}
+#usleagues #usstype td:hover, #usleagues #usstype .selected{
+	border: 1px solid #000;
+	background-color: #FFC;
 }
 #usleagues .fieldset{
 	float: left;
@@ -816,27 +836,14 @@ input{
 	height: 65px;
 }
 #ustopics{
-	margin: 0;
-	padding: 0;
-}
-#ustopics table{
-	margin-left: auto;
-	margin-right: auto;	
+	text-align: left;
+	float: left;
+	margin: 10px;
+	padding: 5px;
 }
 #ustopics td{
 	padding: 1px;
 	border: none;
-}
-#ustopics .legend{
-	margin-top: -10px;
-	margin-left: 5px;
-}
-#ustopics .legend table{
-	border-collapse: collapse;
-}
-#ustopics .legend td{
-	margin: 0px;
-	padding: 0px;
 }
 #ustopics .select, #ustopics select{
 	width: 100%;
@@ -908,7 +915,7 @@ input{
 }
 /* ========== LOGIN ========== */
 .login{
-	background-image: url(../img/menu/login.png?0);
+	background-image: url(../img/menu/login.png?3);
 }
 .tlogin{
 	margin: 5px auto;
@@ -932,7 +939,7 @@ input{
 	padding:5px 6px;
 	text-decoration: none;
 	color: #000;
-	background: #FFF url(../img/db/ok.png?0) 8px center no-repeat;
+	background: #FFF url(../img/db/ok.png?3) 8px center no-repeat;
 	padding-left: 26px;
 }
 .tlogin .button a:hover, .register .button a:hover{
@@ -957,7 +964,7 @@ input{
 	margin-top: 10px;
 }
 .register .button a{
-	background: #FFF url(../img//update/add.png?0) 8px center no-repeat;
+	background: #FFF url(../img//update/add.png?3) 8px center no-repeat;
 }
 #r-msg{
 	font-weight: bold;
@@ -973,31 +980,31 @@ input{
 }
 .register .success{
 	background-color: #beffbc;
-	background-image: url(../img/update/success.png?0);
+	background-image: url(../img/update/success.png?3);
 }
 .register .error{
 	background-color: #e5bdbf;
-	background-image: url(../img/update/error.png?0);
+	background-image: url(../img/update/error.png?3);
 }
 .register .waiting{
 	background-color: #fff;
-	background-image: url(../img/update/waiting.gif?0);
+	background-image: url(../img/update/waiting.gif?3);
 }
 /* ========== PROJECT ========== */
 .downloads{
-	background-image: url(../img/project/downloads.png?0);
+	background-image: url(../img/project/downloads.png?3);
 }
 .reportbug{
-	background-image: url(../img/project/reportbug.png?0);
+	background-image: url(../img/project/reportbug.png?3);
 }
 .statistics{
-	background-image: url(../img/project/statistics.png?0);
+	background-image: url(../img/project/statistics.png?3);
 }
 .technicalinfo{
-	background-image: url(../img/project/technicalinfo.png?0);
+	background-image: url(../img/project/technicalinfo.png?3);
 }
 .contributors{
-	background-image: url(../img/project/contributors.png?0);
+	background-image: url(../img/project/contributors.png?3);
 }
 /* ========== DIALOGS ========== */
 .dialog, .dialog input{
@@ -1008,16 +1015,16 @@ input{
 	color: #FFF;
 }
 #d-lastupdates .fstitle{
-	background-image: url(../img/component/button/lastpudates.png?0);
+	background-image: url(../img/component/button/lastpudates.png?3);
 }
 #d-export .fstitle{
-	background-image: url(../img/component/button/export.png?0);
+	background-image: url(../img/component/button/export.png?3);
 }
 #d-link .fstitle{
-	background-image: url(../img/component/button/link.png?0);
+	background-image: url(../img/component/button/link.png?3);
 }
 #d-info .fstitle{
-	background-image: url(../img/component/button/info.png?0);
+	background-image: url(../img/component/button/info.png?3);
 }
 .dialog .dlgbuttons{
 	height: 33px;
@@ -1040,10 +1047,10 @@ input{
 	background-color: #444;
 }
 .dialog .dlgbuttons .ok, .optcontainer .ok{
-	background-image: url('../img/component/button/ok.png?0');
+	background-image: url('../img/component/button/ok.png?3');
 }
 .dialog .dlgbuttons .cancel, .optcontainer .cancel{
-	background-image: url('../img/component/button/cancel.png?0');
+	background-image: url('../img/component/button/cancel.png?3');
 }
 #d-export td{
 	background-color: #FFF;

@@ -1,14 +1,15 @@
-ligues us : reformater ecran + changer marron couleur menu
+UPDATER URL references revoir recalcul sur URL non NULL
+trigger calcul references + stats
+check W3C valid
+---------
 optimiser affichage sur references pays (pas tout charger)
 graphique pour stats home
-trigger calcul references + stats
 logo par sport+event (foot-coupe de france / tennis-us open)
 ajouter QF/SF sur ref entity results
+gestion detail personnes (equipes + relais)
 --bug affichage ex aequo references (exemple fiche D.Koranyi)
-UPDATER win64 compliant
 ----------------------------------------
 --tests ie firefox safari
-gestion detail personnes (equipes + relais)
 ----------------------------------------
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;

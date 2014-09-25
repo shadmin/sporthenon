@@ -8,6 +8,8 @@
 +-------+
 "image not available" sur fiches sans logo
 UPDATER filter pictures teams par sport
+UPDATER x64 compliant
+ligues us : reformater ecran + changer marron couleur menu
 
 +-------+
 | 0.8.1 |

@@ -165,31 +165,31 @@ public class USLeaguesServlet extends AbstractServlet {
 				String plId = null;
 				Collection<PicklistBean> cPicklist = new ArrayList<PicklistBean>();
 				if (hParams.containsKey(PICKLIST_ID_HOF_YEAR)) {
-					cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.years", getLocale(request)) + "&nbsp;---"));
-					cPicklist.addAll(DatabaseHelper.getPicklist(HallOfFame.class, "year", "league.id=" + league, null, (short)1, getLocale(request)));
+					cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;---"));
+					cPicklist.addAll(DatabaseHelper.getPicklist(HallOfFame.class, "year", "league.id=" + league, null, (short)1, "en"));
 					plId = PICKLIST_ID_HOF_YEAR;
 				}
 				else if (hParams.containsKey(PICKLIST_ID_CHAMPIONSHIP_YEAR)) {
-					cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.years", getLocale(request)) + "&nbsp;---"));
-					cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + hLeagues.get(Short.valueOf(league)), null, (short)1, getLocale(request)));
+					cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;---"));
+					cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + hLeagues.get(Short.valueOf(league)), null, (short)1, "en"));
 					plId = PICKLIST_ID_CHAMPIONSHIP_YEAR;
 				}
 				else if (hParams.containsKey(PICKLIST_ID_RETNUM_TEAM) || hParams.containsKey(PICKLIST_ID_TEAMSTADIUM_TEAM) || hParams.containsKey(PICKLIST_ID_WINLOSS_TEAM)) {
 					boolean isRetnum = hParams.containsKey(PICKLIST_ID_RETNUM_TEAM);
 					boolean isTeamStadium = hParams.containsKey(PICKLIST_ID_TEAMSTADIUM_TEAM);
-					cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.teams", getLocale(request)) + "&nbsp;---"));
-					cPicklist.addAll(DatabaseHelper.getPicklist((isRetnum ? RetiredNumber.class : (isTeamStadium ? TeamStadium.class : WinLoss.class)), "team", "league.id=" + league, "x.team.inactive || '-'", "x.team.inactive, x.team.label", getLocale(request)));
+					cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.teams", "en") + "&nbsp;---"));
+					cPicklist.addAll(DatabaseHelper.getPicklist((isRetnum ? RetiredNumber.class : (isTeamStadium ? TeamStadium.class : WinLoss.class)), "team", "league.id=" + league, "x.team.inactive || '-'", "x.team.inactive, x.team.label", "en"));
 					for (PicklistBean plb : cPicklist)
 						plb.setText(plb.getText().replaceAll("^false\\-", "").replaceAll("^true\\-", "&dagger;&nbsp;"));
 					plId = (isRetnum ? PICKLIST_ID_RETNUM_TEAM : (isTeamStadium ? PICKLIST_ID_TEAMSTADIUM_TEAM : PICKLIST_ID_WINLOSS_TEAM));
 				}
 				else if (hParams.containsKey(PICKLIST_ID_RECORD_EVENT)) {
-					cPicklist.addAll(DatabaseHelper.getPicklist(Record.class, "event", "championship.id=" + hLeagues.get(Short.valueOf(league)), null, "x.event.index, x.event.label", getLocale(request)));
+					cPicklist.addAll(DatabaseHelper.getPicklist(Record.class, "event", "championship.id=" + hLeagues.get(Short.valueOf(league)), null, "x.event.index, x.event.label", "en"));
 					plId = PICKLIST_ID_RECORD_EVENT;
 				}
 				else if (hParams.containsKey(PICKLIST_ID_RECORD_SUBEVENT)) {
-					cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.categories", getLocale(request)) + "&nbsp;---"));
-					cPicklist.addAll(DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + hLeagues.get(Short.valueOf(league)) + " and x.type1='Individual'", null, "x.subevent.index, x.subevent.label", getLocale(request)));
+					cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;---"));
+					cPicklist.addAll(DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + hLeagues.get(Short.valueOf(league)) + " and x.type1='Individual'", null, "x.subevent.index, x.subevent.label", "en"));
 					plId = PICKLIST_ID_RECORD_SUBEVENT;
 				}
 				ServletHelper.writePicklist(response, cPicklist, plId);
