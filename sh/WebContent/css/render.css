@@ -95,10 +95,10 @@
 .tc .header th{
 	/*line-height: 18px;*/
 	font-size: 12px;
-	padding: 5px;
+	padding: 4px;
 }
 .tc .header td{
-	line-height: 16px;
+	line-height: 15px;
 }
 .tc .header td table{
 	margin: 0 auto;

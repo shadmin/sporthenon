@@ -914,7 +914,7 @@ public class HtmlConverter {
 			// Evaluate bean
 			String draw = "<table><tr><td><img src='img/render/draw.gif?3' title='" + ResourceUtils.getText("draw", lang) + "'/></td><td style='padding-left:3px;'><a href='javascript:info(\"DR-" + bean.getRsId() + "\")'>" + ResourceUtils.getText("draw", lang) + "</a></td></tr></table>";
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
-			String dates = (StringUtils.notEmpty(bean.getRsDate1()) ? StringUtils.toTextDate(bean.getRsDate1(), lang, "dd MMMM") + "&nbsp;&rarr;&nbsp;" : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? StringUtils.toTextDate(bean.getRsDate2(), lang, "dd MMMM") : "");
+			String dates = (StringUtils.notEmpty(bean.getRsDate1()) ? StringUtils.toTextDate(bean.getRsDate1(), lang, "d MMM yyyy") + "&nbsp;&rarr;&nbsp;" : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? StringUtils.toTextDate(bean.getRsDate2(), lang, "d MMM yyyy") : "");
 			String place1 = null, place2 = null;
 			String comment = (StringUtils.notEmpty(bean.getRsComment()) ? bean.getRsComment().replaceAll("\\|", "<br/>") : null);
 			if (bean.getCx1Id() != null) {

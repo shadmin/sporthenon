@@ -5,7 +5,7 @@
 <%@ page import="com.sporthenon.db.entity.Sport"%>
 <%@ page import="com.sporthenon.db.converter.HtmlConverter"%>
 <%@ page import="com.sporthenon.utils.HtmlUtils"%>
-<%@page import="com.sporthenon.utils.StringUtils"%>
+<%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="java.util.Collection"%>
 <%@ page import="java.util.HashMap"%>
 <jsp:include page="/jsp/common/header.jsp"/>

@@ -894,6 +894,8 @@ function resetOlympics() {
 	changeOlympics('winter-pl-ol', ind);
 }
 /* ==================== US LEAGUES ==================== */
+var currentLeague = null;
+var currentUtype = null;
 function initSliderUS() {
 	var sliderContent = [];
 	sliderContent.push('<div id="sl-nfl" class="slide" title="NFL" style="background-image:url(img/db/nfl.gif)"></div>');
@@ -905,19 +907,18 @@ function initSliderUS() {
 	createSlider('slider-league-img', 100, 100, true);
 	hSliders.get('slider-league-img').options.afterMove = function() {
 		var currentId = hSliders.get('slider-league-img').current.id;
-		$('nfl').checked = (currentId == 'sl-nfl');
-		$('nba').checked = (currentId == 'sl-nba');
-		$('nhl').checked = (currentId == 'sl-nhl');
-		$('mlb').checked = (currentId == 'sl-mlb');
 		changeLeague(currentId.replace('sl-', ''), true);
 	};
 }
 function changeLeague(id, srcsl) {
+	currentLeague = id;
 	if (!srcsl) {
+		$('nfl').removeClassName('selected');$('nba').removeClassName('selected');$('nhl').removeClassName('selected');$('mlb').removeClassName('selected');$(id).addClassName('selected');
 		hSliders.get('slider-league-img').moveTo($('sl-' + id));
 	}
 	else {
-		var league = ($F('nfl') ? 1 : ($F('nba') ? 2 : ($F('nhl') ? 3 : 4)));
+		$('nfl').removeClassName('selected');$('nba').removeClassName('selected');$('nhl').removeClassName('selected');$('mlb').removeClassName('selected');$(id).addClassName('selected');
+		var league = (id == 'nfl' ? 1 : (id == 'nba' ? 2 : (id == 'nhl' ? 3 : 4)));
 		var url = 'USLeaguesServlet?league=' + league;
 		new Ajax.Request(url + '&pl-hof-yr', { onSuccess: fillPicklistXML });
 		new Ajax.Request(url + '&pl-championship-yr', { onSuccess: fillPicklistXML });
@@ -944,33 +945,29 @@ function changeLeague(id, srcsl) {
 		$('pl-record-tp2').update(tType2.join(''));
 	}
 }
-function changeModeUS() {
-	var t = null;
-	['championship', 'record', 'winloss', 'hof', 'retnum', 'teamstadium'].each(function(id) {
-		t = $$('#f-' + id + " table");
-		$R(1, t.length - 1).each(function(i) {
-			if (t[i].up().className == 'fieldset') {
-				if ($F(id)) { t[i].removeClassName('inactive'); }
-				else { t[i].addClassName('inactive'); }
-			}
-		});
-		$('f-' + id).setStyle({borderColor: ($F(id) ? '#666' : '#BBB')});
-		$(id + '-inactive').setStyle({display: ($F(id) ? 'none' : 'block')});
+function changeModeUS(id) {
+	id = (id != null ? id : 'championship');
+	currentUtype = id;
+	['championship', 'record', 'winloss', 'hof', 'retnum', 'teamstadium'].each(function(id_) {
+		$(id_).removeClassName('selected');
+		$('f-' + id_).hide();
 	});
+	$(id).addClassName('selected');
+	$('f-' + id).show();	
 }
 function runUSLeagues() {
 	t1 = currentTime();
 	var tab = initTab();
-	var league = ($F('nfl') ? 1 : ($F('nba') ? 2 : ($F('nhl') ? 3 : 4)));
-	var type = ($F('hof') ? 'hof' : ($F('retnum') ? 'retnum' : ($F('teamstadium') ? 'teamstadium' : ($F('championship') ? 'championship' : ($F('record') ? 'record' : 'winloss')))));
+	var league = (currentLeague == 'nfl' ? 1 : (currentLeague == 'nba' ? 2 : (currentLeague == 'nhl' ? 3 : 4)));
+	//var type = ($F('hof') ? 'hof' : ($F('retnum') ? 'retnum' : ($F('teamstadium') ? 'teamstadium' : ($F('championship') ? 'championship' : ($F('record') ? 'record' : 'winloss')))));
 	var h = new Hash();
 	h.set('league', league);
-	h.set('type', type);
-	h.set('tm', $('pl-' + type + '-tm') ? $F('pl-' + type + '-tm') : null);
-	h.set('yr', $('pl-' + type + '-yr') ? $F('pl-' + type + '-yr') : null);
-	h.set('se', $('pl-' + type + '-se') ? $F('pl-' + type + '-se') : null);
-	h.set('tp1', $('pl-' + type + '-tp1') ? $F('pl-' + type + '-tp1') : null);
-	h.set('tp2', $('pl-' + type + '-tp2') ? $F('pl-' + type + '-tp2') : null);
+	h.set('type', currentUtype);
+	h.set('tm', $('pl-' + currentUtype + '-tm') ? $F('pl-' + currentUtype + '-tm') : null);
+	h.set('yr', $('pl-' + currentUtype + '-yr') ? $F('pl-' + currentUtype + '-yr') : null);
+	h.set('se', $('pl-' + currentUtype + '-se') ? $F('pl-' + currentUtype + '-se') : null);
+	h.set('tp1', $('pl-' + currentUtype + '-tp1') ? $F('pl-' + currentUtype + '-tp1') : null);
+	h.set('tp2', $('pl-' + currentUtype + '-tp2') ? $F('pl-' + currentUtype + '-tp2') : null);
 	h.set('num', $F('retnum-number'));
 	h.set('pos', $F('hof-position'));
 	addOptions(h);
@@ -981,7 +978,6 @@ function runUSLeagues() {
 }
 function resetUSLeagues() {
 	closeTabs();
-	$('championship').checked = true;
 	changeModeUS();
 	changeLeague('nfl');
 }
