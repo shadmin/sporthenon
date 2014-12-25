@@ -48,7 +48,7 @@ public class HtmlUtils {
 		Collections.sort(list);
 		if (!list.isEmpty())
 			html.append("<img alt=''" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + " src='" + ImageUtils.getUrl() + list.getLast() + "'/>");
-		else if (size == ImageUtils.SIZE_LARGE)
+		else if (size == ImageUtils.SIZE_LARGE && type != ImageUtils.INDEX_CHAMPIONSHIP && type != ImageUtils.INDEX_EVENT)
 			html.append("<img alt='' src='img/noimage.png'/>");
 		return html.toString();
 	}

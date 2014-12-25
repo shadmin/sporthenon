@@ -6,13 +6,14 @@
 +-------+
 | 0.8.2 |
 +-------+
-"image not available" sur fiches sans logo
-UPDATER filter pictures teams par sport
-UPDATER x64 compliant
-ligues us : reformater ecran + changer marron couleur menu
-UPDATER URL references revoir recalcul sur URL non NULL
-check W3C valid
-trigger calcul references
+o Website
+	- Added defaut picture file "Image not available" for record info
+	- Improved database references (automatic update with triggers)
+	- New layout for "US leagues" page
+o SH Update (Swing app)
+	- Team pictures can be filtered by sport
+	- Compliant with x64 architecture
+	- Fixed minor issues with URL updates
 
 +-------+
 | 0.8.1 |

@@ -147,7 +147,7 @@ public class JMainFrame extends JFrame {
 			this.setContentPane(getJContentPane());
 			this.setLocationRelativeTo(null);
 			List<Image> lIcons = new ArrayList<Image>();
-			for (String size : new String[]{"16", "32", "48", "64", "72", "128", "256"})
+			for (String size : new String[]{"16", "24", "32", "48", "64", "72", "96", "128", "256"})
 				lIcons.add(Toolkit.getDefaultToolkit().getImage(JMainFrame.class.getResource("/com/sporthenon/utils/res/img/icon" + size + ".png")));
 			this.setIconImages(lIcons);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -806,7 +806,7 @@ input{
 	margin-top: 5px;
 }
 #usleagues #usltype div{
-	width: 250px;
+	width: 270px;
 	border: 1px solid #CCC;
 	margin-bottom: 15px;
 	padding: 5px; 
@@ -822,7 +822,8 @@ input{
 }
 #usleagues #usstype td{
 	border: 1px solid #FFF;
-	padding: 3px; 
+	padding: 3px;
+	padding-right: 10px;
 	font-weight: bold;
 	cursor: pointer;
 }

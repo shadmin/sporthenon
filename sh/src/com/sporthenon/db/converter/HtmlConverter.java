@@ -318,7 +318,6 @@ public class HtmlConverter {
 			String sp = sbSp.toString();
 			hInfo.put("tabtitle", e.getLastName() + ", " + e.getFirstName() + (e.getCountry() != null ? " (" + e.getCountry().getCode() + ")" : "") + "&nbsp;[Athlete #" + id + "]");
 			hInfo.put("name", "<b>" + sbNm.toString() + "</b>");
-			hInfo.put("title", "ATHLETE #" + id);
 			if (StringUtils.notEmpty(cn))
 				hInfo.put("country", cn);
 			if (StringUtils.notEmpty(sp))
@@ -339,7 +338,6 @@ public class HtmlConverter {
 			Championship e = (Championship) DatabaseHelper.loadEntity(Championship.class, id);
 			hInfo.put("tabtitle", e.getLabel(lang) + "&nbsp;[Championship #" + id + "]");
 			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, e.getId(), ImageUtils.SIZE_LARGE, null, null));
-			hInfo.put("title", "CHAMPIONSHIP #" + id);
 			hInfo.put("name", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
 			hInfo.put("website", (e.getWebsite() != null ? "<a href='http://" + e.getWebsite() + "' target='_blank'>" + e.getWebsite() + "</a>" : StringUtils.EMPTY));
 			hInfo.put("extlinks", HtmlUtils.writeExternalLinks(e));
@@ -357,7 +355,6 @@ public class HtmlConverter {
 				cn = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, e.getCountry().getId(), ImageUtils.SIZE_SMALL, null, null), cn);
 			}
 			hInfo.put("tabtitle", e.getLabel(lang) + (e.getCountry() != null ? ", " + e.getCountry().getCode() : "") + "&nbsp;[City #" + id + "]");
-			hInfo.put("title", "CITY #" + id);
 			hInfo.put("name", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
 			hInfo.put("state", (st != null ? st : StringUtils.EMPTY));
 			hInfo.put("country", (cn != null ? cn : StringUtils.EMPTY));
@@ -376,7 +373,6 @@ public class HtmlConverter {
 				cn = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, e.getCity().getCountry().getId(), ImageUtils.SIZE_SMALL, null, null), cn);
 			}
 			hInfo.put("tabtitle", e.getLabel(lang) + "&nbsp;[Complex #" + id + "]");
-			hInfo.put("title", "COMPLEX #" + id);
 			hInfo.put("name", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
 			hInfo.put("city", HtmlUtils.writeLink(City.alias, e.getCity().getId(), e.getCity().getLabel(lang), null));
 			hInfo.put("state", (st != null ? st : StringUtils.EMPTY));
@@ -402,7 +398,6 @@ public class HtmlConverter {
 						sbOtherFlags.append("<br/><b>" + s_ + "</b></div>");
 					}
 			hInfo.put("otherflags", sbOtherFlags.toString());
-			hInfo.put("title", "COUNTRY #" + id);
 			// Record
 			ArrayList<Object> lFuncParams = new ArrayList<Object>();
 			lFuncParams.add("CN");
@@ -471,7 +466,6 @@ public class HtmlConverter {
 		else if (type.equals(Event.alias)) {
 			Event e = (Event) DatabaseHelper.loadEntity(Event.class, id);
 			hInfo.put("tabtitle", e.getLabel(lang) + "&nbsp;[Event #" + id + "]");
-			hInfo.put("title", "EVENT #" + id);
 			hInfo.put("name", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
 			hInfo.put("website", (e.getWebsite() != null ? "<a href='http://" + e.getWebsite() + "' target='_blank'>" + e.getWebsite() + "</a>" : StringUtils.EMPTY));
 			hInfo.put("extlinks", HtmlUtils.writeExternalLinks(e));
@@ -490,7 +484,6 @@ public class HtmlConverter {
 			}
 			hInfo.put("tabtitle", e.getCity().getLabel(lang) + "&nbsp;" + e.getYear().getLabel() + "&nbsp;[Olympics #" + id + "]");
 			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_OLYMPICS, e.getId(), ImageUtils.SIZE_LARGE, null, null));
-			hInfo.put("title", "OLYMPICS #" + id);
 //			hInfo.put("type", ResourceUtils.getText(e.getType() == 0 ? "summer" : "winter", lang) + " " + ResourceUtils.getText("olympic.games", lang));
 			hInfo.put("year", HtmlUtils.writeLink(Year.alias, e.getYear().getId(), e.getYear().getLabel(), null));
 			hInfo.put("city", HtmlUtils.writeLink(City.alias, e.getCity().getId(), e.getCity().getLabel(lang), null));
@@ -507,7 +500,6 @@ public class HtmlConverter {
 			Sport e = (Sport) DatabaseHelper.loadEntity(Sport.class, id);
 			hInfo.put("tabtitle", e.getLabel(lang) + "&nbsp;[Sport #" + id + "]");
 			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, e.getId(), ImageUtils.SIZE_LARGE, null, null));
-			hInfo.put("title", "SPORT #" + id);
 			hInfo.put("name", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
 			hInfo.put("website", (e.getWebsite() != null ? "<a href='http://" + e.getWebsite() + "' target='_blank'>" + e.getWebsite() + "</a>" : StringUtils.EMPTY));
 			hInfo.put("extlinks", HtmlUtils.writeExternalLinks(e));
@@ -516,7 +508,6 @@ public class HtmlConverter {
 			State e = (State) DatabaseHelper.loadEntity(State.class, id);
 			hInfo.put("tabtitle", e.getLabel(lang) + "&nbsp;[State #" + id + "]");
 			hInfo.put("flag", HtmlUtils.writeImage(ImageUtils.INDEX_STATE, e.getId(), ImageUtils.SIZE_LARGE, null, null));
-			hInfo.put("title", "STATE #" + id);
 			hInfo.put("name", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
 			hInfo.put("code", e.getCode());
 			hInfo.put("capital", e.getCapital());
@@ -565,7 +556,6 @@ public class HtmlConverter {
 						sbOtherLogos.append("<br/><b>" + s_ + "</b></div>");
 					}
 			hInfo.put("otherlogos", sbOtherLogos.toString());
-			hInfo.put("title", "TEAM #" + id);
 			if (cn != null)
 				hInfo.put("country", cn);
 			if (sp != null)
@@ -589,9 +579,9 @@ public class HtmlConverter {
 		else if (type.equals(Year.alias)) {
 			Year e = (Year) DatabaseHelper.loadEntity(Year.class, id);
 			hInfo.put("tabtitle", e.getLabel() + "&nbsp;[Year #" + id + "]");
-			hInfo.put("title", "YEAR #" + id);
 			hInfo.put("name", e.getLabel());
 		}
+		hInfo.put("title", ResourceUtils.getText("entity." + type + ".1", lang) + " #" + id);
 		return HtmlUtils.writeInfoHeader(hInfo, lang);
 	}
 
