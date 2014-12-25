@@ -11,7 +11,6 @@
 		<br/><br/><table id="advtable" cellspacing="0" style="display:none;">
 			<tr><td><input type="checkbox" name="case" id="case"></input></td><td><label for="case"><%=StringUtils.text("case.sensitive", session)%></label></td></tr>
 			<tr><td><input type="checkbox" name="match" id="match"></input></td><td><label for="match"><%=StringUtils.text("exact.match", session)%></label></td></tr>
-			<tr><td><input type="checkbox" name="ref" id="ref" checked="checked"></input></td><td><label for="ref"><%=StringUtils.text("count.references", session)%></label></td></tr>
 		</table>
 	</div>
 	<div id="helplink" class="rendertip"><%=StringUtils.text("pattern.tip", session)%></div>

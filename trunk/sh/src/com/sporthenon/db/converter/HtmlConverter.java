@@ -1126,7 +1126,7 @@ public class HtmlConverter {
 		writer.write("]];");
 	}
 
-	public static StringBuffer convertSearch(Collection<Object> coll, String pattern, boolean isRef, String lang) throws Exception {
+	public static StringBuffer convertSearch(Collection<Object> coll, String pattern, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
@@ -1162,7 +1162,7 @@ public class HtmlConverter {
 					cols.append((en.matches("CX") ? "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("city", lang) + "</th>" : "") + "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("country", lang) + "</th>");
 				html.append("<thead><tr><th colspan=" + (StringUtils.countIn(cols.toString(), "<th") + 1) + ">");
 				html.append(HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + en, lang) + "&nbsp;(" + hCount.get(en) + ")") + "</th></tr>");
-				html.append("<tr class='rsort'>" + cols.toString() + (isRef ? "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("references", lang) + "</th>" : "") + "</tr></thead><tbody id='tb-" + id + "'>");
+				html.append("<tr class='rsort'>" + cols.toString() + "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("references", lang) + "</th></tr></thead><tbody id='tb-" + id + "'>");
 				currentEntity = en;
 			}
 			String name = item.getLabel();
@@ -1254,8 +1254,7 @@ public class HtmlConverter {
 
 			// Write line
 			html.append("<tr><td class='srt'>" + name + "</td>" + rel1 + rel2 + rel3);
-			if (isRef)
-				html.append("<td class='centered srt'>" + item.getCountRef() + "</td>");
+			html.append("<td class='centered srt'>" + (item.getCountRef() != null ? item.getCountRef() : 0) + "</td>");
 			html.append("</tr>");
 		}
 		html.append("</tbody></table>");

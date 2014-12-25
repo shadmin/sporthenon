@@ -37,16 +37,14 @@ public class SearchServlet extends AbstractServlet {
 				String pattern = String.valueOf(hParams.get("pattern"));
 				String scope = String.valueOf(hParams.get("scope"));
 				Boolean match = (String.valueOf(hParams.get("match")).equals("on"));
-				Boolean ref = (String.valueOf(hParams.get("ref")).equals("on"));
 				pattern = pattern.replaceAll("'", "''").replaceAll("_", ".").replaceAll("\\*", ".*")/*.replaceAll("\\s+", "|")*/;
 				pattern = "^" + pattern + (match ? "$" : ".*");
 				ArrayList<Object> lFuncParams = new ArrayList<Object>();
 				lFuncParams.add(pattern);
 				lFuncParams.add(scope);
-				lFuncParams.add((short)(ref ? 1 : 0));
 				lFuncParams.add("_" + getLocale(request));
 				StringBuffer html = HtmlConverter.getHeader(HtmlConverter.HEADER_SEARCH, lFuncParams, getLocale(request));
-				html.append(HtmlConverter.convertSearch(DatabaseHelper.call("Search", lFuncParams), String.valueOf(hParams.get("pattern")), ref, getLocale(request)));
+				html.append(HtmlConverter.convertSearch(DatabaseHelper.call("Search", lFuncParams), String.valueOf(hParams.get("pattern")), getLocale(request)));
 				if (isLink) {
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));

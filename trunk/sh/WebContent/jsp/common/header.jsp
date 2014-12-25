@@ -51,7 +51,7 @@
 			<li><a id="shmenu-project" <%=(mn.equals("project") ? "class='selected'" : "")%> href="project"><%=StringUtils.text("menu.project", session)%></a></li>
 		</ul>
 	</div>
-	<div id="flags"><a title="English" href="javascript:setLang('en');"><img src="img/header/lang-en.png"/></a>&nbsp;<a title="Français" href="javascript:setLang('fr');"><img src="img/header/lang-fr.png"/></a>&nbsp;</div>
+	<div id="flags"><a title="English" href="javascript:setLang('en');"><img alt="EN" src="img/header/lang-en.png"/></a>&nbsp;<a title="Français" href="javascript:setLang('fr');"><img alt="FR" src="img/header/lang-fr.png"/></a>&nbsp;</div>
 	<div id="links">
 		<table>
 			<tr><td style="padding-bottom:3px;"><%=StringUtils.text("share", session)%>:</td>
