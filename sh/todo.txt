@@ -1,7 +1,3 @@
-UPDATER URL references revoir recalcul sur URL non NULL
-trigger calcul references + stats
-check W3C valid
----------
 optimiser affichage sur references pays (pas tout charger)
 graphique pour stats home
 logo par sport+event (foot-coupe de france / tennis-us open)

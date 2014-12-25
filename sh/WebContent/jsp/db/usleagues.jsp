@@ -11,20 +11,20 @@
 		<div id="slider-league-img" class="slider"><%@include file="../../html/slider.html"%></div>
 	</div>
 	<div id="usltype">
-		<div id="nfl" class="selected" onclick="changeLeague(this.id);"><img src="img/bullet.gif"/>&nbsp;NFL &#150; National Football League</div>
-		<div id="nba" onclick="changeLeague(this.id);"><img src="img/bullet.gif"/>&nbsp;NBA &#150; National Basketball Association</div>
-		<div id="nhl" onclick="changeLeague(this.id);"><img src="img/bullet.gif"/>&nbsp;NHL &#150; National Hockey League</div>
-		<div id="mlb" onclick="changeLeague(this.id);"><img src="img/bullet.gif"/>&nbsp;MLB &#150; Major League of Baseball</div>
+		<div id="nfl" class="selected" onclick="changeLeague(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;NFL &#150; National Football League</div>
+		<div id="nba" onclick="changeLeague(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;NBA &#150; National Basketball Association</div>
+		<div id="nhl" onclick="changeLeague(this.id);"><img alt="-" src="img/k.gif"/>&nbsp;NHL &#150; National Hockey League</div>
+		<div id="mlb" onclick="changeLeague(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;MLB &#150; Major League of Baseball</div>
 	</div>
 	<div style="float:left;width:450px;height:160px;" class="fieldset">
 		<div style="float:left;width:auto;">
 			<table id="usstype">
-				<tr><td id="championship" onclick="changeModeUS(this.id);"><img src="img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("championships", "en")%></td></tr>
-				<tr><td id="record" onclick="changeModeUS(this.id);"><img src="img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("records", "en")%></td></tr>
-				<tr><td id="hof" onclick="changeModeUS(this.id);"><img src="img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("hall.fame", "en")%></td></tr>
-				<tr><td id="retnum" onclick="changeModeUS(this.id);"><img src="img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("retired.numbers", "en")%></td></tr>
-				<tr><td id="teamstadium" onclick="changeModeUS(this.id);"><img src="img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("team.stadiums", "en")%></td></tr>
-				<tr><td id="winloss" onclick="changeModeUS(this.id);"><img src="img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("wins.losses", "en")%></td></tr>
+				<tr><td id="championship" onclick="changeModeUS(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("championships", "en")%></td></tr>
+				<tr><td id="record" onclick="changeModeUS(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("records", "en")%></td></tr>
+				<tr><td id="hof" onclick="changeModeUS(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("hall.fame", "en")%></td></tr>
+				<tr><td id="retnum" onclick="changeModeUS(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("retired.numbers", "en")%></td></tr>
+				<tr><td id="teamstadium" onclick="changeModeUS(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("team.stadiums", "en")%></td></tr>
+				<tr><td id="winloss" onclick="changeModeUS(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("wins.losses", "en")%></td></tr>
 			</table>
 		</div>
 		<div id="ustopics">
@@ -62,7 +62,7 @@
 			<div id="f-retnum" style="display:none;">
 				&nbsp;<%=ResourceUtils.getText("team", "en")%>:<br/>
 				<div id="sm-pl-retnum-tm" class="selmultiple"><%@include file="../../html/selectmult.html"%></div>
-				<br/>&nbsp;<td><%=ResourceUtils.getText("number", "en")%>:<br/>
+				<br/>&nbsp;<%=ResourceUtils.getText("number", "en")%>:<br/>
 				<input type="text" name="retnum-number" id="retnum-number" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"></input>
 			</div>
 			<!-- TEAM STADIUMS -->

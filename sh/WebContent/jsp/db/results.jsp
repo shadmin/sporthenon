@@ -21,7 +21,7 @@ HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", params), out);
 </script>
 <div id="tree" class="fieldset">
 <div class="fstitle treetitle">
-<%=StringUtils.text("tree", session)%>&nbsp;(<img style="display:none"; id="treeiconimg" src="img/db/tree_expand.png" alt="<%=StringUtils.text("expand", session)%>" class="treeicon"/><a id="treeicontxt" href='javascript:toggleTreeExpand();'><%=StringUtils.text("expand", session)%></a>)
+<%=StringUtils.text("tree", session)%>&nbsp;(<img style="display:none;" id="treeiconimg" src="img/db/tree_expand.png" alt="<%=StringUtils.text("expand", session)%>" class="treeicon"/><a id="treeicontxt" href='javascript:toggleTreeExpand();'><%=StringUtils.text("expand", session)%></a>)
 </div>
 	<div class="treediv"><div id="treeview" class="collapsed">
 		<table cellpadding="0" cellspacing="0"><tr><td>

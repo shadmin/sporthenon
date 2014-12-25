@@ -1001,7 +1001,6 @@ function runSearch() {
 		h.set('pattern', $F('pattern'));
 		h.set('case', $F('case'));
 		h.set('match', $F('match'));
-		h.set('ref', $F('ref'));
 		h.set('scope', tScopeValue.join(','));
 		addOptions(h);
 		new Ajax.Updater(tab, 'SearchServlet?run', {

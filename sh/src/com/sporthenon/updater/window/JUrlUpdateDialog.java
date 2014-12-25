@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -48,7 +48,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	private JTextArea jResult = null;
-	private JTextField jMax = null;
+	private JTextField jRange = null;
 	private JCheckBox[] jEntity = null;
 	private JLabel jStatus = null;
 	
@@ -97,15 +97,15 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 		jEntity[8] = new JCheckBox("State");
 		jEntity[9] = new JCheckBox("Team");
 		for (JCheckBox cb : jEntity) {
-			cb.setSelected(true);
+			cb.setSelected(false);
 			p.add(cb);
 		}
 		
 		p.add(new JLabel("Max:"));
-		jMax = new JTextField();
-		jMax.setText("50");
-		jMax.setPreferredSize(new Dimension(50, 20));
-		p.add(jMax);
+		jRange = new JTextField();
+		jRange.setText("1-100");
+		jRange.setPreferredSize(new Dimension(50, 20));
+		p.add(jRange);
 		
 		JCustomButton jExecuteButton = new JCustomButton("Execute", "ok.png", null);
 		jExecuteButton.setActionCommand("execute");
@@ -130,6 +130,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		if (cmd.equalsIgnoreCase("execute")) {
+			jResult.setText("");
 			new Thread (new Runnable() {
 				public void run() {
 					jStatus.setText("In progress...");
@@ -151,30 +152,43 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 				System.getProperties().setProperty("http.proxyPort", proxyPort);
 			}
 			
-			int MAX = (StringUtils.notEmpty(jMax.getText()) ? Integer.parseInt(jMax.getText()) : Integer.MAX_VALUE);
 			StringBuffer sbUpdateSql = new StringBuffer();
-			List<String> lHql = new ArrayList<String>();
-			lHql.add("from Athlete where (urlWiki is null or urlOlyref is null or urlBktref is null or urlBbref is null or urlFtref is null or urlHkref is null) order by id");
-			lHql.add("from Championship where (urlWiki is null) order by id");
-			lHql.add("from City where (urlWiki is null) order by id");
-			lHql.add("from Complex where (urlWiki is null) order by id");
-			lHql.add("from Country where (urlWiki is null or urlOlyref is null) order by id");
-			lHql.add("from Event where (urlWiki is null) order by id");
-			lHql.add("from Olympics where (urlWiki is null or urlOlyref is null) order by id");
-			lHql.add("from Sport where (urlWiki is null or urlOlyref is null) order by id");
-			lHql.add("from State where (urlWiki is null) order by id");
-			lHql.add("from Team where (urlWiki is null or urlBktref is null or urlBbref is null or urlFtref is null or urlHkref is null) order by id");
+			List<String> lMsg = new LinkedList<String>();
+			List<String> lHql = new LinkedList<String>();
+			String filter = " and id between " + jRange.getText().replaceAll("\\-", " and ");
+			lMsg.add("Athletes (Wiki)"); lHql.add("from Athlete where urlWiki is null" + filter + " order by id");
+			lMsg.add("Athletes (Oly)"); lHql.add("from Athlete where urlOlyref is null" + filter + " order by id");
+			lMsg.add("Athletes (Bkt)"); lHql.add("from Athlete where urlBktref is null" + filter + " order by id");
+			lMsg.add("Athletes (Bb)"); lHql.add("from Athlete where urlBbref is null" + filter + " order by id");
+			lMsg.add("Athletes (Ft)"); lHql.add("from Athlete where urlFtref is null" + filter + " order by id");
+			lMsg.add("Athletes (Hk)"); lHql.add("from Athlete where urlHkref is null" + filter + " order by id");
+			lMsg.add("Championships (Wiki)"); lHql.add("from Championship where urlWiki is null" + filter + " order by id");
+			lMsg.add("Cities (Wiki)"); lHql.add("from City where urlWiki is null" + filter + " order by id");
+			lMsg.add("Complexes (Wiki)"); lHql.add("from Complex where urlWiki is null" + filter + " order by id");
+			lMsg.add("Countries (Wiki)"); lHql.add("from Country where urlWiki is null" + filter + " order by id");
+			lMsg.add("Countries (Oly)"); lHql.add("from Country where urlOlyref is null" + filter + " order by id");
+			lMsg.add("Events (Wiki)"); lHql.add("from Event where urlWiki is null" + filter + " order by id");
+			lMsg.add("Olympics (Wiki)"); lHql.add("from Olympics where urlWiki is null" + filter + " order by id");
+			lMsg.add("Olympics (Oly)"); lHql.add("from Olympics where urlOlyref is null" + filter + " order by id");
+			lMsg.add("Sports (Wiki)"); lHql.add("from Sport where urlWiki is null" + filter + " order by id");
+			lMsg.add("Sports (Oly)"); lHql.add("from Sport where urlOlyref is null" + filter + " order by id");
+			lMsg.add("States (Wiki)"); lHql.add("from State where urlWiki is null" + filter + " order by id");
+			lMsg.add("Teams (Wiki)"); lHql.add("from Team where urlWiki is null" + filter + " order by id");
+			lMsg.add("Teams (Bkt)"); lHql.add("from Team where urlBktref is null" + filter + " order by id");
+			lMsg.add("Teams (Bb)"); lHql.add("from Team where urlBbref is null" + filter + " order by id");
+			lMsg.add("Teams (Ft)"); lHql.add("from Team where urlFtref is null" + filter + " order by id");
+			lMsg.add("Teams (Hk)"); lHql.add("from Team where urlHkref is null" + filter + " order by id");
 			int i = 0;
 			for (String hql : lHql) {
-				if (!jEntity[i++].isSelected())
+				String msg = lMsg.get(i++);
+				if ((msg.matches("^Athletes.*") && !jEntity[0].isSelected()) || (msg.matches("^Championships.*") && !jEntity[1].isSelected()) || (msg.matches("^Cities.*") && !jEntity[2].isSelected()) || (msg.matches("^Complexes.*") && !jEntity[3].isSelected()) || (msg.matches("^Countries.*") && !jEntity[4].isSelected()) || (msg.matches("^Events.*") && !jEntity[5].isSelected()) || (msg.matches("^Olympics.*") && !jEntity[6].isSelected()) || (msg.matches("^Sports.*") && !jEntity[7].isSelected()) || (msg.matches("^States.*") && !jEntity[8].isSelected()) || (msg.matches("^Teams.*") && !jEntity[9].isSelected()))
 					continue;
+				jResult.setText(jResult.getText() + "\r\n- " + msg + "\r\n\r\n");
 				List<Object> l = DatabaseHelper.execute(hql);
-				int n = 0;
 				for (Object o : l) {
-					n++;
-					sbUpdateSql.append(getUrlUpdate(o));
-					if (n > MAX)
-						break;
+					sbUpdateSql.append(getUrlUpdate(o, msg));
+//					if (n > MAX)
+//						break;
 				}
 			}
 			DatabaseHelper.executeUpdate(sbUpdateSql.toString());
@@ -184,7 +198,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 		}
 	}
 
-	private String getUrlUpdate(Object o) throws Exception {
+	private String getUrlUpdate(Object o, String msg) throws Exception {
 		String sql = "";
 		String str1 = "", str2 = "", str3 = "", table = "";
 		if (o instanceof Athlete) {
@@ -243,126 +257,141 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 			table = "\"TEAM\"";
 		}
 		Integer id = (Integer) o.getClass().getMethod("getId").invoke(o);
+		String url = null;
+		URL url_ = null;
+		HttpURLConnection conn = null;
 		// WIKIPEDIA
-		String url = "http://en.wikipedia.org/wiki/" + str1.replaceAll("\\s", "_").replaceAll("'", "%27");
-		URL url_ = new URL(url + "_(disambiguation)");
-		HttpURLConnection conn = (HttpURLConnection) url_.openConnection();
-		conn.setDoOutput(true);
-		if (conn.getResponseCode() == 200) {
-			StringWriter writer = new StringWriter();
-			IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
-			Document doc = Jsoup.parse(writer.toString());
-			for (Element e : doc.getElementsByTag("a")) {
-				if (e.attr("href") != null && e.attr("href").matches("^/wiki/.*")) {
-					Element parent = e.parent();
-					if (parent != null && parent.tagName().equalsIgnoreCase("b"))
-						parent = parent.parent();
-					boolean b = false;
-					b |= (o instanceof Athlete && parent != null && parent.text().matches(".*(" + str3 + ").*"));
-					b |= (o instanceof City && parent != null && parent.text().matches(".*(city|town|capital).*"));
-					b |= (o instanceof Complex && parent != null && parent.text().matches(".*(stadium|arena|venue).*"));
-					b |= (o instanceof Country && parent != null && parent.text().matches(".*(country).*"));
-					b |= (o instanceof Sport && parent != null && parent.text().matches(".*(sport).*"));
-					b |= (o instanceof State && parent != null && parent.text().matches(".*(state).*"));
-					b |= (o instanceof Team && parent != null && parent.text().matches(".*(team).*"));
-					if (b) {
-						sql += "UPDATE " + table + " SET url_wiki='" + url.replaceAll("/wiki.+$", e.attr("href")) + "' WHERE id=" + id + ";\r\n";
-						break;				
+		if (msg.matches(".*\\(Wiki\\)$")) {
+			url = "http://en.wikipedia.org/wiki/" + str1.replaceAll("\\s", "_").replaceAll("'", "%27");
+			url_ = new URL(url + "_(disambiguation)");
+			conn = (HttpURLConnection) url_.openConnection();
+			conn.setDoOutput(true);
+			if (conn.getResponseCode() == 200) {
+				StringWriter writer = new StringWriter();
+				IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+				Document doc = Jsoup.parse(writer.toString());
+				for (Element e : doc.getElementsByTag("a")) {
+					if (e.attr("href") != null && e.attr("href").matches("^/wiki/.*")) {
+						Element parent = e.parent();
+						if (parent != null && parent.tagName().equalsIgnoreCase("b"))
+							parent = parent.parent();
+						boolean b = false;
+						b |= (o instanceof Athlete && parent != null && parent.text().matches(".*(" + str3 + ").*"));
+						b |= (o instanceof City && parent != null && parent.text().matches(".*(city|town|capital).*"));
+						b |= (o instanceof Complex && parent != null && parent.text().matches(".*(stadium|arena|venue).*"));
+						b |= (o instanceof Country && parent != null && parent.text().matches(".*(country).*"));
+						b |= (o instanceof Sport && parent != null && parent.text().matches(".*(sport).*"));
+						b |= (o instanceof State && parent != null && parent.text().matches(".*(state).*"));
+						b |= (o instanceof Team && parent != null && parent.text().matches(".*(team).*"));
+						if (b) {
+							sql += "UPDATE " + table + " SET url_wiki='" + url.replaceAll("/wiki.+$", e.attr("href")) + "' WHERE id=" + id + ";\r\n";
+							break;				
+						}
 					}
 				}
 			}
-		}
-		else {
-			url_ = new URL(url);
-			conn = (HttpURLConnection) url_.openConnection();
-			conn.setDoOutput(true);
-			if (conn.getResponseCode() == 200)
-				sql += "UPDATE " + table + " SET url_wiki='" + url + "' WHERE id=" + id + ";\r\n";
+			else {
+				url_ = new URL(url);
+				conn = (HttpURLConnection) url_.openConnection();
+				conn.setDoOutput(true);
+				if (conn.getResponseCode() == 200)
+					sql += "UPDATE " + table + " SET url_wiki='" + url + "' WHERE id=" + id + ";\r\n";
+			}
 		}
 		// OLYMPICS-REFERENCE
-		url = null;
-		if (o instanceof Athlete) {
-			url = "http://www.sports-reference.com/olympics/athletes/" + str2.substring(0, 2).toLowerCase() + "/" + str1.replaceAll("\\s", "-").toLowerCase() + "-1.html";	
-		}
-		else if (o instanceof Country) {
-			url = "http://www.sports-reference.com/olympics/countries/" + str2;
-		}
-		else if (o instanceof Olympics) {
-			url = "http://www.sports-reference.com/olympics/" + str2;
-		}
-		if (url != null) {
-			url_ = new URL(StringUtils.normalize(url));
-			conn = (HttpURLConnection) url_.openConnection();
-			conn.setDoOutput(true);
-			if (conn.getResponseCode() == 200) {
-				StringWriter writer = new StringWriter();
-				IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
-				if (writer.toString().indexOf("File Not Found") == -1 && writer.toString().indexOf("0 hits") == -1)
-					sql += "UPDATE " + table + " SET url_olyref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+		if (msg.matches(".*\\(Oly\\)$")) {
+			url = null;
+			if (o instanceof Athlete) {
+				url = "http://www.sports-reference.com/olympics/athletes/" + str2.substring(0, 2).toLowerCase() + "/" + str1.replaceAll("\\s", "-").toLowerCase() + "-1.html";	
+			}
+			else if (o instanceof Country) {
+				url = "http://www.sports-reference.com/olympics/countries/" + str2;
+			}
+			else if (o instanceof Olympics) {
+				url = "http://www.sports-reference.com/olympics/" + str2;
+			}
+			if (url != null) {
+				url_ = new URL(StringUtils.normalize(url));
+				conn = (HttpURLConnection) url_.openConnection();
+				conn.setDoOutput(true);
+				if (conn.getResponseCode() == 200) {
+					StringWriter writer = new StringWriter();
+					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+					if (writer.toString().indexOf("File Not Found") == -1 && writer.toString().indexOf("0 hits") == -1)
+						sql += "UPDATE " + table + " SET url_olyref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+				}
 			}
 		}
 		// BASKETBALL-REFERENCE
-		url = null;
-		if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 24) {
-			url = "http://www.basketball-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.html";	
-		}
-		if (url != null) {
-			url_ = new URL(StringUtils.normalize(url));
-			conn = (HttpURLConnection) url_.openConnection();
-			conn.setDoOutput(true);
-			if (conn.getResponseCode() == 200) {
-				StringWriter writer = new StringWriter();
-				IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
-				if (writer.toString().indexOf("File Not Found") == -1)
-					sql += "UPDATE " + table + " SET url_bktref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+		if (msg.matches(".*\\(Bkt\\)$")) {
+			url = null;
+			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 24) {
+				url = "http://www.basketball-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.html";	
+			}
+			if (url != null) {
+				url_ = new URL(StringUtils.normalize(url));
+				conn = (HttpURLConnection) url_.openConnection();
+				conn.setDoOutput(true);
+				if (conn.getResponseCode() == 200) {
+					StringWriter writer = new StringWriter();
+					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+					if (writer.toString().indexOf("File Not Found") == -1)
+						sql += "UPDATE " + table + " SET url_bktref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+				}
 			}
 		}
 		// BASEBALL-REFERENCE
-		url = null;
-		if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 26) {
-			url = "http://www.baseball-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.shtml";	
-		}
-		if (url != null) {
-			url_ = new URL(StringUtils.normalize(url));
-			conn = (HttpURLConnection) url_.openConnection();
-			conn.setDoOutput(true);
-			if (conn.getResponseCode() == 200) {
-				StringWriter writer = new StringWriter();
-				IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
-				if (writer.toString().indexOf("File Not Found") == -1)
-					sql += "UPDATE " + table + " SET url_bbref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+		if (msg.matches(".*\\(Bb\\)$")) {
+			url = null;
+			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 26) {
+				url = "http://www.baseball-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.shtml";	
+			}
+			if (url != null) {
+				url_ = new URL(StringUtils.normalize(url));
+				conn = (HttpURLConnection) url_.openConnection();
+				conn.setDoOutput(true);
+				if (conn.getResponseCode() == 200) {
+					StringWriter writer = new StringWriter();
+					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+					if (writer.toString().indexOf("File Not Found") == -1)
+						sql += "UPDATE " + table + " SET url_bbref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+				}
 			}
 		}
 		// PRO-FOOTBALL-REFERENCE
-		url = null;
-		if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 23) {
-			url = "http://www.pro-football-reference.com/players/" + str2.substring(0, 1) + "/" + str2.substring(0, str2.length() > 4 ? 4 : str2.length()) + str1.substring(0, 2) + "00.htm";	
-		}
-		if (url != null) {
-			url_ = new URL(StringUtils.normalize(url));
-			conn = (HttpURLConnection) url_.openConnection();
-			conn.setDoOutput(true);
-			if (conn.getResponseCode() == 200) {
-				StringWriter writer = new StringWriter();
-				IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
-				if (writer.toString().indexOf("File Not Found") == -1)
-					sql += "UPDATE " + table + " SET url_ftref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+		if (msg.matches(".*\\(Ft\\)$")) {
+			url = null;
+			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 23) {
+				url = "http://www.pro-football-reference.com/players/" + str2.substring(0, 1) + "/" + str2.substring(0, str2.length() > 4 ? 4 : str2.length()) + str1.substring(0, 2) + "00.htm";	
+			}
+			if (url != null) {
+				url_ = new URL(StringUtils.normalize(url));
+				conn = (HttpURLConnection) url_.openConnection();
+				conn.setDoOutput(true);
+				if (conn.getResponseCode() == 200) {
+					StringWriter writer = new StringWriter();
+					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+					if (writer.toString().indexOf("File Not Found") == -1)
+						sql += "UPDATE " + table + " SET url_ftref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+				}
 			}
 		}
 		// HOCKEY-REFERENCE
-		url = null;
-		if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 25) {
-			url = "http://www.hockey-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.html";	
-		}
-		if (url != null) {
-			url_ = new URL(StringUtils.normalize(url));
-			conn = (HttpURLConnection) url_.openConnection();
-			conn.setDoOutput(true);
-			if (conn.getResponseCode() == 200) {
-				StringWriter writer = new StringWriter();
-				IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
-				if (writer.toString().indexOf("File Not Found") == -1)
-					sql += "UPDATE " + table + " SET url_hkref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+		if (msg.matches(".*\\(Hk\\)$")) {
+			url = null;
+			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 25) {
+				url = "http://www.hockey-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.html";	
+			}
+			if (url != null) {
+				url_ = new URL(StringUtils.normalize(url));
+				conn = (HttpURLConnection) url_.openConnection();
+				conn.setDoOutput(true);
+				if (conn.getResponseCode() == 200) {
+					StringWriter writer = new StringWriter();
+					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+					if (writer.toString().indexOf("File Not Found") == -1)
+						sql += "UPDATE " + table + " SET url_hkref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+				}
 			}
 		}
 		jResult.setText(jResult.getText() + sql);

@@ -10,6 +10,9 @@
 UPDATER filter pictures teams par sport
 UPDATER x64 compliant
 ligues us : reformater ecran + changer marron couleur menu
+UPDATER URL references revoir recalcul sur URL non NULL
+check W3C valid
+trigger calcul references
 
 +-------+
 | 0.8.1 |

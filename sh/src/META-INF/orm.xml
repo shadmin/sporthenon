@@ -102,10 +102,10 @@
 	</named-native-query>
 	
 	<!--
-		SEARCH(varchar, varchar, smallint, varchar)
+		SEARCH(varchar, varchar, varchar)
 	-->
 	<named-native-query name="Search" result-class="com.sporthenon.db.entity.meta.RefItem">  
-		<query>select * from "SEARCH"(?, ?, ?, ?)</query>
+		<query>select * from "SEARCH"(?, ?, ?)</query>
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 	
