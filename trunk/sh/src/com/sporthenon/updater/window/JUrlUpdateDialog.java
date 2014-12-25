@@ -101,7 +101,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 			p.add(cb);
 		}
 		
-		p.add(new JLabel("Max:"));
+		p.add(new JLabel("Range:"));
 		jRange = new JTextField();
 		jRange.setText("1-100");
 		jRange.setPreferredSize(new Dimension(50, 20));

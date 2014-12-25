@@ -7,8 +7,7 @@
 	<div class="pattern">
 		<%=StringUtils.text("search.for", session)%>:<br/><input type="text" class="text" name="pattern" id="pattern" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');" onkeydown="if(event.keyCode == 13){runSearch();}"></input>
 		<a href="#helplink" style="cursor:help;color:#000;">[?]</a>
-		<span><br/><br/>&nbsp;<a href="javascript:void(0);" onclick="$(this).up().hide();$('advtable').show();"><%=StringUtils.text("advanced", session)%></a></span>
-		<br/><br/><table id="advtable" cellspacing="0" style="display:none;">
+		<br/><br/><table id="advtable" cellspacing="0">
 			<tr><td><input type="checkbox" name="case" id="case"></input></td><td><label for="case"><%=StringUtils.text("case.sensitive", session)%></label></td></tr>
 			<tr><td><input type="checkbox" name="match" id="match"></input></td><td><label for="match"><%=StringUtils.text("exact.match", session)%></label></td></tr>
 		</table>

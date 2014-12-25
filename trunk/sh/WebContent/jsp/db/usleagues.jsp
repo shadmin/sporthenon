@@ -13,7 +13,7 @@
 	<div id="usltype">
 		<div id="nfl" class="selected" onclick="changeLeague(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;NFL &#150; National Football League</div>
 		<div id="nba" onclick="changeLeague(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;NBA &#150; National Basketball Association</div>
-		<div id="nhl" onclick="changeLeague(this.id);"><img alt="-" src="img/k.gif"/>&nbsp;NHL &#150; National Hockey League</div>
+		<div id="nhl" onclick="changeLeague(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;NHL &#150; National Hockey League</div>
 		<div id="mlb" onclick="changeLeague(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;MLB &#150; Major League of Baseball</div>
 	</div>
 	<div style="float:left;width:450px;height:160px;" class="fieldset">
