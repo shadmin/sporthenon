@@ -1,5 +1,7 @@
+checkbox include postseason/super bowl pour records
 URL encoding
 check exports
+count medals stats sur links (ex. bubka)
 optimiser affichage sur references pays (pas tout charger)
 graphique pour stats home
 logo par sport+event (foot-coupe de france / tennis-us open)

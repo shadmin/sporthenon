@@ -1,7 +1,11 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.8.2   |
+| Last Version: 0.8.3   |
 +-----------------------+
+
++-------+
+| 0.8.3 |
++-------+
 
 +-------+
 | 0.8.2 |
@@ -14,6 +18,7 @@ o SH Update (Swing app)
 	- Team pictures can be filtered by sport
 	- Compliant with x64 architecture
 	- Fixed minor issues with URL updates
+	- DB structure: +[CP/CT/CX/CN/EV/OL/PR/SP/ST/TM/YR].first_update
 
 +-------+
 | 0.8.1 |
