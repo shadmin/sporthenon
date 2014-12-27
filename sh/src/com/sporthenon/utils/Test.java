@@ -3,6 +3,9 @@ package com.sporthenon.utils;
 public class Test {
 	
 	public static void main(String[] args) throws Exception {
+//		System.out.println(Base64.encodeBytes("qdsfqdsfqsdfqds".getBytes()));;
+//		System.out.println(new String(Base64.decode("cWRzZnFkc2Zxc2RmcWRz")));
+		
 		//TESTS EXPORTS
 //		DatabaseHelper.setFactory(null, "standalone");
 //		RenderOptions opts = ServletHelper.buildOptions(new HashMap());

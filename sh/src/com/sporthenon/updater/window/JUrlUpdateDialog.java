@@ -104,7 +104,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 		p.add(new JLabel("Range:"));
 		jRange = new JTextField();
 		jRange.setText("1-100");
-		jRange.setPreferredSize(new Dimension(50, 20));
+		jRange.setPreferredSize(new Dimension(100, 20));
 		p.add(jRange);
 		
 		JCustomButton jExecuteButton = new JCustomButton("Execute", "ok.png", null);
