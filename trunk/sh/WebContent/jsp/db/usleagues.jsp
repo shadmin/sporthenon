@@ -14,7 +14,7 @@
 		<div id="nfl" class="selected" onclick="changeLeague(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;NFL &#150; National Football League</div>
 		<div id="nba" onclick="changeLeague(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;NBA &#150; National Basketball Association</div>
 		<div id="nhl" onclick="changeLeague(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;NHL &#150; National Hockey League</div>
-		<div id="mlb" onclick="changeLeague(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;MLB &#150; Major League of Baseball</div>
+		<div id="mlb" onclick="changeLeague(this.id);" style="margin-bottom:0px;"><img alt="-" src="img/bullet.gif"/>&nbsp;MLB &#150; Major League of Baseball</div>
 	</div>
 	<div style="float:left;width:450px;height:160px;" class="fieldset">
 		<div style="float:left;width:auto;">
@@ -36,8 +36,8 @@
 			<!-- RECORDS -->
 			<div id="f-record" style="display:none;">
 				&nbsp;<%=ResourceUtils.getText("category", "en")%>:<br/>
-				<div id="sm-pl-record-se" class="selmultiple"><%@include file="../../html/selectmult.html"%></div>
-				<br/>&nbsp;<%=ResourceUtils.getText("type", "en")%>:<br/>
+				<div id="sm-pl-record-se" class="selmultiple" style="margin-bottom:8px;"><%@include file="../../html/selectmult.html"%></div>
+				&nbsp;<%=ResourceUtils.getText("type", "en")%>:<br/>
 				<table><tr>
 					<td colspan="2"><select id="pl-record-tp1" name="pl-record-tp1" style="width:130px;">
 						<option value="'Individual'"><%=ResourceUtils.getText("individual", "en")%></option>
@@ -47,6 +47,7 @@
 					<tr><td><img src="img/component/treeview/join.gif" alt="L"/></td>
 					<td><select id="pl-record-tp2" name="pl-record-tp2" style="width:130px;"><option/></select></td>
 				</tr></table>
+				<table><tr><td><input type="checkbox" name="record-pf" id="record-pf"/></td><td><label for="record-pf">Include Postseason/Super Bowl</label></td></tr></table>
 			</div>
 			<!-- HALL OF FAME -->
 			<div id="f-hof" style="display:none;">

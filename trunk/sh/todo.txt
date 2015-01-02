@@ -1,14 +1,14 @@
-checkbox include postseason/super bowl pour records
 URL encoding
+layout home
 check exports
-count medals stats sur links (ex. bubka)
-optimiser affichage sur references pays (pas tout charger)
-graphique pour stats home
+check bug sur draws (djokovic - pb merge ?)
+check title / session
 logo par sport+event (foot-coupe de france / tennis-us open)
 ajouter QF/SF sur ref entity results
-gestion detail personnes (equipes + relais)
 --bug affichage ex aequo references (exemple fiche D.Koranyi)
 ----------------------------------------
+--gestion detail personnes (equipes + relais)
+--graphique pour stats home
 --tests ie firefox safari
 ----------------------------------------
 FETCH ALL FROM "<unnamed portal 1>";

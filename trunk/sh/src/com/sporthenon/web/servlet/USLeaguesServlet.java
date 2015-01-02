@@ -135,7 +135,7 @@ public class USLeaguesServlet extends AbstractServlet {
 				}
 				else if (type.equals(TYPE_RECORD)) {
 					lFuncParams.add(hLeagues.get(Short.valueOf(league)));
-					lFuncParams.add("0");
+					lFuncParams.add(String.valueOf(hParams.get("pf")).equals("1") ? "0" : "495");
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("se")) ? String.valueOf(hParams.get("se")) : "0");
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp1")) ? String.valueOf(hParams.get("tp1")) : "'Individual'");
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp2")) ? String.valueOf(hParams.get("tp2")) : "'Career'");
@@ -149,7 +149,6 @@ public class USLeaguesServlet extends AbstractServlet {
 							lstSe.add(String.valueOf(i));
 						lFuncParams.set(2, StringUtils.implode(lstSe , ","));
 					}
-					System.out.println(lFuncParams);
 					html.append(HtmlConverter.convertUSRecords(DatabaseHelper.call("GetUSRecords", lFuncParams), "en"));
 				}
 				if (isLink) {

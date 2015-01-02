@@ -205,6 +205,7 @@
 	<entry key="events">Events</entry>
 	<entry key="countries">Countries</entry>
 <!-- US LEAGUES -->
+	<entry key="league">League</entry>
 	<entry key="championships">Championships</entry>
 	<entry key="year">Year</entry>
 	<entry key="team">Team</entry>

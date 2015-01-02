@@ -1,11 +1,16 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.8.3   |
+| Last Version: 0.9.0   |
 +-----------------------+
 
 +-------+
-| 0.8.3 |
+| 0.9.0 |
 +-------+
+tri all results desc
+affichage prenom NOM
+count medals stats sur links (ex. bubka)
+checkbox include postseason/super bowl pour records
+optimiser affichage sur references pays (pas tout charger)
 
 +-------+
 | 0.8.2 |
@@ -54,6 +59,7 @@ o SH Update (Swing app)
 	- Remote picture files can be downloaded
 	- Added proxy address/port in options (for URL updates)
 	- Fixed bug: pictures uploaded with "*null-null.png" file name
+	- DB structure: +RS.id_subevent2
 
 +-------+
 | 0.7.0 |

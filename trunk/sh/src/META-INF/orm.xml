@@ -30,7 +30,7 @@
 	</named-native-query>
 	
 	<!--
-		GET_MEDAL_COUNT(varchar, integer, integer)
+		GET_MEDAL_COUNT(varchar, integer, varchar)
 	-->
 	<named-native-query name="MedalCount" result-class="com.sporthenon.db.entity.meta.RefItem">  
 		<query>select * from "GET_MEDAL_COUNT"(?, ?, ?)</query>

@@ -968,6 +968,7 @@ function runUSLeagues() {
 	h.set('se', $('pl-' + currentUtype + '-se') ? $F('pl-' + currentUtype + '-se') : null);
 	h.set('tp1', $('pl-' + currentUtype + '-tp1') ? $F('pl-' + currentUtype + '-tp1') : null);
 	h.set('tp2', $('pl-' + currentUtype + '-tp2') ? $F('pl-' + currentUtype + '-tp2') : null);
+	h.set('pf', $('record-pf').checked ? '1' : '0');
 	h.set('num', $F('retnum-number'));
 	h.set('pos', $F('hof-position'));
 	addOptions(h);

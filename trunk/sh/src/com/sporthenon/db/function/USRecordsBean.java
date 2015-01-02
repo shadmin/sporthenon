@@ -524,7 +524,47 @@ public class USRecordsBean {
 	public void setRcIdPrTeam5(Integer rcIdPrTeam5) {
 		this.rcIdPrTeam5 = rcIdPrTeam5;
 	}
+	
+	public String getRcPerson1LastName() {
+		return (rcPerson1.indexOf(",") != -1 ? rcPerson1.split("\\,\\s")[0] : rcPerson1);
+	}
 
+	public String getRcPerson1FirstName() {
+		return (rcPerson1.indexOf(",") != -1 ? rcPerson1.split("\\,\\s")[1] : null);
+	}
+	
+	public String getRcPerson2LastName() {
+		return (rcPerson2.indexOf(",") != -1 ? rcPerson2.split("\\,\\s")[0] : rcPerson2);
+	}
+
+	public String getRcPerson2FirstName() {
+		return (rcPerson2.indexOf(",") != -1 ? rcPerson2.split("\\,\\s")[1] : null);
+	}
+	
+	public String getRcPerson3LastName() {
+		return (rcPerson3.indexOf(",") != -1 ? rcPerson3.split("\\,\\s")[0] : rcPerson3);
+	}
+
+	public String getRcPerson3FirstName() {
+		return (rcPerson3.indexOf(",") != -1 ? rcPerson3.split("\\,\\s")[1] : null);
+	}
+	
+	public String getRcPerson4LastName() {
+		return (rcPerson4.indexOf(",") != -1 ? rcPerson4.split("\\,\\s")[0] : rcPerson4);
+	}
+
+	public String getRcPerson4FirstName() {
+		return (rcPerson4.indexOf(",") != -1 ? rcPerson4.split("\\,\\s")[1] : null);
+	}
+	
+	public String getRcPerson5LastName() {
+		return (rcPerson5.indexOf(",") != -1 ? rcPerson5.split("\\,\\s")[0] : rcPerson5);
+	}
+
+	public String getRcPerson5FirstName() {
+		return (rcPerson5.indexOf(",") != -1 ? rcPerson5.split("\\,\\s")[1] : null);
+	}
+	
 	@Override
 	public String toString() {
 		return "USRecordsBean [evId=" + evId + ", evLabel=" + evLabel
