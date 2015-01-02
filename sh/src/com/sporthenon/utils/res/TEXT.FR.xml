@@ -205,6 +205,7 @@
 	<entry key="events">Epreuves</entry>
 	<entry key="countries">Pays</entry>
 <!-- US LEAGUES -->
+	<entry key="league">Ligue</entry>
 	<entry key="championships">Championnats</entry>
 	<entry key="year">Année</entry>
 	<entry key="team">Equipe</entry>
