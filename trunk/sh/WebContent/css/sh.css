@@ -1,11 +1,7 @@
 body{
-	background: #FBFBFB url(../img/header/bg2.png?3) 0 0 repeat-y;
+	background: #F5F5F5 url(../img/header/bg2.png?4) 0 0 repeat-y;
 	margin: 0;
 	padding: 0;
-}
-body.link{
-	background: none;
-	background-color: #FBFBFB;
 }
 /* ========== COMMON ========== */
 .separator{
@@ -95,7 +91,7 @@ input{
 	border: none;
 }
 .tip{
-	font: 11px Verdana;
+	font: 12px Verdana;
 	text-align: left;
 	border: 1px solid #000;
 	background-color: #FFC;
@@ -141,7 +137,7 @@ input{
 #headertop{
 	height: 50px;
 	background: #FFF url(../img/header/bg3.png?4) 0 0 repeat-x;
-	margin-left: 230px;
+	margin-left: 244px;
 }
 #headertop #searchpanel{
 	float: right;
@@ -151,9 +147,12 @@ input{
 #headertop #searchpanel td{
 	padding: 1px;
 }
+#headertop #searchpanel input{
+	width: 200px;
+}
 #logo{
-	margin: 4px;
-	margin-top: 5px;
+	margin: 12px;
+	margin-top: 12px;
 	width: 210px;
 }
 #logo img{
@@ -161,7 +160,7 @@ input{
 	border: none;
 }
 #shmenu{
-	width: 231px;
+	width: 245px;
 	list-style-type: none;
 	text-align: right;
 	padding-bottom: 0px;
@@ -262,14 +261,14 @@ input{
 #content{
 	margin: 5px;
 	margin-top: 0px;
-	margin-left: 235px;
-	padding: 5px;
-	padding-top: 0px;
-	font: 11px Verdana;
+	margin-left: 249px;
+	padding: 10px;
+	padding-top: 5px;
+	font: 12px Verdana;
 	border: 1px solid transparent;
 }
 #content select, #content input{
-	font: 11px Verdana;
+	font: 12px Verdana;
 }
 .link #content{
 	margin: 0px;
@@ -641,22 +640,22 @@ input{
 #tree{
 	float: left;
 	width: 368px;
-	height: 235px;
+	height: 245px;
 	margin-right: 5px;
 }
 #results{
-	height: 235px;
+	height: 245px;
 	margin-left: 378px;
 }
 #results .spcpdiv{
 	float: left;
 	width: 200px;
-	height: 202px;
+	height: 210px;
 	border-right: 1px solid #BBB;
 	padding-left: 3px;
 	padding-right: 5px;
 	margin: 3px;
-	background: #FFF url(../img/column.png?3) 37px 147px no-repeat;
+	background: #FFF url(../img/column.png?3) 37px 152px no-repeat;
 }
 #results .spcpdiv table{
 	width: 100%;
@@ -721,14 +720,14 @@ input{
 }
 /* ========== OLYMPICS ========== */
 #olympics{
-	height: 273px;
+	height: 290px;
 }
 #olympics #oltype{
 	float: left;
 }
 #olympics #oltype div{
 	float: left;
-	width: 165px;
+	width: 175px;
 	margin: 6px 6px;
 	margin-right: 0px;
 	padding: 3px;
@@ -746,7 +745,7 @@ input{
 #olympics .fieldset{
 	float: left;
 	width: 425px;
-	height: 226px;
+	height: 242px;
 	margin: 6px 6px;
 	margin-bottom: 0px;
 	padding: 5px;
@@ -772,19 +771,19 @@ input{
 }
 /* ========== US LEAGUES ========== */
 #usleagues{
-	height: 205px;
+	height: 215px;
 	margin-bottom: 0px;
-	background: #FFF url(../img/column.png?3) 20px 140px no-repeat;
+	background: #FFF url(../img/column.png?3) 25px 150px no-repeat;
 }
 #usleagues .league{
 	float: left;
-	margin: 10px 0px;
+	margin: 18px 0px;
 	margin-right: 5px;
-	width: 155px;
+	width: 165px;
 	text-align: center;
 }
 #usleagues .league .slider{
-	margin-left: 23px;
+	margin-left: 28px;
 }
 #usleagues .league .slide{
 	background-color: #FFF;
@@ -800,7 +799,7 @@ input{
 	margin-top: 8px;
 }
 #usleagues #usltype div{
-	width: 270px;
+	width: 300px;
 	border: 1px solid #CCC;
 	margin-bottom: 15px;
 	padding: 5px; 
@@ -825,11 +824,12 @@ input{
 	border: 1px solid #000;
 	background-color: #FFC;
 }
+/*
 #usleagues .fieldset{
 	float: left;
 	width: 250px;
-	height: 65px;
-}
+	height: 75px;
+}*/
 #ustopics{
 	text-align: left;
 	float: left;
@@ -905,7 +905,7 @@ input{
 	border: 1px solid #CCC;
 }
 #chart td{
-	font-size: 11px;
+	font-size: 12px;
 	border: none;
 }
 /* ========== LOGIN ========== */
@@ -1003,7 +1003,7 @@ input{
 }
 /* ========== DIALOGS ========== */
 .dialog, .dialog input{
-	font: 11px Verdana;
+	font: 12px Verdana;
 }
 .dialog .fstitle {
 	background-color: #005090;

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.converter.HtmlConverter;
 import com.sporthenon.utils.ExportUtils;
+import com.sporthenon.utils.StringUtils;
 
 public class SearchServlet extends AbstractServlet {
 
@@ -29,9 +30,18 @@ public class SearchServlet extends AbstractServlet {
 			if (hParams.containsKey("run")) {
 				boolean isLink = false;
 				if (hParams.containsKey("p")) {
-					String[] t = String.valueOf(hParams.get("p")).split("\\-");
-					hParams.put("pattern", t[0].replaceAll("\\.\\*", "").substring(1));
-					hParams.put("scope", t[1]);
+					String p = String.valueOf(hParams.get("p"));
+					String[] t = p.split("\\-");
+					if (t.length == 1) { // Direct search
+						hParams.put("pattern", t[0]);
+						hParams.put("scope", ".");
+					}
+					else {
+						p = StringUtils.decode(p);
+						t = p.split("\\-");
+						hParams.put("pattern", t[0].replaceAll("\\.\\*", "").substring(1));
+						hParams.put("scope", t[1]);
+					}
 					isLink = true;
 				}
 				String pattern = String.valueOf(hParams.get("pattern"));
@@ -43,16 +53,20 @@ public class SearchServlet extends AbstractServlet {
 				lFuncParams.add(pattern);
 				lFuncParams.add(scope);
 				lFuncParams.add("_" + getLocale(request));
-				StringBuffer html = HtmlConverter.getHeader(HtmlConverter.HEADER_SEARCH, lFuncParams, getLocale(request));
+				StringBuffer html = null;
+				if (scope.equals("."))
+					html = new StringBuffer("<div class='titlebar'>Search results for : <b>" + String.valueOf(hParams.get("pattern")) + "</b></div>");
+				else
+					html = HtmlConverter.getHeader(HtmlConverter.HEADER_SEARCH, lFuncParams, getLocale(request));
 				html.append(HtmlConverter.convertSearch(DatabaseHelper.call("Search", lFuncParams), String.valueOf(hParams.get("pattern")), getLocale(request)));
 				if (isLink) {
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
 					else
-						ServletHelper.writeLinkHtml(request, response, html);
+						ServletHelper.writePageHtml(request, response, html);
 				}
 				else
-					ServletHelper.writeHtml(response, html, getLocale(request));
+					ServletHelper.writeTabHtml(response, html, getLocale(request));
 			}
 		}
 		catch (Exception e) {

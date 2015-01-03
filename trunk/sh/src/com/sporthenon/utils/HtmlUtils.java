@@ -55,7 +55,7 @@ public class HtmlUtils {
 
 	public static String writeLink(String alias, int id, String text, String title) {
 		StringBuffer html = new StringBuffer();
-		html.append("<a href='javascript:info(\"" + alias + "-" + id + "\")'" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + ">" + (text != null ? text.replaceAll("\\s", SPACE) : "") + "</a>");
+		html.append("<a href='javascript:info(\"" + StringUtils.encode(alias + "-" + id) + "\")'" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + ">" + (text != null ? text.replaceAll("\\s", SPACE) : "") + "</a>");
 		return html.toString();
 	}
 
@@ -98,7 +98,8 @@ public class HtmlUtils {
 		html.append("<span class='shorttitle'>" + tabTitle.replaceAll(".{6}\\[.+#.*\\]$", "") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
-		html.append("<table class='info'><tr><th colspan=2>" + writeToggleTitle(h.get("title")) + "</th></tr>");
+		html.append("<table class='info'>");
+//		html.append("<tr><th colspan=2>" + writeToggleTitle(h.get("title")) + "</th></tr>");
 		for (String key : h.keySet()) {
 			if (!key.matches("(tab|^)title|url|info") && StringUtils.notEmpty(h.get(key)))
 				html.append("<tr><th class='caption'>" + ResourceUtils.getText(key, lang) + "</th><td" + (key.matches("logo|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + ">" + h.get(key) + "</td></tr>");
@@ -143,7 +144,8 @@ public class HtmlUtils {
 	}
 
 	public static String writeURL(String main, String params) {
-		return ConfigUtils.getProperty("url") + main + "?" + params.replaceAll("\\,\\s", "-").replaceAll("[\\[\\]]", "");
+		params = params.replaceAll("\\,\\s", "-").replaceAll("[\\[\\]]", "");
+		return ConfigUtils.getProperty("url") + main + "?p=" + StringUtils.encode(params);
 	}
 	
 	public static String writeRecordItems(Collection<RefItem> cRecord, String lang) {

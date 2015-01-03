@@ -41,7 +41,9 @@ public class OlympicsServlet extends AbstractServlet {
 			if (hParams.containsKey("run")) { // View results
 				boolean isLink = false;
 				if (hParams.containsKey("p")) {
-					String[] t = String.valueOf(hParams.get("p")).split("\\-");
+					String p = String.valueOf(hParams.get("p"));
+					p = StringUtils.decode(p);
+					String[] t = p.split("\\-");
 					hParams.put("type", t[0]);
 					hParams.put("ol", t[1]);
 					if (t[0].equals(TYPE_INDIVIDUAL)) {
@@ -78,10 +80,10 @@ public class OlympicsServlet extends AbstractServlet {
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
 					else
-						ServletHelper.writeLinkHtml(request, response, html);
+						ServletHelper.writePageHtml(request, response, html);
 				}
 				else
-					ServletHelper.writeHtml(response, html, getLocale(request));
+					ServletHelper.writeTabHtml(response, html, getLocale(request));
 			}
 			else if (hParams.containsKey("tree")) { // Tree of sports/events
 				String ol = String.valueOf(hParams.get("ol"));

@@ -609,7 +609,7 @@ public class HtmlConverter {
 		int colspan = 0;
 		int count = 0;
 		final int ITEM_LIMIT = 10;
-		final String HTML_SEE_FULL = "<tr class='refseefull' onclick='refSeeFull(this, \"" + params.get(0) + "-" + params.get(1) + "-#ENTITY#\");'><td colspan='#COLSPAN#'></td></tr>";
+		final String HTML_SEE_FULL = "<tr class='refseefull' onclick='refSeeFull(this, \"#PARAMS#\");'><td colspan='#COLSPAN#'></td></tr>";
 		String c1 = null, c2 = null, c3 = null, c4 = null, c5 = null, c6 = null, c7 = null;
 		for (Object obj : coll) {
 			RefItem item = (RefItem) obj;
@@ -642,7 +642,7 @@ public class HtmlConverter {
 				else if (en.equals(WinLoss.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("league", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("w.l", lang) + "</th>");
 				if (isAllRef && count >= ITEM_LIMIT)
-					html.append(HTML_SEE_FULL.replaceAll("#ENTITY#", currentEntity).replaceAll("#COLSPAN#", String.valueOf(colspan)));
+					html.append(HTML_SEE_FULL.replaceAll("#PARAMS#", StringUtils.encode(params.get(0) + "-" + params.get(1) + "-" + currentEntity)).replaceAll("#COLSPAN#", String.valueOf(colspan)));
 				colspan = StringUtils.countIn(cols.toString(), "<th");
 				html.append(StringUtils.notEmpty(currentEntity) ? "</tbody></table><table class='tsort'>" : "");
 				count = 0;
@@ -907,7 +907,7 @@ public class HtmlConverter {
 			lIds.add(String.valueOf(bean.getRsId()));
 
 			// Evaluate bean
-			String draw = "<table><tr><td><img src='img/render/draw.gif?3' title='" + ResourceUtils.getText("draw", lang) + "'/></td><td style='padding-left:3px;'><a href='javascript:info(\"DR-" + bean.getRsId() + "\")'>" + ResourceUtils.getText("draw", lang) + "</a></td></tr></table>";
+			String draw = "<table><tr><td><img src='img/render/draw.gif?3' title='" + ResourceUtils.getText("draw", lang) + "'/></td><td style='padding-left:3px;'><a href='javascript:info(\"" + StringUtils.encode("DR-" + bean.getRsId()) + "\")'>" + ResourceUtils.getText("draw", lang) + "</a></td></tr></table>";
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
 			String dates = (StringUtils.notEmpty(bean.getRsDate1()) ? StringUtils.toTextDate(bean.getRsDate1(), lang, "d MMM yyyy") + "&nbsp;&rarr;&nbsp;" : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? StringUtils.toTextDate(bean.getRsDate2(), lang, "d MMM yyyy") : "");
 			String place1 = null, place2 = null;
@@ -1400,7 +1400,7 @@ public class HtmlConverter {
 			}
 				
 			// Write line
-			html.append("<tr><td class='srt'>" + year + "</td><td class='srt'>" + name + "</td><td class='srt'>" + position + "</td></tr>");
+			html.append("<tr><td class='srt'>" + year + "</td><td class='srt'><b>" + name + "</b></td><td class='srt'>" + position + "</td></tr>");
 		}
 		html.append("</tbody></table>");
 		return html;
@@ -1424,7 +1424,7 @@ public class HtmlConverter {
 			String year = (bean.getYrId() != null ? HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null) : "-");
 			
 			// Write line
-			html.append("<tr><td class='srt'>" + team + "</td><td class='srt' width='50'>" + number + "</td><td class='srt'>" + name + "</td><td class='srt'>" + year + "</td></tr>");
+			html.append("<tr><td class='srt'>" + team + "</td><td class='srt' width='50'>" + number + "</td><td class='srt'><b>" + name + "</b></td><td class='srt'>" + year + "</td></tr>");
 		}
 		html.append("</tbody></table>");
 		return html;
@@ -1630,8 +1630,8 @@ public class HtmlConverter {
 			String update = new SimpleDateFormat("dd/MM/yyyy hh:mm").format(bean.getRsUpdate());
 			
 			// Write line
-			String link = "results?" + bean.getSpId() + "-" + bean.getCpId() + "-" + bean.getEvId() + "-" + (bean.getSeId() != null ? bean.getSeId() : 0) + "-" + (bean.getSe2Id() != null ? bean.getSe2Id() : 0) + "-0";
-			html.append("<tr><td><b>" + bean.getYrLabel() + "</b></td><td><b>" + bean.getSpLabel() + "</b></td><td><a href='" + link + "' target='_blank'>" + bean.getCpLabel() + "&nbsp;-&nbsp;" + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? "&nbsp;-&nbsp;" + bean.getSeLabel() : "") + (StringUtils.notEmpty(bean.getSe2Label()) ? "&nbsp;-&nbsp;" + bean.getSe2Label() : "") + "</a></td>");
+			String link = "results?p=" + StringUtils.encode(bean.getSpId() + "-" + bean.getCpId() + "-" + bean.getEvId() + "-" + (bean.getSeId() != null ? bean.getSeId() : 0) + "-" + (bean.getSe2Id() != null ? bean.getSe2Id() : 0) + "-0");
+			html.append("<tr><td><b>" + bean.getYrLabel() + "</b></td><td><b>" + bean.getSpLabel() + "</b></td><td><a href='" + link + "'>" + bean.getCpLabel() + "&nbsp;-&nbsp;" + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? "&nbsp;-&nbsp;" + bean.getSeLabel() : "") + (StringUtils.notEmpty(bean.getSe2Label()) ? "&nbsp;-&nbsp;" + bean.getSe2Label() : "") + "</a></td>");
 			html.append("<td>" + (StringUtils.notEmpty(pos1) ? pos1 : "-") + "</td><td>" + update + "</td></tr>");
 		}
 		return html.append("</table>");

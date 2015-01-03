@@ -148,7 +148,7 @@ function info(s) {
 		});
 	}
 	else {
-		window.open('ref?' + s, '_blank');
+		location.href = 'ref?p=' + s;
 	}
 }
 function currentTime() {
@@ -368,7 +368,7 @@ var dLink = null;
 var dInfo = null;
 function refreshLastUpdates() {
 	$('dupdates').update('<img src="img/db/loading.gif?6" alt="Loading..."/>');
-	new Ajax.Updater($('dupdates'), 'IndexServlet?lastupdates=1&count=' + $('countupdt').value, {});
+	new Ajax.Updater($('dupdates'), 'IndexServlet?t=' + currentTime() + '&lastupdates=1&count=' + $('countupdt').value, {});
 }
 function displayExport() {
 	if (dExport) {
@@ -983,6 +983,11 @@ function resetUSLeagues() {
 	changeLeague('nfl');
 }
 /* ==================== SEARCH ==================== */
+function directSearch() {
+	if (event.keyCode == 13) {
+		location.href = 'search?p=' + $F('dpattern');
+	}
+}
 function runSearch() {
 	t1 = currentTime();
 	var pattern = $F('pattern');

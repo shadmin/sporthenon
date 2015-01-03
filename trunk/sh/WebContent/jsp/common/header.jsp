@@ -98,7 +98,7 @@
 <div id="headertop">
 	<div id="searchpanel">
 		<table style="border-spacing:0px;"><tr><td><a title="Click for advanced search" href="search"><img src="img/menu/dbsearch.png"/></a></td>
-		<td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="pattern" id="pattern" title="Search in Sporthenon" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');" onkeydown="if(event.keyCode == 13){runSearch();}"></input></td>
+		<td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="dpattern" id="dpattern" title="Search in Sporthenon" onkeydown="directSearch();" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');" onkeydown="if(event.keyCode == 13){runSearch();}"></input></td>
 		</tr></table>
 	</div>
 Sporthenon, le temple des résultats sportifs
