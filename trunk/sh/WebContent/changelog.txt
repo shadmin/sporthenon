@@ -11,6 +11,7 @@ affichage prenom NOM
 count medals stats sur links (ex. bubka)
 checkbox include postseason/super bowl pour records
 optimiser affichage sur references pays (pas tout charger)
+check bug sur draws (djokovic - pb merge ?)
 
 +-------+
 | 0.8.2 |

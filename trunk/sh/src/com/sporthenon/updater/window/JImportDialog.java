@@ -878,47 +878,132 @@ public class JImportDialog extends JDialog implements ActionListener {
 		if (isUpdate) {
 			rsId = hId.get("yr");
 			Integer idSp = hId.get("sp");
-			Integer id1Qf1 = hId.get("qf1w");Integer id2Qf1 = hId.get("qf1r");String sQf1 = String.valueOf(hId.get("qf1s"));
-			Integer id1Qf2 = hId.get("qf2w");Integer id2Qf2 = hId.get("qf2r");String sQf2 = String.valueOf(hId.get("qf2s"));
-			Integer id1Qf3 = hId.get("qf3w");Integer id2Qf3 = hId.get("qf3r");String sQf3 = String.valueOf(hId.get("qf3s"));
-			Integer id1Qf4 = hId.get("qf4w");Integer id2Qf4 = hId.get("qf4r");String sQf4 = String.valueOf(hId.get("qf4s"));
-			Integer id1Sf1 = hId.get("sf1w");Integer id2Sf1 = hId.get("sf1r");String sSf1 = String.valueOf(hId.get("sf1s"));
-			Integer id1Sf2 = hId.get("sf2w");Integer id2Sf2 = hId.get("sf2r");String sSf2 = String.valueOf(hId.get("sf2s"));
-			Integer id1Thd = hId.get("thdw");Integer id2Thd = hId.get("thdr");String sThd = String.valueOf(hId.get("thds"));
+			Integer id1Qf1 = hId.get("qf1w");Integer id2Qf1 = hId.get("qf1r");String sQf1 = (hId.get("qf1s") != null ? String.valueOf(hId.get("qf1s")) : null);
+			Integer id1Qf2 = hId.get("qf2w");Integer id2Qf2 = hId.get("qf2r");String sQf2 = (hId.get("qf2s") != null ? String.valueOf(hId.get("qf2s")) : null);
+			Integer id1Qf3 = hId.get("qf3w");Integer id2Qf3 = hId.get("qf3r");String sQf3 = (hId.get("qf3s") != null ? String.valueOf(hId.get("qf3s")) : null);
+			Integer id1Qf4 = hId.get("qf4w");Integer id2Qf4 = hId.get("qf4r");String sQf4 = (hId.get("qf4s") != null ? String.valueOf(hId.get("qf4s")) : null);
+			Integer id1Sf1 = hId.get("sf1w");Integer id2Sf1 = hId.get("sf1r");String sSf1 = (hId.get("sf1s") != null ? String.valueOf(hId.get("sf1s")) : null);
+			Integer id1Sf2 = hId.get("sf2w");Integer id2Sf2 = hId.get("sf2r");String sSf2 = (hId.get("sf2s") != null ? String.valueOf(hId.get("sf2s")) : null);
+			Integer id1Thd = hId.get("thdw");Integer id2Thd = hId.get("thdr");String sThd = (hId.get("thds") != null ? String.valueOf(hId.get("thds")) : null);
 			String err = null;
 			try {
+				HashMap<String, Integer> hAlreadyInserted = new HashMap<String, Integer>();
 				for (int i = 0 ; i < vLine.size() ; i++) {
 					String h = vHeader.get(i).replaceAll(scPattern, "").toLowerCase();
 					String s = vLine.get(i);
 					if (StringUtils.notEmpty(s)) {
-						if(id1Qf1 == null && h.equalsIgnoreCase("qf1w"))
-							id1Qf1 = insertEntity(row, n, idSp, s);
-						else if(id2Qf1 == null && h.equalsIgnoreCase("qf1r"))
-							id2Qf1 = insertEntity(row, n, idSp, s);
-						else if(id1Qf2 == null && h.equalsIgnoreCase("qf2w"))
-							id1Qf2 = insertEntity(row, n, idSp, s);
-						else if(id2Qf2 == null && h.equalsIgnoreCase("qf2r"))
-							id2Qf2 = insertEntity(row, n, idSp, s);
-						else if(id1Qf3 == null && h.equalsIgnoreCase("qf3w"))
-							id1Qf3 = insertEntity(row, n, idSp, s);
-						else if(id2Qf3 == null && h.equalsIgnoreCase("qf3r"))
-							id2Qf3 = insertEntity(row, n, idSp, s);
-						else if(id1Qf4 == null && h.equalsIgnoreCase("qf4w"))
-							id1Qf4 = insertEntity(row, n, idSp, s);
-						else if(id2Qf4 == null && h.equalsIgnoreCase("qf4r"))
-							id2Qf4 = insertEntity(row, n, idSp, s);
-						else if(id1Sf1 == null && h.equalsIgnoreCase("sf1w"))
-							id1Sf1 = insertEntity(row, n, idSp, s);
-						else if(id2Sf1 == null && h.equalsIgnoreCase("sf1r"))
-							id2Sf1 = insertEntity(row, n, idSp, s);
-						else if(id1Sf2 == null && h.equalsIgnoreCase("sf2w"))
-							id1Sf2 = insertEntity(row, n, idSp, s);
-						else if(id2Sf2 == null && h.equalsIgnoreCase("sf2r"))
-							id2Sf2 = insertEntity(row, n, idSp, s);
-						else if(id1Thd == null && h.equalsIgnoreCase("thdw"))
-							id1Thd = insertEntity(row, n, idSp, s);
-						else if(id2Thd == null && h.equalsIgnoreCase("thdr"))
-							id2Thd = insertEntity(row, n, idSp, s);
+						if(id1Qf1 == null && h.equalsIgnoreCase("qf1w")) {
+							if (hAlreadyInserted.containsKey(s))
+								id1Qf1 = hAlreadyInserted.get(s);
+							else {
+								id1Qf1 = insertEntity(row, n, idSp, s);
+								hAlreadyInserted.put(s, id1Qf1);	
+							}
+						}
+						else if(id2Qf1 == null && h.equalsIgnoreCase("qf1r")) {
+							if (hAlreadyInserted.containsKey(s))
+								id2Qf1 = hAlreadyInserted.get(s);
+							else {
+								id2Qf1 = insertEntity(row, n, idSp, s);
+								hAlreadyInserted.put(s, id2Qf1);
+							}
+						}
+						else if(id1Qf2 == null && h.equalsIgnoreCase("qf2w")) {
+							if (hAlreadyInserted.containsKey(s))
+								id1Qf2 = hAlreadyInserted.get(s);
+							else {
+								id1Qf2 = insertEntity(row, n, idSp, s);
+								hAlreadyInserted.put(s, id1Qf2);
+							}
+						}
+						else if(id2Qf2 == null && h.equalsIgnoreCase("qf2r")) {
+							if (hAlreadyInserted.containsKey(s))
+								id2Qf2 = hAlreadyInserted.get(s);
+							else {
+								id2Qf2 = insertEntity(row, n, idSp, s);
+								hAlreadyInserted.put(s, id2Qf2);
+							}
+						}
+						else if(id1Qf3 == null && h.equalsIgnoreCase("qf3w")) {
+							if (hAlreadyInserted.containsKey(s))
+								id1Qf3 = hAlreadyInserted.get(s);
+							else {
+								id1Qf3 = insertEntity(row, n, idSp, s);
+								hAlreadyInserted.put(s, id1Qf3);
+							}
+						}
+						else if(id2Qf3 == null && h.equalsIgnoreCase("qf3r")) {
+							if (hAlreadyInserted.containsKey(s))
+								id2Qf3 = hAlreadyInserted.get(s);
+							else {
+								id2Qf3 = insertEntity(row, n, idSp, s);
+								hAlreadyInserted.put(s, id2Qf3);
+							}
+						}
+						else if(id1Qf4 == null && h.equalsIgnoreCase("qf4w")) {
+							if (hAlreadyInserted.containsKey(s))
+								id1Qf4 = hAlreadyInserted.get(s);
+							else {
+								id1Qf4 = insertEntity(row, n, idSp, s);
+								hAlreadyInserted.put(s, id1Qf4);
+							}
+						}
+						else if(id1Qf4 == null && h.equalsIgnoreCase("qf4r")) {
+							if (hAlreadyInserted.containsKey(s))
+								id1Qf4 = hAlreadyInserted.get(s);
+							else {
+								id1Qf4 = insertEntity(row, n, idSp, s);
+								hAlreadyInserted.put(s, id1Qf4);
+							}
+						}
+						else if(id1Sf1 == null && h.equalsIgnoreCase("sf1w")) {
+							if (hAlreadyInserted.containsKey(s))
+								id1Sf1 = hAlreadyInserted.get(s);
+							else {
+								id1Sf1 = insertEntity(row, n, idSp, s);
+								hAlreadyInserted.put(s, id1Sf1);
+							}
+						}
+						else if(id2Sf1 == null && h.equalsIgnoreCase("sf1r")) {
+							if (hAlreadyInserted.containsKey(s))
+								id2Sf1 = hAlreadyInserted.get(s);
+							else {
+								id2Sf1 = insertEntity(row, n, idSp, s);
+								hAlreadyInserted.put(s, id2Sf1);
+							}
+						}
+						else if(id1Sf2 == null && h.equalsIgnoreCase("sf2w")) {
+							if (hAlreadyInserted.containsKey(s))
+								id1Sf2 = hAlreadyInserted.get(s);
+							else {
+								id1Sf2 = insertEntity(row, n, idSp, s);
+								hAlreadyInserted.put(s, id1Sf2);
+							}
+						}
+						else if(id2Sf2 == null && h.equalsIgnoreCase("sf2r")) {
+							if (hAlreadyInserted.containsKey(s))
+								id2Sf2 = hAlreadyInserted.get(s);
+							else {
+								id2Sf2 = insertEntity(row, n, idSp, s);
+								hAlreadyInserted.put(s, id2Sf2);
+							}
+						}
+						else if(id1Thd == null && h.equalsIgnoreCase("thdw")) {
+							if (hAlreadyInserted.containsKey(s))
+								id1Thd = hAlreadyInserted.get(s);
+							else {
+								id1Thd = insertEntity(row, n, idSp, s);
+								hAlreadyInserted.put(s, id1Thd);
+							}
+						}
+						else if(id2Thd == null && h.equalsIgnoreCase("thdr")) {
+							if (hAlreadyInserted.containsKey(s))
+								id2Thd = hAlreadyInserted.get(s);
+							else {
+								id2Thd = insertEntity(row, n, idSp, s);
+								hAlreadyInserted.put(s, id2Thd);
+							}
+						}
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf1w"))
 							updateEntity(row, n, id1Qf1, s);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf1r"))
