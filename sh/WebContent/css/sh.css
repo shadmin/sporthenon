@@ -49,7 +49,7 @@ input{
 .fieldset .fstitle{
 	font-weight: bold;
 	border-bottom: 1px solid gray;
-	background-color: #FFA;
+	background-color: #FFC;
 	padding: 5px;
 	padding-left: 23px;
 	background-position: 3px center;
@@ -138,6 +138,19 @@ input{
 #header{
 	float: left;
 }
+#headertop{
+	height: 50px;
+	background: #FFF url(../img/header/bg3.png?4) 0 0 repeat-x;
+	margin-left: 230px;
+}
+#headertop #searchpanel{
+	float: right;
+	margin-top: 18px;
+	margin-right: 8px;
+}
+#headertop #searchpanel td{
+	padding: 1px;
+}
 #logo{
 	margin: 4px;
 	margin-top: 5px;
@@ -152,7 +165,8 @@ input{
 	list-style-type: none;
 	text-align: right;
 	padding-bottom: 0px;
-	font: 12px Verdana;
+	font: 14px Verdana;
+	margin-top: 10px;
 }
 #shmenu ul{
 	margin: 0px;
@@ -161,9 +175,9 @@ input{
 #shmenu li{
 	list-style: none;
 	margin: 0;
-	margin-bottom: 12px;
-	padding-left: 42px;
-	padding-right: 42px;
+	margin-bottom: 20px;
+	padding-left: 35px;
+	padding-right: 35px;
 	text-align: center;
 }
 #shmenu li a{
@@ -172,7 +186,7 @@ input{
 	font-weight: bold;
 	text-decoration: none;
 	margin-left: 2px;
-	padding: 5px 8px;
+	padding: 6px 8px;
 	padding-left: 25px;
 	padding-right: 4px;
 	border: 1px solid #000;
@@ -197,34 +211,22 @@ input{
 	background-image:url(../img/menu/dbresults.png?3);
 }
 #shmenu-results:hover, #shmenu-results.selected{
-	background-color: #02901c;
+	background-color: #a30096;
 }
 #shmenu-olympics{
 	background-image:url(../img/menu/dbolympics.png?3);
 }
 #shmenu-olympics:hover, #shmenu-olympics.selected{
-	background-color: #d00c0c;
+	background-color: #0028d9;
 }
 #shmenu-usleagues{
 	background-image:url(../img/menu/dbusleagues.png?3);
 }
 #shmenu-usleagues:hover, #shmenu-usleagues.selected{
-	background-color: #593100;
-}
-#shmenu-search{
-	background-image:url(../img/menu/dbsearch.png?3);
-}
-#shmenu-search:hover, #shmenu-search.selected{
-	background-color: #0028d9;
-}
-#shmenu-project{
-	background-image:url(../img/menu/project.png?3);
-}
-#shmenu-project:hover, #shmenu-project.selected{
-	background-color: #a30096;
+	background-color: #d00c0c;
 }
 .bgresults, .fscontent td.bgresults{
-	background:url(../img/menu/bg-results.png?3) left top repeat-y;
+	background:url(../img/menu/bg-results.png?4) left top repeat-y;
 	padding-left: 10px;
 }
 .bgolympics, .fscontent td.bgolympics{
@@ -233,14 +235,6 @@ input{
 }
 .bgusleagues, .fscontent td.bgusleagues{
 	background:url(../img/menu/bg-usleagues.png?3) left top repeat-y;
-	padding-left: 10px;
-}
-.bgsearch, .fscontent td.bgsearch{
-	background:url(../img/menu/bg-search.png?3) left top repeat-y;
-	padding-left: 10px;
-}
-.bgproject, .fscontent td.bgproject{
-	background:url(../img/menu/bg-project.png?3) left top repeat-y;
 	padding-left: 10px;
 }
 #flags{
@@ -621,7 +615,7 @@ input{
 .homecontent .fieldset .fstitle{
 	font-weight: bold;
 	border-bottom: 1px solid gray;
-	background-color: #FFA;
+	background-color: #FFC;
 	padding: 5px;
 	padding-left: 23px;
 	background-position: 3px center;
@@ -873,11 +867,11 @@ input{
 	padding-left: 3px;
 	width: 330px;
 }
-#search .pattern input{
+#search .pattern input, #headertop .pattern input{
 	border: 1px solid #CCC;
 	font-size: 13px;
 }
-#search .pattern input.selected{
+#search .pattern input.selected, #headertop .pattern input.selected{
 	border: 1px solid #D00;
 }
 #search #pattern{

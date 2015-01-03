@@ -64,8 +64,6 @@
 				<tr><td class="bgresults" style="padding:7px;padding-left:10px;"><b><a href="results" style="color:#000;"><%=StringUtils.text("menu.results", session)%></a></b></td><td><%=StringUtils.text("desc.results", session)%></td></tr>
 				<tr><td class="bgolympics" style="padding:7px;padding-left:10px;"><b><a href="olympics" style="color:#000;"><%=StringUtils.text("menu.olympics", session)%></a></b></td><td><%=StringUtils.text("desc.olympics", session)%></td></tr>
 				<tr><td class="bgusleagues" style="padding:7px;padding-left:10px;"><b><a href="usleagues" style="color:#000;"><%=StringUtils.text("menu.usleagues", session)%></a></b></td><td><%=StringUtils.text("desc.usleagues", session)%></td></tr>
-				<tr><td class="bgsearch" style="padding:7px;padding-left:10px;"><b><a href="search" style="color:#000;"><%=StringUtils.text("menu.search", session)%></a></b></td><td><%=StringUtils.text("desc.search", session)%></td></tr>
-				<tr><td class="bgproject" style="padding:7px;padding-left:10px;"><b><a href="project" style="color:#000;"><%=StringUtils.text("menu.project", session)%></a></b></td><td><%=StringUtils.text("desc.project", session)%></td></tr>
 			</table>
 		</div>
 	</div>

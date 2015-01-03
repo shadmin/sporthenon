@@ -1,11 +1,10 @@
 URL encoding
 layout home
 check exports
-check bug sur draws (djokovic - pb merge ?)
 check title / session
 logo par sport+event (foot-coupe de france / tennis-us open)
 ajouter QF/SF sur ref entity results
---bug affichage ex aequo references (exemple fiche D.Koranyi)
+COUNT_REF ajouter ref dans DRAWS
 ----------------------------------------
 --gestion detail personnes (equipes + relais)
 --graphique pour stats home
@@ -13,3 +12,4 @@ ajouter QF/SF sur ref entity results
 ----------------------------------------
 FETCH ALL FROM "<unnamed portal 1>";
 RAISE NOTICE '%', _var;
+ALTER TABLE "DRAW" ENABLE/DISABLE TRIGGER trigger_dr;
