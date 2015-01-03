@@ -16,7 +16,7 @@
 		<div id="nhl" onclick="changeLeague(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;NHL &#150; National Hockey League</div>
 		<div id="mlb" onclick="changeLeague(this.id);" style="margin-bottom:0px;"><img alt="-" src="img/bullet.gif"/>&nbsp;MLB &#150; Major League of Baseball</div>
 	</div>
-	<div style="float:left;width:450px;height:160px;" class="fieldset">
+	<div style="float:left;width:450px;height:170px;" class="fieldset">
 		<div style="float:left;width:auto;">
 			<table id="usstype">
 				<tr><td id="championship" onclick="changeModeUS(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("championships", "en")%></td></tr>

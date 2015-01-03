@@ -78,6 +78,7 @@ public class ImageUtils {
 			if (f.getName().indexOf(name) == 0)
 				list.add(f.getName());
 		Collections.sort(list);
+		Collections.reverse(list);
 		return list;
 	}
 	

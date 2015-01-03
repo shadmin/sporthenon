@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.postgresql.util.Base64;
 
 import com.sporthenon.utils.res.ResourceUtils;
 
@@ -38,6 +39,14 @@ public class StringUtils {
 
 	public static String text(String key, HttpSession session) {
 		return ResourceUtils.getText(key, String.valueOf(session.getAttribute("locale")));
+	}
+	
+	public static String encode(String s) {
+		 return Base64.encodeBytes(s.getBytes());
+	}
+	
+	public static String decode(String s) {
+		return new String(Base64.decode(s));
 	}
 	
 	public static String implode(Iterable<String> tValues, String sSeparator) {

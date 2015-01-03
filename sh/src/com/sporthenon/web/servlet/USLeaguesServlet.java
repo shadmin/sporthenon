@@ -69,7 +69,9 @@ public class USLeaguesServlet extends AbstractServlet {
 			if (hParams.containsKey("run")) { // View results
 				boolean isLink = false;
 				if (hParams.containsKey("p")) {
-					String[] t = String.valueOf(hParams.get("p")).split("\\-");
+					String p = String.valueOf(hParams.get("p"));
+					p = StringUtils.decode(p);
+					String[] t = p.split("\\-");
 					hParams.put("type", t[0]);
 					league = t[1];
 					if (t[0].equals(TYPE_RETNUM)) {
@@ -155,10 +157,10 @@ public class USLeaguesServlet extends AbstractServlet {
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
 					else
-						ServletHelper.writeLinkHtml(request, response, html);
+						ServletHelper.writePageHtml(request, response, html);
 				}
 				else
-					ServletHelper.writeHtml(response, html, "en");
+					ServletHelper.writeTabHtml(response, html, "en");
 			}
 			else { // Picklists
 				String plId = null;

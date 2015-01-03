@@ -64,7 +64,7 @@ HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", params), out);
 		</tr>
 		<tr><td colspan="4" style="text-align:left;padding-top:5px;"><%=StringUtils.text("years", session)%>:</td></tr>
 		<tr><td colspan="4" style="padding:0;"><div id="sm-pl-yr" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
-		<tr><td colspan="4" style="padding-top:20px;text-align:right;">(&dagger;&nbsp;<%=StringUtils.text("event.notheld", session)%>)</td></tr>
+		<tr><td colspan="4" style="padding-top:15px;text-align:right;">(&dagger;&nbsp;<%=StringUtils.text("event.notheld", session)%>)</td></tr>
 	</table>
 	</div>
 	</form>

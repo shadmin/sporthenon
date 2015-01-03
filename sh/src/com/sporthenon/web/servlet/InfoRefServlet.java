@@ -13,6 +13,7 @@ import com.sporthenon.db.converter.HtmlConverter;
 import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.utils.ExportUtils;
+import com.sporthenon.utils.StringUtils;
 
 public class InfoRefServlet extends AbstractServlet {
 
@@ -28,7 +29,7 @@ public class InfoRefServlet extends AbstractServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
-			String[] params = String.valueOf(hParams.get("p")).split("-");
+			String[] params = StringUtils.decode(String.valueOf(hParams.get("p"))).split("-");
 			StringBuffer html = new StringBuffer();
 			boolean isLink = hParams.containsKey("run");
 			boolean isExport = hParams.containsKey("export");
@@ -58,10 +59,10 @@ public class InfoRefServlet extends AbstractServlet {
 					if (isExport)
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
 					else
-						ServletHelper.writeLinkHtml(request, response, html);
+						ServletHelper.writePageHtml(request, response, html);
 				}
 				else
-					ServletHelper.writeHtml(response, html, getLocale(request));				
+					ServletHelper.writeTabHtml(response, html, getLocale(request));				
 			}
 		}
 		catch (Exception e) {

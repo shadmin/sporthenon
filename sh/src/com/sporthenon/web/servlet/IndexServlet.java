@@ -15,7 +15,6 @@ import org.w3c.dom.Element;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.converter.HtmlConverter;
-import com.sporthenon.db.function.LastUpdateBean;
 import com.sporthenon.db.function.StatisticsBean;
 import com.sporthenon.utils.StringUtils;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
@@ -38,7 +37,7 @@ private static final long serialVersionUID = 1L;
 		        ArrayList<Object> lParams = new ArrayList<Object>();
 		        lParams.add(new Integer(String.valueOf(hParams.get("count"))));
 		        lParams.add("_" + getLocale(request));
-		        ServletHelper.writeHtml(response, HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams), getLocale(request)), getLocale(request));
+		        ServletHelper.writeTabHtml(response, HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams), getLocale(request)), getLocale(request));
 			}
 			else {
 				DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
@@ -64,24 +63,6 @@ private static final long serialVersionUID = 1L;
 		        item.setAttribute("id", "count-person"); item.setAttribute("value", StringUtils.formatNumber(stb.getCountPerson()));
 		        stats.appendChild(item);
 		        root.appendChild(stats);
-		        
-		        // Last Updates
-		        ArrayList<Object> lParams = new ArrayList<Object>();
-		        lParams.add(new Integer(10));
-		        lParams.add("_" + getLocale(request));
-		        ArrayList<LastUpdateBean> lUpdates = new ArrayList(DatabaseHelper.call("LastUpdates", lParams));
-		        Element updates = doc.createElement("updates");
-		        for (LastUpdateBean bean : lUpdates) {
-		        	item = doc.createElement("update");
-			        item.setAttribute("yr", bean.getYrLabel());
-			        item.setAttribute("sp", bean.getSpLabel());
-			        item.setAttribute("cp", bean.getCpLabel());
-			        item.setAttribute("ev", bean.getEvLabel());
-			        item.setAttribute("se", bean.getSeLabel());
-			        item.setAttribute("link", "results?" + bean.getSpId() + "-" + bean.getCpId() + "-" + bean.getEvId() + "-" + (bean.getSeId() != null ? bean.getSeId() : 0) + "-0");
-			        updates.appendChild(item);
-		        }
-		        root.appendChild(updates);
 		        
 		        response.setContentType("text/xml");
 	        	response.setCharacterEncoding("utf-8");

@@ -106,9 +106,12 @@
 		<url-pattern>/usleagues</url-pattern>
 		<url-pattern>/search</url-pattern>
 		<url-pattern>/project</url-pattern>
-		<url-pattern>/login</url-pattern>
-		<url-pattern>/update</url-pattern>
 		<url-pattern>/ref</url-pattern>
+		<url-pattern>/re</url-pattern>
+		<url-pattern>/ol</url-pattern>
+		<url-pattern>/ul</url-pattern>
+		<url-pattern>/se</url-pattern>
+		<url-pattern>/rf</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>SearchServlet</servlet-name>

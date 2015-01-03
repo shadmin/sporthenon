@@ -53,7 +53,7 @@ public class ServletHelper {
         serializer.serialize(doc);
 	}
 	
-	public static void writeHtml(HttpServletResponse res, StringBuffer sb, String lang) throws IOException {
+	public static void writeTabHtml(HttpServletResponse res, StringBuffer sb, String lang) throws IOException {
 		String s = sb.toString();
 		res.setContentType("text/html");
         res.setCharacterEncoding("utf-8");
@@ -69,10 +69,10 @@ public class ServletHelper {
         writer.write(s + (s.matches(".*'tsort'.*") ? sBacktop.replaceAll("\\#\\#\\#", "left") + sBacktop.replaceAll("\\#\\#\\#", "right") : ""));
 	}
 	
-	public static void writeLinkHtml(HttpServletRequest req, HttpServletResponse res, StringBuffer sb) throws ServletException, IOException {
+	public static void writePageHtml(HttpServletRequest req, HttpServletResponse res, StringBuffer sb) throws ServletException, IOException {
 		req.setAttribute("version", "v=" + ConfigUtils.getProperty("version"));
 		req.setAttribute("html", sb.toString());
-		req.getRequestDispatcher("/jsp/db/link.jsp").forward(req, res);
+		req.getRequestDispatcher("/jsp/db/default.jsp").forward(req, res);
 	}
 	
 	public static void writeText(HttpServletResponse res, String s) throws IOException {

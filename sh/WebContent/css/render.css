@@ -11,7 +11,7 @@
 }
 .tc th{
 	font-weight: bold;
-	background-color: #FFA;
+	background-color: #FFC;
 	text-align: center;
 	padding: 3px 10px;
 }
@@ -153,7 +153,7 @@
 	/*margin: auto;*/
 }
 .tc .info .logo, .tc .info .flag{
-	padding: 5px 10px;
+	padding: 5px 5px;
 }
 .tc .info .flag img, .tc .info .otherflags img{
 	border: 1px solid #666;
@@ -200,7 +200,7 @@
 	background: transparent url(../img/render/seemore.gif) center center no-repeat;
 }
 .tc .refseefull td:hover{
-	background-color: #FFA;
+	background-color: #FFC;
 }
 .tc .draw{
 	height: 540px;
@@ -219,7 +219,7 @@
 	border: none;
 }
 .tc .draw .box td, .draw .box th{
-	font-size: 11px;
+	font-size: 12px;
 	text-align: left;
 	padding: 2px 2px;
 }
@@ -319,4 +319,10 @@
 .tc .info .extlinks td table td{
 	padding: 0px;
 	border: none;
+}
+.tc .titlebar{
+	background: url(../img/menu/dbsearch.png) left center no-repeat;
+	padding-top: 7px;
+	padding-left: 20px;
+	height: 20px;
 }

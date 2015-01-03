@@ -38,7 +38,9 @@ public class ResultServlet extends AbstractServlet {
 			if (hParams.containsKey("run")) { // View results
 				boolean isLink = false;
 				if (hParams.containsKey("p") && !hParams.containsKey("redirect")) {
-					String[] t = String.valueOf(hParams.get("p")).split("\\-");
+					String p = String.valueOf(hParams.get("p"));
+					p = StringUtils.decode(p);
+					String[] t = p.split("\\-");
 					hParams.put("sp", t[0]);
 					hParams.put("cp", t[1]);
 					hParams.put("ev", t[2]);
@@ -64,10 +66,10 @@ public class ResultServlet extends AbstractServlet {
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
 					else
-						ServletHelper.writeLinkHtml(request, response, html);
+						ServletHelper.writePageHtml(request, response, html);
 				}
 				else
-					ServletHelper.writeHtml(response, html.append(isLink ? "</div>" : ""), getLocale(request));
+					ServletHelper.writeTabHtml(response, html.append(isLink ? "</div>" : ""), getLocale(request));
 			}
 			else { // Picklists
 				Collection<PicklistBean> cPicklist = new ArrayList<PicklistBean>();
