@@ -3,17 +3,15 @@
 <properties>
 <!-- HEADER -->
 	<entry key="title">SPORTHENON - Temple des résultats sportifs</entry>
-	<entry key="menu.home">ACCUEIL</entry>
 	<entry key="menu.results">RÉSULTATS</entry>
 	<entry key="menu.olympics">OLYMPIQUE</entry>
 	<entry key="menu.usleagues">LIGUES US</entry>
-	<entry key="menu.search">RECHERCHE</entry>
-	<entry key="menu.project">PROJET</entry>
 	<entry key="menu.results.2">Résultats</entry>
 	<entry key="menu.olympics.2">Olympique</entry>
 	<entry key="menu.usleagues.2">Ligues US</entry>
-	<entry key="menu.search.2">Recherche</entry>
-	<entry key="menu.project.2">Projet</entry>
+	<entry key="menu.home">Accueil</entry>
+	<entry key="menu.project">Projet</entry>
+	<entry key="menu.contribute">Contribuer</entry>
 	<entry key="share">Partager</entry>
 <!-- GLOBAL -->
 	<entry key="ok">OK</entry>

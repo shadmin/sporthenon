@@ -46,7 +46,7 @@ input{
 	font-weight: bold;
 	border-bottom: 1px solid gray;
 	background-color: #FFC;
-	padding: 5px;
+	padding: 4px;
 	padding-left: 23px;
 	background-position: 3px center;
 	background-repeat: no-repeat;
@@ -139,10 +139,37 @@ input{
 	background: #FFF url(../img/header/bg3.png?4) 0 0 repeat-x;
 	margin-left: 244px;
 }
+#menutop{
+	font: 11px Verdana;
+	float: left;
+	margin-top: 28px;
+	margin-left: 4px;
+}
+#menutop div{
+	float: left;
+	height: 16px;
+	padding: 2px;
+	padding-left: 20px;
+	margin-right: 6px;
+}
+#menutop #mthome{
+	background: url(../img/menu/home.png) left 0 no-repeat;
+}
+#menutop #mtproject{
+	background: url(../img/menu/project.png) left 0 no-repeat;
+	margin-right: 7px;
+}
+#menutop #mtcontribute{
+	background: url(../img/menu/contribute.png) left 0 no-repeat;
+}
+#flags{
+	padding: 2px;
+	text-align: right;
+}
 #headertop #searchpanel{
 	float: right;
-	margin-top: 18px;
-	margin-right: 8px;
+	margin-top: 1px;
+	margin-right: 5px;
 }
 #headertop #searchpanel td{
 	padding: 1px;
@@ -153,6 +180,7 @@ input{
 #logo{
 	margin: 12px;
 	margin-top: 12px;
+	margin-bottom: 0px;
 	width: 210px;
 }
 #logo img{
@@ -164,8 +192,7 @@ input{
 	list-style-type: none;
 	text-align: right;
 	padding-bottom: 0px;
-	font: 14px Verdana;
-	margin-top: 10px;
+	font: 12px Verdana;
 }
 #shmenu ul{
 	margin: 0px;
@@ -175,8 +202,8 @@ input{
 	list-style: none;
 	margin: 0;
 	margin-bottom: 20px;
-	padding-left: 35px;
-	padding-right: 35px;
+	padding-left: 60px;
+	padding-right: 60px;
 	text-align: center;
 }
 #shmenu li a{
@@ -186,11 +213,11 @@ input{
 	text-decoration: none;
 	margin-left: 2px;
 	padding: 6px 8px;
-	padding-left: 25px;
+	padding-top: 25px;
 	padding-right: 4px;
 	border: 1px solid #000;
 	background-color: #FAFAFA;
-	background-position: 5px center;
+	background-position: center 5px;
 	background-repeat: no-repeat;
 }
 #shmenu a.selected{
@@ -200,29 +227,23 @@ input{
 	border-right: 1px solid #000;
 	color: #FFF;
 }
-#shmenu-home{
-	background-image:url(../img/menu/home.png?3);
-}
-#shmenu-home:hover, #shmenu-home.selected{
-	background-color: #ec7900;
-}
 #shmenu-results{
 	background-image:url(../img/menu/dbresults.png?3);
 }
 #shmenu-results:hover, #shmenu-results.selected{
-	background-color: #a30096;
+	background-color: darkorange;
 }
 #shmenu-olympics{
 	background-image:url(../img/menu/dbolympics.png?3);
 }
 #shmenu-olympics:hover, #shmenu-olympics.selected{
-	background-color: #0028d9;
+	background-color: blue;
 }
 #shmenu-usleagues{
 	background-image:url(../img/menu/dbusleagues.png?3);
 }
 #shmenu-usleagues:hover, #shmenu-usleagues.selected{
-	background-color: #d00c0c;
+	background-color: red;
 }
 .bgresults, .fscontent td.bgresults{
 	background:url(../img/menu/bg-results.png?4) left top repeat-y;
@@ -235,11 +256,6 @@ input{
 .bgusleagues, .fscontent td.bgusleagues{
 	background:url(../img/menu/bg-usleagues.png?3) left top repeat-y;
 	padding-left: 10px;
-}
-#flags{
-	width: 230px;
-	margin-top: 30px;
-	text-align: right;
 }
 #links{
 	margin: 5px;
@@ -262,8 +278,8 @@ input{
 	margin: 5px;
 	margin-top: 0px;
 	margin-left: 249px;
-	padding: 10px;
-	padding-top: 5px;
+	padding: 8px;
+	padding-top: 3px;
 	font: 12px Verdana;
 	border: 1px solid transparent;
 }
@@ -562,7 +578,7 @@ input{
 	padding-left: 2px;
 	cursor: pointer;
 }
-#treeview .over{
+#treeview .over {
 	text-decoration: underline;
 }
 /* ========== HOME ========== */
@@ -712,7 +728,7 @@ input{
 	border-right: 1px solid #DDD;
 }
 #tree .treediv .collapsed{
-	height: 197px;
+	height: 207px;
 	border-right: none;
 }
 #tree .treetitle{

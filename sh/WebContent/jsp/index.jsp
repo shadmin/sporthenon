@@ -6,7 +6,7 @@
 <%@ page import="java.util.List" %>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="home">
-<div class="homecontent right">
+<div class="homecontent right" style="display:none;">
 	<!-- STATISTICS -->
 	<div class="fieldset" style="margin-top:0px;">
 		<div class="fstitle statistics"><%=StringUtils.text("title.statistics", session)%></div>

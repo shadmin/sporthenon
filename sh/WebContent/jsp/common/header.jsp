@@ -43,13 +43,11 @@
 	<div id="logo"><a href="/" title="Home Page"><img src="img/icon.png?v=8" alt="Sporthenon.com"/></a></div>
 	<div id="shmenu">
 		<ul>
-			<li><a id="shmenu-home" <%=(mn.equals("home") ? "class='selected'" : "")%> href="/"><%=StringUtils.text("menu.home", session)%></a></li>
 			<li><a id="shmenu-results" <%=(mn.equals("results") ? "class='selected'" : "")%> href="results"><%=StringUtils.text("menu.results", session)%></a></li>
 			<li><a id="shmenu-olympics" <%=(mn.equals("olympics") ? "class='selected'" : "")%> href="olympics"><%=StringUtils.text("menu.olympics", session)%></a></li>
 			<li><a id="shmenu-usleagues" <%=(mn.equals("usleagues") ? "class='selected'" : "")%> href="usleagues"><%=StringUtils.text("menu.usleagues", session)%></a></li>
 		</ul>
 	</div>
-	<div id="flags"><a title="English" href="javascript:setLang('en');"><img alt="EN" src="img/header/lang-en.png"/></a>&nbsp;<a title="Français" href="javascript:setLang('fr');"><img alt="FR" src="img/header/lang-fr.png"/></a>&nbsp;</div>
 	<div id="links">
 		<table>
 			<tr><td style="padding-bottom:3px;"><%=StringUtils.text("share", session)%>:</td>
@@ -60,7 +58,6 @@
 		<a target="_blank" title="Sporthenon on Google Code" style="display:none;" href="https://code.google.com/p/sporthenon/"><img src="img/header/gcode.png" alt="Google Code"/></a>
 		<a target="_blank" title="Valid XHTML 1.1" href="http://validator.w3.org/check?uri=referer"><img src="img/header/validxhtml11.png" alt="Valid XHTML 1.1"/></a><br/>
 		&copy;2011-15&nbsp;(sporthenon.com)<br/>
-	<br/><a href="project">Project</a><br/><br/>
 		<div id="version">Version&nbsp;<%=ConfigUtils.getProperty("version")%></div>
 	</div>
 </div>
@@ -93,15 +90,21 @@
 	var TEXT_SELECT = "<%=StringUtils.text("select", session)%>";
 	var TEXT_SELECTION = "<%=StringUtils.text("selection", session)%>";
 	var TEXT_LOADING = "<%=StringUtils.text("loading", session)%>";
+	var TEXT_SEARCH = "<%=StringUtils.text("search.for", session)%>";
 </script>
 
 <div id="headertop">
+	<div id="menutop">
+		<div id="mthome"><a href="/"><%=StringUtils.text("menu.home", session)%></a></div>
+		<div id="mtproject"><a href="project"><%=StringUtils.text("menu.project", session)%></a></div>
+		<div id="mtcontribute"><a href="contribute"><%=StringUtils.text("menu.contribute", session)%></a></div>
+	</div>
+	<div id="flags"><a title="English" href="javascript:setLang('en');"><img alt="EN" src="img/header/lang-en.png"/></a>&nbsp;<a title="Français" href="javascript:setLang('fr');"><img alt="FR" src="img/header/lang-fr.png"/></a>&nbsp;</div>
 	<div id="searchpanel">
 		<table style="border-spacing:0px;"><tr><td><a title="Click for advanced search" href="search"><img src="img/menu/dbsearch.png"/></a></td>
-		<td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="dpattern" id="dpattern" title="Search in Sporthenon" onkeydown="directSearch();" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');" onkeydown="if(event.keyCode == 13){runSearch();}"></input></td>
+		<td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.for", session)%>" title="Search in Sporthenon" onkeydown="directSearch();" onfocus="dpatternFocus();" onblur="dpatternBlur();" style="color:#AAA;"></input></td>
 		</tr></table>
 	</div>
-Sporthenon, le temple des résultats sportifs
 </div>
 
 <div id="content">

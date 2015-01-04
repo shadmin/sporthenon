@@ -42,11 +42,11 @@ public class StringUtils {
 	}
 	
 	public static String encode(String s) {
-		 return Base64.encodeBytes(s.getBytes());
+		 return Base64.encodeBytes(s.getBytes()).replaceAll("\\=$", "");
 	}
 	
 	public static String decode(String s) {
-		return new String(Base64.decode(s));
+		return new String(Base64.decode(s + "="));
 	}
 	
 	public static String implode(Iterable<String> tValues, String sSeparator) {
