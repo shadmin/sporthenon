@@ -38,7 +38,8 @@ public class InfoRefServlet extends AbstractServlet {
 			
 			if (isResult) {
 				Result rs = (Result) DatabaseHelper.loadEntity(Result.class, new Integer(params[1]));
-				response.sendRedirect("results?redirect=1&run=1&sp=" + rs.getSport().getId() + "&cp=" + rs.getChampionship().getId() + "&ev=" + rs.getEvent().getId() + "&se=" + (rs.getSubevent() != null ? rs.getSubevent().getId() : "") + "&se2=" + (rs.getSubevent2() != null ? rs.getSubevent2().getId() : ""));
+				String p = rs.getSport().getId() + "-" + rs.getChampionship().getId() + "-" + rs.getEvent().getId() + "-" + (rs.getSubevent() != null ? rs.getSubevent().getId() : "") + "-" + (rs.getSubevent2() != null ? rs.getSubevent2().getId() : "") + "-0";
+				response.sendRedirect("/results?p=" + StringUtils.encode(p));
 			}
 			else {
 				// Info

@@ -983,6 +983,20 @@ function resetUSLeagues() {
 	changeLeague('nfl');
 }
 /* ==================== SEARCH ==================== */
+function dpatternFocus() {
+	$('dpattern').addClassName('selected');
+	if ($F('dpattern') == TEXT_SEARCH) {
+		$('dpattern').style.color = '#000';
+		$('dpattern').value = '';
+	}
+}
+function dpatternBlur() {
+	$('dpattern').removeClassName('selected');
+	if ($F('dpattern') == '') {
+		$('dpattern').style.color = '#AAA';
+		$('dpattern').value = TEXT_SEARCH;
+	}
+}
 function directSearch() {
 	if (event.keyCode == 13) {
 		location.href = 'search?p=' + $F('dpattern');
