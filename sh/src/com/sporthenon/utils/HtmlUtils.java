@@ -82,13 +82,19 @@ public class HtmlUtils {
 		html.append("<span class='shorttitle'>" + h.get("tabshorttitle") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
-		html.append("<table class='header'><tr><th colspan='2' class='" + h.get("bgtitle") + "'>" + h.get("title") + "</th></tr>");
-		html.append("<tr><td class='logos' rowspan='4'>" + h.get("logos") + "</td>");
-		html.append("<td>" + h.get("item1") + "</td></tr>");
-		html.append("<tr><td>" + (h.containsKey("item2") && StringUtils.notEmpty(h.get("item2")) ? h.get("item2") : "-") + "</td></tr>");
-		html.append("<tr><td>" + (h.containsKey("item3") &&StringUtils.notEmpty(h.get("item3")) ? h.get("item3") : "-") + "</td></tr>");
-		html.append("<tr><td>" + (h.containsKey("item4") &&StringUtils.notEmpty(h.get("item4")) ? h.get("item4") : "-") + "</td></tr>");			
-		html.append("</table>");
+		html.append("<div class='header'><table><tr><td><b>" + h.get("item0") + "</b></td>");
+		html.append(h.containsKey("item1") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item1") + "</td>" : "");
+		html.append(h.containsKey("item2") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item2") + "</td>" : "");
+		html.append(h.containsKey("item3") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item3") + "</td>" : "");
+		html.append(h.containsKey("item4") ? "<td class='arrow'>&nbsp;</td><td" + (!h.get("item4").matches(".*\\<img.*") ? " style='padding-bottom:2px;'" : "") + ">" + h.get("item4") + "</td>" : "");
+		html.append(h.containsKey("item5") ? "<td class='arrow'>&nbsp;</td><td" + (!h.get("item5").matches(".*\\<img.*") ? " style='padding-bottom:2px;'" : "") + ">" + h.get("item5") + "</td>" : "");
+		html.append("</tr></table></div>");
+		html.append("<div class='toolbar'>");
+		html.append("<table><tr><td><img src='img/component/button/export.png'/></td><td><a href='#'>Export</a></td>");
+		html.append("<td><img src='img/component/button/link.png'/></td><td><a href='#'>Link</a></td>");
+		html.append("<td><img src='img/component/button/print.png'/></td><td><a href='#'>Print</a></td>");
+		html.append("<td><img src='img/component/button/info.png'/></td><td><a href='#'>Info</a></td>");
+		html.append("</tr></table></div>");
 		return html;
 	}
 	

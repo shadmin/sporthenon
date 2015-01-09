@@ -168,6 +168,11 @@
 	<entry key="select">Select</entry>
 	<entry key="selection">Selection</entry>
 	<entry key="today">Today</entry>
+	<entry key="more">More</entry>
+	<entry key="draw.qf">Quarter-final</entry>
+	<entry key="draw.sf">Semi-final</entry>
+	<entry key="draw.thd">Third place</entry>
+	<entry key="draw.f">Final</entry>
 <!-- HOME -->
 	<entry key="title.info">WHAT IS SPORTHENON ?</entry>
 	<entry key="title.news">NEWS</entry>

@@ -245,18 +245,6 @@ input{
 #shmenu-usleagues:hover, #shmenu-usleagues.selected{
 	background-color: red;
 }
-.bgresults, .fscontent td.bgresults{
-	background:url(../img/menu/bg-results.png?4) left top repeat-y;
-	padding-left: 10px;
-}
-.bgolympics, .fscontent td.bgolympics{
-	background:url(../img/menu/bg-olympics.png?3) left top repeat-y;
-	padding-left: 10px;
-}
-.bgusleagues, .fscontent td.bgusleagues{
-	background:url(../img/menu/bg-usleagues.png?3) left top repeat-y;
-	padding-left: 10px;
-}
 #links{
 	margin: 5px;
 	/*margin-top: 25px;*/
