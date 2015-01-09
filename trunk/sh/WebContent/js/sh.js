@@ -269,6 +269,12 @@ function toggleTreeExpand() {
 	//img.title = img.alt;
 	treeExpanded = !treeExpanded;
 }
+function moreImg(c) {
+	$$('.' + c).each(function(el) {
+		el.show();
+	});
+	$(c + '-link').hide();
+}
 /* ==================== UTILS ==================== */
 var t1 = null;
 var t2 = null;

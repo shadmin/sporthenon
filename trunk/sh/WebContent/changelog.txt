@@ -12,6 +12,10 @@ count medals stats sur links (ex. bubka)
 checkbox include postseason/super bowl pour records
 optimiser affichage sur references pays (pas tout charger)
 check bug sur draws (djokovic - pb merge ?)
+COUNT_REF ajouter ref dans DRAWS
+afficher par defaut 3 other flags + lien "more"
+URL encoding
+ajouter QF/SF sur ref entity results
 
 +-------+
 | 0.8.2 |

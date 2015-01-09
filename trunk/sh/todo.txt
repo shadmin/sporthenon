@@ -1,12 +1,9 @@
-URL encoding
 layout home
 check exports
 check title / session
 logo par sport+event (foot-coupe de france / tennis-us open)
-ajouter QF/SF sur ref entity results
-COUNT_REF ajouter ref dans DRAWS
-afficher par defaut 3 other flags + lien "more"
 portail par sport : modifier le ref SP-1
+reporter boutons actions tab sur page simple
 ----------------------------------------
 --gestion detail personnes (equipes + relais)
 --graphique pour stats home
