@@ -87,6 +87,9 @@
 	var TEXT_SELECTION = "<%=StringUtils.text("selection", session)%>";
 	var TEXT_LOADING = "<%=StringUtils.text("loading", session)%>";
 	var TEXT_SEARCH = "<%=StringUtils.text("search.for", session)%>";
+	var TEXT_DESC_RESULTS = "<%=StringUtils.text("desc.results", session)%>";
+	var TEXT_DESC_OLYMPICS = "<%=StringUtils.text("desc.olympics", session)%>";
+	var TEXT_DESC_USLEAGUES = "<%=StringUtils.text("desc.usleagues", session)%>";
 </script>
 
 <div id="headertop">

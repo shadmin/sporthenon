@@ -1649,18 +1649,19 @@ public class HtmlConverter {
 	}
 	
 	public static StringBuffer convertLastUpdates(Collection<Object> coll, String lang) throws Exception {
-		StringBuffer html = new StringBuffer("<table><tr><th>" + ResourceUtils.getText("year", lang) + "</th><th>" + ResourceUtils.getText("sport", lang) + "</th><th>" + ResourceUtils.getText("event", lang) + "</th><th>" + ResourceUtils.getText("rank.1", lang) + "</th><th>" + ResourceUtils.getText("updated", lang) + "</th></tr>");
+		StringBuffer html = new StringBuffer("<table><tr><th>" + ResourceUtils.getText("year", lang) + "</th><th>" + ResourceUtils.getText("sport", lang) + "</th><th>" + ResourceUtils.getText("event", lang) + "</th><th>" + ResourceUtils.getText("entity.RS.1", lang) + "</th><th>" + ResourceUtils.getText("updated", lang) + "</th></tr>");
 		for (Object obj : coll) {
 			LastUpdateBean bean = (LastUpdateBean) obj;
 
 			String pos1 = null;
+			String pos2 = null;
 			int number = (bean.getTp3Number() != null ? bean.getTp3Number() : (bean.getTp2Number() != null ? bean.getTp2Number() : bean.getTp1Number()));
-			if (number < 10 && bean.getPrLastName() != null)
-				pos1 = (StringUtils.notEmpty(bean.getPrFirstName()) ? bean.getPrFirstName().substring(0, 1) + "." : "") + bean.getPrLastName();
+			if (number < 10 && bean.getPr1LastName() != null)
+				pos1 = (StringUtils.notEmpty(bean.getPr1FirstName()) ? bean.getPr1FirstName().substring(0, 1) + "." : "") + bean.getPr1LastName();
 			else if (number == 50)
-				pos1 = bean.getTmLabel();
+				pos1 = bean.getTm1Label();
 			else if (number == 99)
-				pos1 = bean.getCnCode();
+				pos1 = bean.getCn1Label();
 			String update = new SimpleDateFormat("dd/MM/yyyy hh:mm").format(bean.getRsUpdate());
 			
 			// Write line
