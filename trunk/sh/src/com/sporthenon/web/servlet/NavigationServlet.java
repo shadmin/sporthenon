@@ -29,17 +29,13 @@ public class NavigationServlet extends AbstractServlet {
 		hPages.put("/usleagues", "db/usleagues.jsp");
 		hPages.put("/search", "db/search.jsp");
 		hPages.put("/project", "project.jsp");
+		hPages.put("/contribute", "contribute.jsp");
 		hServlet = new HashMap<String, String>();
 		hServlet.put("/results", "/ResultServlet");
 		hServlet.put("/olympics", "/OlympicsServlet");
 		hServlet.put("/usleagues", "/USLeaguesServlet");
 		hServlet.put("/search", "/SearchServlet");
 		hServlet.put("/ref", "/InfoRefServlet");
-//		hServlet.put("/re", "/ResultServlet");
-//		hServlet.put("/ol", "/OlympicsServlet");
-//		hServlet.put("/ul", "/USLeaguesServlet");
-//		hServlet.put("/se", "/SearchServlet");
-//		hServlet.put("/rf", "/InfoRefServlet");
 		hMenu = new HashMap<String, String>();
 //		hMenu.put("/home", "home");
 		hMenu.put("/results", "results");

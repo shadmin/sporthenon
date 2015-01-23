@@ -2,6 +2,7 @@ package com.sporthenon.web.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -14,9 +15,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.sporthenon.db.DatabaseHelper;
+import com.sporthenon.db.PicklistBean;
 import com.sporthenon.db.converter.HtmlConverter;
+import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.function.StatisticsBean;
+import com.sporthenon.utils.HtmlUtils;
+import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
+import com.sporthenon.utils.res.ResourceUtils;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 public class IndexServlet extends AbstractServlet {
@@ -74,6 +80,30 @@ private static final long serialVersionUID = 1L;
 		catch (Exception e) {
 			handleException(e);
 		}
+	}
+	
+	public static String getSportDivs(String lang) throws Exception {
+		HashMap<Integer, String> hSports = new HashMap<Integer, String>();
+		Collection<PicklistBean> cPicklist = DatabaseHelper.getEntityPicklist(Sport.class, "label", null, lang);
+		for (PicklistBean plb : cPicklist) {
+			String img = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, plb.getValue(), ImageUtils.SIZE_LARGE, null, null);
+			img = img.replaceAll(".*\\ssrc\\='|'/\\>", "");
+			hSports.put(plb.getValue(), "<div id='sport-#INDEX#' class='sport' onclick=\"info('" + StringUtils.encode("SP-" + plb.getValue()) + "');\" style=\"#DISPLAY#background-image:url('" + img + "');\">" + plb.getText().replaceAll("\\s", "&nbsp;") + "</div>");
+		}
+		StringBuffer sports = new StringBuffer();
+		int index = 0;
+		for (Integer i : new Integer[]{21, 7, 5, 22, 1, 24}) // Football, Rugby, Auto Racing, Tennis, Athletics, Basketball
+			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)).replaceAll("#DISPLAY#", ""));
+		sports.append("<div class='otherimglink' style='padding-top:102px;'><a href='javascript:moreSports(7, 12);'>" + ResourceUtils.getText("more.sports", lang) + "</a></div>");
+		for (Integer i : new Integer[]{8, 19, 13, 20, 2, 30}) // Alpine Skiing, Cycling, Volleyball, Golf, Swimming, Boxing 
+			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)).replaceAll("#DISPLAY#", "display:none;"));
+		sports.append("<div id='more-7-12' class='otherimglink' style='display:none;padding-top:102px;'><a href='javascript:moreSports(13, 18);'>" + ResourceUtils.getText("more.sports", lang) + "</a></div>");
+		for (Integer i : new Integer[]{15, 14, 18, 25, 42, 48}) // Bobsleigh, Fencing, Motorcycling, Ice Hockey, Judo, Cricket
+			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)).replaceAll("#DISPLAY#", "display:none;"));
+		sports.append("<div id='more-13-18' class='otherimglink' style='display:none;padding-top:102px;'><a href='javascript:moreSports(19, 24);'>" + ResourceUtils.getText("more.sports", lang) + "</a></div>");
+		for (Integer i : new Integer[]{45, 50, 41, 34, 31, 27}) // Squash, Wrestling, Diving, Weightlifting, Archery, Badminton
+			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)).replaceAll("#DISPLAY#", "display:none;"));
+		return sports.toString();
 	}
 	
 }

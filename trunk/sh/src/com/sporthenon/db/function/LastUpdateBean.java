@@ -13,6 +13,12 @@ public class LastUpdateBean {
 	@Column(name = "rs_id")
 	private Integer rsId;
 	
+	@Column(name = "rs_text1")
+	private String rsText1;
+	
+	@Column(name = "rs_text2")
+	private String rsText2;
+	
 	@Column(name = "yr_label")
 	private String yrLabel;
 	
@@ -58,124 +64,56 @@ public class LastUpdateBean {
 	@Column(name = "tp3_number")
 	private Integer tp3Number;
 	
-	@Column(name = "pr_first_name")
-	private String prFirstName;
+	@Column(name = "pr1_first_name")
+	private String pr1FirstName;
 	
-	@Column(name = "pr_last_name")
-	private String prLastName;
+	@Column(name = "pr1_last_name")
+	private String pr1LastName;
 	
-	@Column(name = "tm_label")
-	private String tmLabel;
+	@Column(name = "pr1_country")
+	private Integer pr1Country;
 	
-	@Column(name = "cn_code")
-	private String cnCode;
+	@Column(name = "pr2_first_name")
+	private String pr2FirstName;
 	
+	@Column(name = "pr2_last_name")
+	private String pr2LastName;
+	
+	@Column(name = "pr2_country")
+	private Integer pr2Country;
+	
+	@Column(name = "tm1_label")
+	private String tm1Label;
+	
+	@Column(name = "tm2_label")
+	private String tm2Label;
+	
+	@Column(name = "cn1_code")
+	private String cn1Code;
+	
+	@Column(name = "cn1_label")
+	private String cn1Label;
+	
+	@Column(name = "cn2_code")
+	private String cn2Code;
+	
+	@Column(name = "cn2_label")
+	private String cn2Label;
+
 	public Integer getRsId() {
 		return rsId;
 	}
 
+	public String getRsText1() {
+		return rsText1;
+	}
+
+	public String getRsText2() {
+		return rsText2;
+	}
+
 	public String getYrLabel() {
 		return yrLabel;
-	}
-
-	public String getSpLabel() {
-		return spLabel;
-	}
-
-	public String getCpLabel() {
-		return cpLabel;
-	}
-
-	public String getEvLabel() {
-		return evLabel;
-	}
-
-	public String getSeLabel() {
-		return seLabel;
-	}
-
-	public void setRsId(Integer rsId) {
-		this.rsId = rsId;
-	}
-
-	public void setYrLabel(String yrLabel) {
-		this.yrLabel = yrLabel;
-	}
-
-	public void setSpLabel(String spLabel) {
-		this.spLabel = spLabel;
-	}
-
-	public void setCpLabel(String cpLabel) {
-		this.cpLabel = cpLabel;
-	}
-
-	public void setEvLabel(String evLabel) {
-		this.evLabel = evLabel;
-	}
-
-	public void setSeLabel(String seLabel) {
-		this.seLabel = seLabel;
-	}
-
-	public Timestamp getRsUpdate() {
-		return rsUpdate;
-	}
-
-	public Integer getTp1Number() {
-		return tp1Number;
-	}
-
-	public Integer getTp2Number() {
-		return tp2Number;
-	}
-	
-	public Integer getTp3Number() {
-		return tp3Number;
-	}
-
-	public String getPrFirstName() {
-		return prFirstName;
-	}
-
-	public String getPrLastName() {
-		return prLastName;
-	}
-
-	public String getTmLabel() {
-		return tmLabel;
-	}
-
-	public String getCnCode() {
-		return cnCode;
-	}
-
-	public void setRsUpdate(Timestamp rsUpdate) {
-		this.rsUpdate = rsUpdate;
-	}
-
-	public void setTp1Number(Integer tp1Number) {
-		this.tp1Number = tp1Number;
-	}
-
-	public void setTp2Number(Integer tp2Number) {
-		this.tp2Number = tp2Number;
-	}
-
-	public void setPrFirstName(String prFirstName) {
-		this.prFirstName = prFirstName;
-	}
-
-	public void setPrLastName(String prLastName) {
-		this.prLastName = prLastName;
-	}
-
-	public void setTmLabel(String tmLabel) {
-		this.tmLabel = tmLabel;
-	}
-
-	public void setCnCode(String cnCode) {
-		this.cnCode = cnCode;
 	}
 
 	public Integer getSpId() {
@@ -194,6 +132,110 @@ public class LastUpdateBean {
 		return seId;
 	}
 
+	public Integer getSe2Id() {
+		return se2Id;
+	}
+
+	public String getSpLabel() {
+		return spLabel;
+	}
+
+	public String getCpLabel() {
+		return cpLabel;
+	}
+
+	public String getEvLabel() {
+		return evLabel;
+	}
+
+	public String getSeLabel() {
+		return seLabel;
+	}
+
+	public String getSe2Label() {
+		return se2Label;
+	}
+
+	public Timestamp getRsUpdate() {
+		return rsUpdate;
+	}
+
+	public Integer getTp1Number() {
+		return tp1Number;
+	}
+
+	public Integer getTp2Number() {
+		return tp2Number;
+	}
+
+	public Integer getTp3Number() {
+		return tp3Number;
+	}
+
+	public String getPr1FirstName() {
+		return pr1FirstName;
+	}
+
+	public String getPr1LastName() {
+		return pr1LastName;
+	}
+
+	public Integer getPr1Country() {
+		return pr1Country;
+	}
+
+	public String getPr2FirstName() {
+		return pr2FirstName;
+	}
+
+	public String getPr2LastName() {
+		return pr2LastName;
+	}
+
+	public Integer getPr2Country() {
+		return pr2Country;
+	}
+
+	public String getTm1Label() {
+		return tm1Label;
+	}
+
+	public String getTm2Label() {
+		return tm2Label;
+	}
+
+	public String getCn1Code() {
+		return cn1Code;
+	}
+
+	public String getCn1Label() {
+		return cn1Label;
+	}
+
+	public String getCn2Code() {
+		return cn2Code;
+	}
+
+	public String getCn2Label() {
+		return cn2Label;
+	}
+
+	public void setRsId(Integer rsId) {
+		this.rsId = rsId;
+	}
+
+	public void setRsText1(String rsText1) {
+		this.rsText1 = rsText1;
+	}
+
+	public void setRsText2(String rsText2) {
+		this.rsText2 = rsText2;
+	}
+
+	public void setYrLabel(String yrLabel) {
+		this.yrLabel = yrLabel;
+	}
+
 	public void setSpId(Integer spId) {
 		this.spId = spId;
 	}
@@ -210,24 +252,92 @@ public class LastUpdateBean {
 		this.seId = seId;
 	}
 
-	public String getSe2Label() {
-		return se2Label;
+	public void setSe2Id(Integer se2Id) {
+		this.se2Id = se2Id;
+	}
+
+	public void setSpLabel(String spLabel) {
+		this.spLabel = spLabel;
+	}
+
+	public void setCpLabel(String cpLabel) {
+		this.cpLabel = cpLabel;
+	}
+
+	public void setEvLabel(String evLabel) {
+		this.evLabel = evLabel;
+	}
+
+	public void setSeLabel(String seLabel) {
+		this.seLabel = seLabel;
 	}
 
 	public void setSe2Label(String se2Label) {
 		this.se2Label = se2Label;
 	}
 
+	public void setRsUpdate(Timestamp rsUpdate) {
+		this.rsUpdate = rsUpdate;
+	}
+
+	public void setTp1Number(Integer tp1Number) {
+		this.tp1Number = tp1Number;
+	}
+
+	public void setTp2Number(Integer tp2Number) {
+		this.tp2Number = tp2Number;
+	}
+
 	public void setTp3Number(Integer tp3Number) {
 		this.tp3Number = tp3Number;
 	}
 
-	public Integer getSe2Id() {
-		return se2Id;
+	public void setPr1FirstName(String pr1FirstName) {
+		this.pr1FirstName = pr1FirstName;
 	}
 
-	public void setSe2Id(Integer se2Id) {
-		this.se2Id = se2Id;
+	public void setPr1LastName(String pr1LastName) {
+		this.pr1LastName = pr1LastName;
+	}
+
+	public void setPr1Country(Integer pr1Country) {
+		this.pr1Country = pr1Country;
+	}
+
+	public void setPr2FirstName(String pr2FirstName) {
+		this.pr2FirstName = pr2FirstName;
+	}
+
+	public void setPr2LastName(String pr2LastName) {
+		this.pr2LastName = pr2LastName;
+	}
+
+	public void setPr2Country(Integer pr2Country) {
+		this.pr2Country = pr2Country;
+	}
+
+	public void setTm1Label(String tm1Label) {
+		this.tm1Label = tm1Label;
+	}
+
+	public void setTm2Label(String tm2Label) {
+		this.tm2Label = tm2Label;
+	}
+
+	public void setCn1Code(String cn1Code) {
+		this.cn1Code = cn1Code;
+	}
+
+	public void setCn1Label(String cn1Label) {
+		this.cn1Label = cn1Label;
+	}
+
+	public void setCn2Code(String cn2Code) {
+		this.cn2Code = cn2Code;
+	}
+
+	public void setCn2Label(String cn2Label) {
+		this.cn2Label = cn2Label;
 	}
 	
 }

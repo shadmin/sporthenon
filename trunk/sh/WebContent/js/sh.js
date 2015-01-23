@@ -567,6 +567,10 @@ function selMultClick() {
 	sel.checkboxOnClick(c);
 }
 /* ==================== HOME ==================== */
+function overTopic(txt) {
+	$('details').update(txt);
+	$('details').show();
+}
 function moreSports(index1, index2) {
 	for (var i = index1 ; i <= index2 ; i++) {
 		$('sport-' + i).show();

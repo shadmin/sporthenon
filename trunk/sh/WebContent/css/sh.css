@@ -264,7 +264,8 @@ input{
 	text-align: right;
 	padding: 8px;
 	padding-top: 2px;
-	font: 10px Tahoma;
+	margin-bottom: 10px;
+	font: 11px Verdana;
 	color: #888;
 }
 #content{
@@ -293,6 +294,17 @@ input{
 	margin-top: 5px;
 	overflow-x: hidden;
 	overflow-y: auto;
+}
+#dupdates td{
+	padding: 0px 3px;
+}
+#dupdates td table{
+	width: auto;
+	margin: 0px;
+}
+#dupdates td th, #dupdates td td{
+	border: none;
+	background-color: #FFF;
 }
 #ctupdates{
 	width: auto;
@@ -537,7 +549,7 @@ input{
 /* ========== TREEVIEW ========== */
 #treeview{
 	width: 100%;
-	overflow-x: auto;
+	overflow-x: hidden;
 	overflow-y: auto;
 	border: none;
 	margin-left: -5px;
@@ -579,20 +591,72 @@ input{
 .homecontent .fieldset .fscontent{
 	padding: 10px;
 }
+.homecontent hr {
+  height: 1px;
+  margin: 8px 0px;
+  padding: 0px;
+  border: 0px;
+  background-color: gray;
+}
+.homecontent #topics table{
+	width: auto;
+	margin-top: 6px;
+	border-collapse: separate;
+}
+.homecontent #topics td{
+	width: 90px;
+	font-weight: bold;
+	padding: 5px;
+	padding-left: 25px;
+	border: 1px solid #DDD;
+	cursor: pointer;
+	background-color: #FFF;
+	background-position: 6px center;
+	background-repeat: no-repeat;
+}
+.homecontent #topics td:hover{
+	color: #FFF;
+	border: 1px solid #000;
+}
+.homecontent #topics td.results{
+	background-image:url(../img/menu/dbresults.png?3);
+}
+.homecontent #topics td.results:hover{
+	background-color: darkorange;
+}
+.homecontent #topics td.olympics{
+	background-image:url(../img/menu/dbolympics.png?3);
+}
+.homecontent #topics td.olympics:hover{
+	background-color: blue;
+}
+.homecontent #topics td.usleagues{
+	background-image:url(../img/menu/dbusleagues.png?3);
+}
+.homecontent #topics td.usleagues:hover{
+	background-color: red;
+}
+.homecontent #topics #details{
+	border: none;
+	width: auto;
+	font-weight: normal;
+	padding: 5px;
+	padding-left: 15px;
+	background: transparent url(../img/render/more2.gif) left center no-repeat;
+}
 .homecontent #sports{
 	margin-top: 5px;
 	overflow: auto;
 }
 .homecontent #sports div.sport{
 	float: left;
-	width: 105px;
+	min-width: 105px;
 	border: 1px solid #FFF;
 	text-align: center;
 	padding: 1px;
 	padding-top: 100px;
 	font-weight: bold;
 	cursor: pointer;
-	overflow: visible;
 	background-position: center top;
 	background-repeat: no-repeat;
 }

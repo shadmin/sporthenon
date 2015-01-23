@@ -8,6 +8,6 @@
 	<div id="version">Version&nbsp;<%=ConfigUtils.getProperty("version")%></div></div>
 	&copy;2011-15&nbsp;(sporthenon.com)<br/>
 </div>
-<div class="loading" style="position:absolute;margin-left:auto;"></div>
+<div class="loading" style="position:absolute;display:none;margin-left:auto;"></div>
 </body>
 </html>
