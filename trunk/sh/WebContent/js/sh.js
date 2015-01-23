@@ -98,11 +98,17 @@ function updateTip(pl, empty) {
 	$(hTips.get(pl)).update(text);
 }
 function handleRender() {
-	var title = $('title-' + tabcurrent);
-	var tabId = '#t-' + tabcurrent;
-	var shorttitle = $$(tabId + ' .shorttitle')[0].innerHTML;
+	var tabId = null;
+	if (tabs != null) {
+		tabId = '#t-' + tabcurrent;
+		var title = $('title-' + tabcurrent);
+		var shorttitle = $$(tabId + ' .shorttitle')[0].innerHTML;
+		title.update(shorttitle);		
+	}
+	else {
+		tabId = '#content';
+	}
 	var info = $$(tabId + ' .infostats')[0];
-	title.update(shorttitle);
 	$$(tabId + ' .rendertip').each(function(el) {
 		new Control.Window($(document.body).down('[href=#' + el.id + ']'),{  
 			position: 'relative', hover: true, offsetLeft: 20, offsetTop: 0, className: 'tip'
@@ -292,6 +298,7 @@ function setLang(s) {
 	});
 }
 /* ==================== TABCONTROL ==================== */
+var tabs = null;
 var tabcurrent = 0;
 var tabcount = 0;
 function initTabControl() {
@@ -343,11 +350,6 @@ function addTab(title) {
 function initTab() {
 	var tab = $(tabs.activeContainer.id);
 	$('title-' + tab.id.replace('t-', '')).update(TEXT_LOADING);
-	$('export').removeClassName('export-disabled').addClassName('export').disabled = '';
-	$('link').removeClassName('link-disabled').addClassName('link').disabled = '';
-	$('print').removeClassName('print-disabled').addClassName('print').disabled = '';
-	$('info').removeClassName('info-disabled').addClassName('info').disabled = '';
-	$('close').removeClassName('close-disabled').addClassName('close').disabled = '';
 	return tab.update('<div class="loading"></div>');
 }
 function closeTabs() {
@@ -355,11 +357,6 @@ function closeTabs() {
 	$$('#tabcontrol .tc').each(function(el) {
 		el.remove();
 	});
-	$('export').removeClassName('export').addClassName('export-disabled').disabled = 'disabled';
-	$('link').removeClassName('link').addClassName('link-disabled').disabled = 'disabled';
-	$('print').removeClassName('print').addClassName('print-disabled').disabled = 'disabled';
-	$('info').removeClassName('info').addClassName('info-disabled').disabled = 'disabled';
-	$('close').removeClassName('close').addClassName('close-disabled').disabled = 'disabled';
 	tabcurrent = 0;
 	tabcount = 0;
 	initTabControl();
@@ -385,7 +382,7 @@ function displayExport() {
 	}
 }
 function displayLink() {
-	var url = $$('#' + tabs.activeContainer.id + ' .url')[0].innerHTML;
+	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	if (dLink && url) {
 		$('header').setStyle({ opacity: 0.4 });
 		$('content').setStyle({ opacity: 0.4 });
@@ -396,11 +393,11 @@ function displayLink() {
 	}
 }
 function displayInfo() {
-	var url = $$('#' + tabs.activeContainer.id + ' .url')[0].innerHTML;
-	var info = $$('#' + tabs.activeContainer.id + ' .infostats')[0].innerHTML;
+	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
+	var info = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .infostats')[0].innerHTML;
 	var tInfo = info.split('|');
 	var t = $$('#d-info td');
-	t[0].update(url);
+	t[0].update('<a href="' + url + '" target="_blank">' + url + '</a>');
 	t[1].update(tInfo[0] + '&nbsp;' + TEXT_KB);
 	t[2].update(tInfo[1] + '&nbsp;' + TEXT_SECONDS);
 	t[3].update(tInfo[2]);
@@ -409,13 +406,13 @@ function displayInfo() {
 	dInfo.open();
 }
 function exportTab() {
-	var url = $$('#' + tabs.activeContainer.id + ' .url')[0].innerHTML;
+	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	if (url) {
 		location.href = url + '&export=' + ($('ehtml').checked ? 'html' : ($('eexcel').checked ? 'excel' : ($('epdf').checked ? 'pdf' : 'text')));
 	}
 }
 function printCurrentTab() {
-	var url = $$('#' + tabs.activeContainer.id + ' .url')[0].innerHTML;
+	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	if (url) {
 		window.open(url + '&print', '_blank');
 	}
@@ -570,6 +567,15 @@ function selMultClick() {
 	sel.checkboxOnClick(c);
 }
 /* ==================== HOME ==================== */
+function moreSports(index1, index2) {
+	for (var i = index1 ; i <= index2 ; i++) {
+		$('sport-' + i).show();
+	}
+	$$('#sports .otherimglink').each(function(el){
+		$(el).hide();
+	});
+	$('more-' + index1 + '-' + index2).show();
+}
 function loadHomeData() {
 	new Ajax.Request('IndexServlet?t=' + currentTime(), {
 		onSuccess: function(response) {
@@ -696,6 +702,10 @@ function resetResults() {
 function treeLeafClick(anchor, value) {
 	if (treeExpanded) {
 		toggleTreeExpand();
+	}
+	if (value.indexOf('enc-') == 0) {
+		info(value.substring(4));
+		return;
 	}
 	var t = value.split('_');
 	runResults(t);
@@ -947,7 +957,7 @@ function changeLeague(id, srcsl) {
 				tType2[i] = '<option value="\'' + tType2[i] + '\'">' + tType2[i] + '</option>';
 			}
 		}
-		tType2.push('<option value="' + tAll.join(',') + '">[' + TEXT_ALL + ']</option>');
+		tType2.push('<option value="' + tAll.join(',') + '">[All]</option>');
 		$('pl-record-tp2').update(tType2.join(''));
 	}
 }
@@ -1005,7 +1015,7 @@ function dpatternBlur() {
 }
 function directSearch() {
 	if (event.keyCode == 13) {
-		location.href = 'search?p=' + $F('dpattern');
+		location.href = 'search?p=' + escape($F('dpattern'));
 	}
 }
 function runSearch() {

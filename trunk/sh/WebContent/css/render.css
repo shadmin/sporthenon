@@ -77,24 +77,30 @@
 .tc .header{
 	float: left;
 	margin: 0px;
-	width: 75%;
 }
 .tc .header table, .tc .toolbar table{
 	background-color: transparent;
 	margin: 0px;
-	margin-bottom: 5px;
 }
 .tc .header td, .tc .toolbar td{
 	border: none;
-	padding: 1px;
+	padding: 0px;
 }
 .tc .header .arrow{
-	width: 15px;
-	background: url(../img/arrow.gif) center 16px no-repeat;	
+	width: 18px;
+	background: url(../img/arrow.gif) center center no-repeat;	
 }
 .tc .toolbar{
 	float: right;
+}
+.tc .toolbar td{
+	padding: 1px;
+}
+.tc .separatortop{
+	float: left;
+	width: 100%;
 	margin: 0px;
+	margin-bottom: 10px;
 }
 .tc .winrec{
 	margin-bottom: 5px;
@@ -315,10 +321,4 @@
 	padding-top: 7px;
 	padding-left: 20px;
 	height: 20px;
-}
-.tc .otherimglink{
-	float: left;
-	background: transparent url(../img/render/more2.gif) left bottom no-repeat;
-	padding-left: 15px;
-	padding-right: 5px;
 }

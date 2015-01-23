@@ -76,7 +76,6 @@ public class NavigationServlet extends AbstractServlet {
 					hParams.remove("export");
 				if (isPrint)
 					hParams.remove("print");
-				//String param = new ArrayList<String>(hParams.keySet()).get(0);
 				Object param = new ArrayList<Object>(hParams.values()).get(0);
 				dispatcher = request.getRequestDispatcher(hServlet.get(key) + "?run=1&p=" + param + (isPrint ? "&print" : "") + (export != null ? "&export=" + export : ""));
 			}

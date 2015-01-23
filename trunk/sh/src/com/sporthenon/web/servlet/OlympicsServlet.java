@@ -80,7 +80,7 @@ public class OlympicsServlet extends AbstractServlet {
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
 					else
-						ServletHelper.writePageHtml(request, response, html);
+						ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
 				}
 				else
 					ServletHelper.writeTabHtml(response, html, getLocale(request));
@@ -92,7 +92,7 @@ public class OlympicsServlet extends AbstractServlet {
 				lFuncParams.add("WHERE CP.id=1 AND SP.type=" + (type.equals(TYPE_SUMMER) ? 1 : 0) + (!ol.equals("0") ? " AND OL.id IN (" + ol + ")" : ""));
 				lFuncParams.add("_" + getLocale(request));
 				response.setCharacterEncoding("utf-8");
-				HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", lFuncParams), response.getWriter());
+				HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", lFuncParams), response.getWriter(), false);
 			}
 			else { // Picklists
 				String lang = getLocale(request);

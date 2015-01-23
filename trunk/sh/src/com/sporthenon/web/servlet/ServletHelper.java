@@ -69,10 +69,18 @@ public class ServletHelper {
         writer.write(s + (s.matches(".*'tsort'.*") ? sBacktop.replaceAll("\\#\\#\\#", "left") + sBacktop.replaceAll("\\#\\#\\#", "right") : ""));
 	}
 	
-	public static void writePageHtml(HttpServletRequest req, HttpServletResponse res, StringBuffer sb) throws ServletException, IOException {
+	public static void writePageHtml(HttpServletRequest req, HttpServletResponse res, StringBuffer sb, boolean isPrint) throws ServletException, IOException {
+		String s = sb.toString();
+		if (s.matches(".*\\#INFO\\#.*")) {
+			StringBuffer sbInfo = new StringBuffer();
+			sbInfo.append(StringUtils.getSizeBytes(s));
+			sbInfo.append("|#DTIME#");
+			sbInfo.append("|" + StringUtils.countIn(s, "<img"));
+			s = s.replaceAll("\\#INFO\\#", sbInfo.toString());
+		}
 		req.setAttribute("version", "v=" + ConfigUtils.getProperty("version"));
-		req.setAttribute("html", sb.toString());
-		req.getRequestDispatcher("/jsp/db/default.jsp").forward(req, res);
+		req.setAttribute("html", s);
+		req.getRequestDispatcher("/jsp/db/" + (isPrint ? "print" : "default") + ".jsp").forward(req, res);
 	}
 	
 	public static void writeText(HttpServletResponse res, String s) throws IOException {
