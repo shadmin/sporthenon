@@ -1,7 +1,10 @@
 body{
-	background: #F5F5F5 url(../img/header/bg2.png?4) 0 0 repeat-y;
+	background: #F5F5F5 url(../img/header/bg2.png?5) 0 0 repeat-y;
 	margin: 0;
 	padding: 0;
+}
+body.print{
+	background: #F5F5F5;
 }
 /* ========== COMMON ========== */
 .separator{
@@ -136,8 +139,9 @@ input{
 }
 #headertop{
 	height: 50px;
-	background: #FFF url(../img/header/bg3.png?4) 0 0 repeat-x;
 	margin-left: 244px;
+	margin-bottom: 0px;
+	border-bottom: 1px solid #888;
 }
 #menutop{
 	font: 11px Verdana;
@@ -180,7 +184,7 @@ input{
 #logo{
 	margin: 12px;
 	margin-top: 12px;
-	margin-bottom: 0px;
+	margin-bottom: 10px;
 	width: 210px;
 }
 #logo img{
@@ -201,7 +205,7 @@ input{
 #shmenu li{
 	list-style: none;
 	margin: 0;
-	margin-bottom: 20px;
+	margin-bottom: 25px;
 	padding-left: 60px;
 	padding-right: 60px;
 	text-align: center;
@@ -212,12 +216,12 @@ input{
 	font-weight: bold;
 	text-decoration: none;
 	margin-left: 2px;
-	padding: 6px 8px;
+	padding: 5px 8px;
 	padding-top: 25px;
 	padding-right: 4px;
 	border: 1px solid #000;
 	background-color: #FAFAFA;
-	background-position: center 5px;
+	background-position: center 6px;
 	background-repeat: no-repeat;
 }
 #shmenu a.selected{
@@ -245,12 +249,12 @@ input{
 #shmenu-usleagues:hover, #shmenu-usleagues.selected{
 	background-color: red;
 }
-#links{
-	margin: 5px;
-	/*margin-top: 25px;*/
-	font: 10px Tahoma;
+#share{
+	text-align: center;
+	font: 11px Verdana;
+	margin-top: 40px;
 }
-#links img{
+#footer img{
 	border: none;
 	margin-top: 2px;
 	margin-bottom: 5px;
@@ -258,23 +262,27 @@ input{
 #version{	
 	width: 220px;
 	text-align: right;
-	margin-top: 5px;
-	font: 9px Tahoma;
-	color: #999;
+	padding: 8px;
+	padding-top: 2px;
+	font: 10px Tahoma;
+	color: #888;
 }
 #content{
-	margin: 5px;
-	margin-top: 0px;
-	margin-left: 249px;
-	padding: 8px;
-	padding-top: 3px;
 	font: 12px Verdana;
+	margin: 0px;
+	margin-top: 0px;
+	margin-left: 244px;
+	padding: 3px;
+	padding-top: 3px;
 	border: 1px solid transparent;
+	border-left: 1px solid #888;
+	background-color: #F5F5F5;
 }
 #content select, #content input{
 	font: 12px Verdana;
 }
-.link #content{
+.print #content{
+	font: 11px Verdana;
 	margin: 0px;
 	padding: 0px;
 	margin-left: 0px;
@@ -282,7 +290,6 @@ input{
 }
 #dupdates{
 	width: 100%;
-	height: 400px;
 	margin-top: 5px;
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -299,6 +306,14 @@ input{
 }
 #ctupdates input.selected{
 	border: 1px solid #D00;
+}
+#footer{
+	height: 50px;
+	padding: 5px;
+	padding-left: 0px;
+	margin-left: 244px;
+	border-top: 1px solid #888;
+	font: 11px Verdana;
 }
 /* ========== TABCONTROL ========== */
 .tabbar{
@@ -340,12 +355,13 @@ input{
 	padding-left: 5px;
 }
 .tc{
+	margin: 0px;
 	padding: 10px 10px;
 	padding-bottom: 22px;
 	border: 1px solid #AAA;
 	background-color: #F5F5F5;
 }
-.link .tc{
+.print .tc{
 	border: none;
 }
 #link-add a {
@@ -475,7 +491,7 @@ input{
     overflow: hidden;
     width: 100%;
 }
-#buttons .button{
+#buttons .button, .toolbar .button{
 	height: 25px;
 	margin: 0px;
 	background-color: #E5E5E5;
@@ -488,10 +504,10 @@ input{
 #buttons #bleft .button{
 	margin-right: 3px;
 }
-#buttons #bright .button{
-	margin-left: 3px;
+#buttons #bright .button, .toolbar .button{
+	margin-left: 2px;
 }
-#buttons .button:hover{
+#buttons .button:hover, .toolbar .button:hover{
 	color: #FFF;
 	background-color: #444;
 }
@@ -506,40 +522,17 @@ input{
 #buttons .options{
 	background-image: url('../img/component/button/options.png?3');
 }
-#buttons .export{
+#toolbar .export, .toolbar .export{
 	background-image: url('../img/component/button/export.png?3');
 }
-#buttons .export-disabled{
-	background-image: url('../img/component/button/export-disabled.png?3');
-}
-#buttons .link{
+#buttons .link, .toolbar .link{
 	background-image: url('../img/component/button/link.png?3');
 }
-#buttons .link-disabled{
-	background-image: url('../img/component/button/link-disabled.png?3');
-}
-#buttons .print{
+#buttons .print, .toolbar .print{
 	background-image: url('../img/component/button/print.png?3');
 }
-#buttons .print-disabled{
-	background-image: url('../img/component/button/print-disabled.png?3');
-}
-#buttons .info{
+#buttons .info2, .toolbar .info2{
 	background-image: url('../img/component/button/info.png?3');
-}
-#buttons .info-disabled{
-	background-image: url('../img/component/button/info-disabled.png?3');
-}
-#buttons .close{
-	background-image: url('../img/component/button/close.png?3');
-}
-#buttons .close-disabled{
-	background-image: url('../img/component/button/close-disabled.png?3');
-}
-#buttons .export-disabled:hover, #buttons .link-disabled:hover, #buttons .print-disabled:hover, #buttons .info-disabled:hover, #buttons .close-disabled:hover{
-	color: #777;
-	background-color: #E5E5E5;
-	cursor: default;
 }
 /* ========== TREEVIEW ========== */
 #treeview{
@@ -570,50 +563,8 @@ input{
 	text-decoration: underline;
 }
 /* ========== HOME ========== */
-#home .box{
-	width: 190px;
-	border: 1px solid gray;
-	padding: 0px;
-	padding-bottom: 5px;
-	margin-bottom: 10px;
-	background: #FFF;
-}
-#home .boxtitle{
-	background-color: #666;
-	border-bottom: 1px solid gray;
-	color: #FFF;
-	font-weight: bold;
-	padding: 4px;
-	margin-bottom: 5px;
-}
-#home .box table{
-	margin: 0 auto;
-}
-#home .box ul{
-	padding-left: 10px;
-}
-#home .box hr{
-	height: 1px;
-	border: none;
-	background-color: #DDD;
-	width: 95%;
-}
-#home .box .more{
-	float: right;
-}
-#home .box .more a{
-	color: #FFF;
-}
-#home .stat{
-	text-align: right;
-	font-weight: bold;
-}
-#home .left{
-	padding-right: 360px;
-}
-#home .right{
-	float: right;
-	width: 350px;
+#home{
+	margin: 6px 6px;
 }
 .homecontent .fieldset .fstitle{
 	font-weight: bold;
@@ -621,11 +572,39 @@ input{
 	background-color: #FFC;
 	padding: 5px;
 	padding-left: 23px;
-	background-position: 3px center;
+	padding-bottom: 4px;
+	background-position: 4px 4px;
 	background-repeat: no-repeat;
 }
+.homecontent .fieldset .fscontent{
+	padding: 10px;
+}
+.homecontent #sports{
+	margin-top: 5px;
+	overflow: auto;
+}
+.homecontent #sports div.sport{
+	float: left;
+	width: 105px;
+	border: 1px solid #FFF;
+	text-align: center;
+	padding: 1px;
+	padding-top: 100px;
+	font-weight: bold;
+	cursor: pointer;
+	overflow: visible;
+	background-position: center top;
+	background-repeat: no-repeat;
+}
+.homecontent #sports div.sport:hover{
+	border: 1px solid #000;
+	background-color: #FFD;
+}
+.homecontent h3{
+	margin: 0px;
+}
 .homecontent .info{
-	background-image: url(../img/info.png?3);
+	background-image: url(../img/iconfav.png?4);
 }
 .homecontent .contact{
 	background-image: url(../img/contact.png?3);
@@ -634,10 +613,14 @@ input{
 	background-image: url(../img/project/statistics.png?3);
 }
 .homecontent .lastupdates{
-	background-image: url(../img/component/button/lastpudates.png?3);
+	background-image: url(../img/calendar.png?3);
 }
 .homecontent .news{
 	background-image: url(../img/news.png?3);
+}
+#home .stat{
+	text-align: right;
+	font-weight: bold;
 }
 /* ========== RESULTS ========== */
 /* ---------- PICKLIST ---------- */
@@ -1068,4 +1051,10 @@ input{
 #linktxt{
 	width: 400px;
 	cursor: default;
+}
+.otherimglink{
+	float: left;
+	background: transparent url(../img/render/more2.gif) left bottom no-repeat;
+	padding-left: 15px;
+	padding-right: 5px;
 }

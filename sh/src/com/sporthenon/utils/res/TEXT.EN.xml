@@ -23,7 +23,7 @@
 	<entry key="kb">Kb</entry>
 	<entry key="seconds">seconds</entry>
 	<entry key="actions.currenttab">Actions on current tab</entry>
-	<entry key="button.run">RUN</entry>
+	<entry key="button.run">RUN SEARCH</entry>
 	<entry key="button.reset">Reset</entry>
 	<entry key="button.export">Export</entry>
 	<entry key="button.link">Link</entry>
@@ -131,6 +131,13 @@
 	<entry key="all.categories">All Categories</entry>
 	<entry key="all.olympic.games">All Olympic Games</entry>
 	<entry key="all.scopes">All Scopes</entry>
+	<entry key="x.years">Years</entry>
+	<entry key="x.teams">Teams</entry>
+	<entry key="x.events">Events</entry>
+	<entry key="x.countries">Countries</entry>
+	<entry key="x.categories">Categories</entry>
+	<entry key="x.olympic.games">Olympic Games</entry>
+	<entry key="x.scopes">Scopes</entry>
 	<entry key="no.result">No result found matching the selected criteria.</entry>
 	<entry key="win.records">WIN RECORDS</entry>
 	<entry key="search.results">Search Results</entry>
@@ -169,6 +176,7 @@
 	<entry key="selection">Selection</entry>
 	<entry key="today">Today</entry>
 	<entry key="more">More</entry>
+	<entry key="more.sports">More sports</entry>
 	<entry key="draw.qf">Quarter-final</entry>
 	<entry key="draw.sf">Semi-final</entry>
 	<entry key="draw.thd">Third place</entry>

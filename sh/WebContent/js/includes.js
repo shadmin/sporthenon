@@ -4310,8 +4310,9 @@ function Tree(a_items, a_template) {
 	this.mover  = function (n_id) { this.a_index[n_id].upstatus(); };
 
 	this.a_children = [];
-	for (var i = 0; i < a_items.length; i++)
+	for (var i = 0; i < a_items.length; i++) {
 		new tree_item(this, i);
+	}
 
 	this.n_id = trees.length;
 	trees[this.n_id] = this;

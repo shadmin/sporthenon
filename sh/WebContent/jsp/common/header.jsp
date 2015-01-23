@@ -48,17 +48,13 @@
 			<li><a id="shmenu-usleagues" <%=(mn.equals("usleagues") ? "class='selected'" : "")%> href="usleagues"><%=StringUtils.text("menu.usleagues", session)%></a></li>
 		</ul>
 	</div>
-	<div id="links">
-		<table>
+	<div id="share">
+		<table align="center">
 			<tr><td style="padding-bottom:3px;"><%=StringUtils.text("share", session)%>:</td>
 			<td><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.sporthenon.com%2F" target="_blank"><img alt="facebook" title="Share on Facebook" src="img/header/facebook.png"/></a></td>
 			<td><a href="https://twitter.com/share?text=Visit%20http%3A%2F%2Fwww.sporthenon.com%20the%20temple%20of%20sports%20results%21" target="_blank"><img alt="twitter" title="Share on Twitter" src="img/header/twitter.png"/></a></td>
 			<td><a href="https://plus.google.com/share?url=www.sporthenon.com" target="_blank"><img alt="gplus" title="Share on Google+" src="img/header/gplus.png"/></a></td></tr>
-		</table><br/>
-		<a target="_blank" title="Sporthenon on Google Code" style="display:none;" href="https://code.google.com/p/sporthenon/"><img src="img/header/gcode.png" alt="Google Code"/></a>
-		<a target="_blank" title="Valid XHTML 1.1" href="http://validator.w3.org/check?uri=referer"><img src="img/header/validxhtml11.png" alt="Valid XHTML 1.1"/></a><br/>
-		&copy;2011-15&nbsp;(sporthenon.com)<br/>
-		<div id="version">Version&nbsp;<%=ConfigUtils.getProperty("version")%></div>
+		</table>
 	</div>
 </div>
 

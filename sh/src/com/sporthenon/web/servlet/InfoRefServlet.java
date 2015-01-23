@@ -37,30 +37,40 @@ public class InfoRefServlet extends AbstractServlet {
 			boolean isResult = params[0].equals(Result.alias);
 			
 			if (isResult) {
-				Result rs = (Result) DatabaseHelper.loadEntity(Result.class, new Integer(params[1]));
-				String p = rs.getSport().getId() + "-" + rs.getChampionship().getId() + "-" + rs.getEvent().getId() + "-" + (rs.getSubevent() != null ? rs.getSubevent().getId() : "") + "-" + (rs.getSubevent2() != null ? rs.getSubevent2().getId() : "") + "-0";
+				String p = "";
+				if (params.length == 2) {
+					Result rs = (Result) DatabaseHelper.loadEntity(Result.class, new Integer(params[1]));
+					p = rs.getSport().getId() + "-" + rs.getChampionship().getId() + "-" + rs.getEvent().getId() + "-" + (rs.getSubevent() != null ? rs.getSubevent().getId() : "") + "-" + (rs.getSubevent2() != null ? rs.getSubevent2().getId() : "") + "-0";
+				}
+				else
+					p = params[1] + "-" + params[2] + "-" + params[3] + "-" + (params.length > 4 ? params[4] : "") + "-" + (params.length > 5 ? params[5] : "") + "-0";
 				response.sendRedirect("/results?p=" + StringUtils.encode(p));
 			}
 			else {
+				ArrayList<Object> lFuncParams = new ArrayList<Object>();
+				lFuncParams.add(params[0]);
+				lFuncParams.add(new Integer(params[1]));
+				lFuncParams.add(params.length > 2 ? params[2] : "");
+				lFuncParams.add("_" + getLocale(request));
+				
 				// Info
-				if (params.length == 2)
-					html.append(HtmlConverter.getRecordInfo(params[0], new Integer(params[1]), getLocale(request)));
+				if (params.length == 2) {
+					StringBuffer sbRecordInfo = HtmlConverter.getRecordInfo(params[0], new Integer(params[1]), getLocale(request));
+					lFuncParams.add(sbRecordInfo.toString().replaceAll("\\</span\\>.*", "").replaceAll(".*shorttitle'\\>", ""));
+					html.append(HtmlConverter.getHeader(HtmlConverter.HEADER_REF, lFuncParams, getLocale(request)));
+					html.append(sbRecordInfo);
+					lFuncParams.remove(4);
+				}
 				
 				// References
-				if (!isDraw) {
-					ArrayList<Object> lFuncParams = new ArrayList<Object>();
-					lFuncParams.add(params[0]);
-					lFuncParams.add(new Integer(params[1]));
-					lFuncParams.add(params.length > 2 ? params[2] : "");
-					lFuncParams.add("_" + getLocale(request));
+				if (!isDraw)
 					html.append(HtmlConverter.getRecordRef(lFuncParams, DatabaseHelper.call("EntityRef", lFuncParams), isExport, getLocale(request)));
-				}
 				
 				if (isLink) {
 					if (isExport)
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
 					else
-						ServletHelper.writePageHtml(request, response, html);
+						ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
 				}
 				else
 					ServletHelper.writeTabHtml(response, html, getLocale(request));				

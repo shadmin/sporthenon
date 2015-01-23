@@ -16,6 +16,8 @@ COUNT_REF ajouter ref dans DRAWS
 afficher par defaut 3 other flags + lien "more"
 URL encoding
 ajouter QF/SF sur ref entity results
+reporter boutons actions tab sur page simple
+portail par sport : modifier le ref SP-1
 
 +-------+
 | 0.8.2 |

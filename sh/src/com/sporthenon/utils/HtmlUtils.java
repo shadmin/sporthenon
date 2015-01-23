@@ -77,7 +77,7 @@ public class HtmlUtils {
 		return html.toString();
 	}
 
-	public static StringBuffer writeHeader(HashMap<String, String> h) {
+	public static StringBuffer writeHeader(HashMap<String, String> h, String lang) {
 		StringBuffer html = new StringBuffer();
 		html.append("<span class='shorttitle'>" + h.get("tabshorttitle") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");
@@ -86,29 +86,34 @@ public class HtmlUtils {
 		html.append(h.containsKey("item1") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item1") + "</td>" : "");
 		html.append(h.containsKey("item2") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item2") + "</td>" : "");
 		html.append(h.containsKey("item3") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item3") + "</td>" : "");
-		html.append(h.containsKey("item4") ? "<td class='arrow'>&nbsp;</td><td" + (!h.get("item4").matches(".*\\<img.*") ? " style='padding-bottom:2px;'" : "") + ">" + h.get("item4") + "</td>" : "");
-		html.append(h.containsKey("item5") ? "<td class='arrow'>&nbsp;</td><td" + (!h.get("item5").matches(".*\\<img.*") ? " style='padding-bottom:2px;'" : "") + ">" + h.get("item5") + "</td>" : "");
+		html.append(h.containsKey("item4") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item4") + "</td>" : "");
+		html.append(h.containsKey("item5") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item5") + "</td>" : "");
 		html.append("</tr></table></div>");
 		html.append("<div class='toolbar'>");
-		html.append("<table><tr><td><img src='img/component/button/export.png'/></td><td><a href='#'>Export</a></td>");
-		html.append("<td><img src='img/component/button/link.png'/></td><td><a href='#'>Link</a></td>");
-		html.append("<td><img src='img/component/button/print.png'/></td><td><a href='#'>Print</a></td>");
-		html.append("<td><img src='img/component/button/info.png'/></td><td><a href='#'>Info</a></td>");
+		html.append("<table><tr><td><input id='export' type='button' class='button export' onclick='displayExport();' value='" + ResourceUtils.getText("button.export", lang) + "'/></td>");
+		html.append("<td><input id='link' type='button' class='button link' onclick='displayLink();' value='" + ResourceUtils.getText("button.link", lang) + "'/></td>");
+		html.append("<td><input id='print' type='button' class='button print' onclick='javascript:printCurrentTab();' value='" + ResourceUtils.getText("button.print", lang) + "'/></td>");
+		html.append("<td><input id='info2' type='button' class='button info2' onclick='displayInfo();' value='" + ResourceUtils.getText("button.info", lang) + "'/></td>");
 		html.append("</tr></table></div>");
+		html.append("<div class='separatortop'></div>");
 		return html;
 	}
 	
 	public static StringBuffer writeInfoHeader(LinkedHashMap<String, String> h, String lang) {
 		StringBuffer html = new StringBuffer();
 		String tabTitle = h.get("tabtitle");
+		Integer width = (h.containsKey("width") ? Integer.valueOf(h.get("width")) : 0);
 		html.append("<span class='shorttitle'>" + tabTitle.replaceAll(".{6}\\[.+#.*\\]$", "") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
-		html.append("<table class='info'>");
-//		html.append("<tr><th colspan=2>" + writeToggleTitle(h.get("title")) + "</th></tr>");
+		html.append("<table class='info'" + (width != null ? " style='width:" + width + "px;'" : "") + ">");
+		if (h.containsKey("titlename"))
+			html.append("<tr><th>" + h.get("titlename") + "</th></tr>");
 		for (String key : h.keySet()) {
-			if (!key.matches("(tab|^)title|url|info") && StringUtils.notEmpty(h.get(key)))
-				html.append("<tr><th class='caption'>" + ResourceUtils.getText(key, lang) + "</th><td" + (key.matches("logo|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + ">" + h.get(key) + "</td></tr>");
+			if (!key.matches("(tab|^)title|url|info|sport|width|titlename") && StringUtils.notEmpty(h.get(key))) {
+				html.append("<tr>" + (h.containsKey("sport") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
+				html.append("<td" + (key.matches("logo|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + (h.containsKey("sport") ? " style='text-align:center;'" : "") + ">" + h.get(key) + "</td></tr>");
+			}
 		}
 		html.append("</table>");
 		return html;
@@ -117,7 +122,7 @@ public class HtmlUtils {
 	public static String writeTip(String t, Object o) {
 		StringBuffer html = new StringBuffer();
 		long time = System.currentTimeMillis();
-		html.append((o instanceof Collection ? ((Collection)o).size() + "&nbsp;" : "") + "<a style='cursor:help;' href='#" + t + "-" + time + "'><img src='" + ImageUtils.getRenderUrl() + "note.png'/></a>");
+		html.append("<a style='cursor:help;' href='#" + t + "-" + time + "'><img src='" + ImageUtils.getRenderUrl() + "note.png'/></a>" + (o instanceof Collection ? "&nbsp;" + ((Collection)o).size() : ""));
 		html.append("<div id='" + t + "-" + time + "' class='rendertip'>" + (o instanceof String ? o : StringUtils.implode((Collection<String>) o, "<br/>")) + "</div>");
 		return html.toString();
 	}
@@ -150,7 +155,7 @@ public class HtmlUtils {
 	}
 
 	public static String writeURL(String main, String params) {
-		params = params.replaceAll("\\,\\s", "-").replaceAll("[\\[\\]]", "");
+		params = params.replaceAll("\\,\\s", "-").replaceAll("[\\[\\]]", "").replaceAll("\\-\\_(en|fr)$", "");
 		return ConfigUtils.getProperty("url") + main + "?p=" + StringUtils.encode(params);
 	}
 	

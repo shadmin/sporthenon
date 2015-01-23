@@ -63,7 +63,7 @@ public class SearchServlet extends AbstractServlet {
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
 					else
-						ServletHelper.writePageHtml(request, response, html);
+						ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
 				}
 				else
 					ServletHelper.writeTabHtml(response, html, getLocale(request));

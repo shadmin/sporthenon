@@ -1,10 +1,8 @@
 layout home
 check exports
 check title / session
-logo par sport+event (foot-coupe de france / tennis-us open)
-portail par sport : modifier le ref SP-1
-reporter boutons actions tab sur page simple
 ----------------------------------------
+--logo par sport+event (foot-coupe de france / tennis-us open)
 --gestion detail personnes (equipes + relais)
 --graphique pour stats home
 --tests ie firefox safari
