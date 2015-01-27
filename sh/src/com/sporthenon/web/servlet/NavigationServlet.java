@@ -73,7 +73,7 @@ public class NavigationServlet extends AbstractServlet {
 				if (isPrint)
 					hParams.remove("print");
 				Object param = new ArrayList<Object>(hParams.values()).get(0);
-				dispatcher = request.getRequestDispatcher(hServlet.get(key) + "?run=1&p=" + param + (isPrint ? "&print" : "") + (export != null ? "&export=" + export : ""));
+				dispatcher = request.getRequestDispatcher(hServlet.get(key) + "?run=1&t=" + System.currentTimeMillis() + "&p=" + param + (isPrint ? "&print" : "") + (export != null ? "&export=" + export : ""));
 			}
 			else
 				dispatcher = request.getRequestDispatcher("/jsp/" + hPages.get(key));

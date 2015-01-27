@@ -487,7 +487,7 @@ public class HtmlConverter {
 		}
 		else if (type.equals(Sport.alias)) {
 			Sport e = (Sport) DatabaseHelper.loadEntity(Sport.class, id);
-			hInfo.put("sport", "1");
+			hInfo.put("_sport_", "1");
 			hInfo.put("width", "280");
 			hInfo.put("tabtitle", e.getLabel(lang));
 			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, e.getId(), ImageUtils.SIZE_LARGE, null, null));
@@ -1649,25 +1649,45 @@ public class HtmlConverter {
 	}
 	
 	public static StringBuffer convertLastUpdates(Collection<Object> coll, String lang) throws Exception {
-		StringBuffer html = new StringBuffer("<table><tr><th>" + ResourceUtils.getText("year", lang) + "</th><th>" + ResourceUtils.getText("sport", lang) + "</th><th>" + ResourceUtils.getText("event", lang) + "</th><th>" + ResourceUtils.getText("entity.RS.1", lang) + "</th><th>" + ResourceUtils.getText("updated", lang) + "</th></tr>");
+		StringBuffer html = new StringBuffer("<table><tr><th>" + ResourceUtils.getText("year", lang) + "</th><th>" + ResourceUtils.getText("sport", lang) + "</th><th>" + ResourceUtils.getText("event", lang) + "</th><th>" + ResourceUtils.getText("entity.RS.1", lang) + "</th><th>" + ResourceUtils.getText("updated.on", lang) + "</th></tr>");
 		for (Object obj : coll) {
 			LastUpdateBean bean = (LastUpdateBean) obj;
 
 			String pos1 = null;
 			String pos2 = null;
 			int number = (bean.getTp3Number() != null ? bean.getTp3Number() : (bean.getTp2Number() != null ? bean.getTp2Number() : bean.getTp1Number()));
-			if (number < 10 && bean.getPr1LastName() != null)
-				pos1 = (StringUtils.notEmpty(bean.getPr1FirstName()) ? bean.getPr1FirstName().substring(0, 1) + "." : "") + bean.getPr1LastName();
-			else if (number == 50)
-				pos1 = bean.getTm1Label();
-			else if (number == 99)
-				pos1 = bean.getCn1Label();
-			String update = new SimpleDateFormat("dd/MM/yyyy hh:mm").format(bean.getRsUpdate());
+			if (number < 10) {
+				if (bean.getPr1LastName() != null) {
+					pos1 = (StringUtils.notEmpty(bean.getPr1FirstName()) ? bean.getPr1FirstName().substring(0, 1) + "." : "") + bean.getPr1LastName();
+					if (bean.getPr1Country() != null)
+						pos1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getPr1Country(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Athlete.alias, bean.getPr1Id(), pos1, null));
+				}
+				if (bean.getPr2LastName() != null) {
+					pos2 = (StringUtils.notEmpty(bean.getPr2FirstName()) ? bean.getPr2FirstName().substring(0, 1) + "." : "") + bean.getPr2LastName();
+					if (bean.getPr2Country() != null)
+						pos2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getPr2Country(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Athlete.alias, bean.getPr2Id(), pos2, null));
+				}
+			}
+			else if (number == 50 && bean.getTm1Id() != null) {
+				pos1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTm1Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, bean.getTm1Id(), bean.getTm1Label(), null));
+				if (bean.getTm2Id() != null)
+					pos2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTm2Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, bean.getTm2Id(), bean.getTm2Label(), null));				
+			}
+			else if (number == 99 && bean.getCn1Id() != null) {
+				pos1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Label(), null));
+				if (bean.getCn2Id() != null)
+					pos2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn2Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, bean.getCn2Id(), bean.getCn2Label(), null));
+			}
+			String update = new SimpleDateFormat("dd/MM/yyyy").format(bean.getRsUpdate());
 			
 			// Write line
+			boolean isScore = (pos1 != null && pos2 != null && StringUtils.notEmpty(bean.getRsText1()) && !StringUtils.notEmpty(bean.getRsText2()));
+			boolean isTie = (pos1 != null && pos2 != null && bean.getRsText3() != null && bean.getRsText3().matches("^1.*"));
 			String link = "results?p=" + StringUtils.encode(bean.getSpId() + "-" + bean.getCpId() + "-" + bean.getEvId() + "-" + (bean.getSeId() != null ? bean.getSeId() : 0) + "-" + (bean.getSe2Id() != null ? bean.getSe2Id() : 0) + "-0");
 			html.append("<tr><td><b>" + bean.getYrLabel() + "</b></td><td>" + HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, bean.getSpId(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Sport.alias, bean.getSpId(), bean.getSpLabel(), null)) + "</td><td><a href='" + link + "'>" + bean.getCpLabel() + "&nbsp;-&nbsp;" + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? "&nbsp;-&nbsp;" + bean.getSeLabel() : "") + (StringUtils.notEmpty(bean.getSe2Label()) ? "&nbsp;-&nbsp;" + bean.getSe2Label() : "") + "</a></td>");
-			html.append("<td>" + (StringUtils.notEmpty(pos1) ? pos1 : "-") + "</td><td>" + update + "</td></tr>");
+			html.append("<td>" + (isScore || isTie ? "<table><tr><td>" + pos1 + "</td><td>&nbsp;" + (isTie ? "/" : bean.getRsText1()) + "&nbsp;</td><td>" + pos2 + "</td></tr></table>" : (StringUtils.notEmpty(pos1) ? pos1 : "-")) + "</td>");
+//			html.append("<td>" + (StringUtils.notEmpty(bean.getRsDate()) ? StringUtils.toTextDate(bean.getRsDate(), lang, "d MMM yyyy") : "-") + "</td>");
+			html.append("<td>" + update + "</td></tr>");
 		}
 		return html.append("</table>");
 	}

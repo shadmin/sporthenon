@@ -110,7 +110,7 @@
 	<entry key="otherlogos">Previous logos</entry>
 	<entry key="extlinks">External Links</entry>
 	<entry key="loading">Loading...</entry>
-	<entry key="updated">Updated</entry>
+	<entry key="updated.on">Updated on</entry>
 	<entry key="gold">Gold</entry>
 	<entry key="silver">Silver</entry>
 	<entry key="bronze">Bronze</entry>
@@ -182,21 +182,20 @@
 	<entry key="draw.thd">Third place</entry>
 	<entry key="draw.f">Final</entry>
 <!-- HOME -->
-	<entry key="title.info">WHAT IS SPORTHENON ?</entry>
+	<entry key="title.presentation">PRESENTATION</entry>
+	<entry key="title.last.results">LAST RESULTS</entry>
 	<entry key="title.news">NEWS</entry>
-	<entry key="title.last.updates">LAST UPDATES</entry>
 	<entry key="title.statistics">STATISTICS</entry>
-	<entry key="title.contact">CONTACT</entry>
+	<entry key="sporthenon.welcome"><![CDATA[Welcome to <a href="project">SPORTHENON</a>, the temple of sports results !]]></entry>
+	<entry key="sporthenon.desc"><![CDATA[Sporthenon is a free sport database <a href="contribute">opened to contributors]]></entry>
+	<entry key="site.topics">Site topics</entry>
+	<entry key="access.sport">Direct access by sport</entry>
+	<entry key="share.on">Share on</entry>
 	<entry key="display.the">Display the</entry>
 	<entry key="last.updates.2">last updates</entry>
-	<entry key="desc.site"><![CDATA[Sporthenon aims to be a large database of sport results.<br/><br/>Description of the site pages:]]></entry>
 	<entry key="desc.results">Complete results organized by sport / championship / event</entry>
 	<entry key="desc.olympics">Podiums and medals tables of winter and summer Olympic Games</entry>
 	<entry key="desc.usleagues">Specific page for the 4 major US leagues (NFL / NBA / NHL / MLB))</entry>
-	<entry key="desc.search">Search engine with keywords</entry>
-	<entry key="desc.project">Informations on project and contributors</entry>
-	<entry key="page">Page</entry>
-	<entry key="description">Description</entry>
 <!-- RESULTS -->
 	<entry key="sport">Sport</entry>
 	<entry key="event">Event</entry>

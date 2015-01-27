@@ -9,30 +9,28 @@
 <div class="homecontent">
 	<!-- PRESENTATION -->
 	<div class="fieldset">
-		<div class="fstitle info">PRÉSENTATION</div>
+		<div class="fstitle info"><%=StringUtils.text("title.presentation", session)%></div>
 		<div class="fscontent">
-			<h3>Bienvenue sur <a href="project">SPORTHENON</a>, le temple des résultats sportifs !</h3><br/>
-			<img src='img/bullet.gif' alt='-'/>&nbsp;Sporthenon est une base de données sportive gratuite et <a href="contribute">ouverte aux contributeurs</a><br/>
-			<hr/><img src='img/bullet.gif' alt='-'/>&nbsp;<b>Rubriques du site</b><br/>
+			<h3><%=StringUtils.text("sporthenon.welcome", session)%></h3><br/>
+			<img src='img/bullet.gif' alt='-'/>&nbsp;<%=StringUtils.text("sporthenon.desc", session)%></a><br/>
+			<hr/><img src='img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("site.topics", session)%></b><br/>
 			<div id="topics"><table><tr>
 				<td class="results" onmouseover='overTopic(TEXT_DESC_RESULTS);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.results", session)%></td>
 				<td class="olympics" onmouseover='overTopic(TEXT_DESC_OLYMPICS);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.olympics", session)%></td>
 				<td class="usleagues" onmouseover='overTopic(TEXT_DESC_USLEAGUES);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.usleagues", session)%></td>
 				<td id="details" style="display:none;"></td></tr></table></div>
-			<hr/><img src='img/bullet.gif' alt='-'/>&nbsp;<b>Accès direct par sport</b><br/>
+			<hr/><img src='img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("access.sport", session)%></b><br/>
 			<div id="sports"><%=IndexServlet.getSportDivs(String.valueOf(session.getAttribute("locale")))%></div>
 		</div>
 	</div>
 	<!-- LAST UPDATES -->
 	<div class="fieldset">
-		<div class="fstitle lastupdates">DERNIERS RÉSULTATS</div>
+		<div class="fstitle lastupdates"><%=StringUtils.text("title.last.results", session)%></div>
 		<div class="fscontent"><table id="ctupdates"><tr><td><%=StringUtils.text("display.the", session)%>&nbsp;</td><td><input id="countupdt" type="text" maxlength="3" size="2" value="20" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"/></td><td>&nbsp;<%=StringUtils.text("last.updates.2", session)%>&nbsp;</td><td><a href="javascript:refreshLastUpdates();"><%=StringUtils.text("show", session)%></a></td></tr></table>
 		<div id="dupdates"></div></div>
 	</div>
-</div>
-<div class="homecontent right" style="display:none;">
 	<!-- STATISTICS -->
-	<div class="fieldset" style="margin-top:0px;">
+	<div class="fieldset" style="width:300px;float:right;">
 		<div class="fstitle statistics"><%=StringUtils.text("title.statistics", session)%></div>
 		<div class="fscontent" style="padding:15px;">
 			<table>
@@ -43,13 +41,8 @@
 			</table>
 		</div>
 	</div>
-	<!-- CONTACT -->
-	<div class="fieldset">
-		<div class="fstitle contact"><%=StringUtils.text("title.contact", session)%></div>
-		<div class="fscontent"><a href="mailto:inachos@sporthenon.com">inachos@sporthenon.com</a></div>
-	</div>
 	<!-- NEWS -->
-	<div class="fieldset">
+	<div class="fieldset" style="margin-right:310px;">
 		<div class="fstitle news"><%=StringUtils.text("title.news", session)%></div>
 		<div class="fscontent">
 		<%
@@ -76,14 +69,12 @@
 		%>
 		</div>
 	</div>
+	<div style="clear:both;"></div>
 </div>
 </div>
 <script type="text/javascript">
 window.onload = function() {
 	document.title = '<%=StringUtils.text("title", session)%>';
-	$$('#shmenu a').each(function(el){
-		$(el).removeClassName('selected');
-	});
 	loadHomeData();
 }
 </script>

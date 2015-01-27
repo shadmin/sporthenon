@@ -254,6 +254,10 @@ input{
 	font: 11px Verdana;
 	margin-top: 40px;
 }
+#share table{
+	margin-left: auto;
+	margin-right: auto;
+}
 #footer img{
 	border: none;
 	margin-top: 2px;
@@ -297,6 +301,9 @@ input{
 }
 #dupdates td{
 	padding: 0px 3px;
+}
+#dupdates td td, #dupdates td td td{
+	padding: 0px 0px;
 }
 #dupdates td table{
 	width: auto;

@@ -95,7 +95,7 @@ private static final long serialVersionUID = 1L;
 		for (Integer i : new Integer[]{21, 7, 5, 22, 1, 24}) // Football, Rugby, Auto Racing, Tennis, Athletics, Basketball
 			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)).replaceAll("#DISPLAY#", ""));
 		sports.append("<div class='otherimglink' style='padding-top:102px;'><a href='javascript:moreSports(7, 12);'>" + ResourceUtils.getText("more.sports", lang) + "</a></div>");
-		for (Integer i : new Integer[]{8, 19, 13, 20, 2, 30}) // Alpine Skiing, Cycling, Volleyball, Golf, Swimming, Boxing 
+		for (Integer i : new Integer[]{30, 19, 13, 20, 2, 8}) // Boxing, Cycling, Volleyball, Golf, Swimming, Alpine Skiing
 			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)).replaceAll("#DISPLAY#", "display:none;"));
 		sports.append("<div id='more-7-12' class='otherimglink' style='display:none;padding-top:102px;'><a href='javascript:moreSports(13, 18);'>" + ResourceUtils.getText("more.sports", lang) + "</a></div>");
 		for (Integer i : new Integer[]{15, 14, 18, 25, 42, 48}) // Bobsleigh, Fencing, Motorcycling, Ice Hockey, Judo, Cricket
