@@ -106,13 +106,13 @@ public class HtmlUtils {
 		html.append("<span class='shorttitle'>" + tabTitle.replaceAll(".{6}\\[.+#.*\\]$", "") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
-		html.append("<table class='info'" + (width != null ? " style='width:" + width + "px;'" : "") + ">");
+		html.append("<table class='info'" + (width != null && width > 0 ? " style='width:" + width + "px;'" : "") + ">");
 		if (h.containsKey("titlename"))
 			html.append("<tr><th>" + h.get("titlename") + "</th></tr>");
 		for (String key : h.keySet()) {
-			if (!key.matches("(tab|^)title|url|info|sport|width|titlename") && StringUtils.notEmpty(h.get(key))) {
-				html.append("<tr>" + (h.containsKey("sport") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
-				html.append("<td" + (key.matches("logo|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + (h.containsKey("sport") ? " style='text-align:center;'" : "") + ">" + h.get(key) + "</td></tr>");
+			if (!key.matches("(tab|^)title|url|info|\\_sport\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
+				html.append("<tr>" + (h.containsKey("_sport_") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
+				html.append("<td" + (key.matches("logo|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + (h.containsKey("_sport_") ? " style='text-align:center;'" : "") + ">" + h.get(key) + "</td></tr>");
 			}
 		}
 		html.append("</table>");

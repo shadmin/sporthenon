@@ -6,9 +6,8 @@
 <div id="footer">
 	<div style="float:right;text-align:right;"><a target="_blank" title="Valid XHTML 1.1" href="http://validator.w3.org/check?uri=referer"><img src="img/header/validxhtml11.png" alt="Valid XHTML 1.1"/></a>
 	<div id="version">Version&nbsp;<%=ConfigUtils.getProperty("version")%></div></div>
-	&copy;2011-15&nbsp;(sporthenon.com)<br/>
+	&copy;2011-15&nbsp;(sporthenon.com)<br/><br/><a href="mailto:contact@sporthenon.com">contact@sporthenon.com</a>
 </div>
-<div class="loading" style="position:absolute;display:none;margin-left:auto;"></div>
 <script type="text/javascript">
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

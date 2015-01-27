@@ -49,11 +49,11 @@
 		</ul>
 	</div>
 	<div id="share">
-		<table align="center">
+		<table>
 			<tr><td style="padding-bottom:3px;"><%=StringUtils.text("share", session)%>:</td>
-			<td><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.sporthenon.com%2F" target="_blank"><img alt="facebook" title="Share on Facebook" src="img/header/facebook.png"/></a></td>
-			<td><a href="https://twitter.com/share?text=Visit%20http%3A%2F%2Fwww.sporthenon.com%20the%20temple%20of%20sports%20results%21" target="_blank"><img alt="twitter" title="Share on Twitter" src="img/header/twitter.png"/></a></td>
-			<td><a href="https://plus.google.com/share?url=www.sporthenon.com" target="_blank"><img alt="gplus" title="Share on Google+" src="img/header/gplus.png"/></a></td></tr>
+			<td><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.sporthenon.com%2F" target="_blank"><img alt="facebook" title="<%=StringUtils.text("share.on", session)%> Facebook" src="img/header/facebook.png"/></a></td>
+			<td><a href="https://twitter.com/share?text=Visit%20http%3A%2F%2Fwww.sporthenon.com%20the%20temple%20of%20sports%20results%21" target="_blank"><img alt="twitter" title="<%=StringUtils.text("share.on", session)%> Twitter" src="img/header/twitter.png"/></a></td>
+			<td><a href="https://plus.google.com/share?url=www.sporthenon.com" target="_blank"><img alt="gplus" title="<%=StringUtils.text("share.on", session)%> Google+" src="img/header/gplus.png"/></a></td></tr>
 		</table>
 	</div>
 </div>
@@ -100,7 +100,7 @@
 	</div>
 	<div id="flags"><a title="English" href="javascript:setLang('en');"><img alt="EN" src="img/header/lang-en.png"/></a>&nbsp;<a title="Français" href="javascript:setLang('fr');"><img alt="FR" src="img/header/lang-fr.png"/></a>&nbsp;</div>
 	<div id="searchpanel">
-		<table style="border-spacing:0px;"><tr><td><a title="Click for advanced search" href="search"><img src="img/menu/dbsearch.png"/></a></td>
+		<table style="border-spacing:0px;"><tr><td><a title="Click for advanced search" href="search"><img alt="Search" src="img/menu/dbsearch.png"/></a></td>
 		<td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.for", session)%>" title="Search in Sporthenon" onkeydown="directSearch();" onfocus="dpatternFocus();" onblur="dpatternBlur();" style="color:#AAA;"></input></td>
 		</tr></table>
 	</div>

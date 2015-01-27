@@ -157,6 +157,12 @@ function info(s) {
 		location.href = 'ref?p=' + s;
 	}
 }
+/*function showLoading() {
+	$('content').setStyle({ opacity: 0.4 });
+	$('loading').style.left = ((document.body.clientWidth / 2) + document.body.scrollLeft) + 'px';
+	$('loading').style.top = ((document.body.clientHeight / 2) + document.body.scrollTop) + 'px';
+	$('loading').show();
+}*/
 function currentTime() {
 	return new Date().getTime();
 }

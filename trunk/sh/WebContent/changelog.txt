@@ -18,6 +18,7 @@ URL encoding
 ajouter QF/SF sur ref entity results
 reporter boutons actions tab sur page simple
 portail par sport : modifier le ref SP-1
+layout home
 
 +-------+
 | 0.8.2 |

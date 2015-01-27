@@ -19,6 +19,12 @@ public class LastUpdateBean {
 	@Column(name = "rs_text2")
 	private String rsText2;
 	
+	@Column(name = "rs_text3")
+	private String rsText3;
+	
+	@Column(name = "rs_date")
+	private String rsDate;
+	
 	@Column(name = "yr_label")
 	private String yrLabel;
 	
@@ -64,6 +70,9 @@ public class LastUpdateBean {
 	@Column(name = "tp3_number")
 	private Integer tp3Number;
 	
+	@Column(name = "pr1_id")
+	private Integer pr1Id;
+	
 	@Column(name = "pr1_first_name")
 	private String pr1FirstName;
 	
@@ -72,6 +81,9 @@ public class LastUpdateBean {
 	
 	@Column(name = "pr1_country")
 	private Integer pr1Country;
+	
+	@Column(name = "pr2_id")
+	private Integer pr2Id;
 	
 	@Column(name = "pr2_first_name")
 	private String pr2FirstName;
@@ -82,17 +94,29 @@ public class LastUpdateBean {
 	@Column(name = "pr2_country")
 	private Integer pr2Country;
 	
+	@Column(name = "tm1_id")
+	private Integer tm1Id;
+	
 	@Column(name = "tm1_label")
 	private String tm1Label;
 	
+	@Column(name = "tm2_id")
+	private Integer tm2Id;
+	
 	@Column(name = "tm2_label")
 	private String tm2Label;
+
+	@Column(name = "cn1_id")
+	private Integer cn1Id;
 	
 	@Column(name = "cn1_code")
 	private String cn1Code;
 	
 	@Column(name = "cn1_label")
 	private String cn1Label;
+	
+	@Column(name = "cn2_id")
+	private Integer cn2Id;
 	
 	@Column(name = "cn2_code")
 	private String cn2Code;
@@ -110,6 +134,14 @@ public class LastUpdateBean {
 
 	public String getRsText2() {
 		return rsText2;
+	}
+
+	public String getRsText3() {
+		return rsText3;
+	}
+
+	public void setRsText3(String rsText3) {
+		this.rsText3 = rsText3;
 	}
 
 	public String getYrLabel() {
@@ -338,6 +370,62 @@ public class LastUpdateBean {
 
 	public void setCn2Label(String cn2Label) {
 		this.cn2Label = cn2Label;
+	}
+
+	public Integer getCn1Id() {
+		return cn1Id;
+	}
+
+	public Integer getCn2Id() {
+		return cn2Id;
+	}
+
+	public void setCn1Id(Integer cn1Id) {
+		this.cn1Id = cn1Id;
+	}
+
+	public void setCn2Id(Integer cn2Id) {
+		this.cn2Id = cn2Id;
+	}
+
+	public String getRsDate() {
+		return rsDate;
+	}
+
+	public void setRsDate(String rsDate) {
+		this.rsDate = rsDate;
+	}
+
+	public Integer getPr1Id() {
+		return pr1Id;
+	}
+
+	public Integer getPr2Id() {
+		return pr2Id;
+	}
+
+	public Integer getTm1Id() {
+		return tm1Id;
+	}
+
+	public Integer getTm2Id() {
+		return tm2Id;
+	}
+
+	public void setPr1Id(Integer pr1Id) {
+		this.pr1Id = pr1Id;
+	}
+
+	public void setPr2Id(Integer pr2Id) {
+		this.pr2Id = pr2Id;
+	}
+
+	public void setTm1Id(Integer tm1Id) {
+		this.tm1Id = tm1Id;
+	}
+
+	public void setTm2Id(Integer tm2Id) {
+		this.tm2Id = tm2Id;
 	}
 	
 }

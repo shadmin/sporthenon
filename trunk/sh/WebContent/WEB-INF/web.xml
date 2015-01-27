@@ -107,6 +107,7 @@
 		<url-pattern>/search</url-pattern>
 		<url-pattern>/project</url-pattern>
 		<url-pattern>/contribute</url-pattern>
+		<url-pattern>/ref</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>SearchServlet</servlet-name>

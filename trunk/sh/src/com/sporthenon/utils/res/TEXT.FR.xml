@@ -110,7 +110,7 @@
 	<entry key="otherlogos">Précédents logos</entry>
 	<entry key="extlinks">Liens externes</entry>
 	<entry key="loading">Chargement...</entry>
-	<entry key="updated">Mis à jour</entry>
+	<entry key="updated.on">Mis à jour le</entry>
 	<entry key="gold">Or</entry>
 	<entry key="silver">Argent</entry>
 	<entry key="bronze">Bronze</entry>
@@ -182,21 +182,20 @@
 	<entry key="draw.thd">Troisième place</entry>
 	<entry key="draw.f">Finale</entry>
 <!-- HOME -->
-	<entry key="title.info">SPORTHENON, QU'EST-CE QUE C'EST ?</entry>
+	<entry key="title.presentation">PRÉSENTATION</entry>
+	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
 	<entry key="title.news">NEWS</entry>
-	<entry key="title.last.updates">DERNIÈRES MISES À JOUR</entry>
 	<entry key="title.statistics">STATISTIQUES</entry>
-	<entry key="title.contact">CONTACT</entry>
+	<entry key="sporthenon.welcome"><![CDATA[Bienvenue sur <a href="project">SPORTHENON</a>, le temple des résultats sportifs !]]></entry>
+	<entry key="sporthenon.desc"><![CDATA[Sporthenon est une base de données sportive gratuite et <a href="contribute">ouverte aux contributeurs]]></entry>
+	<entry key="site.topics">Rubriques du site</entry>
+	<entry key="access.sport">Accès direct par sport</entry>
+	<entry key="share.on">Partager sur</entry>
 	<entry key="display.the">Afficher les</entry>
 	<entry key="last.updates.2">dernières mises à jour</entry>
-	<entry key="desc.site"><![CDATA[Sporthenon vise à être une grande base de données de résultats sportifs.<br/><br/>Description des pages du site:]]></entry>
 	<entry key="desc.results">Palmarès complets classés par sport / championnat / épreuve</entry>
 	<entry key="desc.olympics">Podiums et tableaux de médailles des Jeux Olympiques d'hiver et d'été</entry>
 	<entry key="desc.usleagues">Page spécifique aux 4 ligues majeures US (NFL / NBA / NHL / MLB))</entry>
-	<entry key="desc.search">Moteur de recherche par mots-clés</entry>
-	<entry key="desc.project">Informations sur le projet et ses contributeurs</entry>
-	<entry key="page">Page</entry>
-	<entry key="description">Description</entry>
 <!-- RESULTS -->
 	<entry key="sport">Sport</entry>
 	<entry key="event">Epreuve</entry>
