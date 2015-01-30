@@ -5,10 +5,9 @@
 <div class="fieldset">
 	<div class="fstitle"><%=StringUtils.text("dialog.export", session)%></div>
 	<div class="fscontent"><%=StringUtils.text("select.format", session)%>:<table style="margin-top:8px;"><tr>
-		<td><label for="ehtml" style="display: block;"><img alt="HTML" src="img/db/html.png"/><br/><b><%=StringUtils.text("web.page", session)%> (.html)</b><br/></label><input id="ehtml" type="radio" name="eformat" checked="checked"/></td>
-		<td><label for="eexcel" style="display: block;"><img alt="XLS" src="img/db/excel.png"/><br/><b><%=StringUtils.text("excel.sheet", session)%> (.xls)</b><br/></label><input id="eexcel" type="radio" name="eformat"/></td>
-		<td><label for="epdf" style="display: block;"><img alt="PDF" src="img/db/pdf.png"/><br/><b><%=StringUtils.text("pdf.file", session)%> (.pdf)</b><br/></label><input id="epdf" type="radio" name="eformat"/></td>
-		<td><label for="etext" style="display: block;"><img alt="TXT" src="img/db/text.png"/><br/><b><%=StringUtils.text("plain.text", session)%> (.txt)</b><br/></label><input id="etext" type="radio" name="eformat"/></td>
+		<td onclick="$('ehtml').checked = true;"><img alt="HTML" src="img/db/html.png"/><br/><b><%=StringUtils.text("web.page", session)%> (.html)</b><br/><input id="ehtml" type="radio" name="eformat" checked="checked"/></td>
+		<td onclick="$('eexcel').checked = true;"><img alt="XLS" src="img/db/excel.png"/><br/><b><%=StringUtils.text("excel.sheet", session)%> (.xls)</b><br/><input id="eexcel" type="radio" name="eformat"/></td>
+		<td onclick="$('etext').checked = true;"><img alt="TXT" src="img/db/text.png"/><br/><b><%=StringUtils.text("plain.text", session)%> (.txt)</b><br/><input id="etext" type="radio" name="eformat"/></td>
 	</tr></table></div>
 	<div class="dlgbuttons"><input type="button" class="button cancel" value="Cancel" onclick="closeDialog(dExport);"/><input type="button" class="button ok" value="OK" onclick="closeDialog(dExport);exportTab();"/></div>
 </div>

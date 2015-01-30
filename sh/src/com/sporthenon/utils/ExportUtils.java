@@ -63,13 +63,13 @@ public class ExportUtils {
 		HSSFSheet sheet = null;
 		HSSFRow row = null;
 		HSSFCell cell = null;
-		sheet = hwb.createSheet(title != null ? title : "Untitled");
+		sheet = hwb.createSheet(title != null ? title.replaceAll("\\[", "(").replaceAll("\\]", ")") : "Untitled");
 		short rowIndex = 0;
 		// Styles
 		HSSFCellStyle headerStyle = hwb.createCellStyle();
 		Font boldFont = hwb.createFont();
 		boldFont.setFontName("Verdana");
-		boldFont.setFontHeightInPoints((short)8);
+		boldFont.setFontHeightInPoints((short)10);
 		boldFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		headerStyle.setFont(boldFont);
 		headerStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
@@ -82,7 +82,7 @@ public class ExportUtils {
 		HSSFCellStyle normalStyle = hwb.createCellStyle();
 		Font defaultFont = hwb.createFont();
 		defaultFont.setFontName("Verdana");
-		defaultFont.setFontHeightInPoints((short)8);
+		defaultFont.setFontHeightInPoints((short)10);
 		defaultFont.setBoldweight(Font.BOLDWEIGHT_NORMAL);
 		normalStyle.setFont(defaultFont);
 		normalStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
@@ -127,25 +127,31 @@ public class ExportUtils {
 				int n_ = 0;
 				row = sheet.createRow(rowIndex++);
 				for (String s : l) {
-					boolean isAlignCenter = (s != null && s.matches("^\\#ALIGN_CENTER\\#.*"));
+					boolean isCaption = (s != null && s.matches("^\\#CAPTION\\#.*"));
+					boolean isAlignLeft = (s != null && s.matches(".*\\#ALIGN_LEFT\\#.*"));
+					boolean isAlignCenter = (s != null && s.matches(".*\\#ALIGN_CENTER\\#.*"));
+					boolean isAlignRight = (s != null && s.matches(".*\\#ALIGN_RIGHT\\#.*"));
 					(cell = row.createCell(i++)).setCellValue(s.replaceAll("^\\#.*\\#", ""));
 					HSSFCellStyle st = (l.size() == 1 ? headerStyle : (tBold != null && tBold.length > i - 1 && tBold[i - 1] ? boldStyle : normalStyle));
-					if (isAlignCenter)
+					if (isAlignLeft)
+						st.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+					else if (isAlignCenter)
 						st.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					else if (isAlignRight)
+						st.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
 					cell.setCellStyle(st);
 					if (l.size() == 1) {
 						(cell = row.createCell(i++)).setCellValue("");
 						cell.setCellStyle(headerStyle);
 					}
+					if (isCaption)
+						cell.setCellStyle(headerStyle);
 					n_++;
 				}
 				if (n_ > cols)
 					cols = n_;
 			}
 		}
-		// Auto-Sizing
-		for (int j = 0 ; j < cols ; j++)
-			sheet.autoSizeColumn(j);
 		// Merging
 		if (lMerge != null) {
 			for (MergedCell mc : lMerge) {
@@ -156,6 +162,9 @@ public class ExportUtils {
 				sheet.addMergedRegion(new CellRangeAddress(mc.getRow() + offset, mc.getRow() + offset, mc.getCell(), mc.getCell() + mc.getSpan() - 1));
 			}
 		}
+		// Auto-Sizing
+		for (int j = 0 ; j < cols ; j++)
+			sheet.autoSizeColumn(j);
 		hwb.write(out);
 	}
 	
@@ -165,7 +174,7 @@ public class ExportUtils {
 		int[] tMaxLength = null;
 		StringBuffer sbSep = null;
 		for (List<String> l : lTd) {
-			// Header
+			// HEADER
 			if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
 				if (sbSep != null)
 					sbText.append("\r\n").append(sbSep).append("\r\n\r\n");
@@ -198,14 +207,23 @@ public class ExportUtils {
 				}
 				sbText.append("\r\n").append(sbSep);
 			}
+			// INFO
+			else if (l != null && !l.isEmpty() && l.get(0).matches("^\\#CAPTION\\#.*")) {
+				String s1 = l.get(0).replaceAll("^\\#.*\\#", "");
+				String s2 = l.get(1).replaceAll("^\\#.*\\#", "");
+				sbText.append(s1).append(" : ").append(s2).append("\r\n\r\n");
+			}
+			// TABLE
 			else {
 				sbText.append("\r\n|");
 				for (int i = 0 ; i < l.size() ; i++) {
-					String s = l.get(i).replaceAll("^\\#.*\\#", "");
-					sbText.append(s);
-					for (int j = s.length() ; j < tMaxLength[i] ; j++)
-						sbText.append(" ");
-					sbText.append("|");
+					if (l.get(i) != null) {
+						String s = l.get(i).replaceAll("^\\#.*\\#", "");
+						sbText.append(s);
+						for (int j = s.length() ; j < tMaxLength[i] ; j++)
+							sbText.append(" ");
+						sbText.append("|");
+					}
 				}
 			}
 		}
@@ -216,11 +234,12 @@ public class ExportUtils {
 	
 	public static String toHtml(Document doc) throws Exception {
 		String html = doc.toString();
-		html = html.replaceAll("<head>", "<head>\r\n<style>*{font:11px Verdana;}</style>\r\n<link rel='stylesheet' type='text/css' href='" + ConfigUtils.getProperty("url") + "css/sh.css'/>\r\n<link rel='stylesheet' type='text/css' href='" + ConfigUtils.getProperty("url") + "css/render.css'/>\r\n");
-		html = html.replaceAll("<body>", "<body class='link'><div id='content'><div class='tc'>");
+		html = html.replaceAll("<head>", "<head>\r\n<style>*{font:12px Verdana;}</style>\r\n<link rel='stylesheet' type='text/css' href='" + ConfigUtils.getProperty("url") + "css/sh.css'/>\r\n<link rel='stylesheet' type='text/css' href='" + ConfigUtils.getProperty("url") + "css/render.css'/>\r\n");
+		html = html.replaceAll("<body>", "<body class='print'><div id='content'><div class='tc'>");
 		html = html.replaceAll("<\\/body>", "</div></div></body>");
-		html = html.replaceAll("img/render", ConfigUtils.getProperty("url") + "img/render");
+		html = html.replaceAll("img/", ConfigUtils.getProperty("url") + "img/");
 		html = html.replaceAll("\\</?a.*?>|\\sclass=\"srt\"|onclick\\=\".*?\"", "");
+		html = html.replaceAll("class\\=\"toolbar\"", "class=\"toolbar\" style=\"display:none;\"");
 		return html;
 	}
 
@@ -228,36 +247,30 @@ public class ExportUtils {
 		ArrayList<MergedCell> lMerge = new ArrayList<MergedCell>();
 		ArrayList<ArrayList<String>> lTh = new ArrayList<ArrayList<String>>();
 		ArrayList<ArrayList<String>> lTd = new ArrayList<ArrayList<String>>();
-		Element title = doc.getElementsByAttributeValue("class", "shorttitle").first();
+		Element title = doc.getElementsByAttributeValue("class", "title").first();
 		int row = 0;
-		Elements theaders = doc.getElementsByClass("header");
-		if (theaders == null || theaders.isEmpty())
-			theaders = doc.getElementsByClass("info");
-		if (theaders != null && !theaders.isEmpty()) {
-			Element header = theaders.get(0);
-			ArrayList<String> lTd_ = new ArrayList<String>();
-			lTd_.add("--NEW--");
-			lTd.add(lTd_);
-			Element th = header.getElementsByTag("th").get(0);
-			ArrayList<String> lTh_ = new ArrayList<String>();
-			lTh_.add(th.text());
-			if (isExcel)
-				lTh_.add("");
-			lTh.add(lTh_);
-			lMerge.add(new MergedCell(row, 0, 2));
-			row++;
-			for (Element td : header.getElementsByTag("td")) {
-				if (td.className() == null || !td.className().matches("^logo.*")) {
-					lTd_ = new ArrayList<String>();
-					lTd_.add("#ALIGN_CENTER#" + td.text());
-					lTd.add(lTd_);
-					if (isExcel)
-						lTd_.add("");
-					lMerge.add(new MergedCell(row, 0, 2));
-					row++;
+		
+		// INFO
+		Elements tinfo = doc.getElementsByClass("info");
+		if (tinfo != null && !tinfo.isEmpty()) {
+			Element info = tinfo.get(0);
+			for (Element tr : info.getElementsByTag("tr")) {
+				List<Element> lCaption = tr.getElementsByClass("caption");
+				if (lCaption != null && !lCaption.isEmpty()) {
+					Element th = lCaption.get(0);
+					Element td = tr.getElementsByTag("td").get(0);
+					if (td.className() == null || !td.className().matches("^(logo|flag|otherflags|otherlogos|record|extlinks).*")) {
+						ArrayList<String> lTd_ = new ArrayList<String>();
+						lTd_.add("#CAPTION#" + th.text());
+						lTd_.add("#ALIGN_LEFT#" + td.text());
+						lTd.add(lTd_);
+						row++;
+					}	
 				}
 			}
 		}
+		
+		// TABLE
 		Elements tsorts = doc.getElementsByClass("tsort");
 		for (Element table : tsorts) {
 			ArrayList<String> lTd_ = new ArrayList<String>();
@@ -321,27 +334,27 @@ public class ExportUtils {
 	public static void export(HttpServletResponse response, StringBuffer html, String format) throws Exception {
 		try {
 			String html_ = html.toString();
+//			Logger.getLogger("sh").info(html_);
 			if (format.matches("excel|text"))
 				html_ = html_.replaceAll("&nbsp;", " ").replaceAll("<br/>", "&nbsp;/&nbsp;");
 			Document doc = Jsoup.parse(html_);
-			Element elTitle = doc.getElementsByAttributeValue("class", "shorttitle").first();
+			Element elTitle = doc.getElementsByAttributeValue("class", "title").first();
 			String title = elTitle.text().replaceAll("\\,\\s", "_");
 			response.setCharacterEncoding("utf-8");
 			if (format.equalsIgnoreCase("html")) {
 				response.setContentType("text/html");
-				response.setHeader("Content-Disposition", "attachment;filename=Sporthenon.com - " + title + ".html");
+				response.setHeader("Content-Disposition", "attachment;filename=" + title + " [SPORTHENON].html");
 				response.getWriter().write(toHtml(doc));
 			}
 			else if (format.equalsIgnoreCase("excel")) {
 				response.setContentType("application/vnd.ms-excel");
-				response.setHeader("Content-Disposition", "attachment;filename=Sporthenon.com - " + title + ".xls");
+				response.setHeader("Content-Disposition", "attachment;filename=" + title + " [SPORTHENON].xls");
 				toExcelOrText(response.getOutputStream(), doc, true);
 			}
-			else if (format.equalsIgnoreCase("pdf")) {
-			}
+			else if (format.equalsIgnoreCase("pdf")) {}
 			else if (format.equalsIgnoreCase("text")) {
 				response.setContentType("text/plain");
-				response.setHeader("Content-Disposition", "attachment;filename=Sporthenon.com - " + title + ".txt");
+				response.setHeader("Content-Disposition", "attachment;filename=" + title + " [SPORTHENON].txt");
 				toExcelOrText(response.getOutputStream(), doc, false);
 			}
 		}

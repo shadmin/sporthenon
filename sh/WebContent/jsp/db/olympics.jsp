@@ -96,7 +96,7 @@ cPicklist = DatabaseHelper.getEntityPicklist(Sport.class, "id", null, lang);
 for (PicklistBean plb : cPicklist)
 	hSportImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)0, plb.getValue(), 'L', null, null));
 %>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 var treeItems = null;
 var hOlympicsImg = new Array();
 var hSportImg = new Array();
@@ -132,5 +132,5 @@ window.onload = function() {
 	}
 	initTabControl();
 }
-</script>
+--></script>
 <jsp:include page="/jsp/common/footer.jsp" />

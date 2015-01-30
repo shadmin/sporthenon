@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Team;
@@ -55,7 +57,7 @@ public class HtmlUtils {
 
 	public static String writeLink(String alias, int id, String text, String title) {
 		StringBuffer html = new StringBuffer();
-		html.append("<a href='javascript:info(\"" + StringUtils.encode(alias + "-" + id) + "\")'" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + ">" + (text != null ? text.replaceAll("\\s", SPACE) : "") + "</a>");
+		html.append("<a href='ref?p=" + StringUtils.encode(alias + "-" + id) + "'" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + ">" + (text != null ? text.replaceAll("\\s", SPACE) : "") + "</a>");
 		return html.toString();
 	}
 
@@ -72,17 +74,18 @@ public class HtmlUtils {
 
 	public static String writeToggleTitle(String s) {
 		StringBuffer html = new StringBuffer();
-		html.append("<img src='" + ImageUtils.getRenderUrl() + "collapse.gif' class='toggleimg' onclick='toggleContent(this)'/>");
+		html.append("<img alt='' src='" + ImageUtils.getRenderUrl() + "collapse.gif' class='toggleimg' onclick='toggleContent(this)'/>");
 		html.append("<span class='toggletext' onclick='toggleContent(this)'>" + s + "</span>");
 		return html.toString();
 	}
 
 	public static StringBuffer writeHeader(HashMap<String, String> h, String lang) {
 		StringBuffer html = new StringBuffer();
-		html.append("<span class='shorttitle'>" + h.get("tabshorttitle") + "</span>");
-		html.append("<span class='url'>" + h.get("url") + "</span>");
+		html.append("<span class='title'>" + h.get("title") + "</span>");
+		if (h.containsKey("url"))
+			html.append("<span class='url'>" + h.get("url") + "</span>");
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
-		html.append("<div class='header'><table><tr><td><b>" + h.get("item0") + "</b></td>");
+		html.append("<div class='header'><table><tr><td style='font-weight:bold;'>" + h.get("item0") + "</td>");
 		html.append(h.containsKey("item1") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item1") + "</td>" : "");
 		html.append(h.containsKey("item2") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item2") + "</td>" : "");
 		html.append(h.containsKey("item3") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item3") + "</td>" : "");
@@ -103,7 +106,7 @@ public class HtmlUtils {
 		StringBuffer html = new StringBuffer();
 		String tabTitle = h.get("tabtitle");
 		Integer width = (h.containsKey("width") ? Integer.valueOf(h.get("width")) : 0);
-		html.append("<span class='shorttitle'>" + tabTitle.replaceAll(".{6}\\[.+#.*\\]$", "") + "</span>");
+		html.append("<span class='title'>" + tabTitle.replaceAll(".{6}\\[.+#.*\\]$", "") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
 		html.append("<table class='info'" + (width != null && width > 0 ? " style='width:" + width + "px;'" : "") + ">");
@@ -138,7 +141,7 @@ public class HtmlUtils {
 
 	public static StringBuffer writeWinRecTable(Collection<WinRecordsBean> c, String lang) {
 		StringBuffer html = new StringBuffer();
-		html.append("<table class='winrec'><tr><th colspan=3>" + writeToggleTitle(ResourceUtils.getText("win.records", lang)) + "</th></tr>");
+		html.append("<table class='winrec'><tr><th colspan='3'>" + writeToggleTitle(ResourceUtils.getText("win.records", lang)) + "</th></tr>");
 		int max = -1;
 		int i = 0;
 		for (WinRecordsBean bean : c) {
@@ -151,7 +154,7 @@ public class HtmlUtils {
 		}
 		if (i > 5)
 			html.append("<tr class='refseefull' onclick='winrecSeeFull(this);'><td colspan='3'></td></tr>");
-		return html;
+		return html.append("</table>");
 	}
 
 	public static String writeURL(String main, String params) {
@@ -225,6 +228,10 @@ public class HtmlUtils {
 			}
 		}
 		return (sbHtml.toString().length() > 0 ? "<table>" + sbHtml.append("</table>").toString() : "");
+	}
+	
+	public static void setTitle(HttpServletRequest req, String header) throws Exception {
+		req.setAttribute("title", header.replaceAll("\\</span\\>.*", "").replaceAll(".*'title'\\>", "") + " | SPORTHENON");
 	}
 
 }

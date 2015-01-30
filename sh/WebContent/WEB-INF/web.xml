@@ -35,11 +35,6 @@
 		<servlet-class>com.sporthenon.web.servlet.InfoRefServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>LoginServlet</display-name>
-		<servlet-name>LoginServlet</servlet-name>
-		<servlet-class>com.sporthenon.web.servlet.LoginServlet</servlet-class>
-	</servlet>
-	<servlet>
 		<display-name>OlympicsServlet</display-name>
 		<servlet-name>OlympicsServlet</servlet-name>
 		<servlet-class>com.sporthenon.web.servlet.OlympicsServlet</servlet-class>
@@ -84,10 +79,6 @@
 	<servlet-mapping>
 		<servlet-name>ProjectServlet</servlet-name>
 		<url-pattern>/ProjectServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>LoginServlet</servlet-name>
-		<url-pattern>/LoginServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>OlympicsServlet</servlet-name>

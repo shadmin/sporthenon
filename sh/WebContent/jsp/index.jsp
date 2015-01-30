@@ -4,6 +4,9 @@
 <%@ page import="com.sporthenon.utils.StringUtils" %>
 <%@ page import="com.sporthenon.web.servlet.IndexServlet"%>
 <%@ page import="java.util.List" %>
+<%
+	request.setAttribute("title", StringUtils.text("title", session));
+%>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="home">
 <div class="homecontent">
@@ -74,7 +77,6 @@
 </div>
 <script type="text/javascript">
 window.onload = function() {
-	document.title = '<%=StringUtils.text("title", session)%>';
 	loadHomeData();
 }
 </script>

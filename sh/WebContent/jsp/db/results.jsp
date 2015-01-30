@@ -4,12 +4,12 @@
 <%@ page import="com.sporthenon.db.entity.Result"%>
 <%@ page import="com.sporthenon.db.converter.HtmlConverter"%>
 <%@ page import="com.sporthenon.utils.HtmlUtils"%>
-<%@page import="com.sporthenon.utils.StringUtils"%>
+<%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Collection"%>
 <%@ page import="java.util.HashMap"%>
 <jsp:include page="/jsp/common/header.jsp"/>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 var treeItems = null;
 <%
 String lang = String.valueOf(session.getAttribute("locale"));
@@ -18,7 +18,7 @@ params.add("");
 params.add("_" + lang.toLowerCase());
 HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", params), out, false);
 %>
-</script>
+--></script>
 <div id="tree" class="fieldset">
 <div class="fstitle treetitle">
 <%=StringUtils.text("tree", session)%>&nbsp;(<img style="display:none;" id="treeiconimg" src="img/db/tree_expand.png" alt="<%=StringUtils.text("expand", session)%>" class="treeicon"/><a id="treeicontxt" href='javascript:toggleTreeExpand();'><%=StringUtils.text("expand", session)%></a>)

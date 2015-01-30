@@ -125,14 +125,6 @@ input{
 .criteria{
 	background-image: url(../img/db/criteria.png?3);
 }
-.backtopleft {
-	float: left;
-	cursor: pointer;
-}
-.backtopright {
-	float: right;
-	cursor: pointer;
-}
 /* ========== HEADER/MENU ========== */
 #header{
 	float: left;
@@ -235,7 +227,7 @@ input{
 	background-image:url(../img/menu/dbresults.png?3);
 }
 #shmenu-results:hover, #shmenu-results.selected{
-	background-color: darkorange;
+	background-color: green;
 }
 #shmenu-olympics{
 	background-image:url(../img/menu/dbolympics.png?3);
@@ -335,6 +327,9 @@ input{
 	font: 11px Verdana;
 }
 /* ========== TABCONTROL ========== */
+#tabcontrol{
+	margin: 10px;
+}
 .tabbar{
 	list-style: none;
 	margin: 0 0 0px 0;
@@ -376,7 +371,6 @@ input{
 .tc{
 	margin: 0px;
 	padding: 10px 10px;
-	padding-bottom: 22px;
 	border: 1px solid #AAA;
 	background-color: #F5F5F5;
 }
@@ -497,8 +491,10 @@ input{
 #buttons{
 	width: 100%;
 	height: 25px;
-	margin-top: 4px;
-	margin-bottom: 8px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 5px;
+	margin-bottom: 15px;
 }
 #buttons #bleft{
 	float: left;
@@ -629,7 +625,7 @@ input{
 	background-image:url(../img/menu/dbresults.png?3);
 }
 .homecontent #topics td.results:hover{
-	background-color: darkorange;
+	background-color: green;
 }
 .homecontent #topics td.olympics{
 	background-image:url(../img/menu/dbolympics.png?3);
@@ -699,11 +695,13 @@ input{
 	float: left;
 	width: 368px;
 	height: 245px;
+	margin-left: 10px;
 	margin-right: 5px;
 }
 #results{
 	height: 245px;
-	margin-left: 378px;
+	margin-left: 390px;
+	margin-right: 10px;
 }
 #results .spcpdiv{
 	float: left;
@@ -778,6 +776,8 @@ input{
 }
 /* ========== OLYMPICS ========== */
 #olympics{
+	margin-left: 10px;
+	margin-right: 10px;
 	height: 290px;
 }
 #olympics #oltype{
@@ -831,6 +831,8 @@ input{
 #usleagues{
 	height: 215px;
 	margin-bottom: 0px;
+	margin-left: 10px;
+	margin-right: 10px;
 	background: #FFF url(../img/column.png?3) 25px 150px no-repeat;
 }
 #usleagues .league{
@@ -949,7 +951,7 @@ input{
 	border: none;
 	padding: 0px;
 }
-/* ========== LOGIN ========== */
+/* ========== PROJECT ========== */
 #project .left{
 	padding-right: 360px;
 }
@@ -965,83 +967,6 @@ input{
 #chart td{
 	font-size: 12px;
 	border: none;
-}
-/* ========== LOGIN ========== */
-.login{
-	background-image: url(../img/menu/login.png?3);
-}
-.tlogin{
-	margin: 5px auto;
-}
-.loginmsg{
-	color: #F00;
-	font-weight: bold;
-}
-.tlogin td{
-	text-align: right;
-	padding: 2px;
-}
-.tlogin .button, .register .button{
-	margin: 0 auto;
-	float: none;
-	border: 1px solid #666;
-}
-.tlogin .button a, .register .button a{
-	display: block;
-	background-color: #FFF;
-	padding:5px 6px;
-	text-decoration: none;
-	color: #000;
-	background: #FFF url(../img/db/ok.png?3) 8px center no-repeat;
-	padding-left: 26px;
-}
-.tlogin .button a:hover, .register .button a:hover{
-	background-color: #DDD;
-}
-.register{
-	margin: 2px auto;
-}
-.register table{
-	margin: 5px auto;
-	margin-bottom: 0px;
-}
-.register td{
-	text-align: left;
-	padding: 2px;
-}
-.register .mandatory{
-	font-weight: bold;
-	color: #F00;
-}
-.register .button{
-	margin-top: 10px;
-}
-.register .button a{
-	background: #FFF url(../img//update/add.png?3) 8px center no-repeat;
-}
-#r-msg{
-	font-weight: bold;
-	border: 1px solid #666;
-	padding: 4px;
-	background-position: 2px center; 
-	background-repeat: no-repeat;
-	font-weight: bold;
-	text-align: center;
-}
-#r-msg a{
-	font-weight: bold;
-}
-.register .success{
-	background-color: #beffbc;
-	background-image: url(../img/update/success.png?3);
-}
-.register .error{
-	background-color: #e5bdbf;
-	background-image: url(../img/update/error.png?3);
-}
-.register .waiting{
-	background-color: #fff;
-	background-image: url(../img/update/waiting.gif?3);
 }
 /* ========== PROJECT ========== */
 .downloads{
@@ -1114,7 +1039,7 @@ input{
 	cursor: pointer;
 }
 #d-export td:hover{
-	background-color: #E5E5E5;
+	background-color: #FFC;
 }
 #d-export label{
 	display: block;

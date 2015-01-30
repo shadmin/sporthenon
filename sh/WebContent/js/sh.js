@@ -102,8 +102,8 @@ function handleRender() {
 	if (tabs != null) {
 		tabId = '#t-' + tabcurrent;
 		var title = $('title-' + tabcurrent);
-		var shorttitle = $$(tabId + ' .shorttitle')[0].innerHTML;
-		title.update(shorttitle);		
+		var stitle = $$(tabId + ' .title')[0].innerHTML;
+		title.update(stitle);		
 	}
 	else {
 		tabId = '#content';
@@ -414,7 +414,7 @@ function displayInfo() {
 function exportTab() {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	if (url) {
-		location.href = url + '&export=' + ($('ehtml').checked ? 'html' : ($('eexcel').checked ? 'excel' : ($('epdf').checked ? 'pdf' : 'text')));
+		location.href = url + '&export=' + ($('ehtml').checked ? 'html' : ($('eexcel').checked ? 'excel' : 'text'));
 	}
 }
 function printCurrentTab() {
@@ -1106,66 +1106,4 @@ function loadChart() {
 			});
 		}
 	});
-}
-/* ==================== LOGIN ==================== */
-function auth() {
-	if ($F('login') == '') {
-		$('login').focus();
-	}
-	else if ($F('password') == '') {
-		$('password').focus();
-	}
-	else {
-		$('flogin').submit();
-	}
-}
-function rauth() {
-	$('login').value = $('r-login').value;
-	$('password').value = $('r-password').value;
-	auth();
-}
-function createAccount() {
-	if ($('r-login').value == '') {
-		accountErr('Field "Login" is mandatory.');
-		$('r-login').focus();
-		{return;}
-	}
-	else if ($('r-password').value == '') {
-		accountErr('Field "Password" is mandatory.');
-		$('r-password').focus();
-		{return;}
-	}
-	else if ($('r-password2').value == '') {
-		accountErr('You must confirm the password.');
-		$('r-password2').focus();
-		{return;}
-	}
-	else if ($('r-email').value == '') {
-		accountErr('Field "E-Mail Address" is mandatory.');
-		$('r-email').focus();
-		{return;}
-	}
-	else if ($('r-password').value != $('r-password2').value) {
-		accountErr('The entered passwords do not match.');
-		$('r-password2').focus();
-		{return;}
-	}
-	$('r-msg').update('Please wait...').removeClassName('error').removeClassName('success').addClassName('waiting').show();
-	var h = $H();
-	$$('.register input').each(function(el) {
-		h.set(el.id, el.value);
-	});
-	new Ajax.Request('LoginServlet?create', { onSuccess: function(response) {
-		var s = response.responseText;
-		if (!/ERR\|.*/.match(s)) {
-			$('r-msg').update(s).removeClassName('error').removeClassName('waiting').addClassName('success').show();
-		}
-		else {
-			accountErr(s.split('|')[1]);
-			$('r-login').focus();
-		}
-	}, parameters: h });
-}
-function accountErr(s) {
-	$('r-msg').update(s).removeClassName('success').removeClassName('waiting').addClassName('error').show();
 }
