@@ -15,7 +15,7 @@
 <div class="tc">${html}</div>
 <jsp:include page="/jsp/common/footer.jsp" />
 <script type="text/javascript">
-var title = $$('.shorttitle')[0].innerHTML + ' | SPORTHENON';
+var title = $$('.title')[0].innerHTML + ' | SPORTHENON';
 if (title) {
 	document.title = replaceAll(title, '&nbsp;', ' ');
 }

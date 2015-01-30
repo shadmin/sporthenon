@@ -123,9 +123,9 @@ public class HtmlConverter {
 			Event se = (Event) DatabaseHelper.loadEntity(Event.class, lstParams.get(3));
 			Event se2 = (Event) DatabaseHelper.loadEntity(Event.class, lstParams.get(4));
 			ArrayList<String> lstYears = DatabaseHelper.loadLabels(Year.class, String.valueOf(lstParams.get(5)), lang);
-			hHeader.put("tabshorttitle", sp.getLabel(lang) + "&nbsp;-&nbsp;" + cp.getLabel(lang) + (ev != null ? "&nbsp;-&nbsp;" + ev.getLabel(lang) + (se != null ? "&nbsp;-&nbsp;" + se.getLabel(lang) : "") + (se2 != null ? "&nbsp;-&nbsp;" + se2.getLabel(lang) : "") : ""));
+			hHeader.put("title", sp.getLabel(lang) + "&nbsp;-&nbsp;" + cp.getLabel(lang) + (ev != null ? "&nbsp;-&nbsp;" + ev.getLabel(lang) + (se != null ? "&nbsp;-&nbsp;" + se.getLabel(lang) : "") + (se2 != null ? "&nbsp;-&nbsp;" + se2.getLabel(lang) : "") : ""));
 			hHeader.put("url", HtmlUtils.writeURL("results", lstParams.toString()));
-			hHeader.put("item0", "<table><tr><td><img src='img/menu/dbresults.png'/></td><td>&nbsp;<a href='results'>" + ResourceUtils.getText("menu.results", lang) + "</a></td></tr></table>");
+			hHeader.put("item0", "<table><tr><td><img alt='Results' src='img/menu/dbresults.png'/></td><td>&nbsp;<a href='results'>" + ResourceUtils.getText("menu.results", lang) + "</a></td></tr></table>");
 			hHeader.put("item1", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_SMALL, null, sp.getLabel(lang)), HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel(lang), null)));
 			hHeader.put("item2", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, cp.getId(), ImageUtils.SIZE_SMALL, null, cp.getLabel(lang)), HtmlUtils.writeLink(Championship.alias, cp.getId(), cp.getLabel(lang), null)));
 			if (ev != null)
@@ -143,10 +143,10 @@ public class HtmlConverter {
 			Event ev = (Event) DatabaseHelper.loadEntity(Event.class, lstParams.get(2));
 			ArrayList<String> lstEvents = DatabaseHelper.loadLabels(Event.class, String.valueOf(lstParams.get(2)), lang);
 			ArrayList<String> lstSubevents = DatabaseHelper.loadLabels(Event.class, String.valueOf(lstParams.get(3)), lang);
-			hHeader.put("tabshorttitle", ResourceUtils.getText("entity.OL", lang) + "&nbsp;-&nbsp;" + sp.getLabel(lang) + (ev != null ? "&nbsp;-&nbsp;" + ev.getLabel(lang) : ""));
+			hHeader.put("title", ResourceUtils.getText("entity.OL", lang) + "&nbsp;-&nbsp;" + sp.getLabel(lang) + (ev != null ? "&nbsp;-&nbsp;" + ev.getLabel(lang) : ""));
 			hHeader.put("title", ResourceUtils.getText("menu.olympics", lang));
 			hHeader.put("url", HtmlUtils.writeURL("olympics", "ind, " + lstParams.toString()));
-			hHeader.put("item0", "<table><tr><td><img src='img/menu/dbolympics.png'/></td><td>&nbsp;<a href='olympics'>" + ResourceUtils.getText("menu.olympics", lang) + "</a></td></tr></table>");
+			hHeader.put("item0", "<table><tr><td><img alt='Olympics' src='img/menu/dbolympics.png'/></td><td>&nbsp;<a href='olympics'>" + ResourceUtils.getText("menu.olympics", lang) + "</a></td></tr></table>");
 			hHeader.put("item1", ResourceUtils.getText("event.results", lang));
 			hHeader.put("item2", (lstOlympics.isEmpty() ? ResourceUtils.getText("all.olympic.games", lang) : (lstOlympics.size() == 1 ? HtmlUtils.writeLink(Olympics.alias, Integer.valueOf(olId), lstOlympics.get(0), null) : HtmlUtils.writeTip(Olympics.alias, lstOlympics) + " " + ResourceUtils.getText("x.olympic.games", lang))));
 			hHeader.put("item3", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_SMALL, null, sp.getLabel(lang)), HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel(lang), null)));
@@ -159,10 +159,10 @@ public class HtmlConverter {
 			String cnId = String.valueOf(lstParams.get(1));
 			ArrayList<String> lstOlympics = DatabaseHelper.loadLabelsFromQuery("select concat(concat(ol.year.label, ' - '), ol.city.label) from Olympics ol where ol.id in (" + olId + ")");
 			ArrayList<String> lstCountries = DatabaseHelper.loadLabels(Country.class, cnId, lang);
-			hHeader.put("tabshorttitle", ResourceUtils.getText("entity.OL", lang) + "&nbsp;-&nbsp;Medals&nbsp;Table");
+			hHeader.put("title", ResourceUtils.getText("entity.OL", lang) + "&nbsp;-&nbsp;Medals&nbsp;Table");
 			hHeader.put("title", ResourceUtils.getText("menu.olympics", lang));
 			hHeader.put("url", HtmlUtils.writeURL("olympics", "cnt, " + lstParams.toString()));
-			hHeader.put("item0", "<table><tr><td><img src='img/menu/dbolympics.png'/></td><td>&nbsp;<a href='olympics'>" + ResourceUtils.getText("menu.olympics", lang) + "</a></td></tr></table>");
+			hHeader.put("item0", "<table><tr><td><img alt='Olympics' src='img/menu/dbolympics.png'/></td><td>&nbsp;<a href='olympics'>" + ResourceUtils.getText("menu.olympics", lang) + "</a></td></tr></table>");
 			hHeader.put("item1", ResourceUtils.getText("medals.tables", lang));
 			hHeader.put("item2", (lstOlympics.isEmpty() ? ResourceUtils.getText("all.olympic.games", lang) : (lstOlympics.size() == 1 ? HtmlUtils.writeLink(Olympics.alias, Integer.valueOf(olId), lstOlympics.get(0), null) : HtmlUtils.writeTip(Olympics.alias, lstOlympics) + " " + ResourceUtils.getText("x.olympic.games", lang))));
 			hHeader.put("item3", (lstCountries.isEmpty() ? ResourceUtils.getText("all.countries", lang) : (lstCountries.size() == 1 ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, Integer.valueOf(cnId), ImageUtils.SIZE_SMALL, null, lstCountries.get(0)), HtmlUtils.writeLink(Country.alias, Integer.valueOf(cnId), lstCountries.get(0), null)) : HtmlUtils.writeTip(Country.alias, lstCountries) + " " + ResourceUtils.getText("x.countries", lang))));
@@ -173,8 +173,8 @@ public class HtmlConverter {
 			String typeLabel = (type == HEADER_US_LEAGUES_RETNUM ? ResourceUtils.getText("retired.numbers", lang) : (type == HEADER_US_LEAGUES_CHAMPIONSHIP ? ResourceUtils.getText("championships", lang) : (type == HEADER_US_LEAGUES_HOF ? ResourceUtils.getText("hall.fame", lang) : (type == HEADER_US_LEAGUES_RECORD ? ResourceUtils.getText("records", lang) : (type == HEADER_US_LEAGUES_TEAMSTADIUM ? ResourceUtils.getText("team.stadiums", lang) : ResourceUtils.getText("wins.losses", lang))))));
 			Integer cpId = (league.equals("1") ? 51 : (league.equals("2") ? 54 : (league.equals("3") ? 55 : 56)));
 			hHeader.put("title", ResourceUtils.getText("menu.usleagues", lang));
-			hHeader.put("tabshorttitle", leagueLabel + "&nbsp;-&nbsp;" + typeLabel);
-			hHeader.put("item0", "<table><tr><td><img src='img/menu/dbusleagues.png'/></td><td>&nbsp;<a href='usleagues'>" + ResourceUtils.getText("menu.usleagues", lang) + "</a></td></tr></table>");
+			hHeader.put("title", leagueLabel + "&nbsp;-&nbsp;" + typeLabel);
+			hHeader.put("item0", "<table><tr><td><img alt='US leagues' src='img/menu/dbusleagues.png'/></td><td>&nbsp;<a href='usleagues'>" + ResourceUtils.getText("menu.usleagues", lang) + "</a></td></tr></table>");
 			hHeader.put("item1", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, cpId, ImageUtils.SIZE_SMALL, null, leagueLabel), HtmlUtils.writeLink(Championship.alias, cpId, leagueLabel, null)));
 			hHeader.put("item2", typeLabel);
 			if (type == HEADER_US_LEAGUES_RETNUM) {
@@ -214,10 +214,9 @@ public class HtmlConverter {
 		}
 		else if (type == HEADER_REF) {
 			String entity = String.valueOf(lstParams.get(0));
-			hHeader.put("tabshorttitle", String.valueOf(lstParams.get(4)));
-			hHeader.put("url", HtmlUtils.writeURL("results", lstParams.toString()));
-			hHeader.put("item0", "<table><tr><td><img src='img/menu/dbref.png'/></td><td>&nbsp;" + ResourceUtils.getText("entity." + entity, lang) + "</td></tr></table>");
-			hHeader.put("item1", hHeader.get("tabshorttitle"));
+			hHeader.put("title", String.valueOf(lstParams.get(4)));
+			hHeader.put("item0", "<table><tr><td><img alt='Ref' src='img/menu/dbref.png'/></td><td>&nbsp;" + ResourceUtils.getText("entity." + entity, lang) + "</td></tr></table>");
+			hHeader.put("item1", hHeader.get("title"));
 		}
 		return HtmlUtils.writeHeader(hHeader, lang);
 	}
@@ -301,7 +300,8 @@ public class HtmlConverter {
 			String tm = sbTm.toString();
 			String cn = sbCn.toString();
 			String sp = sbSp.toString();
-			hInfo.put("tabtitle", e.getLastName() + ", " + e.getFirstName() + (e.getCountry() != null ? " (" + e.getCountry().getCode() + ")" : ""));
+//			hInfo.put("tabtitle", e.getLastName() + ", " + e.getFirstName() + (e.getCountry() != null ? " (" + e.getCountry().getCode() + ")" : ""));
+			hInfo.put("tabtitle", e.getFirstName() + " " + e.getLastName());
 			hInfo.put("name", "<b>" + sbNm.toString() + "</b>");
 			if (StringUtils.notEmpty(cn))
 				hInfo.put("country", cn);
@@ -368,7 +368,7 @@ public class HtmlConverter {
 			Country e = (Country) DatabaseHelper.loadEntity(Country.class, id);
 			String currentLogo = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, e.getId(), ImageUtils.SIZE_LARGE, null, null);
 			Collection<String> lAllLogos = ImageUtils.getImageList(ImageUtils.INDEX_COUNTRY, e.getId(), ImageUtils.SIZE_LARGE);
-			hInfo.put("tabtitle", e.getLabel(lang) + " (" + e.getCode() + ")");
+			hInfo.put("tabtitle", e.getLabel(lang) + " [" + e.getCode() + "]");
 			hInfo.put("name", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
 			hInfo.put("code", e.getCode());
 			hInfo.put("flag", currentLogo);
@@ -380,7 +380,7 @@ public class HtmlConverter {
 						String s_ = s.substring(s.indexOf("_") + 1, s.lastIndexOf("."));
 						if (s_.substring(0, 4).equals(s_.substring(5)))
 							s_ = s_.substring(5);
-						sbOtherFlags.append("<div class='of-" + id + "' style='" + (++nof > 3 ? "display:none;" : "") + "float:left;margin:5px;text-align:center;'><img src='" + ImageUtils.getUrl() + s + "'/>");
+						sbOtherFlags.append("<div class='of-" + id + "' style='" + (++nof > 3 ? "display:none;" : "") + "float:left;margin:5px;text-align:center;'><img alt='' src='" + ImageUtils.getUrl() + s + "'/>");
 						sbOtherFlags.append("<br/><b>" + s_ + "</b></div>");
 					}
 				if (nof > 3)
@@ -405,7 +405,7 @@ public class HtmlConverter {
 			List<DrawBean> lDraw = (List<DrawBean>) DatabaseHelper.call("GetDraw", lFuncParams);
 			if (lDraw != null) {
 				DrawBean bean = (DrawBean) lDraw.get(0);
-				html.append("<span class='shorttitle'>" + bean.getYrLabel() + "&nbsp;" + ResourceUtils.getText("draw", lang) + "</span>");
+				html.append("<span class='title'>" + bean.getYrLabel() + "&nbsp;" + ResourceUtils.getText("draw", lang) + "</span>");
 				html.append("<div class='draw'>");
 				String[] tLevel = {"Qf1", "Qf2", "Qf3", "Qf4", "Sf1", "Sf2", "F", "Thd"};
 				HashMap<String, String> hLvlLabel = new HashMap<String, String>();
@@ -553,7 +553,7 @@ public class HtmlConverter {
 						String s_ = s.substring(s.indexOf("_") + 1, s.lastIndexOf("."));
 						if (s_.substring(0, 4).equals(s_.substring(5)))
 							s_ = s_.substring(5);
-						sbOtherLogos.append("<div class='ol-" + id + "' style='" + (++nol > 3 ? "display:none;" : "") + "float:left;margin:5px;text-align:center;'><img src='" + ImageUtils.getUrl() + s + "'/>");
+						sbOtherLogos.append("<div class='ol-" + id + "' style='" + (++nol > 3 ? "display:none;" : "") + "float:left;margin:5px;text-align:center;'><img alt='' src='" + ImageUtils.getUrl() + s + "'/>");
 						sbOtherLogos.append("<br/><b>" + s_ + "</b></div>");
 					}
 				if (nol > 3)
@@ -941,7 +941,7 @@ public class HtmlConverter {
 			lIds.add(String.valueOf(bean.getRsId()));
 
 			// Evaluate bean
-			String draw = "<table><tr><td><img src='img/render/draw.gif?3' title='" + ResourceUtils.getText("draw", lang) + "'/></td><td style='padding-left:3px;'><a href='javascript:info(\"" + StringUtils.encode("DR-" + bean.getRsId()) + "\")'>" + ResourceUtils.getText("draw", lang) + "</a></td></tr></table>";
+			String draw = "<table><tr><td><img alt='' src='img/render/draw.gif?3' title='" + ResourceUtils.getText("draw", lang) + "'/></td><td style='padding-left:3px;'><a href='ref?p=" + StringUtils.encode("DR-" + bean.getRsId()) + "'>" + ResourceUtils.getText("draw", lang) + "</a></td></tr></table>";
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
 			String dates = (StringUtils.notEmpty(bean.getRsDate1()) ? StringUtils.toTextDate(bean.getRsDate1(), lang, "d MMM yyyy") + "&nbsp;&rarr;&nbsp;" : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? StringUtils.toTextDate(bean.getRsDate2(), lang, "d MMM yyyy") : "");
 			String place1 = null, place2 = null;
@@ -1106,8 +1106,8 @@ public class HtmlConverter {
 			html.append(isDates ? "<td class='srt'>" + (StringUtils.notEmpty(dates) ? dates : "") + "</td>" : "");
 			html.append((isPlace ? "<td class='srt'>" + (StringUtils.notEmpty(place1) ? place1 : "") + (StringUtils.notEmpty(place2) ? place2 : "") + "</td>" : "") + "</tr>");
 		}
-		html.append(getWinRecords(StringUtils.implode(lIds, ","), lang));
 		html.append("</tbody></table>");
+		html.append(getWinRecords(StringUtils.implode(lIds, ","), lang));
 		return html;
 	}
 

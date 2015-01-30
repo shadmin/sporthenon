@@ -18,10 +18,6 @@
 	background-color: #FFF;
 	text-decoration: underline;
 }
-.shmenu li a.menulogin:hover, .shmenu li a.menuupdate:hover, #updatesubmenu li a:hover{
-	background-color: #FFF;
-	text-decoration: underline;
-}
 .shmenu li.selected a:hover {
 	background-color: #FFF;
 }

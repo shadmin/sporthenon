@@ -1,6 +1,3 @@
-check exports
-check XTHML valid
-check title / session
 ----------------------------------------
 --logo par sport+event (foot-coupe de france / tennis-us open)
 --gestion detail personnes (equipes + relais)

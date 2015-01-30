@@ -13,6 +13,7 @@ import com.sporthenon.db.converter.HtmlConverter;
 import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.utils.ExportUtils;
+import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
 
 public class InfoRefServlet extends AbstractServlet {
@@ -56,7 +57,7 @@ public class InfoRefServlet extends AbstractServlet {
 				// Info
 				if (params.length == 2) {
 					StringBuffer sbRecordInfo = HtmlConverter.getRecordInfo(params[0], new Integer(params[1]), getLocale(request));
-					lFuncParams.add(sbRecordInfo.toString().replaceAll("\\</span\\>.*", "").replaceAll(".*shorttitle'\\>", ""));
+					lFuncParams.add(sbRecordInfo.toString().replaceAll("\\</span\\>.*", "").replaceAll(".*title'\\>", ""));
 					html.append(HtmlConverter.getHeader(HtmlConverter.HEADER_REF, lFuncParams, getLocale(request)));
 					html.append(sbRecordInfo);
 					lFuncParams.remove(4);
@@ -67,6 +68,7 @@ public class InfoRefServlet extends AbstractServlet {
 					html.append(HtmlConverter.getRecordRef(lFuncParams, DatabaseHelper.call("EntityRef", lFuncParams), isExport, getLocale(request)));
 				
 				if (isLink) {
+					HtmlUtils.setTitle(request, html.toString());
 					if (isExport)
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
 					else

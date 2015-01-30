@@ -7,8 +7,6 @@
 	Member m = null;
 	if (o != null && o instanceof Member)
 		m = (Member) o;
-	String mn = String.valueOf(session.getAttribute("menu"));
-	String userTxt = (m != null ? (StringUtils.notEmpty(m.getLastName()) ? m.getFirstName() + " " + m.getLastName() + " [" + m.getLogin() + "]" : "[" + m.getLogin() + "]") : "[Anonymous]");
 	String version = ConfigUtils.getProperty("version");
 	if (session.getAttribute("locale") == null)
 		session.setAttribute("locale", request.getLocale().toString().substring(0, 2));
@@ -16,7 +14,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-2.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-	<title><%=(session.getAttribute("title") != null ? session.getAttribute("title") : StringUtils.text("title", session))%></title>
+	<title><%=request.getAttribute("title")%></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta name="Description" content="Search for results in various sports and events."/>
 	<meta name="keywords" content="sport, results, database, records, olympics"/>
@@ -43,9 +41,9 @@
 	<div id="logo"><a href="/" title="Home Page"><img src="img/icon.png?v=8" alt="Sporthenon.com"/></a></div>
 	<div id="shmenu">
 		<ul>
-			<li><a id="shmenu-results" <%=(mn.equals("results") ? "class='selected'" : "")%> href="results"><%=StringUtils.text("menu.results", session)%></a></li>
-			<li><a id="shmenu-olympics" <%=(mn.equals("olympics") ? "class='selected'" : "")%> href="olympics"><%=StringUtils.text("menu.olympics", session)%></a></li>
-			<li><a id="shmenu-usleagues" <%=(mn.equals("usleagues") ? "class='selected'" : "")%> href="usleagues"><%=StringUtils.text("menu.usleagues", session)%></a></li>
+			<li><a id="shmenu-results" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("results") ? "class='selected'" : "")%> href="results"><%=StringUtils.text("menu.results", session)%></a></li>
+			<li><a id="shmenu-olympics" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("olympics") ? "class='selected'" : "")%> href="olympics"><%=StringUtils.text("menu.olympics", session)%></a></li>
+			<li><a id="shmenu-usleagues" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("usleagues") ? "class='selected'" : "")%> href="usleagues"><%=StringUtils.text("menu.usleagues", session)%></a></li>
 		</ul>
 	</div>
 	<div id="share">

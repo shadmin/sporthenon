@@ -16,6 +16,7 @@ import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.utils.ExportUtils;
+import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 
@@ -63,10 +64,13 @@ public class ResultServlet extends AbstractServlet {
 				html.append(HtmlConverter.getHeader(HtmlConverter.HEADER_RESULTS, lFuncParams, getLocale(request)));
 				html.append(HtmlConverter.convertResults(DatabaseHelper.call("GetResults", lFuncParams), oCp, oEv, getLocale(request)));
 				if (isLink) {
+					HtmlUtils.setTitle(request, html.toString());
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
-					else
+					else {
+						request.setAttribute("menu", "results");
 						ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
+					}
 				}
 				else
 					ServletHelper.writeTabHtml(response, html.append(isLink ? "</div>" : ""), getLocale(request));
