@@ -165,7 +165,7 @@ public class HtmlUtils {
 	public static String writeRecordItems(Collection<RefItem> cRecord, String lang) {
 		StringBuffer sbRecord = new StringBuffer();
 		for (RefItem item : cRecord) {
-			sbRecord.append("<table" + (sbRecord.toString().length() > 0 ? "style='margin-top:5px;'" : "") + "><tr><td rowspan='2' style='text-align:right;width:125px;font-weight:normal;'><u>" + ResourceUtils.getText("rec." + item.getLabel(), lang).replaceAll("\\s", "&nbsp;") + "</u></td>");
+			sbRecord.append("<table" + (sbRecord.toString().length() > 0 ? " style='margin-top:5px;'" : "") + "><tr><td rowspan='2' style='text-align:right;width:125px;font-weight:normal;text-decoration:underline;'>" + ResourceUtils.getText("rec." + item.getLabel(), lang).replaceAll("\\s", "&nbsp;") + "</td>");
 			if (StringUtils.notEmpty(item.getTxt1()))
 				sbRecord.append("<th>" + (item.getTxt1().equalsIgnoreCase("#GOLD#") ? ImageUtils.getGoldMedImg() : item.getTxt1()) + "</th>");
 			if (StringUtils.notEmpty(item.getTxt2()))
@@ -184,9 +184,9 @@ public class HtmlUtils {
 				sbRecord.append("<td>" + item.getCount3() + "</td>");
 			if (StringUtils.notEmpty(item.getTxt4()))
 				sbRecord.append("<td>" + item.getCount4() + "</td>");
-			sbRecord.append("</tr>");
+			sbRecord.append("</tr></table>");
 		}
-		return sbRecord.append("</table>").toString();
+		return sbRecord.toString();
 	}
 	
 	public static String writeExternalLinks(Object o) throws Exception {
@@ -202,7 +202,7 @@ public class HtmlUtils {
 			if (m.invoke(o) != null) {
 				String url = (String) m.invoke(o);
 				if (StringUtils.notEmpty(url))
-					sbHtml.append("<tr><th>Wikipedia</th></tr><tr><td><table><tr><td style='width:16px;'><img src='img/render/link-wiki.png'/></td><td>&nbsp;<a href='" + url + "' target='_blank'>" + url + "</a></td></tr></table></td></tr>");				
+					sbHtml.append("<tr><th>Wikipedia</th></tr><tr><td><table><tr><td style='width:16px;'><img alt='Wiki' src='img/render/link-wiki.png'/></td><td>&nbsp;<a href='" + url + "' target='_blank'>" + url + "</a></td></tr></table></td></tr>");				
 			}
 		}
 		HashMap<String, String> h = new HashMap<String, String>();
@@ -223,7 +223,7 @@ public class HtmlUtils {
 				if (m.invoke(o) != null) {
 					String url = (String) m.invoke(o);
 					if (StringUtils.notEmpty(url))
-						sbHtml.append("<tr><th>" + h.get(s) + "-reference</th></tr><tr><td><table><tr><td style='width:16px;'><img src='img/render/link-" + s.toLowerCase() + "ref.png'/></td><td>&nbsp;<a href='" + url + "' target='_blank'>" + url + "</a></td></tr></table></td></tr>");				
+						sbHtml.append("<tr><th>" + h.get(s) + "-reference</th></tr><tr><td><table><tr><td style='width:16px;'><img alt='spref' src='img/render/link-" + s.toLowerCase() + "ref.png'/></td><td>&nbsp;<a href='" + url + "' target='_blank'>" + url + "</a></td></tr></table></td></tr>");				
 				}
 			}
 		}

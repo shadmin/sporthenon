@@ -368,7 +368,7 @@ public class HtmlConverter {
 			Country e = (Country) DatabaseHelper.loadEntity(Country.class, id);
 			String currentLogo = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, e.getId(), ImageUtils.SIZE_LARGE, null, null);
 			Collection<String> lAllLogos = ImageUtils.getImageList(ImageUtils.INDEX_COUNTRY, e.getId(), ImageUtils.SIZE_LARGE);
-			hInfo.put("tabtitle", e.getLabel(lang) + " [" + e.getCode() + "]");
+			hInfo.put("tabtitle", e.getLabel(lang));
 			hInfo.put("name", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
 			hInfo.put("code", e.getCode());
 			hInfo.put("flag", currentLogo);
@@ -592,7 +592,7 @@ public class HtmlConverter {
 	public static StringBuffer getRecordRef(ArrayList<Object> params, Collection<Object> coll, boolean isExport, String lang) throws Exception {
 		String type = String.valueOf(params.get(0));
 		boolean isAllRef = !StringUtils.notEmpty(params.get(2));
-		final int ITEM_LIMIT = 50;
+		final int ITEM_LIMIT = 20;
 		StringBuffer html = new StringBuffer();
 		if (isAllRef)
 			html.append("<table class='tsort'>");
@@ -615,7 +615,7 @@ public class HtmlConverter {
 					RefItem item_ = (RefItem) list.get(j);
 					String en_ = item.getEntity();
 					boolean isDraw_ = (en_ != null && en_.equals(Result.alias) && item_.getTxt2() != null && item_.getTxt2().matches("(qf|sf|th)(1|2|3|4|d)"));
-					if (j < list.size() - 2 && !isDraw_ && item_.getIdRel1() < item.getIdRel1()) {
+					if (j < list.size() - 2 && !isDraw_ && item_.getIdRel1() != null && item.getIdRel1() != null && item_.getIdRel1() < item.getIdRel1()) {
 						list.add(j, item);
 						break;
 					}
@@ -750,7 +750,7 @@ public class HtmlConverter {
 					tEntity[0] = (tEntity[0] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel12() != null ? item.getIdRel12() : item.getIdRel6(), ImageUtils.SIZE_SMALL, item.getLabelRel1(), null), tEntity[0]) : null);
 					tEntity[1] = (tEntity[1] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel13() != null ? item.getIdRel13() : item.getIdRel7(), ImageUtils.SIZE_SMALL, item.getLabelRel1(), null), tEntity[1]) : null);
 					StringBuffer sb = new StringBuffer("<table><tr>");
-					sb.append("<table><tr><td>" + ResourceUtils.getText("draw." + item.getTxt2().replaceAll("\\d$", ""), lang) + "&nbsp;:&nbsp;</td><td><b>" + tEntity[0] + "</b></td><td>&nbsp;-&nbsp;</td><td>" + tEntity[1] + "</td><td>&nbsp;" + item.getTxt1());
+					sb.append("<td>" + ResourceUtils.getText("draw." + item.getTxt2().replaceAll("\\d$", ""), lang) + "&nbsp;:&nbsp;</td><td style='font-weight:bold;'>" + tEntity[0] + "</td><td>&nbsp;-&nbsp;</td><td>" + tEntity[1] + "</td><td>&nbsp;" + item.getTxt1() + "</td>");
 					c4 = sb.append("</tr></table>").toString();
 				}
 				else if (item.getIdRel6() != null && item.getLabelRel6() != null) { // Result
@@ -785,7 +785,7 @@ public class HtmlConverter {
 									isFirst = false;
 								if (idx != null) {
 									if (idx < tEntity.length && tEntity[idx] != null && (listEq.get(i) - 1) < tEntity.length && tEntity[listEq.get(i) - 1] != null) {
-										tEntity[idx] = tEntity[idx].concat((isFirst ? "</b>" : "") + "</td><td>" + (isFirst ? "<b>" : "") + "&nbsp;/&nbsp;" + (isFirst ? "</b>" : "") + "</td><td>" + (isFirst ? "<b>" : "") + tEntity[listEq.get(i) - 1]);
+										tEntity[idx] = tEntity[idx].concat("</td><td>" + "&nbsp;/&nbsp;" + "</td><td" + (isFirst ? " style='font-weight:bold;'" : "") + ">" + tEntity[listEq.get(i) - 1]);
 										tEntity[listEq.get(i) - 1] = null;
 									}
 								}
@@ -797,12 +797,12 @@ public class HtmlConverter {
 					//isMedal = false;
 					if (isScore && !isMedal) {
 						StringBuffer sb = new StringBuffer("<table><tr>");
-						sb.append("<table><tr><td>" + ResourceUtils.getText("draw.f", lang) + "&nbsp;:&nbsp;</td><td><b>" + tEntity[0] + "</b></td><td>&nbsp;-&nbsp;</td><td>" + tEntity[1] + "</td><td>&nbsp;" + item.getTxt1());
+						sb.append("<td>" + ResourceUtils.getText("draw.f", lang) + "&nbsp;:&nbsp;</td><td style='font-weight:bold;'>" + tEntity[0] + "</td><td>&nbsp;-&nbsp;</td><td>" + tEntity[1] + "</td><td>&nbsp;" + item.getTxt1() + "</td>");
 						c4 = sb.append("</tr></table>").toString();
 					}
 					else {
 						StringBuffer sb = new StringBuffer("<table><tr>");
-						sb.append("<td>" + (tEntity[0] != null || isMedal ? (isMedal ? ImageUtils.getGoldMedImg() : "1.") + "&nbsp;" : "") + "</td><td><b>" + tEntity[0] + "</b></td>");
+						sb.append("<td>" + (tEntity[0] != null || isMedal ? (isMedal ? ImageUtils.getGoldMedImg() : "1.") + "&nbsp;" : "") + "</td><td style='font-weight:bold;'>" + tEntity[0] + "</td>");
 						if (tEntity[1] != null)
 							sb.append("<td>&nbsp;" + (isMedal ? ImageUtils.getSilverMedImg() : "2.") + "&nbsp;</td><td>" + tEntity[1] + "</td>");
 						if (tEntity[2] != null)
@@ -1065,14 +1065,14 @@ public class HtmlConverter {
 							if (tEntityRel[idx] != null && tEntityRel[listEq.get(i) - 1] != null) {
 								tEntityRel[idx] = tEntityRel[idx].concat(tEntityRel[listEq.get(i) - 1]).replaceAll("\\<\\/td\\>\\<td\\>\\<table\\>", "<table class='margintop'>");
 								tEntityRel[listEq.get(i) - 1] = null;
-								if (tEntityRel[idx].matches(".*CN\\-\\d+.*") && tEntityRel[idx].matches(".*TM\\-\\d+.*")) {
+								if (tEntityRel[idx].matches(".*\\/4\\-\\d+\\-.*") && tEntityRel[idx].matches(".*\\/5\\-\\d+\\-.*")) {
 									String[] t = tEntityRel[idx].split("</table>");
 									StringBuffer sbCN = new StringBuffer();
 									StringBuffer sbTM = new StringBuffer();
 									for (String s : t) {
-										if (s.matches(".*CN\\-\\d+.*"))
+										if (s.matches(".*\\/4\\-\\d+\\-.*"))
 											sbCN.append(s.replaceAll("^\\<td\\>|\\<\\/td\\>$|\\<\\/td\\>\\<td\\>| class='margintop'", "").replaceAll("\\<table\\>", "<table class='marginbottom'>")).append("</table>");
-										if (s.matches(".*TM\\-\\d+.*"))
+										if (s.matches(".*\\/5\\-\\d+\\-.*"))
 											sbTM.append(s.replaceAll("^\\<td\\>|\\<\\/td\\>$|\\<\\/td\\>\\<td\\>| class='margintop'", "").replaceAll("\\<table\\>", "<table class='marginbottom'>")).append("</table>");
 									}
 									tEntityRel[idx] = "<td>" + sbCN.toString() + "</td><td>" + sbTM.toString() + "</td>";
@@ -1081,8 +1081,10 @@ public class HtmlConverter {
 						}
 					}
 				}
-//				tEntity = StringUtils.removeNulls(tEntity);
-//				tEntityRel = StringUtils.removeNulls(tEntityRel);
+				if (isDoubles) {
+					tEntity = StringUtils.removeNulls(tEntity);
+					tEntityRel = StringUtils.removeNulls(tEntityRel);					
+				}
 			}
 			for (int i = 0 ; i < 9 ; i++)
 				if (tEntity[i] != null)

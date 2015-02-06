@@ -19,15 +19,15 @@
 	text-align: left;
 }
 .tc a{
-	color: #00A;
+	color: #00C;
 	text-decoration: none;
 }
 .tc a:visited{
-	color: #00A;
+	color: #00C;
 	text-decoration: none;
 }
 .tc a:hover{
-	color: #00A;
+	color: #00C;
 	text-decoration: underline;
 }
 .tc td table, .tc th table{
@@ -316,9 +316,8 @@
 	padding: 0px;
 	border: none;
 }
-.tc .titlebar{
-	background: url(../img/menu/dbsearch.png) left center no-repeat;
-	padding-top: 7px;
+.tc .searchtitle{
+	background: url(../img/menu/dbsearch.png) left 0px no-repeat;
 	padding-left: 20px;
 	height: 20px;
 }
