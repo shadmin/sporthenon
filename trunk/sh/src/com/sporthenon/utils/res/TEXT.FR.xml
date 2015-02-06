@@ -12,6 +12,7 @@
 	<entry key="menu.home">Accueil</entry>
 	<entry key="menu.project">Projet</entry>
 	<entry key="menu.contribute">Contribuer</entry>
+	<entry key="menu.search">Rechercher</entry>
 	<entry key="share">Partager</entry>
 <!-- GLOBAL -->
 	<entry key="ok">OK</entry>
@@ -240,6 +241,7 @@
 	<entry key="w.l">V/D</entry>
 <!-- SEARCH -->
 	<entry key="search.for">Rechercher</entry>
+	<entry key="search.results">Résultats de recherche pour</entry>
 	<entry key="advanced">Avancé</entry>
 	<entry key="case.sensitive">Sensible à la casse</entry>
 	<entry key="exact.match">Mot exact</entry>

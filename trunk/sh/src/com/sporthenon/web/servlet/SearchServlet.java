@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.converter.HtmlConverter;
 import com.sporthenon.utils.ExportUtils;
+import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
+import com.sporthenon.utils.res.ResourceUtils;
 
 public class SearchServlet extends AbstractServlet {
 
@@ -55,11 +57,12 @@ public class SearchServlet extends AbstractServlet {
 				lFuncParams.add("_" + getLocale(request));
 				StringBuffer html = null;
 				if (scope.equals("."))
-					html = new StringBuffer("<div class='titlebar'>Search results for : <b>" + String.valueOf(hParams.get("pattern")) + "</b></div>");
+					html = new StringBuffer("<div class='searchtitle'>" + ResourceUtils.getText("search.results", getLocale(request)) + "&nbsp;:&nbsp;<b>" + String.valueOf(hParams.get("pattern")) + "</b></div>");
 				else
 					html = HtmlConverter.getHeader(HtmlConverter.HEADER_SEARCH, lFuncParams, getLocale(request));
 				html.append(HtmlConverter.convertSearch(DatabaseHelper.call("Search", lFuncParams), String.valueOf(hParams.get("pattern")), getLocale(request)));
 				if (isLink) {
+					HtmlUtils.setTitle(request, ResourceUtils.getText("menu.search", getLocale(request)));
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
 					else

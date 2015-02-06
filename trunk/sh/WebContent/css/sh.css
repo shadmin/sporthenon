@@ -19,15 +19,15 @@ body.print{
 	margin: 6px 0px;
 }
 a{
-	color: #00F;
+	color: #00C;
 	text-decoration: none;
 }
 a:visited{
-	color: #00F;
+	color: #00C;
 	text-decoration: none;
 }
 a:hover{
-	color: #00F;
+	color: #00C;
 	text-decoration: underline;
 }
 a:focus{
@@ -136,7 +136,7 @@ input{
 	border-bottom: 1px solid #888;
 }
 #menutop{
-	font: 11px Verdana;
+	font: 12px Verdana;
 	float: left;
 	margin-top: 28px;
 	margin-left: 4px;
@@ -227,19 +227,19 @@ input{
 	background-image:url(../img/menu/dbresults.png?3);
 }
 #shmenu-results:hover, #shmenu-results.selected{
-	background-color: green;
+	background-color: #f47f28;
 }
 #shmenu-olympics{
 	background-image:url(../img/menu/dbolympics.png?3);
 }
 #shmenu-olympics:hover, #shmenu-olympics.selected{
-	background-color: blue;
+	background-color: #0094ff;
 }
 #shmenu-usleagues{
 	background-image:url(../img/menu/dbusleagues.png?3);
 }
 #shmenu-usleagues:hover, #shmenu-usleagues.selected{
-	background-color: red;
+	background-color: #00B200;
 }
 #share{
 	text-align: center;
@@ -625,19 +625,19 @@ input{
 	background-image:url(../img/menu/dbresults.png?3);
 }
 .homecontent #topics td.results:hover{
-	background-color: green;
+	background-color: #00B200;
 }
 .homecontent #topics td.olympics{
 	background-image:url(../img/menu/dbolympics.png?3);
 }
 .homecontent #topics td.olympics:hover{
-	background-color: blue;
+	background-color: #0094ff;
 }
 .homecontent #topics td.usleagues{
 	background-image:url(../img/menu/dbusleagues.png?3);
 }
 .homecontent #topics td.usleagues:hover{
-	background-color: red;
+	background-color: #f47f28;
 }
 .homecontent #topics #details{
 	border: none;
@@ -920,6 +920,8 @@ input{
 	background: #FFF;
 	height: 160px;
 	margin-bottom: 0px;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 #search .pattern{
 	float: left;

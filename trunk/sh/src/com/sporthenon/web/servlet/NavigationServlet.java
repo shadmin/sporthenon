@@ -39,6 +39,7 @@ public class NavigationServlet extends AbstractServlet {
 		hTitle.put("/usleagues", "menu.usleagues.2");
 		hTitle.put("/project", "menu.project");
 		hTitle.put("/contribute", "menu.contribute");
+		hTitle.put("/search", "menu.search");
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

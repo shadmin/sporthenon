@@ -47,27 +47,27 @@ public class ImageUtils {
 	}
 	
 	public static String getGoldMedImg() {
-		return "<img title='Gold' src='" + getRenderUrl() + "gold-mini.png?2'/>";
+		return "<img alt='Gold' title='Gold' src='" + getRenderUrl() + "gold-mini.png?2'/>";
 	}
 	
 	public static String getSilverMedImg() {
-		return "<img title='Silver' src='" + getRenderUrl() + "silver-mini.png?2'/>";
+		return "<img alt='Silver' title='Silver' src='" + getRenderUrl() + "silver-mini.png?2'/>";
 	}
 	
 	public static String getBronzeMedImg() {
-		return "<img title='Bronze' src='" + getRenderUrl() + "bronze-mini.png?2'/>";
+		return "<img alt='Bronze' title='Bronze' src='" + getRenderUrl() + "bronze-mini.png?2'/>";
 	}
 	
 	public static String getGoldHeader(String lang) {
-		return "<table><tr><td><img src='" + getRenderUrl() + "gold.png'/></td><td class='bold'>" + ResourceUtils.getText("gold", lang) + "</td></tr></table>";
+		return "<table><tr><td><img alt='Gold' src='" + getRenderUrl() + "gold.png'/></td><td class='bold'>" + ResourceUtils.getText("gold", lang) + "</td></tr></table>";
 	}
 	
 	public static String getSilverHeader(String lang) {
-		return "<table><tr><td><img src='" + getRenderUrl() + "silver.png'/></td><td class='bold'>" + ResourceUtils.getText("silver", lang) + "</td></tr></table>";
+		return "<table><tr><td><img alt='Silver' src='" + getRenderUrl() + "silver.png'/></td><td class='bold'>" + ResourceUtils.getText("silver", lang) + "</td></tr></table>";
 	}
 	
 	public static String getBronzeHeader(String lang) {
-		return "<table><tr><td><img src='" + getRenderUrl() + "bronze.png'/></td><td class='bold'>" + ResourceUtils.getText("bronze", lang) + "</td></tr></table>";
+		return "<table><tr><td><img alt='Bronze' src='" + getRenderUrl() + "bronze.png'/></td><td class='bold'>" + ResourceUtils.getText("bronze", lang) + "</td></tr></table>";
 	}
 	
 	public static Collection<String> getImageList(short type, int id, char size) {
