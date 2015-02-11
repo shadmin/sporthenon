@@ -227,7 +227,7 @@ input{
 	background-image:url(../img/menu/dbresults.png?3);
 }
 #shmenu-results:hover, #shmenu-results.selected{
-	background-color: #f47f28;
+	background-color: #00B200;
 }
 #shmenu-olympics{
 	background-image:url(../img/menu/dbolympics.png?3);
@@ -239,7 +239,7 @@ input{
 	background-image:url(../img/menu/dbusleagues.png?3);
 }
 #shmenu-usleagues:hover, #shmenu-usleagues.selected{
-	background-color: #00B200;
+	background-color: #f47f28;
 }
 #share{
 	text-align: center;
@@ -290,6 +290,10 @@ input{
 	margin-top: 5px;
 	overflow-x: hidden;
 	overflow-y: auto;
+	text-align: center;
+}
+#dupdates tr:hover{
+	background-color: #DEEFFF;
 }
 #dupdates td{
 	padding: 0px 3px;
@@ -303,10 +307,11 @@ input{
 }
 #dupdates td th, #dupdates td td{
 	border: none;
-	background-color: #FFF;
+	background-color: transparent;
 }
 #ctupdates{
 	width: auto;
+	margin-bottom: 5px;
 }
 #ctupdates td{
 	border: none;
@@ -506,7 +511,7 @@ input{
     overflow: hidden;
     width: 100%;
 }
-#buttons .button, .toolbar .button{
+#buttons .button, .toolbar .button, #lupdatesok{
 	height: 25px;
 	margin: 0px;
 	background-color: #E5E5E5;
@@ -519,10 +524,10 @@ input{
 #buttons #bleft .button{
 	margin-right: 3px;
 }
-#buttons #bright .button, .toolbar .button{
+#buttons #bright .button, .toolbar .button, #lupdatesok{
 	margin-left: 2px;
 }
-#buttons .button:hover, .toolbar .button:hover{
+#buttons .button:hover, .toolbar .button:hover, #lupdatesok:hover{
 	color: #FFF;
 	background-color: #444;
 }
@@ -548,6 +553,10 @@ input{
 }
 #buttons .info2, .toolbar .info2{
 	background-image: url('../img/component/button/info.png?3');
+}
+#lupdatesok{
+	background-image: url('../img/component/button/ok.png?3');
+	background-position: 4px center;
 }
 /* ========== TREEVIEW ========== */
 #treeview{
@@ -579,7 +588,7 @@ input{
 }
 /* ========== HOME ========== */
 #home{
-	margin: 6px 6px;
+	margin: 6px 10px;
 }
 .homecontent .fieldset .fstitle{
 	font-weight: bold;
@@ -1047,7 +1056,7 @@ input{
 	display: block;
 }
 #linktxt{
-	width: 400px;
+	width: 450px;
 	cursor: default;
 }
 .otherimglink{

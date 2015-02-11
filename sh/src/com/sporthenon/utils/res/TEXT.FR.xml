@@ -182,6 +182,8 @@
 	<entry key="draw.sf">Demi-finale</entry>
 	<entry key="draw.thd">Troisième place</entry>
 	<entry key="draw.f">Finale</entry>
+	<entry key="next.20">20 suivants</entry>
+	<entry key="complete.list">Toute la liste</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>

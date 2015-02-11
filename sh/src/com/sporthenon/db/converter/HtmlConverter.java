@@ -13,8 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
-
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Championship;
@@ -114,7 +112,6 @@ public class HtmlConverter {
 	public static StringBuffer getHeader(short type, Collection<Object> params, String lang) throws Exception {
 		ArrayList<Object> lstParams = new ArrayList<Object>(params);
 		HashMap<String, String> hHeader = new HashMap<String, String>();
-		Logger.getLogger("sh").debug("Header - " + type + " - " + params);
 		hHeader.put("info", "#INFO#");
 		if (type == HEADER_RESULTS) {
 			Sport sp = (Sport) DatabaseHelper.loadEntity(Sport.class, lstParams.get(0));
@@ -214,7 +211,7 @@ public class HtmlConverter {
 		}
 		else if (type == HEADER_REF) {
 			String entity = String.valueOf(lstParams.get(0));
-			hHeader.put("title", String.valueOf(lstParams.get(4)));
+			hHeader.put("title", String.valueOf(lstParams.get(6)));
 			hHeader.put("item0", "<table><tr><td><img alt='Ref' src='img/menu/dbref.png'/></td><td>&nbsp;" + ResourceUtils.getText("entity." + entity, lang) + "</td></tr></table>");
 			hHeader.put("item1", hHeader.get("title"));
 		}
@@ -473,7 +470,6 @@ public class HtmlConverter {
 			}
 			hInfo.put("tabtitle", e.getCity().getLabel(lang) + "&nbsp;" + e.getYear().getLabel());
 			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_OLYMPICS, e.getId(), ImageUtils.SIZE_LARGE, null, null));
-//			hInfo.put("type", ResourceUtils.getText(e.getType() == 0 ? "summer" : "winter", lang) + " " + ResourceUtils.getText("olympic.games", lang));
 			hInfo.put("year", HtmlUtils.writeLink(Year.alias, e.getYear().getId(), e.getYear().getLabel(), null));
 			hInfo.put("city", HtmlUtils.writeLink(City.alias, e.getCity().getId(), e.getCity().getLabel(lang), null));
 			hInfo.put("country", (cn != null ? cn : StringUtils.EMPTY));
@@ -592,18 +588,12 @@ public class HtmlConverter {
 	public static StringBuffer getRecordRef(ArrayList<Object> params, Collection<Object> coll, boolean isExport, String lang) throws Exception {
 		String type = String.valueOf(params.get(0));
 		boolean isAllRef = !StringUtils.notEmpty(params.get(2));
+		String limit = (params.size() > 3 ? String.valueOf(params.get(3)) : "20");
+		Integer offset = (params.size() > 4 ? new Integer(String.valueOf(params.get(4))) : 0);
 		final int ITEM_LIMIT = 20;
 		StringBuffer html = new StringBuffer();
 		if (isAllRef)
 			html.append("<table class='tsort'>");
-		HashMap<String, Integer> hCount = new HashMap<String, Integer>();
-		// Evaluate items
-		for (Object obj : coll) {
-			String s = ((RefItem) obj).getEntity();
-			if (!hCount.containsKey(s))
-				hCount.put(s, 0);
-			hCount.put(s, isAllRef && hCount.get(s) + 1 > ITEM_LIMIT ? ITEM_LIMIT : hCount.get(s) + 1);
-		}
 		// Resort (results/draws)
 		ArrayList<Object> list = new ArrayList<Object>(coll);
 		for (int i = 0 ; i < list.size() ; i++) {
@@ -630,7 +620,7 @@ public class HtmlConverter {
 		String currentEntity = "";
 		int colspan = 0;
 		int count = 0;
-		final String HTML_SEE_FULL = "<tr class='refseefull' onclick='refSeeFull(this, \"#PARAMS#\");'><td colspan='#COLSPAN#'></td></tr>";
+		final String HTML_SEE_FULL = "<tr class='refseefull'><td colspan='#COLSPAN#'><div class='sfdiv1' title='" + ResourceUtils.getText("next.20", lang) + "' onclick='refSeeFull(this, \"#P1#\");'></div><div class='sfsep'></div><div class='sfdiv2' title='" + ResourceUtils.getText("complete.list", lang) + "' onclick='refSeeFull(this, \"#P2#\");'></div></td></tr>";
 		String c1 = null, c2 = null, c3 = null, c4 = null, c5 = null, c6 = null, c7 = null;
 		for (Object obj : list) {
 			RefItem item = (RefItem) obj;
@@ -662,13 +652,17 @@ public class HtmlConverter {
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("league", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("complex", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("city", lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("state", lang) + "</th><th onclick='sort(\"" + id + "\", this, 5);'>Country</th><th onclick='sort(\"" + id + "\", this, 6);'>" + ResourceUtils.getText("timespan", lang) + "</th>");
 				else if (en.equals(WinLoss.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("league", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("w.l", lang) + "</th>");
-				if (isAllRef && count >= ITEM_LIMIT)
-					html.append(HTML_SEE_FULL.replaceAll("#PARAMS#", StringUtils.encode(params.get(0) + "-" + params.get(1) + "-" + currentEntity)).replaceAll("#COLSPAN#", String.valueOf(colspan)));
+				if (limit != null && !limit.equalsIgnoreCase("ALL") && count >= ITEM_LIMIT) {
+					String p = params.get(0) + "-" + params.get(1) + "-" + currentEntity + "-#LIMIT#-" + (offset + 20);
+					html.append(HTML_SEE_FULL.replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", "20"))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
+				}
 				colspan = StringUtils.countIn(cols.toString(), "<th");
 				html.append(StringUtils.notEmpty(currentEntity) ? "</tbody></table><table class='tsort'>" : "");
 				count = 0;
-				html.append("<thead><tr><th colspan='" + colspan + "'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + en, lang) + "&nbsp;(" + hCount.get(en) + ")") + "</th></tr>");
-				html.append("<tr class='rsort'>" + cols.toString() + "</tr></thead><tbody id='tb-" + id + "'>");
+				if (isAllRef) {
+					html.append("<thead><tr><th colspan='" + colspan + "'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + en, lang).toUpperCase()) + "</th></tr>");
+					html.append("<tr class='rsort'>" + cols.toString() + "</tr></thead><tbody id='tb-" + id + "'>");	
+				}
 				currentEntity = en;
 			}
 			c1 = null;
@@ -802,7 +796,7 @@ public class HtmlConverter {
 					}
 					else {
 						StringBuffer sb = new StringBuffer("<table><tr>");
-						sb.append("<td>" + (tEntity[0] != null || isMedal ? (isMedal ? ImageUtils.getGoldMedImg() : "1.") + "&nbsp;" : "") + "</td><td style='font-weight:bold;'>" + tEntity[0] + "</td>");
+						sb.append("<td>" + (tEntity[0] != null || isMedal ? (isMedal ? ImageUtils.getGoldMedImg() + "&nbsp;" : (tEntity[1] != null && tEntity[2] != null ? "1.&nbsp;" : "")) : "") + "</td><td style='font-weight:bold;'>" + tEntity[0] + "</td>");
 						if (tEntity[1] != null)
 							sb.append("<td>&nbsp;" + (isMedal ? ImageUtils.getSilverMedImg() : "2.") + "&nbsp;</td><td>" + tEntity[1] + "</td>");
 						if (tEntity[2] != null)
@@ -840,15 +834,18 @@ public class HtmlConverter {
 				c3 = item.getTxt1();
 				c4 = item.getTxt2();
 			}
-			if (isExport || !isAllRef || count++ < ITEM_LIMIT) {
+			if (isExport || !isAllRef || count < ITEM_LIMIT) {
 				html.append("<tr>" + (c1 != null ? "<td class='srt'>" + c1 + "</td>" : "") + (c2 != null ? "<td class='srt'>" + c2 + "</td>" : ""));
 				html.append((c3 != null ? "<td class='srt'>" + c3 + "</td>" : "") + (c4 != null ? "<td class='srt'>" + c4 + "</td>" : ""));
 				html.append((c5 != null ? "<td class='srt'>" + c5 + "</td>" : "") + (c6 != null ? "<td class='srt'>" + c6 + "</td>" : ""));
 				html.append((c7 != null ? "<td class='srt'>" + c7 + "</td>" : "") + "</tr>");
 			}
+			count++;
 		}
-		if (isAllRef && count >= ITEM_LIMIT)
-			html.append(HTML_SEE_FULL.replaceAll("#PARAMS#", StringUtils.encode(params.get(0) + "-" + params.get(1) + "-" + currentEntity)).replaceAll("#COLSPAN#", String.valueOf(colspan)));
+		if (limit != null && !limit.equalsIgnoreCase("ALL") && count >= ITEM_LIMIT) {
+			String p = params.get(0) + "-" + params.get(1) + "-" + currentEntity + "-#LIMIT#-" + (offset + 20);
+			html.append(HTML_SEE_FULL.replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", "20"))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
+		}
 		html.append(isAllRef ? "</tbody></table>" : "");
 		return html;
 	}
@@ -872,13 +869,14 @@ public class HtmlConverter {
 		ArrayList<Integer> listEqDoubles = new ArrayList<Integer>();
 		listEqDoubles.add(1);listEqDoubles.add(2);listEqDoubles.add(-1);
 		listEqDoubles.add(3);listEqDoubles.add(4);listEqDoubles.add(-1);
-		listEqDoubles.add(5);listEqDoubles.add(6);listEqDoubles.add(-1);
-		listEqDoubles.add(7);listEqDoubles.add(8);
+		listEqDoubles.add(5);listEqDoubles.add(6);
 		for (Object obj : coll) {
 			ResultsBean bean = (ResultsBean) obj;
 			List<Integer> listEq = (isDoubles ? new ArrayList<Integer>(listEqDoubles) : StringUtils.tieList(bean.getRsExa()));
-			if (isDoubles && StringUtils.notEmpty(bean.getRsExa()) && bean.getRsExa().equals("5-8"))
-				listEq.remove(listEq.lastIndexOf(-1));
+			if (isDoubles && StringUtils.notEmpty(bean.getRsExa()) && bean.getRsExa().equals("5-8")) {
+				listEq.add(7);
+				listEq.add(8);
+			}
 			String sListEq = listEq.toString();
 			entityCount = (entityCount < 1 && bean.getRsRank1() != null ? 1 : entityCount);
 			entityCount = (entityCount < 2 && bean.getRsRank2() != null && (listEq.indexOf(2) <= 0 || StringUtils.countIn(sListEq, "-1") >= 1) ? 2 : entityCount);
@@ -1001,8 +999,10 @@ public class HtmlConverter {
 				place2 = HtmlUtils.writeImgTable(img1, 	place2);
 			}
 			ArrayList<Integer> listEqDoubles_ = new ArrayList<Integer>(listEqDoubles);
-			if (isDoubles && StringUtils.notEmpty(bean.getRsExa()) && bean.getRsExa().equals("5-8"))
-				listEqDoubles_.remove(listEqDoubles_.lastIndexOf(-1));
+			if (isDoubles && StringUtils.notEmpty(bean.getRsExa()) && bean.getRsExa().equals("5-8")) {
+				listEqDoubles_.add(7);
+				listEqDoubles_.add(8);
+			}
 			List<Integer> listEq = (isDoubles ? listEqDoubles_ : StringUtils.tieList(bean.getRsExa()));
 			String[] tEntity = {null, null, null, null, null, null, null, null, null};
 			String[] tEntityRel = {null, null, null, null, null, null, null, null, null};
@@ -1183,8 +1183,6 @@ public class HtmlConverter {
 				int sortIndex = 0;
 				html.append(StringUtils.notEmpty(currentEntity) ? "</tbody></table><table class='tsort'>" : "");
 				StringBuffer cols = new StringBuffer("<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("name", lang) + "</th>");
-//				if (en.matches("PR|TM"))
-//					cols.append("<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>Country</th><th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>Sport</th>" + (en.matches("PR") ? "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>Team</th>" : ""));
 				if (en.matches("PR"))
 					cols.append("<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("country", lang) + "</th><th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("sport", lang) + "</th>");				
 				else if (en.matches("TM"))
