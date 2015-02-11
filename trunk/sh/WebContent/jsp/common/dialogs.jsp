@@ -24,7 +24,7 @@
 <div id="d-info" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fstitle"><%=StringUtils.text("dialog.info", session)%></div>
-	<div class="fscontent"><%=StringUtils.text("info.statistics", session)%>:<table style="width:500px;margin-top:8px;">
+	<div class="fscontent"><%=StringUtils.text("info.statistics", session)%>:<table style="width:600px;margin-top:8px;">
 		<tr><th><%=StringUtils.text("address", session)%></th><td></td></tr><tr><th><%=StringUtils.text("size", session)%></th><td></td></tr>
 		<tr><th><%=StringUtils.text("display.time", session)%></th><td></td></tr><tr><th><%=StringUtils.text("pictures", session)%></th><td></td></tr>
 	</table></div>

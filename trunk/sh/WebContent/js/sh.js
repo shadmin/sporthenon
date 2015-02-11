@@ -157,12 +157,6 @@ function info(s) {
 		location.href = 'ref?p=' + s;
 	}
 }
-/*function showLoading() {
-	$('content').setStyle({ opacity: 0.4 });
-	$('loading').style.left = ((document.body.clientWidth / 2) + document.body.scrollLeft) + 'px';
-	$('loading').style.top = ((document.body.clientHeight / 2) + document.body.scrollTop) + 'px';
-	$('loading').show();
-}*/
 function currentTime() {
 	return new Date().getTime();
 }
@@ -197,13 +191,13 @@ function replaceAll(s1, s2, s3) {
 	return s1;
 }
 function refSeeFull(row, p) {
-	var cell = $(row).down();
+	var cell = $(row).up();
 	cell.update('<img src="img/db/loading.gif?6"/>');
 	cell.style.backgroundColor = '#FFF';
 	new Ajax.Request('InfoRefServlet?p=' + p, {
 		onSuccess: function(response){
-			$(row).hide();
-			$(row).up('tbody').up('table').update(response.responseText);
+			$(cell).hide();
+			$(cell).up('tbody').insert(response.responseText);
 		},
 		parameters: addOptions($H())
 	});

@@ -188,15 +188,29 @@
 	margin-bottom: 0px;
 }
 .tc .refseefull td{
-	color: #00A;
+	text-align: center;
+	padding: 0px;
+}
+.tc .refseefull div{
+	float: left;
+	width: 50%;
 	cursor: pointer;
 	text-align: center;
-	border-top: 1px solid #666;
-	height: 14px;
+	height: 22px;
+}
+.tc .refseefull div:hover{
+	background-color: #FFC;
+}
+.tc .refseefull .sfdiv1{
+	margin-right: -1px;
 	background: transparent url(../img/render/more.gif) center center no-repeat;
 }
-.tc .refseefull td:hover{
-	background-color: #FFC;
+.tc .refseefull .sfsep{
+	width: 1px;
+	background-color: #666;
+}
+.tc .refseefull .sfdiv2{
+	background: transparent url(../img/render/moreall.gif) center center no-repeat;
 }
 .tc .draw{
 	height: 540px;

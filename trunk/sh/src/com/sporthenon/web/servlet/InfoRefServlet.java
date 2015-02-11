@@ -53,6 +53,8 @@ public class InfoRefServlet extends AbstractServlet {
 				lFuncParams.add(params[0]);
 				lFuncParams.add(new Integer(params[1]));
 				lFuncParams.add(params.length > 2 ? params[2] : "");
+				lFuncParams.add(params.length > 3 ? params[3] : "20");
+				lFuncParams.add(params.length > 4 ? new Integer(params[4]) : 0);
 				lFuncParams.add("_" + getLocale(request));
 				
 				// Info
@@ -61,9 +63,9 @@ public class InfoRefServlet extends AbstractServlet {
 					lFuncParams.add(sbRecordInfo.toString().replaceAll("\\</span\\>.*", "").replaceAll(".*title'\\>", ""));
 					html.append(HtmlConverter.getHeader(HtmlConverter.HEADER_REF, lFuncParams, getLocale(request)));
 					html.append(sbRecordInfo);
-					lFuncParams.remove(4);
+					lFuncParams.remove(6);
 				}
-				
+
 				// References
 				if (!isDraw)
 					html.append(HtmlConverter.getRecordRef(lFuncParams, DatabaseHelper.call("EntityRef", lFuncParams), isExport, getLocale(request)));

@@ -18,9 +18,9 @@
 			<img src='img/bullet.gif' alt='-'/>&nbsp;<%=StringUtils.text("sporthenon.desc", session)%></a><br/>
 			<hr/><img src='img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("site.topics", session)%></b><br/>
 			<div id="topics"><table><tr>
-				<td class="results" onmouseover='overTopic(TEXT_DESC_RESULTS);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.results", session)%></td>
-				<td class="olympics" onmouseover='overTopic(TEXT_DESC_OLYMPICS);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.olympics", session)%></td>
-				<td class="usleagues" onmouseover='overTopic(TEXT_DESC_USLEAGUES);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.usleagues", session)%></td>
+				<td class="results" onclick="location.href='results';" onmouseover='overTopic(TEXT_DESC_RESULTS);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.results", session)%></td>
+				<td class="olympics" onclick="location.href='olympics';" onmouseover='overTopic(TEXT_DESC_OLYMPICS);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.olympics", session)%></td>
+				<td class="usleagues" onclick="location.href='usleagues';" onmouseover='overTopic(TEXT_DESC_USLEAGUES);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.usleagues", session)%></td>
 				<td id="details" style="display:none;"></td></tr></table></div>
 			<hr/><img src='img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("access.sport", session)%></b><br/>
 			<div id="sports"><%=IndexServlet.getSportDivs(String.valueOf(session.getAttribute("locale")))%></div>
@@ -29,7 +29,7 @@
 	<!-- LAST UPDATES -->
 	<div class="fieldset">
 		<div class="fstitle lastupdates"><%=StringUtils.text("title.last.results", session)%></div>
-		<div class="fscontent"><table id="ctupdates"><tr><td><%=StringUtils.text("display.the", session)%>&nbsp;</td><td><input id="countupdt" type="text" maxlength="3" size="2" value="20" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"/></td><td>&nbsp;<%=StringUtils.text("last.updates.2", session)%>&nbsp;</td><td><a href="javascript:refreshLastUpdates();"><%=StringUtils.text("show", session)%></a></td></tr></table>
+		<div class="fscontent"><div style="float:right;"><table id="ctupdates"><tr><td><%=StringUtils.text("show", session)%>&nbsp;:&nbsp;</td><td><input id="countupdt" type="text" maxlength="3" size="3" value="20" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"/></td><td><input id='lupdatesok' type='button' class='button export' onclick='refreshLastUpdates();' value='OK'/></td></tr></table></div>
 		<div id="dupdates"></div></div>
 	</div>
 	<!-- STATISTICS -->

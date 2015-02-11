@@ -38,7 +38,7 @@
 
 <body>
 <div id="header">
-	<div id="logo"><a href="/" title="Home Page"><img src="img/icon.png?v=8" alt="Sporthenon.com"/></a></div>
+	<div id="logo"><a href="<%=ConfigUtils.getProperty("url")%>" title="<%=StringUtils.text("menu.home", session)%>"><img src="img/icon.png?v=8" alt="Sporthenon.com"/></a></div>
 	<div id="shmenu">
 		<ul>
 			<li><a id="shmenu-results" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("results") ? "class='selected'" : "")%> href="results"><%=StringUtils.text("menu.results", session)%></a></li>
@@ -92,7 +92,7 @@
 
 <div id="headertop">
 	<div id="menutop">
-		<div id="mthome"><a href="/"><%=StringUtils.text("menu.home", session)%></a></div>
+		<div id="mthome"><a href="<%=ConfigUtils.getProperty("url")%>"><%=StringUtils.text("menu.home", session)%></a></div>
 		<div id="mtproject"><a href="project"><%=StringUtils.text("menu.project", session)%></a></div>
 		<div id="mtcontribute"><a href="contribute"><%=StringUtils.text("menu.contribute", session)%></a></div>
 	</div>

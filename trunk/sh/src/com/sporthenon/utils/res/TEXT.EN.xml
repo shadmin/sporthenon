@@ -182,6 +182,8 @@
 	<entry key="draw.sf">Semi-final</entry>
 	<entry key="draw.thd">Third place</entry>
 	<entry key="draw.f">Final</entry>
+	<entry key="next.20">Next 20</entry>
+	<entry key="complete.list">Complete list</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>
