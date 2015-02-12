@@ -215,6 +215,7 @@
 .tc .draw{
 	height: 540px;
 	background: transparent url(../img/render/draw-bg3.gif) top left no-repeat;
+	margin-top: 20px;
 }
 .tc .draw .box{
 	position: absolute;

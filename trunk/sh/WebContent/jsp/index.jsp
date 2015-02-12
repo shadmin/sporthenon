@@ -53,7 +53,7 @@
 			boolean isMore = false;
 			int i = 0;
 			for (News n : (List<News>) DatabaseHelper.execute("from News order by id desc")) {
-				if (++i % 5 == 0) {
+				if (++i == 5) {
 					isMore = true;
 					out.print("<a id='amnews' href=\"javascript:$('amnews').remove();$('mnews').show();\"><br/><br/>More</a><span id='mnews' style='display:none;'>");
 				}

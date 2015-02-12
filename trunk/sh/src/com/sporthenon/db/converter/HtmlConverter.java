@@ -402,7 +402,7 @@ public class HtmlConverter {
 			List<DrawBean> lDraw = (List<DrawBean>) DatabaseHelper.call("GetDraw", lFuncParams);
 			if (lDraw != null) {
 				DrawBean bean = (DrawBean) lDraw.get(0);
-				html.append("<span class='title'>" + bean.getYrLabel() + "&nbsp;" + ResourceUtils.getText("draw", lang) + "</span>");
+				html.append("<span class='title'>" + bean.getYrLabel() + "</span>");
 				html.append("<div class='draw'>");
 				String[] tLevel = {"Qf1", "Qf2", "Qf3", "Qf4", "Sf1", "Sf2", "F", "Thd"};
 				HashMap<String, String> hLvlLabel = new HashMap<String, String>();
@@ -1190,7 +1190,7 @@ public class HtmlConverter {
 				else if (en.matches("CX|CT"))
 					cols.append((en.matches("CX") ? "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("city", lang) + "</th>" : "") + "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("country", lang) + "</th>");
 				html.append("<thead><tr><th colspan=" + (StringUtils.countIn(cols.toString(), "<th") + 1) + ">");
-				html.append(HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + en, lang) + "&nbsp;(" + hCount.get(en) + ")") + "</th></tr>");
+				html.append(HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + en, lang).toUpperCase() + "&nbsp;(" + hCount.get(en) + ")") + "</th></tr>");
 				html.append("<tr class='rsort'>" + cols.toString() + "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("references", lang) + "</th></tr></thead><tbody id='tb-" + id + "'>");
 				currentEntity = en;
 			}

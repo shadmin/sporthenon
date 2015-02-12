@@ -837,7 +837,7 @@ function updateSliderOl(code) {
 	var n = -1;
 	var currentOl = $F(code + '-pl-ol');
 	$$('#' + code + '-pl-ol option').each(function(el) {
-		if (el.text.indexOf('---') != 0) {
+		if (el.text.indexOf('---') != 0 && el.text.indexOf('[') != 0) {
 			var pattern = new RegExp('(^|.*,)' + el.value + '(,.*|$)');
 			var text = null;
 			if (currentOl == '0' || pattern.match(currentOl)) {

@@ -35,6 +35,7 @@
 	<entry key="entity.CT">Cities</entry>
 	<entry key="entity.CX">Complexes</entry>
 	<entry key="entity.CN">Countries</entry>
+	<entry key="entity.DR">Draws</entry>
 	<entry key="entity.EV">Events</entry>
 	<entry key="entity.HF">Hall of Fame</entry>
 	<entry key="entity.OL">Olympics</entry>

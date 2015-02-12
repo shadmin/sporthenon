@@ -6,22 +6,23 @@
 +-------+
 | 0.9.0 |
 +-------+
-tri all results desc
-affichage prenom NOM
-count medals stats sur links (ex. bubka)
-checkbox include postseason/super bowl pour records
-optimiser affichage sur references pays (pas tout charger)
-check bug sur draws (djokovic - pb merge ?)
-COUNT_REF ajouter ref dans DRAWS
-afficher par defaut 3 other flags + lien "more"
-URL encoding
-ajouter QF/SF sur ref entity results
-reporter boutons actions tab sur page simple
-portail par sport : modifier le ref SP-1
-layout home
-check title / session
-check exports
-check XTHML valid
+o Website
+	- Improved site layout (bigger font, clearer UI, direct search always visible..)
+	- New home page: access by sport portals, better display of last updates
+	- Use of encoded URLs instead of full with visible parameters
+	- Improved dispay of record references with paginable view (use of LIMIT/OFFSET)
+	- Changed default sorting of results (most recent first)
+	- Added search filter "Postseason" for US leagues records
+	- Added Quarterfinal/Semifinal in referenced results
+	- Moved tab buttons on result page
+	- Countries: 3 other flags are displayed by default (+ link "More")
+	- Bugfix: medal counts did not include linked entities
+	- Bugfix: draws did not display properly
+	- Bugfix: draws references where not calculated in ref. counts
+	- Bugfix: removed usage of session for page titles (request attr. only)
+	- Bugfix: multiple issues fixed in HTML/XLS/TXT exports
+o SH Update (Swing app)
+	[No change]
 
 +-------+
 | 0.8.2 |
