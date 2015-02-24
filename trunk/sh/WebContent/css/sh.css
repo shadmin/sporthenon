@@ -157,6 +157,16 @@ input{
 }
 #menutop #mtcontribute{
 	background: url(../img/menu/contribute.png) left 0 no-repeat;
+	margin-right: 5px;
+}
+#menutop #mtlogin{
+	background: url(../img/menu/login.png) 1px 0 no-repeat;
+}
+#menutop #mtlogout{
+	background: url(../img/menu/logout.png) 1px 0 no-repeat;
+}
+#menutop #mtupdate{
+	background: url(../img/menu/update.png) left 0 no-repeat;
 }
 #flags{
 	padding: 2px;
@@ -293,7 +303,7 @@ input{
 	text-align: center;
 }
 #dupdates tr:hover{
-	background-color: #DEEFFF;
+	background-color: #CDE8FF;
 }
 #dupdates td{
 	padding: 0px 3px;
@@ -511,7 +521,7 @@ input{
     overflow: hidden;
     width: 100%;
 }
-#buttons .button, .toolbar .button, #lupdatesok{
+#buttons .button, .toolbar .button, #lupdatesok, #logindiv .button{
 	height: 25px;
 	margin: 0px;
 	background-color: #E5E5E5;
@@ -527,7 +537,7 @@ input{
 #buttons #bright .button, .toolbar .button, #lupdatesok{
 	margin-left: 2px;
 }
-#buttons .button:hover, .toolbar .button:hover, #lupdatesok:hover{
+#buttons .button:hover, .toolbar .button:hover, #lupdatesok:hover, #logindiv .button:hover{
 	color: #FFF;
 	background-color: #444;
 }
@@ -843,6 +853,7 @@ input{
 	margin-left: 10px;
 	margin-right: 10px;
 	background: #FFF url(../img/column.png?3) 25px 150px no-repeat;
+	overflow-x: auto;
 }
 #usleagues .league{
 	float: left;
@@ -881,11 +892,12 @@ input{
 }
 #usleagues #usstype{
 	margin: 10px;
+	margin-right: 0px;
 }
 #usleagues #usstype td{
 	border: 1px solid #FFF;
 	padding: 3px;
-	padding-right: 10px;
+	padding-right: 5px;
 	font-weight: bold;
 	cursor: pointer;
 }
@@ -893,16 +905,11 @@ input{
 	border: 1px solid #000;
 	background-color: #FFC;
 }
-/*
-#usleagues .fieldset{
-	float: left;
-	width: 250px;
-	height: 75px;
-}*/
 #ustopics{
 	text-align: left;
 	float: left;
 	margin: 10px;
+	margin-right: 0px;
 	padding: 5px;
 }
 #ustopics td{
@@ -938,11 +945,11 @@ input{
 	padding-left: 3px;
 	width: 330px;
 }
-#search .pattern input, #headertop .pattern input{
+#search .pattern input, #headertop .pattern input, #logindiv input{
 	border: 1px solid #CCC;
 	font-size: 13px;
 }
-#search .pattern input.selected, #headertop .pattern input.selected{
+#search .pattern input:focus, #headertop .pattern input:focus{
 	border: 1px solid #D00;
 }
 #search #pattern{
@@ -963,12 +970,18 @@ input{
 	padding: 0px;
 }
 /* ========== PROJECT ========== */
+#project{
+	margin-left: 10px;
+	margin-right: 10px;
+}
 #project .left{
-	padding-right: 360px;
+	width: 49%;
+	padding-right: 5px;
 }
 #project .right{
 	float: right;
-	width: 350px;
+	width: 50%;
+	padding-left: 5px;
 }
 #chart{
 	width: 450px;
@@ -994,6 +1007,47 @@ input{
 }
 .contributors{
 	background-image: url(../img/project/contributors.png?3);
+}
+/* ========== LOGIN ========== */
+#logindiv{
+	text-align: center;
+}
+#logindiv .loginmsg{
+	font-weight: bold;
+	color: #F00;
+}
+#logindiv .fieldset, #logindiv .fieldset table{
+	margin-left: auto;
+	margin-right: auto;
+}
+#logindiv .fieldset table{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#logindiv th{
+	text-align: right;
+	font-weight: normal;
+}
+#logindiv td{
+	text-align: left;
+}
+#logindiv input:focus{
+	border: 1px solid #D00;
+}
+.mandatory{
+	font-weight: bold;
+	color: #F00;
+	padding-right: 3px;
+}
+#rmsg{
+	font-weight: bold;
+	margin-top: 10px;
+}
+#logindiv .success{
+	color: green;
+}
+#logindiv .error{
+	color: #F00;
 }
 /* ========== DIALOGS ========== */
 .dialog, .dialog input{
@@ -1035,7 +1089,7 @@ input{
 	color: #FFF;
 	background-color: #444;
 }
-.dialog .dlgbuttons .ok, .optcontainer .ok{
+.dialog .dlgbuttons .ok, .optcontainer .ok, #logindiv .ok{
 	background-image: url('../img/component/button/ok.png?3');
 }
 .dialog .dlgbuttons .cancel, .optcontainer .cancel{

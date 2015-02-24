@@ -14,14 +14,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-2.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-	<title><%=request.getAttribute("title")%></title>
+	<title><%=(StringUtils.notEmpty(request.getAttribute("title")) ? request.getAttribute("title") : StringUtils.text("title", session))%></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta name="Description" content="Search for results in various sports and events."/>
+	<meta name="Description" content="<%=StringUtils.text("desc", session)%>"/>
 	<meta name="keywords" content="sport, results, database, records, olympics"/>
-	<meta property="og:title" content="SPORTHENON - Temple of Sports Results"/>
+	<meta property="og:title" content="<%=StringUtils.text("title", session)%>"/>
 	<meta property="og:type" content="website"/>
 	<meta property="og:image" content="http://92.243.3.85/img/icon-notext.png?v=6"/>
-	<meta property="og:description" content="Search for results in various sports and events."/>
+	<meta property="og:description" content="<%=StringUtils.text("desc", session)%>"/>
 	<link rel="stylesheet" type="text/css" href="css/sh.css?v=<%=version%>"/>
 	<!--[if IE 6]>
 	<link rel="stylesheet" type="text/css" href="css/ie6fix.css?v=<%=version%>"/>
@@ -57,37 +57,42 @@
 </div>
 
 <script type="text/javascript">
-	var TEXT_OK = "<%=StringUtils.text("ok", session)%>";
-	var TEXT_CANCEL = "<%=StringUtils.text("cancel", session)%>";
-	var TEXT_ACTIONS_TAB = "<%=StringUtils.text("actions.currenttab", session)%>";
-	var TEXT_RUN = "<%=StringUtils.text("button.run", session)%>";
-	var TEXT_RESET = "<%=StringUtils.text("button.reset", session)%>";
-	var TEXT_EXPORT = "<%=StringUtils.text("button.export", session)%>";
-	var TEXT_LINK = "<%=StringUtils.text("button.link", session)%>";
-	var TEXT_PRINT = "<%=StringUtils.text("button.print", session)%>";
-	var TEXT_INFO = "<%=StringUtils.text("button.info", session)%>";
-	var TEXT_CLOSE = "<%=StringUtils.text("button.close", session)%>";
-	var TEXT_BLANK = "<%=StringUtils.text("blank", session)%>";
-	var TEXT_CURRENTLY_SELECTED = "<%=StringUtils.text("currently.selected", session)%>";
-	var TEXT_ALL = "<%=StringUtils.text("all", session)%>";
-	var TEXT_CLICK_CHANGE = "<%=StringUtils.text("click.change", session)%>";
-	var TEXT_EXPAND = "<%=StringUtils.text("expand", session)%>";
-	var TEXT_COLLAPSE = "<%=StringUtils.text("collapse", session)%>";
-	var TEXT_KB = "<%=StringUtils.text("kb", session)%>";
-	var TEXT_SECONDS = "<%=StringUtils.text("seconds", session)%>";
-	var TEXT_YEARS = "<%=StringUtils.text("years", session)%>";
-	var TEXT_OLYMPIC_GAMES = "<%=StringUtils.text("olympic.games", session)%>";
-	var TEXT_EVENTS = "<%=StringUtils.text("events", session)%>";
-	var TEXT_COUNTRIES = "<%=StringUtils.text("countries", session)%>";
-	var TEXT_TEAMS = "<%=StringUtils.text("teams", session)%>";
-	var TEXT_CATEGORIES = "<%=StringUtils.text("categories", session)%>";
-	var TEXT_SELECT = "<%=StringUtils.text("select", session)%>";
-	var TEXT_SELECTION = "<%=StringUtils.text("selection", session)%>";
-	var TEXT_LOADING = "<%=StringUtils.text("loading", session)%>";
-	var TEXT_SEARCH = "<%=StringUtils.text("search.for", session)%>";
-	var TEXT_DESC_RESULTS = "<%=StringUtils.text("desc.results", session)%>";
-	var TEXT_DESC_OLYMPICS = "<%=StringUtils.text("desc.olympics", session)%>";
-	var TEXT_DESC_USLEAGUES = "<%=StringUtils.text("desc.usleagues", session)%>";
+	var TX_OK = "<%=StringUtils.text("ok", session)%>";
+	var TX_CANCEL = "<%=StringUtils.text("cancel", session)%>";
+	var TX_ACTIONS_TAB = "<%=StringUtils.text("actions.currenttab", session)%>";
+	var TX_RUN = "<%=StringUtils.text("button.run", session)%>";
+	var TX_RESET = "<%=StringUtils.text("button.reset", session)%>";
+	var TX_EXPORT = "<%=StringUtils.text("button.export", session)%>";
+	var TX_LINK = "<%=StringUtils.text("button.link", session)%>";
+	var TX_PRINT = "<%=StringUtils.text("button.print", session)%>";
+	var TX_INFO = "<%=StringUtils.text("button.info", session)%>";
+	var TX_CLOSE = "<%=StringUtils.text("button.close", session)%>";
+	var TX_BLANK = "<%=StringUtils.text("blank", session)%>";
+	var TX_CURRENTLY_SELECTED = "<%=StringUtils.text("currently.selected", session)%>";
+	var TX_ALL = "<%=StringUtils.text("all", session)%>";
+	var TX_CLICK_CHANGE = "<%=StringUtils.text("click.change", session)%>";
+	var TX_EXPAND = "<%=StringUtils.text("expand", session)%>";
+	var TX_COLLAPSE = "<%=StringUtils.text("collapse", session)%>";
+	var TX_KB = "<%=StringUtils.text("kb", session)%>";
+	var TX_SECONDS = "<%=StringUtils.text("seconds", session)%>";
+	var TX_YEARS = "<%=StringUtils.text("years", session)%>";
+	var TX_OLYMPIC_GAMES = "<%=StringUtils.text("olympic.games", session)%>";
+	var TX_EVENTS = "<%=StringUtils.text("events", session)%>";
+	var TX_COUNTRIES = "<%=StringUtils.text("countries", session)%>";
+	var TX_TEAMS = "<%=StringUtils.text("teams", session)%>";
+	var TX_CATEGORIES = "<%=StringUtils.text("categories", session)%>";
+	var TX_SELECT = "<%=StringUtils.text("select", session)%>";
+	var TX_SELECTION = "<%=StringUtils.text("selection", session)%>";
+	var TX_LOADING = "<%=StringUtils.text("loading", session)%>";
+	var TX_SEARCH = "<%=StringUtils.text("search.for", session)%>";
+	var TX_DESC_RESULTS = "<%=StringUtils.text("desc.results", session)%>";
+	var TX_DESC_OLYMPICS = "<%=StringUtils.text("desc.olympics", session)%>";
+	var TX_DESC_USLEAGUES = "<%=StringUtils.text("desc.usleagues", session)%>";
+	var TX_MLOGIN = "<%=StringUtils.text("mandatory.login", session)%>";
+	var TX_MPASSWORD = "<%=StringUtils.text("mandatory.password", session)%>";
+	var TX_MCONFIRMPWD = "<%=StringUtils.text("mandatory.confirmpwd", session)%>";
+	var TX_MEMAIL = "<%=StringUtils.text("mandatory.email", session)%>";
+	var TX_PWDNOTMATCH = "<%=StringUtils.text("pwd.nomatch", session)%>";
 </script>
 
 <div id="headertop">
@@ -95,11 +100,17 @@
 		<div id="mthome"><a href="<%=ConfigUtils.getProperty("url")%>"><%=StringUtils.text("menu.home", session)%></a></div>
 		<div id="mtproject"><a href="project"><%=StringUtils.text("menu.project", session)%></a></div>
 		<div id="mtcontribute"><a href="contribute"><%=StringUtils.text("menu.contribute", session)%></a></div>
+		<% if (m != null) { %>
+		<div id="mtupdate"><a href="update"><%=StringUtils.text("menu.update", session)%></a></div>
+		<div id="mtlogout"><a href="LoginServlet?logout"><%=StringUtils.text("menu.logout", session)%></a>&nbsp;(<%=m.getLogin()%>)</div>
+		<% } else { %>
+		<div id="mtlogin"><a href="login"><%=StringUtils.text("menu.login", session)%></a></div>
+		<% } %>
 	</div>
 	<div id="flags"><a title="English" href="javascript:setLang('en');"><img alt="EN" src="img/header/lang-en.png"/></a>&nbsp;<a title="Français" href="javascript:setLang('fr');"><img alt="FR" src="img/header/lang-fr.png"/></a>&nbsp;</div>
 	<div id="searchpanel">
 		<table style="border-spacing:0px;"><tr><td><a title="Click for advanced search" href="search"><img alt="Search" src="img/menu/dbsearch.png"/></a></td>
-		<td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.for", session)%>" title="Search in Sporthenon" onkeydown="directSearch();" onfocus="dpatternFocus();" onblur="dpatternBlur();" style="color:#AAA;"></input></td>
+		<td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.for", session)%>" title="<%=StringUtils.text("search.in", session)%> Sporthenon" onkeydown="directSearch();" onfocus="dpatternFocus();" onblur="dpatternBlur();" style="color:#AAA;"></input></td>
 		</tr></table>
 	</div>
 </div>

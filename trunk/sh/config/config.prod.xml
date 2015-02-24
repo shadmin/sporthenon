@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<entry key="env">prod</entry><!-- Environment (standalone|local|prod) -->
-	<entry key="version">0.9.0</entry>
+	<entry key="version">0.9.1</entry>
 	<entry key="url">http://www.sporthenon.com/</entry>
 	<entry key="img.url">http://92.243.3.85:81/</entry>
 	<entry key="img.folder">/usr/share/glassfish3/glassfish/domains/domain1/docroot/img/</entry>

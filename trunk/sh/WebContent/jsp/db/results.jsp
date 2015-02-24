@@ -85,7 +85,7 @@ window.onload = function() {
 	<%}%>
 	getPicklist('pl-sp');
 	initSliderRes('sp');
-	initSelectMult('sm-pl-yr', TEXT_YEARS, 265);
+	initSelectMult('sm-pl-yr', TX_YEARS, 265);
 	$('pl-sp').onchange = function(){
 		changeSport(false);
 	};

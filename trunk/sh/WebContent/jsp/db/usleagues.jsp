@@ -16,7 +16,7 @@
 		<div id="nhl" onclick="changeLeague(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;NHL &#150; National Hockey League</div>
 		<div id="mlb" onclick="changeLeague(this.id);" style="margin-bottom:0px;"><img alt="-" src="img/bullet.gif"/>&nbsp;MLB &#150; Major League of Baseball</div>
 	</div>
-	<div style="float:left;width:450px;height:170px;" class="fieldset">
+	<div style="float:left;width:400px;height:170px;" class="fieldset">
 		<div style="float:left;width:auto;">
 			<table id="usstype">
 				<tr><td id="championship" onclick="changeModeUS(this.id);"><img alt="-" src="img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("championships", "en")%></td></tr>
@@ -85,12 +85,12 @@
 <script type="text/javascript">
 var tPos = new Array();
 window.onload = function() {
-	initSelectMult('sm-pl-championship-yr', TEXT_YEARS, 200);
-	initSelectMult('sm-pl-hof-yr', TEXT_YEARS, 200);
-	initSelectMult('sm-pl-retnum-tm', TEXT_TEAMS, 200, 60);
-	initSelectMult('sm-pl-teamstadium-tm', TEXT_TEAMS, 200, 60);
-	initSelectMult('sm-pl-record-se', TEXT_CATEGORIES, 200, 45);
-	initSelectMult('sm-pl-winloss-tm', TEXT_TEAMS, 200, 60);
+	initSelectMult('sm-pl-championship-yr', TX_YEARS, 200);
+	initSelectMult('sm-pl-hof-yr', TX_YEARS, 200);
+	initSelectMult('sm-pl-retnum-tm', TX_TEAMS, 200, 60);
+	initSelectMult('sm-pl-teamstadium-tm', TX_TEAMS, 200, 60);
+	initSelectMult('sm-pl-record-se', TX_CATEGORIES, 200, 45);
+	initSelectMult('sm-pl-winloss-tm', TX_TEAMS, 200, 60);
 	initSliderUS();
 	changeModeUS();
 	changeLeague('nfl');

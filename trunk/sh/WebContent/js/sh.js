@@ -74,14 +74,14 @@ function createTip(name, pl) {
 }
 function updateTip(pl, empty) {
 	if (hTips.size() == 0 || !hTips.get(pl)) {return;}
-	var text = TEXT_CURRENTLY_SELECTED + ':';
+	var text = TX_CURRENTLY_SELECTED + ':';
 	if (empty) {
 		text = '';
 	}
 	else {
 		var t = $(pl).value.split(',');
 		if (t[0] == 0) {
-			text += '<br/>[' + TEXT_ALL + ']';
+			text += '<br/>[' + TX_ALL + ']';
 		}
 		else {
 			var h = new Hash();
@@ -93,7 +93,7 @@ function updateTip(pl, empty) {
 			}
 			text += (t.length > 10 ? '<br/>(+' + (t.length - 10) + ' more)' : '');
 		}
-		text += '<br/><br/><span class="bold">(' + TEXT_CLICK_CHANGE + ')</span>';
+		text += '<br/><br/><span class="bold">(' + TX_CLICK_CHANGE + ')</span>';
 	}
 	$(hTips.get(pl)).update(text);
 }
@@ -146,7 +146,7 @@ function info(s) {
 	t1 = currentTime();
 	if ($('tabcontrol')) {
 		window.scrollTo(0, 0);
-		addTab(TEXT_BLANK);
+		addTab(TX_BLANK);
 		var tab = initTab();
 		new Ajax.Updater(tab, 'InfoRefServlet?p=' + s, {
 			onComplete: handleRender,
@@ -262,13 +262,13 @@ function toggleTreeExpand() {
 	if (!treeExpanded) {
 		$('treeview').removeClassName('collapsed').addClassName('expanded');
 		img.src = img.src.replace('expand', 'collapse');
-		img.alt = img.alt.replace(TEXT_EXPAND, TEXT_COLLAPSE);
+		img.alt = img.alt.replace(TX_EXPAND, TX_COLLAPSE);
 		$('treeview').style.border = '1px solid #000';
 	}
 	else {
 		$('treeview').removeClassName('expanded').addClassName('collapsed');
 		img.src = img.src.replace('collapse', 'expand');
-		img.alt = img.alt.replace(TEXT_COLLAPSE, TEXT_EXPAND);
+		img.alt = img.alt.replace(TX_COLLAPSE, TX_EXPAND);
 		$('treeview').style.border = '1px solid #DDD';
 	}
 	$('treeicontxt').update(img.alt);
@@ -302,11 +302,11 @@ var tabs = null;
 var tabcurrent = 0;
 var tabcount = 0;
 function initTabControl() {
-	addTab(TEXT_BLANK);
+	addTab(TX_BLANK);
 	
 	tabbar.insert('<li title="Open New Tab" id="link-add"><a href="javascript:void(0);"></a></li>');
 	var link = $$('#link-add a')[0];
-	link.observe('click', function(){addTab(TEXT_BLANK);});
+	link.observe('click', function(){addTab(TX_BLANK);});
 }
 function getCloseImg(idx) {
 	var img = new Element('img', {id: 'close-' + idx, src: 'img/component/tabcontrol/close.gif'});
@@ -331,7 +331,7 @@ function clickCloseImg(id_) {
 		tabs.setActiveTab(i > 0 ? 't-' + (i + 1) : 0);
 	}
 	if ($$('#tabbar li').length <= 2) {
-		addTab(TEXT_BLANK);
+		addTab(TX_BLANK);
 	}
 }
 function addTab(title) {
@@ -349,7 +349,7 @@ function addTab(title) {
 }
 function initTab() {
 	var tab = $(tabs.activeContainer.id);
-	$('title-' + tab.id.replace('t-', '')).update(TEXT_LOADING);
+	$('title-' + tab.id.replace('t-', '')).update(TX_LOADING);
 	return tab.update('<div class="loading"></div>');
 }
 function closeTabs() {
@@ -398,8 +398,8 @@ function displayInfo() {
 	var tInfo = info.split('|');
 	var t = $$('#d-info td');
 	t[0].update('<a href="' + url + '" target="_blank">' + url + '</a>');
-	t[1].update(tInfo[0] + '&nbsp;' + TEXT_KB);
-	t[2].update(tInfo[1] + '&nbsp;' + TEXT_SECONDS);
+	t[1].update(tInfo[0] + '&nbsp;' + TX_KB);
+	t[2].update(tInfo[1] + '&nbsp;' + TX_SECONDS);
 	t[3].update(tInfo[2]);
 	$('header').setStyle({ opacity: 0.4 });
 	$('content').setStyle({ opacity: 0.4 });
@@ -469,7 +469,7 @@ function initSelectMult(id, s, w, o) {
 	container.writeAttribute('id', id + '-options');
 	label.writeAttribute('for', id + '-applyall');
 	input.writeAttribute('id', id + '-applyall');
-	container.down().innerHTML = TEXT_SELECT + ': ' + s;
+	container.down().innerHTML = TX_SELECT + ': ' + s;
 	$(id).setStyle({width: w + 'px'});
 	container.setStyle({width: (w + (o ? o : 20)) + 'px'});
 	openLink.writeAttribute('href', '#tip-' + id);
@@ -827,7 +827,7 @@ function getPicklistOL(picklistId) {
 		}	
 	}
 	if (picklistId != code + '-pl-sp' && array.length > 1) {
-		array.push({value: 0, text: '[' + TEXT_ALL + ']'});
+		array.push({value: 0, text: '[' + TX_ALL + ']'});
 	}
 	fillPicklistArray(picklistId, array);
 }
@@ -1004,17 +1004,15 @@ function resetUSLeagues() {
 }
 /* ==================== SEARCH ==================== */
 function dpatternFocus() {
-	$('dpattern').addClassName('selected');
-	if ($F('dpattern') == TEXT_SEARCH) {
+	if ($F('dpattern') == TX_SEARCH) {
 		$('dpattern').style.color = '#000';
 		$('dpattern').value = '';
 	}
 }
 function dpatternBlur() {
-	$('dpattern').removeClassName('selected');
 	if ($F('dpattern') == '') {
 		$('dpattern').style.color = '#AAA';
-		$('dpattern').value = TEXT_SEARCH;
+		$('dpattern').value = TX_SEARCH;
 	}
 }
 function directSearch() {
@@ -1100,4 +1098,66 @@ function loadChart() {
 			});
 		}
 	});
+}
+/* ==================== LOGIN ==================== */
+function auth() {
+	if ($F('login') == '') {
+		$('login').focus();
+	}
+	else if ($F('password') == '') {
+		$('password').focus();
+	}
+	else {
+		$('flogin').submit();
+	}
+}
+function rauth() {
+	$('login').value = $('rlogin').value;
+	$('password').value = $('rpassword').value;
+	auth();
+}
+function createAccount() {
+	if ($('rlogin').value == '') {
+		accountErr(pwd.nomatch);
+		$('rlogin').focus();
+		{return;}
+	}
+	else if ($('rpassword').value == '') {
+		accountErr(TX_MPASSWORD);
+		$('rpassword').focus();
+		{return;}
+	}
+	else if ($('rpassword2').value == '') {
+		accountErr(TX_MCONFIRMPWD);
+		$('rpassword2').focus();
+		{return;}
+	}
+	else if ($('remail').value == '') {
+		accountErr(TX_MEMAIL);
+		$('remail').focus();
+		{return;}
+	}
+	else if ($('rpassword').value != $('rpassword2').value) {
+		accountErr(TX_PWDNOTMATCH);
+		$('rpassword2').focus();
+		{return;}
+	}
+	$('rmsg').update('<img src="img/db/loading.gif?6"/>').removeClassName('error').removeClassName('success').show();
+	var h = $H();
+	$$('.register input').each(function(el) {
+		h.set(el.id, el.value);
+	});
+	new Ajax.Request('LoginServlet?create', { onSuccess: function(response) {
+		var s = response.responseText;
+		if (!/ERR\|.*/.match(s)) {
+			$('rmsg').update(s).removeClassName('error').addClassName('success').show();
+		}
+		else {
+			accountErr(s.split('|')[1]);
+			$('rlogin').focus();
+		}
+	}, parameters: h });
+}
+function accountErr(s) {
+	$('rmsg').update(s).removeClassName('success').addClassName('error').show();
 }

@@ -266,7 +266,7 @@
 	border: 2px solid #333;
 }
 .tc .tsort tr:hover{
-	background-color: #DEEFFF;
+	background-color: #CDE8FF;
 }
 .tc .tsort table tr:hover, .tc .tsort .refseefull:hover{
 	background-color: transparent;

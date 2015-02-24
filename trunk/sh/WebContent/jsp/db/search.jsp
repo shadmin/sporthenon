@@ -5,7 +5,7 @@
 	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
 	<form id="search-form" action="/search" onsubmit="return false;">
 	<div class="pattern">
-		<%=StringUtils.text("search.for", session)%>:<br/><input type="text" class="text" name="pattern" id="pattern" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');" onkeydown="if(event.keyCode == 13){runSearch();}"></input>
+		<%=StringUtils.text("search.for", session)%>:<br/><input type="text" class="text" name="pattern" id="pattern" onkeydown="if(event.keyCode == 13){runSearch();}"></input>
 		<a href="#helplink" style="cursor:help;color:#000;">[?]</a>
 		<br/><br/><table id="advtable" cellspacing="0">
 			<tr><td><input type="checkbox" name="case" id="case"></input></td><td><label for="case"><%=StringUtils.text("case.sensitive", session)%></label></td></tr>

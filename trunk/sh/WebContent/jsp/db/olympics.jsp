@@ -111,11 +111,11 @@ window.onload = function() {
 	var c = null;
 	for (var i = 0 ; i < t.length ; i++) {
 		c = t[i];
-		initSelectMult('sm-' + c + '-pl-ol', TEXT_OLYMPIC_GAMES, 403);
-		initSelectMult('sm-' + c + '-pl-ev', TEXT_EVENTS, 275);
-		initSelectMult('sm-' + c + '-pl-se', TEXT_EVENTS, 251);
-		initSelectMult('sm-' + c + '-pl-se2', TEXT_EVENTS, 232);
-		initSelectMult('sm-' + c + '-pl-cn', TEXT_COUNTRIES, 405);
+		initSelectMult('sm-' + c + '-pl-ol', TX_OLYMPIC_GAMES, 403);
+		initSelectMult('sm-' + c + '-pl-ev', TX_EVENTS, 275);
+		initSelectMult('sm-' + c + '-pl-se', TX_EVENTS, 251);
+		initSelectMult('sm-' + c + '-pl-se2', TX_EVENTS, 232);
+		initSelectMult('sm-' + c + '-pl-cn', TX_COUNTRIES, 405);
 		$(c + '-pl-ol').onchange = function() {
 			changeOlympics(this.id);
 			updateTip(this.id);
