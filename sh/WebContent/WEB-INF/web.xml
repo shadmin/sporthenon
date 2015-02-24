@@ -25,6 +25,16 @@
 		<servlet-class>com.sporthenon.web.servlet.ProjectServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<display-name>LoginServlet</display-name>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>com.sporthenon.web.servlet.LoginServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<display-name>UpdateServlet</display-name>
+		<servlet-name>UpdateServlet</servlet-name>
+		<servlet-class>com.sporthenon.web.servlet.UpdateServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<display-name>ImageServlet</display-name>
 		<servlet-name>ImageServlet</servlet-name>
 		<servlet-class>com.sporthenon.web.servlet.ImageServlet</servlet-class>
@@ -55,11 +65,6 @@
 		<servlet-class>com.sporthenon.web.servlet.SearchServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>UpdateServlet</display-name>
-		<servlet-name>UpdateServlet</servlet-name>
-		<servlet-class>com.sporthenon.web.servlet.UpdateServlet</servlet-class>
-	</servlet>
-	<servlet>
 		<display-name>USLeaguesServlet</display-name>
 		<servlet-name>USLeaguesServlet</servlet-name>
 		<servlet-class>com.sporthenon.web.servlet.USLeaguesServlet</servlet-class>
@@ -81,6 +86,14 @@
 		<url-pattern>/ProjectServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/LoginServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UpdateServlet</servlet-name>
+		<url-pattern>/UpdateServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>OlympicsServlet</servlet-name>
 		<url-pattern>/OlympicsServlet</url-pattern>
 	</servlet-mapping>
@@ -92,21 +105,19 @@
 		<servlet-name>NavigationServlet</servlet-name>
 		<url-pattern>/home</url-pattern>
 		<url-pattern>/results</url-pattern>
-		<url-pattern>/records</url-pattern>
 		<url-pattern>/olympics</url-pattern>
 		<url-pattern>/usleagues</url-pattern>
+		<url-pattern>/ref</url-pattern>
 		<url-pattern>/search</url-pattern>
 		<url-pattern>/project</url-pattern>
 		<url-pattern>/contribute</url-pattern>
-		<url-pattern>/ref</url-pattern>
+		<url-pattern>/login</url-pattern>
+		<url-pattern>/logout</url-pattern>
+		<url-pattern>/update</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>SearchServlet</servlet-name>
 		<url-pattern>/SearchServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>UpdateServlet</servlet-name>
-		<url-pattern>/UpdateServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>USLeaguesServlet</servlet-name>

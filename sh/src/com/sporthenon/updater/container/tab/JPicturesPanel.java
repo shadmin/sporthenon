@@ -145,7 +145,6 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		largeRadioBtn.setSelected(true);
 		leftPanel.add(largeRadioBtn);
 		smallRadioBtn = new JRadioButton("Small");
-		smallRadioBtn.setEnabled(false);
 		smallRadioBtn.setMargin(new Insets(0, 0, 0, 0));
 		smallRadioBtn.addActionListener(this);
 		leftPanel.add(smallRadioBtn);
@@ -410,11 +409,10 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 			index = ((JList)e.getSource()).getSelectedIndex();
 			boolean isMainList = ((JList)e.getSource()).getName().equalsIgnoreCase("mainlist");
 			if (isMainList) {
-				smallRadioBtn.setEnabled(true);
 				switch (index) {
-					case 0: alias = Championship.alias; largeRadioBtn.setSelected(true); smallRadioBtn.setEnabled(false); break;
+					case 0: alias = Championship.alias; break;
 					case 1: alias = Country.alias; break;
-					case 2: alias = Event.alias; largeRadioBtn.setSelected(true); smallRadioBtn.setEnabled(false); break;
+					case 2: alias = Event.alias; break;
 					case 3: alias = Olympics.alias; break;
 					case 4: alias = Sport.alias; break;
 					case 5: alias = State.alias; break;

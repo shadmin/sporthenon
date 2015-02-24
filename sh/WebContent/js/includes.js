@@ -3920,7 +3920,7 @@ Control.SelectMultiple = Class.create({
 		}
 		else {
 			this.select.options[lastIndex].value = this.currentValue;
-			this.select.options[lastIndex].text = '[' + TEXT_SELECTION + ' (' + this.currentValue.split(',').length + ')]';
+			this.select.options[lastIndex].text = '[' + TX_SELECTION + ' (' + this.currentValue.split(',').length + ')]';
 		}
 	},
     countAndCheckCheckBoxes: function(){
@@ -4007,7 +4007,7 @@ Control.SelectMultiple = Class.create({
     addExtraOption: function(){
         this.hasExtraOption = true;
 		var labels = this.getLabelsForExtraOption();
-		var txt = '[' + TEXT_SELECTION + ' (' + labels.length + ')]';
+		var txt = '[' + TX_SELECTION + ' (' + labels.length + ')]';
 		var opt = this.select.options[this.select.options.length - 1];
 		if (opt.value.indexOf(',') == -1) {
 			opt = new Option('', '');

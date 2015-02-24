@@ -3,6 +3,7 @@
 <properties>
 <!-- HEADER -->
 	<entry key="title">SPORTHENON - Temple des résultats sportifs</entry>
+	<entry key="desc">Recherchez un résultat dans cette base de données gratuite et ouverte aux contributeurs.</entry>
 	<entry key="menu.results">RÉSULTATS</entry>
 	<entry key="menu.olympics">OLYMPIQUE</entry>
 	<entry key="menu.usleagues">LIGUES US</entry>
@@ -13,6 +14,9 @@
 	<entry key="menu.project">Projet</entry>
 	<entry key="menu.contribute">Contribuer</entry>
 	<entry key="menu.search">Rechercher</entry>
+	<entry key="menu.login">Connexion</entry>
+	<entry key="menu.logout">Déconnexion</entry>
+	<entry key="menu.update">Mettre à jour</entry>
 	<entry key="share">Partager</entry>
 <!-- GLOBAL -->
 	<entry key="ok">OK</entry>
@@ -185,6 +189,7 @@
 	<entry key="draw.f">Finale</entry>
 	<entry key="next.20">20 suivants</entry>
 	<entry key="complete.list">Toute la liste</entry>
+	<entry key="search.in">Rechercher dans</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
@@ -259,7 +264,25 @@
 	<entry key="report.bug">RAPPORTER UN BUG</entry>
 	<entry key="contributors">CONTRIBUTEURS</entry>
 	<entry key="statistics">STATISTIQUES</entry>
-	<entry key="technical.info">INFOS TECHNIQUES</entry>
+	<entry key="technical.info">INFORMATIONS TECHNIQUES</entry>
 	<entry key="download.last">Télécharger la dernière version</entry>
 	<entry key="download.previous">Versions précédentes</entry>
+<!-- LOGIN -->
+	<entry key="msg.login.err1">La connexion a échoué. Cet utilisateur n'est pas actif.</entry>
+	<entry key="msg.login.err2">La connexion a échoué. Merci de vérifier votre identifiant/mot de passe.</entry>
+	<entry key="msg.login.err3">Identifiant déjà utilisé. Veuillez en utiliser un autre.</entry>
+	<entry key="msg.registered">Le compte a été créé.</entry>
+	<entry key="msg.logout">Vous avez été déconnecté.</entry>
+	<entry key="title.authentication">AUTHENTIFICATION</entry>
+	<entry key="title.createaccount">PAS ENREGISTRÉ ? CRÉER UN COMPTE</entry>
+	<entry key="loginid">Identifiant</entry>
+	<entry key="password">Mot de passe</entry>
+	<entry key="confirm.password">Confirmer le mot de passe</entry>
+	<entry key="email.addr">Addresse E-mail</entry>
+	<entry key="create.account">Créer un compte</entry>
+	<entry key="mandatory.login">Le champ "Identifiant" est obligatoire.</entry>
+	<entry key="mandatory.password">Le champ "Mot de passe" est obligatoire.</entry>
+	<entry key="mandatory.confirmpwd">Vous devez confirmer le mot de passe.</entry>
+	<entry key="mandatory.email">Le champ "Addresse E-mail" est obligatoire.</entry>
+	<entry key="pwd.nomatch">Les mots de passe saisis ne correspondent pas.</entry>
 </properties>
