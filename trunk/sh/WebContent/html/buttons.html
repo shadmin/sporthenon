@@ -9,16 +9,16 @@ var runClick = ($('results') ? runResults : ($('usleagues') ? runUSLeagues : ($(
 var resetClick = ($('results') ? resetResults : ($('usleagues') ? resetUSLeagues : ($('search') ? resetSearch : ($('olympics') ? resetOlympics : null))));
 Event.observe($('execute'), 'click', runClick);
 Event.observe($('reset'), 'click', resetClick);
-$('execute').value = TEXT_RUN;
-$('reset').value = TEXT_RESET;
+$('execute').value = TX_RUN;
+$('reset').value = TX_RESET;
 $$('.ok').each(function(el){
-	$(el).value = TEXT_OK;
+	$(el).value = TX_OK;
 });
 $$('.cancel').each(function(el){
-	$(el).value = TEXT_CANCEL;
+	$(el).value = TX_CANCEL;
 });
 $$('.checkall').each(function(el){
-	$(el).innerHTML = TEXT_ALL;
+	$(el).innerHTML = TX_ALL;
 });
 
 </script>

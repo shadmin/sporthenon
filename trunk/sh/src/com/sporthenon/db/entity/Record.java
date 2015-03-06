@@ -62,34 +62,34 @@ public class Record {
 	@Column(name = "id_rank5")
 	private Integer idRank5;
 	
-	@Column(name = "record1", length = 15, nullable = false)
+	@Column(name = "record1", length = 20, nullable = false)
 	private String record1;
 	
-	@Column(name = "record2", length = 15)
+	@Column(name = "record2", length = 20)
 	private String record2;
 	
-	@Column(name = "record3", length = 15)
+	@Column(name = "record3", length = 20)
 	private String record3;
 	
-	@Column(name = "record4", length = 15)
+	@Column(name = "record4", length = 20)
 	private String record4;
 	
-	@Column(name = "record5", length = 15)
+	@Column(name = "record5", length = 20)
 	private String record5;
 	
-	@Column(name = "date1", length = 15)
+	@Column(name = "date1", length = 30)
 	private String date1;
 	
-	@Column(name = "date2", length = 15)
+	@Column(name = "date2", length = 30)
 	private String date2;
 	
-	@Column(name = "date3", length = 15)
+	@Column(name = "date3", length = 30)
 	private String date3;
 	
-	@Column(name = "date4", length = 15)
+	@Column(name = "date4", length = 30)
 	private String date4;
 	
-	@Column(name = "date5", length = 15)
+	@Column(name = "date5", length = 30)
 	private String date5;
 	
 	@Column(name = "counting")
@@ -358,7 +358,7 @@ public class Record {
 				+ date2 + ", date3=" + date3 + ", date4=" + date4 + ", date5="
 				+ date5 + ", counting=" + counting + ", index=" + index
 				+ ", type1=" + type1 + ", type2=" + type2 + ", comment="
-				+ comment + "]";
+				+ comment + ", exa=" + exa + ", metadata=" + metadata + "]";
 	}
 	
 }
