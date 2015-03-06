@@ -280,9 +280,9 @@
 	<entry key="confirm.password">Confirmer le mot de passe</entry>
 	<entry key="email.addr">Addresse E-mail</entry>
 	<entry key="create.account">Créer un compte</entry>
-	<entry key="mandatory.login">Le champ "Identifiant" est obligatoire.</entry>
-	<entry key="mandatory.password">Le champ "Mot de passe" est obligatoire.</entry>
+	<entry key="mandatory.login">Le champ 'Identifiant' est obligatoire.</entry>
+	<entry key="mandatory.password">Le champ 'Mot de passe' est obligatoire.</entry>
 	<entry key="mandatory.confirmpwd">Vous devez confirmer le mot de passe.</entry>
-	<entry key="mandatory.email">Le champ "Addresse E-mail" est obligatoire.</entry>
+	<entry key="mandatory.email">Le champ 'Addresse E-mail' est obligatoire.</entry>
 	<entry key="pwd.nomatch">Les mots de passe saisis ne correspondent pas.</entry>
 </properties>

@@ -676,15 +676,15 @@ public class JImportDialog extends JDialog implements ActionListener {
 					String s = vLine.get(i);
 					if (StringUtils.notEmpty(s)) {
 						if(idRk1 == null && h.equalsIgnoreCase("rk1"))
-							idRk1 = insertEntity(row, n, idSp, s);
+							idRk1 = insertEntity(row, n, idSp, s, null);
 						else if(idRk2 == null && h.equalsIgnoreCase("rk2"))
-							idRk2 = insertEntity(row, n, idSp, s);
+							idRk2 = insertEntity(row, n, idSp, s, null);
 						else if(idRk3 == null && h.equalsIgnoreCase("rk3"))
-							idRk3 = insertEntity(row, n, idSp, s);
+							idRk3 = insertEntity(row, n, idSp, s, null);
 						else if(idRk4 == null && h.equalsIgnoreCase("rk4"))
-							idRk4 = insertEntity(row, n, idSp, s);
+							idRk4 = insertEntity(row, n, idSp, s, null);
 						else if(idRk5 == null && h.equalsIgnoreCase("rk5"))
-							idRk5 = insertEntity(row, n, idSp, s);
+							idRk5 = insertEntity(row, n, idSp, s, null);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk1"))
 							updateEntity(row, n, idRk1, s);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk2"))
@@ -896,7 +896,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 							if (hAlreadyInserted.containsKey(s))
 								id1Qf1 = hAlreadyInserted.get(s);
 							else {
-								id1Qf1 = insertEntity(row, n, idSp, s);
+								id1Qf1 = insertEntity(row, n, idSp, s, null);
 								hAlreadyInserted.put(s, id1Qf1);	
 							}
 						}
@@ -904,7 +904,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 							if (hAlreadyInserted.containsKey(s))
 								id2Qf1 = hAlreadyInserted.get(s);
 							else {
-								id2Qf1 = insertEntity(row, n, idSp, s);
+								id2Qf1 = insertEntity(row, n, idSp, s, null);
 								hAlreadyInserted.put(s, id2Qf1);
 							}
 						}
@@ -912,7 +912,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 							if (hAlreadyInserted.containsKey(s))
 								id1Qf2 = hAlreadyInserted.get(s);
 							else {
-								id1Qf2 = insertEntity(row, n, idSp, s);
+								id1Qf2 = insertEntity(row, n, idSp, s, null);
 								hAlreadyInserted.put(s, id1Qf2);
 							}
 						}
@@ -920,7 +920,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 							if (hAlreadyInserted.containsKey(s))
 								id2Qf2 = hAlreadyInserted.get(s);
 							else {
-								id2Qf2 = insertEntity(row, n, idSp, s);
+								id2Qf2 = insertEntity(row, n, idSp, s, null);
 								hAlreadyInserted.put(s, id2Qf2);
 							}
 						}
@@ -928,7 +928,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 							if (hAlreadyInserted.containsKey(s))
 								id1Qf3 = hAlreadyInserted.get(s);
 							else {
-								id1Qf3 = insertEntity(row, n, idSp, s);
+								id1Qf3 = insertEntity(row, n, idSp, s, null);
 								hAlreadyInserted.put(s, id1Qf3);
 							}
 						}
@@ -936,7 +936,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 							if (hAlreadyInserted.containsKey(s))
 								id2Qf3 = hAlreadyInserted.get(s);
 							else {
-								id2Qf3 = insertEntity(row, n, idSp, s);
+								id2Qf3 = insertEntity(row, n, idSp, s, null);
 								hAlreadyInserted.put(s, id2Qf3);
 							}
 						}
@@ -944,7 +944,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 							if (hAlreadyInserted.containsKey(s))
 								id1Qf4 = hAlreadyInserted.get(s);
 							else {
-								id1Qf4 = insertEntity(row, n, idSp, s);
+								id1Qf4 = insertEntity(row, n, idSp, s, null);
 								hAlreadyInserted.put(s, id1Qf4);
 							}
 						}
@@ -952,7 +952,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 							if (hAlreadyInserted.containsKey(s))
 								id1Qf4 = hAlreadyInserted.get(s);
 							else {
-								id1Qf4 = insertEntity(row, n, idSp, s);
+								id1Qf4 = insertEntity(row, n, idSp, s, null);
 								hAlreadyInserted.put(s, id1Qf4);
 							}
 						}
@@ -960,7 +960,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 							if (hAlreadyInserted.containsKey(s))
 								id1Sf1 = hAlreadyInserted.get(s);
 							else {
-								id1Sf1 = insertEntity(row, n, idSp, s);
+								id1Sf1 = insertEntity(row, n, idSp, s, null);
 								hAlreadyInserted.put(s, id1Sf1);
 							}
 						}
@@ -968,7 +968,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 							if (hAlreadyInserted.containsKey(s))
 								id2Sf1 = hAlreadyInserted.get(s);
 							else {
-								id2Sf1 = insertEntity(row, n, idSp, s);
+								id2Sf1 = insertEntity(row, n, idSp, s, null);
 								hAlreadyInserted.put(s, id2Sf1);
 							}
 						}
@@ -976,7 +976,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 							if (hAlreadyInserted.containsKey(s))
 								id1Sf2 = hAlreadyInserted.get(s);
 							else {
-								id1Sf2 = insertEntity(row, n, idSp, s);
+								id1Sf2 = insertEntity(row, n, idSp, s, null);
 								hAlreadyInserted.put(s, id1Sf2);
 							}
 						}
@@ -984,7 +984,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 							if (hAlreadyInserted.containsKey(s))
 								id2Sf2 = hAlreadyInserted.get(s);
 							else {
-								id2Sf2 = insertEntity(row, n, idSp, s);
+								id2Sf2 = insertEntity(row, n, idSp, s, null);
 								hAlreadyInserted.put(s, id2Sf2);
 							}
 						}
@@ -992,7 +992,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 							if (hAlreadyInserted.containsKey(s))
 								id1Thd = hAlreadyInserted.get(s);
 							else {
-								id1Thd = insertEntity(row, n, idSp, s);
+								id1Thd = insertEntity(row, n, idSp, s, null);
 								hAlreadyInserted.put(s, id1Thd);
 							}
 						}
@@ -1000,7 +1000,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 							if (hAlreadyInserted.containsKey(s))
 								id2Thd = hAlreadyInserted.get(s);
 							else {
-								id2Thd = insertEntity(row, n, idSp, s);
+								id2Thd = insertEntity(row, n, idSp, s, null);
 								hAlreadyInserted.put(s, id2Thd);
 							}
 						}
@@ -1078,6 +1078,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 		HashMap<String, Integer> hId = new HashMap();
 		Integer n = null;
 		Integer rcId = null;
+		String label = null;
 		String type1 = null, type2 = null;
 		for (int i = 0 ; i < vLine.size() ; i++) {
 			try {
@@ -1097,11 +1098,13 @@ public class JImportDialog extends JDialog implements ActionListener {
 						hql = "select id from Event where lower(label) like '" + tEv[0] + "'" + (tEv.length > 1 ? " and lower(type.label)='" + tEv[1] + "'" : "") + " order by id";
 					}
 					else if (h.equalsIgnoreCase("tp1"))
-						type1 = s_;
+						type1 = s;
 					else if (h.equalsIgnoreCase("tp2"))
-						type2 = s_;
-					else if (h.matches("label"))
-						hql = "select id from Record where lower(label)='" + s_.replaceAll("'", "''") + "'" + (type1 != null ? " and lower(type1)='" + type1 + "'" : "") + (type2 != null ? " and lower(type2)='" + type2 + "'" : "") + " and sport.id=" + hId.get("sp") + " and championship.id=" + hId.get("cp") + " and event.id=" + hId.get("ev") + (hId.containsKey("se") ? " and subevent.id=" + hId.get("se") : "");
+						type2 = s;
+					else if (h.matches("label")) {
+						label = s;
+						hql = "select id from Record where lower(label)='" + s_.replaceAll("'", "''") + "'" + (type1 != null ? " and lower(type1)='" + type1.toLowerCase() + "'" : "") + (type2 != null ? " and lower(type2)='" + type2.toLowerCase() + "'" : "") + " and sport.id=" + hId.get("sp") + " and championship.id=" + hId.get("cp") + " and event.id=" + hId.get("ev") + (hId.containsKey("se") ? " and subevent.id=" + hId.get("se") : "");
+					}
 					else if (h.matches("rk\\d")) {
 						if (n == null) {
 							List<Integer> lNumber = (List<Integer>) DatabaseHelper.execute("select type.number from Event ev where ev.id = " + hId.get(hId.containsKey("se") ? "se" : "ev"));
@@ -1109,7 +1112,8 @@ public class JImportDialog extends JDialog implements ActionListener {
 								n = lNumber.get(0);
 						}
 						if (n != null) {
-							if (n < 10) { // Athlete
+							if (type1.equalsIgnoreCase("individual")) { // Athlete
+								n = 1;
 								if (!s_.matches(StringUtils.PATTERN_ATHLETE)) {
 									isError = true;
 									writeError(vLine, "ERROR: Invalid Format (Column " + h.toUpperCase() + ")");
@@ -1121,13 +1125,21 @@ public class JImportDialog extends JDialog implements ActionListener {
 									hql = "select id from Athlete where sport.id=" + hId.get("sp") + " and lower(last_name) || ', ' || lower(first_name) " + (isCountryTeam ? " || ' (' || lower(country.code) " + " || ', ' || lower(team.label) || ')'" : (isCountry ? " || ' (' || lower(country.code) || ')'" : (isTeam ? " || ' (' || lower(team.label) || ')'" : ""))) + " like '" + s_ + "'";
 								}
 							}
-							else if (n == 50) { // Team
+							else if (type1.equalsIgnoreCase("team")) { // Team
+								n = 50;
 								if (!s_.matches(StringUtils.PATTERN_TEAM)) {
 									isError = true;
 									writeError(vLine, "ERROR: Invalid Format (Column " + h.toUpperCase() + ")");
 								}
-								else
-									hql = "select id from Team where sport.id=" + hId.get("sp") + " and lower(label) like '" + (s_.indexOf(" (") > -1 ? s_.substring(0, s_.indexOf(" (")) : s_) + "' and (link is null or link = 0)";
+								else {
+									// Get record year
+									String rcy = null;
+									if (vLine.size() > i + 2) {
+										rcy = vLine.get(i + 2);
+										rcy = (StringUtils.notEmpty(rcy) && rcy.matches(".*\\d{4}$") ? rcy.substring(rcy.length() - 4) : null);
+									}
+									hql = "select id from Team where sport.id=" + hId.get("sp") + " and lower(label) like '" + (s_.indexOf(" (") > -1 ? s_.substring(0, s_.indexOf(" (")) : s_) + "'" + (rcy != null ? " and '" + rcy + "' between year1 and (case year2 when null then '9999' when '' then '9999' else year2 end)" : "");
+								}
 							}
 							else if (n == 99) { // Country
 								if (!s_.matches(StringUtils.PATTERN_COUNTRY)) {
@@ -1160,10 +1172,6 @@ public class JImportDialog extends JDialog implements ActionListener {
 							isError = true;
 							writeError(vLine, "ERROR: Invalid Event");
 						}
-						else if (h.equalsIgnoreCase("label")) {
-							isError = true;
-							writeError(vLine, "ERROR: Record does not exist");
-						}
 						vLine.set(i, s);
 					}
 				}
@@ -1184,6 +1192,9 @@ public class JImportDialog extends JDialog implements ActionListener {
 		if (isUpdate) {
 			rcId = hId.get("label");
 			Integer idSp = hId.get("sp");
+			Integer idCp = hId.get("cp");
+			Integer idEv = hId.get("ev");
+			Integer idSe = hId.get("se");
 			Integer idRk1 = hId.get("rk1");
 			Integer idRk2 = hId.get("rk2");
 			Integer idRk3 = hId.get("rk3");
@@ -1200,15 +1211,15 @@ public class JImportDialog extends JDialog implements ActionListener {
 					String s = vLine.get(i);
 					if (StringUtils.notEmpty(s)) {
 						if(idRk1 == null && h.equalsIgnoreCase("rk1"))
-							idRk1 = insertEntity(row, n, idSp, s);
+							idRk1 = insertEntity(row, n, idSp, s, vLine.size() > i + 2 ? vLine.get(i + 2) : null);
 						else if(idRk2 == null && h.equalsIgnoreCase("rk2"))
-							idRk2 = insertEntity(row, n, idSp, s);
+							idRk2 = insertEntity(row, n, idSp, s, vLine.size() > i + 2 ? vLine.get(i + 2) : null);
 						else if(idRk3 == null && h.equalsIgnoreCase("rk3"))
-							idRk3 = insertEntity(row, n, idSp, s);
+							idRk3 = insertEntity(row, n, idSp, s, vLine.size() > i + 2 ? vLine.get(i + 2) : null);
 						else if(idRk4 == null && h.equalsIgnoreCase("rk4"))
-							idRk4 = insertEntity(row, n, idSp, s);
+							idRk4 = insertEntity(row, n, idSp, s, vLine.size() > i + 2 ? vLine.get(i + 2) : null);
 						else if(idRk5 == null && h.equalsIgnoreCase("rk5"))
-							idRk5 = insertEntity(row, n, idSp, s);
+							idRk5 = insertEntity(row, n, idSp, s, vLine.size() > i + 2 ? vLine.get(i + 2) : null);
 						else if (h.equalsIgnoreCase("rc1"))
 							rc1 = s;
 						else if (h.equalsIgnoreCase("rc2"))
@@ -1245,7 +1256,19 @@ public class JImportDialog extends JDialog implements ActionListener {
 			if (err != null)
 				writeError(vLine, "ERROR: " + err);
 			else {
-				Record rc = (Record) DatabaseHelper.loadEntity(Record.class, rcId);
+				Record rc = null;
+				if (rcId != null)
+					rc = (Record) DatabaseHelper.loadEntity(Record.class, rcId);
+				else {
+					rc = new Record();
+					rc.setLabel(label);
+					rc.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, idSp));
+					rc.setChampionship((Championship)DatabaseHelper.loadEntity(Championship.class, idCp));
+					rc.setEvent((Event)DatabaseHelper.loadEntity(Event.class, idEv != null ? idEv : 0));
+					rc.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, idSe != null ? idSe : 0));
+					rc.setType1(type1);
+					rc.setType2(type2);
+				}
 				rc.setIdRank1(idRk1);
 				rc.setIdRank2(idRk2);
 				rc.setIdRank3(idRk3);
@@ -1265,13 +1288,13 @@ public class JImportDialog extends JDialog implements ActionListener {
 				rc.setExa(StringUtils.notEmpty(exa) ? exa : null);
 				rc.setComment(StringUtils.notEmpty(cmt) ? cmt : null);
 				rc = (Record) DatabaseHelper.saveEntity(rc, JMainFrame.getMember());
-				processReport.append("Row " + (row + 1) + ": Record Updated | " + rc).append("\r\n");
+				processReport.append("Row " + (row + 1) + ": Record " + (rcId != null ? "Updated" : "Created") + " | " + rc).append("\r\n");
 			}
 		}
 		return isError;
 	}
 	
-	private Integer insertEntity(int row, int n, int idSp, String s) throws Exception {
+	private Integer insertEntity(int row, int n, int idSp, String s, String date) throws Exception {
 		Integer id = null;
 		Object o = null;
 		String msg = null;
@@ -1297,9 +1320,11 @@ public class JImportDialog extends JDialog implements ActionListener {
 				if (isTeam || isCountryTeam) { // Team set
 					p = s.lastIndexOf(isCountryTeam ? ", " : " (") + 2;
 					String tm = s.substring(p, s.length() - 1);
-					Object o_ = DatabaseHelper.loadEntityFromQuery("from Team tm where lower(tm.label) = '" + tm.toLowerCase().replaceAll("'", "''") + "'");
+					if (StringUtils.notEmpty(date))
+						date = (StringUtils.notEmpty(date) && date.matches(".*\\d{4}$") ? date.substring(date.length() - 4) : null);
+					Object o_ = DatabaseHelper.loadEntityFromQuery("from Team tm where sport.id=" + idSp + " and lower(tm.label) = '" + tm.toLowerCase().replaceAll("'", "''") + "'" + (date != null ? " and '" + date + "' between year1 and (case year2 when null then '9999' when '' then '9999' else year2 end)" : ""));
 					if (o_ == null) {
-						Integer idTm = insertEntity(row, 50, idSp, tm);
+						Integer idTm = insertEntity(row, 50, idSp, tm, null);
 						o_ = DatabaseHelper.loadEntity(Team.class, idTm);
 					}
 					a.setTeam((Team)o_);

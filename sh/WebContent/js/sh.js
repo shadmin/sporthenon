@@ -949,7 +949,7 @@ function changeLeague(id, srcsl) {
 		$('hof-position').value = '';
 		$('hof-postip').title = tPos[league];
 		$('retnum-number').value = '';
-		var tType2 = ['Career', 'History', 'Season', 'Series', 'Game', 'Half', 'Quarter'];
+		var tType2 = ['Career', 'History', 'Season', 'Series', 'Game'];
 		var tAll = new Array();
 		for (var i = 0 ; i < tType2.length ; i++) {
 			if (league == 3 && tType2[i] == 'Quarter') {

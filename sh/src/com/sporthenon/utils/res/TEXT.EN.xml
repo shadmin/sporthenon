@@ -280,9 +280,9 @@
 	<entry key="confirm.password">Confirm Password</entry>
 	<entry key="email.addr">E-Mail Address</entry>
 	<entry key="create.account">Create Account</entry>
-	<entry key="mandatory.login">Field "Login" is mandatory.</entry>
-	<entry key="mandatory.password">Field "Password" is mandatory.</entry>
+	<entry key="mandatory.login">Field 'Login' is mandatory.</entry>
+	<entry key="mandatory.password">Field 'Password' is mandatory.</entry>
 	<entry key="mandatory.confirmpwd">You must confirm the password.</entry>
-	<entry key="mandatory.email">Field "E-Mail Address" is mandatory.</entry>
+	<entry key="mandatory.email">Field 'E-Mail Address' is mandatory.</entry>
 	<entry key="pwd.nomatch">The entered passwords do not match.</entry>
 </properties>
