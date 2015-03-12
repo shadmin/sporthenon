@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.sporthenon.utils.res.ResourceUtils;
+
 public abstract class AbstractServlet extends HttpServlet {
 
 	public static final long serialVersionUID = 1L;
@@ -22,6 +24,7 @@ public abstract class AbstractServlet extends HttpServlet {
 	protected abstract void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;
 	
 	protected String getLocale(HttpServletRequest req) {
+		ResourceUtils.setLocale(req);
 		return String.valueOf(req.getSession().getAttribute("locale"));
 	}
 	

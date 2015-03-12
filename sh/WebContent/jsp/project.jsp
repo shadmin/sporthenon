@@ -2,15 +2,15 @@
 <%@page import="com.sporthenon.utils.ConfigUtils"%>
 <%@page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
-<script type="text/javascript" src="js/canvas2image.js"></script>
-<script type="text/javascript" src="js/canvastext.js"></script>
-<script type="text/javascript" src="js/flotr.js"></script>
+<script type="text/javascript" src="/js/canvas2image.js"></script>
+<script type="text/javascript" src="/js/canvastext.js"></script>
+<script type="text/javascript" src="/js/flotr.js"></script>
 <div id="project">
 	<div class="right">
 		<!-- DOWNLOADS -->
 		<div class="fieldset" style="height:144px;margin-top:0px;">
 			<div class="fstitle downloads"><%=StringUtils.text("downloads", session)%></div>
-			<div class="fscontent"><table style="width:auto;"><tr><td style="border:none;"><img alt="Download" src="img/project/download.png"/></td><td style="border:none;"><a href="http://92.243.3.85:82/Sporthenon-<%=ConfigUtils.getProperty("version")%>-setup.exe"><b><%=StringUtils.text("download.last", session)%>&nbsp;(<%=ConfigUtils.getProperty("version")%>)</b></a></td></tr></table></div>
+			<div class="fscontent"><table style="width:auto;"><tr><td style="border:none;"><img alt="Download" src="/img/project/download.png"/></td><td style="border:none;"><a href="http://92.243.3.85:82/Sporthenon-<%=ConfigUtils.getProperty("version")%>-setup.exe"><b><%=StringUtils.text("download.last", session)%>&nbsp;(<%=ConfigUtils.getProperty("version")%>)</b></a></td></tr></table></div>
 		</div>
 		<!-- REPORT BUG -->
 		<div class="fieldset" style="height:144px;">
@@ -51,7 +51,7 @@
 			</table>
 		</div>
 		</div>
-		<!-- STATISTUCS -->
+		<!-- STATISTICS -->
 		<div class="fieldset">
 		<div class="fstitle statistics"><%=StringUtils.text("statistics", session)%></div>
 		<div class="fscontent"><select id="charts" style="width:250px;margin:2px;" onchange="loadChart();"><option value="0">Number of Requests per Type</option><option value="1">Number of Requests per Sport</option></select><table><tr><td style="vertical-align:top;border:none;width:250px;"><table id="charttxt"><tr><td></td></tr></table></td><td style="vertical-align:top;border:none;"><div id="chart"></div></td></tr></table></div>

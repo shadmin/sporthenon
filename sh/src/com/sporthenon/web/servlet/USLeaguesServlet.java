@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.PicklistBean;
-import com.sporthenon.db.converter.HtmlConverter;
 import com.sporthenon.db.entity.HallOfFame;
 import com.sporthenon.db.entity.Record;
 import com.sporthenon.db.entity.Result;
@@ -22,6 +21,7 @@ import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
+import com.sporthenon.web.HtmlConverter;
 
 public class USLeaguesServlet extends AbstractServlet {
 
@@ -137,11 +137,20 @@ public class USLeaguesServlet extends AbstractServlet {
 					html.append(HtmlConverter.convertUSChampionships(DatabaseHelper.call("GetUSChampionships", lFuncParams), "en"));
 				}
 				else if (type.equals(TYPE_RECORD)) {
+					HashMap<String, String> hType1 = new HashMap<String, String>();
+					hType1.put("i", "'Individual'");
+					hType1.put("t", "'Team'");
+					hType1.put("it", "'Individual', 'Team'");
+					HashMap<String, String> hType2 = new HashMap<String, String>();
+					hType2.put("0", "'Alltime/Career'");
+					hType2.put("1", "'Season'");
+					hType2.put("2", "'Series'");
+					hType2.put("3", "'Game'");
 					lFuncParams.add(hLeagues.get(Short.valueOf(league)));
 					lFuncParams.add(String.valueOf(hParams.get("pf")).equals("1") ? "0" : "495");
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("se")) ? String.valueOf(hParams.get("se")) : "0");
-					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp1")) ? String.valueOf(hParams.get("tp1")) : "'Individual'");
-					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp2")) ? String.valueOf(hParams.get("tp2")) : "'Career'");
+					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp1")) ? hType1.get(String.valueOf(hParams.get("tp1"))) : hType1.get("i"));
+					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp2")) ? hType2.get(String.valueOf(hParams.get("tp2"))) : hType1.get("0"));
 					lFuncParams.add("_" + "en");
 					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_RECORD, lFuncParams, "en");
 					lFuncParams.remove(0);

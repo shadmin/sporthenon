@@ -20,8 +20,8 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.binary.Base32;
 import org.apache.log4j.Logger;
-import org.postgresql.util.Base64;
 
 import com.sporthenon.utils.res.ResourceUtils;
 
@@ -42,13 +42,18 @@ public class StringUtils {
 	}
 	
 	public static String encode(String s) {
-		 return Base64.encodeBytes(s.getBytes()).replaceAll("\\=$", "");
+		Base32 b32 = new Base32();
+		return b32.encodeAsString(s.replaceAll("[\\-0]+$", "").getBytes()).replaceAll("\\=+$", "");
 	}
-	
+
 	public static String decode(String s) {
-		return new String(Base64.decode(s + "="));
+		if (s != null)
+			while (s.length() % 4 > 0)
+				s += "=";
+		Base32 b32 = new Base32();
+		return new String(b32.decode(s));
 	}
-	
+
 	public static String implode(Iterable<String> tValues, String sSeparator) {
 		StringBuffer sb = new StringBuffer();
 		for (String s : tValues)
@@ -270,6 +275,10 @@ public class StringUtils {
 	
 	public static final String toFullName(String ln, String fn) {
 		return (StringUtils.notEmpty(fn) ? fn + HtmlUtils.SPACE : "") + ln.toUpperCase();
+	}
+	
+	public static final String urlEscape(String s) {
+		return (StringUtils.notEmpty(s) ? s.replaceAll("[\\s\\,]", "_").replaceAll("\\s\\-\\s", "-") : "");
 	}
 	
 }

@@ -43,7 +43,7 @@ public class ImageUtils {
 	}
 	
 	public static String getRenderUrl() {
-		return "img/render/";
+		return "/img/render/";
 	}
 	
 	public static String getGoldMedImg() {

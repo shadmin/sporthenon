@@ -2,65 +2,68 @@
 <%@page import="com.sporthenon.utils.ConfigUtils"%>
 <%@page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
-<script type="text/javascript" src="js/canvas2image.js"></script>
-<script type="text/javascript" src="js/canvastext.js"></script>
-<script type="text/javascript" src="js/flotr.js"></script>
-<div id="project">
-	<div class="right">
-		<!-- DOWNLOADS -->
-		<div class="fieldset" style="height:144px;margin-top:0px;">
-			<div class="fstitle downloads"><%=StringUtils.text("downloads", session)%></div>
-			<div class="fscontent"><table style="width:auto;"><tr><td style="border:none;"><img alt="Download" src="img/project/download.png"/></td><td style="border:none;"><a href="http://92.243.3.85:82/Sporthenon-<%=ConfigUtils.getProperty("version")%>-setup.exe"><b><%=StringUtils.text("download.last", session)%>&nbsp;(<%=ConfigUtils.getProperty("version")%>)</b></a></td></tr></table></div>
-		</div>
-		<!-- REPORT BUG -->
-		<div class="fieldset" style="height:144px;">
-			<div class="fstitle reportbug"><%=StringUtils.text("report.bug", session)%></div>
-			<div class="fscontent">Si vous avez constaté un bug, utilisez le lien ci-dessous afin de l'enregistrer :<br/><br/><a href="https://code.google.com/p/sporthenon/issues/list" target="_blank">https://code.google.com/p/sporthenon/issues/list</a></div>
-		</div>
-	</div>
-	<div class="left">
-		<!-- CONTRIBUTORS -->
-		<div class="fieldset" style="height:300px;overflow-y:auto;">
-		<div class="fstitle contributors"><%=StringUtils.text("contributors", session)%></div>
-		<div class="fscontent">
-			<table><tr><th>ID</th><th>Name</th><th>Sports</th><th>Since</th></tr>
-				<tr><td>inachos</td><td>-</td><td>Basketball, Golf, Tennis</td><td>2011</td></tr>
+<div id="update">
+	<div class="fieldset">
+		<div class="fstitle info">CREER/MODIFIER UN RESULTAT</div>
+		<div class="fscontent" style="height:450px;">
+			<div id="ajaxdiv"></div>
+			<div style="float:left;">
+			<table style="width:auto;">
+				<tr><td colspan="5"><input type="text" id="sp" name="Sport" value="Sport"/></td></tr>
+				<tr><td><img src="/img/component/treeview/join.gif"/></td><td colspan="4"><input type="text" id="cp" name="Championship" value="Championship"/></td></tr>
+				<tr><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/join.gif"/></td><td colspan="3"><input type="text" id="ev" name="Event 1" value="Event 1"/></td></tr>
+				<tr><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/join.gif"/></td><td colspan="2"><input type="text" id="se" name="Event 2" value="Event 2"/></td></tr>
+				<tr><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/join.gif"/></td><td><input type="text" id="se2" name="Event 3" value="Event 3"/></td></tr>
 			</table>
-		</div>
-		</div>
-	</div>
-	<div>
-		<!-- TECHNICAL INFO -->
-		<div class="fieldset">
-		<div class="fstitle technicalinfo"><%=StringUtils.text("technical.info", session)%></div>
-		<div class="fscontent">
-			<table>
-				<tr><th colspan="4" style="text-align:center;">Programming</th></tr>
-				<tr><td>Java Development Kit</td><td>1.6.0_18</td><td>Required JDK + JRE</td><td><a href="http://www.oracle.com/technetwork/java/index.html" target="_blank">http://www.oracle.com/technetwork/java/index.html</a></td></tr>
-				<tr><td>Eclipse</td><td>4.2.0 (Juno)</td><td>J2EE development platform</td><td><a href="http://www.eclipse.org/" target="_blank">http://www.eclipse.org</a></td></tr>
-				<tr><td>NSIS</td><td>2.46</td><td>Setup-wizard maker</td><td><a href="http://nsis.sourceforge.net/" target="_blank">http://nsis.sourceforge.net</a></td></tr>
-				<tr><td>Jsoup</td><td>1.7.2</td><td>Java HTML Parser</td><td><a href="http://jsoup.org/" target="_blank">http://jsoup.org</a></td></tr>
-				<tr><td>Janel</td><td>4.0.4</td><td>Executable maker (from JAR)</td><td><a href="http://sourceforge.net/projects/janel/" target="_blank">http://sourceforge.net/projects/janel</a></td></tr>
-				<tr><td>Prototype</td><td>1.6.1</td><td>Javascript framework</td><td><a href="http://prototypejs.org/" target="_blank">http://prototypejs.org</a></td></tr>
-				<tr><td>Script.aculo.us</td><td>1.8.3</td><td>Javascript framework (UI)</td><td><a href="http://script.aculo.us/" target="_blank">http://script.aculo.us</a></td></tr>
-				<tr><td>Subclipse</td><td>1.8.20</td><td>SVN plug-in for Eclipse</td><td><a href="http://subclipse.tigris.org/" target="_blank">http://subclipse.tigris.org</a></td></tr>
-				<tr><th colspan="4" style="text-align:center;">Database &amp; Hosting</th></tr>
-				<tr><td>CentOS</td><td>5.6</td><td>Linux server</td><td><a href="http://www.centos.org/" target="_blank">http://www.centos.org</a></td></tr>
-				<tr><td>Glassfish</td><td>3.1.2</td><td>Java application server</td><td><a href="http://glassfish.java.net/" target="_blank">http://glassfish.java.net</a></td></tr>
-				<tr><td>PostgreSQL</td><td>8.4.2.1</td><td>Database server</td><td><a href="http://www.postgresql.org/" target="_blank">http://www.postgresql.org</a></td></tr>
+			<table style="width:auto;margin-top:10px;">
+				<tr><td><input type="text" id="yr" name="Year" value="Year"/></td>
 			</table>
-		</div>
-		</div>
-		<!-- STATISTUCS -->
-		<div class="fieldset">
-		<div class="fstitle statistics"><%=StringUtils.text("statistics", session)%></div>
-		<div class="fscontent"><select id="charts" style="width:250px;margin:2px;" onchange="loadChart();"><option value="0">Number of Requests per Type</option><option value="1">Number of Requests per Sport</option></select><table><tr><td style="vertical-align:top;border:none;width:250px;"><table id="charttxt"><tr><td></td></tr></table></td><td style="vertical-align:top;border:none;"><div id="chart"></div></td></tr></table></div>
+			<table style="width:auto;margin-top:10px;">
+				<tr><td><input type="text" id="dt1" name="From" value="From"/><br/><a href="#">Today</a>&nbsp;<a href="#">Yesterday</a></td>
+				<td><input type="text" id="dt2" name="To" value="To"/><br/><a href="#">Today</a>&nbsp;<a href="#">Yesterday</a></td></tr>
+			</table>
+			<table style="width:auto;margin-top:10px;">
+				<tr><td><input type="text" id="pl1" name="Venue/City 1" value="Venue/City 1"/></td></tr>
+				<tr><td><input type="text" id="pl2" name="Venue/City 2" value="Venue/City 2"/></td></tr>
+			</table>
+			</div>
+			<table style="width:auto;">
+				<tr><td><input type="text" id="rk1" name="Rank #1" value="Rank #1"/></td><td><input type="text" id="rs1" name="Result/Score" value="Result" style="width:50px;"/></td></tr>
+			</table>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
+var tValues = [];
+function setValue(text, li) {
+	var t = li.id.split('-');
+	tValues[t[0]] = t[1];
+	$(t[0]).addClassName('completed');
+}
 window.onload = function() {
-	loadChart();	
+	['sp', 'cp', 'ev', 'se', 'se2', 'yr', 'pl1', 'pl2'].each(function(s){
+		new Ajax.Autocompleter(
+			s,
+			'ajaxdiv',
+			'/update/ajax/' + s,
+			{ paramName: 'value', minChars: 2, afterUpdateElement: setValue}
+		);
+	});
+	$$('#update input').each(function(el){
+		$(el).addClassName('default');
+		Event.observe($(el), 'focus', function(){
+			if ($(this).value == $(this).name) {
+				$(this).value = '';
+			}
+		});
+		Event.observe($(el), 'blur', function(){
+			if ($(this).value == '') {
+				$(this).value = $(this).name;
+				$(this).removeClassName('completed');
+				tValues[$(this).id] = '';
+			}
+		});
+	});
 }
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />

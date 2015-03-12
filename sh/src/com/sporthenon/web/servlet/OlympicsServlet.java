@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.PicklistBean;
-import com.sporthenon.db.converter.HtmlConverter;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
+import com.sporthenon.web.HtmlConverter;
 
 public class OlympicsServlet extends AbstractServlet {
 
@@ -49,9 +49,9 @@ public class OlympicsServlet extends AbstractServlet {
 					hParams.put("ol", t[1]);
 					if (t[0].equals(TYPE_INDIVIDUAL)) {
 						hParams.put("sp", t[2]);
-						hParams.put("ev", t[3]);
-						hParams.put("se", t[4]);
-						hParams.put("se2", t[5]);
+						hParams.put("ev", t.length > 3 ? t[3] : "0");
+						hParams.put("se", t.length > 4 ? t[4] : "0");
+						hParams.put("se2", t.length > 5 ? t[5] : "0");
 					}
 					else
 						hParams.put("cn", t[2]);

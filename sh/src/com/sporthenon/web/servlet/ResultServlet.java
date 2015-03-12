@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.PicklistBean;
-import com.sporthenon.db.converter.HtmlConverter;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
@@ -19,6 +18,7 @@ import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
+import com.sporthenon.web.HtmlConverter;
 
 public class ResultServlet extends AbstractServlet {
 
@@ -43,11 +43,11 @@ public class ResultServlet extends AbstractServlet {
 					p = StringUtils.decode(p);
 					String[] t = p.split("\\-");
 					hParams.put("sp", t[0]);
-					hParams.put("cp", t[1]);
-					hParams.put("ev", t[2]);
-					hParams.put("se", t[3]);
-					hParams.put("se2", t[4]);
-					hParams.put("yr", t[5]);
+					hParams.put("cp", t.length > 1 ? t[1] : "0");
+					hParams.put("ev", t.length > 2 ? t[2] : "0");
+					hParams.put("se", t.length > 3 ? t[3] : "0");
+					hParams.put("se2", t.length > 4 ? t[4] : "0");
+					hParams.put("yr", t.length > 5 ? t[5] : "0");
 					isLink = true;
 				}
 				ArrayList<Object> lFuncParams = new ArrayList<Object>();

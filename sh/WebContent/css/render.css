@@ -293,6 +293,7 @@
 }
 .tc .noresult{
 	width: auto;
+	margin-top: 20px;
 	padding: 5px;
 	font-weight: bold;
 	text-align: center;

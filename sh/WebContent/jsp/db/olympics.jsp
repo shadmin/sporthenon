@@ -3,7 +3,7 @@
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
 <%@ page import="com.sporthenon.db.entity.Olympics"%>
 <%@ page import="com.sporthenon.db.entity.Sport"%>
-<%@ page import="com.sporthenon.db.converter.HtmlConverter"%>
+<%@ page import="com.sporthenon.web.HtmlConverter"%>
 <%@ page import="com.sporthenon.utils.HtmlUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="java.util.Collection"%>
@@ -15,12 +15,12 @@
 	<!-- TYPE SELECTION -->
 	<div id="oltype">
 		<div onclick="$('olt1').checked = true;$('olt1').onclick();">
-			<img alt="Summer" src="img/db/summer2.png"/><br/>
+			<img alt="Summer" src="/img/db/summer2.png"/><br/>
 			<input type="radio" name="ol-type" id="olt1" checked="checked" onclick="changeModeOL()"/><br/>
 			<b><%=StringUtils.text("summer.games", session)%></b>
 		</div>
 		<div style="clear:left;margin-top:0px;" onclick="$('olt2').checked = true;$('olt2').onclick();">
-			<img alt="Winter" src="img/db/winter2.png"/><br/>
+			<img alt="Winter" src="/img/db/winter2.png"/><br/>
 			<input type="radio" name="ol-type" id="olt2" onclick="changeModeOL()"/><br/>
 			<b><%=StringUtils.text("winter.games", session)%></b>
 		</div>
@@ -43,8 +43,8 @@
 				<tr><td colspan="3" class="select"><select id="summer-pl-sp" name="summer-pl-sp" onchange="changeSportOL(this, 'summer', false);"><option/></select></td></tr>
 				<tr><td colspan="3" style="padding:2px;"><%=StringUtils.text("event", session)%>:</td></tr>
 				<tr><td colspan="3"><div id="sm-summer-pl-ev" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
-				<tr><td style="width:0px;"><img src="img/component/treeview/join.gif" alt="L"/></td><td colspan="2" style="padding-left:5px;"><div id="sm-summer-pl-se" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
-				<tr><td style="width:0px;"><img src="img/component/treeview/empty.gif" alt=""/></td><td style="width:0px;"><img src="img/component/treeview/join.gif" alt="L"/></td><td style="padding-left:5px;"><div id="sm-summer-pl-se2" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>		
+				<tr><td style="width:0px;"><img src="/img/component/treeview/join.gif" alt="L"/></td><td colspan="2" style="padding-left:5px;"><div id="sm-summer-pl-se" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
+				<tr><td style="width:0px;"><img src="/img/component/treeview/empty.gif" alt=""/></td><td style="width:0px;"><img src="/img/component/treeview/join.gif" alt="L"/></td><td style="padding-left:5px;"><div id="sm-summer-pl-se2" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>		
 			</table></td></tr>
 			<!-- MEDALS TABLES -->
 			<tr><td  colspan="2"><table id="summer-q2" style="display:none;" cellpadding="0" cellspacing="0">
@@ -71,8 +71,8 @@
 				<tr><td colspan="3" class="select"><select id="winter-pl-sp" name="winter-pl-sp" onchange="changeSportOL(this, 'winter', false);"><option/></select></td></tr>
 				<tr><td colspan="3" style="padding:2px;"><%=StringUtils.text("event", session)%>:</td></tr>
 				<tr><td colspan="3"><div id="sm-winter-pl-ev" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
-				<tr><td style="width:0px;"><img src="img/component/treeview/join.gif" alt="L"/></td><td colspan="2" style="padding-left:5px;"><div id="sm-winter-pl-se" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
-				<tr><td style="width:0px;"><img src="img/component/treeview/empty.gif" alt=""/></td><td style="width:0px;"><img src="img/component/treeview/join.gif" alt="L"/></td><td style="padding-left:5px;"><div id="sm-winter-pl-se2" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
+				<tr><td style="width:0px;"><img src="/img/component/treeview/join.gif" alt="L"/></td><td colspan="2" style="padding-left:5px;"><div id="sm-winter-pl-se" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
+				<tr><td style="width:0px;"><img src="/img/component/treeview/empty.gif" alt=""/></td><td style="width:0px;"><img src="/img/component/treeview/join.gif" alt="L"/></td><td style="padding-left:5px;"><div id="sm-winter-pl-se2" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
 			</table></td></tr>
 			<!-- MEDALS TABLES -->
 			<tr><td  colspan="2"><table id="winter-q2" style="display:none;" cellpadding="0" cellspacing="0">
