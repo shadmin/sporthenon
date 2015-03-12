@@ -522,3 +522,15 @@ ALTER TABLE "RECORD" ALTER COLUMN date5 TYPE varchar(30);
 
 
 
+ALTER TABLE "RECORD" ALTER COLUMN type2 TYPE varchar(15);
+UPDATE "RECORD" SET type2='Alltime/Career' WHERE type2 in ('Career', 'History');
+
+
+
+UPDATE "TYPE" SET label_fr='Individuel' where number=1;
+UPDATE "TYPE" SET label_fr='Doubles' where number=4;
+UPDATE "TYPE" SET label_fr='Pays' where number=50;
+UPDATE "TYPE" SET label_fr='Equipes' where number=99;
+
+
+

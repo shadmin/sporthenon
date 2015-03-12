@@ -55,11 +55,6 @@
 		<servlet-class>com.sporthenon.web.servlet.ResultServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>NavigationServlet</display-name>
-		<servlet-name>NavigationServlet</servlet-name>
-		<servlet-class>com.sporthenon.web.servlet.NavigationServlet</servlet-class>
-	</servlet>
-	<servlet>
 		<display-name>SearchServlet</display-name>
 		<servlet-name>SearchServlet</servlet-name>
 		<servlet-class>com.sporthenon.web.servlet.SearchServlet</servlet-class>
@@ -68,6 +63,11 @@
 		<display-name>USLeaguesServlet</display-name>
 		<servlet-name>USLeaguesServlet</servlet-name>
 		<servlet-class>com.sporthenon.web.servlet.USLeaguesServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<display-name>NavigationServlet</display-name>
+		<servlet-name>NavigationServlet</servlet-name>
+		<servlet-class>com.sporthenon.web.servlet.NavigationServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>IndexServlet</servlet-name>
@@ -102,20 +102,6 @@
 		<url-pattern>/ResultServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>NavigationServlet</servlet-name>
-		<url-pattern>/home</url-pattern>
-		<url-pattern>/results</url-pattern>
-		<url-pattern>/olympics</url-pattern>
-		<url-pattern>/usleagues</url-pattern>
-		<url-pattern>/ref</url-pattern>
-		<url-pattern>/search</url-pattern>
-		<url-pattern>/project</url-pattern>
-		<url-pattern>/contribute</url-pattern>
-		<url-pattern>/login</url-pattern>
-		<url-pattern>/logout</url-pattern>
-		<url-pattern>/update</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
 		<servlet-name>SearchServlet</servlet-name>
 		<url-pattern>/SearchServlet</url-pattern>
 	</servlet-mapping>
@@ -123,9 +109,26 @@
 		<servlet-name>USLeaguesServlet</servlet-name>
 		<url-pattern>/USLeaguesServlet</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>NavigationServlet</servlet-name>
+		<url-pattern>/results/*</url-pattern>
+		<url-pattern>/olympics/*</url-pattern>
+		<url-pattern>/usleagues/*</url-pattern>
+		<url-pattern>/details/*</url-pattern>
+		<url-pattern>/search/*</url-pattern>
+		<url-pattern>/project/*</url-pattern>
+		<url-pattern>/contribute/*</url-pattern>
+		<url-pattern>/login/*</url-pattern>
+		<url-pattern>/logout/*</url-pattern>
+		<url-pattern>/update/*</url-pattern>
+	</servlet-mapping>
 	
 	<welcome-file-list>
 		<welcome-file>jsp/index.jsp</welcome-file>
 	</welcome-file-list>
+	
+	<session-config>
+		<session-timeout>120</session-timeout>
+	</session-config>
 	
 </web-app>

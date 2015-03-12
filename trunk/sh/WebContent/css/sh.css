@@ -487,21 +487,6 @@ input{
 	float: left;
 	padding: 2px;
 }
-/* ========== DISABLED ELEMENTS ========== */
-.disabled{
-	color: #888888;
-}
-.disabled input, .disabled select, select.disabled{
-	background-color: #DDDDDD;
-}
-.inactive{
-	opacity: 0.3;
-}
-.inactive-msg{
-	position: absolute;
-	z-index:2;
-	background: transparent url(../img/db/notselected.png?3) center center no-repeat;
-}
 /* ========== BUTTONS ========== */
 #buttons{
 	width: 100%;
@@ -676,15 +661,21 @@ input{
 	border: 1px solid #FFF;
 	text-align: center;
 	padding: 1px;
-	padding-top: 100px;
 	font-weight: bold;
-	cursor: pointer;
 	background-position: center top;
 	background-repeat: no-repeat;
 }
 .homecontent #sports div.sport:hover{
 	border: 1px solid #000;
 	background-color: #FFD;
+}
+.homecontent #sports div.sport a{
+	display: block;
+	padding-top: 100px;
+	color: #000;
+}
+.homecontent #sports div.sport a:hover{
+	text-decoration: none;
 }
 .homecontent h3{
 	margin: 0px;
@@ -992,7 +983,6 @@ input{
 	font-size: 12px;
 	border: none;
 }
-/* ========== PROJECT ========== */
 .downloads{
 	background-image: url(../img/project/downloads.png?3);
 }
@@ -1048,6 +1038,61 @@ input{
 }
 #logindiv .error{
 	color: #F00;
+}
+/* ========== UPDATE ========== */
+#update{
+	margin-left: 10px;
+	margin-right: 10px;
+	height: 500px;
+}
+#update td{
+	border: none;
+	padding: 0px;
+}
+#update input{
+	font: 12px Verdana;
+	width: 300px;
+	color: #888;
+	border: 1px solid #AAA;
+	padding: 2px;
+}
+#update input:focus{
+	border: 1px solid #D00;
+	color: #000;
+}
+#update input.completed{
+	border: 1px solid #080;
+	color: #000;
+}
+#update #dt1, #update #dt2, #update #yr{
+	width: 100px;
+}
+#ajaxdiv {
+	position: absolute;
+	width: 500px;
+	background-color: #FFF;
+	margin: 0px;
+	padding: 0px;
+}
+#ajaxdiv ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	border: 1px solid #CCC;
+	max-height: 300px;
+	overflow: auto;
+}
+#ajaxdiv ul li {
+	list-style-type: none;
+	display: block;
+	margin: 0px;
+	padding: 3px;
+	border: 1px solid #FFF;
+	cursor: pointer;
+}
+#ajaxdiv ul li.selected {
+    background-color: #CDE8FF;
+    border: 1px solid #888;
 }
 /* ========== DIALOGS ========== */
 .dialog, .dialog input{

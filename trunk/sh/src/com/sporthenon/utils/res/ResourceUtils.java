@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Properties;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.swing.ImageIcon;
 
 import org.apache.log4j.Logger;
@@ -12,6 +14,7 @@ import org.apache.log4j.Logger;
 public class ResourceUtils {
 
 	private static HashMap<String, Properties> HP = null;
+	private static final String LGDEFAULT = "en";
 	
 	static {
 		try {
@@ -32,13 +35,32 @@ public class ResourceUtils {
 	
 	public static String getText(String key, String lang) {
 		if (!HP.containsKey(lang.toLowerCase()))
-			lang = "en";
+			lang = LGDEFAULT;
 		Properties p = HP.get(lang.toLowerCase());
 		return (p != null && p.containsKey(key) ? String.valueOf(p.get(key)) : key);
 	}
 	
 	public static ImageIcon getIcon(String name) {
 		return new ImageIcon(ResourceUtils.class.getResource("/com/sporthenon/utils/res/img/" + name));
+	}
+	
+	public static void setLocale(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if (session.getAttribute("locale") == null) {
+			String lang = LGDEFAULT;
+			try {
+				if (request.getLocale() != null)
+					lang = request.getLocale().toString().substring(0, 2);
+				if (!HP.containsKey(lang.toLowerCase()))
+					throw new Exception();
+			}
+			catch (Exception e) {
+				lang = LGDEFAULT;
+			}
+			finally {
+				session.setAttribute("locale", lang);	
+			}
+		}
 	}
 	
 }

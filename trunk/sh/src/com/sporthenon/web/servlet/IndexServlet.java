@@ -16,13 +16,13 @@ import org.w3c.dom.Element;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.PicklistBean;
-import com.sporthenon.db.converter.HtmlConverter;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.function.StatisticsBean;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
+import com.sporthenon.web.HtmlConverter;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 public class IndexServlet extends AbstractServlet {
@@ -88,7 +88,7 @@ private static final long serialVersionUID = 1L;
 		for (PicklistBean plb : cPicklist) {
 			String img = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, plb.getValue(), ImageUtils.SIZE_LARGE, null, null);
 			img = img.replaceAll(".*\\ssrc\\='|'/\\>", "");
-			hSports.put(plb.getValue(), "<div id='sport-#INDEX#' class='sport' onclick=\"info('" + StringUtils.encode("SP-" + plb.getValue()) + "');\" style=\"#DISPLAY#background-image:url('" + img + "');\">" + plb.getText().replaceAll("\\s", "&nbsp;") + "</div>");
+			hSports.put(plb.getValue(), "<div id='sport-#INDEX#' class='sport' style=\"#DISPLAY#background-image:url('" + img + "');\">" + HtmlUtils.writeLink(Sport.alias, plb.getValue(), plb.getText().replaceAll("\\s", "&nbsp;"), null) + "</div>");
 		}
 		StringBuffer sports = new StringBuffer();
 		int index = 0;

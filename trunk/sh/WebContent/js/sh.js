@@ -140,7 +140,7 @@ function toggleContent(el) {
 	else {
 		table.down('tr').show();
 	}
-	el.src = 'img/render/' + (isDisplayed ? 'expand.gif' : 'collapse.gif');
+	el.src = '/img/render/' + (isDisplayed ? 'expand.gif' : 'collapse.gif');
 }
 function info(s) {
 	t1 = currentTime();
@@ -154,7 +154,7 @@ function info(s) {
 		});
 	}
 	else {
-		location.href = 'ref?p=' + s;
+		location.href = 'details/' + s;
 	}
 }
 function currentTime() {
@@ -192,7 +192,7 @@ function replaceAll(s1, s2, s3) {
 }
 function refSeeFull(row, p) {
 	var cell = $(row).up();
-	cell.update('<img src="img/db/loading.gif?6"/>');
+	cell.update('<img src="/img/db/loading.gif?6"/>');
 	cell.style.backgroundColor = '#FFF';
 	new Ajax.Request('InfoRefServlet?p=' + p, {
 		onSuccess: function(response){
@@ -309,7 +309,7 @@ function initTabControl() {
 	link.observe('click', function(){addTab(TX_BLANK);});
 }
 function getCloseImg(idx) {
-	var img = new Element('img', {id: 'close-' + idx, src: 'img/component/tabcontrol/close.gif'});
+	var img = new Element('img', {id: 'close-' + idx, src: '/img/component/tabcontrol/close.gif'});
 	img.observe('mouseover', overCloseImg)
 	   .observe('mouseout', outCloseImg)
 	   .observe('mousedown', clickCloseImg);
@@ -370,7 +370,7 @@ var dExport = null;
 var dLink = null;
 var dInfo = null;
 function refreshLastUpdates() {
-	$('dupdates').update('<img src="img/db/loading.gif?6" alt="Loading..."/>');
+	$('dupdates').update('<img src="/img/db/loading.gif?6" alt="Loading..."/>');
 	new Ajax.Updater($('dupdates'), 'IndexServlet?t=' + currentTime() + '&lastupdates=1&count=' + $('countupdt').value, {});
 }
 function displayExport() {
@@ -918,11 +918,11 @@ var currentLeague = null;
 var currentUtype = null;
 function initSliderUS() {
 	var sliderContent = [];
-	sliderContent.push('<div id="sl-nfl" class="slide" title="NFL" style="background-image:url(img/db/nfl.gif)"></div>');
-	sliderContent.push('<div id="sl-nba" class="slide" style="background-image:url(img/db/nba.gif)"></div>');
-	sliderContent.push('<div id="sl-nhl" class="slide" style="background-image:url(img/db/nhl.gif)"></div>');
-	sliderContent.push('<div id="sl-mlb" class="slide" style="background-image:url(img/db/mlb.gif)"></div>');
-	sliderContent.push('<div id="sl-nfl" class="slide" title="NFL" style="background-image:url(img/db/nfl.gif)"></div>');
+	sliderContent.push('<div id="sl-nfl" class="slide" title="NFL" style="background-image:url(/img/db/nfl.gif)"></div>');
+	sliderContent.push('<div id="sl-nba" class="slide" style="background-image:url(/img/db/nba.gif)"></div>');
+	sliderContent.push('<div id="sl-nhl" class="slide" style="background-image:url(/img/db/nhl.gif)"></div>');
+	sliderContent.push('<div id="sl-mlb" class="slide" style="background-image:url(/img/db/mlb.gif)"></div>');
+	sliderContent.push('<div id="sl-nfl" class="slide" title="NFL" style="background-image:url(/img/db/nfl.gif)"></div>');
 	$$('#slider-league-img .content')[0].update(sliderContent.join(''));
 	createSlider('slider-league-img', 100, 100, true);
 	hSliders.get('slider-league-img').options.afterMove = function() {
@@ -949,16 +949,13 @@ function changeLeague(id, srcsl) {
 		$('hof-position').value = '';
 		$('hof-postip').title = tPos[league];
 		$('retnum-number').value = '';
-		var tType2 = ['Career', 'History', 'Season', 'Series', 'Game'];
+		var tType2 = ['Alltime/Career', 'Season', 'Series', 'Game'];
 		var tAll = new Array();
 		for (var i = 0 ; i < tType2.length ; i++) {
-			if (league == 3 && tType2[i] == 'Quarter') {
-				tType2[i] = 'Period';
-			}
 			if ((league == 1 || league == 4) && tType2[i] == 'Series') {}
 			else {
 				tAll.push('\'' + tType2[i] + '\'');
-				tType2[i] = '<option value="\'' + tType2[i] + '\'">' + tType2[i] + '</option>';
+				tType2[i] = '<option value="' +i + '">' + tType2[i] + '</option>';
 			}
 		}
 		tType2.push('<option value="' + tAll.join(',') + '">[All]</option>');
@@ -1059,7 +1056,7 @@ function resetSearch() {
 }
 /* ==================== PROJECT ==================== */
 function loadChart() {
-	$('charttxt').update('<tr><td><img src="img/db/loading.gif?6"/></td></tr>');
+	$('charttxt').update('<tr><td><img src="/img/db/loading.gif?6"/></td></tr>');
 	new Ajax.Request('ProjectServlet?index=' + $('charts').value, {
 		onSuccess: function(response) {
 			var tData = new Array();
@@ -1142,7 +1139,7 @@ function createAccount() {
 		$('rpassword2').focus();
 		{return;}
 	}
-	$('rmsg').update('<img src="img/db/loading.gif?6"/>').removeClassName('error').removeClassName('success').show();
+	$('rmsg').update('<img src="/img/db/loading.gif?6"/>').removeClassName('error').removeClassName('success').show();
 	var h = $H();
 	$$('.register input').each(function(el) {
 		h.set(el.id, el.value);

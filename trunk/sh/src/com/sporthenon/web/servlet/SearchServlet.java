@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseHelper;
-import com.sporthenon.db.converter.HtmlConverter;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
+import com.sporthenon.web.HtmlConverter;
 
 public class SearchServlet extends AbstractServlet {
 

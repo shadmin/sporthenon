@@ -51,13 +51,18 @@ public class HtmlUtils {
 		if (!list.isEmpty())
 			html.append("<img alt=''" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + " src='" + ImageUtils.getUrl() + list.getLast() + "'/>");
 		else if (size == ImageUtils.SIZE_LARGE && type != ImageUtils.INDEX_CHAMPIONSHIP && type != ImageUtils.INDEX_EVENT)
-			html.append("<img alt='' src='img/noimage.png'/>");
+			html.append("<img alt='' src='/img/noimage.png'/>");
 		return html.toString();
+	}
+	
+	public static String writeURL(String main, String params, String text) {
+		params = params.replaceAll("\\,\\s", "-").replaceAll("[\\[\\]]", "").replaceAll("\\-\\_(en|fr)$", "");
+		return ConfigUtils.getProperty("url") + main + "/" + StringUtils.encode(params) + (StringUtils.notEmpty(text) ? "/" + StringUtils.urlEscape(text) : "");
 	}
 
 	public static String writeLink(String alias, int id, String text, String title) {
 		StringBuffer html = new StringBuffer();
-		html.append("<a href='ref?p=" + StringUtils.encode(alias + "-" + id) + "'" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + ">" + (text != null ? text.replaceAll("\\s", SPACE) : "") + "</a>");
+		html.append("<a href='/details/" + StringUtils.encode(alias + "-" + id) + "/" + StringUtils.urlEscape(text) + "'" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + ">" + (text != null ? text.replaceAll("\\s", SPACE) : "") + "</a>");
 		return html.toString();
 	}
 
@@ -104,9 +109,9 @@ public class HtmlUtils {
 	
 	public static StringBuffer writeInfoHeader(LinkedHashMap<String, String> h, String lang) {
 		StringBuffer html = new StringBuffer();
-		String tabTitle = h.get("tabtitle");
+		String title = h.get("title");
 		Integer width = (h.containsKey("width") ? Integer.valueOf(h.get("width")) : 0);
-		html.append("<span class='title'>" + tabTitle.replaceAll(".{6}\\[.+#.*\\]$", "") + "</span>");
+		html.append("<span class='title'>" + title.replaceAll(".{6}\\[.+#.*\\]$", "") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
 		html.append("<table class='info'" + (width != null && width > 0 ? " style='width:" + width + "px;'" : "") + ">");
@@ -157,11 +162,6 @@ public class HtmlUtils {
 		return html.append("</table>");
 	}
 
-	public static String writeURL(String main, String params) {
-		params = params.replaceAll("\\,\\s", "-").replaceAll("[\\[\\]]", "").replaceAll("\\-\\_(en|fr)$", "");
-		return ConfigUtils.getProperty("url") + main + "?p=" + StringUtils.encode(params);
-	}
-	
 	public static String writeRecordItems(Collection<RefItem> cRecord, String lang) {
 		StringBuffer sbRecord = new StringBuffer();
 		for (RefItem item : cRecord) {
@@ -202,7 +202,7 @@ public class HtmlUtils {
 			if (m.invoke(o) != null) {
 				String url = (String) m.invoke(o);
 				if (StringUtils.notEmpty(url))
-					sbHtml.append("<tr><th>Wikipedia</th></tr><tr><td><table><tr><td style='width:16px;'><img alt='Wiki' src='img/render/link-wiki.png'/></td><td>&nbsp;<a href='" + url + "' target='_blank'>" + url + "</a></td></tr></table></td></tr>");				
+					sbHtml.append("<tr><th>Wikipedia</th></tr><tr><td><table><tr><td style='width:16px;'><img alt='Wiki' src='/img/render/link-wiki.png'/></td><td>&nbsp;<a href='" + url + "' target='_blank'>" + url + "</a></td></tr></table></td></tr>");				
 			}
 		}
 		HashMap<String, String> h = new HashMap<String, String>();
@@ -223,7 +223,7 @@ public class HtmlUtils {
 				if (m.invoke(o) != null) {
 					String url = (String) m.invoke(o);
 					if (StringUtils.notEmpty(url))
-						sbHtml.append("<tr><th>" + h.get(s) + "-reference</th></tr><tr><td><table><tr><td style='width:16px;'><img alt='spref' src='img/render/link-" + s.toLowerCase() + "ref.png'/></td><td>&nbsp;<a href='" + url + "' target='_blank'>" + url + "</a></td></tr></table></td></tr>");				
+						sbHtml.append("<tr><th>" + h.get(s) + "-reference</th></tr><tr><td><table><tr><td style='width:16px;'><img alt='spref' src='/img/render/link-" + s.toLowerCase() + "ref.png'/></td><td>&nbsp;<a href='" + url + "' target='_blank'>" + url + "</a></td></tr></table></td></tr>");				
 				}
 			}
 		}
