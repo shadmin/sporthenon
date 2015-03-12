@@ -51,6 +51,10 @@ public class Year {
 	public void setLabel(String label) {
 		this.label = label;
 	}
+	
+	public String getLabel(String lang) {
+		return label;
+	}
 
 	@Override
 	public String toString() {

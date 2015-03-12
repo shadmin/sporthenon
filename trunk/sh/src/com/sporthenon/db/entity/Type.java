@@ -73,6 +73,10 @@ public class Type {
 	public void setNumber(Integer number) {
 		this.number = number;
 	}
+	
+	public String getLabel(String lang) {
+		return (lang != null && lang.equalsIgnoreCase("fr") ? labelFR : label);
+	}
 
 	@Override
 	public String toString() {
