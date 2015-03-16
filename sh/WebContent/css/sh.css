@@ -506,7 +506,7 @@ input{
     overflow: hidden;
     width: 100%;
 }
-#buttons .button, .toolbar .button, #lupdatesok, #logindiv .button{
+#buttons .button, .toolbar .button, #lupdatesok, #logindiv .button, #update .button{
 	height: 25px;
 	margin: 0px;
 	background-color: #E5E5E5;
@@ -522,7 +522,7 @@ input{
 #buttons #bright .button, .toolbar .button, #lupdatesok{
 	margin-left: 2px;
 }
-#buttons .button:hover, .toolbar .button:hover, #lupdatesok:hover, #logindiv .button:hover{
+#buttons .button:hover, .toolbar .button:hover, #lupdatesok:hover, #logindiv .button:hover, #update .button:hover{
 	color: #FFF;
 	background-color: #444;
 }
@@ -1045,31 +1045,42 @@ input{
 	margin-right: 10px;
 	height: 500px;
 }
+#update .fstitle{
+	background-image: url(../img/addresult.png?4);
+}
+#update table{
+	width: auto;
+	margin-top:10px;
+}
 #update td{
 	border: none;
 	padding: 0px;
 }
-#update input{
+#update input[type=text]{
 	font: 12px Verdana;
 	width: 300px;
 	color: #888;
 	border: 1px solid #AAA;
 	padding: 2px;
 }
-#update input:focus{
+#update input[type=text]:focus{
 	border: 1px solid #D00;
 	color: #000;
 }
-#update input.completed{
+#update input[type=text].completed{
 	border: 1px solid #080;
 	color: #000;
 }
 #update #dt1, #update #dt2, #update #yr{
 	width: 100px;
 }
+#update #savebtn{
+	background-image: url('../img/component/button/save.png?3');
+	background-position: 4px center;
+}
 #ajaxdiv {
 	position: absolute;
-	width: 500px;
+	width: 800px;
 	background-color: #FFF;
 	margin: 0px;
 	padding: 0px;

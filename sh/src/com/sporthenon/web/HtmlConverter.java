@@ -33,6 +33,7 @@ import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
+import com.sporthenon.db.entity.meta.Member;
 import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.db.entity.meta.TreeItem;
 import com.sporthenon.db.function.DrawBean;
@@ -109,7 +110,7 @@ public class HtmlConverter {
 		return html.toString();
 	}
 
-	public static StringBuffer getHeader(short type, Collection<Object> params, String lang) throws Exception {
+	public static StringBuffer getHeader(short type, Collection<Object> params, Member member, String lang) throws Exception {
 		ArrayList<Object> lstParams = new ArrayList<Object>(params);
 		HashMap<String, String> hHeader = new HashMap<String, String>();
 		hHeader.put("info", "#INFO#");
@@ -215,7 +216,7 @@ public class HtmlConverter {
 			hHeader.put("item0", "<table><tr><td><img alt='Ref' src='/img/menu/dbref.png'/></td><td>&nbsp;" + ResourceUtils.getText("entity." + entity, lang) + "</td></tr></table>");
 			hHeader.put("item1", hHeader.get("title"));
 		}
-		return HtmlUtils.writeHeader(hHeader, lang);
+		return HtmlUtils.writeHeader(hHeader, member, lang);
 	}
 
 	public static StringBuffer getWinRecords(String results, String lang) throws Exception {

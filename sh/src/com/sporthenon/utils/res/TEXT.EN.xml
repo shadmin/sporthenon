@@ -30,6 +30,7 @@
 	<entry key="actions.currenttab">Actions on current tab</entry>
 	<entry key="button.run">RUN SEARCH</entry>
 	<entry key="button.reset">Reset</entry>
+	<entry key="button.modify">Modify</entry>
 	<entry key="button.export">Export</entry>
 	<entry key="button.link">Link</entry>
 	<entry key="button.print">Print</entry>
@@ -285,4 +286,5 @@
 	<entry key="mandatory.confirmpwd">You must confirm the password.</entry>
 	<entry key="mandatory.email">Field 'E-Mail Address' is mandatory.</entry>
 	<entry key="pwd.nomatch">The entered passwords do not match.</entry>
+<!-- UPDATE -->
 </properties>

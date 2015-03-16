@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.sporthenon.db.entity.meta.Member;
 import com.sporthenon.utils.res.ResourceUtils;
 
 public abstract class AbstractServlet extends HttpServlet {
@@ -26,6 +27,10 @@ public abstract class AbstractServlet extends HttpServlet {
 	protected String getLocale(HttpServletRequest req) {
 		ResourceUtils.setLocale(req);
 		return String.valueOf(req.getSession().getAttribute("locale"));
+	}
+	
+	protected Member getUser(HttpServletRequest req) {
+		return (req.getSession().getAttribute("user") != null ? (Member) req.getSession().getAttribute("user") : null);
 	}
 	
 	protected void handleException(Throwable e) {

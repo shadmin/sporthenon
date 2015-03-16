@@ -1158,3 +1158,68 @@ function createAccount() {
 function accountErr(s) {
 	$('rmsg').update(s).removeClassName('success').addClassName('error').show();
 }
+/* ==================== UPDATE ==================== */
+function initUpdate() {
+	['sp', 'cp', 'ev', 'se', 'se2', 'yr', 'pl1', 'pl2'].each(function(s){
+		new Ajax.Autocompleter(
+			s,
+			'ajaxdiv',
+			'/update/ajax/' + s,
+			{ paramName: 'value', minChars: 2, afterUpdateElement: setValue}
+		);
+	});
+	$$('#update input').each(function(el){
+		if ($(el).type == 'button') {
+			return;
+		}
+		$(el).addClassName('default');
+		Event.observe($(el), 'focus', function(){
+			if ($(this).value == $(this).name) {
+				$(this).value = '';
+			}
+		});
+		Event.observe($(el), 'blur', function(){
+			if ($(this).value == '') {
+				$(this).value = $(this).name;
+				$(this).removeClassName('completed');
+				tValues[$(this).id] = null;
+			}
+		});
+	});
+}
+var tValues = [];
+function setValue(text, li) {
+	var t = li.id.split('-');
+	tValues[text.id] = t[1];
+	$(text).addClassName('completed');
+	if (t.length > 2) {
+		updateType(t[0], t[2]);
+	}
+}
+var currentTp = null;
+function updateType(s, tp){
+	if ((tValues['se2'] != null && s == 'se2') || (tValues['se'] != null && tValues['se2'] == null && s == 'se') || (tValues['ev'] != null && tValues['se'] == null && tValues['se2'] == null && s == 'ev')) {
+		currentTp = parseInt(tp);
+	}
+	['rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'rk6', 'rk7', 'rk8', 'rk9', 'rk10'].each(function(s){
+		new Ajax.Autocompleter(
+			s,
+			'ajaxdiv',
+			'/update/ajax/' + (currentTp < 10 ? 'pr' : (currentTp == 50 ? 'tm' : 'cn')) + (tValues['sp'] != null ? '-' + tValues['sp'] : ''),
+			{ paramName: 'value', minChars: 2, afterUpdateElement: setValue}
+		);
+	});
+}
+function save() {
+	$('msg').update('<img src="/img/db/loading.gif?6"/>');
+	var h = $H({sp: tValues['sp']});
+	['sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'cmt', 'rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'rk6', 'rk7', 'rk8', 'rk9', 'rk10', 'rs1', 'rs2', 'rs3', 'rs4', 'rs5', 'rs6', 'rs7', 'rs8', 'rs9', 'rs10'].each(function(s){
+		h.set(s, tValues[s]);	
+	});
+	new Ajax.Request('/update/save', {
+		onSuccess: function(response){
+			$('msg').update(response.responseText);
+		},
+		parameters: h
+	});
+}

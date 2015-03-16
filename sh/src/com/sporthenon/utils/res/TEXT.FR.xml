@@ -30,6 +30,7 @@
 	<entry key="actions.currenttab">Actions sur l'onglet courant</entry>
 	<entry key="button.run">LANCER LA RECHERCHE</entry>
 	<entry key="button.reset">Réinitialiser</entry>
+	<entry key="button.modify">Modifier</entry>
 	<entry key="button.export">Exporter</entry>
 	<entry key="button.link">Lien</entry>
 	<entry key="button.print">Imprimer</entry>
@@ -285,4 +286,5 @@
 	<entry key="mandatory.confirmpwd">Vous devez confirmer le mot de passe.</entry>
 	<entry key="mandatory.email">Le champ 'Addresse E-mail' est obligatoire.</entry>
 	<entry key="pwd.nomatch">Les mots de passe saisis ne correspondent pas.</entry>
+<!-- UPDATE -->
 </properties>

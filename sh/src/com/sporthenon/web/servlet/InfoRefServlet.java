@@ -61,7 +61,7 @@ public class InfoRefServlet extends AbstractServlet {
 				if (params.length == 2) {
 					StringBuffer sbRecordInfo = HtmlConverter.getRecordInfo(params[0], new Integer(params[1]), getLocale(request));
 					lFuncParams.add(sbRecordInfo.toString().replaceAll("\\</span\\>.*", "").replaceAll(".*title'\\>", ""));
-					html.append(HtmlConverter.getHeader(HtmlConverter.HEADER_REF, lFuncParams, getLocale(request)));
+					html.append(HtmlConverter.getHeader(HtmlConverter.HEADER_REF, lFuncParams, getUser(request), getLocale(request)));
 					html.append(sbRecordInfo);
 					lFuncParams.remove(6);
 				}

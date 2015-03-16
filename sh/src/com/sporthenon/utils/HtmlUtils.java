@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Team;
+import com.sporthenon.db.entity.meta.Member;
 import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.db.function.WinRecordsBean;
 import com.sporthenon.utils.res.ResourceUtils;
@@ -84,11 +85,14 @@ public class HtmlUtils {
 		return html.toString();
 	}
 
-	public static StringBuffer writeHeader(HashMap<String, String> h, String lang) {
+	public static StringBuffer writeHeader(HashMap<String, String> h, Member m, String lang) {
 		StringBuffer html = new StringBuffer();
 		html.append("<span class='title'>" + h.get("title") + "</span>");
-		if (h.containsKey("url"))
+		String url = null;
+		if (h.containsKey("url")) {
+			url = h.get("url");
 			html.append("<span class='url'>" + h.get("url") + "</span>");
+		}
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
 		html.append("<div class='header'><table><tr><td style='font-weight:bold;'>" + h.get("item0") + "</td>");
 		html.append(h.containsKey("item1") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item1") + "</td>" : "");
@@ -98,7 +102,11 @@ public class HtmlUtils {
 		html.append(h.containsKey("item5") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item5") + "</td>" : "");
 		html.append("</tr></table></div>");
 		html.append("<div class='toolbar'>");
-		html.append("<table><tr><td><input id='export' type='button' class='button export' onclick='displayExport();' value='" + ResourceUtils.getText("button.export", lang) + "'/></td>");
+		html.append("<table><tr>");
+System.out.println(url);
+		if (m != null && url != null && url.matches(".*\\/results.*"))
+			html.append("<td><input id='modify' type='button' class='button modify' onclick='location.href=\"" + h.get("url").replaceAll("results", "update") + "\";' value='" + ResourceUtils.getText("button.modify", lang) + "'/></td>");
+		html.append("<td><input id='export' type='button' class='button export' onclick='displayExport();' value='" + ResourceUtils.getText("button.export", lang) + "'/></td>");
 		html.append("<td><input id='link' type='button' class='button link' onclick='displayLink();' value='" + ResourceUtils.getText("button.link", lang) + "'/></td>");
 		html.append("<td><input id='print' type='button' class='button print' onclick='javascript:printCurrentTab();' value='" + ResourceUtils.getText("button.print", lang) + "'/></td>");
 		html.append("<td><input id='info2' type='button' class='button info2' onclick='displayInfo();' value='" + ResourceUtils.getText("button.info", lang) + "'/></td>");

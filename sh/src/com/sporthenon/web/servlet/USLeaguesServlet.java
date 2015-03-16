@@ -108,31 +108,31 @@ public class USLeaguesServlet extends AbstractServlet {
 				if (type.equals(TYPE_RETNUM)) {
 					lFuncParams.add(teams);
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("num")) ? new Short(String.valueOf(hParams.get("num"))) : -1);
-					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_RETNUM, lFuncParams, "en");
+					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_RETNUM, lFuncParams, getUser(request), "en");
 					html.append(HtmlConverter.convertRetiredNumber(DatabaseHelper.call("GetRetiredNumber", lFuncParams), "en"));
 				}
 				else if (type.equals(TYPE_TEAMSTADIUM)) {
 					lFuncParams.add(teams);
 					lFuncParams.add("_" + "en");
-					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_TEAMSTADIUM, lFuncParams, "en");
+					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_TEAMSTADIUM, lFuncParams, getUser(request), "en");
 					html.append(HtmlConverter.convertTeamStadium(DatabaseHelper.call("GetTeamStadium", lFuncParams), "en"));
 				}
 				else if (type.equals(TYPE_WINLOSS)) {
 					lFuncParams.add(teams);
-					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_WINLOSS, lFuncParams, "en");
+					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_WINLOSS, lFuncParams, getUser(request), "en");
 					html.append(HtmlConverter.convertWinLoss(DatabaseHelper.call("GetWinLoss", lFuncParams), "en"));
 				}
 				else if (type.equals(TYPE_HOF)) {
 					lFuncParams.add(years);
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("pos")) ? String.valueOf(hParams.get("pos")) : "");
-					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_HOF, lFuncParams, "en");
+					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_HOF, lFuncParams, getUser(request), "en");
 					html.append(HtmlConverter.convertHallOfFame(DatabaseHelper.call("GetHallOfFame", lFuncParams), "en"));
 				}
 				else if (type.equals(TYPE_CHAMPIONSHIP)) {
 					lFuncParams.add(hLeagues.get(Short.valueOf(league)));
 					lFuncParams.add(years);
 					lFuncParams.add("_" + "en");
-					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_CHAMPIONSHIP, lFuncParams, "en");
+					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_CHAMPIONSHIP, lFuncParams, getUser(request), "en");
 					lFuncParams.remove(0);
 					html.append(HtmlConverter.convertUSChampionships(DatabaseHelper.call("GetUSChampionships", lFuncParams), "en"));
 				}
@@ -152,7 +152,7 @@ public class USLeaguesServlet extends AbstractServlet {
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp1")) ? hType1.get(String.valueOf(hParams.get("tp1"))) : hType1.get("i"));
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp2")) ? hType2.get(String.valueOf(hParams.get("tp2"))) : hType1.get("0"));
 					lFuncParams.add("_" + "en");
-					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_RECORD, lFuncParams, "en");
+					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_RECORD, lFuncParams, getUser(request), "en");
 					lFuncParams.remove(0);
 					if (String.valueOf(lFuncParams.get(3)).matches(".*Team.*") && !String.valueOf(lFuncParams.get(2)).equals("0")) {
 						String hql = "select id from Event where type.number<=50 and label in (select label from Event where id in (" + String.valueOf(hParams.get("se")) + "))";
