@@ -1,0 +1,199 @@
++-----------------------+
+| Sporthenon Change Log |
+| Last Version: 0.9.1   |
++-----------------------+
+
++-------+
+| 0.9.1 |
++-------+
+login/update
+
++-------+
+| 0.9.0 |
++-------+
+o Website
+	- Improved site layout (bigger font, clearer UI, direct search always visible..)
+	- New home page: access by sport portals, better display of last updates
+	- Use of encoded URLs instead of full with visible parameters
+	- Improved dispay of record references with paginable view (use of LIMIT/OFFSET)
+	- Changed default sorting of results (most recent first)
+	- Added search filter "Postseason" for US leagues records
+	- Added Quarterfinal/Semifinal in referenced results
+	- Moved tab buttons on result page
+	- Countries: 3 other flags are displayed by default (+ link "More")
+	- Bugfix: medal counts did not include linked entities
+	- Bugfix: draws did not display properly
+	- Bugfix: draws references where not calculated in ref. counts
+	- Bugfix: removed usage of session for page titles (request attr. only)
+	- Bugfix: multiple issues fixed in HTML/XLS/TXT exports
+o SH Update (Swing app)
+	[No change]
+
++-------+
+| 0.8.2 |
++-------+
+o Website
+	- Added defaut picture file "Image not available" for record info
+	- Improved database references (automatic update with triggers)
+	- New layout for "US leagues" page
+o SH Update (Swing app)
+	- Team pictures can be filtered by sport
+	- Compliant with x64 architecture
+	- Fixed minor issues with URL updates
+	- DB structure: +[CP/CT/CX/CN/EV/OL/PR/SP/ST/TM/YR].first_update
+
++-------+
+| 0.8.1 |
++-------+
+o Website
+	- Added header title <th> on logos/flags records
+	- Added US leagues championships on "medal counts" function
+	- Bugfix: removed border on team logos
+	- Bugfix: logos/years did not work on US leagues searches
+o SH Update (Swing app)
+	- Improved news management (existing news can be selected/modified/removed)
+	- Added customized logo using ResourceHacker
+	- Larger list for remote pictures (last item selected by default)
+	- DB structure: -CP.comment / -EV.comment
+
++-------+
+| 0.8.0 |
++-------+
+o Website
+	- New feature: <Localization> (==> site and database available in EN/FR)
+	- New feature: <Previous flags> (==> display previous versions of countries flags)
+	- New feature: <Previous logos> (==> display previous versions of teams logos)
+	- New tab opens automatically on entity details and draws
+	- Added 1 new sub-level for events organization
+	- Added automatic loading of picklists when running a search using the treeview
+	- Added external links for US leagues (sports-reference.com)
+	- Handle inactive events based on sport+championship
+	- Changed the date pattern to DD/MM/YYYY
+	- Setup files for SH Update can be downloaded directly on website (removed from GDrive)
+	- Improved layout of pages: Home, Results, Olympics, Project
+o SH Update (Swing app)
+	- Added list of remote files for pictures management
+	- Remote picture files can be downloaded
+	- Added proxy address/port in options (for URL updates)
+	- Fixed bug: pictures uploaded with "*null-null.png" file name
+	- DB structure: +RS.id_subevent2
+
++-------+
+| 0.7.0 |
++-------+
+o Website
+	- New feature: <Entity Statistics> (==> medals/titles records for athletes/countries/teams)
+	- New feature: <External Links> (==> display URLs to external sites, i.e. wikipedia)
+	- Added year filter availability for country/team pictures
+	- Added tooltips on country codes
+	- Added "complex" column in Olympics results
+	- Current menu made visible in <TITLE> tag
+	- Fixed display bug on tied entities (1st + 2nd)
+	- Fixed bug on linked athletes with different names (only 1 name was displayed)
+o SH Update (Swing app)
+	- New feature: <Quick Connect> (==> picklist loading can be disabled)
+	- New feature: <News Menu>
+	- Added draws/records in import tool
+	- DB structure: +RS.id_city1 / +RS.id_city2 / +RS.id_complex1 / +RS.id_complex2
+
++-------+
+| 0.6.0 |
++-------+
+o Website
+	- New feature: <Back to top>
+	- New feature: <Share> (=> added "share" buttons for social networks (Facebook, Twitter, Google+))
+	- Improved loading of picklists on "Results" page (use of tree)
+	- Improved tabs management (removed auto-opening tab for each request)
+	- Changed logo: 2 icons updated + lighter background
+	- Changed UI design/colors for brighter display
+	- Improved search criteria layout for "Olympics" page
+	- Added link to all event results for selected row in "Results" references
+	- Merged "Championship" and "Event" entities at display
+	- Position of comments moved to the right of 'Year' column
+	- Fixed bug: search failed with "last name + first name" in that order
+	- Fixed bug: result with ties in entity references not displayed properly
+o SH Update (Swing app)
+	- New feature: <Merge> (=> selected record is removed and merged with another record)
+	- New feature: <Templates> (=> xls/csv templates for import tool)
+	- Changed buttons: label replaced by tooltip
+	- Removal available for remote picture
+	- Fixed bug: folder edit not available for 'subevent' level
+	- Fixed bug with use of quote ' in CSV import
+	- Add query for events not set on current year
+	- DB structure: +[all].first_update
+
++-------+
+| 0.5.1 |
++-------+
+o Website
+	- Added display of country flag in entity references (column 'Result')
+	- Fixed bug: use of special characters in search patterns
+	- Fixed bug: ties on record not displayed properly
+o SH Update (Swing app)
+	- Fixed bug with use of quote ' in CSV import
+	- Add query for events not set on current year
+	- DB structure: +[all].first_update
+
++-------+
+| 0.5.0 |
++-------+
+o Website
+	- New feature: <Last Updates> (=> display of last DB updates with custom count)
+	- New feature: <Statistics>
+	- Added header table to export formats txt and xls
+	- Added multi-table + merged cells management on exports
+	- Added "position" filter on US leagues "hall of fame" search
+	- Added "period" filter on US leagues "records" search (season, career, game...)
+	- Improved display on "Team" references with links
+	- Fixed results references with tied entities
+o SH Update (Swing app)
+	- Keyboard shortcuts for "data" panel actions
+	- Automatic set to "0" for links on referenced entity
+	- Added display of referenced entity label when saving entity with link
+
++-------+
+| 0.4.0 |
++-------+
+o Website
+	- Pictures management improved significantly (better caching performance)
+	- Some comments can be displayed as a colored cell
+	- More readable display of olympics tables
+	- Fixed bug on US records for "Both" selection (individual/team)
+	- Added sitemap.xml
+o SH Update (Swing app)
+	- Comments management improved with specific column for ties
+	- Add queries for unused events + fixed missing pictures with remote call
+	- DB structure: -TM.code / -HF.deceased / +HF.position / +TM.link / +TM.inactive / +RN.year
+
++-------+
+| 0.3.0 |
++-------+
+o Website
+	- New feature: <Export> (=> export page to HTML/XLS/TXT format)
+	- New feature: <Info> (=> display metadata & statistics on current tab)
+	- New feature: <Inactive Events> (=> events not held anymore marked with specific symbol)
+	- Comments can be displayed either directly or with a tooltip icon
+	- Bugs fixed, mainly on "US leagues" page
+o SH Update (Swing app)
+	- New feature: <Query> (=> execute custom queries on database)
+	- Add missing tables in data panel (US leagues, Olympics, Records)
+
++-------+
+| 0.2.0 |
++-------+
+o Website
+	- New feature: <Print> (=> send current search tab to default printer)
+	- New feature: <Link> (=> display URL to open directly a specific page)
+	- New feature: <Sortable Columns> (=> all displayed tables can be dynamically sorted)
+	- More detailed results in record references
+	- Results tree can be extended for better view
+	- Comments appear as a yellow tip on results rows
+	- New UI for action buttons
+	- Extension of some columns size in database
+	- Fixed bug: an error occured on some olympics views with empty subevent
+o SH Update (Swing app)
+	- New feature: <Import CSV> (==> a mass update of data can done with CSV files)
+	- New feature: <Pictures Menu>
+	- New feature: <Refresh Tree>
+	- Draws insert/update for each result
+	- Comments textarea improved with scrollpane
