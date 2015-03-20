@@ -287,4 +287,7 @@
 	<entry key="mandatory.email">Field 'E-Mail Address' is mandatory.</entry>
 	<entry key="pwd.nomatch">The entered passwords do not match.</entry>
 <!-- UPDATE -->
+	<entry key="err.invalid.athlete"><![CDATA[Invalid format [#S#]: should be "Lastname, FirstName (CountryCode, TeamName)"]]></entry>
+	<entry key="err.invalid.team"><![CDATA[Invalid format [#S#]: should be "TeamName (CountryCode)"]]></entry>
+	<entry key="err.invalid.place"><![CDATA[Invalid format [#S#]: should be "ComplexName, City, CountryCode"]]></entry>
 </properties>

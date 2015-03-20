@@ -537,6 +537,9 @@ input{
 #buttons .options{
 	background-image: url('../img/component/button/options.png?3');
 }
+#toolbar .modify, .toolbar .modify{
+	background-image: url('../img/component/button/modify.png?3');
+}
 #toolbar .export, .toolbar .export{
 	background-image: url('../img/component/button/export.png?3');
 }
@@ -1043,7 +1046,7 @@ input{
 #update{
 	margin-left: 10px;
 	margin-right: 10px;
-	height: 500px;
+	height: 480px;
 }
 #update .fstitle{
 	background-image: url(../img/addresult.png?4);
@@ -1058,7 +1061,7 @@ input{
 }
 #update input[type=text]{
 	font: 12px Verdana;
-	width: 300px;
+	width: 350px;
 	color: #888;
 	border: 1px solid #AAA;
 	padding: 2px;
@@ -1069,6 +1072,10 @@ input{
 }
 #update input[type=text].completed{
 	border: 1px solid #080;
+	color: #000;
+}
+#update input[type=text].completed2{
+	border: 1px solid #000;
 	color: #000;
 }
 #update #dt1, #update #dt2, #update #yr{

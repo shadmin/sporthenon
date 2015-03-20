@@ -28,6 +28,7 @@ import com.sporthenon.utils.res.ResourceUtils;
 public class StringUtils {
 
 	public static final String EMPTY = "-";
+	public static final String PATTERN_PLACE = "^([^\\,\\(\\)]+\\,\\s|)[^\\,\\(\\)]+(\\,\\s[a-z]{2}|)\\,\\s[a-z]{3}$";
 	public static final String PATTERN_ATHLETE = "^[^\\,\\(\\)]+\\,\\s[^\\,\\(\\)]*([^\\s]|\\(([^\\,\\(\\)]+|[a-z]{3}\\,\\s[^\\,\\(\\)]+)\\))$";
 	public static final String PATTERN_TEAM = "^[^\\,\\(\\)]+([^\\s]|\\s\\([a-z]{3}\\))$";
 	public static final String PATTERN_COUNTRY = "^[a-z]{3}$";
@@ -278,7 +279,7 @@ public class StringUtils {
 	}
 	
 	public static final String urlEscape(String s) {
-		return (StringUtils.notEmpty(s) ? s.replaceAll("[\\s\\,]", "_").replaceAll("\\s\\-\\s", "-") : "");
+		return (StringUtils.notEmpty(s) ? s.replaceAll("\\s", "-").replaceAll("\\s\\-\\s", "-") : "");
 	}
 	
 }

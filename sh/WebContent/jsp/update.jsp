@@ -3,17 +3,17 @@
 <%@page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="update">
-	<div id="ajaxdiv"></div>
 	<div class="fieldset">
 		<div class="fstitle">CREER/MODIFIER UN RESULTAT</div>
-		<div class="fscontent" style="height:450px;">
-			<div style="float:left;padding-right:10px;">
+		<div class="fscontent" style="height:430px;">
+			<div id="ajaxdiv"></div>
+			<div style="float:left;padding-right:10px;height:350px;">
 			<table style="margin-top:0px;">
 				<tr><td colspan="5"><input type="text" id="sp" name="Sport" value="Sport"/></td></tr>
 				<tr><td><img src="/img/component/treeview/join.gif"/></td><td colspan="4"><input type="text" id="cp" name="Championship" value="Championship"/></td></tr>
-				<tr><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/join.gif"/></td><td colspan="3"><input type="text" id="ev" name="Event 1" value="Event 1"/></td></tr>
-				<tr><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/join.gif"/></td><td colspan="2"><input type="text" id="se" name="Event 2" value="Event 2"/></td></tr>
-				<tr><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/join.gif"/></td><td><input type="text" id="se2" name="Event 3" value="Event 3"/></td></tr>
+				<tr><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/join.gif"/></td><td colspan="3"><input type="text" id="ev" name="Event #1" value="Event #1"/></td></tr>
+				<tr><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/join.gif"/></td><td colspan="2"><input type="text" id="se" name="Event #2" value="Event #2"/></td></tr>
+				<tr><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/join.gif"/></td><td><input type="text" id="se2" name="Event #3" value="Event #3"/></td></tr>
 			</table>
 			<table>
 				<tr><td><input type="text" id="yr" name="Year" value="Year"/></td>
@@ -33,6 +33,7 @@
 				<tr><td><input type="text" id="cmt" name="Comment" value="Comment"/></td>
 			</table>
 			</div>
+			<div style="height:350px;">
 			<table style="margin-top:0px;">
 				<tr><td><input type="text" id="rk1" name="Rank #1" value="Rank #1"/></td><td>&nbsp;<input type="text" id="rs1" name="Result/Score" value="Result/Score" style="width:100px;"/></td></tr>
 				<tr><td><input type="text" id="rk2" name="Rank #2" value="Rank #2"/></td><td>&nbsp;<input type="text" id="rs2" name="Result" value="Result" style="width:100px;"/></td></tr>
@@ -45,16 +46,17 @@
 				<tr><td><input type="text" id="rk9" name="Rank #9" value="Rank #9"/></td><td>&nbsp;<input type="text" id="rs9" name="Result" value="Result" style="width:100px;"/></td></tr>
 				<tr><td><input type="text" id="rk10" name="Rank #10" value="Rank #10"/></td><td>&nbsp;<input type="text" id="rs10" name="Result" value="Result" style="width:100px;"/></td></tr>
 			</table>
+			</div>
 			<table>
-				<tr><td><input id='savebtn' type='button' class='button' onclick='save();' value='Enregistrer'/></td></tr>
-				<tr><td id="msg" style="font-weight:bold;padding-top:5px;"></td></tr>
+				<tr><td><input id='savebtn' type='button' class='button' onclick='saveResult();' value='Enregistrer'/></td></tr>
+				<tr><td id="msg" style="font-weight:bold;padding-top:10px;"></td></tr>
 			</table>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
 window.onload = function() {
-	initUpdate();
+	initUpdate('<%=request.getAttribute("value")%>');
 }
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />

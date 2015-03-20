@@ -58,7 +58,7 @@ public class HtmlUtils {
 	
 	public static String writeURL(String main, String params, String text) {
 		params = params.replaceAll("\\,\\s", "-").replaceAll("[\\[\\]]", "").replaceAll("\\-\\_(en|fr)$", "");
-		return ConfigUtils.getProperty("url") + main + "/" + StringUtils.encode(params) + (StringUtils.notEmpty(text) ? "/" + StringUtils.urlEscape(text) : "");
+		return main + "/" + StringUtils.encode(params) + (StringUtils.notEmpty(text) ? "/" + StringUtils.urlEscape(text) : "");
 	}
 
 	public static String writeLink(String alias, int id, String text, String title) {
@@ -103,9 +103,8 @@ public class HtmlUtils {
 		html.append("</tr></table></div>");
 		html.append("<div class='toolbar'>");
 		html.append("<table><tr>");
-System.out.println(url);
 		if (m != null && url != null && url.matches(".*\\/results.*"))
-			html.append("<td><input id='modify' type='button' class='button modify' onclick='location.href=\"" + h.get("url").replaceAll("results", "update") + "\";' value='" + ResourceUtils.getText("button.modify", lang) + "'/></td>");
+			html.append("<td><input id='modify' type='button' class='button modify' onclick='location.href=\"" + h.get("url").replaceAll("\\/results", "/update") + "\";' value='" + ResourceUtils.getText("button.modify", lang) + "'/></td>");
 		html.append("<td><input id='export' type='button' class='button export' onclick='displayExport();' value='" + ResourceUtils.getText("button.export", lang) + "'/></td>");
 		html.append("<td><input id='link' type='button' class='button link' onclick='displayLink();' value='" + ResourceUtils.getText("button.link", lang) + "'/></td>");
 		html.append("<td><input id='print' type='button' class='button print' onclick='javascript:printCurrentTab();' value='" + ResourceUtils.getText("button.print", lang) + "'/></td>");

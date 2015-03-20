@@ -62,7 +62,7 @@ public class ResultServlet extends AbstractServlet {
 				Event oEv = (Event) DatabaseHelper.loadEntity(Event.class, new Integer(String.valueOf(lFuncParams.get(3)).equals("0") ? String.valueOf(lFuncParams.get(2)) : String.valueOf(lFuncParams.get(3))));
 				StringBuffer html = new StringBuffer();
 				html.append(HtmlConverter.getHeader(HtmlConverter.HEADER_RESULTS, lFuncParams, getUser(request), getLocale(request)));
-				html.append(HtmlConverter.convertResults(DatabaseHelper.call("GetResults", lFuncParams), oCp, oEv, getLocale(request)));
+				html.append(HtmlConverter.convertResults(DatabaseHelper.call("GetResults", lFuncParams), oCp, oEv, getUser(request), getLocale(request)));
 				if (isLink) {
 					HtmlUtils.setTitle(request, html.toString());
 					if (hParams.containsKey("export"))

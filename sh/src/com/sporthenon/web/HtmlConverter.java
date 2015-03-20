@@ -850,7 +850,7 @@ public class HtmlConverter {
 		return html;
 	}
 
-	public static StringBuffer convertResults(Collection<Object> coll, Championship cp, Event ev, String lang) throws Exception {
+	public static StringBuffer convertResults(Collection<Object> coll, Championship cp, Event ev, Member m, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		// Evaluate columns
@@ -1101,7 +1101,7 @@ public class HtmlConverter {
 			// Write line
 			html.append("<tr>");
 			html.append(isComment ? "<td" + (StringUtils.notEmpty(commentTitle) ? " title='" + commentTitle + "' style='width:15px;background-color:" + commentColor + "';" : "") + ">" + (comment != null ? HtmlUtils.writeComment(bean.getRsId(), comment) : "") + "</td>" : "");
-			html.append("<td class='srt'>" + year + "</td>");
+			html.append("<td class='srt'>" + year + (m != null ? "&nbsp;<a href='" + HtmlUtils.writeURL("/update", "RS-" + bean.getRsId(), null) + "'><img alt='modify' title='" + ResourceUtils.getText("button.modify", lang) + "' src='/img/component/button/modify.png'/></a>" : "") + "</td>");
 			for (int i = 0 ; i < 9 ; i++)
 				html.append(tEntityHtml[i] != null ? tEntityHtml[i] : (entityCount > i ? "<td class='srt'" + (tColspan[i] > 1 ? " colspan='" + tColspan[i] + "'" : "") + ">" + StringUtils.EMPTY + "</td>" + (isScore && i == 0 ? "<td class='srt'>" + StringUtils.EMPTY + "</td>" : "") : ""));
 			html.append(isDraw ? "<td>" + (bean.getDrId() != null ? draw : "") + "</td>" : "");

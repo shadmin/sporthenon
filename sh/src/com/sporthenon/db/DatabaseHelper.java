@@ -40,6 +40,7 @@ import com.sporthenon.db.entity.meta.Member;
 import com.sporthenon.db.entity.meta.Metadata;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
+import com.sporthenon.utils.res.ResourceUtils;
 
 public class DatabaseHelper {
 
@@ -345,6 +346,152 @@ public class DatabaseHelper {
 			   (alias.equalsIgnoreCase(Type.alias) ? Type.class : 
 			   (alias.equalsIgnoreCase(WinLoss.alias) ? WinLoss.class : 
 			   (alias.equalsIgnoreCase(Year.alias) ? Year.class : null))))))))))))))))))));
+	}
+	
+	public static Integer insertEntity(int row, int n, int spid, String s, String date, Member m, StringBuffer processReport, String lang) throws Exception {
+		Integer id = null;
+		Object o = null;
+		String msg = null;
+		try {
+			if (n < 10) {
+				s = s.replaceAll("\\[", "(").replaceAll("\\]", ")");
+				if (!s.toLowerCase().matches(StringUtils.PATTERN_ATHLETE))
+					throw new Exception(ResourceUtils.getText("err.invalid.athlete", lang).replaceAll("#S#", s));
+				int p = s.indexOf(", ");
+				int p_ = (s.indexOf(" (") > -1  ? s.indexOf(" (") : s.length());
+				Athlete a = new Athlete();
+				a.setSport((Sport)loadEntity(Sport.class, spid));
+				a.setLastName(s.substring(0, p > -1 ? p : p_));
+				a.setFirstName(p > -1 && s.charAt(p + 2) != '(' ? s.substring(p + 2, p_) : "");
+				boolean isCountryTeam = s.toLowerCase().matches(".*\\([a-z]{3}\\,\\s.+\\)$");
+				boolean isCountry = s.toLowerCase().matches(".*\\([a-z]{3}\\)$");
+				boolean isTeam = (!isCountry && s.toLowerCase().matches(".*\\([^\\,\\(\\)]+\\)$")); 
+				if (isCountry || isCountryTeam) { // Country set
+					p = s.indexOf(" (") + 2;
+					String countryCode = s.substring(p, p + 3).toLowerCase();
+					Object o_ = loadEntityFromQuery("from Country cn where lower(cn.code) = '" + countryCode + "'");
+					if (o_ == null)
+						throw new Exception("Invalid Country: " + countryCode.toUpperCase());
+					a.setCountry((Country)o_);
+				}
+				if (isTeam || isCountryTeam) { // Team set
+					p = s.lastIndexOf(isCountryTeam ? ", " : " (") + 2;
+					String tm = s.substring(p, s.length() - 1);
+					if (StringUtils.notEmpty(date))
+						date = (StringUtils.notEmpty(date) && date.matches(".*\\d{4}$") ? date.substring(date.length() - 4) : null);
+					Object o_ = loadEntityFromQuery("from Team tm where sport.id=" + spid + " and lower(tm.label) = '" + tm.toLowerCase().replaceAll("'", "''") + "'" + (date != null ? " and '" + date + "' between year1 and (case year2 when null then '9999' when '' then '9999' else year2 end)" : ""));
+					if (o_ == null) {
+						Integer idTm = insertEntity(row, 50, spid, tm, null, m, processReport, lang);
+						o_ = loadEntity(Team.class, idTm);
+					}
+					a.setTeam((Team)o_);
+				}
+				o = a;
+				o = saveEntity(a, m);
+				msg = "New Athlete";
+			}
+			else if (n == 50) {
+				s = s.replaceAll("\\[", "(").replaceAll("\\]", ")");
+				if (!s.toLowerCase().matches(StringUtils.PATTERN_TEAM))
+					throw new Exception(ResourceUtils.getText("err.invalid.team", lang).replaceAll("#S#", s));
+				Team t = new Team();
+				t.setLabel(s);
+				t.setSport((Sport)loadEntity(Sport.class, spid));
+				if (s.matches(".*\\([A-Z]{3}\\)$")) {
+					int p = s.indexOf(" (") + 2;
+					String countryCode = s.substring(p, p + 3).toLowerCase();
+					Object o_ = loadEntityFromQuery("from Country cn where lower(cn.code) = '" + countryCode + "'");
+					if (o_ == null)
+						throw new Exception("Invalid Country: " + countryCode.toUpperCase());
+					t.setLabel(s.substring(0, p - 2));
+					t.setCountry((Country)o_);
+				}
+				o = t;
+				o = saveEntity(t, m);
+				msg = "New Team";
+			}
+		}
+		finally {
+			if (o != null) {
+				if (processReport != null)
+					processReport.append("Row " + (row + 1) + ": " + msg + " | " + o).append("\r\n");
+				id = Integer.valueOf(String.valueOf(o.getClass().getMethod("getId").invoke(o)));
+			}
+		}
+		return id;
+	}
+	
+	public static Integer insertPlace(int row, String s, Member m, StringBuffer processReport, String lang) throws Exception {
+		Integer id = null;
+		Object o = null;
+		String msg = null;
+		try {
+			if (!s.toLowerCase().matches(StringUtils.PATTERN_PLACE))
+				throw new Exception(ResourceUtils.getText("err.invalid.place", lang).replaceAll("#S#", s));
+			String[] t = s.split("\\,\\s");
+			String cx = null;
+			String ct = null;
+			String st = null;
+			String cn = t[t.length - 1];
+			if (t.length > 2 && t[t.length - 2].length() == 2)
+				st = t[t.length - 2];
+			if (t.length > (st != null ? 3 : 2)) {
+				cx = t[0];
+				ct = t[1];
+			}
+			else
+				ct = t[0];
+			City ct_ = null;
+			if (cx != null) { // Set City (for complex)
+				Object o_ = loadEntityFromQuery("from City ct where lower(ct.label) like '" + ct.toLowerCase().replaceAll("'", "''") + "' and lower(country.code) = '" + cn.toLowerCase() + "'");
+				if (o_ == null) {
+					Integer idCt = insertPlace(row, ct + (st != null ? ", " + st : "") + ", " + cn, m, processReport, lang);
+					o_ = loadEntity(City.class, idCt);
+				}
+				ct_ = (City)o_;
+			}
+			State st_ = null;
+			if (st != null) { // Set State
+				Object o_ = loadEntityFromQuery("from State st where lower(st.code) = '" + st.toLowerCase() + "'");
+				if (o_ == null)
+					throw new Exception("Invalid State: " + st.toUpperCase());
+				st_ = (State)o_;
+			}
+			Country cn_ = null;
+			if (cn != null) { // Set Country
+				Object o_ = loadEntityFromQuery("from Country cn where lower(cn.code) = '" + cn.toLowerCase() + "'");
+				if (o_ == null)
+					throw new Exception("Invalid Country: " + cn.toUpperCase());
+				cn_ = (Country)o_;
+			}
+			if (cx != null) {
+				Complex c = new Complex();
+				c.setLabel(cx);
+				c.setLabelFr(cx);
+				c.setCity(ct_);
+				o = c;
+				o = saveEntity(c, m);
+				msg = "New Complex";
+			}
+			else if (ct != null) {
+				City c = new City();
+				c.setLabel(ct);
+				c.setLabelFr(ct);
+				c.setState(st_);
+				c.setCountry(cn_);
+				o = c;
+				o = saveEntity(c, m);
+				msg = "New City";
+			}
+		}
+		finally {
+			if (o != null) {
+				if (processReport != null)
+					processReport.append("Row " + (row + 1) + ": " + msg + " | " + o).append("\r\n");
+				id = Integer.valueOf(String.valueOf(o.getClass().getMethod("getId").invoke(o)));
+			}
+		}
+		return id;
 	}
 
 }
