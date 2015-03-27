@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
 <%@ page import="com.sporthenon.db.entity.meta.News"%>
 <%@ page import="com.sporthenon.utils.StringUtils" %>
+<%@ page import="com.sporthenon.web.HtmlConverter"%>
 <%@ page import="com.sporthenon.web.servlet.IndexServlet"%>
-<%@ page import="java.util.List" %>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="home">
 <div class="homecontent">
@@ -27,7 +29,13 @@
 	<div class="fieldset">
 		<div class="fstitle lastupdates"><%=StringUtils.text("title.last.results", session)%></div>
 		<div class="fscontent"><div style="float:right;"><table id="ctupdates"><tr><td><%=StringUtils.text("show", session)%>&nbsp;:&nbsp;</td><td><input id="countupdt" type="text" maxlength="3" size="3" value="20" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"/></td><td><input id='lupdatesok' type='button' class='button export' onclick='refreshLastUpdates();' value='OK'/></td></tr></table></div>
-		<div id="dupdates"></div></div>
+		<div id="dupdates"><%
+			String lang = String.valueOf(session.getAttribute("locale"));
+        	ArrayList<Object> lParams = new ArrayList<Object>();
+        	lParams.add(new Integer(20));
+        	lParams.add("_" + lang);
+        	out.print(HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams), lang));
+		%></div></div>
 	</div>
 	<!-- STATISTICS -->
 	<div class="fieldset" style="width:300px;float:right;">
@@ -46,7 +54,6 @@
 		<div class="fstitle news"><%=StringUtils.text("title.news", session)%></div>
 		<div class="fscontent">
 		<%
-			String lang = String.valueOf(session.getAttribute("locale"));
 			boolean isMore = false;
 			int i = 0;
 			for (News n : (List<News>) DatabaseHelper.execute("from News order by id desc")) {

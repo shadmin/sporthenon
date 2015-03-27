@@ -2,7 +2,7 @@
 <%@ page import="com.sporthenon.utils.ConfigUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
-<form id="flogin" name="flogin" action="LoginServlet?auth" method="post">
+<form id="flogin" name="flogin" action="/LoginServlet?auth" method="post">
 <div id="logindiv">
 <%
 	String msg = (String) request.getAttribute("msg");

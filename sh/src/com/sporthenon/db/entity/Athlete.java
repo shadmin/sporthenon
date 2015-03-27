@@ -183,4 +183,8 @@ public class Athlete {
 		return lastName + ", " + firstName + (team != null ? ", " + team : "") + (country != null ? ", " + country : "") + (sport != null ? ", " + sport : "") + " [#" + id + "]";
 	}
 	
+	public String toString2() {
+		return lastName + ", " + firstName + (country != null ? " [" + country.getCode() + (team != null ? ", " + team.getLabel() : "") + "]" : "");
+	}
+	
 }

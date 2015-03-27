@@ -109,4 +109,8 @@ public class City {
 		return label + (country != null ? ", " + country : "") + " [#" + id + "]";
 	}
 	
+	public String toString2() {
+		return label + (state != null ? ", " + state.getCode() : "") + (country != null ? ", " + country.getCode() : "");
+	}
+
 }

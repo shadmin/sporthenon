@@ -59,7 +59,7 @@
 	<entry key="entity.CT.1">Ville</entry>
 	<entry key="entity.CX.1">Complexe</entry>
 	<entry key="entity.CN.1">Pays</entry>
-	<entry key="entity.EV.1">Epreuves</entry>
+	<entry key="entity.EV.1">Epreuve</entry>
 	<entry key="entity.HF.1">Hall of Fame</entry>
 	<entry key="entity.OL.1">Jeux Olympiques</entry>
 	<entry key="entity.OR.1">Médailles olympiques</entry>
@@ -77,7 +77,7 @@
 	<entry key="rank.2">2ème</entry>
 	<entry key="rank.3">3ème</entry>
 	<entry key="rank.4">4ème</entry>
-	<entry key="rank.5">5ère</entry>
+	<entry key="rank.5">5ème</entry>
 	<entry key="rank.6">6ème</entry>
 	<entry key="rank.7">7ème</entry>
 	<entry key="rank.8">8ème</entry>
@@ -145,7 +145,7 @@
 	<entry key="x.categories">catégories</entry>
 	<entry key="x.olympic.games">Jeux Olympiques</entry>
 	<entry key="x.scopes">types</entry>
-	<entry key="no.result">Aucun résultat trouvé pour ces critères.</entry>
+	<entry key="no.result">La recherche n'a renvoyé aucun résultat.</entry>
 	<entry key="win.records">RECORDS DE VICTOIRES</entry>
 	<entry key="search.results">Résultats de recherche</entry>
 	<entry key="draw">Tableau</entry>
@@ -182,6 +182,7 @@
 	<entry key="select">Sélectionner</entry>
 	<entry key="selection">Sélection</entry>
 	<entry key="today">Aujourd'hui</entry>
+	<entry key="yesterday">Hier</entry>
 	<entry key="more">Plus</entry>
 	<entry key="more.sports">Plus de sports</entry>
 	<entry key="draw.qf">Quart de finale</entry>
@@ -290,4 +291,14 @@
 	<entry key="err.invalid.athlete"><![CDATA[Format incorrect [#S#]: doit être "Nom, Prénom (CodePays, NomEquipe)"]]></entry>
 	<entry key="err.invalid.team"><![CDATA[Format incorrect [#S#]: doit être "NomEquipe (CodePays)"]]></entry>
 	<entry key="err.invalid.place"><![CDATA[Format incorrect [#S#]: doit être "NomComplexe, Ville, CodePays"]]></entry>
+	<entry key="create.modify.result">CRÉER/MODIFIER UN RÉSULTAT</entry>
+	<entry key="date.from">Du</entry>
+	<entry key="date.to">Au</entry>
+	<entry key="date.pattern">JJ/MM/AAAA</entry>
+	<entry key="venue.city">Lieu/Ville</entry>
+	<entry key="tie">Ex-aequo</entry>
+	<entry key="result.score">Résultat/Score</entry>
+	<entry key="save">Enregistrer</entry>
+	<entry key="result.created">Résultat créé.</entry>
+	<entry key="result.modified">Résultat enregistré.</entry>
 </properties>

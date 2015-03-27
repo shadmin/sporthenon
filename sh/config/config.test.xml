@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<entry key="env">test</entry><!-- Environment (standalone|local|prod) -->
-	<entry key="version">0.9.1-1</entry>
-	<entry key="url">http://www.sporthenon.com/test/</entry>
-	<entry key="img.url">http://92.243.3.85:81/</entry>
+	<entry key="env">test</entry><!-- Environment (standalone|local|test|prod) -->
+	<entry key="version">0.9.1-3</entry>
+	<entry key="url">http://test.sporthenon.com/</entry>
+	<entry key="url.s">https://stest.sporthenon.com/</entry>
+	<entry key="img.url">http://img.sporthenon.com/</entry>
 	<entry key="img.folder">/usr/share/glassfish3/glassfish/domains/domain1/docroot/img/</entry>
 </properties>

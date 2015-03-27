@@ -325,6 +325,28 @@ public class DatabaseHelper {
 		}
 	}
 	
+	public static String getEntityName(String alias, int id) {
+		String s = "";
+		UserTransaction tr = null;
+		try {
+			tr = getTransaction();
+			if (tr != null) tr.begin();
+			String hql = "select " + (alias.equals(Athlete.alias) ? "firstName || ' ' || lastName" : "label") + " from " + getClassFromAlias(alias).getName() + " where id=" + id;
+			Query query = getEntityManager().createQuery(hql);
+			s = String.valueOf(query.getSingleResult());
+			if (tr != null) tr.commit();
+		}
+		catch (Exception e) {
+			try {
+				if (tr != null)
+					tr.rollback();	
+			}
+			catch (Exception e_) {}
+			Logger.getLogger("sh").error(e.getMessage(), e);
+		}
+		return s;
+	}
+	
 	public static Class getClassFromAlias(String alias) {
 		return (alias.equalsIgnoreCase(Championship.alias) ? Championship.class :
 			   (alias.equalsIgnoreCase(City.alias) ? City.class :

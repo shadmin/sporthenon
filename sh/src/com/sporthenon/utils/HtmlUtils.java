@@ -10,8 +10,11 @@ import java.util.LinkedList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Country;
+import com.sporthenon.db.entity.Draw;
+import com.sporthenon.db.entity.Olympics;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.meta.Member;
 import com.sporthenon.db.entity.meta.RefItem;
@@ -58,12 +61,23 @@ public class HtmlUtils {
 	
 	public static String writeURL(String main, String params, String text) {
 		params = params.replaceAll("\\,\\s", "-").replaceAll("[\\[\\]]", "").replaceAll("\\-\\_(en|fr)$", "");
-		return main + "/" + StringUtils.encode(params) + (StringUtils.notEmpty(text) ? "/" + StringUtils.urlEscape(text) : "");
+		return main + (StringUtils.notEmpty(text) ? "/" + StringUtils.urlEscape(text) : "") + "/" + StringUtils.encode(params);
 	}
 
-	public static String writeLink(String alias, int id, String text, String title) {
+	public static String writeLink(String alias, int id, String text) {
 		StringBuffer html = new StringBuffer();
-		html.append("<a href='/details/" + StringUtils.encode(alias + "-" + id) + "/" + StringUtils.urlEscape(text) + "'" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + ">" + (text != null ? text.replaceAll("\\s", SPACE) : "") + "</a>");
+		StringBuffer url = new StringBuffer();
+		String name = (alias.matches(Olympics.alias + "|" + Draw.alias) ? text : DatabaseHelper.getEntityName(alias, id));
+		url.append("/" + ResourceUtils.getText("entity." + alias, "en").replaceAll("\\s", "").toLowerCase());
+		url.append("/" + StringUtils.urlEscape(name));
+		url.append("/" + StringUtils.encode(alias + "-" + id));
+		if (text != null) {
+			html.append("<a href='").append(url).append("'");
+			html.append(" title=\"" + name + "\"");
+			html.append(">" + text.replaceAll("\\s", SPACE) + "</a>");	
+		}
+		else
+			html.append(ConfigUtils.getProperty("url") + url.toString().substring(1));
 		return html.toString();
 	}
 
@@ -89,9 +103,9 @@ public class HtmlUtils {
 		StringBuffer html = new StringBuffer();
 		html.append("<span class='title'>" + h.get("title") + "</span>");
 		String url = null;
-		if (h.containsKey("url")) {
-			url = h.get("url");
-			html.append("<span class='url'>" + h.get("url") + "</span>");
+		if (h.containsKey("url") && StringUtils.notEmpty(h.get("url"))) {
+			url = h.get("url").substring(1);
+			html.append("<span class='url'>" + ConfigUtils.getProperty("url") + url + "</span>");
 		}
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
 		html.append("<div class='header'><table><tr><td style='font-weight:bold;'>" + h.get("item0") + "</td>");
@@ -158,7 +172,7 @@ public class HtmlUtils {
 		int i = 0;
 		for (WinRecordsBean bean : c) {
 			max = (max == -1 ? bean.getCountWin() : max);
-			html.append("<tr" + (++i > 5 ? " class='hidden'" : "") + "><td class='caption'>" + writeLink(bean.getEntityType() < 10 ? Athlete.alias : (bean.getEntityType() == 50 ? Team.alias : Country.alias), bean.getEntityId(), bean.getEntityStr(), null) + "</td>");
+			html.append("<tr" + (++i > 5 ? " class='hidden'" : "") + "><td class='caption'>" + writeLink(bean.getEntityType() < 10 ? Athlete.alias : (bean.getEntityType() == 50 ? Team.alias : Country.alias), bean.getEntityId(), bean.getEntityStr()) + "</td>");
 			html.append("<td><table><tr><td class='bar1'>&nbsp;</td>");
 			html.append("<td class='bar2' style='width:" + (int)((bean.getCountWin() * 100) / max) + "px;'>&nbsp;</td>");
 			html.append("<td class='bar3'>&nbsp;</td></tr></table></td>");

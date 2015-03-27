@@ -72,15 +72,15 @@ public class HtmlConverter {
 		String s = null;
 		if (rank != null && rank > 0) {
 			if (type < 10)
-				s = HtmlUtils.writeLink(Athlete.alias, rank, StringUtils.toFullName(str1, str2), null);
+				s = HtmlUtils.writeLink(Athlete.alias, rank, StringUtils.toFullName(str1, str2));
 			else if (type == 50) {
 				String img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, rank, ImageUtils.SIZE_SMALL, year, null);
-				s = HtmlUtils.writeLink(Team.alias, rank, str2, null);
+				s = HtmlUtils.writeLink(Team.alias, rank, str2);
 				s = HtmlUtils.writeImgTable(img, s);
 			}
 			else if (type == 99) {
 				String img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, rank, ImageUtils.SIZE_SMALL, year, null);
-				s = HtmlUtils.writeLink(Country.alias, rank, str2, null);
+				s = HtmlUtils.writeLink(Country.alias, rank, str2);
 				s = HtmlUtils.writeImgTable(img, s);
 			}
 		}
@@ -92,14 +92,14 @@ public class HtmlConverter {
 		String tmpImg = null;
 		if (rel2Id != null && rel2Id > 0) {
 			tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, rel2Id, ImageUtils.SIZE_SMALL, year, null);
-			String s = HtmlUtils.writeLink(Country.alias, rel2Id, rel2Code, rel2Label);
+			String s = HtmlUtils.writeLink(Country.alias, rel2Id, rel2Code);
 			html.append("<td>").append(HtmlUtils.writeImgTable(tmpImg, s)).append("</td>");
 		}
 		else if (isRel2)
 			html.append("<td>" + StringUtils.EMPTY + "</td>");
 		if (rel1Id != null && rel1Id > 0) {
 			tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, rel1Id, ImageUtils.SIZE_SMALL, year, null);
-			String s = HtmlUtils.writeLink(Team.alias, rel1Id, rel1Label, null);
+			String s = HtmlUtils.writeLink(Team.alias, rel1Id, rel1Label);
 			String s_ = HtmlUtils.writeImgTable(tmpImg, s);
 			if (!s_.matches(".*\\<img.*"))
 				s_ = "<table><tr><td>" + s_ + "</td></tr></table>";
@@ -122,16 +122,16 @@ public class HtmlConverter {
 			Event se2 = (Event) DatabaseHelper.loadEntity(Event.class, lstParams.get(4));
 			ArrayList<String> lstYears = DatabaseHelper.loadLabels(Year.class, String.valueOf(lstParams.get(5)), lang);
 			hHeader.put("title", sp.getLabel(lang) + "&nbsp;-&nbsp;" + cp.getLabel(lang) + (ev != null ? "&nbsp;-&nbsp;" + ev.getLabel(lang) + (se != null ? "&nbsp;-&nbsp;" + se.getLabel(lang) : "") + (se2 != null ? "&nbsp;-&nbsp;" + se2.getLabel(lang) : "") : ""));
-			hHeader.put("url", HtmlUtils.writeURL("/results", lstParams.toString(), sp.getLabel(lang) + "-" + cp.getLabel(lang) + "-" + ev.getLabel(lang)));
+			hHeader.put("url", HtmlUtils.writeURL("/results", lstParams.toString(), hHeader.get("title")));
 			hHeader.put("item0", "<table><tr><td><img alt='Results' src='/img/menu/dbresults.png'/></td><td>&nbsp;<a href='results'>" + ResourceUtils.getText("menu.results", lang) + "</a></td></tr></table>");
-			hHeader.put("item1", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_SMALL, null, sp.getLabel(lang)), HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel(lang), null)));
-			hHeader.put("item2", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, cp.getId(), ImageUtils.SIZE_SMALL, null, cp.getLabel(lang)), HtmlUtils.writeLink(Championship.alias, cp.getId(), cp.getLabel(lang), null)));
+			hHeader.put("item1", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_SMALL, null, sp.getLabel(lang)), HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel(lang))));
+			hHeader.put("item2", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, cp.getId(), ImageUtils.SIZE_SMALL, null, cp.getLabel(lang)), HtmlUtils.writeLink(Championship.alias, cp.getId(), cp.getLabel(lang))));
 			if (ev != null)
-				hHeader.put("item3", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_EVENT, ev.getId(), ImageUtils.SIZE_SMALL, null, ev.getLabel(lang)), HtmlUtils.writeLink(Event.alias, ev.getId(), ev.getLabel(lang), null)));
+				hHeader.put("item3", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_EVENT, ev.getId(), ImageUtils.SIZE_SMALL, null, ev.getLabel(lang)), HtmlUtils.writeLink(Event.alias, ev.getId(), ev.getLabel(lang))));
 			if (se != null)
-				hHeader.put("item4", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_EVENT, se.getId(), ImageUtils.SIZE_SMALL, null, se.getLabel(lang)), HtmlUtils.writeLink(Event.alias, se.getId(), se.getLabel(lang), null)));
+				hHeader.put("item4", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_EVENT, se.getId(), ImageUtils.SIZE_SMALL, null, se.getLabel(lang)), HtmlUtils.writeLink(Event.alias, se.getId(), se.getLabel(lang))));
 			if (se2 != null)
-				hHeader.put("item5", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_EVENT, se2.getId(), ImageUtils.SIZE_SMALL, null, se2.getLabel(lang)), HtmlUtils.writeLink(Event.alias, se2.getId(), se2.getLabel(lang), null)));
+				hHeader.put("item5", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_EVENT, se2.getId(), ImageUtils.SIZE_SMALL, null, se2.getLabel(lang)), HtmlUtils.writeLink(Event.alias, se2.getId(), se2.getLabel(lang))));
 			hHeader.put("years", (lstYears.isEmpty() ? "" : (lstYears.size() == 1 ? "(" + lstYears.get(0) + ")" : HtmlUtils.writeTip(Year.alias, lstYears))));
 		}
 		else if (type == HEADER_OLYMPICS_INDIVIDUAL) {
@@ -142,12 +142,11 @@ public class HtmlConverter {
 			ArrayList<String> lstEvents = DatabaseHelper.loadLabels(Event.class, String.valueOf(lstParams.get(2)), lang);
 			ArrayList<String> lstSubevents = DatabaseHelper.loadLabels(Event.class, String.valueOf(lstParams.get(3)), lang);
 			hHeader.put("title", ResourceUtils.getText("entity.OL", lang) + "&nbsp;-&nbsp;" + sp.getLabel(lang) + (ev != null ? "&nbsp;-&nbsp;" + ev.getLabel(lang) : ""));
-			hHeader.put("title", ResourceUtils.getText("menu.olympics", lang));
-			hHeader.put("url", HtmlUtils.writeURL("/olympics", "ind, " + lstParams.toString(), "event/"));
+			hHeader.put("url", HtmlUtils.writeURL("/olympics", "ind, " + lstParams.toString(), hHeader.get("title")));
 			hHeader.put("item0", "<table><tr><td><img alt='Olympics' src='/img/menu/dbolympics.png'/></td><td>&nbsp;<a href='olympics'>" + ResourceUtils.getText("menu.olympics", lang) + "</a></td></tr></table>");
 			hHeader.put("item1", ResourceUtils.getText("event.results", lang));
-			hHeader.put("item2", (lstOlympics.isEmpty() ? ResourceUtils.getText("all.olympic.games", lang) : (lstOlympics.size() == 1 ? HtmlUtils.writeLink(Olympics.alias, Integer.valueOf(olId), lstOlympics.get(0), null) : HtmlUtils.writeTip(Olympics.alias, lstOlympics) + " " + ResourceUtils.getText("x.olympic.games", lang))));
-			hHeader.put("item3", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_SMALL, null, sp.getLabel(lang)), HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel(lang), null)));
+			hHeader.put("item2", (lstOlympics.isEmpty() ? ResourceUtils.getText("all.olympic.games", lang) : (lstOlympics.size() == 1 ? HtmlUtils.writeLink(Olympics.alias, Integer.valueOf(olId), lstOlympics.get(0)) : HtmlUtils.writeTip(Olympics.alias, lstOlympics) + " " + ResourceUtils.getText("x.olympic.games", lang))));
+			hHeader.put("item3", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_SMALL, null, sp.getLabel(lang)), HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel(lang))));
 			hHeader.put("item4", (lstEvents.isEmpty() ? ResourceUtils.getText("all.events", lang) : (lstEvents.size() == 1 ? lstEvents.get(0) : HtmlUtils.writeTip(Event.alias, lstEvents) + " " + ResourceUtils.getText("x.events", lang))));
 			if (!lstSubevents.isEmpty())
 				hHeader.put("item5", (lstSubevents.isEmpty() ? ResourceUtils.getText("all.events", lang) : (lstSubevents.size() == 1 ? lstSubevents.get(0) : HtmlUtils.writeTip(Event.alias, lstSubevents) + " " + ResourceUtils.getText("x.events", lang))));
@@ -157,13 +156,12 @@ public class HtmlConverter {
 			String cnId = String.valueOf(lstParams.get(1));
 			ArrayList<String> lstOlympics = DatabaseHelper.loadLabelsFromQuery("select concat(concat(ol.year.label, ' - '), ol.city.label) from Olympics ol where ol.id in (" + olId + ")");
 			ArrayList<String> lstCountries = DatabaseHelper.loadLabels(Country.class, cnId, lang);
-			hHeader.put("title", ResourceUtils.getText("entity.OL", lang) + "&nbsp;-&nbsp;Medals&nbsp;Table");
-			hHeader.put("title", ResourceUtils.getText("menu.olympics", lang));
-			hHeader.put("url", HtmlUtils.writeURL("/olympics", "cnt, " + lstParams.toString(), "table/"));
+			hHeader.put("title", ResourceUtils.getText("entity.OL", lang) + "&nbsp;-&nbsp;" + ResourceUtils.getText("medals.tables", lang));
+			hHeader.put("url", HtmlUtils.writeURL("/olympics", "cnt, " + lstParams.toString(), hHeader.get("title")));
 			hHeader.put("item0", "<table><tr><td><img alt='Olympics' src='/img/menu/dbolympics.png'/></td><td>&nbsp;<a href='olympics'>" + ResourceUtils.getText("menu.olympics", lang) + "</a></td></tr></table>");
 			hHeader.put("item1", ResourceUtils.getText("medals.tables", lang));
-			hHeader.put("item2", (lstOlympics.isEmpty() ? ResourceUtils.getText("all.olympic.games", lang) : (lstOlympics.size() == 1 ? HtmlUtils.writeLink(Olympics.alias, Integer.valueOf(olId), lstOlympics.get(0), null) : HtmlUtils.writeTip(Olympics.alias, lstOlympics) + " " + ResourceUtils.getText("x.olympic.games", lang))));
-			hHeader.put("item3", (lstCountries.isEmpty() ? ResourceUtils.getText("all.countries", lang) : (lstCountries.size() == 1 ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, Integer.valueOf(cnId), ImageUtils.SIZE_SMALL, null, lstCountries.get(0)), HtmlUtils.writeLink(Country.alias, Integer.valueOf(cnId), lstCountries.get(0), null)) : HtmlUtils.writeTip(Country.alias, lstCountries) + " " + ResourceUtils.getText("x.countries", lang))));
+			hHeader.put("item2", (lstOlympics.isEmpty() ? ResourceUtils.getText("all.olympic.games", lang) : (lstOlympics.size() == 1 ? HtmlUtils.writeLink(Olympics.alias, Integer.valueOf(olId), lstOlympics.get(0)) : HtmlUtils.writeTip(Olympics.alias, lstOlympics) + " " + ResourceUtils.getText("x.olympic.games", lang))));
+			hHeader.put("item3", (lstCountries.isEmpty() ? ResourceUtils.getText("all.countries", lang) : (lstCountries.size() == 1 ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, Integer.valueOf(cnId), ImageUtils.SIZE_SMALL, null, lstCountries.get(0)), HtmlUtils.writeLink(Country.alias, Integer.valueOf(cnId), lstCountries.get(0))) : HtmlUtils.writeTip(Country.alias, lstCountries) + " " + ResourceUtils.getText("x.countries", lang))));
 		}
 		else if (type == HEADER_US_LEAGUES_RETNUM || type == HEADER_US_LEAGUES_CHAMPIONSHIP || type == HEADER_US_LEAGUES_HOF || type == HEADER_US_LEAGUES_RECORD || type == HEADER_US_LEAGUES_TEAMSTADIUM || type == HEADER_US_LEAGUES_WINLOSS) {
 			String league = String.valueOf(lstParams.get(0));
@@ -173,35 +171,35 @@ public class HtmlConverter {
 			hHeader.put("title", ResourceUtils.getText("menu.usleagues", lang));
 			hHeader.put("title", leagueLabel + "&nbsp;-&nbsp;" + typeLabel);
 			hHeader.put("item0", "<table><tr><td><img alt='US leagues' src='/img/menu/dbusleagues.png'/></td><td>&nbsp;<a href='usleagues'>" + ResourceUtils.getText("menu.usleagues", lang) + "</a></td></tr></table>");
-			hHeader.put("item1", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, cpId, ImageUtils.SIZE_SMALL, null, leagueLabel), HtmlUtils.writeLink(Championship.alias, cpId, leagueLabel, null)));
+			hHeader.put("item1", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, cpId, ImageUtils.SIZE_SMALL, null, leagueLabel), HtmlUtils.writeLink(Championship.alias, cpId, leagueLabel)));
 			hHeader.put("item2", typeLabel);
 			if (type == HEADER_US_LEAGUES_RETNUM) {
-				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_RETNUM + ", " + lstParams.toString(), "retnum/"));
+				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_RETNUM + ", " + lstParams.toString(), hHeader.get("title")));
 				ArrayList<String> lstTeams = DatabaseHelper.loadLabels(Team.class, String.valueOf(lstParams.get(1)), lang);
 				hHeader.put("item3", (lstTeams.isEmpty() ? ResourceUtils.getText("all.teams", lang) : (lstTeams.size() == 1 ? lstTeams.get(0) : HtmlUtils.writeTip(Team.alias, lstTeams) + " " + ResourceUtils.getText("x.teams", lang))));
 			}
 			else if (type == HEADER_US_LEAGUES_TEAMSTADIUM) {
-				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_TEAMSTADIUM + ", " + lstParams.toString(), "stadium/"));
+				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_TEAMSTADIUM + ", " + lstParams.toString(), hHeader.get("title")));
 				ArrayList<String> lstTeams = DatabaseHelper.loadLabels(Team.class, String.valueOf(lstParams.get(1)), lang);
 				hHeader.put("item3", (lstTeams.isEmpty() ? ResourceUtils.getText("all.teams", lang) : (lstTeams.size() == 1 ? lstTeams.get(0) : HtmlUtils.writeTip(Team.alias, lstTeams) + " " + ResourceUtils.getText("x.teams", lang))));
 			}
 			else if (type == HEADER_US_LEAGUES_WINLOSS) {
-				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_WINLOSS + ", " + lstParams.toString(), "wl/"));
+				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_WINLOSS + ", " + lstParams.toString(), hHeader.get("title")));
 				ArrayList<String> lstTeams = DatabaseHelper.loadLabels(Team.class, String.valueOf(lstParams.get(1)), lang);
 				hHeader.put("item3", (lstTeams.isEmpty() ? ResourceUtils.getText("all.teams", lang) : (lstTeams.size() == 1 ? lstTeams.get(0) : HtmlUtils.writeTip(Team.alias, lstTeams) + " " + ResourceUtils.getText("x.teams", lang))));
 			}
 			else if (type == HEADER_US_LEAGUES_HOF) {
-				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_HOF + ", " + lstParams.toString(), "hof/"));
+				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_HOF + ", " + lstParams.toString(), hHeader.get("title")));
 				ArrayList<String> lstYears = DatabaseHelper.loadLabels(Year.class, String.valueOf(lstParams.get(1)), lang);
 				hHeader.put("item3", (lstYears.isEmpty() ? ResourceUtils.getText("all.years", lang) : (lstYears.size() == 1 ? lstYears.get(0) : HtmlUtils.writeTip(Year.alias, lstYears) + " " + ResourceUtils.getText("x.years", lang))));
 			}
 			else if (type == HEADER_US_LEAGUES_CHAMPIONSHIP) {
-				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_CHAMPIONSHIP + ", " + lstParams.toString(), "champ/"));
+				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_CHAMPIONSHIP + ", " + lstParams.toString(), hHeader.get("title")));
 				ArrayList<String> lstYears = DatabaseHelper.loadLabels(Year.class, String.valueOf(lstParams.get(2)), lang);
 				hHeader.put("item3", (lstYears.isEmpty() ? ResourceUtils.getText("all.years", lang) : (lstYears.size() == 1 ? lstYears.get(0) : HtmlUtils.writeTip(Year.alias, lstYears) + " " + ResourceUtils.getText("x.years", lang))));
 			}
 			else if (type == HEADER_US_LEAGUES_RECORD) {
-				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_RECORD + ", " + lstParams.toString(), "record/"));
+				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_RECORD + ", " + lstParams.toString(), hHeader.get("title")));
 				ArrayList<String> lstCategories = DatabaseHelper.loadLabels(Event.class, String.valueOf(lstParams.get(3)), lang);
 				String scope = String.valueOf(lstParams.get(4));
 				String scope2 = String.valueOf(lstParams.get(5));
@@ -265,7 +263,7 @@ public class HtmlConverter {
 				}
 				if (a.getTeam() != null) {
 					if (!vTm.contains(a.getTeam().getId())) {
-						String s = HtmlUtils.writeLink(Team.alias, a.getTeam().getId(), a.getTeam().getLabel(), null);
+						String s = HtmlUtils.writeLink(Team.alias, a.getTeam().getId(), a.getTeam().getLabel());
 						s = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, a.getTeam().getId(), ImageUtils.SIZE_SMALL, null, null), s);
 						if (StringUtils.notEmpty(sbTm.toString()))
 							s = s.replaceAll("\\<table\\>", "<table style='margin-top:2px;'>");
@@ -275,7 +273,7 @@ public class HtmlConverter {
 				}
 				if (a.getCountry() != null) {
 					if (!vCn.contains(a.getCountry().getId())) {
-						String s = HtmlUtils.writeLink(Country.alias, a.getCountry().getId(), a.getCountry().getLabel(lang), null);
+						String s = HtmlUtils.writeLink(Country.alias, a.getCountry().getId(), a.getCountry().getLabel(lang));
 						s = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, a.getCountry().getId(), ImageUtils.SIZE_SMALL, null, null), s);
 						if (StringUtils.notEmpty(sbCn.toString()))
 							s = s.replaceAll("\\<table\\>", "<table style='margin-top:2px;'>");
@@ -285,7 +283,7 @@ public class HtmlConverter {
 				}
 				if (a.getSport() != null) {
 					if (!vSp.contains(a.getSport().getId())) {
-						String s = HtmlUtils.writeLink(Sport.alias, a.getSport().getId(), a.getSport().getLabel(lang), null);
+						String s = HtmlUtils.writeLink(Sport.alias, a.getSport().getId(), a.getSport().getLabel(lang));
 						s = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, a.getSport().getId(), ImageUtils.SIZE_SMALL, null, null), s);
 						if (StringUtils.notEmpty(sbSp.toString()))
 							s = s.replaceAll("\\<table\\>", "<table style='margin-top:2px;'>");
@@ -332,11 +330,11 @@ public class HtmlConverter {
 			String st = null;
 			String cn = null;
 			if (e.getState() != null) {
-				st = HtmlUtils.writeLink(State.alias, e.getState().getId(), e.getState().getLabel(lang), null);
+				st = HtmlUtils.writeLink(State.alias, e.getState().getId(), e.getState().getLabel(lang));
 				st = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_STATE, e.getState().getId(), ImageUtils.SIZE_SMALL, null, null), st);
 			}
 			if (e.getCountry() != null) {
-				cn = HtmlUtils.writeLink(Country.alias, e.getCountry().getId(), e.getCountry().getLabel(lang), null);
+				cn = HtmlUtils.writeLink(Country.alias, e.getCountry().getId(), e.getCountry().getLabel(lang));
 				cn = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, e.getCountry().getId(), ImageUtils.SIZE_SMALL, null, null), cn);
 			}
 			hInfo.put("title", e.getLabel(lang) + (e.getCountry() != null ? ", " + e.getCountry().getCode() : ""));
@@ -350,16 +348,16 @@ public class HtmlConverter {
 			String st = null;
 			String cn = null;
 			if (e.getCity().getState() != null) {
-				st = HtmlUtils.writeLink(State.alias, e.getCity().getState().getId(), e.getCity().getState().getLabel(lang), null);
+				st = HtmlUtils.writeLink(State.alias, e.getCity().getState().getId(), e.getCity().getState().getLabel(lang));
 				st = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_STATE, e.getCity().getState().getId(), ImageUtils.SIZE_SMALL, null, null), st);
 			}
 			if (e.getCity().getCountry() != null) {
-				cn = HtmlUtils.writeLink(Country.alias, e.getCity().getCountry().getId(), e.getCity().getCountry().getLabel(lang), null);
+				cn = HtmlUtils.writeLink(Country.alias, e.getCity().getCountry().getId(), e.getCity().getCountry().getLabel(lang));
 				cn = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, e.getCity().getCountry().getId(), ImageUtils.SIZE_SMALL, null, null), cn);
 			}
 			hInfo.put("title", e.getLabel(lang));
 			hInfo.put("name", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
-			hInfo.put("city", HtmlUtils.writeLink(City.alias, e.getCity().getId(), e.getCity().getLabel(lang), null));
+			hInfo.put("city", HtmlUtils.writeLink(City.alias, e.getCity().getId(), e.getCity().getLabel(lang)));
 			hInfo.put("state", (st != null ? st : StringUtils.EMPTY));
 			hInfo.put("country", (cn != null ? cn : StringUtils.EMPTY));
 			hInfo.put("extlinks", HtmlUtils.writeExternalLinks(e));
@@ -464,17 +462,17 @@ public class HtmlConverter {
 			String st = null;
 			String cn = null;
 			if (e.getCity().getState() != null) {
-				st = HtmlUtils.writeLink(State.alias, e.getCity().getState().getId(), e.getCity().getState().getLabel(lang), null);
+				st = HtmlUtils.writeLink(State.alias, e.getCity().getState().getId(), e.getCity().getState().getLabel(lang));
 				st = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_STATE, e.getCity().getState().getId(), ImageUtils.SIZE_SMALL, null, null), st);
 			}
 			if (e.getCity().getCountry() != null) {
-				cn = HtmlUtils.writeLink(Country.alias, e.getCity().getCountry().getId(), e.getCity().getCountry().getLabel(lang), null);
+				cn = HtmlUtils.writeLink(Country.alias, e.getCity().getCountry().getId(), e.getCity().getCountry().getLabel(lang));
 				cn = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, e.getCity().getCountry().getId(), ImageUtils.SIZE_SMALL, null, null), cn);
 			}
 			hInfo.put("title", e.getCity().getLabel(lang) + "&nbsp;" + e.getYear().getLabel());
 			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_OLYMPICS, e.getId(), ImageUtils.SIZE_LARGE, null, null));
-			hInfo.put("year", HtmlUtils.writeLink(Year.alias, e.getYear().getId(), e.getYear().getLabel(), null));
-			hInfo.put("city", HtmlUtils.writeLink(City.alias, e.getCity().getId(), e.getCity().getLabel(lang), null));
+			hInfo.put("year", HtmlUtils.writeLink(Year.alias, e.getYear().getId(), e.getYear().getLabel()));
+			hInfo.put("city", HtmlUtils.writeLink(City.alias, e.getCity().getId(), e.getCity().getLabel(lang)));
 			hInfo.put("country", (cn != null ? cn : StringUtils.EMPTY));
 			hInfo.put("start.date", e.getDate1());
 			hInfo.put("end.date", e.getDate2());
@@ -527,18 +525,18 @@ public class HtmlConverter {
 			StringBuffer sbTm = new StringBuffer();
 			for (Team t : lTeam) {
 				lId.add(t.getId());
-				sbTm.append((t.getInactive() != null && t.getInactive() ? "&dagger;&nbsp;" : "") + (t.getId() == currentId ? "<b>" : "") + HtmlUtils.writeLink(Team.alias, t.getId(), t.getLabel(), null) + " (" + t.getYear1() + "&nbsp;-&nbsp;" + (StringUtils.notEmpty(t.getYear2()) ? t.getYear2() : ResourceUtils.getText("today", lang)) + ")" + (t.getId() == currentId ? "</b>" : "") + "<br/>");				
+				sbTm.append((t.getInactive() != null && t.getInactive() ? "&dagger;&nbsp;" : "") + (t.getId() == currentId ? "<b>" : "") + HtmlUtils.writeLink(Team.alias, t.getId(), t.getLabel()) + " (" + t.getYear1() + "&nbsp;-&nbsp;" + (StringUtils.notEmpty(t.getYear2()) ? t.getYear2() : ResourceUtils.getText("today", lang)) + ")" + (t.getId() == currentId ? "</b>" : "") + "<br/>");				
 			}
 			
 			String tm = sbTm.toString();
 			String cn = null;
 			if (e.getCountry() != null) {
-				cn = HtmlUtils.writeLink(Country.alias, e.getCountry().getId(), e.getCountry().getLabel(lang), null);
+				cn = HtmlUtils.writeLink(Country.alias, e.getCountry().getId(), e.getCountry().getLabel(lang));
 				cn = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, e.getCountry().getId(), ImageUtils.SIZE_SMALL, null, null), cn);
 			}
 			String sp = null;
 			if (e.getSport() != null) {
-				sp = HtmlUtils.writeLink(Sport.alias, e.getSport().getId(), e.getSport().getLabel(lang), null);
+				sp = HtmlUtils.writeLink(Sport.alias, e.getSport().getId(), e.getSport().getLabel(lang));
 				sp = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, e.getSport().getId(), ImageUtils.SIZE_SMALL, null, null), sp);
 			}
 			hInfo.put("title", e.getLabel());
@@ -584,8 +582,7 @@ public class HtmlConverter {
 			hInfo.put("title", e.getLabel());
 			hInfo.put("name", e.getLabel());
 		}
-//		hInfo.put("title", ResourceUtils.getText("entity." + type + ".1", lang) + " #" + id);
-		hInfo.put("url", HtmlUtils.writeURL("/details", type + ", " + id, hInfo.get("title")));
+		hInfo.put("url", HtmlUtils.writeLink(type, id, null));
 		return HtmlUtils.writeInfoHeader(hInfo, lang);
 	}
 
@@ -682,24 +679,24 @@ public class HtmlConverter {
 			hLeague.put("NHL", 55);
 			hLeague.put("MLB", 56);
 			if (en.equals(Athlete.alias)) {
-				c1 = HtmlUtils.writeLink(Athlete.alias, item.getIdItem(), item.getLabel(), null);
-				c2 = HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2(), null);
-				c3 = (item.getIdRel1() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, item.getIdRel1(), item.getLabelRel1(), null)) : StringUtils.EMPTY);
+				c1 = HtmlUtils.writeLink(Athlete.alias, item.getIdItem(), item.getLabel());
+				c2 = HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2());
+				c3 = (item.getIdRel1() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, item.getIdRel1(), item.getLabelRel1())) : StringUtils.EMPTY);
 			}
 			else if (en.equals(City.alias)) {
-				c1 = HtmlUtils.writeLink(City.alias, item.getIdItem(), item.getLabel(), null);
-				c2 = (item.getIdRel1() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, item.getIdRel1(), item.getLabelRel1(), null)) : StringUtils.EMPTY);
+				c1 = HtmlUtils.writeLink(City.alias, item.getIdItem(), item.getLabel());
+				c2 = (item.getIdRel1() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, item.getIdRel1(), item.getLabelRel1())) : StringUtils.EMPTY);
 			}
 			else if (en.equals(Complex.alias)) {
-				c1 = HtmlUtils.writeLink(Complex.alias, item.getIdItem(), item.getLabel(), null);
-				c2 = HtmlUtils.writeLink(City.alias, item.getIdRel1(), item.getLabelRel1(), null);
-				c3 = (item.getIdRel2() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel2(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, item.getIdRel2(), item.getLabelRel2(), null)) : StringUtils.EMPTY);
+				c1 = HtmlUtils.writeLink(Complex.alias, item.getIdItem(), item.getLabel());
+				c2 = HtmlUtils.writeLink(City.alias, item.getIdRel1(), item.getLabelRel1());
+				c3 = (item.getIdRel2() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel2(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, item.getIdRel2(), item.getLabelRel2())) : StringUtils.EMPTY);
 			}
 			else if (en.equals(HallOfFame.alias)) {
 				int l = hLeague.get(item.getComment());
-				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, l, ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Championship.alias, l, item.getComment(), null));
-				c2 = HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1(), null);
-				c3 = HtmlUtils.writeLink(Athlete.alias, item.getIdRel2(), StringUtils.getShortName(item.getLabelRel2()), null);
+				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, l, ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Championship.alias, l, item.getComment()));
+				c2 = HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1());
+				c3 = HtmlUtils.writeLink(Athlete.alias, item.getIdRel2(), StringUtils.getShortName(item.getLabelRel2()));
 				c4 = "-";
 				if (StringUtils.notEmpty(item.getTxt1())) {
 					StringBuffer sbPos = new StringBuffer();
@@ -709,37 +706,37 @@ public class HtmlConverter {
 				}
 			}
 			else if (en.equals(Olympics.alias)) {
-				c1 = HtmlUtils.writeLink(Olympics.alias, item.getIdItem(), HtmlUtils.writeImage(ImageUtils.INDEX_OLYMPICS, item.getIdItem(), ImageUtils.SIZE_SMALL, null, null), null);
+				c1 = HtmlUtils.writeLink(Olympics.alias, item.getIdItem(), HtmlUtils.writeImage(ImageUtils.INDEX_OLYMPICS, item.getIdItem(), ImageUtils.SIZE_SMALL, null, null));
 				c2 = ResourceUtils.getText("olympic.games", lang) + " (" + (item.getComment().equals("0") ? ResourceUtils.getText("summer", lang) : ResourceUtils.getText("winter", lang)) + ")";
-				c3 = HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1(), null);
-				c4 = HtmlUtils.writeLink(City.alias, item.getIdRel2(), item.getLabelRel2(), null);
-				c5 = (item.getIdRel4() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel4(), ImageUtils.SIZE_SMALL, item.getLabelRel1(), null), HtmlUtils.writeLink(Country.alias, item.getIdRel4(), item.getLabelRel4(), null)) : StringUtils.EMPTY);
+				c3 = HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1());
+				c4 = HtmlUtils.writeLink(City.alias, item.getIdRel2(), item.getLabelRel2());
+				c5 = (item.getIdRel4() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel4(), ImageUtils.SIZE_SMALL, item.getLabelRel1(), null), HtmlUtils.writeLink(Country.alias, item.getIdRel4(), item.getLabelRel4())) : StringUtils.EMPTY);
 			}
 			else if (en.equals(OlympicRanking.alias)) {
 				String[] t = item.getComment().split(",");
-				c1 = HtmlUtils.writeLink(Year.alias, item.getIdRel2(), item.getLabelRel2(), null) + "&nbsp;" + HtmlUtils.writeLink(City.alias, item.getIdRel3(), item.getLabelRel3(), null);
-				c2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel4(), ImageUtils.SIZE_SMALL, item.getLabelRel2(), null), HtmlUtils.writeLink(Country.alias, item.getIdRel4(), item.getLabelRel4(), null));
+				c1 = HtmlUtils.writeLink(Year.alias, item.getIdRel2(), item.getLabelRel2()) + "&nbsp;" + HtmlUtils.writeLink(City.alias, item.getIdRel3(), item.getLabelRel3());
+				c2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel4(), ImageUtils.SIZE_SMALL, item.getLabelRel2(), null), HtmlUtils.writeLink(Country.alias, item.getIdRel4(), item.getLabelRel4()));
 				c3 = t[0];
 				c4 = t[1];
 				c5 = t[2];
 			}
 			else if (en.equals(Record.alias)) {
-				c1 = HtmlUtils.writeLink(Sport.alias, item.getIdRel1(), item.getLabelRel1(), null);
-				c2 = (item.getIdRel2() != null ? HtmlUtils.writeLink(Championship.alias, item.getIdRel2(), item.getLabelRel2(), null) + " - " + HtmlUtils.writeLink(Event.alias, item.getIdRel3(), item.getLabelRel3() + (item.getIdRel4() != null ? " - " + HtmlUtils.writeLink(Event.alias, item.getIdRel4(), item.getLabelRel4(), null) : ""), null) : StringUtils.EMPTY);
+				c1 = HtmlUtils.writeLink(Sport.alias, item.getIdRel1(), item.getLabelRel1());
+				c2 = (item.getIdRel2() != null ? HtmlUtils.writeLink(Championship.alias, item.getIdRel2(), item.getLabelRel2()) + " - " + HtmlUtils.writeLink(Event.alias, item.getIdRel3(), item.getLabelRel3() + (item.getIdRel4() != null ? " - " + HtmlUtils.writeLink(Event.alias, item.getIdRel4(), item.getLabelRel4()) : "")) : StringUtils.EMPTY);
 				c3 = (item.getTxt1() != null ? item.getTxt1() + " - " + item.getTxt2() : StringUtils.EMPTY);
 				c4 = item.getLabel();
 				c5 = (item.getComment() != null ? ResourceUtils.getText("rank." + (item.getComment().equals("1") ? "rec." : "") + item.getComment(), lang) : null);
 			}
 			else if (en.equals(Result.alias)) {
-				c1 = HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2(), null);
-				c2 = HtmlUtils.writeLink(Result.alias, item.getIdItem(), item.getLabelRel3() + "&nbsp;-&nbsp;" + item.getLabelRel4() + (item.getIdRel5() != null ? "&nbsp;-&nbsp;" + item.getLabelRel5() : "") + (item.getIdRel18() != null ? "&nbsp;-&nbsp;" + item.getLabelRel18() : ""), null);
-				c3 = HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1(), null);
+				c1 = HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2());
+				c2 = "<a href='" + HtmlUtils.writeURL("/results", item.getIdRel2() + "-" + item.getIdRel3() + "-" + item.getIdRel4() + (item.getIdRel5() != null ? "-" + item.getIdRel5() : "") + (item.getIdRel18() != null ? "-" + item.getIdRel18() : ""), item.getLabelRel2() + "/" + item.getLabelRel3() + "/" + item.getLabelRel4() + (item.getIdRel5() != null ? "/" + item.getLabelRel5() : "") + (item.getIdRel18() != null ? "/" + item.getLabelRel18() : "")) + "'>" + (item.getLabelRel3() + "&nbsp;-&nbsp;" + item.getLabelRel4() + (item.getIdRel5() != null ? "&nbsp;-&nbsp;" + item.getLabelRel5() : "") + (item.getIdRel18() != null ? "&nbsp;-&nbsp;" + item.getLabelRel18() : "")) + "</a>";
+				c3 = HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1());
 				if (item.getIdRel6() != null && item.getTxt2() != null && item.getTxt2().matches("(qf|sf|th)(1|2|3|4|d)")) { // Draw
 					String s = item.getLabelRel6().toLowerCase();
 					String alias = (s.matches(StringUtils.PATTERN_COUNTRY) ? Country.alias : (s.matches(StringUtils.PATTERN_ATHLETE) ? Athlete.alias : Team.alias));
 					String[] tEntity = new String[2];
-					tEntity[0] = (item.getIdRel6() != null ? HtmlUtils.writeLink(alias, item.getIdRel6(), StringUtils.getShortName(item.getLabelRel6()), null) : null);
-					tEntity[1] = (item.getIdRel7() != null ? HtmlUtils.writeLink(alias, item.getIdRel7(), StringUtils.getShortName(item.getLabelRel7()), null) : null);
+					tEntity[0] = (item.getIdRel6() != null ? HtmlUtils.writeLink(alias, item.getIdRel6(), StringUtils.getShortName(item.getLabelRel6())) : null);
+					tEntity[1] = (item.getIdRel7() != null ? HtmlUtils.writeLink(alias, item.getIdRel7(), StringUtils.getShortName(item.getLabelRel7())) : null);
 					short index = (alias.equals(Athlete.alias) || alias.equals(Country.alias) ? ImageUtils.INDEX_COUNTRY : ImageUtils.INDEX_TEAM);
 					tEntity[0] = (tEntity[0] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel12() != null ? item.getIdRel12() : item.getIdRel6(), ImageUtils.SIZE_SMALL, item.getLabelRel1(), null), tEntity[0]) : null);
 					tEntity[1] = (tEntity[1] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel13() != null ? item.getIdRel13() : item.getIdRel7(), ImageUtils.SIZE_SMALL, item.getLabelRel1(), null), tEntity[1]) : null);
@@ -748,16 +745,15 @@ public class HtmlConverter {
 					c4 = sb.append("</tr></table>").toString();
 				}
 				else if (item.getIdRel6() != null && item.getLabelRel6() != null) { // Result
-					String s = item.getLabelRel6().toLowerCase();
-					String alias = (s.matches(StringUtils.PATTERN_COUNTRY) ? Country.alias : (s.matches(StringUtils.PATTERN_ATHLETE) ? Athlete.alias : Team.alias));
+					String alias = item.getComment();
 					boolean isMedal = String.valueOf(item.getIdRel3()).matches("1|3|4");
 					String[] tEntity = new String[6];
-					tEntity[0] = (item.getIdRel6() != null ? HtmlUtils.writeLink(alias, item.getIdRel6(), StringUtils.getShortName(item.getLabelRel6()), null) : null);
-					tEntity[1] = (item.getIdRel7() != null ? HtmlUtils.writeLink(alias, item.getIdRel7(), StringUtils.getShortName(item.getLabelRel7()), null) : null);
-					tEntity[2] = (item.getIdRel8() != null ? HtmlUtils.writeLink(alias, item.getIdRel8(), StringUtils.getShortName(item.getLabelRel8()), null) : null);
-					tEntity[3] = (item.getIdRel9() != null ? HtmlUtils.writeLink(alias, item.getIdRel9(), StringUtils.getShortName(item.getLabelRel9()), null) : null);
-					tEntity[4] = (item.getIdRel10() != null ? HtmlUtils.writeLink(alias, item.getIdRel10(), StringUtils.getShortName(item.getLabelRel10()), null) : null);
-					tEntity[5] = (item.getIdRel11() != null ? HtmlUtils.writeLink(alias, item.getIdRel11(), StringUtils.getShortName(item.getLabelRel11()), null) : null);
+					tEntity[0] = (item.getIdRel6() != null ? HtmlUtils.writeLink(alias, item.getIdRel6(), StringUtils.getShortName(item.getLabelRel6())) : null);
+					tEntity[1] = (item.getIdRel7() != null ? HtmlUtils.writeLink(alias, item.getIdRel7(), StringUtils.getShortName(item.getLabelRel7())) : null);
+					tEntity[2] = (item.getIdRel8() != null ? HtmlUtils.writeLink(alias, item.getIdRel8(), StringUtils.getShortName(item.getLabelRel8())) : null);
+					tEntity[3] = (item.getIdRel9() != null ? HtmlUtils.writeLink(alias, item.getIdRel9(), StringUtils.getShortName(item.getLabelRel9())) : null);
+					tEntity[4] = (item.getIdRel10() != null ? HtmlUtils.writeLink(alias, item.getIdRel10(), StringUtils.getShortName(item.getLabelRel10())) : null);
+					tEntity[5] = (item.getIdRel11() != null ? HtmlUtils.writeLink(alias, item.getIdRel11(), StringUtils.getShortName(item.getLabelRel11())) : null);
 					short index = (alias.equals(Athlete.alias) || alias.equals(Country.alias) ? ImageUtils.INDEX_COUNTRY : ImageUtils.INDEX_TEAM);
 					tEntity[0] = (tEntity[0] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel12() != null ? item.getIdRel12() : item.getIdRel6(), ImageUtils.SIZE_SMALL, item.getLabelRel1(), null), tEntity[0]) : null);
 					tEntity[1] = (tEntity[1] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel13() != null ? item.getIdRel13() : item.getIdRel7(), ImageUtils.SIZE_SMALL, item.getLabelRel1(), null), tEntity[1]) : null);
@@ -807,30 +803,30 @@ public class HtmlConverter {
 			}
 			else if (en.equals(RetiredNumber.alias)) {
 				int l = hLeague.get(item.getComment());
-				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, l, ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Championship.alias, l, item.getComment(), null));
-				c2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, item.getIdRel1(), item.getLabelRel1(), null));
-				c3 = HtmlUtils.writeLink(Athlete.alias, item.getIdRel2(), StringUtils.getShortName(item.getLabelRel2()), null);
+				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, l, ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Championship.alias, l, item.getComment()));
+				c2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, item.getIdRel1(), item.getLabelRel1()));
+				c3 = HtmlUtils.writeLink(Athlete.alias, item.getIdRel2(), StringUtils.getShortName(item.getLabelRel2()));
 				c4 = String.valueOf(item.getIdRel3());
 			}
 			else if (en.equals(Team.alias)) {
-				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, item.getIdItem(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, item.getIdItem(), item.getLabel(), null));
-				c2 = (item.getIdRel1() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, item.getIdRel1(), item.getLabelRel1(), null)) : StringUtils.EMPTY);
-				c3 = HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2(), null);
+				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, item.getIdItem(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, item.getIdItem(), item.getLabel()));
+				c2 = (item.getIdRel1() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, item.getIdRel1(), item.getLabelRel1())) : StringUtils.EMPTY);
+				c3 = HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2());
 			}
 			else if (en.equals(TeamStadium.alias)) {
 				int l = hLeague.get(item.getComment());
-				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, l, ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Championship.alias, l, item.getComment(), null));
-				c2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, item.getIdRel1(), item.getLabelRel1(), null));
-				c3 = HtmlUtils.writeLink(Complex.alias, item.getIdRel2(), item.getLabelRel2(), null);
-				c4 = HtmlUtils.writeLink(City.alias, item.getIdRel3(), item.getLabelRel3(), null);
-				c5 = (item.getIdRel4() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_STATE, item.getIdRel4(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(State.alias, item.getIdRel4(), item.getLabelRel4(), null)) : StringUtils.EMPTY);
-				c6 = (item.getIdRel5() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel5(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, item.getIdRel5(), item.getLabelRel5(), null)) : StringUtils.EMPTY);
+				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, l, ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Championship.alias, l, item.getComment()));
+				c2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, item.getIdRel1(), item.getLabelRel1()));
+				c3 = HtmlUtils.writeLink(Complex.alias, item.getIdRel2(), item.getLabelRel2());
+				c4 = HtmlUtils.writeLink(City.alias, item.getIdRel3(), item.getLabelRel3());
+				c5 = (item.getIdRel4() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_STATE, item.getIdRel4(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(State.alias, item.getIdRel4(), item.getLabelRel4())) : StringUtils.EMPTY);
+				c6 = (item.getIdRel5() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel5(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, item.getIdRel5(), item.getLabelRel5())) : StringUtils.EMPTY);
 				c7 = item.getTxt1() + "&nbsp;-&nbsp;" + (StringUtils.notEmpty(item.getTxt2()) && !item.getTxt2().equals("0") ? item.getTxt2() : ResourceUtils.getText("today", lang));
 			}
 			else if (en.equals(WinLoss.alias)) {
 				int l = hLeague.get(item.getComment());
-				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, l, ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Championship.alias, l, item.getComment(), null));
-				c2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, item.getIdRel1(), item.getLabelRel1(), null));
+				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, l, ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Championship.alias, l, item.getComment()));
+				c2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, item.getIdRel1(), item.getLabelRel1()));
 				c3 = item.getTxt1();
 				c4 = item.getTxt2();
 			}
@@ -939,21 +935,21 @@ public class HtmlConverter {
 			lIds.add(String.valueOf(bean.getRsId()));
 
 			// Evaluate bean
-			String draw = "<table><tr><td><img alt='' src='/img/render/draw.gif?3' title='" + ResourceUtils.getText("draw", lang) + "'/></td><td style='padding-left:3px;'>" + HtmlUtils.writeLink(Draw.alias, bean.getRsId(), ResourceUtils.getText("draw", lang) + " " + bean.getYrLabel(), null) + "</td></tr></table>";
-			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
-			String dates = (StringUtils.notEmpty(bean.getRsDate1()) ? StringUtils.toTextDate(bean.getRsDate1(), lang, "d MMM yyyy") + "&nbsp;&rarr;&nbsp;" : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? StringUtils.toTextDate(bean.getRsDate2(), lang, "d MMM yyyy") : "");
+			String draw = "<table><tr><td><img alt='' src='/img/render/draw.gif?3' title='" + ResourceUtils.getText("draw", lang) + "'/></td><td style='padding-left:3px;'>" + HtmlUtils.writeLink(Draw.alias, bean.getRsId(), ResourceUtils.getText("draw", lang) + " " + bean.getYrLabel()) + "</td></tr></table>";
+			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel());
+			String dates = (StringUtils.notEmpty(bean.getRsDate1()) ? StringUtils.toTextDate(bean.getRsDate1(), lang, "d MMMM yyyy") + "&nbsp;&rarr;&nbsp;" : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? StringUtils.toTextDate(bean.getRsDate2(), lang, "d MMMM yyyy") : "");
 			String place1 = null, place2 = null;
 			String comment = (StringUtils.notEmpty(bean.getRsComment()) ? bean.getRsComment().replaceAll("\\|", "<br/>") : null);
 			if (bean.getCx1Id() != null) {
 				String img1 = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), bean.getCn1Label());
 				String img2 = null;
-				place1 = HtmlUtils.writeLink(Complex.alias, bean.getCx1Id(), bean.getCx1Label(), null);
-				place1 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(City.alias, bean.getCt1Id(), bean.getCt1Label(), null);
+				place1 = HtmlUtils.writeLink(Complex.alias, bean.getCx1Id(), bean.getCx1Label());
+				place1 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(City.alias, bean.getCt1Id(), bean.getCt1Label());
 				if (bean.getSt1Id() != null) {
-					place1 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(State.alias, bean.getSt1Id(), bean.getSt1Code(), bean.getSt1Label());
+					place1 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(State.alias, bean.getSt1Id(), bean.getSt1Code());
 					img2 = HtmlUtils.writeImage(ImageUtils.INDEX_STATE, bean.getSt1Id(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), bean.getSt1Label());
 				}
-				place1 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Code(), bean.getCn1Label()); 
+				place1 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Code()); 
 				if (img2 != null)
 					place1 = HtmlUtils.writeImgTable(img2, place1);
 				place1 = HtmlUtils.writeImgTable(img1, place1);
@@ -961,12 +957,12 @@ public class HtmlConverter {
 			else if (bean.getCt2Id() != null) {
 				String img1 = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn2Id(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), bean.getCn2Label());
 				String img2 = null;
-				place1 = HtmlUtils.writeLink(City.alias, bean.getCt2Id(), bean.getCt2Label(), null);
+				place1 = HtmlUtils.writeLink(City.alias, bean.getCt2Id(), bean.getCt2Label());
 				if (bean.getSt2Id() != null) {
-					place1 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(State.alias, bean.getSt2Id(), bean.getSt2Code(), bean.getSt2Label());
+					place1 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(State.alias, bean.getSt2Id(), bean.getSt2Code());
 					img2 = HtmlUtils.writeImage(ImageUtils.INDEX_STATE, bean.getSt2Id(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), bean.getSt2Label());
 				}
-				place1 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(Country.alias, bean.getCn2Id(), bean.getCn2Code(), bean.getCn2Label());
+				place1 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(Country.alias, bean.getCn2Id(), bean.getCn2Code());
 				if (img2 != null)
 					place1 = HtmlUtils.writeImgTable(img2, place1);
 				place1 = HtmlUtils.writeImgTable(img1, place1);
@@ -974,13 +970,13 @@ public class HtmlConverter {
 			if (bean.getCx2Id() != null) {
 				String img1 = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn3Id(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), bean.getCn3Label());
 				String img2 = null;
-				place2 = HtmlUtils.writeLink(Complex.alias, bean.getCx2Id(), bean.getCx2Label(), null);
-				place2 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(City.alias, bean.getCt3Id(), bean.getCt3Label(), null);
+				place2 = HtmlUtils.writeLink(Complex.alias, bean.getCx2Id(), bean.getCx2Label());
+				place2 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(City.alias, bean.getCt3Id(), bean.getCt3Label());
 				if (bean.getSt3Id() != null) {
-					place2 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(State.alias, bean.getSt3Id(), bean.getSt3Code(), bean.getSt3Label());
+					place2 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(State.alias, bean.getSt3Id(), bean.getSt3Code());
 					img2 = HtmlUtils.writeImage(ImageUtils.INDEX_STATE, bean.getSt3Id(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), bean.getSt3Label());
 				}
-				place2 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(Country.alias, bean.getCn3Id(), bean.getCn3Code(), bean.getCn3Label()); 
+				place2 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(Country.alias, bean.getCn3Id(), bean.getCn3Code()); 
 				if (img2 != null)
 					place2 = HtmlUtils.writeImgTable(img2, 	place2);
 				place2 = HtmlUtils.writeImgTable(img1, 	place2);
@@ -988,12 +984,12 @@ public class HtmlConverter {
 			else if (bean.getCt4Id() != null) {
 				String img1 = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn4Id(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), bean.getCn4Label());
 				String img2 = null;
-				place2 = HtmlUtils.writeLink(City.alias, bean.getCt4Id(), bean.getCt4Label(), null);
+				place2 = HtmlUtils.writeLink(City.alias, bean.getCt4Id(), bean.getCt4Label());
 				if (bean.getSt4Id() != null) {
-					place2 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(State.alias, bean.getSt4Id(), bean.getSt4Code(), bean.getSt4Label());
+					place2 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(State.alias, bean.getSt4Id(), bean.getSt4Code());
 					img2 = HtmlUtils.writeImage(ImageUtils.INDEX_STATE, bean.getSt4Id(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), bean.getSt4Label());
 				}
-				place2 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(Country.alias, bean.getCn4Id(), bean.getCn4Code(), bean.getCn4Label());
+				place2 += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(Country.alias, bean.getCn4Id(), bean.getCn4Code());
 				if (img2 != null)
 					place2 = HtmlUtils.writeImgTable(img2, 	place2);
 				place2 = HtmlUtils.writeImgTable(img1, 	place2);
@@ -1204,7 +1200,7 @@ public class HtmlConverter {
 				int p2 = p1 + pattern.length();
 				name = name.substring(0, p1) + "<b>" + name.substring(p1, p2) + "</b>" + name.substring(p2);
 			}
-			name = HtmlUtils.writeLink(item.getEntity(), item.getIdItem(), name, null);
+			name = HtmlUtils.writeLink(item.getEntity(), item.getIdItem(), name);
 			if (item.getEntity().matches("CP|EV|CN|OL|SP|ST|TM")) {
 				img = HtmlUtils.writeImage(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_SMALL, null, null);
 				name = HtmlUtils.writeImgTable(img, name);
@@ -1223,19 +1219,19 @@ public class HtmlConverter {
 					StringBuffer sbRel3 = new StringBuffer();
 					for (Athlete a : (List<Athlete>) DatabaseHelper.execute("from Athlete where id = " + item.getIdItem() + " or link = " + item.getIdItem() + " order by id")) {
 						if (a.getCountry() != null && !lRel1Id.contains(a.getCountry().getId())) {
-							link = HtmlUtils.writeLink(Country.alias, a.getCountry().getId(), a.getCountry().getLabel(lang) + " (" + a.getCountry().getCode() + ")", null);
+							link = HtmlUtils.writeLink(Country.alias, a.getCountry().getId(), a.getCountry().getLabel(lang) + " (" + a.getCountry().getCode() + ")");
 							img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, a.getCountry().getId(), ImageUtils.SIZE_SMALL, null, null);
 							sbRel1.append(HtmlUtils.writeImgTable(img, link));
 							lRel1Id.add(a.getCountry().getId());
 						}
 						if (a.getSport() != null && !lRel2Id.contains(a.getSport().getId())) {
-							link = HtmlUtils.writeLink(Sport.alias, a.getSport().getId(), a.getSport().getLabel(lang), null);
+							link = HtmlUtils.writeLink(Sport.alias, a.getSport().getId(), a.getSport().getLabel(lang));
 							img = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, a.getSport().getId(), ImageUtils.SIZE_SMALL, null, null);
 							sbRel2.append(HtmlUtils.writeImgTable(img, link));
 							lRel2Id.add(a.getSport().getId());
 						}
 						if (a.getTeam() != null && !lRel3Id.contains(a.getTeam().getId())) {
-							link = HtmlUtils.writeLink(Team.alias, a.getTeam().getId(), a.getTeam().getLabel(), null);
+							link = HtmlUtils.writeLink(Team.alias, a.getTeam().getId(), a.getTeam().getLabel());
 							img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, a.getTeam().getId(), ImageUtils.SIZE_SMALL, null, null);
 							sbRel3.append(HtmlUtils.writeImgTable(img, link));
 							lRel3Id.add(a.getTeam().getId());
@@ -1247,17 +1243,17 @@ public class HtmlConverter {
 				}
 				else {
 					if (item.getIdRel1() != null && !en.matches("TM")) {
-						link = HtmlUtils.writeLink(Country.alias, item.getIdRel1(), item.getLabelRel1(), null);
+						link = HtmlUtils.writeLink(Country.alias, item.getIdRel1(), item.getLabelRel1());
 						img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null);
 						rel1 = HtmlUtils.writeImgTable(img, link);
 					}
 					if (item.getIdRel2() != null) {
-						link = HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2(), null);
+						link = HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2());
 						img = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, item.getIdRel2(), ImageUtils.SIZE_SMALL, null, null);
 						rel2 = HtmlUtils.writeImgTable(img, link);
 					}
 					if (item.getIdRel3() != null && !en.matches("PR|TM")) {
-						link = HtmlUtils.writeLink(Team.alias, item.getIdRel3(), item.getLabelRel3(), null);
+						link = HtmlUtils.writeLink(Team.alias, item.getIdRel3(), item.getLabelRel3());
 						img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, item.getIdRel3(), ImageUtils.SIZE_SMALL, null, null);
 						rel3 = HtmlUtils.writeImgTable(img, link);
 					}
@@ -1265,11 +1261,11 @@ public class HtmlConverter {
 			}
 			else if (en.matches("CX|CT")) {
 				if (item.getIdRel1() != null && en.matches("CX")) {
-					link = HtmlUtils.writeLink(City.alias, item.getIdRel1(), item.getLabelRel1(), null);
+					link = HtmlUtils.writeLink(City.alias, item.getIdRel1(), item.getLabelRel1());
 					rel1 = link;
 				}
 				if (item.getIdRel3() != null) {
-					link = HtmlUtils.writeLink(Country.alias, item.getIdRel3(), item.getLabelRel3(), null);
+					link = HtmlUtils.writeLink(Country.alias, item.getIdRel3(), item.getLabelRel3());
 					img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel3(), ImageUtils.SIZE_SMALL, null, null);
 					rel3 = HtmlUtils.writeImgTable(img, link);
 				}
@@ -1319,7 +1315,7 @@ public class HtmlConverter {
 			boolean isIndividual_ = ((bean.getTp2Number() != null ? bean.getTp2Number() : bean.getTp1Number()) <= 10);
 			if (!bean.getYrId().equals(currentOlympics)) {
 				tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id() != null ? bean.getCn1Id() : bean.getCn2Id(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
-				olympics = HtmlUtils.writeLink(Olympics.alias, bean.getOlId(), bean.getYrLabel() + "&nbsp;" + bean.getOlCity(), null);
+				olympics = HtmlUtils.writeLink(Olympics.alias, bean.getOlId(), bean.getYrLabel() + "&nbsp;" + bean.getOlCity());
 				olympics = HtmlUtils.writeImgTable(tmpImg, olympics);
 				currentOlympics = bean.getYrId();
 			}
@@ -1331,35 +1327,35 @@ public class HtmlConverter {
 			String venue = null;
 			if (bean.getRsRank1() != null) {
 				if (isIndividual_) {
-					entity1 = HtmlUtils.writeLink(Athlete.alias, bean.getRsRank1(), StringUtils.toFullName(bean.getPr1LastName(), bean.getPr1FirstName()), null);
+					entity1 = HtmlUtils.writeLink(Athlete.alias, bean.getRsRank1(), StringUtils.toFullName(bean.getPr1LastName(), bean.getPr1FirstName()));
 					entityCn1 = getResultsEntityRel(null, null, null, bean.getPr1CnId(), bean.getPr1CnCode(), bean.getPr1CnLabel(), false, false, bean.getYrLabel());
 				}
 				else
-					entity1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank1(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null), HtmlUtils.writeLink(Country.alias, bean.getRsRank1(), bean.getCn1Code(), null));
+					entity1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank1(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null), HtmlUtils.writeLink(Country.alias, bean.getRsRank1(), bean.getCn1Code()));
 			}
 			if (bean.getRsRank2() != null) {
 				if (isIndividual_) {
-					entity2 = HtmlUtils.writeLink(Athlete.alias, bean.getRsRank2(), StringUtils.toFullName(bean.getPr2LastName(), bean.getPr2FirstName()), null);
+					entity2 = HtmlUtils.writeLink(Athlete.alias, bean.getRsRank2(), StringUtils.toFullName(bean.getPr2LastName(), bean.getPr2FirstName()));
 					entityCn2 = getResultsEntityRel(null, null, null, bean.getPr2CnId(), bean.getPr2CnCode(), bean.getPr2CnLabel(), false, false, bean.getYrLabel());
 				}
 				else
-					entity2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank2(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null), HtmlUtils.writeLink(Country.alias, bean.getRsRank2(), bean.getCn2Code(), null));
+					entity2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank2(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null), HtmlUtils.writeLink(Country.alias, bean.getRsRank2(), bean.getCn2Code()));
 			}
 			if (bean.getRsRank3() != null) {
 				if (isIndividual_) {
-					entity3 = HtmlUtils.writeLink(Athlete.alias, bean.getRsRank3(), StringUtils.toFullName(bean.getPr3LastName(), bean.getPr3FirstName()), null);
+					entity3 = HtmlUtils.writeLink(Athlete.alias, bean.getRsRank3(), StringUtils.toFullName(bean.getPr3LastName(), bean.getPr3FirstName()));
 					entityCn3 = getResultsEntityRel(null, null, null, bean.getPr3CnId(), bean.getPr3CnCode(), bean.getPr3CnLabel(), false, false ,bean.getYrLabel());
 				}
 				else
-					entity3 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank3(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null), HtmlUtils.writeLink(Country.alias, bean.getRsRank3(), bean.getCn3Code(), null));
+					entity3 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank3(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null), HtmlUtils.writeLink(Country.alias, bean.getRsRank3(), bean.getCn3Code()));
 			}
 			if (bean.getCxId() != null) {
 				tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, null, null);				
-				venue = HtmlUtils.writeLink(Complex.alias, bean.getCxId(), bean.getCxLabel(), null);
-				venue += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(City.alias, bean.getCt1Id(), bean.getCt1Label(), null);
+				venue = HtmlUtils.writeLink(Complex.alias, bean.getCxId(), bean.getCxLabel());
+				venue += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(City.alias, bean.getCt1Id(), bean.getCt1Label());
 				if (bean.getSt1Id() != null)
-					venue += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(State.alias, bean.getSt1Id(), bean.getSt1Code(), bean.getSt1Label());
-				venue += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Code_(), bean.getCn1Label_()); 
+					venue += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(State.alias, bean.getSt1Id(), bean.getSt1Code());
+				venue += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Code_()); 
 				venue = HtmlUtils.writeImgTable(tmpImg, venue);
 			}
 
@@ -1390,13 +1386,13 @@ public class HtmlConverter {
 			OlympicRankingsBean bean = (OlympicRankingsBean) obj;
 			if (!bean.getYrId().equals(currentOlympics)) {
 				tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn2Id(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
-				olympics = HtmlUtils.writeLink(Olympics.alias, bean.getOlId(), bean.getYrLabel() + "&nbsp;" + bean.getCtLabel(), null);
+				olympics = HtmlUtils.writeLink(Olympics.alias, bean.getOlId(), bean.getYrLabel() + "&nbsp;" + bean.getCtLabel());
 				olympics = HtmlUtils.writeImgTable(tmpImg, olympics);
 				currentOlympics = bean.getYrId();
 			}
 
 			// Evaluate bean
-			String country = HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Label(), null);
+			String country = HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Label());
 			tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
 			country = HtmlUtils.writeImgTable(tmpImg, country);
 
@@ -1420,8 +1416,8 @@ public class HtmlConverter {
 			HallOfFameBean bean = (HallOfFameBean) obj;
 
 			// Evaluate bean
-			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
-			String name = HtmlUtils.writeLink(Athlete.alias, bean.getPrId(), StringUtils.toFullName(bean.getPrLastName(), bean.getPrFirstName()), null);
+			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel());
+			String name = HtmlUtils.writeLink(Athlete.alias, bean.getPrId(), StringUtils.toFullName(bean.getPrLastName(), bean.getPrFirstName()));
 			String position = "-";
 			if (StringUtils.notEmpty(bean.getHfPosition())) {
 				StringBuffer sbPos = new StringBuffer();
@@ -1448,11 +1444,11 @@ public class HtmlConverter {
 
 			// Evaluate bean
 			String teamImg = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTmId(), ImageUtils.SIZE_SMALL, null, null);
-			String team = HtmlUtils.writeLink(Team.alias, bean.getTmId(), bean.getTmLabel(), null);
+			String team = HtmlUtils.writeLink(Team.alias, bean.getTmId(), bean.getTmLabel());
 			team = HtmlUtils.writeImgTable(teamImg, team);
-			String name = HtmlUtils.writeLink(Athlete.alias, bean.getPrId(), StringUtils.toFullName(bean.getPrLastName(), bean.getPrFirstName()), null);
+			String name = HtmlUtils.writeLink(Athlete.alias, bean.getPrId(), StringUtils.toFullName(bean.getPrLastName(), bean.getPrFirstName()));
 			String number = String.valueOf(bean.getRnNumber());
-			String year = (bean.getYrId() != null ? HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null) : "-");
+			String year = (bean.getYrId() != null ? HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel()) : "-");
 			
 			// Write line
 			html.append("<tr><td class='srt'>" + team + "</td><td class='srt' width='50'>" + number + "</td><td class='srt'><b>" + name + "</b></td><td class='srt'>" + year + "</td></tr>");
@@ -1472,14 +1468,14 @@ public class HtmlConverter {
 
 			// Evaluate bean
 			String teamImg = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTmId(), ImageUtils.SIZE_SMALL, bean.getTsDate1(), null);
-			String team = HtmlUtils.writeLink(Team.alias, bean.getTmId(), bean.getTmLabel(), null);
+			String team = HtmlUtils.writeLink(Team.alias, bean.getTmId(), bean.getTmLabel());
 			team = HtmlUtils.writeImgTable(teamImg, team);
 			String tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCnId(), ImageUtils.SIZE_SMALL, bean.getTsDate1(), null);
-			String complex = HtmlUtils.writeLink(Complex.alias, bean.getCxId(), bean.getCxLabel(), null);
-			String city = HtmlUtils.SPACE + HtmlUtils.writeLink(City.alias, bean.getCtId(), bean.getCtLabel(), null);
+			String complex = HtmlUtils.writeLink(Complex.alias, bean.getCxId(), bean.getCxLabel());
+			String city = HtmlUtils.SPACE + HtmlUtils.writeLink(City.alias, bean.getCtId(), bean.getCtLabel());
 			if (bean.getStId() != null)
-				city += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(State.alias, bean.getStId(), bean.getStCode(), bean.getStLabel());
-			city += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(Country.alias, bean.getCnId(), bean.getCnCode(), bean.getStLabel()); 
+				city += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(State.alias, bean.getStId(), bean.getStCode());
+			city += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(Country.alias, bean.getCnId(), bean.getCnCode()); 
 			city = HtmlUtils.writeImgTable(tmpImg, city);	
 			String years = bean.getTsDate1() + "&nbsp;&rarr;&nbsp;" + (!bean.getTsDate2().equals("0") ? bean.getTsDate2() : ResourceUtils.getText("today", lang));
 
@@ -1514,24 +1510,24 @@ public class HtmlConverter {
 			String runnerup = null;
 			if (bean.getRsRank1() != null) {
 				String championImg = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsRank1(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
-				champion = HtmlUtils.writeLink(Team.alias, bean.getRsRank1(), bean.getRsTeam1(), null);
+				champion = HtmlUtils.writeLink(Team.alias, bean.getRsRank1(), bean.getRsTeam1());
 				champion = HtmlUtils.writeImgTable(championImg, champion);	
 			}
 			if (bean.getRsRank2() != null) {
 				String runnerupImg = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsRank2(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
-				runnerup = HtmlUtils.writeLink(Team.alias, bean.getRsRank2(), bean.getRsTeam2(), null);
+				runnerup = HtmlUtils.writeLink(Team.alias, bean.getRsRank2(), bean.getRsTeam2());
 				runnerup = HtmlUtils.writeImgTable(runnerupImg, runnerup);
 			}
-			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
+			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel());
 			String date = (StringUtils.notEmpty(bean.getRsDate1()) ? StringUtils.toTextDate(bean.getRsDate1(), lang, null) + "&nbsp;&rarr;&nbsp;" : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? StringUtils.toTextDate(bean.getRsDate2(), lang, null) : StringUtils.EMPTY);
 			String place = StringUtils.EMPTY;
 			if (bean.getCxId() != null) {
 				String tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCnId(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
-				place = HtmlUtils.writeLink(Complex.alias, bean.getCxId(), bean.getCxLabel(), null);
-				place += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(City.alias, bean.getCtId(), bean.getCtLabel(), null);
+				place = HtmlUtils.writeLink(Complex.alias, bean.getCxId(), bean.getCxLabel());
+				place += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(City.alias, bean.getCtId(), bean.getCtLabel());
 				if (bean.getStId() != null)
-					place += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(State.alias, bean.getStId(), bean.getStCode(), bean.getStLabel());
-				place += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(Country.alias, bean.getCnId(), bean.getCnCode(), bean.getCnLabel()); 
+					place += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(State.alias, bean.getStId(), bean.getStCode());
+				place += "," + HtmlUtils.SPACE + HtmlUtils.writeLink(Country.alias, bean.getCnId(), bean.getCnCode()); 
 				place = HtmlUtils.writeImgTable(tmpImg, place);
 			}
 
@@ -1558,11 +1554,11 @@ public class HtmlConverter {
 			String[] tRank = new String[5];
 			String[] tRecord = new String[5];
 			String[] tDate = new String[5];
-			tRank[0] = (isIndividual && bean.getRcPerson1() != null ? "<b>" + HtmlUtils.writeLink(Athlete.alias, bean.getRcRank1(), StringUtils.toFullName(bean.getRcPerson1LastName(), bean.getRcPerson1FirstName()), null) + (bean.getRcIdPrTeam1() != null && !isAlltime ? "</b>&nbsp;(" + HtmlUtils.writeLink(Team.alias, bean.getRcIdPrTeam1(), bean.getRcPrTeam1(), null) + ")" : "</b>") : (bean.getRcTeam1() != null ? HtmlUtils.writeLink(Team.alias, bean.getRcRank1(), bean.getRcTeam1(), null) : null));
-			tRank[1] = (isIndividual && bean.getRcPerson2() != null ? "<b>" + HtmlUtils.writeLink(Athlete.alias, bean.getRcRank2(), StringUtils.toFullName(bean.getRcPerson2LastName(), bean.getRcPerson2FirstName()), null) + (bean.getRcIdPrTeam2() != null && !isAlltime ? "</b>&nbsp;(" + HtmlUtils.writeLink(Team.alias, bean.getRcIdPrTeam2(), bean.getRcPrTeam2(), null) + ")" : "</b>") : (bean.getRcTeam2() != null ? HtmlUtils.writeLink(Team.alias, bean.getRcRank2(), bean.getRcTeam2(), null) : null));
-			tRank[2] = (isIndividual && bean.getRcPerson3() != null ? "<b>" + HtmlUtils.writeLink(Athlete.alias, bean.getRcRank3(), StringUtils.toFullName(bean.getRcPerson3LastName(), bean.getRcPerson3FirstName()), null) + (bean.getRcIdPrTeam3() != null && !isAlltime ? "</b>&nbsp;(" + HtmlUtils.writeLink(Team.alias, bean.getRcIdPrTeam3(), bean.getRcPrTeam3(), null) + ")" : "</b>") : (bean.getRcTeam3() != null ? HtmlUtils.writeLink(Team.alias, bean.getRcRank3(), bean.getRcTeam3(), null) : null));
-			tRank[3] = (isIndividual && bean.getRcPerson4() != null ? "<b>" + HtmlUtils.writeLink(Athlete.alias, bean.getRcRank4(), StringUtils.toFullName(bean.getRcPerson4LastName(), bean.getRcPerson4FirstName()), null) + (bean.getRcIdPrTeam4() != null && !isAlltime ? "</b>&nbsp;(" + HtmlUtils.writeLink(Team.alias, bean.getRcIdPrTeam4(), bean.getRcPrTeam4(), null) + ")" : "</b>") : (bean.getRcTeam4() != null ? HtmlUtils.writeLink(Team.alias, bean.getRcRank4(), bean.getRcTeam4(), null) : null));
-			tRank[4] = (isIndividual && bean.getRcPerson5() != null ? "<b>" + HtmlUtils.writeLink(Athlete.alias, bean.getRcRank5(), StringUtils.toFullName(bean.getRcPerson5LastName(), bean.getRcPerson5FirstName()), null) + (bean.getRcIdPrTeam5() != null && !isAlltime ? "</b>&nbsp;(" + HtmlUtils.writeLink(Team.alias, bean.getRcIdPrTeam5(), bean.getRcPrTeam5(), null) + ")" : "</b>") : (bean.getRcTeam5() != null ? HtmlUtils.writeLink(Team.alias, bean.getRcRank5(), bean.getRcTeam5(), null) : null));
+			tRank[0] = (isIndividual && bean.getRcPerson1() != null ? "<b>" + HtmlUtils.writeLink(Athlete.alias, bean.getRcRank1(), StringUtils.toFullName(bean.getRcPerson1LastName(), bean.getRcPerson1FirstName())) + (bean.getRcIdPrTeam1() != null && !isAlltime ? "</b>&nbsp;(" + HtmlUtils.writeLink(Team.alias, bean.getRcIdPrTeam1(), bean.getRcPrTeam1()) + ")" : "</b>") : (bean.getRcTeam1() != null ? HtmlUtils.writeLink(Team.alias, bean.getRcRank1(), bean.getRcTeam1()) : null));
+			tRank[1] = (isIndividual && bean.getRcPerson2() != null ? "<b>" + HtmlUtils.writeLink(Athlete.alias, bean.getRcRank2(), StringUtils.toFullName(bean.getRcPerson2LastName(), bean.getRcPerson2FirstName())) + (bean.getRcIdPrTeam2() != null && !isAlltime ? "</b>&nbsp;(" + HtmlUtils.writeLink(Team.alias, bean.getRcIdPrTeam2(), bean.getRcPrTeam2()) + ")" : "</b>") : (bean.getRcTeam2() != null ? HtmlUtils.writeLink(Team.alias, bean.getRcRank2(), bean.getRcTeam2()) : null));
+			tRank[2] = (isIndividual && bean.getRcPerson3() != null ? "<b>" + HtmlUtils.writeLink(Athlete.alias, bean.getRcRank3(), StringUtils.toFullName(bean.getRcPerson3LastName(), bean.getRcPerson3FirstName())) + (bean.getRcIdPrTeam3() != null && !isAlltime ? "</b>&nbsp;(" + HtmlUtils.writeLink(Team.alias, bean.getRcIdPrTeam3(), bean.getRcPrTeam3()) + ")" : "</b>") : (bean.getRcTeam3() != null ? HtmlUtils.writeLink(Team.alias, bean.getRcRank3(), bean.getRcTeam3()) : null));
+			tRank[3] = (isIndividual && bean.getRcPerson4() != null ? "<b>" + HtmlUtils.writeLink(Athlete.alias, bean.getRcRank4(), StringUtils.toFullName(bean.getRcPerson4LastName(), bean.getRcPerson4FirstName())) + (bean.getRcIdPrTeam4() != null && !isAlltime ? "</b>&nbsp;(" + HtmlUtils.writeLink(Team.alias, bean.getRcIdPrTeam4(), bean.getRcPrTeam4()) + ")" : "</b>") : (bean.getRcTeam4() != null ? HtmlUtils.writeLink(Team.alias, bean.getRcRank4(), bean.getRcTeam4()) : null));
+			tRank[4] = (isIndividual && bean.getRcPerson5() != null ? "<b>" + HtmlUtils.writeLink(Athlete.alias, bean.getRcRank5(), StringUtils.toFullName(bean.getRcPerson5LastName(), bean.getRcPerson5FirstName())) + (bean.getRcIdPrTeam5() != null && !isAlltime ? "</b>&nbsp;(" + HtmlUtils.writeLink(Team.alias, bean.getRcIdPrTeam5(), bean.getRcPrTeam5()) + ")" : "</b>") : (bean.getRcTeam5() != null ? HtmlUtils.writeLink(Team.alias, bean.getRcRank5(), bean.getRcTeam5()) : null));
 			tRank[0] = (tRank[0] != null && isIndividual && bean.getRcIdPrTeam1() != null && !isAlltime ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRcIdPrTeam1(), ImageUtils.SIZE_SMALL, null, bean.getRcPrTeam1()), tRank[0]) : (tRank[0] != null && !isIndividual ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRcRank1(), ImageUtils.SIZE_SMALL, bean.getRcDate1(), null), tRank[0]) : tRank[0]));
 			tRank[1] = (tRank[1] != null && isIndividual && bean.getRcIdPrTeam2() != null && !isAlltime ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRcIdPrTeam2(), ImageUtils.SIZE_SMALL, null, bean.getRcPrTeam2()), tRank[1]) : (tRank[1] != null && !isIndividual ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRcRank2(), ImageUtils.SIZE_SMALL, bean.getRcDate1(), null), tRank[1]) : tRank[1]));
 			tRank[2] = (tRank[2] != null && isIndividual && bean.getRcIdPrTeam3() != null && !isAlltime ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRcIdPrTeam3(), ImageUtils.SIZE_SMALL, null, bean.getRcPrTeam3()), tRank[2]) : (tRank[2] != null && !isIndividual ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRcRank3(), ImageUtils.SIZE_SMALL, bean.getRcDate1(), null), tRank[2]) : tRank[2]));
@@ -1617,7 +1613,7 @@ public class HtmlConverter {
 
 			// Evaluate bean
 			String teamImg = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTmId(), ImageUtils.SIZE_SMALL, null, null);
-			String team = HtmlUtils.writeLink(Team.alias, bean.getTmId(), bean.getTmLabel(), null);
+			String team = HtmlUtils.writeLink(Team.alias, bean.getTmId(), bean.getTmLabel());
 			team = HtmlUtils.writeImgTable(teamImg, team);
 			String stats = "<td class='srt'>" + bean.getWlCountWin() + "</td><td class='srt'>" + bean.getWlCountLoss() + "</td>";
 			if (isTie)
@@ -1645,31 +1641,31 @@ public class HtmlConverter {
 				if (bean.getPr1LastName() != null) {
 					pos1 = (StringUtils.notEmpty(bean.getPr1FirstName()) ? bean.getPr1FirstName().substring(0, 1) + "." : "") + bean.getPr1LastName();
 					if (bean.getPr1Country() != null)
-						pos1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getPr1Country(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Athlete.alias, bean.getPr1Id(), pos1, null));
+						pos1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getPr1Country(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Athlete.alias, bean.getPr1Id(), pos1));
 				}
 				if (bean.getPr2LastName() != null) {
 					pos2 = (StringUtils.notEmpty(bean.getPr2FirstName()) ? bean.getPr2FirstName().substring(0, 1) + "." : "") + bean.getPr2LastName();
 					if (bean.getPr2Country() != null)
-						pos2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getPr2Country(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Athlete.alias, bean.getPr2Id(), pos2, null));
+						pos2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getPr2Country(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Athlete.alias, bean.getPr2Id(), pos2));
 				}
 			}
 			else if (number == 50 && bean.getTm1Id() != null) {
-				pos1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTm1Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, bean.getTm1Id(), bean.getTm1Label(), null));
+				pos1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTm1Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, bean.getTm1Id(), bean.getTm1Label()));
 				if (bean.getTm2Id() != null)
-					pos2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTm2Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, bean.getTm2Id(), bean.getTm2Label(), null));				
+					pos2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTm2Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, bean.getTm2Id(), bean.getTm2Label()));				
 			}
 			else if (number == 99 && bean.getCn1Id() != null) {
-				pos1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Label(), null));
+				pos1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Label()));
 				if (bean.getCn2Id() != null)
-					pos2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn2Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, bean.getCn2Id(), bean.getCn2Label(), null));
+					pos2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn2Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, bean.getCn2Id(), bean.getCn2Label()));
 			}
 			String update = new SimpleDateFormat("dd/MM/yyyy").format(bean.getRsUpdate());
 			
 			// Write line
 			boolean isScore = (pos1 != null && pos2 != null && StringUtils.notEmpty(bean.getRsText1()) && !StringUtils.notEmpty(bean.getRsText2()));
 			boolean isTie = (pos1 != null && pos2 != null && bean.getRsText3() != null && bean.getRsText3().matches("^1.*"));
-			String link = "results/" + StringUtils.encode(bean.getSpId() + "-" + bean.getCpId() + "-" + bean.getEvId() + "-" + (bean.getSeId() != null ? bean.getSeId() : 0) + "-" + (bean.getSe2Id() != null ? bean.getSe2Id() : 0) + "-0") + "/" + StringUtils.urlEscape(bean.getSpLabel() + "/" + bean.getCpLabel());
-			html.append("<tr><td><b>" + bean.getYrLabel() + "</b></td><td>" + HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, bean.getSpId(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Sport.alias, bean.getSpId(), bean.getSpLabel(), null)) + "</td><td><a href='" + link + "'>" + bean.getCpLabel() + "&nbsp;-&nbsp;" + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? "&nbsp;-&nbsp;" + bean.getSeLabel() : "") + (StringUtils.notEmpty(bean.getSe2Label()) ? "&nbsp;-&nbsp;" + bean.getSe2Label() : "") + "</a></td>");
+			String link = "/results/" + StringUtils.urlEscape(bean.getSpLabel() + "/" + bean.getCpLabel() + "/" + bean.getEvLabel()) + "/" + StringUtils.encode(bean.getSpId() + "-" + bean.getCpId() + "-" + bean.getEvId() + "-" + (bean.getSeId() != null ? bean.getSeId() : 0) + "-" + (bean.getSe2Id() != null ? bean.getSe2Id() : 0) + "-0");
+			html.append("<tr><td><b>" + bean.getYrLabel() + "</b></td><td>" + HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, bean.getSpId(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Sport.alias, bean.getSpId(), bean.getSpLabel())) + "</td><td><a href='" + link + "'>" + bean.getCpLabel() + "&nbsp;-&nbsp;" + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? "&nbsp;-&nbsp;" + bean.getSeLabel() : "") + (StringUtils.notEmpty(bean.getSe2Label()) ? "&nbsp;-&nbsp;" + bean.getSe2Label() : "") + "</a></td>");
 			html.append("<td>" + (isScore || isTie ? "<table><tr><td>" + pos1 + "</td><td>&nbsp;" + (isTie ? "/" : bean.getRsText1().replaceAll("\\-", "&#8209;")) + "&nbsp;</td><td>" + pos2 + "</td></tr></table>" : (StringUtils.notEmpty(pos1) ? pos1 : "-")) + "</td>");
 //			html.append("<td>" + (StringUtils.notEmpty(bean.getRsDate()) ? StringUtils.toTextDate(bean.getRsDate(), lang, "d MMM yyyy") : "-") + "</td>");
 			html.append("<td>" + update + "</td></tr>");

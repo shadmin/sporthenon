@@ -153,9 +153,9 @@ function info(s) {
 			parameters: addOptions($H())
 		});
 	}
-	else {
-		location.href = 'details/' + s;
-	}
+	/*else {
+		location.href = '/details/' + s;
+	}*/
 }
 function currentTime() {
 	return new Date().getTime();
@@ -408,13 +408,13 @@ function displayInfo() {
 function exportTab() {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	if (url) {
-		location.href = url + '&export=' + ($('ehtml').checked ? 'html' : ($('eexcel').checked ? 'excel' : 'text'));
+		location.href = url + '?export=' + ($('ehtml').checked ? 'html' : ($('eexcel').checked ? 'excel' : 'text'));
 	}
 }
 function printCurrentTab() {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	if (url) {
-		window.open(url + '&print', '_blank');
+		window.open(url + '?print', '_blank');
 	}
 }
 /* ==================== SLIDER ==================== */
@@ -580,6 +580,31 @@ function moreSports(index1, index2) {
 	});
 	$('more-' + index1 + '-' + index2).show();
 }
+function initSliderSport(s) {
+	/*var sliderContent = [];
+	var t = $$('#pl-' + s + ' option');
+	t.each(function(el) {
+		sliderContent.push('<div id="' + s + '-' + el.value + '" class="slide"><img alt="" title="' + el.text + '" src=\'' + hSportImg[el.value] + '\'/></div>');
+	});
+	sliderContent.push('<div id="' + s + '-' + t[0].value + '" class="slide">' + hSportImg[t[0].value] + '</div>');
+	$$('#slider-' + s + ' .content')[0].update(sliderContent.join(''));
+	var sl = hSliders.get('slider-' + s);
+	if (!sl) {
+		sl = createSlider('slider-' + s, 102, 102, true);
+		sl.options.afterMove = function() {
+			var currentId = sl.current.id;
+			$('pl-' + s).setValue(currentId.replace(s + '-', ''));
+			if (s == 'sp') {
+				changeSport(true);
+			}
+		};
+	}
+	else {
+		var slides = $$('#slider-' + s + ' .slide');
+		sl.initialize(sl.scroller, slides, sl.controls, sl.options);
+	}
+	sl.moveTo($(s + '-' + t[0].value));*/
+}
 function loadHomeData() {
 	new Ajax.Request('IndexServlet?t=' + currentTime(), {
 		onSuccess: function(response) {
@@ -597,7 +622,6 @@ function loadHomeData() {
 			$('img-stat').hide();$('table-stat').show();
 		}
 	});
-	refreshLastUpdates();
 }
 /* ==================== RESULTS ==================== */
 function initSliderRes(s) {
@@ -1014,7 +1038,7 @@ function dpatternBlur() {
 }
 function directSearch() {
 	if (event.keyCode == 13) {
-		location.href = 'search?p=' + escape($F('dpattern'));
+		location.href = '/search?p=' + escape($F('dpattern'));
 	}
 }
 function runSearch() {
@@ -1166,13 +1190,14 @@ function initUpdate(value) {
 			s,
 			'ajaxdiv',
 			'/update/ajax/' + s,
-			{ paramName: 'value', minChars: 2, afterUpdateElement: setValue}
+			{ paramName: 'value', minChars: 3, frequency: 0.1, afterUpdateElement: setValue}
 		);
 	});
 	$$('#update input').each(function(el){
 		if ($(el).type == 'button') {
 			return;
 		}
+		$(el).value = $(el).name;
 		$(el).addClassName('default');
 		Event.observe($(el), 'focus', function(){
 			if ($(this).value == $(this).name) {
@@ -1182,7 +1207,7 @@ function initUpdate(value) {
 		Event.observe($(el), 'blur', function(){
 			if ($(this).value == '') {
 				$(this).value = $(this).name;
-				$(this).removeClassName('completed');
+				$(this).removeClassName('completed').removeClassName('completed2');
 				tValues[$(this).id] = null;
 			}
 			else if ($(this).value != $(this).name && !$(this).hasClassName('completed')) {
@@ -1198,6 +1223,28 @@ function initUpdate(value) {
 		if (t[7] != '') {tValues['se'] = t[7]; $('se').value = t[8]; updateType('se', t[9]); $('se').addClassName('completed');}
 		if (t[10] != '') {tValues['se2'] = t[10]; $('se2').value = t[11]; updateType('se2', t[12]); $('se2').addClassName('completed');}
 		tValues['yr'] = t[13]; $('yr').value = t[14]; $('yr').addClassName('completed');
+		if (t.length > 15) {
+			tValues['id'] = t[15];
+			tValues['rs1'] = t[16]; $('rs1').value = t[16]; if (t[16] != '') {$('rs1').addClassName('completed2');}
+			tValues['rs2'] = t[17]; $('rs2').value = t[17]; if (t[17] != '') {$('rs2').addClassName('completed2');}
+			tValues['rs3'] = t[18]; $('rs3').value = t[18]; if (t[18] != '') {$('rs3').addClassName('completed2');}
+			tValues['rs4'] = t[19]; $('rs4').value = t[19]; if (t[19] != '') {$('rs4').addClassName('completed2');}
+			tValues['rs5'] = t[20]; $('rs5').value = t[20]; if (t[20] != '') {$('rs5').addClassName('completed2');}
+			tValues['dt1'] = t[21]; $('dt1').value = t[21]; if (t[21] != '') {$('dt1').addClassName('completed2');}
+			tValues['dt2'] = t[22]; $('dt2').value = t[22]; if (t[22] != '') {$('dt2').addClassName('completed2');}
+			tValues['pl1'] = t[23]; $('pl1').value = t[24]; if (t[23] != '') {$('pl1').addClassName('completed');}
+			tValues['pl2'] = t[25]; $('pl2').value = t[26]; if (t[25] != '') {$('pl2').addClassName('completed');}
+			tValues['exa'] = t[27]; $('exa').value = t[27]; if (t[27] != '') {$('exa').addClassName('completed2');}
+			tValues['cmt'] = t[28]; $('cmt').value = t[28]; if (t[28] != '') {$('cmt').addClassName('completed2');}
+			var j = 28;
+			for (var i = 1 ; i <= 10 ; i++) {
+				tValues['rk' + i] = t[++j];
+				$('rk' + i).value = t[++j];
+				if (tValues['rk' + i] != '') {
+					$('rk' + i).addClassName('completed');
+				}
+			}
+		}
 	}
 }
 function setValue(text, li) {
@@ -1220,7 +1267,7 @@ function updateType(s, tp){
 			s,
 			'ajaxdiv',
 			'/update/ajax/' + (currentTp < 10 ? 'pr' : (currentTp == 50 ? 'tm' : 'cn')) + (tValues['sp'] != null ? '-' + tValues['sp'] : ''),
-			{ paramName: 'value', minChars: 2, afterUpdateElement: setValue}
+			{ paramName: 'value', minChars: 3, frequency: 0.1, afterUpdateElement: setValue}
 		);
 		Event.observe($(s), 'blur', function(){
 			if ($(this).value == '') {
@@ -1235,7 +1282,7 @@ function updateType(s, tp){
 function saveResult() {
 	$('msg').update('<img src="/img/db/loading.gif?6"/>');
 	var h = $H({sp: tValues['sp']});
-	['sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'cmt', 'rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'rk6', 'rk7', 'rk8', 'rk9', 'rk10', 'rs1', 'rs2', 'rs3', 'rs4', 'rs5'].each(function(s){
+	['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'cmt', 'rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'rk6', 'rk7', 'rk8', 'rk9', 'rk10', 'rs1', 'rs2', 'rs3', 'rs4', 'rs5'].each(function(s){
 		h.set(s, tValues[s]);
 		if ($(s) && ($(s).hasClassName('completed') || $(s).hasClassName('completed2'))) {
 			h.set(s + "-l", $F(s));

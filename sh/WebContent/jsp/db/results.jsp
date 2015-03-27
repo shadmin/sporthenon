@@ -12,11 +12,11 @@
 <script type="text/javascript"><!--
 var treeItems = null;
 <%
-String lang = String.valueOf(session.getAttribute("locale"));
-ArrayList<Object> params = new ArrayList<Object>();
-params.add("");
-params.add("_" + lang.toLowerCase());
-HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", params), out, false);
+	String lang = String.valueOf(session.getAttribute("locale"));
+	ArrayList<Object> params = new ArrayList<Object>();
+	params.add("");
+	params.add("_" + lang.toLowerCase());
+	HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", params), out, false);
 %>
 --></script>
 <div id="tree" class="fieldset">

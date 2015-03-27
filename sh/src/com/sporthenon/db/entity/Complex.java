@@ -97,4 +97,8 @@ public class Complex {
 		return label + (city != null ? ", " + city : "") + " [#" + id + "]";
 	}
 	
+	public String toString2() {
+		return label + (city != null ? ", " + city.toString2() : "");
+	}
+	
 }

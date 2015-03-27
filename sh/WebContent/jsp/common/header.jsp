@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.sporthenon.utils.ConfigUtils" %>
-<%@ page import="com.sporthenon.utils.res.ResourceUtils" %>
 <%@ page import="com.sporthenon.utils.StringUtils" %>
+<%@ page import="com.sporthenon.utils.res.ResourceUtils" %>
 <%@ page import="com.sporthenon.db.entity.meta.Member" %>
 <%
 	Object o = session.getAttribute("user");
@@ -20,7 +20,7 @@
 	<meta name="keywords" content="sport, results, database, records, olympics"/>
 	<meta property="og:title" content="<%=StringUtils.text("title", session)%>"/>
 	<meta property="og:type" content="website"/>
-	<meta property="og:image" content="http://92.243.3.85/img/icon-notext.png?v=6"/>
+	<meta property="og:image" content="<%=ConfigUtils.getProperty("url")%>img/icon-notext.png?v=6"/>
 	<meta property="og:description" content="<%=StringUtils.text("desc", session)%>"/>
 	<link rel="stylesheet" type="text/css" href="/css/sh.css?v=<%=version%>"/>
 	<!--[if IE 6]>
@@ -38,7 +38,7 @@
 
 <body>
 <div id="header">
-	<div id="logo"><a href="<%=ConfigUtils.getProperty("url")%>" title="<%=StringUtils.text("menu.home", session)%>"><img src="/img/icon.png?v=8" alt="Sporthenon.com"/></a></div>
+	<div id="logo"><a href="/" title="<%=StringUtils.text("menu.home", session)%>"><img src="/img/icon.png?v=8" alt="Sporthenon.com"/></a></div>
 	<div id="shmenu">
 		<ul>
 			<li><a id="shmenu-results" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("results") ? "class='selected'" : "")%> href="/results"><%=StringUtils.text("menu.results", session)%></a></li>
@@ -97,14 +97,14 @@
 
 <div id="headertop">
 	<div id="menutop">
-		<div id="mthome"><a href="<%=ConfigUtils.getProperty("url")%>"><%=StringUtils.text("menu.home", session)%></a></div>
+		<div id="mthome"><a href="/"><%=StringUtils.text("menu.home", session)%></a></div>
 		<div id="mtproject"><a href="/project"><%=StringUtils.text("menu.project", session)%></a></div>
 		<div id="mtcontribute"><a href="/contribute"><%=StringUtils.text("menu.contribute", session)%></a></div>
 		<% if (m != null) { %>
 		<div id="mtupdate"><a href="/update"><%=StringUtils.text("menu.update", session)%></a></div>
 		<div id="mtlogout"><a href="/LoginServlet?logout"><%=StringUtils.text("menu.logout", session)%></a>&nbsp;(<%=m.getLogin()%>)</div>
 		<% } else { %>
-		<div id="mtlogin"><a href="/login"><%=StringUtils.text("menu.login", session)%></a></div>
+		<div id="mtlogin"><a href="<%=ConfigUtils.getProperty("url.s")%>login"><%=StringUtils.text("menu.login", session)%></a></div>
 		<% } %>
 	</div>
 	<div id="flags"><a title="English" href="javascript:setLang('en');"><img alt="EN" src="/img/header/lang-en.png"/></a>&nbsp;<a title="Français" href="javascript:setLang('fr');"><img alt="FR" src="/img/header/lang-fr.png"/></a>&nbsp;</div>

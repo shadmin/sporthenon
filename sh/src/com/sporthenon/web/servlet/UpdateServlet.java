@@ -15,6 +15,7 @@ import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
+import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Sport;
@@ -35,8 +36,8 @@ public class UpdateServlet extends AbstractServlet {
 		try {
 			String lang = getLocale(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
-			if (hParams.containsKey("p") && hParams.get("p").equals("ajax")) { // Ajax autocompletion
-				String field = String.valueOf(hParams.get("p2"));
+			if (hParams.containsKey("p2") && hParams.get("p2").equals("ajax")) { // Ajax autocompletion
+				String field = String.valueOf(hParams.get("p"));
 				String value = hParams.get("value") + "%";
 				String sport = null;
 				if (field.matches("(pr|tm|cn)\\-.*")) {
@@ -89,7 +90,7 @@ public class UpdateServlet extends AbstractServlet {
 					}
 					else if (o instanceof Athlete) {
 						Athlete a = (Athlete) o;
-						text = a.getLastName() + ", " + a.getFirstName() + (a.getCountry() != null ? " [" + a.getCountry().getCode() + (a.getTeam() != null ? ", " + a.getTeam().getLabel() : "") + "]" : "");
+						text = a.toString2();
 					}
 					else if (o instanceof Team) {
 						Team t = (Team) o;
@@ -103,7 +104,8 @@ public class UpdateServlet extends AbstractServlet {
 				StringBuffer sbMsg = new StringBuffer();
 				try {
 					int tp = 0;
-					Result result = new Result();
+					Integer idRS = (StringUtils.notEmpty(hParams.get("id")) ? Integer.valueOf(String.valueOf(hParams.get("id"))) : null);
+					Result result = (idRS != null ? (Result)DatabaseHelper.loadEntity(Result.class, idRS) : new Result());
 					result.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, hParams.get("sp")));
 					if (result.getSport() == null)
 						sbMsg.append("ERR:Sport does not exist.<br/>");
@@ -165,7 +167,7 @@ public class UpdateServlet extends AbstractServlet {
 							Result.class.getMethod("setResult" + i, String.class).invoke(result, StringUtils.notEmpty(hParams.get("rs" + i + "-l")) ? hParams.get("rs" + i + "-l") : null);
 					}
 					result = (Result) DatabaseHelper.saveEntity(result, getUser(request));
-					sbMsg.append("Result has been created/updated.");
+					sbMsg.append(ResourceUtils.getText("result." + (idRS != null ? "modified" : "created"), getLocale(request)));
 				}
 				catch (Exception e) {
 					handleException(e);
@@ -180,10 +182,11 @@ public class UpdateServlet extends AbstractServlet {
 				String p = String.valueOf(hParams.get("p"));
 				p = StringUtils.decode(p);
 				String[] t = p.split("\\-");
+				Result rs = null;
 				Year yr = null;
 				
 				if (t[0].equals(Result.alias)) {
-					Result rs = (Result)DatabaseHelper.loadEntity(Result.class, t[1]);
+					rs = (Result)DatabaseHelper.loadEntity(Result.class, t[1]);
 					String s = rs.getSport().getId() + "-" + rs.getChampionship().getId() + "-" + rs.getEvent().getId() + (rs.getSubevent() != null ? "-" + rs.getSubevent().getId() : "") + (rs.getSubevent2() != null ? "-" + rs.getSubevent2().getId() : "");
 					yr = rs.getYear();
 					t = s.split("\\-");
@@ -202,10 +205,49 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(ev.getId()).append("~").append(ev.getLabel(lang)).append("~").append(ev.getType().getNumber()).append("~");
 				sb.append(se != null ? se.getId() : "").append("~").append(se != null ? se.getLabel(lang) : "").append("~").append(se != null ? se.getType().getNumber() : "").append("~");
 				sb.append(se2 != null ? se2.getId() : "").append("~").append(se2 != null ? se2.getLabel(lang) : "").append("~").append(se2 != null ? se2.getType().getNumber() : "").append("~");
-				sb.append(yr.getId()).append("~").append(yr.getLabel());
-				
-				request.setAttribute("value", sb.toString());
-				request.getRequestDispatcher("/jsp/update.jsp").forward(request, response);			
+				sb.append(yr.getId()).append("~").append(yr.getLabel()).append("~");
+				if (rs != null) {
+					sb.append(rs.getId()).append("~");
+					sb.append(rs.getResult1()).append("~").append(rs.getResult2()).append("~").append(rs.getResult3()).append("~").append(rs.getResult4()).append("~").append(rs.getResult5()).append("~");
+					sb.append(rs.getDate1()).append("~").append(rs.getDate2()).append("~");
+					sb.append(rs.getComplex1() != null ? rs.getComplex1().getId() : (rs.getCity1() != null ? rs.getCity1().getId() : "")).append("~");
+					sb.append(rs.getComplex1() != null ? rs.getComplex1().toString2() : (rs.getCity1() != null ? rs.getCity1().toString2() : "")).append("~");
+					sb.append(rs.getComplex2() != null ? rs.getComplex2().getId() : (rs.getCity2() != null ? rs.getCity2().getId() : "")).append("~");
+					sb.append(rs.getComplex2() != null ? rs.getComplex2().toString2() : (rs.getCity2() != null ? rs.getCity2().toString2() : "")).append("~");
+					sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~");
+					Integer n = ev.getType().getNumber();
+					if (se != null)
+						n = se.getType().getNumber();
+					if (se2 != null)
+						n = se2.getType().getNumber();
+					for (int i = 1 ; i <= 10 ; i++) {
+						Method m = Result.class.getMethod("getIdRank" + i);
+						Integer id = null;
+						if (m != null) {
+							Object o = m.invoke(rs);
+							if (o != null)
+								id = (Integer) o;
+						}
+						String label = null;
+						if (id != null && id > 0) {
+							if (n < 10) {
+								Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, id);
+								label = a.toString2();
+							}
+							else if (n == 50) {
+								Team t_ = (Team) DatabaseHelper.loadEntity(Team.class, id);
+								label = t_.getLabel();
+							}
+							else {
+								Country c = (Country) DatabaseHelper.loadEntity(Country.class, id);
+								label = c.getLabel(lang);
+							}
+						}
+						sb.append(id != null ? id : "").append("~").append(label != null ? label : "").append("~");
+					}
+				}
+				request.setAttribute("value", sb.toString().replaceAll("~null~", "~~").replaceAll("~null~", "~~").replaceAll("\"", "\\\\\""));
+				request.getRequestDispatcher("/jsp/update.jsp").forward(request, response);
 			}
 		}
 		catch (Exception e) {

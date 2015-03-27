@@ -20,7 +20,7 @@
 		</layout> 
 	</appender>
 	<root>
-		<priority value="warn" />
-		<appender-ref ref="default" /> 
+		<priority value="error"/>
+		<appender-ref ref="default"/> 
 	</root>
 </log4j:configuration>

@@ -43,7 +43,7 @@
 	<entry key="entity.DR">Draws</entry>
 	<entry key="entity.EV">Events</entry>
 	<entry key="entity.HF">Hall of Fame</entry>
-	<entry key="entity.OL">Olympics</entry>
+	<entry key="entity.OL">Olympic Games</entry>
 	<entry key="entity.OR">Olympic Medals</entry>
 	<entry key="entity.PR">Athletes</entry>
 	<entry key="entity.RC">Records</entry>
@@ -145,7 +145,7 @@
 	<entry key="x.categories">Categories</entry>
 	<entry key="x.olympic.games">Olympic Games</entry>
 	<entry key="x.scopes">Scopes</entry>
-	<entry key="no.result">No result found matching the selected criteria.</entry>
+	<entry key="no.result">Your search returned no results.</entry>
 	<entry key="win.records">WIN RECORDS</entry>
 	<entry key="search.results">Search Results</entry>
 	<entry key="draw">Draw</entry>
@@ -182,6 +182,7 @@
 	<entry key="select">Select</entry>
 	<entry key="selection">Selection</entry>
 	<entry key="today">Today</entry>
+	<entry key="yesterday">Yesterday</entry>
 	<entry key="more">More</entry>
 	<entry key="more.sports">More sports</entry>
 	<entry key="draw.qf">Quarter-final</entry>
@@ -290,4 +291,14 @@
 	<entry key="err.invalid.athlete"><![CDATA[Invalid format [#S#]: should be "Lastname, FirstName (CountryCode, TeamName)"]]></entry>
 	<entry key="err.invalid.team"><![CDATA[Invalid format [#S#]: should be "TeamName (CountryCode)"]]></entry>
 	<entry key="err.invalid.place"><![CDATA[Invalid format [#S#]: should be "ComplexName, City, CountryCode"]]></entry>
+	<entry key="create.modify.result">CREATE/MODIFY A RESULT</entry>
+	<entry key="date.from">From</entry>
+	<entry key="date.to">To</entry>
+	<entry key="date.pattern">DD/MM/YYYY</entry>
+	<entry key="venue.city">Venue/City</entry>
+	<entry key="tie">Tie</entry>
+	<entry key="result.score">Result/Score</entry>
+	<entry key="save">Save</entry>
+	<entry key="result.created">Result created.</entry>
+	<entry key="result.modified">Result modified.</entry>
 </properties>

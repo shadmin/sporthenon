@@ -2,6 +2,7 @@
 <%@ page import="com.sporthenon.utils.ConfigUtils" %>
 <%@ page import="com.sporthenon.utils.StringUtils" %>
 </div><!-- id="content" -->
+<% if (request.getParameter("print") == null) {%>
 <jsp:include page="/jsp/common/dialogs.jsp"/>
 <div id="footer">
 	<div style="float:right;text-align:right;">
@@ -11,5 +12,6 @@
 	</div>
 	&copy;2011-15&nbsp;(sporthenon.com)<br/><br/><a href="mailto:contact@sporthenon.com">contact@sporthenon.com</a>
 </div>
+<%}%>
 </body>
 </html>

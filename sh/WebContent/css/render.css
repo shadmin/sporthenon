@@ -266,7 +266,7 @@
 	border: 2px solid #333;
 }
 .tc .tsort tr:hover{
-	background-color: #CDE8FF;
+	background-color: #BDE0FF;
 }
 .tc .tsort table tr:hover, .tc .tsort .refseefull:hover{
 	background-color: transparent;
@@ -292,6 +292,7 @@
 	background-image: url(../img/render/sort-desc.png);
 }
 .tc .noresult{
+	clear: left;
 	width: auto;
 	margin-top: 20px;
 	padding: 5px;

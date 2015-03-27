@@ -88,7 +88,7 @@ private static final long serialVersionUID = 1L;
 		for (PicklistBean plb : cPicklist) {
 			String img = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, plb.getValue(), ImageUtils.SIZE_LARGE, null, null);
 			img = img.replaceAll(".*\\ssrc\\='|'/\\>", "");
-			hSports.put(plb.getValue(), "<div id='sport-#INDEX#' class='sport' style=\"#DISPLAY#background-image:url('" + img + "');\">" + HtmlUtils.writeLink(Sport.alias, plb.getValue(), plb.getText().replaceAll("\\s", "&nbsp;"), null) + "</div>");
+			hSports.put(plb.getValue(), "<div id='sport-#INDEX#' class='sport' style=\"#DISPLAY#background-image:url('" + img + "');\">" + HtmlUtils.writeLink(Sport.alias, plb.getValue(), plb.getText().replaceAll("\\s", "&nbsp;")) + "</div>");
 		}
 		StringBuffer sports = new StringBuffer();
 		int index = 0;

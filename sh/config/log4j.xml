@@ -17,7 +17,7 @@
 		</layout> 
 	</appender>
 	<root>
-		<priority value="info" /> 
-		<appender-ref ref="default" /> 
+		<priority value="error"/>
+		<appender-ref ref="default"/> 
 	</root>
 </log4j:configuration>
