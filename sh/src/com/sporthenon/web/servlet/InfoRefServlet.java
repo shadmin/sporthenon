@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Result;
-import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
@@ -46,7 +45,7 @@ public class InfoRefServlet extends AbstractServlet {
 				}
 				else
 					p = params[1] + "-" + params[2] + "-" + params[3] + "-" + (params.length > 4 ? params[4] : "") + "-" + (params.length > 5 ? params[5] : "") + "-0";
-				response.sendRedirect(ConfigUtils.getProperty("url") + "results/" + StringUtils.encode(p));
+				response.sendRedirect("/results/" + StringUtils.encode(p));
 			}
 			else {
 				ArrayList<Object> lFuncParams = new ArrayList<Object>();

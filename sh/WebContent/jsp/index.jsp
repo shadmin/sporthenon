@@ -22,7 +22,7 @@
 				<td class="usleagues" onclick="location.href='usleagues';" onmouseover='overTopic(TX_DESC_USLEAGUES);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.usleagues", session)%></td>
 				<td id="details" style="display:none;"></td></tr></table></div>
 			<hr/><img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("access.sport", session)%></b><br/>
-			<div id="sports"><%=IndexServlet.getSportDivs(String.valueOf(session.getAttribute("locale")))%></div>
+			<div id="sports" class="slider"><%@include file="../html/slider.html" %></div>
 		</div>
 	</div>
 	<!-- LAST UPDATES -->
@@ -82,6 +82,7 @@
 <script type="text/javascript">
 window.onload = function() {
 	loadHomeData();
+	initSliderHome("<%=IndexServlet.getSportDivs(String.valueOf(session.getAttribute("locale")))%>");
 }
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />

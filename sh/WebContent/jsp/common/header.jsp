@@ -49,7 +49,7 @@
 	<div id="share">
 		<table>
 			<tr><td style="padding-bottom:3px;"><%=StringUtils.text("share", session)%>:</td>
-			<td><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.sporthenon.com%2F" target="_blank"><img alt="facebook" title="<%=StringUtils.text("share.on", session)%> Facebook" src="/img/header/facebook.png"/></a></td>
+			<td><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.sporthenon.com%2F<%=session.getAttribute("locale")%>" target="_blank"><img alt="facebook" title="<%=StringUtils.text("share.on", session)%> Facebook" src="/img/header/facebook.png"/></a></td>
 			<td><a href="https://twitter.com/share?text=Visit%20http%3A%2F%2Fwww.sporthenon.com%20the%20temple%20of%20sports%20results%21" target="_blank"><img alt="twitter" title="<%=StringUtils.text("share.on", session)%> Twitter" src="/img/header/twitter.png"/></a></td>
 			<td><a href="https://plus.google.com/share?url=www.sporthenon.com" target="_blank"><img alt="gplus" title="<%=StringUtils.text("share.on", session)%> Google+" src="/img/header/gplus.png"/></a></td></tr>
 		</table>
@@ -93,6 +93,8 @@
 	var TX_MCONFIRMPWD = "<%=StringUtils.text("mandatory.confirmpwd", session)%>";
 	var TX_MEMAIL = "<%=StringUtils.text("mandatory.email", session)%>";
 	var TX_PWDNOTMATCH = "<%=StringUtils.text("pwd.nomatch", session)%>";
+	var TX_PREVIOUS = "<%=StringUtils.text("previous", session)%>";
+	var TX_NEXT = "<%=StringUtils.text("next", session)%>";
 </script>
 
 <div id="headertop">

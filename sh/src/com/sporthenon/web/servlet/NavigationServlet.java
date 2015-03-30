@@ -76,9 +76,15 @@ public class NavigationServlet extends AbstractServlet {
 				dispatcher = request.getRequestDispatcher(url.toString());
 			}
 			else {
-				request.setAttribute("title", ResourceUtils.getText(hTitle.containsKey(key) ? hTitle.get(key) : "title", getLocale(request)) + " | SPORTHENON");
-				request.setAttribute("menu", key);
-				dispatcher = request.getRequestDispatcher("/jsp/" + hPages.get(key));
+				if (key.matches("en|fr")) {
+					request.getSession().setAttribute("locale", key);
+					dispatcher = request.getRequestDispatcher("/jsp/index.jsp");
+				}
+				else {
+					request.setAttribute("title", ResourceUtils.getText(hTitle.containsKey(key) ? hTitle.get(key) : "title", getLocale(request)) + " | SPORTHENON");
+					request.setAttribute("menu", key);
+					dispatcher = request.getRequestDispatcher("/jsp/" + hPages.get(key));	
+				}
 			}
 		    if (dispatcher != null)
 		    	dispatcher.forward(request, response);

@@ -402,11 +402,17 @@ input{
 /* ========== SLIDER ========== */
 .slider .arrow{
 	float: left;
-	width: 10px;
-	border: 1px solid #FFF;
+	width: 23px;
+	padding-top: 25px;
 }
-.slider .arrow img{
-	border: none;
+.slider .slider-control{
+	border: 1px solid #E8E8E8;
+	cursor: pointer;
+	padding: 20px 0px;
+	padding-top: 24px;
+}
+.slider .slider-control:hover{
+	border: 1px solid #000;
 }
 .slider .container{
 	float: left;
@@ -537,8 +543,8 @@ input{
 #buttons .options{
 	background-image: url('../img/component/button/options.png?3');
 }
-#toolbar .modify, .toolbar .modify{
-	background-image: url('../img/component/button/modify.png?3');
+#toolbar .add, .toolbar .add{
+	background-image: url('../img/component/button/add.png?3');
 }
 #toolbar .export, .toolbar .export{
 	background-image: url('../img/component/button/export.png?3');
@@ -655,12 +661,19 @@ input{
 	background: transparent url(../img/render/more2.gif) left center no-repeat;
 }
 .homecontent #sports{
-	margin-top: 5px;
+	margin-top: 8px;
 	overflow: auto;
+}
+.homecontent .slider .arrow{
+	padding-top: 52px;
+}
+.homecontent .slider .slider-control{
+	padding: 45px 0px;
+	padding-top: 52px;
 }
 .homecontent #sports div.sport{
 	float: left;
-	min-width: 105px;
+	width: 105px;
 	border: 1px solid #FFF;
 	text-align: center;
 	padding: 1px;
@@ -731,7 +744,7 @@ input{
 }
 #results .slider{
 	margin-top: 0px;
-	margin-left: 33px;
+	margin-left: 25px;
 }
 #results .slide{
 	border: none;
@@ -815,11 +828,20 @@ input{
 }
 #olympics .fieldset{
 	float: left;
-	width: 425px;
+	width: 460px;
 	height: 242px;
 	margin: 6px 6px;
 	margin-bottom: 0px;
 	padding: 5px;
+}
+#slider-summer-ol .arrow, #slider-winter-ol .arrow{
+	padding-top: 20px;
+	padding-left: 3px;
+	width: 22x;
+}
+#slider-summer-ol .slider-control, #slider-winter-ol .slider-control{
+	padding: 10px 0px;
+	padding-top: 19px;
 }
 #olympics table img{
 	border: none;
@@ -846,18 +868,18 @@ input{
 	margin-bottom: 0px;
 	margin-left: 10px;
 	margin-right: 10px;
-	background: #FFF url(../img/column.png?3) 25px 150px no-repeat;
+	background: #FFF url(../img/column.png?3) 28px 150px no-repeat;
 	overflow-x: auto;
 }
 #usleagues .league{
 	float: left;
 	margin: 18px 0px;
 	margin-right: 5px;
-	width: 165px;
+	width: 195px;
 	text-align: center;
 }
 #usleagues .league .slider{
-	margin-left: 28px;
+	margin-left: 20px;
 }
 #usleagues .league .slide{
 	background-color: #FFF;
@@ -870,6 +892,7 @@ input{
 #usleagues #usltype{
 	float: left;
 	padding: 10px;
+	padding-left: 0px;
 	margin-top: 8px;
 }
 #usleagues #usltype div{
@@ -1046,7 +1069,7 @@ input{
 #update{
 	margin-left: 10px;
 	margin-right: 10px;
-	height: 470px;
+	height: 480px;
 }
 #update .fstitle{
 	background-image: url(../img/addresult.png?4);
@@ -1083,6 +1106,16 @@ input{
 }
 #update #dt1, #update #dt2, #update #yr{
 	width: 100px;
+}
+#update #prevbtn{
+	background-image: url('../img/component/button/previous.png?3');
+	background-position: 4px center;
+	padding-left: 18px;
+}
+#update #nextbtn{
+	background-image: url('../img/component/button/next.png?3');
+	background-position: 4px center;
+	padding-left: 18px;
 }
 #update #savebtn{
 	background-image: url('../img/component/button/save.png?3');

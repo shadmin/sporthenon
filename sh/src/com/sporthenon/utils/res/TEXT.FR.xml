@@ -30,6 +30,7 @@
 	<entry key="actions.currenttab">Actions sur l'onglet courant</entry>
 	<entry key="button.run">LANCER LA RECHERCHE</entry>
 	<entry key="button.reset">Réinitialiser</entry>
+	<entry key="button.add">Ajouter</entry>
 	<entry key="button.modify">Modifier</entry>
 	<entry key="button.export">Exporter</entry>
 	<entry key="button.link">Lien</entry>
@@ -192,6 +193,8 @@
 	<entry key="next.20">20 suivants</entry>
 	<entry key="complete.list">Toute la liste</entry>
 	<entry key="search.in">Rechercher dans</entry>
+	<entry key="previous">Précédent</entry>
+	<entry key="next">Suivant</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>

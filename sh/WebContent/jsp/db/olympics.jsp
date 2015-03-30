@@ -38,7 +38,7 @@
 			</tr></table></td></tr>
 			<!-- EVENTS RESULTS -->
 			<tr><td colspan="3"><table id="summer-q1" cellpadding="0" cellspacing="0">
-				<tr><td rowspan="6"><div id="slider-summer-sp" class="slider" style="width:130px;"><%@include file="../../html/slider.html" %></div></td>
+				<tr><td rowspan="6"><div id="slider-summer-sp" class="slider" style="width:150px;"><%@include file="../../html/slider.html" %></div></td>
 				<td colspan="3" style="padding:2px;padding-top:0px;"><%=StringUtils.text("sport", session)%>:</td></tr>
 				<tr><td colspan="3" class="select"><select id="summer-pl-sp" name="summer-pl-sp" onchange="changeSportOL(this, 'summer', false);"><option/></select></td></tr>
 				<tr><td colspan="3" style="padding:2px;"><%=StringUtils.text("event", session)%>:</td></tr>
@@ -66,7 +66,7 @@
 			</tr></table></td></tr>
 			<!-- EVENTS RESULTS -->
 			<tr><td colspan="3"><table id="winter-q1" cellpadding="0" cellspacing="0">
-				<tr><td rowspan="6"><div id="slider-winter-sp" class="slider" style="width:130px;"><%@include file="../../html/slider.html" %></div></td>
+				<tr><td rowspan="6"><div id="slider-winter-sp" class="slider" style="width:150px;"><%@include file="../../html/slider.html" %></div></td>
 				<td colspan="3" style="padding:2px;padding-top:0px;"><%=StringUtils.text("sport", session)%>:</td></tr>
 				<tr><td colspan="3" class="select"><select id="winter-pl-sp" name="winter-pl-sp" onchange="changeSportOL(this, 'winter', false);"><option/></select></td></tr>
 				<tr><td colspan="3" style="padding:2px;"><%=StringUtils.text("event", session)%>:</td></tr>
@@ -111,7 +111,7 @@ window.onload = function() {
 	var c = null;
 	for (var i = 0 ; i < t.length ; i++) {
 		c = t[i];
-		initSelectMult('sm-' + c + '-pl-ol', TX_OLYMPIC_GAMES, 403);
+		initSelectMult('sm-' + c + '-pl-ol', TX_OLYMPIC_GAMES, 430);
 		initSelectMult('sm-' + c + '-pl-ev', TX_EVENTS, 275);
 		initSelectMult('sm-' + c + '-pl-se', TX_EVENTS, 251);
 		initSelectMult('sm-' + c + '-pl-se2', TX_EVENTS, 232);

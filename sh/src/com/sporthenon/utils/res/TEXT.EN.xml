@@ -30,6 +30,7 @@
 	<entry key="actions.currenttab">Actions on current tab</entry>
 	<entry key="button.run">RUN SEARCH</entry>
 	<entry key="button.reset">Reset</entry>
+	<entry key="button.add">Add</entry>
 	<entry key="button.modify">Modify</entry>
 	<entry key="button.export">Export</entry>
 	<entry key="button.link">Link</entry>
@@ -192,6 +193,8 @@
 	<entry key="next.20">Next 20</entry>
 	<entry key="complete.list">Complete list</entry>
 	<entry key="search.in">Search in</entry>
+	<entry key="previous">Previous</entry>
+	<entry key="next">Next</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>

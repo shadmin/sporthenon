@@ -19,13 +19,15 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 			<div style="float:left;padding-right:10px;height:380px;">
 			<table style="margin-top:0px;">
 				<tr><td colspan="5"><input type="text" id="sp" name="<%=StringUtils.text("entity.SP.1", session)%>"/></td></tr>
-				<tr><td><img src="/img/component/treeview/join.gif"/></td><td colspan="4"><input type="text" id="cp" name="<%=StringUtils.text("entity.CP.1", session)%>"/></td></tr>
-				<tr><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/join.gif"/></td><td colspan="3"><input type="text" id="ev" name="<%=StringUtils.text("entity.EV.1", session)%> #1"/></td></tr>
-				<tr><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/join.gif"/></td><td colspan="2"><input type="text" id="se" name="<%=StringUtils.text("entity.EV.1", session)%> #2"/></td></tr>
-				<tr><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/empty.gif"/></td><td><img src="/img/component/treeview/join.gif"/></td><td><input type="text" id="se2" name="<%=StringUtils.text("entity.EV.1", session)%> #3"/></td></tr>
+				<tr><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="4"><input type="text" id="cp" name="<%=StringUtils.text("entity.CP.1", session)%>"/></td></tr>
+				<tr><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="3"><input type="text" id="ev" name="<%=StringUtils.text("entity.EV.1", session)%> #1"/></td></tr>
+				<tr><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="2"><input type="text" id="se" name="<%=StringUtils.text("entity.EV.1", session)%> #2"/></td></tr>
+				<tr><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/join.gif"/></td><td><input type="text" id="se2" name="<%=StringUtils.text("entity.EV.1", session)%> #3"/></td></tr>
 			</table>
 			<table>
 				<tr><td><input type="text" id="yr" name="<%=StringUtils.text("entity.YR.1", session)%>"/></td>
+				<td><input id='prevbtn' type='button' class='button' onclick='saveResult();' value=''/></td>
+				<td><input id='nextbtn' type='button' class='button' onclick='saveResult();' value=''/></td></tr>
 			</table>
 			<table>
 				<tr><td><input type="text" id="dt1" name="<%=StringUtils.text("date.from", session)%>"/><br/><a href="#" onclick="$('dt1').value='<%=today%>';$('dt1').addClassName('completed2');"><%=StringUtils.text("today", session)%></a>&nbsp;<a href="#" onclick="$('dt1').value='<%=yesterday%>';$('dt1').addClassName('completed2');"><%=StringUtils.text("yesterday", session)%></a></td>
@@ -36,10 +38,10 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 				<tr><td><input type="text" id="pl2" name="<%=StringUtils.text("venue.city", session)%> #2"/></td></tr>
 			</table>
 			<table>
-				<tr><td><input type="text" id="exa" name="<%=StringUtils.text("tie", session)%>"/></td>
+				<tr><td><input type="text" id="exa" name="<%=StringUtils.text("tie", session)%>"/></td></tr>
 			</table>
 			<table>
-				<tr><td><input type="text" id="cmt" name="<%=StringUtils.text("comment", session)%>"/></td>
+				<tr><td><input type="text" id="cmt" name="<%=StringUtils.text("comment", session)%>"/></td></tr>
 			</table>
 			</div>
 			<div style="height:380px;">

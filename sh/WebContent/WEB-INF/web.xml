@@ -120,6 +120,7 @@
 		<url-pattern>/login/*</url-pattern>
 		<url-pattern>/logout/*</url-pattern>
 		<url-pattern>/update/*</url-pattern>
+		<!-- Details -->
 		<url-pattern>/athletes/*</url-pattern>
 		<url-pattern>/championships/*</url-pattern>
 		<url-pattern>/cities/*</url-pattern>
@@ -130,6 +131,9 @@
 		<url-pattern>/usstates/*</url-pattern>
 		<url-pattern>/teams/*</url-pattern>
 		<url-pattern>/years/*</url-pattern>
+		<!-- Locales -->
+		<url-pattern>/fr/*</url-pattern>
+		<url-pattern>/en/*</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>

@@ -153,9 +153,9 @@ function info(s) {
 			parameters: addOptions($H())
 		});
 	}
-	/*else {
-		location.href = '/details/' + s;
-	}*/
+	else {
+		location.href = '/results/' + s;
+	}
 }
 function currentTime() {
 	return new Date().getTime();
@@ -421,18 +421,18 @@ function printCurrentTab() {
 var hSliders = new Hash();
 function sliderLinkOver() {
 	var src = this.down().src;
-	this.down().src = src.replace('.gif', '-over.gif');
+	this.down().src = src.replace('.gif', '-over.gif') + '?0';
 }
 function sliderLinkOut() {
 	var src = this.down().src;
-	this.down().src = src.replace('-over.gif', '.gif');
+	this.down().src = src.replace('-over.gif', '.gif') + '?0';
 }
 function handleSliderArr(id) {
-	var slider = hSliders.get(id);
-	var length = slider.slides.length;
-	var links = $$('#' + id + ' .slider-control');
-	links[0].style.visibility = (!slider.current || slider.current._index == 0 ? 'hidden' : '');
-	links[1].style.visibility = (length <= 1 || (slider.current && slider.current._index == length - 1) ? 'hidden' : '');
+//	var slider = hSliders.get(id);
+//	var length = slider.slides.length;
+//	var links = $$('#' + id + ' .slider-control');
+//	links[0].style.visibility = (!slider.current || slider.current._index == 0 ? 'hidden' : '');
+//	links[1].style.visibility = (length <= 1 || (slider.current && slider.current._index == length - 1) ? 'hidden' : '');
 }
 function createSlider(id, w, h, c) {
 	var container = $$('#' + id + ' .container')[0];
@@ -446,7 +446,6 @@ function createSlider(id, w, h, c) {
 	links.each(function(link) {
 		Event.observe(link, 'mouseover', sliderLinkOver);
 		Event.observe(link, 'mouseout', sliderLinkOut);
-		//link.up().setStyle({marginTop: (h / 2) - 25});
 	});
 	hSliders.set(id, new Carousel(container, slides, links, {duration: 0.4, circular: (c ? true : false), afterMove: (!c ? function(){handleSliderArr(id);} : null)}));
 	if (!c) {
@@ -580,30 +579,9 @@ function moreSports(index1, index2) {
 	});
 	$('more-' + index1 + '-' + index2).show();
 }
-function initSliderSport(s) {
-	/*var sliderContent = [];
-	var t = $$('#pl-' + s + ' option');
-	t.each(function(el) {
-		sliderContent.push('<div id="' + s + '-' + el.value + '" class="slide"><img alt="" title="' + el.text + '" src=\'' + hSportImg[el.value] + '\'/></div>');
-	});
-	sliderContent.push('<div id="' + s + '-' + t[0].value + '" class="slide">' + hSportImg[t[0].value] + '</div>');
-	$$('#slider-' + s + ' .content')[0].update(sliderContent.join(''));
-	var sl = hSliders.get('slider-' + s);
-	if (!sl) {
-		sl = createSlider('slider-' + s, 102, 102, true);
-		sl.options.afterMove = function() {
-			var currentId = sl.current.id;
-			$('pl-' + s).setValue(currentId.replace(s + '-', ''));
-			if (s == 'sp') {
-				changeSport(true);
-			}
-		};
-	}
-	else {
-		var slides = $$('#slider-' + s + ' .slide');
-		sl.initialize(sl.scroller, slides, sl.controls, sl.options);
-	}
-	sl.moveTo($(s + '-' + t[0].value));*/
+function initSliderHome(html) {
+	$$('#sports .content')[0].update(html);
+	createSlider('sports', 660, 120, true);
 }
 function loadHomeData() {
 	new Ajax.Request('IndexServlet?t=' + currentTime(), {
@@ -1223,7 +1201,8 @@ function initUpdate(value) {
 		if (t[7] != '') {tValues['se'] = t[7]; $('se').value = t[8]; updateType('se', t[9]); $('se').addClassName('completed');}
 		if (t[10] != '') {tValues['se2'] = t[10]; $('se2').value = t[11]; updateType('se2', t[12]); $('se2').addClassName('completed');}
 		tValues['yr'] = t[13]; $('yr').value = t[14]; $('yr').addClassName('completed');
-		if (t.length > 15) {
+		//alert(t.length+' - '+t)
+		if (t.length > 16) {
 			tValues['id'] = t[15];
 			tValues['rs1'] = t[16]; $('rs1').value = t[16]; if (t[16] != '') {$('rs1').addClassName('completed2');}
 			tValues['rs2'] = t[17]; $('rs2').value = t[17]; if (t[17] != '') {$('rs2').addClassName('completed2');}

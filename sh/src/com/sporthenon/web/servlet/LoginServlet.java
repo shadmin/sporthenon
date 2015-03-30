@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.meta.Member;
-import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 
@@ -38,7 +37,7 @@ public class LoginServlet extends AbstractServlet {
 					Member m = lstMember.get(0);
 					if (m.getActive() != null && m.getActive()) {
 						request.getSession().setAttribute("user", m);
-						response.sendRedirect(ConfigUtils.getProperty("url"));
+						response.sendRedirect("/");
 						isMsg = false;
 					}
 					else
@@ -68,7 +67,7 @@ public class LoginServlet extends AbstractServlet {
 				request.getSession().removeAttribute("user");
 				msg = ResourceUtils.getText("msg.logout", getLocale(request));
 				isMsg = false;
-				response.sendRedirect(ConfigUtils.getProperty("url"));
+				response.sendRedirect("/");
 			}
 			if (isMsg) {
 				request.setAttribute("msg", msg);

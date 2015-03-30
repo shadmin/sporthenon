@@ -1121,22 +1121,22 @@ public class HtmlConverter {
 				TreeItem item2 = (TreeItem) lst.get(j);
 				if (item2.getLevel() < 2) {j--; break;}
 				writer.write(j > i + 1 ? "," : "");
-				writer.write("['" + StringUtils.toTree(item2.getLabel()) + "','" + (encode ? "enc-" + StringUtils.encode("RS-" + item.getIdItem() + "-" + item2.getIdItem()) : item.getIdItem() + "_" + item2.getIdItem()) + "',");
+				writer.write("['" + StringUtils.toTree(item2.getLabel()) + "','" + (encode ? "enc-" + StringUtils.encode(item.getIdItem() + "-" + item2.getIdItem()) : item.getIdItem() + "_" + item2.getIdItem()) + "',");
 				for (k = j + 1 ; k < lst.size() ; k++) {
 					TreeItem item3 = (TreeItem) lst.get(k);
 					if (item3.getLevel() < 3) {k--; break;}
 					writer.write(k > j + 1 ? "," : "");
-					writer.write("['" + StringUtils.toTree(item3.getLabel()) + "','" + (encode ? "enc-" + StringUtils.encode("RS-" + item.getIdItem() + "-" + item2.getIdItem() + "-" + item3.getIdItem()) : item.getIdItem() + "_" + item2.getIdItem() + "_" + item3.getIdItem()) + "',");
+					writer.write("['" + StringUtils.toTree(item3.getLabel()) + "','" + (encode ? "enc-" + StringUtils.encode(item.getIdItem() + "-" + item2.getIdItem() + "-" + item3.getIdItem()) : item.getIdItem() + "_" + item2.getIdItem() + "_" + item3.getIdItem()) + "',");
 					for (l = k + 1 ; l < lst.size() ; l++) {
 						TreeItem item4 = (TreeItem) lst.get(l);
 						if (item4.getLevel() < 4) {l--; break;}
 						writer.write(l > k + 1 ? "," : "");
-						writer.write("['" + StringUtils.toTree(item4.getLabel()) + "','" + (encode ? "enc-" + StringUtils.encode("RS-" + item.getIdItem() + "-" + item2.getIdItem() + "-" + item3.getIdItem() + "-" + item4.getIdItem()) : item.getIdItem() + "_" + item2.getIdItem() + "_" + item3.getIdItem() + "_" + item4.getIdItem()) + "',");
+						writer.write("['" + StringUtils.toTree(item4.getLabel()) + "','" + (encode ? "enc-" + StringUtils.encode(item.getIdItem() + "-" + item2.getIdItem() + "-" + item3.getIdItem() + "-" + item4.getIdItem()) : item.getIdItem() + "_" + item2.getIdItem() + "_" + item3.getIdItem() + "_" + item4.getIdItem()) + "',");
 						for (m = l + 1 ; m < lst.size() ; m++) {
 							TreeItem item5 = (TreeItem) lst.get(m);
 							if (item5.getLevel() < 5) {m--; break;}
 							writer.write(m > l + 1 ? "," : "");
-							writer.write("['" + StringUtils.toTree(item5.getLabel()) + "','" + (encode ? "enc-" + StringUtils.encode("RS-" + item.getIdItem() + "-" + item2.getIdItem() + "-" + item3.getIdItem() + "-" + item4.getIdItem() + "-" + item5.getIdItem()) : item.getIdItem() + "_" + item2.getIdItem() + "_" + item3.getIdItem() + "_" + item4.getIdItem() + "_" + item5.getIdItem()) + "']");
+							writer.write("['" + StringUtils.toTree(item5.getLabel()) + "','" + (encode ? "enc-" + StringUtils.encode(item.getIdItem() + "-" + item2.getIdItem() + "-" + item3.getIdItem() + "-" + item4.getIdItem() + "-" + item5.getIdItem()) : item.getIdItem() + "_" + item2.getIdItem() + "_" + item3.getIdItem() + "_" + item4.getIdItem() + "_" + item5.getIdItem()) + "']");
 						}
 						l = m;
 						writer.write("]");

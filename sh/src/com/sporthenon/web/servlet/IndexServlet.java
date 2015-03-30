@@ -21,7 +21,6 @@ import com.sporthenon.db.function.StatisticsBean;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
-import com.sporthenon.utils.res.ResourceUtils;
 import com.sporthenon.web.HtmlConverter;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
@@ -88,22 +87,43 @@ private static final long serialVersionUID = 1L;
 		for (PicklistBean plb : cPicklist) {
 			String img = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, plb.getValue(), ImageUtils.SIZE_LARGE, null, null);
 			img = img.replaceAll(".*\\ssrc\\='|'/\\>", "");
-			hSports.put(plb.getValue(), "<div id='sport-#INDEX#' class='sport' style=\"#DISPLAY#background-image:url('" + img + "');\">" + HtmlUtils.writeLink(Sport.alias, plb.getValue(), plb.getText().replaceAll("\\s", "&nbsp;")) + "</div>");
+			hSports.put(plb.getValue(), "<div id='sport-#INDEX#' class='sport' style=\"background-image:url('" + img + "');\">" + HtmlUtils.writeLink(Sport.alias, plb.getValue(), plb.getText().replaceAll("\\s", "&nbsp;")) + "</div>");
 		}
 		StringBuffer sports = new StringBuffer();
 		int index = 0;
+		
+		// Slide #1
+		sports.append("<div class='slide'>");
 		for (Integer i : new Integer[]{21, 7, 5, 22, 1, 24}) // Football, Rugby, Auto Racing, Tennis, Athletics, Basketball
-			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)).replaceAll("#DISPLAY#", ""));
-		sports.append("<div class='otherimglink' style='padding-top:102px;'><a href='javascript:moreSports(7, 12);'>" + ResourceUtils.getText("more.sports", lang) + "</a></div>");
+			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)));
+		sports.append("</div>");
+		String slide1 = sports.toString();
+
+		// Slide #2
+		sports.append("<div class='slide'>");
 		for (Integer i : new Integer[]{30, 19, 13, 20, 2, 8}) // Boxing, Cycling, Volleyball, Golf, Swimming, Alpine Skiing
-			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)).replaceAll("#DISPLAY#", "display:none;"));
-		sports.append("<div id='more-7-12' class='otherimglink' style='display:none;padding-top:102px;'><a href='javascript:moreSports(13, 18);'>" + ResourceUtils.getText("more.sports", lang) + "</a></div>");
+			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)));
+		sports.append("</div>");
+		
+		// Slide #3
+		sports.append("<div class='slide'>");
 		for (Integer i : new Integer[]{15, 14, 18, 25, 42, 48}) // Bobsleigh, Fencing, Motorcycling, Ice Hockey, Judo, Cricket
-			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)).replaceAll("#DISPLAY#", "display:none;"));
-		sports.append("<div id='more-13-18' class='otherimglink' style='display:none;padding-top:102px;'><a href='javascript:moreSports(19, 24);'>" + ResourceUtils.getText("more.sports", lang) + "</a></div>");
+			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)));
+		sports.append("</div>");
+		
+		// Slide #4
+		sports.append("<div class='slide'>");
 		for (Integer i : new Integer[]{45, 50, 41, 34, 31, 27}) // Squash, Wrestling, Diving, Weightlifting, Archery, Badminton
-			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)).replaceAll("#DISPLAY#", "display:none;"));
-		return sports.toString();
+			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)));
+		sports.append("</div>");
+
+		// Slide #5
+		sports.append("<div class='slide'>");
+		for (Integer i : new Integer[]{4, 35, 36, 3, 52, 40}) // Handball, Ice Skating, Surfing, Table Tennis, Mountainbiking, Waterpolo
+			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)));
+		sports.append("</div>");
+		
+		return sports.append(slide1).toString().replaceAll("\"", "\\\\\"");
 	}
 	
 }
