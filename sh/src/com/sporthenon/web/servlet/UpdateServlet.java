@@ -20,7 +20,9 @@ import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.Team;
+import com.sporthenon.db.entity.Type;
 import com.sporthenon.db.entity.Year;
+import com.sporthenon.db.entity.meta.Member;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 
@@ -35,6 +37,7 @@ public class UpdateServlet extends AbstractServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String lang = getLocale(request);
+			Member user = getUser(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			if (hParams.containsKey("p2") && hParams.get("p2").equals("ajax")) { // Ajax autocompletion
 				String field = String.valueOf(hParams.get("p"));
@@ -106,26 +109,70 @@ public class UpdateServlet extends AbstractServlet {
 					int tp = 0;
 					Integer idRS = (StringUtils.notEmpty(hParams.get("id")) ? Integer.valueOf(String.valueOf(hParams.get("id"))) : null);
 					Result result = (idRS != null ? (Result)DatabaseHelper.loadEntity(Result.class, idRS) : new Result());
+					// Sport
 					result.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, hParams.get("sp")));
-					if (result.getSport() == null)
-						sbMsg.append("ERR:Sport does not exist.<br/>");
+					if (result.getSport() == null) {
+						Sport s = new Sport();
+						s.setLabel(String.valueOf(hParams.get("sp-l")));
+						s.setLabelFr(s.getLabel());
+						s.setType(1);
+						s = (Sport) DatabaseHelper.saveEntity(s, user);
+						result.setSport(s);
+					}
+					// Championship
 					result.setChampionship((Championship)DatabaseHelper.loadEntity(Championship.class, hParams.get("cp")));
-					if (result.getChampionship() == null)
-						sbMsg.append("ERR:Championship does not exist.<br/>");
+					if (result.getChampionship() == null) {
+						Championship c = new Championship();
+						c.setLabel(String.valueOf(hParams.get("cp-l")));
+						c.setLabelFr(c.getLabel());
+						c = (Championship) DatabaseHelper.saveEntity(c, user);
+						result.setChampionship(c);
+					}
+					// Event #1
 					result.setEvent((Event)DatabaseHelper.loadEntity(Event.class, hParams.get("ev")));
-					if (result.getEvent() == null)
-						sbMsg.append("ERR:Event #1 does not exist.<br/>");
-					else
-						tp = result.getEvent().getType().getNumber();
-					result.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.notEmpty(hParams.get("se")) ? hParams.get("se") : 0));
-					if (result.getSubevent() != null)
+					if (result.getEvent() == null) {
+						Event e = new Event();
+						e.setLabel(String.valueOf(hParams.get("ev-l")));
+						e.setLabelFr(e.getLabel());
+						e.setType((Type)DatabaseHelper.loadEntity(Type.class, 1));
+						e = (Event) DatabaseHelper.saveEntity(e, user);
+						result.setEvent(e);
+					}
+					tp = result.getEvent().getType().getNumber();
+					// Event #2
+					if (StringUtils.notEmpty(hParams.get("se"))) {
+						result.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, hParams.get("se")));
+						if (result.getSubevent() == null) {
+							Event e = new Event();
+							e.setLabel(String.valueOf(hParams.get("se-l")));
+							e.setLabelFr(e.getLabel());
+							e.setType((Type)DatabaseHelper.loadEntity(Type.class, 1));
+							e = (Event) DatabaseHelper.saveEntity(e, user);
+							result.setSubevent(e);
+						}
 						tp = result.getSubevent().getType().getNumber();
-					result.setSubevent2((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.notEmpty(hParams.get("se2")) ? hParams.get("se2") : 0));
-					if (result.getSubevent2() != null)
+					}
+					// Event #3
+					if (StringUtils.notEmpty(hParams.get("se2"))) {
+						result.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, hParams.get("se2")));
+						if (result.getSubevent2() == null) {
+							Event e = new Event();
+							e.setLabel(String.valueOf(hParams.get("se2-l")));
+							e.setLabelFr(e.getLabel());
+							e.setType((Type)DatabaseHelper.loadEntity(Type.class, 1));
+							e = (Event) DatabaseHelper.saveEntity(e, user);
+							result.setSubevent2(e);
+						}
 						tp = result.getSubevent2().getType().getNumber();
+					}
+					// Year
 					result.setYear((Year)DatabaseHelper.loadEntity(Year.class, hParams.get("yr")));
-					if (result.getYear() == null)
-						sbMsg.append("ERR:Year does not exist.<br/>");
+					if (result.getYear() == null) {
+						Year y = new Year();
+						y.setLabel(String.valueOf(hParams.get("yr-l")));
+						y = (Year) DatabaseHelper.saveEntity(y, user);
+						result.setYear(y);
+					}
 					for(int i : new int[]{1, 2}) {
 						if (StringUtils.notEmpty(hParams.get("pl" + i + "-l"))) {
 							String[] t = String.valueOf(hParams.get("pl" + i + "-l")).toLowerCase().split("\\,\\s");
@@ -139,15 +186,15 @@ public class UpdateServlet extends AbstractServlet {
 							if (StringUtils.notEmpty(hParams.get("pl" + i)))
 								id = new Integer(String.valueOf(hParams.get("pl" + i)));
 							else
-								id = DatabaseHelper.insertPlace(0, String.valueOf(hParams.get("pl" + i + "-l")), getUser(request), null, lang);
+								id = DatabaseHelper.insertPlace(0, String.valueOf(hParams.get("pl" + i + "-l")), user, null, lang);
 							if (isComplex) {
-								if (id == 1)
+								if (i == 1)
 									result.setComplex1((Complex)DatabaseHelper.loadEntity(Complex.class, id));
 								else
 									result.setComplex2((Complex)DatabaseHelper.loadEntity(Complex.class, id));
 							}
 							else {
-								if (id == 1)
+								if (i == 1)
 									result.setCity1((City)DatabaseHelper.loadEntity(City.class, id));
 								else
 									result.setCity2((City)DatabaseHelper.loadEntity(City.class, id));
@@ -161,12 +208,12 @@ public class UpdateServlet extends AbstractServlet {
 					for (int i = 1 ; i <= 10 ; i++) {
 						Integer id = (StringUtils.notEmpty(hParams.get("rk" + i)) ? new Integer(String.valueOf(hParams.get("rk" + i))) : 0);
 						if (id == 0 && StringUtils.notEmpty(hParams.get("rk" + i + "-l")))
-							id = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(hParams.get("rk" + i + "-l")), null, getUser(request), null, lang);
+							id = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(hParams.get("rk" + i + "-l")), null, user, null, lang);
 						Result.class.getMethod("setIdRank" + i, Integer.class).invoke(result, id > 0 ? id : null);
 						if (i <= 5)
 							Result.class.getMethod("setResult" + i, String.class).invoke(result, StringUtils.notEmpty(hParams.get("rs" + i + "-l")) ? hParams.get("rs" + i + "-l") : null);
 					}
-					result = (Result) DatabaseHelper.saveEntity(result, getUser(request));
+					result = (Result) DatabaseHelper.saveEntity(result, user);
 					sbMsg.append(ResourceUtils.getText("result." + (idRS != null ? "modified" : "created"), getLocale(request)));
 				}
 				catch (Exception e) {
@@ -178,76 +225,104 @@ public class UpdateServlet extends AbstractServlet {
 				}
 			}
 			else { // Load result
+				Object tp = hParams.get("tp");
 				request.setAttribute("title", ResourceUtils.getText("menu.update", getLocale(request)) + " | SPORTHENON");
 				String p = String.valueOf(hParams.get("p"));
 				p = StringUtils.decode(p);
-				String[] t = p.split("\\-");
+				Object[] t = p.split("\\-");
 				Result rs = null;
 				Year yr = null;
 				
-				if (t[0].equals(Result.alias)) {
-					rs = (Result)DatabaseHelper.loadEntity(Result.class, t[1]);
-					String s = rs.getSport().getId() + "-" + rs.getChampionship().getId() + "-" + rs.getEvent().getId() + (rs.getSubevent() != null ? "-" + rs.getSubevent().getId() : "") + (rs.getSubevent2() != null ? "-" + rs.getSubevent2().getId() : "");
-					yr = rs.getYear();
-					t = s.split("\\-");
+				if (tp != null) {
+					rs = (Result) DatabaseHelper.loadEntityFromQuery("from Result where year.id " + (tp.equals("next") ? ">" : "<") + " " + hParams.get("yr") + " and sport.id=" + hParams.get("sp") + " and championship.id=" + hParams.get("cp") + " and event.id=" + hParams.get("ev") + (StringUtils.notEmpty(hParams.get("se")) ? " and subevent.id=" + hParams.get("se") : "") + (StringUtils.notEmpty(hParams.get("se2")) ? " and subevent2.id=" + hParams.get("se2") : "") + " order by year.id " + (tp.equals("next") ? "asc" : "desc"));
+					if (rs != null) {
+						yr = rs.getYear();
+						t = new Object[3 + (rs.getSubevent() != null ? 1 : 0) + (rs.getSubevent2() != null ? 1 : 0)];
+						t[0] = rs.getSport().getId();
+						t[1] = rs.getChampionship().getId();
+						t[2] = rs.getEvent().getId();
+						if (rs.getSubevent() != null)
+							t[3] = rs.getSubevent().getId();
+						if (rs.getSubevent2() != null)
+							t[4] = rs.getSubevent2().getId();
+					}
+					else
+						t = null;
 				}
-				Sport sp = (Sport)DatabaseHelper.loadEntity(Sport.class, t[0]);
-				Championship cp = (Championship)DatabaseHelper.loadEntity(Championship.class, t[1]); 
-				Event ev = (Event)DatabaseHelper.loadEntity(Event.class, t[2]);
-				Event se = (Event)DatabaseHelper.loadEntity(Event.class, t.length > 3 ? t[3] : 0);
-				Event se2 = (Event)DatabaseHelper.loadEntity(Event.class, t.length > 4 ? t[4] : 0);
-				if (yr == null)
-					yr = (Year)DatabaseHelper.loadEntityFromQuery("from Year where label='" + Calendar.getInstance().get(Calendar.YEAR) + "'");
-			
-				StringBuffer sb = new StringBuffer();
-				sb.append(sp.getId()).append("~").append(sp.getLabel(lang)).append("~");
-				sb.append(cp.getId()).append("~").append(cp.getLabel(lang)).append("~");
-				sb.append(ev.getId()).append("~").append(ev.getLabel(lang)).append("~").append(ev.getType().getNumber()).append("~");
-				sb.append(se != null ? se.getId() : "").append("~").append(se != null ? se.getLabel(lang) : "").append("~").append(se != null ? se.getType().getNumber() : "").append("~");
-				sb.append(se2 != null ? se2.getId() : "").append("~").append(se2 != null ? se2.getLabel(lang) : "").append("~").append(se2 != null ? se2.getType().getNumber() : "").append("~");
-				sb.append(yr.getId()).append("~").append(yr.getLabel()).append("~");
-				if (rs != null) {
-					sb.append(rs.getId()).append("~");
-					sb.append(rs.getResult1()).append("~").append(rs.getResult2()).append("~").append(rs.getResult3()).append("~").append(rs.getResult4()).append("~").append(rs.getResult5()).append("~");
-					sb.append(rs.getDate1()).append("~").append(rs.getDate2()).append("~");
-					sb.append(rs.getComplex1() != null ? rs.getComplex1().getId() : (rs.getCity1() != null ? rs.getCity1().getId() : "")).append("~");
-					sb.append(rs.getComplex1() != null ? rs.getComplex1().toString2() : (rs.getCity1() != null ? rs.getCity1().toString2() : "")).append("~");
-					sb.append(rs.getComplex2() != null ? rs.getComplex2().getId() : (rs.getCity2() != null ? rs.getCity2().getId() : "")).append("~");
-					sb.append(rs.getComplex2() != null ? rs.getComplex2().toString2() : (rs.getCity2() != null ? rs.getCity2().toString2() : "")).append("~");
-					sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~");
-					Integer n = ev.getType().getNumber();
-					if (se != null)
-						n = se.getType().getNumber();
-					if (se2 != null)
-						n = se2.getType().getNumber();
-					for (int i = 1 ; i <= 10 ; i++) {
-						Method m = Result.class.getMethod("getIdRank" + i);
-						Integer id = null;
-						if (m != null) {
-							Object o = m.invoke(rs);
-							if (o != null)
-								id = (Integer) o;
+
+				if (t != null) {
+					if (t[0].equals(Result.alias)) {
+						rs = (Result)DatabaseHelper.loadEntity(Result.class, t[1]);
+						String s = rs.getSport().getId() + "-" + rs.getChampionship().getId() + "-" + rs.getEvent().getId() + (rs.getSubevent() != null ? "-" + rs.getSubevent().getId() : "") + (rs.getSubevent2() != null ? "-" + rs.getSubevent2().getId() : "");
+						yr = rs.getYear();
+						t = s.split("\\-");
+					}
+					Sport sp = (Sport)DatabaseHelper.loadEntity(Sport.class, t[0]);
+					Championship cp = (Championship)DatabaseHelper.loadEntity(Championship.class, t[1]); 
+					Event ev = (Event)DatabaseHelper.loadEntity(Event.class, t[2]);
+					Event se = (Event)DatabaseHelper.loadEntity(Event.class, t.length > 3 ? t[3] : 0);
+					Event se2 = (Event)DatabaseHelper.loadEntity(Event.class, t.length > 4 ? t[4] : 0);
+					if (yr == null)
+						yr = (Year)DatabaseHelper.loadEntityFromQuery("from Year where label='" + Calendar.getInstance().get(Calendar.YEAR) + "'");
+
+					StringBuffer sb = new StringBuffer();
+					sb.append(sp.getId()).append("~").append(sp.getLabel(lang)).append("~");
+					sb.append(cp.getId()).append("~").append(cp.getLabel(lang)).append("~");
+					sb.append(ev.getId()).append("~").append(ev.getLabel(lang)).append("~").append(ev.getType().getNumber()).append("~");
+					sb.append(se != null ? se.getId() : "").append("~").append(se != null ? se.getLabel(lang) : "").append("~").append(se != null ? se.getType().getNumber() : "").append("~");
+					sb.append(se2 != null ? se2.getId() : "").append("~").append(se2 != null ? se2.getLabel(lang) : "").append("~").append(se2 != null ? se2.getType().getNumber() : "").append("~");
+					sb.append(yr.getId()).append("~").append(yr.getLabel()).append("~");
+					if (rs != null) {
+						request.setAttribute("id", rs.getId());
+						sb.append(rs.getId()).append("~");
+						sb.append(rs.getResult1()).append("~").append(rs.getResult2()).append("~").append(rs.getResult3()).append("~").append(rs.getResult4()).append("~").append(rs.getResult5()).append("~");
+						sb.append(rs.getDate1()).append("~").append(rs.getDate2()).append("~");
+						sb.append(rs.getComplex1() != null ? rs.getComplex1().getId() : (rs.getCity1() != null ? rs.getCity1().getId() : "")).append("~");
+						sb.append(rs.getComplex1() != null ? rs.getComplex1().toString2() : (rs.getCity1() != null ? rs.getCity1().toString2() : "")).append("~");
+						sb.append(rs.getComplex2() != null ? rs.getComplex2().getId() : (rs.getCity2() != null ? rs.getCity2().getId() : "")).append("~");
+						sb.append(rs.getComplex2() != null ? rs.getComplex2().toString2() : (rs.getCity2() != null ? rs.getCity2().toString2() : "")).append("~");
+						sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~");
+						Integer n = ev.getType().getNumber();
+						if (se != null)
+							n = se.getType().getNumber();
+						if (se2 != null)
+							n = se2.getType().getNumber();
+						for (int i = 1 ; i <= 10 ; i++) {
+							Method m = Result.class.getMethod("getIdRank" + i);
+							Integer id = null;
+							if (m != null) {
+								Object o = m.invoke(rs);
+								if (o != null)
+									id = (Integer) o;
+							}
+							String label = null;
+							if (id != null && id > 0) {
+								if (n < 10) {
+									Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, id);
+									label = a.toString2();
+								}
+								else if (n == 50) {
+									Team t_ = (Team) DatabaseHelper.loadEntity(Team.class, id);
+									label = t_.getLabel();
+								}
+								else {
+									Country c = (Country) DatabaseHelper.loadEntity(Country.class, id);
+									label = c.getLabel(lang);
+								}
+							}
+							sb.append(id != null ? id : "").append("~").append(label != null ? label : "").append("~");
 						}
-						String label = null;
-						if (id != null && id > 0) {
-							if (n < 10) {
-								Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, id);
-								label = a.toString2();
-							}
-							else if (n == 50) {
-								Team t_ = (Team) DatabaseHelper.loadEntity(Team.class, id);
-								label = t_.getLabel();
-							}
-							else {
-								Country c = (Country) DatabaseHelper.loadEntity(Country.class, id);
-								label = c.getLabel(lang);
-							}
-						}
-						sb.append(id != null ? id : "").append("~").append(label != null ? label : "").append("~");
+					}
+					String result = sb.toString().replaceAll("~null~", "~~").replaceAll("~null~", "~~").replaceAll("\"", "\\\\\"");
+					if (tp != null)
+						ServletHelper.writeText(response, result);
+					else {
+						request.setAttribute("value", result);
+						request.getRequestDispatcher("/jsp/update.jsp").forward(request, response);					
 					}
 				}
-				request.setAttribute("value", sb.toString().replaceAll("~null~", "~~").replaceAll("~null~", "~~").replaceAll("\"", "\\\\\""));
-				request.getRequestDispatcher("/jsp/update.jsp").forward(request, response);
+				else
+					ServletHelper.writeText(response, "");
 			}
 		}
 		catch (Exception e) {

@@ -103,6 +103,7 @@
 	<entry key="city">Ville</entry>
 	<entry key="name">Nom</entry>
 	<entry key="record">Palmarès</entry>
+	<entry key="record2">Record</entry>
 	<entry key="rec.OLYMP">Jeux Olympiques</entry>
 	<entry key="rec.WORLDCP">Championnats du Monde</entry>
 	<entry key="rec.GSLAM">Grand Chelem</entry>
@@ -301,7 +302,6 @@
 	<entry key="venue.city">Lieu/Ville</entry>
 	<entry key="tie">Ex-aequo</entry>
 	<entry key="result.score">Résultat/Score</entry>
-	<entry key="save">Enregistrer</entry>
-	<entry key="result.created">Résultat créé.</entry>
-	<entry key="result.modified">Résultat enregistré.</entry>
+	<entry key="result.created">Résultat ajouté.</entry>
+	<entry key="result.modified">Résultat modifié.</entry>
 </properties>

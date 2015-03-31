@@ -57,7 +57,7 @@ public class NavigationServlet extends AbstractServlet {
 			String key = tURI[0];
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			RequestDispatcher dispatcher = null;
-			if (!ConfigUtils.getProperty("env").equals("local"))
+			if (ConfigUtils.getProperty("env").matches("test|prod"))
 				if (key != null && key.equals("update") && (request.getSession() == null || request.getSession().getAttribute("user") == null))
 					key = "login";
 			if (tURI.length > 1 || hParams.containsKey("p")) {

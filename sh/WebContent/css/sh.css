@@ -407,12 +407,14 @@ input{
 }
 .slider .slider-control{
 	border: 1px solid #E8E8E8;
+	background-color: #F9F9F9;
 	cursor: pointer;
 	padding: 20px 0px;
 	padding-top: 24px;
 }
 .slider .slider-control:hover{
 	border: 1px solid #000;
+	background-color: #F0F0F0;
 }
 .slider .container{
 	float: left;
@@ -1117,8 +1119,12 @@ input{
 	background-position: 4px center;
 	padding-left: 18px;
 }
-#update #savebtn{
-	background-image: url('../img/component/button/save.png?3');
+#update #modifybtn{
+	background-image: url('../img/component/button/modify.png?3');
+	background-position: 4px center;
+}
+#update #addbtn{
+	background-image: url('../img/component/button/add.png?3');
 	background-position: 4px center;
 }
 #ajaxdiv {

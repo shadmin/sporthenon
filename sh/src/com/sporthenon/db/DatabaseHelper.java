@@ -153,7 +153,7 @@ public class DatabaseHelper {
 	public static Object loadEntity(Class entity, Object id) throws Exception {
 		UserTransaction tr = null;
 		try {
-			if (id != null) {
+			if (StringUtils.notEmpty(id)) {
 				tr = getTransaction();
 				if (tr != null) tr.begin();
 				Object o = getEntityManager().find(entity, new Integer(String.valueOf(id)));

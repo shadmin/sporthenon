@@ -1189,10 +1189,14 @@ function initUpdate(value) {
 				tValues[$(this).id] = null;
 			}
 			else if ($(this).value != $(this).name && !$(this).hasClassName('completed')) {
-				$(this).addClassName('completed2');
+				$(this).removeClassName('completed').addClassName('completed2');
+				tValues[$(this).id] = null;
 			}
 		});
 	});
+	loadResValues(value);
+}
+function loadResValues(value) {
 	var t = value.split('~');
 	if (t != null && t.length > 1) {
 		tValues['sp'] = t[0]; $('sp').value = t[1]; $('sp').addClassName('completed');
@@ -1201,30 +1205,35 @@ function initUpdate(value) {
 		if (t[7] != '') {tValues['se'] = t[7]; $('se').value = t[8]; updateType('se', t[9]); $('se').addClassName('completed');}
 		if (t[10] != '') {tValues['se2'] = t[10]; $('se2').value = t[11]; updateType('se2', t[12]); $('se2').addClassName('completed');}
 		tValues['yr'] = t[13]; $('yr').value = t[14]; $('yr').addClassName('completed');
-		//alert(t.length+' - '+t)
 		if (t.length > 16) {
 			tValues['id'] = t[15];
-			tValues['rs1'] = t[16]; $('rs1').value = t[16]; if (t[16] != '') {$('rs1').addClassName('completed2');}
-			tValues['rs2'] = t[17]; $('rs2').value = t[17]; if (t[17] != '') {$('rs2').addClassName('completed2');}
-			tValues['rs3'] = t[18]; $('rs3').value = t[18]; if (t[18] != '') {$('rs3').addClassName('completed2');}
-			tValues['rs4'] = t[19]; $('rs4').value = t[19]; if (t[19] != '') {$('rs4').addClassName('completed2');}
-			tValues['rs5'] = t[20]; $('rs5').value = t[20]; if (t[20] != '') {$('rs5').addClassName('completed2');}
-			tValues['dt1'] = t[21]; $('dt1').value = t[21]; if (t[21] != '') {$('dt1').addClassName('completed2');}
-			tValues['dt2'] = t[22]; $('dt2').value = t[22]; if (t[22] != '') {$('dt2').addClassName('completed2');}
-			tValues['pl1'] = t[23]; $('pl1').value = t[24]; if (t[23] != '') {$('pl1').addClassName('completed');}
-			tValues['pl2'] = t[25]; $('pl2').value = t[26]; if (t[25] != '') {$('pl2').addClassName('completed');}
-			tValues['exa'] = t[27]; $('exa').value = t[27]; if (t[27] != '') {$('exa').addClassName('completed2');}
-			tValues['cmt'] = t[28]; $('cmt').value = t[28]; if (t[28] != '') {$('cmt').addClassName('completed2');}
+			tValues['rs1'] = t[16]; if (t[16] != '') {$('rs1').value = t[16]; $('rs1').addClassName('completed2');}
+			tValues['rs2'] = t[17]; if (t[17] != '') {$('rs2').value = t[17]; $('rs2').addClassName('completed2');}
+			tValues['rs3'] = t[18]; if (t[18] != '') {$('rs3').value = t[18]; $('rs3').addClassName('completed2');}
+			tValues['rs4'] = t[19]; if (t[19] != '') {$('rs4').value = t[19]; $('rs4').addClassName('completed2');}
+			tValues['rs5'] = t[20]; if (t[20] != '') {$('rs5').value = t[20]; $('rs5').addClassName('completed2');}
+			tValues['dt1'] = t[21]; if (t[21] != '') {$('dt1').value = t[21]; $('dt1').addClassName('completed2');}
+			tValues['dt2'] = t[22]; if (t[22] != '') {$('dt2').value = t[22]; $('dt2').addClassName('completed2');}
+			tValues['pl1'] = t[23]; if (t[23] != '') {$('pl1').value = t[24]; $('pl1').addClassName('completed');}
+			tValues['pl2'] = t[25]; if (t[25] != '') {$('pl2').value = t[26]; $('pl2').addClassName('completed');}
+			tValues['exa'] = t[27]; if (t[27] != '') {$('exa').value = t[27]; $('exa').addClassName('completed2');}
+			tValues['cmt'] = t[28]; if (t[28] != '') {$('cmt').value = t[28]; $('cmt').addClassName('completed2');}
 			var j = 28;
 			for (var i = 1 ; i <= 10 ; i++) {
 				tValues['rk' + i] = t[++j];
-				$('rk' + i).value = t[++j];
 				if (tValues['rk' + i] != '') {
+					$('rk' + i).value = t[++j];
 					$('rk' + i).addClassName('completed');
 				}
 			}
 		}
 	}
+}
+function clearValue(s) {
+	tValues[s] = '';
+	$(s).value = '';
+	$(s).removeClassName('completed').removeClassName('completed2');
+	$(s).focus();
 }
 function setValue(text, li) {
 	var t = li.id.split('-');
@@ -1235,7 +1244,7 @@ function setValue(text, li) {
 	}
 }
 var currentTp = null;
-function updateType(s, tp){
+function updateType(s, tp) {
 	if ((tValues['se2'] != null && s == 'se2') || (tValues['se'] != null && tValues['se2'] == null && s == 'se') || (tValues['ev'] != null && tValues['se'] == null && tValues['se2'] == null && s == 'ev')) {
 		currentTp = parseInt(tp);
 	}
@@ -1256,6 +1265,21 @@ function updateType(s, tp){
 				$(this).addClassName('completed2');
 			}
 		});
+	});
+}
+function loadResult(type) {
+	var h = $H({tp: type});
+	['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr'].each(function(s){
+		h.set(s, tValues[s]);
+	});
+	new Ajax.Request('/update/load', {
+		onSuccess: function(response){
+			var text = response.responseText;
+			if (text != '') {
+				loadResValues(text);	
+			}
+		},
+		parameters: h
 	});
 }
 function saveResult() {

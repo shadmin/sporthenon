@@ -103,6 +103,7 @@
 	<entry key="city">City</entry>
 	<entry key="name">Name</entry>
 	<entry key="record">Record</entry>
+	<entry key="record2">Record</entry>
 	<entry key="rec.OLYMP">Olympic Games</entry>
 	<entry key="rec.WORLDCP">World Championships</entry>
 	<entry key="rec.GSLAM">Grand Slam</entry>
@@ -301,7 +302,6 @@
 	<entry key="venue.city">Venue/City</entry>
 	<entry key="tie">Tie</entry>
 	<entry key="result.score">Result/Score</entry>
-	<entry key="save">Save</entry>
 	<entry key="result.created">Result created.</entry>
 	<entry key="result.modified">Result modified.</entry>
 </properties>
