@@ -33,7 +33,7 @@ begin
 		_type := 99;
 	END IF;
 	-- Olympics
-	IF _sport_txt !~ '20' AND _type <> 50 THEN
+	IF _sport_txt !~ '5|18|20|23|29|33|36|37|45' AND _type <> 50 THEN
 		_item.id := _index;
 		_item.label := 'OLYMP';
 		_item.txt1 := '#GOLD#';
@@ -46,7 +46,7 @@ begin
 		_index := _index + 1;
 	END IF;
 	-- World Championships
-	IF _sport_txt !~ '20|22' AND _type <> 50 THEN
+	IF _sport_txt !~ '20|22|23|26|29' AND _type <> 50 THEN
 		_item.id := _index;	
 		_item.label := 'WORLDCP';
 		_item.txt1 := '#GOLD#';
@@ -155,6 +155,6 @@ begin
 	RETURN;
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  LANGUAGE 'plpgsql' VOLATILE
   COST 100
   ROWS 1000;
