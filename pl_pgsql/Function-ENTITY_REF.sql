@@ -374,7 +374,7 @@ begin
 		IF _entity = 'CN' THEN _type1 = 99;_type2 = 99;
 		ELSIF _entity = 'PR' THEN _type1 = 1;_type2 = 10;
 		ELSIF _entity = 'TM' THEN _type1 = 50;_type2 = 50; END IF;
-		_query := 'SELECT RC.id, RC.label, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', RC.type1, RC.type2, RC.id_rank1, RC.id_rank2, RC.id_rank3, RC.id_rank4, RC.id_rank5 FROM "RECORD" RC';
+		_query := 'SELECT RC.id, RC.label, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', RC.type1, RC.type2, RC.record1, RC.id_rank1, RC.id_rank2, RC.id_rank3, RC.id_rank4, RC.id_rank5 FROM "RECORD" RC';
 		_query := _query || ' LEFT JOIN "SPORT" SP ON RC.id_sport = SP.id';
 		_query := _query || ' LEFT JOIN "CHAMPIONSHIP" CP ON RC.id_championship = CP.id';
 		_query := _query || ' LEFT JOIN "EVENT" EV ON RC.id_event = EV.id';
@@ -397,7 +397,7 @@ begin
 		_query := _query || ' ORDER BY SP.label' || _lang || ', CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', RC.index LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.txt1, _item.txt2, _id1, _id2, _id3, _id4, _id5;
+			FETCH _c INTO _item.id_item, _item.label, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.txt1, _item.txt2, _item.txt3, _id1, _id2, _id3, _id4, _id5;
 			EXIT WHEN NOT FOUND;
 			IF _entity ~ 'CN|PR|TM' THEN
 				IF _id1 = _id THEN _item.comment = '1';
@@ -511,6 +511,6 @@ begin
 	RETURN;
 end;
 $BODY$
-  LANGUAGE plpgsql VOLATILE
+  LANGUAGE 'plpgsql' VOLATILE
   COST 100
   ROWS 1000;
