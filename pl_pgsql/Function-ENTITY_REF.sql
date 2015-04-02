@@ -394,7 +394,7 @@ begin
 		ELSIF _entity = 'CT' THEN
 			_query := _query || ' AND RC.id_city = ' || _id;
 		END IF;
-		_query := _query || ' ORDER BY SP.label' || _lang || ', CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', RC.index LIMIT ' || _limit || ' OFFSET ' || _offset;
+		_query := _query || ' ORDER BY SP.label' || _lang || ', CP.index, EV.index, SE.index, CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', RC.index LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
 			FETCH _c INTO _item.id_item, _item.label, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.txt1, _item.txt2, _item.txt3, _id1, _id2, _id3, _id4, _id5;
