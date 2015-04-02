@@ -6,8 +6,17 @@
 +-------+
 | 0.9.1 |
 +-------+
-login/update
-
+Milestone: http://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.9.1
+o Website
+	- New feature: <Login> (==> Login page for contributors)
+	- New feature: <Update> (==> Results can be added/modified online by logged contributors)
+	- Added slider for sports list on home page
+	- Added main relevant info on page URLs
+	- Use of Base32 instead of Base64 for encoding of URL parameters
+	- Improved display of US leagues records
+o SH Update (Swing app)
+	[No change]
+	
 +-------+
 | 0.9.0 |
 +-------+
