@@ -303,7 +303,7 @@ input{
 	text-align: center;
 }
 #dupdates tr:hover{
-	background-color: #BDE0FF;
+	background-color: #BEE0FF;
 }
 #dupdates td{
 	padding: 0px 3px;
@@ -406,15 +406,15 @@ input{
 	padding-top: 25px;
 }
 .slider .slider-control{
-	border: 1px solid #E8E8E8;
-	background-color: #F9F9F9;
+	border: 1px solid #D0D0D0;
+	background-color: #F5F5F5;
 	cursor: pointer;
 	padding: 20px 0px;
 	padding-top: 24px;
 }
 .slider .slider-control:hover{
 	border: 1px solid #000;
-	background-color: #F0F0F0;
+	background-color: #E0E0E0;
 }
 .slider .container{
 	float: left;

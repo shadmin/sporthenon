@@ -10,11 +10,14 @@ import java.util.LinkedList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
+
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Olympics;
+import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.meta.Member;
 import com.sporthenon.db.entity.meta.RefItem;
@@ -68,6 +71,16 @@ public class HtmlUtils {
 		StringBuffer html = new StringBuffer();
 		StringBuffer url = new StringBuffer();
 		String name = (alias.matches(Olympics.alias + "|" + Draw.alias) ? text : DatabaseHelper.getEntityName(alias, id));
+		if (alias.equals(Draw.alias)) {
+			try {
+				Result rs = (Result) DatabaseHelper.loadEntity(Result.class, id);
+				if (rs != null)
+					name = rs.getSport().getLabel() + "/" + rs.getChampionship().getLabel() + "/" + rs.getEvent().getLabel() + (rs.getSubevent() != null ? "/" + rs.getSubevent().getLabel() : "") + (rs.getSubevent2() != null ? "/" + rs.getSubevent2().getLabel() : "");
+			}
+			catch (Exception e) {
+				Logger.getLogger("sh").error(e.getMessage());
+			}
+		}
 		url.append("/" + ResourceUtils.getText("entity." + alias, "en").replaceAll("\\s", "").toLowerCase());
 		url.append("/" + StringUtils.urlEscape(name));
 		url.append("/" + StringUtils.encode(alias + "-" + id));

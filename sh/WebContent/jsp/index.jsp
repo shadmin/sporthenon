@@ -59,7 +59,7 @@
 			for (News n : (List<News>) DatabaseHelper.execute("from News order by id desc")) {
 				if (++i == 5) {
 					isMore = true;
-					out.print("<a id='amnews' href=\"javascript:$('amnews').remove();$('mnews').show();\"><br/><br/>More</a><span id='mnews' style='display:none;'>");
+					out.print("<a id='amnews' href=\"javascript:$('amnews').remove();$('mnews').show();\"><br/><br/>" + StringUtils.text("more", session) + "</a><span id='mnews' style='display:none;'>");
 				}
 				String title = n.getTitle();
 				String text = n.getTextHtml();
@@ -79,10 +79,10 @@
 	<div style="clear:both;"></div>
 </div>
 </div>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 window.onload = function() {
 	loadHomeData();
 	initSliderHome("<%=IndexServlet.getSportDivs(String.valueOf(session.getAttribute("locale")))%>");
 }
-</script>
+--></script>
 <jsp:include page="/jsp/common/footer.jsp" />

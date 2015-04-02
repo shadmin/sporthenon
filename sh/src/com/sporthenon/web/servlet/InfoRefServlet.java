@@ -32,11 +32,10 @@ public class InfoRefServlet extends AbstractServlet {
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			String[] params = StringUtils.decode(String.valueOf(hParams.get("p"))).split("-");
 			StringBuffer html = new StringBuffer();
-			boolean isLink = hParams.containsKey("run");
+			boolean isLink = (hParams.containsKey("run") && !String.valueOf(hParams.get("p2")).equals("more"));
 			boolean isExport = hParams.containsKey("export");
 			boolean isDraw = params[0].equals(Draw.alias);
 			boolean isResult = params[0].equals(Result.alias);
-			
 			if (isResult) {
 				String p = "";
 				if (params.length == 2) {

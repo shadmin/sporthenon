@@ -38,7 +38,7 @@
 	</named-native-query>
 
 		<!--
-		GET_OLYMPIC_MEDALS(text, integer, text, varchar)
+		GET_OLYMPIC_MEDALS(text, integer, text, text, text, varchar)
 	-->
 	<named-native-query name="GetOlympicMedals" result-class="com.sporthenon.db.function.OlympicMedalsBean">  
 		<query>{? = call "GET_OLYMPIC_MEDALS"(?, ?, ?, ?, ?, ?)}</query>
@@ -70,7 +70,7 @@
 	</named-native-query>
 	
 	<!--
-		GET_TEAM_STADIUM(integer, text, varchar, varchar, varchar)
+		GET_TEAM_STADIUM(integer, text, varchar)
 	-->
 	<named-native-query name="GetTeamStadium" result-class="com.sporthenon.db.function.TeamStadiumBean">  
 		<query>{? = call "GET_TEAM_STADIUM"(?, ?, ?)}</query>
@@ -78,7 +78,7 @@
 	</named-native-query>
 	
 	<!--
-		GET_US_CHAMPIONSHIPS(integer, integer, text, varchar)
+		GET_US_CHAMPIONSHIPS(integer, text, varchar)
 	-->
 	<named-native-query name="GetUSChampionships" result-class="com.sporthenon.db.function.USChampionshipsBean">  
 		<query>{? = call "GET_US_CHAMPIONSHIPS"(?, ?, ?)}</query>
@@ -86,7 +86,7 @@
 	</named-native-query>
 	
 	<!--
-		GET_US_RECORDS(integer, text, text, text, varchar)
+		GET_US_RECORDS(integer, text, text, text, text, varchar)
 	-->
 	<named-native-query name="GetUSRecords" result-class="com.sporthenon.db.function.USRecordsBean">  
 		<query>{? = call "GET_US_RECORDS"(?, ?, ?, ?, ?, ?)}</query>
@@ -142,7 +142,7 @@
 	</named-native-query>
 	
 	<!--
-		~STATREQUEST()
+		~STATREQUEST(smallint)
 	-->
 	<named-native-query name="StatRequest" result-class="com.sporthenon.db.function.StatRequestBean">  
 		<query>{? = call "~STATREQUEST"(?)}</query>

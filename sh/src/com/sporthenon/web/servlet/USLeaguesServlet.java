@@ -35,6 +35,8 @@ public class USLeaguesServlet extends AbstractServlet {
 	private static final short CHAMPIONSHIP_NBA = 54;
 	private static final short CHAMPIONSHIP_NHL = 55;
 	private static final short CHAMPIONSHIP_MLB = 56;
+	public static HashMap<String, String> HTYPE1 = new HashMap<String, String>();
+	public static HashMap<String, String> HTYPE2 = new HashMap<String, String>();
 	
 	public static final String TYPE_RETNUM = "retnum";
 	public static final String TYPE_TEAMSTADIUM = "teamstadium";
@@ -50,6 +52,16 @@ public class USLeaguesServlet extends AbstractServlet {
 	private static final String PICKLIST_ID_CHAMPIONSHIP_YEAR = "pl-championship-yr";
 	private static final String PICKLIST_ID_RECORD_EVENT = "pl-record-ev";
 	private static final String PICKLIST_ID_RECORD_SUBEVENT = "pl-record-se";
+	
+	static {
+		HTYPE1.put("i", "'Individual'");
+		HTYPE1.put("t", "'Team'");
+		HTYPE1.put("it", "'Individual', 'Team'");
+		HTYPE2.put("0", "'Alltime/Career'");
+		HTYPE2.put("1", "'Season'");
+		HTYPE2.put("2", "'Series'");
+		HTYPE2.put("3", "'Game'");
+	}
 
 	public USLeaguesServlet() {
     }
@@ -92,10 +104,10 @@ public class USLeaguesServlet extends AbstractServlet {
 						hParams.put("yr", t[3]);
 					}
 					else if (t[0].equals(TYPE_RECORD)) {
-						hParams.put("ev", t[2]);
-						hParams.put("se", t[3]);
-						hParams.put("tp1", t[4]);
-						hParams.put("tp2", t[5]);
+						hParams.put("pf", t[3]);
+						hParams.put("se", t[4]);
+						hParams.put("tp1", t[5]);
+						hParams.put("tp2", t.length > 6 ? t[6] : "");
 					}
 					isLink = true;
 				}
@@ -137,22 +149,15 @@ public class USLeaguesServlet extends AbstractServlet {
 					html.append(HtmlConverter.convertUSChampionships(DatabaseHelper.call("GetUSChampionships", lFuncParams), "en"));
 				}
 				else if (type.equals(TYPE_RECORD)) {
-					HashMap<String, String> hType1 = new HashMap<String, String>();
-					hType1.put("i", "'Individual'");
-					hType1.put("t", "'Team'");
-					hType1.put("it", "'Individual', 'Team'");
-					HashMap<String, String> hType2 = new HashMap<String, String>();
-					hType2.put("0", "'Alltime/Career'");
-					hType2.put("1", "'Season'");
-					hType2.put("2", "'Series'");
-					hType2.put("3", "'Game'");
 					lFuncParams.add(hLeagues.get(Short.valueOf(league)));
 					lFuncParams.add(String.valueOf(hParams.get("pf")).equals("1") ? "0" : "495");
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("se")) ? String.valueOf(hParams.get("se")) : "0");
-					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp1")) ? hType1.get(String.valueOf(hParams.get("tp1"))) : hType1.get("i"));
-					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp2")) ? hType2.get(String.valueOf(hParams.get("tp2"))) : hType1.get("0"));
+					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp1")) ? String.valueOf(hParams.get("tp1")) : "i");
+					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp2")) ? String.valueOf(hParams.get("tp2")) : "0");
 					lFuncParams.add("_" + "en");
 					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_RECORD, lFuncParams, getUser(request), "en");
+					lFuncParams.set(4, HTYPE1.get(lFuncParams.get(4)));
+					lFuncParams.set(5, HTYPE2.get(lFuncParams.get(5)));
 					lFuncParams.remove(0);
 					if (String.valueOf(lFuncParams.get(3)).matches(".*Team.*") && !String.valueOf(lFuncParams.get(2)).equals("0")) {
 						String hql = "select id from Event where type.number<=50 and label in (select label from Event where id in (" + String.valueOf(hParams.get("se")) + "))";

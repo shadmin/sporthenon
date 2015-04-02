@@ -194,7 +194,7 @@ function refSeeFull(row, p) {
 	var cell = $(row).up();
 	cell.update('<img src="/img/db/loading.gif?6"/>');
 	cell.style.backgroundColor = '#FFF';
-	new Ajax.Request('InfoRefServlet?p=' + p, {
+	new Ajax.Request('InfoRefServlet/more/' + p, {
 		onSuccess: function(response){
 			$(cell).hide();
 			$(cell).up('tbody').insert(response.responseText);
@@ -420,12 +420,12 @@ function printCurrentTab() {
 /* ==================== SLIDER ==================== */
 var hSliders = new Hash();
 function sliderLinkOver() {
-	var src = this.down().src;
-	this.down().src = src.replace('.gif', '-over.gif') + '?0';
+//	var src = this.down().src;
+//	this.down().src = src.replace('.gif', '-over.gif') + '?0';
 }
 function sliderLinkOut() {
-	var src = this.down().src;
-	this.down().src = src.replace('-over.gif', '.gif') + '?0';
+//	var src = this.down().src;
+//	this.down().src = src.replace('-over.gif', '.gif') + '?0';
 }
 function handleSliderArr(id) {
 //	var slider = hSliders.get(id);
@@ -581,7 +581,7 @@ function moreSports(index1, index2) {
 }
 function initSliderHome(html) {
 	$$('#sports .content')[0].update(html);
-	createSlider('sports', 660, 120, true);
+	createSlider('sports', 768, 120, true);
 }
 function loadHomeData() {
 	new Ajax.Request('IndexServlet?t=' + currentTime(), {

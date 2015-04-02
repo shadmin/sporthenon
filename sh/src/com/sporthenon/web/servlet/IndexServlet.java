@@ -94,32 +94,32 @@ private static final long serialVersionUID = 1L;
 		
 		// Slide #1
 		sports.append("<div class='slide'>");
-		for (Integer i : new Integer[]{21, 7, 5, 22, 1, 24}) // Football, Rugby, Auto Racing, Tennis, Athletics, Basketball
+		for (Integer i : new Integer[]{21, 7, 5, 22, 1, 24, 19}) // Football, Rugby, Auto Racing, Tennis, Athletics, Basketball, Cycling
 			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)));
 		sports.append("</div>");
 		String slide1 = sports.toString();
 
 		// Slide #2
 		sports.append("<div class='slide'>");
-		for (Integer i : new Integer[]{30, 19, 13, 20, 2, 8}) // Boxing, Cycling, Volleyball, Golf, Swimming, Alpine Skiing
+		for (Integer i : new Integer[]{30, 13, 20, 2, 8, 15, 14}) // Boxing, , Volleyball, Golf, Swimming, Alpine Skiing, Bobsleigh, Fencing
 			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)));
 		sports.append("</div>");
 		
 		// Slide #3
 		sports.append("<div class='slide'>");
-		for (Integer i : new Integer[]{15, 14, 18, 25, 42, 48}) // Bobsleigh, Fencing, Motorcycling, Ice Hockey, Judo, Cricket
+		for (Integer i : new Integer[]{18, 25, 42, 48, 45, 50, 41}) // Motorcycling, Ice Hockey, Judo, Cricket, Squash, Wrestling, Diving
 			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)));
 		sports.append("</div>");
 		
 		// Slide #4
 		sports.append("<div class='slide'>");
-		for (Integer i : new Integer[]{45, 50, 41, 34, 31, 27}) // Squash, Wrestling, Diving, Weightlifting, Archery, Badminton
+		for (Integer i : new Integer[]{34, 31, 27, 47, 32, 26, 38}) // Weightlifting, Archery, Badminton, Gymnastics, Canoeing, Baseball, Curling
 			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)));
 		sports.append("</div>");
 
 		// Slide #5
 		sports.append("<div class='slide'>");
-		for (Integer i : new Integer[]{4, 35, 36, 3, 52, 40}) // Handball, Ice Skating, Surfing, Table Tennis, Mountainbiking, Waterpolo
+		for (Integer i : new Integer[]{4, 35, 36, 3, 52, 40, 16}) // Handball, Ice Skating, Surfing, Table Tennis, Mountainbiking, Waterpolo, Luge
 			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)));
 		sports.append("</div>");
 		

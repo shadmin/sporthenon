@@ -50,6 +50,7 @@ public class ServletHelper {
         XMLSerializer serializer = new XMLSerializer();
         serializer.setOutputCharStream(res.getWriter());
         serializer.serialize(doc);
+        res.flushBuffer();
 	}
 	
 	public static void writeTabHtml(HttpServletResponse res, StringBuffer sb, String lang) throws IOException {
@@ -65,6 +66,7 @@ public class ServletHelper {
         }
         PrintWriter writer = res.getWriter();
         writer.write(s);
+        res.flushBuffer();
 	}
 	
 	public static void writePageHtml(HttpServletRequest req, HttpServletResponse res, StringBuffer sb, boolean isPrint) throws ServletException, IOException {
@@ -86,6 +88,7 @@ public class ServletHelper {
         res.setCharacterEncoding("utf-8");
         PrintWriter writer = res.getWriter();
         writer.write(s);
+        res.flushBuffer();
 	}
 
 }

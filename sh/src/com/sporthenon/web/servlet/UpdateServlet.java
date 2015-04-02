@@ -75,7 +75,7 @@ public class UpdateServlet extends AbstractServlet {
 					Method m1 = o.getClass().getMethod("getId");
 					String id = String.valueOf(m1.invoke(o));
 					String text = null;
-					if (!(o instanceof Athlete)) {
+					if (!(o instanceof Athlete) && !(o instanceof Team)) {
 						Method m2 = o.getClass().getMethod("getLabel", String.class);
 						text = String.valueOf(m2.invoke(o, lang));	
 					}
@@ -97,7 +97,7 @@ public class UpdateServlet extends AbstractServlet {
 					}
 					else if (o instanceof Team) {
 						Team t = (Team) o;
-						text += (t.getCountry() != null ? " [" + t.getCountry().getCode() + "]" : "");
+						text = t.getLabel() + (t.getCountry() != null ? " [" + t.getCountry().getCode() + "]" : "");
 					}
 					html.append("<li id='" + field + "-" + id + (o instanceof Event ? "-" + ((Event)o).getType().getNumber() : "") + "'>" + text + "</li>");
 				}
@@ -268,9 +268,9 @@ public class UpdateServlet extends AbstractServlet {
 					StringBuffer sb = new StringBuffer();
 					sb.append(sp.getId()).append("~").append(sp.getLabel(lang)).append("~");
 					sb.append(cp.getId()).append("~").append(cp.getLabel(lang)).append("~");
-					sb.append(ev.getId()).append("~").append(ev.getLabel(lang)).append("~").append(ev.getType().getNumber()).append("~");
-					sb.append(se != null ? se.getId() : "").append("~").append(se != null ? se.getLabel(lang) : "").append("~").append(se != null ? se.getType().getNumber() : "").append("~");
-					sb.append(se2 != null ? se2.getId() : "").append("~").append(se2 != null ? se2.getLabel(lang) : "").append("~").append(se2 != null ? se2.getType().getNumber() : "").append("~");
+					sb.append(ev.getId()).append("~").append(ev.getLabel(lang) + " [" + ev.getType().getLabel(lang) + "]").append("~").append(ev.getType().getNumber()).append("~");
+					sb.append(se != null ? se.getId() : "").append("~").append(se != null ? se.getLabel(lang) + " [" + se.getType().getLabel(lang) + "]" : "").append("~").append(se != null ? se.getType().getNumber() : "").append("~");
+					sb.append(se2 != null ? se2.getId() : "").append("~").append(se2 != null ? se2.getLabel(lang) + " [" + se2.getType().getLabel(lang) + "]" : "").append("~").append(se2 != null ? se2.getType().getNumber() : "").append("~");
 					sb.append(yr.getId()).append("~").append(yr.getLabel()).append("~");
 					if (rs != null) {
 						request.setAttribute("id", rs.getId());

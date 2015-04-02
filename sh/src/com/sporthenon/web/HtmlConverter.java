@@ -168,44 +168,45 @@ public class HtmlConverter {
 			String leagueLabel = (league.equals("1") ? "NFL" : (league.equals("2") ? "NBA" : (league.equals("3") ? "NHL" : "MLB")));
 			String typeLabel = (type == HEADER_US_LEAGUES_RETNUM ? ResourceUtils.getText("retired.numbers", lang) : (type == HEADER_US_LEAGUES_CHAMPIONSHIP ? ResourceUtils.getText("championships", lang) : (type == HEADER_US_LEAGUES_HOF ? ResourceUtils.getText("hall.fame", lang) : (type == HEADER_US_LEAGUES_RECORD ? ResourceUtils.getText("records", lang) : (type == HEADER_US_LEAGUES_TEAMSTADIUM ? ResourceUtils.getText("team.stadiums", lang) : ResourceUtils.getText("wins.losses", lang))))));
 			Integer cpId = (league.equals("1") ? 51 : (league.equals("2") ? 54 : (league.equals("3") ? 55 : 56)));
-			hHeader.put("title", ResourceUtils.getText("menu.usleagues", lang));
 			hHeader.put("title", leagueLabel + "&nbsp;-&nbsp;" + typeLabel);
 			hHeader.put("item0", "<table><tr><td><img alt='US leagues' src='/img/menu/dbusleagues.png'/></td><td>&nbsp;<a href='usleagues'>" + ResourceUtils.getText("menu.usleagues", lang) + "</a></td></tr></table>");
 			hHeader.put("item1", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, cpId, ImageUtils.SIZE_SMALL, null, leagueLabel), HtmlUtils.writeLink(Championship.alias, cpId, leagueLabel)));
 			hHeader.put("item2", typeLabel);
 			if (type == HEADER_US_LEAGUES_RETNUM) {
-				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_RETNUM + ", " + lstParams.toString(), hHeader.get("title")));
+				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_RETNUM + "-" + lstParams.toString(), hHeader.get("title")));
 				ArrayList<String> lstTeams = DatabaseHelper.loadLabels(Team.class, String.valueOf(lstParams.get(1)), lang);
 				hHeader.put("item3", (lstTeams.isEmpty() ? ResourceUtils.getText("all.teams", lang) : (lstTeams.size() == 1 ? lstTeams.get(0) : HtmlUtils.writeTip(Team.alias, lstTeams) + " " + ResourceUtils.getText("x.teams", lang))));
 			}
 			else if (type == HEADER_US_LEAGUES_TEAMSTADIUM) {
-				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_TEAMSTADIUM + ", " + lstParams.toString(), hHeader.get("title")));
+				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_TEAMSTADIUM + "-" + lstParams.toString(), hHeader.get("title")));
 				ArrayList<String> lstTeams = DatabaseHelper.loadLabels(Team.class, String.valueOf(lstParams.get(1)), lang);
 				hHeader.put("item3", (lstTeams.isEmpty() ? ResourceUtils.getText("all.teams", lang) : (lstTeams.size() == 1 ? lstTeams.get(0) : HtmlUtils.writeTip(Team.alias, lstTeams) + " " + ResourceUtils.getText("x.teams", lang))));
 			}
 			else if (type == HEADER_US_LEAGUES_WINLOSS) {
-				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_WINLOSS + ", " + lstParams.toString(), hHeader.get("title")));
+				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_WINLOSS + "-" + lstParams.toString(), hHeader.get("title")));
 				ArrayList<String> lstTeams = DatabaseHelper.loadLabels(Team.class, String.valueOf(lstParams.get(1)), lang);
 				hHeader.put("item3", (lstTeams.isEmpty() ? ResourceUtils.getText("all.teams", lang) : (lstTeams.size() == 1 ? lstTeams.get(0) : HtmlUtils.writeTip(Team.alias, lstTeams) + " " + ResourceUtils.getText("x.teams", lang))));
 			}
 			else if (type == HEADER_US_LEAGUES_HOF) {
-				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_HOF + ", " + lstParams.toString(), hHeader.get("title")));
+				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_HOF + "-" + lstParams.toString(), hHeader.get("title")));
 				ArrayList<String> lstYears = DatabaseHelper.loadLabels(Year.class, String.valueOf(lstParams.get(1)), lang);
 				hHeader.put("item3", (lstYears.isEmpty() ? ResourceUtils.getText("all.years", lang) : (lstYears.size() == 1 ? lstYears.get(0) : HtmlUtils.writeTip(Year.alias, lstYears) + " " + ResourceUtils.getText("x.years", lang))));
 			}
 			else if (type == HEADER_US_LEAGUES_CHAMPIONSHIP) {
-				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_CHAMPIONSHIP + ", " + lstParams.toString(), hHeader.get("title")));
+				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_CHAMPIONSHIP + "-" + lstParams.toString(), hHeader.get("title")));
 				ArrayList<String> lstYears = DatabaseHelper.loadLabels(Year.class, String.valueOf(lstParams.get(2)), lang);
 				hHeader.put("item3", (lstYears.isEmpty() ? ResourceUtils.getText("all.years", lang) : (lstYears.size() == 1 ? lstYears.get(0) : HtmlUtils.writeTip(Year.alias, lstYears) + " " + ResourceUtils.getText("x.years", lang))));
 			}
 			else if (type == HEADER_US_LEAGUES_RECORD) {
-				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_RECORD + ", " + lstParams.toString(), hHeader.get("title")));
 				ArrayList<String> lstCategories = DatabaseHelper.loadLabels(Event.class, String.valueOf(lstParams.get(3)), lang);
+				if (lstCategories.size() == 1)
+					hHeader.put("title", hHeader.get("title") + "&nbsp;-&nbsp;" + lstCategories.get(0));
+				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_RECORD + "-" + lstParams.toString(), hHeader.get("title")));
 				String scope = String.valueOf(lstParams.get(4));
 				String scope2 = String.valueOf(lstParams.get(5));
 				hHeader.put("item3", (lstCategories.isEmpty() ? ResourceUtils.getText("all.categories", lang) : (lstCategories.size() == 1 ? lstCategories.get(0) : HtmlUtils.writeTip(Event.alias, lstCategories) + " " + ResourceUtils.getText("x.categories", lang))));
-				hHeader.put("item4", (scope.equalsIgnoreCase("[All]") ? ResourceUtils.getText("all.scopes", lang) : scope.replaceAll("'", "")));
-				hHeader.put("item5", (scope2.equalsIgnoreCase("[All]") ? ResourceUtils.getText("all.scopes", lang) : scope2.replaceAll("'", "")));
+				hHeader.put("item4", (scope.equalsIgnoreCase("it") ? ResourceUtils.getText("all.scopes", lang) : USLeaguesServlet.HTYPE1.get(scope).replaceAll("'", "")));
+				hHeader.put("item5", (scope2.equalsIgnoreCase("[All]") ? ResourceUtils.getText("all.scopes", lang) : USLeaguesServlet.HTYPE2.get(scope2).replaceAll("'", "")));
 			}
 		}
 		else if (type == HEADER_REF) {
@@ -337,9 +338,10 @@ public class HtmlConverter {
 				cn = HtmlUtils.writeLink(Country.alias, e.getCountry().getId(), e.getCountry().getLabel(lang));
 				cn = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, e.getCountry().getId(), ImageUtils.SIZE_SMALL, null, null), cn);
 			}
-			hInfo.put("title", e.getLabel(lang) + (e.getCountry() != null ? ", " + e.getCountry().getCode() : ""));
+			hInfo.put("title", e.getLabel(lang));
 			hInfo.put("name", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
-			hInfo.put("state", (st != null ? st : StringUtils.EMPTY));
+			if (st != null)
+				hInfo.put("state", st);
 			hInfo.put("country", (cn != null ? cn : StringUtils.EMPTY));
 			hInfo.put("extlinks", HtmlUtils.writeExternalLinks(e));
 		}
@@ -403,7 +405,7 @@ public class HtmlConverter {
 			List<DrawBean> lDraw = (List<DrawBean>) DatabaseHelper.call("GetDraw", lFuncParams);
 			if (lDraw != null) {
 				DrawBean bean = (DrawBean) lDraw.get(0);
-				html.append("<span class='title'>" + bean.getYrLabel() + "</span>");
+				html.append("<span class='title'>" + ResourceUtils.getText("entity.DR.1", lang) + " " + bean.getYrLabel() + "</span>");
 				html.append("<div class='draw'>");
 				String[] tLevel = {"Qf1", "Qf2", "Qf3", "Qf4", "Sf1", "Sf2", "F", "Thd"};
 				HashMap<String, String> hLvlLabel = new HashMap<String, String>();
@@ -722,6 +724,7 @@ public class HtmlConverter {
 			}
 			else if (en.equals(Record.alias)) {
 				c1 = HtmlUtils.writeLink(Sport.alias, item.getIdRel1(), item.getLabelRel1());
+				//1, 51, 495, 470, i, 0, _en
 				c2 = "<a href='#'>" + item.getLabelRel2() + "&nbsp;-&nbsp;" + item.getLabelRel3() + "&nbsp;-&nbsp;" + item.getLabelRel4() + "</a>";
 				c3 = (item.getTxt2() != null ? item.getTxt2() : "-");
 				c4 = (item.getTxt1() != null ? item.getTxt1() : "-");
@@ -935,7 +938,7 @@ public class HtmlConverter {
 			lIds.add(String.valueOf(bean.getRsId()));
 
 			// Evaluate bean
-			String draw = "<table><tr><td><img alt='' src='/img/render/draw.gif?3' title='" + ResourceUtils.getText("draw", lang) + "'/></td><td style='padding-left:3px;'>" + HtmlUtils.writeLink(Draw.alias, bean.getRsId(), ResourceUtils.getText("draw", lang) + " " + bean.getYrLabel()) + "</td></tr></table>";
+			String draw = "<table><tr><td><img alt='Draw' src='/img/render/draw.gif?3'/></td><td style='padding-left:3px;'>" + HtmlUtils.writeLink(Draw.alias, bean.getRsId(), ResourceUtils.getText("draw", lang)) + "</td></tr></table>";
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel());
 			String dates = (StringUtils.notEmpty(bean.getRsDate1()) ? StringUtils.toTextDate(bean.getRsDate1(), lang, "d MMMM yyyy") + "&nbsp;&ndash;&nbsp;" : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? StringUtils.toTextDate(bean.getRsDate2(), lang, "d MMMM yyyy") : "");
 			String place1 = null, place2 = null;

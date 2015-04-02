@@ -1,39 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
-		<loc>http://www.sporthenon.com/</loc>
-		<lastmod>2014-01-02</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.9</priority>
+		<loc>http://www.sporthenon.com/</loc><changefreq>monthly</changefreq><priority>0.9</priority>
 	</url>
 	<url>
-		<loc>http://www.sporthenon.com/results</loc>
-		<lastmod>2014-01-02</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.7</priority>
+		<loc>http://www.sporthenon.com/results</loc><changefreq>monthly</changefreq><priority>0.7</priority>
 	</url>
 	<url>
-		<loc>http://www.sporthenon.com/olympics</loc>
-		<lastmod>2014-01-02</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.6</priority>
+		<loc>http://www.sporthenon.com/olympics</loc><changefreq>monthly</changefreq><priority>0.6</priority>
 	</url>
 	<url>
-		<loc>http://www.sporthenon.com/usleagues</loc>
-		<lastmod>2014-01-02</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.5</priority>
+		<loc>http://www.sporthenon.com/usleagues</loc><changefreq>monthly</changefreq><priority>0.5</priority>
 	</url>
 	<url>
-		<loc>http://www.sporthenon.com/search</loc>
-		<lastmod>2014-01-02</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.5</priority>
+		<loc>http://www.sporthenon.com/project</loc><changefreq>monthly</changefreq><priority>0.2</priority>
 	</url>
-	<url>
-		<loc>http://www.sporthenon.com/project</loc>
-		<lastmod>2014-01-02</lastmod>
-		<changefreq>monthly</changefreq>
-		<priority>0.2</priority>
-	</url>
-</urlset> 
+</urlset>
