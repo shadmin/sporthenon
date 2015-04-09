@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseHelper;
+import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
@@ -28,8 +29,29 @@ public class SearchServlet extends AbstractServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			init(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
-			if (hParams.containsKey("run")) {
+			if (hParams.containsKey("entity")) { // Direct search from entity
+				String[] t = StringUtils.decode(String.valueOf(hParams.get("p"))).split("\\-");
+				String url = HtmlUtils.writeLink(t[0], Integer.parseInt(t[1]), null);
+				response.sendRedirect(url);
+			}
+			else if (hParams.containsKey("p2") && hParams.get("p2").equals("ajax")) { // Ajax autocompletion
+				String value = String.valueOf(hParams.get("value"));
+				value = "^" + value.replaceAll("'", "''").replaceAll("_", ".").replaceAll("\\*", ".*");
+				ArrayList<Object> lFuncParams = new ArrayList<Object>();
+				lFuncParams.add(value);
+				lFuncParams.add(".");
+				lFuncParams.add((short)10);
+				lFuncParams.add("_" + getLocale(request));
+				StringBuffer html = new StringBuffer("<ul>");
+				for (Object obj : DatabaseHelper.call("Search", lFuncParams)) {
+					RefItem item = (RefItem) obj;
+					html.append("<li id='" + StringUtils.encode(item.getEntity() + "-" + item.getIdItem()) + "'>" + item.getLabel() + "</li>");
+				}
+				ServletHelper.writeText(response, html.append("</ul>").toString());
+			}
+			else if (hParams.containsKey("run")) { // Run search
 				boolean isLink = false;
 				if (hParams.containsKey("p")) {
 					String p = String.valueOf(hParams.get("p"));
@@ -54,6 +76,7 @@ public class SearchServlet extends AbstractServlet {
 				ArrayList<Object> lFuncParams = new ArrayList<Object>();
 				lFuncParams.add(pattern);
 				lFuncParams.add(scope);
+				lFuncParams.add((short)0);
 				lFuncParams.add("_" + getLocale(request));
 				StringBuffer html = null;
 				if (scope.equals("."))

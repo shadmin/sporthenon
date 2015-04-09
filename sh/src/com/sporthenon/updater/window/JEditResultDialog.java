@@ -306,7 +306,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 					Result.class.getMethod("setIdRank" + (i + 1), Integer.class).invoke(rs, id > 0 ? id : null);
 					Result.class.getMethod("setResult" + (i + 1), String.class).invoke(rs, StringUtils.notEmpty(jRes[i].getText()) ? jRes[i].getText() : null);
 				}
-				rs = (Result) DatabaseHelper.saveEntity(rs, JMainFrame.getMember());
+				rs = (Result) DatabaseHelper.saveEntity(rs, JMainFrame.getContributor());
 				if (isDraw()) {
 					dr = (Draw)(drawId != null && drawId > 0 ? DatabaseHelper.loadEntity(Draw.class, drawId) : new Draw());
 					dr.setIdResult(rs.getId());
@@ -322,7 +322,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 					dr.setResult_sf1(jEditDrawDialog.getRes()[4].getText());
 					dr.setResult_sf2(jEditDrawDialog.getRes()[5].getText());
 					dr.setResult_thd(jEditDrawDialog.getRes()[6].getText());
-					dr = (Draw) DatabaseHelper.saveEntity(dr, JMainFrame.getMember());
+					dr = (Draw) DatabaseHelper.saveEntity(dr, JMainFrame.getContributor());
 				}
 				msg = "Result #" + rs.getId() + (isDraw() ? "/Draw #" + dr.getId() : "") + " has been successfully " + (mode == EDIT ? "updated" : "created") + ".";
 			}

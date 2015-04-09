@@ -2,12 +2,12 @@
 <%@ page import="com.sporthenon.utils.ConfigUtils" %>
 <%@ page import="com.sporthenon.utils.StringUtils" %>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils" %>
-<%@ page import="com.sporthenon.db.entity.meta.Member" %>
+<%@ page import="com.sporthenon.db.entity.meta.Contributor" %>
 <%
 	Object o = session.getAttribute("user");
-	Member m = null;
-	if (o != null && o instanceof Member)
-		m = (Member) o;
+	Contributor m = null;
+	if (o != null && o instanceof Contributor)
+		m = (Contributor) o;
 	String version = ConfigUtils.getProperty("version");
 	ResourceUtils.setLocale(request);
 %>
@@ -56,7 +56,7 @@
 	</div>
 </div>
 
-<script type="text/javascript">
+<script type="text/javascript"><!--
 	var TX_OK = "<%=StringUtils.text("ok", session)%>";
 	var TX_CANCEL = "<%=StringUtils.text("cancel", session)%>";
 	var TX_ACTIONS_TAB = "<%=StringUtils.text("actions.currenttab", session)%>";
@@ -95,7 +95,7 @@
 	var TX_PWDNOTMATCH = "<%=StringUtils.text("pwd.nomatch", session)%>";
 	var TX_PREVIOUS = "<%=StringUtils.text("previous", session)%>";
 	var TX_NEXT = "<%=StringUtils.text("next", session)%>";
-</script>
+--></script>
 
 <div id="headertop">
 	<div id="menutop">
@@ -111,10 +111,21 @@
 	</div>
 	<div id="flags"><a title="English" href="javascript:setLang('en');"><img alt="EN" src="/img/header/lang-en.png"/></a>&nbsp;<a title="Français" href="javascript:setLang('fr');"><img alt="FR" src="/img/header/lang-fr.png"/></a>&nbsp;</div>
 	<div id="searchpanel">
+		<div id="ajaxsearch" class="ajaxsearch"></div>
 		<table style="border-spacing:0px;"><tr><td><a title="Click for advanced search" href="/search"><img alt="Search" src="/img/menu/dbsearch.png"/></a></td>
-		<td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.for", session)%>" title="<%=StringUtils.text("search.in", session)%> Sporthenon" onkeydown="directSearch();" onfocus="dpatternFocus();" onblur="dpatternBlur();" style="color:#AAA;"></input></td>
+		<td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.for", session)%>" title="<%=StringUtils.text("search.in", session)%> Sporthenon" onfocus="dpatternFocus();" onblur="dpatternBlur();" style="color:#AAA;"></input></td>
 		</tr></table>
 	</div>
 </div>
+
+<script type="text/javascript">
+new Ajax.Autocompleter(
+	'dpattern',
+	'ajaxsearch',
+	'/search/ajax/1',
+	{ paramName: 'value', minChars: 3, frequency: 0.1, updateElement: directSearch}
+);
+Event.observe($('dpattern'), 'keyup', directSearch);
+</script>
 
 <div id="content">

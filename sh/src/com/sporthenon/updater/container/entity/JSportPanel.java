@@ -11,6 +11,7 @@ public class JSportPanel extends JAbstractEntityPanel {
 	public JTextField jLabelFR;
 	public JTextField jType;
 	public JTextField jWebsite;
+	public JTextField jIndex;
 	public JTextField jUrlWiki;
 	public JTextField jUrlOlyref;
 	public JTextField jWikiPattern;
@@ -53,6 +54,13 @@ public class JSportPanel extends JAbstractEntityPanel {
         jWebsite.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jWebsite);
         
+        //Index
+        JLabel lIndex = new JLabel(" Index:");
+        lIndex.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lIndex);
+        jIndex = new JTextField();
+        gridPanel.add(jIndex);
+        
 		//URL (WIKI)
 		JLabel lUrlWiki = new JLabel(" URL (Wikipedia):");
 		lUrlWiki.setHorizontalAlignment(LABEL_ALIGNMENT);
@@ -89,6 +97,10 @@ public class JSportPanel extends JAbstractEntityPanel {
 	public JTextField getType() {
 		return jType;
 	}
+	
+	public JTextField getIndex() {
+		return jIndex;
+	}
 
 	public JTextField getWebsite() {
 		return jWebsite;
@@ -118,6 +130,10 @@ public class JSportPanel extends JAbstractEntityPanel {
 		jType.setText(s);
 	}
 
+	public void setIndex(String s) {
+		jIndex.setText(s);
+	}
+	
 	public void setWebsite(String s) {
 		jWebsite.setText(s);
 	}
@@ -139,6 +155,7 @@ public class JSportPanel extends JAbstractEntityPanel {
 		jLabel.setText("");
 		jLabelFR.setText("");
 		jType.setText("");
+		jIndex.setText("");
 		jWebsite.setText("");
 		jUrlWiki.setText("");
 		jUrlOlyref.setText("");

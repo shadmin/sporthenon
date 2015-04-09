@@ -103,7 +103,8 @@ function handleRender() {
 		tabId = '#t-' + tabcurrent;
 		var title = $('title-' + tabcurrent);
 		var stitle = $$(tabId + ' .title')[0].innerHTML;
-		title.update(stitle);		
+		title.update(stitle);
+		t2 = currentTime();
 	}
 	else {
 		tabId = '#content';
@@ -114,8 +115,9 @@ function handleRender() {
 			position: 'relative', hover: true, offsetLeft: 20, offsetTop: 0, className: 'tip'
 		});
 	});
-	t2 = currentTime();
-	info.update(info.innerHTML.replace('#DTIME#', elapsedTime(t1, t2)));
+	if (info) {
+		info.update(info.innerHTML.replace('#DTIME#', elapsedTime(t1, t2)));	
+	}
 }
 function toggleContent(el) {
 	if (el.tagName != 'IMG') {
@@ -148,7 +150,7 @@ function info(s) {
 		window.scrollTo(0, 0);
 		addTab(TX_BLANK);
 		var tab = initTab();
-		new Ajax.Updater(tab, 'InfoRefServlet?p=' + s, {
+		new Ajax.Updater(tab, '/InfoRefServlet?p=' + s, {
 			onComplete: handleRender,
 			parameters: addOptions($H())
 		});
@@ -194,7 +196,7 @@ function refSeeFull(row, p) {
 	var cell = $(row).up();
 	cell.update('<img src="/img/db/loading.gif?6"/>');
 	cell.style.backgroundColor = '#FFF';
-	new Ajax.Request('InfoRefServlet/more/' + p, {
+	new Ajax.Request('/entity/more/' + p, {
 		onSuccess: function(response){
 			$(cell).hide();
 			$(cell).up('tbody').insert(response.responseText);
@@ -1014,8 +1016,12 @@ function dpatternBlur() {
 		$('dpattern').value = TX_SEARCH;
 	}
 }
-function directSearch() {
-	if (event.keyCode == 13) {
+function directSearch(li) {
+	if (li && li.id) {
+		Event.stopObserving($('dpattern'), 'keyup');
+		location.href = '/search?p=' + li.id + '&entity';
+	}
+	else if (event.keyCode == 13) {
 		location.href = '/search?p=' + escape($F('dpattern'));
 	}
 }
@@ -1207,23 +1213,27 @@ function loadResValues(value) {
 		tValues['yr'] = t[13]; $('yr').value = t[14]; $('yr').addClassName('completed');
 		if (t.length > 16) {
 			tValues['id'] = t[15];
-			tValues['rs1'] = t[16]; if (t[16] != '') {$('rs1').value = t[16]; $('rs1').addClassName('completed2');}
-			tValues['rs2'] = t[17]; if (t[17] != '') {$('rs2').value = t[17]; $('rs2').addClassName('completed2');}
-			tValues['rs3'] = t[18]; if (t[18] != '') {$('rs3').value = t[18]; $('rs3').addClassName('completed2');}
-			tValues['rs4'] = t[19]; if (t[19] != '') {$('rs4').value = t[19]; $('rs4').addClassName('completed2');}
-			tValues['rs5'] = t[20]; if (t[20] != '') {$('rs5').value = t[20]; $('rs5').addClassName('completed2');}
-			tValues['dt1'] = t[21]; if (t[21] != '') {$('dt1').value = t[21]; $('dt1').addClassName('completed2');}
-			tValues['dt2'] = t[22]; if (t[22] != '') {$('dt2').value = t[22]; $('dt2').addClassName('completed2');}
-			tValues['pl1'] = t[23]; if (t[23] != '') {$('pl1').value = t[24]; $('pl1').addClassName('completed');}
-			tValues['pl2'] = t[25]; if (t[25] != '') {$('pl2').value = t[26]; $('pl2').addClassName('completed');}
-			tValues['exa'] = t[27]; if (t[27] != '') {$('exa').value = t[27]; $('exa').addClassName('completed2');}
-			tValues['cmt'] = t[28]; if (t[28] != '') {$('cmt').value = t[28]; $('cmt').addClassName('completed2');}
+			tValues['rs1'] = t[16]; if (t[16] != '') {$('rs1').value = t[16]; $('rs1').addClassName('completed2');} else {$('rs1').value = $('rs1').name; $('rs1').removeClassName('completed2');}
+			tValues['rs2'] = t[17]; if (t[17] != '') {$('rs2').value = t[17]; $('rs2').addClassName('completed2');} else {$('rs2').value = $('rs2').name; $('rs2').removeClassName('completed2');}
+			tValues['rs3'] = t[18]; if (t[18] != '') {$('rs3').value = t[18]; $('rs3').addClassName('completed2');} else {$('rs3').value = $('rs3').name; $('rs3').removeClassName('completed2');}
+			tValues['rs4'] = t[19]; if (t[19] != '') {$('rs4').value = t[19]; $('rs4').addClassName('completed2');} else {$('rs4').value = $('rs4').name; $('rs4').removeClassName('completed2');}
+			tValues['rs5'] = t[20]; if (t[20] != '') {$('rs5').value = t[20]; $('rs5').addClassName('completed2');} else {$('rs5').value = $('rs5').name; $('rs5').removeClassName('completed2');}
+			tValues['dt1'] = t[21]; if (t[21] != '') {$('dt1').value = t[21]; $('dt1').addClassName('completed2');} else {$('dt1').value = $('dt1').name; $('dt1').removeClassName('completed2');}
+			tValues['dt2'] = t[22]; if (t[22] != '') {$('dt2').value = t[22]; $('dt2').addClassName('completed2');} else {$('dt2').value = $('dt2').name; $('dt2').removeClassName('completed2');}
+			tValues['pl1'] = t[23]; if (t[23] != '') {$('pl1').value = t[24]; $('pl1').addClassName('completed');} else {$('pl1').value = $('pl1').name; $('pl1').removeClassName('completed').removeClassName('completed2');}
+			tValues['pl2'] = t[25]; if (t[25] != '') {$('pl2').value = t[26]; $('pl2').addClassName('completed');} else {$('pl2').value = $('pl2').name; $('pl2').removeClassName('completed').removeClassName('completed2');}
+			tValues['exa'] = t[27]; if (t[27] != '') {$('exa').value = t[27]; $('exa').addClassName('completed2');} else {$('exa').value = $('exa').name; $('exa').removeClassName('completed2');}
+			tValues['cmt'] = t[28]; if (t[28] != '') {$('cmt').value = t[28]; $('cmt').addClassName('completed2');} else {$('cmt').value = $('cmt').name; $('cmt').removeClassName('completed2');}
 			var j = 28;
 			for (var i = 1 ; i <= 10 ; i++) {
 				tValues['rk' + i] = t[++j];
 				if (tValues['rk' + i] != '') {
 					$('rk' + i).value = t[++j];
 					$('rk' + i).addClassName('completed');
+				}
+				else {
+					$('rk' + i).value = $('rk' + i).name;
+					$('rk' + i).removeClassName('completed').removeClassName('completed2');
 				}
 			}
 		}

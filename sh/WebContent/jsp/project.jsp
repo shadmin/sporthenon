@@ -23,9 +23,7 @@
 		<div class="fieldset" style="height:300px;overflow-y:auto;">
 		<div class="fstitle contributors"><%=StringUtils.text("contributors", session)%></div>
 		<div class="fscontent">
-			<table><tr><th>ID</th><th>Name</th><th>Sports</th><th>Since</th></tr>
-				<tr><td>inachos</td><td>-</td><td>Basketball, Golf, Tennis</td><td>2011</td></tr>
-			</table>
+			<table><tr><th>ID</th><th><%=StringUtils.text("name", session)%></th><th><%=StringUtils.text("count", session)%></th></tr><%=request.getAttribute("contributors")%></table>
 		</div>
 		</div>
 	</div>
@@ -54,13 +52,13 @@
 		<!-- STATISTICS -->
 		<div class="fieldset">
 		<div class="fstitle statistics"><%=StringUtils.text("statistics", session)%></div>
-		<div class="fscontent"><select id="charts" style="width:250px;margin:2px;" onchange="loadChart();"><option value="0">Number of Requests per Type</option><option value="1">Number of Requests per Sport</option></select><table><tr><td style="vertical-align:top;border:none;width:250px;"><table id="charttxt"><tr><td></td></tr></table></td><td style="vertical-align:top;border:none;"><div id="chart"></div></td></tr></table></div>
+		<div class="fscontent"></div>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
 window.onload = function() {
-	loadChart();	
+	//loadChart();	
 }
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />

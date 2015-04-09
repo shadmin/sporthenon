@@ -121,16 +121,18 @@
 		<url-pattern>/logout/*</url-pattern>
 		<url-pattern>/update/*</url-pattern>
 		<!-- Details -->
-		<url-pattern>/athletes/*</url-pattern>
-		<url-pattern>/championships/*</url-pattern>
-		<url-pattern>/cities/*</url-pattern>
-		<url-pattern>/complexes/*</url-pattern>
-		<url-pattern>/countries/*</url-pattern>
-		<url-pattern>/draws/*</url-pattern>
-		<url-pattern>/sports/*</url-pattern>
-		<url-pattern>/usstates/*</url-pattern>
-		<url-pattern>/teams/*</url-pattern>
-		<url-pattern>/years/*</url-pattern>
+		<url-pattern>/athlete/*</url-pattern>
+		<url-pattern>/contributor/*</url-pattern>
+		<url-pattern>/championship/*</url-pattern>
+		<url-pattern>/city/*</url-pattern>
+		<url-pattern>/complex/*</url-pattern>
+		<url-pattern>/country/*</url-pattern>
+		<url-pattern>/draw/*</url-pattern>
+		<url-pattern>/entity/*</url-pattern>
+		<url-pattern>/sport/*</url-pattern>
+		<url-pattern>/usstate/*</url-pattern>
+		<url-pattern>/team/*</url-pattern>
+		<url-pattern>/year/*</url-pattern>
 		<!-- Locales -->
 		<url-pattern>/fr/*</url-pattern>
 		<url-pattern>/en/*</url-pattern>

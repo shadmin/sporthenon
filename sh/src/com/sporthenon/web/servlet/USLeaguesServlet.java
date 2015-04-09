@@ -72,6 +72,7 @@ public class USLeaguesServlet extends AbstractServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			init(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			HashMap<Short, Short> hLeagues = new HashMap<Short, Short>();
 			hLeagues.put(LEAGUE_NFL, CHAMPIONSHIP_NFL);

@@ -43,7 +43,7 @@ import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.Type;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
-import com.sporthenon.db.entity.meta.Member;
+import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.updater.component.JConnectionStatus;
 import com.sporthenon.updater.component.JQueryStatus;
 import com.sporthenon.updater.container.JBottomPanel;
@@ -101,7 +101,7 @@ public class JMainFrame extends JFrame {
 	private static JOptionsDialog jOptionsDialog = null;
 	private static JInfoDialog jInfoDialog = null;
 
-	private static Member member;
+	private static Contributor contributor;
 	private static HashMap<String, JAbstractEntityPanel> jEntityPanels = null;
 	private static HashMap<String, ArrayList<PicklistBean>> hPicklists = new HashMap<String, ArrayList<PicklistBean>>();
 
@@ -394,6 +394,7 @@ public class JMainFrame extends JFrame {
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setType(new Integer(p.getType().getText()));
 			en.setWebsite(p.getWebsite().getText());
+			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? new Float(p.getIndex().getText()) : null);
 			en.setUrlWiki(p.getUrlWiki().getText());
 			en.setUrlOlyref(p.getUrlOlyref().getText());
 			en.setWikiPattern(p.getWikiPattern().getText());
@@ -523,7 +524,7 @@ public class JMainFrame extends JFrame {
 			en.setCountOtloss(StringUtils.notEmpty(p.getOtLoss().getText()) ? new Integer(p.getOtLoss().getText()) : null);
 			en.setAverage(p.getAverage().getText());
 		}
-		o = DatabaseHelper.saveEntity(o, member);
+		o = DatabaseHelper.saveEntity(o, contributor);
 		String id_ = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
 		plb.setValue(new Integer(id_));
 		JMainFrame.refreshPicklist(alias, plb);
@@ -589,9 +590,9 @@ public class JMainFrame extends JFrame {
 				h.put("hibernate.connection.autocommit", "false");
 				h.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 				DatabaseHelper.setFactory(h, "standalone");
-				String hql = "from Member where login='" + jOptionsDialog.getLogin().getText() + "' and active=true";
-				ArrayList<Member> lst = (ArrayList<Member>) DatabaseHelper.execute(hql);
-				member = lst.get(0);
+				String hql = "from Contributor where login='" + jOptionsDialog.getLogin().getText() + "' and active=true";
+				ArrayList<Contributor> lst = (ArrayList<Contributor>) DatabaseHelper.execute(hql);
+				contributor = lst.get(0);
 				initAll(jPasswordDialog.getQuickLoading().isSelected());
 				jDataPanel.getList().setSelectedIndex(0);
 				jDataPanel.valueChanged(new ListSelectionEvent(this, 0, 0, true));
@@ -601,7 +602,7 @@ public class JMainFrame extends JFrame {
 			}
 			else {
 				DatabaseHelper.unsetFactory();
-				member = null;
+				contributor = null;
 				changeTabPanel("empty");
 				jTopPanel.getResultsButton().setSelected(false);
 				jTopPanel.getDataButton().setSelected(false);
@@ -691,8 +692,8 @@ public class JMainFrame extends JFrame {
 		return jEntityPanels;
 	}
 
-	public static Member getMember() {
-		return member;
+	public static Contributor getContributor() {
+		return contributor;
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.sporthenon.db.entity.meta;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -147,6 +149,8 @@ public class RefItem  {
 	@Column(name = "count5")
 	private Integer count5;
 	
+	@Column(name = "date1")
+	private Timestamp date1;
 	
 	@Column(name = "comment", length = 20)
 	private String comment;
@@ -525,6 +529,14 @@ public class RefItem  {
 
 	public void setLabelRel18(String labelRel18) {
 		this.labelRel18 = labelRel18;
+	}
+
+	public Timestamp getDate1() {
+		return date1;
+	}
+
+	public void setDate1(Timestamp date1) {
+		this.date1 = date1;
 	}
 
 	@Override

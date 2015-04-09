@@ -180,8 +180,8 @@ input{
 #headertop #searchpanel td{
 	padding: 1px;
 }
-#headertop #searchpanel input{
-	width: 200px;
+#headertop #searchpanel #dpattern{
+	width: 250px;
 }
 #logo{
 	margin: 12px;
@@ -962,7 +962,7 @@ input{
 	float: left;
 	margin: 4px;
 	padding-left: 3px;
-	width: 330px;
+	width: 350px;
 }
 #search .pattern input, #headertop .pattern input, #logindiv input{
 	border: 1px solid #CCC;
@@ -1127,14 +1127,15 @@ input{
 	background-image: url('../img/component/button/add.png?3');
 	background-position: 4px center;
 }
-#ajaxdiv {
+.ajaxsearch {
 	position: absolute;
+	font: 12px Verdana;
 	width: 800px;
 	background-color: #FFF;
 	margin: 0px;
 	padding: 0px;
 }
-#ajaxdiv ul {
+.ajaxsearch ul {
 	list-style-type: none;
 	margin: 0px;
 	padding: 0px;
@@ -1142,7 +1143,7 @@ input{
 	max-height: 300px;
 	overflow: auto;
 }
-#ajaxdiv ul li {
+.ajaxsearch ul li {
 	list-style-type: none;
 	display: block;
 	margin: 0px;
@@ -1150,7 +1151,7 @@ input{
 	border: 1px solid #FFF;
 	cursor: pointer;
 }
-#ajaxdiv ul li.selected {
+.ajaxsearch ul li.selected {
     background-color: #CDE8FF;
     border: 1px solid #888;
 }

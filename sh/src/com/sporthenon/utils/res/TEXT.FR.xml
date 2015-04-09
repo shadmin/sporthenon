@@ -37,6 +37,7 @@
 	<entry key="button.print">Imprimer</entry>
 	<entry key="button.info">Infos</entry>
 	<entry key="button.close">Fermer</entry>
+	<entry key="entity.CB">Contributeurs</entry>
 	<entry key="entity.CP">Championnats</entry>
 	<entry key="entity.CT">Villes</entry>
 	<entry key="entity.CX">Complexes</entry>
@@ -56,6 +57,7 @@
 	<entry key="entity.TS">Stades</entry>
 	<entry key="entity.WL">Victoires/Défaites</entry>
 	<entry key="entity.YR">Années</entry>
+	<entry key="entity.CB.1">Contributeur</entry>
 	<entry key="entity.CP.1">Championnat</entry>
 	<entry key="entity.CT.1">Ville</entry>
 	<entry key="entity.CX.1">Complexe</entry>
@@ -286,6 +288,7 @@
 	<entry key="password">Mot de passe</entry>
 	<entry key="confirm.password">Confirmer le mot de passe</entry>
 	<entry key="email.addr">Addresse E-mail</entry>
+	<entry key="public.name">Nom public</entry>
 	<entry key="create.account">Créer un compte</entry>
 	<entry key="mandatory.login">Le champ 'Identifiant' est obligatoire.</entry>
 	<entry key="mandatory.password">Le champ 'Mot de passe' est obligatoire.</entry>

@@ -36,7 +36,7 @@ import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.Type;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
-import com.sporthenon.db.entity.meta.Member;
+import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.Metadata;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
@@ -181,7 +181,7 @@ public class DatabaseHelper {
 		return null;
 	}
 
-	public static Object saveEntity(Object o, Member m) throws Exception {
+	public static Object saveEntity(Object o, Contributor m) throws Exception {
 		UserTransaction tr = null;
 		try {
 			EntityManager em = getEntityManager();
@@ -196,7 +196,7 @@ public class DatabaseHelper {
 				}
 				else
 					md = (Metadata) o.getClass().getMethod("getMetadata").invoke(o);
-				md.setMember(m);		
+				md.setContributor(m);		
 				md.setLastUpdate(new Timestamp(System.currentTimeMillis()));
 				o.getClass().getMethod("setMetadata", Metadata.class).invoke(o, md);
 			}
@@ -331,7 +331,8 @@ public class DatabaseHelper {
 		try {
 			tr = getTransaction();
 			if (tr != null) tr.begin();
-			String hql = "select " + (alias.equals(Athlete.alias) ? "firstName || ' ' || lastName" : "label") + " from " + getClassFromAlias(alias).getName() + " where id=" + id;
+			String hql = "select " + (alias.equals(Athlete.alias) ? "firstName || ' ' || lastName" : (alias.equals(Contributor.alias) ? "login" : "label"));
+			hql += " from " + getClassFromAlias(alias).getName() + " where id=" + id;
 			Query query = getEntityManager().createQuery(hql);
 			s = String.valueOf(query.getSingleResult());
 			if (tr != null) tr.commit();
@@ -351,6 +352,7 @@ public class DatabaseHelper {
 		return (alias.equalsIgnoreCase(Championship.alias) ? Championship.class :
 			   (alias.equalsIgnoreCase(City.alias) ? City.class :
 			   (alias.equalsIgnoreCase(Complex.alias) ? Complex.class :
+			   (alias.equalsIgnoreCase(Contributor.alias) ? Contributor.class :
 			   (alias.equalsIgnoreCase(Country.alias) ? Country.class : 
 			   (alias.equalsIgnoreCase(Event.alias) ? Event.class : 
 	           (alias.equalsIgnoreCase(HallOfFame.alias) ? HallOfFame.class : 
@@ -367,10 +369,10 @@ public class DatabaseHelper {
 			   (alias.equalsIgnoreCase(TeamStadium.alias) ? TeamStadium.class : 
 			   (alias.equalsIgnoreCase(Type.alias) ? Type.class : 
 			   (alias.equalsIgnoreCase(WinLoss.alias) ? WinLoss.class : 
-			   (alias.equalsIgnoreCase(Year.alias) ? Year.class : null))))))))))))))))))));
+			   (alias.equalsIgnoreCase(Year.alias) ? Year.class : null)))))))))))))))))))));
 	}
 	
-	public static Integer insertEntity(int row, int n, int spid, String s, String date, Member m, StringBuffer processReport, String lang) throws Exception {
+	public static Integer insertEntity(int row, int n, int spid, String s, String date, Contributor m, StringBuffer processReport, String lang) throws Exception {
 		Integer id = null;
 		Object o = null;
 		String msg = null;
@@ -443,7 +445,7 @@ public class DatabaseHelper {
 		return id;
 	}
 	
-	public static Integer insertPlace(int row, String s, Member m, StringBuffer processReport, String lang) throws Exception {
+	public static Integer insertPlace(int row, String s, Contributor m, StringBuffer processReport, String lang) throws Exception {
 		Integer id = null;
 		Object o = null;
 		String msg = null;

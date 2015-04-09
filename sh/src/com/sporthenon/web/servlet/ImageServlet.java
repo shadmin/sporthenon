@@ -108,6 +108,7 @@ public class ImageServlet extends AbstractServlet {
 				response.setContentType("text/plain");
 				response.setCharacterEncoding("utf-8");
 				response.getWriter().write(sbResult.toString());
+				response.flushBuffer();
 			}
 		}
 		catch (Exception e) {

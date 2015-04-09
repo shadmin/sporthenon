@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseHelper;
-import com.sporthenon.db.entity.meta.Member;
+import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 
@@ -31,10 +31,10 @@ public class LoginServlet extends AbstractServlet {
 			if (hParams.containsKey("auth")) {
 				String login = String.valueOf(hParams.get("login"));
 				String password = String.valueOf(hParams.get("password"));
-				String hql = "from Member where lower(login)='" + login.toLowerCase() + "' and password='" + StringUtils.toMD5(password) + "'";
-				ArrayList<Member> lstMember = (ArrayList<Member>) DatabaseHelper.execute(hql);
-				if (lstMember != null && lstMember.size() > 0) {
-					Member m = lstMember.get(0);
+				String hql = "from Contributor where lower(login)='" + login.toLowerCase() + "' and password='" + StringUtils.toMD5(password) + "'";
+				ArrayList<Contributor> lstContributor = (ArrayList<Contributor>) DatabaseHelper.execute(hql);
+				if (lstContributor != null && lstContributor.size() > 0) {
+					Contributor m = lstContributor.get(0);
 					if (m.getActive() != null && m.getActive()) {
 						request.getSession().setAttribute("user", m);
 						response.sendRedirect("/");
@@ -47,16 +47,15 @@ public class LoginServlet extends AbstractServlet {
 					msg = ResourceUtils.getText("msg.login.err2", getLocale(request));
 			}
 			else if (hParams.containsKey("create")) {
-				List l = DatabaseHelper.execute("from Member where login='" + hParams.get("rlogin") + "'");
+				List l = DatabaseHelper.execute("from Contributor where login='" + hParams.get("rlogin") + "'");
 				if (l != null && l.size() > 0)
 					ServletHelper.writeText(response, "ERR|" + ResourceUtils.getText("msg.login.err3", getLocale(request)));
 				else {
-					Member m = new Member();
+					Contributor m = new Contributor();
 					m.setLogin(String.valueOf(hParams.get("rlogin")));
 					m.setPassword(StringUtils.toMD5(String.valueOf(hParams.get("rpassword"))));
 					m.setEmail(String.valueOf(hParams.get("remail")));
-					m.setLastName(String.valueOf(hParams.get("rlastname")));
-					m.setFirstName(String.valueOf(hParams.get("rfirstname")));
+					m.setPublicName(String.valueOf(hParams.get("rpublicname")));
 					m.setActive(false);
 					DatabaseHelper.saveEntity(m, null);
 					ServletHelper.writeText(response, ResourceUtils.getText("msg.registered", getLocale(request)) + "&nbsp;<a href='javascript:' onclick='rauth()'>" + ResourceUtils.getText("menu.login", getLocale(request)) + "</a>");					

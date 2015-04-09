@@ -43,10 +43,7 @@
 			<th><span class="mandatory">*</span><%=StringUtils.text("email.addr", session)%>&nbsp;:</td><td><input type="text" id="remail" size="30"/></td>
 		</tr>
 		<tr>
-			<th><%=StringUtils.text("last.name", session)%>&nbsp;:</td><td><input type="text" id="rlastname"/></td>
-		</tr>
-		<tr>
-			<th><%=StringUtils.text("first.name", session)%>&nbsp;:</td><td><input type="text" id="rfirstname"/></td>
+			<th><%=StringUtils.text("public.name", session)%>&nbsp;:</td><td><input type="text" id="rpublicname"/></td>
 		</tr>
 		<tr>
 		<td colspan="2" style="padding-top:10px;text-align:center;"><input type="button" class="button ok" onclick="createAccount();" value="<%=StringUtils.text("create.account", session)%>"/></td>

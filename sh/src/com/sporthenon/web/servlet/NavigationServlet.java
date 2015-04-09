@@ -33,6 +33,7 @@ public class NavigationServlet extends AbstractServlet {
 		hServlet.put("results", "/ResultServlet");
 		hServlet.put("olympics", "/OlympicsServlet");
 		hServlet.put("usleagues", "/USLeaguesServlet");
+		hServlet.put("project", "/ProjectServlet");
 		hServlet.put("search", "/SearchServlet");
 		hServlet.put("login", "/LoginServlet");
 		hServlet.put("update", "/UpdateServlet");
@@ -53,6 +54,7 @@ public class NavigationServlet extends AbstractServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			logger.fatal("URL: " + request.getRequestURL());
 			String[] tURI = request.getRequestURI().substring(1).split("\\/", -1);
 			String key = tURI[0];
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
@@ -60,6 +62,8 @@ public class NavigationServlet extends AbstractServlet {
 			if (ConfigUtils.getProperty("env").matches("test|prod"))
 				if (key != null && key.equals("update") && (request.getSession() == null || request.getSession().getAttribute("user") == null))
 					key = "login";
+			if (key != null && key.equals("project"))
+				hParams.put("p", 1);
 			if (tURI.length > 1 || hParams.containsKey("p")) {
 				Object export = hParams.get("export");
 				boolean isPrint = hParams.containsKey("print");
@@ -83,7 +87,7 @@ public class NavigationServlet extends AbstractServlet {
 				else {
 					request.setAttribute("title", ResourceUtils.getText(hTitle.containsKey(key) ? hTitle.get(key) : "title", getLocale(request)) + " | SPORTHENON");
 					request.setAttribute("menu", key);
-					dispatcher = request.getRequestDispatcher("/jsp/" + hPages.get(key));	
+					dispatcher = request.getRequestDispatcher("/jsp/" + hPages.get(key));
 				}
 			}
 		    if (dispatcher != null)

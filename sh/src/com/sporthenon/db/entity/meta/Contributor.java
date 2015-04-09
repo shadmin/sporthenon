@@ -10,8 +10,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "\"~MEMBER\"")
-public class Member {
+public class Contributor {
 
+	public static final transient String alias = "CB";
+	
 	@Id
 	@SequenceGenerator(name = "sq_member", sequenceName = "\"~SQ_MEMBER\"")
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_member")
@@ -20,11 +22,8 @@ public class Member {
 	@Column(name = "\"login\"", length = 15, nullable = false)
 	private String login;
 	
-	@Column(name = "last_name", length = 20)
-	private String lastName;
-	
-	@Column(name = "first_name", length = 20)
-	private String firstName;
+	@Column(name = "public_name", length = 100)
+	private String publicName;
 	
 	@Column(name = "password", length = 35)
 	private String password;
@@ -51,22 +50,6 @@ public class Member {
 		this.login = login;
 	}
 
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
 	public String getPassword() {
 		return password;
 	}
@@ -89,6 +72,14 @@ public class Member {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public String getPublicName() {
+		return publicName;
+	}
+
+	public void setPublicName(String publicName) {
+		this.publicName = publicName;
 	}
 	
 }

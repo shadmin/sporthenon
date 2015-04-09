@@ -102,10 +102,10 @@
 	</named-native-query>
 	
 	<!--
-		SEARCH(varchar, varchar, varchar)
+		SEARCH(varchar, varchar, smallint, varchar)
 	-->
 	<named-native-query name="Search" result-class="com.sporthenon.db.entity.meta.RefItem">  
-		<query>select * from "SEARCH"(?, ?, ?)</query>
+		<query>select * from "SEARCH"(?, ?, ?, ?)</query>
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 	
@@ -122,6 +122,14 @@
 	-->
 	<named-native-query name="WinRecords" result-class="com.sporthenon.db.function.WinRecordsBean">  
 		<query>{? = call "WIN_RECORDS"(?, ?)}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+	
+	<!--
+		~CONTRIBUTORS()
+	-->
+	<named-native-query name="Contributors" result-class="com.sporthenon.db.function.ContributorBean">  
+		<query>{? = call "~CONTRIBUTORS"()}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	

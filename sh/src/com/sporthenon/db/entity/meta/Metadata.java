@@ -12,7 +12,7 @@ public class Metadata {
 
 	@ManyToOne
 	@JoinColumn(name = "id_member", nullable = false)
-	private Member member;
+	private Contributor contributor;
 	
 	@Column(name = "first_update", nullable = false)
 	private Timestamp firstUpdate;
@@ -20,12 +20,12 @@ public class Metadata {
 	@Column(name = "last_update", nullable = false)
 	private Timestamp lastUpdate;
 
-	public Member getMember() {
-		return member;
+	public Contributor getContributor() {
+		return contributor;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
+	public void setContributor(Contributor contributor) {
+		this.contributor = contributor;
 	}
 
 	public Timestamp getFirstUpdate() {
@@ -46,7 +46,7 @@ public class Metadata {
 
 	@Override
 	public String toString() {
-		return "Metadata [member=" + member + ", firstUpdate=" + firstUpdate + ", lastUpdate=" + lastUpdate + "]";
+		return "Metadata [contributor=" + contributor + ", firstUpdate=" + firstUpdate + ", lastUpdate=" + lastUpdate + "]";
 	}
 	
 }

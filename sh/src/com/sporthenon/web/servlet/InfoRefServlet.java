@@ -29,6 +29,7 @@ public class InfoRefServlet extends AbstractServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			init(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			String[] params = StringUtils.decode(String.valueOf(hParams.get("p"))).split("-");
 			StringBuffer html = new StringBuffer();

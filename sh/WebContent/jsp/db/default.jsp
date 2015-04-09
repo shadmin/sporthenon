@@ -7,6 +7,8 @@
 if ('<%=request.getParameter("print")%>' != 'null') {
 	window.print();
 }
+t1 = parseInt('<%=request.getAttribute("t1")%>');
+t2 = parseInt('<%=request.getAttribute("t2")%>');
 handleRender();
 --></script>
 <jsp:include page="/jsp/common/footer.jsp" />

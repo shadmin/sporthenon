@@ -15,7 +15,7 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 	<div class="fieldset">
 		<div class="fstitle"><%=StringUtils.text("create.modify.result", session)%></div>
 		<div class="fscontent" style="height:430px;">
-			<div id="ajaxdiv"></div>
+			<div id="ajaxdiv" class="ajaxsearch"></div>
 			<div style="float:left;padding-right:10px;height:380px;">
 			<table style="margin-top:0px;">
 				<tr><td colspan="5"><input type="text" id="sp" name="<%=StringUtils.text("entity.SP.1", session)%>"/><a href="javascript:clearValue('sp');">[X]</a></td></tr>

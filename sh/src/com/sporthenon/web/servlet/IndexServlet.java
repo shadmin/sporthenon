@@ -34,6 +34,7 @@ private static final long serialVersionUID = 1L;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			init(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			if (hParams.containsKey("lang")) { // Language
 		        request.getSession().setAttribute("locale", String.valueOf(hParams.get("value")));
@@ -83,45 +84,37 @@ private static final long serialVersionUID = 1L;
 	
 	public static String getSportDivs(String lang) throws Exception {
 		HashMap<Integer, String> hSports = new HashMap<Integer, String>();
-		Collection<PicklistBean> cPicklist = DatabaseHelper.getEntityPicklist(Sport.class, "label", null, lang);
+		Collection<PicklistBean> cPicklist = DatabaseHelper.getPicklistFromQuery("select id, label" + (lang != null && !lang.equalsIgnoreCase("en") ? lang.toUpperCase() : "") + " from Sport order by index", false);
+		ArrayList<Integer> lId = new ArrayList<Integer>();
 		for (PicklistBean plb : cPicklist) {
 			String img = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, plb.getValue(), ImageUtils.SIZE_LARGE, null, null);
 			img = img.replaceAll(".*\\ssrc\\='|'/\\>", "");
 			hSports.put(plb.getValue(), "<div id='sport-#INDEX#' class='sport' style=\"background-image:url('" + img + "');\">" + HtmlUtils.writeLink(Sport.alias, plb.getValue(), plb.getText().replaceAll("\\s", "&nbsp;")) + "</div>");
+			lId.add(plb.getValue());
 		}
-		StringBuffer sports = new StringBuffer();
+		
+		StringBuffer sports = new StringBuffer("<div class='slide'>");
+		String slide1 = null;
 		int index = 0;
-		
-		// Slide #1
-		sports.append("<div class='slide'>");
-		for (Integer i : new Integer[]{21, 7, 5, 22, 1, 24, 19}) // Football, Rugby, Auto Racing, Tennis, Athletics, Basketball, Cycling
-			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)));
+		int count = 1;
+		for (Integer i : lId) {
+			if (index > 0 && index % 7 == 0) {
+				sports.append("</div><div class='slide'>");
+				count++;
+			}
+			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(index)));
+			index++;
+			if (index == 7)
+				slide1 = sports.toString();
+			if (count > 5 && index % 7 == 0)
+				break;
+		}
 		sports.append("</div>");
-		String slide1 = sports.toString();
-
-		// Slide #2
-		sports.append("<div class='slide'>");
-		for (Integer i : new Integer[]{30, 13, 20, 2, 8, 15, 14}) // Boxing, , Volleyball, Golf, Swimming, Alpine Skiing, Bobsleigh, Fencing
-			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)));
-		sports.append("</div>");
-		
-		// Slide #3
-		sports.append("<div class='slide'>");
-		for (Integer i : new Integer[]{18, 25, 42, 48, 45, 50, 41}) // Motorcycling, Ice Hockey, Judo, Cricket, Squash, Wrestling, Diving
-			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)));
-		sports.append("</div>");
-		
-		// Slide #4
-		sports.append("<div class='slide'>");
-		for (Integer i : new Integer[]{34, 31, 27, 47, 32, 26, 38}) // Weightlifting, Archery, Badminton, Gymnastics, Canoeing, Baseball, Curling
-			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)));
-		sports.append("</div>");
-
-		// Slide #5
-		sports.append("<div class='slide'>");
-		for (Integer i : new Integer[]{4, 35, 36, 3, 52, 40, 16}) // Handball, Ice Skating, Surfing, Table Tennis, Mountainbiking, Waterpolo, Luge
-			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(++index)));
-		sports.append("</div>");
+		// Football, Rugby, Auto Racing, Tennis, Athletics, Basketball, Cycling
+		// Boxing, , Volleyball, Golf, Swimming, Alpine Skiing, Bobsleigh, Fencing
+		// Motorcycling, Ice Hockey, Judo, Cricket, Squash, Wrestling, Diving
+		// Weightlifting, Archery, Badminton, Gymnastics, Canoeing, Baseball, Curling
+		// Handball, Ice Skating, Surfing, Table Tennis, Mountainbiking, Waterpolo, Luge
 		
 		return sports.append(slide1).toString().replaceAll("\"", "\\\\\"");
 	}

@@ -22,7 +22,7 @@ import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.Type;
 import com.sporthenon.db.entity.Year;
-import com.sporthenon.db.entity.meta.Member;
+import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 
@@ -37,11 +37,11 @@ public class UpdateServlet extends AbstractServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String lang = getLocale(request);
-			Member user = getUser(request);
+			Contributor user = getUser(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			if (hParams.containsKey("p2") && hParams.get("p2").equals("ajax")) { // Ajax autocompletion
 				String field = String.valueOf(hParams.get("p"));
-				String value = hParams.get("value") + "%";
+				String value = (hParams.get("value") + "%").replaceAll("\\*", "%");
 				String sport = null;
 				if (field.matches("(pr|tm|cn)\\-.*")) {
 					String[] t = field.split("\\-", -1);
@@ -63,10 +63,12 @@ public class UpdateServlet extends AbstractServlet {
 				hTable.put("cn", "Country");
 				String labelHQL = "lower(label" + (lang != null && !lang.equalsIgnoreCase("en") && !field.matches("tm|yr") ? lang.toUpperCase() : "") + ")";
 				String whereHQL = "";
-				if( field.matches("pr")) {
+				if( field.equalsIgnoreCase(Athlete.alias)) {
 					labelHQL = "lower(last_name) || ', ' || lower(first_name)";
 					whereHQL = (sport != null ? " and sport.id=" + sport : "");
 				}
+				else if( field.equalsIgnoreCase(Team.alias))
+					whereHQL = (sport != null ? " and sport.id=" + sport : "");
 				List<Object> l = DatabaseHelper.execute("from " + hTable.get(field) + " where " + labelHQL + " like '" + value.toLowerCase() + "'" + whereHQL + " order by " + labelHQL);
 				if (field.matches("pl\\d"))
 					l.addAll(DatabaseHelper.execute("from City where " + labelHQL + " like '" + value.toLowerCase() + "' order by " + labelHQL));

@@ -116,13 +116,15 @@ public class StringUtils {
 
 	public static String toTextDate(String dt, String lang, String format) throws ParseException {
 		Locale l = (lang != null && lang.equalsIgnoreCase("fr") ? Locale.FRENCH : Locale.ENGLISH);
-		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		SimpleDateFormat dftxt = new SimpleDateFormat(notEmpty(format) ? format : "dd MMM", l);
+		if (!dt.matches(".*\\d\\d\\:\\d\\d$"))
+			dt += " 00:00";
 		return dftxt.format(df.parse(dt));
 	}
 	
 	public static String toTextDate(Timestamp dt, String lang, String format) throws ParseException {
-		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		return toTextDate(df.format(dt), lang, format);
 	}
 

@@ -430,6 +430,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabel(sp.getLabel());
 			p.setLabelFR(sp.getLabelFr());
 			p.setWebsite(sp.getWebsite());
+			p.setIndex(sp.getIndex() != null ? String.valueOf(sp.getIndex()) : null);
 			p.setType(String.valueOf(sp.getType()));
 			p.setUrlWiki(sp.getUrlWiki());
 			p.setUrlOlyref(sp.getUrlOlyref());

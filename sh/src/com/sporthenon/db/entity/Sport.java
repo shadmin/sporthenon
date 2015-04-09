@@ -33,6 +33,9 @@ public class Sport {
 	
 	@Column(name = "\"type\"")
 	private Integer type;
+
+	@Column(name = "\"index\"")
+	private Float index;
 	
 	@Column(name = "url_wiki")
 	private String urlWiki;
@@ -116,6 +119,14 @@ public class Sport {
 
 	public void setWikiPattern(String wikiPattern) {
 		this.wikiPattern = wikiPattern;
+	}
+
+	public Float getIndex() {
+		return index;
+	}
+
+	public void setIndex(Float index) {
+		this.index = index;
 	}
 
 	public String getLabel(String lang) {

@@ -38,6 +38,7 @@ public class OlympicsServlet extends AbstractServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			init(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			if (hParams.containsKey("run")) { // View results
 				boolean isLink = false;
@@ -97,6 +98,7 @@ public class OlympicsServlet extends AbstractServlet {
 				lFuncParams.add("_" + getLocale(request));
 				response.setCharacterEncoding("utf-8");
 				HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", lFuncParams), response.getWriter(), false);
+				response.flushBuffer();
 			}
 			else { // Picklists
 				String lang = getLocale(request);

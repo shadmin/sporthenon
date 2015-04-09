@@ -85,7 +85,7 @@ private static final long serialVersionUID = 1L;
 				for (String s : jYears.getText().split("\n")) {
 					String sql_ = "SELECT ID FROM \"YEAR\" WHERE LABEL='" + s + "'";
 					String sql = "INSERT INTO \"RESULT\"(id, id_sport, id_championship, id_event, id_subevent, id_subevent2, id_year, id_member, last_update) ";
-					sql += "VALUES (nextval('\"SQ_RESULT\"')," + sp + "," + cp + "," + (ev != null && ev > 0 ? ev : "NULL") + "," + (se != null && se > 0 ? se : "NULL") + "," + (se2 != null && se > 0 ? se2 : "NULL") + ",(" + sql_ + ")," + JMainFrame.getMember().getId() + ",now())";
+					sql += "VALUES (nextval('\"SQ_RESULT\"')," + sp + "," + cp + "," + (ev != null && ev > 0 ? ev : "NULL") + "," + (se != null && se > 0 ? se : "NULL") + "," + (se2 != null && se > 0 ? se2 : "NULL") + ",(" + sql_ + ")," + JMainFrame.getContributor().getId() + ",now())";
 					DatabaseHelper.executeUpdate(sql);
 				}
 				msg = "Years have been added successfully.";

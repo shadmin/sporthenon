@@ -80,6 +80,7 @@ public class ServletHelper {
 		}
 		req.setAttribute("version", "v=" + ConfigUtils.getProperty("version"));
 		req.setAttribute("html", s);
+		req.setAttribute("t2", System.currentTimeMillis());
 		req.getRequestDispatcher("/jsp/db/" + (isPrint ? "print" : "default") + ".jsp").forward(req, res);
 	}
 	

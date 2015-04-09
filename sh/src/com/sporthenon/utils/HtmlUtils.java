@@ -19,7 +19,7 @@ import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Olympics;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Team;
-import com.sporthenon.db.entity.meta.Member;
+import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.db.function.WinRecordsBean;
 import com.sporthenon.utils.res.ResourceUtils;
@@ -81,7 +81,7 @@ public class HtmlUtils {
 				Logger.getLogger("sh").error(e.getMessage());
 			}
 		}
-		url.append("/" + ResourceUtils.getText("entity." + alias, "en").replaceAll("\\s", "").toLowerCase());
+		url.append("/" + ResourceUtils.getText("entity." + alias + ".1", "en").replaceAll("\\s", "").toLowerCase());
 		url.append("/" + StringUtils.urlEscape(name));
 		url.append("/" + StringUtils.encode(alias + "-" + id));
 		if (text != null) {
@@ -112,7 +112,7 @@ public class HtmlUtils {
 		return html.toString();
 	}
 
-	public static StringBuffer writeHeader(HashMap<String, String> h, Member m, String lang) {
+	public static StringBuffer writeHeader(HashMap<String, String> h, Contributor m, String lang) {
 		StringBuffer html = new StringBuffer();
 		html.append("<span class='title'>" + h.get("title") + "</span>");
 		String url = null;

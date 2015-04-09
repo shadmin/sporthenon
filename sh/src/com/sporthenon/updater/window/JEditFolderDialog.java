@@ -154,7 +154,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 				Integer c4 = SwingUtils.getValue(jCategory4);
 				if (mode == NEW) {
 					String sql = "INSERT INTO \"RESULT\"(id, id_sport, id_championship, id_event, id_subevent, id_subevent2, id_year, id_member, last_update) ";
-					sql += "VALUES (nextval('\"SQ_RESULT\"')," + sp + "," + c1 + "," + (c2 > 0 ? c2 : "NULL") + "," + (c3 > 0 ? c3 : "NULL") + "," + (c4 > 0 ? c4 : "NULL") + ",1," + JMainFrame.getMember().getId() + ",now())";
+					sql += "VALUES (nextval('\"SQ_RESULT\"')," + sp + "," + c1 + "," + (c2 > 0 ? c2 : "NULL") + "," + (c3 > 0 ? c3 : "NULL") + "," + (c4 > 0 ? c4 : "NULL") + ",1," + JMainFrame.getContributor().getId() + ",now())";
 					DatabaseHelper.executeUpdate(sql);
 				}
 				else if (mode == EDIT) {
