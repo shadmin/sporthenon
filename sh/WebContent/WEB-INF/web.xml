@@ -35,6 +35,11 @@
 		<servlet-class>com.sporthenon.web.servlet.UpdateServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<display-name>AndroidServlet</display-name>
+		<servlet-name>AndroidServlet</servlet-name>
+		<servlet-class>com.sporthenon.web.servlet.AndroidServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<display-name>ImageServlet</display-name>
 		<servlet-name>ImageServlet</servlet-name>
 		<servlet-class>com.sporthenon.web.servlet.ImageServlet</servlet-class>
@@ -94,6 +99,10 @@
 		<url-pattern>/UpdateServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
+		<servlet-name>AndroidServlet</servlet-name>
+		<url-pattern>/AndroidServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>OlympicsServlet</servlet-name>
 		<url-pattern>/OlympicsServlet</url-pattern>
 	</servlet-mapping>
@@ -120,15 +129,18 @@
 		<url-pattern>/login/*</url-pattern>
 		<url-pattern>/logout/*</url-pattern>
 		<url-pattern>/update/*</url-pattern>
+		<url-pattern>/android/*</url-pattern>
 		<!-- Details -->
 		<url-pattern>/athlete/*</url-pattern>
-		<url-pattern>/contributor/*</url-pattern>
 		<url-pattern>/championship/*</url-pattern>
 		<url-pattern>/city/*</url-pattern>
 		<url-pattern>/complex/*</url-pattern>
+		<url-pattern>/contributor/*</url-pattern>
 		<url-pattern>/country/*</url-pattern>
 		<url-pattern>/draw/*</url-pattern>
 		<url-pattern>/entity/*</url-pattern>
+		<url-pattern>/event/*</url-pattern>
+		<url-pattern>/olympicgames/*</url-pattern>
 		<url-pattern>/sport/*</url-pattern>
 		<url-pattern>/usstate/*</url-pattern>
 		<url-pattern>/team/*</url-pattern>

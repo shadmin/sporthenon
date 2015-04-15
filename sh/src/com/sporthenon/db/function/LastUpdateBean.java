@@ -57,6 +57,21 @@ public class LastUpdateBean {
 
 	@Column(name = "se2_label")
 	private String se2Label;
+
+	@Column(name = "sp_label_en")
+	private String spLabelEN;
+	
+	@Column(name = "cp_label_en")
+	private String cpLabelEN;
+	
+	@Column(name = "ev_label_en")
+	private String evLabelEN;
+	
+	@Column(name = "se_label_en")
+	private String seLabelEN;
+
+	@Column(name = "se2_label_en")
+	private String se2LabelEN;
 	
 	@Column(name = "rs_update")
 	private Timestamp rsUpdate;
@@ -115,6 +130,9 @@ public class LastUpdateBean {
 	@Column(name = "cn1_label")
 	private String cn1Label;
 	
+	@Column(name = "cn1_label_en")
+	private String cn1LabelEN;
+	
 	@Column(name = "cn2_id")
 	private Integer cn2Id;
 	
@@ -124,6 +142,9 @@ public class LastUpdateBean {
 	@Column(name = "cn2_label")
 	private String cn2Label;
 
+	@Column(name = "cn2_label_en")
+	private String cn2LabelEN;
+	
 	public Integer getRsId() {
 		return rsId;
 	}
@@ -426,6 +447,62 @@ public class LastUpdateBean {
 
 	public void setTm2Id(Integer tm2Id) {
 		this.tm2Id = tm2Id;
+	}
+
+	public String getCn1LabelEN() {
+		return cn1LabelEN;
+	}
+
+	public String getCn2LabelEN() {
+		return cn2LabelEN;
+	}
+
+	public void setCn1LabelEN(String cn1LabelEN) {
+		this.cn1LabelEN = cn1LabelEN;
+	}
+
+	public void setCn2LabelEN(String cn2LabelEN) {
+		this.cn2LabelEN = cn2LabelEN;
+	}
+
+	public String getSpLabelEN() {
+		return spLabelEN;
+	}
+
+	public String getCpLabelEN() {
+		return cpLabelEN;
+	}
+
+	public String getEvLabelEN() {
+		return evLabelEN;
+	}
+
+	public String getSeLabelEN() {
+		return seLabelEN;
+	}
+
+	public String getSe2LabelEN() {
+		return se2LabelEN;
+	}
+
+	public void setSpLabelEN(String spLabelEN) {
+		this.spLabelEN = spLabelEN;
+	}
+
+	public void setCpLabelEN(String cpLabelEN) {
+		this.cpLabelEN = cpLabelEN;
+	}
+
+	public void setEvLabelEN(String evLabelEN) {
+		this.evLabelEN = evLabelEN;
+	}
+
+	public void setSeLabelEN(String seLabelEN) {
+		this.seLabelEN = seLabelEN;
+	}
+
+	public void setSe2LabelEN(String se2LabelEN) {
+		this.se2LabelEN = se2LabelEN;
 	}
 	
 }

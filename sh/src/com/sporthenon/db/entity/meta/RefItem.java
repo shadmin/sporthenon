@@ -20,6 +20,9 @@ public class RefItem  {
 	@Column(name = "label", length = 70, nullable = false)
 	private String label;
 	
+	@Column(name = "label_en", length = 70, nullable = false)
+	private String labelEN;
+	
 	@Column(name = "entity", length = 2, nullable = false)
 	private String entity;
 	
@@ -85,7 +88,7 @@ public class RefItem  {
 	
 	@Column(name = "label_rel1", length = 50)
 	private String labelRel1;
-
+	
 	@Column(name = "label_rel2", length = 50)
 	private String labelRel2;
 	
@@ -119,8 +122,44 @@ public class RefItem  {
 	@Column(name = "label_rel12", length = 50)
 	private String labelRel12;
 	
+	@Column(name = "label_rel13", length = 50)
+	private String labelRel13;
+	
+	@Column(name = "label_rel14", length = 50)
+	private String labelRel14;
+	
+	@Column(name = "label_rel15", length = 50)
+	private String labelRel15;
+	
+	@Column(name = "label_rel16", length = 50)
+	private String labelRel16;
+	
+	@Column(name = "label_rel17", length = 50)
+	private String labelRel17;
+	
 	@Column(name = "label_rel18", length = 50)
 	private String labelRel18;
+	
+	@Column(name = "label_rel19", length = 50)
+	private String labelRel19;
+	
+	@Column(name = "label_rel20", length = 50)
+	private String labelRel20;
+	
+	@Column(name = "label_rel21", length = 50)
+	private String labelRel21;
+	
+	@Column(name = "label_rel22", length = 50)
+	private String labelRel22;
+	
+	@Column(name = "label_rel23", length = 50)
+	private String labelRel23;
+	
+	@Column(name = "label_rel24", length = 50)
+	private String labelRel24;
+	
+	@Column(name = "label_rel25", length = 50)
+	private String labelRel25;
 	
 	@Column(name = "txt1", length = 40)
 	private String txt1;
@@ -539,25 +578,108 @@ public class RefItem  {
 		this.date1 = date1;
 	}
 
-	@Override
-	public String toString() {
-		return "RefItem [id=" + id + ", idItem=" + idItem + ", label=" + label
-				+ ", entity=" + entity + ", countRef=" + countRef + ", idRel1="
-				+ idRel1 + ", idRel2=" + idRel2 + ", idRel3=" + idRel3
-				+ ", idRel4=" + idRel4 + ", idRel5=" + idRel5 + ", idRel6="
-				+ idRel6 + ", idRel7=" + idRel7 + ", idRel8=" + idRel8
-				+ ", idRel9=" + idRel9 + ", idRel10=" + idRel10 + ", idRel11="
-				+ idRel11 + ", idRel12=" + idRel12 + ", idRel13=" + idRel13
-				+ ", idRel14=" + idRel14 + ", idRel15=" + idRel15
-				+ ", idRel16=" + idRel16 + ", idRel17=" + idRel17 + ", link="
-				+ link + ", labelRel1=" + labelRel1 + ", labelRel2="
-				+ labelRel2 + ", labelRel3=" + labelRel3 + ", labelRel4="
-				+ labelRel4 + ", labelRel5=" + labelRel5 + ", labelRel6="
-				+ labelRel6 + ", labelRel7=" + labelRel7 + ", labelRel8="
-				+ labelRel8 + ", labelRel9=" + labelRel9 + ", labelRel10="
-				+ labelRel10 + ", labelRel11=" + labelRel11 + ", txt1=" + txt1
-				+ ", txt2=" + txt2 + ", txt3=" + txt3 + ", txt4=" + txt4
-				+ ", comment=" + comment + "]";
+	public String getLabelEN() {
+		return labelEN;
+	}
+
+	public void setLabelEN(String labelEN) {
+		this.labelEN = labelEN;
+	}
+
+	public String getLabelRel13() {
+		return labelRel13;
+	}
+
+	public String getLabelRel14() {
+		return labelRel14;
+	}
+
+	public String getLabelRel15() {
+		return labelRel15;
+	}
+
+	public String getLabelRel16() {
+		return labelRel16;
+	}
+
+	public String getLabelRel17() {
+		return labelRel17;
+	}
+
+	public void setLabelRel13(String labelRel13) {
+		this.labelRel13 = labelRel13;
+	}
+
+	public void setLabelRel14(String labelRel14) {
+		this.labelRel14 = labelRel14;
+	}
+
+	public void setLabelRel15(String labelRel15) {
+		this.labelRel15 = labelRel15;
+	}
+
+	public void setLabelRel16(String labelRel16) {
+		this.labelRel16 = labelRel16;
+	}
+
+	public void setLabelRel17(String labelRel17) {
+		this.labelRel17 = labelRel17;
+	}
+
+	public String getLabelRel19() {
+		return labelRel19;
+	}
+
+	public String getLabelRel20() {
+		return labelRel20;
+	}
+
+	public String getLabelRel21() {
+		return labelRel21;
+	}
+
+	public String getLabelRel22() {
+		return labelRel22;
+	}
+
+	public String getLabelRel23() {
+		return labelRel23;
+	}
+
+	public String getLabelRel24() {
+		return labelRel24;
+	}
+
+	public String getLabelRel25() {
+		return labelRel25;
+	}
+
+	public void setLabelRel19(String labelRel19) {
+		this.labelRel19 = labelRel19;
+	}
+
+	public void setLabelRel20(String labelRel20) {
+		this.labelRel20 = labelRel20;
+	}
+
+	public void setLabelRel21(String labelRel21) {
+		this.labelRel21 = labelRel21;
+	}
+
+	public void setLabelRel22(String labelRel22) {
+		this.labelRel22 = labelRel22;
+	}
+
+	public void setLabelRel23(String labelRel23) {
+		this.labelRel23 = labelRel23;
+	}
+
+	public void setLabelRel24(String labelRel24) {
+		this.labelRel24 = labelRel24;
+	}
+
+	public void setLabelRel25(String labelRel25) {
+		this.labelRel25 = labelRel25;
 	}
 
 }

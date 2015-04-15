@@ -711,8 +711,8 @@ function treeLeafClick(anchor, value) {
 	if (treeExpanded) {
 		toggleTreeExpand();
 	}
-	if (value.indexOf('enc-') == 0) {
-		info(value.substring(4));
+	if (value.indexOf('link-') == 0) {
+		info(value.substring(5));
 		return;
 	}
 	var t = value.split('_');

@@ -18,6 +18,9 @@ public class TreeItem  {
 	@Column(name = "label", length = 50, nullable = false)
 	private String label;
 	
+	@Column(name = "label_en", length = 50, nullable = false)
+	private String labelEN;
+	
 	@Column(name = "level", nullable = false)
 	private Integer level;
 
@@ -55,6 +58,14 @@ public class TreeItem  {
 
 	public void setLevel(Integer level) {
 		this.level = level;
+	}
+
+	public String getLabelEN() {
+		return labelEN;
+	}
+
+	public void setLabelEN(String labelEN) {
+		this.labelEN = labelEN;
 	}
 
 	@Override

@@ -50,6 +50,9 @@ public class DrawBean {
 	@Column(name = "en1_qf1_str2")
 	private String en1Qf1Str2;
 	
+	@Column(name = "en1_qf1_str3")
+	private String en1Qf1Str3;
+	
 	@Column(name = "en1_qf1_rel1_id")
 	private Integer en1Qf1Rel1Id;
 	
@@ -58,6 +61,9 @@ public class DrawBean {
 	
 	@Column(name = "en1_qf1_rel1_label")
 	private String en1Qf1Rel1Label;
+	
+	@Column(name = "en1_qf1_rel1_label_en")
+	private String en1Qf1Rel1LabelEN;
 	
 	@Column(name = "en1_qf1_rel2_id")
 	private Integer en1Qf1Rel2Id;
@@ -68,6 +74,9 @@ public class DrawBean {
 	@Column(name = "en1_qf1_rel2_label")
 	private String en1Qf1Rel2Label;
 	
+	@Column(name = "en1_qf1_rel2_label_en")
+	private String en1Qf1Rel2LabelEN;
+	
 	@Column(name = "en2_qf1_id")
 	private Integer en2Qf1Id;
 	
@@ -76,6 +85,9 @@ public class DrawBean {
 	
 	@Column(name = "en2_qf1_str2")
 	private String en2Qf1Str2;
+	
+	@Column(name = "en2_qf1_str3")
+	private String en2Qf1Str3;
 	
 	@Column(name = "en2_qf1_rel1_id")
 	private Integer en2Qf1Rel1Id;
@@ -86,6 +98,9 @@ public class DrawBean {
 	@Column(name = "en2_qf1_rel1_label")
 	private String en2Qf1Rel1Label;
 	
+	@Column(name = "en2_qf1_rel1_label_en")
+	private String en2Qf1Rel1LabelEN;
+	
 	@Column(name = "en2_qf1_rel2_id")
 	private Integer en2Qf1Rel2Id;
 	
@@ -94,6 +109,9 @@ public class DrawBean {
 	
 	@Column(name = "en2_qf1_rel2_label")
 	private String en2Qf1Rel2Label;
+	
+	@Column(name = "en2_qf1_rel2_label_en")
+	private String en2Qf1Rel2LabelEN;
 	
 	@Column(name = "en1_qf2_id")
 	private Integer en1Qf2Id;
@@ -104,6 +122,9 @@ public class DrawBean {
 	@Column(name = "en1_qf2_str2")
 	private String en1Qf2Str2;
 	
+	@Column(name = "en1_qf2_str3")
+	private String en1Qf2Str3;
+	
 	@Column(name = "en1_qf2_rel1_id")
 	private Integer en1Qf2Rel1Id;
 	
@@ -112,6 +133,9 @@ public class DrawBean {
 	
 	@Column(name = "en1_qf2_rel1_label")
 	private String en1Qf2Rel1Label;
+	
+	@Column(name = "en1_qf2_rel1_label_en")
+	private String en1Qf2Rel1LabelEN;
 	
 	@Column(name = "en1_qf2_rel2_id")
 	private Integer en1Qf2Rel2Id;
@@ -122,6 +146,9 @@ public class DrawBean {
 	@Column(name = "en1_qf2_rel2_label")
 	private String en1Qf2Rel2Label;
 	
+	@Column(name = "en1_qf2_rel2_label_en")
+	private String en1Qf2Rel2LabelEN;
+	
 	@Column(name = "en2_qf2_id")
 	private Integer en2Qf2Id;
 	
@@ -130,6 +157,9 @@ public class DrawBean {
 	
 	@Column(name = "en2_qf2_str2")
 	private String en2Qf2Str2;
+	
+	@Column(name = "en2_qf2_str3")
+	private String en2Qf2Str3;
 	
 	@Column(name = "en2_qf2_rel1_id")
 	private Integer en2Qf2Rel1Id;
@@ -140,6 +170,9 @@ public class DrawBean {
 	@Column(name = "en2_qf2_rel1_label")
 	private String en2Qf2Rel1Label;
 	
+	@Column(name = "en2_qf2_rel1_label_en")
+	private String en2Qf2Rel1LabelEN;
+	
 	@Column(name = "en2_qf2_rel2_id")
 	private Integer en2Qf2Rel2Id;
 	
@@ -148,6 +181,9 @@ public class DrawBean {
 	
 	@Column(name = "en2_qf2_rel2_label")
 	private String en2Qf2Rel2Label;
+	
+	@Column(name = "en2_qf2_rel2_label_en")
+	private String en2Qf2Rel2LabelEN;
 	
 	@Column(name = "en1_qf3_id")
 	private Integer en1Qf3Id;
@@ -158,6 +194,9 @@ public class DrawBean {
 	@Column(name = "en1_qf3_str2")
 	private String en1Qf3Str2;
 	
+	@Column(name = "en1_qf3_str3")
+	private String en1Qf3Str3;
+	
 	@Column(name = "en1_qf3_rel1_id")
 	private Integer en1Qf3Rel1Id;
 	
@@ -166,6 +205,9 @@ public class DrawBean {
 	
 	@Column(name = "en1_qf3_rel1_label")
 	private String en1Qf3Rel1Label;
+	
+	@Column(name = "en1_qf3_rel1_label_en")
+	private String en1Qf3Rel1LabelEN;
 	
 	@Column(name = "en1_qf3_rel2_id")
 	private Integer en1Qf3Rel2Id;
@@ -176,6 +218,9 @@ public class DrawBean {
 	@Column(name = "en1_qf3_rel2_label")
 	private String en1Qf3Rel2Label;
 
+	@Column(name = "en1_qf3_rel2_label_en")
+	private String en1Qf3Rel2LabelEN;
+	
 	@Column(name = "en2_qf3_id")
 	private Integer en2Qf3Id;
 	
@@ -184,6 +229,9 @@ public class DrawBean {
 	
 	@Column(name = "en2_qf3_str2")
 	private String en2Qf3Str2;
+	
+	@Column(name = "en2_qf3_str3")
+	private String en2Qf3Str3;
 	
 	@Column(name = "en2_qf3_rel1_id")
 	private Integer en2Qf3Rel1Id;
@@ -194,6 +242,9 @@ public class DrawBean {
 	@Column(name = "en2_qf3_rel1_label")
 	private String en2Qf3Rel1Label;
 	
+	@Column(name = "en2_qf3_rel1_label_en")
+	private String en2Qf3Rel1LabelEN;
+	
 	@Column(name = "en2_qf3_rel2_id")
 	private Integer en2Qf3Rel2Id;
 	
@@ -202,6 +253,9 @@ public class DrawBean {
 	
 	@Column(name = "en2_qf3_rel2_label")
 	private String en2Qf3Rel2Label;
+	
+	@Column(name = "en2_qf3_rel2_label_en")
+	private String en2Qf3Rel2LabelEN;
 	
 	@Column(name = "en1_qf4_id")
 	private Integer en1Qf4Id;
@@ -212,6 +266,9 @@ public class DrawBean {
 	@Column(name = "en1_qf4_str2")
 	private String en1Qf4Str2;
 	
+	@Column(name = "en1_qf4_str3")
+	private String en1Qf4Str3;
+	
 	@Column(name = "en1_qf4_rel1_id")
 	private Integer en1Qf4Rel1Id;
 	
@@ -220,6 +277,9 @@ public class DrawBean {
 	
 	@Column(name = "en1_qf4_rel1_label")
 	private String en1Qf4Rel1Label;
+	
+	@Column(name = "en1_qf4_rel1_label_en")
+	private String en1Qf4Rel1LabelEN;
 	
 	@Column(name = "en1_qf4_rel2_id")
 	private Integer en1Qf4Rel2Id;
@@ -230,6 +290,9 @@ public class DrawBean {
 	@Column(name = "en1_qf4_rel2_label")
 	private String en1Qf4Rel2Label;
 	
+	@Column(name = "en1_qf4_rel2_label_en")
+	private String en1Qf4Rel2LabelEN;
+	
 	@Column(name = "en2_qf4_id")
 	private Integer en2Qf4Id;
 	
@@ -238,6 +301,9 @@ public class DrawBean {
 	
 	@Column(name = "en2_qf4_str2")
 	private String en2Qf4Str2;
+	
+	@Column(name = "en2_qf4_str3")
+	private String en2Qf4Str3;
 	
 	@Column(name = "en2_qf4_rel1_id")
 	private Integer en2Qf4Rel1Id;
@@ -248,6 +314,9 @@ public class DrawBean {
 	@Column(name = "en2_qf4_rel1_label")
 	private String en2Qf4Rel1Label;
 	
+	@Column(name = "en2_qf4_rel1_label_en")
+	private String en2Qf4Rel1LabelEN;
+	
 	@Column(name = "en2_qf4_rel2_id")
 	private Integer en2Qf4Rel2Id;
 	
@@ -256,6 +325,9 @@ public class DrawBean {
 	
 	@Column(name = "en2_qf4_rel2_label")
 	private String en2Qf4Rel2Label;
+	
+	@Column(name = "en2_qf4_rel2_label_en")
+	private String en2Qf4Rel2LabelEN;
 	
 	@Column(name = "en1_sf1_id")
 	private Integer en1Sf1Id;
@@ -266,6 +338,9 @@ public class DrawBean {
 	@Column(name = "en1_sf1_str2")
 	private String en1Sf1Str2;
 	
+	@Column(name = "en1_sf1_str3")
+	private String en1Sf1Str3;
+	
 	@Column(name = "en1_sf1_rel1_id")
 	private Integer en1Sf1Rel1Id;
 	
@@ -274,6 +349,9 @@ public class DrawBean {
 	
 	@Column(name = "en1_sf1_rel1_label")
 	private String en1Sf1Rel1Label;
+	
+	@Column(name = "en1_sf1_rel1_label_en")
+	private String en1Sf1Rel1LabelEN;
 	
 	@Column(name = "en1_sf1_rel2_id")
 	private Integer en1Sf1Rel2Id;
@@ -284,6 +362,9 @@ public class DrawBean {
 	@Column(name = "en1_sf1_rel2_label")
 	private String en1Sf1Rel2Label;
 	
+	@Column(name = "en1_sf1_rel2_label_en")
+	private String en1Sf1Rel2LabelEN;
+	
 	@Column(name = "en2_sf1_id")
 	private Integer en2Sf1Id;
 	
@@ -292,6 +373,9 @@ public class DrawBean {
 	
 	@Column(name = "en2_sf1_str2")
 	private String en2Sf1Str2;
+	
+	@Column(name = "en2_sf1_str3")
+	private String en2Sf1Str3;
 	
 	@Column(name = "en2_sf1_rel1_id")
 	private Integer en2Sf1Rel1Id;
@@ -302,6 +386,9 @@ public class DrawBean {
 	@Column(name = "en2_sf1_rel1_label")
 	private String en2Sf1Rel1Label;
 	
+	@Column(name = "en2_sf1_rel1_label_en")
+	private String en2Sf1Rel1LabelEN;
+	
 	@Column(name = "en2_sf1_rel2_id")
 	private Integer en2Sf1Rel2Id;
 	
@@ -310,6 +397,9 @@ public class DrawBean {
 	
 	@Column(name = "en2_sf1_rel2_label")
 	private String en2Sf1Rel2Label;
+	
+	@Column(name = "en2_sf1_rel2_label_en")
+	private String en2Sf1Rel2LabelEN;
 	
 	@Column(name = "en1_sf2_id")
 	private Integer en1Sf2Id;
@@ -320,6 +410,9 @@ public class DrawBean {
 	@Column(name = "en1_sf2_str2")
 	private String en1Sf2Str2;
 	
+	@Column(name = "en1_sf2_str3")
+	private String en1Sf2Str3;
+	
 	@Column(name = "en1_sf2_rel1_id")
 	private Integer en1Sf2Rel1Id;
 	
@@ -328,6 +421,9 @@ public class DrawBean {
 	
 	@Column(name = "en1_sf2_rel1_label")
 	private String en1Sf2Rel1Label;
+	
+	@Column(name = "en1_sf2_rel1_label_en")
+	private String en1Sf2Rel1LabelEN;
 	
 	@Column(name = "en1_sf2_rel2_id")
 	private Integer en1Sf2Rel2Id;
@@ -338,6 +434,9 @@ public class DrawBean {
 	@Column(name = "en1_sf2_rel2_label")
 	private String en1Sf2Rel2Label;
 	
+	@Column(name = "en1_sf2_rel2_label_en")
+	private String en1Sf2Rel2LabelEN;
+	
 	@Column(name = "en2_sf2_id")
 	private Integer en2Sf2Id;
 	
@@ -346,6 +445,9 @@ public class DrawBean {
 	
 	@Column(name = "en2_sf2_str2")
 	private String en2Sf2Str2;
+	
+	@Column(name = "en2_sf2_str3")
+	private String en2Sf2Str3;
 	
 	@Column(name = "en2_sf2_rel1_id")
 	private Integer en2Sf2Rel1Id;
@@ -356,6 +458,9 @@ public class DrawBean {
 	@Column(name = "en2_sf2_rel1_label")
 	private String en2Sf2Rel1Label;
 	
+	@Column(name = "en2_sf2_rel1_label_en")
+	private String en2Sf2Rel1LabelEN;
+	
 	@Column(name = "en2_sf2_rel2_id")
 	private Integer en2Sf2Rel2Id;
 	
@@ -365,6 +470,9 @@ public class DrawBean {
 	@Column(name = "en2_sf2_rel2_label")
 	private String en2Sf2Rel2Label;
 
+	@Column(name = "en2_sf2_rel2_label_en")
+	private String en2Sf2Rel2LabelEN;
+	
 	@Column(name = "en1_f_id")
 	private Integer en1FId;
 	
@@ -373,6 +481,9 @@ public class DrawBean {
 	
 	@Column(name = "en1_f_str2")
 	private String en1FStr2;
+	
+	@Column(name = "en1_f_str3")
+	private String en1FStr3;
 	
 	@Column(name = "en1_f_rel1_id")
 	private Integer en1FRel1Id;
@@ -383,6 +494,9 @@ public class DrawBean {
 	@Column(name = "en1_f_rel1_label")
 	private String en1FRel1Label;
 	
+	@Column(name = "en1_f_rel1_label_en")
+	private String en1FRel1LabelEN;
+	
 	@Column(name = "en1_f_rel2_id")
 	private Integer en1FRel2Id;
 	
@@ -391,6 +505,9 @@ public class DrawBean {
 	
 	@Column(name = "en1_f_rel2_label")
 	private String en1FRel2Label;
+	
+	@Column(name = "en1_f_rel2_label_en")
+	private String en1FRel2LabelEN;
 	
 	@Column(name = "en2_f_id")
 	private Integer en2FId;
@@ -401,6 +518,9 @@ public class DrawBean {
 	@Column(name = "en2_f_str2")
 	private String en2FStr2;
 	
+	@Column(name = "en2_f_str3")
+	private String en2FStr3;
+	
 	@Column(name = "en2_f_rel1_id")
 	private Integer en2FRel1Id;
 	
@@ -409,6 +529,9 @@ public class DrawBean {
 	
 	@Column(name = "en2_f_rel1_label")
 	private String en2FRel1Label;
+	
+	@Column(name = "en2_f_rel1_label_en")
+	private String en2FRel1LabelEN;
 	
 	@Column(name = "en2_f_rel2_id")
 	private Integer en2FRel2Id;
@@ -419,6 +542,9 @@ public class DrawBean {
 	@Column(name = "en2_f_rel2_label")
 	private String en2FRel2Label;
 	
+	@Column(name = "en2_f_rel2_label_en")
+	private String en2FRel2LabelEN;
+	
 	@Column(name = "en1_thd_id")
 	private Integer en1ThdId;
 	
@@ -427,6 +553,9 @@ public class DrawBean {
 	
 	@Column(name = "en1_thd_str2")
 	private String en1ThdStr2;
+	
+	@Column(name = "en1_thd_str3")
+	private String en1ThdStr3;
 	
 	@Column(name = "en1_thd_rel1_id")
 	private Integer en1ThdRel1Id;
@@ -437,6 +566,9 @@ public class DrawBean {
 	@Column(name = "en1_thd_rel1_label")
 	private String en1ThdRel1Label;
 	
+	@Column(name = "en1_thd_rel1_label_en")
+	private String en1ThdRel1LabelEN;
+	
 	@Column(name = "en1_thd_rel2_id")
 	private Integer en1ThdRel2Id;
 	
@@ -445,6 +577,9 @@ public class DrawBean {
 	
 	@Column(name = "en1_thd_rel2_label")
 	private String en1ThdRel2Label;
+	
+	@Column(name = "en1_thd_rel2_label_en")
+	private String en1ThdRel2LabelEN;
 	
 	@Column(name = "en2_thd_id")
 	private Integer en2ThdId;
@@ -455,6 +590,9 @@ public class DrawBean {
 	@Column(name = "en2_thd_str2")
 	private String en2ThdStr2;
 	
+	@Column(name = "en2_thd_str3")
+	private String en2ThdStr3;
+	
 	@Column(name = "en2_thd_rel1_id")
 	private Integer en2ThdRel1Id;
 	
@@ -463,6 +601,9 @@ public class DrawBean {
 	
 	@Column(name = "en2_thd_rel1_label")
 	private String en2ThdRel1Label;
+	
+	@Column(name = "en2_thd_rel1_label_en")
+	private String en2ThdRel1LabelEN;
 	
 	@Column(name = "en2_thd_rel2_id")
 	private Integer en2ThdRel2Id;
@@ -473,6 +614,9 @@ public class DrawBean {
 	@Column(name = "en2_thd_rel2_label")
 	private String en2ThdRel2Label;
 
+	@Column(name = "en2_thd_rel2_label_en")
+	private String en2ThdRel2LabelEN;
+	
 	public Integer getDrId() {
 		return drId;
 	}
@@ -1711,6 +1855,390 @@ public class DrawBean {
 
 	public void setEn1ThdRel2Code(String en1ThdRel2Code) {
 		this.en1ThdRel2Code = en1ThdRel2Code;
+	}
+
+	public String getEn1Qf1Str3() {
+		return en1Qf1Str3;
+	}
+
+	public String getEn2Qf1Str3() {
+		return en2Qf1Str3;
+	}
+
+	public String getEn1Qf2Str3() {
+		return en1Qf2Str3;
+	}
+
+	public String getEn2Qf2Str3() {
+		return en2Qf2Str3;
+	}
+
+	public String getEn1Qf3Str3() {
+		return en1Qf3Str3;
+	}
+
+	public String getEn2Qf3Str3() {
+		return en2Qf3Str3;
+	}
+
+	public String getEn1Qf4Str3() {
+		return en1Qf4Str3;
+	}
+
+	public String getEn2Qf4Str3() {
+		return en2Qf4Str3;
+	}
+
+	public String getEn1Sf1Str3() {
+		return en1Sf1Str3;
+	}
+
+	public String getEn2Sf1Str3() {
+		return en2Sf1Str3;
+	}
+
+	public String getEn1Sf2Str3() {
+		return en1Sf2Str3;
+	}
+
+	public String getEn2Sf2Str3() {
+		return en2Sf2Str3;
+	}
+
+	public String getEn1FStr3() {
+		return en1FStr3;
+	}
+
+	public String getEn2FStr3() {
+		return en2FStr3;
+	}
+
+	public String getEn1ThdStr3() {
+		return en1ThdStr3;
+	}
+
+	public String getEn2ThdStr3() {
+		return en2ThdStr3;
+	}
+
+	public void setEn1Qf1Str3(String en1Qf1Str3) {
+		this.en1Qf1Str3 = en1Qf1Str3;
+	}
+
+	public void setEn2Qf1Str3(String en2Qf1Str3) {
+		this.en2Qf1Str3 = en2Qf1Str3;
+	}
+
+	public void setEn1Qf2Str3(String en1Qf2Str3) {
+		this.en1Qf2Str3 = en1Qf2Str3;
+	}
+
+	public void setEn2Qf2Str3(String en2Qf2Str3) {
+		this.en2Qf2Str3 = en2Qf2Str3;
+	}
+
+	public void setEn1Qf3Str3(String en1Qf3Str3) {
+		this.en1Qf3Str3 = en1Qf3Str3;
+	}
+
+	public void setEn2Qf3Str3(String en2Qf3Str3) {
+		this.en2Qf3Str3 = en2Qf3Str3;
+	}
+
+	public void setEn1Qf4Str3(String en1Qf4Str3) {
+		this.en1Qf4Str3 = en1Qf4Str3;
+	}
+
+	public void setEn2Qf4Str3(String en2Qf4Str3) {
+		this.en2Qf4Str3 = en2Qf4Str3;
+	}
+
+	public void setEn1Sf1Str3(String en1Sf1Str3) {
+		this.en1Sf1Str3 = en1Sf1Str3;
+	}
+
+	public void setEn2Sf1Str3(String en2Sf1Str3) {
+		this.en2Sf1Str3 = en2Sf1Str3;
+	}
+
+	public void setEn1Sf2Str3(String en1Sf2Str3) {
+		this.en1Sf2Str3 = en1Sf2Str3;
+	}
+
+	public void setEn2Sf2Str3(String en2Sf2Str3) {
+		this.en2Sf2Str3 = en2Sf2Str3;
+	}
+
+	public void setEn1FStr3(String en1fStr3) {
+		en1FStr3 = en1fStr3;
+	}
+
+	public void setEn2FStr3(String en2fStr3) {
+		en2FStr3 = en2fStr3;
+	}
+
+	public void setEn1ThdStr3(String en1ThdStr3) {
+		this.en1ThdStr3 = en1ThdStr3;
+	}
+
+	public void setEn2ThdStr3(String en2ThdStr3) {
+		this.en2ThdStr3 = en2ThdStr3;
+	}
+
+	public String getEn1Qf1Rel1LabelEN() {
+		return en1Qf1Rel1LabelEN;
+	}
+
+	public String getEn1Qf1Rel2LabelEN() {
+		return en1Qf1Rel2LabelEN;
+	}
+
+	public String getEn2Qf1Rel1LabelEN() {
+		return en2Qf1Rel1LabelEN;
+	}
+
+	public String getEn2Qf1Rel2LabelEN() {
+		return en2Qf1Rel2LabelEN;
+	}
+
+	public String getEn1Qf2Rel1LabelEN() {
+		return en1Qf2Rel1LabelEN;
+	}
+
+	public String getEn1Qf2Rel2LabelEN() {
+		return en1Qf2Rel2LabelEN;
+	}
+
+	public String getEn2Qf2Rel1LabelEN() {
+		return en2Qf2Rel1LabelEN;
+	}
+
+	public String getEn2Qf2Rel2LabelEN() {
+		return en2Qf2Rel2LabelEN;
+	}
+
+	public String getEn1Qf3Rel1LabelEN() {
+		return en1Qf3Rel1LabelEN;
+	}
+
+	public String getEn1Qf3Rel2LabelEN() {
+		return en1Qf3Rel2LabelEN;
+	}
+
+	public String getEn2Qf3Rel1LabelEN() {
+		return en2Qf3Rel1LabelEN;
+	}
+
+	public String getEn2Qf3Rel2LabelEN() {
+		return en2Qf3Rel2LabelEN;
+	}
+
+	public String getEn1Qf4Rel1LabelEN() {
+		return en1Qf4Rel1LabelEN;
+	}
+
+	public String getEn1Qf4Rel2LabelEN() {
+		return en1Qf4Rel2LabelEN;
+	}
+
+	public String getEn2Qf4Rel1LabelEN() {
+		return en2Qf4Rel1LabelEN;
+	}
+
+	public String getEn2Qf4Rel2LabelEN() {
+		return en2Qf4Rel2LabelEN;
+	}
+
+	public String getEn1Sf1Rel1LabelEN() {
+		return en1Sf1Rel1LabelEN;
+	}
+
+	public String getEn1Sf1Rel2LabelEN() {
+		return en1Sf1Rel2LabelEN;
+	}
+
+	public String getEn2Sf1Rel1LabelEN() {
+		return en2Sf1Rel1LabelEN;
+	}
+
+	public String getEn2Sf1Rel2LabelEN() {
+		return en2Sf1Rel2LabelEN;
+	}
+
+	public String getEn1Sf2Rel1LabelEN() {
+		return en1Sf2Rel1LabelEN;
+	}
+
+	public String getEn1Sf2Rel2LabelEN() {
+		return en1Sf2Rel2LabelEN;
+	}
+
+	public String getEn2Sf2Rel1LabelEN() {
+		return en2Sf2Rel1LabelEN;
+	}
+
+	public String getEn2Sf2Rel2LabelEN() {
+		return en2Sf2Rel2LabelEN;
+	}
+
+	public String getEn1FRel1LabelEN() {
+		return en1FRel1LabelEN;
+	}
+
+	public String getEn1FRel2LabelEN() {
+		return en1FRel2LabelEN;
+	}
+
+	public String getEn2FRel1LabelEN() {
+		return en2FRel1LabelEN;
+	}
+
+	public String getEn2FRel2LabelEN() {
+		return en2FRel2LabelEN;
+	}
+
+	public String getEn1ThdRel1LabelEN() {
+		return en1ThdRel1LabelEN;
+	}
+
+	public String getEn1ThdRel2LabelEN() {
+		return en1ThdRel2LabelEN;
+	}
+
+	public String getEn2ThdRel1LabelEN() {
+		return en2ThdRel1LabelEN;
+	}
+
+	public String getEn2ThdRel2LabelEN() {
+		return en2ThdRel2LabelEN;
+	}
+
+	public void setEn1Qf1Rel1LabelEN(String en1Qf1Rel1LabelEN) {
+		this.en1Qf1Rel1LabelEN = en1Qf1Rel1LabelEN;
+	}
+
+	public void setEn1Qf1Rel2LabelEN(String en1Qf1Rel2LabelEN) {
+		this.en1Qf1Rel2LabelEN = en1Qf1Rel2LabelEN;
+	}
+
+	public void setEn2Qf1Rel1LabelEN(String en2Qf1Rel1LabelEN) {
+		this.en2Qf1Rel1LabelEN = en2Qf1Rel1LabelEN;
+	}
+
+	public void setEn2Qf1Rel2LabelEN(String en2Qf1Rel2LabelEN) {
+		this.en2Qf1Rel2LabelEN = en2Qf1Rel2LabelEN;
+	}
+
+	public void setEn1Qf2Rel1LabelEN(String en1Qf2Rel1LabelEN) {
+		this.en1Qf2Rel1LabelEN = en1Qf2Rel1LabelEN;
+	}
+
+	public void setEn1Qf2Rel2LabelEN(String en1Qf2Rel2LabelEN) {
+		this.en1Qf2Rel2LabelEN = en1Qf2Rel2LabelEN;
+	}
+
+	public void setEn2Qf2Rel1LabelEN(String en2Qf2Rel1LabelEN) {
+		this.en2Qf2Rel1LabelEN = en2Qf2Rel1LabelEN;
+	}
+
+	public void setEn2Qf2Rel2LabelEN(String en2Qf2Rel2LabelEN) {
+		this.en2Qf2Rel2LabelEN = en2Qf2Rel2LabelEN;
+	}
+
+	public void setEn1Qf3Rel1LabelEN(String en1Qf3Rel1LabelEN) {
+		this.en1Qf3Rel1LabelEN = en1Qf3Rel1LabelEN;
+	}
+
+	public void setEn1Qf3Rel2LabelEN(String en1Qf3Rel2LabelEN) {
+		this.en1Qf3Rel2LabelEN = en1Qf3Rel2LabelEN;
+	}
+
+	public void setEn2Qf3Rel1LabelEN(String en2Qf3Rel1LabelEN) {
+		this.en2Qf3Rel1LabelEN = en2Qf3Rel1LabelEN;
+	}
+
+	public void setEn2Qf3Rel2LabelEN(String en2Qf3Rel2LabelEN) {
+		this.en2Qf3Rel2LabelEN = en2Qf3Rel2LabelEN;
+	}
+
+	public void setEn1Qf4Rel1LabelEN(String en1Qf4Rel1LabelEN) {
+		this.en1Qf4Rel1LabelEN = en1Qf4Rel1LabelEN;
+	}
+
+	public void setEn1Qf4Rel2LabelEN(String en1Qf4Rel2LabelEN) {
+		this.en1Qf4Rel2LabelEN = en1Qf4Rel2LabelEN;
+	}
+
+	public void setEn2Qf4Rel1LabelEN(String en2Qf4Rel1LabelEN) {
+		this.en2Qf4Rel1LabelEN = en2Qf4Rel1LabelEN;
+	}
+
+	public void setEn2Qf4Rel2LabelEN(String en2Qf4Rel2LabelEN) {
+		this.en2Qf4Rel2LabelEN = en2Qf4Rel2LabelEN;
+	}
+
+	public void setEn1Sf1Rel1LabelEN(String en1Sf1Rel1LabelEN) {
+		this.en1Sf1Rel1LabelEN = en1Sf1Rel1LabelEN;
+	}
+
+	public void setEn1Sf1Rel2LabelEN(String en1Sf1Rel2LabelEN) {
+		this.en1Sf1Rel2LabelEN = en1Sf1Rel2LabelEN;
+	}
+
+	public void setEn2Sf1Rel1LabelEN(String en2Sf1Rel1LabelEN) {
+		this.en2Sf1Rel1LabelEN = en2Sf1Rel1LabelEN;
+	}
+
+	public void setEn2Sf1Rel2LabelEN(String en2Sf1Rel2LabelEN) {
+		this.en2Sf1Rel2LabelEN = en2Sf1Rel2LabelEN;
+	}
+
+	public void setEn1Sf2Rel1LabelEN(String en1Sf2Rel1LabelEN) {
+		this.en1Sf2Rel1LabelEN = en1Sf2Rel1LabelEN;
+	}
+
+	public void setEn1Sf2Rel2LabelEN(String en1Sf2Rel2LabelEN) {
+		this.en1Sf2Rel2LabelEN = en1Sf2Rel2LabelEN;
+	}
+
+	public void setEn2Sf2Rel1LabelEN(String en2Sf2Rel1LabelEN) {
+		this.en2Sf2Rel1LabelEN = en2Sf2Rel1LabelEN;
+	}
+
+	public void setEn2Sf2Rel2LabelEN(String en2Sf2Rel2LabelEN) {
+		this.en2Sf2Rel2LabelEN = en2Sf2Rel2LabelEN;
+	}
+
+	public void setEn1FRel1LabelEN(String en1fRel1LabelEN) {
+		en1FRel1LabelEN = en1fRel1LabelEN;
+	}
+
+	public void setEn1FRel2LabelEN(String en1fRel2LabelEN) {
+		en1FRel2LabelEN = en1fRel2LabelEN;
+	}
+
+	public void setEn2FRel1LabelEN(String en2fRel1LabelEN) {
+		en2FRel1LabelEN = en2fRel1LabelEN;
+	}
+
+	public void setEn2FRel2LabelEN(String en2fRel2LabelEN) {
+		en2FRel2LabelEN = en2fRel2LabelEN;
+	}
+
+	public void setEn1ThdRel1LabelEN(String en1ThdRel1LabelEN) {
+		this.en1ThdRel1LabelEN = en1ThdRel1LabelEN;
+	}
+
+	public void setEn1ThdRel2LabelEN(String en1ThdRel2LabelEN) {
+		this.en1ThdRel2LabelEN = en1ThdRel2LabelEN;
+	}
+
+	public void setEn2ThdRel1LabelEN(String en2ThdRel1LabelEN) {
+		this.en2ThdRel1LabelEN = en2ThdRel1LabelEN;
+	}
+
+	public void setEn2ThdRel2LabelEN(String en2ThdRel2LabelEN) {
+		this.en2ThdRel2LabelEN = en2ThdRel2LabelEN;
 	}
 	
 }

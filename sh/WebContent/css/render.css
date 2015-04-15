@@ -8,6 +8,7 @@
 .tc th, .tc td{
 	border: 1px solid #666;
 	padding: 3px;
+	vertical-align: middle;
 }
 .tc th{
 	font-weight: bold;

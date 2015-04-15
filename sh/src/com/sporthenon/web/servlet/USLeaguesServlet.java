@@ -35,6 +35,7 @@ public class USLeaguesServlet extends AbstractServlet {
 	private static final short CHAMPIONSHIP_NBA = 54;
 	private static final short CHAMPIONSHIP_NHL = 55;
 	private static final short CHAMPIONSHIP_MLB = 56;
+	public static HashMap<Short, Short> HLEAGUES = new HashMap<Short, Short>();
 	public static HashMap<String, String> HTYPE1 = new HashMap<String, String>();
 	public static HashMap<String, String> HTYPE2 = new HashMap<String, String>();
 	
@@ -54,6 +55,10 @@ public class USLeaguesServlet extends AbstractServlet {
 	private static final String PICKLIST_ID_RECORD_SUBEVENT = "pl-record-se";
 	
 	static {
+		HLEAGUES.put(LEAGUE_NFL, CHAMPIONSHIP_NFL);
+		HLEAGUES.put(LEAGUE_NBA, CHAMPIONSHIP_NBA);
+		HLEAGUES.put(LEAGUE_NHL, CHAMPIONSHIP_NHL);
+		HLEAGUES.put(LEAGUE_MLB, CHAMPIONSHIP_MLB);
 		HTYPE1.put("i", "'Individual'");
 		HTYPE1.put("t", "'Team'");
 		HTYPE1.put("it", "'Individual', 'Team'");
@@ -74,11 +79,6 @@ public class USLeaguesServlet extends AbstractServlet {
 		try {
 			init(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
-			HashMap<Short, Short> hLeagues = new HashMap<Short, Short>();
-			hLeagues.put(LEAGUE_NFL, CHAMPIONSHIP_NFL);
-			hLeagues.put(LEAGUE_NBA, CHAMPIONSHIP_NBA);
-			hLeagues.put(LEAGUE_NHL, CHAMPIONSHIP_NHL);
-			hLeagues.put(LEAGUE_MLB, CHAMPIONSHIP_MLB);
 			String league = String.valueOf(hParams.get("league"));
 			if (hParams.containsKey("run")) { // View results
 				boolean isLink = false;
@@ -142,7 +142,7 @@ public class USLeaguesServlet extends AbstractServlet {
 					html.append(HtmlConverter.convertHallOfFame(DatabaseHelper.call("GetHallOfFame", lFuncParams), "en"));
 				}
 				else if (type.equals(TYPE_CHAMPIONSHIP)) {
-					lFuncParams.add(hLeagues.get(Short.valueOf(league)));
+					lFuncParams.add(HLEAGUES.get(Short.valueOf(league)));
 					lFuncParams.add(years);
 					lFuncParams.add("_" + "en");
 					html = HtmlConverter.getHeader(HtmlConverter.HEADER_US_LEAGUES_CHAMPIONSHIP, lFuncParams, getUser(request), "en");
@@ -150,7 +150,7 @@ public class USLeaguesServlet extends AbstractServlet {
 					html.append(HtmlConverter.convertUSChampionships(DatabaseHelper.call("GetUSChampionships", lFuncParams), "en"));
 				}
 				else if (type.equals(TYPE_RECORD)) {
-					lFuncParams.add(hLeagues.get(Short.valueOf(league)));
+					lFuncParams.add(HLEAGUES.get(Short.valueOf(league)));
 					lFuncParams.add(String.valueOf(hParams.get("pf")).equals("1") ? "0" : "495");
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("se")) ? String.valueOf(hParams.get("se")) : "0");
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp1")) ? String.valueOf(hParams.get("tp1")) : "i");
@@ -191,7 +191,7 @@ public class USLeaguesServlet extends AbstractServlet {
 				}
 				else if (hParams.containsKey(PICKLIST_ID_CHAMPIONSHIP_YEAR)) {
 					cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;---"));
-					cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + hLeagues.get(Short.valueOf(league)), null, (short)1, "en"));
+					cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + HLEAGUES.get(Short.valueOf(league)), null, (short)1, "en"));
 					plId = PICKLIST_ID_CHAMPIONSHIP_YEAR;
 				}
 				else if (hParams.containsKey(PICKLIST_ID_RETNUM_TEAM) || hParams.containsKey(PICKLIST_ID_TEAMSTADIUM_TEAM) || hParams.containsKey(PICKLIST_ID_WINLOSS_TEAM)) {
@@ -204,12 +204,12 @@ public class USLeaguesServlet extends AbstractServlet {
 					plId = (isRetnum ? PICKLIST_ID_RETNUM_TEAM : (isTeamStadium ? PICKLIST_ID_TEAMSTADIUM_TEAM : PICKLIST_ID_WINLOSS_TEAM));
 				}
 				else if (hParams.containsKey(PICKLIST_ID_RECORD_EVENT)) {
-					cPicklist.addAll(DatabaseHelper.getPicklist(Record.class, "event", "championship.id=" + hLeagues.get(Short.valueOf(league)), null, "x.event.index, x.event.label", "en"));
+					cPicklist.addAll(DatabaseHelper.getPicklist(Record.class, "event", "championship.id=" + HLEAGUES.get(Short.valueOf(league)), null, "x.event.index, x.event.label", "en"));
 					plId = PICKLIST_ID_RECORD_EVENT;
 				}
 				else if (hParams.containsKey(PICKLIST_ID_RECORD_SUBEVENT)) {
 					cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;---"));
-					cPicklist.addAll(DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + hLeagues.get(Short.valueOf(league)) + " and x.type1='Individual'", null, "x.subevent.index, x.subevent.label", "en"));
+					cPicklist.addAll(DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + HLEAGUES.get(Short.valueOf(league)) + " and x.type1='Individual'", null, "x.subevent.index, x.subevent.label", "en"));
 					plId = PICKLIST_ID_RECORD_SUBEVENT;
 				}
 				ServletHelper.writePicklist(response, cPicklist, plId);

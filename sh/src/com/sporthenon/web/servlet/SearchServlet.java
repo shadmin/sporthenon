@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseHelper;
+import com.sporthenon.db.entity.City;
+import com.sporthenon.db.entity.Complex;
 import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
@@ -33,7 +35,8 @@ public class SearchServlet extends AbstractServlet {
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			if (hParams.containsKey("entity")) { // Direct search from entity
 				String[] t = StringUtils.decode(String.valueOf(hParams.get("p"))).split("\\-");
-				String url = HtmlUtils.writeLink(t[0], Integer.parseInt(t[1]), null);
+				Integer id = Integer.parseInt(t[1]);
+				String url = HtmlUtils.writeLink(t[0], id, null, DatabaseHelper.getEntityName(t[0], id));
 				response.sendRedirect(url);
 			}
 			else if (hParams.containsKey("p2") && hParams.get("p2").equals("ajax")) { // Ajax autocompletion
@@ -47,7 +50,9 @@ public class SearchServlet extends AbstractServlet {
 				StringBuffer html = new StringBuffer("<ul>");
 				for (Object obj : DatabaseHelper.call("Search", lFuncParams)) {
 					RefItem item = (RefItem) obj;
-					html.append("<li id='" + StringUtils.encode(item.getEntity() + "-" + item.getIdItem()) + "'>" + item.getLabel() + "</li>");
+					String label = item.getLabel();
+					label += (item.getEntity().equals(City.alias) ? " (" + item.getLabelRel3() + ")" : (item.getEntity().equals(Complex.alias) ? " (" + item.getLabelRel1() + ")" : ""));
+					html.append("<li id='" + StringUtils.encode(item.getEntity() + "-" + item.getIdItem()) + "'>" + label + "</li>");
 				}
 				ServletHelper.writeText(response, html.append("</ul>").toString());
 			}

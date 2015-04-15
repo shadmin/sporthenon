@@ -28,7 +28,7 @@ private static final long serialVersionUID = 1L;
 			Collection c = DatabaseHelper.call("Contributors", null);
 			for (Object obj : c) {
 				ContributorBean bean = (ContributorBean) obj;
-				html.append("<tr><td><a href='" + HtmlUtils.writeLink(Contributor.alias, bean.getId(), null) + "'>" + bean.getLogin() + "</a></td>");
+				html.append("<tr><td><a href='" + HtmlUtils.writeLink(Contributor.alias, bean.getId(), null, bean.getLogin()) + "'>" + bean.getLogin() + "</a></td>");
 				html.append("<td>" + (StringUtils.notEmpty(bean.getName()) ? bean.getName() : "-") + "</td>");
 				html.append("<td>" + bean.getCount() + "</td></tr>");
 			}

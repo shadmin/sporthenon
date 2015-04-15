@@ -10,14 +10,8 @@ import java.util.LinkedList;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
-
-import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Country;
-import com.sporthenon.db.entity.Draw;
-import com.sporthenon.db.entity.Olympics;
-import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.RefItem;
@@ -67,27 +61,28 @@ public class HtmlUtils {
 		return main + (StringUtils.notEmpty(text) ? "/" + StringUtils.urlEscape(text) : "") + "/" + StringUtils.encode(params);
 	}
 
-	public static String writeLink(String alias, int id, String text) {
+	public static String writeLink(String alias, int id, String text1, String text2) {
 		StringBuffer html = new StringBuffer();
 		StringBuffer url = new StringBuffer();
-		String name = (alias.matches(Olympics.alias + "|" + Draw.alias) ? text : DatabaseHelper.getEntityName(alias, id));
-		if (alias.equals(Draw.alias)) {
-			try {
-				Result rs = (Result) DatabaseHelper.loadEntity(Result.class, id);
-				if (rs != null)
-					name = rs.getSport().getLabel() + "/" + rs.getChampionship().getLabel() + "/" + rs.getEvent().getLabel() + (rs.getSubevent() != null ? "/" + rs.getSubevent().getLabel() : "") + (rs.getSubevent2() != null ? "/" + rs.getSubevent2().getLabel() : "");
-			}
-			catch (Exception e) {
-				Logger.getLogger("sh").error(e.getMessage());
-			}
-		}
+//		if (alias.equals(Draw.alias)) {
+//			try {
+//				Result rs = (Result) DatabaseHelper.loadEntity(Result.class, id);
+//				if (rs != null)
+//					name = rs.getSport().getLabel() + "/" + rs.getChampionship().getLabel() + "/" + rs.getEvent().getLabel() + (rs.getSubevent() != null ? "/" + rs.getSubevent().getLabel() : "") + (rs.getSubevent2() != null ? "/" + rs.getSubevent2().getLabel() : "");
+//			}
+//			catch (Exception e) {
+//				Logger.getLogger("sh").error(e.getMessage());
+//			}
+//		}
+		text2 = (text2 != null ? text2 : text1);
 		url.append("/" + ResourceUtils.getText("entity." + alias + ".1", "en").replaceAll("\\s", "").toLowerCase());
-		url.append("/" + StringUtils.urlEscape(name));
+		url.append("/" + StringUtils.urlEscape(text2));
 		url.append("/" + StringUtils.encode(alias + "-" + id));
-		if (text != null) {
+		if (text1 != null) {
 			html.append("<a href='").append(url).append("'");
-			html.append(" title=\"" + name + "\"");
-			html.append(">" + text.replaceAll("\\s", SPACE) + "</a>");	
+			if (alias.equals(Athlete.alias) && !text1.toLowerCase().equals(text2.toLowerCase()))
+				html.append(" title=\"" + text2 + "\"");
+			html.append(">" + text1.replaceAll("\\s", SPACE) + "</a>");
 		}
 		else
 			html.append(ConfigUtils.getProperty("url") + url.toString().substring(1));
@@ -185,7 +180,7 @@ public class HtmlUtils {
 		int i = 0;
 		for (WinRecordsBean bean : c) {
 			max = (max == -1 ? bean.getCountWin() : max);
-			html.append("<tr" + (++i > 5 ? " class='hidden'" : "") + "><td class='caption'>" + writeLink(bean.getEntityType() < 10 ? Athlete.alias : (bean.getEntityType() == 50 ? Team.alias : Country.alias), bean.getEntityId(), bean.getEntityStr()) + "</td>");
+			html.append("<tr" + (++i > 5 ? " class='hidden'" : "") + "><td class='caption'>" + writeLink(bean.getEntityType() < 10 ? Athlete.alias : (bean.getEntityType() == 50 ? Team.alias : Country.alias), bean.getEntityId(), bean.getEntityStr(), bean.getEntityStrEN()) + "</td>");
 			html.append("<td><table><tr><td class='bar1'>&nbsp;</td>");
 			html.append("<td class='bar2' style='width:" + (int)((bean.getCountWin() * 100) / max) + "px;'>&nbsp;</td>");
 			html.append("<td class='bar3'>&nbsp;</td></tr></table></td>");

@@ -37,6 +37,7 @@ public class NavigationServlet extends AbstractServlet {
 		hServlet.put("search", "/SearchServlet");
 		hServlet.put("login", "/LoginServlet");
 		hServlet.put("update", "/UpdateServlet");
+		hServlet.put("android", "/AndroidServlet");
 		hTitle = new HashMap<String, String>();
 		hTitle.put("results", "menu.results.2");
 		hTitle.put("olympics", "menu.olympics.2");

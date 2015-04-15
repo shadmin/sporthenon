@@ -2,7 +2,6 @@ package com.sporthenon.web.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -15,7 +14,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.sporthenon.db.DatabaseHelper;
-import com.sporthenon.db.PicklistBean;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.function.StatisticsBean;
 import com.sporthenon.utils.HtmlUtils;
@@ -84,13 +82,13 @@ private static final long serialVersionUID = 1L;
 	
 	public static String getSportDivs(String lang) throws Exception {
 		HashMap<Integer, String> hSports = new HashMap<Integer, String>();
-		Collection<PicklistBean> cPicklist = DatabaseHelper.getPicklistFromQuery("select id, label" + (lang != null && !lang.equalsIgnoreCase("en") ? lang.toUpperCase() : "") + " from Sport order by index", false);
 		ArrayList<Integer> lId = new ArrayList<Integer>();
-		for (PicklistBean plb : cPicklist) {
-			String img = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, plb.getValue(), ImageUtils.SIZE_LARGE, null, null);
+		for (Object obj : DatabaseHelper.execute("from Sport order by index")) {
+			Sport sp = (Sport) obj;
+			String img = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_LARGE, null, null);
 			img = img.replaceAll(".*\\ssrc\\='|'/\\>", "");
-			hSports.put(plb.getValue(), "<div id='sport-#INDEX#' class='sport' style=\"background-image:url('" + img + "');\">" + HtmlUtils.writeLink(Sport.alias, plb.getValue(), plb.getText().replaceAll("\\s", "&nbsp;")) + "</div>");
-			lId.add(plb.getValue());
+			hSports.put(sp.getId(), "<div id='sport-#INDEX#' class='sport' style=\"background-image:url('" + img + "');\">" + HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel().replaceAll("\\s", "&nbsp;"), sp.getLabel()) + "</div>");
+			lId.add(sp.getId());
 		}
 		
 		StringBuffer sports = new StringBuffer("<div class='slide'>");
@@ -110,11 +108,6 @@ private static final long serialVersionUID = 1L;
 				break;
 		}
 		sports.append("</div>");
-		// Football, Rugby, Auto Racing, Tennis, Athletics, Basketball, Cycling
-		// Boxing, , Volleyball, Golf, Swimming, Alpine Skiing, Bobsleigh, Fencing
-		// Motorcycling, Ice Hockey, Judo, Cricket, Squash, Wrestling, Diving
-		// Weightlifting, Archery, Badminton, Gymnastics, Canoeing, Baseball, Curling
-		// Handball, Ice Skating, Surfing, Table Tennis, Mountainbiking, Waterpolo, Luge
 		
 		return sports.append(slide1).toString().replaceAll("\"", "\\\\\"");
 	}

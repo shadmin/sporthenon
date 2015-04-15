@@ -35,6 +35,9 @@ public class OlympicRankingsBean {
 	@Column(name = "ct_label")
 	private String ctLabel;
 	
+	@Column(name = "ct_label_en")
+	private String ctLabelEN;
+	
 	@Column(name = "st_id")
 	private Integer stId;
 	
@@ -52,6 +55,9 @@ public class OlympicRankingsBean {
 
 	@Column(name = "cn1_label")
 	private String cn1Label;
+	
+	@Column(name = "cn1_label_en")
+	private String cn1LabelEN;
 	
 	@Column(name = "cn2_id")
 	private Integer cn2Id;
@@ -237,6 +243,22 @@ public class OlympicRankingsBean {
 
 	public void setOlDate2(String olDate2) {
 		this.olDate2 = olDate2;
+	}
+
+	public String getCtLabelEN() {
+		return ctLabelEN;
+	}
+
+	public String getCn1LabelEN() {
+		return cn1LabelEN;
+	}
+
+	public void setCtLabelEN(String ctLabelEN) {
+		this.ctLabelEN = ctLabelEN;
+	}
+
+	public void setCn1LabelEN(String cn1LabelEN) {
+		this.cn1LabelEN = cn1LabelEN;
 	}
 
 	@Override

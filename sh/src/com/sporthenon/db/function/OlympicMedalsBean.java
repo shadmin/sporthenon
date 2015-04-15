@@ -32,6 +32,9 @@ public class OlympicMedalsBean {
 	@Column(name = "ol_city")
 	private String olCity;
 	
+	@Column(name = "ol_city_en")
+	private String olCityEN;
+	
 	@Column(name = "rs_date1")
 	private String rsDate1;
 	
@@ -92,11 +95,17 @@ public class OlympicMedalsBean {
 	@Column(name = "cx_label")
 	private String cxLabel;
 	
+	@Column(name = "cx_label_en")
+	private String cxLabelEN;
+	
 	@Column(name = "ct1_id")
 	private Integer ct1Id;
 
 	@Column(name = "ct1_label")
 	private String ct1Label;
+	
+	@Column(name = "ct1_label_en")
+	private String ct1LabelEN;
 	
 	@Column(name = "st1_id")
 	private Integer st1Id;
@@ -107,6 +116,9 @@ public class OlympicMedalsBean {
 	@Column(name = "st1_label")
 	private String st1Label;
 	
+	@Column(name = "st1_label_en")
+	private String st1LabelEN;
+	
 	@Column(name = "cn1_id")
 	private Integer cn1Id;
 	
@@ -115,6 +127,9 @@ public class OlympicMedalsBean {
 
 	@Column(name = "cn1_label_")
 	private String cn1Label_;
+	
+	@Column(name = "cn1_label_en_")
+	private String cn1LabelEN_;
 	
 	@Column(name = "ct2_id")
 	private Integer ct2Id;
@@ -155,11 +170,17 @@ public class OlympicMedalsBean {
 	@Column(name = "pr1_cn_label")
 	private String pr1CnLabel;
 	
+	@Column(name = "pr1_cn_label_en")
+	private String pr1CnLabelEN;
+	
 	@Column(name = "cn1_code")
 	private String cn1Code;
 	
 	@Column(name = "cn1_label")
 	private String cn1Label;
+	
+	@Column(name = "cn1_label_en")
+	private String cn1LabelEN;
 	
 	@Column(name = "pr2_last_name")
 	private String pr2LastName;
@@ -176,11 +197,17 @@ public class OlympicMedalsBean {
 	@Column(name = "pr2_cn_label")
 	private String pr2CnLabel;
 	
+	@Column(name = "pr2_cn_label_en")
+	private String pr2CnLabelEN;
+	
 	@Column(name = "cn2_code")
 	private String cn2Code;
 	
 	@Column(name = "cn2_label")
 	private String cn2Label;
+	
+	@Column(name = "cn2_label_en")
+	private String cn2LabelEN;
 	
 	@Column(name = "pr3_last_name")
 	private String pr3LastName;
@@ -197,11 +224,17 @@ public class OlympicMedalsBean {
 	@Column(name = "pr3_cn_label")
 	private String pr3CnLabel;
 	
+	@Column(name = "pr3_cn_label_en")
+	private String pr3CnLabelEN;
+	
 	@Column(name = "cn3_code")
 	private String cn3Code;
 	
 	@Column(name = "cn3_label")
 	private String cn3Label;
+	
+	@Column(name = "cn3_label_en")
+	private String cn3LabelEN;
 	
 	@Column(name = "pr4_last_name")
 	private String pr4LastName;
@@ -218,11 +251,17 @@ public class OlympicMedalsBean {
 	@Column(name = "pr4_cn_label")
 	private String pr4CnLabel;
 	
+	@Column(name = "pr4_cn_label_en")
+	private String pr4CnLabelEN;
+	
 	@Column(name = "cn4_code")
 	private String cn4Code;
 	
 	@Column(name = "cn4_label")
 	private String cn4Label;
+	
+	@Column(name = "cn4_label_en")
+	private String cn4LabelEN;
 	
 	@Column(name = "pr5_last_name")
 	private String pr5LastName;
@@ -239,11 +278,17 @@ public class OlympicMedalsBean {
 	@Column(name = "pr5_cn_label")
 	private String pr5CnLabel;
 	
+	@Column(name = "pr5_cn_label_en")
+	private String pr5CnLabelEN;
+	
 	@Column(name = "cn5_code")
 	private String cn5Code;
 	
 	@Column(name = "cn5_label")
 	private String cn5Label;
+	
+	@Column(name = "cn5_label_en")
+	private String cn5LabelEN;
 	
 	@Column(name = "tp1_number")
 	private Integer tp1Number;
@@ -908,6 +953,126 @@ public class OlympicMedalsBean {
 
 	public void setTp3Number(Integer tp3Number) {
 		this.tp3Number = tp3Number;
+	}
+
+	public String getOlCityEN() {
+		return olCityEN;
+	}
+
+	public String getCn1LabelEN() {
+		return cn1LabelEN;
+	}
+
+	public String getCn2LabelEN() {
+		return cn2LabelEN;
+	}
+
+	public String getCn3LabelEN() {
+		return cn3LabelEN;
+	}
+
+	public String getCn4LabelEN() {
+		return cn4LabelEN;
+	}
+
+	public String getCn5LabelEN() {
+		return cn5LabelEN;
+	}
+
+	public void setOlCityEN(String olCityEN) {
+		this.olCityEN = olCityEN;
+	}
+
+	public void setCn1LabelEN(String cn1LabelEN) {
+		this.cn1LabelEN = cn1LabelEN;
+	}
+
+	public void setCn2LabelEN(String cn2LabelEN) {
+		this.cn2LabelEN = cn2LabelEN;
+	}
+
+	public void setCn3LabelEN(String cn3LabelEN) {
+		this.cn3LabelEN = cn3LabelEN;
+	}
+
+	public void setCn4LabelEN(String cn4LabelEN) {
+		this.cn4LabelEN = cn4LabelEN;
+	}
+
+	public void setCn5LabelEN(String cn5LabelEN) {
+		this.cn5LabelEN = cn5LabelEN;
+	}
+
+	public String getCxLabelEN() {
+		return cxLabelEN;
+	}
+
+	public String getCt1LabelEN() {
+		return ct1LabelEN;
+	}
+
+	public String getSt1LabelEN() {
+		return st1LabelEN;
+	}
+
+	public String getCn1LabelEN_() {
+		return cn1LabelEN_;
+	}
+
+	public void setCxLabelEN(String cxLabelEN) {
+		this.cxLabelEN = cxLabelEN;
+	}
+
+	public void setCt1LabelEN(String ct1LabelEN) {
+		this.ct1LabelEN = ct1LabelEN;
+	}
+
+	public void setSt1LabelEN(String st1LabelEN) {
+		this.st1LabelEN = st1LabelEN;
+	}
+
+	public void setCn1LabelEN_(String cn1LabelEN_) {
+		this.cn1LabelEN_ = cn1LabelEN_;
+	}
+
+	public String getPr1CnLabelEN() {
+		return pr1CnLabelEN;
+	}
+
+	public String getPr2CnLabelEN() {
+		return pr2CnLabelEN;
+	}
+
+	public String getPr3CnLabelEN() {
+		return pr3CnLabelEN;
+	}
+
+	public String getPr4CnLabelEN() {
+		return pr4CnLabelEN;
+	}
+
+	public String getPr5CnLabelEN() {
+		return pr5CnLabelEN;
+	}
+
+	public void setPr1CnLabelEN(String pr1CnLabelEN) {
+		this.pr1CnLabelEN = pr1CnLabelEN;
+	}
+
+	public void setPr2CnLabelEN(String pr2CnLabelEN) {
+		this.pr2CnLabelEN = pr2CnLabelEN;
+	}
+
+	public void setPr3CnLabelEN(String pr3CnLabelEN) {
+		this.pr3CnLabelEN = pr3CnLabelEN;
+	}
+
+	public void setPr4CnLabelEN(String pr4CnLabelEN) {
+		this.pr4CnLabelEN = pr4CnLabelEN;
+	}
+
+	public void setPr5CnLabelEN(String pr5CnLabelEN) {
+		this.pr5CnLabelEN = pr5CnLabelEN;
 	}
 	
 }

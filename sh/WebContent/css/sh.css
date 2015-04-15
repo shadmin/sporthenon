@@ -181,7 +181,7 @@ input{
 	padding: 1px;
 }
 #headertop #searchpanel #dpattern{
-	width: 250px;
+	width: 300px;
 }
 #logo{
 	margin: 12px;
@@ -727,6 +727,7 @@ input{
 	margin-right: 5px;
 }
 #results{
+	overflow: auto;
 	height: 245px;
 	margin-left: 390px;
 	margin-right: 10px;

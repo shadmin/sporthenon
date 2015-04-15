@@ -29,11 +29,17 @@ public class TeamStadiumBean {
 	@Column(name = "cx_label")
 	private String cxLabel;
 	
+	@Column(name = "cx_label_en")
+	private String cxLabelEN;
+	
 	@Column(name = "ct_id")
 	private Integer ctId;
 
 	@Column(name = "ct_label")
 	private String ctLabel;
+	
+	@Column(name = "ct_label_en")
+	private String ctLabelEN;
 	
 	@Column(name = "st_id")
 	private Integer stId;
@@ -44,6 +50,9 @@ public class TeamStadiumBean {
 	@Column(name = "st_label")
 	private String stLabel;
 	
+	@Column(name = "st_label_en")
+	private String stLabelEN;
+	
 	@Column(name = "cn_id")
 	private Integer cnId;
 
@@ -52,6 +61,9 @@ public class TeamStadiumBean {
 	
 	@Column(name = "cn_label")
 	private String cnLabel;
+	
+	@Column(name = "cn_label_en")
+	private String cnLabelEN;
 	
 	@Column(name = "ts_date1")
 	private String tsDate1;
@@ -193,6 +205,38 @@ public class TeamStadiumBean {
 
 	public void setTsDate2(String tsDate2) {
 		this.tsDate2 = tsDate2;
+	}
+
+	public String getCxLabelEN() {
+		return cxLabelEN;
+	}
+
+	public String getCtLabelEN() {
+		return ctLabelEN;
+	}
+
+	public String getStLabelEN() {
+		return stLabelEN;
+	}
+
+	public String getCnLabelEN() {
+		return cnLabelEN;
+	}
+
+	public void setCxLabelEN(String cxLabelEN) {
+		this.cxLabelEN = cxLabelEN;
+	}
+
+	public void setCtLabelEN(String ctLabelEN) {
+		this.ctLabelEN = ctLabelEN;
+	}
+
+	public void setStLabelEN(String stLabelEN) {
+		this.stLabelEN = stLabelEN;
+	}
+
+	public void setCnLabelEN(String cnLabelEN) {
+		this.cnLabelEN = cnLabelEN;
 	}
 
 	@Override

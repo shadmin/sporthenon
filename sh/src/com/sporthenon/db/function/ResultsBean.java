@@ -79,6 +79,9 @@ public class ResultsBean {
 
 	@Column(name = "cx1_label")
 	private String cx1Label;
+	
+	@Column(name = "cx1_label_en")
+	private String cx1LabelEN;
 
 	@Column(name = "cx2_id")
 	private Integer cx2Id;
@@ -86,11 +89,17 @@ public class ResultsBean {
 	@Column(name = "cx2_label")
 	private String cx2Label;
 	
+	@Column(name = "cx2_label_en")
+	private String cx2LabelEN;
+	
 	@Column(name = "ct1_id")
 	private Integer ct1Id;
 
 	@Column(name = "ct1_label")
 	private String ct1Label;
+	
+	@Column(name = "ct1_label_en")
+	private String ct1LabelEN;
 	
 	@Column(name = "ct2_id")
 	private Integer ct2Id;
@@ -98,17 +107,26 @@ public class ResultsBean {
 	@Column(name = "ct2_label")
 	private String ct2Label;
 
+	@Column(name = "ct2_label_en")
+	private String ct2LabelEN;
+	
 	@Column(name = "ct3_id")
 	private Integer ct3Id;
 
 	@Column(name = "ct3_label")
 	private String ct3Label;
 	
+	@Column(name = "ct3_label_en")
+	private String ct3LabelEN;
+	
 	@Column(name = "ct4_id")
 	private Integer ct4Id;
 
 	@Column(name = "ct4_label")
 	private String ct4Label;
+	
+	@Column(name = "ct4_label_en")
+	private String ct4LabelEN;
 	
 	@Column(name = "st1_id")
 	private Integer st1Id;
@@ -119,6 +137,9 @@ public class ResultsBean {
 	@Column(name = "st1_label")
 	private String st1Label;
 	
+	@Column(name = "st1_label_en")
+	private String st1LabelEN;
+	
 	@Column(name = "st2_id")
 	private Integer st2Id;
 	
@@ -127,6 +148,9 @@ public class ResultsBean {
 
 	@Column(name = "st2_label")
 	private String st2Label;
+	
+	@Column(name = "st2_label_en")
+	private String st2LabelEN;
 	
 	@Column(name = "st3_id")
 	private Integer st3Id;
@@ -137,6 +161,9 @@ public class ResultsBean {
 	@Column(name = "st3_label")
 	private String st3Label;
 	
+	@Column(name = "st3_label_en")
+	private String st3LabelEN;
+	
 	@Column(name = "st4_id")
 	private Integer st4Id;
 	
@@ -145,6 +172,9 @@ public class ResultsBean {
 
 	@Column(name = "st4_label")
 	private String st4Label;
+	
+	@Column(name = "st4_label_en")
+	private String st4LabelEN;
 	
 	@Column(name = "cn1_id")
 	private Integer cn1Id;
@@ -155,6 +185,9 @@ public class ResultsBean {
 	@Column(name = "cn1_label")
 	private String cn1Label;
 	
+	@Column(name = "cn1_label_en")
+	private String cn1LabelEN;
+	
 	@Column(name = "cn2_id")
 	private Integer cn2Id;
 	
@@ -163,6 +196,9 @@ public class ResultsBean {
 
 	@Column(name = "cn2_label")
 	private String cn2Label;
+	
+	@Column(name = "cn2_label_en")
+	private String cn2LabelEN;
 	
 	@Column(name = "cn3_id")
 	private Integer cn3Id;
@@ -173,6 +209,9 @@ public class ResultsBean {
 	@Column(name = "cn3_label")
 	private String cn3Label;
 	
+	@Column(name = "cn3_label_en")
+	private String cn3LabelEN;
+	
 	@Column(name = "cn4_id")
 	private Integer cn4Id;
 	
@@ -182,11 +221,17 @@ public class ResultsBean {
 	@Column(name = "cn4_label")
 	private String cn4Label;
 	
+	@Column(name = "cn4_label_en")
+	private String cn4LabelEN;
+	
 	@Column(name = "en1_str1")
 	private String en1Str1;
 	
 	@Column(name = "en1_str2")
 	private String en1Str2;
+	
+	@Column(name = "en1_str3")
+	private String en1Str3;
 	
 	@Column(name = "en1_rel1_id")
 	private Integer en1Rel1Id;
@@ -206,11 +251,17 @@ public class ResultsBean {
 	@Column(name = "en1_rel2_label")
 	private String en1Rel2Label;
 	
+	@Column(name = "en1_rel2_label_en")
+	private String en1Rel2LabelEN;
+	
 	@Column(name = "en2_str1")
 	private String en2Str1;
 	
 	@Column(name = "en2_str2")
 	private String en2Str2;
+	
+	@Column(name = "en2_str3")
+	private String en2Str3;
 	
 	@Column(name = "en2_rel1_id")
 	private Integer en2Rel1Id;
@@ -230,11 +281,17 @@ public class ResultsBean {
 	@Column(name = "en2_rel2_label")
 	private String en2Rel2Label;
 	
+	@Column(name = "en2_rel2_label_en")
+	private String en2Rel2LabelEN;
+	
 	@Column(name = "en3_str1")
 	private String en3Str1;
 	
 	@Column(name = "en3_str2")
 	private String en3Str2;
+	
+	@Column(name = "en3_str3")
+	private String en3Str3;
 	
 	@Column(name = "en3_rel1_id")
 	private Integer en3Rel1Id;
@@ -254,11 +311,17 @@ public class ResultsBean {
 	@Column(name = "en3_rel2_label")
 	private String en3Rel2Label;
 	
+	@Column(name = "en3_rel2_label_en")
+	private String en3Rel2LabelEN;
+	
 	@Column(name = "en4_str1")
 	private String en4Str1;
 	
 	@Column(name = "en4_str2")
 	private String en4Str2;
+	
+	@Column(name = "en4_str3")
+	private String en4Str3;
 	
 	@Column(name = "en4_rel1_id")
 	private Integer en4Rel1Id;
@@ -278,11 +341,17 @@ public class ResultsBean {
 	@Column(name = "en4_rel2_label")
 	private String en4Rel2Label;
 	
+	@Column(name = "en4_rel2_label_en")
+	private String en4Rel2LabelEN;
+	
 	@Column(name = "en5_str1")
 	private String en5Str1;
 	
 	@Column(name = "en5_str2")
 	private String en5Str2;
+	
+	@Column(name = "en5_str3")
+	private String en5Str3;
 	
 	@Column(name = "en5_rel1_id")
 	private Integer en5Rel1Id;
@@ -302,11 +371,17 @@ public class ResultsBean {
 	@Column(name = "en5_rel2_label")
 	private String en5Rel2Label;
 	
+	@Column(name = "en5_rel2_label_en")
+	private String en5Rel2LabelEN;
+	
 	@Column(name = "en6_str1")
 	private String en6Str1;
 	
 	@Column(name = "en6_str2")
 	private String en6Str2;
+	
+	@Column(name = "en6_str3")
+	private String en6Str3;
 	
 	@Column(name = "en6_rel1_id")
 	private Integer en6Rel1Id;
@@ -326,11 +401,17 @@ public class ResultsBean {
 	@Column(name = "en6_rel2_label")
 	private String en6Rel2Label;
 	
+	@Column(name = "en6_rel2_label_en")
+	private String en6Rel2LabelEN;
+	
 	@Column(name = "en7_str1")
 	private String en7Str1;
 	
 	@Column(name = "en7_str2")
 	private String en7Str2;
+	
+	@Column(name = "en7_str3")
+	private String en7Str3;
 	
 	@Column(name = "en7_rel1_id")
 	private Integer en7Rel1Id;
@@ -350,11 +431,17 @@ public class ResultsBean {
 	@Column(name = "en7_rel2_label")
 	private String en7Rel2Label;
 	
+	@Column(name = "en7_rel2_label_en")
+	private String en7Rel2LabelEN;
+	
 	@Column(name = "en8_str1")
 	private String en8Str1;
 	
 	@Column(name = "en8_str2")
 	private String en8Str2;
+	
+	@Column(name = "en8_str3")
+	private String en8Str3;
 	
 	@Column(name = "en8_rel1_id")
 	private Integer en8Rel1Id;
@@ -374,11 +461,17 @@ public class ResultsBean {
 	@Column(name = "en8_rel2_label")
 	private String en8Rel2Label;
 	
+	@Column(name = "en8_rel2_label_en")
+	private String en8Rel2LabelEN;
+	
 	@Column(name = "en9_str1")
 	private String en9Str1;
 	
 	@Column(name = "en9_str2")
 	private String en9Str2;
+	
+	@Column(name = "en9_str3")
+	private String en9Str3;
 	
 	@Column(name = "en9_rel1_id")
 	private Integer en9Rel1Id;
@@ -398,11 +491,17 @@ public class ResultsBean {
 	@Column(name = "en9_rel2_label")
 	private String en9Rel2Label;
 	
+	@Column(name = "en9_rel2_label_en")
+	private String en9Rel2LabelEN;
+	
 	@Column(name = "en10_str1")
 	private String en10Str1;
 	
 	@Column(name = "en10_str2")
 	private String en10Str2;
+	
+	@Column(name = "en10_str3")
+	private String en10Str3;
 	
 	@Column(name = "en10_rel1_id")
 	private Integer en10Rel1Id;
@@ -421,6 +520,9 @@ public class ResultsBean {
 	
 	@Column(name = "en10_rel2_label")
 	private String en10Rel2Label;
+	
+	@Column(name = "en10_rel2_label_en")
+	private String en10Rel2LabelEN;
 	
 	@Column(name = "dr_id")
 	private Integer drId;
@@ -1541,76 +1643,276 @@ public class ResultsBean {
 		this.cn4Label = cn4Label;
 	}
 
-	@Override
-	public String toString() {
-		return "ResultsBean [rsId=" + rsId + ", rsDate1=" + rsDate1
-				+ ", rsDate2=" + rsDate2 + ", rsRank1=" + rsRank1
-				+ ", rsRank2=" + rsRank2 + ", rsRank3=" + rsRank3
-				+ ", rsRank4=" + rsRank4 + ", rsRank5=" + rsRank5
-				+ ", rsRank6=" + rsRank6 + ", rsRank7=" + rsRank7
-				+ ", rsRank8=" + rsRank8 + ", rsRank9=" + rsRank9
-				+ ", rsRank10=" + rsRank10 + ", rsResult1=" + rsResult1
-				+ ", rsResult2=" + rsResult2 + ", rsResult3=" + rsResult3
-				+ ", rsResult4=" + rsResult4 + ", rsResult5=" + rsResult5
-				+ ", rsComment=" + rsComment + ", rsExa=" + rsExa + ", yrId="
-				+ yrId + ", yrLabel=" + yrLabel + ", cx1Id=" + cx1Id
-				+ ", cx1Label=" + cx1Label + ", cx2Id=" + cx2Id + ", cx2Label="
-				+ cx2Label + ", ct1Id=" + ct1Id + ", ct1Label=" + ct1Label
-				+ ", ct2Id=" + ct2Id + ", ct2Label=" + ct2Label + ", ct3Id="
-				+ ct3Id + ", ct3Label=" + ct3Label + ", ct4Id=" + ct4Id
-				+ ", ct4Label=" + ct4Label + ", st1Id=" + st1Id + ", st1Code="
-				+ st1Code + ", st1Label=" + st1Label + ", st2Id=" + st2Id
-				+ ", st2Code=" + st2Code + ", st2Label=" + st2Label
-				+ ", st3Id=" + st3Id + ", st3Code=" + st3Code + ", st3Label="
-				+ st3Label + ", st4Id=" + st4Id + ", st4Code=" + st4Code
-				+ ", st4Label=" + st4Label + ", cn1Id=" + cn1Id + ", cn1Code="
-				+ cn1Code + ", cn1Label=" + cn1Label + ", cn2Id=" + cn2Id
-				+ ", cn2Code=" + cn2Code + ", cn2Label=" + cn2Label
-				+ ", cn3Id=" + cn3Id + ", cn3Code=" + cn3Code + ", cn3Label="
-				+ cn3Label + ", cn4Id=" + cn4Id + ", cn4Code=" + cn4Code
-				+ ", cn4Label=" + cn4Label + ", en1Str1=" + en1Str1
-				+ ", en1Str2=" + en1Str2 + ", en1Rel1Id=" + en1Rel1Id
-				+ ", en1Rel1Code=" + en1Rel1Code + ", en1Rel1Label="
-				+ en1Rel1Label + ", en1Rel2Id=" + en1Rel2Id + ", en1Rel2Code="
-				+ en1Rel2Code + ", en1Rel2Label=" + en1Rel2Label + ", en2Str1="
-				+ en2Str1 + ", en2Str2=" + en2Str2 + ", en2Rel1Id=" + en2Rel1Id
-				+ ", en2Rel1Code=" + en2Rel1Code + ", en2Rel1Label="
-				+ en2Rel1Label + ", en2Rel2Id=" + en2Rel2Id + ", en2Rel2Code="
-				+ en2Rel2Code + ", en2Rel2Label=" + en2Rel2Label + ", en3Str1="
-				+ en3Str1 + ", en3Str2=" + en3Str2 + ", en3Rel1Id=" + en3Rel1Id
-				+ ", en3Rel1Code=" + en3Rel1Code + ", en3Rel1Label="
-				+ en3Rel1Label + ", en3Rel2Id=" + en3Rel2Id + ", en3Rel2Code="
-				+ en3Rel2Code + ", en3Rel2Label=" + en3Rel2Label + ", en4Str1="
-				+ en4Str1 + ", en4Str2=" + en4Str2 + ", en4Rel1Id=" + en4Rel1Id
-				+ ", en4Rel1Code=" + en4Rel1Code + ", en4Rel1Label="
-				+ en4Rel1Label + ", en4Rel2Id=" + en4Rel2Id + ", en4Rel2Code="
-				+ en4Rel2Code + ", en4Rel2Label=" + en4Rel2Label + ", en5Str1="
-				+ en5Str1 + ", en5Str2=" + en5Str2 + ", en5Rel1Id=" + en5Rel1Id
-				+ ", en5Rel1Code=" + en5Rel1Code + ", en5Rel1Label="
-				+ en5Rel1Label + ", en5Rel2Id=" + en5Rel2Id + ", en5Rel2Code="
-				+ en5Rel2Code + ", en5Rel2Label=" + en5Rel2Label + ", en6Str1="
-				+ en6Str1 + ", en6Str2=" + en6Str2 + ", en6Rel1Id=" + en6Rel1Id
-				+ ", en6Rel1Code=" + en6Rel1Code + ", en6Rel1Label="
-				+ en6Rel1Label + ", en6Rel2Id=" + en6Rel2Id + ", en6Rel2Code="
-				+ en6Rel2Code + ", en6Rel2Label=" + en6Rel2Label + ", en7Str1="
-				+ en7Str1 + ", en7Str2=" + en7Str2 + ", en7Rel1Id=" + en7Rel1Id
-				+ ", en7Rel1Code=" + en7Rel1Code + ", en7Rel1Label="
-				+ en7Rel1Label + ", en7Rel2Id=" + en7Rel2Id + ", en7Rel2Code="
-				+ en7Rel2Code + ", en7Rel2Label=" + en7Rel2Label + ", en8Str1="
-				+ en8Str1 + ", en8Str2=" + en8Str2 + ", en8Rel1Id=" + en8Rel1Id
-				+ ", en8Rel1Code=" + en8Rel1Code + ", en8Rel1Label="
-				+ en8Rel1Label + ", en8Rel2Id=" + en8Rel2Id + ", en8Rel2Code="
-				+ en8Rel2Code + ", en8Rel2Label=" + en8Rel2Label + ", en9Str1="
-				+ en9Str1 + ", en9Str2=" + en9Str2 + ", en9Rel1Id=" + en9Rel1Id
-				+ ", en9Rel1Code=" + en9Rel1Code + ", en9Rel1Label="
-				+ en9Rel1Label + ", en9Rel2Id=" + en9Rel2Id + ", en9Rel2Code="
-				+ en9Rel2Code + ", en9Rel2Label=" + en9Rel2Label
-				+ ", en10Str1=" + en10Str1 + ", en10Str2=" + en10Str2
-				+ ", en10Rel1Id=" + en10Rel1Id + ", en10Rel1Code="
-				+ en10Rel1Code + ", en10Rel1Label=" + en10Rel1Label
-				+ ", en10Rel2Id=" + en10Rel2Id + ", en10Rel2Code="
-				+ en10Rel2Code + ", en10Rel2Label=" + en10Rel2Label + ", drId="
-				+ drId + "]";
+	public String getCx1LabelEN() {
+		return cx1LabelEN;
 	}
-	
+
+	public String getCx2LabelEN() {
+		return cx2LabelEN;
+	}
+
+	public String getCt1LabelEN() {
+		return ct1LabelEN;
+	}
+
+	public String getCt2LabelEN() {
+		return ct2LabelEN;
+	}
+
+	public String getCt3LabelEN() {
+		return ct3LabelEN;
+	}
+
+	public String getCt4LabelEN() {
+		return ct4LabelEN;
+	}
+
+	public String getSt1LabelEN() {
+		return st1LabelEN;
+	}
+
+	public String getSt2LabelEN() {
+		return st2LabelEN;
+	}
+
+	public String getSt3LabelEN() {
+		return st3LabelEN;
+	}
+
+	public String getSt4LabelEN() {
+		return st4LabelEN;
+	}
+
+	public String getCn1LabelEN() {
+		return cn1LabelEN;
+	}
+
+	public String getCn2LabelEN() {
+		return cn2LabelEN;
+	}
+
+	public String getCn3LabelEN() {
+		return cn3LabelEN;
+	}
+
+	public String getCn4LabelEN() {
+		return cn4LabelEN;
+	}
+
+	public void setCx1LabelEN(String cx1LabelEN) {
+		this.cx1LabelEN = cx1LabelEN;
+	}
+
+	public void setCx2LabelEN(String cx2LabelEN) {
+		this.cx2LabelEN = cx2LabelEN;
+	}
+
+	public void setCt1LabelEN(String ct1LabelEN) {
+		this.ct1LabelEN = ct1LabelEN;
+	}
+
+	public void setCt2LabelEN(String ct2LabelEN) {
+		this.ct2LabelEN = ct2LabelEN;
+	}
+
+	public void setCt3LabelEN(String ct3LabelEN) {
+		this.ct3LabelEN = ct3LabelEN;
+	}
+
+	public void setCt4LabelEN(String ct4LabelEN) {
+		this.ct4LabelEN = ct4LabelEN;
+	}
+
+	public void setSt1LabelEN(String st1LabelEN) {
+		this.st1LabelEN = st1LabelEN;
+	}
+
+	public void setSt2LabelEN(String st2LabelEN) {
+		this.st2LabelEN = st2LabelEN;
+	}
+
+	public void setSt3LabelEN(String st3LabelEN) {
+		this.st3LabelEN = st3LabelEN;
+	}
+
+	public void setSt4LabelEN(String st4LabelEN) {
+		this.st4LabelEN = st4LabelEN;
+	}
+
+	public void setCn1LabelEN(String cn1LabelEN) {
+		this.cn1LabelEN = cn1LabelEN;
+	}
+
+	public void setCn2LabelEN(String cn2LabelEN) {
+		this.cn2LabelEN = cn2LabelEN;
+	}
+
+	public void setCn3LabelEN(String cn3LabelEN) {
+		this.cn3LabelEN = cn3LabelEN;
+	}
+
+	public void setCn4LabelEN(String cn4LabelEN) {
+		this.cn4LabelEN = cn4LabelEN;
+	}
+
+	public String getEn1Str3() {
+		return en1Str3;
+	}
+
+	public String getEn2Str3() {
+		return en2Str3;
+	}
+
+	public String getEn3Str3() {
+		return en3Str3;
+	}
+
+	public String getEn4Str3() {
+		return en4Str3;
+	}
+
+	public String getEn5Str3() {
+		return en5Str3;
+	}
+
+	public String getEn6Str3() {
+		return en6Str3;
+	}
+
+	public String getEn7Str3() {
+		return en7Str3;
+	}
+
+	public String getEn8Str3() {
+		return en8Str3;
+	}
+
+	public String getEn9Str3() {
+		return en9Str3;
+	}
+
+	public String getEn10Str3() {
+		return en10Str3;
+	}
+
+	public void setEn1Str3(String en1Str3) {
+		this.en1Str3 = en1Str3;
+	}
+
+	public void setEn2Str3(String en2Str3) {
+		this.en2Str3 = en2Str3;
+	}
+
+	public void setEn3Str3(String en3Str3) {
+		this.en3Str3 = en3Str3;
+	}
+
+	public void setEn4Str3(String en4Str3) {
+		this.en4Str3 = en4Str3;
+	}
+
+	public void setEn5Str3(String en5Str3) {
+		this.en5Str3 = en5Str3;
+	}
+
+	public void setEn6Str3(String en6Str3) {
+		this.en6Str3 = en6Str3;
+	}
+
+	public void setEn7Str3(String en7Str3) {
+		this.en7Str3 = en7Str3;
+	}
+
+	public void setEn8Str3(String en8Str3) {
+		this.en8Str3 = en8Str3;
+	}
+
+	public void setEn9Str3(String en9Str3) {
+		this.en9Str3 = en9Str3;
+	}
+
+	public void setEn10Str3(String en10Str3) {
+		this.en10Str3 = en10Str3;
+	}
+
+	public String getEn1Rel2LabelEN() {
+		return en1Rel2LabelEN;
+	}
+
+	public String getEn2Rel2LabelEN() {
+		return en2Rel2LabelEN;
+	}
+
+	public String getEn3Rel2LabelEN() {
+		return en3Rel2LabelEN;
+	}
+
+	public String getEn4Rel2LabelEN() {
+		return en4Rel2LabelEN;
+	}
+
+	public String getEn5Rel2LabelEN() {
+		return en5Rel2LabelEN;
+	}
+
+	public String getEn6Rel2LabelEN() {
+		return en6Rel2LabelEN;
+	}
+
+	public String getEn7Rel2LabelEN() {
+		return en7Rel2LabelEN;
+	}
+
+	public String getEn8Rel2LabelEN() {
+		return en8Rel2LabelEN;
+	}
+
+	public String getEn9Rel2LabelEN() {
+		return en9Rel2LabelEN;
+	}
+
+	public String getEn10Rel2LabelEN() {
+		return en10Rel2LabelEN;
+	}
+
+	public void setEn1Rel2LabelEN(String en1Rel2LabelEN) {
+		this.en1Rel2LabelEN = en1Rel2LabelEN;
+	}
+
+	public void setEn2Rel2LabelEN(String en2Rel2LabelEN) {
+		this.en2Rel2LabelEN = en2Rel2LabelEN;
+	}
+
+	public void setEn3Rel2LabelEN(String en3Rel2LabelEN) {
+		this.en3Rel2LabelEN = en3Rel2LabelEN;
+	}
+
+	public void setEn4Rel2LabelEN(String en4Rel2LabelEN) {
+		this.en4Rel2LabelEN = en4Rel2LabelEN;
+	}
+
+	public void setEn5Rel2LabelEN(String en5Rel2LabelEN) {
+		this.en5Rel2LabelEN = en5Rel2LabelEN;
+	}
+
+	public void setEn6Rel2LabelEN(String en6Rel2LabelEN) {
+		this.en6Rel2LabelEN = en6Rel2LabelEN;
+	}
+
+	public void setEn7Rel2LabelEN(String en7Rel2LabelEN) {
+		this.en7Rel2LabelEN = en7Rel2LabelEN;
+	}
+
+	public void setEn8Rel2LabelEN(String en8Rel2LabelEN) {
+		this.en8Rel2LabelEN = en8Rel2LabelEN;
+	}
+
+	public void setEn9Rel2LabelEN(String en9Rel2LabelEN) {
+		this.en9Rel2LabelEN = en9Rel2LabelEN;
+	}
+
+	public void setEn10Rel2LabelEN(String en10Rel2LabelEN) {
+		this.en10Rel2LabelEN = en10Rel2LabelEN;
+	}
+
 }

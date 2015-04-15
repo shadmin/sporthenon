@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 public class ResourceUtils {
 
 	private static HashMap<String, Properties> HP = null;
-	private static final String LGDEFAULT = "en";
+	public static final String LGDEFAULT = "en";
 	
 	static {
 		try {
