@@ -115,7 +115,7 @@ window.onload = function() {
 		initSelectMult('sm-' + c + '-pl-ev', TX_EVENTS, 275);
 		initSelectMult('sm-' + c + '-pl-se', TX_EVENTS, 251);
 		initSelectMult('sm-' + c + '-pl-se2', TX_EVENTS, 232);
-		initSelectMult('sm-' + c + '-pl-cn', TX_COUNTRIES, 405);
+		initSelectMult('sm-' + c + '-pl-cn', TX_COUNTRIES, 430);
 		$(c + '-pl-ol').onchange = function() {
 			changeOlympics(this.id);
 			updateTip(this.id);

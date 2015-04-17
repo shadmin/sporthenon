@@ -68,7 +68,7 @@ public class InfoRefServlet extends AbstractServlet {
 				// References
 				if (!isDraw)
 					html.append(HtmlConverter.getRecordRef(lFuncParams, DatabaseHelper.call("EntityRef", lFuncParams), isExport, getUser(request), getLocale(request)));
-				
+
 				if (isLink) {
 					HtmlUtils.setTitle(request, html.toString());
 					if (isExport)

@@ -10,7 +10,7 @@
 		<a target="_blank" title="Valid XHTML 1.1" href="http://validator.w3.org/check?uri=referer"><img src="/img/header/validxhtml11.png" alt="Valid XHTML 1.1"/></a>
 		<div id="version">Version&nbsp;<%=ConfigUtils.getProperty("version")%></div>
 	</div>
-	&copy;2011-15&nbsp;(sporthenon.com)<br/><br/><a href="mailto:contact@sporthenon.com">contact@sporthenon.com</a>
+	&copy;2011-15&nbsp;(sporthenon.com)<br/><br/><span style="color:#888;">Last Update: XX XXX 2015&nbsp;&ndash;&nbsp;0.00 sec.</span>
 </div>
 <%}%>
 </body>

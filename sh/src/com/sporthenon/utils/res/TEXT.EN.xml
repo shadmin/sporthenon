@@ -199,6 +199,7 @@
 	<entry key="search.in">Search in</entry>
 	<entry key="previous">Previous</entry>
 	<entry key="next">Next</entry>
+	<entry key="all">All</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>
@@ -241,7 +242,6 @@
 	<entry key="category">Category</entry>
 	<entry key="individual">Individual</entry>
 	<entry key="team">Team</entry>
-	<entry key="all">All</entry>
 	<entry key="wins.losses">Wins/Losses</entry>
 	<entry key="hall.fame">Hall of Fame</entry>
 	<entry key="position">Position</entry>
@@ -258,6 +258,7 @@
 	<entry key="w.l">W/L</entry>
 <!-- SEARCH -->
 	<entry key="search.for">Search</entry>
+	<entry key="advanced.search">Advanced search</entry>
 	<entry key="search.results">Search results for</entry>
 	<entry key="advanced">Advanced</entry>
 	<entry key="case.sensitive">Case Sensitive</entry>

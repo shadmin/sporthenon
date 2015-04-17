@@ -206,7 +206,7 @@ public class HtmlConverter {
 				String scope2 = String.valueOf(lstParams.get(5));
 				hHeader.put("item3", (lstCategories.isEmpty() ? ResourceUtils.getText("all.categories", lang) : (lstCategories.size() == 1 ? lstCategories.get(0) : HtmlUtils.writeTip(Event.alias, lstCategories) + " " + ResourceUtils.getText("x.categories", lang))));
 				hHeader.put("item4", (scope.equalsIgnoreCase("it") ? ResourceUtils.getText("all.scopes", lang) : USLeaguesServlet.HTYPE1.get(scope).replaceAll("'", "")));
-				hHeader.put("item5", (scope2.equalsIgnoreCase("[All]") ? ResourceUtils.getText("all.scopes", lang) : USLeaguesServlet.HTYPE2.get(scope2).replaceAll("'", "")));
+				hHeader.put("item5", (scope2.equalsIgnoreCase("0") ? ResourceUtils.getText("all.scopes", lang) : USLeaguesServlet.HTYPE2.get(scope2).replaceAll("'", "")));
 			}
 		}
 		else if (type == HEADER_REF) {
@@ -635,8 +635,7 @@ public class HtmlConverter {
 		String currentEntity = "";
 		int colspan = 0;
 		int count = 0;
-		// TODO Divive into 3 sections : next 20, next 100, ALL
-		final String HTML_SEE_FULL = "<tr class='refseefull'><td colspan='#COLSPAN#'><div class='sfdiv1' title='" + ResourceUtils.getText("next.20", lang) + "' onclick='refSeeFull(this, \"#P1#\");'></div><div class='sfsep'></div><div class='sfdiv2' title='" + ResourceUtils.getText("complete.list", lang) + "' onclick='refSeeFull(this, \"#P2#\");'></div></td></tr>";
+		final String HTML_SEE_FULL = "<tr class='refseefull'><td colspan='#COLSPAN#'><div class='sfdiv1' onclick='refSeeFull(this, \"#P1#\");'>&nbsp;(+20)&nbsp;</div><div class='sfdiv2' onclick='refSeeFull(this, \"#P2#\");'>&nbsp;(+100)&nbsp;</div><div class='sfdiv3' onclick='refSeeFull(this, \"#P3#\");'>&nbsp;(" + ResourceUtils.getText("all", lang) + ")&nbsp;</div></td></tr>";
 		String c1 = null, c2 = null, c3 = null, c4 = null, c5 = null, c6 = null, c7 = null;
 		for (Object obj : list) {
 			RefItem item = (RefItem) obj;
@@ -672,15 +671,14 @@ public class HtmlConverter {
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("league", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("w.l", lang) + "</th>");
 				if (limit != null && !limit.equalsIgnoreCase("ALL") && count >= ITEM_LIMIT) {
 					String p = params.get(0) + "-" + params.get(1) + "-" + currentEntity + "-#LIMIT#-" + (offset + 20);
-					html.append(HTML_SEE_FULL.replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", "20"))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
+					html.append(HTML_SEE_FULL.replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", "20"))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
 				}
 				colspan = StringUtils.countIn(cols.toString(), "<th");
 				html.append(StringUtils.notEmpty(currentEntity) ? "</tbody></table><table class='tsort'>" : "");
 				count = 0;
 				if (isAllRef) {
-					// TODO bug sur toggle Medailles olympiques
 					html.append("<thead><tr><th colspan='" + colspan + "'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText(en.equals(Event.alias) ? "contributions" : "entity." + en, lang).toUpperCase()) + "</th></tr>");
-					html.append("<tr class='rsort'>" + cols.toString() + "</tr></thead><tbody id='tb-" + id + "'>");	
+					html.append("<tr class='rsort'>" + cols.toString() + "</tr></thead><tbody class='tby' id='tb-" + id + "'>");	
 				}
 				currentEntity = en;
 			}
@@ -740,10 +738,10 @@ public class HtmlConverter {
 				c5 = t[2];
 			}
 			else if (en.equals(Record.alias)) {
+				Integer lgId = (item.getIdRel2() != null ? (item.getIdRel2() == 51 ? 1 : (item.getIdRel2() == 54 ? 2 : (item.getIdRel2() == 55 ? 3 : 4))) : 0);
+				String url = HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_RECORD + "-" + lgId + "-" + item.getIdRel2() + "-" + (item.getIdRel3() == 496 ? "1" : "0") + "-" + item.getIdRel4() + "-" + (item.getTxt1() != null ? item.getTxt1().toLowerCase().charAt(0) : "it") + "-0-" + lang, USLeaguesServlet.TYPE_RECORD + "/" + item.getLabelRel6() + "/" + item.getLabelRel7() + "/" + item.getLabelRel8());
 				c1 = HtmlUtils.writeLink(Sport.alias, item.getIdRel1(), item.getLabelRel1(), item.getLabelRel5());
-				//1, 51, 495, 470, i, 0, _en
-				// TODO lien vers records
-				c2 = "<a href='" + item.getLabelRel6() + "/" + item.getLabelRel7() + "/" + item.getLabelRel8() + "'>" + item.getLabelRel2() + "&nbsp;-&nbsp;" + item.getLabelRel3() + "&nbsp;-&nbsp;" + item.getLabelRel4() + "</a>";
+				c2 = "<a href='" + url + "'>" + item.getLabelRel2() + "&nbsp;-&nbsp;" + item.getLabelRel3() + "&nbsp;-&nbsp;" + item.getLabelRel4() + "</a>";
 				c3 = (item.getTxt2() != null ? item.getTxt2() : "-");
 				c4 = (item.getTxt1() != null ? item.getTxt1() : "-");
 				c5 = item.getLabel() + "&nbsp;&ndash;&nbsp;<b>" + item.getTxt3() + "</b>";
@@ -827,7 +825,7 @@ public class HtmlConverter {
 				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, cp, ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Championship.alias, cp, item.getComment(), null));
 				c2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, item.getIdRel1(), item.getLabelRel1(), null));
 				c3 = HtmlUtils.writeLink(Athlete.alias, item.getIdRel2(), StringUtils.toFullName(item.getLabelRel2(), item.getLabelRel3()), item.getLabelRel3() + " " + item.getLabelRel2());
-				c4 = String.valueOf(item.getIdRel3());
+				c4 = String.valueOf(item.getIdRel4());
 			}
 			else if (en.equals(Team.alias)) {
 				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, item.getIdItem(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, item.getIdItem(), item.getLabel(), null));
@@ -861,7 +859,7 @@ public class HtmlConverter {
 		}
 		if (limit != null && !limit.equalsIgnoreCase("ALL") && count >= ITEM_LIMIT) {
 			String p = params.get(0) + "-" + params.get(1) + "-" + currentEntity + "-#LIMIT#-" + (offset + 20);
-			html.append(HTML_SEE_FULL.replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", "20"))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
+			html.append(HTML_SEE_FULL.replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", "20"))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
 		}
 		html.append(isAllRef ? "</tbody></table>" : "");
 		return html;
@@ -950,7 +948,7 @@ public class HtmlConverter {
 			html.append("<th onclick='sort(\"" + id + "\", this, " + (entityCount + 1) + ");'>" + ResourceUtils.getText("date", lang) + "</th>");
 		if (isPlace)
 			html.append("<th onclick='sort(\"" + id + "\", this, " + (entityCount + (isDates ? 1 : 0) + 1) + ");'>" + ResourceUtils.getText("place", lang) + "</th>");
-		html.append("</tr></thead><tbody id='tb-" + id + "'>");
+		html.append("</tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			ResultsBean bean = (ResultsBean) obj;
 			lIds.add(String.valueOf(bean.getRsId()));
@@ -1208,7 +1206,7 @@ public class HtmlConverter {
 					cols.append((en.matches("CX") ? "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("city", lang) + "</th>" : "") + "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("country", lang) + "</th>");
 				html.append("<thead><tr><th colspan='" + (StringUtils.countIn(cols.toString(), "<th") + 1) + "'>");
 				html.append(HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + en, lang).toUpperCase() + "&nbsp;(" + hCount.get(en) + ")") + "</th></tr>");
-				html.append("<tr class='rsort'>" + cols.toString() + "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("references", lang) + "</th></tr></thead><tbody id='tb-" + id + "'>");
+				html.append("<tr class='rsort'>" + cols.toString() + "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("references", lang) + "</th></tr></thead><tbody class='tby' id='tb-" + id + "'>");
 				currentEntity = en;
 			}
 			String name = item.getLabel();
@@ -1332,7 +1330,7 @@ public class HtmlConverter {
 		html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, 3);'>" + ImageUtils.getSilverHeader(lang) + "</th>");
 		html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, 4);'>" + ImageUtils.getBronzeHeader(lang) + "</th>");
 		html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, 5);'>" + ResourceUtils.getText("place", lang) + "</th>");
-		html.append("</tr></thead><tbody id='tb-" + id + "'>");
+		html.append("</tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			OlympicMedalsBean bean = (OlympicMedalsBean) obj;
 			boolean isIndividual_ = ((bean.getTp2Number() != null ? bean.getTp2Number() : bean.getTp1Number()) <= 10);
@@ -1404,7 +1402,7 @@ public class HtmlConverter {
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("year", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("country", lang) + "</th>");
 		html.append("<th onclick='sort(\"" + id + "\", this, 2);'>" + ImageUtils.getGoldHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ImageUtils.getSilverHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ImageUtils.getBronzeHeader(lang) + "</th>");
-		html.append("</tr></thead><tbody id='tb-" + id + "'>");
+		html.append("</tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			OlympicRankingsBean bean = (OlympicRankingsBean) obj;
 			if (!bean.getYrId().equals(currentOlympics)) {
@@ -1416,7 +1414,7 @@ public class HtmlConverter {
 
 			// Evaluate bean
 			String country = HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Label(), bean.getCn1LabelEN());
-			tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, bean.getCn1Label(), null);
+			tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
 			country = HtmlUtils.writeImgTable(tmpImg, country);
 
 			// Write line
@@ -1434,7 +1432,7 @@ public class HtmlConverter {
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		long id = System.currentTimeMillis();
-		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("year", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("inductee", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("inducted.as", lang) + "</th></tr></thead><tbody id='tb-" + id + "'>");
+		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("year", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("inductee", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("inducted.as", lang) + "</th></tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			HallOfFameBean bean = (HallOfFameBean) obj;
 
@@ -1461,7 +1459,7 @@ public class HtmlConverter {
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		long id = System.currentTimeMillis();
-		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("number", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("name", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("year", lang) + "</th></tr></thead><tbody id='tb-" + id + "'>");
+		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("number", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("name", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("year", lang) + "</th></tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			RetiredNumberBean bean = (RetiredNumberBean) obj;
 
@@ -1485,7 +1483,7 @@ public class HtmlConverter {
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		long id = System.currentTimeMillis();
-		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("complex", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("city", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("years", lang) + "</th></tr></thead><tbody id='tb-" + id + "'>");
+		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("complex", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("city", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("years", lang) + "</th></tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			TeamStadiumBean bean = (TeamStadiumBean) obj;
 
@@ -1524,7 +1522,7 @@ public class HtmlConverter {
 		}
 		long id = System.currentTimeMillis();
 		html.append("<thead><tr class='rsort'><th" + (isComment ? " colspan='2'" : "") + " onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("year", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("champion", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("score", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("runner.up", lang) + "</th>");
-		html.append((isDate ? "<th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("date", lang) + "</th>" : "") + (isPlace ? "<th onclick='sort(\"" + id + "\", this, " + (isDate ? 5 : 4) + ");'>" + ResourceUtils.getText("place", lang) + "</th>" : "") + "</tr></thead><tbody id='tb-" + id + "'>");
+		html.append((isDate ? "<th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("date", lang) + "</th>" : "") + (isPlace ? "<th onclick='sort(\"" + id + "\", this, " + (isDate ? 5 : 4) + ");'>" + ResourceUtils.getText("place", lang) + "</th>" : "") + "</tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			USChampionshipsBean bean = (USChampionshipsBean) obj;
 
@@ -1567,7 +1565,7 @@ public class HtmlConverter {
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		html.append("<tr class='rsort'><th onclick='sort(\"0\", this, 0);'>" + ResourceUtils.getText("category", lang) + "</th><th onclick='sort(\"0\", this, 1);'>" + ResourceUtils.getText("scope", lang) + "</th><th onclick='sort(\"0\", this, 2);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"0\", this, 3);'>" + ResourceUtils.getText("period", lang) + "</th><th onclick='sort(\"0\", this, 4);'>" + ResourceUtils.getText("record", lang) + "</th><th colspan='2' onclick='sort(\"0\", this, 5);'>" + ResourceUtils.getText("record.holder", lang) + "</th><th onclick='sort(\"0\", this, 6);'>" + ResourceUtils.getText("date", lang) + "</th>");
-		html.append("</tr></thead><tbody id='tb-0'>");
+		html.append("</tr></thead><tbody class='tby' id='tb-0'>");
 		for (Object obj : coll) {
 			USRecordsBean bean = (USRecordsBean) obj;
 
@@ -1630,7 +1628,7 @@ public class HtmlConverter {
 			isOtloss |= (bean.getWlCountOtloss() != null);
 		}
 		long id = System.currentTimeMillis();
-		html.append("<tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("wins", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("losses", lang) + "</th>" + (isTie ? "<th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("ties", lang) + "</th>" : "") + (isOtloss ? "<th onclick='sort(\"" + id + "\", this, 5);'>" + ResourceUtils.getText("ties", lang) + "</th>" : "") + "<th onclick='sort(\"" + id + "\", this, " + (4 + (isTie ? 1 : 0) + (isOtloss ? 1 : 0)) + ");'>%</th></tr></thead><tbody id='tb-" + id + "'>");
+		html.append("<tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("wins", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("losses", lang) + "</th>" + (isTie ? "<th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("ties", lang) + "</th>" : "") + (isOtloss ? "<th onclick='sort(\"" + id + "\", this, 5);'>" + ResourceUtils.getText("ties", lang) + "</th>" : "") + "<th onclick='sort(\"" + id + "\", this, " + (4 + (isTie ? 1 : 0) + (isOtloss ? 1 : 0)) + ");'>%</th></tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			WinLossBean bean = (WinLossBean) obj;
 

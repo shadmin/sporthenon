@@ -27,7 +27,7 @@ import com.sporthenon.updater.component.JEntityPicklist;
 import com.sporthenon.updater.container.tab.JResultsPanel;
 import com.sporthenon.utils.SwingUtils;
 
-
+// TODO module de déplacement en masse de dossiers
 public class JEditFolderDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;

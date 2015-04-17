@@ -181,7 +181,8 @@ input{
 	padding: 1px;
 }
 #headertop #searchpanel #dpattern{
-	width: 300px;
+	border: 1px solid #AAA;
+	width: 250px;
 }
 #logo{
 	margin: 12px;
@@ -1155,6 +1156,11 @@ input{
 .ajaxsearch ul li.selected {
     background-color: #CDE8FF;
     border: 1px solid #888;
+}
+.ajaxsearch ul li.ajaxlastrow {
+	color: #555;
+	font-style: italic;
+	border-top: 1px solid #888;
 }
 /* ========== DIALOGS ========== */
 .dialog, .dialog input{

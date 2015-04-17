@@ -199,6 +199,7 @@
 	<entry key="search.in">Rechercher dans</entry>
 	<entry key="previous">Précédent</entry>
 	<entry key="next">Suivant</entry>
+	<entry key="all">Tout</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
@@ -241,7 +242,6 @@
 	<entry key="category">Catégorie</entry>
 	<entry key="individual">Individuel</entry>
 	<entry key="team">Equipe</entry>
-	<entry key="all">Tous</entry>
 	<entry key="wins.losses">Victoire/Défaites</entry>
 	<entry key="hall.fame">Hall of Fame</entry>
 	<entry key="position">Poste</entry>
@@ -258,6 +258,7 @@
 	<entry key="w.l">V/D</entry>
 <!-- SEARCH -->
 	<entry key="search.for">Rechercher</entry>
+	<entry key="advanced.search">Recherche avancée</entry>
 	<entry key="search.results">Résultats de recherche pour</entry>
 	<entry key="advanced">Avancé</entry>
 	<entry key="case.sensitive">Sensible à la casse</entry>

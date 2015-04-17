@@ -40,11 +40,11 @@ public class USLeaguesServlet extends AbstractServlet {
 	public static HashMap<String, String> HTYPE2 = new HashMap<String, String>();
 	
 	public static final String TYPE_RETNUM = "retnum";
-	public static final String TYPE_TEAMSTADIUM = "teamstadium";
+	public static final String TYPE_TEAMSTADIUM = "teamstadiums";
 	public static final String TYPE_WINLOSS = "winloss";
 	public static final String TYPE_HOF = "hof";
-	public static final String TYPE_CHAMPIONSHIP = "championship";
-	public static final String TYPE_RECORD = "record";
+	public static final String TYPE_CHAMPIONSHIP = "championships";
+	public static final String TYPE_RECORD = "records";
 	
 	private static final String PICKLIST_ID_RETNUM_TEAM = "pl-retnum-tm";
 	private static final String PICKLIST_ID_TEAMSTADIUM_TEAM = "pl-teamstadium-tm";

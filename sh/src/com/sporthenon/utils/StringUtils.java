@@ -281,7 +281,7 @@ public class StringUtils {
 	}
 	
 	public static final String toFullName(String ln, String fn) {
-		return (StringUtils.notEmpty(fn) ? fn + HtmlUtils.SPACE : "") + ln.toUpperCase();
+		return (StringUtils.notEmpty(fn) ? fn + HtmlUtils.SPACE : "") + (ln != null ? ln.toUpperCase() : "");
 	}
 	
 	public static final String urlEscape(String s) {

@@ -170,13 +170,13 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 
 	private JPanel getButtonPanel() {
 		JPanel leftPanel = new JPanel();
-		JCustomButton jRefreshTreeButton = new JCustomButton(null, "common/refresh.png", "Refresh Tree");
+		JCustomButton jRefreshTreeButton = new JCustomButton("Refresh", "common/refresh.png", "Refresh Tree");
 		jRefreshTreeButton.addActionListener(this);
 		jRefreshTreeButton.setActionCommand("refresh-tree");
-		JCustomButton jNewFolderButton = new JCustomButton(null, "newfolder.png", "New Folder");
+		JCustomButton jNewFolderButton = new JCustomButton("New Folder", "newfolder.png", "New Folder");
 		jNewFolderButton.addActionListener(this);
 		jNewFolderButton.setActionCommand("add-folder");
-		JCustomButton jEditFolderButton = new JCustomButton(null, "editfolder.png", "Edit Folder");
+		JCustomButton jEditFolderButton = new JCustomButton("Edit Folders", "editfolder.png", "Edit Folder");
 		jEditFolderButton.addActionListener(this);
 		jEditFolderButton.setActionCommand("edit-folder");
 		leftPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 1));
@@ -189,21 +189,21 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 		leftPanel.add(jInactive, null);
 
 		JPanel rightPanel = new JPanel();
-		JCustomButton jAddButton = new JCustomButton(null, "add.png", "Add");
+		JCustomButton jAddButton = new JCustomButton("Add", "add.png", "Add");
 		jAddButton.addActionListener(this);
 		jAddButton.setActionCommand("add-result");
-		jEditButton = new JCustomButton(null, "edit.png", "Edit");
+		jEditButton = new JCustomButton("Edit", "edit.png", "Edit");
 		jEditButton.addActionListener(this);
 		jEditButton.setActionCommand("edit-result");
 		jEditButton.setEnabled(false);
-		jCopyButton = new JCustomButton(null, "copy.png", "Copy");
+		jCopyButton = new JCustomButton("Copy", "copy.png", "Copy");
 		jCopyButton.addActionListener(this);
 		jCopyButton.setActionCommand("copy-result");
 		jCopyButton.setEnabled(false);
-		JCustomButton jAddMultipleButton = new JCustomButton(null, "addmultiple.png", "Add Multiple");
+		JCustomButton jAddMultipleButton = new JCustomButton("Add+", "addmultiple.png", "Add Multiple");
 		jAddMultipleButton.addActionListener(this);
 		jAddMultipleButton.setActionCommand("addmultiple-result");
-		jRemoveButton = new JCustomButton(null, "remove.png", "Remove");
+		jRemoveButton = new JCustomButton("Remove", "remove.png", "Remove");
 		jRemoveButton.addActionListener(this);
 		jRemoveButton.setActionCommand("remove-result");
 		jRemoveButton.setEnabled(false);

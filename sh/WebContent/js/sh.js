@@ -125,7 +125,7 @@ function toggleContent(el) {
 	}
 	var isDisplayed = (el.src.indexOf('collapse.gif') != -1);
 	var table = $(el).up('table');
-	var row = table.down('tbody').down();
+	var row = table.down('.tby').down();
 	while (row != null) {
 		if (!isDisplayed) {
 			row.show();
@@ -1017,11 +1017,11 @@ function dpatternBlur() {
 	}
 }
 function directSearch(li) {
-	if (li && li.id) {
+	if (li && li.id && li.id != 'LR') {
 		Event.stopObserving($('dpattern'), 'keyup');
 		location.href = '/search?p=' + li.id + '&entity';
 	}
-	else if (event.keyCode == 13) {
+	else if (event.keyCode == 13 || li.id == 'LR') {
 		location.href = '/search?p=' + escape($F('dpattern'));
 	}
 }
@@ -1172,7 +1172,7 @@ function initUpdate(value) {
 	['sp', 'cp', 'ev', 'se', 'se2', 'yr', 'pl1', 'pl2'].each(function(s){
 		new Ajax.Autocompleter(
 			s,
-			'ajaxdiv',
+			'ajaxsearch',
 			'/update/ajax/' + s,
 			{ paramName: 'value', minChars: 3, frequency: 0.1, afterUpdateElement: setValue}
 		);
@@ -1263,7 +1263,7 @@ function updateType(s, tp) {
 		Event.stopObserving($(s), 'keydown');
 		new Ajax.Autocompleter(
 			s,
-			'ajaxdiv',
+			'ajaxsearch',
 			'/update/ajax/' + (currentTp < 10 ? 'pr' : (currentTp == 50 ? 'tm' : 'cn')) + (tValues['sp'] != null ? '-' + tValues['sp'] : ''),
 			{ paramName: 'value', minChars: 3, frequency: 0.1, afterUpdateElement: setValue}
 		);

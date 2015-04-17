@@ -2,6 +2,7 @@ package com.sporthenon.web.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -48,12 +49,15 @@ public class SearchServlet extends AbstractServlet {
 				lFuncParams.add((short)10);
 				lFuncParams.add("_" + getLocale(request));
 				StringBuffer html = new StringBuffer("<ul>");
-				for (Object obj : DatabaseHelper.call("Search", lFuncParams)) {
+				Collection list = DatabaseHelper.call("Search", lFuncParams);
+				for (Object obj : list) {
 					RefItem item = (RefItem) obj;
 					String label = item.getLabel();
 					label += (item.getEntity().equals(City.alias) ? " (" + item.getLabelRel3() + ")" : (item.getEntity().equals(Complex.alias) ? " (" + item.getLabelRel1() + ")" : ""));
 					html.append("<li id='" + StringUtils.encode(item.getEntity() + "-" + item.getIdItem()) + "'>" + label + "</li>");
 				}
+//				if (!list.isEmpty())
+				html.append("<li class='ajaxlastrow' id=\"LR\">" + ResourceUtils.getText("search.for", getLocale(request)) + "&nbsp;:&nbsp;\"" + hParams.get("value") + "\"</li>");
 				ServletHelper.writeText(response, html.append("</ul>").toString());
 			}
 			else if (hParams.containsKey("run")) { // Run search

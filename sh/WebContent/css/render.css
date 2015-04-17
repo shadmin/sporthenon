@@ -194,24 +194,19 @@
 }
 .tc .refseefull div{
 	float: left;
-	width: 50%;
+	font-style: italic;
+	width: 33.33%;
+	padding-top: 2px;
 	cursor: pointer;
 	text-align: center;
-	height: 22px;
+	height: 18px;
+	background: transparent url(../img/render/more3.gif) 0 0 no-repeat;
 }
 .tc .refseefull div:hover{
-	background-color: #FFC;
+	background-color: #BEE0FF;
 }
 .tc .refseefull .sfdiv1{
-	margin-right: -1px;
-	background: transparent url(../img/render/more.gif) center center no-repeat;
-}
-.tc .refseefull .sfsep{
-	width: 1px;
-	background-color: #666;
-}
-.tc .refseefull .sfdiv2{
-	background: transparent url(../img/render/moreall.gif) center center no-repeat;
+	background: transparent url(../img/render/more.gif) left 2px no-repeat;
 }
 .tc .draw{
 	height: 540px;
