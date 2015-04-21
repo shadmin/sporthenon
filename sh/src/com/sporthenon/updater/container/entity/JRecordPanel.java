@@ -393,7 +393,7 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	public void setCounting(Boolean b) {
-		jCounting.setSelected(b);
+		jCounting.setSelected(b != null && b);
 	}
 	
 	public void setIndex(String s) {

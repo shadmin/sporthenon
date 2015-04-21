@@ -141,6 +141,7 @@
 		<url-pattern>/entity/*</url-pattern>
 		<url-pattern>/event/*</url-pattern>
 		<url-pattern>/olympicgames/*</url-pattern>
+		<url-pattern>/result/*</url-pattern>
 		<url-pattern>/sport/*</url-pattern>
 		<url-pattern>/usstate/*</url-pattern>
 		<url-pattern>/team/*</url-pattern>

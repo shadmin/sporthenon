@@ -87,7 +87,7 @@ private static final long serialVersionUID = 1L;
 			Sport sp = (Sport) obj;
 			String img = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_LARGE, null, null);
 			img = img.replaceAll(".*\\ssrc\\='|'/\\>", "");
-			hSports.put(sp.getId(), "<div id='sport-#INDEX#' class='sport' style=\"background-image:url('" + img + "');\">" + HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel().replaceAll("\\s", "&nbsp;"), sp.getLabel()) + "</div>");
+			hSports.put(sp.getId(), "<div id='sport-#INDEX#' class='sport' style=\"background-image:url('" + img + "');\">" + HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel(lang).replaceAll("\\s", "&nbsp;"), sp.getLabel()) + "</div>");
 			lId.add(sp.getId());
 		}
 		

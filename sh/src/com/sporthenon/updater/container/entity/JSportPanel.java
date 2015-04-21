@@ -17,7 +17,7 @@ public class JSportPanel extends JAbstractEntityPanel {
 	public JTextField jWikiPattern;
 	
 	public JSportPanel() {
-		super(8);
+		super(9);
 		initialize();
 	}
 

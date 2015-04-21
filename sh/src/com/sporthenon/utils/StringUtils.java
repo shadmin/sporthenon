@@ -180,23 +180,23 @@ public class StringUtils {
 	
 	public static final String getCommentColor(String s) {
 		String color = "#FFF";
-		if (s.matches("^Clay.*"))
+		if (s.matches("^clay.*"))
 			color = "#ffc24c";
-		else if (s.matches("^Decoturf.*"))
+		else if (s.matches("^cecoturf.*"))
 			color = "#8cb9ff";
-		else if (s.matches("^Grass.*"))
+		else if (s.matches("^grass.*"))
 			color = "#0F0";
-		else if (s.matches("^Gravel\\/T.*"))
+		else if (s.matches("^gravel\\/T.*"))
 			color = "#b4a676";
-		else if (s.matches("^Gravel.*"))
+		else if (s.matches("^gravel.*"))
 			color = "#dcc989";
-		else if (s.matches("^Hard.*"))
+		else if (s.matches("^hard.*"))
 			color = "#8cb9ff";
-		else if (s.matches("^Rebound.*"))
+		else if (s.matches("^rebound.*"))
 			color = "#9dd4fc";
-		else if (s.matches("^Snow.*"))
+		else if (s.matches("^snow.*"))
 			color = "#a3fffe";
-		else if (s.matches("^Tarmac.*"))
+		else if (s.matches("^tarmac.*"))
 			color = "#c1c7c1";
 		return color;
 	}

@@ -129,6 +129,7 @@
 	<entry key="timespan">Période</entry>
 	<entry key="score">Score</entry>
 	<entry key="date">Date</entry>
+	<entry key="dates">Dates</entry>
 	<entry key="place">Lieu</entry>
 	<entry key="references">Références</entry>
 	<entry key="complex">Complexe</entry>
@@ -163,7 +164,7 @@
 	<entry key="info.grass">Gazon</entry>
 	<entry key="info.gravel">Gravier</entry>
 	<entry key="info.hard">Dur</entry>
-	<entry key="info.rebound">Rebound Ace</entry>
+	<entry key="info.reboundace">Rebound Ace</entry>
 	<entry key="info.snow">Neige</entry>
 	<entry key="info.tarmac">Asphalte</entry>
 	<entry key="back.top">Haut de page</entry>
@@ -200,6 +201,7 @@
 	<entry key="previous">Précédent</entry>
 	<entry key="next">Suivant</entry>
 	<entry key="all">Tout</entry>
+	<entry key="details">Détails</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>

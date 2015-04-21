@@ -208,10 +208,14 @@
 .tc .refseefull .sfdiv1{
 	background: transparent url(../img/render/more.gif) left 2px no-repeat;
 }
+.tc .celldraw{
+	background-color: #F8F8F8;
+	padding-left: 15px;
+}
 .tc .draw{
 	height: 540px;
 	background: transparent url(../img/render/draw-bg3.gif) top left no-repeat;
-	margin-top: 20px;
+	margin-top: 15px;
 }
 .tc .draw .box{
 	position: absolute;
@@ -219,6 +223,7 @@
 }
 .tc .draw .box table{
 	border-collapse: collapse;
+	background-color: #FFF;
 	width: 300px;
 }
 .tc .draw .box td table{
@@ -227,13 +232,23 @@
 }
 .tc .draw .box td, .draw .box th{
 	font-size: 12px;
+	border: 1px solid #666;
 	text-align: left;
 	padding: 2px 2px;
 }
+.draw .box th{
+	font-size: 11px;
+	text-align: left;
+	font-weight: bold;
+	background-color: #EEE;
+}
 .tc .draw .box td table td{
+	border: none;
 	padding: 0px;
 }
 .tc .draw .box td table th{
+	border: none;
+	background-color: #FFF;
 	padding: 0px;
 	padding-right: 3px;
 }

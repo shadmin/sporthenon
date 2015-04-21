@@ -30,7 +30,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import org.apache.log4j.Logger;
@@ -74,6 +73,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 	private JCustomButton jRemoveButton = null;
 	private JCheckBox jInactive = null;
 	private JQueryStatus jQueryStatus = null;
+	private List<PicklistBean> treeItems;
 
 	public JResultsPanel(JMainFrame parent) {
 		this.jQueryStatus = parent.getQueryStatus();
@@ -109,32 +109,45 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			params.add(new String(""));
 			params.add(new String(""));
 			Collection<Object> coll = DatabaseHelper.call("TreeResults", params);
+			treeItems = new ArrayList<PicklistBean>();
+			PicklistBean plb = null;
 			ArrayList<Object> lst = new ArrayList<Object>(coll);
 			int i, j, k, l, m;
 			for (i = 0 ; i < lst.size() ; i++) {
 				TreeItem item = (TreeItem) lst.get(i);
-				level1Node = new DefaultMutableTreeNode(new PicklistBean(item.getIdItem(), item.getStdLabel(), item.getIdItem()));
+				plb = new PicklistBean(item.getIdItem(), item.getStdLabel(), item.getIdItem());
+				level1Node = new DefaultMutableTreeNode(plb);
 				root.add(level1Node);
+				treeItems.add(plb);
 				for (j = i + 1 ; j < lst.size() ; j++) {
 					TreeItem item2 = (TreeItem) lst.get(j);
 					if (item2.getLevel() < 2) {j--; break;}
-					level2Node = new DefaultMutableTreeNode(new PicklistBean(item2.getIdItem(), item2.getStdLabel(), item.getIdItem() + "," + item2.getIdItem()));
+					plb = new PicklistBean(item2.getIdItem(), item2.getStdLabel(), item.getIdItem() + "," + item2.getIdItem());
+					level2Node = new DefaultMutableTreeNode(plb);
 					level1Node.add(level2Node);
+					treeItems.add(new PicklistBean(plb.getValue(), item.getStdLabel() + " - " + item2.getStdLabel(), plb.getParam()));
 					for (k = j + 1 ; k < lst.size() ; k++) {
 						TreeItem item3 = (TreeItem) lst.get(k);
 						if (item3.getLevel() < 3) {k--; break;}
-						level3Node = new DefaultMutableTreeNode(new PicklistBean(item3.getIdItem(), item3.getStdLabel(), item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem()));
+						plb = new PicklistBean(item3.getIdItem(), item3.getStdLabel(), item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem());
+						level3Node = new DefaultMutableTreeNode(plb);
 						level2Node.add(level3Node);
+						treeItems.add(new PicklistBean(plb.getValue(), item.getStdLabel() + " - " + item2.getStdLabel() + " - " + item3.getStdLabel(), plb.getParam()));
 						for (l = k + 1 ; l < lst.size() ; l++) {
 							TreeItem item4 = (TreeItem) lst.get(l);
 							if (item4.getLevel() < 4) {l--; break;}
-							level4Node = new DefaultMutableTreeNode(new PicklistBean(item4.getIdItem(), item4.getStdLabel(), item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem() + "," + item4.getIdItem()));
+							plb = new PicklistBean(item4.getIdItem(), item4.getStdLabel(), item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem() + "," + item4.getIdItem());
+							level4Node = new DefaultMutableTreeNode(plb);
 							level3Node.add(level4Node);
+							treeItems.add(new PicklistBean(plb.getValue(), item.getStdLabel() + " - " + item2.getStdLabel() + " - " + item3.getStdLabel() + " - " + item4.getStdLabel(), plb.getParam()));
 							for (m = l + 1 ; m < lst.size() ; m++) {
 								TreeItem item5 = (TreeItem) lst.get(m);
 								if (item5.getLevel() < 5) {m--; break;}
-								level5Node = new DefaultMutableTreeNode(new PicklistBean(item5.getIdItem(), item5.getStdLabel(), item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem() + "," + item4.getIdItem() + "," + item5.getIdItem()));
+								plb = new PicklistBean(item5.getIdItem(), item5.getStdLabel(), item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem() + "," + item4.getIdItem() + "," + item5.getIdItem());
+								level5Node = new DefaultMutableTreeNode(plb);
 								level4Node.add(level5Node);
+								treeItems.add(plb);
+								treeItems.add(new PicklistBean(plb.getValue(), item.getStdLabel() + " - " + item2.getStdLabel() + " - " + item3.getStdLabel() + " - " + item4.getStdLabel() + " - " + item5.getStdLabel(), plb.getParam()));
 							}
 							l = m;
 						}
@@ -345,38 +358,11 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 		jQueryStatus.set(err ? JQueryStatus.FAILURE : JQueryStatus.SUCCESS, msg);
 	}
 
-	public void folderCallback(short mode, String msg, boolean err) {
+	public void folderCallback(String msg, boolean err) {
 		if (!err) {
-			Collection<DefaultMutableTreeNode> lstChilds = null;
-			if (mode == JEditFolderDialog.EDIT) {
-				ArrayList<Integer> lst = new ArrayList<Integer>();
-				lst.add(idSport);
-				lst.add(idChampionship);
-				lst.add(idEvent);
-				lst.add(idSubevent != null ? idSubevent : 0);
-				lst.add(idSubevent2 != null ? idSubevent2 : 0);
-				lstChilds = SwingUtils.removeTreeItem(jTree, lst);
-			}
-			JEditFolderDialog dlg = JMainFrame.getFolderDialog();
-			ArrayList<Integer> lst = new ArrayList<Integer>();
-			Integer cat2 = SwingUtils.getValue(dlg.getCategory2());
-			Integer cat3 = SwingUtils.getValue(dlg.getCategory3());
-			lst.add(SwingUtils.getValue(dlg.getSport()));
-			lst.add(SwingUtils.getValue(dlg.getCategory1()));
-			lst.add(cat2);
-			lst.add(cat3);
-			DefaultMutableTreeNode node = SwingUtils.getTreeItem(jTree, lst, true);
-			if (mode == JEditFolderDialog.EDIT) {
-				String oldEvent = "," + String.valueOf(idSubevent2 != null ? idSubevent2 : (idSubevent != null ? idSubevent : idEvent)) + "(?=$|,)";
-				String newEvent = "," + String.valueOf((cat3 > 0 ? cat3 : cat2));
-				DefaultTreeModel model = (DefaultTreeModel) jTree.getModel();
-				for (DefaultMutableTreeNode node_ : lstChilds) {
-					PicklistBean plb = (PicklistBean) node_.getUserObject();
-					plb.setParam(String.valueOf(plb.getParam()).replaceAll(oldEvent, newEvent));
-					model.insertNodeInto(node_, node, node.getChildCount());
-				}
-			}
-			jTree.setSelectionPath(new TreePath(node.getPath()));
+			if (jResultTable != null)
+				jResultTable.setVisible(false);
+			setTree();
 		}
 		jQueryStatus.set(err ? JQueryStatus.FAILURE : JQueryStatus.SUCCESS, msg);
 	}
@@ -402,7 +388,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				SwingUtils.selectValue(dlg.getCategory2(), idEvent);
 				SwingUtils.selectValue(dlg.getCategory3(), idSubevent);
 				SwingUtils.selectValue(dlg.getCategory4(), idSubevent2);
-				dlg.open(this, e.getActionCommand().matches("add.*") ? JEditFolderDialog.NEW : JEditFolderDialog.EDIT);
+				dlg.open(this);
 			}
 			else if (e.getActionCommand().matches("set-inactive")) {
 				String msg = null;
@@ -538,6 +524,10 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 	
 	public static Integer getIdSubevent2() {
 		return idSubevent2;
+	}
+
+	public List<PicklistBean> getTreeItems() {
+		return treeItems;
 	}
 
 }

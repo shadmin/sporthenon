@@ -137,7 +137,9 @@ function toggleContent(el) {
 	}
 	if (table.down('thead')) {
 		row = table.down('thead').down('tr', 1);
-		row[!isDisplayed ? 'show' : 'hide']();
+		if (row) {
+			row[!isDisplayed ? 'show' : 'hide']();
+		}
 	}
 	else {
 		table.down('tr').show();
@@ -1174,7 +1176,7 @@ function initUpdate(value) {
 			s,
 			'ajaxsearch',
 			'/update/ajax/' + s,
-			{ paramName: 'value', minChars: 3, frequency: 0.1, afterUpdateElement: setValue}
+			{ paramName: 'value', minChars: 3, frequency: 0, afterUpdateElement: setValue}
 		);
 	});
 	$$('#update input').each(function(el){
@@ -1265,7 +1267,7 @@ function updateType(s, tp) {
 			s,
 			'ajaxsearch',
 			'/update/ajax/' + (currentTp < 10 ? 'pr' : (currentTp == 50 ? 'tm' : 'cn')) + (tValues['sp'] != null ? '-' + tValues['sp'] : ''),
-			{ paramName: 'value', minChars: 3, frequency: 0.1, afterUpdateElement: setValue}
+			{ paramName: 'value', minChars: 3, frequency: 0, afterUpdateElement: setValue}
 		);
 		Event.observe($(s), 'blur', function(){
 			if ($(this).value == '') {

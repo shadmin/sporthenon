@@ -166,23 +166,23 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		leftPanel.add(jUrlUpdateButton, null);
 
 		JPanel rightPanel = new JPanel();
-		JCustomButton jAddButton = new JCustomButton(null, "add.png", "New");
+		JCustomButton jAddButton = new JCustomButton("New", "add.png", "New");
 		jAddButton.addActionListener(this);
 		jAddButton.setActionCommand("new");
 		jAddButton.setMnemonic(KeyEvent.VK_N);
-		JCustomButton jSaveButton = new JCustomButton(null, "save.png", "Save");
+		JCustomButton jSaveButton = new JCustomButton("Save", "save.png", "Save");
 		jSaveButton.addActionListener(this);
 		jSaveButton.setActionCommand("save");
 		jSaveButton.setMnemonic(KeyEvent.VK_S);
-		JCustomButton jCopyButton = new JCustomButton(null, "copy.png", "Copy");
+		JCustomButton jCopyButton = new JCustomButton("Copy", "copy.png", "Copy");
 		jCopyButton.addActionListener(this);
 		jCopyButton.setActionCommand("copy");
 		jCopyButton.setMnemonic(KeyEvent.VK_C);
-		JCustomButton jMergeButton = new JCustomButton(null, "merge.png", "Merge");
+		JCustomButton jMergeButton = new JCustomButton("Merge", "merge.png", "Merge");
 		jMergeButton.addActionListener(this);
 		jMergeButton.setActionCommand("merge");
 		jMergeButton.setMnemonic(KeyEvent.VK_M);
-		JCustomButton jRemoveButton = new JCustomButton(null, "remove.png", "Remove");
+		JCustomButton jRemoveButton = new JCustomButton("Remove", "remove.png", "Remove");
 		jRemoveButton.addActionListener(this);
 		jRemoveButton.setActionCommand("remove");
 		jRemoveButton.setMnemonic(KeyEvent.VK_R);

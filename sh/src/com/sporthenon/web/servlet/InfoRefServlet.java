@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseHelper;
-import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
@@ -35,9 +34,9 @@ public class InfoRefServlet extends AbstractServlet {
 			StringBuffer html = new StringBuffer();
 			boolean isLink = (hParams.containsKey("run") && !String.valueOf(hParams.get("p2")).equals("more"));
 			boolean isExport = hParams.containsKey("export");
-			boolean isDraw = params[0].equals(Draw.alias);
-			boolean isResult = params[0].equals(Result.alias);
-			if (isResult) {
+			boolean isResult1 = (params[0].equals(Result.alias) && params.length == 3);
+			boolean isResultX = (params[0].equals(Result.alias) && params.length == 2);
+			if (isResultX) {
 				String p = "";
 				if (params.length == 2) {
 					Result rs = (Result) DatabaseHelper.loadEntity(Result.class, new Integer(params[1]));
@@ -57,7 +56,7 @@ public class InfoRefServlet extends AbstractServlet {
 				lFuncParams.add("_" + getLocale(request));
 				
 				// Info
-				if (params.length == 2) {
+				if (params.length == 2 || isResult1) {
 					StringBuffer sbRecordInfo = HtmlConverter.getRecordInfo(params[0], new Integer(params[1]), getLocale(request));
 					lFuncParams.add(sbRecordInfo.toString().replaceAll("\\</span\\>.*", "").replaceAll(".*title'\\>", ""));
 					html.append(HtmlConverter.getHeader(HtmlConverter.HEADER_REF, lFuncParams, getUser(request), getLocale(request)));
@@ -66,7 +65,7 @@ public class InfoRefServlet extends AbstractServlet {
 				}
 
 				// References
-				if (!isDraw)
+				if (!isResult1)
 					html.append(HtmlConverter.getRecordRef(lFuncParams, DatabaseHelper.call("EntityRef", lFuncParams), isExport, getUser(request), getLocale(request)));
 
 				if (isLink) {

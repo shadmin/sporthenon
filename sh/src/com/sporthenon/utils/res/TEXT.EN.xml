@@ -129,6 +129,7 @@
 	<entry key="timespan">Timespan</entry>
 	<entry key="score">Score</entry>
 	<entry key="date">Date</entry>
+	<entry key="dates">Dates</entry>
 	<entry key="place">Place</entry>
 	<entry key="references">References</entry>
 	<entry key="complex">Complex</entry>
@@ -163,7 +164,7 @@
 	<entry key="info.grass">Grass</entry>
 	<entry key="info.gravel">Gravel</entry>
 	<entry key="info.hard">Hard</entry>
-	<entry key="info.rebound">Rebound Ace</entry>
+	<entry key="info.reboundace">Rebound Ace</entry>
 	<entry key="info.snow">Snow</entry>
 	<entry key="info.tarmac">Tarmac</entry>
 	<entry key="back.top">Back to top</entry>
@@ -200,6 +201,7 @@
 	<entry key="previous">Previous</entry>
 	<entry key="next">Next</entry>
 	<entry key="all">All</entry>
+	<entry key="details">Details</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>

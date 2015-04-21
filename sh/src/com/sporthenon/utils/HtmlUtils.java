@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Country;
+import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.RefItem;
@@ -64,20 +65,10 @@ public class HtmlUtils {
 	public static String writeLink(String alias, int id, String text1, String text2) {
 		StringBuffer html = new StringBuffer();
 		StringBuffer url = new StringBuffer();
-//		if (alias.equals(Draw.alias)) {
-//			try {
-//				Result rs = (Result) DatabaseHelper.loadEntity(Result.class, id);
-//				if (rs != null)
-//					name = rs.getSport().getLabel() + "/" + rs.getChampionship().getLabel() + "/" + rs.getEvent().getLabel() + (rs.getSubevent() != null ? "/" + rs.getSubevent().getLabel() : "") + (rs.getSubevent2() != null ? "/" + rs.getSubevent2().getLabel() : "");
-//			}
-//			catch (Exception e) {
-//				Logger.getLogger("sh").error(e.getMessage());
-//			}
-//		}
 		text2 = (text2 != null ? text2 : text1);
 		url.append("/" + ResourceUtils.getText("entity." + alias + ".1", "en").replaceAll("\\s", "").toLowerCase());
 		url.append("/" + StringUtils.urlEscape(text2));
-		url.append("/" + StringUtils.encode(alias + "-" + id));
+		url.append("/" + StringUtils.encode(alias + "-" + id + (alias.equals(Result.alias) ? "-1" : "")));
 		if (text1 != null) {
 			html.append("<a href='").append(url).append("'");
 			if (alias.equals(Athlete.alias) && !text1.toLowerCase().equals(text2.toLowerCase()))
@@ -175,7 +166,7 @@ public class HtmlUtils {
 
 	public static StringBuffer writeWinRecTable(Collection<WinRecordsBean> c, String lang) {
 		StringBuffer html = new StringBuffer();
-		html.append("<table class='winrec'><tr><th colspan='3'>" + writeToggleTitle(ResourceUtils.getText("win.records", lang)) + "</th></tr>");
+		html.append("<table class='winrec'><thead><tr><th colspan='3'>" + writeToggleTitle(ResourceUtils.getText("win.records", lang)) + "</th></tr></thead><tbody class='tby'>");
 		int max = -1;
 		int i = 0;
 		for (WinRecordsBean bean : c) {
@@ -188,7 +179,7 @@ public class HtmlUtils {
 		}
 		if (i > 5)
 			html.append("<tr class='refseefull' onclick='winrecSeeFull(this);'><td colspan='3'></td></tr>");
-		return html.append("</table>");
+		return html.append("</tbody></table>");
 	}
 
 	public static String writeRecordItems(Collection<RefItem> cRecord, String lang) {

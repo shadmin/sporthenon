@@ -22,7 +22,7 @@
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
     	<jta-data-source>jdbc/shpool</jta-data-source>
         <properties>
-			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.transaction.factory_class" value="org.hibernate.transaction.JTATransactionFactory"/>
 			<property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.SunONETransactionManagerLookup"/>

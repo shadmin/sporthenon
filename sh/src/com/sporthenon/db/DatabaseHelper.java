@@ -315,7 +315,7 @@ public class DatabaseHelper {
 				EntityManager em = getEntityManager();
 				if (tr != null) tr.begin(); else em.getTransaction().begin();
 				em.createNativeQuery(s).executeUpdate();
-				if (tr != null) tr.commit(); else em.getTransaction().commit();				
+				if (tr != null) tr.commit(); else em.getTransaction().commit();
 			}
 		}
 		catch (Exception e) {
