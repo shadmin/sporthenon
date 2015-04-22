@@ -489,11 +489,15 @@ public class HtmlConverter {
 				}
 				html.append("<tr><th class='caption'>" + ResourceUtils.getText("place", lang) + "</th><td>" + (StringUtils.notEmpty(p1) ? p1 + "<br/>" : "") + p2 + "</td></tr>");
 			}
-			html.append("<tr><td colspan='2' style='width:500px;'>...</td></tr>");
+			html.append("<tr><td colspan='2' class='fscontent' style='width:500px;'>");
+			html.append("<table><tr><th>Winner</th><td>R.Nadal</td></tr>");
+			html.append("<tr><th>Second</th><td>R.Federer</td></tr>");
+			html.append("</table>");
+			html.append("</td></tr>");
 			html.append("</tbody></table>");
 			// Draw
 			List<DrawBean> lDraw = (List<DrawBean>) DatabaseHelper.call("GetDraw", lFuncParams);
-			if (lDraw != null) {
+			if (lDraw != null && !lDraw.isEmpty()) {
 				DrawBean bean = (DrawBean) lDraw.get(0);
 				html.append("<table style='width:100%;margin-bottom:0px;'><thead><tr><th>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity.DR.1", lang).toUpperCase()) + "&nbsp;" + r.getYear().getLabel() + "</th></tr></thead><tbody class='tby'>");
 				html.append("<tr><td class='celldraw'><div class='draw'>");
@@ -1003,7 +1007,7 @@ public class HtmlConverter {
 
 			// Evaluate bean
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
-			year = "<table><tr><td>" + year + "</td><td>&nbsp;" + HtmlUtils.writeLink(Result.alias, bean.getRsId(), "<img alt='details' title='" +  ResourceUtils.getText("details", lang) + " (" + bean.getYrLabel() + ")' src='/img/render/details.png'/>", bean.getYrLabel()) + "</td><td>" + (m != null ? "&nbsp;<a href='" + HtmlUtils.writeURL("/update", "RS-" + bean.getRsId(), null) + "'><img alt='modify' title='" + ResourceUtils.getText("button.modify", lang) + "' src='/img/component/button/modify.png'/></a>" : "") + "</td></tr></table>";
+			year = "<table><tr><td>" + year + "</td><td style='display:none;'>&nbsp;" + HtmlUtils.writeLink(Result.alias, bean.getRsId(), "<img alt='details' title='" +  ResourceUtils.getText("details", lang) + " (" + bean.getYrLabel() + ")' src='/img/render/details.png'/>", bean.getYrLabel()) + "</td><td>" + (m != null ? "&nbsp;<a href='" + HtmlUtils.writeURL("/update", "RS-" + bean.getRsId(), null) + "'><img alt='modify' title='" + ResourceUtils.getText("button.modify", lang) + "' src='/img/component/button/modify.png'/></a>" : "") + "</td></tr></table>";
 			String dates = (StringUtils.notEmpty(bean.getRsDate1()) ? StringUtils.toTextDate(bean.getRsDate1(), lang, "d MMMM yyyy") + "&nbsp;&ndash;&nbsp;" : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? StringUtils.toTextDate(bean.getRsDate2(), lang, "d MMMM yyyy") : "");
 			String place1 = null, place2 = null;
 			String comment = (StringUtils.notEmpty(bean.getRsComment()) ? bean.getRsComment().replaceAll("\\|", "<br/>") : null);

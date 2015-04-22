@@ -47,12 +47,12 @@ public class USLeaguesServlet extends AbstractServlet {
 	public static final String TYPE_RECORD = "records";
 	
 	private static final String PICKLIST_ID_RETNUM_TEAM = "pl-retnum-tm";
-	private static final String PICKLIST_ID_TEAMSTADIUM_TEAM = "pl-teamstadium-tm";
+	private static final String PICKLIST_ID_TEAMSTADIUM_TEAM = "pl-teamstadiums-tm";
 	private static final String PICKLIST_ID_WINLOSS_TEAM = "pl-winloss-tm";
 	private static final String PICKLIST_ID_HOF_YEAR = "pl-hof-yr";
-	private static final String PICKLIST_ID_CHAMPIONSHIP_YEAR = "pl-championship-yr";
-	private static final String PICKLIST_ID_RECORD_EVENT = "pl-record-ev";
-	private static final String PICKLIST_ID_RECORD_SUBEVENT = "pl-record-se";
+	private static final String PICKLIST_ID_CHAMPIONSHIP_YEAR = "pl-championships-yr";
+	private static final String PICKLIST_ID_RECORD_EVENT = "pl-records-ev";
+	private static final String PICKLIST_ID_RECORD_SUBEVENT = "pl-records-se";
 	
 	static {
 		HLEAGUES.put(LEAGUE_NFL, CHAMPIONSHIP_NFL);

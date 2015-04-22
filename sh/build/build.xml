@@ -22,7 +22,7 @@
 		<delete dir="${temp}" failonerror="false"/>
 	</target>
 	
-	<!-- SHPROD.WAR -->
+	<!-- SH[ENV].WAR -->
 	<target name="initwar">
 		<mkdir dir="${temp}"/>
 		<copy todir="${temp}">

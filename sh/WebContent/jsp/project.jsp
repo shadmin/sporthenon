@@ -2,9 +2,6 @@
 <%@ page import="com.sporthenon.utils.ConfigUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
-<script type="text/javascript" src="/js/canvas2image.js"></script>
-<script type="text/javascript" src="/js/canvastext.js"></script>
-<script type="text/javascript" src="/js/flotr.js"></script>
 <div id="project">
 	<div class="right">
 		<!-- DOWNLOADS -->
