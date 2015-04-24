@@ -55,7 +55,10 @@
 </div>
 <script type="text/javascript">
 window.onload = function() {
-	//loadChart();	
+	//loadChart();
+	t1 = parseInt('<%=request.getAttribute("t1")%>');
+	t2 = parseInt('<%=request.getAttribute("t2")%>');
+	handleRender();
 }
 </script>
 <jsp:include page="/jsp/common/footer.jsp" />

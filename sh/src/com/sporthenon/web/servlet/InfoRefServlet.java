@@ -54,10 +54,14 @@ public class InfoRefServlet extends AbstractServlet {
 				lFuncParams.add(params.length > 3 ? params[3] : "20");
 				lFuncParams.add(params.length > 4 ? new Integer(params[4]) : 0);
 				lFuncParams.add("_" + getLocale(request));
+				if (isExport) {
+					lFuncParams.set(3, "ALL");
+					lFuncParams.set(4, 0);
+				}
 				
 				// Info
 				if (params.length == 2 || isResult1) {
-					StringBuffer sbRecordInfo = HtmlConverter.getRecordInfo(params[0], new Integer(params[1]), getLocale(request));
+					StringBuffer sbRecordInfo = HtmlConverter.getRecordInfo(request, params[0], new Integer(params[1]), getLocale(request));
 					lFuncParams.add(sbRecordInfo.toString().replaceAll("\\</span\\>.*", "").replaceAll(".*title'\\>", ""));
 					html.append(HtmlConverter.getHeader(HtmlConverter.HEADER_REF, lFuncParams, getUser(request), getLocale(request)));
 					html.append(sbRecordInfo);

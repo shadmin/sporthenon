@@ -1,15 +1,15 @@
-<%@ page language="java" %>
+<%@ page language="java"%>
 <%@ page import="com.sporthenon.utils.StringUtils" %>
 <!-- EXPORT -->
 <div id="d-export" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fstitle"><%=StringUtils.text("dialog.export", session)%></div>
 	<div class="fscontent"><%=StringUtils.text("select.format", session)%>:<table style="margin-top:8px;"><tr>
-		<td onclick="$('ehtml').checked = true;"><img alt="HTML" src="/img/db/html.png"/><br/><b><%=StringUtils.text("web.page", session)%> (.html)</b><br/><input id="ehtml" type="radio" name="eformat" checked="checked"/></td>
-		<td onclick="$('eexcel').checked = true;"><img alt="XLS" src="/img/db/excel.png"/><br/><b><%=StringUtils.text("excel.sheet", session)%> (.xls)</b><br/><input id="eexcel" type="radio" name="eformat"/></td>
-		<td onclick="$('etext').checked = true;"><img alt="TXT" src="/img/db/text.png"/><br/><b><%=StringUtils.text("plain.text", session)%> (.txt)</b><br/><input id="etext" type="radio" name="eformat"/></td>
+		<td onclick="exportPage('html')"><img alt="HTML" src="/img/db/html.png"/><br/><b><%=StringUtils.text("web.page", session)%><br/>(.html)</b></td>
+		<td onclick="exportPage('excel')"><img alt="XLS" src="/img/db/excel.png"/><br/><b><%=StringUtils.text("excel.sheet", session)%><br/>(.xls)</b></td>
+		<td onclick="exportPage('text')"><img alt="TXT" src="/img/db/text.png"/><br/><b><%=StringUtils.text("plain.text", session)%><br/>(.txt)</b></td>
 	</tr></table></div>
-	<div class="dlgbuttons"><input type="button" class="button cancel" value="Cancel" onclick="closeDialog(dExport);"/><input type="button" class="button ok" value="OK" onclick="closeDialog(dExport);exportTab();"/></div>
+	<div class="dlgbuttons"><input type="button" class="button cancel" value="<%=StringUtils.text("button.close", session)%>" onclick="closeDialog(dExport);"/></div>
 </div>
 </div>
 <!-- LINK -->
@@ -17,7 +17,7 @@
 <div class="fieldset">
 	<div class="fstitle"><%=StringUtils.text("dialog.link", session)%></div>
 	<div class="fscontent"><%=StringUtils.text("direct.address", session)%>:<br/><input id="linktxt" type="text" readonly="readonly" onclick="this.select();"/><br/>(<%=StringUtils.text("use.ctrl.C", session)%>)</div>
-	<div class="dlgbuttons"><input type="button" class="button ok" value="OK" onclick="closeDialog(dLink);"/></div>
+	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dLink);"/></div>
 </div>
 </div>
 <!-- INFO -->
@@ -28,7 +28,7 @@
 		<tr><th><%=StringUtils.text("address", session)%></th><td></td></tr><tr><th><%=StringUtils.text("size", session)%></th><td></td></tr>
 		<tr><th><%=StringUtils.text("display.time", session)%></th><td></td></tr><tr><th><%=StringUtils.text("pictures", session)%></th><td></td></tr>
 	</table></div>
-	<div class="dlgbuttons"><input type="button" class="button ok" value="OK" onclick="closeDialog(dInfo);"/></div>
+	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dInfo);"/></div>
 </div>
 </div>
 <script type="text/javascript">

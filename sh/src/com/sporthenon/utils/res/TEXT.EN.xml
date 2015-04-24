@@ -202,6 +202,7 @@
 	<entry key="next">Next</entry>
 	<entry key="all">All</entry>
 	<entry key="details">Details</entry>
+	<entry key="last.update">Last update</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>
@@ -212,8 +213,6 @@
 	<entry key="site.topics">Site topics</entry>
 	<entry key="access.sport">Direct access by sport</entry>
 	<entry key="share.on">Share on</entry>
-	<entry key="display.the">Display the</entry>
-	<entry key="last.updates.2">last updates</entry>
 	<entry key="desc.results">Complete results organized by sport / championship / event</entry>
 	<entry key="desc.olympics">Podiums and medals tables of winter and summer Olympic Games</entry>
 	<entry key="desc.usleagues">Specific page for the 4 major US leagues (NFL / NBA / NHL / MLB))</entry>

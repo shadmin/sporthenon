@@ -23,6 +23,7 @@ private static final long serialVersionUID = 1L;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			init(request);
 			// Contributors
 			StringBuffer html = new StringBuffer();
 			Collection c = DatabaseHelper.call("Contributors", null);
@@ -33,6 +34,7 @@ private static final long serialVersionUID = 1L;
 				html.append("<td>" + bean.getCount() + "</td></tr>");
 			}
 			request.setAttribute("contributors", html.toString());
+			request.setAttribute("t2", System.currentTimeMillis());
 			request.getRequestDispatcher("/jsp/project.jsp").forward(request, response);
 			
 			// Statistics

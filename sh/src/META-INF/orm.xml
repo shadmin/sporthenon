@@ -134,10 +134,10 @@
 	</named-native-query>
 	
 	<!--
-		~LAST_UPDATES(integer, varchar)
+		~LAST_UPDATES(integer, integer, varchar)
 	-->
 	<named-native-query name="LastUpdates" result-class="com.sporthenon.db.function.LastUpdateBean">  
-		<query>{? = call "~LAST_UPDATES"(?, ?)}</query>
+		<query>{? = call "~LAST_UPDATES"(?, ?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 

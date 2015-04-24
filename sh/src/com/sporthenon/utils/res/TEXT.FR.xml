@@ -202,6 +202,7 @@
 	<entry key="next">Suivant</entry>
 	<entry key="all">Tout</entry>
 	<entry key="details">Détails</entry>
+	<entry key="last.update">Dernière mise à jour</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
@@ -212,8 +213,6 @@
 	<entry key="site.topics">Rubriques du site</entry>
 	<entry key="access.sport">Accès direct par sport</entry>
 	<entry key="share.on">Partager sur</entry>
-	<entry key="display.the">Afficher les</entry>
-	<entry key="last.updates.2">dernières mises à jour</entry>
 	<entry key="desc.results">Palmarès complets classés par sport / championnat / épreuve</entry>
 	<entry key="desc.olympics">Podiums et tableaux de médailles des Jeux Olympiques d'hiver et d'été</entry>
 	<entry key="desc.usleagues">Page spécifique aux 4 ligues majeures US (NFL / NBA / NHL / MLB))</entry>

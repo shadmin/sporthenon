@@ -101,10 +101,12 @@ function handleRender() {
 	var tabId = null;
 	if (tabs != null) {
 		tabId = '#t-' + tabcurrent;
-		var title = $('title-' + tabcurrent);
-		var stitle = $$(tabId + ' .title')[0].innerHTML;
-		title.update(stitle);
-		t2 = currentTime();
+		if ($(tabId)) {
+			var title = $('title-' + tabcurrent);
+			var stitle = $$(tabId + ' .title')[0].innerHTML;
+			title.update(stitle);
+			t2 = currentTime();	
+		}
 	}
 	else {
 		tabId = '#content';
@@ -115,8 +117,13 @@ function handleRender() {
 			position: 'relative', hover: true, offsetLeft: 20, offsetTop: 0, className: 'tip'
 		});
 	});
+	var t = elapsedTime(t1, t2);
 	if (info) {
-		info.update(info.innerHTML.replace('#DTIME#', elapsedTime(t1, t2)));	
+		info.update(info.innerHTML.replace('#DTIME#', t));	
+	}
+	if ($('loadtime')) {
+		$('loadtime').down('span').update(t);
+		$('loadtime').show();
 	}
 }
 function toggleContent(el) {
@@ -194,19 +201,19 @@ function replaceAll(s1, s2, s3) {
 	}
 	return s1;
 }
-function refSeeFull(row, p) {
+function moreItems(row, p) {
 	var cell = $(row).up();
 	cell.update('<img src="/img/db/loading.gif?6"/>');
 	cell.style.backgroundColor = '#FFF';
 	new Ajax.Request('/entity/more/' + p, {
 		onSuccess: function(response){
-			$(cell).hide();
 			$(cell).up('tbody').insert(response.responseText);
+			$(cell).up('tr').remove();
 		},
 		parameters: addOptions($H())
 	});
 }
-function winrecSeeFull(row) {
+function winrecMore(row) {
 	var table = $(row).up('.winrec');
 	var row_ = table.down('.hidden');
 	while (row_ != null) {
@@ -224,11 +231,13 @@ function sort(id, col, sortIndex) {
 	var cell = null;
 	var i = 0;
 	var s = null;
-	var tr = $("tb-" + id).down('tr');
+	var table = $("tb-" + id);
+	var tr = table.down('tr');
+	var trsf = table.down('.moreitems');
 	while (tr != null) {
 		cell = $(tr).down('.srt', sortIndex);
 		if (cell) {
-			index = cell.innerHTML;
+			index = (cell.id && cell.id != '' ? cell.id : cell.innerHTML);
 			index = index.replace('-', '').replace(/(<\s*\/?\s*)\s*(\s*([^>]*)?\s*>)/gi, '');
 			if (!isNaN(index)) {
 				s = index + '';
@@ -247,7 +256,10 @@ function sort(id, col, sortIndex) {
 	tIndex.sort().each(function(el){
 		tRow.push(t[el]);
 	});
-	$("tb-" + id).update(!isAsc ? tRow.join('') : tRow.reverse().join(''));
+	table.update(!isAsc ? tRow.join('') : tRow.reverse().join(''));
+	if (trsf != null) {
+		table.insert(trsf);
+	}
 	if (tCurrentSortedCol[id] != null) {
 		$(tCurrentSortedCol[id]).removeClassName('sorted').removeClassName('asc').removeClassName('desc');
 	}
@@ -295,7 +307,7 @@ function backTop() {
 	window.scrollTo(0, 0);
 }
 function setLang(s) {
-	new Ajax.Request('IndexServlet?lang=1&value=' + s, {
+	new Ajax.Request('/IndexServlet?lang=1&value=' + s, {
 		onSuccess: function(response){
 			window.location.reload();
 		}
@@ -373,15 +385,10 @@ function closeDialog(dlg) {
 var dExport = null;
 var dLink = null;
 var dInfo = null;
-function refreshLastUpdates() {
-	$('dupdates').update('<img src="/img/db/loading.gif?6" alt="Loading..."/>');
-	new Ajax.Updater($('dupdates'), 'IndexServlet?t=' + currentTime() + '&lastupdates=1&count=' + $('countupdt').value, {});
-}
 function displayExport() {
 	if (dExport) {
 		$('header').setStyle({ opacity: 0.4 });
 		$('content').setStyle({ opacity: 0.4 });
-		$('ehtml').checked = true;
 		dExport.open();
 	}
 }
@@ -409,10 +416,11 @@ function displayInfo() {
 	$('content').setStyle({ opacity: 0.4 });
 	dInfo.open();
 }
-function exportTab() {
+function exportPage(type) {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	if (url) {
-		location.href = url + '?export=' + ($('ehtml').checked ? 'html' : ($('eexcel').checked ? 'excel' : 'text'));
+		location.href = url + '?export=' + type;
+		closeDialog(dExport);
 	}
 }
 function printCurrentTab() {
@@ -587,8 +595,20 @@ function initSliderHome(html) {
 	$$('#sports .content')[0].update(html);
 	createSlider('sports', 768, 120, true);
 }
+function moreLastUpdates(row, p) {
+	var cell = $(row).up();
+	cell.update('<img src="/img/db/loading.gif?6"/>');
+	cell.style.backgroundColor = '#FFF';
+	new Ajax.Request('/IndexServlet?p=' + p + '&lastupdates&t=' + currentTime(), {
+		onSuccess: function(response){
+			$(cell).up('tbody').insert(response.responseText);
+			$(cell).up('tr').remove();
+		},
+		parameters: addOptions($H())
+	});
+}
 function loadHomeData() {
-	new Ajax.Request('IndexServlet?t=' + currentTime(), {
+	new Ajax.Request('/IndexServlet?t=' + currentTime(), {
 		onSuccess: function(response) {
 			var xml = response.responseXML;
 			if (!xml) {return;}
@@ -676,7 +696,7 @@ function getPicklist(picklistId) {
 	}
 	else {
 		var h = $H({sp: $F('pl-sp'), cp: $F('pl-cp'), ev: $F('pl-ev'), se: $F('pl-se'), se2: $F('pl-se2')});
-		new Ajax.Request('ResultServlet?' + picklistId, {
+		new Ajax.Request('/ResultServlet?' + picklistId, {
 			onSuccess: function(response) {
 				fillPicklistXML(response);
 			},
@@ -699,7 +719,7 @@ function runResults(tleaf) {
 		h = $H({sp: $F('pl-sp'), cp: $F('pl-cp'), ev: $F('pl-ev'), se: $F('pl-se'), se2: $F('pl-se2'), yr: $F('pl-yr')});
 	}
 	addOptions(h);
-	new Ajax.Updater(tab, 'ResultServlet?run', {
+	new Ajax.Updater(tab, '/ResultServlet?run', {
 		parameters: h,
 		onComplete: handleRender
 	});
@@ -744,7 +764,7 @@ function treeLeafClick(anchor, value) {
 /* ==================== OLYMPICS ==================== */
 function initOlympics(picklistId) {
 	var type = (picklistId.indexOf('summer') == 0 ? 'summer' : 'winter');
-	var url = 'OlympicsServlet?type=' + type;
+	var url = '/OlympicsServlet?type=' + type;
 	new Ajax.Request(url, {
 		onSuccess: fillPicklistXML,
 		onFailure: function(response) {}
@@ -768,7 +788,7 @@ function changeOlympics(id) {
 	var code = (isSummer ? 'summer' : 'winter');
 	var h = $H({ol: $F(code + '-pl-ol')});
 	h.set('type', code);
-	new Ajax.Request('OlympicsServlet?tree=1', {
+	new Ajax.Request('/OlympicsServlet?tree=1', {
 		onSuccess: function(response){
 			eval(response.responseText);
 			getPicklistOL(code + '-pl-sp');
@@ -776,7 +796,7 @@ function changeOlympics(id) {
 		},
 		parameters: h
 	});
-	new Ajax.Request('OlympicsServlet?pl-cn', {
+	new Ajax.Request('/OlympicsServlet?pl-cn', {
 		onSuccess: function(response){
 			fillPicklistXML(response);
 		},
@@ -903,7 +923,7 @@ function runOlympics() {
 		h.set('cn', $F(code + '-pl-cn'));
 	}
 	addOptions(h);
-	var url = 'OlympicsServlet?run&type=' + (ind ? 'ind' : 'cnt');
+	var url = '/OlympicsServlet?run&type=' + (ind ? 'ind' : 'cnt');
 	new Ajax.Updater(tab, url, {
 		parameters: h,
 		onComplete: handleRender
@@ -945,7 +965,7 @@ function changeLeague(id, srcsl) {
 	else {
 		$('nfl').removeClassName('selected');$('nba').removeClassName('selected');$('nhl').removeClassName('selected');$('mlb').removeClassName('selected');$(id).addClassName('selected');
 		var league = (id == 'nfl' ? 1 : (id == 'nba' ? 2 : (id == 'nhl' ? 3 : 4)));
-		var url = 'USLeaguesServlet?league=' + league;
+		var url = '/USLeaguesServlet?league=' + league;
 		new Ajax.Request(url + '&pl-hof-yr', { onSuccess: fillPicklistXML });
 		new Ajax.Request(url + '&pl-championships-yr', { onSuccess: fillPicklistXML });
 		new Ajax.Request(url + '&pl-retnum-tm', { onSuccess: fillPicklistXML });
@@ -994,7 +1014,7 @@ function runUSLeagues() {
 	h.set('num', $F('retnum-number'));
 	h.set('pos', $F('hof-position'));
 	addOptions(h);
-	new Ajax.Updater(tab, 'USLeaguesServlet?run', {
+	new Ajax.Updater(tab, '/USLeaguesServlet?run', {
 		parameters: h,
 		onComplete: handleRender
 	});
@@ -1047,7 +1067,7 @@ function runSearch() {
 		h.set('match', $F('match'));
 		h.set('scope', tScopeValue.join(','));
 		addOptions(h);
-		new Ajax.Updater(tab, 'SearchServlet?run', {
+		new Ajax.Updater(tab, '/SearchServlet?run', {
 			parameters: h,
 			onComplete: handleRender
 		});
@@ -1066,7 +1086,7 @@ function resetSearch() {
 /* ==================== PROJECT ==================== */
 function loadChart() {
 	$('charttxt').update('<tr><td><img src="/img/db/loading.gif?6"/></td></tr>');
-	new Ajax.Request('ProjectServlet?index=' + $('charts').value, {
+	new Ajax.Request('/ProjectServlet?index=' + $('charts').value, {
 		onSuccess: function(response) {
 			var tData = new Array();
 			var xml = response.responseXML;
@@ -1153,7 +1173,7 @@ function createAccount() {
 	$$('.register input').each(function(el) {
 		h.set(el.id, el.value);
 	});
-	new Ajax.Request('LoginServlet?create', { onSuccess: function(response) {
+	new Ajax.Request('/LoginServlet?create', { onSuccess: function(response) {
 		var s = response.responseText;
 		if (!/ERR\|.*/.match(s)) {
 			$('rmsg').update(s).removeClassName('error').addClassName('success').show();

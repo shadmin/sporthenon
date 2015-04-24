@@ -298,13 +298,9 @@ input{
 }
 #dupdates{
 	width: 100%;
-	margin-top: 5px;
 	overflow-x: hidden;
 	overflow-y: auto;
 	text-align: center;
-}
-#dupdates tr:hover{
-	background-color: #BEE0FF;
 }
 #dupdates td{
 	padding: 0px 3px;
@@ -320,19 +316,20 @@ input{
 	border: none;
 	background-color: transparent;
 }
-#ctupdates{
-	width: auto;
-	margin-bottom: 5px;
+#dupdates th.sorted{
+	border: 2px solid #555;
+	padding: 0px 3px;
+	padding-right: 20px;
+	background-color: #CFCFCF;
 }
-#ctupdates td{
-	border: none;
+#dupdates .moreitems td{
 	padding: 0px;
 }
-#ctupdates input{
-	border: 1px solid #CCC;
+#dupdates .moreitems div{
+	background: transparent url(../img/render/more4.gif) 0 0 no-repeat;
 }
-#ctupdates input.selected{
-	border: 1px solid #D00;
+#dupdates .moreitems div:hover{
+	background-color: #BEE0FF;
 }
 #footer{
 	height: 50px;
@@ -1209,6 +1206,8 @@ input{
 	background-image: url('../img/component/button/cancel.png?3');
 }
 #d-export td{
+	width: 100px;
+	padding: 8px;
 	background-color: #FFF;
 	text-align: center;
 	cursor: pointer;

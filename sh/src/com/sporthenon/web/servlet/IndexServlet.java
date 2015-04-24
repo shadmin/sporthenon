@@ -34,14 +34,24 @@ private static final long serialVersionUID = 1L;
 		try {
 			init(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
+			if (hParams.containsKey("p")) {
+				String p = String.valueOf(hParams.get("p"));
+				p = StringUtils.decode(p);
+				String[] t = p.split("\\-");
+				hParams.put("count", t[0]);
+				hParams.put("offset", t[1]);
+			}
 			if (hParams.containsKey("lang")) { // Language
 		        request.getSession().setAttribute("locale", String.valueOf(hParams.get("value")));
 			}
 			else if (hParams.containsKey("lastupdates")) { // Last Updates
 		        ArrayList<Object> lParams = new ArrayList<Object>();
-		        lParams.add(new Integer(String.valueOf(hParams.get("count"))));
+		        Integer count = new Integer(String.valueOf(hParams.get("count")));
+		        Integer offset = new Integer(String.valueOf(hParams.get("offset")));
+		        lParams.add(count);
+		        lParams.add(offset);
 		        lParams.add("_" + getLocale(request));
-		        ServletHelper.writeTabHtml(response, HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams), getLocale(request)), getLocale(request));
+		        ServletHelper.writeTabHtml(response, HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams), count, offset, getLocale(request)), getLocale(request));
 			}
 			else {
 				DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();

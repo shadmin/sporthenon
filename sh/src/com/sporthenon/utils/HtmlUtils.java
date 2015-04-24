@@ -138,7 +138,7 @@ public class HtmlUtils {
 		if (h.containsKey("titlename"))
 			html.append("<tr><th>" + h.get("titlename") + "</th></tr>");
 		for (String key : h.keySet()) {
-			if (!key.matches("(tab|^)title|url|info|\\_sport\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
+			if (!key.matches("(tab|^)title|titleEN|url|info|\\_sport\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
 				html.append("<tr>" + (h.containsKey("_sport_") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
 				html.append("<td" + (key.matches("logo|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + (h.containsKey("_sport_") ? " style='text-align:center;'" : "") + ">" + h.get(key) + "</td></tr>");
 			}
@@ -178,7 +178,7 @@ public class HtmlUtils {
 			html.append("<td class='count'>" + bean.getCountWin() + "</td></tr>");
 		}
 		if (i > 5)
-			html.append("<tr class='refseefull' onclick='winrecSeeFull(this);'><td colspan='3'></td></tr>");
+			html.append("<tr class='moreitems' onclick='winrecMore(this);'><td colspan='3'></td></tr>");
 		return html.append("</tbody></table>");
 	}
 
@@ -187,11 +187,11 @@ public class HtmlUtils {
 		for (RefItem item : cRecord) {
 			sbRecord.append("<table" + (sbRecord.toString().length() > 0 ? " style='margin-top:5px;'" : "") + "><tr><td rowspan='2' style='text-align:right;width:125px;font-weight:normal;text-decoration:underline;'>" + ResourceUtils.getText("rec." + item.getLabel(), lang).replaceAll("\\s", "&nbsp;") + "</td>");
 			if (StringUtils.notEmpty(item.getTxt1()))
-				sbRecord.append("<th>" + (item.getTxt1().equalsIgnoreCase("#GOLD#") ? ImageUtils.getGoldMedImg() : item.getTxt1()) + "</th>");
+				sbRecord.append("<th>" + (item.getTxt1().equalsIgnoreCase("#GOLD#") ? ImageUtils.getGoldMedImg() : ResourceUtils.getText(item.getTxt1(), lang)) + "</th>");
 			if (StringUtils.notEmpty(item.getTxt2()))
-				sbRecord.append("<th>" + (item.getTxt2().equalsIgnoreCase("#SILVER#") ? ImageUtils.getSilverMedImg() : item.getTxt2()) + "</th>");
+				sbRecord.append("<th>" + (item.getTxt2().equalsIgnoreCase("#SILVER#") ? ImageUtils.getSilverMedImg() : ResourceUtils.getText(item.getTxt2(), lang)) + "</th>");
 			if (StringUtils.notEmpty(item.getTxt3()))
-				sbRecord.append("<th>" + (item.getTxt3().equalsIgnoreCase("#BRONZE#") ? ImageUtils.getBronzeMedImg() : item.getTxt3()) + "</th>");
+				sbRecord.append("<th>" + (item.getTxt3().equalsIgnoreCase("#BRONZE#") ? ImageUtils.getBronzeMedImg() : ResourceUtils.getText(item.getTxt3(), lang)) + "</th>");
 			if (StringUtils.notEmpty(item.getTxt4()))
 				sbRecord.append("<th>" + item.getTxt4() + "</th>");
 			sbRecord.append("</tr>");

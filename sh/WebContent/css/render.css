@@ -188,26 +188,6 @@
 .tc .ref table table{
 	margin-bottom: 0px;
 }
-.tc .refseefull td{
-	text-align: center;
-	padding: 0px;
-}
-.tc .refseefull div{
-	float: left;
-	font-style: italic;
-	width: 33.33%;
-	padding-top: 2px;
-	cursor: pointer;
-	text-align: center;
-	height: 18px;
-	background: transparent url(../img/render/more3.gif) 0 0 no-repeat;
-}
-.tc .refseefull div:hover{
-	background-color: #BEE0FF;
-}
-.tc .refseefull .sfdiv1{
-	background: transparent url(../img/render/more.gif) left 2px no-repeat;
-}
 .tc .celldraw{
 	background-color: #F8F8F8;
 	padding-left: 15px;
@@ -235,12 +215,6 @@
 	border: 1px solid #666;
 	text-align: left;
 	padding: 2px 2px;
-}
-.draw .box th{
-	font-size: 11px;
-	text-align: left;
-	font-weight: bold;
-	background-color: #EEE;
 }
 .tc .draw .box td table td{
 	border: none;
@@ -276,31 +250,11 @@
 .tc .f table{
 	border: 2px solid #333;
 }
-.tc .tsort tr:hover{
+.tc .tsort tr:hover, #dupdates .tsort tr:hover{
 	background-color: #BEE0FF;
 }
-.tc .tsort table tr:hover, .tc .tsort .refseefull:hover{
+.tc .tsort table tr:hover, .tc .tsort .moreitems:hover, #dupdates .tsort .moreitems:hover{
 	background-color: transparent;
-}
-.tc tr.rsort th{
-	cursor: pointer;
-	text-decoration: none;
-}
-.tc tr.rsort th:hover, .tc tr.rsort th:hover td{
-	text-decoration:  underline;
-}
-.tc th.sorted{
-	padding: 1px 20px 1px 10px;
-	border: 2px solid #333;
-	background-color: #FE0;
-	background-repeat: no-repeat;
-	background-position: right center;
-}
-.tc th.asc{
-	background-image: url(../img/render/sort-asc.png);
-}
-.tc th.desc{
-	background-image: url(../img/render/sort-desc.png);
 }
 .tc .noresult{
 	clear: left;
@@ -348,4 +302,50 @@
 	background: url(../img/menu/dbsearch.png) left 0px no-repeat;
 	padding-left: 20px;
 	height: 20px;
+}
+tr.rsort th{
+	cursor: pointer;
+	text-decoration: none;
+}
+tr.rsort th:hover, .tc tr.rsort th:hover td{
+	text-decoration:  underline;
+}
+th.sorted{
+	padding: 1px 20px 1px 10px;
+	border: 2px solid #333;
+	background-color: #FE0;
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+th.asc{
+	background-image: url(../img/render/sort-asc.png);
+}
+th.desc{
+	background-image: url(../img/render/sort-desc.png);
+}
+.moreitems td{
+	text-align: center;
+	padding: 0px;
+}
+.moreitems div{
+	float: left;
+	font-style: italic;
+	width: 33.33%;
+	padding-top: 2px;
+	cursor: pointer;
+	text-align: center;
+	height: 18px;
+	background: transparent url(../img/render/more3.gif) 0 0 no-repeat;
+}
+.moreitems div:hover{
+	background-color: #BEE0FF;
+}
+.moreitems .sfdiv1{
+	background: transparent url(../img/render/more.gif) left 2px no-repeat;
+}
+.draw .box th{
+	font-size: 11px;
+	text-align: left;
+	font-weight: bold;
+	background-color: #EEE;
 }

@@ -1,12 +1,18 @@
+<%@page import="java.sql.Timestamp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Collection" %>
+<%@ page import="java.util.List" %>
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
 <%@ page import="com.sporthenon.db.entity.meta.News"%>
+<%@ page import="com.sporthenon.db.function.LastUpdateBean"%>
 <%@ page import="com.sporthenon.utils.StringUtils" %>
 <%@ page import="com.sporthenon.web.HtmlConverter"%>
 <%@ page import="com.sporthenon.web.servlet.IndexServlet"%>
 <jsp:include page="/jsp/common/header.jsp" />
+<script type="text/javascript"><!--
+	t1 = <%=System.currentTimeMillis()%>;
+--></script>
 <div id="home">
 <div class="homecontent">
 	<!-- PRESENTATION -->
@@ -28,14 +34,31 @@
 	<!-- LAST UPDATES -->
 	<div class="fieldset">
 		<div class="fstitle lastupdates"><%=StringUtils.text("title.last.results", session)%></div>
-		<div class="fscontent"><div style="float:right;"><table id="ctupdates"><tr><td><%=StringUtils.text("show", session)%>&nbsp;:&nbsp;</td><td><input id="countupdt" type="text" maxlength="3" size="3" value="20" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"/></td><td><input id='lupdatesok' type='button' class='button export' onclick='refreshLastUpdates();' value='OK'/></td></tr></table></div>
-		<div id="dupdates"><%
+		<div class="fscontent">
+		<div id="dupdates">
+		<table id="tlast" class="tsort"><thead><tr class='rsort'>
+			<th onclick="sort('tlast', this, 0);"><%=StringUtils.text("year", session)%></th>
+			<th onclick="sort('tlast', this, 1);"><%=StringUtils.text("sport", session)%></th>
+			<th onclick="sort('tlast', this, 2);"><%=StringUtils.text("event", session)%></th>
+			<th onclick="sort('tlast', this, 3);"><%=StringUtils.text("entity.RS.1", session)%></th>
+			<th id="tlast-dtcol" class="sorted desc" onclick="sort('tlast', this, 4);"><%=StringUtils.text("updated.on", session)%></th>
+		</tr></thead><tbody class="tby" id="tb-tlast">
+		<%
 			String lang = String.valueOf(session.getAttribute("locale"));
         	ArrayList<Object> lParams = new ArrayList<Object>();
         	lParams.add(new Integer(20));
+        	lParams.add(new Integer(0));
         	lParams.add("_" + lang);
-        	out.print(HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams), lang));
-		%></div></div>
+        	Collection coll = DatabaseHelper.call("LastUpdates", lParams);
+        	out.print(HtmlConverter.convertLastUpdates(coll, 20, 0, lang));
+        	Timestamp ts = null;
+        	for (Object o : coll) {
+        		LastUpdateBean bean = (LastUpdateBean) o;
+        		if (ts == null || bean.getRsUpdate().compareTo(ts) > 0)
+        			ts = bean.getRsUpdate();
+        	}
+        	request.setAttribute("lastupdate", StringUtils.toTextDate(ts, lang, "dd/MM/yyyy"));
+		%></tbody></table></div></div>
 	</div>
 	<!-- STATISTICS -->
 	<div class="fieldset" style="width:300px;float:right;">
@@ -82,7 +105,10 @@
 <script type="text/javascript"><!--
 window.onload = function() {
 	loadHomeData();
-	initSliderHome("<%=IndexServlet.getSportDivs(String.valueOf(session.getAttribute("locale")))%>");
+	tCurrentSortedCol['tlast'] = $('tlast-dtcol');
+	initSliderHome("<%=IndexServlet.getSportDivs(lang)%>");
+	t2 = <%=System.currentTimeMillis()%>;
+	handleRender();
 }
 --></script>
 <jsp:include page="/jsp/common/footer.jsp" />
