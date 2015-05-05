@@ -32,7 +32,7 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
         activity = (SportActivity) params[0];
         sports = new ArrayList<IDataItem>();
         try {
-            String url = "http://www.sporthenon.com:801/android/SP/0?lang=fr";
+            String url = "http://www.sporthenon.com/android/SP/0?lang=fr";
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
@@ -47,7 +47,7 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
                     Integer id = Integer.parseInt(e.getAttribute("value"));
                     String name = e.getAttribute("text");
                     String img = e.getAttribute("img");
-                    sports.add(new DataItem(id, name, AndroidUtils.getImage(activity, "SP", img, id)));
+                    sports.add(new DataItem(id, name.toUpperCase(), AndroidUtils.getImage(activity, "SP", img, id)));
                 }
             }
             connection.disconnect();

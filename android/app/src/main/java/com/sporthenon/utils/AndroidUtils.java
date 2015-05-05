@@ -25,7 +25,8 @@ public class AndroidUtils {
             File file = new File(dir, alias + id + ".png");
             if (file.exists())
                 bd = new BitmapDrawable(new FileInputStream(file));
-            else {
+            else if (img != null && img.length() > 0) {
+            Log.e("img", "img-" + img);
                 connection = (HttpURLConnection) new URL(img) .openConnection();
                 connection.connect();
                 InputStream input = connection.getInputStream();

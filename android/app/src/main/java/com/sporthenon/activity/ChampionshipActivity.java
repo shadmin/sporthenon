@@ -20,6 +20,7 @@ public class ChampionshipActivity extends Activity implements AdapterView.OnItem
 	private ArrayList<IDataItem> championships;
     private ListView list;
     private EditText search;
+    private Integer sportId;
 
     public ArrayList<IDataItem> getChampionships() {
         if (championships == null)
@@ -29,6 +30,14 @@ public class ChampionshipActivity extends Activity implements AdapterView.OnItem
 
     public void setChampionships(ArrayList<IDataItem> championships) {
         this.championships = championships;
+    }
+
+    public Integer getSportId() {
+        return sportId;
+    }
+
+    public void setSportId(Integer sportId) {
+        this.sportId = sportId;
     }
 
     public ListView getList() {
@@ -51,15 +60,21 @@ public class ChampionshipActivity extends Activity implements AdapterView.OnItem
         search.setVisibility(View.INVISIBLE);
 
         Bundle b = getIntent().getExtras();
+        setSportId(b.getInt("spid"));
         AsyncChampionships task = new AsyncChampionships();
-        task.execute(b.getInt("spid"), this);
+        task.execute(getSportId(), this);
 	}
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-        DataItem sp = (DataItem) list.getItemAtPosition(position);
-        Intent i = new Intent(this, ChampionshipActivity.class);
+        DataItem cp = (DataItem) list.getItemAtPosition(position);
+        Intent i = new Intent(this, EventActivity.class);
+        Bundle b = new Bundle();
+        b.putInt("spid", getSportId());
+        b.putInt("cpid", cp.getId());
+        i.putExtras(b);
         startActivity(i);
+        finish();
     }
 
 }

@@ -22,6 +22,11 @@
             android:name=".activity.ChampionshipActivity"
             android:label="Compétition" >
         </activity>
+        <!-- EVENTS -->
+        <activity
+            android:name=".activity.EventActivity"
+            android:label="Epreuve" >
+        </activity>
     </application>
 
 </manifest>
