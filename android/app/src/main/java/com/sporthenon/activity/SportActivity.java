@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.sporthenon.R;
-import com.sporthenon.adapter.ListAdapter;
+import com.sporthenon.adapter.ItemListAdapter;
 import com.sporthenon.async.AsyncSports;
 import com.sporthenon.data.DataItem;
 import com.sporthenon.data.IDataItem;
@@ -91,7 +91,7 @@ public class SportActivity extends Activity implements AdapterView.OnItemClickLi
 		list.setAdapter(null);
 		//if (listSportNew.size() == 0)
 		//	listSportNew.add(new Sport(100, "ERREUR", getResources().getDrawable(R.drawable.cake)));
-		list.setAdapter(new ListAdapter(getApplicationContext(), listSportNew));
+		list.setAdapter(new ItemListAdapter(getApplicationContext(), listSportNew));
 	}
 
 }

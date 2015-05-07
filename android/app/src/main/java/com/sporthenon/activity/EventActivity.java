@@ -99,19 +99,25 @@ public class EventActivity extends Activity implements AdapterView.OnItemClickLi
         setSportId(b.getInt("spid"));
         setChampionshipId(b.getInt("cpid"));
         setEvent1Id(b.getInt("ev1id"));
+        setEvent2Id(b.getInt("ev2id"));
         AsyncEvents task = new AsyncEvents();
         task.execute(b.getInt("spid"), this, b.getInt("cpid"), b.getInt("ev1id"));
 	}
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+        boolean isResult = (getEvent1Id() != null && getEvent1Id() > 0);
         DataItem ev = (DataItem) list.getItemAtPosition(position);
-        Intent i = new Intent(this, EventActivity.class);
+        Intent i = new Intent(this, isResult ? ResultActivity.class : EventActivity.class);
         Bundle b = new Bundle();
         b.putInt("spid", getSportId());
         b.putInt("cpid", getChampionshipId());
-        b.putInt("ev1id", ev.getId());
-        //b.putInt("ev2id", ev.getId());
+        if (isResult) {
+            b.putInt("ev1id", getEvent1Id());
+            b.putInt("ev2id", ev.getId());
+        }
+        else
+            b.putInt("ev1id", ev.getId());
         //b.putInt("ev3id", ev.getId());
         i.putExtras(b);
         startActivity(i);

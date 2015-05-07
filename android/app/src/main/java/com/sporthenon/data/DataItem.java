@@ -43,13 +43,4 @@ public class DataItem implements IDataItem {
         this.picture = picture;
     }
 
-    @Override
-    public String toString() {
-        return "Sport{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", picture=" + picture +
-                '}';
-    }
-
 }

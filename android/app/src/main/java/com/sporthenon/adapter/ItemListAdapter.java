@@ -13,14 +13,14 @@ import com.sporthenon.data.IDataItem;
 
 import java.util.List;
 
-public class ListAdapter extends BaseAdapter {
+public class ItemListAdapter extends BaseAdapter {
 
 	private List<IDataItem> list = null;
 	LayoutInflater layoutInflater;
 	Context context;
 	private int lastPosition = -1;
 
-	public ListAdapter(Context context, List<IDataItem> list) {
+	public ItemListAdapter(Context context, List<IDataItem> list) {
 		this.list = list;
 		layoutInflater = LayoutInflater.from(context);
 		this.context = context;

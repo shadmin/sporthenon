@@ -3,10 +3,10 @@ package com.sporthenon.async;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.sporthenon.activity.SportActivity;
-import com.sporthenon.adapter.ItemListAdapter;
-import com.sporthenon.data.DataItem;
-import com.sporthenon.data.IDataItem;
+import com.sporthenon.activity.ResultActivity;
+import com.sporthenon.adapter.ResultListAdapter;
+import com.sporthenon.data.IResultItem;
+import com.sporthenon.data.ResultItem;
 import com.sporthenon.utils.AndroidUtils;
 
 import org.w3c.dom.Document;
@@ -22,17 +22,21 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-public class AsyncSports extends AsyncTask<Object, Boolean, String> {
+public class AsyncResults extends AsyncTask<Object, Boolean, String> {
 
-    SportActivity activity;
-    private ArrayList<IDataItem> sports;
+    ResultActivity activity;
+    private ArrayList<IResultItem> results;
 
     @Override
     protected String doInBackground(Object... params) {
-        activity = (SportActivity) params[0];
-        sports = new ArrayList<IDataItem>();
+        Integer spid = (Integer) params[0];
+        activity = (ResultActivity) params[1];
+        Integer cpid = (Integer) params[2];
+        Integer ev1id = (params.length > 3 ? (Integer) params[3] : 0);
+        Integer ev2id = (params.length > 4 ? (Integer) params[4] : 0);
+        results = new ArrayList<IResultItem>();
         try {
-            String url = "http://www.sporthenon.com/android/SP/0?lang=fr";
+            String url = "http://www.sporthenon.com/android/RS/" + spid + "-" + cpid + (ev1id > 0 ? "-" + ev1id : "") + (ev2id > 0 ? "-" + ev2id : "") + "?lang=fr";
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
@@ -44,10 +48,15 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
                 Node n = list.item(i);
                 if (n.getNodeType() == Node.ELEMENT_NODE) {
                     Element e = (Element) n;
-                    Integer id = Integer.parseInt(e.getAttribute("value"));
-                    String name = e.getAttribute("text");
-                    String img = e.getAttribute("img");
-                    sports.add(new DataItem(id, name.toUpperCase(), AndroidUtils.getImage(activity, "SP", img, id)));
+                    Integer id = Integer.parseInt(e.getAttribute("id"));
+                    String year = e.getAttribute("year");
+                    String img = e.getAttribute("img").replaceAll("\\'\\/\\>", "");
+                    img = "http://www.sporthenon.com:81/" + img.substring(img.lastIndexOf("/") + 1);
+                    //String rk1 = e.getAttribute("rk1");
+                    String code = e.getAttribute("code");
+                    String str1 = e.getAttribute("str1");
+                    String str2 = e.getAttribute("str2");
+                    results.add(new ResultItem(id, year, AndroidUtils.getImage(activity, "CN", img, id), str2 + " " + str1 + " (" + code + ")"));
                 }
             }
             connection.disconnect();
@@ -61,8 +70,8 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
     @Override
     protected void onPostExecute(String response) {
         try {
-            activity.getSports().addAll(sports);
-            activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), sports));
+            activity.getResults().addAll(results);
+            activity.getList().setAdapter(new ResultListAdapter(activity.getApplicationContext(), results));
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);

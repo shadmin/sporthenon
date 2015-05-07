@@ -27,6 +27,11 @@
             android:name=".activity.EventActivity"
             android:label="Epreuve" >
         </activity>
+        <!-- RESULTS -->
+        <activity
+            android:name=".activity.ResultActivity"
+            android:label="Résultats" >
+        </activity>
     </application>
 
 </manifest>

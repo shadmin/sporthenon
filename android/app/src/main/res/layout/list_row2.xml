@@ -5,23 +5,37 @@
     android:orientation="horizontal"
     android:padding="2dip" >
 
+    <TextView
+        android:id="@+id/year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:text="name"
+        android:textColor="#040404"
+        android:textSize="18dip"
+        android:textStyle="bold"
+        android:typeface="sans"
+    />
+
     <LinearLayout
         android:id="@+id/thumbnail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="3dip"
-        android:layout_marginRight="3dip"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_toRightOf="@+id/year"
         android:padding="2dip">
         <ImageView
-            android:id="@+id/picture"
-            android:layout_width="35dip"
-            android:layout_height="35dip"
+            android:id="@+id/img"
+            android:layout_width="21dip"
+            android:layout_height="14dip"
         />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/rank1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"

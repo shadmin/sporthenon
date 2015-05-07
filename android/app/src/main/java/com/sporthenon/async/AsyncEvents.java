@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.sporthenon.activity.EventActivity;
-import com.sporthenon.adapter.ListAdapter;
+import com.sporthenon.adapter.ItemListAdapter;
 import com.sporthenon.data.DataItem;
 import com.sporthenon.data.IDataItem;
 import com.sporthenon.utils.AndroidUtils;
@@ -36,7 +36,6 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
         events = new ArrayList<IDataItem>();
         try {
             String url = "http://www.sporthenon.com/android/" + (ev1id > 0 ? "SE" : "EV") + "/" + spid + "-" + cpid + (ev1id > 0 ? "-" + ev1id : "") + "?lang=fr";
-      Log.e("url", "url-" + url);
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
@@ -66,7 +65,7 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
     protected void onPostExecute(String response) {
         try {
             activity.getEvents().addAll(events);
-            activity.getList().setAdapter(new ListAdapter(activity.getApplicationContext(), events));
+            activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), events));
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);

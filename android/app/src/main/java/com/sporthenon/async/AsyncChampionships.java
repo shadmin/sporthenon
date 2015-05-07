@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.sporthenon.activity.ChampionshipActivity;
-import com.sporthenon.adapter.ListAdapter;
+import com.sporthenon.adapter.ItemListAdapter;
 import com.sporthenon.data.DataItem;
 import com.sporthenon.data.IDataItem;
 import com.sporthenon.utils.AndroidUtils;
@@ -63,7 +63,7 @@ public class AsyncChampionships extends AsyncTask<Object, Boolean, String> {
     protected void onPostExecute(String response) {
         try {
             activity.getChampionships().addAll(championships);
-            activity.getList().setAdapter(new ListAdapter(activity.getApplicationContext(), championships));
+            activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), championships));
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);
