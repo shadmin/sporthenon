@@ -2,7 +2,9 @@ package com.sporthenon.updater.window;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dialog;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.updater.component.JDialogButtonBar;
 import com.sporthenon.utils.SwingUtils;
 
@@ -20,12 +23,35 @@ public class JCommentDialog extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	private JTextArea jComment;
+	private String alias;
+	private Integer id;
 	
-	public JCommentDialog(JEditResultDialog owner) {
+	public JCommentDialog(Frame owner) {
 		super(owner);
 		initialize();
 	}
 	
+	public JCommentDialog(Dialog owner) {
+		super(owner);
+		initialize();
+	}
+	
+	public String getAlias() {
+		return alias;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	private void initialize() {
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -54,8 +80,12 @@ public class JCommentDialog extends JDialog implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("ok"))
-			((JEditResultDialog) getOwner()).getComment().setText(jComment.getText());
+		if (e.getActionCommand().equals("ok")) {
+			if (getOwner() instanceof JEditResultDialog)
+				((JEditResultDialog) getOwner()).getComment().setText(jComment.getText());
+			else
+				DatabaseHelper.saveExternalLinks(alias, id, getComment().getText());
+		}
 		this.setVisible(false);
 	}
 

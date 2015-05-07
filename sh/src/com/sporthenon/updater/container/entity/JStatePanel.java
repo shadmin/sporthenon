@@ -11,10 +11,9 @@ public class JStatePanel extends JAbstractEntityPanel {
 	public JTextField jLabelFR;
 	public JTextField jCode;
 	public JTextField jCapital;
-	public JTextField jUrlWiki;
 	
 	public JStatePanel() {
-		super(6);
+		super(5);
 		initialize();
 	}
 
@@ -50,14 +49,6 @@ public class JStatePanel extends JAbstractEntityPanel {
         jCapital = new JTextField();
         jCapital.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jCapital);
-		
-		//URL (WIKI)
-		JLabel lUrlWiki = new JLabel(" URL (Wikipedia):");
-		lUrlWiki.setHorizontalAlignment(LABEL_ALIGNMENT);
-		gridPanel.add(lUrlWiki);
-		jUrlWiki = new JTextField();
-		jUrlWiki.setPreferredSize(TEXT_SIZE);
-		gridPanel.add(jUrlWiki);
 	}
 
 	public JTextField getLabel() {
@@ -76,10 +67,6 @@ public class JStatePanel extends JAbstractEntityPanel {
 		return jCapital;
 	}
 	
-	public JTextField getUrlWiki() {
-		return jUrlWiki;
-	}
-
 	public void setLabel(String s) {
 		jLabel.setText(s);
 	}
@@ -96,17 +83,12 @@ public class JStatePanel extends JAbstractEntityPanel {
 		jCapital.setText(s);
 	}
 	
-	public void setUrlWiki(String s) {
-		jUrlWiki.setText(s);
-	}
-
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
 		jLabelFR.setText("");
 		jCode.setText("");
 		jCapital.setText("");
-		jUrlWiki.setText("");
 	}
 	
 	public void focus() {

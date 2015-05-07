@@ -28,14 +28,8 @@ public class Championship {
 	@Column(name = "label_fr", length = 40, nullable = false)
 	private String labelFR;
 
-	@Column(name = "website", length = 50)
-	private String website;
-	
 	@Column(name = "index")
 	private Integer index;
-	
-	@Column(name = "url_wiki")
-	private String urlWiki;
 	
 	@Embedded
 	private Metadata metadata;
@@ -65,14 +59,6 @@ public class Championship {
 		this.labelFR = labelFr;
 	}
 
-	public String getWebsite() {
-		return website;
-	}
-
-	public void setWebsite(String website) {
-		this.website = website;
-	}
-
 	public Metadata getMetadata() {
 		return metadata;
 	}
@@ -87,14 +73,6 @@ public class Championship {
 
 	public void setIndex(Integer index) {
 		this.index = index;
-	}
-
-	public String getUrlWiki() {
-		return urlWiki;
-	}
-
-	public void setUrlWiki(String urlWiki) {
-		this.urlWiki = urlWiki;
 	}
 
 	public String getLabel(String lang) {

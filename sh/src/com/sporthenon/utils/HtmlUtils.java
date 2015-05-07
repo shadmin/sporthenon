@@ -1,20 +1,22 @@
 package com.sporthenon.utils;
 
 import java.io.File;
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.meta.Contributor;
+import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.db.function.WinRecordsBean;
 import com.sporthenon.utils.res.ResourceUtils;
@@ -209,43 +211,23 @@ public class HtmlUtils {
 		return sbRecord.toString();
 	}
 	
-	public static String writeExternalLinks(Object o) throws Exception {
+	public static String writeExternalLinks(String alias, Object id, String lang) throws Exception {
 		StringBuffer sbHtml = new StringBuffer();
-		Method m = null;
-		try {
-			m = o.getClass().getMethod("getUrlWiki");
-		}
-		catch (NoSuchMethodException e) {
-			m = null;
-		}
-		if (m != null) {
-			if (m.invoke(o) != null) {
-				String url = (String) m.invoke(o);
-				if (StringUtils.notEmpty(url))
-					sbHtml.append("<tr><th>Wikipedia</th></tr><tr><td><table><tr><td style='width:16px;'><img alt='Wiki' src='/img/render/link-wiki.png'/></td><td>&nbsp;<a href='" + url + "' target='_blank'>" + url + "</a></td></tr></table></td></tr>");				
+		List<ExternalLink> list = DatabaseHelper.execute("from ExternalLink where entity='" + alias + "' and idItem=" + id + " order by id");
+		for (ExternalLink link : list) {
+			if (link.getType().equals("wiki"))
+				sbHtml.append("<tr><th>" + ResourceUtils.getText("wikipedia", lang) + "</th></tr><tr><td><table><tr><td style='width:16px;'><img alt='Wiki' src='/img/render/link-wiki.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "' target='_blank'>" + link.getUrl() + "</a></td></tr></table></td></tr>");
+			else if (link.getType().matches(".*\\-ref$")) {
+				HashMap<String, String> h = new HashMap<String, String>();
+				h.put("oly-ref", "Olympics");
+				h.put("bkt-ref", "Basketball");
+				h.put("bb-ref", "Baseball");
+				h.put("ft-ref", "Pro-football");
+				h.put("hk-ref", "Hockey");
+				sbHtml.append("<tr><th>" + h.get(link.getType()) + "-reference</th></tr><tr><td><table><tr><td style='width:16px;'><img alt='spref' src='/img/render/link-" + link.getType().replaceAll("\\-ref", "") + "ref.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "' target='_blank'>" + link.getUrl() + "</a></td></tr></table></td></tr>");
 			}
-		}
-		HashMap<String, String> h = new HashMap<String, String>();
-		h.put("Oly", "Olympics");
-		h.put("Bkt", "Basketball");
-		h.put("Bb", "Baseball");
-		h.put("Ft", "Pro-football");
-		h.put("Hk", "Hockey");
-		for (String s : new String[]{ "Oly", "Bkt", "Bb", "Ft", "Hk" }) {
-			m = null;
-			try {
-				m = o.getClass().getMethod("getUrl" + s + "ref");
-			}
-			catch (NoSuchMethodException e) {
-				m = null;
-			}
-			if (m != null) {
-				if (m.invoke(o) != null) {
-					String url = (String) m.invoke(o);
-					if (StringUtils.notEmpty(url))
-						sbHtml.append("<tr><th>" + h.get(s) + "-reference</th></tr><tr><td><table><tr><td style='width:16px;'><img alt='spref' src='/img/render/link-" + s.toLowerCase() + "ref.png'/></td><td>&nbsp;<a href='" + url + "' target='_blank'>" + url + "</a></td></tr></table></td></tr>");				
-				}
-			}
+			else
+				sbHtml.append("<tr><th>" + ResourceUtils.getText("others", lang) + "</th></tr><tr><td><table><tr><td style='width:16px;'><img alt='spref' src='/img/render/website.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "' target='_blank'>" + link.getUrl() + "</a></td></tr></table></td></tr>");
 		}
 		return (sbHtml.toString().length() > 0 ? "<table>" + sbHtml.append("</table>").toString() : "");
 	}

@@ -28,20 +28,11 @@ public class Sport {
 	@Column(name = "label_fr", length = 25, nullable = false)
 	private String labelFR;
 	
-	@Column(name = "website", length = 50)
-	private String website;
-	
 	@Column(name = "\"type\"")
 	private Integer type;
 
 	@Column(name = "\"index\"")
 	private Float index;
-	
-	@Column(name = "url_wiki")
-	private String urlWiki;
-	
-	@Column(name = "url_olyref")
-	private String urlOlyref;
 	
 	@Column(name = "wiki_pattern")
 	private String wikiPattern;
@@ -81,36 +72,12 @@ public class Sport {
 		this.labelFR = labelFr;
 	}
 
-	public String getWebsite() {
-		return website;
-	}
-
-	public void setWebsite(String website) {
-		this.website = website;
-	}
-
 	public Integer getType() {
 		return type;
 	}
 
 	public void setType(Integer type) {
 		this.type = type;
-	}
-
-	public String getUrlWiki() {
-		return urlWiki;
-	}
-
-	public String getUrlOlyref() {
-		return urlOlyref;
-	}
-
-	public void setUrlWiki(String urlWiki) {
-		this.urlWiki = urlWiki;
-	}
-
-	public void setUrlOlyref(String urlOlyref) {
-		this.urlOlyref = urlOlyref;
 	}
 
 	public String getWikiPattern() {

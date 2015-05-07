@@ -95,6 +95,7 @@ public class JMainFrame extends JFrame {
 	private static JMergeEntityDialog jMergeDialog = null;
 	private static JAddMultipleDialog jAddMultipleDialog = null;
 	private static JUrlUpdateDialog jUrlUpdateDialog = null;
+	private static JCommentDialog jCommentDialog = null;
 	private static JCharsDialog jCharsDialog = null;
 	private static JImportDialog jImportDialog = null;
 	private static JQueryDialog jQueryDialog = null;
@@ -169,6 +170,7 @@ public class JMainFrame extends JFrame {
 		jMergeDialog  = new JMergeEntityDialog(this);
 		jAddMultipleDialog = new JAddMultipleDialog(this);
 		jUrlUpdateDialog = new JUrlUpdateDialog(this);
+		jCommentDialog = new JCommentDialog(this);
 		jCharsDialog = new JCharsDialog(this);
 		if (!quickload) {
 			fillPicklists(null);
@@ -303,12 +305,6 @@ public class JMainFrame extends JFrame {
 			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
 			en.setLastName(p.getLastName().getText());
 			en.setFirstName(p.getFirstName().getText());
-			en.setUrlWiki(p.getUrlWiki().getText());
-			en.setUrlOlyref(p.getUrlOlyref().getText());
-			en.setUrlBktref(p.getUrlBktref().getText());
-			en.setUrlBbref(p.getUrlBbref().getText());
-			en.setUrlFtref(p.getUrlFtref().getText());
-			en.setUrlHkref(p.getUrlHkref().getText());
 			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLastName() + ", " + en.getFirstName() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : "") + (en.getTeam() != null ? " [" + en.getTeam().getLabel() + "]" : ""));
 			if (en.getLink() != null && en.getLink() > 0) {
 				try {
@@ -326,9 +322,7 @@ public class JMainFrame extends JFrame {
 			Championship en = (Championship) o;
 			en.setLabel(p.getLabel().getText());
 			en.setLabelFr(p.getLabelFR().getText());
-			en.setWebsite(p.getWebsite().getText());
 			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Integer.parseInt(p.getIndex().getText()) : Integer.MAX_VALUE);
-			en.setUrlWiki(p.getUrlWiki().getText());
 			plb.setText(en.getLabel());
 		}
 		else if (alias.equalsIgnoreCase(City.alias)) {
@@ -338,7 +332,6 @@ public class JMainFrame extends JFrame {
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setState((State)DatabaseHelper.loadEntity(State.class, SwingUtils.getValue(p.getState())));
 			en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
-			en.setUrlWiki(p.getUrlWiki().getText());
 			plb.setText(en.getLabel() + ", " + en.getCountry().getCode());
 		}
 		else if (alias.equalsIgnoreCase(Complex.alias)) {
@@ -347,7 +340,6 @@ public class JMainFrame extends JFrame {
 			en.setLabel(p.getLabel().getText());
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setCity((City)DatabaseHelper.loadEntity(City.class, SwingUtils.getValue(p.getCity())));
-			en.setUrlWiki(p.getUrlWiki().getText());
 			plb.setText(en.getLabel() + " [" + en.getCity().getLabel() + ", " + en.getCity().getCountry().getCode() + "]");
 		}
 		else if (alias.equalsIgnoreCase(Country.alias)) {
@@ -356,8 +348,6 @@ public class JMainFrame extends JFrame {
 			en.setLabel(p.getLabel().getText());
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setCode(p.getCode().getText());
-			en.setUrlWiki(p.getUrlWiki().getText());
-			en.setUrlOlyref(p.getUrlOlyref().getText());
 			plb.setText(en.getLabel() + " [" + en.getCode() + "]");
 		}
 		else if (alias.equalsIgnoreCase(Event.alias)) {
@@ -366,9 +356,7 @@ public class JMainFrame extends JFrame {
 			en.setLabel(p.getLabel().getText());
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setType((Type)DatabaseHelper.loadEntity(Type.class, SwingUtils.getValue(p.getType())));
-			en.setWebsite(p.getWebsite().getText());
 			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Integer.parseInt(p.getIndex().getText()) : Integer.MAX_VALUE);
-			en.setUrlWiki(p.getUrlWiki().getText());
 			plb.setText(en.getLabel());
 		}
 		else if (alias.equalsIgnoreCase(Olympics.alias)) {
@@ -383,8 +371,6 @@ public class JMainFrame extends JFrame {
 			en.setCountCountry(new Integer(p.getCountries().getText()));
 			en.setDate1(p.getStart().getText());
 			en.setDate2(p.getEnd().getText());
-			en.setUrlWiki(p.getUrlWiki().getText());
-			en.setUrlOlyref(p.getUrlOlyref().getText());
 			plb.setText(en.getYear().getLabel() + " - " + en.getCity().getLabel());
 		}
 		else if (alias.equalsIgnoreCase(Sport.alias)) {
@@ -393,10 +379,7 @@ public class JMainFrame extends JFrame {
 			en.setLabel(p.getLabel().getText());
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setType(new Integer(p.getType().getText()));
-			en.setWebsite(p.getWebsite().getText());
 			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? new Float(p.getIndex().getText()) : null);
-			en.setUrlWiki(p.getUrlWiki().getText());
-			en.setUrlOlyref(p.getUrlOlyref().getText());
 			en.setWikiPattern(p.getWikiPattern().getText());
 			plb.setText(en.getLabel());
 		}
@@ -407,7 +390,6 @@ public class JMainFrame extends JFrame {
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setCode(p.getCode().getText());
 			en.setCapital(p.getCapital().getText());
-			en.setUrlWiki(p.getUrlWiki().getText());
 			plb.setText(en.getLabel());
 		}
 		else if (alias.equalsIgnoreCase(Team.alias)) {
@@ -422,11 +404,6 @@ public class JMainFrame extends JFrame {
 			en.setYear1(p.getYear1().getText());
 			en.setYear2(p.getYear2().getText());
 			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
-			en.setUrlWiki(p.getUrlWiki().getText());
-			en.setUrlBktref(p.getUrlBktref().getText());
-			en.setUrlBbref(p.getUrlBbref().getText());
-			en.setUrlFtref(p.getUrlFtref().getText());
-			en.setUrlHkref(p.getUrlHkref().getText());
 			en.setInactive(p.getInactive().isSelected());
 			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLabel() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : ""));
 			if (en.getLink() != null && en.getLink() > 0) {
@@ -662,6 +639,10 @@ public class JMainFrame extends JFrame {
 	
 	public static JUrlUpdateDialog getUrlUpdateDialog() {
 		return jUrlUpdateDialog;
+	}
+	
+	public static JCommentDialog getCommentDialog() {
+		return jCommentDialog;
 	}
 
 	public static JCharsDialog getCharsDialog() {

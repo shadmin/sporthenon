@@ -9,12 +9,10 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 	
 	public JTextField jLabel;
 	public JTextField jLabelFR;
-	public JTextField jWebsite;
 	public JTextField jIndex;
-	public JTextField jUrlWiki;
 
 	public JChampionshipPanel() {
-		super(8);
+		super(4);
 		initialize();
 	}
 
@@ -35,28 +33,12 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
         jLabelFR.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jLabelFR);
         
-        //Website
-        JLabel lWebsite = new JLabel(" Website:");
-        lWebsite.setHorizontalAlignment(LABEL_ALIGNMENT);
-        gridPanel.add(lWebsite);
-        jWebsite = new JTextField();
-        jLabel.setPreferredSize(TEXT_SIZE);
-        gridPanel.add(jWebsite);
-
         //Index
         JLabel lIndex = new JLabel(" Index:");
         lIndex.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lIndex);
         jIndex = new JTextField();
         gridPanel.add(jIndex);
-        
-		//URL (WIKI)
-		JLabel lUrlWiki = new JLabel(" URL (Wikipedia):");
-		lUrlWiki.setHorizontalAlignment(LABEL_ALIGNMENT);
-		gridPanel.add(lUrlWiki);
-		jUrlWiki = new JTextField();
-		jUrlWiki.setPreferredSize(TEXT_SIZE);
-		gridPanel.add(jUrlWiki);
 	}
 
 	public JTextField getLabel() {
@@ -67,16 +49,8 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 		return jLabelFR;
 	}
 
-	public JTextField getWebsite() {
-		return jWebsite;
-	}
-	
 	public JTextField getIndex() {
 		return jIndex;
-	}
-	
-	public JTextField getUrlWiki() {
-		return jUrlWiki;
 	}
 	
 	public void setLabel(String s) {
@@ -87,25 +61,15 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 		jLabelFR.setText(s);
 	}
 	
-	public void setWebsite(String s) {
-		jWebsite.setText(s);
-	}
-	
 	public void setIndex(String s) {
 		jIndex.setText(s);
 	}
 	
-	public void setUrlWiki(String s) {
-		jUrlWiki.setText(s);
-	}
-
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
 		jLabelFR.setText("");
-		jWebsite.setText("");
 		jIndex.setText("");
-		jUrlWiki.setText("");
 	}
 	
 	public void focus() {

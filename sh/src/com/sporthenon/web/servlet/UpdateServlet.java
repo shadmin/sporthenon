@@ -10,6 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Championship;
@@ -23,6 +25,7 @@ import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.Type;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Contributor;
+import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 
@@ -216,6 +219,9 @@ public class UpdateServlet extends AbstractServlet {
 							Result.class.getMethod("setResult" + i, String.class).invoke(result, StringUtils.notEmpty(hParams.get("rs" + i + "-l")) ? hParams.get("rs" + i + "-l") : null);
 					}
 					result = (Result) DatabaseHelper.saveEntity(result, user);
+					// External links
+					if (StringUtils.notEmpty(hParams.get("exl-l")))
+						DatabaseHelper.saveExternalLinks(Result.alias, result.getId(), String.valueOf(hParams.get("exl-l")));
 					sbMsg.append(ResourceUtils.getText("result." + (idRS != null ? "modified" : "created"), getLocale(request)));
 				}
 				catch (Exception e) {
@@ -274,7 +280,7 @@ public class UpdateServlet extends AbstractServlet {
 					sb.append(se != null ? se.getId() : "").append("~").append(se != null ? se.getLabel(lang) + " [" + se.getType().getLabel(lang) + "]" : "").append("~").append(se != null ? se.getType().getNumber() : "").append("~");
 					sb.append(se2 != null ? se2.getId() : "").append("~").append(se2 != null ? se2.getLabel(lang) + " [" + se2.getType().getLabel(lang) + "]" : "").append("~").append(se2 != null ? se2.getType().getNumber() : "").append("~");
 					sb.append(yr.getId()).append("~").append(yr.getLabel()).append("~");
-					if (rs != null) {
+					if (rs != null) { // Existing result
 						request.setAttribute("id", rs.getId());
 						sb.append(rs.getId()).append("~");
 						sb.append(rs.getResult1()).append("~").append(rs.getResult2()).append("~").append(rs.getResult3()).append("~").append(rs.getResult4()).append("~").append(rs.getResult5()).append("~");
@@ -284,6 +290,17 @@ public class UpdateServlet extends AbstractServlet {
 						sb.append(rs.getComplex2() != null ? rs.getComplex2().getId() : (rs.getCity2() != null ? rs.getCity2().getId() : "")).append("~");
 						sb.append(rs.getComplex2() != null ? rs.getComplex2().toString2() : (rs.getCity2() != null ? rs.getCity2().toString2() : "")).append("~");
 						sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~");
+						// External links
+						StringBuffer sbLinks = new StringBuffer();
+						try {
+							List<ExternalLink> list = DatabaseHelper.execute("from ExternalLink where entity='" + Result.alias + "' and idItem=" + rs.getId() + " order by id");
+							for (ExternalLink link : list)
+								sbLinks.append(link.getUrl()).append("|");
+						}
+						catch (Exception e_) {
+							Logger.getLogger("sh").error(e_.getMessage(), e_);
+						}
+						sb.append(sbLinks.toString()).append("~");
 						Integer n = ev.getType().getNumber();
 						if (se != null)
 							n = se.getType().getNumber();

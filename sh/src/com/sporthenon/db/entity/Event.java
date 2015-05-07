@@ -30,14 +30,8 @@ public class Event {
 	@Column(name = "label_fr", length = 45, nullable = false)
 	private String labelFR;
 	
-	@Column(name = "website", length = 50)
-	private String website;
-	
 	@Column(name = "index")
 	private Integer index;
-	
-	@Column(name = "url_wiki")
-	private String urlWiki;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_type", nullable = false)
@@ -94,22 +88,6 @@ public class Event {
 		this.index = index;
 	}
 
-	public String getWebsite() {
-		return website;
-	}
-
-	public void setWebsite(String website) {
-		this.website = website;
-	}
-
-	public String getUrlWiki() {
-		return urlWiki;
-	}
-
-	public void setUrlWiki(String urlWiki) {
-		this.urlWiki = urlWiki;
-	}
-	
 	public String getLabel(String lang) {
 		return (lang != null && lang.equalsIgnoreCase("fr") ? labelFR : label);
 	}

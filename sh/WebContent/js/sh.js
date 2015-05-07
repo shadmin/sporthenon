@@ -1198,7 +1198,7 @@ function initUpdate(value) {
 			{ paramName: 'value', minChars: 3, frequency: 0, afterUpdateElement: setValue}
 		);
 	});
-	$$('#update input').each(function(el){
+	$$('#update input', '#update textarea').each(function(el){
 		if ($(el).type == 'button') {
 			return;
 		}
@@ -1245,7 +1245,8 @@ function loadResValues(value) {
 			tValues['pl2'] = t[25]; if (t[25] != '') {$('pl2').value = t[26]; $('pl2').addClassName('completed');} else {$('pl2').value = $('pl2').name; $('pl2').removeClassName('completed').removeClassName('completed2');}
 			tValues['exa'] = t[27]; if (t[27] != '') {$('exa').value = t[27]; $('exa').addClassName('completed2');} else {$('exa').value = $('exa').name; $('exa').removeClassName('completed2');}
 			tValues['cmt'] = t[28]; if (t[28] != '') {$('cmt').value = t[28]; $('cmt').addClassName('completed2');} else {$('cmt').value = $('cmt').name; $('cmt').removeClassName('completed2');}
-			var j = 28;
+			tValues['exl'] = t[29]; if (t[29] != '') {$('exl').value = t[29].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
+			var j = 29;
 			for (var i = 1 ; i <= 10 ; i++) {
 				tValues['rk' + i] = t[++j];
 				if (tValues['rk' + i] != '') {
@@ -1316,7 +1317,7 @@ function loadResult(type) {
 function saveResult() {
 	$('msg').update('<img src="/img/db/loading.gif?6"/>');
 	var h = $H({sp: tValues['sp']});
-	['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'cmt', 'rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'rk6', 'rk7', 'rk8', 'rk9', 'rk10', 'rs1', 'rs2', 'rs3', 'rs4', 'rs5'].each(function(s){
+	['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'cmt', 'exl', 'rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'rk6', 'rk7', 'rk8', 'rk9', 'rk10', 'rs1', 'rs2', 'rs3', 'rs4', 'rs5'].each(function(s){
 		h.set(s, tValues[s]);
 		if ($(s) && ($(s).hasClassName('completed') || $(s).hasClassName('completed2'))) {
 			h.set(s + "-l", $F(s));

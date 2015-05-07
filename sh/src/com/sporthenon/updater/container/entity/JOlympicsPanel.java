@@ -22,11 +22,9 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
 	public JTextField jEvents;
 	public JTextField jCountries;
 	public JTextField jPersons;
-	public JTextField jUrlWiki;
-	public JTextField jUrlOlyref;
 	
 	public JOlympicsPanel() {
-		super(12);
+		super(10);
 		initialize();
 	}
 
@@ -100,22 +98,6 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
         jPersons = new JTextField();
         jPersons.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jPersons);
-        
-		//URL (WIKI)
-		JLabel lUrlWiki = new JLabel(" URL (Wikipedia):");
-		lUrlWiki.setHorizontalAlignment(LABEL_ALIGNMENT);
-		gridPanel.add(lUrlWiki);
-		jUrlWiki = new JTextField();
-		jUrlWiki.setPreferredSize(TEXT_SIZE);
-		gridPanel.add(jUrlWiki);
-		
-		//URL (OLYMPICS-REFERENCE)
-		JLabel lUrlOlyref = new JLabel(" URL (Olympics-reference):");
-		lUrlOlyref.setHorizontalAlignment(LABEL_ALIGNMENT);
-		gridPanel.add(lUrlOlyref);
-		jUrlOlyref = new JTextField();
-		jUrlOlyref.setPreferredSize(TEXT_SIZE);
-		gridPanel.add(jUrlOlyref);
 	}
 
 	public JEntityPicklist getYear() {
@@ -154,14 +136,6 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
 		return jPersons;
 	}
 	
-	public JTextField getUrlWiki() {
-		return jUrlWiki;
-	}
-	
-	public JTextField getUrlOlyref() {
-		return jUrlOlyref;
-	}
-	
 	public void setYear(Integer id) {
 		SwingUtils.selectValue(jYear, id);;
 	}
@@ -198,14 +172,6 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
 		jPersons.setText(s);
 	}
 	
-	public void setUrlWiki(String s) {
-		jUrlWiki.setText(s);
-	}
-	
-	public void setUrlOlyref(String s) {
-		jUrlOlyref.setText(s);
-	}
-	
 	public void clear() {
 		jId.setText("");
 		jType.setText("");
@@ -217,8 +183,6 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
 		jEvents.setText("");
 		jYear.clear();
 		jCity.clear();
-		jUrlWiki.setText("");
-		jUrlOlyref.setText("");
 	}
 	
 	public void focus() {

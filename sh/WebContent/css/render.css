@@ -201,26 +201,32 @@
 	position: absolute;
 	z-index: 0;
 }
-.tc .draw .box table{
+.tc .draw .box table, .tc .info .result table{
 	border-collapse: collapse;
 	background-color: #FFF;
 	width: 300px;
 }
-.tc .draw .box td table{
+.tc .draw .box td table, .tc .info .result td table{
 	width: auto;
 	border: none;
 }
-.tc .draw .box td, .draw .box th{
+.tc .draw .box td, .draw .box th, .tc .info .result td, .tc .info .result th{
 	font-size: 12px;
 	border: 1px solid #666;
 	text-align: left;
 	padding: 2px 2px;
 }
-.tc .draw .box td table td{
+.tc .draw .box th, .tc .info .result th{
+	font-size: 11px;
+	text-align: left;
+	font-weight: bold;
+	background-color: #EEE;
+}
+.tc .draw .box td table td, .tc .info .result td table td{
 	border: none;
 	padding: 0px;
 }
-.tc .draw .box td table th{
+.tc .draw .box td table th, .tc .info .result td table th{
 	border: none;
 	background-color: #FFF;
 	padding: 0px;
@@ -298,6 +304,12 @@
 	padding: 0px;
 	border: none;
 }
+.tc .info .result{
+	width: 500px;
+}
+.tc .info .result table{
+	width: auto;
+}
 .tc .searchtitle{
 	background: url(../img/menu/dbsearch.png) left 0px no-repeat;
 	padding-left: 20px;
@@ -342,10 +354,4 @@ th.desc{
 }
 .moreitems .sfdiv1{
 	background: transparent url(../img/render/more.gif) left 2px no-repeat;
-}
-.draw .box th{
-	font-size: 11px;
-	text-align: left;
-	font-weight: bold;
-	background-color: #EEE;
 }

@@ -37,6 +37,7 @@ import com.sporthenon.db.entity.Type;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Contributor;
+import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.Metadata;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
@@ -516,6 +517,38 @@ public class DatabaseHelper {
 			}
 		}
 		return id;
+	}
+	
+	public static void saveExternalLinks(String alias, Integer id, String s) {
+		try {
+			executeUpdate("DELETE FROM \"~EXTERNAL_LINK\" WHERE ENTITY='" + alias + "' AND ID_ITEM=" + id);
+			for (String s_ : s.split("\\s")) {
+				if (StringUtils.notEmpty(s_)) {
+					ExternalLink link = new ExternalLink();
+					link.setEntity(alias);
+					link.setIdItem(id);
+					if (s_.indexOf("wikipedia.org") > -1)
+						link.setType("wiki");
+					else if (s_.indexOf("www.sports-reference.com/olympics") > -1)
+						link.setType("oly-ref");
+					else if (s_.indexOf("www.basketball-reference.com") > -1)
+						link.setType("bkt-ref");
+					else if (s_.indexOf("www.baseball-reference.com") > -1)
+						link.setType("bb-ref");
+					else if (s_.indexOf("www.pro-football-reference.com") > -1)
+						link.setType("ft-ref");
+					else if (s_.indexOf("www.hockey-reference.com") > -1)
+						link.setType("hk-ref");
+					else
+						link.setType("official");
+					link.setUrl(s_);
+					saveEntity(link, null);
+				}
+			}
+		}
+		catch (Exception e_) {
+			Logger.getLogger("sh").error(e_.getMessage(), e_);
+		}
 	}
 
 }

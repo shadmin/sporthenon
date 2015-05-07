@@ -1070,7 +1070,7 @@ input{
 #update{
 	margin-left: 10px;
 	margin-right: 10px;
-	height: 480px;
+	height: 550px;
 }
 #update .fstitle{
 	background-image: url(../img/addresult.png?4);
@@ -1086,14 +1086,18 @@ input{
 #update a{
 	font-size: 11px;
 }
-#update input[type=text]{
+#update input[type=text], #update textarea{
 	font: 12px Verdana;
 	width: 350px;
 	color: #888;
 	border: 1px solid #AAA;
 	padding: 2px;
 }
-#update input[type=text]:focus{
+#update textarea{
+	outline: none;
+	white-space: nowrap;
+}
+#update input[type=text]:focus, #update textarea:focus{
 	border: 1px solid #D00;
 	color: #000;
 }
@@ -1101,7 +1105,7 @@ input{
 	border: 1px solid #080;
 	color: #000;
 }
-#update input[type=text].completed2{
+#update input[type=text].completed2, #update textarea.completed2{
 	border: 1px solid #000;
 	color: #000;
 }

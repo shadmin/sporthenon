@@ -14,12 +14,12 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 <div id="update">
 	<div class="fieldset">
 		<div class="fstitle"><%=StringUtils.text("create.modify.result", session)%></div>
-		<div class="fscontent" style="height:430px;">
-			<div style="float:left;padding-right:10px;height:380px;">
+		<div class="fscontent" style="height:500px;">
+			<div style="float:left;padding-right:10px;height:450px;">
 			<table style="margin-top:0px;">
-				<tr><td colspan="5"><input type="text" id="sp" name="<%=StringUtils.text("entity.SP.1", session)%>"/><a href="javascript:clearValue('sp');">[X]</a></td></tr>
-				<tr><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="4"><input type="text" id="cp" name="<%=StringUtils.text("entity.CP.1", session)%>"/><a href="javascript:clearValue('cp');">[X]</a></td></tr>
-				<tr><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="3"><input type="text" id="ev" name="<%=StringUtils.text("entity.EV.1", session)%> #1"/><a href="javascript:clearValue('ev');">[X]</a></td></tr>
+				<tr><td colspan="5"><input type="text" id="sp" tabindex="0" name="<%=StringUtils.text("entity.SP.1", session)%>"/><a href="javascript:clearValue('sp');">[X]</a></td></tr>
+				<tr><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="4"><input type="text" id="cp" tabindex="1" name="<%=StringUtils.text("entity.CP.1", session)%>"/><a href="javascript:clearValue('cp');">[X]</a></td></tr>
+				<tr><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="3"><input type="text" id="ev" tabindex="2" name="<%=StringUtils.text("entity.EV.1", session)%> #1"/><a href="javascript:clearValue('ev');">[X]</a></td></tr>
 				<tr><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="2"><input type="text" id="se" name="<%=StringUtils.text("entity.EV.1", session)%> #2"/><a href="javascript:clearValue('se');">[X]</a></td></tr>
 				<tr><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/join.gif"/></td><td><input type="text" id="se2" name="<%=StringUtils.text("entity.EV.1", session)%> #3"/><a href="javascript:clearValue('se2');">[X]</a></td></tr>
 			</table>
@@ -42,8 +42,11 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 			<table>
 				<tr><td><input type="text" id="cmt" name="<%=StringUtils.text("comment", session)%>"/></td></tr>
 			</table>
+			<table>
+				<tr><td><textarea id="exl" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="5" style="width:450px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
+			</table>
 			</div>
-			<div style="height:380px;">
+			<div style="height:450px;">
 			<table style="margin-top:0px;">
 				<tr><td><input type="text" id="rk1" name="<%=StringUtils.text("rank.1", session)%>"/><a href="javascript:clearValue('rk1');">[X]</a></td><td>&nbsp;<input type="text" id="rs1" name="<%=StringUtils.text("result.score", session)%>" style="width:120px;"/></td></tr>
 				<tr><td><input type="text" id="rk2" name="<%=StringUtils.text("rank.2", session)%>"/><a href="javascript:clearValue('rk2');">[X]</a></td><td>&nbsp;<input type="text" id="rs2" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>

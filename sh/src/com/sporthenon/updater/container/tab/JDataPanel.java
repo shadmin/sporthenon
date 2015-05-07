@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -42,6 +43,7 @@ import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
+import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.updater.component.JCustomButton;
 import com.sporthenon.updater.component.JQueryStatus;
 import com.sporthenon.updater.container.entity.JAbstractEntityPanel;
@@ -62,6 +64,7 @@ import com.sporthenon.updater.container.entity.JTeamPanel;
 import com.sporthenon.updater.container.entity.JTeamStadiumPanel;
 import com.sporthenon.updater.container.entity.JWinLossPanel;
 import com.sporthenon.updater.container.entity.JYearPanel;
+import com.sporthenon.updater.window.JCommentDialog;
 import com.sporthenon.updater.window.JFindEntityDialog;
 import com.sporthenon.updater.window.JMainFrame;
 import com.sporthenon.updater.window.JMergeEntityDialog;
@@ -182,6 +185,10 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		jMergeButton.addActionListener(this);
 		jMergeButton.setActionCommand("merge");
 		jMergeButton.setMnemonic(KeyEvent.VK_M);
+		JCustomButton jExtLinksButton = new JCustomButton("Ext. Links", "weblinks.png", "External Links");
+		jExtLinksButton.addActionListener(this);
+		jExtLinksButton.setActionCommand("extlinks");
+		jExtLinksButton.setMnemonic(KeyEvent.VK_X);
 		JCustomButton jRemoveButton = new JCustomButton("Remove", "remove.png", "Remove");
 		jRemoveButton.addActionListener(this);
 		jRemoveButton.setActionCommand("remove");
@@ -192,6 +199,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		rightPanel.add(jRemoveButton, null);
 		rightPanel.add(jCopyButton, null);
 		rightPanel.add(jMergeButton, null);
+		rightPanel.add(jExtLinksButton, null);
 		
 		JPanel p = new JPanel(new BorderLayout(0, 0));
 		p.setPreferredSize(new Dimension(0, 26));
@@ -251,6 +259,24 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		}
 		else if (e.getActionCommand().equals("urlupdate")) {
 			JMainFrame.getUrlUpdateDialog().open();
+		}
+		else if (e.getActionCommand().equals("extlinks")) {
+			StringBuffer sbLinks = new StringBuffer();
+			try {
+				List<ExternalLink> list = DatabaseHelper.execute("from ExternalLink where entity='" + alias + "' and idItem=" + currentId + " order by id");
+				for (ExternalLink link : list)
+					sbLinks.append(link.getUrl()).append("\r\n");
+			}
+			catch (Exception e_) {
+				Logger.getLogger("sh").error(e_.getMessage(), e_);
+			}
+			JCommentDialog dialog = JMainFrame.getCommentDialog();
+			dialog.setAlias(alias);
+			dialog.setId(Integer.parseInt(currentId));
+			dialog.setTitle("External Links (#" + currentId + ")");
+			dialog.getComment().setText(sbLinks.toString());
+			dialog.setSize(new Dimension(600, 250));
+			dialog.open();
 		}
 		else if (e.getActionCommand().equals("new")) {
 			panel.clear();
@@ -347,12 +373,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLink(pr.getLink() != null ? String.valueOf(pr.getLink()) : null);
 			p.setLastName(pr.getLastName());
 			p.setFirstName(StringUtils.notEmpty(pr.getFirstName()) ? pr.getFirstName() : "");
-			p.setUrlWiki(pr.getUrlWiki());
-			p.setUrlOlyref(pr.getUrlOlyref());
-			p.setUrlBktref(pr.getUrlBktref());
-			p.setUrlBbref(pr.getUrlBbref());
-			p.setUrlFtref(pr.getUrlFtref());
-			p.setUrlHkref(pr.getUrlHkref());
 			p.setLinkLabel("Link:");
 			if (pr.getLink() != null && pr.getLink() > 0) {
 				try {
@@ -369,9 +389,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			JChampionshipPanel p = (JChampionshipPanel) panel;
 			p.setLabel(cp.getLabel());
 			p.setLabelFR(cp.getLabelFr());
-			p.setWebsite(cp.getWebsite());
 			p.setIndex(cp.getIndex() != null ? String.valueOf(cp.getIndex()) : null);
-			p.setUrlWiki(cp.getUrlWiki());
 		}
 		else if (o instanceof City) {
 			City ct = (City) o;
@@ -380,7 +398,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabelFR(ct.getLabelFr());
 			p.setState(ct.getState() != null ? ct.getState().getId() : null);
 			p.setCountry(ct.getCountry() != null ? ct.getCountry().getId() : null);
-			p.setUrlWiki(ct.getUrlWiki());
 		}
 		else if (o instanceof Complex) {
 			Complex cx = (Complex) o;
@@ -388,7 +405,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabel(cx.getLabel());
 			p.setLabelFR(cx.getLabelFr());
 			p.setCity(cx.getCity() != null ? cx.getCity().getId() : null);
-			p.setUrlWiki(cx.getUrlWiki());
 		}
 		else if (o instanceof Country) {
 			Country cn = (Country) o;
@@ -396,8 +412,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabel(cn.getLabel());
 			p.setLabelFR(cn.getLabelFr());
 			p.setCode(cn.getCode());
-			p.setUrlWiki(cn.getUrlWiki());
-			p.setUrlOlyref(cn.getUrlOlyref());
 		}
 		else if (o instanceof Event) {
 			Event ev = (Event) o;
@@ -405,9 +419,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabel(ev.getLabel());
 			p.setLabelFR(ev.getLabelFr());
 			p.setType(ev.getType() != null ? ev.getType().getId() : null);
-			p.setWebsite(ev.getWebsite());
 			p.setIndex(ev.getIndex() != null ? String.valueOf(ev.getIndex()) : null);
-			p.setUrlWiki(ev.getUrlWiki());
 		}
 		else if (o instanceof Olympics) {
 			Olympics ol = (Olympics) o;
@@ -421,19 +433,14 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setEvents(String.valueOf(ol.getCountEvent()));
 			p.setCountries(String.valueOf(ol.getCountCountry()));
 			p.setPersons(String.valueOf(ol.getCountPerson()));
-			p.setUrlWiki(ol.getUrlWiki());
-			p.setUrlOlyref(ol.getUrlOlyref());
 		}
 		else if (o instanceof Sport) {
 			Sport sp = (Sport) o;
 			JSportPanel p = (JSportPanel) panel;
 			p.setLabel(sp.getLabel());
 			p.setLabelFR(sp.getLabelFr());
-			p.setWebsite(sp.getWebsite());
 			p.setIndex(sp.getIndex() != null ? String.valueOf(sp.getIndex()) : null);
 			p.setType(String.valueOf(sp.getType()));
-			p.setUrlWiki(sp.getUrlWiki());
-			p.setUrlOlyref(sp.getUrlOlyref());
 			p.setWikiPattern(sp.getWikiPattern());
 		}
 		else if (o instanceof State) {
@@ -443,7 +450,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabelFR(st.getLabelFr());
 			p.setCode(st.getCode());
 			p.setCapital(st.getCapital());
-			p.setUrlWiki(st.getUrlWiki());
 		}
 		else if (o instanceof Team) {
 			Team tm = (Team) o;
@@ -457,11 +463,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setYear2(tm.getYear2());
 			p.setComment(StringUtils.notEmpty(tm.getComment()) ? tm.getComment() : "");
 			p.setLink(tm.getLink() != null ? String.valueOf(tm.getLink()) : null);
-			p.setUrlWiki(tm.getUrlWiki());
-			p.setUrlBktref(tm.getUrlBktref());
-			p.setUrlBbref(tm.getUrlBbref());
-			p.setUrlFtref(tm.getUrlFtref());
-			p.setUrlHkref(tm.getUrlHkref());
 			p.setInactive(tm.getInactive());
 			p.setLinkLabel("Link:");
 			if (tm.getLink() != null && tm.getLink() > 0) {

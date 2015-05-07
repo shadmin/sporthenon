@@ -77,6 +77,7 @@
 	<entry key="entity.TS.1">Stade</entry>
 	<entry key="entity.WL.1">Victoire/Défaite</entry>
 	<entry key="entity.YR.1">Année</entry>
+	<entry key="rank.winner">Vainqueur</entry>
 	<entry key="rank.1">1er</entry>
 	<entry key="rank.2">2ème</entry>
 	<entry key="rank.3">3ème</entry>
@@ -89,7 +90,7 @@
 	<entry key="rank.10">10ème</entry>
 	<entry key="label">Libellé</entry>
 	<entry key="state">Etat</entry>
-	<entry key="website">Site web</entry>
+	<entry key="website">Site officiel</entry>
 	<entry key="comment">Commentaire</entry>
 	<entry key="code">Code</entry>
 	<entry key="winter">Hiver</entry>
@@ -203,6 +204,8 @@
 	<entry key="all">Tout</entry>
 	<entry key="details">Détails</entry>
 	<entry key="last.update">Dernière mise à jour</entry>
+	<entry key="wikipedia">Wikipédia</entry>
+	<entry key="others">Autres</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>

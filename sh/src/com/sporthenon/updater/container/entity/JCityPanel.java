@@ -18,10 +18,9 @@ public class JCityPanel extends JAbstractEntityPanel {
 	public JTextField jLabelFR;
 	public JEntityPicklist jState;
 	public JEntityPicklist jCountry;
-	public JTextField jUrlWiki;
 
 	public JCityPanel() {
-		super(6);
+		super(5);
 		initialize();
 	}
 
@@ -55,14 +54,6 @@ public class JCityPanel extends JAbstractEntityPanel {
         gridPanel.add(lCountry);
         jCountry = new JEntityPicklist(this, Country.alias);
         gridPanel.add(jCountry);
-        
-		//URL (WIKI)
-		JLabel lUrlWiki = new JLabel(" URL (Wikipedia):");
-		lUrlWiki.setHorizontalAlignment(LABEL_ALIGNMENT);
-		gridPanel.add(lUrlWiki);
-		jUrlWiki = new JTextField();
-		jUrlWiki.setPreferredSize(TEXT_SIZE);
-		gridPanel.add(jUrlWiki);
 	}
 
 	public JCustomTextField getLabel() {
@@ -81,10 +72,6 @@ public class JCityPanel extends JAbstractEntityPanel {
 		return jCountry;
 	}
 	
-	public JTextField getUrlWiki() {
-		return jUrlWiki;
-	}
-
 	public void setLabel(String s) {
 		jLabel.setText(s);
 	}
@@ -101,17 +88,12 @@ public class JCityPanel extends JAbstractEntityPanel {
 		SwingUtils.selectValue(jCountry, id);
 	}
 	
-	public void setUrlWiki(String s) {
-		jUrlWiki.setText(s);
-	}
-
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
 		jLabelFR.setText("");
 		jState.clear();
 		jCountry.clear();
-		jUrlWiki.setText("");
 	}
 	
 	public void focus() {
