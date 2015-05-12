@@ -196,6 +196,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 			String msg = null;
 			boolean err = false;
 			try {
+				DatabaseHelper.executeUpdate("ALTER TABLE \"RESULT\" DISABLE TRIGGER trigger_rs;");
 				Integer sp = SwingUtils.getValue(jSport);
 				Integer c1 = SwingUtils.getValue(jCategory1);
 				Integer c2 = SwingUtils.getValue(jCategory2);
@@ -214,6 +215,10 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 				for (int i = 0 ; i < model.getSize() ; i++) {
 					String[] t = String.valueOf(((PicklistBean) model.getElementAt(i)).getParam()).split("\\,");
 					StringBuffer sql = new StringBuffer(sql_);
+					if (t.length == 3 && (c3 == null || c3 == 0))
+						sql.append(", id_subevent=" + t[2]);
+					else if (t.length == 4 && (c4 == null || c4 == 0))
+						sql.append(", id_subevent2=" + t[3]);
 					sql.append(" WHERE id_sport=" + t[0]);
 					if (t.length > 1)
 						sql.append(" AND id_championship=" + t[1]);
@@ -225,6 +230,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 						sql.append(" AND id_subevent2=" + t[4]);
 					DatabaseHelper.executeUpdate(sql.toString());
 				}
+				DatabaseHelper.executeUpdate("ALTER TABLE \"RESULT\" ENABLE TRIGGER trigger_rs;");
 				msg = "Folders have been updated successfully.";
 			}
 			catch (Exception e_) {

@@ -1027,13 +1027,13 @@ function resetUSLeagues() {
 /* ==================== SEARCH ==================== */
 function dpatternFocus() {
 	if ($F('dpattern') == TX_SEARCH) {
-		$('dpattern').style.color = '#000';
+		$('dpattern').addClassName('focus');
 		$('dpattern').value = '';
 	}
 }
 function dpatternBlur() {
 	if ($F('dpattern') == '') {
-		$('dpattern').style.color = '#AAA';
+		$('dpattern').removeClassName('focus');
 		$('dpattern').value = TX_SEARCH;
 	}
 }

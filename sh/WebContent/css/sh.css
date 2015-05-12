@@ -181,8 +181,13 @@ input{
 	padding: 1px;
 }
 #headertop #searchpanel #dpattern{
-	border: 1px solid #AAA;
+	color: #AAA;
+	border: 1px solid #999;
 	width: 250px;
+}
+#headertop #searchpanel #dpattern.focus{
+	color: #000;
+	border: 1px solid #23C;
 }
 #logo{
 	margin: 12px;

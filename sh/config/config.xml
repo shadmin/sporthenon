@@ -6,6 +6,6 @@
 	<entry key="date">24/04/2015</entry>
 	<entry key="url">http://localhost:8082/</entry>
 	<entry key="url.s">http://localhost:8082/</entry>
-	<entry key="img.url">http://localhost:8083/</entry>
+	<entry key="img.url">//localhost:8083/</entry>
 	<entry key="img.folder">C:/Program Files/GlassfishV3/glassfish/domains/domain1/docroot/img/</entry>
 </properties>

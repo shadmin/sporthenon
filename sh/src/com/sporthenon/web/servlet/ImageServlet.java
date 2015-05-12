@@ -1,6 +1,7 @@
 package com.sporthenon.web.servlet;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
@@ -98,11 +99,15 @@ public class ImageServlet extends AbstractServlet {
 					Collection<PicklistBean> lst = DatabaseHelper.getEntityPicklist(DatabaseHelper.getClassFromAlias(entity_), label, null, "en");
 					int n = 0;
 					for (PicklistBean o : lst) {
-						String ext = ".png";
-						String fileName = ImageUtils.getIndex(entity_.toUpperCase()) + "-" + o.getValue() + "-L" + ext;
-						File f = new File(ConfigUtils.getProperty("img.folder") + fileName);
-						if (!f.exists())
-							sbResult.append(entity_).append(";").append(++n).append(";").append(o.getValue()).append(";").append(o.getText()).append("|");
+						File dir = new File(ConfigUtils.getProperty("img.folder"));
+						final String pattern = ImageUtils.getIndex(entity_.toUpperCase()) + "\\-" + o.getValue() + "\\-L.*.png";
+						File[] list = dir.listFiles(new FileFilter() {
+						    public boolean accept(File f) {
+						        return f.getName().matches(pattern);
+						    }
+						});
+						if (list == null || list.length == 0)
+							sbResult.append(entity_).append(";").append(++n).append(";").append(o.getValue()).append(";").append(o.getText()).append("|");						
 					}
 				}
 				response.setContentType("text/plain");

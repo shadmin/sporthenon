@@ -35,6 +35,7 @@ import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.updater.component.JCustomButton;
 import com.sporthenon.updater.component.JDialogButtonBar;
 import com.sporthenon.utils.ConfigUtils;
+import com.sporthenon.utils.StringUtils;
 
 public class JQueryDialog extends JDialog implements ActionListener {
 
@@ -50,6 +51,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 		QUERIES.add("SELECT DISTINCT LAST_NAME || ',' || FIRST_NAME || ',' || ID_SPORT AS N, COUNT(*) AS C\r\nFROM \"PERSON\"\r\nWHERE LINK IS NULL\r\nGROUP BY N\r\nORDER BY C DESC\r\nLIMIT 100");
 		QUERIES.add("SELECT 'EV', ID, LABEL FROM \"EVENT\"\r\nWHERE ID NOT IN (SELECT ID_EVENT FROM \"RESULT\" WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM \"RESULT\" WHERE ID_SUBEVENT IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_EVENT FROM \"RECORD\" WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM \"RECORD\" WHERE ID_SUBEVENT IS NOT NULL)\r\nUNION SELECT 'CP', ID, LABEL FROM \"CHAMPIONSHIP\" WHERE ID NOT IN (SELECT ID_CHAMPIONSHIP FROM \"RESULT\" WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_CHAMPIONSHIP FROM \"RECORD\" WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nORDER BY 1, 3");
 		QUERIES.add("SELECT SP.label AS SPORT, CP.label AS CHAMPIONSHIP, EV.label AS EVENT, SE.label AS SUBEVENT, SE2.label AS SUBEVENT2, YR.label AS YEAR\r\nFROM (SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM \"RESULT\" EXCEPT SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM \"RESULT\" WHERE id_year = (SELECT id FROM \"YEAR\" WHERE label = '#YEAR#')) T\r\nLEFT JOIN \"SPORT\" SP ON T.id_sport = SP.id\r\nLEFT JOIN \"CHAMPIONSHIP\" CP ON T.id_championship = CP.id\r\nLEFT JOIN \"EVENT\" EV ON T.id_event = EV.id\r\nLEFT JOIN \"EVENT\" SE ON T.id_subevent = SE.id\r\nLEFT JOIN \"EVENT\" SE2 ON T.id_subevent2 = SE2.id\r\nLEFT JOIN \"YEAR\" YR ON YR.label = '#YEAR#'\r\nWHERE 1=1\r\nORDER BY SP.label, CP.index, CP.label, EV.index, EV.label, SE.index, SE.label");
+		QUERIES.add("SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2, SP.label AS label1, CP.label AS label2, EV.label AS label3, SE.label AS label4, SE2.label AS label5 FROM \"RESULT\" RS LEFT JOIN \"SPORT\" SP ON RS.id_sport=SP.id LEFT JOIN \"CHAMPIONSHIP\" CP ON RS.id_championship=CP.id LEFT JOIN \"EVENT\" EV ON RS.id_event=EV.id LEFT JOIN \"EVENT\" SE ON RS.id_subevent=SE.id LEFT JOIN \"EVENT\" SE2 ON RS.id_subevent2=SE2.id ORDER BY SP.label, CP.label, EV.label, SE.label, SE2.label");
 	}
 	
 	public JQueryDialog(JFrame owner) {
@@ -116,7 +118,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 	}
 	
 	private JPanel getButtonPanel() {
-		JPanel p = new JPanel(new GridLayout(2, 2));
+		JPanel p = new JPanel(new GridLayout(3, 2));
 		p.setBorder(BorderFactory.createTitledBorder(null, "Useful Queries", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 
 		JButton jButton = new JButton("Duplicate Athletes by Sport");
@@ -136,6 +138,11 @@ public class JQueryDialog extends JDialog implements ActionListener {
 		
 		jButton = new JButton("Events not completed for current year");
 		jButton.setActionCommand("query2");
+		jButton.addActionListener(this);
+		p.add(jButton);
+		
+		jButton = new JButton("Generate site map");
+		jButton.setActionCommand("sitemap");
 		jButton.addActionListener(this);
 		p.add(jButton);
 		
@@ -161,6 +168,26 @@ public class JQueryDialog extends JDialog implements ActionListener {
 		}
 		else if (cmd.equalsIgnoreCase("missing"))
 			missingPictures();
+		else if (cmd.equalsIgnoreCase("sitemap")) {
+			try {
+				StringBuffer sbSitemap = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>").append("\r\n");
+				sbSitemap.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">").append("\r\n");
+				List<Object[]> l = DatabaseHelper.executeNative(QUERIES.get(3));
+				for (Object[] t : l) {
+					sbSitemap.append("<url><loc>http://www.sporthenon.com/results/");
+					sbSitemap.append(StringUtils.urlEscape(t[5] + "/" + t[6] + "/" + t[7] + (t[8] != null ? "/" + t[8] : "") + (t[9] != null ? "/" + t[9] : "")));
+					sbSitemap.append("/" + StringUtils.encode(t[0] + "-" + t[1] + "-" + t[2] + (t[3] != null ? "-" + t[3] : "") + (t[4] != null ? "-" + t[4] : "") + "-0"));
+					sbSitemap.append("</loc><changefreq>monthly</changefreq><priority>0.2</priority>");
+					sbSitemap.append("\r\n");
+				}
+				sbSitemap.append("</urlset>");
+				jQuery.setText(sbSitemap.toString());
+			}
+			catch (Exception e_) {
+				Logger.getLogger("sh").error(e_.getMessage(), e_);
+				JOptionPane.showMessageDialog(this, e_.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
 		else if (cmd.equalsIgnoreCase("close"))
 			this.setVisible(false);
 	}

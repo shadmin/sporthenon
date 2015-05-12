@@ -682,4 +682,35 @@ public class RefItem  {
 		this.labelRel25 = labelRel25;
 	}
 
+	@Override
+	public String toString() {
+		return "RefItem [id=" + id + ", idItem=" + idItem + ", label=" + label
+				+ ", labelEN=" + labelEN + ", entity=" + entity + ", countRef="
+				+ countRef + ", idRel1=" + idRel1 + ", idRel2=" + idRel2
+				+ ", idRel3=" + idRel3 + ", idRel4=" + idRel4 + ", idRel5="
+				+ idRel5 + ", idRel6=" + idRel6 + ", idRel7=" + idRel7
+				+ ", idRel8=" + idRel8 + ", idRel9=" + idRel9 + ", idRel10="
+				+ idRel10 + ", idRel11=" + idRel11 + ", idRel12=" + idRel12
+				+ ", idRel13=" + idRel13 + ", idRel14=" + idRel14
+				+ ", idRel15=" + idRel15 + ", idRel16=" + idRel16
+				+ ", idRel17=" + idRel17 + ", idRel18=" + idRel18 + ", link="
+				+ link + ", labelRel1=" + labelRel1 + ", labelRel2="
+				+ labelRel2 + ", labelRel3=" + labelRel3 + ", labelRel4="
+				+ labelRel4 + ", labelRel5=" + labelRel5 + ", labelRel6="
+				+ labelRel6 + ", labelRel7=" + labelRel7 + ", labelRel8="
+				+ labelRel8 + ", labelRel9=" + labelRel9 + ", labelRel10="
+				+ labelRel10 + ", labelRel11=" + labelRel11 + ", labelRel12="
+				+ labelRel12 + ", labelRel13=" + labelRel13 + ", labelRel14="
+				+ labelRel14 + ", labelRel15=" + labelRel15 + ", labelRel16="
+				+ labelRel16 + ", labelRel17=" + labelRel17 + ", labelRel18="
+				+ labelRel18 + ", labelRel19=" + labelRel19 + ", labelRel20="
+				+ labelRel20 + ", labelRel21=" + labelRel21 + ", labelRel22="
+				+ labelRel22 + ", labelRel23=" + labelRel23 + ", labelRel24="
+				+ labelRel24 + ", labelRel25=" + labelRel25 + ", txt1=" + txt1
+				+ ", txt2=" + txt2 + ", txt3=" + txt3 + ", txt4=" + txt4
+				+ ", count1=" + count1 + ", count2=" + count2 + ", count3="
+				+ count3 + ", count4=" + count4 + ", count5=" + count5
+				+ ", date1=" + date1 + ", comment=" + comment + "]";
+	}
+
 }
