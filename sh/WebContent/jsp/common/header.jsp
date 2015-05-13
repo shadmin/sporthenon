@@ -121,7 +121,7 @@ new Ajax.Autocompleter(
 	'dpattern',
 	'ajaxsearch',
 	'/search/ajax/1',
-	{ paramName: 'value', minChars: 3, frequency: 0.1, updateElement: directSearch}
+	{ paramName: 'value', minChars: 1, frequency: 0, updateElement: directSearch}
 );
 Event.observe($('dpattern'), 'keyup', directSearch);
 </script>

@@ -56,6 +56,9 @@ public class Team {
 	@Column(name = "inactive")
 	private Boolean inactive;
 	
+	@Column(name = "ref")
+	private Integer ref;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -153,6 +156,14 @@ public class Team {
 
 	public void setInactive(Boolean inactive) {
 		this.inactive = inactive;
+	}
+
+	public Integer getRef() {
+		return ref;
+	}
+
+	public void setRef(Integer ref) {
+		this.ref = ref;
 	}
 
 	@Override

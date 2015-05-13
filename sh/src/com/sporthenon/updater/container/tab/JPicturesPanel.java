@@ -425,7 +425,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 				try {
 					String value = String.valueOf(((JList)e.getSource()).getSelectedValue());
 					if (StringUtils.notEmpty(value) && !value.equals("null")) {
-						jRemoteFile.setText("http:" + ConfigUtils.getProperty("img.url") + value);
+						jRemoteFile.setText(ConfigUtils.getProperty("img.url") + value);
 						jRemotePanel.setImage(new URL(jRemoteFile.getText()));						
 					}
 					else

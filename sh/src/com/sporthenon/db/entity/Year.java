@@ -25,6 +25,9 @@ public class Year {
 	@Column(name = "label", length = 4, nullable = false)
 	private String label;
 	
+	@Column(name = "ref")
+	private Integer ref;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -54,6 +57,14 @@ public class Year {
 	
 	public String getLabel(String lang) {
 		return label;
+	}
+
+	public Integer getRef() {
+		return ref;
+	}
+
+	public void setRef(Integer ref) {
+		this.ref = ref;
 	}
 
 	@Override

@@ -17,47 +17,47 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 		<div class="fscontent" style="height:500px;">
 			<div style="float:left;padding-right:10px;height:450px;">
 			<table style="margin-top:0px;">
-				<tr><td colspan="5"><input type="text" id="sp" tabindex="0" name="<%=StringUtils.text("entity.SP.1", session)%>"/><a href="javascript:clearValue('sp');">[X]</a></td></tr>
-				<tr><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="4"><input type="text" id="cp" tabindex="1" name="<%=StringUtils.text("entity.CP.1", session)%>"/><a href="javascript:clearValue('cp');">[X]</a></td></tr>
-				<tr><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="3"><input type="text" id="ev" tabindex="2" name="<%=StringUtils.text("entity.EV.1", session)%> #1"/><a href="javascript:clearValue('ev');">[X]</a></td></tr>
-				<tr><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="2"><input type="text" id="se" name="<%=StringUtils.text("entity.EV.1", session)%> #2"/><a href="javascript:clearValue('se');">[X]</a></td></tr>
-				<tr><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/join.gif"/></td><td><input type="text" id="se2" name="<%=StringUtils.text("entity.EV.1", session)%> #3"/><a href="javascript:clearValue('se2');">[X]</a></td></tr>
+				<tr><td colspan="5"><input type="text" id="sp" tabindex="1" name="<%=StringUtils.text("entity.SP.1", session)%>"/><a href="javascript:clearValue('sp');">[X]</a></td></tr>
+				<tr><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="4"><input type="text" id="cp" tabindex="2" name="<%=StringUtils.text("entity.CP.1", session)%>"/><a href="javascript:clearValue('cp');">[X]</a></td></tr>
+				<tr><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="3"><input type="text" id="ev" tabindex="3" name="<%=StringUtils.text("entity.EV.1", session)%> #1"/><a href="javascript:clearValue('ev');">[X]</a></td></tr>
+				<tr><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="2"><input type="text" id="se" tabindex="4" name="<%=StringUtils.text("entity.EV.1", session)%> #2"/><a href="javascript:clearValue('se');">[X]</a></td></tr>
+				<tr><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/join.gif"/></td><td><input type="text" tabindex="5" id="se2" name="<%=StringUtils.text("entity.EV.1", session)%> #3"/><a href="javascript:clearValue('se2');">[X]</a></td></tr>
 			</table>
 			<table>
-				<tr><td><input type="text" id="yr" name="<%=StringUtils.text("entity.YR.1", session)%>"/><a href="javascript:clearValue('yr');">[X]</a></td>
+				<tr><td><input type="text" id="yr" tabindex="6" name="<%=StringUtils.text("entity.YR.1", session)%>"/><a href="javascript:clearValue('yr');">[X]</a></td>
 				<td><input id='prevbtn' type='button' class='button' onclick='loadResult("prev");' value=''/></td>
 				<td><input id='nextbtn' type='button' class='button' onclick='loadResult("next");' value=''/></td></tr>
 			</table>
 			<table>
-				<tr><td><input type="text" id="dt1" name="<%=StringUtils.text("date.from", session)%>"/><a href="javascript:clearValue('dt1');">[X]</a><br/><a href="#" onclick="$('dt1').value='<%=today%>';$('dt1').addClassName('completed2');"><%=StringUtils.text("today", session)%></a>&nbsp;<a href="#" onclick="$('dt1').value='<%=yesterday%>';$('dt1').addClassName('completed2');"><%=StringUtils.text("yesterday", session)%></a></td>
-				<td>&nbsp;<input type="text" id="dt2" name="<%=StringUtils.text("date.to", session)%>"/><a href="javascript:clearValue('dt2');">[X]</a><br/><a href="#" onclick="$('dt2').value='<%=today%>';$('dt2').addClassName('completed2');"><%=StringUtils.text("today", session)%></a>&nbsp;<a href="#" onclick="$('dt2').value='<%=yesterday%>';$('dt2').addClassName('completed2');"><%=StringUtils.text("yesterday", session)%></a></td></tr>
+				<tr><td><input type="text" id="dt1" tabindex="7" name="<%=StringUtils.text("date.from", session)%>"/><a href="javascript:clearValue('dt1');">[X]</a><br/><a href="#" onclick="$('dt1').value='<%=today%>';$('dt1').addClassName('completed2');"><%=StringUtils.text("today", session)%></a>&nbsp;<a href="#" onclick="$('dt1').value='<%=yesterday%>';$('dt1').addClassName('completed2');"><%=StringUtils.text("yesterday", session)%></a></td>
+				<td>&nbsp;<input type="text" id="dt2" tabindex="8" name="<%=StringUtils.text("date.to", session)%>"/><a href="javascript:clearValue('dt2');">[X]</a><br/><a href="#" onclick="$('dt2').value='<%=today%>';$('dt2').addClassName('completed2');"><%=StringUtils.text("today", session)%></a>&nbsp;<a href="#" onclick="$('dt2').value='<%=yesterday%>';$('dt2').addClassName('completed2');"><%=StringUtils.text("yesterday", session)%></a></td></tr>
 			</table>
 			<table>
-				<tr><td><input type="text" id="pl1" name="<%=StringUtils.text("venue.city", session)%> #1"/><a href="javascript:clearValue('pl1');">[X]</a></td></tr>
-				<tr><td><input type="text" id="pl2" name="<%=StringUtils.text("venue.city", session)%> #2"/><a href="javascript:clearValue('pl2');">[X]</a></td></tr>
+				<tr><td><input type="text" id="pl1" tabindex="9" name="<%=StringUtils.text("venue.city", session)%> #1"/><a href="javascript:clearValue('pl1');">[X]</a></td></tr>
+				<tr><td><input type="text" id="pl2" tabindex="10" name="<%=StringUtils.text("venue.city", session)%> #2"/><a href="javascript:clearValue('pl2');">[X]</a></td></tr>
 			</table>
 			<table>
-				<tr><td><input type="text" id="exa" name="<%=StringUtils.text("tie", session)%>"/></td></tr>
+				<tr><td><input type="text" id="exa" tabindex="11" name="<%=StringUtils.text("tie", session)%>"/></td></tr>
 			</table>
 			<table>
-				<tr><td><input type="text" id="cmt" name="<%=StringUtils.text("comment", session)%>"/></td></tr>
+				<tr><td><input type="text" id="cmt" tabindex="12" name="<%=StringUtils.text("comment", session)%>"/></td></tr>
 			</table>
 			<table>
-				<tr><td><textarea id="exl" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="5" style="width:450px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
+				<tr><td><textarea id="exl" tabindex="13" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="5" style="width:450px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
 			</table>
 			</div>
 			<div style="height:450px;">
 			<table style="margin-top:0px;">
-				<tr><td><input type="text" id="rk1" name="<%=StringUtils.text("rank.1", session)%>"/><a href="javascript:clearValue('rk1');">[X]</a></td><td>&nbsp;<input type="text" id="rs1" name="<%=StringUtils.text("result.score", session)%>" style="width:120px;"/></td></tr>
-				<tr><td><input type="text" id="rk2" name="<%=StringUtils.text("rank.2", session)%>"/><a href="javascript:clearValue('rk2');">[X]</a></td><td>&nbsp;<input type="text" id="rs2" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
-				<tr><td><input type="text" id="rk3" name="<%=StringUtils.text("rank.3", session)%>"/><a href="javascript:clearValue('rk3');">[X]</a></td><td>&nbsp;<input type="text" id="rs3" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
-				<tr><td><input type="text" id="rk4" name="<%=StringUtils.text("rank.4", session)%>"/><a href="javascript:clearValue('rk4');">[X]</a></td><td>&nbsp;<input type="text" id="rs4" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
-				<tr><td><input type="text" id="rk5" name="<%=StringUtils.text("rank.5", session)%>"/><a href="javascript:clearValue('rk5');">[X]</a></td><td>&nbsp;<input type="text" id="rs5" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
-				<tr><td><input type="text" id="rk6" name="<%=StringUtils.text("rank.6", session)%>"/><a href="javascript:clearValue('rk6');">[X]</a></td></tr>
-				<tr><td><input type="text" id="rk7" name="<%=StringUtils.text("rank.7", session)%>"/><a href="javascript:clearValue('rk7');">[X]</a></td></tr>
-				<tr><td><input type="text" id="rk8" name="<%=StringUtils.text("rank.8", session)%>"/><a href="javascript:clearValue('rk8');">[X]</a></td></tr>
-				<tr><td><input type="text" id="rk9" name="<%=StringUtils.text("rank.9", session)%>"/><a href="javascript:clearValue('rk9');">[X]</a></td></tr>
-				<tr><td><input type="text" id="rk10" name="<%=StringUtils.text("rank.10", session)%>"/><a href="javascript:clearValue('rk10');">[X]</a></td></tr>
+				<tr><td><input type="text" id="rk1" tabindex="100" name="<%=StringUtils.text("rank.1", session)%>"/><a href="javascript:clearValue('rk1');">[X]</a></td><td>&nbsp;<input type="text" id="rs1" tabindex="150" name="<%=StringUtils.text("result.score", session)%>" style="width:120px;"/></td></tr>
+				<tr><td><input type="text" id="rk2" tabindex="101" name="<%=StringUtils.text("rank.2", session)%>"/><a href="javascript:clearValue('rk2');">[X]</a></td><td>&nbsp;<input type="text" id="rs2" tabindex="151" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
+				<tr><td><input type="text" id="rk3" tabindex="102" name="<%=StringUtils.text("rank.3", session)%>"/><a href="javascript:clearValue('rk3');">[X]</a></td><td>&nbsp;<input type="text" id="rs3" tabindex="152" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
+				<tr><td><input type="text" id="rk4" tabindex="103" name="<%=StringUtils.text("rank.4", session)%>"/><a href="javascript:clearValue('rk4');">[X]</a></td><td>&nbsp;<input type="text" id="rs4" tabindex="153" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
+				<tr><td><input type="text" id="rk5" tabindex="104" name="<%=StringUtils.text("rank.5", session)%>"/><a href="javascript:clearValue('rk5');">[X]</a></td><td>&nbsp;<input type="text" id="rs5" tabindex="154" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
+				<tr><td><input type="text" id="rk6" tabindex="105" name="<%=StringUtils.text("rank.6", session)%>"/><a href="javascript:clearValue('rk6');">[X]</a></td></tr>
+				<tr><td><input type="text" id="rk7" tabindex="106" name="<%=StringUtils.text("rank.7", session)%>"/><a href="javascript:clearValue('rk7');">[X]</a></td></tr>
+				<tr><td><input type="text" id="rk8" tabindex="107" name="<%=StringUtils.text("rank.8", session)%>"/><a href="javascript:clearValue('rk8');">[X]</a></td></tr>
+				<tr><td><input type="text" id="rk9" tabindex="108" name="<%=StringUtils.text("rank.9", session)%>"/><a href="javascript:clearValue('rk9');">[X]</a></td></tr>
+				<tr><td><input type="text" id="rk10" tabindex="109" name="<%=StringUtils.text("rank.10", session)%>"/><a href="javascript:clearValue('rk10');">[X]</a></td></tr>
 			</table>
 			</div>
 			<table><tr>

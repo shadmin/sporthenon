@@ -100,19 +100,19 @@ function updateTip(pl, empty) {
 function handleRender() {
 	var tabId = null;
 	if (tabs != null) {
-		tabId = '#t-' + tabcurrent;
+		tabId = 't-' + tabcurrent;
 		if ($(tabId)) {
 			var title = $('title-' + tabcurrent);
-			var stitle = $$(tabId + ' .title')[0].innerHTML;
+			var stitle = $$('#' + tabId + ' .title')[0].innerHTML;
 			title.update(stitle);
 			t2 = currentTime();	
 		}
 	}
 	else {
-		tabId = '#content';
+		tabId = 'content';
 	}
-	var info = $$(tabId + ' .infostats')[0];
-	$$(tabId + ' .rendertip').each(function(el) {
+	var info = $$('#' + tabId + ' .infostats')[0];
+	$$('#' + tabId + ' .rendertip').each(function(el) {
 		new Control.Window($(document.body).down('[href=#' + el.id + ']'),{  
 			position: 'relative', hover: true, offsetLeft: 20, offsetTop: 0, className: 'tip'
 		});
@@ -278,13 +278,13 @@ function toggleTreeExpand() {
 	if (!treeExpanded) {
 		$('treeview').removeClassName('collapsed').addClassName('expanded');
 		img.src = img.src.replace('expand', 'collapse');
-		img.alt = img.alt.replace(TX_EXPAND, TX_COLLAPSE);
+		img.alt = '[-]&nbsp;' + TX_COLLAPSE;
 		$('treeview').style.border = '1px solid #000';
 	}
 	else {
 		$('treeview').removeClassName('expanded').addClassName('collapsed');
 		img.src = img.src.replace('collapse', 'expand');
-		img.alt = img.alt.replace(TX_COLLAPSE, TX_EXPAND);
+		img.alt = '[-]&nbsp;' + TX_EXPAND;
 		$('treeview').style.border = '1px solid #DDD';
 	}
 	$('treeicontxt').update(img.alt);
@@ -1195,7 +1195,7 @@ function initUpdate(value) {
 			s,
 			'ajaxsearch',
 			'/update/ajax/' + s,
-			{ paramName: 'value', minChars: 3, frequency: 0, afterUpdateElement: setValue}
+			{ paramName: 'value', minChars: 2, frequency: 0, afterUpdateElement: setValue}
 		);
 	});
 	$$('#update input', '#update textarea').each(function(el){
@@ -1287,7 +1287,7 @@ function updateType(s, tp) {
 			s,
 			'ajaxsearch',
 			'/update/ajax/' + (currentTp < 10 ? 'pr' : (currentTp == 50 ? 'tm' : 'cn')) + (tValues['sp'] != null ? '-' + tValues['sp'] : ''),
-			{ paramName: 'value', minChars: 3, frequency: 0, afterUpdateElement: setValue}
+			{ paramName: 'value', minChars: 2, frequency: 0, afterUpdateElement: setValue}
 		);
 		Event.observe($(s), 'blur', function(){
 			if ($(this).value == '') {

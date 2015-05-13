@@ -53,6 +53,9 @@ public class Olympics {
 	@Column(name = "type", nullable = false)
 	private Integer type;
 	
+	@Column(name = "ref")
+	private Integer ref;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -142,6 +145,14 @@ public class Olympics {
 
 	public void setType(Integer type) {
 		this.type = type;
+	}
+
+	public Integer getRef() {
+		return ref;
+	}
+
+	public void setRef(Integer ref) {
+		this.ref = ref;
 	}
 
 	@Override

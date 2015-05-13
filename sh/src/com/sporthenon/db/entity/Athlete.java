@@ -45,6 +45,9 @@ public class Athlete {
 	@Column(name = "link")
 	private Integer link;
 	
+	@Column(name = "ref")
+	private Integer ref;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -110,6 +113,14 @@ public class Athlete {
 
 	public void setLink(Integer link) {
 		this.link = link;
+	}
+
+	public Integer getRef() {
+		return ref;
+	}
+
+	public void setRef(Integer ref) {
+		this.ref = ref;
 	}
 
 	@Override

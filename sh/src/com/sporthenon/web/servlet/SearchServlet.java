@@ -41,19 +41,20 @@ public class SearchServlet extends AbstractServlet {
 				response.sendRedirect(url);
 			}
 			else if (hParams.containsKey("p2") && hParams.get("p2").equals("ajax")) { // Ajax autocompletion
+				final int LIMIT = 10;
 				String value = String.valueOf(hParams.get("value"));
 				value = "^" + value.replaceAll("'", "''").replaceAll("_", ".").replaceAll("\\*", ".*");
 				ArrayList<Object> lFuncParams = new ArrayList<Object>();
 				lFuncParams.add(value);
 				lFuncParams.add(".");
-				lFuncParams.add((short)10);
+				lFuncParams.add((short)LIMIT);
 				lFuncParams.add("_" + getLocale(request));
 				StringBuffer html = new StringBuffer("<ul>");
-				Collection list = DatabaseHelper.call("Search", lFuncParams);
+				Collection list = DatabaseHelper.call("Search2", lFuncParams);
+	
 				for (Object obj : list) {
 					RefItem item = (RefItem) obj;
-					String label = item.getLabel();
-					label += (item.getEntity().equals(City.alias) ? " (" + item.getLabelRel3() + ")" : (item.getEntity().equals(Complex.alias) ? " (" + item.getLabelRel1() + ")" : ""));
+					String label = item.getLabel() + (item.getEntity().equals(City.alias) ? " (" + item.getLabelRel3() + ")" : (item.getEntity().equals(Complex.alias) ? " (" + item.getLabelRel1() + ")" : ""));
 					html.append("<li id='" + StringUtils.encode(item.getEntity() + "-" + item.getIdItem()) + "'>" + label + "</li>");
 				}
 //				if (!list.isEmpty())

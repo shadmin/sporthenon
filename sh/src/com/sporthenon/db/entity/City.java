@@ -38,6 +38,9 @@ public class City {
 	@JoinColumn(name = "id_state")
 	private State state;
 	
+	@Column(name = "ref")
+	private Integer ref;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -93,6 +96,14 @@ public class City {
 		return (lang != null && lang.equalsIgnoreCase("fr") ? labelFR : label);
 	}
 	
+	public Integer getRef() {
+		return ref;
+	}
+
+	public void setRef(Integer ref) {
+		this.ref = ref;
+	}
+
 	@Override
 	public String toString() {
 		return label + (country != null ? ", " + country : "") + " [#" + id + "]";

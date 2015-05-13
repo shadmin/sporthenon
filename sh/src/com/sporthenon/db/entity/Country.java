@@ -31,6 +31,9 @@ public class Country {
 	@Column(name = "label_fr", length = 35, nullable = false)
 	private String labelFR;
 	
+	@Column(name = "ref")
+	private Integer ref;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -78,6 +81,14 @@ public class Country {
 		return (lang != null && lang.equalsIgnoreCase("fr") ? labelFR : label);
 	}
 	
+	public Integer getRef() {
+		return ref;
+	}
+
+	public void setRef(Integer ref) {
+		this.ref = ref;
+	}
+
 	@Override
 	public String toString() {
 		return label + ", " + code + " [#" + id + "]";

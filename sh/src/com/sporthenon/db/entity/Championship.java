@@ -31,6 +31,9 @@ public class Championship {
 	@Column(name = "index")
 	private Integer index;
 	
+	@Column(name = "ref")
+	private Integer ref;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -79,6 +82,14 @@ public class Championship {
 		return (lang != null && lang.equalsIgnoreCase("fr") ? labelFR : label);
 	}
 	
+	public Integer getRef() {
+		return ref;
+	}
+
+	public void setRef(Integer ref) {
+		this.ref = ref;
+	}
+
 	@Override
 	public String toString() {
 		return label + " [#" + id + "]";

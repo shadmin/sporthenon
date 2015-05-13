@@ -156,28 +156,28 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 			List<String> lMsg = new LinkedList<String>();
 			List<String> lHql = new LinkedList<String>();
 			String filter = " and id between " + jRange.getText().replaceAll("\\-", " and ");
-			lMsg.add("Athletes (Wiki)"); lHql.add("from Athlete where urlWiki is null" + filter + " order by id");
-			lMsg.add("Athletes (Oly)"); lHql.add("from Athlete where urlOlyref is null" + filter + " order by id");
-			lMsg.add("Athletes (Bkt)"); lHql.add("from Athlete where urlBktref is null" + filter + " order by id");
-			lMsg.add("Athletes (Bb)"); lHql.add("from Athlete where urlBbref is null" + filter + " order by id");
-			lMsg.add("Athletes (Ft)"); lHql.add("from Athlete where urlFtref is null" + filter + " order by id");
-			lMsg.add("Athletes (Hk)"); lHql.add("from Athlete where urlHkref is null" + filter + " order by id");
-			lMsg.add("Championships (Wiki)"); lHql.add("from Championship where urlWiki is null" + filter + " order by id");
-			lMsg.add("Cities (Wiki)"); lHql.add("from City where urlWiki is null" + filter + " order by id");
-			lMsg.add("Complexes (Wiki)"); lHql.add("from Complex where urlWiki is null" + filter + " order by id");
-			lMsg.add("Countries (Wiki)"); lHql.add("from Country where urlWiki is null" + filter + " order by id");
-			lMsg.add("Countries (Oly)"); lHql.add("from Country where urlOlyref is null" + filter + " order by id");
-			lMsg.add("Events (Wiki)"); lHql.add("from Event where urlWiki is null" + filter + " order by id");
-			lMsg.add("Olympics (Wiki)"); lHql.add("from Olympics where urlWiki is null" + filter + " order by id");
-			lMsg.add("Olympics (Oly)"); lHql.add("from Olympics where urlOlyref is null" + filter + " order by id");
-			lMsg.add("Sports (Wiki)"); lHql.add("from Sport where urlWiki is null" + filter + " order by id");
-			lMsg.add("Sports (Oly)"); lHql.add("from Sport where urlOlyref is null" + filter + " order by id");
-			lMsg.add("States (Wiki)"); lHql.add("from State where urlWiki is null" + filter + " order by id");
-			lMsg.add("Teams (Wiki)"); lHql.add("from Team where urlWiki is null" + filter + " order by id");
-			lMsg.add("Teams (Bkt)"); lHql.add("from Team where urlBktref is null" + filter + " order by id");
-			lMsg.add("Teams (Bb)"); lHql.add("from Team where urlBbref is null" + filter + " order by id");
-			lMsg.add("Teams (Ft)"); lHql.add("from Team where urlFtref is null" + filter + " order by id");
-			lMsg.add("Teams (Hk)"); lHql.add("from Team where urlHkref is null" + filter + " order by id");
+			lMsg.add("Athletes (Wiki)"); lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='wiki')" + filter + " order by id");
+			lMsg.add("Athletes (Oly)"); lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='oly-ref')" + filter + " order by id");
+			lMsg.add("Athletes (Bkt)"); lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='bkt-ref')" + filter + " order by id");
+			lMsg.add("Athletes (Bb)"); lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='bb-ref')" + filter + " order by id");
+			lMsg.add("Athletes (Ft)"); lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='ft-ref')" + filter + " order by id");
+			lMsg.add("Athletes (Hk)"); lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='hk-ref')" + filter + " order by id");
+			lMsg.add("Championships (Wiki)"); lHql.add("from Championship where id not in (select idItem from ExternalLink where entity='" + Championship.alias + "' and type='wiki')" + filter + " order by id");
+			lMsg.add("Cities (Wiki)"); lHql.add("from City where id not in (select idItem from ExternalLink where entity='" + City.alias + "' and type='wiki')" + filter + " order by id");
+			lMsg.add("Complexes (Wiki)"); lHql.add("from Complex where id not in (select idItem from ExternalLink where entity='" + Complex.alias + "' and type='wiki')" + filter + " order by id");
+			lMsg.add("Countries (Wiki)"); lHql.add("from Country where id not in (select idItem from ExternalLink where entity='" + Country.alias + "' and type='wiki')" + filter + " order by id");
+			lMsg.add("Countries (Oly)"); lHql.add("from Country where id not in (select idItem from ExternalLink where entity='" + Country.alias + "' and type='oly-ref')" + filter + " order by id");
+			lMsg.add("Events (Wiki)"); lHql.add("from Event where id not in (select idItem from ExternalLink where entity='" + Event.alias + "' and type='wiki')" + filter + " order by id");
+			lMsg.add("Olympics (Wiki)"); lHql.add("from Olympics where id not in (select idItem from ExternalLink where entity='" + Olympics.alias + "' and type='wiki')" + filter + " order by id");
+			lMsg.add("Olympics (Oly)"); lHql.add("from Olympics where id not in (select idItem from ExternalLink where entity='" + Olympics.alias + "' and type='oly-ref')" + filter + " order by id");
+			lMsg.add("Sports (Wiki)"); lHql.add("from Sport where id not in (select idItem from ExternalLink where entity='" + Sport.alias + "' and type='wiki')" + filter + " order by id");
+			lMsg.add("Sports (Oly)"); lHql.add("from Sport where id not in (select idItem from ExternalLink where entity='" + Sport.alias + "' and type='oly-ref')" + filter + " order by id");
+			lMsg.add("States (Wiki)"); lHql.add("from State where id not in (select idItem from ExternalLink where entity='" + State.alias + "' and type='wiki')" + filter + " order by id");
+			lMsg.add("Teams (Wiki)"); lHql.add("from Team where id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and type='wiki')" + filter + " order by id");
+			lMsg.add("Teams (Bkt)"); lHql.add("from Team where id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and type='bkt-ref')" + filter + " order by id");
+			lMsg.add("Teams (Bb)"); lHql.add("from Team where id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and type='bb-ref')" + filter + " order by id");
+			lMsg.add("Teams (Ft)"); lHql.add("from Team where id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and type='ft-ref')" + filter + " order by id");
+			lMsg.add("Teams (Hk)"); lHql.add("from Team where id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and type='hk-ref')" + filter + " order by id");
 			int i = 0;
 			for (String hql : lHql) {
 				String msg = lMsg.get(i++);
@@ -185,11 +185,8 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 					continue;
 				jResult.setText(jResult.getText() + "\r\n- " + msg + "\r\n\r\n");
 				List<Object> l = DatabaseHelper.execute(hql);
-				for (Object o : l) {
+				for (Object o : l)
 					sbUpdateSql.append(getUrlUpdate(o, msg));
-//					if (n > MAX)
-//						break;
-				}
 			}
 			DatabaseHelper.executeUpdate(sbUpdateSql.toString());
 		}
@@ -199,62 +196,62 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 	}
 
 	private String getUrlUpdate(Object o, String msg) throws Exception {
-		String sql = "";
-		String str1 = "", str2 = "", str3 = "", table = "";
+		StringBuffer sql = new StringBuffer();
+		String str1 = "", str2 = "", str3 = "", alias = "";
 		if (o instanceof Athlete) {
 			Athlete a = (Athlete) o;
 			str1 = a.getFirstName() + " " + a.getLastName();
 			str2 = a.getLastName();
 			str3 = a.getSport().getWikiPattern();
-			table = "\"PERSON\"";
+			alias = Athlete.alias;
 		}
 		else if (o instanceof Championship) {
 			Championship c = (Championship) o;
 			str1 = c.getLabel();
-			table = "\"CHAMPIONSHIP\"";
+			alias = Championship.alias;
 		}
 		else if (o instanceof City) {
 			City c = (City) o;
 			str1 = c.getLabel();
 			str2 = c.getCountry().getLabel();
-			table = "\"CITY\"";
+			alias = City.alias;
 		}
 		else if (o instanceof Complex) {
 			Complex c = (Complex) o;
 			str1 = c.getLabel();
-			table = "\"COMPLEX\"";
+			alias = Complex.alias;
 		}
 		else if (o instanceof Country) {
 			Country c = (Country) o;
 			str1 = c.getLabel();
 			str2 = c.getCode();
-			table = "\"COUNTRY\"";
+			alias = Country.alias;
 		}
 		else if (o instanceof Event) {
 			Event e = (Event) o;
 			str1 = e.getLabel();
-			table = "\"EVENT\"";
+			alias = Event.alias;
 		}
 		else if (o instanceof Olympics) {
 			Olympics o_ = (Olympics) o;
 			str1 = o_.getYear().getLabel() + " " + (o_.getType() == 0 ? "Winter" : "Summer") + " Olympics";
 			str2 = (o_.getType() == 0 ? "Winter" : "Summer") + "/" + o_.getYear().getLabel() + "/";
-			table = "\"OLYMPICS\"";
+			alias = Olympics.alias;
 		}
 		else if (o instanceof Sport) {
 			Sport s = (Sport) o;
 			str1 = s.getLabel();
-			table = "\"SPORT\"";
+			alias = Sport.alias;
 		}
 		else if (o instanceof State) {
 			State s = (State) o;
 			str1 = s.getLabel();
-			table = "\"STATE\"";
+			alias = State.alias;
 		}
 		else if (o instanceof Team) {
 			Team t = (Team) o;
 			str1 = t.getLabel();
-			table = "\"TEAM\"";
+			alias = Team.alias;
 		}
 		Integer id = (Integer) o.getClass().getMethod("getId").invoke(o);
 		String url = null;
@@ -284,7 +281,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 						b |= (o instanceof State && parent != null && parent.text().matches(".*(state).*"));
 						b |= (o instanceof Team && parent != null && parent.text().matches(".*(team).*"));
 						if (b) {
-							sql += "UPDATE " + table + " SET url_wiki='" + url.replaceAll("/wiki.+$", e.attr("href")) + "' WHERE id=" + id + ";\r\n";
+							sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'wiki', '" + url.replaceAll("/wiki.+$", e.attr("href")) + "');\r\n");
 							break;				
 						}
 					}
@@ -295,7 +292,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 				conn = (HttpURLConnection) url_.openConnection();
 				conn.setDoOutput(true);
 				if (conn.getResponseCode() == 200)
-					sql += "UPDATE " + table + " SET url_wiki='" + url + "' WHERE id=" + id + ";\r\n";
+					sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'wiki', '" + url + "');\r\n");
 			}
 		}
 		// OLYMPICS-REFERENCE
@@ -318,7 +315,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 					StringWriter writer = new StringWriter();
 					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
 					if (writer.toString().indexOf("File Not Found") == -1 && writer.toString().indexOf("0 hits") == -1)
-						sql += "UPDATE " + table + " SET url_olyref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+						sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'oly-ref', '" + StringUtils.normalize(url) + "');\r\n");
 				}
 			}
 		}
@@ -336,7 +333,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 					StringWriter writer = new StringWriter();
 					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
 					if (writer.toString().indexOf("File Not Found") == -1)
-						sql += "UPDATE " + table + " SET url_bktref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+						sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'bkt-ref', '" + StringUtils.normalize(url) + "');\r\n");
 				}
 			}
 		}
@@ -354,7 +351,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 					StringWriter writer = new StringWriter();
 					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
 					if (writer.toString().indexOf("File Not Found") == -1)
-						sql += "UPDATE " + table + " SET url_bbref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+						sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'bb-ref', '" + StringUtils.normalize(url) + "');\r\n");
 				}
 			}
 		}
@@ -372,7 +369,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 					StringWriter writer = new StringWriter();
 					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
 					if (writer.toString().indexOf("File Not Found") == -1)
-						sql += "UPDATE " + table + " SET url_ftref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+						sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'ft-ref', '" + StringUtils.normalize(url) + "');\r\n");
 				}
 			}
 		}
@@ -390,12 +387,12 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 					StringWriter writer = new StringWriter();
 					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
 					if (writer.toString().indexOf("File Not Found") == -1)
-						sql += "UPDATE " + table + " SET url_hkref='" + StringUtils.normalize(url) + "' WHERE id=" + id + ";\r\n";
+						sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'hk-ref', '" + StringUtils.normalize(url) + "');\r\n");
 				}
 			}
 		}
 		jResult.setText(jResult.getText() + sql);
-		return sql;
+		return sql.toString();
 	}
 
 }

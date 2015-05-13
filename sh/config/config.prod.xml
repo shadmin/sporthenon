@@ -6,6 +6,6 @@
 	<entry key="date">24/04/2015</entry>
 	<entry key="url">http://www.sporthenon.com/</entry>
 	<entry key="url.s">https://www.sporthenon.com/</entry>
-	<entry key="img.url">//img.sporthenon.com/</entry>
+	<entry key="img.url">http://img.sporthenon.com/</entry>
 	<entry key="img.folder">/usr/share/glassfish3/glassfish/domains/domain1/docroot/img/</entry>
 </properties>

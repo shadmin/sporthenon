@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -34,6 +35,7 @@ import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.Year;
+import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.updater.component.JCustomButton;
 import com.sporthenon.updater.component.JDialogButtonBar;
 import com.sporthenon.updater.component.JEntityPicklist;
@@ -96,7 +98,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jCommentDialog = new JCommentDialog(this);
 		jEditDrawDialog = new JEditDrawDialog(this);
 		
-		this.setSize(new Dimension(685, 395));
+		this.setSize(new Dimension(685, 425));
         this.setContentPane(jContentPane);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setModal(true);
@@ -135,12 +137,15 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jCommentDlg.addActionListener(this);
 		jExa = new JTextField();
 		jExa.setPreferredSize(new Dimension(60, 21));
+		JCustomButton jExtLinksButton = new JCustomButton("Ext. Links", "weblinks.png", "External Links");
+		jExtLinksButton.addActionListener(this);
+		jExtLinksButton.setActionCommand("extlinks");
 		
 		JSeparator jSeparator1 = new JSeparator(JSeparator.HORIZONTAL);
 		jSeparator1.setPreferredSize(new Dimension(250, 0));
 		JPanel jEventPanel = new JPanel();
 		jEventPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 4));
-		jEventPanel.setPreferredSize(new Dimension(0, 170));
+		jEventPanel.setPreferredSize(new Dimension(0, 200));
 		jEventPanel.setBorder(BorderFactory.createTitledBorder(null, "Event Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 		jEventPanel.add(new JLabel("Year:"), null);
 		jEventPanel.add(jYear, null);
@@ -169,6 +174,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jEventPanel.add(new JLabel("Comment:"), null);
 		jEventPanel.add(jCommentPane, null);
 		jEventPanel.add(jCommentDlg, null);
+		jEventPanel.add(jExtLinksButton, null);
 
 		return jEventPanel;
 	}
@@ -263,6 +269,24 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			jCommentDialog.getComment().setText(getComment().getText());
 			jCommentDialog.open();
 		}
+		else if (cmd.equals("extlinks")) {
+			StringBuffer sbLinks = new StringBuffer();
+			try {
+				List<ExternalLink> list = DatabaseHelper.execute("from ExternalLink where entity='" + Result.alias + "' and idItem=" + id + " order by id");
+				for (ExternalLink link : list)
+					sbLinks.append(link.getUrl()).append("\r\n");
+			}
+			catch (Exception e_) {
+				Logger.getLogger("sh").error(e_.getMessage(), e_);
+			}
+			JCommentDialog dialog = JMainFrame.getCommentDialog();
+			dialog.setAlias(Result.alias);
+			dialog.setId(id);
+			dialog.setTitle("External Links (#" + id + ")");
+			dialog.getComment().setText(sbLinks.toString());
+			dialog.setSize(new Dimension(600, 250));
+			dialog.open();
+		}
 		else if (cmd.matches("exacb.*")) {
 			int min = 100;
 			int max = -1;
@@ -335,7 +359,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 				parent.resultCallback(mode, getDataVector(rs), msg, err);
 			}
 		}
-		this.setVisible(cmd.matches("draw|comment|today|exacb.*"));
+		this.setVisible(cmd.matches("draw|comment|extlinks|today|exacb.*"));
 	}
 	
 	private Vector getDataVector(Result rs) {

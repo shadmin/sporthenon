@@ -9,7 +9,7 @@
 		ENTITY_REF(varchar, integer, varchar, varchar, integer, varchar)
 	-->
 	<named-native-query name="EntityRef" result-class="com.sporthenon.db.entity.meta.RefItem">  
-		<query>select * from "ENTITY_REF"(?, ?, ?, ?, ?, ?)</query>
+		<query>SELECT * FROM "ENTITY_REF"(?, ?, ?, ?, ?, ?)</query>
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 	
@@ -17,7 +17,7 @@
 		GET_DRAW(integer, varchar)
 	-->
 	<named-native-query name="GetDraw" result-class="com.sporthenon.db.function.DrawBean">  
-		<query>{? = call "GET_DRAW"(?, ?)}</query>
+		<query>{? = CALL "GET_DRAW"(?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	
@@ -25,7 +25,7 @@
 		GET_HALL_OF_FAME(integer, text, varchar)
 	-->
 	<named-native-query name="GetHallOfFame" result-class="com.sporthenon.db.function.HallOfFameBean">  
-		<query>{? = call "GET_HALL_OF_FAME"(?, ?, ?)}</query>
+		<query>{? = CALL "GET_HALL_OF_FAME"(?, ?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	
@@ -33,7 +33,7 @@
 		GET_MEDAL_COUNT(varchar, integer, varchar)
 	-->
 	<named-native-query name="MedalCount" result-class="com.sporthenon.db.entity.meta.RefItem">  
-		<query>select * from "GET_MEDAL_COUNT"(?, ?, ?)</query>
+		<query>SELECT * FROM "GET_MEDAL_COUNT"(?, ?, ?)</query>
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 
@@ -41,7 +41,7 @@
 		GET_OLYMPIC_MEDALS(text, integer, text, text, text, varchar)
 	-->
 	<named-native-query name="GetOlympicMedals" result-class="com.sporthenon.db.function.OlympicMedalsBean">  
-		<query>{? = call "GET_OLYMPIC_MEDALS"(?, ?, ?, ?, ?, ?)}</query>
+		<query>{? = CALL "GET_OLYMPIC_MEDALS"(?, ?, ?, ?, ?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	
@@ -49,7 +49,7 @@
 		GET_OLYMPIC_RANKINGS(text, text, varchar)
 	-->
 	<named-native-query name="GetOlympicRankings" result-class="com.sporthenon.db.function.OlympicRankingsBean">  
-		<query>{? = call "GET_OLYMPIC_RANKINGS"(?, ?, ?)}</query>
+		<query>{? = CALL "GET_OLYMPIC_RANKINGS"(?, ?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	
@@ -57,7 +57,7 @@
 		GET_RESULTS(integer, integer, integer, integer, integer, text, varchar)
 	-->
 	<named-native-query name="GetResults" result-class="com.sporthenon.db.function.ResultsBean">  
-		<query>{? = call "GET_RESULTS"(?, ?, ?, ?, ?, ?, ?)}</query>
+		<query>{? = CALL "GET_RESULTS"(?, ?, ?, ?, ?, ?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	
@@ -65,7 +65,7 @@
 		GET_RETIRED_NUMBER(integer, text, smallint)
 	-->
 	<named-native-query name="GetRetiredNumber" result-class="com.sporthenon.db.function.RetiredNumberBean">  
-		<query>{? = call "GET_RETIRED_NUMBER"(?, ?, ?)}</query>
+		<query>{? = CALL "GET_RETIRED_NUMBER"(?, ?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	
@@ -73,7 +73,7 @@
 		GET_TEAM_STADIUM(integer, text, varchar)
 	-->
 	<named-native-query name="GetTeamStadium" result-class="com.sporthenon.db.function.TeamStadiumBean">  
-		<query>{? = call "GET_TEAM_STADIUM"(?, ?, ?)}</query>
+		<query>{? = CALL "GET_TEAM_STADIUM"(?, ?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	
@@ -81,7 +81,7 @@
 		GET_US_CHAMPIONSHIPS(integer, text, varchar)
 	-->
 	<named-native-query name="GetUSChampionships" result-class="com.sporthenon.db.function.USChampionshipsBean">  
-		<query>{? = call "GET_US_CHAMPIONSHIPS"(?, ?, ?)}</query>
+		<query>{? = CALL "GET_US_CHAMPIONSHIPS"(?, ?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	
@@ -89,7 +89,7 @@
 		GET_US_RECORDS(integer, text, text, text, text, varchar)
 	-->
 	<named-native-query name="GetUSRecords" result-class="com.sporthenon.db.function.USRecordsBean">  
-		<query>{? = call "GET_US_RECORDS"(?, ?, ?, ?, ?, ?)}</query>
+		<query>{? = CALL "GET_US_RECORDS"(?, ?, ?, ?, ?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 
@@ -97,7 +97,7 @@
 		GET_WIN_LOSS(integer, text)
 	-->
 	<named-native-query name="GetWinLoss" result-class="com.sporthenon.db.function.WinLossBean">  
-		<query>{? = call "GET_WIN_LOSS"(?, ?)}</query>
+		<query>{? = CALL "GET_WIN_LOSS"(?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	
@@ -105,7 +105,11 @@
 		SEARCH(varchar, varchar, smallint, varchar)
 	-->
 	<named-native-query name="Search" result-class="com.sporthenon.db.entity.meta.RefItem">  
-		<query>select * from "SEARCH"(?, ?, ?, ?)</query>
+		<query>SELECT * FROM "SEARCH"(?, ?, ?, ?)</query>
+		<hint name="org.hibernate.callable" value="false" />
+	</named-native-query>
+	<named-native-query name="Search2" result-class="com.sporthenon.db.entity.meta.RefItem">  
+		<query>SELECT * FROM "SEARCH"(?, ?, ?, ?) ORDER BY COUNT_REF DESC LIMIT 10</query>
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 	
@@ -113,7 +117,7 @@
 		TREE_RESULTS(varchar, varchar)
 	-->
 	<named-native-query name="TreeResults" result-class="com.sporthenon.db.entity.meta.TreeItem">  
-		<query>select * from "TREE_RESULTS"(?, ?)</query>
+		<query>SELECT * FROM "TREE_RESULTS"(?, ?)</query>
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 	
@@ -121,7 +125,7 @@
 		WIN_RECORDS(text, varchar)
 	-->
 	<named-native-query name="WinRecords" result-class="com.sporthenon.db.function.WinRecordsBean">  
-		<query>{? = call "WIN_RECORDS"(?, ?)}</query>
+		<query>{? = CALL "WIN_RECORDS"(?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	
@@ -129,7 +133,7 @@
 		~CONTRIBUTORS()
 	-->
 	<named-native-query name="Contributors" result-class="com.sporthenon.db.function.ContributorBean">  
-		<query>{? = call "~CONTRIBUTORS"()}</query>
+		<query>{? = CALL "~CONTRIBUTORS"()}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	
@@ -137,7 +141,7 @@
 		~LAST_UPDATES(integer, integer, varchar)
 	-->
 	<named-native-query name="LastUpdates" result-class="com.sporthenon.db.function.LastUpdateBean">  
-		<query>{? = call "~LAST_UPDATES"(?, ?, ?)}</query>
+		<query>{? = CALL "~LAST_UPDATES"(?, ?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 
@@ -145,7 +149,7 @@
 		~STATISTICS()
 	-->
 	<named-native-query name="Statistics" result-class="com.sporthenon.db.function.StatisticsBean">  
-		<query>{? = call "~STATISTICS"()}</query>
+		<query>{? = CALL "~STATISTICS"()}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	
@@ -153,7 +157,7 @@
 		~STATREQUEST(smallint)
 	-->
 	<named-native-query name="StatRequest" result-class="com.sporthenon.db.function.StatRequestBean">  
-		<query>{? = call "~STATREQUEST"(?)}</query>
+		<query>{? = CALL "~STATREQUEST"(?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 

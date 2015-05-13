@@ -263,9 +263,8 @@
 	background-color: transparent;
 }
 .tc .noresult{
-	clear: left;
 	width: auto;
-	margin-top: 20px;
+	margin-top: 40px;
 	padding: 5px;
 	font-weight: bold;
 	text-align: center;

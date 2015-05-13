@@ -205,7 +205,9 @@
 	<entry key="details">Détails</entry>
 	<entry key="last.update">Dernière mise à jour</entry>
 	<entry key="wikipedia">Wikipédia</entry>
-	<entry key="others">Autres</entry>
+	<entry key="extlink.others">Autres</entry>
+	<entry key="extlink.federation">Fédération internationale</entry>
+	<entry key="extlink.official">Site officiel</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>

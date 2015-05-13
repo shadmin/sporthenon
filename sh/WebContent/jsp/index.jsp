@@ -41,7 +41,7 @@
 			<th onclick="sort('tlast', this, 1);"><%=StringUtils.text("sport", session)%></th>
 			<th onclick="sort('tlast', this, 2);"><%=StringUtils.text("event", session)%></th>
 			<th onclick="sort('tlast', this, 3);"><%=StringUtils.text("entity.RS.1", session)%></th>
-			<th id="tlast-dtcol" class="sorted desc" onclick="sort('tlast', this, 4);"><%=StringUtils.text("updated.on", session)%></th>
+			<th id="tlast-dtcol" class="sorted desc" onclick="sort('tlast', this, 4);"><%=StringUtils.text("updated.on", session).replaceAll("\\s", "&nbsp;")%></th>
 		</tr></thead><tbody class="tby" id="tb-tlast">
 		<%
 			String lang = String.valueOf(session.getAttribute("locale"));

@@ -37,6 +37,9 @@ public class Event {
 	@JoinColumn(name = "id_type", nullable = false)
 	private Type type;
 	
+	@Column(name = "ref")
+	private Integer ref;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -90,6 +93,14 @@ public class Event {
 
 	public String getLabel(String lang) {
 		return (lang != null && lang.equalsIgnoreCase("fr") ? labelFR : label);
+	}
+
+	public Integer getRef() {
+		return ref;
+	}
+
+	public void setRef(Integer ref) {
+		this.ref = ref;
 	}
 
 	@Override

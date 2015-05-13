@@ -540,7 +540,7 @@ public class DatabaseHelper {
 					else if (s_.indexOf("www.hockey-reference.com") > -1)
 						link.setType("hk-ref");
 					else
-						link.setType("official");
+						link.setType("others");
 					link.setUrl(s_);
 					saveEntity(link, null);
 				}
