@@ -64,7 +64,7 @@ public class UpdateServlet extends AbstractServlet {
 				hTable.put("pr", "Athlete");
 				hTable.put("tm", "Team");
 				hTable.put("cn", "Country");
-				String labelHQL = "lower(label" + (lang != null && !lang.equalsIgnoreCase("en") && !field.matches("tm|yr") ? lang.toUpperCase() : "") + ")";
+				String labelHQL = "lower(label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !field.matches("tm|yr") ? lang.toUpperCase() : "") + ")";
 				String whereHQL = "";
 				if( field.equalsIgnoreCase(Athlete.alias)) {
 					labelHQL = "lower(last_name) || ', ' || lower(first_name)";

@@ -46,6 +46,7 @@ public class AndroidServlet extends AbstractServlet {
 		try {
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			String lang = (hParams.containsKey("lang") ? String.valueOf(hParams.get("lang")) : ResourceUtils.LGDEFAULT);
+			String label = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "");
 			String p = String.valueOf(hParams.get("p"));
 			String p2 = String.valueOf(hParams.get("p2"));
 			
@@ -59,22 +60,22 @@ public class AndroidServlet extends AbstractServlet {
 	        	addItems(doc, root, ImageUtils.INDEX_SPORT, DatabaseHelper.getEntityPicklist(Sport.class, "label", null, lang));
 	        else if (p2.equalsIgnoreCase(Championship.alias)) {
 	        	String filter = "sport.id=" + p;
-	        	addItems(doc, root, ImageUtils.INDEX_CHAMPIONSHIP, DatabaseHelper.getPicklist(Result.class, "championship", filter, null, (short) 1, lang));
+	        	addItems(doc, root, ImageUtils.INDEX_CHAMPIONSHIP, DatabaseHelper.getPicklist(Result.class, "championship", filter, null, "x.championship.index, x.championship." + label, lang));
 	        }
 	        else if (p2.equalsIgnoreCase(Event.alias)) {
 	        	String[] t = p.split("\\-");
 	        	String filter = "sport.id=" + t[0] + " and championship.id=" + t[1];
-	        	addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Result.class, "event", filter, null, (short) 1, lang));
+	        	addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Result.class, "event", filter, null, "x.event.index, x.event." + label, lang));
 	        }
 	        else if (p2.equalsIgnoreCase("SE")) {
 	        	String[] t = p.split("\\-");
 	        	String filter = "sport.id=" + t[0] + " and championship.id=" + t[1] + " and event.id=" + t[2];
-	        	addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent", filter, null, (short) 1, lang));
+	        	addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent", filter, null, "x.subevent.index, x.subevent." + label, lang));
 	        }
 	        else if (p2.equalsIgnoreCase("SE2")) {
 	        	String[] t = p.split("\\-");
 	        	String filter = "sport.id=" + t[0] + " and championship.id=" + t[1] + " and event.id=" + t[2] + " and subevent.id=" + t[3];
-	        	addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent2", filter, null, (short) 1, lang));
+	        	addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent2", filter, null, "x.subevent2.index, x.subevent2." + label, lang));
 	        }
 	        else if (p2.equalsIgnoreCase(Result.alias)) {
 	        	String[] t = p.split("\\-");

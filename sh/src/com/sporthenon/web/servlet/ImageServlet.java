@@ -24,6 +24,7 @@ import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
+import com.sporthenon.utils.res.ResourceUtils;
 
 public class ImageServlet extends AbstractServlet {
 
@@ -96,7 +97,7 @@ public class ImageServlet extends AbstractServlet {
 						label = "concat(concat(year.label, ' - '), city.label)";
 					else if (entity_.equalsIgnoreCase(Team.alias))
 						label = "concat(concat(label, ' - '), sport.label)";
-					Collection<PicklistBean> lst = DatabaseHelper.getEntityPicklist(DatabaseHelper.getClassFromAlias(entity_), label, null, "en");
+					Collection<PicklistBean> lst = DatabaseHelper.getEntityPicklist(DatabaseHelper.getClassFromAlias(entity_), label, null, ResourceUtils.LGDEFAULT);
 					int n = 0;
 					for (PicklistBean o : lst) {
 						File dir = new File(ConfigUtils.getProperty("img.folder"));

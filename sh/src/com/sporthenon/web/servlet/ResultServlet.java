@@ -98,8 +98,6 @@ public class ResultServlet extends AbstractServlet {
 					}
 					plId = PICKLIST_ID_YEAR;
 				}
-				for (PicklistBean plb : cPicklist)
-					plb.setText(plb.getText().replaceAll("^false\\-", "").replaceAll("^true\\-", "&dagger;&nbsp;"));
 				ServletHelper.writePicklist(response, cPicklist, plId);
 			}
 		}

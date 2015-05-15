@@ -73,6 +73,7 @@ import com.sporthenon.updater.container.tab.JResultsPanel;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
+import com.sporthenon.utils.res.ResourceUtils;
 
 public class JMainFrame extends JFrame {
 
@@ -278,7 +279,7 @@ public class JMainFrame extends JFrame {
 				sql = "select TM.id, TM.label || case when id_country is not null then ' [' || CN.code || ']' else '' end || case when TM.year1 is not null and TM.year1 <> '' then ' [' || TM.year1 || ']' else '' end || case when TM.year2 is not null and TM.year2 <> '' then ' [' || TM.year2 || ']' else '' end as text, TM.id_sport ";
 				sql += "from \"TEAM\" TM left join \"COUNTRY\" CN on TM.id_country=CN.id order by text";
 			}
-			ArrayList<PicklistBean> lst = new ArrayList<PicklistBean>(sql != null ? DatabaseHelper.getPicklistFromQuery(sql, true) : DatabaseHelper.getEntityPicklist(c_, label, null, "en"));
+			ArrayList<PicklistBean> lst = new ArrayList<PicklistBean>(sql != null ? DatabaseHelper.getPicklistFromQuery(sql, true) : DatabaseHelper.getEntityPicklist(c_, label, null, ResourceUtils.LGDEFAULT));
 			Field alias = c_.getDeclaredField("alias");
 			alias.setAccessible(true);
 			hPicklists.put(String.valueOf(alias.get(null)), lst);

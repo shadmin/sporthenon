@@ -115,7 +115,7 @@ public class DatabaseHelper {
 	}
 
 	public static Collection<PicklistBean> getPicklist(Class source, String target, String filter, String concat, Object order, String lang) throws Exception {
-		String hql = "select distinct x." + target + ".id, " + (concat != null ? concat + " || " : "") + "x." + target + ".label" + (lang != null && !lang.equalsIgnoreCase("en") && !target.matches("team|year") ? lang.toUpperCase() : "") + (order instanceof String ? ", " + order : "");
+		String hql = "select distinct x." + target + ".id, " + (concat != null ? concat + " || " : "") + "x." + target + ".label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !target.matches("team|year") ? lang.toUpperCase() : "") + (order instanceof String ? ", " + order : "");
 		hql += " from " + source.getSimpleName() + " x";
 		hql += (filter != null && !filter.equals("") ? " where " + filter : "");
 		hql += " order by " + order;
@@ -123,7 +123,7 @@ public class DatabaseHelper {
 	}
 
 	public static Collection<PicklistBean> getEntityPicklist(Class entity, String label, String param, String lang) throws Exception {
-		label = (label != null ? label : "label") + (lang != null && !lang.equalsIgnoreCase("en") && !label.equalsIgnoreCase("id") && entity != Team.class && entity != Year.class ? lang.toUpperCase() : "");
+		label = (label != null ? label : "label") + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !label.equalsIgnoreCase("id") && entity != Team.class && entity != Year.class ? lang.toUpperCase() : "");
 		param = (param != null ? "," + param : "");
 		String hql = "select id," + label + param + " from " + entity.getSimpleName() + " order by " + label + param;
 		return getPicklistFromQuery(hql, false);
@@ -254,7 +254,7 @@ public class DatabaseHelper {
 	}
 
 	public static ArrayList<String> loadLabels(Class entity, String ids, String lang) throws Exception {
-		return loadLabelsFromQuery("select x.label" + (lang != null && !lang.equalsIgnoreCase("en") && entity != Team.class && entity != Year.class ? lang.toUpperCase() : "") + " from " + entity.getSimpleName() + " x" + (StringUtils.notEmpty(ids) ? " where x.id in (" + ids + ")" : ""));
+		return loadLabelsFromQuery("select x.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && entity != Team.class && entity != Year.class ? lang.toUpperCase() : "") + " from " + entity.getSimpleName() + " x" + (StringUtils.notEmpty(ids) ? " where x.id in (" + ids + ")" : ""));
 	}
 
 	public static ArrayList<String> loadLabelsFromQuery(String s) throws Exception {

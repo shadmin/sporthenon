@@ -68,7 +68,7 @@ public class HtmlUtils {
 		StringBuffer html = new StringBuffer();
 		StringBuffer url = new StringBuffer();
 		text2 = (text2 != null ? text2 : text1);
-		url.append("/" + ResourceUtils.getText("entity." + alias + ".1", "en").replaceAll("\\s", "").toLowerCase());
+		url.append("/" + ResourceUtils.getText("entity." + alias + ".1", ResourceUtils.LGDEFAULT).replaceAll("\\s", "").toLowerCase());
 		url.append("/" + StringUtils.urlEscape(text2));
 		url.append("/" + StringUtils.encode(alias + "-" + id + (alias.equals(Result.alias) ? "-1" : "")));
 		if (text1 != null) {

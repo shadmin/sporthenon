@@ -79,7 +79,7 @@ public class JEditEntityDialog extends JDialog implements ActionListener {
 		jContainer.add(p, alias);
 		this.alias = alias;
 		this.picklist = picklist;
-		this.setTitle("Add " + ResourceUtils.getText("entity." + alias + ".1", "en"));
+		this.setTitle("Add " + ResourceUtils.getText("entity." + alias + ".1", ResourceUtils.LGDEFAULT));
 		((CardLayout) jContainer.getLayout()).show(jContainer, alias);
 		this.pack();
 		p.clear();

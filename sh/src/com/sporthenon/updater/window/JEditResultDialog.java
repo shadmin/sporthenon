@@ -184,7 +184,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		for (int i = 0 ; i < jRanks.length ; i++) {
 			jRanks[i] = new JEntityPicklist(this, "EN");
 			jRanks[i].setPreferredSize(new Dimension(220, 21));
-			labels[i] = new JLabel(ResourceUtils.getText("rank." + (i + 1), "en") + ":");
+			labels[i] = new JLabel(ResourceUtils.getText("rank." + (i + 1), ResourceUtils.LGDEFAULT) + ":");
 			labels[i].setPreferredSize(new Dimension(28, 21));
 			jRes[i] = new JTextField();
 			jRes[i].setPreferredSize(new Dimension(70, 21));
