@@ -32,7 +32,7 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
         activity = (SportActivity) params[0];
         sports = new ArrayList<IDataItem>();
         try {
-            String url = "http://www.sporthenon.com/android/SP/0?lang=fr";
+            String url = "http://test.sporthenon.com/android/SP/0?lang=fr";
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();

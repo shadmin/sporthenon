@@ -29,15 +29,21 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
 
     @Override
     protected String doInBackground(Object... params) {
-        Integer spid = (Integer) params[0];
-        activity = (ResultActivity) params[1];
+        activity = (ResultActivity) params[0];
+        Integer spid = (Integer) params[1];
         Integer cpid = (Integer) params[2];
         Integer ev1id = (params.length > 3 ? (Integer) params[3] : 0);
         Integer ev2id = (params.length > 4 ? (Integer) params[4] : 0);
+        Integer ev3id = (params.length > 5 ? (Integer) params[5] : 0);
         results = new ArrayList<IResultItem>();
         try {
-            String url = "http://www.sporthenon.com/android/RS/" + spid + "-" + cpid + (ev1id > 0 ? "-" + ev1id : "") + (ev2id > 0 ? "-" + ev2id : "") + "?lang=fr";
-            HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
+            StringBuffer url = new StringBuffer("http://test.sporthenon.com/android/RS");
+            url.append("/" + spid + "-" + cpid);
+            url.append(ev1id > 0 ? "-" + ev1id : "");
+            url.append(ev2id > 0 ? "-" + ev2id : "");
+            url.append(ev3id > 0 ? "-" + ev3id : "");
+            url.append("?lang=fr");
+            HttpURLConnection connection = (HttpURLConnection)new URL(url.toString()).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -50,13 +56,11 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
                     Element e = (Element) n;
                     Integer id = Integer.parseInt(e.getAttribute("id"));
                     String year = e.getAttribute("year");
-                    String img = e.getAttribute("img").replaceAll("\\'\\/\\>", "");
-                    img = "http://www.sporthenon.com:81/" + img.substring(img.lastIndexOf("/") + 1);
                     //String rk1 = e.getAttribute("rk1");
                     String code = e.getAttribute("code");
                     String str1 = e.getAttribute("str1");
                     String str2 = e.getAttribute("str2");
-                    results.add(new ResultItem(id, year, AndroidUtils.getImage(activity, "CN", img, id), str2 + " " + str1 + " (" + code + ")"));
+                    results.add(new ResultItem(id, year, AndroidUtils.getImage(activity, "CN", e.getAttribute("img"), id), str2 + " " + str1 + " (" + code + ")"));
                 }
             }
             connection.disconnect();

@@ -29,20 +29,30 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
 
     @Override
     protected String doInBackground(Object... params) {
-        Integer spid = (Integer) params[0];
-        activity = (EventActivity) params[1];
+        activity = (EventActivity) params[0];
+        Integer spid = (Integer) params[1];
         Integer cpid = (Integer) params[2];
         Integer ev1id = (params.length > 3 ? (Integer) params[3] : 0);
+        Integer ev2id = (params.length > 4 ? (Integer) params[4] : 0);
         events = new ArrayList<IDataItem>();
         try {
-            String url = "http://www.sporthenon.com/android/" + (ev1id > 0 ? "SE" : "EV") + "/" + spid + "-" + cpid + (ev1id > 0 ? "-" + ev1id : "") + "?lang=fr";
-            HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
+            StringBuffer url = new StringBuffer("http://test.sporthenon.com/android/");
+            url.append(ev2id > 0 ? "SE2" : (ev1id > 0 ? "SE" : "EV"));
+            url.append("/" + spid + "-" + cpid);
+            url.append(ev1id > 0 ? "-" + ev1id : "");
+            url.append(ev2id > 0 ? "-" + ev2id : "");
+            url.append("?lang=fr");
+            HttpURLConnection connection = (HttpURLConnection)new URL(url.toString()).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(input);
             NodeList list = doc.getElementsByTagName("item");
+            if (list == null || list.getLength() == 0) {
+                activity.loadResults(spid, cpid, ev1id, ev2id, null);
+                return null;
+            }
             for (int i = 0 ; i < list.getLength() ; i++) {
                 Node n = list.item(i);
                 if (n.getNodeType() == Node.ELEMENT_NODE) {

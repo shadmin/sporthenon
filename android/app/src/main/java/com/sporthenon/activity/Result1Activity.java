@@ -13,7 +13,7 @@ import com.sporthenon.data.IResultItem;
 
 import java.util.ArrayList;
 
-public class ResultActivity extends Activity implements AdapterView.OnItemClickListener {
+public class Result1Activity extends Activity implements AdapterView.OnItemClickListener {
 
 	private ArrayList<IResultItem> results;
     private ListView list;
@@ -50,7 +50,7 @@ public class ResultActivity extends Activity implements AdapterView.OnItemClickL
 
         Bundle b = getIntent().getExtras();
         AsyncResults task = new AsyncResults();
-        task.execute(this, b.getInt("spid"), b.getInt("cpid"), b.getInt("ev1id"), b.getInt("ev2id"), b.getInt("ev3id"));
+        task.execute(b.getInt("spid"), this, b.getInt("cpid"), b.getInt("ev1id"), b.getInt("ev2id"));
 	}
 
     @Override
