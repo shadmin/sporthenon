@@ -11,7 +11,7 @@
         <!-- SPORTS -->
         <activity
             android:name=".activity.SportActivity"
-            android:label="@string/app_name2">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -20,17 +20,17 @@
         <!-- CHAMPIONSHIPS -->
         <activity
             android:name=".activity.ChampionshipActivity"
-            android:label="@string/app_name2">
+            android:label="@string/app_name">
         </activity>
         <!-- EVENTS -->
         <activity
             android:name=".activity.EventActivity"
-            android:label="@string/app_name2">
+            android:label="@string/app_name">
         </activity>
         <!-- RESULTS -->
         <activity
             android:name=".activity.ResultActivity"
-            android:label="@string/app_name2">
+            android:label="@string/app_name">
         </activity>
     </application>
 
