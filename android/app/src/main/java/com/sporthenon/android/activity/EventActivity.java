@@ -9,22 +9,17 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.sporthenon.android.R;
+import com.sporthenon.android.async.AsyncChampionships;
 import com.sporthenon.android.async.AsyncEvents;
+import com.sporthenon.android.async.AsyncResults;
 import com.sporthenon.android.data.DataItem;
 import com.sporthenon.android.data.IDataItem;
 
 import java.util.ArrayList;
 
-public class EventActivity extends Activity implements AdapterView.OnItemClickListener {
+public class EventActivity extends AbstractActivity implements AdapterView.OnItemClickListener {
 
-	private ArrayList<IDataItem> events;
-    private ListView list;
-    private EditText search;
-    private Integer sportId;
-    private Integer championshipId;
-    private Integer event1Id;
-    private Integer event2Id;
-    private Integer event3Id;
+    private ArrayList<IDataItem> events;
 
     public ArrayList<IDataItem> getEvents() {
         if (events == null)
@@ -36,65 +31,9 @@ public class EventActivity extends Activity implements AdapterView.OnItemClickLi
         this.events = events;
     }
 
-    public Integer getSportId() {
-        return sportId;
-    }
-
-    public void setSportId(Integer sportId) {
-        this.sportId = sportId;
-    }
-
-    public Integer getEvent1Id() {
-        return event1Id;
-    }
-
-    public void setEvent1Id(Integer event1Id) {
-        this.event1Id = event1Id;
-    }
-
-    public Integer getChampionshipId() {
-        return championshipId;
-    }
-
-    public void setChampionshipId(Integer championshipId) {
-        this.championshipId = championshipId;
-    }
-
-    public Integer getEvent2Id() {
-        return event2Id;
-    }
-
-    public void setEvent2Id(Integer event2Id) {
-        this.event2Id = event2Id;
-    }
-
-    public Integer getEvent3Id() {
-        return event3Id;
-    }
-
-    public void setEvent3Id(Integer event3Id) {
-        this.event3Id = event3Id;
-    }
-
-    public ListView getList() {
-        return list;
-    }
-
-    public void setList(ListView list) {
-        this.list = list;
-    }
-
     @Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-
-        list = (ListView) findViewById(R.id.list);
-        list.setOnItemClickListener(this);
-
-        search = (EditText) findViewById(R.id.search);
-        search.setVisibility(View.INVISIBLE);
-
+    protected void onCreate(Bundle state) {
+        super.onCreate(state);
         Bundle b = getIntent().getExtras();
         setSportId(b.getInt("spid"));
         setChampionshipId(b.getInt("cpid"));
@@ -107,7 +46,7 @@ public class EventActivity extends Activity implements AdapterView.OnItemClickLi
             AsyncEvents task = new AsyncEvents();
             task.execute(this, b.getInt("spid"), b.getInt("cpid"), b.getInt("ev1id"), b.getInt("ev2id"), b.getInt("ev3id"));
         }
-	}
+    }
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -129,7 +68,6 @@ public class EventActivity extends Activity implements AdapterView.OnItemClickLi
             b.putInt("ev1id", ev.getId());
         i.putExtras(b);
         startActivity(i);
-        finish();
     }
 
     public void loadResults(Integer sp, Integer cp, Integer ev1, Integer ev2, Integer ev3) {
@@ -142,7 +80,6 @@ public class EventActivity extends Activity implements AdapterView.OnItemClickLi
         b.putInt("ev3id", getEvent3Id());
         i.putExtras(b);
         startActivity(i);
-        finish();
     }
 
 }

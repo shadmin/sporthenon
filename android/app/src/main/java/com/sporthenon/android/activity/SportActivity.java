@@ -18,11 +18,9 @@ import com.sporthenon.android.data.IDataItem;
 
 import java.util.ArrayList;
 
-public class SportActivity extends Activity implements AdapterView.OnItemClickListener {
+public class SportActivity extends AbstractActivity implements AdapterView.OnItemClickListener {
 
 	private ArrayList<IDataItem> sports;
-    private ListView list;
-    private EditText search;
 
     public ArrayList<IDataItem> getSports() {
         if (sports == null)
@@ -34,42 +32,12 @@ public class SportActivity extends Activity implements AdapterView.OnItemClickLi
         this.sports = sports;
     }
 
-    public ListView getList() {
-        return list;
-    }
-
-    public void setList(ListView list) {
-        this.list = list;
-    }
-
     @Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-
-        list = (ListView) findViewById(R.id.list);
-        list.setOnItemClickListener(this);
-
-        search = (EditText) findViewById(R.id.search);
-		search.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable arg0) {
-                filter();
-			}
-		});
-        search.setVisibility(View.INVISIBLE);
-
+    protected void onCreate(Bundle state) {
+        super.onCreate(state);
         AsyncSports task = new AsyncSports();
         task.execute(this);
-	}
+    }
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -79,19 +47,6 @@ public class SportActivity extends Activity implements AdapterView.OnItemClickLi
         b.putInt("spid", sp.getId());
         i.putExtras(b);
         startActivity(i);
-        finish();
     }
-
-	public void filter() {
-		String name = search.getText().toString();
-		ArrayList<IDataItem> listSportNew = new ArrayList<IDataItem>();
-		for (IDataItem sport : sports)
-			if (sport.getName().toLowerCase().toString().startsWith(name))
-				listSportNew.add(sport);
-		list.setAdapter(null);
-		//if (listSportNew.size() == 0)
-		//	listSportNew.add(new Sport(100, "ERREUR", getResources().getDrawable(R.drawable.cake)));
-		list.setAdapter(new ItemListAdapter(getApplicationContext(), listSportNew));
-	}
 
 }

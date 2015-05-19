@@ -3,6 +3,7 @@ package com.sporthenon.android.async;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.sporthenon.android.R;
 import com.sporthenon.android.activity.EventActivity;
 import com.sporthenon.android.adapter.ItemListAdapter;
 import com.sporthenon.android.data.DataItem;
@@ -36,7 +37,7 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
         Integer ev2id = (params.length > 4 ? (Integer) params[4] : 0);
         events = new ArrayList<IDataItem>();
         try {
-            StringBuffer url = new StringBuffer("http://test.sporthenon.com/android/");
+            StringBuffer url = new StringBuffer(activity.getString(R.string.url) + "/android/");
             url.append(ev2id > 0 ? "SE2" : (ev1id > 0 ? "SE" : "EV"));
             url.append("/" + spid + "-" + cpid);
             url.append(ev1id > 0 ? "-" + ev1id : "");

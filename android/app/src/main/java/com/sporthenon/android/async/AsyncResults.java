@@ -3,6 +3,7 @@ package com.sporthenon.android.async;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.sporthenon.android.R;
 import com.sporthenon.android.activity.ResultActivity;
 import com.sporthenon.android.adapter.ResultListAdapter;
 import com.sporthenon.android.data.IResultItem;
@@ -37,7 +38,7 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
         Integer ev3id = (params.length > 5 ? (Integer) params[5] : 0);
         results = new ArrayList<IResultItem>();
         try {
-            StringBuffer url = new StringBuffer("http://test.sporthenon.com/android/RS");
+            StringBuffer url = new StringBuffer(activity.getString(R.string.url) + "/android/RS");
             url.append("/" + spid + "-" + cpid);
             url.append(ev1id > 0 ? "-" + ev1id : "");
             url.append(ev2id > 0 ? "-" + ev2id : "");

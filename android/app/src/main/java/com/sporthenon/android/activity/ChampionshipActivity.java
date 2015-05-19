@@ -10,17 +10,16 @@ import android.widget.ListView;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.async.AsyncChampionships;
+import com.sporthenon.android.async.AsyncEvents;
+import com.sporthenon.android.async.AsyncSports;
 import com.sporthenon.android.data.DataItem;
 import com.sporthenon.android.data.IDataItem;
 
 import java.util.ArrayList;
 
-public class ChampionshipActivity extends Activity implements AdapterView.OnItemClickListener {
+public class ChampionshipActivity extends AbstractActivity implements AdapterView.OnItemClickListener {
 
-	private ArrayList<IDataItem> championships;
-    private ListView list;
-    private EditText search;
-    private Integer sportId;
+    private ArrayList<IDataItem> championships;
 
     public ArrayList<IDataItem> getChampionships() {
         if (championships == null)
@@ -32,38 +31,14 @@ public class ChampionshipActivity extends Activity implements AdapterView.OnItem
         this.championships = championships;
     }
 
-    public Integer getSportId() {
-        return sportId;
-    }
-
-    public void setSportId(Integer sportId) {
-        this.sportId = sportId;
-    }
-
-    public ListView getList() {
-        return list;
-    }
-
-    public void setList(ListView list) {
-        this.list = list;
-    }
-
     @Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-
-        list = (ListView) findViewById(R.id.list);
-        list.setOnItemClickListener(this);
-
-        search = (EditText) findViewById(R.id.search);
-        search.setVisibility(View.INVISIBLE);
-
+    protected void onCreate(Bundle state) {
+        super.onCreate(state);
         Bundle b = getIntent().getExtras();
         setSportId(b.getInt("spid"));
         AsyncChampionships task = new AsyncChampionships();
         task.execute(getSportId(), this);
-	}
+    }
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -74,11 +49,6 @@ public class ChampionshipActivity extends Activity implements AdapterView.OnItem
         b.putInt("cpid", cp.getId());
         i.putExtras(b);
         startActivity(i);
-        finish();
     }
 
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
 }

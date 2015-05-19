@@ -3,6 +3,7 @@ package com.sporthenon.android.async;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.sporthenon.android.R;
 import com.sporthenon.android.activity.ChampionshipActivity;
 import com.sporthenon.android.adapter.ItemListAdapter;
 import com.sporthenon.android.data.DataItem;
@@ -33,7 +34,7 @@ public class AsyncChampionships extends AsyncTask<Object, Boolean, String> {
         activity = (ChampionshipActivity) params[1];
         championships = new ArrayList<IDataItem>();
         try {
-            String url = "http://test.sporthenon.com/android/CP/" + spid + "?lang=fr";
+            String url = activity.getString(R.string.url) + "/android/CP/" + spid + "?lang=fr";
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
