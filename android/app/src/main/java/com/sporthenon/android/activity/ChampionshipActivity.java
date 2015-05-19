@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.sporthenon.R;
+import com.sporthenon.android.R;
 import com.sporthenon.android.async.AsyncChampionships;
 import com.sporthenon.android.data.DataItem;
 import com.sporthenon.android.data.IDataItem;
@@ -77,4 +77,8 @@ public class ChampionshipActivity extends Activity implements AdapterView.OnItem
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

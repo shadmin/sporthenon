@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sporthenon.R;
+import com.sporthenon.android.R;
 import com.sporthenon.android.data.IDataItem;
 
 import java.util.List;

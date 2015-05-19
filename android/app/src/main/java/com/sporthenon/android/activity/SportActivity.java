@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.sporthenon.R;
+import com.sporthenon.android.R;
 import com.sporthenon.android.adapter.ItemListAdapter;
 import com.sporthenon.android.async.AsyncSports;
 import com.sporthenon.android.data.DataItem;
