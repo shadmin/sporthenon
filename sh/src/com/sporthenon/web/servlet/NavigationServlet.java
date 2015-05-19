@@ -56,7 +56,7 @@ public class NavigationServlet extends AbstractServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			logger.fatal("URL: " + request.getRequestURL());
-			String[] tURI = request.getRequestURI().substring(1).split("\\/", -1);
+			String[] tURI = request.getRequestURI().substring(1).split("\\/", 0);
 			String key = tURI[0];
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			RequestDispatcher dispatcher = null;

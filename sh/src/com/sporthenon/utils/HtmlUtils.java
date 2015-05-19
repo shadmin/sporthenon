@@ -1,6 +1,7 @@
 package com.sporthenon.utils;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,25 +33,29 @@ public class HtmlUtils {
 	public static String writeImage(short type, int id, char size, String year, String title) {
 		StringBuffer html = new StringBuffer();
 		String folder = ConfigUtils.getProperty("img.folder");
-		String name = type + "-" + id + "-" + size;
+		final String name = type + "-" + id + "-" + size;
+		File[] flist = new File(folder).listFiles(new FileFilter() {
+		    public boolean accept(File f) {
+		        return f.getName().startsWith(name);
+		    }
+		});
 		LinkedList<String> list = new LinkedList<String>();
-		for (File f : new File(folder).listFiles())
-			if (f.getName().indexOf(name) == 0) {
-				boolean isInclude = true;
-				if (StringUtils.notEmpty(year)) {
-					String[] t = f.getName().replaceAll("^" + name + "(\\_|)|(gif|png)$|(\\_\\d+|)\\.", "").split("\\-");
-					if (t.length > 1) {
-						Integer y = Integer.parseInt(year);
-						Integer y1 = Integer.parseInt(t[0].equalsIgnoreCase("X") ? "0" : t[0]);
-						Integer y2 = Integer.parseInt(t[1].equalsIgnoreCase("X") ? "5000" : t[1]);
-						isInclude = (y >= y1 && y <= y2);
-					}
+		for (File f : flist) {
+			boolean isInclude = true;
+			if (StringUtils.notEmpty(year)) {
+				String[] t = f.getName().replaceAll("^" + name + "(\\_|)|(gif|png)$|(\\_\\d+|)\\.", "").split("\\-");
+				if (t.length > 1) {
+					Integer y = Integer.parseInt(year);
+					Integer y1 = Integer.parseInt(t[0].equalsIgnoreCase("X") ? "0" : t[0]);
+					Integer y2 = Integer.parseInt(t[1].equalsIgnoreCase("X") ? "5000" : t[1]);
+					isInclude = (y >= y1 && y <= y2);
 				}
-				else
-					isInclude = !f.getName().matches(".*\\d{4}\\-\\d{4}\\.(gif|png)$");
-				if (isInclude)
-					list.add(f.getName());
 			}
+			else
+				isInclude = !f.getName().matches(".*\\d{4}\\-\\d{4}\\.(gif|png)$");
+			if (isInclude)
+				list.add(f.getName());
+		}
 		Collections.sort(list);
 		if (!list.isEmpty())
 			html.append("<img alt=''" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + " src='" + ImageUtils.getUrl() + list.getLast() + "'/>");
@@ -75,7 +80,7 @@ public class HtmlUtils {
 			html.append("<a href='").append(url).append("'");
 			if (alias.equals(Athlete.alias) && !text1.toLowerCase().equals(text2.toLowerCase()))
 				html.append(" title=\"" + text2 + "\"");
-			html.append(">" + text1.replaceAll("\\s", SPACE) + "</a>");
+			html.append(">" + (!text1.startsWith("<") ? text1.replaceAll("\\s", "&nbsp;") : text1) + "</a>");
 		}
 		else
 			html.append(ConfigUtils.getProperty("url") + url.toString().substring(1));
@@ -118,9 +123,12 @@ public class HtmlUtils {
 		html.append("</tr></table></div>");
 		html.append("<div class='toolbar'>");
 		html.append("<table><tr>");
+		final String SHARE_OPTIONS = "<div id='shareopt' class='baroptions' style='display:none;'><table><tr><td onclick='share(\"fb\");' class='fb'>Facebook</td></tr><tr><td onclick='share(\"tw\");' class='tw'>Twitter</td></tr><tr><td onclick='share(\"gp\");' class='gp'>Google+</td></tr><tr><td onclick='share(\"bg\");' class='bg'>Blogger</td></tr><tr><td onclick='share(\"tm\");' class='tm'>Tumblr</td></tr></table><div><a href='javascript:$(\"shareopt\").hide();'>" + ResourceUtils.getText("cancel", lang) + "</a></div></div>";
+		final String EXPORT_OPTIONS = "<div id='exportopt' class='baroptions' style='display:none;'><table><tr><td onclick='exportPage(\"html\");' class='html'>" + ResourceUtils.getText("web.page", lang) + "</td></tr><tr><td onclick='exportPage(\"excel\");' class='excel'>" + ResourceUtils.getText("excel.sheet", lang) + "</td></tr><tr><td onclick='exportPage(\"text\");' class='text'>" + ResourceUtils.getText("plain.text", lang) + "</td></tr></table><div><a href='javascript:$(\"exportopt\").hide();'>" + ResourceUtils.getText("cancel", lang) + "</a></div></div>";
 		if (m != null && url != null && url.matches("^results.*"))
 			html.append("<td><input id='add' type='button' class='button add' onclick='location.href=\"" + h.get("url").replaceAll("\\/results", "/update") + "\";' value='" + ResourceUtils.getText("button.add", lang) + "'/></td>");
-		html.append("<td><input id='export' type='button' class='button export' onclick='displayExport();' value='" + ResourceUtils.getText("button.export", lang) + "'/></td>");
+		html.append("<td><input id='share' type='button' class='button share' onclick='displayShare();' value='" + ResourceUtils.getText("share", lang) + "'/>" + SHARE_OPTIONS + "</td>");
+		html.append("<td><input id='export' type='button' class='button export' onclick='displayExport();' value='" + ResourceUtils.getText("button.export", lang) + "'/>" + EXPORT_OPTIONS + "</td>");
 		html.append("<td><input id='link' type='button' class='button link' onclick='displayLink();' value='" + ResourceUtils.getText("button.link", lang) + "'/></td>");
 		html.append("<td><input id='print' type='button' class='button print' onclick='javascript:printCurrentTab();' value='" + ResourceUtils.getText("button.print", lang) + "'/></td>");
 		html.append("<td><input id='info2' type='button' class='button info2' onclick='displayInfo();' value='" + ResourceUtils.getText("button.info", lang) + "'/></td>");

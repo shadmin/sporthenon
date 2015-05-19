@@ -1513,10 +1513,11 @@ baseInitialize: function(element, update, options) {
          offsetTop: element.offsetHeight
        });
      }
-     Effect.Appear(update,{duration:0.15});
+     //Effect.Appear(update,{duration:0.15});
+     Element.show(update);
    };
  this.options.onHide = this.options.onHide ||
-   function(element, update){ new Effect.Fade(update,{duration:0.15}) };
+   function(element, update){ Element.hide(update);/*new Effect.Fade(update,{duration:0.15})*/ };
 
  if(typeof(this.options.tokens) == 'string')
    this.options.tokens = new Array(this.options.tokens);

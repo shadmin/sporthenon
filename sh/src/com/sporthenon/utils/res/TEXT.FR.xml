@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <!-- HEADER -->
-	<entry key="title">SPORTHENON - Temple des résultats sportifs</entry>
+	<entry key="title">SPORTHENON - Le temple des résultats sportifs</entry>
 	<entry key="desc">Recherchez un résultat dans cette base de données gratuite et ouverte aux contributeurs.</entry>
 	<entry key="menu.results">RÉSULTATS</entry>
 	<entry key="menu.olympics">OLYMPIQUE</entry>
@@ -174,10 +174,10 @@
 	<entry key="dialog.info">INFOS</entry>
 	<entry key="count">Nombre</entry>
 	<entry key="select.format">Sélectionner un format</entry>
-	<entry key="web.page">Page web</entry>
-	<entry key="excel.sheet">Feuille Excel</entry>
-	<entry key="pdf.file">Fichier PDF</entry>
-	<entry key="plain.text">Texte seul</entry>
+	<entry key="web.page">HTML</entry>
+	<entry key="excel.sheet">MS Excel</entry>
+	<entry key="pdf.file">PDF</entry>
+	<entry key="plain.text">Texte</entry>
 	<entry key="direct.address">Adresse directe vers cette page</entry>
 	<entry key="use.ctrl.C">Utilisez Ctrl+C ou clic droit/copier</entry>
 	<entry key="info.statistics">Informations/Statistiques sur cette page</entry>

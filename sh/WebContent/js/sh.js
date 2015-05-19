@@ -385,12 +385,38 @@ function closeDialog(dlg) {
 var dExport = null;
 var dLink = null;
 var dInfo = null;
-function displayExport() {
-	if (dExport) {
-		$('header').setStyle({ opacity: 0.4 });
-		$('content').setStyle({ opacity: 0.4 });
-		dExport.open();
+function share(type) {
+	var url = null;
+	if (type == 'fb') {
+		url='https://www.facebook.com/dialog/feed?display=popup&link=http%3A%2F%2Ftest.sporthenon.com%2Fathlete%2FJari-Matti-Latvala%2FKBJC2MJYGMZDG%2F';
 	}
+	else if (type == 'tw') {
+		url = 'https://twitter.com/share?url=' + escape(location.href);
+	}
+	else if (type == 'gp') {
+		url = 'https://plus.google.com/share?url=' + escape(location.href);
+	}
+	else if (type == 'bg') {
+		url = 'https://www.blogger.com/blog-this.g?u=' + location.href + '&n=' + escape(document.title);
+	}
+	else if (type == 'tm') {
+		url = 'http://tumblr.com/share?&u=' + escape(location.href);
+	}
+	$('shareopt').hide();
+	window.open(url, '_blank');
+}
+function displayShare() {
+	$('shareopt').show();
+}
+function exportPage(type) {
+	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
+	if (url) {
+		location.href = url + '?export=' + type;
+		$('exportopt').hide();
+	}
+}
+function displayExport() {
+	$('exportopt').show();
 }
 function displayLink() {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
@@ -415,13 +441,6 @@ function displayInfo() {
 	$('header').setStyle({ opacity: 0.4 });
 	$('content').setStyle({ opacity: 0.4 });
 	dInfo.open();
-}
-function exportPage(type) {
-	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
-	if (url) {
-		location.href = url + '?export=' + type;
-		closeDialog(dExport);
-	}
 }
 function printCurrentTab() {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
@@ -1195,7 +1214,7 @@ function initUpdate(value) {
 			s,
 			'ajaxsearch',
 			'/update/ajax/' + s,
-			{ paramName: 'value', minChars: 2, frequency: 0, afterUpdateElement: setValue}
+			{ paramName: 'value', minChars: 2, frequency: 0.05, afterUpdateElement: setValue}
 		);
 	});
 	$$('#update input', '#update textarea').each(function(el){
@@ -1287,7 +1306,7 @@ function updateType(s, tp) {
 			s,
 			'ajaxsearch',
 			'/update/ajax/' + (currentTp < 10 ? 'pr' : (currentTp == 50 ? 'tm' : 'cn')) + (tValues['sp'] != null ? '-' + tValues['sp'] : ''),
-			{ paramName: 'value', minChars: 2, frequency: 0, afterUpdateElement: setValue}
+			{ paramName: 'value', minChars: 2, frequency: 0.05, afterUpdateElement: setValue}
 		);
 		Event.observe($(s), 'blur', function(){
 			if ($(this).value == '') {

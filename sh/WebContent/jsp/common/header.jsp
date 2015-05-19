@@ -8,21 +8,22 @@
 	Contributor m = null;
 	if (o != null && o instanceof Contributor)
 		m = (Contributor) o;
-	String version = ConfigUtils.getProperty("version");
 	ResourceUtils.setLocale(request);
+	Object title = (StringUtils.notEmpty(request.getAttribute("title")) ? request.getAttribute("title") : StringUtils.text("title", session));
+	String version = ConfigUtils.getProperty("version");
+	String lang = String.valueOf(session.getAttribute("locale"));
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-2.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-	<title><%=(StringUtils.notEmpty(request.getAttribute("title")) ? request.getAttribute("title") : StringUtils.text("title", session))%></title>
+	<title><%=title%></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta name="Description" content="<%=StringUtils.text("desc", session)%>"/>
 	<meta name="keywords" content="sport, results, database, records, olympics"/>
-	<meta property="og:title" content="<%=StringUtils.text("title", session)%>"/>
+	<meta property="og:title" content="<%=title%>"/>
 	<meta property="og:type" content="website"/>
-	<meta property="og:image" content="<%=ConfigUtils.getProperty("url")%>img/icon-notext.png?v=6"/>
-	<meta property="og:description" content="<%=StringUtils.text("desc", session)%>"/>
-	<link rel="stylesheet" type="text/css" href="/css/sh.css?v=<%=version%>"/>
+	<meta property="og:image" content="<%=ConfigUtils.getProperty("url")%>img/icon-notext-shadow.png?1"/>
+	<link rel="stylesheet" type="text/css" href="/css/sh.css?v=<%=version%>"/>	
 	<!--[if IE 6]>
 	<link rel="stylesheet" type="text/css" href="/css/ie6fix.css?v=<%=version%>"/>
 	<![endif]-->
@@ -43,13 +44,16 @@
 			<li><a id="shmenu-usleagues" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("usleagues") ? "class='selected'" : "")%> href="/usleagues"><%=StringUtils.text("menu.usleagues", session)%></a></li>
 		</ul>
 	</div>
-	<div id="share">
+	<div id="sharesite">
 		<table>
 			<tr><td style="padding-bottom:3px;"><%=StringUtils.text("share", session)%>:</td>
-			<td><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.sporthenon.com%2F<%=session.getAttribute("locale")%>" target="_blank"><img alt="facebook" title="<%=StringUtils.text("share.on", session)%> Facebook" src="/img/header/facebook.png"/></a></td>
-			<td><a href="https://twitter.com/share?text=Visit%20http%3A%2F%2Fwww.sporthenon.com%20the%20temple%20of%20sports%20results%21" target="_blank"><img alt="twitter" title="<%=StringUtils.text("share.on", session)%> Twitter" src="/img/header/twitter.png"/></a></td>
-			<td><a href="https://plus.google.com/share?url=www.sporthenon.com" target="_blank"><img alt="gplus" title="<%=StringUtils.text("share.on", session)%> Google+" src="/img/header/gplus.png"/></a></td></tr>
+			<td><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.sporthenon.com%2F<%=lang%>" target="_blank"><img alt="facebook" title="<%=StringUtils.text("share.on", session)%> Facebook" src="/img/header/facebook.png"/></a></td>
+			<td><a href="https://twitter.com/share?text=<%=StringUtils.text("title", session).replaceAll("\\s", "%20")%>&amp;url=http%3A%2F%2Fwww.sporthenon.com" target="_blank"><img alt="twitter" title="<%=StringUtils.text("share.on", session)%> Twitter" src="/img/header/twitter.png"/></a></td>
+			<td><a href="https://plus.google.com/share?url=www.sporthenon.com%2F<%=lang%>" target="_blank"><img alt="gplus" title="<%=StringUtils.text("share.on", session)%> Google+" src="/img/header/gplus.png"/></a></td></tr>
 		</table>
+	</div>
+	<div id="android">
+		<a href="https://play.google.com/store/apps/details?id=com.sporthenon.android" target="_blank"><img alt="Android app on Google Play" src="https://developer.android.com/images/brand/<%=lang%>_app_rgb_wo_45.png" /></a>
 	</div>
 </div>
 
@@ -121,7 +125,7 @@ new Ajax.Autocompleter(
 	'dpattern',
 	'ajaxsearch',
 	'/search/ajax/1',
-	{ paramName: 'value', minChars: 1, frequency: 0, updateElement: directSearch}
+	{ paramName: 'value', minChars: 1, frequency: 0.05, updateElement: directSearch}
 );
 Event.observe($('dpattern'), 'keyup', directSearch);
 </script>

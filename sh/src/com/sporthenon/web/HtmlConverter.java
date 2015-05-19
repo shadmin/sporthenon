@@ -103,7 +103,7 @@ public class HtmlConverter {
 			tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, rel1Id, ImageUtils.SIZE_SMALL, year, null);
 			String s = HtmlUtils.writeLink(Team.alias, rel1Id, rel1Label, null);
 			String s_ = HtmlUtils.writeImgTable(tmpImg, s);
-			if (!s_.matches(".*\\<img.*"))
+			if (s_.indexOf("<img") == -1)
 				s_ = "<table><tr><td>" + s_ + "</td></tr></table>";
 			html.append("<td>").append(s_).append("</td>");
 		}
@@ -251,7 +251,7 @@ public class HtmlConverter {
 		LinkedHashMap<String, String> hInfo = new LinkedHashMap<String, String>();
 		hInfo.put("info", "#INFO#");
 		Timestamp lastUpdate = null;
-		int ref = 0;
+		Integer ref = 0;
 		if (type.equals(Athlete.alias)) {
 			List<Athlete> lAthlete = new ArrayList<Athlete>();
 			Athlete e = (Athlete) DatabaseHelper.loadEntity(Athlete.class, id);
@@ -786,21 +786,26 @@ public class HtmlConverter {
 			String en = item.getEntity();
 			boolean isDraw = (en != null && en.equals(Result.alias) && item.getTxt2() != null && item.getTxt2().matches("(qf|sf|th)(1|2|3|4|d)"));
 			if (isDraw) {
+				boolean b = false;
 				for (int j = i ; j < list.size() ; j++) {
 					RefItem item_ = (RefItem) list.get(j);
 					String en_ = item.getEntity();
 					boolean isDraw_ = (en_ != null && en_.equals(Result.alias) && item_.getTxt2() != null && item_.getTxt2().matches("(qf|sf|th)(1|2|3|4|d)"));
 					if (j < list.size() - 2 && !isDraw_ && item_.getIdRel1() != null && item.getIdRel1() != null && item_.getIdRel1() < item.getIdRel1()) {
 						list.add(j, item);
+						b = true;
 						break;
 					}
 				}
-				list.remove(i);
-				i--;
+				if (b) {
+					list.remove(i);
+					i--;
+				}
 			}
 			else
 				break;
 		}
+
 		// Write items
 		String currentEntity = "";
 		int colspan = 0;
@@ -1049,19 +1054,23 @@ public class HtmlConverter {
 		boolean isPlace = false;
 		boolean isComment = false;
 		int type = ev.getType().getNumber();
-		boolean isDoubles = (type == 4);
+		boolean isDouble = (type == 4);
 		boolean isMedal = String.valueOf(cp.getId()).matches("1|3|4");
-		ArrayList<Integer> listEqDoubles = new ArrayList<Integer>();
-		listEqDoubles.add(1);listEqDoubles.add(2);listEqDoubles.add(-1);
-		listEqDoubles.add(3);listEqDoubles.add(4);listEqDoubles.add(-1);
-		listEqDoubles.add(5);listEqDoubles.add(6);
+		ArrayList<Integer> listEq2 = new ArrayList<Integer>();
+		listEq2.add(1);listEq2.add(2);listEq2.add(-1);
+		listEq2.add(3);listEq2.add(4);listEq2.add(-1);
+		listEq2.add(5);listEq2.add(6);
+		ArrayList<Integer> listEq3 = new ArrayList<Integer>();
+		listEq3.add(1);listEq3.add(2);listEq3.add(3);listEq3.add(-1);
+		listEq3.add(4);listEq3.add(5);listEq3.add(6);listEq3.add(-1);
+		listEq3.add(7);listEq3.add(8);listEq3.add(9);
 		Result rs = null;
 		for (Object obj : coll) {
 			ResultsBean bean = (ResultsBean) obj;
 			if (rs == null)
 				rs = (Result) DatabaseHelper.loadEntity(Result.class, bean.getRsId());
-			List<Integer> listEq = (isDoubles ? new ArrayList<Integer>(listEqDoubles) : StringUtils.tieList(bean.getRsExa()));
-			if (isDoubles && StringUtils.notEmpty(bean.getRsExa()) && bean.getRsExa().equals("5-8")) {
+			List<Integer> listEq = (bean.getRsComment() != null && bean.getRsComment().equals("#TRIPLE#") ? new ArrayList<Integer>(listEq3) : (isDouble ? new ArrayList<Integer>(listEq2) : StringUtils.tieList(bean.getRsExa())));
+			if (isDouble && StringUtils.notEmpty(bean.getRsExa()) && bean.getRsExa().equals("5-8")) {
 				listEq.add(7);
 				listEq.add(8);
 			}
@@ -1095,7 +1104,7 @@ public class HtmlConverter {
 			isPlace |= (bean.getCx1Id() != null || bean.getCx2Id() != null || bean.getCt2Id() != null || bean.getCt4Id() != null);
 			isComment |= StringUtils.notEmpty(bean.getRsComment());
 		}
-		//entityCount /= (isDoubles ? 2 : 1);
+		//entityCount /= (isDouble ? 2 : 1);
 		tColspan[0] += (tIsEntityRel1[0] ? 1 : 0) + (tIsEntityRel2[0] ? 1 : 0);
 		tColspan[1] += (tIsEntityRel1[1] ? 1 : 0) + (tIsEntityRel2[1] ? 1 : 0);
 		tColspan[2] += (tIsEntityRel1[2] ? 1 : 0) + (tIsEntityRel2[2] ? 1 : 0);
@@ -1138,12 +1147,13 @@ public class HtmlConverter {
 				place2 = getPlace(bean.getCx2Id(), bean.getCt3Id(), bean.getSt3Id(), bean.getCn3Id(), bean.getCx2Label(), bean.getCt3Label(), bean.getSt3Label(), bean.getCn3Label(), bean.getCx2LabelEN(), bean.getCt3LabelEN(), bean.getSt3LabelEN(), bean.getCn3LabelEN(), bean.getYrLabel());
 			else if (bean.getCt4Id() != null)
 				place2 = getPlace(null, bean.getCt4Id(), bean.getSt4Id(), bean.getCn4Id(), null, bean.getCt4Label(), bean.getSt4Label(), bean.getCn4Label(), null, bean.getCt4LabelEN(), bean.getSt4LabelEN(), bean.getCn4LabelEN(), bean.getYrLabel());				
-			ArrayList<Integer> listEqDoubles_ = new ArrayList<Integer>(listEqDoubles);
-			if (isDoubles && StringUtils.notEmpty(bean.getRsExa()) && bean.getRsExa().equals("5-8")) {
-				listEqDoubles_.add(7);
-				listEqDoubles_.add(8);
+			boolean isTriple = (bean.getRsComment() != null && bean.getRsComment().equals("#TRIPLE#"));
+			ArrayList<Integer> listEq2_ = new ArrayList<Integer>(listEq2);
+			if (isDouble && StringUtils.notEmpty(bean.getRsExa()) && bean.getRsExa().equals("5-8")) {
+				listEq2_.add(7);
+				listEq2_.add(8);
 			}
-			List<Integer> listEq = (isDoubles ? listEqDoubles_ : StringUtils.tieList(bean.getRsExa()));
+			List<Integer> listEq = (isTriple ? listEq3 : (isDouble ? listEq2_ : StringUtils.tieList(bean.getRsExa())));
 			String[] tEntity = {null, null, null, null, null, null, null, null, null};
 			String[] tEntityRel = {null, null, null, null, null, null, null, null, null};
 			String[] tEntityHtml = {null, null, null, null, null, null, null, null, null};
@@ -1153,19 +1163,19 @@ public class HtmlConverter {
 				tEntity[0] = getResultsEntity(type, bean.getRsRank1(), bean.getEn1Str1(), bean.getEn1Str2(), bean.getEn1Str3(), bean.getYrLabel());
 				tEntityRel[0] = getResultsEntityRel(bean.getEn1Rel1Id(), bean.getEn1Rel1Code(), bean.getEn1Rel1Label(), bean.getEn1Rel2Id(), bean.getEn1Rel2Code(), bean.getEn1Rel2Label(), bean.getEn1Rel2LabelEN(), tIsEntityRel1[0], tIsEntityRel2[0], bean.getYrLabel());
 				tResult[0] = bean.getRsResult1();
-				tLN[0] = (type < 10 ? bean.getEn1Str1() : null);
+				tLN[0] = (type < 10 ? bean.getEn1Str1() + "-" + bean.getRsId() : null);
 			}
 			if (bean.getRsRank2() != null) {
 				tEntity[1] = getResultsEntity(type, bean.getRsRank2(), bean.getEn2Str1(), bean.getEn2Str2(), bean.getEn2Str3(), bean.getYrLabel());
 				tEntityRel[1] = getResultsEntityRel(bean.getEn2Rel1Id(), bean.getEn2Rel1Code(), bean.getEn2Rel1Label(), bean.getEn2Rel2Id(), bean.getEn2Rel2Code(), bean.getEn2Rel2Label(), bean.getEn2Rel2LabelEN(), tIsEntityRel1[1], tIsEntityRel2[1], bean.getYrLabel());
 				tResult[1] = bean.getRsResult2();
-				tLN[1] = (type < 10 ? bean.getEn2Str1() : null);
+				tLN[1] = (type < 10 ? bean.getEn2Str1() + "-" + bean.getRsId() : null);
 			}
 			if (bean.getRsRank3() != null) {
 				tEntity[2] = getResultsEntity(type, bean.getRsRank3(), bean.getEn3Str1(), bean.getEn3Str2(), bean.getEn3Str3(), bean.getYrLabel());
 				tEntityRel[2] = getResultsEntityRel(bean.getEn3Rel1Id(), bean.getEn3Rel1Code(), bean.getEn3Rel1Label(), bean.getEn3Rel2Id(), bean.getEn3Rel2Code(), bean.getEn3Rel2Label(), bean.getEn3Rel2LabelEN(), tIsEntityRel1[2], tIsEntityRel2[2], bean.getYrLabel());
 				tResult[2] = bean.getRsResult3();
-				tLN[2] = (type < 10 ? bean.getEn3Str1() : null);
+				tLN[2] = (type < 10 ? bean.getEn3Str1() + "-" + bean.getRsId() : null);
 			}
 			if (bean.getRsRank4() != null) {
 				tEntity[3] = getResultsEntity(type, bean.getRsRank4(), bean.getEn4Str1(), bean.getEn4Str2(), bean.getEn4Str3(), bean.getYrLabel());
@@ -1225,7 +1235,7 @@ public class HtmlConverter {
 						}
 					}
 				}
-				if (isDoubles) {
+				if (isTriple || isDouble) {
 					tEntity = StringUtils.removeNulls(tEntity);
 					tEntityRel = StringUtils.removeNulls(tEntityRel);					
 				}

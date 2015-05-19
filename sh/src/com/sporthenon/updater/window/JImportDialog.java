@@ -663,7 +663,15 @@ public class JImportDialog extends JDialog implements ActionListener {
 			Integer idCt1 = hId.get("ct1");
 			Integer idCx2 = hId.get("cx2");
 			Integer idCt2 = hId.get("ct2");
-			Integer idRk1 = hId.get("rk1");Integer idRk2 = hId.get("rk2");Integer idRk3 = hId.get("rk3");Integer idRk4 = hId.get("rk4");Integer idRk5 = hId.get("rk5");
+			Integer idRk1 = hId.get("rk1");
+			Integer idRk2 = hId.get("rk2");
+			Integer idRk3 = hId.get("rk3");
+			Integer idRk4 = hId.get("rk4");
+			Integer idRk5 = hId.get("rk5");
+			Integer idRk6 = hId.get("rk6");
+			Integer idRk7 = hId.get("rk7");
+			Integer idRk8 = hId.get("rk8");
+			Integer idRk9 = hId.get("rk9");
 			String rs1 = null;String rs2 = null;String rs3 = null;String rs4 = null;String rs5 = null;
 			String dt1 = null;String dt2 = null;
 			String cmt = null;
@@ -684,6 +692,14 @@ public class JImportDialog extends JDialog implements ActionListener {
 							idRk4 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), processReport, ResourceUtils.LGDEFAULT);
 						else if(idRk5 == null && h.equalsIgnoreCase("rk5"))
 							idRk5 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), processReport, ResourceUtils.LGDEFAULT);
+						else if(idRk6 == null && h.equalsIgnoreCase("rk6"))
+							idRk6 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), processReport, ResourceUtils.LGDEFAULT);
+						else if(idRk7 == null && h.equalsIgnoreCase("rk7"))
+							idRk7 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), processReport, ResourceUtils.LGDEFAULT);
+						else if(idRk8 == null && h.equalsIgnoreCase("rk8"))
+							idRk8 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), processReport, ResourceUtils.LGDEFAULT);
+						else if(idRk9 == null && h.equalsIgnoreCase("rk9"))
+							idRk9 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), processReport, ResourceUtils.LGDEFAULT);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk1"))
 							updateEntity(row, n, idRk1, s);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk2"))
@@ -694,6 +710,14 @@ public class JImportDialog extends JDialog implements ActionListener {
 							updateEntity(row, n, idRk4, s);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk5"))
 							updateEntity(row, n, idRk5, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk6"))
+							updateEntity(row, n, idRk6, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk7"))
+							updateEntity(row, n, idRk7, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk8"))
+							updateEntity(row, n, idRk8, s);
+						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk9"))
+							updateEntity(row, n, idRk9, s);
 						else if (idCx1 == null && idCt1 == null && h.matches("pl1")) {
 							if (isComplex1)
 								idCx1 = DatabaseHelper.insertPlace(row, s, JMainFrame.getContributor(), processReport, ResourceUtils.LGDEFAULT);
@@ -754,6 +778,10 @@ public class JImportDialog extends JDialog implements ActionListener {
 				rs.setIdRank3(idRk3);
 				rs.setIdRank4(idRk4);
 				rs.setIdRank5(idRk5);
+				rs.setIdRank5(idRk6);
+				rs.setIdRank5(idRk7);
+				rs.setIdRank5(idRk8);
+				rs.setIdRank5(idRk9);
 				rs.setResult1(rs1);
 				rs.setResult2(rs2);
 				rs.setResult3(rs3);

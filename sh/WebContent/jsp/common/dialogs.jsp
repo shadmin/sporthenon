@@ -1,17 +1,5 @@
 <%@ page language="java"%>
 <%@ page import="com.sporthenon.utils.StringUtils" %>
-<!-- EXPORT -->
-<div id="d-export" class="dialog" style="display:none;">
-<div class="fieldset">
-	<div class="fstitle"><%=StringUtils.text("dialog.export", session)%></div>
-	<div class="fscontent"><%=StringUtils.text("select.format", session)%>:<table style="margin-top:8px;"><tr>
-		<td onclick="exportPage('html')"><img alt="HTML" src="/img/db/html.png"/><br/><b><%=StringUtils.text("web.page", session)%><br/>(.html)</b></td>
-		<td onclick="exportPage('excel')"><img alt="XLS" src="/img/db/excel.png"/><br/><b><%=StringUtils.text("excel.sheet", session)%><br/>(.xls)</b></td>
-		<td onclick="exportPage('text')"><img alt="TXT" src="/img/db/text.png"/><br/><b><%=StringUtils.text("plain.text", session)%><br/>(.txt)</b></td>
-	</tr></table></div>
-	<div class="dlgbuttons"><input type="button" class="button cancel" value="<%=StringUtils.text("button.close", session)%>" onclick="closeDialog(dExport);"/></div>
-</div>
-</div>
 <!-- LINK -->
 <div id="d-link" class="dialog" style="display:none;">
 <div class="fieldset">
