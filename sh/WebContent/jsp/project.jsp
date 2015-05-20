@@ -46,11 +46,6 @@
 			</table>
 		</div>
 		</div>
-		<!-- STATISTICS -->
-		<div class="fieldset">
-		<div class="fstitle statistics"><%=StringUtils.text("statistics", session)%></div>
-		<div class="fscontent"></div>
-		</div>
 	</div>
 </div>
 <script type="text/javascript">

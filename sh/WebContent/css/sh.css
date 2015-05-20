@@ -1,3 +1,6 @@
+/*============================
+  ========== COMMON ========== 
+  ============================*/
 body{
 	background: #F5F5F5 url(../img/header/bg2.png?5) 0 0 repeat-y;
 	margin: 0;
@@ -6,7 +9,6 @@ body{
 body.print{
 	background: #F5F5F5;
 }
-/* ========== COMMON ========== */
 .separator{
 	height: 1px;
 	margin: 0;
@@ -124,7 +126,9 @@ input{
 .criteria{
 	background-image: url(../img/db/criteria.png?5);
 }
-/* ========== HEADER/MENU ========== */
+/*=================================
+  ========== HEADER/MENU ========== 
+  =================================*/
 #header{
 	float: left;
 }
@@ -344,7 +348,9 @@ input{
 	border-top: 1px solid #888;
 	font: 11px Verdana;
 }
-/* ========== TABCONTROL ========== */
+/*=================================
+  ========== TAB CONTROL ========== 
+  =================================*/
 #tabcontrol{
 	margin: 10px;
 }
@@ -402,7 +408,9 @@ input{
 #link-add a:hover {
 	background-color: #F5F5F5;
 }
-/* ========== SLIDER ========== */
+/*============================
+  ========== SLIDER ========== 
+  ============================*/
 .slider .arrow{
 	float: left;
 	width: 23px;
@@ -428,7 +436,9 @@ input{
 .slider .slide{
     float: left;
 }
-/* ========== SELECT-MULTIPLE ========== */
+/*====================================
+  ========== SELECT-MULTIPLE ========= 
+  ====================================*/
 .selmultiple{
 	position: relative;
 }
@@ -498,7 +508,9 @@ input{
 	float: left;
 	padding: 2px;
 }
-/* ========== BUTTONS ========== */
+/*=============================
+  ========== BUTTONS ========== 
+  =============================*/
 #buttons{
 	height: 25px;
 	margin-left: 10px;
@@ -551,7 +563,9 @@ input{
 	background-image: url('../img/component/button/ok.png?3');
 	background-position: 4px center;
 }
-/* ========== TREEVIEW ========== */
+/*===============================
+  ========== TREE VIEW ========== 
+  ===============================*/
 #treeview{
 	width: 100%;
 	overflow: auto;
@@ -578,7 +592,9 @@ input{
 #treeview .over {
 	text-decoration: underline;
 }
-/* ========== HOME ========== */
+/*==========================
+  ========== HOME ========== 
+  ==========================*/
 #home{
 	margin: 6px 10px;
 }
@@ -703,8 +719,9 @@ input{
 	text-align: right;
 	font-weight: bold;
 }
-/* ========== RESULTS ========== */
-/* ---------- PICKLIST ---------- */
+/*=============================
+  ========== RESULTS ========== 
+  =============================*/
 #tree{
 	float: left;
 	width: 368px;
@@ -788,7 +805,9 @@ input{
 #tree .treetitle{
 	background-image: url(../img/db/tree.png?5);
 }
-/* ========== OLYMPICS ========== */
+/*==============================
+  ========== OLYMPICS ========== 
+  ==============================*/
 #olympics{
 	margin-left: 10px;
 	margin-right: 10px;
@@ -850,7 +869,9 @@ input{
 #olympics #summer-q1 .arrow, #olympics #winter-q1 .arrow{
 	margin-top: 14px;
 }
-/* ========== US LEAGUES ========== */
+/*================================
+  ========== US LEAGUES ========== 
+  ================================*/
 #usleagues{
 	height: 215px;
 	margin-bottom: 0px;
@@ -936,7 +957,9 @@ input{
 #ustopics #hof-position.selected, #ustopics #retnum-number.selected{
 	border: 1px solid #D00;
 }
-/* ========== SEARCH ========== */
+/*============================
+  ========== SEARCH ========== 
+  ============================*/
 #search{
 	background: #FFF;
 	height: 160px;
@@ -974,10 +997,13 @@ input{
 	border: none;
 	padding: 0px;
 }
-/* ========== PROJECT ========== */
+/*=============================
+  ========== PROJECT ========== 
+  =============================*/
 #project{
 	margin-left: 10px;
 	margin-right: 10px;
+	margin-bottom: 10px;
 }
 #project .left{
 	width: 49%;
@@ -1012,7 +1038,20 @@ input{
 .contributors{
 	background-image: url(../img/project/contributors.png?5);
 }
-/* ========== LOGIN ========== */
+/*================================
+  ========== CONTRIBUTE ========== 
+  ================================*/
+#contribute{
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+#contribute .info{
+	background-image: url(../img/info.png?5);
+}
+/*===========================
+  ========== LOGIN ========== 
+  ===========================*/
 #logindiv{
 	text-align: center;
 }
@@ -1035,7 +1074,7 @@ input{
 #logindiv td{
 	text-align: left;
 }
-#logindiv input:focus{
+#logindiv input[type=text]:focus{
 	border: 1px solid #D00;
 }
 .mandatory{

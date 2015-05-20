@@ -1,4 +1,6 @@
-/* ==================== COMMON ==================== */
+/*============================
+  ========== COMMON ========== 
+  ============================*/
 function fillPicklistXML(response) {
 	var xml = (response != null ? response.responseXML : pl.outerHTML);
 	if (!xml) {return;}
@@ -297,7 +299,9 @@ function moreImg(c) {
 	});
 	$(c + '-link').hide();
 }
-/* ==================== UTILS ==================== */
+/*============================
+  ========== UTILS ========== 
+  ============================*/
 var t1 = null;
 var t2 = null;
 function elapsedTime(t1_, t2_) {
@@ -313,7 +317,9 @@ function setLang(s) {
 		}
 	});
 }
-/* ==================== TABCONTROL ==================== */
+/*=================================
+  ========== TAB CONTROL ========== 
+  =================================*/
 var tabs = null;
 var tabcurrent = 0;
 var tabcount = 0;
@@ -388,19 +394,19 @@ var dInfo = null;
 function share(type) {
 	var url = null;
 	if (type == 'fb') {
-		url='https://www.facebook.com/dialog/feed?display=popup&link=http%3A%2F%2Ftest.sporthenon.com%2Fathlete%2FJari-Matti-Latvala%2FKBJC2MJYGMZDG%2F';
+		url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href);
 	}
 	else if (type == 'tw') {
-		url = 'https://twitter.com/share?url=' + escape(location.href);
+		url = 'https://twitter.com/share?url=' + encodeURIComponent(location.href);
 	}
 	else if (type == 'gp') {
-		url = 'https://plus.google.com/share?url=' + escape(location.href);
+		url = 'https://plus.google.com/share?url=' + encodeURIComponent(location.href);
 	}
 	else if (type == 'bg') {
-		url = 'https://www.blogger.com/blog-this.g?u=' + location.href + '&n=' + escape(document.title);
+		url = 'https://www.blogger.com/blog-this.g?u=' + encodeURIComponent(location.href) + '&n=' + escape(document.title);
 	}
 	else if (type == 'tm') {
-		url = 'http://tumblr.com/share?&u=' + escape(location.href);
+		url = 'http://tumblr.com/share?&u=' + encodeURIComponent(location.href);
 	}
 	$('shareopt').hide();
 	window.open(url, '_blank');
@@ -448,22 +454,15 @@ function printCurrentTab() {
 		window.open(url + '?print', '_blank');
 	}
 }
-/* ==================== SLIDER ==================== */
+/*============================
+  ========== SLIDER ========== 
+  ============================*/
 var hSliders = new Hash();
 function sliderLinkOver() {
-//	var src = this.down().src;
-//	this.down().src = src.replace('.gif', '-over.gif') + '?0';
 }
 function sliderLinkOut() {
-//	var src = this.down().src;
-//	this.down().src = src.replace('-over.gif', '.gif') + '?0';
 }
 function handleSliderArr(id) {
-//	var slider = hSliders.get(id);
-//	var length = slider.slides.length;
-//	var links = $$('#' + id + ' .slider-control');
-//	links[0].style.visibility = (!slider.current || slider.current._index == 0 ? 'hidden' : '');
-//	links[1].style.visibility = (length <= 1 || (slider.current && slider.current._index == length - 1) ? 'hidden' : '');
 }
 function createSlider(id, w, h, c) {
 	var container = $$('#' + id + ' .container')[0];
@@ -484,7 +483,9 @@ function createSlider(id, w, h, c) {
 	}
 	return hSliders.get(id);
 }
-/* ==================== SELECT-MULTIPLE ==================== */
+/*=====================================
+  ========== SELECT-MULTIPLE ========== 
+  =====================================*/
 var hSelMult = $H();
 function initSelectMult(id, s, w, o) {
 	$(id).down(4).writeAttribute('id', id.replace('sm-', ''));
@@ -596,7 +597,9 @@ function selMultClick() {
 	c.checked = (c.checked ? false : true);
 	sel.checkboxOnClick(c);
 }
-/* ==================== HOME ==================== */
+/*==========================
+  ========== HOME ========== 
+  ==========================*/
 function overTopic(txt) {
 	$('details').update(txt);
 	$('details').show();
@@ -644,7 +647,9 @@ function loadHomeData() {
 		}
 	});
 }
-/* ==================== RESULTS ==================== */
+/*============================
+  ========== RESULTS ========= 
+  ============================*/
 function initSliderRes(s) {
 	var sliderContent = [];
 	var t = $$('#pl-' + s + ' option');
@@ -780,7 +785,9 @@ function treeLeafClick(anchor, value) {
 		}, 600);
 	}, 600);
 }
-/* ==================== OLYMPICS ==================== */
+/*==============================
+  ========== OLYMPICS ========== 
+  ==============================*/
 function initOlympics(picklistId) {
 	var type = (picklistId.indexOf('summer') == 0 ? 'summer' : 'winter');
 	var url = '/OlympicsServlet?type=' + type;
@@ -958,7 +965,9 @@ function resetOlympics() {
 	changeOlympics('summer-pl-ol', ind);
 	changeOlympics('winter-pl-ol', ind);
 }
-/* ==================== US LEAGUES ==================== */
+/*============================
+  ========== US LEAGUES ====== 
+  ============================*/
 var currentLeague = null;
 var currentUtype = null;
 function initSliderUS() {
@@ -1043,7 +1052,9 @@ function resetUSLeagues() {
 	changeModeUS();
 	changeLeague('nfl');
 }
-/* ==================== SEARCH ==================== */
+/*============================
+  ========== SEARCH ========== 
+  ============================*/
 function dpatternFocus() {
 	if ($F('dpattern') == TX_SEARCH) {
 		$('dpattern').addClassName('focus');
@@ -1102,7 +1113,9 @@ function resetSearch() {
 		$(id).checked = true;
 	});
 }
-/* ==================== PROJECT ==================== */
+/*============================
+  ========== PROJECT ========= 
+  ============================*/
 function loadChart() {
 	$('charttxt').update('<tr><td><img src="/img/db/loading.gif?6"/></td></tr>');
 	new Ajax.Request('/ProjectServlet?index=' + $('charts').value, {
@@ -1144,7 +1157,9 @@ function loadChart() {
 		}
 	});
 }
-/* ==================== LOGIN ==================== */
+/*============================
+  ========== LOGIN =========== 
+  ============================*/
 function auth() {
 	if ($F('login') == '') {
 		$('login').focus();
@@ -1206,7 +1221,9 @@ function createAccount() {
 function accountErr(s) {
 	$('rmsg').update(s).removeClassName('success').addClassName('error').show();
 }
-/* ==================== UPDATE ==================== */
+/*============================
+  ========== UPDATE ========== 
+  ============================*/
 var tValues = [];
 function initUpdate(value) {
 	['sp', 'cp', 'ev', 'se', 'se2', 'yr', 'pl1', 'pl2'].each(function(s){

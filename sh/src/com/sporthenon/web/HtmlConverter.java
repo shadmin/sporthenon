@@ -274,6 +274,7 @@ public class HtmlConverter {
 			ArrayList<Integer> lId = new ArrayList<Integer>();
 			for (Athlete a : lAthlete) {
 				lId.add(a.getId());
+				ref += (a.getRef() != null ? a.getRef() : 0);
 				if (StringUtils.notEmpty(a.getLastName())) {
 					String fullName = null;
 					if (a.getCountry() != null && a.getCountry().getCode().matches(StringUtils.PATTERN_REVERT_NAME))
@@ -339,7 +340,6 @@ public class HtmlConverter {
 			Collection<RefItem> cRecord = (Collection<RefItem>) DatabaseHelper.call("MedalCount", lFuncParams);
 			if (!cRecord.isEmpty())
 				hInfo.put("record", HtmlUtils.writeRecordItems(cRecord, lang));
-			ref = e.getRef();
 			lastUpdate = e.getMetadata().getLastUpdate();
 		}
 		else if (type.equals(Championship.alias)) {
@@ -698,12 +698,14 @@ public class HtmlConverter {
 			Collection<String> lAllLogos = ImageUtils.getImageList(ImageUtils.INDEX_TEAM, e.getId(), ImageUtils.SIZE_LARGE);
 			ArrayList<Integer> lId = new ArrayList<Integer>();
 			StringBuffer sbTm = new StringBuffer();
+			StringBuffer sbTmFH = new StringBuffer();
 			for (Team t : lTeam) {
 				lId.add(t.getId());
-				sbTm.append((t.getInactive() != null && t.getInactive() ? "&dagger;&nbsp;" : "") + (t.getId() == currentId ? "<b>" : "") + HtmlUtils.writeLink(Team.alias, t.getId(), t.getLabel(), null) + " (" + t.getYear1() + "&nbsp;-&nbsp;" + (StringUtils.notEmpty(t.getYear2()) ? t.getYear2() : ResourceUtils.getText("today", lang)) + ")" + (t.getId() == currentId ? "</b>" : "") + "<br/>");				
+				ref += (t.getRef() != null ? t.getRef() : 0);
+				sbTm.append(sbTm.toString().length() > 0 ? "<br/>" : "").append(t.getLabel().toUpperCase());
+				sbTmFH.append((t.getInactive() != null && t.getInactive() ? "&dagger;&nbsp;" : "") + (t.getId() == currentId ? "<b>" : "") + HtmlUtils.writeLink(Team.alias, t.getId(), t.getLabel(), null) + " (" + t.getYear1() + "&nbsp;-&nbsp;" + (StringUtils.notEmpty(t.getYear2()) ? t.getYear2() : ResourceUtils.getText("today", lang)) + ")" + (t.getId() == currentId ? "</b>" : "") + "<br/>");				
 			}
 			
-			String tm = sbTm.toString();
 			String cn = null;
 			if (e.getCountry() != null) {
 				cn = HtmlUtils.writeLink(Country.alias, e.getCountry().getId(), e.getCountry().getLabel(lang), e.getCountry().getLabel());
@@ -715,7 +717,7 @@ public class HtmlConverter {
 				sp = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, e.getSport().getId(), ImageUtils.SIZE_SMALL, null, null), sp);
 			}
 			hInfo.put("title", e.getLabel());
-			hInfo.put("name", (e.getInactive() != null && e.getInactive() ? "&dagger;&nbsp;" : "") + "<b>" + e.getLabel().toUpperCase() + "</b>");
+			hInfo.put("name", "<b>" + sbTm.toString() + "</b>");
 			hInfo.put("logo", currentLogo);
 			StringBuffer sbOtherLogos = new StringBuffer();
 			if (lAllLogos != null && lAllLogos.size() > 1) {
@@ -740,8 +742,8 @@ public class HtmlConverter {
 				hInfo.put("conference", e.getConference());
 			if (StringUtils.notEmpty(e.getDivision()))
 				hInfo.put("division", e.getDivision());
-			if (lTeam.size() > 1 || StringUtils.notEmpty(e.getYear1()))
-				hInfo.put("franchist", tm);
+			if (StringUtils.notEmpty(e.getYear1()))
+				hInfo.put("franchist", sbTmFH.toString());
 			// Record
 			ArrayList<Object> lFuncParams = new ArrayList<Object>();
 			lFuncParams.add("TM");
@@ -750,7 +752,6 @@ public class HtmlConverter {
 			Collection<RefItem> cRecord = (Collection<RefItem>) DatabaseHelper.call("MedalCount", lFuncParams);
 			if (!cRecord.isEmpty())
 				hInfo.put("record", HtmlUtils.writeRecordItems(cRecord, lang));
-			ref = e.getRef();
 			lastUpdate = e.getMetadata().getLastUpdate();
 		}
 		else if (type.equals(Year.alias)) {

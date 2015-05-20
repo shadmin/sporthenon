@@ -12,6 +12,7 @@
 	Object title = (StringUtils.notEmpty(request.getAttribute("title")) ? request.getAttribute("title") : StringUtils.text("title", session));
 	String version = ConfigUtils.getProperty("version");
 	String lang = String.valueOf(session.getAttribute("locale"));
+	String url = ConfigUtils.getProperty("url");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-2.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
@@ -22,7 +23,7 @@
 	<meta name="keywords" content="sport, results, database, records, olympics"/>
 	<meta property="og:title" content="<%=title%>"/>
 	<meta property="og:type" content="website"/>
-	<meta property="og:image" content="<%=ConfigUtils.getProperty("url")%>img/icon-notext-shadow.png?1"/>
+	<meta property="og:image" content="<%=url%>img/icon-notext-shadow.png?1"/>
 	<link rel="stylesheet" type="text/css" href="/css/sh.css?v=<%=version%>"/>	
 	<!--[if IE 6]>
 	<link rel="stylesheet" type="text/css" href="/css/ie6fix.css?v=<%=version%>"/>
@@ -36,7 +37,7 @@
 
 <body>
 <div id="header">
-	<div id="logo"><a href="/" title="<%=StringUtils.text("menu.home", session)%>"><img src="/img/icon.png?v=8" alt="Sporthenon.com"/></a></div>
+	<div id="logo"><a href="/" title="<%=StringUtils.text("menu.home", session)%>"><img src="/img/icon.png?v=8" alt="sporthenon.com"/></a></div>
 	<div id="shmenu">
 		<ul>
 			<li><a id="shmenu-results" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("results") ? "class='selected'" : "")%> href="/results"><%=StringUtils.text("menu.results", session)%></a></li>
@@ -47,9 +48,9 @@
 	<div id="sharesite">
 		<table>
 			<tr><td style="padding-bottom:3px;"><%=StringUtils.text("share", session)%>:</td>
-			<td><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.sporthenon.com%2F<%=lang%>" target="_blank"><img alt="facebook" title="<%=StringUtils.text("share.on", session)%> Facebook" src="/img/header/facebook.png"/></a></td>
-			<td><a href="https://twitter.com/share?text=<%=StringUtils.text("title", session).replaceAll("\\s", "%20")%>&amp;url=http%3A%2F%2Fwww.sporthenon.com" target="_blank"><img alt="twitter" title="<%=StringUtils.text("share.on", session)%> Twitter" src="/img/header/twitter.png"/></a></td>
-			<td><a href="https://plus.google.com/share?url=www.sporthenon.com%2F<%=lang%>" target="_blank"><img alt="gplus" title="<%=StringUtils.text("share.on", session)%> Google+" src="/img/header/gplus.png"/></a></td></tr>
+			<td><a href="https://www.facebook.com/sharer/sharer.php?u=<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F") + lang%>F" target="_blank"><img alt="facebook" title="<%=StringUtils.text("share.on", session)%> Facebook" src="/img/header/facebook.png"/></a></td>
+			<td><a href="https://twitter.com/share?text=<%=StringUtils.text("title", session).replaceAll("\\s", "%20")%>&amp;url=<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F") + lang%>" target="_blank"><img alt="twitter" title="<%=StringUtils.text("share.on", session)%> Twitter" src="/img/header/twitter.png"/></a></td>
+			<td><a href="https://plus.google.com/share?url<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F") + lang%>" target="_blank"><img alt="gplus" title="<%=StringUtils.text("share.on", session)%> Google+" src="/img/header/gplus.png"/></a></td></tr>
 		</table>
 	</div>
 	<div id="android">

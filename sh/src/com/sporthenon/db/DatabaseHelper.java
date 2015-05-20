@@ -61,7 +61,7 @@ public class DatabaseHelper {
 				setFactory(null, null);
 		}
 		catch (Exception e) {
-			Logger.getLogger("sh").fatal(e.getMessage(), e);
+			logger.fatal(e.getMessage(), e);
 		}
 	}
 
@@ -71,7 +71,7 @@ public class DatabaseHelper {
 			emf = Persistence.createEntityManagerFactory("shunit-" + env_, params);
 		}
 		catch (Exception e) {
-			Logger.getLogger("sh").fatal(e.getMessage(), e);
+			logger.fatal(e.getMessage(), e);
 		}
 	}
 
@@ -94,9 +94,10 @@ public class DatabaseHelper {
 
 	public static Collection call(String name, Collection<Object> params) throws Exception {
 		UserTransaction tr = null;
+		EntityManager em = null;
 		try {
 			tr = getTransaction();
-			EntityManager em = getEntityManager();
+			em = getEntityManager();
 			if (tr != null) tr.begin(); else em.getTransaction().begin();
 			Query query = em.createNamedQuery(name);
 			int i = 0;
@@ -111,6 +112,10 @@ public class DatabaseHelper {
 			if (tr != null)
 				tr.rollback();
 			throw e;
+		}
+		finally {
+			if (em != null && em.isOpen())
+				em.close();
 		}
 	}
 
@@ -131,10 +136,11 @@ public class DatabaseHelper {
 
 	public static Collection<PicklistBean> getPicklistFromQuery(String s, boolean native_) throws Exception {
 		UserTransaction tr = null;
+		EntityManager em = null;
 		try {
 			tr = getTransaction();
 			if (tr != null) tr.begin();
-			EntityManager em = getEntityManager();
+			em = getEntityManager();
 			ArrayList<PicklistBean> lPicklist = new ArrayList<PicklistBean>();
 			Query query = (native_ ? em.createNativeQuery(s) : em.createQuery(s));
 			Collection<Object[]> cResult = query.getResultList();
@@ -149,15 +155,21 @@ public class DatabaseHelper {
 				tr.rollback();
 			throw e;
 		}
+		finally {
+			if (em != null && em.isOpen())
+				em.close();
+		}
 	}
 
 	public static Object loadEntity(Class entity, Object id) throws Exception {
 		UserTransaction tr = null;
+		EntityManager em = null;
 		try {
 			if (StringUtils.notEmpty(id)) {
 				tr = getTransaction();
 				if (tr != null) tr.begin();
-				Object o = getEntityManager().find(entity, new Integer(String.valueOf(id)));
+				em = getEntityManager();
+				Object o = em.find(entity, new Integer(String.valueOf(id)));
 				if (tr != null) tr.commit();
 				return o;
 			}
@@ -166,6 +178,10 @@ public class DatabaseHelper {
 			if (tr != null)
 				tr.rollback();
 			throw e;
+		}
+		finally {
+			if (em != null && em.isOpen())
+				em.close();
 		}
 		return null;
 	}
@@ -184,8 +200,9 @@ public class DatabaseHelper {
 
 	public static Object saveEntity(Object o, Contributor m) throws Exception {
 		UserTransaction tr = null;
+		EntityManager em = null;
 		try {
-			EntityManager em = getEntityManager();
+			em = getEntityManager();
 			tr = getTransaction();
 			if (tr != null) tr.begin(); else em.getTransaction().begin();
 			if (m != null) {
@@ -210,12 +227,17 @@ public class DatabaseHelper {
 				tr.rollback();
 			throw e;
 		}
+		finally {
+			if (em != null && em.isOpen())
+				em.close();
+		}
 	}
 
 	public static void removeEntity(Object o) throws Exception {
 		UserTransaction tr = null;
+		EntityManager em = null;
 		try {
-			EntityManager em = getEntityManager();
+			em = getEntityManager();
 			tr = getTransaction();
 			if (tr != null) tr.begin(); else em.getTransaction().begin();
 			o = em.merge(o);
@@ -227,10 +249,15 @@ public class DatabaseHelper {
 				tr.rollback();
 			throw e;
 		}
+		finally {
+			if (em != null && em.isOpen())
+				em.close();
+		}
 	}
 
 	public static Object move(Class entity, Object id, short l, String filter) throws Exception {
 		UserTransaction tr = null;
+		EntityManager em = null;
 		try {
 			tr = getTransaction();
 			if (tr != null) tr.begin();
@@ -239,7 +266,7 @@ public class DatabaseHelper {
 				hql += " where id" + (l == PREVIOUS ? "<" : ">") + id;
 			if (StringUtils.notEmpty(filter))
 				hql += (hql.indexOf(" where ") != -1 ? " and " : " where ") + filter;
-			EntityManager em = getEntityManager();
+			em = getEntityManager();
 			Integer id_ = (Integer) em.createQuery(hql).getSingleResult();
 			id_ = (id_ == null ? 0 : id_);
 			Object o = em.find(entity, new Integer(String.valueOf(id_)));
@@ -251,6 +278,10 @@ public class DatabaseHelper {
 				tr.rollback();
 			throw e;
 		}
+		finally {
+			if (em != null && em.isOpen())
+				em.close();
+		}
 	}
 
 	public static ArrayList<String> loadLabels(Class entity, String ids, String lang) throws Exception {
@@ -259,10 +290,12 @@ public class DatabaseHelper {
 
 	public static ArrayList<String> loadLabelsFromQuery(String s) throws Exception {
 		UserTransaction tr = null;
+		EntityManager em = null;
 		try {
 			tr = getTransaction();
 			if (tr != null) tr.begin();
-			Query query = getEntityManager().createQuery(s);
+			em = getEntityManager();
+			Query query = em.createQuery(s);
 			ArrayList<String> l = new ArrayList<String>(query.getResultList());
 			if (tr != null) tr.commit();
 			return l;
@@ -272,14 +305,19 @@ public class DatabaseHelper {
 				tr.rollback();
 			throw e;
 		}
+		finally {
+			if (em != null && em.isOpen())
+				em.close();
+		}
 	}
 
 	public static List execute(String s) throws Exception {
 		UserTransaction tr = null;
+		EntityManager em = null;
 		try {
 			tr = getTransaction();
 			if (tr != null) tr.begin();
-			EntityManager em = getEntityManager();
+			em = getEntityManager();
 			List lResult = em.createQuery(s).getResultList();
 			if (tr != null) tr.commit();
 			return lResult;
@@ -289,13 +327,18 @@ public class DatabaseHelper {
 				tr.rollback();
 			throw e;
 		}
+		finally {
+			if (em != null && em.isOpen())
+				em.close();
+		}
 	}
 	
 	public static List executeNative(String s) throws Exception {
 		UserTransaction tr = null;
+		EntityManager em = null;
 		try {
 			tr = getTransaction();
-			EntityManager em = getEntityManager();
+			em = getEntityManager();
 			if (tr != null) tr.begin(); else em.getTransaction().begin();
 			List lResult = em.createNativeQuery(s).getResultList();
 			if (tr != null) tr.commit(); else em.getTransaction().commit();
@@ -306,14 +349,19 @@ public class DatabaseHelper {
 				tr.rollback();
 			throw e;
 		}
+		finally {
+			if (em != null && em.isOpen())
+				em.close();
+		}
 	}
 
 	public static void executeUpdate(String s) throws Exception {
 		UserTransaction tr = null;
+		EntityManager em = null;
 		try {
 			if (StringUtils.notEmpty(s)) {
 				tr = getTransaction();
-				EntityManager em = getEntityManager();
+				em = getEntityManager();
 				if (tr != null) tr.begin(); else em.getTransaction().begin();
 				em.createNativeQuery(s).executeUpdate();
 				if (tr != null) tr.commit(); else em.getTransaction().commit();
@@ -324,17 +372,23 @@ public class DatabaseHelper {
 				tr.rollback();
 			throw e;
 		}
+		finally {
+			if (em != null && em.isOpen())
+				em.close();
+		}
 	}
 	
 	public static String getEntityName(String alias, int id) {
 		String s = "";
 		UserTransaction tr = null;
+		EntityManager em = null;
 		try {
 			tr = getTransaction();
 			if (tr != null) tr.begin();
+			em = getEntityManager();
 			String hql = "select " + (alias.equals(Athlete.alias) ? "firstName || ' ' || lastName" : (alias.equals(Contributor.alias) ? "login" : "label"));
 			hql += " from " + getClassFromAlias(alias).getName() + " where id=" + id;
-			Query query = getEntityManager().createQuery(hql);
+			Query query = em.createQuery(hql);
 			s = String.valueOf(query.getSingleResult());
 			if (tr != null) tr.commit();
 		}
@@ -344,7 +398,11 @@ public class DatabaseHelper {
 					tr.rollback();	
 			}
 			catch (Exception e_) {}
-			Logger.getLogger("sh").error(e.getMessage(), e);
+			logger.error(e.getMessage(), e);
+		}
+		finally {
+			if (em != null && em.isOpen())
+				em.close();
 		}
 		return s;
 	}
@@ -547,7 +605,7 @@ public class DatabaseHelper {
 			}
 		}
 		catch (Exception e_) {
-			Logger.getLogger("sh").error(e_.getMessage(), e_);
+			logger.error(e_.getMessage(), e_);
 		}
 	}
 

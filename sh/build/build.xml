@@ -28,6 +28,7 @@
 		<copy todir="${temp}">
 			<fileset dir="${webcontent}">
 				<exclude name="**/footer*.jsp"/>
+				<exclude name="**/robots*.txt"/>
 				<exclude name="**/sun-resources.xml"/>
 				<exclude name="**/web.xml"/>
 				<exclude name="**/WEB-INF/lib/postgresql**.jar"/>
@@ -45,6 +46,7 @@
 	</target>
 	<target name="shtest.war" depends="initwar">
 		<copy file="${webcontent}/jsp/common/footer.jsp" tofile="${temp}/jsp/common/footer.jsp"/>
+		<copy file="${webcontent}/robots.txt" tofile="${temp}/robots.txt"/>
 		<copy file="${classes}/config.test.xml" tofile="${temp}/WEB-INF/classes/config.xml"/>
 		<copy file="${classes}/log4j.test.xml" tofile="${temp}/WEB-INF/classes/log4j.xml"/>
 		<war destfile="./shtest.war" basedir="${temp}" manifest="${webcontent}/META-INF/MANIFEST.MF" webxml="${webcontent}/WEB-INF/web.xml"/>
@@ -52,6 +54,7 @@
 	</target>
 	<target name="shprod.war" depends="initwar">
 		<copy file="${webcontent}/jsp/common/footer.prod.jsp" tofile="${temp}/jsp/common/footer.jsp"/>
+		<copy file="${webcontent}/robots.prod.txt" tofile="${temp}/robots.txt"/>
 		<copy file="${classes}/config.prod.xml" tofile="${temp}/WEB-INF/classes/config.xml"/>
 		<copy file="${classes}/log4j.prod.xml" tofile="${temp}/WEB-INF/classes/log4j.xml"/>
 		<war destfile="./shprod.war" basedir="${temp}" manifest="${webcontent}/META-INF/MANIFEST.MF" webxml="${webcontent}/WEB-INF/web.xml"/>
