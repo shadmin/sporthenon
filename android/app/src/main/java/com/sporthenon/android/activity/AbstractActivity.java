@@ -1,7 +1,6 @@
 package com.sporthenon.android.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,12 +10,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.sporthenon.android.R;
-import com.sporthenon.android.adapter.ItemListAdapter;
-import com.sporthenon.android.async.AsyncSports;
-import com.sporthenon.android.data.DataItem;
-import com.sporthenon.android.data.IDataItem;
-
-import java.util.ArrayList;
 
 public abstract class AbstractActivity extends Activity implements AdapterView.OnItemClickListener {
 

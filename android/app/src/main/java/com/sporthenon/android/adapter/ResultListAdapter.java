@@ -9,18 +9,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sporthenon.android.R;
-import com.sporthenon.android.data.IResultItem;
+import com.sporthenon.android.data.ResultItem;
 
 import java.util.List;
 
 public class ResultListAdapter extends BaseAdapter {
 
-	private List<IResultItem> list = null;
+	private List<ResultItem> list = null;
 	LayoutInflater layoutInflater;
 	Context context;
 	private int lastPosition = -1;
 
-	public ResultListAdapter(Context context, List<IResultItem> list) {
+	public ResultListAdapter(Context context, List<ResultItem> list) {
 		this.list = list;
 		layoutInflater = LayoutInflater.from(context);
 		this.context = context;

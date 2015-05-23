@@ -2,7 +2,7 @@ package com.sporthenon.android.data;
 
 import android.graphics.drawable.Drawable;
 
-public class DataItem implements IDataItem {
+public class DataItem {
 
 	private int id;
     private String name;

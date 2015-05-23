@@ -2,7 +2,7 @@ package com.sporthenon.android.data;
 
 import android.graphics.drawable.Drawable;
 
-public class ResultItem implements IResultItem {
+public class ResultItem {
 
 	private int id;
     private String year;
@@ -21,12 +21,10 @@ public class ResultItem implements IResultItem {
 		super();
 	}
 
-    @Override
     public int getId() {
         return id;
     }
 
-    @Override
     public void setId(int id) {
         this.id = id;
     }

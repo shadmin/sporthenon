@@ -9,18 +9,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sporthenon.android.R;
-import com.sporthenon.android.data.IDataItem;
+import com.sporthenon.android.data.DataItem;
 
 import java.util.List;
 
 public class ItemListAdapter extends BaseAdapter {
 
-	private List<IDataItem> list = null;
+	private List<DataItem> list = null;
 	LayoutInflater layoutInflater;
 	Context context;
 	private int lastPosition = -1;
 
-	public ItemListAdapter(Context context, List<IDataItem> list) {
+	public ItemListAdapter(Context context, List<DataItem> list) {
 		this.list = list;
 		layoutInflater = LayoutInflater.from(context);
 		this.context = context;

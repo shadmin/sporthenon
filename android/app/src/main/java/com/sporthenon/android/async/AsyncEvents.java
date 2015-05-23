@@ -7,7 +7,6 @@ import com.sporthenon.android.R;
 import com.sporthenon.android.activity.EventActivity;
 import com.sporthenon.android.adapter.ItemListAdapter;
 import com.sporthenon.android.data.DataItem;
-import com.sporthenon.android.data.IDataItem;
 import com.sporthenon.android.utils.AndroidUtils;
 
 import org.w3c.dom.Document;
@@ -25,8 +24,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
 
-    EventActivity activity;
-    private ArrayList<IDataItem> events;
+    private EventActivity activity;
+    private ArrayList<DataItem> events;
 
     @Override
     protected String doInBackground(Object... params) {
@@ -35,7 +34,7 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
         Integer cpid = (Integer) params[2];
         Integer ev1id = (params.length > 3 ? (Integer) params[3] : 0);
         Integer ev2id = (params.length > 4 ? (Integer) params[4] : 0);
-        events = new ArrayList<IDataItem>();
+        events = new ArrayList<DataItem>();
         try {
             StringBuffer url = new StringBuffer(activity.getString(R.string.url) + "/android/");
             url.append(ev2id > 0 ? "SE2" : (ev1id > 0 ? "SE" : "EV"));
@@ -52,6 +51,7 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
             NodeList list = doc.getElementsByTagName("item");
             if (list == null || list.getLength() == 0) {
                 activity.loadResults(spid, cpid, ev1id, ev2id, null);
+                activity.finish();
                 return null;
             }
             for (int i = 0 ; i < list.getLength() ; i++) {

@@ -1,33 +1,26 @@
 package com.sporthenon.android.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListView;
 
-import com.sporthenon.android.R;
-import com.sporthenon.android.async.AsyncChampionships;
 import com.sporthenon.android.async.AsyncEvents;
-import com.sporthenon.android.async.AsyncResults;
 import com.sporthenon.android.data.DataItem;
-import com.sporthenon.android.data.IDataItem;
 
 import java.util.ArrayList;
 
 public class EventActivity extends AbstractActivity implements AdapterView.OnItemClickListener {
 
-    private ArrayList<IDataItem> events;
+    private ArrayList<DataItem> events;
 
-    public ArrayList<IDataItem> getEvents() {
+    public ArrayList<DataItem> getEvents() {
         if (events == null)
-            events = new ArrayList<IDataItem>();
+            events = new ArrayList<DataItem>();
         return events;
     }
 
-    public void setEvents(ArrayList<IDataItem> events) {
+    public void setEvents(ArrayList<DataItem> events) {
         this.events = events;
     }
 

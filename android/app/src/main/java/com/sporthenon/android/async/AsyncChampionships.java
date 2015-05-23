@@ -7,7 +7,6 @@ import com.sporthenon.android.R;
 import com.sporthenon.android.activity.ChampionshipActivity;
 import com.sporthenon.android.adapter.ItemListAdapter;
 import com.sporthenon.android.data.DataItem;
-import com.sporthenon.android.data.IDataItem;
 import com.sporthenon.android.utils.AndroidUtils;
 
 import org.w3c.dom.Document;
@@ -25,14 +24,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class AsyncChampionships extends AsyncTask<Object, Boolean, String> {
 
-    ChampionshipActivity activity;
-    private ArrayList<IDataItem> championships;
+    private ChampionshipActivity activity;
+    private ArrayList<DataItem> championships;
 
     @Override
     protected String doInBackground(Object... params) {
         Integer spid = (Integer) params[0];
         activity = (ChampionshipActivity) params[1];
-        championships = new ArrayList<IDataItem>();
+        championships = new ArrayList<DataItem>();
         try {
             String url = activity.getString(R.string.url) + "/android/CP/" + spid + "?lang=fr";
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();

@@ -1,34 +1,26 @@
 package com.sporthenon.android.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListView;
 
-import com.sporthenon.android.R;
-import com.sporthenon.android.async.AsyncChampionships;
 import com.sporthenon.android.async.AsyncResults;
-import com.sporthenon.android.async.AsyncSports;
-import com.sporthenon.android.data.DataItem;
-import com.sporthenon.android.data.IDataItem;
-import com.sporthenon.android.data.IResultItem;
+import com.sporthenon.android.data.ResultItem;
 
 import java.util.ArrayList;
 
 public class ResultActivity extends AbstractActivity implements AdapterView.OnItemClickListener {
 
-    private ArrayList<IResultItem> results;
+    private ArrayList<ResultItem> results;
 
-    public ArrayList<IResultItem> getResults() {
+    public ArrayList<ResultItem> getResults() {
         if (results == null)
-            results = new ArrayList<IResultItem>();
+            results = new ArrayList<ResultItem>();
         return results;
     }
 
-    public void setResults(ArrayList<IResultItem> results) {
+    public void setResults(ArrayList<ResultItem> results) {
         this.results = results;
     }
 
@@ -42,14 +34,13 @@ public class ResultActivity extends AbstractActivity implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-        /*DataItem cp = (DataItem) list.getItemAtPosition(position);
-        Intent i = new Intent(this, EventActivity.class);
+        ResultItem rs = (ResultItem) list.getItemAtPosition(position);
+        Intent i = new Intent(this, Result1Activity.class);
         Bundle b = new Bundle();
-        b.putInt("spid", getSportId());
-        b.putInt("cpid", cp.getId());
+        b.putInt("rsid", rs.getId());
+        b.putString("rsyr", rs.getYear());
         i.putExtras(b);
         startActivity(i);
-        finish();*/
     }
 
 }
