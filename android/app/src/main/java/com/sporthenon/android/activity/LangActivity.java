@@ -27,7 +27,6 @@ public class LangActivity extends Activity implements View.OnClickListener {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String lang = prefs.getString("lang", null);
-        Log.d("lang", lang);
         if (lang != null)
             nextActivity();
         else {

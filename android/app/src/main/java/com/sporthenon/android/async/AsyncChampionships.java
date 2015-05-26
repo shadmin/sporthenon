@@ -33,7 +33,7 @@ public class AsyncChampionships extends AsyncTask<Object, Boolean, String> {
         activity = (ChampionshipActivity) params[1];
         championships = new ArrayList<DataItem>();
         try {
-            String url = activity.getString(R.string.url) + "/android/CP/" + spid + "?lang=fr";
+            String url = activity.getString(R.string.url) + "/android/CP/" + spid + "?lang=" + activity.getLang();
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();

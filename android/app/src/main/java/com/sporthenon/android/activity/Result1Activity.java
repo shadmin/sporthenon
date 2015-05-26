@@ -1,7 +1,9 @@
 package com.sporthenon.android.activity;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -11,9 +13,18 @@ import com.sporthenon.android.async.AsyncResult1;
 
 public class Result1Activity extends Activity {
 
+    protected String lang;
     protected TextView sport;
     protected TextView championship;
     protected TextView year;
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
 
     public TextView getSport() {
         return sport;
@@ -42,6 +53,9 @@ public class Result1Activity extends Activity {
     protected void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.activity_result1);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        lang = prefs.getString("lang", null);
 
         sport = (TextView) findViewById(R.id.sport);
         championship = (TextView) findViewById(R.id.championship);

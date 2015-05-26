@@ -1,7 +1,9 @@
 package com.sporthenon.android.activity;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -13,6 +15,7 @@ import com.sporthenon.android.R;
 
 public abstract class AbstractActivity extends Activity implements AdapterView.OnItemClickListener {
 
+    protected String lang;
     protected ListView list;
     protected EditText search;
     protected Integer sportId;
@@ -20,6 +23,14 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
     protected Integer event1Id;
     protected Integer event2Id;
     protected Integer event3Id;
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
 
     public ListView getList() {
         return list;
@@ -72,6 +83,9 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
     protected void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        lang = prefs.getString("lang", null);
 
         list = (ListView) findViewById(R.id.list);
         list.setOnItemClickListener(this);

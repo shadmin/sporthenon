@@ -42,7 +42,7 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
             url.append(ev1id > 0 ? "-" + ev1id : "");
             url.append(ev2id > 0 ? "-" + ev2id : "");
             url.append(ev3id > 0 ? "-" + ev3id : "");
-            url.append("?lang=fr");
+            url.append("?lang=" + activity.getLang());
             HttpURLConnection connection = (HttpURLConnection)new URL(url.toString()).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();

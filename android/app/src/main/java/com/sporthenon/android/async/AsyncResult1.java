@@ -33,7 +33,7 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
         result1 = new Result1Item(rsid, rsyr);
         try {
             StringBuffer url = new StringBuffer(activity.getString(R.string.url) + "/android/R1");
-            url.append("/" + rsid + "?lang=fr");
+            url.append("/" + rsid + "?lang=" + activity.getLang());
             HttpURLConnection connection = (HttpURLConnection)new URL(url.toString()).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
