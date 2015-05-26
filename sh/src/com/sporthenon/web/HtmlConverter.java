@@ -8,6 +8,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -772,7 +774,6 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer getRecordRef(ArrayList<Object> params, Collection<Object> coll, boolean isExport, Contributor m, String lang) throws Exception {
-//		String type = String.valueOf(params.get(0));
 		boolean isAllRef = (isExport || !StringUtils.notEmpty(params.get(2)));
 		String limit = (params.size() > 3 ? String.valueOf(params.get(3)) : "20");
 		Integer offset = (params.size() > 4 ? new Integer(String.valueOf(params.get(4))) : 0);
@@ -782,29 +783,19 @@ public class HtmlConverter {
 			html.append("<table class='tsort'>");
 		// Resort (results/draws)
 		ArrayList<Object> list = new ArrayList<Object>(coll);
-		for (int i = 0 ; i < list.size() ; i++) {
-			RefItem item = (RefItem) list.get(i);
+		boolean isDraw = false;
+		if (list != null && !list.isEmpty()) {
+			RefItem item = (RefItem) list.get(0);
 			String en = item.getEntity();
-			boolean isDraw = (en != null && en.equals(Result.alias) && item.getTxt2() != null && item.getTxt2().matches("(qf|sf|th)(1|2|3|4|d)"));
-			if (isDraw) {
-				boolean b = false;
-				for (int j = i ; j < list.size() ; j++) {
-					RefItem item_ = (RefItem) list.get(j);
-					String en_ = item.getEntity();
-					boolean isDraw_ = (en_ != null && en_.equals(Result.alias) && item_.getTxt2() != null && item_.getTxt2().matches("(qf|sf|th)(1|2|3|4|d)"));
-					if (j < list.size() - 2 && !isDraw_ && item_.getIdRel1() != null && item.getIdRel1() != null && item_.getIdRel1() < item.getIdRel1()) {
-						list.add(j, item);
-						b = true;
-						break;
-					}
-				}
-				if (b) {
-					list.remove(i);
-					i--;
-				}
-			}
-			else
-				break;
+			isDraw = (en != null && en.equals(Result.alias) && item.getTxt2() != null && item.getTxt2().matches("(qf|sf|th)(1|2|3|4|d)"));
+		}
+		if (isDraw) {
+			Collections.sort(list, new Comparator<Object>(){
+				public int compare(Object o1, Object o2){
+					int yr1 = ((RefItem) o1).getIdRel1();
+					int yr2 = ((RefItem) o2).getIdRel1();
+					return (yr1 < yr2 ? 1 : -1);
+				}});
 		}
 
 		// Write items
@@ -845,7 +836,7 @@ public class HtmlConverter {
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("league", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("complex", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("city", lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("state", lang) + "</th><th onclick='sort(\"" + id + "\", this, 5);'>Country</th><th onclick='sort(\"" + id + "\", this, 6);'>" + ResourceUtils.getText("timespan", lang) + "</th>");
 				else if (en.equals(WinLoss.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("league", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("w.l", lang) + "</th>");
-				if (limit != null && !limit.equalsIgnoreCase("ALL") && count >= ITEM_LIMIT) {
+				if (limit != null && !limit.equalsIgnoreCase("ALL") && count >= Integer.parseInt(limit)) {
 					String p = params.get(0) + "-" + params.get(1) + "-" + currentEntity + "-#LIMIT#-" + (offset + (!limit.equalsIgnoreCase("all") ? Integer.parseInt(limit) : 0));
 					html.append(MORE_ITEMS.replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", "20"))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
 				}
@@ -1026,7 +1017,7 @@ public class HtmlConverter {
 				c3 = item.getTxt1();
 				c4 = item.getTxt2();
 			}
-			if (isExport || !isAllRef || count < ITEM_LIMIT) {
+			if (isExport || !isAllRef || count < ITEM_LIMIT * (isDraw ? 2 : 1)) {
 				html.append("<tr>" + (c1 != null ? "<td class='srt'>" + c1 + "</td>" : "") + (c2 != null ? "<td class='srt'>" + c2 + "</td>" : ""));
 				html.append((c3 != null ? "<td class='srt'>" + c3 + "</td>" : "") + (c4 != null ? "<td class='srt'>" + c4 + "</td>" : ""));
 				html.append((c5 != null ? "<td class='srt'>" + c5 + "</td>" : "") + (c6 != null ? "<td class='srt'>" + c6 + "</td>" : ""));
@@ -1034,7 +1025,7 @@ public class HtmlConverter {
 			}
 			count++;
 		}
-		if (limit != null && !limit.equalsIgnoreCase("ALL") && count >= ITEM_LIMIT) {
+		if (limit != null && !limit.equalsIgnoreCase("ALL") && count >= Integer.parseInt(limit)) {
 			String p = params.get(0) + "-" + params.get(1) + "-" + currentEntity + "-#LIMIT#-" + (offset + (!limit.equalsIgnoreCase("all") ? Integer.parseInt(limit) : 0));
 			html.append(MORE_ITEMS.replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", "20"))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
 		}

@@ -1,7 +1,5 @@
 package com.sporthenon.utils;
 
-import java.io.File;
-import java.io.FileFilter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,29 +30,25 @@ public class HtmlUtils {
 	
 	public static String writeImage(short type, int id, char size, String year, String title) {
 		StringBuffer html = new StringBuffer();
-		String folder = ConfigUtils.getProperty("img.folder");
 		final String name = type + "-" + id + "-" + size;
-		File[] flist = new File(folder).listFiles(new FileFilter() {
-		    public boolean accept(File f) {
-		        return f.getName().startsWith(name);
-		    }
-		});
 		LinkedList<String> list = new LinkedList<String>();
-		for (File f : flist) {
-			boolean isInclude = true;
-			if (StringUtils.notEmpty(year)) {
-				String[] t = f.getName().replaceAll("^" + name + "(\\_|)|(gif|png)$|(\\_\\d+|)\\.", "").split("\\-");
-				if (t.length > 1) {
-					Integer y = Integer.parseInt(year);
-					Integer y1 = Integer.parseInt(t[0].equalsIgnoreCase("X") ? "0" : t[0]);
-					Integer y2 = Integer.parseInt(t[1].equalsIgnoreCase("X") ? "5000" : t[1]);
-					isInclude = (y >= y1 && y <= y2);
+		for (String s : ImageUtils.getImgFiles()) {
+			if (s.startsWith(name)) {
+				boolean isInclude = true;
+				if (StringUtils.notEmpty(year)) {
+					String[] t = s.replaceAll("^" + name + "(\\_|)|(gif|png)$|(\\_\\d+|)\\.", "").split("\\-");
+					if (t.length > 1) {
+						Integer y = Integer.parseInt(year);
+						Integer y1 = Integer.parseInt(t[0].equalsIgnoreCase("X") ? "0" : t[0]);
+						Integer y2 = Integer.parseInt(t[1].equalsIgnoreCase("X") ? "5000" : t[1]);
+						isInclude = (y >= y1 && y <= y2);
+					}
 				}
+				else
+					isInclude = !s.matches(".*\\d{4}\\-\\d{4}\\.(gif|png)$");
+				if (isInclude)
+					list.add(s);
 			}
-			else
-				isInclude = !f.getName().matches(".*\\d{4}\\-\\d{4}\\.(gif|png)$");
-			if (isInclude)
-				list.add(f.getName());
 		}
 		Collections.sort(list);
 		if (!list.isEmpty())

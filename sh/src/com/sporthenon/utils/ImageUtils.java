@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.sporthenon.utils.res.ResourceUtils;
 
@@ -22,6 +23,7 @@ public class ImageUtils {
 	public static final char SIZE_SMALL = 'S';
 	
 	private static HashMap<String, Short> hIndex;
+	private static List<String> lImgFiles;
 	
 	static {
 		hIndex = new HashMap<String, Short>();
@@ -32,6 +34,9 @@ public class ImageUtils {
 		hIndex.put("CN", INDEX_COUNTRY);
 		hIndex.put("TM", INDEX_TEAM);
 		hIndex.put("EV", INDEX_EVENT);
+		lImgFiles = new LinkedList<String>();
+		for (File f : new File(ConfigUtils.getProperty("img.folder")).listFiles())
+			lImgFiles.add(f.getName());
 	}
 	
 	public static short getIndex(String alias) {
@@ -70,13 +75,16 @@ public class ImageUtils {
 		return "<table><tr><td><img alt='Bronze' src='" + getRenderUrl() + "bronze.png'/></td><td class='bold'>" + ResourceUtils.getText("bronze", lang) + "</td></tr></table>";
 	}
 	
+	public static Collection<String> getImgFiles() {
+		return lImgFiles;
+	}
+	
 	public static Collection<String> getImageList(short type, int id, char size) {
 		LinkedList<String> list = new LinkedList<String>();
-		String folder = ConfigUtils.getProperty("img.folder");
 		String name = type + "-" + id + "-" + size;
-		for (File f : new File(folder).listFiles())
-			if (f.getName().indexOf(name) == 0)
-				list.add(f.getName());
+		for (String s : lImgFiles)
+			if (s.indexOf(name) == 0)
+				list.add(s);
 		Collections.sort(list);
 		Collections.reverse(list);
 		return list;
