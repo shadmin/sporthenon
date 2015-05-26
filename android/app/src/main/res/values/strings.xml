@@ -2,6 +2,14 @@
 <resources>
 
     <string name="app_name">Sporthenon</string>
-    <string name="url">http://test.sporthenon.com</string>
+    <string name="url">http://10.0.2.2:8080</string><!--<string name="url">http://test.sporthenon.com</string>-->
+    <string name="select.language">Select Language</string>
+    <string name="english">English</string>
+    <string name="francais">Français</string>
+    <string name="ok">OK</string>
+    <string name="sport">Sport</string>
+    <string name="championship">Championship</string>
+    <string name="event">Event</string>
+    <string name="results">Results</string>
 
 </resources>

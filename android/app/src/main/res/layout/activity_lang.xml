@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RadioButton
+            android:id="@+id/langEN"
+            android:checked="true"
+            android:drawableLeft="@drawable/flag_en"
+            android:drawablePadding="5dip"
+            android:padding="8dip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/english">
+        </RadioButton>
+
+        <RadioButton
+            android:id="@+id/langFR"
+            android:drawableLeft="@drawable/flag_fr"
+            android:drawablePadding="5dip"
+            android:padding="8dip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/langEN"
+            android:text="@string/francais">
+        </RadioButton>
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/ok"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:gravity="bottom|center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:text="@string/ok">
+    </Button>
+
+</RelativeLayout>
