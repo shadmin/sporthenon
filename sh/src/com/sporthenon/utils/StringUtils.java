@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.codec.binary.Base32;
 import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
 
 import com.sporthenon.utils.res.ResourceUtils;
 
@@ -112,6 +113,10 @@ public class StringUtils {
 		for (int i = 0 ; i < t_.length ; i++)
 			t_[i] = (v.size() > i ? v.get(i) : null);
 		return t_;
+	}
+	
+	public static String removeTags(String s) {
+		return (notEmpty(s) ? Jsoup.parse(s).text() : s);
 	}
 
 	public static String toTextDate(String dt, String lang, String format) throws ParseException {

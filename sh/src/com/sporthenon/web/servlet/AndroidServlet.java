@@ -141,27 +141,38 @@ public class AndroidServlet extends AbstractServlet {
 				if (StringUtils.notEmpty(r.getComplex2()) || StringUtils.notEmpty(r.getCity2())) {
 					String pl1 = null;
 					String pl2 = null;
+					String img1 = null;
+					String img2 = null;
 					if (r.getComplex1() != null) {
 						Complex cx = r.getComplex1();
 						pl1 = HtmlConverter.getPlace(cx.getId(), cx.getCity().getId(), cx.getCity().getState() != null ? cx.getCity().getState().getId() : null, cx.getCity().getCountry().getId(), cx.getLabel(lang), cx.getCity().getLabel(lang), cx.getCity().getState() != null ? cx.getCity().getState().getLabel(lang) : null, cx.getCity().getCountry().getLabel(lang), cx.getLabel(), cx.getCity().getLabel(), cx.getCity().getState() != null ? cx.getCity().getState().getLabel() : null, cx.getCity().getCountry().getLabel(), r.getYear().getLabel());
+						img1 = getImage(ImageUtils.INDEX_COUNTRY, cx.getCity().getCountry().getId(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
 					}
 					else if (r.getCity1() != null) {
 						City ct = r.getCity1();
 						pl1 = HtmlConverter.getPlace(null, ct.getId(), ct.getState() != null ? ct.getState().getId() : null, ct.getCountry().getId(), null, ct.getLabel(lang), ct.getState() != null ? ct.getState().getLabel(lang) : null, ct.getCountry().getLabel(lang), null, ct.getLabel(), ct.getState() != null ? ct.getState().getLabel() : null, ct.getCountry().getLabel(), r.getYear().getLabel());
+						img1 = getImage(ImageUtils.INDEX_COUNTRY, ct.getCountry().getId(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
 					}
 					if (r.getComplex2() != null) {
 						Complex cx = r.getComplex2();
 						pl2 = HtmlConverter.getPlace(cx.getId(), cx.getCity().getId(), cx.getCity().getState() != null ? cx.getCity().getState().getId() : null, cx.getCity().getCountry().getId(), cx.getLabel(lang), cx.getCity().getLabel(lang), cx.getCity().getState() != null ? cx.getCity().getState().getLabel(lang) : null, cx.getCity().getCountry().getLabel(lang), cx.getLabel(), cx.getCity().getLabel(), cx.getCity().getState() != null ? cx.getCity().getState().getLabel() : null, cx.getCity().getCountry().getLabel(), r.getYear().getLabel());
+						img2 = getImage(ImageUtils.INDEX_COUNTRY, cx.getCity().getCountry().getId(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
 					}
 					else if (r.getCity2() != null) {
 						City ct = r.getCity2();
 						pl2 = HtmlConverter.getPlace(null, ct.getId(), ct.getState() != null ? ct.getState().getId() : null, ct.getCountry().getId(), null, ct.getLabel(lang), ct.getState() != null ? ct.getState().getLabel(lang) : null, ct.getCountry().getLabel(lang), null, ct.getLabel(), ct.getState() != null ? ct.getState().getLabel() : null, ct.getCountry().getLabel(), r.getYear().getLabel());
+						img2 = getImage(ImageUtils.INDEX_COUNTRY, ct.getCountry().getId(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
 					}
-					Element places = doc.createElement("places");
-	        		if (StringUtils.notEmpty(pl1))
-	        			places.setAttribute("place1", pl1);
-	        		places.setAttribute("place2", pl2);
-		        	root.appendChild(places);
+					if (StringUtils.notEmpty(pl1)) {
+						Element place1 = doc.createElement("place1");
+						place1.setAttribute("img", img1);
+						place1.setTextContent(StringUtils.removeTags(pl1));
+						root.appendChild(place1);
+					}
+					Element place2 = doc.createElement("place2");
+					place2.setAttribute("img", img2);
+					place2.setTextContent(StringUtils.removeTags(pl2));
+					root.appendChild(place2);
 				}
 			
 				// Result
@@ -179,68 +190,77 @@ public class AndroidServlet extends AbstractServlet {
 					String rk1 = null;
 					String rk2 = null;
 					String rk3 = null;
+					String img1 = null;
+					String img2 = null;
+					String img3 = null;
 					String rs1 = null;
 					String rs2 = null;
 					String rs3 = null;
 					Event ev_ = (Event) DatabaseHelper.loadEntity(Event.class, (r.getSubevent2() != null ? r.getSubevent2().getId() : (r.getSubevent() != null ? r.getSubevent().getId() : r.getEvent().getId())));
 					int type_ = ev_.getType().getNumber();
-					boolean isScore = (bean.getRsRank1() != null && bean.getRsRank2() != null && StringUtils.notEmpty(bean.getRsResult1()) && !StringUtils.notEmpty(bean.getRsResult2()) && !StringUtils.notEmpty(bean.getRsResult3()));
+//					boolean isScore = (bean.getRsRank1() != null && bean.getRsRank2() != null && StringUtils.notEmpty(bean.getRsResult1()) && !StringUtils.notEmpty(bean.getRsResult2()) && !StringUtils.notEmpty(bean.getRsResult3()));
 					if (bean.getRsRank1() != null) {
 						rk1 = HtmlConverter.getResultsEntity(type_, bean.getRsRank1(), bean.getEn1Str1(), bean.getEn1Str2(), bean.getEn1Str3(), bean.getYrLabel());
 						rs1 = bean.getRsResult1();
-						String img = null;
-						String txt = null;
-						if (bean.getEn1Rel2Id() != null) {
-							img = getImage(ImageUtils.INDEX_COUNTRY, bean.getEn1Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
-							txt = bean.getEn1Rel2Label();
+						if (type_ == 50)
+							img1 = getImage(ImageUtils.INDEX_TEAM, bean.getRsRank1(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+						else if (type_ == 99)
+							img1 = getImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank1(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+						else if (bean.getEn1Rel2Id() != null) {
+							img1 = getImage(ImageUtils.INDEX_COUNTRY, bean.getEn1Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+							rk1 += " (" + bean.getEn1Rel2Label() + ")";
 						}
 						else if (bean.getEn1Rel1Id() != null) {
-							img = getImage(ImageUtils.INDEX_TEAM, bean.getEn1Rel1Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
-							txt = bean.getEn1Rel1Label();
+							img1 = getImage(ImageUtils.INDEX_TEAM, bean.getEn1Rel1Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+							rk1 += " (" + bean.getEn1Rel1Label() + ")";
 						}
-						if (StringUtils.notEmpty(txt))
-							rk1 = "<table><tr>" + (StringUtils.notEmpty(img) ? "<th>" + img + "</th>" : "") + "<td><b>" + rk1 + "</b></td><td>&nbsp;(" + txt + ")</td>" + (StringUtils.notEmpty(rs1) && !isScore ? "<td>&nbsp;&ndash;&nbsp;" + rs1 + "</td>" : "") + "</tr></table>";
 					}
 					if (bean.getRsRank2() != null) {
 						rk2 = HtmlConverter.getResultsEntity(type_, bean.getRsRank2(), bean.getEn2Str1(), bean.getEn2Str2(), bean.getEn2Str3(), bean.getYrLabel());
 						rs2 = bean.getRsResult2();
-						String img = null;
-						String txt = null;
-						if (bean.getEn2Rel2Id() != null) {
-							img = getImage(ImageUtils.INDEX_COUNTRY, bean.getEn2Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
-							txt = bean.getEn2Rel2Label();
+						if (type_ == 50)
+							img2 = getImage(ImageUtils.INDEX_TEAM, bean.getRsRank2(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+						else if (type_ == 99)
+							img2 = getImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank2(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+						else if (bean.getEn2Rel2Id() != null) {
+							img2 = getImage(ImageUtils.INDEX_COUNTRY, bean.getEn2Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+							rk2 += " (" + bean.getEn2Rel2Label() + ")";
 						}
 						else if (bean.getEn2Rel1Id() != null) {
-							img = getImage(ImageUtils.INDEX_TEAM, bean.getEn2Rel1Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
-							txt = bean.getEn2Rel1Label();
+							img2 = getImage(ImageUtils.INDEX_TEAM, bean.getEn2Rel1Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+							rk2 += " (" + bean.getEn2Rel1Label() + ")";
 						}
-						if (StringUtils.notEmpty(txt))
-							rk2 = "<table><tr>" + (StringUtils.notEmpty(img) ? "<th>" + img + "</th>" : "") + "<td>" + rk2 + "</td><td>&nbsp;(" + txt + ")</td>" + (StringUtils.notEmpty(rs2) ? "<td>&nbsp;&ndash;&nbsp;" + rs2 + "</td>" : "") + "</tr></table>";
 					}
 					if (bean.getRsRank3() != null) {
 						rk3 = HtmlConverter.getResultsEntity(type_, bean.getRsRank3(), bean.getEn3Str1(), bean.getEn3Str2(), bean.getEn3Str3(), bean.getYrLabel());
 						rs3 = bean.getRsResult3();
-						String img = null;
-						String txt = null;
-						if (bean.getEn3Rel2Id() != null) {
-							img = getImage(ImageUtils.INDEX_COUNTRY, bean.getEn3Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
-							txt = bean.getEn3Rel2Label();
+						if (type_ == 50)
+							img3 = getImage(ImageUtils.INDEX_TEAM, bean.getRsRank3(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+						else if (type_ == 99)
+							img3 = getImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank3(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+						else if (bean.getEn3Rel2Id() != null) {
+							img3 = getImage(ImageUtils.INDEX_COUNTRY, bean.getEn3Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+							rk3 += " (" + bean.getEn3Rel2Label() + ")";
 						}
 						else if (bean.getEn3Rel1Id() != null) {
-							img = getImage(ImageUtils.INDEX_TEAM, bean.getEn3Rel1Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
-							txt = bean.getEn3Rel1Label();
+							img3 = getImage(ImageUtils.INDEX_TEAM, bean.getEn3Rel1Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+							rk3 += " (" + bean.getEn3Rel1Label() + ")";
 						}
-						if (StringUtils.notEmpty(txt))
-							rk3 = "<table><tr>" + (StringUtils.notEmpty(img) ? "<th>" + img + "</th>" : "") + "<td>" + rk3 + "</td><td>&nbsp;(" + txt + ")</td>" + (StringUtils.notEmpty(rs3) ? "<td>&nbsp;&ndash;&nbsp;" + rs3 + "</td>" : "") + "</tr></table>";
 					}
 					Element rank1 = doc.createElement("rank1");
-					rank1.appendChild(doc.createCDATASection(rk1));
+					rank1.setAttribute("img", img1);
+					rank1.setAttribute("result", rs1);
+					rank1.setTextContent(StringUtils.removeTags(rk1));
 		        	root.appendChild(rank1);
 		        	Element rank2 = doc.createElement("rank2");
-					rank2.appendChild(doc.createCDATASection(rk2));
-		        	root.appendChild(rank2);
+		        	rank2.setAttribute("img", img2);
+					rank2.setAttribute("result", rs2);
+					rank2.setTextContent(StringUtils.removeTags(rk2));
+					root.appendChild(rank2);
 		        	Element rank3 = doc.createElement("rank3");
-					rank3.appendChild(doc.createCDATASection(rk3));
+		        	rank3.setAttribute("img", img3);
+					rank3.setAttribute("result", rs3);
+					rank3.setTextContent(StringUtils.removeTags(rk3));
 		        	root.appendChild(rank3);
 				}
 	        }
@@ -266,7 +286,7 @@ public class AndroidServlet extends AbstractServlet {
 		if (picklist != null && picklist.size() > 0) {
 			for (PicklistBean plb : picklist) {
 				Element item = doc.createElement("item");
-				String img = HtmlUtils.writeImage(index, plb.getValue(), ImageUtils.SIZE_LARGE, null, null);
+				String img = HtmlUtils.writeImage(index, plb.getValue(), ImageUtils.SIZE_SMALL, null, null);
 				int id = plb.getValue();
 				String text = plb.getText();
 				if (lInactive != null && lInactive.contains(currentPath + "-" + id))
