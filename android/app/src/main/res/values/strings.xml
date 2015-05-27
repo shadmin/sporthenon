@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Sporthenon</string>
-    <string name="url">http://test.sporthenon.com</string>
-    <string name="select.language">Select Language</string>
-    <string name="english">English</string>
-    <string name="francais">Français</string>
+    <string name="app_name" translatable="false">Sporthenon</string>
+    <string name="url" translatable="false">http://10.0.2.2:8080</string><!--<string name="url">http://test.sporthenon.com</string>-->
+    <string name="select.language" translatable="false">Select Language</string>
+    <string name="english" translatable="false">English</string>
+    <string name="francais" translatable="false">Français</string>
     <string name="ok">OK</string>
     <string name="sport">Sport</string>
     <string name="championship">Championship</string>
     <string name="event">Event</string>
     <string name="results">Results</string>
+    <string name="result1">Result</string>
 
 </resources>

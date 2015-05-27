@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.sporthenon.android.R;
 import com.sporthenon.android.async.AsyncEvents;
 import com.sporthenon.android.data.DataItem;
 
@@ -27,6 +28,7 @@ public class EventActivity extends AbstractActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
+        title.setText(R.string.event);
         Bundle b = getIntent().getExtras();
         setSportId(b.getInt("spid"));
         setChampionshipId(b.getInt("cpid"));

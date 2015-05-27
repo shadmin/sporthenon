@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.sporthenon.android.R;
 import com.sporthenon.android.async.AsyncResults;
 import com.sporthenon.android.data.ResultItem;
 
@@ -27,6 +28,7 @@ public class ResultActivity extends AbstractActivity implements AdapterView.OnIt
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
+        title.setText(R.string.results);
         Bundle b = getIntent().getExtras();
         AsyncResults task = new AsyncResults();
         task.execute(this, b.getInt("spid"), b.getInt("cpid"), b.getInt("ev1id"), b.getInt("ev2id"), b.getInt("ev3id"));

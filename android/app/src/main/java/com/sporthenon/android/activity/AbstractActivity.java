@@ -6,16 +6,24 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.sporthenon.android.R;
+import com.sporthenon.android.adapter.ItemListAdapter;
+import com.sporthenon.android.data.DataItem;
+
+import java.util.ArrayList;
 
 public abstract class AbstractActivity extends Activity implements AdapterView.OnItemClickListener {
 
     protected String lang;
+    protected TextView title;
     protected ListView list;
     protected EditText search;
     protected Integer sportId;
@@ -82,10 +90,11 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
 
     protected void onCreate(Bundle state) {
         super.onCreate(state);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.activity_main);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        lang = prefs.getString("lang", null);
+        title = (TextView) findViewById(R.id.title);
 
         list = (ListView) findViewById(R.id.list);
         list.setOnItemClickListener(this);
@@ -98,10 +107,13 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
             @Override
             public void afterTextChanged(Editable arg0) {
-                //filter();
+                filter();
             }
         });
         search.setVisibility(View.GONE);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        lang = prefs.getString("lang", null);
     }
 
     @Override
@@ -112,16 +124,29 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
         finish();
     }
 
-	/*public void filter() {
+    public void onBackClick(View v) {
+        finish();
+    }
+
+    public void onSearchClick(View v) {
+        search.setVisibility(search.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+        if (search.getVisibility() == View.VISIBLE)
+            search.requestFocus();
+    }
+
+	public void filter() {
         String name = search.getText().toString();
-        ArrayList<IDataItem> listSportNew = new ArrayList<IDataItem>();
-        for (IDataItem sport : sports)
-            if (sport.getName().toLowerCase().toString().startsWith(name))
-                listSportNew.add(sport);
+        Log.d("", name);
+        ArrayList<DataItem> list_ = new ArrayList<>();
+        for (int i = 0 ; i < list.getAdapter().getCount() ; i++) {
+            DataItem item = (DataItem) list.getAdapter().getItem(i);
+            if (name.length() == 0 || item.getName().toLowerCase().startsWith(name))
+                list_.add(item);
+        }
         list.setAdapter(null);
-        //if (listSportNew.size() == 0)
-        //	listSportNew.add(new Sport(100, "ERREUR", getResources().getDrawable(R.drawable.cake)));
-        list.setAdapter(new ItemListAdapter(getApplicationContext(), listSportNew));
-    }*/
+        if (list_.size() == 0)
+            list_.add(new DataItem(0, "ERROR - Not found", getResources().getDrawable(R.drawable.error)));
+        list.setAdapter(new ItemListAdapter(getApplicationContext(), list_));
+    }
 
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.sporthenon.android.R;
 import com.sporthenon.android.async.AsyncChampionships;
 import com.sporthenon.android.data.DataItem;
 
@@ -20,13 +21,10 @@ public class ChampionshipActivity extends AbstractActivity implements AdapterVie
         return championships;
     }
 
-    public void setChampionships(ArrayList<DataItem> championships) {
-        this.championships = championships;
-    }
-
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
+        title.setText(R.string.championship);
         Bundle b = getIntent().getExtras();
         setSportId(b.getInt("spid"));
         AsyncChampionships task = new AsyncChampionships();

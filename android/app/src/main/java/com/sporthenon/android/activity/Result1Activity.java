@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Window;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -52,7 +53,10 @@ public class Result1Activity extends Activity {
 
     protected void onCreate(Bundle state) {
         super.onCreate(state);
-        setContentView(R.layout.activity_result1);
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        setContentView(R.layout.activity_lang);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
+        ((TextView) findViewById(R.id.title)).setText(R.string.result1);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         lang = prefs.getString("lang", null);

@@ -3,7 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="2dip" >
+    android:padding="2dip"
+    android:background="#FFF">
 
     <LinearLayout
         android:id="@+id/thumbnail"
@@ -15,8 +16,8 @@
         android:padding="2dip">
         <ImageView
             android:id="@+id/picture"
-            android:layout_width="35dip"
-            android:layout_height="35dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
         />
     </LinearLayout>
 
@@ -26,8 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/thumbnail"
-        android:textColor="#040404"
-        android:textSize="18dip"
+        android:textColor="#000"
+        android:textSize="16dip"
         android:textStyle="bold"
         android:typeface="sans"
     />

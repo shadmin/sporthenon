@@ -3,7 +3,8 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#FFF">
 
     <RadioGroup
         android:layout_width="fill_parent"
@@ -18,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:textColor="#000"
             android:text="@string/english">
         </RadioButton>
 
@@ -29,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/langEN"
+            android:textColor="#000"
             android:text="@string/francais">
         </RadioButton>
     </RadioGroup>

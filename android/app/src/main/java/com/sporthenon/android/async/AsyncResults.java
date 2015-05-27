@@ -59,7 +59,7 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
                     String code = e.getAttribute("code");
                     String str1 = e.getAttribute("str1");
                     String str2 = e.getAttribute("str2");
-                    results.add(new ResultItem(id, year, AndroidUtils.getImage(activity, "CN", e.getAttribute("img"), id), str2 + " " + str1 + " (" + code + ")"));
+                    results.add(new ResultItem(id, year, AndroidUtils.getImage(activity, "CN", e.getAttribute("img"), id), str2 + " " + str1 + (code != null && code.length() > 0 ? " (" + code + ")" : "")));
                 }
             }
             connection.disconnect();

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sporthenon</string>
+    <string name="championship" translatable="false">Championnat</string>
+    <string name="event">Epreuve</string>
+    <string name="ok">OK</string>
+    <string name="results">Résultats</string>
+    <string name="select.language"></string>
+    <string name="sport">Sport</string>
+</resources>

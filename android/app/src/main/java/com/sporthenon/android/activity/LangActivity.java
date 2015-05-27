@@ -9,11 +9,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.sporthenon.android.R;
 
@@ -27,13 +29,19 @@ public class LangActivity extends Activity implements View.OnClickListener {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String lang = prefs.getString("lang", null);
+        lang = null; // TEST
         if (lang != null)
             nextActivity();
         else {
+            requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
             setContentView(R.layout.activity_lang);
+            getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
+
+            ((TextView) findViewById(R.id.title)).setText(R.string.select_language);
+            findViewById(R.id.search_icon).setVisibility(View.GONE);
             langEN = (RadioButton) findViewById(R.id.langEN);
             langFR = (RadioButton) findViewById(R.id.langFR);
-            ((Button) findViewById(R.id.ok)).setOnClickListener(this);
+            findViewById(R.id.ok).setOnClickListener(this);
         }
     }
 
