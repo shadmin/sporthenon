@@ -12,33 +12,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:text="name"
-        android:textColor="#040404"
-        android:textSize="16dip"
-        android:textStyle="bold"
-        android:typeface="sans"
-        />
-
-    <TextView
-        android:id="@+id/sport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/year"
-        android:text="name"
-        android:textColor="#040404"
-        android:textSize="16dip"
-        android:textStyle="bold"
-        android:typeface="sans"
-        />
-
-    <TextView
-        android:id="@+id/championship"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/sport"
-        android:text="name"
-        android:textColor="#040404"
+        android:textColor="#000"
         android:textSize="16dip"
         android:textStyle="bold"
         android:typeface="sans"
@@ -55,8 +29,8 @@
         android:padding="2dip">
         <ImageView
             android:id="@+id/img"
-            android:layout_width="21dip"
-            android:layout_height="14dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
         />
     </LinearLayout>
 
@@ -66,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/thumbnail"
-        android:textColor="#040404"
+        android:textColor="#000"
         android:textSize="16dip"
         android:textStyle="bold"
         android:typeface="sans"
