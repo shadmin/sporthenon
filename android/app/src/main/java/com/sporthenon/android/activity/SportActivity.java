@@ -13,14 +13,6 @@ import java.util.ArrayList;
 
 public class SportActivity extends AbstractActivity implements AdapterView.OnItemClickListener {
 
-	private ArrayList<DataItem> sports;
-
-    public ArrayList<DataItem> getSports() {
-        if (sports == null)
-            sports = new ArrayList<>();
-        return sports;
-    }
-
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);

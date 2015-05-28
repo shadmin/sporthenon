@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="Verdana"
         android:textSize="18px"
-        android:hint="Search">
+        android:hint="@string/search">
     </EditText>
 
     <ListView

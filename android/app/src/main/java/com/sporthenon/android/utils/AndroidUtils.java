@@ -17,28 +17,30 @@ import java.net.URL;
 
 public class AndroidUtils {
 
-    public static BitmapDrawable getImage(Activity activity, String alias, String img, Integer id) {
+    public static BitmapDrawable getImage(Activity activity, String img) {
         BitmapDrawable bd = null;
         HttpURLConnection connection = null;
         try {
-            File dir = activity.getApplicationContext().getDir("sh", Context.MODE_PRIVATE);
-            File file = new File(dir, alias + id + ".png");
-            if (file.exists())
-                bd = new BitmapDrawable(new FileInputStream(file));
-            else if (img != null && img.length() > 0) {
-                img = img.replaceAll("localhost", "10.0.2.2"); // TEST
-                connection = (HttpURLConnection) new URL(img) .openConnection();
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                bd = new BitmapDrawable(BitmapFactory.decodeStream(input));
-                connection.disconnect();
+            if (img != null && img.length() > 0) {
+                File dir = activity.getApplicationContext().getDir("sh", Context.MODE_PRIVATE);
+                File file = new File(dir, img.substring(img.lastIndexOf("/") + 1));
+                if (file.exists())
+                    bd = new BitmapDrawable(new FileInputStream(file));
+                else {
+                    img = img.replaceAll("localhost", "10.0.2.2"); // TEST
+                    connection = (HttpURLConnection) new URL(img) .openConnection();
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+                    bd = new BitmapDrawable(BitmapFactory.decodeStream(input));
+                    connection.disconnect();
 
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bd.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] arr = stream.toByteArray();
-                FileOutputStream output = new FileOutputStream(file);
-                output.write(arr);
-                output.close();
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bd.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] arr = stream.toByteArray();
+                    FileOutputStream output = new FileOutputStream(file);
+                    output.write(arr);
+                    output.close();
+                }
             }
         }
         catch (Exception e) {

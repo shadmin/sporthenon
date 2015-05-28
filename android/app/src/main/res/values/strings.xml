@@ -12,5 +12,8 @@
     <string name="event">Event</string>
     <string name="results">Results</string>
     <string name="result1">Result</string>
+    <string name="back">Back</string>
+    <string name="search">Search</string>
+    <string name="error">ERROR - Not found</string>
 
 </resources>

@@ -16,7 +16,9 @@ import android.widget.TextView;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.adapter.ItemListAdapter;
+import com.sporthenon.android.adapter.ResultListAdapter;
 import com.sporthenon.android.data.DataItem;
+import com.sporthenon.android.data.ResultItem;
 
 import java.util.ArrayList;
 
@@ -24,6 +26,7 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
 
     protected String lang;
     protected TextView title;
+    private ArrayList<Object> itemList;
     protected ListView list;
     protected EditText search;
     protected Integer sportId;
@@ -31,6 +34,12 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
     protected Integer event1Id;
     protected Integer event2Id;
     protected Integer event3Id;
+
+    public ArrayList<Object> getItemList() {
+        if (itemList == null)
+            itemList = new ArrayList<>();
+        return itemList;
+    }
 
     public String getLang() {
         return lang;
@@ -102,13 +111,11 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
         search = (EditText) findViewById(R.id.search);
         search.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {filter();}
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
             @Override
-            public void afterTextChanged(Editable arg0) {
-                filter();
-            }
+            public void afterTextChanged(Editable arg0) { }
         });
         search.setVisibility(View.GONE);
 
@@ -135,18 +142,30 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
     }
 
 	public void filter() {
-        String name = search.getText().toString();
-        Log.d("", name);
-        ArrayList<DataItem> list_ = new ArrayList<>();
-        for (int i = 0 ; i < list.getAdapter().getCount() ; i++) {
-            DataItem item = (DataItem) list.getAdapter().getItem(i);
-            if (name.length() == 0 || item.getName().toLowerCase().startsWith(name))
-                list_.add(item);
-        }
+        String text = search.getText().toString().toLowerCase();
         list.setAdapter(null);
-        if (list_.size() == 0)
-            list_.add(new DataItem(0, "ERROR - Not found", getResources().getDrawable(R.drawable.error)));
-        list.setAdapter(new ItemListAdapter(getApplicationContext(), list_));
+        if (this instanceof ResultActivity) {
+            ArrayList<ResultItem> list_ = new ArrayList<>();
+            for (Object o : itemList) {
+                ResultItem item = (ResultItem) o;
+                if (text.length() == 0 || item.getRank1().toLowerCase().matches(".*" + text + ".*"))
+                    list_.add(item);
+            }
+            if (list_.size() == 0)
+                list_.add(new ResultItem(0, null, getResources().getDrawable(R.drawable.error), String.valueOf(R.string.error)));
+            list.setAdapter(new ResultListAdapter(getApplicationContext(), list_));
+        }
+        else {
+            ArrayList<DataItem> list_ = new ArrayList<>();
+            for (Object o : itemList) {
+                DataItem item = (DataItem) o;
+                if (text.length() == 0 || item.getName().toLowerCase().matches(".*" + text + ".*"))
+                    list_.add(item);
+            }
+            if (list_.size() == 0)
+                list_.add(new DataItem(0, String.valueOf(R.string.error), getResources().getDrawable(R.drawable.error)));
+            list.setAdapter(new ItemListAdapter(getApplicationContext(), list_));
+        }
     }
 
 }

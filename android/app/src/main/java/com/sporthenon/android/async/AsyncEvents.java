@@ -61,7 +61,7 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
                     Integer id = Integer.parseInt(e.getAttribute("value"));
                     String name = e.getAttribute("text");
                     String img = e.getAttribute("img");
-                    events.add(new DataItem(id, name, AndroidUtils.getImage(activity, "EV", img, id)));
+                    events.add(new DataItem(id, name, AndroidUtils.getImage(activity, img)));
                 }
             }
             connection.disconnect();
@@ -75,7 +75,7 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
     @Override
     protected void onPostExecute(String response) {
         try {
-            activity.getEvents().addAll(events);
+            activity.getItemList().addAll(events);
             activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), events));
         }
         catch(Exception e) {

@@ -10,11 +10,13 @@
 
     <ImageView
         android:id="@+id/back_icon"
+        android:contentDescription="@string/back"
         android:src="@drawable/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:padding="5dip"
+        android:layout_alignParentStart="true"
+        android:padding="3dip"
         android:onClick="onBackClick"
         />
 
@@ -23,21 +25,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/back_icon"
-        android:padding="5dip"
+        android:layout_toEndOf="@+id/back_icon"
+        android:padding="3dip"
         android:textColor="#FFF"
         android:fontFamily="Verdana"
-        android:textSize="16dip"
+        android:textSize="17sp"
         android:textStyle="bold"
         android:typeface="sans"
         />
 
     <ImageView
         android:id="@+id/search_icon"
+        android:contentDescription="@string/search"
         android:src="@drawable/search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:padding="5dip"
+        android:layout_alignParentEnd="true"
+        android:padding="3dip"
         android:onClick="onSearchClick"
         />
 

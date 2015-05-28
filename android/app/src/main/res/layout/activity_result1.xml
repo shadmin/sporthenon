@@ -3,40 +3,121 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="#FFF">
 
     <TextView
-        android:id="@+id/year"
+        android:id="@+id/rs_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:padding="3dip"
+        android:padding="2dip"
         android:textColor="#000"
-        android:textSize="20dip"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:typeface="normal"
         />
 
     <TextView
-        android:id="@+id/sport"
+        android:id="@+id/rs_sport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:padding="3dip"
+        android:drawablePadding="2dip"
+        android:padding="2dip"
         android:textColor="#000"
-        android:textSize="20dip"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:typeface="normal"
         />
 
     <TextView
-        android:id="@+id/championship"
+        android:id="@+id/rs_championship"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:padding="3dip"
+        android:drawablePadding="2dip"
+        android:padding="2dip"
         android:textColor="#000"
-        android:textSize="20dip"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        />
+
+    <TextView
+        android:id="@+id/rs_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawablePadding="2dip"
+        android:padding="2dip"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        />
+
+    <TextView
+        android:id="@+id/rs_subevent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawablePadding="2dip"
+        android:padding="2dip"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        />
+
+    <TextView
+        android:id="@+id/rs_subevent2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawablePadding="2dip"
+        android:padding="2dip"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        />
+
+    <TextView
+        android:id="@+id/rs_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawablePadding="2dip"
+        android:padding="2dip"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        />
+
+    <TextView
+        android:id="@+id/rs_place1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawablePadding="2dip"
+        android:padding="2dip"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:typeface="normal"
+        />
+
+    <TextView
+        android:id="@+id/rs_place2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawablePadding="2dip"
+        android:padding="2dip"
+        android:textColor="#000"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:typeface="normal"
         />

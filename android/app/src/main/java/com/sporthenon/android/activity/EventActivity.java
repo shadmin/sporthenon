@@ -13,18 +13,6 @@ import java.util.ArrayList;
 
 public class EventActivity extends AbstractActivity implements AdapterView.OnItemClickListener {
 
-    private ArrayList<DataItem> events;
-
-    public ArrayList<DataItem> getEvents() {
-        if (events == null)
-            events = new ArrayList<DataItem>();
-        return events;
-    }
-
-    public void setEvents(ArrayList<DataItem> events) {
-        this.events = events;
-    }
-
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);

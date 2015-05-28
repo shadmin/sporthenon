@@ -6,24 +6,15 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.sporthenon.android.R;
+import com.sporthenon.android.adapter.ItemListAdapter;
+import com.sporthenon.android.adapter.ResultListAdapter;
 import com.sporthenon.android.async.AsyncResults;
+import com.sporthenon.android.data.DataItem;
 import com.sporthenon.android.data.ResultItem;
 
 import java.util.ArrayList;
 
 public class ResultActivity extends AbstractActivity implements AdapterView.OnItemClickListener {
-
-    private ArrayList<ResultItem> results;
-
-    public ArrayList<ResultItem> getResults() {
-        if (results == null)
-            results = new ArrayList<ResultItem>();
-        return results;
-    }
-
-    public void setResults(ArrayList<ResultItem> results) {
-        this.results = results;
-    }
 
     @Override
     protected void onCreate(Bundle state) {

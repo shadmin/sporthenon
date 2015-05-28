@@ -60,7 +60,7 @@ public class ItemListAdapter extends BaseAdapter {
         else
 			holder = (ViewHolder) convertView.getTag();
 		holder.name.setText(list.get(position).getName());
-		holder.picture.setBackgroundDrawable(list.get(position).getPicture());
+		holder.picture.setImageDrawable(list.get(position).getPicture());
 		lastPosition = position;
 		return convertView;
 	}

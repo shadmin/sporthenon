@@ -48,7 +48,7 @@ public class AsyncChampionships extends AsyncTask<Object, Boolean, String> {
                     Integer id = Integer.parseInt(e.getAttribute("value"));
                     String name = e.getAttribute("text");
                     String img = e.getAttribute("img");
-                    championships.add(new DataItem(id, name, AndroidUtils.getImage(activity, "CP", img, id)));
+                    championships.add(new DataItem(id, name, AndroidUtils.getImage(activity, img)));
                 }
             }
             connection.disconnect();
@@ -62,7 +62,7 @@ public class AsyncChampionships extends AsyncTask<Object, Boolean, String> {
     @Override
     protected void onPostExecute(String response) {
         try {
-            activity.getChampionships().addAll(championships);
+            activity.getItemList().addAll(championships);
             activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), championships));
         }
         catch(Exception e) {

@@ -8,6 +8,7 @@ import com.sporthenon.android.R;
 import com.sporthenon.android.activity.Result1Activity;
 import com.sporthenon.android.activity.ResultActivity;
 import com.sporthenon.android.data.Result1Item;
+import com.sporthenon.android.utils.AndroidUtils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -40,23 +41,37 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(input);
-            Node sport = doc.getElementsByTagName("sport").item(0);
-            result1.setSport("<img src='http://img.sporthenon.com/0-1-L_2.png'/>" + sport.getTextContent());
-            Node championship = doc.getElementsByTagName("championship").item(0);
-            result1.setChampionship("<img src='http://img.sporthenon.com/0-1-L_2.png'/>" + championship.getTextContent());
-           /* for (int i = 0 ; i < list.getLength() ; i++) {
-                Node n = list.item(i);
-                if (n.getNodeType() == Node.ELEMENT_NODE) {
-                    Element e = (Element) n;
-                    Integer id = Integer.parseInt(e.getAttribute("id"));
-                    String year = e.getAttribute("year");
-                    //String rk1 = e.getAttribute("rk1");
-                    String code = e.getAttribute("code");
-                    String str1 = e.getAttribute("str1");
-                    String str2 = e.getAttribute("str2");
-                    results.add(new ResultItem(id, year, AndroidUtils.getImage(activity, "CN", e.getAttribute("img"), id), str2 + " " + str1 + " (" + code + ")"));
-                }
-            }*/
+            Element sport = (Element) doc.getElementsByTagName("sport").item(0);
+            result1.setSport(sport.getTextContent());
+            result1.setSportImg(AndroidUtils.getImage(activity, sport.getAttribute("img")));
+            Element championship = (Element) doc.getElementsByTagName("championship").item(0);
+            result1.setChampionship(championship.getTextContent());
+            result1.setChampionshipImg(AndroidUtils.getImage(activity, championship.getAttribute("img")));
+            Element event = (Element) doc.getElementsByTagName("event").item(0);
+            result1.setEvent(event.getTextContent());
+            result1.setEventImg(AndroidUtils.getImage(activity, event.getAttribute("img")));
+            Element subevent = (Element) doc.getElementsByTagName("subevent").item(0);
+            if (subevent != null) {
+                result1.setSubevent(subevent.getTextContent());
+                result1.setSubeventImg(AndroidUtils.getImage(activity, subevent.getAttribute("img")));
+            }
+            Element subevent2 = (Element) doc.getElementsByTagName("subevent2").item(0);
+            if (subevent2 != null) {
+                result1.setSubevent2(subevent2.getTextContent());
+                result1.setSubevent2Img(AndroidUtils.getImage(activity, subevent2.getAttribute("img")));
+            }
+            Element date = (Element) doc.getElementsByTagName("dates").item(0);
+            result1.setDate((date.getAttribute("date1") != null && date.getAttribute("date1").length() > 0 ? date.getAttribute("date1") + " - " : "") + date.getAttribute("date2"));
+            Element place1 = (Element) doc.getElementsByTagName("place1").item(0);
+            if (place1 != null) {
+                result1.setPlace1(place1.getTextContent());
+                result1.setPlace1Img(AndroidUtils.getImage(activity, place1.getAttribute("img")));
+            }
+            Element place2 = (Element) doc.getElementsByTagName("place2").item(0);
+            if (place2 != null) {
+                result1.setPlace2(place2.getTextContent());
+                result1.setPlace2Img(AndroidUtils.getImage(activity, place2.getAttribute("img")));
+            }
             connection.disconnect();
         }
         catch (Exception e) {
@@ -68,9 +83,30 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
     @Override
     protected void onPostExecute(String response) {
         try {
-            activity.getSport().setText(Html.fromHtml(result1.getSport()));
-            activity.getChampionship().setText(Html.fromHtml(result1.getChampionship()));
             activity.getYear().setText(result1.getYear());
+            activity.getSport().setText(result1.getSport());
+            activity.getSport().setCompoundDrawablesWithIntrinsicBounds(result1.getSportImg(), null, null, null);
+            activity.getChampionship().setText(result1.getChampionship());
+            activity.getChampionship().setCompoundDrawablesWithIntrinsicBounds(result1.getChampionshipImg(), null, null, null);
+            activity.getEvent().setText(result1.getEvent());
+            activity.getEvent().setCompoundDrawablesWithIntrinsicBounds(result1.getEventImg(), null, null, null);
+            if (result1.getSubevent() != null) {
+                activity.getSubevent().setText(result1.getSubevent());
+                activity.getSubevent().setCompoundDrawablesWithIntrinsicBounds(result1.getSubeventImg(), null, null, null);
+            }
+            if (result1.getSubevent2() != null) {
+                activity.getSubevent2().setText(result1.getSubevent2());
+                activity.getSubevent2().setCompoundDrawablesWithIntrinsicBounds(result1.getSubevent2Img(), null, null, null);
+            }
+            activity.getDate().setText(result1.getDate());
+            if (result1.getPlace1() != null) {
+                activity.getPlace1().setText(result1.getPlace1());
+                activity.getPlace1().setCompoundDrawablesWithIntrinsicBounds(result1.getPlace1Img(), null, null, null);
+            }
+            if (result1.getPlace2() != null) {
+                activity.getPlace2().setText(result1.getPlace2());
+                activity.getPlace2().setCompoundDrawablesWithIntrinsicBounds(result1.getPlace2Img(), null, null, null);
+            }
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);
