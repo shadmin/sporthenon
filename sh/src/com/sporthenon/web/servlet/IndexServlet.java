@@ -96,8 +96,9 @@ private static final long serialVersionUID = 1L;
 		for (Object obj : DatabaseHelper.execute("from Sport order by index")) {
 			Sport sp = (Sport) obj;
 			String img = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_LARGE, null, null);
+			String text = sp.getLabel(lang);
 			img = img.replaceAll(".*\\ssrc\\='|'/\\>", "");
-			hSports.put(sp.getId(), "<div id='sport-#INDEX#' class='sport' style=\"background-image:url('" + img + "');\">" + HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel(lang).replaceAll("\\s", "&nbsp;"), sp.getLabel()) + "</div>");
+			hSports.put(sp.getId(), "<div id='sport-#INDEX#' class='sport' style=\"background-image:url('" + img + "');" + "\">" + HtmlUtils.writeLink(Sport.alias, sp.getId(), text.replaceAll("\\s", "&nbsp;"), sp.getLabel()) + "</div>");
 			lId.add(sp.getId());
 		}
 		

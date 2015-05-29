@@ -208,6 +208,8 @@
 	<entry key="extlink.others">Autres</entry>
 	<entry key="extlink.federation">Fédération internationale</entry>
 	<entry key="extlink.official">Site officiel</entry>
+	<entry key="winner">Vainqueur</entry>
+	<entry key="loser">Perdant</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>

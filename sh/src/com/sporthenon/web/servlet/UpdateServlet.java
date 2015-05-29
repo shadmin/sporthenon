@@ -18,6 +18,7 @@ import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
 import com.sporthenon.db.entity.Country;
+import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Sport;
@@ -178,6 +179,7 @@ public class UpdateServlet extends AbstractServlet {
 						y = (Year) DatabaseHelper.saveEntity(y, user);
 						result.setYear(y);
 					}
+					// Places
 					for(int i : new int[]{1, 2}) {
 						if (StringUtils.notEmpty(hParams.get("pl" + i + "-l"))) {
 							String[] t = String.valueOf(hParams.get("pl" + i + "-l")).toLowerCase().split("\\,\\s");
@@ -210,6 +212,7 @@ public class UpdateServlet extends AbstractServlet {
 					result.setDate2(StringUtils.notEmpty(hParams.get("dt2-l")) ? String.valueOf(hParams.get("dt2-l")) : null);
 					result.setComment(StringUtils.notEmpty(hParams.get("cmt-l")) ? String.valueOf(hParams.get("cmt-l")) : null);
 					result.setExa(StringUtils.notEmpty(hParams.get("exa-l")) ? String.valueOf(hParams.get("exa-l")) : null);
+					// Rankings
 					for (int i = 1 ; i <= 10 ; i++) {
 						Integer id = (StringUtils.notEmpty(hParams.get("rk" + i)) ? new Integer(String.valueOf(hParams.get("rk" + i))) : 0);
 						if (id == 0 && StringUtils.notEmpty(hParams.get("rk" + i + "-l")))
@@ -222,6 +225,24 @@ public class UpdateServlet extends AbstractServlet {
 					// External links
 					if (StringUtils.notEmpty(hParams.get("exl-l")))
 						DatabaseHelper.saveExternalLinks(Result.alias, result.getId(), String.valueOf(hParams.get("exl-l")));
+					// Draws
+					if (StringUtils.notEmpty(hParams.get("qf1w-l"))) {
+						Integer idDR = (StringUtils.notEmpty(hParams.get("drid")) ? Integer.valueOf(String.valueOf(hParams.get("drid"))) : null);
+						Draw draw = (idDR != null ? (Draw)DatabaseHelper.loadEntity(Draw.class, idDR) : new Draw());
+						for (String s : new String[]{"qf1", "qf2", "qf3", "qf4", "sf1", "sf2", "thd"}) {
+							Integer id1 = (StringUtils.notEmpty(hParams.get(s + "w")) ? new Integer(String.valueOf(hParams.get(s + "w"))) : 0);
+							Integer id2 = (StringUtils.notEmpty(hParams.get(s + "l")) ? new Integer(String.valueOf(hParams.get(s + "l"))) : 0);
+							if (id1 == 0 && StringUtils.notEmpty(hParams.get(s + "w-l")))
+								id1 = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(hParams.get(s + "w-l")), null, user, null, lang);							
+							if (id2 == 0 && StringUtils.notEmpty(hParams.get(s + "l-l")))
+								id2 = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(hParams.get(s + "l-l")), null, user, null, lang);
+							Draw.class.getMethod("setId1" + String.valueOf(s.charAt(0)).toUpperCase() + s.substring(1), Integer.class).invoke(draw, id1 > 0 ? id1 : null);
+							Draw.class.getMethod("setId2" + String.valueOf(s.charAt(0)).toUpperCase() + s.substring(1), Integer.class).invoke(draw, id2 > 0 ? id2 : null);
+							Draw.class.getMethod("setResult_" + s, String.class).invoke(draw, StringUtils.notEmpty(hParams.get(s + "rs-l")) ? hParams.get(s + "rs-l") : null);
+						}
+						draw.setIdResult(result.getId());
+						draw = (Draw) DatabaseHelper.saveEntity(draw, user);
+					}
 					sbMsg.append(ResourceUtils.getText("result." + (idRS != null ? "modified" : "created"), getLocale(request)));
 				}
 				catch (Exception e) {
@@ -282,6 +303,7 @@ public class UpdateServlet extends AbstractServlet {
 					sb.append(yr.getId()).append("~").append(yr.getLabel()).append("~");
 					if (rs != null) { // Existing result
 						request.setAttribute("id", rs.getId());
+						// Result Info
 						sb.append(rs.getId()).append("~");
 						sb.append(rs.getResult1()).append("~").append(rs.getResult2()).append("~").append(rs.getResult3()).append("~").append(rs.getResult4()).append("~").append(rs.getResult5()).append("~");
 						sb.append(rs.getDate1()).append("~").append(rs.getDate2()).append("~");
@@ -306,30 +328,54 @@ public class UpdateServlet extends AbstractServlet {
 							n = se.getType().getNumber();
 						if (se2 != null)
 							n = se2.getType().getNumber();
+						// Rankings
 						for (int i = 1 ; i <= 10 ; i++) {
 							Method m = Result.class.getMethod("getIdRank" + i);
 							Integer id = null;
-							if (m != null) {
-								Object o = m.invoke(rs);
-								if (o != null)
-									id = (Integer) o;
-							}
+							Object o = m.invoke(rs);
+							if (o != null)
+								id = (Integer) o;
 							String label = null;
-							if (id != null && id > 0) {
-								if (n < 10) {
-									Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, id);
-									label = a.toString2();
-								}
-								else if (n == 50) {
-									Team t_ = (Team) DatabaseHelper.loadEntity(Team.class, id);
-									label = t_.getLabel();
-								}
-								else {
-									Country c = (Country) DatabaseHelper.loadEntity(Country.class, id);
-									label = c.getLabel(lang);
-								}
-							}
+							if (id != null && id > 0)
+								label = getEntityLabel(n, id, lang);
 							sb.append(id != null ? id : "").append("~").append(label != null ? label : "").append("~");
+						}
+						// Draws
+						System.out.println("from Draw where idResult=" + rs.getId());
+						List lDraw = DatabaseHelper.execute("from Draw where idResult=" + rs.getId());
+						if (lDraw != null && lDraw.size() > 0) {
+							Draw dr = (Draw) lDraw.get(0);
+							System.out.println(dr);
+							sb.append(dr.getId()).append("~");
+							for (String s : new String[]{"qf1", "qf2", "qf3", "qf4", "sf1", "sf2", "thd"}) {
+								Integer id1 = null;
+								Integer id2 = null;
+								Method m = Draw.class.getMethod("getId1" + String.valueOf(s.charAt(0)).toUpperCase() + s.substring(1));
+								Object o = m.invoke(dr);
+								if (o != null)
+									id1 = (Integer) o;
+								m = Draw.class.getMethod("getId2" + String.valueOf(s.charAt(0)).toUpperCase() + s.substring(1));
+								o = m.invoke(dr);
+								if (o != null)
+									id2 = (Integer) o;
+								
+								String label1 = null;
+								String label2 = null;
+								if (id1 != null && id1 > 0)
+									label1 = getEntityLabel(n, id1, lang);
+								if (id2 != null && id2 > 0)
+									label2 = getEntityLabel(n, id2, lang);
+								
+								String result = null;
+								m = Draw.class.getMethod("getResult_" + s);
+								o = m.invoke(dr);
+								if (o != null)
+									result = String.valueOf(o);								
+								
+								sb.append(id1 != null ? id1 : "").append("~").append(label1 != null ? label1 : "").append("~");
+								sb.append(id2 != null ? id2 : "").append("~").append(label2 != null ? label2 : "").append("~");
+								sb.append(result != null ? result : "").append("~");
+							}
 						}
 					}
 					String result = sb.toString().replaceAll("~null~", "~~").replaceAll("~null~", "~~").replaceAll("\"", "\\\\\"");
@@ -347,6 +393,23 @@ public class UpdateServlet extends AbstractServlet {
 		catch (Exception e) {
 			handleException(e);
 		}
+	}
+	
+	private static String getEntityLabel(int n, Integer id, String lang) throws Exception {
+		String label = null;
+		if (n < 10) {
+			Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, id);
+			label = a.toString2();
+		}
+		else if (n == 50) {
+			Team t_ = (Team) DatabaseHelper.loadEntity(Team.class, id);
+			label = t_.getLabel();
+		}
+		else {
+			Country c = (Country) DatabaseHelper.loadEntity(Country.class, id);
+			label = c.getLabel(lang);
+		}
+		return label;
 	}
 
 }

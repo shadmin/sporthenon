@@ -4,7 +4,6 @@
 <!-- HEADER -->
 	<entry key="title">SPORTHENON - The Temple of Sports Results</entry>
 	<entry key="desc">Sports results database (free and opened to contributors)</entry>
-	<entry key="desc">Search for any result in this free database, opened to contributors.</entry>
 	<entry key="menu.results">RESULTS</entry>
 	<entry key="menu.olympics">OLYMPICS</entry>
 	<entry key="menu.usleagues">US LEAGUES</entry>
@@ -209,6 +208,8 @@
 	<entry key="extlink.others">Others</entry>
 	<entry key="extlink.federation">International Federation</entry>
 	<entry key="extlink.official">Official Website</entry>
+	<entry key="winner">Winner</entry>
+	<entry key="loser">Loser</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>

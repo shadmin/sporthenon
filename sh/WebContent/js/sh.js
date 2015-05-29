@@ -393,20 +393,21 @@ var dLink = null;
 var dInfo = null;
 function share(type) {
 	var url = null;
+	var langParam = '?lang=' + lang;
 	if (type == 'fb') {
-		url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href);
+		url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href + langParam);
 	}
 	else if (type == 'tw') {
-		url = 'https://twitter.com/share?url=' + encodeURIComponent(location.href);
+		url = 'https://twitter.com/share?url=' + encodeURIComponent(location.href + langParam);
 	}
 	else if (type == 'gp') {
-		url = 'https://plus.google.com/share?url=' + encodeURIComponent(location.href);
+		url = 'https://plus.google.com/share?url=' + encodeURIComponent(location.href + langParam);
 	}
 	else if (type == 'bg') {
-		url = 'https://www.blogger.com/blog-this.g?u=' + encodeURIComponent(location.href) + '&n=' + escape(document.title);
+		url = 'https://www.blogger.com/blog-this.g?u=' + encodeURIComponent(location.href + langParam) + '&n=' + escape(document.title);
 	}
 	else if (type == 'tm') {
-		url = 'http://tumblr.com/share?&u=' + encodeURIComponent(location.href);
+		url = 'http://tumblr.com/share?&u=' + encodeURIComponent(location.href + langParam);
 	}
 	$('shareopt').hide();
 	window.open(url, '_blank');
@@ -1260,6 +1261,8 @@ function initUpdate(value) {
 	loadResValues(value);
 }
 function loadResValues(value) {
+	$('addbtn').show();
+	$('modifybtn').hide();
 	var t = value.split('~');
 	if (t != null && t.length > 1) {
 		tValues['sp'] = t[0]; $('sp').value = t[1]; $('sp').addClassName('completed');
@@ -1269,7 +1272,10 @@ function loadResValues(value) {
 		if (t[10] != '') {tValues['se2'] = t[10]; $('se2').value = t[11]; updateType('se2', t[12]); $('se2').addClassName('completed');}
 		tValues['yr'] = t[13]; $('yr').value = t[14]; $('yr').addClassName('completed');
 		if (t.length > 16) {
+			$('addbtn').hide();
+			$('modifybtn').show();
 			tValues['id'] = t[15];
+			// Result Info
 			tValues['rs1'] = t[16]; if (t[16] != '') {$('rs1').value = t[16]; $('rs1').addClassName('completed2');} else {$('rs1').value = $('rs1').name; $('rs1').removeClassName('completed2');}
 			tValues['rs2'] = t[17]; if (t[17] != '') {$('rs2').value = t[17]; $('rs2').addClassName('completed2');} else {$('rs2').value = $('rs2').name; $('rs2').removeClassName('completed2');}
 			tValues['rs3'] = t[18]; if (t[18] != '') {$('rs3').value = t[18]; $('rs3').addClassName('completed2');} else {$('rs3').value = $('rs3').name; $('rs3').removeClassName('completed2');}
@@ -1282,6 +1288,7 @@ function loadResValues(value) {
 			tValues['exa'] = t[27]; if (t[27] != '') {$('exa').value = t[27]; $('exa').addClassName('completed2');} else {$('exa').value = $('exa').name; $('exa').removeClassName('completed2');}
 			tValues['cmt'] = t[28]; if (t[28] != '') {$('cmt').value = t[28]; $('cmt').addClassName('completed2');} else {$('cmt').value = $('cmt').name; $('cmt').removeClassName('completed2');}
 			tValues['exl'] = t[29]; if (t[29] != '') {$('exl').value = t[29].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
+			// Rankings
 			var j = 29;
 			for (var i = 1 ; i <= 10 ; i++) {
 				tValues['rk' + i] = t[++j];
@@ -1290,9 +1297,37 @@ function loadResValues(value) {
 					$('rk' + i).addClassName('completed');
 				}
 				else {
+					j++;
 					$('rk' + i).value = $('rk' + i).name;
 					$('rk' + i).removeClassName('completed').removeClassName('completed2');
 				}
+			}
+			// Draws
+			var k = j;
+			tValues['drid'] = t[++k];
+			if (tValues['drid'] != '') {
+				['qf1', 'qf2', 'qf3', 'qf4', 'sf1', 'sf2', 'thd'].each(function(s){
+					tValues[s + 'w'] = t[++k];
+					$(s + 'w').value = t[++k];
+					if (tValues[s + 'w']) { $(s + 'w').addClassName('completed'); } else { $(s + 'w').removeClassName('completed'); }
+					tValues[s + 'l'] = t[++k];
+					$(s + 'l').value = t[++k];
+					if (tValues[s + 'l']) { $(s + 'l').addClassName('completed'); } else { $(s + 'l').removeClassName('completed'); }
+					tValues[s + 'rs'] = t[++k];
+					$(s + 'rs').value = tValues[s + 'rs'];
+					if (tValues[s + 'rs']) { $(s + 'rs').addClassName('completed2'); } else { $(s + 'rs').removeClassName('completed2'); }
+				});
+				$('draw').show();
+				$('drawimg').src = '/img/render/collapse.gif';
+			}
+			else {
+				$$('#draw input').each(function(el){
+					tValues[$(el).id] = '';
+					$(el).value = $(el).name;
+					$(el).removeClassName('completed').removeClassName('completed2');
+				});
+				$('draw').hide();
+				$('drawimg').src = '/img/render/expand.gif';
 			}
 		}
 	}
@@ -1316,7 +1351,7 @@ function updateType(s, tp) {
 	if ((tValues['se2'] != null && s == 'se2') || (tValues['se'] != null && tValues['se2'] == null && s == 'se') || (tValues['ev'] != null && tValues['se'] == null && tValues['se2'] == null && s == 'ev')) {
 		currentTp = parseInt(tp);
 	}
-	['rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'rk6', 'rk7', 'rk8', 'rk9', 'rk10'].each(function(s){
+	['rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'rk6', 'rk7', 'rk8', 'rk9', 'rk10', 'qf1w', 'qf1l', 'qf2w', 'qf2l', 'qf3w', 'qf3l', 'qf4w', 'qf4l', 'sf1w', 'sf1l', 'sf2w', 'sf2l', 'thdw', 'thdl'].each(function(s){
 		Event.stopObserving($(s), 'blur');
 		Event.stopObserving($(s), 'keydown');
 		new Ajax.Autocompleter(
@@ -1353,7 +1388,7 @@ function loadResult(type) {
 function saveResult() {
 	$('msg').update('<img src="/img/db/loading.gif?6"/>');
 	var h = $H({sp: tValues['sp']});
-	['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'cmt', 'exl', 'rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'rk6', 'rk7', 'rk8', 'rk9', 'rk10', 'rs1', 'rs2', 'rs3', 'rs4', 'rs5'].each(function(s){
+	['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'cmt', 'exl', 'rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'rk6', 'rk7', 'rk8', 'rk9', 'rk10', 'rs1', 'rs2', 'rs3', 'rs4', 'rs5', 'drid', 'qf1w', 'qf1l', 'qf1rs', 'qf2w', 'qf2l', 'qf2rs', 'qf3w', 'qf3l', 'qf3rs', 'qf4w', 'qf4l', 'qf4rs', 'sf1w', 'sf1l', 'sf2w', 'sf1rs', 'sf2l', 'sf2rs', 'thdw', 'thdl', 'thdrs'].each(function(s){
 		h.set(s, tValues[s]);
 		if ($(s) && ($(s).hasClassName('completed') || $(s).hasClassName('completed2'))) {
 			h.set(s + "-l", $F(s));
@@ -1367,4 +1402,14 @@ function saveResult() {
 		},
 		parameters: h
 	});
+}
+function toggleDraw() {
+	if ($('draw').style.display == 'none') {
+		$('draw').show();
+		$('drawimg').src = '/img/render/collapse.gif';
+	}
+	else {
+		$('draw').hide();
+		$('drawimg').src = '/img/render/expand.gif';
+	}
 }

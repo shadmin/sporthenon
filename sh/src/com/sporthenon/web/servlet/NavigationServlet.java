@@ -63,6 +63,8 @@ public class NavigationServlet extends AbstractServlet {
 			if (ConfigUtils.getProperty("env").matches("test|prod"))
 				if (key != null && key.equals("update") && (request.getSession() == null || request.getSession().getAttribute("user") == null))
 					key = "login";
+			if (hParams.containsKey("lang"))
+				request.getSession().setAttribute("locale", String.valueOf(hParams.get("lang")));
 			if (key != null && key.equals("project"))
 				hParams.put("p", 1);
 			if (tURI.length > 1 || hParams.containsKey("p")) {

@@ -108,26 +108,31 @@ public class AndroidServlet extends AbstractServlet {
 	        else if (p2.equalsIgnoreCase("R1")) {
 	        	Result r = (Result) DatabaseHelper.loadEntity(Result.class, p);
 	        	Element sp = doc.createElement("sport");
-	        	sp.setAttribute("img", getImage(ImageUtils.INDEX_SPORT, r.getSport().getId(), ImageUtils.SIZE_SMALL, null, null));
+	        	sp.setAttribute("id", String.valueOf(r.getSport().getId()));
+	        	sp.setAttribute("img", getImage(ImageUtils.INDEX_SPORT, r.getSport().getId(), ImageUtils.SIZE_LARGE, null, null));
 	        	sp.setTextContent(r.getSport().getLabel(lang));
 	        	root.appendChild(sp);
 	        	Element cp = doc.createElement("championship");
-	        	cp.setAttribute("img", getImage(ImageUtils.INDEX_CHAMPIONSHIP, r.getChampionship().getId(), ImageUtils.SIZE_SMALL, null, null));
+	        	cp.setAttribute("id", String.valueOf(r.getChampionship().getId()));
+	        	cp.setAttribute("img", getImage(ImageUtils.INDEX_CHAMPIONSHIP, r.getChampionship().getId(), ImageUtils.SIZE_LARGE, null, null));
 	        	cp.setTextContent(r.getChampionship().getLabel(lang));
 	        	root.appendChild(cp);
 	        	Element ev = doc.createElement("event");
-	        	ev.setAttribute("img", getImage(ImageUtils.INDEX_EVENT, r.getEvent().getId(), ImageUtils.SIZE_SMALL, null, null));
+	        	ev.setAttribute("id", String.valueOf(r.getEvent().getId()));
+	        	ev.setAttribute("img", getImage(ImageUtils.INDEX_EVENT, r.getEvent().getId(), ImageUtils.SIZE_LARGE, null, null));
 	        	ev.setTextContent(r.getEvent().getLabel(lang));
 	        	root.appendChild(ev);
 	        	if (r.getSubevent() != null) {
 	        		Element se = doc.createElement("subevent");
-		        	se.setAttribute("img", getImage(ImageUtils.INDEX_EVENT, r.getSubevent().getId(), ImageUtils.SIZE_SMALL, null, null));
+	        		se.setAttribute("id", String.valueOf(r.getSubevent().getId()));
+		        	se.setAttribute("img", getImage(ImageUtils.INDEX_EVENT, r.getSubevent().getId(), ImageUtils.SIZE_LARGE, null, null));
 		        	se.setTextContent(r.getSubevent().getLabel(lang));
 		        	root.appendChild(se);	
 	        	}
 	        	if (r.getSubevent2() != null) {
-	        		Element se2 = doc.createElement("subevent");
-		        	se2.setAttribute("img", getImage(ImageUtils.INDEX_EVENT, r.getSubevent2().getId(), ImageUtils.SIZE_SMALL, null, null));
+	        		Element se2 = doc.createElement("subevent2");
+	        		se2.setAttribute("id", String.valueOf(r.getSubevent2().getId()));
+		        	se2.setAttribute("img", getImage(ImageUtils.INDEX_EVENT, r.getSubevent2().getId(), ImageUtils.SIZE_LARGE, null, null));
 		        	se2.setTextContent(r.getSubevent2().getLabel(lang));
 		        	root.appendChild(se2);	
 	        	}
@@ -141,36 +146,42 @@ public class AndroidServlet extends AbstractServlet {
 				if (StringUtils.notEmpty(r.getComplex2()) || StringUtils.notEmpty(r.getCity2())) {
 					String pl1 = null;
 					String pl2 = null;
-					String img1 = null;
-					String img2 = null;
+					Integer cn1 = null;
+					Integer cn2 = null;
 					if (r.getComplex1() != null) {
 						Complex cx = r.getComplex1();
 						pl1 = HtmlConverter.getPlace(cx.getId(), cx.getCity().getId(), cx.getCity().getState() != null ? cx.getCity().getState().getId() : null, cx.getCity().getCountry().getId(), cx.getLabel(lang), cx.getCity().getLabel(lang), cx.getCity().getState() != null ? cx.getCity().getState().getLabel(lang) : null, cx.getCity().getCountry().getLabel(lang), cx.getLabel(), cx.getCity().getLabel(), cx.getCity().getState() != null ? cx.getCity().getState().getLabel() : null, cx.getCity().getCountry().getLabel(), r.getYear().getLabel());
-						img1 = getImage(ImageUtils.INDEX_COUNTRY, cx.getCity().getCountry().getId(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+						cn1 = cx.getCity().getCountry().getId();
 					}
 					else if (r.getCity1() != null) {
 						City ct = r.getCity1();
 						pl1 = HtmlConverter.getPlace(null, ct.getId(), ct.getState() != null ? ct.getState().getId() : null, ct.getCountry().getId(), null, ct.getLabel(lang), ct.getState() != null ? ct.getState().getLabel(lang) : null, ct.getCountry().getLabel(lang), null, ct.getLabel(), ct.getState() != null ? ct.getState().getLabel() : null, ct.getCountry().getLabel(), r.getYear().getLabel());
-						img1 = getImage(ImageUtils.INDEX_COUNTRY, ct.getCountry().getId(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+						cn1 = ct.getCountry().getId();
 					}
 					if (r.getComplex2() != null) {
 						Complex cx = r.getComplex2();
 						pl2 = HtmlConverter.getPlace(cx.getId(), cx.getCity().getId(), cx.getCity().getState() != null ? cx.getCity().getState().getId() : null, cx.getCity().getCountry().getId(), cx.getLabel(lang), cx.getCity().getLabel(lang), cx.getCity().getState() != null ? cx.getCity().getState().getLabel(lang) : null, cx.getCity().getCountry().getLabel(lang), cx.getLabel(), cx.getCity().getLabel(), cx.getCity().getState() != null ? cx.getCity().getState().getLabel() : null, cx.getCity().getCountry().getLabel(), r.getYear().getLabel());
-						img2 = getImage(ImageUtils.INDEX_COUNTRY, cx.getCity().getCountry().getId(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+						cn2 = cx.getCity().getCountry().getId();
 					}
 					else if (r.getCity2() != null) {
 						City ct = r.getCity2();
 						pl2 = HtmlConverter.getPlace(null, ct.getId(), ct.getState() != null ? ct.getState().getId() : null, ct.getCountry().getId(), null, ct.getLabel(lang), ct.getState() != null ? ct.getState().getLabel(lang) : null, ct.getCountry().getLabel(lang), null, ct.getLabel(), ct.getState() != null ? ct.getState().getLabel() : null, ct.getCountry().getLabel(), r.getYear().getLabel());
-						img2 = getImage(ImageUtils.INDEX_COUNTRY, ct.getCountry().getId(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+						cn2 = ct.getCountry().getId();
 					}
 					if (StringUtils.notEmpty(pl1)) {
 						Element place1 = doc.createElement("place1");
-						place1.setAttribute("img", img1);
+						if (cn1 != null) {
+							place1.setAttribute("id", String.valueOf(cn1));
+							place1.setAttribute("img", getImage(ImageUtils.INDEX_COUNTRY, cn1, ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null));	
+						}
 						place1.setTextContent(StringUtils.removeTags(pl1));
 						root.appendChild(place1);
 					}
 					Element place2 = doc.createElement("place2");
-					place2.setAttribute("img", img2);
+					if (cn2 != null) {
+						place2.setAttribute("id", String.valueOf(cn2));
+						place2.setAttribute("img", getImage(ImageUtils.INDEX_COUNTRY, cn2, ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null));	
+					}
 					place2.setTextContent(StringUtils.removeTags(pl2));
 					root.appendChild(place2);
 				}
@@ -286,7 +297,7 @@ public class AndroidServlet extends AbstractServlet {
 		if (picklist != null && picklist.size() > 0) {
 			for (PicklistBean plb : picklist) {
 				Element item = doc.createElement("item");
-				String img = HtmlUtils.writeImage(index, plb.getValue(), ImageUtils.SIZE_SMALL, null, null);
+				String img = HtmlUtils.writeImage(index, plb.getValue(), ImageUtils.SIZE_LARGE, null, null);
 				int id = plb.getValue();
 				String text = plb.getText();
 				if (lInactive != null && lInactive.contains(currentPath + "-" + id))

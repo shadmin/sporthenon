@@ -46,6 +46,7 @@
 	border: none;
 	padding: 0;
 	padding-right: 3px;
+	padding-top: 2px;
 	background-color: transparent;
 }
 .tc td table td, .tc th table td, .tc .info td table td{
@@ -151,6 +152,11 @@
 }
 .tc .info .logo, .tc .info .flag{
 	padding: 5px 5px;
+}
+.tc .info .logosport{
+	text-align: center;
+	padding-bottom: 60px;
+	background: #FFF url(../img/column.png?5) center 108px no-repeat;
 }
 .tc .info .flag img, .tc .info .otherflags img{
 	border: 1px solid #666;

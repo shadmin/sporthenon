@@ -678,6 +678,8 @@ input{
 .homecontent #sports div.sport{
 	float: left;
 	width: 105px;
+	height: 115px;
+	overflow: hidden;
 	border: 1px solid #FFF;
 	text-align: center;
 	padding: 1px;
@@ -1098,7 +1100,8 @@ input{
 #update{
 	margin-left: 10px;
 	margin-right: 10px;
-	height: 550px;
+	margin-bottom: 10px;
+	overflow: auto;
 }
 #update .fstitle{
 	background-image: url(../img/addresult.png?5);
@@ -1115,8 +1118,8 @@ input{
 	font-size: 11px;
 }
 #update input[type=text], #update textarea{
-	font: 12px Verdana;
-	width: 350px;
+	font: 11px Verdana;
+	width: 250px;
 	color: #888;
 	border: 1px solid #AAA;
 	padding: 2px;
@@ -1160,7 +1163,7 @@ input{
 }
 .ajaxsearch {
 	position: absolute;
-	font: 12px Verdana;
+	font: 11px Verdana;
 	width: 800px;
 	background-color: #FFF;
 	margin: 0px;

@@ -14,8 +14,9 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 <div id="update">
 	<div class="fieldset">
 		<div class="fstitle"><%=StringUtils.text("create.modify.result", session)%></div>
-		<div class="fscontent" style="height:500px;">
-			<div style="float:left;padding-right:10px;height:450px;">
+		<div class="fscontent" style="height:auto;">
+			<!-- RESULT INFO -->
+			<div style="float:left;padding-right:10px;">
 			<table style="margin-top:0px;">
 				<tr><td colspan="5"><input type="text" id="sp" tabindex="1" name="<%=StringUtils.text("entity.SP.1", session)%>"/><a href="javascript:clearValue('sp');">[X]</a></td></tr>
 				<tr><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="4"><input type="text" id="cp" tabindex="2" name="<%=StringUtils.text("entity.CP.1", session)%>"/><a href="javascript:clearValue('cp');">[X]</a></td></tr>
@@ -42,11 +43,9 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 			<table>
 				<tr><td><input type="text" id="cmt" tabindex="12" name="<%=StringUtils.text("comment", session)%>"/></td></tr>
 			</table>
-			<table>
-				<tr><td><textarea id="exl" tabindex="13" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="5" style="width:450px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
-			</table>
 			</div>
-			<div style="height:450px;">
+			<!-- RANKINGS -->
+			<div>
 			<table style="margin-top:0px;">
 				<tr><td><input type="text" id="rk1" tabindex="100" name="<%=StringUtils.text("rank.1", session)%>"/><a href="javascript:clearValue('rk1');">[X]</a></td><td>&nbsp;<input type="text" id="rs1" tabindex="150" name="<%=StringUtils.text("result.score", session)%>" style="width:120px;"/></td></tr>
 				<tr><td><input type="text" id="rk2" tabindex="101" name="<%=StringUtils.text("rank.2", session)%>"/><a href="javascript:clearValue('rk2');">[X]</a></td><td>&nbsp;<input type="text" id="rs2" tabindex="151" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
@@ -59,14 +58,34 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 				<tr><td><input type="text" id="rk9" tabindex="108" name="<%=StringUtils.text("rank.9", session)%>"/><a href="javascript:clearValue('rk9');">[X]</a></td></tr>
 				<tr><td><input type="text" id="rk10" tabindex="109" name="<%=StringUtils.text("rank.10", session)%>"/><a href="javascript:clearValue('rk10');">[X]</a></td></tr>
 			</table>
+			<table>
+				<tr><td><textarea id="exl" tabindex="13" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="5" style="width:400px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
+			</table>
+			</div>
+			<!-- DRAWS -->
+			<div style="margin-top:20px;">
+			<fieldset style="border:1px solid #AAA;">
+			<legend><a href="javascript:toggleDraw();"><img id="drawimg" alt="" src="/img/render/expand.gif"/>&nbsp;DRAW</a></legend>
+			<table id="draw" style="display:none;margin-top:10px;">
+				<tr><td><input type="text" id="qf1w" tabindex="1000" name="<%=StringUtils.text("quarterfinal", session)%> #1 - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('qf1w');">[X]</a></td></tr>
+				<tr><td><input type="text" id="qf1l" tabindex="1001" name="<%=StringUtils.text("quarterfinal", session)%> #1 - <%=StringUtils.text("loser", session)%>"/><a href="javascript:clearValue('qf1l');">[X]</a></td></tr>
+				<tr><td style="text-align:center;">&nbsp;<input type="text" id="qf1rs" tabindex="1002" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td></tr>
+				<tr><td><input type="text" id="qf2w" tabindex="1003" name="<%=StringUtils.text("quarterfinal", session)%> #2 - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('qf2w');">[X]</a></td><td style="padding-left:50px;"><input type="text" id="sf1w" tabindex="1012" name="<%=StringUtils.text("semifinal", session)%> #1 - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('sf1w');">[X]</a></td></tr>
+				<tr><td><input type="text" id="qf2l" tabindex="1004" name="<%=StringUtils.text("quarterfinal", session)%> #2 - <%=StringUtils.text("loser", session)%>"/><a href="javascript:clearValue('qf2l');">[X]</a></td><td style="padding-left:50px;"><input type="text" id="sf1l" tabindex="1013" name="<%=StringUtils.text("semifinal", session)%> #1 - <%=StringUtils.text("loser", session)%>"/><a href="javascript:clearValue('sf1l');">[X]</a></td></tr>
+				<tr><td style="text-align:center;">&nbsp;<input type="text" id="qf2rs" tabindex="1005" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td><td style="padding-left:50px;text-align:center;">&nbsp;<input type="text" id="sf1rs" tabindex="1014" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td></tr>
+				<tr><td><input type="text" id="qf3w" tabindex="1006" name="<%=StringUtils.text("quarterfinal", session)%> #3 - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('qf3w');">[X]</a></td><td style="padding-left:50px;"><input type="text" id="sf2w" tabindex="1015" name="<%=StringUtils.text("semifinal", session)%> #2 - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('sf2w');">[X]</a></td></tr>
+				<tr><td><input type="text" id="qf3l" tabindex="1007" name="<%=StringUtils.text("quarterfinal", session)%> #3 - <%=StringUtils.text("loser", session)%>"/><a href="javascript:clearValue('qf3l');">[X]</a></td><td style="padding-left:50px;"><input type="text" id="sf2l" tabindex="1016" name="<%=StringUtils.text("semifinal", session)%> #2 - <%=StringUtils.text("loser", session)%>"/><a href="javascript:clearValue('sf2l');">[X]</a></td></tr>
+				<tr><td style="text-align:center;">&nbsp;<input type="text" id="qf3rs" tabindex="1008" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td><td style="padding-left:50px;text-align:center;">&nbsp;<input type="text" id="sf2rs" tabindex="1017" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td></tr>
+				<tr><td><input type="text" id="qf4w" tabindex="1009" name="<%=StringUtils.text("quarterfinal", session)%> #4 - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('qf4w');">[X]</a></td><td style="padding-left:50px;"><input type="text" id="thdw" tabindex="1018" name="<%=StringUtils.text("third.place", session)%> - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('thdw');">[X]</a></td></tr>
+				<tr><td><input type="text" id="qf4l" tabindex="1010" name="<%=StringUtils.text("quarterfinal", session)%> #4 - <%=StringUtils.text("loser", session)%>"/><a href="javascript:clearValue('qf4l');">[X]</a></td><td style="padding-left:50px;"><input type="text" id="thdl" tabindex="1019" name="<%=StringUtils.text("third.place", session)%> - <%=StringUtils.text("loser", session)%>"/><a href="javascript:clearValue('thdl');">[X]</a></td></tr>
+				<tr><td style="text-align:center;">&nbsp;<input type="text" id="qf4rs" tabindex="1011" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td><td style="padding-left:50px;text-align:center;">&nbsp;<input type="text" id="thdrs" tabindex="1020" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td></tr>
+			</table>
+			</fieldset>
 			</div>
 			<table><tr>
-				<% if (request.getAttribute("id") != null) { %>
-				<td><input id='modifybtn' type='button' class='button' onclick='saveResult();' value='<%=StringUtils.text("button.modify", session)%>'/></td>
-				<% } else { %>
 				<td><input id='addbtn' type='button' class='button' onclick='saveResult();' value='<%=StringUtils.text("button.add", session)%>'/></td>
-				<% } %>
-				<td id="msg" style="font-weight:bold;padding:5px;"></td>
+				<td><input id='modifybtn' type='button' class='button' onclick='saveResult();' value='<%=StringUtils.text("button.modify", session)%>' style="display:none;"/></td>
+				<td id="msg" style="font-weight:bold;padding:5px;height:45px;"></td>
 			</tr></table>
 		</div>
 	</div>

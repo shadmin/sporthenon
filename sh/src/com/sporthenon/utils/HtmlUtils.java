@@ -144,7 +144,7 @@ public class HtmlUtils {
 		for (String key : h.keySet()) {
 			if (!key.matches("(tab|^)title|titleEN|url|info|\\_sport\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
 				html.append("<tr>" + (h.containsKey("_sport_") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
-				html.append("<td" + (key.matches("logo|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + (h.containsKey("_sport_") ? " style='text-align:center;'" : "") + ">" + h.get(key) + "</td></tr>");
+				html.append("<td" + (key.matches("logo|logosport|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + ">" + h.get(key) + "</td></tr>");
 			}
 		}
 		html.append("</table>");
