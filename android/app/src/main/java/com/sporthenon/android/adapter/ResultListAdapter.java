@@ -1,11 +1,14 @@
 package com.sporthenon.android.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sporthenon.android.R;
@@ -55,13 +58,20 @@ public class ResultListAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			holder.year = (TextView) convertView.findViewById(R.id.year);
 			holder.img = (ImageView) convertView.findViewById(R.id.img);
-            holder.rank1 = (TextView) convertView.findViewById(R.id.rank1);
+			holder.rank1 = (TextView) convertView.findViewById(R.id.rank1);
 			convertView.setTag(holder);
 		}
         else
 			holder = (ViewHolder) convertView.getTag();
 		holder.year.setText(list.get(position).getYear());
-		holder.img.setBackgroundDrawable(list.get(position).getImg());
+		Drawable img = list.get(position).getImg();
+		String imgURL = list.get(position).getImgURL();
+		if (img != null) {
+			holder.img.setImageDrawable(img);
+			holder.img.setLayoutParams(imgURL != null && imgURL.contains("-L") ? new LinearLayout.LayoutParams(50, 50) : new LinearLayout.LayoutParams(29, 18));
+		}
+		else
+			holder.img.setVisibility(View.GONE);
         holder.rank1.setText(list.get(position).getRank1());
 		lastPosition = position;
 		return convertView;

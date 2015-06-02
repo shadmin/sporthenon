@@ -19,6 +19,7 @@ public class SportActivity extends AbstractActivity implements AdapterView.OnIte
         title.setText(R.string.sport);
         AsyncSports task = new AsyncSports();
         task.execute(this);
+        findViewById(R.id.path).setVisibility(View.GONE);
     }
 
     @Override
@@ -27,6 +28,7 @@ public class SportActivity extends AbstractActivity implements AdapterView.OnIte
         Intent i = new Intent(this, ChampionshipActivity.class);
         Bundle b = new Bundle();
         b.putInt("spid", sp.getId());
+        b.putString("spname", sp.getName());
         i.putExtras(b);
         startActivity(i);
     }

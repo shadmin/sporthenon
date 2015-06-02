@@ -1,6 +1,7 @@
 package com.sporthenon.android.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -49,6 +50,12 @@ public class LangActivity extends Activity implements View.OnClickListener {
             langFR = (RadioButton) findViewById(R.id.langFR);
             findViewById(R.id.ok).setOnClickListener(this);
         }
+        /*ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("Thinking...");
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
+        dialog.show();
+        dialog.hide();*/
     }
 
     public void nextActivity() {

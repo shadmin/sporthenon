@@ -7,18 +7,16 @@ public class ResultItem {
 	private int id;
     private String year;
     private Drawable img;
+    private String imgURL;
     private String rank1;
 
-	public ResultItem(int id, String year, Drawable img, String rank1) {
+	public ResultItem(int id, String year, String imgURL, Drawable img, String rank1) {
 		super();
 		this.id = id;
 		this.year = year;
+        this.imgURL = imgURL;
 		this.img = img;
         this.rank1 = rank1;
-	}
-
-	public ResultItem() {
-		super();
 	}
 
     public int getId() {
@@ -51,6 +49,14 @@ public class ResultItem {
 
     public void setRank1(String rank1) {
         this.rank1 = rank1;
+    }
+
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
     }
 
 }

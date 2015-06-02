@@ -50,7 +50,7 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
             Document doc = dBuilder.parse(input);
             NodeList list = doc.getElementsByTagName("item");
             if (list == null || list.getLength() == 0) {
-                activity.loadResults(spid, cpid, ev1id, ev2id, null);
+                activity.loadResults();
                 activity.finish();
                 return null;
             }
@@ -80,6 +80,9 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);
+        }
+        finally {
+            activity.hideProgress();
         }
         super.onPostExecute(response);
     }

@@ -1,24 +1,50 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="#FFF">
+    android:background="#EEE">
 
     <EditText
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:fontFamily="Verdana"
-        android:textSize="17sp"
+        android:textSize="18sp"
         android:hint="@string/search">
     </EditText>
 
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="10dip"
+        android:indeterminate="true"
+        />
+
+    <TextView
+        android:id="@+id/path"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:paddingBottom="10dip"
+        android:background="#FFB"
+        />
+
     <ListView
         android:id="@+id/list"
+        android:layout_below="@+id/search"
+        android:layout_above="@+id/path"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-        <requestFocus/>
-    </ListView>
+        android:layout_height="fill_parent"
+        android:choiceMode="singleChoice"
+        android:layout_margin="8sp"
+        android:divider="#EEE"
+        android:dividerHeight="8.0sp"
+        />
 
-</LinearLayout>
+</RelativeLayout>

@@ -3,20 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
-    android:layout_height="35dip"
+    android:layout_height="50dip"
     android:gravity="center_vertical"
-    android:paddingLeft="5dip"
-    android:background="#666">
+    android:background="#555">
 
     <ImageView
         android:id="@+id/back_icon"
         android:contentDescription="@string/back"
         android:src="@drawable/back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dip"
+        android:layout_height="48dip"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:padding="3dip"
+        android:padding="0dip"
         android:onClick="onBackClick"
         />
 
@@ -26,10 +25,10 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/back_icon"
         android:layout_toEndOf="@+id/back_icon"
-        android:padding="3dip"
+        android:padding="8dip"
         android:textColor="#FFF"
         android:fontFamily="Verdana"
-        android:textSize="17sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:typeface="sans"
         />
@@ -38,8 +37,8 @@
         android:id="@+id/search_icon"
         android:contentDescription="@string/search"
         android:src="@drawable/search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="46dip"
+        android:layout_height="46dip"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:padding="3dip"

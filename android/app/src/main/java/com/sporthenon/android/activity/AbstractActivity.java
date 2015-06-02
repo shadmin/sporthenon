@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sporthenon.android.R;
@@ -27,6 +28,7 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
     protected String lang;
     protected TextView title;
     private ArrayList<Object> itemList;
+    protected ProgressBar progress;
     protected ListView list;
     protected EditText search;
     protected Integer sportId;
@@ -34,6 +36,11 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
     protected Integer event1Id;
     protected Integer event2Id;
     protected Integer event3Id;
+    protected String sportName;
+    protected String championshipName;
+    protected String event1Name;
+    protected String event2Name;
+    protected String event3Name;
 
     public ArrayList<Object> getItemList() {
         if (itemList == null)
@@ -97,6 +104,46 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
         this.event3Id = event3Id;
     }
 
+    public String getSportName() {
+        return sportName;
+    }
+
+    public void setSportName(String sportName) {
+        this.sportName = sportName;
+    }
+
+    public String getChampionshipName() {
+        return championshipName;
+    }
+
+    public void setChampionshipName(String championshipName) {
+        this.championshipName = championshipName;
+    }
+
+    public String getEvent1Name() {
+        return event1Name;
+    }
+
+    public void setEvent1Name(String event1Name) {
+        this.event1Name = event1Name;
+    }
+
+    public String getEvent2Name() {
+        return event2Name;
+    }
+
+    public void setEvent2Name(String event2Name) {
+        this.event2Name = event2Name;
+    }
+
+    public String getEvent3Name() {
+        return event3Name;
+    }
+
+    public void setEvent3Name(String event3Name) {
+        this.event3Name = event3Name;
+    }
+
     protected void onCreate(Bundle state) {
         super.onCreate(state);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -104,7 +151,7 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
 
         title = (TextView) findViewById(R.id.title);
-
+        progress = (ProgressBar) findViewById(R.id.progress);
         list = (ListView) findViewById(R.id.list);
         list.setOnItemClickListener(this);
 
@@ -151,8 +198,9 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
                 if (text.length() == 0 || item.getRank1().toLowerCase().matches(".*" + text + ".*"))
                     list_.add(item);
             }
-            if (list_.size() == 0)
-                list_.add(new ResultItem(0, null, getResources().getDrawable(R.drawable.error), String.valueOf(R.string.error)));
+          /*  if (list_.size() == 0)
+                list_.add(new ResultItem(0, null, null, getResources().getDrawable(R.drawable.error), String.valueOf(R.string.error)));
+                */
             list.setAdapter(new ResultListAdapter(getApplicationContext(), list_));
         }
         else {
@@ -162,10 +210,19 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
                 if (text.length() == 0 || item.getName().toLowerCase().matches(".*" + text + ".*"))
                     list_.add(item);
             }
-            if (list_.size() == 0)
-                list_.add(new DataItem(0, String.valueOf(R.string.error), getResources().getDrawable(R.drawable.error)));
+/*            if (list_.size() == 0)
+                list_.add(new DataItem(0, String.valueOf(R.string.error), getResources().getDrawable(R.drawable.error)));*/
             list.setAdapter(new ItemListAdapter(getApplicationContext(), list_));
         }
+    }
+
+    public void setPath(String s) {
+        TextView path = (TextView) findViewById(R.id.path);
+        path.setText(path.getText() + "\r\n" + s);
+    }
+
+    public void hideProgress() {
+        progress.setVisibility(View.GONE);
     }
 
 }

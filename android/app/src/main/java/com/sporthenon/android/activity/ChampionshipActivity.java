@@ -19,8 +19,10 @@ public class ChampionshipActivity extends AbstractActivity implements AdapterVie
         title.setText(R.string.championship);
         Bundle b = getIntent().getExtras();
         setSportId(b.getInt("spid"));
+        setSportName(b.getString("spname"));
         AsyncChampionships task = new AsyncChampionships();
         task.execute(getSportId(), this);
+        setPath(getSportName());
     }
 
     @Override
@@ -29,7 +31,9 @@ public class ChampionshipActivity extends AbstractActivity implements AdapterVie
         Intent i = new Intent(this, EventActivity.class);
         Bundle b = new Bundle();
         b.putInt("spid", getSportId());
+        b.putString("spname", getSportName());
         b.putInt("cpid", cp.getId());
+        b.putString("cpname", cp.getName());
         i.putExtras(b);
         startActivity(i);
     }

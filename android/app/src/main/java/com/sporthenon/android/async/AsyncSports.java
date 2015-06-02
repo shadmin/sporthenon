@@ -2,6 +2,7 @@ package com.sporthenon.android.async;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.activity.SportActivity;
@@ -66,6 +67,9 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);
+        }
+        finally {
+            activity.hideProgress();
         }
         super.onPostExecute(response);
     }

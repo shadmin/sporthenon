@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.widget.LinearLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -26,7 +27,7 @@ public class AndroidUtils {
                 File file = new File(dir, img.substring(img.lastIndexOf("/") + 1));
                 if (file.exists())
                     bd = new BitmapDrawable(new FileInputStream(file));
-                else {
+                else if (!img.contains("noimage.png")) {
                     //img = img.replaceAll("localhost", "10.0.2.2"); // TEST
                     connection = (HttpURLConnection) new URL(img) .openConnection();
                     connection.connect();
@@ -47,6 +48,14 @@ public class AndroidUtils {
             Log.e("Error", e.getMessage(), e);
         }
         return bd;
+    }
+
+    public static boolean notEmpty(String s) {
+        return (s!= null && s.trim().length() > 0);
+    }
+
+    public static LinearLayout.LayoutParams getImageSize(String url) {
+        return (notEmpty(url) && url.contains("-L") ? new LinearLayout.LayoutParams(50, 50) : new LinearLayout.LayoutParams(35, 23));
     }
 
 }

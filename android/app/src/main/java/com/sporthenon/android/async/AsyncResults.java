@@ -59,7 +59,7 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
                     String code = e.getAttribute("code");
                     String str1 = e.getAttribute("str1");
                     String str2 = e.getAttribute("str2");
-                    results.add(new ResultItem(id, year, AndroidUtils.getImage(activity, e.getAttribute("img")), str2 + (str1 != null && !str1.matches("^[A-Z]{3}$") ? " " + str1 : "") + (code != null && code.length() > 0 ? " (" + code + ")" : "")));
+                    results.add(new ResultItem(id, year, e.getAttribute("img"), AndroidUtils.getImage(activity, e.getAttribute("img")), str2 + (str1 != null && !str1.matches("^[A-Z]{3}$") ? " " + str1 : "") + (code != null && code.length() > 0 ? " (" + code + ")" : "")));
                 }
             }
             connection.disconnect();
@@ -78,6 +78,9 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);
+        }
+        finally {
+            activity.hideProgress();
         }
         super.onPostExecute(response);
     }

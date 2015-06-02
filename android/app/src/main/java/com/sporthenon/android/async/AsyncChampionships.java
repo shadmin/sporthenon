@@ -68,6 +68,9 @@ public class AsyncChampionships extends AsyncTask<Object, Boolean, String> {
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);
         }
+        finally {
+            activity.hideProgress();
+        }
         super.onPostExecute(response);
     }
 

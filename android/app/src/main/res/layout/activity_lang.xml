@@ -9,29 +9,30 @@
     <RadioGroup
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="5dip">
         <RadioButton
             android:id="@+id/langEN"
+            style="@style/CustomRadio"
             android:checked="true"
             android:drawableLeft="@drawable/flag_en"
             android:drawablePadding="5dip"
-            android:padding="8dip"
+            android:padding="6dip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:textColor="#000"
             android:text="@string/english">
         </RadioButton>
 
         <RadioButton
             android:id="@+id/langFR"
+            style="@style/CustomRadio"
             android:drawableLeft="@drawable/flag_fr"
             android:drawablePadding="5dip"
-            android:padding="8dip"
+            android:padding="6dip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/langEN"
-            android:textColor="#000"
             android:text="@string/francais">
         </RadioButton>
     </RadioGroup>
@@ -39,9 +40,10 @@
     <Button
         android:id="@+id/ok"
         android:layout_width="match_parent"
-        android:layout_height="40dip"
-        android:gravity="bottom|center_horizontal"
+        android:layout_height="50dip"
         android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="18sp"
         android:text="@string/ok">
     </Button>
 

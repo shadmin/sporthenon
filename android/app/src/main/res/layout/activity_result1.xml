@@ -3,8 +3,18 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal"
     android:orientation="vertical"
     android:background="#FFF">
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="5dip"
+        android:indeterminate="true"
+        />
 
     <TextView
         android:id="@+id/rs_year"
@@ -12,10 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:padding="2dip"
-        android:textColor="#000"
-        android:textSize="18sp"
         android:textStyle="bold"
-        android:typeface="normal"
         />
 
     <TextView
@@ -23,12 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:drawablePadding="2dip"
         android:padding="2dip"
-        android:textColor="#000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:typeface="normal"
         />
 
     <TextView
@@ -36,12 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:drawablePadding="2dip"
         android:padding="2dip"
-        android:textColor="#000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:typeface="normal"
         />
 
     <TextView
@@ -49,12 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:drawablePadding="2dip"
         android:padding="2dip"
-        android:textColor="#000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:typeface="normal"
         />
 
     <TextView
@@ -62,12 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:drawablePadding="2dip"
         android:padding="2dip"
-        android:textColor="#000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:typeface="normal"
         />
 
     <TextView
@@ -75,12 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:drawablePadding="2dip"
         android:padding="2dip"
-        android:textColor="#000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:typeface="normal"
         />
 
     <TextView
@@ -88,12 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:drawablePadding="2dip"
         android:padding="2dip"
-        android:textColor="#000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:typeface="normal"
         />
 
     <TextView
@@ -101,12 +78,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:drawablePadding="2dip"
         android:padding="2dip"
-        android:textColor="#000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:typeface="normal"
+        android:textAlignment="center"
         />
 
     <TextView
@@ -114,12 +87,78 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:drawablePadding="2dip"
         android:padding="2dip"
-        android:textColor="#000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:typeface="normal"
+        android:textAlignment="center"
         />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginTop="20dip"
+        android:padding="2dip">
+        <ImageView
+            android:id="@+id/rank1_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="3dip"
+            />
+        <TextView
+            android:id="@+id/rank1_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="2dip"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:padding="2dip">
+        <ImageView
+            android:id="@+id/rank2_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="3dip"
+            />
+        <TextView
+            android:id="@+id/rank2_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:padding="2dip">
+        <ImageView
+            android:id="@+id/rank3_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="3dip"
+            />
+        <TextView
+            android:id="@+id/rank3_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            />
+    </LinearLayout>
 
 </LinearLayout>

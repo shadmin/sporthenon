@@ -1,15 +1,25 @@
 <resources>
 
     <style name="CustomTitle">
-        <item name="android:background">#666</item>
+        <item name="android:background">#555</item>
     </style>
-    <style name="CustomFont" parent="android:Widget.TextView">
-        <item name="android:fontFamily">sans-serif-light</item>
+    <style name="CustomRadio" parent="android:Widget.CompoundButton.RadioButton">
+        <item name="android:fontFamily">Verdana</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="CustomTextView" parent="android:Widget.TextView">
+        <item name="android:fontFamily">Verdana</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_centerVertical">true</item>
     </style>
     <style name="CustomTheme" parent="android:Theme">
         <item name="android:textColor">#000</item>
-        <item name="android:textViewStyle">@style/CustomFont</item>
-        <item name="android:windowTitleSize">35dip</item>
+        <item name="android:radioButtonStyle">@style/CustomRadio</item>
+        <item name="android:textViewStyle">@style/CustomTextView</item>
+        <item name="android:windowTitleSize">50dip</item>
         <item name="android:windowTitleBackgroundStyle">@style/CustomTitle</item>
     </style>
 

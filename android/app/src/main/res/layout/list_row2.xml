@@ -3,20 +3,17 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="2dip" >
+    android:background="#FFF">
 
     <TextView
         android:id="@+id/year"
+        style="@style/CustomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:padding="3dip"
-        android:text="name"
-        android:textColor="#000"
-        android:textSize="16dip"
+        android:padding="7dip"
         android:textStyle="bold"
-        android:typeface="sans"
     />
 
     <LinearLayout
@@ -24,27 +21,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="5dip"
+        android:layout_marginLeft="4dip"
         android:layout_marginRight="5dip"
         android:layout_toRightOf="@+id/year"
-        android:padding="2dip">
+        android:padding="0dip">
         <ImageView
             android:id="@+id/img"
-            android:layout_width="21dip"
-            android:layout_height="14dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
         />
     </LinearLayout>
 
     <TextView
         android:id="@+id/rank1"
+        style="@style/CustomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/thumbnail"
-        android:textColor="#000"
-        android:textSize="16dip"
-        android:textStyle="bold"
-        android:typeface="sans"
     />
 
 </RelativeLayout>
