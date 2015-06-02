@@ -15,7 +15,7 @@
 	String url = ConfigUtils.getProperty("url");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-2.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="<%=lang%>" xml:lang="<%=lang%>">
 <head>
 	<title><%=title%></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -24,6 +24,9 @@
 	<meta property="og:title" content="<%=title%>"/>
 	<meta property="og:type" content="website"/>
 	<meta property="og:image" content="<%=url%>img/icon-notext-shadow.png?1"/>
+	<% if (request.isSecure()) { %>
+	<meta name="robots" content="noindex, nofollow">
+	<% } %>
 	<link rel="stylesheet" type="text/css" href="/css/sh.css?v=<%=version%>"/>	
 	<!--[if IE 6]>
 	<link rel="stylesheet" type="text/css" href="/css/ie6fix.css?v=<%=version%>"/>

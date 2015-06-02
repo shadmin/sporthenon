@@ -237,7 +237,7 @@ public class ExportUtils {
 		html = html.replaceAll("<head>", "<head>\r\n<style>*{font:12px Verdana;}</style>\r\n<link rel='stylesheet' type='text/css' href='" + ConfigUtils.getProperty("url") + "css/sh.css'/>\r\n<link rel='stylesheet' type='text/css' href='" + ConfigUtils.getProperty("url") + "css/render.css'/>\r\n");
 		html = html.replaceAll("<body>", "<body class='print'><div id='content'><div class='tc'>");
 		html = html.replaceAll("<\\/body>", "</div></div></body>");
-		html = html.replaceAll("img/", ConfigUtils.getProperty("url") + "img/");
+		html = html.replaceAll("/img/", ConfigUtils.getProperty("url") + "img/");
 		html = html.replaceAll("\\</?a.*?>|\\sclass=\"srt\"|onclick\\=\".*?\"", "");
 		html = html.replaceAll("class\\=\"toolbar\"", "class=\"toolbar\" style=\"display:none;\"");
 		return html;
@@ -343,18 +343,18 @@ public class ExportUtils {
 			response.setCharacterEncoding("utf-8");
 			if (format.equalsIgnoreCase("html")) {
 				response.setContentType("text/html");
-				response.setHeader("Content-Disposition", "attachment;filename=" + title + " [SPORTHENON].html");
+				response.setHeader("Content-Disposition", "attachment;filename=" + title + " [Sporthenon].html");
 				response.getWriter().write(toHtml(doc));
 			}
 			else if (format.equalsIgnoreCase("excel")) {
 				response.setContentType("application/vnd.ms-excel");
-				response.setHeader("Content-Disposition", "attachment;filename=" + title + " [SPORTHENON].xls");
+				response.setHeader("Content-Disposition", "attachment;filename=" + title + " [Sporthenon].xls");
 				toExcelOrText(response.getOutputStream(), doc, true);
-			}
+			}	
 			else if (format.equalsIgnoreCase("pdf")) {}
 			else if (format.equalsIgnoreCase("text")) {
 				response.setContentType("text/plain");
-				response.setHeader("Content-Disposition", "attachment;filename=" + title + " [SPORTHENON].txt");
+				response.setHeader("Content-Disposition", "attachment;filename=" + title + " [Sporthenon].txt");
 				toExcelOrText(response.getOutputStream(), doc, false);
 			}
 		}

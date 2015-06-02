@@ -64,6 +64,7 @@ public class ServletHelper {
         	sbInfo.append("|" + StringUtils.countIn(s, "<img"));
         	s = s.replaceAll("\\#INFO\\#", sbInfo.toString());
         }
+        s = s.replaceAll("\\shref\\=", " target='_blank' href=");
         PrintWriter writer = res.getWriter();
         writer.write(s);
         res.flushBuffer();

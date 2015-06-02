@@ -211,10 +211,10 @@ public class AndroidServlet extends AbstractServlet {
 					int type_ = ev_.getType().getNumber();
 //					boolean isScore = (bean.getRsRank1() != null && bean.getRsRank2() != null && StringUtils.notEmpty(bean.getRsResult1()) && !StringUtils.notEmpty(bean.getRsResult2()) && !StringUtils.notEmpty(bean.getRsResult3()));
 					if (bean.getRsRank1() != null) {
-						rk1 = HtmlConverter.getResultsEntity(type_, bean.getRsRank1(), bean.getEn1Str1(), bean.getEn1Str2(), bean.getEn1Str3(), bean.getYrLabel());
+						rk1 = HtmlConverter.getResultsEntity(type_, bean.getRsRank1(), bean.getEn1Str1(), bean.getEn1Str2(), bean.getEn1Str3(), bean.getEn1Rel2Code(), bean.getYrLabel());
 						rs1 = bean.getRsResult1();
 						if (type_ == 50)
-							img1 = getImage(ImageUtils.INDEX_TEAM, bean.getRsRank1(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+							img1 = getImage(ImageUtils.INDEX_TEAM, bean.getRsRank1(), ImageUtils.SIZE_LARGE, r.getYear().getLabel(), null);
 						else if (type_ == 99)
 							img1 = getImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank1(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
 						else if (bean.getEn1Rel2Id() != null) {
@@ -222,15 +222,15 @@ public class AndroidServlet extends AbstractServlet {
 							rk1 += " (" + bean.getEn1Rel2Label() + ")";
 						}
 						else if (bean.getEn1Rel1Id() != null) {
-							img1 = getImage(ImageUtils.INDEX_TEAM, bean.getEn1Rel1Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+							img1 = getImage(ImageUtils.INDEX_TEAM, bean.getEn1Rel1Id(), ImageUtils.SIZE_LARGE, r.getYear().getLabel(), null);
 							rk1 += " (" + bean.getEn1Rel1Label() + ")";
 						}
 					}
 					if (bean.getRsRank2() != null) {
-						rk2 = HtmlConverter.getResultsEntity(type_, bean.getRsRank2(), bean.getEn2Str1(), bean.getEn2Str2(), bean.getEn2Str3(), bean.getYrLabel());
+						rk2 = HtmlConverter.getResultsEntity(type_, bean.getRsRank2(), bean.getEn2Str1(), bean.getEn2Str2(), bean.getEn2Str3(), bean.getEn2Rel2Code(), bean.getYrLabel());
 						rs2 = bean.getRsResult2();
 						if (type_ == 50)
-							img2 = getImage(ImageUtils.INDEX_TEAM, bean.getRsRank2(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+							img2 = getImage(ImageUtils.INDEX_TEAM, bean.getRsRank2(), ImageUtils.SIZE_LARGE, r.getYear().getLabel(), null);
 						else if (type_ == 99)
 							img2 = getImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank2(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
 						else if (bean.getEn2Rel2Id() != null) {
@@ -238,15 +238,15 @@ public class AndroidServlet extends AbstractServlet {
 							rk2 += " (" + bean.getEn2Rel2Label() + ")";
 						}
 						else if (bean.getEn2Rel1Id() != null) {
-							img2 = getImage(ImageUtils.INDEX_TEAM, bean.getEn2Rel1Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+							img2 = getImage(ImageUtils.INDEX_TEAM, bean.getEn2Rel1Id(), ImageUtils.SIZE_LARGE, r.getYear().getLabel(), null);
 							rk2 += " (" + bean.getEn2Rel1Label() + ")";
 						}
 					}
 					if (bean.getRsRank3() != null) {
-						rk3 = HtmlConverter.getResultsEntity(type_, bean.getRsRank3(), bean.getEn3Str1(), bean.getEn3Str2(), bean.getEn3Str3(), bean.getYrLabel());
+						rk3 = HtmlConverter.getResultsEntity(type_, bean.getRsRank3(), bean.getEn3Str1(), bean.getEn3Str2(), bean.getEn3Str3(), bean.getEn3Rel2Code(), bean.getYrLabel());
 						rs3 = bean.getRsResult3();
 						if (type_ == 50)
-							img3 = getImage(ImageUtils.INDEX_TEAM, bean.getRsRank3(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+							img3 = getImage(ImageUtils.INDEX_TEAM, bean.getRsRank3(), ImageUtils.SIZE_LARGE, r.getYear().getLabel(), null);
 						else if (type_ == 99)
 							img3 = getImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank3(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
 						else if (bean.getEn3Rel2Id() != null) {
@@ -254,7 +254,7 @@ public class AndroidServlet extends AbstractServlet {
 							rk3 += " (" + bean.getEn3Rel2Label() + ")";
 						}
 						else if (bean.getEn3Rel1Id() != null) {
-							img3 = getImage(ImageUtils.INDEX_TEAM, bean.getEn3Rel1Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
+							img3 = getImage(ImageUtils.INDEX_TEAM, bean.getEn3Rel1Id(), ImageUtils.SIZE_LARGE, r.getYear().getLabel(), null);
 							rk3 += " (" + bean.getEn3Rel1Label() + ")";
 						}
 					}
@@ -330,14 +330,14 @@ public class AndroidServlet extends AbstractServlet {
 						Integer tm = bean.getEn1Rel1Id();
 						Integer cn = bean.getEn1Rel2Id();
 						if (tm != null && tm > 0)
-							img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, tm, ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
+							img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, tm, ImageUtils.SIZE_LARGE, bean.getYrLabel(), null);
 						else {
 							img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, cn, ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
 							item.setAttribute("code", bean.getEn1Rel2Code());
 						}
 					}
 					else if (tp == 50)
-						img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsRank1(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
+						img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsRank1(), ImageUtils.SIZE_LARGE, bean.getYrLabel(), null);
 					else if (tp == 99)
 						img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank1(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
 					item.setAttribute("img", img.replaceAll(".*src\\='|'\\/\\>", ""));

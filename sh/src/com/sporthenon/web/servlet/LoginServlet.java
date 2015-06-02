@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.meta.Contributor;
+import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 
@@ -67,7 +68,7 @@ public class LoginServlet extends AbstractServlet {
 				request.getSession().removeAttribute("user");
 				msg = ResourceUtils.getText("msg.logout", getLocale(request));
 				isMsg = false;
-				response.sendRedirect("/");
+				response.sendRedirect(ConfigUtils.getProperty("url"));
 			}
 			if (isMsg) {
 				request.setAttribute("msg", msg);

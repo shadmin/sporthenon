@@ -879,7 +879,7 @@ input{
 	margin-bottom: 0px;
 	margin-left: 10px;
 	margin-right: 10px;
-	background: #FFF url(../img/column.png?5) 28px 150px no-repeat;
+	background: #FFF url(../img/column.png?5) 28px 146px no-repeat;
 	/*overflow: auto;*/
 }
 #usleagues .league{
@@ -1076,7 +1076,7 @@ input{
 #logindiv td{
 	text-align: left;
 }
-#logindiv input[type=text]:focus{
+#logindiv input[type=text]:focus, #logindiv input[type=password]:focus{
 	border: 1px solid #D00;
 }
 .mandatory{
@@ -1118,7 +1118,7 @@ input{
 	font-size: 11px;
 }
 #update input[type=text], #update textarea{
-	font: 11px Verdana;
+	font: 12px Verdana;
 	width: 250px;
 	color: #888;
 	border: 1px solid #AAA;
@@ -1163,7 +1163,7 @@ input{
 }
 .ajaxsearch {
 	position: absolute;
-	font: 11px Verdana;
+	font: 12px Verdana;
 	width: 800px;
 	background-color: #FFF;
 	margin: 0px;

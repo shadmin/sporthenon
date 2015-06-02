@@ -110,6 +110,7 @@ public class UpdateServlet extends AbstractServlet {
 				ServletHelper.writeText(response, html.append("</ul>").toString());
 			}
 			else if (hParams.containsKey("p") && hParams.get("p").equals("save")) { // Save result
+				HashMap<Object, Integer> hInserted = new HashMap<Object, Integer>();
 				StringBuffer sbMsg = new StringBuffer();
 				try {
 					int tp = 0;
@@ -215,8 +216,15 @@ public class UpdateServlet extends AbstractServlet {
 					// Rankings
 					for (int i = 1 ; i <= 10 ; i++) {
 						Integer id = (StringUtils.notEmpty(hParams.get("rk" + i)) ? new Integer(String.valueOf(hParams.get("rk" + i))) : 0);
-						if (id == 0 && StringUtils.notEmpty(hParams.get("rk" + i + "-l")))
-							id = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(hParams.get("rk" + i + "-l")), null, user, null, lang);
+						Object o = hParams.get("rk" + i + "-l");
+						if (id == 0 && StringUtils.notEmpty(o)) {
+							if (hInserted.keySet().contains(o))
+								id = hInserted.get(o);
+							else {
+								id = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(o), null, user, null, lang);
+								hInserted.put(o, id);
+							}
+						}
 						Result.class.getMethod("setIdRank" + i, Integer.class).invoke(result, id > 0 ? id : null);
 						if (i <= 5)
 							Result.class.getMethod("setResult" + i, String.class).invoke(result, StringUtils.notEmpty(hParams.get("rs" + i + "-l")) ? hParams.get("rs" + i + "-l") : null);
@@ -232,10 +240,24 @@ public class UpdateServlet extends AbstractServlet {
 						for (String s : new String[]{"qf1", "qf2", "qf3", "qf4", "sf1", "sf2", "thd"}) {
 							Integer id1 = (StringUtils.notEmpty(hParams.get(s + "w")) ? new Integer(String.valueOf(hParams.get(s + "w"))) : 0);
 							Integer id2 = (StringUtils.notEmpty(hParams.get(s + "l")) ? new Integer(String.valueOf(hParams.get(s + "l"))) : 0);
-							if (id1 == 0 && StringUtils.notEmpty(hParams.get(s + "w-l")))
-								id1 = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(hParams.get(s + "w-l")), null, user, null, lang);							
-							if (id2 == 0 && StringUtils.notEmpty(hParams.get(s + "l-l")))
-								id2 = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(hParams.get(s + "l-l")), null, user, null, lang);
+							Object ow = hParams.get(s + "w-l");
+							Object ol = hParams.get(s + "l-l");
+							if (id1 == 0 && StringUtils.notEmpty(ow)) {
+								if (hInserted.keySet().contains(ow))
+									id1 = hInserted.get(ow);
+								else {
+									id1 = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(ow), null, user, null, lang);
+									hInserted.put(ow, id1);
+								}
+							}
+							if (id2 == 0 && StringUtils.notEmpty(ol)) {
+								if (hInserted.keySet().contains(ol))
+									id2 = hInserted.get(ol);
+								else {
+									id2 = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(ol), null, user, null, lang);
+									hInserted.put(ol, id2);
+								}
+							}
 							Draw.class.getMethod("setId1" + String.valueOf(s.charAt(0)).toUpperCase() + s.substring(1), Integer.class).invoke(draw, id1 > 0 ? id1 : null);
 							Draw.class.getMethod("setId2" + String.valueOf(s.charAt(0)).toUpperCase() + s.substring(1), Integer.class).invoke(draw, id2 > 0 ? id2 : null);
 							Draw.class.getMethod("setResult_" + s, String.class).invoke(draw, StringUtils.notEmpty(hParams.get(s + "rs-l")) ? hParams.get(s + "rs-l") : null);

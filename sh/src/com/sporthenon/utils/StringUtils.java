@@ -285,8 +285,13 @@ public class StringUtils {
 		return name;
 	}
 	
-	public static final String toFullName(String ln, String fn) {
-		return (StringUtils.notEmpty(fn) ? fn + HtmlUtils.SPACE : "") + (ln != null ? ln.toUpperCase() : "");
+	public static final String toFullName(String ln, String fn, String country) {
+		String result = "";
+		if (notEmpty(country) && country.matches(PATTERN_REVERT_NAME))
+			result = (ln != null ? ln.toUpperCase() : "") + (StringUtils.notEmpty(fn) ? HtmlUtils.SPACE + fn : "");
+		else
+			result = (StringUtils.notEmpty(fn) ? fn + HtmlUtils.SPACE : "") + (ln != null ? ln.toUpperCase() : "");
+		return result;
 	}
 	
 	public static final String urlEscape(String s) {

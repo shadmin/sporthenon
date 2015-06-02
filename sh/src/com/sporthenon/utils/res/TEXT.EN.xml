@@ -210,6 +210,7 @@
 	<entry key="extlink.official">Official Website</entry>
 	<entry key="winner">Winner</entry>
 	<entry key="loser">Loser</entry>
+	<entry key="other.years">Other years</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>
@@ -285,6 +286,11 @@
 	<entry key="technical.info">TECHNICAL INFORMATION</entry>
 	<entry key="download.last">Download latest version</entry>
 	<entry key="download.previous">Previous versions</entry>
+<!-- CONTRIBUTE -->
+	<entry key="step">STEP</entry>
+	<entry key="step1.desc"><![CDATA[Create an account on <a href="/login">this page</a>.<br/><br/>Fill the mandatory fields (marked with <span class="mandatory">*</span>) and click on "Create Account".]]></entry>
+	<entry key="step2.desc"><![CDATA[Go to page "Connexion" and authenticate using credentials created in step 1.]]></entry>
+	<entry key="step3.desc"><![CDATA[Add and update results with buttons <img alt="add" src="/img/component/button/add.png"/> and <img alt="add" src="/img/component/button/modify.png"/>]]></entry>
 <!-- LOGIN -->
 	<entry key="msg.login.err1">Login failed. The user is not active.</entry>
 	<entry key="msg.login.err2">Login failed. Please check your login and password.</entry>

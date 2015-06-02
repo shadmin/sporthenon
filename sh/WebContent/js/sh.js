@@ -392,22 +392,22 @@ var dExport = null;
 var dLink = null;
 var dInfo = null;
 function share(type) {
-	var url = null;
+	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	var langParam = '?lang=' + lang;
 	if (type == 'fb') {
-		url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href + langParam);
+		url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url + langParam);
 	}
 	else if (type == 'tw') {
-		url = 'https://twitter.com/share?url=' + encodeURIComponent(location.href + langParam);
+		url = 'https://twitter.com/share?url=' + encodeURIComponent(url + langParam);
 	}
 	else if (type == 'gp') {
-		url = 'https://plus.google.com/share?url=' + encodeURIComponent(location.href + langParam);
+		url = 'https://plus.google.com/share?url=' + encodeURIComponent(url + langParam);
 	}
 	else if (type == 'bg') {
-		url = 'https://www.blogger.com/blog-this.g?u=' + encodeURIComponent(location.href + langParam) + '&n=' + escape(document.title);
+		url = 'https://www.blogger.com/blog-this.g?u=' + encodeURIComponent(url + langParam) + '&n=' + escape(document.title);
 	}
 	else if (type == 'tm') {
-		url = 'http://tumblr.com/share?&u=' + encodeURIComponent(location.href + langParam);
+		url = 'http://tumblr.com/share?&u=' + encodeURIComponent(url + langParam);
 	}
 	$('shareopt').hide();
 	window.open(url, '_blank');
@@ -1013,7 +1013,7 @@ function changeLeague(id, srcsl) {
 				tType2[i] = '<option value="' +i + '">' + tType2[i] + '</option>';
 			}
 		}
-		tType2.push('<option value="' + tAll.join(',') + '">[All]</option>');
+		tType2.push('<option value="-">[All]</option>');
 		$('pl-records-tp2').update(tType2.join(''));
 	}
 }
@@ -1061,12 +1061,18 @@ function dpatternFocus() {
 		$('dpattern').addClassName('focus');
 		$('dpattern').value = '';
 	}
+	$$('#content .selmultiple').each(function(el){
+		$(el).style.visibility = 'hidden';
+	});
 }
 function dpatternBlur() {
 	if ($F('dpattern') == '') {
 		$('dpattern').removeClassName('focus');
 		$('dpattern').value = TX_SEARCH;
 	}
+	$$('#content .selmultiple').each(function(el){
+		$(el).style.visibility = 'visible';
+	});
 }
 function directSearch(li) {
 	if (li && li.id && li.id != 'LR') {
@@ -1333,6 +1339,12 @@ function loadResValues(value) {
 	}
 }
 function clearValue(s) {
+	if (s == 'yr') {
+		tValues['id'] = null;
+		tValues['drid'] = null;
+		$('addbtn').show();
+		$('modifybtn').hide();
+	}
 	tValues[s] = '';
 	$(s).value = '';
 	$(s).removeClassName('completed').removeClassName('completed2');

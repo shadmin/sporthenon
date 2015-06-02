@@ -38,7 +38,7 @@ public class HtmlUtils {
 				if (StringUtils.notEmpty(year)) {
 					String[] t = s.replaceAll("^" + name + "(\\_|)|(gif|png)$|(\\_\\d+|)\\.", "").split("\\-");
 					if (t.length > 1) {
-						Integer y = Integer.parseInt(year);
+						Integer y = Integer.parseInt(year.contains("-") || year.contains("/") ? year.substring(year.length() - 4) : year);
 						Integer y1 = Integer.parseInt(t[0].equalsIgnoreCase("X") ? "0" : t[0]);
 						Integer y2 = Integer.parseInt(t[1].equalsIgnoreCase("X") ? "5000" : t[1]);
 						isInclude = (y >= y1 && y <= y2);

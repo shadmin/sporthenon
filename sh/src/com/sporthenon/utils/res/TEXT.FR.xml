@@ -210,6 +210,7 @@
 	<entry key="extlink.official">Site officiel</entry>
 	<entry key="winner">Vainqueur</entry>
 	<entry key="loser">Perdant</entry>
+	<entry key="other.years">Autres années</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
@@ -285,6 +286,11 @@
 	<entry key="technical.info">INFORMATIONS TECHNIQUES</entry>
 	<entry key="download.last">Télécharger la dernière version</entry>
 	<entry key="download.previous">Versions précédentes</entry>
+<!-- CONTRIBUTE -->
+	<entry key="step">ÉTAPE</entry>
+	<entry key="step1.desc"><![CDATA[Créer un compte sur <a href="/login">cette page</a>.<br/><br/>Remplir les champs obligatoires (mentionnés par <span class="mandatory">*</span>) et cliquer sur "Créer un compte".]]></entry>
+	<entry key="step2.desc"><![CDATA[Aller sur la page "Connexion" et s'authentifier en utilisant les identifiants créés en étape 1.]]></entry>
+	<entry key="step3.desc"><![CDATA[Ajouter et modifier des résultats par les boutons <img alt="add" src="/img/component/button/add.png"/> et <img alt="add" src="/img/component/button/modify.png"/>]]></entry>
 <!-- LOGIN -->
 	<entry key="msg.login.err1">La connexion a échoué. Cet utilisateur n'est pas actif.</entry>
 	<entry key="msg.login.err2">La connexion a échoué. Merci de vérifier votre identifiant/mot de passe.</entry>
