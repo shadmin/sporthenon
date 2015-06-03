@@ -27,8 +27,8 @@ begin
 	-- Open cursor
 	OPEN _c FOR EXECUTE
 	'SELECT
-		OR_.id AS or_id, CN1.id AS cn1_id, CN1.code AS cn1_code, CN1.label' || _lang || ' AS cn1_label,
-		OL.id AS ol_id, OL.type AS ol_type, OL.date1 AS ol_date1, OL.date2 AS ol_date2, YR.id AS yr_id, YR.label AS yr_label, CT.id AS ct_id, CT.label' || _lang || ' AS ct_label,
+		OR_.id AS or_id, CN1.id AS cn1_id, CN1.code AS cn1_code, CN1.label' || _lang || ' AS cn1_label, CN1.label AS cn1_label_en,
+		OL.id AS ol_id, OL.type AS ol_type, OL.date1 AS ol_date1, OL.date2 AS ol_date2, YR.id AS yr_id, YR.label AS yr_label, CT.id AS ct_id, CT.label' || _lang || ' AS ct_label, CT.label AS ct_label_en,
 		ST.id AS st_id, ST.code AS st_code, ST.label' || _lang || ' AS st_label, CN2.id AS cn2_id, CN2.code AS cn2_code, CN2.label' || _lang || ' AS cn2_label,
 		OR_.count_gold AS or_count_gold, OR_.count_silver AS or_count_silver, OR_.count_bronze AS or_count_bronze
 	FROM "OLYMPIC_RANKING" OR_

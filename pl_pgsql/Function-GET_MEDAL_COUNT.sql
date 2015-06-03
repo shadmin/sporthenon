@@ -49,12 +49,18 @@ begin
 	IF _sport_txt !~ '20|22|23|26|29' AND _type <> 50 THEN
 		_item.id := _index;	
 		_item.label := 'WORLDCP';
-		_item.txt1 := '#GOLD#';
-		_item.txt2 := '#SILVER#';
-		_item.txt3 := '#BRONZE#';
-		SELECT COUNT(*) INTO _item.count1 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "EVENT" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id LEFT JOIN "TYPE" T3 ON SE2.id_type=T3.id WHERE id_championship=3 AND ((id_subevent2 IS NOT NULL AND T3.number<=_type) OR (id_subevent IS NOT NULL AND T2.number<=_type) OR (id_subevent IS NULL AND T1.number<=_type)) AND (id_rank1 = ANY(_ids) OR (id_rank2 = ANY(_ids) AND exa ~* '.*1-(2|3|4|5|6).*') OR (id_rank3 = ANY(_ids) AND exa ~* '.*1-(3|4|5|6).*'));
-		SELECT COUNT(*) INTO _item.count2 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "EVENT" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id LEFT JOIN "TYPE" T3 ON SE2.id_type=T3.id WHERE id_championship=3 AND ((id_subevent2 IS NOT NULL AND T3.number<=_type) OR (id_subevent IS NOT NULL AND T2.number<=_type) OR (id_subevent IS NULL AND T1.number<=_type)) AND (id_rank2 = ANY(_ids) OR (id_rank3 = ANY(_ids) AND exa ~* '.*2-(3|4|5|6).*') OR (id_rank4 = ANY(_ids) AND exa ~* '.*2-(4|5|6).*'));
-		SELECT COUNT(*) INTO _item.count3 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "EVENT" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id LEFT JOIN "TYPE" T3 ON SE2.id_type=T3.id WHERE id_championship=3 AND ((id_subevent2 IS NOT NULL AND T3.number<=_type) OR (id_subevent IS NOT NULL AND T2.number<=_type) OR (id_subevent IS NULL AND T1.number<=_type)) AND (id_rank3 = ANY(_ids) OR (id_rank4 = ANY(_ids) AND exa ~* '.*3-(4|5|6).*') OR (id_rank5 = ANY(_ids) AND exa ~* '.*3-(5|6).*'));
+		IF _sport_txt ~ '5|18|33|36' THEN
+			_item.txt1 := 'rank.1';
+			_item.txt2 := 'rank.2';
+			_item.txt3 := 'rank.3';
+		ELSE
+			_item.txt1 := '#GOLD#';
+			_item.txt2 := '#SILVER#';
+			_item.txt3 := '#BRONZE#';
+		END IF;
+		SELECT COUNT(*) INTO _item.count1 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "EVENT" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id LEFT JOIN "TYPE" T3 ON SE2.id_type=T3.id WHERE (id_championship IN (3, 70, 71, 72) OR (id_championship IN (9, 28, 30, 45) AND id_event IN (193, 194, 692, 728))) AND ((id_subevent2 IS NOT NULL AND T3.number<=_type) OR (id_subevent IS NOT NULL AND T2.number<=_type) OR (id_subevent IS NULL AND T1.number<=_type)) AND (id_rank1 = ANY(_ids) OR (id_rank2 = ANY(_ids) AND exa ~* '.*1-(2|3|4|5|6).*') OR (id_rank3 = ANY(_ids) AND exa ~* '.*1-(3|4|5|6).*'));
+		SELECT COUNT(*) INTO _item.count2 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "EVENT" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id LEFT JOIN "TYPE" T3 ON SE2.id_type=T3.id WHERE (id_championship IN (3, 70, 71, 72) OR (id_championship IN (9, 28, 30, 45) AND id_event IN (193, 194, 692, 728))) AND ((id_subevent2 IS NOT NULL AND T3.number<=_type) OR (id_subevent IS NOT NULL AND T2.number<=_type) OR (id_subevent IS NULL AND T1.number<=_type)) AND (id_rank2 = ANY(_ids) OR (id_rank3 = ANY(_ids) AND exa ~* '.*2-(3|4|5|6).*') OR (id_rank4 = ANY(_ids) AND exa ~* '.*2-(4|5|6).*'));
+		SELECT COUNT(*) INTO _item.count3 FROM "RESULT" RS LEFT JOIN "EVENT" EV ON RS.id_event=EV.id LEFT JOIN "EVENT" SE ON RS.id_subevent=SE.id LEFT JOIN "EVENT" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "TYPE" T1 ON EV.id_type=T1.id LEFT JOIN "TYPE" T2 ON SE.id_type=T2.id LEFT JOIN "TYPE" T3 ON SE2.id_type=T3.id WHERE (id_championship IN (3, 70, 71, 72) OR (id_championship IN (9, 28, 30, 45) AND id_event IN (193, 194, 692, 728))) AND ((id_subevent2 IS NOT NULL AND T3.number<=_type) OR (id_subevent IS NOT NULL AND T2.number<=_type) OR (id_subevent IS NULL AND T1.number<=_type)) AND (id_rank3 = ANY(_ids) OR (id_rank4 = ANY(_ids) AND exa ~* '.*3-(4|5|6).*') OR (id_rank5 = ANY(_ids) AND exa ~* '.*3-(5|6).*'));
 		RETURN NEXT _item;
 		_index := _index + 1;
 	END IF;
@@ -155,6 +161,6 @@ begin
 	RETURN;
 end;
 $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
+  LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;

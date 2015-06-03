@@ -80,23 +80,23 @@ begin
 	_columns := '';
 	_joins := '';
 	FOR i IN 1..16 LOOP
-		IF _type < 10 THEN -- Person
-			_columns := _columns || ', PR' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_id, PR' || i || '.last_name AS ' || _entity[i] || '_' || _level[i] || '_str1, PR' || i || '.first_name AS ' || _entity[i] || '_' || _level[i] || '_str2';
-			_columns := _columns || ', PRTM' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_rel1_id, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_code, PRTM' || i || '.label AS ' || _entity[i] || '_' || _level[i] || '_rel1_label';
-			_columns := _columns || ', PRCN' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_rel2_id, PRCN' || i || '.code AS ' || _entity[i] || '_' || _level[i] || '_rel2_code, PRCN' || i || '.label' || _lang || ' AS ' || _entity[i] || '_' || _level[i] || '_rel2_label';
+		IF _type < 10 THEN -- Athlete
+			_columns := _columns || ', PR' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_id, PR' || i || '.last_name AS ' || _entity[i] || '_' || _level[i] || '_str1, PR' || i || '.first_name AS ' || _entity[i] || '_' || _level[i] || '_str2, NULL AS ' || _entity[i] || '_' || _level[i] || '_str3';
+			_columns := _columns || ', PRTM' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_rel1_id, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_code, PRTM' || i || '.label AS ' || _entity[i] || '_' || _level[i] || '_rel1_label, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_label_en';
+			_columns := _columns || ', PRCN' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_rel2_id, PRCN' || i || '.code AS ' || _entity[i] || '_' || _level[i] || '_rel2_code, PRCN' || i || '.label' || _lang || ' AS ' || _entity[i] || '_' || _level[i] || '_rel2_label, PRCN' || i || '.label AS ' || _entity[i] || '_' || _level[i] || '_rel2_label_en';
 			_joins := _joins || ' LEFT JOIN "PERSON" PR' || i || ' ON ' || _entity_id[i] || ' = PR' || i || '.id';
 			_joins := _joins || ' LEFT JOIN "TEAM" PRTM' || i || ' ON PR' || i || '.id_team = PRTM' || i || '.id';
 			_joins := _joins || ' LEFT JOIN "COUNTRY" PRCN' || i || ' ON PR' || i || '.id_country = PRCN' || i || '.id';
 		ELSIF _type = 50 THEN -- Team
-			_columns := _columns || ', TM' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_id, NULL AS ' || _entity[i] || '_' || _level[i] || '_str1, TM' || i || '.label AS ' || _entity[i] || '_' || _level[i] || '_str2';
-			_columns := _columns || ', NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_id, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_code, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_label';
-			_columns := _columns || ', TMCN' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_rel2_id, TMCN' || i || '.code AS ' || _entity[i] || '_' || _level[i] || '_rel2_code, TMCN' || i || '.label' || _lang || ' AS ' || _entity[i] || '_' || _level[i] || '_rel2_label';
+			_columns := _columns || ', TM' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_id, NULL AS ' || _entity[i] || '_' || _level[i] || '_str1, TM' || i || '.label AS ' || _entity[i] || '_' || _level[i] || '_str2, NULL AS ' || _entity[i] || '_' || _level[i] || '_str3';
+			_columns := _columns || ', NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_id, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_code, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_label, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_label_en';
+			_columns := _columns || ', TMCN' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_rel2_id, TMCN' || i || '.code AS ' || _entity[i] || '_' || _level[i] || '_rel2_code, TMCN' || i || '.label' || _lang || ' AS ' || _entity[i] || '_' || _level[i] || '_rel2_label, TMCN' || i || '.label AS ' || _entity[i] || '_' || _level[i] || '_rel2_label_en';
 			_joins := _joins || ' LEFT JOIN "TEAM" TM' || i || ' ON ' || _entity_id[i] || ' = TM' || i || '.id';
 			_joins := _joins || ' LEFT JOIN "COUNTRY" TMCN' || i || ' ON TM' || i || '.id_country = TMCN' || i || '.id';
 		ELSIF _type = 99 THEN -- Country
-			_columns := _columns || ', CN' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_id, CN' || i || '.code AS ' || _entity[i] || '_' || _level[i] || '_str1, CN' || i || '.label' || _lang || ' AS ' || _entity[i] || '_' || _level[i] || '_str2';
-			_columns := _columns || ', NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_id, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_code, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_label';
-			_columns := _columns || ', NULL AS ' || _entity[i] || '_' || _level[i] || '_rel2_id, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel2_code, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel2_label';
+			_columns := _columns || ', CN' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_id, CN' || i || '.code AS ' || _entity[i] || '_' || _level[i] || '_str1, CN' || i || '.label' || _lang || ' AS ' || _entity[i] || '_' || _level[i] || '_str2, CN' || i || '.label AS ' || _entity[i] || '_' || _level[i] || '_str3';
+			_columns := _columns || ', NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_id, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_code, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_label, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_label_en';
+			_columns := _columns || ', NULL AS ' || _entity[i] || '_' || _level[i] || '_rel2_id, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel2_code, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel2_label, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel2_label_en';
 			_joins := _joins || ' LEFT JOIN "COUNTRY" CN' || i || ' ON ' || _entity_id[i] || ' = CN' || i || '.id';
 		END IF;
 	END LOOP;

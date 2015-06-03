@@ -13,7 +13,7 @@ DECLARE
 	_id_subevent2 integer;
 	_type integer;
 BEGIN
-  _entity := TG_ARGV[0];
+	_entity := TG_ARGV[0];
 	IF (TG_OP = 'DELETE') THEN
 		_row := OLD;
 	ELSIF (TG_OP IN ('INSERT', 'UPDATE')) THEN

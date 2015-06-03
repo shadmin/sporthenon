@@ -21,8 +21,8 @@ begin
 	OPEN _c FOR EXECUTE
 	'SELECT
 		TS.id AS ts_id, TM.id AS tm_id, TM.label AS tm_label, TS.renamed AS ts_renamed, TS.comment AS ts_comment,
-		CX.id AS cx_id, CX.label' || _lang || ' AS cx_label, CT.id AS ct_id, CT.label' || _lang || ' AS ct_label, ST.id AS st_id, ST.code AS st_code, ST.label' || _lang || ' AS st_label,
-		CN.id AS cn_id, CN.code AS cn_code, CN.label' || _lang || ' AS cn_label, TS.date1 AS ts_date1, TS.date2 AS ts_date2
+		CX.id AS cx_id, CX.label' || _lang || ' AS cx_label, CX.label AS cx_label_en, CT.id AS ct_id, CT.label' || _lang || ' AS ct_label_en, CT.label AS ct_label, ST.id AS st_id, ST.code AS st_code, ST.label' || _lang || ' AS st_label, ST.label AS st_label_en,
+		CN.id AS cn_id, CN.code AS cn_code, CN.label' || _lang || ' AS cn_label, CN.label AS cn_label_en, TS.date1 AS ts_date1, TS.date2 AS ts_date2
 	FROM
 		"TEAM_STADIUM" TS
 		LEFT JOIN "TEAM" TM ON TS.id_team = TM.id

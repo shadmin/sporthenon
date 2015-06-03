@@ -110,13 +110,13 @@ begin
 
 	_query = 'SELECT FB.id AS entity_id, ' || _type || ' AS entity_type, FB.int_value AS count_win';
 	IF (_type < 10) THEN
-		_query = _query || ', PR.last_name || CASE WHEN PR.first_name IS NOT NULL AND PR.first_name <> '''' THEN '', '' || PR.first_name ELSE '''' END AS entity_str';
+		_query = _query || ', (CASE WHEN PR.first_name IS NOT NULL AND PR.first_name <> '''' THEN PR.first_name || '' '' ELSE '''' END) || UPPER(PR.last_name) AS entity_str, (CASE WHEN PR.first_name IS NOT NULL AND PR.first_name <> '''' THEN PR.first_name || '' '' ELSE '''' END) || PR.last_name AS entity_str_en';
 		_query = _query || ' FROM "~FUNC_BUFFER" FB LEFT JOIN "PERSON" PR ON FB.id = PR.id';
 	ELSIF (_type = 50) THEN
-		_query = _query || ', TM.label AS entity_str';
+		_query = _query || ', TM.label AS entity_str, TM.label AS entity_str_en';
 		_query = _query || ' FROM "~FUNC_BUFFER" FB LEFT JOIN "TEAM" TM ON FB.id = TM.id';
 	ELSIF (_type = 99) THEN
-		_query = _query || ', CN.label' || _lang || ' AS entity_str';
+		_query = _query || ', CN.label' || _lang || ' AS entity_str, CN.label AS entity_str_en';
 		_query = _query || ' FROM "~FUNC_BUFFER" FB LEFT JOIN "COUNTRY" CN ON FB.id = CN.id';
 	END IF;
 	_query = _query || ' ORDER BY FB.int_value DESC, entity_str ASC';
