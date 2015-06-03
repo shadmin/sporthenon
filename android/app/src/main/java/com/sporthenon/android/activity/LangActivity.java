@@ -1,21 +1,14 @@
 package com.sporthenon.android.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -33,7 +26,9 @@ public class LangActivity extends Activity implements View.OnClickListener {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String lang = prefs.getString("lang", null);
-        lang = null; // TEST
+        String env = getResources().getString(R.string.env);
+        if (env.matches("local|test"))
+            lang = null;
         if (lang != null) {
             setLocale(lang);
             nextActivity();
@@ -41,7 +36,7 @@ public class LangActivity extends Activity implements View.OnClickListener {
         else {
             requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
             setContentView(R.layout.activity_lang);
-            getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
+            getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
 
             ((TextView) findViewById(R.id.title)).setText(R.string.select_language);
             findViewById(R.id.back_icon).setVisibility(View.GONE);
@@ -50,12 +45,6 @@ public class LangActivity extends Activity implements View.OnClickListener {
             langFR = (RadioButton) findViewById(R.id.langFR);
             findViewById(R.id.ok).setOnClickListener(this);
         }
-        /*ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setMessage("Thinking...");
-        dialog.setIndeterminate(true);
-        dialog.setCancelable(false);
-        dialog.show();
-        dialog.hide();*/
     }
 
     public void nextActivity() {

@@ -4,16 +4,13 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sporthenon.android.R;
-import com.sporthenon.android.async.AsyncEvents;
 import com.sporthenon.android.async.AsyncResult1;
 
 public class Result1Activity extends Activity {
@@ -113,8 +110,8 @@ public class Result1Activity extends Activity {
         super.onCreate(state);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.activity_result1);
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
-        ((TextView) findViewById(R.id.title)).setText(R.string.result1);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
+        ((TextView) findViewById(R.id.title)).setText(R.string.details);
         findViewById(R.id.search_icon).setVisibility(View.GONE);
         progress = (ProgressBar) findViewById(R.id.progress);
 

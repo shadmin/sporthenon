@@ -31,7 +31,7 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:textSize="14sp"
-        android:paddingBottom="10dip"
+        android:paddingBottom="13dip"
         android:background="#FFB"
         />
 

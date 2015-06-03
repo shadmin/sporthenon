@@ -52,7 +52,7 @@ public class ItemListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		if (convertView == null) {
-			convertView = layoutInflater.inflate(R.layout.list_row, null);
+			convertView = layoutInflater.inflate(R.layout.item_data, null);
 			holder = new ViewHolder();
 			holder.name = (TextView) convertView.findViewById(R.id.name);
 			holder.picture = (ImageView) convertView.findViewById(R.id.picture);

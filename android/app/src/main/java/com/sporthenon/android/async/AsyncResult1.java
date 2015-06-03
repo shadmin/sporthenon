@@ -152,21 +152,21 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
                 activity.getRank1Text().setText(result1.getRank1());
                 if (result1.getRank1Img() != null) {
                     activity.getRank1Img().setImageDrawable(result1.getRank1Img());
-                    activity.getRank1Img().setLayoutParams(AndroidUtils.getImageSize(result1.getRank1ImgURL()));
+                    activity.getRank1Img().setLayoutParams(AndroidUtils.getImageSize(activity.getApplicationContext(), result1.getRank1ImgURL()));
                 }
             }
             if (AndroidUtils.notEmpty(result1.getRank2())) {
                 activity.getRank2Text().setText(result1.getRank2());
                 if (result1.getRank2Img() != null) {
                     activity.getRank2Img().setImageDrawable(result1.getRank2Img());
-                    activity.getRank2Img().setLayoutParams(AndroidUtils.getImageSize(result1.getRank2ImgURL()));
+                    activity.getRank2Img().setLayoutParams(AndroidUtils.getImageSize(activity.getApplicationContext(), result1.getRank2ImgURL()));
                 }
             }
             if (AndroidUtils.notEmpty(result1.getRank3())) {
                 activity.getRank3Text().setText(result1.getRank3());
                 if (result1.getRank3Img() != null) {
                     activity.getRank3Img().setImageDrawable(result1.getRank3Img());
-                    activity.getRank3Img().setLayoutParams(AndroidUtils.getImageSize(result1.getRank3ImgURL()));
+                    activity.getRank3Img().setLayoutParams(AndroidUtils.getImageSize(activity.getApplicationContext(), result1.getRank3ImgURL()));
                 }
             }
             if (AndroidUtils.notEmpty(result1.getScore()))

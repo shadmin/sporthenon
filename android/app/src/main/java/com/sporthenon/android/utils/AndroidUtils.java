@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.LinearLayout;
 
@@ -54,8 +55,12 @@ public class AndroidUtils {
         return (s!= null && s.trim().length() > 0);
     }
 
-    public static LinearLayout.LayoutParams getImageSize(String url) {
-        return (notEmpty(url) && url.contains("-L") ? new LinearLayout.LayoutParams(50, 50) : new LinearLayout.LayoutParams(35, 23));
+    public static LinearLayout.LayoutParams getImageSize(Context context, String url) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int n1 = Math.round(40 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        int n2 = Math.round(30 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        int n3 = Math.round(20 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return (notEmpty(url) && url.contains("-L") ? new LinearLayout.LayoutParams(n1, n1) : new LinearLayout.LayoutParams(n2, n3));
     }
 
 }

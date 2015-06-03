@@ -2,7 +2,6 @@ package com.sporthenon.android.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.data.ResultItem;
+import com.sporthenon.android.utils.AndroidUtils;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class ResultListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		if (convertView == null) {
-			convertView = layoutInflater.inflate(R.layout.list_row2, null);
+			convertView = layoutInflater.inflate(R.layout.item_result, null);
 			holder = new ViewHolder();
 			holder.year = (TextView) convertView.findViewById(R.id.year);
 			holder.img = (ImageView) convertView.findViewById(R.id.img);
@@ -68,7 +68,7 @@ public class ResultListAdapter extends BaseAdapter {
 		String imgURL = list.get(position).getImgURL();
 		if (img != null) {
 			holder.img.setImageDrawable(img);
-			holder.img.setLayoutParams(imgURL != null && imgURL.contains("-L") ? new LinearLayout.LayoutParams(50, 50) : new LinearLayout.LayoutParams(29, 18));
+			holder.img.setLayoutParams(AndroidUtils.getImageSize(convertView.getContext(), imgURL));
 		}
 		else
 			holder.img.setVisibility(View.GONE);

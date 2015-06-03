@@ -27,7 +27,7 @@
 
     <TextView
         android:id="@+id/rs_sport"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:padding="2dip"
@@ -35,7 +35,7 @@
 
     <TextView
         android:id="@+id/rs_championship"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:padding="2dip"
@@ -43,7 +43,7 @@
 
     <TextView
         android:id="@+id/rs_event"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:padding="2dip"
@@ -51,7 +51,7 @@
 
     <TextView
         android:id="@+id/rs_subevent"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:padding="2dip"
@@ -59,7 +59,7 @@
 
     <TextView
         android:id="@+id/rs_subevent2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:padding="2dip"
@@ -67,7 +67,7 @@
 
     <TextView
         android:id="@+id/rs_date"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:padding="2dip"
@@ -75,24 +75,24 @@
 
     <TextView
         android:id="@+id/rs_place1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:padding="2dip"
         android:textAlignment="center"
         />
 
     <TextView
         android:id="@+id/rs_place2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:padding="2dip"
         android:textAlignment="center"
         />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
         android:layout_marginTop="20dip"
@@ -115,14 +115,14 @@
 
     <TextView
         android:id="@+id/score"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:padding="2dip"
         />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
         android:padding="2dip">
@@ -142,7 +142,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
         android:padding="2dip">

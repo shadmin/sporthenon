@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/back_icon"
         android:layout_toEndOf="@+id/back_icon"
-        android:padding="8dip"
+        android:padding="9dip"
         android:textColor="#FFF"
         android:fontFamily="Verdana"
         android:textSize="20sp"
