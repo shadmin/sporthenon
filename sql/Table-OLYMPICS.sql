@@ -17,8 +17,6 @@ CREATE TABLE "OLYMPICS"
   id_member integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   first_update timestamp without time zone NOT NULL DEFAULT now(),
-  url_wiki character varying(200),
-  url_olyref character varying(200),
   ref smallint,
   CONSTRAINT "OLYMPICS_pkey" PRIMARY KEY (id),
   CONSTRAINT "OLYMPICS_id_city_fkey" FOREIGN KEY (id_city)
@@ -45,3 +43,4 @@ CREATE TRIGGER trigger_ol
   ON "OLYMPICS"
   FOR EACH ROW
   EXECUTE PROCEDURE "UPDATE_REF"('OL');
+

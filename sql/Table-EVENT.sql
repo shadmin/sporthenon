@@ -11,9 +11,7 @@ CREATE TABLE "EVENT"
   id_member integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   "index" integer,
-  website character varying(50),
   first_update timestamp without time zone NOT NULL DEFAULT now(),
-  url_wiki character varying(200),
   ref smallint,
   CONSTRAINT "EVENT_pkey" PRIMARY KEY (id),
   CONSTRAINT "EVENT_id_member_fkey" FOREIGN KEY (id_member)

@@ -14,12 +14,6 @@ CREATE TABLE "PERSON"
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   link integer,
   first_update timestamp without time zone NOT NULL DEFAULT now(),
-  url_wiki character varying(200),
-  url_olyref character varying(200),
-  url_bktref character varying(200),
-  url_bbref character varying(200),
-  url_ftref character varying(200),
-  url_hkref character varying(200),
   ref smallint,
   CONSTRAINT "PERSON_pkey" PRIMARY KEY (id),
   CONSTRAINT "PERSON_id_country_fkey" FOREIGN KEY (id_country)

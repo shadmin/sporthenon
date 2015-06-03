@@ -18,11 +18,6 @@ CREATE TABLE "TEAM"
   link integer,
   inactive boolean,
   first_update timestamp without time zone NOT NULL DEFAULT now(),
-  url_wiki character varying(200),
-  url_bktref character varying(200),
-  url_bbref character varying(200),
-  url_ftref character varying(200),
-  url_hkref character varying(200),
   ref smallint,
   CONSTRAINT "TEAM_pkey" PRIMARY KEY (id),
   CONSTRAINT "TEAM_id_country_fkey" FOREIGN KEY (id_country)
@@ -49,3 +44,4 @@ CREATE TRIGGER trigger_tm
   ON "TEAM"
   FOR EACH ROW
   EXECUTE PROCEDURE "UPDATE_REF"('TM');
+

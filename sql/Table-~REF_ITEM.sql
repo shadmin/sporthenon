@@ -50,7 +50,21 @@ CREATE TABLE "~REF_ITEM"
   count5 smallint,
   label_rel12 character varying(50),
   id_rel18 integer,
-  label_rel18 character varying(50)
+  label_rel18 character varying(50),
+  date1 timestamp without time zone,
+  label_en character varying(70),
+  label_rel13 character varying(50),
+  label_rel14 character varying(50),
+  label_rel15 character varying(50),
+  label_rel16 character varying(50),
+  label_rel17 character varying(50),
+  label_rel19 character varying(50),
+  label_rel20 character varying(50),
+  label_rel21 character varying(50),
+  label_rel22 character varying(50),
+  label_rel23 character varying(50),
+  label_rel24 character varying(50),
+  label_rel25 character varying(50)
 )
 WITH (
   OIDS=FALSE

@@ -7,12 +7,10 @@ CREATE TABLE "CHAMPIONSHIP"
   id integer NOT NULL,
   label character varying(40) NOT NULL,
   label_fr character varying(40) NOT NULL,
-  website character varying(50) DEFAULT NULL::character varying,
   id_member integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   "index" integer,
   first_update timestamp without time zone NOT NULL DEFAULT now(),
-  url_wiki character varying(200),
   ref smallint,
   CONSTRAINT "CHAMPIONSHIP_pkey" PRIMARY KEY (id),
   CONSTRAINT "CHAMPIONSHIP_id_member_fkey" FOREIGN KEY (id_member)

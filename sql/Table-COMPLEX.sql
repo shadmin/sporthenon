@@ -11,7 +11,6 @@ CREATE TABLE "COMPLEX"
   id_member integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   first_update timestamp without time zone NOT NULL DEFAULT now(),
-  url_wiki character varying(200),
   ref smallint,
   CONSTRAINT "COMPLEX_pkey" PRIMARY KEY (id),
   CONSTRAINT "COMPLEX_id_city_fkey" FOREIGN KEY (id_city)
@@ -34,3 +33,4 @@ CREATE TRIGGER trigger_cx
   ON "COMPLEX"
   FOR EACH ROW
   EXECUTE PROCEDURE "UPDATE_REF"('CX');
+
