@@ -1,7 +1,30 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.9.2   |
+| Last Version: 0.9.3   |
 +-----------------------+
+
++-------+
+| 0.9.3 |
++-------+
+[03 Jun 2015]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.9.3
+o Website
+	- New feature: <Result Page> (==> Details for single result, external links, draws)
+	- New feature: <Share> (==> Share current URL on main social networks)
+	- Added inputs for draws in update page
+	- Links to all available years in single result page
+	- Page footer: last update + request time in seconds
+	- Search autocompletion: items sorted by relevance
+	- Bugfix: infinite loop in record info causes 100% CPU usage
+	- Bugfix: invalid offset in "next items" links (wrong pagination)
+o Android
+	- First release on Play store
+	- Added screen to set default language
+	- Items sorted by index, then alphabetical
+o Updater (Swing app)
+	- New feature: <External Links>
+	- New feature: <Sitemap Generator> (==> only for results pages)
+	- DB: external links managed in separate table
 
 +-------+
 | 0.9.2 |
@@ -17,7 +40,7 @@ o Website
 	- Bugfix: invalid URL link for records
 o Android
 	- Initialized Android app
-o SH Update (Swing app)
+o Updater (Swing app)
 	- New feature: <Folders Mass Update> (==> Move multiple folders to specified target)
 
 +-------+
@@ -32,7 +55,7 @@ o Website
 	- Added main relevant info on page URLs
 	- Use of Base32 instead of Base64 for encoding of URL parameters
 	- Improved display of US leagues records
-o SH Update (Swing app)
+o Updater (Swing app)
 	[No change]
 	
 +-------+
@@ -54,17 +77,18 @@ o Website
 	- Bugfix: draws references where not calculated in ref. counts
 	- Bugfix: removed usage of session for page titles (request attr. only)
 	- Bugfix: multiple issues fixed in HTML/XLS/TXT exports
-o SH Update (Swing app)
+o Updater (Swing app)
 	[No change]
 
 +-------+
 | 0.8.2 |
 +-------+
+[26 Dec 2014]
 o Website
 	- Added defaut picture file "Image not available" for record info
 	- Improved database references (automatic update with triggers)
 	- New layout for "US leagues" page
-o SH Update (Swing app)
+o Updater (Swing app)
 	- Team pictures can be filtered by sport
 	- Compliant with x64 architecture
 	- Fixed minor issues with URL updates
@@ -73,12 +97,13 @@ o SH Update (Swing app)
 +-------+
 | 0.8.1 |
 +-------+
+[10 Sep 2014]
 o Website
 	- Added header title <th> on logos/flags records
 	- Added US leagues championships on "medal counts" function
 	- Bugfix: removed border on team logos
 	- Bugfix: logos/years did not work on US leagues searches
-o SH Update (Swing app)
+o Updater (Swing app)
 	- Improved news management (existing news can be selected/modified/removed)
 	- Added customized logo using ResourceHacker
 	- Larger list for remote pictures (last item selected by default)
@@ -87,6 +112,7 @@ o SH Update (Swing app)
 +-------+
 | 0.8.0 |
 +-------+
+[15 Aug 2014]
 o Website
 	- New feature: <Localization> (==> site and database available in EN/FR)
 	- New feature: <Previous flags> (==> display previous versions of countries flags)
@@ -99,7 +125,7 @@ o Website
 	- Changed the date pattern to DD/MM/YYYY
 	- Setup files for SH Update can be downloaded directly on website (removed from GDrive)
 	- Improved layout of pages: Home, Results, Olympics, Project
-o SH Update (Swing app)
+o Updater (Swing app)
 	- Added list of remote files for pictures management
 	- Remote picture files can be downloaded
 	- Added proxy address/port in options (for URL updates)
@@ -109,6 +135,7 @@ o SH Update (Swing app)
 +-------+
 | 0.7.0 |
 +-------+
+[02 May 2014]
 o Website
 	- New feature: <Entity Statistics> (==> medals/titles records for athletes/countries/teams)
 	- New feature: <External Links> (==> display URLs to external sites, i.e. wikipedia)
@@ -118,7 +145,7 @@ o Website
 	- Current menu made visible in <TITLE> tag
 	- Fixed display bug on tied entities (1st + 2nd)
 	- Fixed bug on linked athletes with different names (only 1 name was displayed)
-o SH Update (Swing app)
+o Updater (Swing app)
 	- New feature: <Quick Connect> (==> picklist loading can be disabled)
 	- New feature: <News Menu>
 	- Added draws/records in import tool
@@ -127,6 +154,7 @@ o SH Update (Swing app)
 +-------+
 | 0.6.0 |
 +-------+
+[19 Feb 2014]
 o Website
 	- New feature: <Back to top>
 	- New feature: <Share> (=> added "share" buttons for social networks (Facebook, Twitter, Google+))
@@ -140,7 +168,7 @@ o Website
 	- Position of comments moved to the right of 'Year' column
 	- Fixed bug: search failed with "last name + first name" in that order
 	- Fixed bug: result with ties in entity references not displayed properly
-o SH Update (Swing app)
+o Updater (Swing app)
 	- New feature: <Merge> (=> selected record is removed and merged with another record)
 	- New feature: <Templates> (=> xls/csv templates for import tool)
 	- Changed buttons: label replaced by tooltip
@@ -153,11 +181,12 @@ o SH Update (Swing app)
 +-------+
 | 0.5.1 |
 +-------+
+[02 Jan 2014]
 o Website
 	- Added display of country flag in entity references (column 'Result')
 	- Fixed bug: use of special characters in search patterns
 	- Fixed bug: ties on record not displayed properly
-o SH Update (Swing app)
+o Updater (Swing app)
 	- Fixed bug with use of quote ' in CSV import
 	- Add query for events not set on current year
 	- DB structure: +[all].first_update
@@ -165,6 +194,7 @@ o SH Update (Swing app)
 +-------+
 | 0.5.0 |
 +-------+
+[29 Nov 2013]
 o Website
 	- New feature: <Last Updates> (=> display of last DB updates with custom count)
 	- New feature: <Statistics>
@@ -174,7 +204,7 @@ o Website
 	- Added "period" filter on US leagues "records" search (season, career, game...)
 	- Improved display on "Team" references with links
 	- Fixed results references with tied entities
-o SH Update (Swing app)
+o Updater (Swing app)
 	- Keyboard shortcuts for "data" panel actions
 	- Automatic set to "0" for links on referenced entity
 	- Added display of referenced entity label when saving entity with link
@@ -182,13 +212,14 @@ o SH Update (Swing app)
 +-------+
 | 0.4.0 |
 +-------+
+[08 Nov 2013]
 o Website
 	- Pictures management improved significantly (better caching performance)
 	- Some comments can be displayed as a colored cell
 	- More readable display of olympics tables
 	- Fixed bug on US records for "Both" selection (individual/team)
 	- Added sitemap.xml
-o SH Update (Swing app)
+o Updater (Swing app)
 	- Comments management improved with specific column for ties
 	- Add queries for unused events + fixed missing pictures with remote call
 	- DB structure: -TM.code / -HF.deceased / +HF.position / +TM.link / +TM.inactive / +RN.year
@@ -196,19 +227,21 @@ o SH Update (Swing app)
 +-------+
 | 0.3.0 |
 +-------+
+[29 Oct 2013]
 o Website
 	- New feature: <Export> (=> export page to HTML/XLS/TXT format)
 	- New feature: <Info> (=> display metadata & statistics on current tab)
 	- New feature: <Inactive Events> (=> events not held anymore marked with specific symbol)
 	- Comments can be displayed either directly or with a tooltip icon
 	- Bugs fixed, mainly on "US leagues" page
-o SH Update (Swing app)
+o Updater (Swing app)
 	- New feature: <Query> (=> execute custom queries on database)
 	- Add missing tables in data panel (US leagues, Olympics, Records)
 
 +-------+
 | 0.2.0 |
 +-------+
+[13 Sep 2013]
 o Website
 	- New feature: <Print> (=> send current search tab to default printer)
 	- New feature: <Link> (=> display URL to open directly a specific page)
@@ -219,7 +252,7 @@ o Website
 	- New UI for action buttons
 	- Extension of some columns size in database
 	- Fixed bug: an error occured on some olympics views with empty subevent
-o SH Update (Swing app)
+o Updater (Swing app)
 	- New feature: <Import CSV> (==> a mass update of data can done with CSV files)
 	- New feature: <Pictures Menu>
 	- New feature: <Refresh Tree>
