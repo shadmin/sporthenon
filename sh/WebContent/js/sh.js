@@ -1269,6 +1269,7 @@ function initUpdate(value) {
 function loadResValues(value) {
 	$('addbtn').show();
 	$('modifybtn').hide();
+	$('msg').update('');
 	var t = value.split('~');
 	if (t != null && t.length > 1) {
 		tValues['sp'] = t[0]; $('sp').value = t[1]; $('sp').addClassName('completed');

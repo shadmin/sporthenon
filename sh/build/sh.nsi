@@ -2,16 +2,16 @@
 ; Sporthenon Setup Script ;
 ;-------------------------;
 
-!define VERSION "0.9.3"
+!define VERSION "0.10.0"
 
-!define OUTPUT "C:\Sporthenon\Setup"
-!define IMGPATH "C:\Sporthenon\Setup\Graphics"
-!define EXEPATH "C:\Sporthenon\Workspace\Sporthenon\build"
-!define LIBPATH "C:\Sporthenon\Workspace\Sporthenon\WebContent\WEB-INF\lib"
-;!define OUTPUT "C:\Docs\Sporthenon\Setup"
-;!define IMGPATH "C:\Docs\Sporthenon\Setup\Graphics"
-;!define EXEPATH "C:\Docs\Sporthenon\Workspace\Sporthenon\build"
-;!define LIBPATH "C:\Docs\Sporthenon\Workspace\Sporthenon\WebContent\WEB-INF\lib"
+;!define OUTPUT "C:\Sporthenon\Setup"
+;!define IMGPATH "C:\Sporthenon\Setup\Graphics"
+;!define EXEPATH "C:\Sporthenon\Workspace\Sporthenon\build"
+;!define LIBPATH "C:\Sporthenon\Workspace\Sporthenon\WebContent\WEB-INF\lib"
+!define OUTPUT "C:\Docs\Sporthenon\Setup"
+!define IMGPATH "C:\Docs\Sporthenon\Setup\Graphics"
+!define EXEPATH "C:\Docs\Sporthenon\Workspace\Sporthenon\build"
+!define LIBPATH "C:\Docs\Sporthenon\Workspace\Sporthenon\WebContent\WEB-INF\lib"
 
 ; General attributes
 SetCompressor bzip2

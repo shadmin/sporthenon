@@ -146,7 +146,6 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 								plb = new PicklistBean(item5.getIdItem(), item5.getStdLabel(), item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem() + "," + item4.getIdItem() + "," + item5.getIdItem());
 								level5Node = new DefaultMutableTreeNode(plb);
 								level4Node.add(level5Node);
-								treeItems.add(plb);
 								treeItems.add(new PicklistBean(plb.getValue(), item.getStdLabel() + " - " + item2.getStdLabel() + " - " + item3.getStdLabel() + " - " + item4.getStdLabel() + " - " + item5.getStdLabel(), plb.getParam()));
 							}
 							l = m;

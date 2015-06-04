@@ -35,10 +35,13 @@ public class ImageUtils {
 		hIndex.put("TM", INDEX_TEAM);
 		hIndex.put("EV", INDEX_EVENT);
 		lImgFiles = new LinkedList<String>();
-		for (File f : new File(ConfigUtils.getProperty("img.folder")).listFiles())
-			lImgFiles.add(f.getName());
+		try {
+			for (File f : new File(ConfigUtils.getProperty("img.folder")).listFiles())
+				lImgFiles.add(f.getName());
+		}
+		catch (Exception e) {}
 	}
-	
+
 	public static short getIndex(String alias) {
 		return (hIndex.containsKey(alias) ? hIndex.get(alias) : -1);
 	}
