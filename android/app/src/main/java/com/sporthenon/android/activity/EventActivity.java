@@ -36,7 +36,7 @@ public class EventActivity extends AbstractActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
         DataItem ev = (DataItem) list.getItemAtPosition(position);
-        Intent i = new Intent(this, EventActivity.class);
+        boolean isResults = false;
         Bundle b = new Bundle();
         b.putInt("spid", getSportId());
         b.putString("spname", getSportName());
@@ -46,13 +46,10 @@ public class EventActivity extends AbstractActivity implements AdapterView.OnIte
             b.putInt("ev1id", getEvent1Id());
             b.putString("ev1name", getEvent1Name());
             if (getEvent2Id() != null && getEvent2Id() > 0) {
-                b.putInt("ev2id", getEvent2Id());
-                b.putString("ev2name", getEvent2Name());
-                b.putInt("ev3id", ev.getId());
-                b.putString("ev3name", ev.getName());
                 setEvent3Id(ev.getId());
                 setEvent3Name(ev.getName());
                 loadResults();
+                isResults = true;
             }
             else {
                 b.putInt("ev2id", ev.getId());
@@ -63,8 +60,11 @@ public class EventActivity extends AbstractActivity implements AdapterView.OnIte
             b.putInt("ev1id", ev.getId());
             b.putString("ev1name", ev.getName());
         }
-        i.putExtras(b);
-        startActivity(i);
+        if (!isResults) {
+            Intent i = new Intent(this, EventActivity.class);
+            i.putExtras(b);
+            startActivity(i);
+        }
     }
 
     public void loadResults() {

@@ -29,7 +29,7 @@
         android:id="@+id/rs_sport"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:padding="2dip"
         />
 
@@ -37,7 +37,7 @@
         android:id="@+id/rs_championship"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:padding="2dip"
         />
 
@@ -45,7 +45,7 @@
         android:id="@+id/rs_event"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:padding="2dip"
         />
 
@@ -53,7 +53,7 @@
         android:id="@+id/rs_subevent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:padding="2dip"
         />
 
@@ -61,7 +61,7 @@
         android:id="@+id/rs_subevent2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:padding="2dip"
         />
 
@@ -69,7 +69,7 @@
         android:id="@+id/rs_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:padding="2dip"
         />
 
@@ -77,38 +77,36 @@
         android:id="@+id/rs_place1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:gravity="center"
         android:padding="2dip"
-        android:textAlignment="center"
         />
 
     <TextView
         android:id="@+id/rs_place2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:gravity="center"
         android:padding="2dip"
-        android:textAlignment="center"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|center_vertical"
+        android:gravity="center"
         android:layout_marginTop="20dip"
         android:padding="2dip">
         <ImageView
             android:id="@+id/rank1_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="3dip"
+            android:gravity="center"
             />
         <TextView
             android:id="@+id/rank1_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textAlignment="center"
+            android:gravity="center"
+            android:paddingLeft="8dip"
             android:textStyle="bold"
             />
     </LinearLayout>
@@ -117,47 +115,45 @@
         android:id="@+id/score"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:padding="2dip"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|center_vertical"
+        android:gravity="center"
         android:padding="2dip">
         <ImageView
             android:id="@+id/rank2_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="3dip"
             />
         <TextView
             android:id="@+id/rank2_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textAlignment="center"
+            android:gravity="center"
+            android:paddingLeft="8dip"
             />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|center_vertical"
+        android:gravity="center"
         android:padding="2dip">
         <ImageView
             android:id="@+id/rank3_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="3dip"
             />
         <TextView
             android:id="@+id/rank3_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textAlignment="center"
+            android:gravity="center"
+            android:paddingLeft="8dip"
             />
     </LinearLayout>
 

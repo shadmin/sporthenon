@@ -82,21 +82,21 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
             String rs3 = null;
             Element rank1 = (Element) doc.getElementsByTagName("rank1").item(0);
             if (rank1 != null) {
-                result1.setRank1(rank1.getTextContent());
+                result1.setRank1(rank1.getTextContent().replaceAll("\\s\\(", "\\\r\\\n("));
                 result1.setRank1ImgURL(rank1.getAttribute("img"));
                 result1.setRank1Img(AndroidUtils.getImage(activity, result1.getRank1ImgURL()));
                 rs1 = rank1.getAttribute("result");
             }
             Element rank2 = (Element) doc.getElementsByTagName("rank2").item(0);
             if (rank2 != null) {
-                result1.setRank2(rank2.getTextContent());
+                result1.setRank2(rank2.getTextContent().replaceAll("\\s\\(", "\\\r\\\n("));
                 result1.setRank2ImgURL(rank2.getAttribute("img"));
                 result1.setRank2Img(AndroidUtils.getImage(activity, result1.getRank2ImgURL()));
                 rs2 = rank2.getAttribute("result");
             }
             Element rank3 = (Element) doc.getElementsByTagName("rank3").item(0);
             if (rank3 != null) {
-                result1.setRank3(rank3.getTextContent());
+                result1.setRank3(rank3.getTextContent().replaceAll("\\s\\(", "\\\r\\\n("));
                 result1.setRank3ImgURL(rank3.getAttribute("img"));
                 result1.setRank3Img(AndroidUtils.getImage(activity, result1.getRank3ImgURL()));
                 rs3 = rank3.getAttribute("result");

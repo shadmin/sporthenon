@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:padding="7dip"
         android:textStyle="bold"
     />
@@ -21,14 +22,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="4dip"
-        android:layout_marginRight="5dip"
+        android:gravity="center"
         android:layout_toRightOf="@+id/year"
-        android:padding="0dip">
+        android:layout_toEndOf="@+id/year"
+        android:paddingTop="2dip"
+        android:paddingBottom="2dip"
+        android:paddingLeft="5dip"
+        android:paddingRight="8dip">
         <ImageView
             android:id="@+id/img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
         />
     </LinearLayout>
 
@@ -39,6 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/thumbnail"
+        android:layout_toEndOf="@+id/thumbnail"
     />
 
 </RelativeLayout>

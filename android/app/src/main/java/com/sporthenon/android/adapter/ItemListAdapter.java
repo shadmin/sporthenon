@@ -2,6 +2,7 @@ package com.sporthenon.android.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,6 @@ public class ItemListAdapter extends BaseAdapter {
 	private List<DataItem> list = null;
 	LayoutInflater layoutInflater;
 	Context context;
-	private int lastPosition = -1;
 
 	public ItemListAdapter(Context context, List<DataItem> list) {
 		this.list = list;
@@ -64,12 +64,12 @@ public class ItemListAdapter extends BaseAdapter {
 		if (text.startsWith("+")) {
 			text = text.replaceAll("^\\+", "");
 			holder.name.setTextColor(Color.GRAY);
+			holder.name.setTypeface(null, Typeface.ITALIC);
 		}
 		holder.name.setText(text);
 		Drawable img = list.get(position).getPicture();
 		holder.picture.setImageDrawable(img);
 		holder.picture.setVisibility(img != null ? View.VISIBLE : View.GONE);
-		lastPosition = position;
 		return convertView;
 	}
 

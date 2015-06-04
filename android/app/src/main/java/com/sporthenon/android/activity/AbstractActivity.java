@@ -19,6 +19,7 @@ import com.sporthenon.android.adapter.ItemListAdapter;
 import com.sporthenon.android.adapter.ResultListAdapter;
 import com.sporthenon.android.data.DataItem;
 import com.sporthenon.android.data.ResultItem;
+import com.sporthenon.android.utils.AndroidUtils;
 
 import java.util.ArrayList;
 
@@ -216,8 +217,10 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
     }
 
     public void setPath(String s) {
-        TextView path = (TextView) findViewById(R.id.path);
-        path.setText(path.getText() + "\r\n" + s);
+        if (s != null) {
+            TextView path = (TextView) findViewById(R.id.path);
+            path.setText((AndroidUtils.notEmpty(path.getText().toString()) ? path.getText() + "\r\n" : "") + s.replaceAll("\\r\\n\\+", "\\\r\\\n"));
+        }
     }
 
     public void hideProgress() {

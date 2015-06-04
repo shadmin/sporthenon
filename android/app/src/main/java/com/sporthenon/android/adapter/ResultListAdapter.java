@@ -21,7 +21,6 @@ public class ResultListAdapter extends BaseAdapter {
 	private List<ResultItem> list = null;
 	LayoutInflater layoutInflater;
 	Context context;
-	private int lastPosition = -1;
 
 	public ResultListAdapter(Context context, List<ResultItem> list) {
 		this.list = list;
@@ -73,7 +72,6 @@ public class ResultListAdapter extends BaseAdapter {
 		else
 			holder.img.setVisibility(View.GONE);
         holder.rank1.setText(list.get(position).getRank1());
-		lastPosition = position;
 		return convertView;
 	}
 
