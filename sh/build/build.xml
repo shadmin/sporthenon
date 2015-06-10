@@ -5,20 +5,20 @@
 	<property name="webcontent" value="../WebContent" />
 	<property name="temp" value="./temp" />
 	
-	<!-- SHUPDATE.JAR -->
-	<target name="shupdate.jar">
+	<!-- SHADMIN.JAR -->
+	<target name="shadmin.jar">
 		<mkdir dir="${temp}"/>
 		<copy todir="${temp}">
 			<fileset dir="${classes}">
 				<include name="**/sporthenon/db/**"/>
-				<include name="**/sporthenon/updater/**"/>
+				<include name="**/sporthenon/admin/**"/>
 				<include name="**/sporthenon/utils/**"/>
 				<include name="**/META-INF/**"/>
-				<exclude name="**/sporthenon/updater/MANIFEST.MF"/>
+				<exclude name="**/sporthenon/admin/MANIFEST.MF"/>
 			</fileset>
 		</copy>
 		<copy file="${classes}/config.prod.xml" tofile="${temp}/config.xml"/>
-		<jar jarfile="./shupdate.jar" basedir="${temp}" manifest="${classes}/com/sporthenon/updater/MANIFEST.MF"/>
+		<jar jarfile="./shadmin.jar" basedir="${temp}" manifest="${classes}/com/sporthenon/admin/MANIFEST.MF"/>
 		<delete dir="${temp}" failonerror="false"/>
 	</target>
 	
@@ -37,7 +37,7 @@
 		<copy todir="${temp}/WEB-INF/classes">
 			<fileset dir="${classes}">
 				<exclude name="**/sporthenon/explorer/**"/>
-				<exclude name="**/sporthenon/updater/**"/>
+				<exclude name="**/sporthenon/admin/**"/>
 				<exclude name="**/sporthenon/test/**"/>
 				<exclude name="**/config*.xml"/>
 				<exclude name="**/log4j*.xml"/>

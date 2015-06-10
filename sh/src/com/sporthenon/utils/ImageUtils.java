@@ -18,6 +18,8 @@ public class ImageUtils {
 	public static final short INDEX_COUNTRY = 4;
 	public static final short INDEX_TEAM = 5;
 	public static final short INDEX_EVENT = 6;
+	public static final short INDEX_SPORT_CHAMPIONSHIP = 7;
+	public static final short INDEX_SPORT_EVENT = 8;
 	
 	public static final char SIZE_LARGE = 'L';
 	public static final char SIZE_SMALL = 'S';
@@ -34,6 +36,8 @@ public class ImageUtils {
 		hIndex.put("CN", INDEX_COUNTRY);
 		hIndex.put("TM", INDEX_TEAM);
 		hIndex.put("EV", INDEX_EVENT);
+		hIndex.put("SPCP", INDEX_SPORT_CHAMPIONSHIP);
+		hIndex.put("SPEV", INDEX_SPORT_EVENT);
 		lImgFiles = new LinkedList<String>();
 		try {
 			for (File f : new File(ConfigUtils.getProperty("img.folder")).listFiles())
@@ -82,7 +86,7 @@ public class ImageUtils {
 		return lImgFiles;
 	}
 	
-	public static Collection<String> getImageList(short type, int id, char size) {
+	public static Collection<String> getImageList(short type, Object id, char size) {
 		LinkedList<String> list = new LinkedList<String>();
 		String name = type + "-" + id + "-" + size;
 		for (String s : lImgFiles)

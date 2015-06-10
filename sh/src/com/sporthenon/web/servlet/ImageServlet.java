@@ -1,7 +1,6 @@
 package com.sporthenon.web.servlet;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
@@ -65,12 +64,15 @@ public class ImageServlet extends AbstractServlet {
 				FileOutputStream fos = new FileOutputStream(f);
 				fos.write(b);
 				fos.close();
+				ImageUtils.getImgFiles().add(f.getName());
 			}
 			else if (hParams.containsKey("remove")) {
 				String fname = String.valueOf(hParams.get("name"));
 				File f = new File(ConfigUtils.getProperty("img.folder") + fname);
-				if (f.exists())
+				if (f.exists()) {
 					f.delete();
+					ImageUtils.getImgFiles().remove(f.getName());
+				}
 			}
 			else if (hParams.containsKey("url")) {
 				String type = String.valueOf(hParams.get("type"));
@@ -84,7 +86,7 @@ public class ImageServlet extends AbstractServlet {
 				String id = String.valueOf(hParams.get("id"));
 				String size = String.valueOf(hParams.get("size"));
 				StringBuffer sb = new StringBuffer();
-				for (String s : ImageUtils.getImageList(Short.valueOf(type), Integer.valueOf(id), size.charAt(0)))
+				for (String s : ImageUtils.getImageList(Short.valueOf(type), id, size.charAt(0)))
 					sb.append(s).append(",");
 				ServletHelper.writeText(response, sb.toString());
 			}
@@ -93,21 +95,17 @@ public class ImageServlet extends AbstractServlet {
 				StringBuffer sbResult = new StringBuffer();
 				for (String entity_ : new String[]{"CP", "EV", "SP", "CN", "OL", "TM"}) {
 					String label = null;
-					if (entity_.equalsIgnoreCase(Olympics.alias))
+					if (entity_.equals(Olympics.alias))
 						label = "concat(concat(year.label, ' - '), city.label)";
-					else if (entity_.equalsIgnoreCase(Team.alias))
+					else if (entity_.equals(Team.alias))
 						label = "concat(concat(label, ' - '), sport.label)";
 					Collection<PicklistBean> lst = DatabaseHelper.getEntityPicklist(DatabaseHelper.getClassFromAlias(entity_), label, null, ResourceUtils.LGDEFAULT);
 					int n = 0;
 					for (PicklistBean o : lst) {
-						File dir = new File(ConfigUtils.getProperty("img.folder"));
-						final String pattern = ImageUtils.getIndex(entity_.toUpperCase()) + "\\-" + o.getValue() + "\\-L.*.png";
-						File[] list = dir.listFiles(new FileFilter() {
-						    public boolean accept(File f) {
-						        return f.getName().matches(pattern);
-						    }
-						});
-						if (list == null || list.length == 0)
+						if (entity_.equals(Team.alias) && o.getText().contains("Sailing"))
+							continue;
+						Collection list = ImageUtils.getImageList(ImageUtils.getIndex(entity_.toUpperCase()), o.getValue(), ImageUtils.SIZE_LARGE);
+						if (list == null || list.isEmpty())
 							sbResult.append(entity_).append(";").append(++n).append(";").append(o.getValue()).append(";").append(o.getText()).append("|");						
 					}
 				}

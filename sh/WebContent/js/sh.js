@@ -388,9 +388,9 @@ function closeDialog(dlg) {
 	$('header').setStyle({ opacity: 1.0 });
 	$('content').setStyle({ opacity: 1.0 });
 }
-var dExport = null;
 var dLink = null;
 var dInfo = null;
+var dDataTip = null;
 function share(type) {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	var langParam = '?lang=' + lang;
@@ -630,21 +630,41 @@ function moreLastUpdates(row, p) {
 		parameters: addOptions($H())
 	});
 }
-function loadHomeData() {
-	new Ajax.Request('/IndexServlet?t=' + currentTime(), {
-		onSuccess: function(response) {
-			var xml = response.responseXML;
-			if (!xml) {return;}
-			var root = xml.documentElement;
-			var node = null;
-
-			// Statistics
-			var stat = root.getElementsByTagName('stats')[0];
-			for (var i = 0 ; i < stat.childNodes.length ; i++) {
-				node = stat.childNodes[i];
-				$(node.getAttribute('id')).update(node.getAttribute('value'));
+var cindex = 0;
+var cmax = 1;
+var cdata = [];
+var clabel = [];
+function loadReport(cdata_, clabel_) {
+	$('chart').update('<canvas id="cvs" width="720" height="400"></canvas>');
+	var bar = new RGraph.HBar('cvs', cdata_)
+		.Set('gutter.top', 0)
+		.Set('gutter.left', 120)
+		.Set('labels', clabel_)
+		.Set('colors', ['Gradient(#49b2f5:#0567a5)'])
+		.Set('text.font', 'Verdana')
+		.Set('text.size', 8)
+		.Set('vmargin', 5)
+		.Draw();
+}
+function changeReport(idx) {
+	cindex += idx;
+	if (cindex > cmax) {
+		cindex = 0;
+	}
+	if (cindex < 0) {
+		cindex = cmax;
+	}
+	$('chart').update('<img src="/img/db/loading.gif?6"/>');
+	$('ctitle').update(ctitle[cindex]);
+	new Ajax.Request('/IndexServlet?report=' + cindex + '&t=' + currentTime(), {
+		onSuccess: function(response){
+			var t = response.responseText.split('~');
+			clabel = t[0].split('|');
+			cdata = t[1].split('|');
+			for (var i = 0 ; i < cdata.length ; i++) {
+				cdata[i] = parseInt(cdata[i]);
 			}
-			$('img-stat').hide();$('table-stat').show();
+			loadReport(cdata, clabel);
 		}
 	});
 }
@@ -1425,4 +1445,8 @@ function toggleDraw() {
 		$('draw').hide();
 		$('drawimg').src = '/img/render/expand.gif';
 	}
+}
+function loadDataDialog(type) {
+	new Ajax.Updater($('datatip'), '/update/data/' + type);
+	dDataTip.open();	
 }

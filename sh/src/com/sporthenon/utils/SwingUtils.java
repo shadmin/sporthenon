@@ -13,12 +13,12 @@ import javax.swing.tree.DefaultTreeModel;
 
 import org.apache.log4j.Logger;
 
+import com.sporthenon.admin.component.JEntityPicklist;
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.PicklistBean;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Sport;
-import com.sporthenon.updater.component.JEntityPicklist;
 
 public class SwingUtils {
 	

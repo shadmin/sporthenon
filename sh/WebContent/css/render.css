@@ -46,16 +46,19 @@
 	border: none;
 	padding: 0;
 	padding-right: 3px;
-	padding-top: 2px;
 	background-color: transparent;
 }
 .tc td table td, .tc th table td, .tc .info td table td{
 	border: none;
 	padding: 0;
+	vertical-align: middle;
 }
 .tc th table th{
 	border: none;
 	padding-left: 3px;
+}
+.tc td th img{
+	vertical-align: top;
 }
 .tc .centered{
 	text-align: center;

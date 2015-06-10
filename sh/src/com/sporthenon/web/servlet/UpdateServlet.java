@@ -275,6 +275,19 @@ public class UpdateServlet extends AbstractServlet {
 					ServletHelper.writeText(response, sbMsg.toString());
 				}
 			}
+			else if (hParams.containsKey("p2") && hParams.get("p2").equals("data")) { // Data tips
+				try {
+					String lang_ = (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "");
+					StringBuffer html = new StringBuffer("<table>");
+					List<Object[]> list = DatabaseHelper.execute(hParams.get("p").equals("team") ? "select label, sport.label" + lang_ + " from Team order by 1" : "select label" + lang_ + ", code from Country order by 1");
+					for (Object[] t : list)
+						html.append("<tr><td>" + t[0] + "</td><td>" + t[1] + "</td></tr>");
+					ServletHelper.writeText(response, html.append("</table>").toString());
+				}
+				catch (Exception e) {
+					handleException(e);
+				}
+			}
 			else { // Load result
 				Object tp = hParams.get("tp");
 				request.setAttribute("title", ResourceUtils.getText("menu.update", getLocale(request)) + " | SPORTHENON");

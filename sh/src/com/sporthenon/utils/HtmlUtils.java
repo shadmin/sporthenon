@@ -28,10 +28,14 @@ public class HtmlUtils {
 		return "<div class='noresult'>" + ResourceUtils.getText("no.result", lang) + "</div>";
 	}
 	
-	public static String writeImage(short type, int id, char size, String year, String title) {
+	public static String writeImage(short type, Object id, char size, String year, String title) {
 		StringBuffer html = new StringBuffer();
 		final String name = type + "-" + id + "-" + size;
+		String name2 = "";
+		if (type == ImageUtils.INDEX_SPORT_CHAMPIONSHIP || type == ImageUtils.INDEX_SPORT_EVENT)
+			name2 = (type == ImageUtils.INDEX_SPORT_CHAMPIONSHIP ? ImageUtils.INDEX_CHAMPIONSHIP : ImageUtils.INDEX_EVENT) + "-" + String.valueOf(id).split("\\-")[1] + "-" + size;
 		LinkedList<String> list = new LinkedList<String>();
+		LinkedList<String> list2 = new LinkedList<String>();
 		for (String s : ImageUtils.getImgFiles()) {
 			if (s.startsWith(name)) {
 				boolean isInclude = true;
@@ -49,11 +53,15 @@ public class HtmlUtils {
 				if (isInclude)
 					list.add(s);
 			}
+			else if (s.startsWith(name2))
+				list2.add(s);
 		}
+		if (list.isEmpty())
+			list.addAll(list2);
 		Collections.sort(list);
 		if (!list.isEmpty())
 			html.append("<img alt=''" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + " src='" + ImageUtils.getUrl() + list.getLast() + "'/>");
-		else if (size == ImageUtils.SIZE_LARGE && type != ImageUtils.INDEX_CHAMPIONSHIP && type != ImageUtils.INDEX_EVENT)
+		else if (size == ImageUtils.SIZE_LARGE && type != ImageUtils.INDEX_SPORT_CHAMPIONSHIP && type != ImageUtils.INDEX_SPORT_EVENT)
 			html.append("<img alt='' src='/img/noimage.png'/>");
 		return html.toString();
 	}

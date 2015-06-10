@@ -214,7 +214,6 @@
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
-	<entry key="title.news">NEWS</entry>
 	<entry key="title.statistics">STATISTIQUES</entry>
 	<entry key="sporthenon.welcome"><![CDATA[Bienvenue sur <a href="project">SPORTHENON</a>, le temple des résultats sportifs !]]></entry>
 	<entry key="sporthenon.desc"><![CDATA[Sporthenon est une base de données sportive gratuite et <a href="contribute">ouverte aux contributeurs]]></entry>
@@ -224,6 +223,8 @@
 	<entry key="desc.results">Palmarès complets classés par sport / championnat / épreuve</entry>
 	<entry key="desc.olympics">Podiums et tableaux de médailles des Jeux Olympiques d'hiver et d'été</entry>
 	<entry key="desc.usleagues">Page spécifique aux 4 ligues majeures US (NFL / NBA / NHL / MLB))</entry>
+	<entry key="report.1">Résultats par sport</entry>
+	<entry key="report.2">Athlètes par pays</entry>
 <!-- RESULTS -->
 	<entry key="sport">Sport</entry>
 	<entry key="event">Epreuve</entry>
@@ -278,19 +279,24 @@
 	<entry key="athletes">Athlètes</entry>
 	<entry key="places">Lieux</entry>
 	<entry key="sports">Sports</entry>
-<!-- PROJECT -->
+<!-- PROJECT/CONTRIBUTE -->
 	<entry key="downloads">TÉLÉCHARGEMENTS</entry>
-	<entry key="report.bug">RAPPORTER UN BUG</entry>
 	<entry key="contributors">CONTRIBUTEURS</entry>
 	<entry key="statistics">STATISTIQUES</entry>
 	<entry key="technical.info">INFORMATIONS TECHNIQUES</entry>
 	<entry key="download.last">Télécharger la dernière version</entry>
 	<entry key="download.previous">Versions précédentes</entry>
-<!-- CONTRIBUTE -->
 	<entry key="step">ÉTAPE</entry>
 	<entry key="step1.desc"><![CDATA[Créer un compte sur <a href="/login">cette page</a>.<br/><br/>Remplir les champs obligatoires (mentionnés par <span class="mandatory">*</span>) et cliquer sur "Créer un compte".]]></entry>
 	<entry key="step2.desc"><![CDATA[Aller sur la page "Connexion" et s'authentifier en utilisant les identifiants créés en étape 1.]]></entry>
 	<entry key="step3.desc"><![CDATA[Ajouter et modifier des résultats par les boutons <img alt="add" src="/img/component/button/add.png"/> et <img alt="add" src="/img/component/button/modify.png"/>]]></entry>
+	<entry key="contributions">Contributions</entry>
+	<entry key="download.admin">Programme d'administration</entry>
+	<entry key="change.log">Log des changements</entry>
+	<entry key="report.bug">Rapporter un bug</entry>
+	<entry key="github.desc">Le projet et ses codes source sont hébergés sur GitHub</entry>
+	<entry key="programming">Programmation</entry>
+	<entry key="db.hosting">Base de données &amp; Hébergement</entry>
 <!-- LOGIN -->
 	<entry key="msg.login.err1">La connexion a échoué. Cet utilisateur n'est pas actif.</entry>
 	<entry key="msg.login.err2">La connexion a échoué. Merci de vérifier votre identifiant/mot de passe.</entry>

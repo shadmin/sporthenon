@@ -17,7 +17,7 @@
 SetCompressor bzip2
 SetOverwrite off
 Name "Sporthenon"
-OutFile "${OUTPUT}\Sporthenon-${VERSION}-setup.exe"
+OutFile "${OUTPUT}\shadmin-${VERSION}-setup.exe"
 RequestExecutionLevel admin
 InstallDir "$PROGRAMFILES\Sporthenon"
 ;ShowInstDetails show
@@ -50,19 +50,19 @@ InstallDir "$PROGRAMFILES\Sporthenon"
 !insertmacro MUI_RESERVEFILE_LANGDLL
 
 ; Sections
-Section "Sporthenon Update" Main
+Section "Sporthenon Admin" Main
   SectionIn RO
   SetShellVarContext all
 
   SetOutPath "$INSTDIR"
   ${If} ${RunningX64}
-    File /oname=shupdate.exe "${EXEPATH}\shupdate64.exe"
+    File /oname=shadmin.exe "${EXEPATH}\shadmin64.exe"
   ${Else}
-    File /oname=shupdate.exe "${EXEPATH}\shupdate32.exe"
+    File /oname=shadmin.exe "${EXEPATH}\shadmin32.exe"
   ${EndIf}
   
-  File "${EXEPATH}\shupdate.lap"
-  File "${EXEPATH}\shupdate.jar"
+  File "${EXEPATH}\shadmin.lap"
+  File "${EXEPATH}\shadmin.jar"
   
   CreateDirectory "$APPDATA\Sporthenon"
 
@@ -76,13 +76,13 @@ SectionEnd
 
 Section "Shortcut (Desktop)" Shortcut1
   SetOutPath "$DESKTOP"
-  CreateShortCut "Sporthenon Update.lnk" "$INSTDIR\shupdate.exe" "" "" "" "SW_SHOWNORMAL" "" ""
+  CreateShortCut "Sporthenon Admin.lnk" "$INSTDIR\shadmin.exe" "" "" "" "SW_SHOWNORMAL" "" ""
 SectionEnd
 
 Section "Shortcut (Start Menu)" Shortcut2
   CreateDirectory "$STARTMENU\Programs\Sporthenon"
   SetOutPath "$STARTMENU\Programs\Sporthenon"
-  CreateShortCut "Sporthenon Update.lnk" "$INSTDIR\shupdate.exe" "" "" "" "SW_SHOWNORMAL" "" ""
+  CreateShortCut "Sporthenon Admin.lnk" "$INSTDIR\shadmin.exe" "" "" "" "SW_SHOWNORMAL" "" ""
   CreateShortCut "Uninstall.lnk" "$INSTDIR\Uninstall.exe" "" "" "" "SW_SHOWNORMAL" "" ""
 SectionEnd
   
@@ -92,6 +92,6 @@ Section "Uninstall"
   RMDir /r "$INSTDIR"
   RMDir /r "$APPDATA\Sporthenon"
   RMDir /r "$STARTMENU\Programs\Sporthenon"
-  Delete "$DESKTOP\Sporthenon Update.lnk"
+  Delete "$DESKTOP\Sporthenon Admin.lnk"
   DeleteRegKey /ifempty HKCU "Software\Sporthenon"
 SectionEnd

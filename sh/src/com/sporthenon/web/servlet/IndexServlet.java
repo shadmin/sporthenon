@@ -3,28 +3,26 @@ package com.sporthenon.web.servlet;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Sport;
-import com.sporthenon.db.function.StatisticsBean;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
+import com.sporthenon.utils.res.ResourceUtils;
 import com.sporthenon.web.HtmlConverter;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 public class IndexServlet extends AbstractServlet {
 
 private static final long serialVersionUID = 1L;
+
+	public static final String REPORT_QUERY1 = "SELECT SP.label#LANG#, COUNT(*) FROM \"RESULT\" RS LEFT JOIN \"SPORT\" SP ON RS.id_sport=SP.id GROUP BY SP.label#LANG# ORDER BY 2 DESC LIMIT 15";
+	public static final String REPORT_QUERY2 = "SELECT CN.label#LANG#, COUNT(*) FROM \"COUNTRY\" CN LEFT JOIN \"PERSON\" PR ON PR.id_country=CN.id GROUP BY CN.label#LANG# ORDER BY 2 DESC LIMIT 15";
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -33,6 +31,7 @@ private static final long serialVersionUID = 1L;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			init(request);
+			String lang = getLocale(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			if (hParams.containsKey("p")) {
 				String p = String.valueOf(hParams.get("p"));
@@ -43,46 +42,30 @@ private static final long serialVersionUID = 1L;
 			}
 			if (hParams.containsKey("lang")) { // Language
 		        request.getSession().setAttribute("locale", String.valueOf(hParams.get("value")));
-			}
+			}	
 			else if (hParams.containsKey("lastupdates")) { // Last Updates
 		        ArrayList<Object> lParams = new ArrayList<Object>();
 		        Integer count = new Integer(String.valueOf(hParams.get("count")));
 		        Integer offset = new Integer(String.valueOf(hParams.get("offset")));
 		        lParams.add(count);
 		        lParams.add(offset);
-		        lParams.add("_" + getLocale(request));
+		        lParams.add("_" + lang);
 		        ServletHelper.writeTabHtml(response, HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams), count, offset, getLocale(request)), getLocale(request));
 			}
-			else {
-				DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-		        DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-		        Document doc = docBuilder.newDocument();
-		        Element root = doc.createElement("home");
-		        doc.appendChild(root);
-		        
-		        // Statistics
-		        ArrayList<StatisticsBean> lStats = new ArrayList(DatabaseHelper.call("Statistics", null));
-				StatisticsBean stb = lStats.get(0);
-		        Element stats = doc.createElement("stats");
-		        Element item = doc.createElement("stat");
-		        item.setAttribute("id", "count-sport"); item.setAttribute("value", StringUtils.formatNumber(stb.getCountSport()));
-		        stats.appendChild(item);
-		        item = doc.createElement("stat");
-		        item.setAttribute("id", "count-event"); item.setAttribute("value", StringUtils.formatNumber(stb.getCountEvent()));
-		        stats.appendChild(item);
-		        item = doc.createElement("stat");
-		        item.setAttribute("id", "count-result"); item.setAttribute("value", StringUtils.formatNumber(stb.getCountResult()));
-		        stats.appendChild(item);
-		        item = doc.createElement("stat");
-		        item.setAttribute("id", "count-person"); item.setAttribute("value", StringUtils.formatNumber(stb.getCountPerson()));
-		        stats.appendChild(item);
-		        root.appendChild(stats);
-		        
-		        response.setContentType("text/xml");
-	        	response.setCharacterEncoding("utf-8");
-		        XMLSerializer serializer = new XMLSerializer();
-		        serializer.setOutputCharStream(response.getWriter());
-		        serializer.serialize(doc);
+			else if (hParams.containsKey("report")) { // Report
+				ArrayList<String> lReport = new ArrayList<String>();
+				lReport.add(REPORT_QUERY1);
+				lReport.add(REPORT_QUERY2);
+				int index = Integer.parseInt(String.valueOf(hParams.get("report")));
+				String lang_ = (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");				
+				List<Object[]> list = DatabaseHelper.executeNative(lReport.get(index).replaceAll("#LANG#", lang_));
+				StringBuffer sb1 = new StringBuffer();
+				StringBuffer sb2 = new StringBuffer();
+				for (Object[] t : list) {
+					sb1.append(sb1.toString().length() > 0 ? "|" : "").append(t[0]);
+					sb2.append(sb2.toString().length() > 0 ? "|" : "").append(t[1]);
+				}
+				ServletHelper.writeText(response, sb1.toString() + "~" + sb2.toString());
 			}
 		}
 		catch (Exception e) {

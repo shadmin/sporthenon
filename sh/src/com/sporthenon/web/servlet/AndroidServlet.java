@@ -66,25 +66,25 @@ public class AndroidServlet extends AbstractServlet {
 	        root.setAttribute("id", p2);
 	        doc.appendChild(root);
 	        if (p2.equalsIgnoreCase(Sport.alias))
-	        	addItems(doc, root, ImageUtils.INDEX_SPORT, DatabaseHelper.getEntityPicklist(Sport.class, "label", null, lang), null, null);
+	        	addItems(doc, root, ImageUtils.INDEX_SPORT, DatabaseHelper.getEntityPicklist(Sport.class, "label", null, lang), null, null, null);
 	        else if (p2.equalsIgnoreCase(Championship.alias)) {
 	        	String filter = "sport.id=" + p;
-	        	addItems(doc, root, ImageUtils.INDEX_CHAMPIONSHIP, DatabaseHelper.getPicklist(Result.class, "championship", filter, null, "x.championship.index, x.championship." + label, lang), null, null);
+	        	addItems(doc, root, ImageUtils.INDEX_SPORT_CHAMPIONSHIP, DatabaseHelper.getPicklist(Result.class, "championship", filter, null, "x.championship.index, x.championship." + label, lang), null, p, null);
 	        }
 	        else if (p2.equalsIgnoreCase(Event.alias)) {
 	        	String[] t = p.split("\\-");
 	        	String filter = "sport.id=" + t[0] + " and championship.id=" + t[1];
-	        	addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Result.class, "event", filter, null, "x.event.index, x.event." + label, lang), lInactive, t[1]);
+	        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseHelper.getPicklist(Result.class, "event", filter, null, "x.event.index, x.event." + label, lang), lInactive, t[0], t[1]);
 	        }
 	        else if (p2.equalsIgnoreCase("SE")) {
 	        	String[] t = p.split("\\-");
 	        	String filter = "sport.id=" + t[0] + " and championship.id=" + t[1] + " and event.id=" + t[2];
-	        	addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent", filter, null, "x.subevent.index, x.subevent." + label, lang), lInactive, t[1] + "-" + t[2]);
+	        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent", filter, null, "x.subevent.index, x.subevent." + label, lang), lInactive, t[0], t[1] + "-" + t[2]);
 	        }
 	        else if (p2.equalsIgnoreCase("SE2")) {
 	        	String[] t = p.split("\\-");
 	        	String filter = "sport.id=" + t[0] + " and championship.id=" + t[1] + " and event.id=" + t[2] + " and subevent.id=" + t[3];
-	        	addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent2", filter, null, "x.subevent2.index, x.subevent2." + label, lang), lInactive, t[1] + "-" + t[2] + "-" + t[3]);
+	        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent2", filter, null, "x.subevent2.index, x.subevent2." + label, lang), lInactive, t[0], t[1] + "-" + t[2] + "-" + t[3]);
 	        }
 	        else if (p2.equalsIgnoreCase(Result.alias)) {
 	        	String[] t = p.split("\\-");
@@ -114,25 +114,25 @@ public class AndroidServlet extends AbstractServlet {
 	        	root.appendChild(sp);
 	        	Element cp = doc.createElement("championship");
 	        	cp.setAttribute("id", String.valueOf(r.getChampionship().getId()));
-	        	cp.setAttribute("img", getImage(ImageUtils.INDEX_CHAMPIONSHIP, r.getChampionship().getId(), ImageUtils.SIZE_LARGE, null, null));
+	        	cp.setAttribute("img", getImage(ImageUtils.INDEX_SPORT_CHAMPIONSHIP, r.getSport().getId() + "-" + r.getChampionship().getId(), ImageUtils.SIZE_LARGE, null, null));
 	        	cp.setTextContent(r.getChampionship().getLabel(lang));
 	        	root.appendChild(cp);
 	        	Element ev = doc.createElement("event");
 	        	ev.setAttribute("id", String.valueOf(r.getEvent().getId()));
-	        	ev.setAttribute("img", getImage(ImageUtils.INDEX_EVENT, r.getEvent().getId(), ImageUtils.SIZE_LARGE, null, null));
+	        	ev.setAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getEvent().getId(), ImageUtils.SIZE_LARGE, null, null));
 	        	ev.setTextContent(r.getEvent().getLabel(lang));
 	        	root.appendChild(ev);
 	        	if (r.getSubevent() != null) {
 	        		Element se = doc.createElement("subevent");
 	        		se.setAttribute("id", String.valueOf(r.getSubevent().getId()));
-		        	se.setAttribute("img", getImage(ImageUtils.INDEX_EVENT, r.getSubevent().getId(), ImageUtils.SIZE_LARGE, null, null));
+		        	se.setAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getSubevent().getId(), ImageUtils.SIZE_LARGE, null, null));
 		        	se.setTextContent(r.getSubevent().getLabel(lang));
 		        	root.appendChild(se);	
 	        	}
 	        	if (r.getSubevent2() != null) {
 	        		Element se2 = doc.createElement("subevent2");
 	        		se2.setAttribute("id", String.valueOf(r.getSubevent2().getId()));
-		        	se2.setAttribute("img", getImage(ImageUtils.INDEX_EVENT, r.getSubevent2().getId(), ImageUtils.SIZE_LARGE, null, null));
+		        	se2.setAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getSubevent2().getId(), ImageUtils.SIZE_LARGE, null, null));
 		        	se2.setTextContent(r.getSubevent2().getLabel(lang));
 		        	root.appendChild(se2);	
 	        	}
@@ -288,16 +288,16 @@ public class AndroidServlet extends AbstractServlet {
 		}
 	}
 	
-	public static String getImage(short type, int id, char size, String year, String title) {
+	public static String getImage(short type, Object id, char size, String year, String title) {
 		String html = HtmlUtils.writeImage(type, id, size, year, title);
 		return html.replaceAll(".*\\ssrc\\=\\'|\\'\\/\\>", "");
 	}
 	
-	private void addItems(Document doc, Element root, short index, Collection<PicklistBean> picklist, List<String> lInactive, String currentPath) {
+	private void addItems(Document doc, Element root, short index, Collection<PicklistBean> picklist, List<String> lInactive, Object spid, String currentPath) {
 		if (picklist != null && picklist.size() > 0) {
 			for (PicklistBean plb : picklist) {
 				Element item = doc.createElement("item");
-				String img = HtmlUtils.writeImage(index, plb.getValue(), ImageUtils.SIZE_LARGE, null, null);
+				String img = HtmlUtils.writeImage(index, (spid != null ? spid + "-" : "") + plb.getValue(), ImageUtils.SIZE_LARGE, null, null);
 				int id = plb.getValue();
 				String text = plb.getText();
 				if (lInactive != null && lInactive.contains(currentPath + "-" + id))

@@ -1,12 +1,13 @@
-<%@page import="java.sql.Timestamp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Collection" %>
-<%@ page import="java.util.List" %>
+<%@ page import="java.sql.Timestamp"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Collection"%>
+<%@ page import="java.util.List"%>
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
-<%@ page import="com.sporthenon.db.entity.meta.News"%>
 <%@ page import="com.sporthenon.db.function.LastUpdateBean"%>
-<%@ page import="com.sporthenon.utils.StringUtils" %>
+<%@ page import="com.sporthenon.db.function.StatisticsBean"%>
+<%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
+<%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="com.sporthenon.web.HtmlConverter"%>
 <%@ page import="com.sporthenon.web.servlet.IndexServlet"%>
 <jsp:include page="/jsp/common/header.jsp" />
@@ -28,7 +29,7 @@
 				<td class="usleagues" onclick="location.href='/usleagues';" onmouseover='overTopic(TX_DESC_USLEAGUES);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.usleagues", session)%></td>
 				<td id="details" style="display:none;"></td></tr></table></div>
 			<hr/><img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("access.sport", session)%></b><br/>
-			<div id="sports" class="slider"><%@include file="../html/slider.html" %></div>
+			<div id="sports" class="slider"><%@include file="../html/slider.html"%></div>
 		</div>
 	</div>
 	<!-- LAST UPDATES -->
@@ -61,54 +62,55 @@
 		%></tbody></table></div></div>
 	</div>
 	<!-- STATISTICS -->
-	<div class="fieldset" style="width:300px;float:right;">
+	<%
+		ArrayList<StatisticsBean> lStats = new ArrayList(DatabaseHelper.call("Statistics", null));
+		StatisticsBean stb = lStats.get(0);
+	%>
+	<div class="fieldset">
 		<div class="fstitle statistics"><%=StringUtils.text("title.statistics", session)%></div>
-		<div class="fscontent" style="padding:15px;">
+		<div class="fscontent" style="height:440px;overflow:auto;">
+			<div style="width:200px;margin-right:10px;float:left;">
 			<table>
-				<tr><th style="width:130px;"><%=StringUtils.text("entity.SP", session)%></th><td id="count-sport" class="stat"></td></tr>
-				<tr><th><%=StringUtils.text("entity.EV", session)%></th><td id="count-event" class="stat"></td></tr>
-				<tr><th><%=StringUtils.text("entity.RS", session)%></th><td id="count-result" class="stat"></td></tr>
-				<tr><th><%=StringUtils.text("entity.PR", session)%></th><td id="count-person" class="stat"></td></tr>
+				<tr><th><%=StringUtils.text("entity.SP", session)%></th><td class="stat"><%=stb.getCountSport()%></td></tr>
+				<tr><th><%=StringUtils.text("entity.EV", session)%></th><td class="stat"><%=stb.getCountEvent()%></td></tr>
+				<tr><th><%=StringUtils.text("entity.RS", session)%></th><td class="stat"><%=stb.getCountResult()%></td></tr>
+			</table><table style="margin-top:10px;">
+				<tr><th><%=StringUtils.text("entity.PR", session)%></th><td class="stat"><%=stb.getCountPerson()%></td></tr>
+				<tr><th><%=StringUtils.text("entity.TM", session)%></th><td class="stat"><%=stb.getCountTeam()%></td></tr>
+				<tr><th><%=StringUtils.text("entity.CN", session)%></th><td class="stat"><%=stb.getCountCountry()%></td></tr>
+				<tr><th><%=StringUtils.text("entity.CT", session)%></th><td class="stat"><%=stb.getCountCity()%></td></tr>
+				<tr><th><%=StringUtils.text("entity.CX", session)%></th><td class="stat"><%=stb.getCountComplex()%></td></tr>
 			</table>
-		</div>
-	</div>
-	<!-- NEWS -->
-	<div class="fieldset" style="margin-right:310px;">
-		<div class="fstitle news"><%=StringUtils.text("title.news", session)%></div>
-		<div class="fscontent">
-		<%
-			boolean isMore = false;
-			int i = 0;
-			for (News n : (List<News>) DatabaseHelper.execute("from News order by id desc")) {
-				if (++i == 5) {
-					isMore = true;
-					out.print("<a id='amnews' href=\"javascript:$('amnews').remove();$('mnews').show();\"><br/><br/>" + StringUtils.text("more", session) + "</a><span id='mnews' style='display:none;'>");
-				}
-				String title = n.getTitle();
-				String text = n.getTextHtml();
-				if (lang.equalsIgnoreCase("fr")) {
-					title = n.getTitleFR();
-					text = n.getTextHtmlFR();
-				}
-				out.print((i > 1 ? "<br/><br/>" : "") + "<img src='/img/bullet.gif' alt='-'/>&nbsp;<b>");
-				out.print(title + "</b>&nbsp;(" + StringUtils.toTextDate(n.getDate(), lang, "d MMM yyyy") + ")");
-				out.print(StringUtils.notEmpty(text) ? "&nbsp;" + text : "");
-			}
-			if (isMore)
-				out.print("</span>");
-		%>
+			</div>
+			<div style="float:left;">
+			<table>
+				<tr><th style="text-align:center;"><div style="float:left;margin-left:2px;font-weight:normal;"><a href="javascript:changeReport(-1);">&lt;&nbsp;<%=StringUtils.text("previous", session)%></a></div><div style="float:right;margin-right:2px;font-weight:normal;"><a href="javascript:changeReport(1);"><%=StringUtils.text("next", session)%>&nbsp;&gt;</a></div><span id="ctitle"><%=StringUtils.text("report.1", session)%></span></th></tr>
+				<tr><td id="chart"></td></tr>
+			</table>
+			</div>
 		</div>
 	</div>
 	<div style="clear:both;"></div>
 </div>
 </div>
+<script type="text/javascript" src="js/RGraph.common.core.js"></script>
+<script type="text/javascript" src="js/RGraph.hbar.js"></script>
 <script type="text/javascript"><!--
+var ctitle = ['<%=StringUtils.text("report.1", session)%>', '<%=StringUtils.text("report.2", session)%>'];
+<%
+String lang_ = (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
+List<Object[]> cSportStats = DatabaseHelper.executeNative(IndexServlet.REPORT_QUERY1.replaceAll("#LANG#", lang_));
+for (Object[] t : cSportStats) {
+	out.print("clabel.push('" + String.valueOf(t[0]) + "');");
+	out.print("cdata.push(" + t[1] + ");");
+}
+%>
 window.onload = function() {
-	loadHomeData();
 	tCurrentSortedCol['tlast'] = $('tlast-dtcol');
 	initSliderHome("<%=IndexServlet.getSportDivs(lang)%>");
 	t2 = <%=System.currentTimeMillis()%>;
 	handleRender();
+	loadReport(cdata, clabel);
 }
 --></script>
 <jsp:include page="/jsp/common/footer.jsp" />

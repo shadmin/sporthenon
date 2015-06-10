@@ -214,7 +214,6 @@
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>
-	<entry key="title.news">NEWS</entry>
 	<entry key="title.statistics">STATISTICS</entry>
 	<entry key="sporthenon.welcome"><![CDATA[Welcome to <a href="project">SPORTHENON</a>, the temple of sports results !]]></entry>
 	<entry key="sporthenon.desc"><![CDATA[Sporthenon is a free sport database <a href="contribute">opened to contributors]]></entry>
@@ -224,6 +223,8 @@
 	<entry key="desc.results">Complete results organized by sport / championship / event</entry>
 	<entry key="desc.olympics">Podiums and medals tables of winter and summer Olympic Games</entry>
 	<entry key="desc.usleagues">Specific page for the 4 major US leagues (NFL / NBA / NHL / MLB))</entry>
+	<entry key="report.1">Results per sport</entry>
+	<entry key="report.2">Athletes per country</entry>
 <!-- RESULTS -->
 	<entry key="sport">Sport</entry>
 	<entry key="event">Event</entry>
@@ -278,7 +279,7 @@
 	<entry key="athletes">Athletes</entry>
 	<entry key="places">Places</entry>
 	<entry key="sports">Sports</entry>
-<!-- PROJECT -->
+<!-- PROJECT/CONTRIBUTE -->
 	<entry key="downloads">DOWNLOADS</entry>
 	<entry key="report.bug">REPORT A BUG</entry>
 	<entry key="contributors">CONTRIBUTORS</entry>
@@ -286,11 +287,17 @@
 	<entry key="technical.info">TECHNICAL INFORMATION</entry>
 	<entry key="download.last">Download latest version</entry>
 	<entry key="download.previous">Previous versions</entry>
-<!-- CONTRIBUTE -->
 	<entry key="step">STEP</entry>
 	<entry key="step1.desc"><![CDATA[Create an account on <a href="/login">this page</a>.<br/><br/>Fill the mandatory fields (marked with <span class="mandatory">*</span>) and click on "Create Account".]]></entry>
 	<entry key="step2.desc"><![CDATA[Go to page "Connexion" and authenticate using credentials created in step 1.]]></entry>
 	<entry key="step3.desc"><![CDATA[Add and update results with buttons <img alt="add" src="/img/component/button/add.png"/> and <img alt="add" src="/img/component/button/modify.png"/>]]></entry>
+	<entry key="contributions">Contributions</entry>
+	<entry key="download.admin">Administration Program</entry>
+	<entry key="change.log">Change Log</entry>
+	<entry key="report.bug">Report a bug</entry>
+	<entry key="github.desc">The project and its source code are hosted on GitHub</entry>
+	<entry key="programming">Programming</entry>
+	<entry key="db.hosting">Database &amp; Hosting</entry>
 <!-- LOGIN -->
 	<entry key="msg.login.err1">Login failed. The user is not active.</entry>
 	<entry key="msg.login.err2">Login failed. Please check your login and password.</entry>

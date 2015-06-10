@@ -310,12 +310,14 @@ input{
 }
 #dupdates{
 	text-align: center;
+	overflow: auto;
 }
 #dupdates td{
 	padding: 0px 3px;
 }
 #dupdates td td, #dupdates td td td{
 	padding: 0px 0px;
+	vertical-align: middle;
 }
 #dupdates td table{
 	width: auto;
@@ -324,6 +326,9 @@ input{
 #dupdates td th, #dupdates td td{
 	border: none;
 	background-color: transparent;
+}
+#dupdates td th img{
+	vertical-align: top;
 }
 #dupdates th.sorted{
 	border: 2px solid #555;
@@ -397,6 +402,7 @@ input{
 	padding: 10px 10px;
 	border: 1px solid #AAA;
 	background-color: #F5F5F5;
+	overflow: auto;
 }
 .print .tc{
 	border: none;
@@ -596,7 +602,9 @@ input{
   ========== HOME ========== 
   ==========================*/
 #home{
-	margin: 6px 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
 }
 .homecontent .fieldset .fstitle{
 	font-weight: bold;
@@ -714,12 +722,15 @@ input{
 .homecontent .lastupdates{
 	background-image: url(../img/calendar.png?5);
 }
-.homecontent .news{
-	background-image: url(../img/news.png?5);
-}
 #home .stat{
+	width: 60px;
 	text-align: right;
-	font-weight: bold;
+}
+#home #chart{
+	width: 720px;
+	height: 400px;
+	vertical-align: top;
+	padding: 5px;
 }
 /*=============================
   ========== RESULTS ========== 
@@ -1016,20 +1027,11 @@ input{
 	width: 50%;
 	padding-left: 5px;
 }
-#chart{
-	width: 450px;
-	height: 270px;
-	border: 1px solid #CCC;
+.contributors{
+	background-image: url(../img/project/contributors.png?5);
 }
-#chart td{
-	font-size: 12px;
-	border: none;
-}
-.downloads{
-	background-image: url(../img/project/downloads.png?5);
-}
-.reportbug{
-	background-image: url(../img/project/reportbug.png?5);
+.github{
+	background-image: url(../img/project/github.png?5);
 }
 .statistics{
 	background-image: url(../img/project/statistics.png?5);
@@ -1037,8 +1039,15 @@ input{
 .technicalinfo{
 	background-image: url(../img/project/technicalinfo.png?5);
 }
-.contributors{
-	background-image: url(../img/project/contributors.png?5);
+#project th table{
+	width: auto;
+	margin: auto;
+}
+#project th td{
+	border: none;
+}
+#project img{
+	vertical-align: middle;
 }
 /*================================
   ========== CONTRIBUTE ========== 
@@ -1235,6 +1244,11 @@ input{
 }
 .dialog .dlgbuttons .cancel, .optcontainer .cancel{
 	background-image: url('../img/component/button/cancel.png?5');
+}
+#datatip{
+	width: 500px;
+	height: 400px;
+	overflow: auto;
 }
 /*=============================
   ========== TOOLBAR ========== 

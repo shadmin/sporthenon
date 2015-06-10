@@ -19,9 +19,15 @@
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dInfo);"/></div>
 </div>
 </div>
+<!-- DATA -->
+<div id="d-data" class="dialog" style="display:none;">
+<div class="fieldset">
+	<div id="datatip" class="fscontent"></div>
+	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dDataTip);"/></div>
+</div>
+</div>
 <script type="text/javascript">
-dLastUpdates = new Control.Modal($('d-lastupdates'),{ closeOnClick: false, fade: false });
-dExport = new Control.Modal($('d-export'),{ closeOnClick: false, fade: false });
 dLink = new Control.Modal($('d-link'),{ closeOnClick: false, fade: false });
 dInfo = new Control.Modal($('d-info'),{ closeOnClick: false, fade: false });
+dDataTip = new Control.Modal($('d-data'),{ closeOnClick: false, fade: false });
 </script>

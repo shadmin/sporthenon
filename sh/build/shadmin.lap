@@ -1,4 +1,4 @@
--Djava.class.path=.\shupdate.jar;^
+-Djava.class.path=.\shadmin.jar;^
 .\lib\antlr-2.7.6.jar;^
 .\lib\commons-collections-3.1.jar;^
 .\lib\commons-fileupload-1.2.1.jar;^
@@ -22,4 +22,4 @@
 .\lib\slf4j-log4j12.jar;^
 .\lib\xstream.jar
 #-DJAVA_HOME=${FOUND_JAVA_HOME}
-janel.main.class=com.sporthenon.updater.Launcher
+janel.main.class=com.sporthenon.admin.Launcher
