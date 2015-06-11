@@ -782,10 +782,10 @@ public class JImportDialog extends JDialog implements ActionListener {
 				rs.setIdRank3(idRk3);
 				rs.setIdRank4(idRk4);
 				rs.setIdRank5(idRk5);
-				rs.setIdRank5(idRk6);
-				rs.setIdRank5(idRk7);
-				rs.setIdRank5(idRk8);
-				rs.setIdRank5(idRk9);
+				rs.setIdRank6(idRk6);
+				rs.setIdRank7(idRk7);
+				rs.setIdRank8(idRk8);
+				rs.setIdRank9(idRk9);
 				rs.setResult1(rs1);
 				rs.setResult2(rs2);
 				rs.setResult3(rs3);

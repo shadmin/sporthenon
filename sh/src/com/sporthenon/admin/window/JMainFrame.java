@@ -23,6 +23,7 @@ import javax.swing.event.ListSelectionEvent;
 import org.apache.log4j.Logger;
 
 import com.sporthenon.admin.component.JConnectionStatus;
+import com.sporthenon.admin.component.JEntityPicklist;
 import com.sporthenon.admin.component.JQueryStatus;
 import com.sporthenon.admin.container.JBottomPanel;
 import com.sporthenon.admin.container.JTopPanel;
@@ -100,6 +101,8 @@ public class JMainFrame extends JFrame {
 	private static JQueryDialog jQueryDialog = null;
 	private static JOptionsDialog jOptionsDialog = null;
 	private static JInfoDialog jInfoDialog = null;
+	private static JEntityPicklist jAllAthletes = null;
+	private static JEntityPicklist jAllTeams = null;
 
 	private static Contributor contributor;
 	private static HashMap<String, JAbstractEntityPanel> jEntityPanels = null;
@@ -183,6 +186,7 @@ public class JMainFrame extends JFrame {
 		if (alias == null || alias.equalsIgnoreCase(Athlete.alias)) {
 			SwingUtils.fillPicklist(((JHallOfFamePanel)jEntityPanels.get(HallOfFame.alias)).getPerson(), hPicklists.get(Athlete.alias), null);
 			SwingUtils.fillPicklist(((JRetiredNumberPanel)jEntityPanels.get(RetiredNumber.alias)).getPerson(), hPicklists.get(Athlete.alias), null);
+			SwingUtils.fillPicklist(jAllAthletes, hPicklists.get(Athlete.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(Olympics.alias)) {
 			SwingUtils.fillPicklist(((JOlympicRankingPanel)jEntityPanels.get(OlympicRanking.alias)).getOlympics(), hPicklists.get(Olympics.alias), null);
@@ -240,6 +244,7 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(((JRetiredNumberPanel)jEntityPanels.get(RetiredNumber.alias)).getTeam(), hPicklists.get(Team.alias), null);
 			SwingUtils.fillPicklist(((JTeamStadiumPanel)jEntityPanels.get(TeamStadium.alias)).getTeam(), hPicklists.get(Team.alias), null);
 			SwingUtils.fillPicklist(((JWinLossPanel)jEntityPanels.get(WinLoss.alias)).getTeam(), hPicklists.get(Team.alias), null);
+			SwingUtils.fillPicklist(jAllTeams, hPicklists.get(Team.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(League.alias)) {
 			SwingUtils.fillPicklist(((JHallOfFamePanel)jEntityPanels.get(HallOfFame.alias)).getLeague(), hPicklists.get(League.alias), null);
@@ -281,6 +286,14 @@ public class JMainFrame extends JFrame {
 			Field alias = c_.getDeclaredField("alias");
 			alias.setAccessible(true);
 			hPicklists.put(String.valueOf(alias.get(null)), lst);
+			if (c_.equals(Athlete.class)) {
+				jAllAthletes = new JEntityPicklist(null, Athlete.alias);
+				SwingUtils.fillPicklist(jAllAthletes, lst, null);
+			}
+			else if (c_.equals(Team.class)) {
+				jAllTeams = new JEntityPicklist(null, Team.alias);
+				SwingUtils.fillPicklist(jAllTeams, lst, null);
+			}
 		}
 	}
 
@@ -308,6 +321,9 @@ public class JMainFrame extends JFrame {
 			if (en.getLink() != null && en.getLink() > 0) {
 				try {
 					Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, en.getLink());
+					while (a.getLink() != null && a.getLink() > 0)
+						a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, a.getLink());
+					en.setLink(a.getId());
 					p.setLinkLabel("Linked to: [" + a.getLastName() + (StringUtils.notEmpty(a.getFirstName()) ? ", " + a.getFirstName() : "") + (a.getCountry() != null ? ", " + a.getCountry().getCode() : "") + (a.getTeam() != null ? ", " + a.getTeam().getLabel() : "") + "]");
 					DatabaseHelper.executeUpdate("UPDATE \"PERSON\" SET LINK=0 WHERE ID=" + en.getLink());
 				}
@@ -407,8 +423,11 @@ public class JMainFrame extends JFrame {
 			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLabel() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : ""));
 			if (en.getLink() != null && en.getLink() > 0) {
 				try {
-					Team a = (Team) DatabaseHelper.loadEntity(Team.class, en.getLink());
-					p.setLinkLabel("Linked to: [" + a.getLabel() + "]");
+					Team t = (Team) DatabaseHelper.loadEntity(Team.class, en.getLink());
+					while (t.getLink() != null && t.getLink() > 0)
+						t = (Team) DatabaseHelper.loadEntity(Team.class, t.getLink());
+					en.setLink(t.getId());
+					p.setLinkLabel("Linked to: [" + t.getLabel() + "]");
 					DatabaseHelper.executeUpdate("UPDATE \"TEAM\" SET LINK=0 WHERE ID=" + en.getLink());
 				}
 				catch (Exception e) {
@@ -670,6 +689,14 @@ public class JMainFrame extends JFrame {
 
 	public static Contributor getContributor() {
 		return contributor;
+	}
+
+	public static JEntityPicklist getAllAthletes() {
+		return jAllAthletes;
+	}
+
+	public static JEntityPicklist getAllTeams() {
+		return jAllTeams;
 	}
 
 }

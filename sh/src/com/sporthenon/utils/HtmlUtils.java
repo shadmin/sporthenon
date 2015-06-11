@@ -53,7 +53,7 @@ public class HtmlUtils {
 				if (isInclude)
 					list.add(s);
 			}
-			else if (s.startsWith(name2))
+			else if (StringUtils.notEmpty(name2) && s.startsWith(name2))
 				list2.add(s);
 		}
 		if (list.isEmpty())

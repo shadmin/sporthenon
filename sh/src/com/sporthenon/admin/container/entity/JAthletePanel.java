@@ -1,10 +1,11 @@
 package com.sporthenon.admin.container.entity;
 
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 import com.sporthenon.admin.component.JCustomTextField;
 import com.sporthenon.admin.component.JEntityPicklist;
+import com.sporthenon.admin.component.JLinkTextField;
+import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.Team;
@@ -20,7 +21,7 @@ public class JAthletePanel extends JAbstractEntityPanel {
 	public JEntityPicklist jTeam;
 	public JEntityPicklist jCountry;
 	public JLabel lLink;
-	public JTextField jLink;
+	public JLinkTextField jLink;
 
 	public JAthletePanel() {
 		super(8);
@@ -69,7 +70,7 @@ public class JAthletePanel extends JAbstractEntityPanel {
 		lLink = new JLabel(" Linked to:");
 		lLink.setHorizontalAlignment(LABEL_ALIGNMENT);
 		gridPanel.add(lLink);
-		jLink = new JTextField();
+		jLink = new JLinkTextField(this, Athlete.alias);
 		jLink.setPreferredSize(TEXT_SIZE);
 		gridPanel.add(jLink);
 	}
@@ -94,7 +95,7 @@ public class JAthletePanel extends JAbstractEntityPanel {
 		return jCountry;
 	}
 
-	public JTextField getLink() {
+	public JLinkTextField getLink() {
 		return jLink;
 	}
 	

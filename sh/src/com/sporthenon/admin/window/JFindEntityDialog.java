@@ -130,7 +130,7 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 					else if (c.equals(Olympics.class)) 
 						label = "year.label || ' - ' || city.label";
 					else if (c.equals(Athlete.class))
-						label = "lastName || ', ' || firstName";
+						label = "last_name || ', ' || first_name || ' [' || country.code || ']'";
 					else if (c.equals(Team.class))
 						label = "label || ', ' || sport.label";
 					else if (c.equals(HallOfFame.class)) 
@@ -149,7 +149,7 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 					String pattern = jText.getText().replaceAll("\\*", "%").toLowerCase();
 					String hql = "select id," + label + " from " + c.getSimpleName();
 					hql += " where " + (pattern.matches("^\\#\\d+") ? "id=" + pattern.substring(1) : "lower(" + label + ") like '" + pattern + "%'");
-					hql += " order by " + label;
+					hql += " order by 2";
 					for (PicklistBean bean : DatabaseHelper.getPicklistFromQuery(hql, false))
 						model.addElement(bean);
 				}

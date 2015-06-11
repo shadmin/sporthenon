@@ -711,25 +711,41 @@ public class HtmlConverter {
 			String currentLogo = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, e.getId(), ImageUtils.SIZE_LARGE, null, null);
 			Collection<String> lAllLogos = ImageUtils.getImageList(ImageUtils.INDEX_TEAM, e.getId(), ImageUtils.SIZE_LARGE);
 			ArrayList<Integer> lId = new ArrayList<Integer>();
+			Vector<String> vNm = new Vector<String>();
+			Vector<Integer> vSp = new Vector<Integer>();
 			StringBuffer sbTm = new StringBuffer();
+			StringBuffer sbSp = new StringBuffer();
 			StringBuffer sbTmFH = new StringBuffer();
 			for (Team t : lTeam) {
 				lId.add(t.getId());
 				ref += (t.getRef() != null ? t.getRef() : 0);
-				sbTm.append(sbTm.toString().length() > 0 ? "<br/>" : "").append(t.getLabel().toUpperCase());
-				sbTmFH.append((t.getInactive() != null && t.getInactive() ? "&dagger;&nbsp;" : "") + (t.getId() == currentId ? "<b>" : "") + HtmlUtils.writeLink(Team.alias, t.getId(), t.getLabel(), null) + " (" + t.getYear1() + "&nbsp;-&nbsp;" + (StringUtils.notEmpty(t.getYear2()) ? t.getYear2() : ResourceUtils.getText("today", lang)) + ")" + (t.getId() == currentId ? "</b>" : "") + "<br/>");				
+				if (!vNm.contains(t.getLabel())) {
+					sbTm.append(sbTm.toString().length() > 0 ? "<br/>" : "").append(t.getLabel().toUpperCase());
+					vNm.add(t.getLabel());
+				}
+				sbTmFH.append((t.getInactive() != null && t.getInactive() ? "&dagger;&nbsp;" : "") + (t.getId() == currentId ? "<b>" : "") + HtmlUtils.writeLink(Team.alias, t.getId(), t.getLabel(), null) + " (" + t.getYear1() + "&nbsp;-&nbsp;" + (StringUtils.notEmpty(t.getYear2()) ? t.getYear2() : ResourceUtils.getText("today", lang)) + ")" + (t.getId() == currentId ? "</b>" : "") + "<br/>");
+				if (t.getSport() != null) {
+					if (!vSp.contains(t.getSport().getId())) {
+						String s = HtmlUtils.writeLink(Sport.alias, t.getSport().getId(), t.getSport().getLabel(lang), t.getSport().getLabel());
+						s = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, t.getSport().getId(), ImageUtils.SIZE_SMALL, null, null), s);
+						if (StringUtils.notEmpty(sbSp.toString()))
+							s = s.replaceAll("\\<table\\>", "<table style='margin-top:2px;'>");
+						sbSp.append(s);
+						vSp.add(t.getSport().getId());
+					}
+				}
 			}
-			
 			String cn = null;
 			if (e.getCountry() != null) {
 				cn = HtmlUtils.writeLink(Country.alias, e.getCountry().getId(), e.getCountry().getLabel(lang), e.getCountry().getLabel());
 				cn = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, e.getCountry().getId(), ImageUtils.SIZE_SMALL, null, null), cn);
 			}
-			String sp = null;
-			if (e.getSport() != null) {
-				sp = HtmlUtils.writeLink(Sport.alias, e.getSport().getId(), e.getSport().getLabel(lang), e.getSport().getLabel());
-				sp = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, e.getSport().getId(), ImageUtils.SIZE_SMALL, null, null), sp);
-			}
+			String sp = sbSp.toString();
+//			String sp = null;
+//			if (e.getSport() != null) {
+//				sp = HtmlUtils.writeLink(Sport.alias, e.getSport().getId(), e.getSport().getLabel(lang), e.getSport().getLabel());
+//				sp = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, e.getSport().getId(), ImageUtils.SIZE_SMALL, null, null), sp);
+//			}
 			hInfo.put("title", e.getLabel());
 			hInfo.put("name", "<b>" + sbTm.toString() + "</b>");
 			hInfo.put("logo", currentLogo);
