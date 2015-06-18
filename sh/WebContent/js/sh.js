@@ -772,7 +772,8 @@ function runResults(tleaf) {
 		var cp_ = tleaf[1];
 		var ev_ = (tleaf.length > 2 ? tleaf[2] : null);
 		var se_ = (tleaf.length > 3 ? tleaf[3] : null);
-		h = $H({sp: sp_, cp: cp_, ev: ev_, se: se_, yr: 0});
+		var se2_ = (tleaf.length > 4 ? tleaf[4] : null);
+		h = $H({sp: sp_, cp: cp_, ev: ev_, se: se_, se2: se2_, yr: 0});
 	}
 	else { // Picklist
 		h = $H({sp: $F('pl-sp'), cp: $F('pl-cp'), ev: $F('pl-ev'), se: $F('pl-se'), se2: $F('pl-se2'), yr: $F('pl-yr')});

@@ -205,19 +205,22 @@ public class DatabaseHelper {
 			em = getEntityManager();
 			tr = getTransaction();
 			if (tr != null) tr.begin(); else em.getTransaction().begin();
-			if (m != null) {
-				Object id = o.getClass().getMethod("getId").invoke(o);
-				Metadata md = null;
-				if (id == null) {
-					md = new Metadata();
-					md.setFirstUpdate(new Timestamp(System.currentTimeMillis()));
+			try {
+				if (m != null) {
+					Object id = o.getClass().getMethod("getId").invoke(o);
+					Metadata md = null;
+					if (id == null) {
+						md = new Metadata();
+						md.setFirstUpdate(new Timestamp(System.currentTimeMillis()));
+					}
+					else
+						md = (Metadata) o.getClass().getMethod("getMetadata").invoke(o);
+					md.setContributor(m);		
+					md.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+					o.getClass().getMethod("setMetadata", Metadata.class).invoke(o, md);
 				}
-				else
-					md = (Metadata) o.getClass().getMethod("getMetadata").invoke(o);
-				md.setContributor(m);		
-				md.setLastUpdate(new Timestamp(System.currentTimeMillis()));
-				o.getClass().getMethod("setMetadata", Metadata.class).invoke(o, md);
 			}
+			catch (NoSuchMethodException e) {}
 			o = em.merge(o);
 			if (tr != null) {em.flush(); tr.commit();} else em.getTransaction().commit();
 			return o;
@@ -389,7 +392,7 @@ public class DatabaseHelper {
 			String hql = "select " + (alias.equals(Athlete.alias) ? "firstName || ' ' || lastName" : (alias.equals(Contributor.alias) ? "login" : "label"));
 			hql += " from " + getClassFromAlias(alias).getName() + " where id=" + id;
 			Query query = em.createQuery(hql);
-			s = String.valueOf(query.getSingleResult());
+			s = String.valueOf(query.getSingleResult()).trim();
 			if (tr != null) tr.commit();
 		}
 		catch (Exception e) {

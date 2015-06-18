@@ -276,7 +276,6 @@ public class StringUtils {
 				name = t[0] + (t.length > 1 && StringUtils.notEmpty(t[1]) ? "&nbsp;" + t[1].charAt(0) + "." : "") + suffix;
 			else
 				name = (t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1].charAt(0) + ".&nbsp;" : "") + t[0] + suffix;
-			//name = t[0] + ",&nbsp;" + t[1].charAt(0) + "." + (name.matches(".*\\s\\(.*") ? name.substring(name.indexOf(" (")) : "");
 		}
 		return name;
 	}
