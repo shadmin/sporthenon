@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <!-- HEADER -->
-	<entry key="title">SPORTHENON - The Temple of Sports Results</entry>
+	<entry key="title">SPORTHENON – The Temple of Sports Results</entry>
 	<entry key="desc">Sports results database (free and opened to contributors)</entry>
 	<entry key="menu.results">RESULTS</entry>
 	<entry key="menu.olympics">OLYMPICS</entry>

@@ -404,6 +404,9 @@ input{
 	background-color: #F5F5F5;
 	overflow: auto;
 }
+#tabcontrol .tc{
+	overflow: visible;
+}
 .print .tc{
 	border: none;
 }
@@ -1119,14 +1122,14 @@ input{
 	width: auto;
 	margin-top:10px;
 }
-#update td{
+#update td, #d-plist td{
 	border: none;
 	padding: 1px;
 }
-#update a{
+#update a, #d-plist a{
 	font-size: 11px;
 }
-#update input[type=text], #update textarea{
+#update input[type=text], #update textarea, #d-plist input[type=text]{
 	font: 12px Verdana;
 	width: 250px;
 	color: #888;
@@ -1137,15 +1140,15 @@ input{
 	outline: none;
 	white-space: nowrap;
 }
-#update input[type=text]:focus, #update textarea:focus{
+#update input[type=text]:focus, #update textarea:focus, #d-plist input[type=text]:focus{
 	border: 1px solid #D00;
 	color: #000;
 }
-#update input[type=text].completed{
+#update input[type=text].completed, #d-plist input[type=text].completed{
 	border: 1px solid #080;
 	color: #000;
 }
-#update input[type=text].completed2, #update textarea.completed2{
+#update input[type=text].completed2, #update textarea.completed2, #d-plist input[type=text].completed2{
 	border: 1px solid #000;
 	color: #000;
 }
@@ -1331,7 +1334,7 @@ input{
   ========== MISC ========== 
   ==========================*/
 #linktxt{
-	width: 450px;
+	width: 650px;
 	cursor: default;
 }
 .otherimglink{

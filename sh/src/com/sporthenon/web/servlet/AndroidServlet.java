@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.jsoup.Jsoup;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -198,81 +199,89 @@ public class AndroidServlet extends AbstractServlet {
 				List<ResultsBean> list = (List<ResultsBean>) DatabaseHelper.call("GetResults", lFuncParams);
 				if (list != null && !list.isEmpty()) {
 					ResultsBean bean = list.get(0);
-					String rk1 = null;
-					String rk2 = null;
-					String rk3 = null;
-					String img1 = null;
-					String img2 = null;
-					String img3 = null;
-					String rs1 = null;
-					String rs2 = null;
-					String rs3 = null;
+					String[] tEntity = {null, null, null, null, null, null, null, null, null};
+					String[] tEntityRel = {null, null, null, null, null, null, null, null, null};
+					String[] tEntityImg = {null, null, null};
+					String[] tResult = {null, null, null, null, null, null, null, null, null};
 					Event ev_ = (Event) DatabaseHelper.loadEntity(Event.class, (r.getSubevent2() != null ? r.getSubevent2().getId() : (r.getSubevent() != null ? r.getSubevent().getId() : r.getEvent().getId())));
 					int type_ = ev_.getType().getNumber();
-//					boolean isScore = (bean.getRsRank1() != null && bean.getRsRank2() != null && StringUtils.notEmpty(bean.getRsResult1()) && !StringUtils.notEmpty(bean.getRsResult2()) && !StringUtils.notEmpty(bean.getRsResult3()));
 					if (bean.getRsRank1() != null) {
-						rk1 = HtmlConverter.getResultsEntity(type_, bean.getRsRank1(), bean.getEn1Str1(), bean.getEn1Str2(), bean.getEn1Str3(), bean.getEn1Rel2Code(), bean.getYrLabel());
-						rs1 = bean.getRsResult1();
-						if (type_ == 50)
-							img1 = getImage(ImageUtils.INDEX_TEAM, bean.getRsRank1(), ImageUtils.SIZE_LARGE, r.getYear().getLabel(), null);
-						else if (type_ == 99)
-							img1 = getImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank1(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
-						else if (bean.getEn1Rel2Id() != null) {
-							img1 = getImage(ImageUtils.INDEX_COUNTRY, bean.getEn1Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
-							rk1 += " (" + bean.getEn1Rel2Label() + ")";
-						}
-						else if (bean.getEn1Rel1Id() != null) {
-							img1 = getImage(ImageUtils.INDEX_TEAM, bean.getEn1Rel1Id(), ImageUtils.SIZE_LARGE, r.getYear().getLabel(), null);
-							rk1 += " (" + bean.getEn1Rel1Label() + ")";
-						}
+						tEntity[0] = HtmlConverter.getResultsEntity(type_, bean.getRsRank1(), bean.getEn1Str1(), bean.getEn1Str2(), bean.getEn1Str3(), bean.getEn1Rel2Code(), bean.getYrLabel());
+						tEntityRel[0] = HtmlConverter.getResultsEntityRel(bean.getEn1Rel1Id(), bean.getEn1Rel1Label(), bean.getEn1Rel1Label(), bean.getEn1Rel2Id(), bean.getEn1Rel2Label(), bean.getEn1Rel2Label(), bean.getEn1Rel2LabelEN(), false, false, bean.getYrLabel());
+						tResult[0] = bean.getRsResult1();
 					}
 					if (bean.getRsRank2() != null) {
-						rk2 = HtmlConverter.getResultsEntity(type_, bean.getRsRank2(), bean.getEn2Str1(), bean.getEn2Str2(), bean.getEn2Str3(), bean.getEn2Rel2Code(), bean.getYrLabel());
-						rs2 = bean.getRsResult2();
-						if (type_ == 50)
-							img2 = getImage(ImageUtils.INDEX_TEAM, bean.getRsRank2(), ImageUtils.SIZE_LARGE, r.getYear().getLabel(), null);
-						else if (type_ == 99)
-							img2 = getImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank2(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
-						else if (bean.getEn2Rel2Id() != null) {
-							img2 = getImage(ImageUtils.INDEX_COUNTRY, bean.getEn2Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
-							rk2 += " (" + bean.getEn2Rel2Label() + ")";
-						}
-						else if (bean.getEn2Rel1Id() != null) {
-							img2 = getImage(ImageUtils.INDEX_TEAM, bean.getEn2Rel1Id(), ImageUtils.SIZE_LARGE, r.getYear().getLabel(), null);
-							rk2 += " (" + bean.getEn2Rel1Label() + ")";
-						}
+						tEntity[1] = HtmlConverter.getResultsEntity(type_, bean.getRsRank2(), bean.getEn2Str1(), bean.getEn2Str2(), bean.getEn2Str3(), bean.getEn2Rel2Code(), bean.getYrLabel());
+						tEntityRel[1] = HtmlConverter.getResultsEntityRel(bean.getEn2Rel1Id(), bean.getEn2Rel1Label(), bean.getEn2Rel1Label(), bean.getEn2Rel2Id(), bean.getEn2Rel2Label(), bean.getEn2Rel2Label(), bean.getEn2Rel2LabelEN(), false, false, bean.getYrLabel());
+						tResult[1] = bean.getRsResult2();
 					}
 					if (bean.getRsRank3() != null) {
-						rk3 = HtmlConverter.getResultsEntity(type_, bean.getRsRank3(), bean.getEn3Str1(), bean.getEn3Str2(), bean.getEn3Str3(), bean.getEn3Rel2Code(), bean.getYrLabel());
-						rs3 = bean.getRsResult3();
-						if (type_ == 50)
-							img3 = getImage(ImageUtils.INDEX_TEAM, bean.getRsRank3(), ImageUtils.SIZE_LARGE, r.getYear().getLabel(), null);
-						else if (type_ == 99)
-							img3 = getImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank3(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
-						else if (bean.getEn3Rel2Id() != null) {
-							img3 = getImage(ImageUtils.INDEX_COUNTRY, bean.getEn3Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null);
-							rk3 += " (" + bean.getEn3Rel2Label() + ")";
-						}
-						else if (bean.getEn3Rel1Id() != null) {
-							img3 = getImage(ImageUtils.INDEX_TEAM, bean.getEn3Rel1Id(), ImageUtils.SIZE_LARGE, r.getYear().getLabel(), null);
-							rk3 += " (" + bean.getEn3Rel1Label() + ")";
+						tEntity[2] = HtmlConverter.getResultsEntity(type_, bean.getRsRank3(), bean.getEn3Str1(), bean.getEn3Str2(), bean.getEn3Str3(), bean.getEn3Rel2Code(), bean.getYrLabel());
+						tEntityRel[2] = HtmlConverter.getResultsEntityRel(bean.getEn3Rel1Id(), bean.getEn3Rel1Label(), bean.getEn3Rel1Label(), bean.getEn3Rel2Id(), bean.getEn3Rel2Label(), bean.getEn3Rel2Label(), bean.getEn3Rel2LabelEN(), false, false, bean.getYrLabel());
+						tResult[2] = bean.getRsResult3();
+					}
+					if (bean.getRsRank4() != null) {
+						tEntity[3] = HtmlConverter.getResultsEntity(type_, bean.getRsRank4(), bean.getEn4Str1(), bean.getEn4Str2(), bean.getEn4Str3(), bean.getEn4Rel2Code(), bean.getYrLabel());
+						tEntityRel[3] = HtmlConverter.getResultsEntityRel(bean.getEn3Rel1Id(), bean.getEn4Rel1Label(), bean.getEn4Rel1Label(), bean.getEn4Rel2Id(), bean.getEn4Rel2Label(), bean.getEn4Rel2Label(), bean.getEn4Rel2LabelEN(), false, false, bean.getYrLabel());
+						tResult[3] = bean.getRsResult4();
+					}
+					if (bean.getRsRank5() != null) {
+						tEntity[4] = HtmlConverter.getResultsEntity(type_, bean.getRsRank5(), bean.getEn5Str1(), bean.getEn5Str2(), bean.getEn5Str3(), bean.getEn5Rel2Code(), bean.getYrLabel());
+						tEntityRel[4] = HtmlConverter.getResultsEntityRel(bean.getEn5Rel1Id(), bean.getEn5Rel1Label(), bean.getEn5Rel1Label(), bean.getEn5Rel2Id(), bean.getEn5Rel2Label(), bean.getEn5Rel2Label(), bean.getEn5Rel2LabelEN(), false, false, bean.getYrLabel());
+						tResult[4] = bean.getRsResult5();
+					}
+					if (bean.getRsRank6() != null) {
+						tEntity[5] = HtmlConverter.getResultsEntity(type_, bean.getRsRank6(), bean.getEn6Str1(), bean.getEn6Str2(), bean.getEn6Str3(), bean.getEn6Rel2Code(), bean.getYrLabel());
+						tEntityRel[5] = HtmlConverter.getResultsEntityRel(bean.getEn6Rel1Id(), bean.getEn6Rel1Label(), bean.getEn6Rel1Label(), bean.getEn6Rel2Id(), bean.getEn6Rel2Label(), bean.getEn6Rel2Label(), bean.getEn6Rel2LabelEN(), false, false, bean.getYrLabel());
+					}
+					if (bean.getRsRank7() != null) {
+						tEntity[6] = HtmlConverter.getResultsEntity(type_, bean.getRsRank7(), bean.getEn7Str1(), bean.getEn7Str2(), bean.getEn7Str3(), bean.getEn7Rel2Code(), bean.getYrLabel());
+						tEntityRel[6] = HtmlConverter.getResultsEntityRel(bean.getEn7Rel1Id(), bean.getEn7Rel1Label(), bean.getEn7Rel1Label(), bean.getEn7Rel2Id(), bean.getEn7Rel2Label(), bean.getEn7Rel2Label(), bean.getEn7Rel2LabelEN(), false, false, bean.getYrLabel());
+					}
+					if (bean.getRsRank8() != null) {
+						tEntity[7] = HtmlConverter.getResultsEntity(type_, bean.getRsRank8(), bean.getEn8Str1(), bean.getEn8Str2(), bean.getEn8Str3(), bean.getEn8Rel2Code(), bean.getYrLabel());
+						tEntityRel[7] = HtmlConverter.getResultsEntityRel(bean.getEn8Rel1Id(), bean.getEn8Rel1Label(), bean.getEn8Rel1Label(), bean.getEn8Rel2Id(), bean.getEn8Rel2Label(), bean.getEn8Rel2Label(), bean.getEn8Rel2LabelEN(), false, false, bean.getYrLabel());
+					}
+					if (bean.getRsRank9() != null) {
+						tEntity[8] = HtmlConverter.getResultsEntity(type_, bean.getRsRank9(), bean.getEn9Str1(), bean.getEn9Str2(), bean.getEn9Str3(), bean.getEn9Rel2Code(), bean.getYrLabel());
+						tEntityRel[8] = HtmlConverter.getResultsEntityRel(bean.getEn9Rel1Id(), bean.getEn9Rel1Label(), bean.getEn9Rel1Label(), bean.getEn9Rel2Id(), bean.getEn9Rel2Label(), bean.getEn9Rel2Label(), bean.getEn9Rel2LabelEN(), false, false, bean.getYrLabel());
+					}
+					boolean isDouble = (type_ == 4);
+					boolean isTriple = (bean.getRsComment() != null && bean.getRsComment().equals("#TRIPLE#"));
+					HtmlConverter.setTies(HtmlConverter.getTieList(isDouble, isTriple, bean.getRsExa()), type_, tEntity, tEntityRel);
+					if (isTriple || isDouble) {
+						tEntity = StringUtils.removeNulls(tEntity);
+						tEntityRel = StringUtils.removeNulls(tEntityRel);
+					}
+					org.jsoup.nodes.Document d = null;
+					for (int i = 0 ; i < 3 ; i++) {
+						if (StringUtils.notEmpty(tEntity[i])) {
+							d = Jsoup.parse(tEntity[i]);
+							StringBuffer sb = new StringBuffer();
+							for (org.jsoup.nodes.Element e : d.getElementsByTag("a"))
+								sb.append(sb.toString().length() > 0 ? "|" : "").append(e.text());
+							tEntity[i] = sb.toString();
+							
+							if (StringUtils.notEmpty(tEntity[i])) {
+								d = Jsoup.parse(tEntityRel[i]);
+								sb = new StringBuffer();
+								for (org.jsoup.nodes.Element e : d.getElementsByTag("img"))
+									sb.append(sb.toString().length() > 0 ? "|" : "").append(e.attr("src"));
+								tEntityImg[i] = sb.toString();
+								sb = new StringBuffer();
+								for (org.jsoup.nodes.Element e : d.getElementsByTag("a"))
+									sb.append(sb.toString().length() > 0 ? "|" : "").append(e.text());
+								tEntityRel[i] = sb.toString();
+								
+								Element rank = doc.createElement("rank" + (i + 1));
+								rank.setAttribute("img", tEntityImg[i]);
+								rank.setAttribute("result", tResult[i]);
+								rank.setAttribute("rel", tEntityRel[i]);
+								rank.setTextContent(tEntity[i]);
+					        	root.appendChild(rank);	
+							}
 						}
 					}
-					Element rank1 = doc.createElement("rank1");
-					rank1.setAttribute("img", img1);
-					rank1.setAttribute("result", rs1);
-					rank1.setTextContent(StringUtils.removeTags(rk1));
-		        	root.appendChild(rank1);
-		        	Element rank2 = doc.createElement("rank2");
-		        	rank2.setAttribute("img", img2);
-					rank2.setAttribute("result", rs2);
-					rank2.setTextContent(StringUtils.removeTags(rk2));
-					root.appendChild(rank2);
-		        	Element rank3 = doc.createElement("rank3");
-		        	rank3.setAttribute("img", img3);
-					rank3.setAttribute("result", rs3);
-					rank3.setTextContent(StringUtils.removeTags(rk3));
-		        	root.appendChild(rank3);
 				}
 	        }
 	        

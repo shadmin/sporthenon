@@ -114,10 +114,6 @@ public class StringUtils {
 			t_[i] = (v.size() > i ? v.get(i) : null);
 		return t_;
 	}
-	
-	public static String removeTags(String s) {
-		return (notEmpty(s) ? Jsoup.parse(s).text() : s);
-	}
 
 	public static String toTextDate(String dt, String lang, String format) throws ParseException {
 		Locale l = (lang != null && lang.equalsIgnoreCase("fr") ? Locale.FRENCH : Locale.ENGLISH);
@@ -125,7 +121,7 @@ public class StringUtils {
 		SimpleDateFormat dftxt = new SimpleDateFormat(notEmpty(format) ? format : "dd MMM", l);
 		if (!dt.matches(".*\\d\\d\\:\\d\\d$"))
 			dt += " 00:00";
-		return dftxt.format(df.parse(dt));
+		return dftxt.format(df.parse(dt)).replaceAll("\\s", "&nbsp;");
 	}
 	
 	public static String toTextDate(Timestamp dt, String lang, String format) throws ParseException {
@@ -296,6 +292,10 @@ public class StringUtils {
 	
 	public static final String urlEscape(String s) {
 		return (StringUtils.notEmpty(s) ? s.replaceAll("\\s\\-\\s|\\&nbsp\\;\\-\\&nbsp\\;", "/").replaceAll("\\s|'", "-").replaceAll("\\s", "-") : "");
+	}
+	
+	public static String removeTags(String s) {
+		return (notEmpty(s) ? Jsoup.parse(s).text() : s);
 	}
 	
 }

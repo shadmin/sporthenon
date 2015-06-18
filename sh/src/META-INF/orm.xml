@@ -37,7 +37,7 @@
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 
-		<!--
+	<!--
 		GET_OLYMPIC_MEDALS(text, integer, text, text, text, varchar)
 	-->
 	<named-native-query name="GetOlympicMedals" result-class="com.sporthenon.db.function.OlympicMedalsBean">  
@@ -50,6 +50,14 @@
 	-->
 	<named-native-query name="GetOlympicRankings" result-class="com.sporthenon.db.function.OlympicRankingsBean">  
 		<query>{? = CALL "GET_OLYMPIC_RANKINGS"(?, ?, ?)}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+	
+	<!--
+		GET_PERSON_LIST(text)
+	-->
+	<named-native-query name="GetPersonList" result-class="com.sporthenon.db.function.PersonListBean">  
+		<query>{? = CALL "GET_PERSON_LIST"(?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	

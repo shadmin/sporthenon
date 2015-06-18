@@ -26,8 +26,17 @@
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dDataTip);"/></div>
 </div>
 </div>
+<!-- PERSON LIST -->
+<div id="d-plist" class="dialog" style="display:none;">
+<div class="fieldset">
+	<div class="fstitle">Person List</div>
+	<div class="fscontent" style="width:400px;height:300px;overflow:auto;"><div id="ajaxsearch2" class="ajaxsearch"></div><table id="plist"></table></div>
+	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="savePersonList();"/><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dPersonList);"/></div>
+</div>
+</div>
 <script type="text/javascript">
 dLink = new Control.Modal($('d-link'),{ closeOnClick: false, fade: false });
 dInfo = new Control.Modal($('d-info'),{ closeOnClick: false, fade: false });
 dDataTip = new Control.Modal($('d-data'),{ closeOnClick: false, fade: false });
+dPersonList = new Control.Modal($('d-plist'),{ closeOnClick: false, fade: false });
 </script>

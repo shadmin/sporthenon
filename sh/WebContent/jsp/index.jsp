@@ -110,7 +110,7 @@ window.onload = function() {
 	initSliderHome("<%=IndexServlet.getSportDivs(lang)%>");
 	t2 = <%=System.currentTimeMillis()%>;
 	handleRender();
-	loadReport(cdata, clabel);
+	loadReport(cdata, clabel, ccolor[0]);
 }
 --></script>
 <jsp:include page="/jsp/common/footer.jsp" />

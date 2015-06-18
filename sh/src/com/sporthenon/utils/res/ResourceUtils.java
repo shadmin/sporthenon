@@ -49,10 +49,15 @@ public class ResourceUtils {
 		if (session.getAttribute("locale") == null) {
 			String lang = LGDEFAULT;
 			try {
-				if (request.getLocale() != null)
-					lang = request.getLocale().toString().substring(0, 2);
-				if (!HP.containsKey(lang.toLowerCase()))
-					throw new Exception();
+				String url = request.getRequestURL().toString();
+				if (url.matches(".*\\/\\/[a-z]{2}\\..*"))
+					lang = url.substring(url.indexOf("//") + 2).substring(0, 2);
+				else {
+					if (request.getLocale() != null)
+						lang = request.getLocale().toString().substring(0, 2);
+					if (!HP.containsKey(lang.toLowerCase()))
+						throw new Exception();
+				}
 			}
 			catch (Exception e) {
 				lang = LGDEFAULT;

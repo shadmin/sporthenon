@@ -215,6 +215,16 @@ function moreItems(row, p) {
 		parameters: addOptions($H())
 	});
 }
+function togglePlist(img, id) {
+	if ($(id).style.display == 'none') {
+		$(id).show();
+		img.src = '/img/render/collapse.gif';
+	}
+	else {
+		$(id).hide();
+		img.src = '/img/render/expand.gif';
+	}
+}
 function winrecMore(row) {
 	var table = $(row).up('.winrec');
 	var row_ = table.down('.hidden');
@@ -286,7 +296,7 @@ function toggleTreeExpand() {
 	else {
 		$('treeview').removeClassName('expanded').addClassName('collapsed');
 		img.src = img.src.replace('collapse', 'expand');
-		img.alt = '[-]&nbsp;' + TX_EXPAND;
+		img.alt = '[+]&nbsp;' + TX_EXPAND;
 		$('treeview').style.border = '1px solid #DDD';
 	}
 	$('treeicontxt').update(img.alt);
@@ -391,6 +401,7 @@ function closeDialog(dlg) {
 var dLink = null;
 var dInfo = null;
 var dDataTip = null;
+var dPersonList = null;
 function share(type) {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	var langParam = '?lang=' + lang;
@@ -634,13 +645,14 @@ var cindex = 0;
 var cmax = 1;
 var cdata = [];
 var clabel = [];
-function loadReport(cdata_, clabel_) {
+var ccolor = [['Gradient(#94cff5:#179ef5)'], ['Gradient(#f8cb98:#f88f18)']];
+function loadReport(cdata_, clabel_, ccolor_) {
 	$('chart').update('<canvas id="cvs" width="720" height="400"></canvas>');
 	var bar = new RGraph.HBar('cvs', cdata_)
 		.Set('gutter.top', 0)
 		.Set('gutter.left', 120)
 		.Set('labels', clabel_)
-		.Set('colors', ['Gradient(#49b2f5:#0567a5)'])
+		.Set('colors', ccolor_)
 		.Set('text.font', 'Verdana')
 		.Set('text.size', 8)
 		.Set('vmargin', 5)
@@ -664,7 +676,7 @@ function changeReport(idx) {
 			for (var i = 0 ; i < cdata.length ; i++) {
 				cdata[i] = parseInt(cdata[i]);
 			}
-			loadReport(cdata, clabel);
+			loadReport(cdata, clabel, ccolor[cindex]);
 		}
 	});
 }
@@ -731,11 +743,13 @@ function getPicklist(picklistId) {
 		var txt = null;
 		for (var i = 2 ; i < t.length ; i++) {
 			val = t[i][1];
-			if (val.indexOf('_') != -1) {
-				val = val.substring(val.lastIndexOf('_') + 1);
+			if (val) {
+				if (val.indexOf('_') != -1) {
+					val = val.substring(val.lastIndexOf('_') + 1);
+				}
+				txt = t[i][0];
+				array.push({value: val, text: txt});	
 			}
-			txt = t[i][0];
-			array.push({value: val, text: txt});
 		}
 		fillPicklistArray(picklistId, array);
 	}
@@ -1329,6 +1343,28 @@ function loadResValues(value) {
 					$('rk' + i).removeClassName('completed').removeClassName('completed2');
 				}
 			}
+			// Person List
+			for (var i = 1 ; i <= pListCount ; i++) {
+				tValues['rk' + i + 'list'] = null;
+			}
+			if (t[j + 1].indexOf('rkl') == 0) {
+				j++;
+				rkList = t[j].substring(4);
+				var t_ = rkList.split('#');
+				var t__ = null;
+				var t___ = null;
+				for (var i = 0 ; i < t_.length ; i++) {
+					t__ = t_[i].split('|');
+					t___ = [];
+					for (var i_ = 0 ; i_ < t__.length ; i_++) {
+						t___.push(t__[i_].split(':')[0]);
+					}
+					tValues['rk' + (i + 1) + 'list'] = t___.join('|');
+				}
+			}
+			else {
+				rkList = null;
+			}
 			// Draws
 			var k = j;
 			tValues['drid'] = t[++k];
@@ -1421,7 +1457,11 @@ function loadResult(type) {
 function saveResult() {
 	$('msg').update('<img src="/img/db/loading.gif?6"/>');
 	var h = $H({sp: tValues['sp']});
-	['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'cmt', 'exl', 'rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'rk6', 'rk7', 'rk8', 'rk9', 'rk10', 'rs1', 'rs2', 'rs3', 'rs4', 'rs5', 'drid', 'qf1w', 'qf1l', 'qf1rs', 'qf2w', 'qf2l', 'qf2rs', 'qf3w', 'qf3l', 'qf3rs', 'qf4w', 'qf4l', 'qf4rs', 'sf1w', 'sf1l', 'sf2w', 'sf1rs', 'sf2l', 'sf2rs', 'thdw', 'thdl', 'thdrs'].each(function(s){
+	var t = ['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'cmt', 'exl', 'rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'rk6', 'rk7', 'rk8', 'rk9', 'rk10', 'rs1', 'rs2', 'rs3', 'rs4', 'rs5', 'drid', 'qf1w', 'qf1l', 'qf1rs', 'qf2w', 'qf2l', 'qf2rs', 'qf3w', 'qf3l', 'qf3rs', 'qf4w', 'qf4l', 'qf4rs', 'sf1w', 'sf1l', 'sf2w', 'sf1rs', 'sf2l', 'sf2rs', 'thdw', 'thdl', 'thdrs'];
+	for (var i = 1 ; i <= pListCount ; i++) {
+		t.push('rk' + i + 'list');
+	}
+	t.each(function(s){
 		h.set(s, tValues[s]);
 		if ($(s) && ($(s).hasClassName('completed') || $(s).hasClassName('completed2'))) {
 			h.set(s + "-l", $F(s));
@@ -1448,5 +1488,68 @@ function toggleDraw() {
 }
 function loadDataDialog(type) {
 	new Ajax.Updater($('datatip'), '/update/data/' + type);
-	dDataTip.open();	
+	dDataTip.open();
+}
+var rkList = null;
+var pListIndex = null;
+var pListCount = 10;
+function initPersonList(index) {
+	var html = [];
+	var t = (rkList ? rkList.split('#') : null);
+	t = (t ? t[index - 1] : null);
+	t = (t ? t.split('|') : null);
+	var pid = null;
+	var ptxt = null;
+	for (var i = 1 ; i <= pListCount ; i++) {
+		if (t && t[i - 1]) {
+			pid = t[i - 1].split(':')[0];
+			ptxt = t[i - 1].split(':')[1];
+		}
+		else {
+			pid = null;
+			ptxt = '';
+		}
+		tValues['plist' + i] = pid;
+		html.push('<tr><td><input type="text" id="plist' + i + '" tabindex="' + (100000 + i) + '" name="Name #' + i + '" class="' + (pid != null ? 'completed' : '') + '" value="' + ptxt + '"/><a href="javascript:clearValue(\'plist' + i + '\');">[X]</a></td></tr>');	
+	}
+	$('plist').update(html.join(''));
+	$$('#plist input').each(function(s){
+		Event.stopObserving($(s), 'blur');
+		Event.stopObserving($(s), 'keydown');
+		new Ajax.Autocompleter(
+			s,
+			'ajaxsearch2',
+			'/update/ajax/pr' + (tValues['sp'] != null ? '-' + tValues['sp'] : ''),
+			{ paramName: 'value', minChars: 2, frequency: 0.05, afterUpdateElement: setValue}
+		);
+		if ($(s).value == '') {
+			$(s).value = $(s).name;	
+		}
+		$(s).addClassName('default');
+		Event.observe($(s), 'focus', function(){
+			if ($(this).value == $(this).name) {
+				$(this).value = '';
+			}
+		});
+		Event.observe($(s), 'blur', function(){
+			if ($(this).value == '') {
+				$(this).value = $(this).name;
+			}
+			else if ($(this).value != $(this).name && !$(this).hasClassName('completed')) {
+				$(this).addClassName('completed2');
+			}
+		});
+	});
+	pListIndex = index;
+	dPersonList.open();
+}
+function savePersonList() {
+	var t = [];
+	var val = null;
+	for (var i = 1 ; i <= pListCount ; i++) {
+		val = tValues['plist' + i];
+		t.push(val && val != '' ? val : $('plist' + i).value);
+	}
+	tValues['rk' + pListIndex + 'list'] = t.join('|');
+	dPersonList.close();
 }

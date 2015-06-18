@@ -225,6 +225,9 @@
 	text-align: left;
 	padding: 2px 2px;
 }
+.tc .info .result td, .tc .info .result th{
+	padding: 3px 3px;
+}
 .tc .draw .box th, .tc .info .result th{
 	font-size: 11px;
 	text-align: left;
@@ -364,5 +367,8 @@ th.desc{
 	background: transparent url(../img/render/more.gif) left 2px no-repeat;
 }
 .small{
+	font-size: 11px;
+}
+.plist{
 	font-size: 11px;
 }

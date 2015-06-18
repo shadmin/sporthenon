@@ -2,6 +2,7 @@ package com.sporthenon.web.servlet;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ import com.sporthenon.db.entity.Type;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.ExternalLink;
+import com.sporthenon.db.entity.meta.PersonList;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 
@@ -233,6 +235,27 @@ public class UpdateServlet extends AbstractServlet {
 					// External links
 					if (StringUtils.notEmpty(hParams.get("exl-l")))
 						DatabaseHelper.saveExternalLinks(Result.alias, result.getId(), String.valueOf(hParams.get("exl-l")));
+					// Person List
+					if (hParams.containsKey("rk1list")) {
+						int i = 1;
+						DatabaseHelper.executeUpdate("DELETE FROM \"~PERSON_LIST\" WHERE ID_RESULT=" + result.getId());
+						while (hParams.containsKey("rk" + i + "list")) {
+							String[] t = String.valueOf(hParams.get("rk" + i + "list")).split("\\|", 0);
+							for (String value : t) {
+								if (StringUtils.notEmpty(value) && !value.equals("null") && !value.startsWith("Name #")) {
+									PersonList plist = new PersonList();
+									plist.setIdResult(result.getId());
+									plist.setRank(i);
+									if (value.matches("\\d+"))
+										plist.setIdPerson(Integer.parseInt(value));
+									else
+										plist.setIdPerson(DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, value, null, user, null, lang));
+									DatabaseHelper.saveEntity(plist, user);
+								}
+							}
+							i++;
+						}
+					}
 					// Draws
 					if (StringUtils.notEmpty(hParams.get("qf1w-l"))) {
 						Integer idDR = (StringUtils.notEmpty(hParams.get("drid")) ? Integer.valueOf(String.valueOf(hParams.get("drid"))) : null);
@@ -375,12 +398,23 @@ public class UpdateServlet extends AbstractServlet {
 								label = getEntityLabel(n, id, lang);
 							sb.append(id != null ? id : "").append("~").append(label != null ? label : "").append("~");
 						}
+						// PersonList
+						List lPList = DatabaseHelper.execute("from PersonList where idResult=" + rs.getId() + " order by id");
+						if (lPList != null && lPList.size() > 0) {
+							List<String> l = new ArrayList<String>();
+							for (PersonList pl : (List<PersonList>) lPList) {
+								int rk = pl.getRank();
+								if (l.size() < rk)
+									l.add("");
+								Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, pl.getIdPerson());
+								l.set(rk - 1, (StringUtils.notEmpty(l.get(rk - 1)) ? l.get(rk - 1) + "|" : "") + pl.getIdPerson() + ":" + a.toString2());
+							}
+							sb.append("rkl-" + StringUtils.implode(l, "#")).append("~");
+						}
 						// Draws
-						System.out.println("from Draw where idResult=" + rs.getId());
 						List lDraw = DatabaseHelper.execute("from Draw where idResult=" + rs.getId());
 						if (lDraw != null && lDraw.size() > 0) {
 							Draw dr = (Draw) lDraw.get(0);
-							System.out.println(dr);
 							sb.append(dr.getId()).append("~");
 							for (String s : new String[]{"qf1", "qf2", "qf3", "qf4", "sf1", "sf2", "thd"}) {
 								Integer id1 = null;
