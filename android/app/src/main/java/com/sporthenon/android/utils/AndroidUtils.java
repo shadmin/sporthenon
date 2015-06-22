@@ -29,7 +29,7 @@ public class AndroidUtils {
                 if (file.exists())
                     bd = new BitmapDrawable(new FileInputStream(file));
                 else if (!img.contains("noimage.png")) {
-                    //img = img.replaceAll("localhost", "10.0.2.2"); // TEST
+                    img = img.replaceAll("localhost", "10.0.2.2"); // TEST
                     connection = (HttpURLConnection) new URL(img) .openConnection();
                     connection.connect();
                     InputStream input = connection.getInputStream();
@@ -57,10 +57,10 @@ public class AndroidUtils {
 
     public static LinearLayout.LayoutParams getImageSize(Context context, String url) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        int n1 = Math.round(35 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        int n1 = Math.round(30 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         int n2 = Math.round(30 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         int n3 = Math.round(20 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-        return (notEmpty(url) && url.contains("-L") ? new LinearLayout.LayoutParams(n1, n1) : new LinearLayout.LayoutParams(n2, n3));
+        return (notEmpty(url) && url.contains("/5-") ? new LinearLayout.LayoutParams(n1, n1) : new LinearLayout.LayoutParams(n2, n3));
     }
 
 }

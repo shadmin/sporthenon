@@ -65,7 +65,7 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
             }
             Element date = (Element) doc.getElementsByTagName("dates").item(0);
             if (date != null)
-                result1.setDate((date.getAttribute("date1") != null && date.getAttribute("date1").length() > 0 ? date.getAttribute("date1") + " - " : "") + date.getAttribute("date2"));
+                result1.setDate((date.getAttribute("date1") != null && date.getAttribute("date1").length() > 0 ? date.getAttribute("date1") + Html.fromHtml(" &ndash; ") : "") + date.getAttribute("date2"));
             Element place1 = (Element) doc.getElementsByTagName("place1").item(0);
             if (place1 != null) {
                 result1.setPlace1(place1.getTextContent());
@@ -136,7 +136,7 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
             else
                 activity.getSubevent2().setVisibility(View.GONE);
             if (AndroidUtils.notEmpty(result1.getDate()))
-                activity.getDate().setText(result1.getDate());
+                activity.getDate().setText(result1.getDate().replaceAll("\\&nbsp\\;", " "));
             else
                 activity.getDate().setVisibility(View.GONE);
             if (AndroidUtils.notEmpty(result1.getPlace1()))
@@ -149,21 +149,21 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
                 activity.getPlace2().setVisibility(View.GONE);
             // Rankings
             if (AndroidUtils.notEmpty(result1.getRank1())) {
-                activity.getRank1Text().setText(result1.getRank1());
+                activity.getRank1Text().setText(result1.getRank1().replaceAll("\\|", " / "));
                 if (result1.getRank1Img() != null) {
                     activity.getRank1Img().setImageDrawable(result1.getRank1Img());
                     activity.getRank1Img().setLayoutParams(AndroidUtils.getImageSize(activity.getApplicationContext(), result1.getRank1ImgURL()));
                 }
             }
             if (AndroidUtils.notEmpty(result1.getRank2())) {
-                activity.getRank2Text().setText(result1.getRank2());
+                activity.getRank2Text().setText(result1.getRank2().replaceAll("\\|", " / "));
                 if (result1.getRank2Img() != null) {
                     activity.getRank2Img().setImageDrawable(result1.getRank2Img());
                     activity.getRank2Img().setLayoutParams(AndroidUtils.getImageSize(activity.getApplicationContext(), result1.getRank2ImgURL()));
                 }
             }
             if (AndroidUtils.notEmpty(result1.getRank3())) {
-                activity.getRank3Text().setText(result1.getRank3());
+                activity.getRank3Text().setText(result1.getRank3().replaceAll("\\|", " / "));
                 if (result1.getRank3Img() != null) {
                     activity.getRank3Img().setImageDrawable(result1.getRank3Img());
                     activity.getRank3Img().setLayoutParams(AndroidUtils.getImageSize(activity.getApplicationContext(), result1.getRank3ImgURL()));

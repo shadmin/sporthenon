@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:layout_gravity="center_horizontal"
     android:orientation="vertical"
-    android:background="#FFF">
+    android:background="#EEE">
 
     <ProgressBar
         android:id="@+id/progress"
@@ -18,11 +18,15 @@
 
     <TextView
         android:id="@+id/rs_year"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:padding="2dip"
         android:textStyle="bold"
+        android:background="#FFF"
+        android:layout_marginTop="6dip"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip"
         />
 
     <TextView
@@ -31,6 +35,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="2dip"
+        android:background="#FFF"
+        android:layout_marginTop="6dip"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip"
         />
 
     <TextView
@@ -39,6 +47,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="2dip"
+        android:background="#FFF"
+        android:layout_marginTop="6dip"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip"
         />
 
     <TextView
@@ -47,6 +59,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="2dip"
+        android:background="#FFF"
+        android:layout_marginTop="6dip"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip"
         />
 
     <TextView
@@ -55,6 +71,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="2dip"
+        android:background="#FFF"
+        android:layout_marginTop="6dip"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip"
         />
 
     <TextView
@@ -63,6 +83,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="2dip"
+        android:background="#FFF"
+        android:layout_marginTop="6dip"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip"
         />
 
     <TextView
@@ -71,6 +95,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="2dip"
+        android:background="#FFF"
+        android:layout_marginTop="6dip"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip"
         />
 
     <TextView
@@ -79,6 +107,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="2dip"
+        android:background="#FFF"
+        android:layout_marginTop="6dip"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip"
         />
 
     <TextView
@@ -87,13 +119,20 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="2dip"
+        android:background="#FFF"
+        android:layout_marginTop="6dip"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="20dip"
+        android:background="#FFF"
+        android:layout_marginTop="6dip"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip"
         android:padding="2dip">
         <ImageView
             android:id="@+id/rank1_img"
@@ -117,13 +156,19 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="2dip"
+        android:background="#FFF"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="2dip">
+        android:padding="2dip"
+        android:background="#FFF"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip">
         <ImageView
             android:id="@+id/rank2_img"
             android:layout_width="wrap_content"
@@ -142,7 +187,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="2dip">
+        android:padding="2dip"
+        android:background="#FFF"
+        android:layout_marginLeft="6dip"
+        android:layout_marginRight="6dip">
         <ImageView
             android:id="@+id/rank3_img"
             android:layout_width="wrap_content"

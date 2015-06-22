@@ -2,6 +2,7 @@ package com.sporthenon.android.async;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.activity.ResultActivity;
@@ -26,6 +27,7 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
 
     private ResultActivity activity;
     private ArrayList<ResultItem> results;
+    private String winrec;
 
     @Override
     protected String doInBackground(Object... params) {
@@ -49,6 +51,7 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(input);
+            winrec = doc.getDocumentElement().getAttribute("winrec-name") + " (" + doc.getDocumentElement().getAttribute("winrec-count") + ")";
             NodeList list = doc.getElementsByTagName("item");
             for (int i = 0 ; i < list.getLength() ; i++) {
                 Node n = list.item(i);
@@ -75,6 +78,8 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
         try {
             activity.getItemList().addAll(results);
             activity.getList().setAdapter(new ResultListAdapter(activity.getApplicationContext(), results));
+            TextView path = (TextView) activity.findViewById(R.id.path);
+            path.setText(path.getText() + "\r\n" + activity.getResources().getString(R.string.winrec) + " : " + winrec);
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);
