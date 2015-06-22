@@ -1,10 +1,11 @@
 ## Sporthenon - Temple of sports results
 ### About Sporthenon
 <ul>
-<li>Current Version: 0.9.3</li>
+<li>Current Version: 0.10.0</li>
+<li>Released: 22 Jun 2015</li>
 <li>First Website Release: August 2013</li>
 <li>Website: <a href="http://www.sporthenon.com/">http://www.sporthenon.com</a></li>
-<li>Website (Test): <a href="http://www.sporthenon.com:801/">http://test.sporthenon.com</a></li>
+<li>Website (Test): <a href="http://test.sporthenon.com">http://test.sporthenon.com</a></li>
 <li>Change Log: <a href="http://raw.githubusercontent.com/shadmin/sporthenon/master/CHANGELOG.txt">http://raw.githubusercontent.com/shadmin/sporthenon/master/CHANGELOG.txt</a></li>
 <li>Android app: <a href="https://play.google.com/store/apps/details?id=com.sporthenon.android">https://play.google.com/store/apps/details?id=com.sporthenon.android</a></li>
 </ul>
