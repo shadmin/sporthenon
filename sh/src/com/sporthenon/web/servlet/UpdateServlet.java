@@ -116,6 +116,9 @@ public class UpdateServlet extends AbstractServlet {
 				StringBuffer sbMsg = new StringBuffer();
 				try {
 					int tp = 0;
+					HashMap<String, Type> hType = new HashMap<String, Type>();
+					for (Type type : (List<Type>) DatabaseHelper.execute("from Type"))
+						hType.put(type.getLabel(lang), type);
 					Integer idRS = (StringUtils.notEmpty(hParams.get("id")) ? Integer.valueOf(String.valueOf(hParams.get("id"))) : null);
 					Result result = (idRS != null ? (Result)DatabaseHelper.loadEntity(Result.class, idRS) : new Result());
 					// Sport
@@ -125,6 +128,7 @@ public class UpdateServlet extends AbstractServlet {
 						s.setLabel(String.valueOf(hParams.get("sp-l")));
 						s.setLabelFr(s.getLabel());
 						s.setType(1);
+						s.setIndex(Float.MAX_VALUE);
 						s = (Sport) DatabaseHelper.saveEntity(s, user);
 						result.setSport(s);
 					}
@@ -134,41 +138,66 @@ public class UpdateServlet extends AbstractServlet {
 						Championship c = new Championship();
 						c.setLabel(String.valueOf(hParams.get("cp-l")));
 						c.setLabelFr(c.getLabel());
+						c.setIndex(Integer.MAX_VALUE);
 						c = (Championship) DatabaseHelper.saveEntity(c, user);
 						result.setChampionship(c);
 					}
 					// Event #1
 					result.setEvent((Event)DatabaseHelper.loadEntity(Event.class, hParams.get("ev")));
 					if (result.getEvent() == null) {
+						String label_ = String.valueOf(hParams.get("ev-l"));
+						Type type_ = (Type)DatabaseHelper.loadEntity(Type.class, 1);
+						if (label_.contains(" (")) {
+							String[] t_ = label_.replaceAll("\\)", "").split("\\s\\(");
+							label_ = t_[0];
+							type_ = (hType.containsKey(t_[1]) ? hType.get(t_[1]) : type_);
+						}
 						Event e = new Event();
-						e.setLabel(String.valueOf(hParams.get("ev-l")));
-						e.setLabelFr(e.getLabel());
-						e.setType((Type)DatabaseHelper.loadEntity(Type.class, 1));
+						e.setLabel(label_);
+						e.setLabelFr(label_);
+						e.setType(type_);
+						e.setIndex(Integer.MAX_VALUE);
 						e = (Event) DatabaseHelper.saveEntity(e, user);
 						result.setEvent(e);
 					}
 					tp = result.getEvent().getType().getNumber();
 					// Event #2
-					if (StringUtils.notEmpty(hParams.get("se"))) {
+					if (StringUtils.notEmpty(hParams.get("se")) || StringUtils.notEmpty(hParams.get("se-l"))) {
 						result.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, hParams.get("se")));
 						if (result.getSubevent() == null) {
+							String label_ = String.valueOf(hParams.get("se-l"));
+							Type type_ = (Type)DatabaseHelper.loadEntity(Type.class, 1);
+							if (label_.contains(" (")) {
+								String[] t_ = label_.replaceAll("\\)", "").split("\\s\\(");
+								label_ = t_[0];
+								type_ = (hType.containsKey(t_[1]) ? hType.get(t_[1]) : type_);
+							}
 							Event e = new Event();
-							e.setLabel(String.valueOf(hParams.get("se-l")));
-							e.setLabelFr(e.getLabel());
-							e.setType((Type)DatabaseHelper.loadEntity(Type.class, 1));
+							e.setLabel(label_);
+							e.setLabelFr(label_);
+							e.setType(type_);
+							e.setIndex(Integer.MAX_VALUE);
 							e = (Event) DatabaseHelper.saveEntity(e, user);
 							result.setSubevent(e);
 						}
 						tp = result.getSubevent().getType().getNumber();
 					}
 					// Event #3
-					if (StringUtils.notEmpty(hParams.get("se2"))) {
+					if (StringUtils.notEmpty(hParams.get("se2")) || StringUtils.notEmpty(hParams.get("se2-l"))) {
 						result.setSubevent2((Event)DatabaseHelper.loadEntity(Event.class, hParams.get("se2")));
 						if (result.getSubevent2() == null) {
+							String label_ = String.valueOf(hParams.get("se2-l"));
+							Type type_ = (Type)DatabaseHelper.loadEntity(Type.class, 1);
+							if (label_.contains(" (")) {
+								String[] t_ = label_.replaceAll("\\)", "").split("\\s\\(");
+								label_ = t_[0];
+								type_ = (hType.containsKey(t_[1]) ? hType.get(t_[1]) : type_);
+							}
 							Event e = new Event();
-							e.setLabel(String.valueOf(hParams.get("se2-l")));
-							e.setLabelFr(e.getLabel());
-							e.setType((Type)DatabaseHelper.loadEntity(Type.class, 1));
+							e.setLabel(label_);
+							e.setLabelFr(label_);
+							e.setType(type_);
+							e.setIndex(Integer.MAX_VALUE);
 							e = (Event) DatabaseHelper.saveEntity(e, user);
 							result.setSubevent2(e);
 						}
@@ -472,7 +501,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 		else if (n == 50) {
 			Team t_ = (Team) DatabaseHelper.loadEntity(Team.class, id);
-			label = t_.getLabel();
+			label = t_.getLabel() + (t_.getCountry() != null ? " [" + t_.getCountry().getCode() + "]" : "");
 		}
 		else {
 			Country c = (Country) DatabaseHelper.loadEntity(Country.class, id);

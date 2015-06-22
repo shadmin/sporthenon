@@ -765,8 +765,8 @@ input{
 	width: 100%;
 }
 #results .slider{
-	margin-top: 0px;
-	margin-left: 25px;
+	margin-top: 5px;
+	margin-left: 22px;
 }
 #results .slide{
 	border: none;
@@ -1334,7 +1334,7 @@ input{
   ========== MISC ========== 
   ==========================*/
 #linktxt{
-	width: 650px;
+	width: 600px;
 	cursor: default;
 }
 .otherimglink{

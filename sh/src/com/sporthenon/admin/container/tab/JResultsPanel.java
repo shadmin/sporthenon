@@ -30,6 +30,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import org.apache.log4j.Logger;
@@ -160,7 +161,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			jTree = new JTree(treeModel);
 			jTree.setRootVisible(false);
 			jTree.setShowsRootHandles(true);
-			jTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+			jTree.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
 			jTree.addTreeSelectionListener(this);
 
 			ImageIcon folderIcon = ResourceUtils.getIcon("common/treefolder.png");
@@ -387,7 +388,13 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				SwingUtils.selectValue(dlg.getCategory2(), idEvent);
 				SwingUtils.selectValue(dlg.getCategory3(), idSubevent);
 				SwingUtils.selectValue(dlg.getCategory4(), idSubevent2);
-				dlg.open(this);
+				List<PicklistBean> list = new ArrayList<PicklistBean>();
+				for (TreePath path : jTree.getSelectionPaths()) {
+					DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+					Object info = node.getUserObject();
+					list.add((PicklistBean)info);
+				}
+				dlg.open(this, list);
 			}
 			else if (e.getActionCommand().matches("set-inactive")) {
 				String msg = null;

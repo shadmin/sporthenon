@@ -13,6 +13,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -262,25 +263,30 @@ public class AndroidServlet extends AbstractServlet {
 							for (org.jsoup.nodes.Element e : d.getElementsByTag("a"))
 								sb.append(sb.toString().length() > 0 ? "|" : "").append(e.text());
 							tEntity[i] = sb.toString();
+							Elements imgs = d.getElementsByTag("img");
+							if (imgs != null && imgs.size() > 0)
+								tEntityImg[i] = imgs.get(0).attr("src");
 							
-							if (StringUtils.notEmpty(tEntity[i])) {
+							if (StringUtils.notEmpty(tEntityRel[i])) {
 								d = Jsoup.parse(tEntityRel[i]);
-								sb = new StringBuffer();
-								for (org.jsoup.nodes.Element e : d.getElementsByTag("img"))
-									sb.append(sb.toString().length() > 0 ? "|" : "").append(e.attr("src"));
-								tEntityImg[i] = sb.toString();
+								if (tEntityImg[i] == null) {
+									sb = new StringBuffer();
+									for (org.jsoup.nodes.Element e : d.getElementsByTag("img"))
+										sb.append(sb.toString().length() > 0 ? "|" : "").append(e.attr("src"));
+									tEntityImg[i] = sb.toString();	
+								}
 								sb = new StringBuffer();
 								for (org.jsoup.nodes.Element e : d.getElementsByTag("a"))
 									sb.append(sb.toString().length() > 0 ? "|" : "").append(e.text());
 								tEntityRel[i] = sb.toString();
-								
-								Element rank = doc.createElement("rank" + (i + 1));
-								rank.setAttribute("img", tEntityImg[i]);
-								rank.setAttribute("result", tResult[i]);
-								rank.setAttribute("rel", tEntityRel[i]);
-								rank.setTextContent(tEntity[i]);
-					        	root.appendChild(rank);	
 							}
+								
+							Element rank = doc.createElement("rank" + (i + 1));
+							rank.setAttribute("img", tEntityImg[i]);
+							rank.setAttribute("result", tResult[i]);
+							rank.setAttribute("rel", tEntityRel[i]);
+							rank.setTextContent(tEntity[i]);
+							root.appendChild(rank);	
 						}
 					}
 				}

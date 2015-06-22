@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -56,7 +58,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 	private void initialize() {
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(870, 570));
+		this.setPreferredSize(new Dimension(870, 560));
 		this.setSize(this.getPreferredSize());
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
@@ -117,7 +119,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 	
 	private JPanel getEditPanel() {
 		JPanel jEditPanel = new JPanel(new GridLayout(6, 2, 0, 0));
-		jEditPanel.setPreferredSize(new Dimension(830, 150));
+		jEditPanel.setPreferredSize(new Dimension(830, 170));
 		jEditPanel.setBorder(BorderFactory.createTitledBorder(null, "Folder Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 		
 		JLabel lSport = new JLabel(" Sport:");
@@ -152,14 +154,28 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 		return jEditPanel;
 	}
 
-	public void open(JResultsPanel parent) {
+	public void open(JResultsPanel parent, List<PicklistBean> list) {
 		this.parent = parent;
-		DefaultListModel model = (DefaultListModel)jList1.getModel();
-		model.clear();
-		for (PicklistBean plb : parent.getTreeItems())
-			model.addElement(plb);
-		model = (DefaultListModel)jList2.getModel();
-		model.clear();
+		DefaultListModel model1 = (DefaultListModel)jList1.getModel();
+		DefaultListModel model2 = (DefaultListModel)jList2.getModel();
+		List<PicklistBean> list_ = new ArrayList<PicklistBean>();
+		model1.clear();
+		for (PicklistBean plb : parent.getTreeItems()) {
+			boolean isSelected = false;
+			for (PicklistBean plb_ : list) {
+				isSelected |= (plb_.getParam() != null && plb_.getParam().equals(plb.getParam()));
+				if (isSelected)
+					break;
+			}
+			if (!isSelected)
+				model1.addElement(plb);
+			else
+				list_.add(plb);
+		}
+		model2 = (DefaultListModel)jList2.getModel();
+		model2.clear();
+		for (PicklistBean plb : list_)
+			model2.addElement(plb);
 		this.setTitle("Edit Folders");
 		this.setVisible(true);
 	}

@@ -102,8 +102,8 @@ public class ImageServlet extends AbstractServlet {
 					Collection<PicklistBean> lst = DatabaseHelper.getEntityPicklist(DatabaseHelper.getClassFromAlias(entity_), label, null, ResourceUtils.LGDEFAULT);
 					int n = 0;
 					for (PicklistBean o : lst) {
-						if (entity_.equals(Team.alias) && o.getText().contains("Sailing"))
-							continue;
+//						if (entity_.equals(Team.alias) && o.getText().contains("Sailing"))
+//							continue;
 						Collection list = ImageUtils.getImageList(ImageUtils.getIndex(entity_.toUpperCase()), o.getValue(), ImageUtils.SIZE_LARGE);
 						if (list == null || list.isEmpty())
 							sbResult.append(entity_).append(";").append(++n).append(";").append(o.getValue()).append(";").append(o.getText()).append("|");						
