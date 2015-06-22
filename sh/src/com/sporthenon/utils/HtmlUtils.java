@@ -82,7 +82,7 @@ public class HtmlUtils {
 			html.append("<a href='").append(url).append("'");
 			if (alias.equals(Athlete.alias) && !text1.toLowerCase().equals(text2.toLowerCase()))
 				html.append(" title=\"" + text2 + "\"");
-			html.append(">" + (!text1.startsWith("<") ? text1.replaceAll("\\s", "&nbsp;") : text1) + "</a>");
+			html.append(">" + (!text1.startsWith("<") ? text1.replaceAll("\\s", "&nbsp;").replaceAll("\\-", "&#8209;") : text1) + "</a>");
 		}
 		else
 			html.append(ConfigUtils.getProperty("url") + url.toString().substring(1));

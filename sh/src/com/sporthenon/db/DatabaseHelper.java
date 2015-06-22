@@ -497,6 +497,10 @@ public class DatabaseHelper {
 				msg = "New Team";
 			}
 		}
+		catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
 		finally {
 			if (o != null) {
 				if (processReport != null)
@@ -569,6 +573,10 @@ public class DatabaseHelper {
 				o = saveEntity(c, m);
 				msg = "New City";
 			}
+		}
+		catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
 		}
 		finally {
 			if (o != null) {

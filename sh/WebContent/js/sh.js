@@ -1325,8 +1325,8 @@ function loadResValues(value) {
 			tValues['rs5'] = t[20]; if (t[20] != '') {$('rs5').value = t[20]; $('rs5').addClassName('completed2');} else {$('rs5').value = $('rs5').name; $('rs5').removeClassName('completed2');}
 			tValues['dt1'] = t[21]; if (t[21] != '') {$('dt1').value = t[21]; $('dt1').addClassName('completed2');} else {$('dt1').value = $('dt1').name; $('dt1').removeClassName('completed2');}
 			tValues['dt2'] = t[22]; if (t[22] != '') {$('dt2').value = t[22]; $('dt2').addClassName('completed2');} else {$('dt2').value = $('dt2').name; $('dt2').removeClassName('completed2');}
-			tValues['pl1'] = t[23]; if (t[23] != '') {$('pl1').value = t[24]; $('pl1').addClassName('completed');} else {$('pl1').value = $('pl1').name; $('pl1').removeClassName('completed').removeClassName('completed2');}
-			tValues['pl2'] = t[25]; if (t[25] != '') {$('pl2').value = t[26]; $('pl2').addClassName('completed');} else {$('pl2').value = $('pl2').name; $('pl2').removeClassName('completed').removeClassName('completed2');}
+			tValues['pl1'] = t[23]; if (t[23] != '') {$('pl1').value = t[24]; $('pl1').addClassName('completed').removeClassName('completed2');} else {$('pl1').value = $('pl1').name; $('pl1').removeClassName('completed').removeClassName('completed2');}
+			tValues['pl2'] = t[25]; if (t[25] != '') {$('pl2').value = t[26]; $('pl2').addClassName('completed').removeClassName('completed2');} else {$('pl2').value = $('pl2').name; $('pl2').removeClassName('completed').removeClassName('completed2');}
 			tValues['exa'] = t[27]; if (t[27] != '') {$('exa').value = t[27]; $('exa').addClassName('completed2');} else {$('exa').value = $('exa').name; $('exa').removeClassName('completed2');}
 			tValues['cmt'] = t[28]; if (t[28] != '') {$('cmt').value = t[28]; $('cmt').addClassName('completed2');} else {$('cmt').value = $('cmt').name; $('cmt').removeClassName('completed2');}
 			tValues['exl'] = t[29]; if (t[29] != '') {$('exl').value = t[29].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
@@ -1336,7 +1336,7 @@ function loadResValues(value) {
 				tValues['rk' + i] = t[++j];
 				if (tValues['rk' + i] != '') {
 					$('rk' + i).value = t[++j];
-					$('rk' + i).addClassName('completed');
+					$('rk' + i).addClassName('completed').removeClassName('completed2');
 				}
 				else {
 					j++;
@@ -1513,7 +1513,7 @@ function initPersonList(index) {
 		tValues['plist' + i] = pid;
 		html.push('<tr><td><input type="text" id="plist' + i + '" tabindex="' + (100000 + i) + '" name="Name #' + i + '" class="' + (pid != null ? 'completed' : '') + '" value="' + ptxt + '"/><a href="javascript:clearValue(\'plist' + i + '\');">[X]</a></td></tr>');	
 	}
-	$('plist').update(html.join(''));
+	$('plist').update('<table>' + html.join('') + '</table>');
 	$$('#plist input').each(function(s){
 		Event.stopObserving($(s), 'blur');
 		Event.stopObserving($(s), 'keydown');

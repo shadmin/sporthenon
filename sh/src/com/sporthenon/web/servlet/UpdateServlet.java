@@ -47,7 +47,7 @@ public class UpdateServlet extends AbstractServlet {
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			if (hParams.containsKey("p2") && hParams.get("p2").equals("ajax")) { // Ajax autocompletion
 				String field = String.valueOf(hParams.get("p"));
-				String value = (hParams.get("value") + "%").replaceAll("\\*", "%");
+				String value = (hParams.get("value") + "%").replaceAll("\\*", "%").replaceAll("'", "''");
 				String sport = null;
 				if (field.matches("(pr|tm|cn)\\-.*")) {
 					String[] t = field.split("\\-", -1);
@@ -163,7 +163,7 @@ public class UpdateServlet extends AbstractServlet {
 					}
 					// Event #3
 					if (StringUtils.notEmpty(hParams.get("se2"))) {
-						result.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, hParams.get("se2")));
+						result.setSubevent2((Event)DatabaseHelper.loadEntity(Event.class, hParams.get("se2")));
 						if (result.getSubevent2() == null) {
 							Event e = new Event();
 							e.setLabel(String.valueOf(hParams.get("se2-l")));

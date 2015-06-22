@@ -158,7 +158,7 @@
 	<entry key="draw">Tableau</entry>
 	<entry key="quarterfinal">Quart de finale</entry>
 	<entry key="semifinal">Demi-finale</entry>
-	<entry key="final">FINALE</entry>
+	<entry key="final">Finale</entry>
 	<entry key="third.place">Troisième place</entry>
 	<entry key="info.clay">Terre battue</entry>
 	<entry key="info.decoturf">Decoturf</entry>
@@ -211,6 +211,7 @@
 	<entry key="winner">Vainqueur</entry>
 	<entry key="loser">Perdant</entry>
 	<entry key="other.years">Autres années</entry>
+	<entry key="none">Aucun</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
@@ -266,6 +267,10 @@
 	<entry key="inducted.as">Intronisé comme</entry>
 	<entry key="inductee">Intronisé</entry>
 	<entry key="w.l">V/D</entry>
+	<entry key="eastern.conf">Conférence Est</entry>
+	<entry key="western.conf">Conférence Ouest</entry>
+	<entry key="nba.finals">Finales NBA</entry>
+	<entry key="nhl.finals">Finale Stanley Cup</entry>
 <!-- SEARCH -->
 	<entry key="search.for">Rechercher</entry>
 	<entry key="advanced.search">Recherche avancée</entry>

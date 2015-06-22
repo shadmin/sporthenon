@@ -26,6 +26,7 @@ import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.meta.InactiveItem;
 import com.sporthenon.db.function.ResultsBean;
+import com.sporthenon.db.function.WinRecordsBean;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
@@ -104,7 +105,7 @@ public class AndroidServlet extends AbstractServlet {
 				lFuncParams.add("0");
 				lFuncParams.add("_" + lang);
 				Event ev_ = (Event) DatabaseHelper.loadEntity(Event.class, (se2 > 0 ? se2 : (se > 0 ? se : ev)));
-				addResultItems(doc, root, ev_, DatabaseHelper.call("GetResults", lFuncParams));
+				addResultItems(doc, root, ev_, DatabaseHelper.call("GetResults", lFuncParams), lang);
 	        }
 	        else if (p2.equalsIgnoreCase("R1")) {
 	        	Result r = (Result) DatabaseHelper.loadEntity(Result.class, p);
@@ -128,7 +129,7 @@ public class AndroidServlet extends AbstractServlet {
 	        		se.setAttribute("id", String.valueOf(r.getSubevent().getId()));
 		        	se.setAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getSubevent().getId(), ImageUtils.SIZE_LARGE, null, null));
 		        	se.setTextContent(r.getSubevent().getLabel(lang));
-		        	root.appendChild(se);	
+		        	root.appendChild(se);
 	        	}
 	        	if (r.getSubevent2() != null) {
 	        		Element se2 = doc.createElement("subevent2");
@@ -319,11 +320,13 @@ public class AndroidServlet extends AbstractServlet {
 		}
 	}
 	
-	private void addResultItems(Document doc, Element root, Event ev, Collection<ResultsBean> list) {
+	private void addResultItems(Document doc, Element root, Event ev, Collection<ResultsBean> list, String lang) {
 		if (list != null && list.size() > 0) {
+			List<String> lIds = new ArrayList<String>();
 			Integer tp = ev.getType().getNumber();
 			for (ResultsBean bean : list) {
 				Element item = doc.createElement("item");
+				lIds.add(String.valueOf(bean.getRsId()));
 				item.setAttribute("id", String.valueOf(bean.getRsId()));
 				item.setAttribute("year", bean.getYrLabel());
 				item.setAttribute("type", String.valueOf(tp));
@@ -339,19 +342,33 @@ public class AndroidServlet extends AbstractServlet {
 						Integer tm = bean.getEn1Rel1Id();
 						Integer cn = bean.getEn1Rel2Id();
 						if (tm != null && tm > 0)
-							img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, tm, ImageUtils.SIZE_LARGE, bean.getYrLabel(), null);
+							img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, tm, ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
 						else {
 							img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, cn, ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
 							item.setAttribute("code", bean.getEn1Rel2Code());
 						}
 					}
 					else if (tp == 50)
-						img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsRank1(), ImageUtils.SIZE_LARGE, bean.getYrLabel(), null);
+						img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsRank1(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
 					else if (tp == 99)
 						img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank1(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
 					item.setAttribute("img", img.replaceAll(".*src\\='|'\\/\\>", ""));
 				}
 				root.appendChild(item);
+			}
+			try {
+				ArrayList<Object> lParams = new ArrayList<Object>();
+				lParams.add(StringUtils.implode(lIds, ","));
+				lParams.add("_" + lang);
+				List<WinRecordsBean> list_ = (List<WinRecordsBean>) DatabaseHelper.call("WinRecords", lParams);
+				if (list_ != null && list_.size() > 0) {
+					WinRecordsBean bean = list_.get(0);
+					root.setAttribute("winrec-name", bean.getEntityStr());
+					root.setAttribute("winrec-count", String.valueOf(bean.getCountWin()));
+				}
+			}
+			catch (Exception e) {
+				handleException(e);
 			}
 		}
 	}
