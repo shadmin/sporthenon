@@ -1,7 +1,28 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.9.3   |
+| Last Version: 0.10.0  |
 +-----------------------+
+
++--------+
+| 0.10.0 |
++--------+
+[22 Jun 2015]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.10.0
+o Website
+	- New feature: <Statistics> (==> Database stats & charts on home page)
+	- New feature: <Athlete List> (==> Details of athletes for countries/teams in results)
+	- Logos can be managed by sport+championship or sport+event
+	- Added GitHub block in project page + reorganized page
+	- Athletes/teams can be linked with different sports
+	- Optimized display with large tables (horizontal scrollbar)
+o Android
+	- Load small pictures instead of large for teams
+	- Manage doubles and tied results
+	- Added win records in path
+o Admin (Swing app)
+	- Filter query for year events (remove inactive events and olympics on non-olympic years)
+	- Bugfix: mutiple fixes in folders editing
+	- DB: removed news
 
 +-------+
 | 0.9.3 |
@@ -21,7 +42,7 @@ o Android
 	- First release on Play store
 	- Added screen to set default language
 	- Items sorted by index, then alphabetical
-o Updater (Swing app)
+o Admin (Swing app)
 	- New feature: <External Links>
 	- New feature: <Sitemap Generator> (==> only for results pages)
 	- DB: external links managed in separate table
@@ -40,7 +61,7 @@ o Website
 	- Bugfix: invalid URL link for records
 o Android
 	- Initialized Android app
-o Updater (Swing app)
+o Admin (Swing app)
 	- New feature: <Folders Mass Update> (==> Move multiple folders to specified target)
 
 +-------+
@@ -55,7 +76,7 @@ o Website
 	- Added main relevant info on page URLs
 	- Use of Base32 instead of Base64 for encoding of URL parameters
 	- Improved display of US leagues records
-o Updater (Swing app)
+o Admin (Swing app)
 	[No change]
 	
 +-------+
@@ -77,7 +98,7 @@ o Website
 	- Bugfix: draws references where not calculated in ref. counts
 	- Bugfix: removed usage of session for page titles (request attr. only)
 	- Bugfix: multiple issues fixed in HTML/XLS/TXT exports
-o Updater (Swing app)
+o Admin (Swing app)
 	[No change]
 
 +-------+
@@ -88,7 +109,7 @@ o Website
 	- Added defaut picture file "Image not available" for record info
 	- Improved database references (automatic update with triggers)
 	- New layout for "US leagues" page
-o Updater (Swing app)
+o Admin (Swing app)
 	- Team pictures can be filtered by sport
 	- Compliant with x64 architecture
 	- Fixed minor issues with URL updates
@@ -103,7 +124,7 @@ o Website
 	- Added US leagues championships on "medal counts" function
 	- Bugfix: removed border on team logos
 	- Bugfix: logos/years did not work on US leagues searches
-o Updater (Swing app)
+o Admin (Swing app)
 	- Improved news management (existing news can be selected/modified/removed)
 	- Added customized logo using ResourceHacker
 	- Larger list for remote pictures (last item selected by default)
@@ -125,7 +146,7 @@ o Website
 	- Changed the date pattern to DD/MM/YYYY
 	- Setup files for SH Update can be downloaded directly on website (removed from GDrive)
 	- Improved layout of pages: Home, Results, Olympics, Project
-o Updater (Swing app)
+o Admin (Swing app)
 	- Added list of remote files for pictures management
 	- Remote picture files can be downloaded
 	- Added proxy address/port in options (for URL updates)
@@ -145,7 +166,7 @@ o Website
 	- Current menu made visible in <TITLE> tag
 	- Fixed display bug on tied entities (1st + 2nd)
 	- Fixed bug on linked athletes with different names (only 1 name was displayed)
-o Updater (Swing app)
+o Admin (Swing app)
 	- New feature: <Quick Connect> (==> picklist loading can be disabled)
 	- New feature: <News Menu>
 	- Added draws/records in import tool
@@ -168,7 +189,7 @@ o Website
 	- Position of comments moved to the right of 'Year' column
 	- Fixed bug: search failed with "last name + first name" in that order
 	- Fixed bug: result with ties in entity references not displayed properly
-o Updater (Swing app)
+o Admin (Swing app)
 	- New feature: <Merge> (=> selected record is removed and merged with another record)
 	- New feature: <Templates> (=> xls/csv templates for import tool)
 	- Changed buttons: label replaced by tooltip
@@ -186,7 +207,7 @@ o Website
 	- Added display of country flag in entity references (column 'Result')
 	- Fixed bug: use of special characters in search patterns
 	- Fixed bug: ties on record not displayed properly
-o Updater (Swing app)
+o Admin (Swing app)
 	- Fixed bug with use of quote ' in CSV import
 	- Add query for events not set on current year
 	- DB structure: +[all].first_update
@@ -204,7 +225,7 @@ o Website
 	- Added "period" filter on US leagues "records" search (season, career, game...)
 	- Improved display on "Team" references with links
 	- Fixed results references with tied entities
-o Updater (Swing app)
+o Admin (Swing app)
 	- Keyboard shortcuts for "data" panel actions
 	- Automatic set to "0" for links on referenced entity
 	- Added display of referenced entity label when saving entity with link
@@ -219,7 +240,7 @@ o Website
 	- More readable display of olympics tables
 	- Fixed bug on US records for "Both" selection (individual/team)
 	- Added sitemap.xml
-o Updater (Swing app)
+o Admin (Swing app)
 	- Comments management improved with specific column for ties
 	- Add queries for unused events + fixed missing pictures with remote call
 	- DB structure: -TM.code / -HF.deceased / +HF.position / +TM.link / +TM.inactive / +RN.year
@@ -234,7 +255,7 @@ o Website
 	- New feature: <Inactive Events> (=> events not held anymore marked with specific symbol)
 	- Comments can be displayed either directly or with a tooltip icon
 	- Bugs fixed, mainly on "US leagues" page
-o Updater (Swing app)
+o Admin (Swing app)
 	- New feature: <Query> (=> execute custom queries on database)
 	- Add missing tables in data panel (US leagues, Olympics, Records)
 
@@ -252,7 +273,7 @@ o Website
 	- New UI for action buttons
 	- Extension of some columns size in database
 	- Fixed bug: an error occured on some olympics views with empty subevent
-o Updater (Swing app)
+o Admin (Swing app)
 	- New feature: <Import CSV> (==> a mass update of data can done with CSV files)
 	- New feature: <Pictures Menu>
 	- New feature: <Refresh Tree>
