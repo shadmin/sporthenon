@@ -642,13 +642,14 @@ function moreLastUpdates(row, p) {
 	});
 }
 var cindex = 0;
-var cmax = 1;
+var cmax = 2;
 var cdata = [];
 var clabel = [];
-var ccolor = [['Gradient(#94cff5:#179ef5)'], ['Gradient(#f8cb98:#f88f18)']];
+var ccolor = [['Gradient(#94cff5:#179ef5)'], ['Gradient(#f8cb98:#f88f18)'], ['Gradient(#94cff5:#179ef5)', 'Gradient(#f8cb98:#f88f18)', 'red', 'blue']];
 function loadReport(cdata_, clabel_, ccolor_) {
 	$('chart').update('<canvas id="cvs" width="720" height="400"></canvas>');
-	var bar = new RGraph.HBar('cvs', cdata_)
+	if (cindex == 0 || cindex == 1) {
+		var bar = new RGraph.HBar('cvs', cdata_)
 		.Set('gutter.top', 0)
 		.Set('gutter.left', 120)
 		.Set('labels', clabel_)
@@ -657,6 +658,20 @@ function loadReport(cdata_, clabel_, ccolor_) {
 		.Set('text.size', 8)
 		.Set('vmargin', 5)
 		.Draw();
+	}
+	else if (cindex == 2) {
+		var pie = new RGraph.Pie('cvs', cdata_)
+		.Set('labels', clabel_)
+		//.Set('colors', ccolor_)
+		.Set('text.font', 'Verdana')
+		.Set('text.size', 8)
+		.Set('gutter.top', 40)
+		.Set('gutter.bottom', 40)
+		.Set('vmargin', 5)
+		.Set('exploded', 12)
+		.Set('strokestyle', 'rgba(0,0,0,0)')
+		.Draw();
+	}
 }
 function changeReport(idx) {
 	cindex += idx;

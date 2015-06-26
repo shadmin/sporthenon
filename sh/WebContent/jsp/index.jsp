@@ -95,8 +95,9 @@
 </div>
 <script type="text/javascript" src="js/RGraph.common.core.js"></script>
 <script type="text/javascript" src="js/RGraph.hbar.js"></script>
+<script type="text/javascript" src="js/RGraph.pie.js"></script>
 <script type="text/javascript"><!--
-var ctitle = ['<%=StringUtils.text("report.1", session)%>', '<%=StringUtils.text("report.2", session)%>'];
+var ctitle = ['<%=StringUtils.text("report.1", session)%>', '<%=StringUtils.text("report.2", session)%>', '<%=StringUtils.text("report.3", session)%>'];
 <%
 String lang_ = (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
 List<Object[]> cSportStats = DatabaseHelper.executeNative(IndexServlet.REPORT_QUERY1.replaceAll("#LANG#", lang_));

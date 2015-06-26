@@ -1,6 +1,7 @@
 package com.sporthenon.utils;
 
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -168,7 +169,7 @@ public class ExportUtils {
 		hwb.write(out);
 	}
 	
-	private static void buildText(OutputStream out, List<ArrayList<String>> lTh, List<ArrayList<String>> lTd) throws Exception {
+	private static void buildText(PrintWriter pw, List<ArrayList<String>> lTh, List<ArrayList<String>> lTd) throws Exception {
 		StringBuffer sbText = new StringBuffer();
 		int n = 0;
 		int[] tMaxLength = null;
@@ -229,7 +230,7 @@ public class ExportUtils {
 		}
 		if (sbSep != null)
 			sbText.append("\r\n").append(sbSep);
-		out.write(sbText.toString().getBytes());
+		pw.write(sbText.toString());
 	}
 	
 	public static String toHtml(Document doc) throws Exception {
@@ -243,7 +244,7 @@ public class ExportUtils {
 		return html;
 	}
 
-	public static void toExcelOrText(OutputStream out, Document doc, boolean isExcel) throws Exception {
+	public static void toExcelOrText(OutputStream out, PrintWriter pw, Document doc, boolean isExcel) throws Exception {
 		ArrayList<MergedCell> lMerge = new ArrayList<MergedCell>();
 		ArrayList<ArrayList<String>> lTh = new ArrayList<ArrayList<String>>();
 		ArrayList<ArrayList<String>> lTd = new ArrayList<ArrayList<String>>();
@@ -328,7 +329,7 @@ public class ExportUtils {
 		if (isExcel)
 			buildExcel(out, title.text(), lTh, lTd, lMerge, new boolean[]{false});
 		else
-			buildText(out, lTh, lTd);
+			buildText(pw, lTh, lTd);
 	}
 
 	public static void export(HttpServletResponse response, StringBuffer html, String format) throws Exception {
@@ -340,7 +341,7 @@ public class ExportUtils {
 			Document doc = Jsoup.parse(html_);
 			Element elTitle = doc.getElementsByAttributeValue("class", "title").first();
 			String title = elTitle.text().replaceAll("\\,\\s", "_");
-			response.setCharacterEncoding("utf-8");
+			response.setCharacterEncoding("UTF-8");
 			if (format.equalsIgnoreCase("html")) {
 				response.setContentType("text/html");
 				response.setHeader("Content-Disposition", "attachment;filename=" + title + " [Sporthenon].html");
@@ -349,13 +350,13 @@ public class ExportUtils {
 			else if (format.equalsIgnoreCase("excel")) {
 				response.setContentType("application/vnd.ms-excel");
 				response.setHeader("Content-Disposition", "attachment;filename=" + title + " [Sporthenon].xls");
-				toExcelOrText(response.getOutputStream(), doc, true);
+				toExcelOrText(response.getOutputStream(), null, doc, true);
 			}	
 			else if (format.equalsIgnoreCase("pdf")) {}
 			else if (format.equalsIgnoreCase("text")) {
 				response.setContentType("text/plain");
 				response.setHeader("Content-Disposition", "attachment;filename=" + title + " [Sporthenon].txt");
-				toExcelOrText(response.getOutputStream(), doc, false);
+				toExcelOrText(null, response.getWriter(), doc, false);
 			}
 		}
 		finally {

@@ -112,6 +112,7 @@
 	<entry key="rec.WORLDCP">World Championships</entry>
 	<entry key="rec.GSLAM">Grand Slam</entry>
 	<entry key="rec.MAJORS">Majors</entry>
+	<entry key="rec.MTOURS">Major Tours</entry>
 	<entry key="rec.NFLCP1">Super Bowl</entry>
 	<entry key="rec.NFLCP2">NFL Championship</entry>
 	<entry key="rec.NBACP">NBA Championship</entry>
@@ -226,6 +227,7 @@
 	<entry key="desc.usleagues">Specific page for the 4 major US leagues (NFL / NBA / NHL / MLB))</entry>
 	<entry key="report.1">Results per sport</entry>
 	<entry key="report.2">Athletes per country</entry>
+	<entry key="report.3">Split of requests by sport</entry>
 <!-- RESULTS -->
 	<entry key="sport">Sport</entry>
 	<entry key="event">Event</entry>
