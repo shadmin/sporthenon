@@ -17,9 +17,12 @@ public class ContributorBean {
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "count")
-	private Integer count;
+	@Column(name = "count_a")
+	private Integer countA;
 
+	@Column(name = "count_u")
+	private Integer countU;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -36,10 +39,6 @@ public class ContributorBean {
 		return name;
 	}
 
-	public Integer getCount() {
-		return count;
-	}
-
 	public void setLogin(String login) {
 		this.login = login;
 	}
@@ -48,8 +47,20 @@ public class ContributorBean {
 		this.name = name;
 	}
 
-	public void setCount(Integer count) {
-		this.count = count;
+	public Integer getCountA() {
+		return countA;
+	}
+
+	public Integer getCountU() {
+		return countU;
+	}
+
+	public void setCountA(Integer countA) {
+		this.countA = countA;
+	}
+
+	public void setCountU(Integer countU) {
+		this.countU = countU;
 	}
 	
 }

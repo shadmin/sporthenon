@@ -38,6 +38,7 @@ import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
+import com.sporthenon.db.entity.meta.Contribution;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.db.entity.meta.TreeItem;
@@ -672,7 +673,7 @@ public class HtmlConverter {
 					tEntity[8] = getResultsEntity(type_, bean.getRsRank9(), bean.getEn9Str1(), bean.getEn9Str2(), bean.getEn9Str3(), bean.getEn9Rel2Code(), bean.getYrLabel(), null);
 					tEntityRel[8] = getResultsEntityRel(bean.getEn9Rel1Id(), bean.getEn9Rel1Label(), bean.getEn9Rel1Label(), bean.getEn9Rel2Id(), bean.getEn9Rel2Label(), bean.getEn9Rel2Label(), bean.getEn9Rel2LabelEN(), false, false, bean.getYrLabel());
 				}
-				boolean isDouble = (type_ == 4);
+				boolean isDouble = (type_ == 4 || (bean.getRsComment() != null && bean.getRsComment().equals("#DOUBLE#")));
 				boolean isTriple = (bean.getRsComment() != null && bean.getRsComment().equals("#TRIPLE#"));
 				setTies(getTieList(isDouble, isTriple, bean.getRsExa()), type_, tEntity, tEntityRel);
 				if (isTriple || isDouble) {
@@ -923,8 +924,8 @@ public class HtmlConverter {
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("name", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("country", lang) + "</th>");
 				else if (en.equals(Complex.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("name", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("city", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("country", lang) + "</th>");
-				else if (en.equals(Event.alias))
-					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("year", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("event", lang)  + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("date", lang) + "</th>");
+				else if (en.equals(Contribution.alias))
+					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("year", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("event", lang)  + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("date", lang) + "</th>");
 				else if (en.equals(HallOfFame.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("league", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>Year</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("name", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("inducted.as", lang) + "</th>");
 				else if (en.equals(Olympics.alias))
@@ -977,11 +978,15 @@ public class HtmlConverter {
 				c2 = HtmlUtils.writeLink(City.alias, item.getIdRel1(), item.getLabelRel1(), item.getLabelRel3());
 				c3 = (item.getIdRel2() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel2(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, item.getIdRel2(), item.getLabelRel2(), item.getLabelRel4())) : StringUtils.EMPTY);
 			}
-			else if (en.equals(Event.alias)) {
+			else if (en.equals(Contribution.alias)) {
 				c1 = HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1() + (m != null ? "&nbsp;<a href='" + HtmlUtils.writeURL("/update", "RS-" + item.getIdItem(), null) + "'><img alt='modify' title='" + ResourceUtils.getText("button.modify", lang) + "' src='/img/component/button/modify.png'/></a>" : ""), null);
 				c2 = HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2(), item.getLabelRel6());
 				c3 = "<a href='" + HtmlUtils.writeURL("/results", item.getIdRel2() + "-" + item.getIdRel3() + "-" + item.getIdRel4() + (item.getIdRel5() != null ? "-" + item.getIdRel5() : "") + (item.getIdRel18() != null ? "-" + item.getIdRel18() : ""), item.getLabelRel6() + "/" + item.getLabelRel7() + "/" + item.getLabelRel8() + (item.getIdRel5() != null ? "/" + item.getLabelRel9() : "") + (item.getIdRel18() != null ? "/" + item.getLabelRel10() : "")) + "'>" + (item.getLabelRel3() + "&nbsp;-&nbsp;" + item.getLabelRel4() + (item.getIdRel5() != null ? "&nbsp;-&nbsp;" + item.getLabelRel5() : "") + (item.getIdRel18() != null ? "&nbsp;-&nbsp;" + item.getLabelRel18() : "")) + "</a>";
-				c4 = StringUtils.toTextDate(item.getDate1(), lang, "d MMMM yyyy HH:mm");
+				if (item.getTxt1().equals("A"))
+					c4 = "<img style='vertical-align:middle;padding-bottom:2px;' alt='add' src='/img/project/adds.png'/>&nbsp;" + ResourceUtils.getText("co.add", lang);
+				else
+					c4 = "<img style='vertical-align:middle;padding-bottom:2px;' alt='update' src='/img/project/updates.png'/>&nbsp;" + ResourceUtils.getText("co.update", lang);
+				c5 = StringUtils.toTextDate(item.getDate1(), lang, "d MMMM yyyy HH:mm");
 			}
 			else if (en.equals(HallOfFame.alias)) {
 				Short cp = USLeaguesServlet.HLEAGUES.get(Short.valueOf(item.getIdRel3().toString()));
@@ -998,7 +1003,7 @@ public class HtmlConverter {
 			}
 			else if (en.equals(Olympics.alias)) {
 				c1 = HtmlUtils.writeLink(Olympics.alias, item.getIdItem(), HtmlUtils.writeImage(ImageUtils.INDEX_OLYMPICS, item.getIdItem(), ImageUtils.SIZE_SMALL, null, null), item.getLabelRel1() + " " + item.getLabelRel5());
-				c2 = ResourceUtils.getText("olympic.games", lang) + " (" + (item.getComment().equals("0") ? ResourceUtils.getText("summer", lang) : ResourceUtils.getText("winter", lang)) + ")";
+				c2 = ResourceUtils.getText("olympic.games", lang) + " (" + (item.getComment().equals("1") ? ResourceUtils.getText("summer", lang) : ResourceUtils.getText("winter", lang)) + ")";
 				c3 = HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1(), null);
 				c4 = HtmlUtils.writeLink(City.alias, item.getIdRel2(), item.getLabelRel2(), item.getLabelRel5());
 				c5 = (item.getIdRel4() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel4(), ImageUtils.SIZE_SMALL, item.getLabelRel1(), null), HtmlUtils.writeLink(Country.alias, item.getIdRel4(), item.getLabelRel4(), item.getLabelRel6())) : StringUtils.EMPTY);
@@ -1166,6 +1171,7 @@ public class HtmlConverter {
 			lIds.add(String.valueOf(bean.getRsId()));
 			if (rs == null)
 				rs = (Result) DatabaseHelper.loadEntity(Result.class, bean.getRsId());
+			isDouble = (bean.getRsComment() != null && bean.getRsComment().equals("#DOUBLE#") ? true : (type == 4));
 			boolean isTriple = (bean.getRsComment() != null && bean.getRsComment().equals("#TRIPLE#"));
 			List<Integer> tieList = getTieList(isDouble, isTriple, bean.getRsExa());
 			String sTieList = tieList.toString();
@@ -1196,7 +1202,7 @@ public class HtmlConverter {
 			tIsResult[4] |= (StringUtils.notEmpty(bean.getRsResult5()));
 			isDates |= StringUtils.notEmpty(bean.getRsDate2());
 			isPlace |= (bean.getCx1Id() != null || bean.getCx2Id() != null || bean.getCt2Id() != null || bean.getCt4Id() != null);
-			isComment |= StringUtils.notEmpty(bean.getRsComment());
+			isComment |= (StringUtils.notEmpty(bean.getRsComment()) && !bean.getRsComment().matches("\\#(DOUBLE|TRIPLE)\\#"));
 		}
 		//entityCount /= (isDouble ? 2 : 1);
 		tColspan[0] += (tIsEntityRel1[0] ? 1 : 0) + (tIsEntityRel2[0] ? 1 : 0);
@@ -1231,7 +1237,7 @@ public class HtmlConverter {
 			year = "<table><tr><td>" + year + "</td><td>&nbsp;" + HtmlUtils.writeLink(Result.alias, bean.getRsId(), "<img alt='details' title='" +  ResourceUtils.getText("details", lang) + " (" + bean.getYrLabel() + ")' src='/img/render/details.png'/>", bean.getYrLabel() + "/" + path) + "</td><td>" + (m != null ? "&nbsp;<a href='" + HtmlUtils.writeURL("/update", "RS-" + bean.getRsId(), null) + "'><img alt='modify' title='" + ResourceUtils.getText("button.modify", lang) + "' src='/img/component/button/modify.png'/></a>" : "") + "</td></tr></table>";
 			String dates = (StringUtils.notEmpty(bean.getRsDate1()) ? StringUtils.toTextDate(bean.getRsDate1(), lang, "d MMM yyyy") + "<br/>" : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? StringUtils.toTextDate(bean.getRsDate2(), lang, "d MMM yyyy") : "");
 			String place1 = null, place2 = null;
-			String comment = (StringUtils.notEmpty(bean.getRsComment()) ? bean.getRsComment().replaceAll("\\|", "<br/>") : null);
+			String comment = (StringUtils.notEmpty(bean.getRsComment()) && !bean.getRsComment().matches("\\#(DOUBLE|TRIPLE)\\#") ? bean.getRsComment().replaceAll("\\|", "<br/>") : null);
 			boolean isResultEmpty = (bean.getRsRank1() == null && bean.getRsRank2() == null && bean.getRsRank3() == null && bean.getRsRank4() == null && bean.getRsRank5() == null);
 			List<StringBuffer> plist = mpl.get(bean.getRsId());
 			if (bean.getCx1Id() != null)
@@ -1243,6 +1249,7 @@ public class HtmlConverter {
 			else if (bean.getCt4Id() != null)
 				place2 = getPlace(null, bean.getCt4Id(), bean.getSt4Id(), bean.getCn4Id(), null, bean.getCt4Label(), bean.getSt4Code(), bean.getCn4Code(), null, bean.getCt4LabelEN(), bean.getSt4LabelEN(), bean.getCn4LabelEN(), bean.getYrLabel());				
 			boolean isTriple = (bean.getRsComment() != null && bean.getRsComment().equals("#TRIPLE#"));
+			isDouble = (bean.getRsComment() != null && bean.getRsComment().equals("#DOUBLE#") ? true : (type == 4));
 			List<Integer> tieList = getTieList(isDouble, isTriple, bean.getRsExa());
 			String[] tEntity = {null, null, null, null, null, null, null, null, null};
 			String[] tEntityRel = {null, null, null, null, null, null, null, null, null};

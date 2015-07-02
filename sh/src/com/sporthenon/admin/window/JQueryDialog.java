@@ -53,6 +53,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 		QUERIES.add("SELECT SP.label AS SPORT, CP.label AS CHAMPIONSHIP, EV.label AS EVENT, SE.label AS SUBEVENT, SE2.label AS SUBEVENT2, YR.label AS YEAR\r\nFROM (SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM \"RESULT\" EXCEPT SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM \"RESULT\" WHERE id_year = (SELECT id FROM \"YEAR\" WHERE label = '#YEAR#')) T\r\nLEFT JOIN \"SPORT\" SP ON T.id_sport = SP.id\r\nLEFT JOIN \"CHAMPIONSHIP\" CP ON T.id_championship = CP.id LEFT JOIN \"EVENT\" EV ON T.id_event = EV.id\r\nLEFT JOIN \"EVENT\" SE ON T.id_subevent = SE.id LEFT JOIN \"EVENT\" SE2 ON T.id_subevent2 = SE2.id LEFT JOIN \"YEAR\" YR ON YR.label = '#YEAR#'\r\nLEFT JOIN \"~INACTIVE_ITEM\" II ON (T.id_sport=II.id_sport AND T.id_championship=II.id_championship AND T.id_event=II.id_event AND (T.id_subevent IS NULL OR T.id_subevent=II.id_subevent) AND (T.id_subevent2 IS NULL OR T.id_subevent2=II.id_subevent2))\r\nWHERE 1=1 AND #WHERE# AND II.id IS NULL\r\nORDER BY SP.label, CP.index, CP.label, EV.index, EV.label, SE.index, SE.label, SE2.index, SE2.label");
 		QUERIES.add("SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2, SP.label AS label1, CP.label AS label2, EV.label AS label3, SE.label AS label4, SE2.label AS label5 FROM \"RESULT\" RS LEFT JOIN \"SPORT\" SP ON RS.id_sport=SP.id LEFT JOIN \"CHAMPIONSHIP\" CP ON RS.id_championship=CP.id LEFT JOIN \"EVENT\" EV ON RS.id_event=EV.id LEFT JOIN \"EVENT\" SE ON RS.id_subevent=SE.id LEFT JOIN \"EVENT\" SE2 ON RS.id_subevent2=SE2.id ORDER BY SP.label, CP.label, EV.label, SE.label, SE2.label");
 		QUERIES.add("SELECT * FROM (SELECT 'CP', ID, LABEL FROM \"CHAMPIONSHIP\" WHERE LABEL=LABEL_FR UNION SELECT 'CT', ID, LABEL FROM \"CITY\" WHERE LABEL=LABEL_FR UNION SELECT 'CX', ID, LABEL FROM \"COMPLEX\" WHERE LABEL=LABEL_FR UNION SELECT 'CN', ID, LABEL FROM \"COUNTRY\" WHERE LABEL=LABEL_FR UNION SELECT 'EV', ID, LABEL FROM \"EVENT\" WHERE LABEL=LABEL_FR UNION SELECT 'SP', ID, LABEL FROM \"SPORT\" WHERE LABEL=LABEL_FR ) T ORDER BY 1,2");
+		QUERIES.add("SELECT DISTINCT SP.label || '-' || CP.label || '-' || EV.label || (CASE WHEN SE.id IS NOT NULL THEN '-' || SE.label ELSE '' END) || (CASE WHEN SE2.id IS NOT NULL THEN '-' || SE2.label ELSE '' END), COUNT(*) AS N FROM \"RESULT\" RS LEFT JOIN \"SPORT\" SP ON RS.id_sport=SP.id LEFT JOIN \"CHAMPIONSHIP\" CP ON RS.id_championship=CP.id LEFT JOIN \"EVENT\" EV ON RS.id_event=EV.id LEFT JOIN \"EVENT\" SE ON RS.id_subevent=SE.id LEFT JOIN \"EVENT\" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN \"~INACTIVE_ITEM\" II ON (RS.id_sport = II.id_sport AND RS.id_championship = II.id_championship AND RS.id_event = II.id_event AND (RS.id_subevent = II.id_subevent OR RS.id_subevent IS NULL) AND (RS.id_subevent2 = II.id_subevent2 OR RS.id_subevent2 IS NULL)) WHERE II.id IS NULL GROUP BY 1 HAVING COUNT(*)<5 ORDER BY 2, 1");
 	}
 	
 	public JQueryDialog(JFrame owner) {
@@ -119,7 +120,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 	}
 	
 	private JPanel getButtonPanel() {
-		JPanel p = new JPanel(new GridLayout(3, 2));
+		JPanel p = new JPanel(new GridLayout(4, 2));
 		p.setBorder(BorderFactory.createTitledBorder(null, "Useful Queries", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 
 		JButton jButton = new JButton("Duplicate Athletes by Sport");
@@ -149,6 +150,11 @@ public class JQueryDialog extends JDialog implements ActionListener {
 		
 		jButton = new JButton("Untranslated items");
 		jButton.setActionCommand("query4");
+		jButton.addActionListener(this);
+		p.add(jButton);
+		
+		jButton = new JButton("Incomplete event results");
+		jButton.setActionCommand("query5");
 		jButton.addActionListener(this);
 		p.add(jButton);
 		

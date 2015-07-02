@@ -36,6 +36,7 @@ import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.Type;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
+import com.sporthenon.db.entity.meta.Contribution;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.Metadata;
@@ -201,27 +202,44 @@ public class DatabaseHelper {
 	public static Object saveEntity(Object o, Contributor m) throws Exception {
 		UserTransaction tr = null;
 		EntityManager em = null;
+		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+		boolean isAdd = true;
+		Object id = null;
 		try {
 			em = getEntityManager();
 			tr = getTransaction();
 			if (tr != null) tr.begin(); else em.getTransaction().begin();
 			try {
+				id = o.getClass().getMethod("getId").invoke(o);
+				isAdd = (id == null);
 				if (m != null) {
-					Object id = o.getClass().getMethod("getId").invoke(o);
 					Metadata md = null;
-					if (id == null) {
+					if (isAdd) {
 						md = new Metadata();
-						md.setFirstUpdate(new Timestamp(System.currentTimeMillis()));
+						md.setFirstUpdate(currentDate);
 					}
 					else
 						md = (Metadata) o.getClass().getMethod("getMetadata").invoke(o);
 					md.setContributor(m);		
-					md.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+					md.setLastUpdate(currentDate);
 					o.getClass().getMethod("setMetadata", Metadata.class).invoke(o, md);
 				}
 			}
 			catch (NoSuchMethodException e) {}
 			o = em.merge(o);
+			// Contribution
+			if (o instanceof Result && m != null) {
+				try {
+					id = o.getClass().getMethod("getId").invoke(o);
+					Contribution co = new Contribution();
+					co.setIdItem(new Integer(String.valueOf(id)));
+					co.setIdMember(m.getId());
+					co.setType(isAdd ? 'A' : 'U');
+					co.setDate(currentDate);
+					em.persist(co);
+				}
+				catch (NoSuchMethodException e) {}
+			}
 			if (tr != null) {em.flush(); tr.commit();} else em.getTransaction().commit();
 			return o;
 		}

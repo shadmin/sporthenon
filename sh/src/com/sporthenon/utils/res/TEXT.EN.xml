@@ -337,4 +337,9 @@
 	<entry key="result.score">Result/Score</entry>
 	<entry key="result.created">Result created.</entry>
 	<entry key="result.modified">Result modified.</entry>
+	<entry key="co.add">Add</entry>
+	<entry key="co.update">Update</entry>
+	<entry key="co.adds">Adds</entry>
+	<entry key="co.updates">Updates</entry>
+	
 </properties>
