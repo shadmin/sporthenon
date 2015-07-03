@@ -2,7 +2,7 @@
 <%@ page import="com.sporthenon.utils.ConfigUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
-<div class="tc" style="border:none;text-align:left;">${html}</div>
+<div class="tc" style="border:none;text-align:left;">${html}<br/><a id="errorlink" href="javascript:displayErrorReport();"><%=StringUtils.text("report.error", session) %></a></div>
 <script type="text/javascript"><!--
 window.onload = function() {
 	if ('<%=request.getParameter("print")%>' != 'null') {

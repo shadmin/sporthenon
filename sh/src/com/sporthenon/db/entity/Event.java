@@ -24,10 +24,10 @@ public class Event {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_event")
 	private Integer id;
 	
-	@Column(name = "label", length = 45, nullable = false)
+	@Column(name = "label", length = 50, nullable = false)
 	private String label;
 	
-	@Column(name = "label_fr", length = 45, nullable = false)
+	@Column(name = "label_fr", length = 50, nullable = false)
 	private String labelFR;
 	
 	@Column(name = "index")

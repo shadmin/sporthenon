@@ -398,6 +398,7 @@ function closeDialog(dlg) {
 	$('header').setStyle({ opacity: 1.0 });
 	$('content').setStyle({ opacity: 1.0 });
 }
+var dError = null;
 var dLink = null;
 var dInfo = null;
 var dDataTip = null;
@@ -436,6 +437,14 @@ function exportPage(type) {
 function displayExport() {
 	$('exportopt').show();
 }
+function displayErrorReport() {
+	$('header').setStyle({ opacity: 0.4 });
+	$('content').setStyle({ opacity: 0.4 });
+	$('errlinkurl').value = window.location.href;
+	$('errlinktext').value = '';
+	dError.open();
+	$('errlinktext').focus();
+}
 function displayLink() {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	if (dLink && url) {
@@ -465,6 +474,13 @@ function printCurrentTab() {
 	if (url) {
 		window.open(url + '?print', '_blank');
 	}
+}
+function saveError() {
+	new Ajax.Request('/IndexServlet?error=1&url=' + escape($F('errlinkurl')) + '&text=' + escape($F('errlinktext')), {
+		onSuccess: function(response){
+		}
+	});
+	closeDialog(dError);
 }
 /*============================
   ========== SLIDER ========== 

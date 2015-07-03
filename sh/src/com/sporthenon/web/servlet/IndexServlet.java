@@ -1,6 +1,7 @@
 package com.sporthenon.web.servlet;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Sport;
+import com.sporthenon.db.entity.meta.ErrorReport;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
@@ -43,7 +45,14 @@ private static final long serialVersionUID = 1L;
 			}
 			if (hParams.containsKey("lang")) { // Language
 		        request.getSession().setAttribute("locale", String.valueOf(hParams.get("value")));
-			}	
+			}
+			else if (hParams.containsKey("error")) { // Error Report
+				ErrorReport er = new ErrorReport();
+				er.setUrl(String.valueOf(hParams.get("url")));
+				er.setText(String.valueOf(hParams.get("text")));
+				er.setDate(new Timestamp(System.currentTimeMillis()));
+				DatabaseHelper.saveEntity(er, null);
+			}
 			else if (hParams.containsKey("lastupdates")) { // Last Updates
 		        ArrayList<Object> lParams = new ArrayList<Object>();
 		        Integer count = new Integer(String.valueOf(hParams.get("count")));

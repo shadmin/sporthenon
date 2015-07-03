@@ -1,5 +1,13 @@
 <%@ page language="java"%>
 <%@ page import="com.sporthenon.utils.StringUtils" %>
+<!-- REPORT ERROR -->
+<div id="d-error" class="dialog" style="display:none;">
+<div class="fieldset">
+	<div class="fstitle"><%=StringUtils.text("report.error", session).toUpperCase()%></div>
+	<div class="fscontent"><input id="errlinkurl" disabled="disabled" style="width:650px;"/><br/><textarea id="errlinktext" rows="10" cols="80" style="width:650px;margin-top:5px;"></textarea></div>
+	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="saveError();"/><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dError);"/></div>
+</div>
+</div>
 <!-- LINK -->
 <div id="d-link" class="dialog" style="display:none;">
 <div class="fieldset">
@@ -35,6 +43,7 @@
 </div>
 </div>
 <script type="text/javascript">
+dError = new Control.Modal($('d-error'),{ closeOnClick: false, fade: false });
 dLink = new Control.Modal($('d-link'),{ closeOnClick: false, fade: false });
 dInfo = new Control.Modal($('d-info'),{ closeOnClick: false, fade: false });
 dDataTip = new Control.Modal($('d-data'),{ closeOnClick: false, fade: false });

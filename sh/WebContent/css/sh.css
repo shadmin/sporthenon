@@ -126,6 +126,10 @@ input{
 .criteria{
 	background-image: url(../img/db/criteria.png?5);
 }
+#errorlink{
+	float: left;
+	font-size: 11px;
+}
 /*=================================
   ========== HEADER/MENU ========== 
   =================================*/
@@ -1215,6 +1219,9 @@ input{
 .dialog .fstitle {
 	background-color: #005090;
 	color: #FFF;
+}
+#d-error .fstitle{
+	background-image: url(../img/project/error.png?5);
 }
 #d-link .fstitle{
 	background-image: url(../img/component/button/link.png?5);
