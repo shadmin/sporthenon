@@ -1061,12 +1061,12 @@ function changeLeague(id, srcsl) {
 		$('nfl').removeClassName('selected');$('nba').removeClassName('selected');$('nhl').removeClassName('selected');$('mlb').removeClassName('selected');$(id).addClassName('selected');
 		var league = (id == 'nfl' ? 1 : (id == 'nba' ? 2 : (id == 'nhl' ? 3 : 4)));
 		var url = '/USLeaguesServlet?league=' + league;
-		new Ajax.Request(url + '&pl-hof-yr', { onSuccess: fillPicklistXML });
-		new Ajax.Request(url + '&pl-championships-yr', { onSuccess: fillPicklistXML });
-		new Ajax.Request(url + '&pl-retnum-tm', { onSuccess: fillPicklistXML });
-		new Ajax.Request(url + '&pl-teamstadiums-tm', { onSuccess: fillPicklistXML });
-		new Ajax.Request(url + '&pl-winloss-tm', { onSuccess: fillPicklistXML });
-		new Ajax.Request(url + '&pl-records-se', { onSuccess: fillPicklistXML });
+		$('pl-hof-yr').update(tHofYr[league]);
+		$('pl-championships-yr').update(tChampYr[league]);
+		$('pl-retnum-tm').update(tTm[league]);
+		$('pl-teamstadiums-tm').update(tTm[league]);
+		$('pl-winloss-tm').update(tTm[league]);
+		$('pl-records-se').update(tRcSe[league]);
 		$('hof-position').value = '';
 		$('hof-postip').title = tPos[league];
 		$('retnum-number').value = '';
@@ -1123,7 +1123,7 @@ function resetUSLeagues() {
   ========== SEARCH ========== 
   ============================*/
 function dpatternFocus() {
-	if ($F('dpattern') == TX_SEARCH) {
+	if ($F('dpattern') == TX_SEARCH2) {
 		$('dpattern').addClassName('focus');
 		$('dpattern').value = '';
 	}
@@ -1134,7 +1134,7 @@ function dpatternFocus() {
 function dpatternBlur() {
 	if ($F('dpattern') == '') {
 		$('dpattern').removeClassName('focus');
-		$('dpattern').value = TX_SEARCH;
+		$('dpattern').value = TX_SEARCH2;
 	}
 	$$('#content .selmultiple').each(function(el){
 		$(el).style.visibility = 'visible';
@@ -1525,6 +1525,33 @@ function loadDataDialog(type) {
 var rkList = null;
 var pListIndex = null;
 var pListCount = 10;
+function setPLInput(id) {
+	Event.stopObserving($(id), 'blur');
+	Event.stopObserving($(id), 'keydown');
+	new Ajax.Autocompleter(
+		id,
+		'ajaxsearch2',
+		'/update/ajax/pr' + (tValues['sp'] != null ? '-' + tValues['sp'] : ''),
+		{ paramName: 'value', minChars: 2, frequency: 0.05, afterUpdateElement: setValue}
+	);
+	if ($(id).value == '') {
+		$(id).value = $(id).name;	
+	}
+	$(id).addClassName('default');
+	Event.observe($(id), 'focus', function(){
+		if ($(this).value == $(this).name) {
+			$(this).value = '';
+		}
+	});
+	Event.observe($(id), 'blur', function(){
+		if ($(this).value == '') {
+			$(this).value = $(this).name;
+		}
+		else if ($(this).value != $(this).name && !$(this).hasClassName('completed')) {
+			$(this).addClassName('completed2');
+		}
+	});
+}
 function initPersonList(index) {
 	var html = [];
 	var t = (rkList ? rkList.split('#') : null);
@@ -1545,32 +1572,8 @@ function initPersonList(index) {
 		html.push('<tr><td><input type="text" id="plist' + i + '" tabindex="' + (100000 + i) + '" name="Name #' + i + '" class="' + (pid != null ? 'completed' : '') + '" value="' + ptxt + '"/><a href="javascript:clearValue(\'plist' + i + '\');">[X]</a></td></tr>');	
 	}
 	$('plist').update('<table>' + html.join('') + '</table>');
-	$$('#plist input').each(function(s){
-		Event.stopObserving($(s), 'blur');
-		Event.stopObserving($(s), 'keydown');
-		new Ajax.Autocompleter(
-			s,
-			'ajaxsearch2',
-			'/update/ajax/pr' + (tValues['sp'] != null ? '-' + tValues['sp'] : ''),
-			{ paramName: 'value', minChars: 2, frequency: 0.05, afterUpdateElement: setValue}
-		);
-		if ($(s).value == '') {
-			$(s).value = $(s).name;	
-		}
-		$(s).addClassName('default');
-		Event.observe($(s), 'focus', function(){
-			if ($(this).value == $(this).name) {
-				$(this).value = '';
-			}
-		});
-		Event.observe($(s), 'blur', function(){
-			if ($(this).value == '') {
-				$(this).value = $(this).name;
-			}
-			else if ($(this).value != $(this).name && !$(this).hasClassName('completed')) {
-				$(this).addClassName('completed2');
-			}
-		});
+	$$('#plist input').each(function(id){
+		setPLInput(id);
 	});
 	pListIndex = index;
 	dPersonList.open();
@@ -1584,4 +1587,11 @@ function savePersonList() {
 	}
 	tValues['rk' + pListIndex + 'list'] = t.join('|');
 	dPersonList.close();
+}
+function addPersonList() {
+	for (var i = pListCount + 1 ; i <= pListCount + 10 ; i++) {
+		$$('#plist table')[0].insert('<tr><td><input type="text" id="plist' + i + '" tabindex="' + (100000 + i) + '" name="Name #' + i + '"/><a href="javascript:clearValue(\'plist' + i + '\');">[X]</a></td></tr>');
+		setPLInput('plist' + i);
+	}
+	pListCount += 10;
 }

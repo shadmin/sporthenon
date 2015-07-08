@@ -7,7 +7,9 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -34,6 +36,8 @@ import com.sporthenon.db.PicklistBean;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Sport;
+import com.sporthenon.db.entity.meta.FolderHistory;
+import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
 
 public class JEditFolderDialog extends JDialog implements ActionListener {
@@ -48,6 +52,8 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 	private JEntityPicklist jCategory3 = null;
 	private JEntityPicklist jCategory4 = null;
 	private JCheckBox jAutoSubevent = null;
+	private JCheckBox jClearSubevent = null;
+	private JCheckBox jClearSubevent2 = null;
 	private JResultsPanel parent;
 	
 	public JEditFolderDialog(JFrame owner) {
@@ -58,7 +64,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 	private void initialize() {
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(870, 560));
+		this.setPreferredSize(new Dimension(870, 570));
 		this.setSize(this.getPreferredSize());
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
@@ -118,8 +124,8 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 	}
 	
 	private JPanel getEditPanel() {
-		JPanel jEditPanel = new JPanel(new GridLayout(6, 2, 0, 0));
-		jEditPanel.setPreferredSize(new Dimension(830, 170));
+		JPanel jEditPanel = new JPanel(new GridLayout(7, 2, 0, 0));
+		jEditPanel.setPreferredSize(new Dimension(835, 180));
 		jEditPanel.setBorder(BorderFactory.createTitledBorder(null, "Folder Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 		
 		JLabel lSport = new JLabel(" Sport:");
@@ -151,6 +157,11 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 		jEditPanel.add(new JLabel(), null);
 		jEditPanel.add(jAutoSubevent, null);
 		
+		jClearSubevent = new JCheckBox("Clear subevent");
+		jEditPanel.add(jClearSubevent, null);
+		jClearSubevent2 = new JCheckBox("Clear subevent2");
+		jEditPanel.add(jClearSubevent2, null);
+		
 		return jEditPanel;
 	}
 
@@ -176,6 +187,9 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 		model2.clear();
 		for (PicklistBean plb : list_)
 			model2.addElement(plb);
+		jAutoSubevent.setSelected(false);
+		jClearSubevent.setSelected(false);
+		jClearSubevent2.setSelected(false);
 		this.setTitle("Edit Folders");
 		this.setVisible(true);
 	}
@@ -233,9 +247,14 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 					sql_.append(", id_subevent=" + c3);
 				if (c4 != null && c4 > 0)
 					sql_.append(", id_subevent2=" + c4);
+				if (jClearSubevent.isSelected())
+					sql_.append(", id_subevent=NULL");
+				if (jClearSubevent2.isSelected())
+					sql_.append(", id_subevent2=NULL");
 				DefaultListModel model = (DefaultListModel)jList2.getModel();
 				for (int i = 0 ; i < model.getSize() ; i++) {
-					String[] t = String.valueOf(((PicklistBean) model.getElementAt(i)).getParam()).split("\\,");
+					PicklistBean plb = (PicklistBean) model.getElementAt(i);
+					String[] t = String.valueOf(plb.getParam()).split("\\,");
 					StringBuffer sql = new StringBuffer(sql_);
 					if (jAutoSubevent.isSelected()) {
 						if (t.length == 3 && (c3 == null || c3 == 0))
@@ -254,6 +273,26 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 						sql.append(" AND id_subevent2=" + t[4]);
 					DatabaseHelper.executeUpdate(sql.toString());
 					DatabaseHelper.executeUpdate(sql.toString().replaceAll("RESULT", "~INACTIVE_ITEM"));
+					// Keep previous path in folders history (for redirection)
+					String currentParams = sp + (c1 != null && c1 > 0 ? "-" + c1 : "") + (c2 != null && c2 > 0 ? "-" + c2 : "") + (c3 != null && c3 > 0 ? "-" + c3 : "") + (c4 != null && c4 > 0 ? "-" + c4 : "");
+					String currentPath = SwingUtils.getText(jSport) + (c1 != null && c1 > 0 ? "/" + SwingUtils.getText(jCategory1) : "") + (c2 != null && c2 > 0 ? "/" + SwingUtils.getText(jCategory2).replaceAll("\\s\\[.+$", "") : "") + (c3 != null && c3 > 0 ? "/" + SwingUtils.getText(jCategory3).replaceAll("\\s\\[.+$", "") : "") + (c4 != null && c4 > 0 ? "/" + SwingUtils.getText(jCategory4).replaceAll("\\s\\[.+$", "") : "");
+					if (jAutoSubevent.isSelected()) {
+						String[] t_ = plb.getText().split("\\s\\|\\s");
+						if (t.length == 3 && (c3 == null || c3 == 0)) {
+							currentParams += "-" + t[2];
+							currentPath += "/" + t_[2];
+						}
+						else if (t.length == 4 && (c4 == null || c4 == 0)) {
+							currentParams += "-" + t[3];
+							currentPath += "/" + t_[3];
+						}
+					}
+					FolderHistory fh = new FolderHistory();
+					fh.setPreviousParams(StringUtils.implode(Arrays.asList(t),"-"));
+					fh.setCurrentParams(currentParams);
+					fh.setCurrentPath(currentPath);
+					fh.setDate(new Timestamp(System.currentTimeMillis()));
+					DatabaseHelper.saveEntity(fh, null);
 				}
 				DatabaseHelper.executeUpdate("ALTER TABLE \"RESULT\" ENABLE TRIGGER trigger_rs;");
 				msg = "Folders have been updated successfully.";

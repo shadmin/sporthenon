@@ -38,6 +38,9 @@ public class City {
 	@JoinColumn(name = "id_state")
 	private State state;
 	
+	@Column(name = "link")
+	private Integer link;
+	
 	@Column(name = "ref")
 	private Integer ref;
 	
@@ -96,6 +99,14 @@ public class City {
 		return (lang != null && lang.equalsIgnoreCase("fr") ? labelFR : label);
 	}
 	
+	public Integer getLink() {
+		return link;
+	}
+
+	public void setLink(Integer link) {
+		this.link = link;
+	}
+
 	public Integer getRef() {
 		return ref;
 	}

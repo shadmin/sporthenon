@@ -324,7 +324,7 @@ public class JMainFrame extends JFrame {
 					while (a.getLink() != null && a.getLink() > 0)
 						a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, a.getLink());
 					en.setLink(a.getId());
-					p.setLinkLabel("Linked to: [" + a.getLastName() + (StringUtils.notEmpty(a.getFirstName()) ? ", " + a.getFirstName() : "") + (a.getCountry() != null ? ", " + a.getCountry().getCode() : "") + (a.getTeam() != null ? ", " + a.getTeam().getLabel() : "") + "]");
+					p.setLinkLabel(" Linked to: [" + a.getLastName() + (StringUtils.notEmpty(a.getFirstName()) ? ", " + a.getFirstName() : "") + (a.getCountry() != null ? ", " + a.getCountry().getCode() : "") + (a.getTeam() != null ? ", " + a.getTeam().getLabel() : "") + "]");
 					DatabaseHelper.executeUpdate("UPDATE \"PERSON\" SET LINK=0 WHERE ID=" + en.getLink());
 				}
 				catch (Exception e) {
@@ -347,7 +347,21 @@ public class JMainFrame extends JFrame {
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setState((State)DatabaseHelper.loadEntity(State.class, SwingUtils.getValue(p.getState())));
 			en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
+			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
 			plb.setText(en.getLabel() + ", " + en.getCountry().getCode());
+			if (en.getLink() != null && en.getLink() > 0) {
+				try {
+					City c_ = (City) DatabaseHelper.loadEntity(City.class, en.getLink());
+					while (c_.getLink() != null && c_.getLink() > 0)
+						c_ = (City) DatabaseHelper.loadEntity(City.class, c_.getLink());
+					en.setLink(c_.getId());
+					p.setLinkLabel(" Linked to: [" + c_.toString2() + "]");
+					DatabaseHelper.executeUpdate("UPDATE \"CITY\" SET LINK=0 WHERE ID=" + en.getLink());
+				}
+				catch (Exception e) {
+					Logger.getLogger("sh").error(e.getMessage());
+				}
+			}
 		}
 		else if (alias.equalsIgnoreCase(Complex.alias)) {
 			JComplexPanel p = (JComplexPanel) jEntityPanels.get(alias);
@@ -355,7 +369,21 @@ public class JMainFrame extends JFrame {
 			en.setLabel(p.getLabel().getText());
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setCity((City)DatabaseHelper.loadEntity(City.class, SwingUtils.getValue(p.getCity())));
+			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
 			plb.setText(en.getLabel() + " [" + en.getCity().getLabel() + ", " + en.getCity().getCountry().getCode() + "]");
+			if (en.getLink() != null && en.getLink() > 0) {
+				try {
+					Complex c_ = (Complex) DatabaseHelper.loadEntity(Complex.class, en.getLink());
+					while (c_.getLink() != null && c_.getLink() > 0)
+						c_ = (Complex) DatabaseHelper.loadEntity(Complex.class, c_.getLink());
+					en.setLink(c_.getId());
+					p.setLinkLabel(" Linked to: [" + c_.toString2() + "]");
+					DatabaseHelper.executeUpdate("UPDATE \"COMPLEX\" SET LINK=0 WHERE ID=" + en.getLink());
+				}
+				catch (Exception e) {
+					Logger.getLogger("sh").error(e.getMessage());
+				}
+			}
 		}
 		else if (alias.equalsIgnoreCase(Country.alias)) {
 			JCountryPanel p = (JCountryPanel) jEntityPanels.get(alias);
@@ -427,7 +455,7 @@ public class JMainFrame extends JFrame {
 					while (t.getLink() != null && t.getLink() > 0)
 						t = (Team) DatabaseHelper.loadEntity(Team.class, t.getLink());
 					en.setLink(t.getId());
-					p.setLinkLabel("Linked to: [" + t.getLabel() + "]");
+					p.setLinkLabel(" Linked to: [" + t.getLabel() + "]");
 					DatabaseHelper.executeUpdate("UPDATE \"TEAM\" SET LINK=0 WHERE ID=" + en.getLink());
 				}
 				catch (Exception e) {

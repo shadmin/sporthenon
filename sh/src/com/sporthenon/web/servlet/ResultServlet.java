@@ -14,6 +14,8 @@ import com.sporthenon.db.PicklistBean;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
+import com.sporthenon.db.entity.meta.FolderHistory;
+import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
@@ -59,22 +61,34 @@ public class ResultServlet extends AbstractServlet {
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("se2")) ? new Integer(String.valueOf(hParams.get("se2"))) : 0);
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("yr")) ? String.valueOf(hParams.get("yr")) : "0");
 				lFuncParams.add("_" + getLocale(request));
-				Championship oCp = (Championship) DatabaseHelper.loadEntity(Championship.class, new Integer(String.valueOf(lFuncParams.get(1))));
-				Event oEv = (Event) DatabaseHelper.loadEntity(Event.class, new Integer(!String.valueOf(lFuncParams.get(4)).equals("0") ? String.valueOf(lFuncParams.get(4)) : (!String.valueOf(lFuncParams.get(3)).equals("0") ? String.valueOf(lFuncParams.get(3)) : String.valueOf(lFuncParams.get(2)))));
-				StringBuffer html = new StringBuffer();
-				html.append(HtmlConverter.getHeader(HtmlConverter.HEADER_RESULTS, lFuncParams, getUser(request), getLocale(request)));
-				html.append(HtmlConverter.convertResults(DatabaseHelper.call("GetResults", lFuncParams), oCp, oEv, getUser(request), getLocale(request)));
-				if (isLink) {
-					HtmlUtils.setTitle(request, html.toString());
-					if (hParams.containsKey("export"))
-						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
-					else {
-						request.setAttribute("menu", "results");
-						ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
+				Collection c = DatabaseHelper.call("GetResults", lFuncParams);
+				boolean isRedirect = false;
+				if (c == null || c.isEmpty()) { // Check in folders history
+					FolderHistory fh = (FolderHistory) DatabaseHelper.loadEntityFromQuery("from FolderHistory where previous_params='" + lFuncParams.get(0) + "-" + lFuncParams.get(1) + "-" + lFuncParams.get(2) + (!lFuncParams.get(3).equals(0) ? "-" + lFuncParams.get(3) : "") + (!lFuncParams.get(4).equals(0) ? "-" + lFuncParams.get(4) : "") + "' order by id");
+					if (fh != null) {
+						isRedirect = true;
+						response.sendRedirect(ConfigUtils.getProperty("url") + "results/" + StringUtils.urlEscape(fh.getCurrentPath()) + "/" + StringUtils.encode(fh.getCurrentParams()));
 					}
 				}
-				else
-					ServletHelper.writeTabHtml(response, html.append(isLink ? "</div>" : ""), getLocale(request));
+				if (!isRedirect) {
+					Championship oCp = (Championship) DatabaseHelper.loadEntity(Championship.class, new Integer(String.valueOf(lFuncParams.get(1))));
+					Event oEv = (Event) DatabaseHelper.loadEntity(Event.class, new Integer(!String.valueOf(lFuncParams.get(4)).equals("0") ? String.valueOf(lFuncParams.get(4)) : (!String.valueOf(lFuncParams.get(3)).equals("0") ? String.valueOf(lFuncParams.get(3)) : String.valueOf(lFuncParams.get(2)))));
+					StringBuffer html = new StringBuffer();
+					html.append(HtmlConverter.getHeader(HtmlConverter.HEADER_RESULTS, lFuncParams, getUser(request), getLocale(request)));
+					html.append(HtmlConverter.convertResults(c, oCp, oEv, getUser(request), getLocale(request)));
+
+					if (isLink) {
+						HtmlUtils.setTitle(request, html.toString());
+						if (hParams.containsKey("export"))
+							ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
+						else {
+							request.setAttribute("menu", "results");
+							ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
+						}
+					}
+					else
+						ServletHelper.writeTabHtml(response, html.append(isLink ? "</div>" : ""), getLocale(request));
+				}
 			}
 			else { // Picklists
 				Collection<PicklistBean> cPicklist = new ArrayList<PicklistBean>();

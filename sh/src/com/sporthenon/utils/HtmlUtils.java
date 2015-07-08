@@ -11,13 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Athlete;
-import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Result;
-import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.RefItem;
-import com.sporthenon.db.function.WinRecordsBean;
 import com.sporthenon.utils.res.ResourceUtils;
 
 public class HtmlUtils {
@@ -41,12 +38,15 @@ public class HtmlUtils {
 				boolean isInclude = true;
 				if (StringUtils.notEmpty(year)) {
 					String[] t = s.replaceAll("^" + name + "(\\_|)|(gif|png)$|(\\_\\d+|)\\.", "").split("\\-");
-					if (t.length > 1) {
-						Integer y = Integer.parseInt(year.contains("-") || year.contains("/") ? year.substring(year.length() - 4) : year);
-						Integer y1 = Integer.parseInt(t[0].equalsIgnoreCase("X") ? "0" : t[0]);
-						Integer y2 = Integer.parseInt(t[1].equalsIgnoreCase("X") ? "5000" : t[1]);
-						isInclude = (y >= y1 && y <= y2);
+					try {
+						if (t.length > 1) {
+							Integer y = Integer.parseInt(year.contains("-") || year.contains("/") ? year.substring(year.length() - 4) : year);
+							Integer y1 = Integer.parseInt(t[0].equalsIgnoreCase("X") ? "0" : t[0]);
+							Integer y2 = Integer.parseInt(t[1].equalsIgnoreCase("X") ? "5000" : t[1]);
+							isInclude = (y >= y1 && y <= y2);
+						}
 					}
+					catch (NumberFormatException e) {}
 				}
 				else
 					isInclude = !s.matches(".*\\d{4}\\-\\d{4}\\.(gif|png)$");
@@ -82,7 +82,7 @@ public class HtmlUtils {
 			html.append("<a href='").append(url).append("'");
 			if (alias.equals(Athlete.alias) && StringUtils.notEmpty(text2) && !text1.toLowerCase().equals(text2.toLowerCase()))
 				html.append(" title=\"" + text2 + "\"");
-			html.append(">" + (!text1.startsWith("<") ? text1.replaceAll("\\s", "&nbsp;").replaceAll("\\-", "&#8209;") : text1) + "</a>");
+			html.append(">" + (!text1.startsWith("<") ? text1.replaceAll("\\s", "&nbsp;")/*.replaceAll("\\-", "&#8209;")*/ : text1) + "</a>");
 		}
 		else
 			html.append(ConfigUtils.getProperty("url") + url.toString().substring(1));
@@ -126,7 +126,7 @@ public class HtmlUtils {
 		html.append("<div class='toolbar'>");
 		html.append("<table><tr>");
 		final String SHARE_OPTIONS = "<div id='shareopt' class='baroptions' style='display:none;'><table><tr><td onclick='share(\"fb\");' class='fb'>Facebook</td></tr><tr><td onclick='share(\"tw\");' class='tw'>Twitter</td></tr><tr><td onclick='share(\"gp\");' class='gp'>Google+</td></tr><tr><td onclick='share(\"bg\");' class='bg'>Blogger</td></tr><tr><td onclick='share(\"tm\");' class='tm'>Tumblr</td></tr></table><div><a href='javascript:$(\"shareopt\").hide();'>" + ResourceUtils.getText("cancel", lang) + "</a></div></div>";
-		final String EXPORT_OPTIONS = "<div id='exportopt' class='baroptions' style='display:none;'><table><tr><td onclick='exportPage(\"html\");' class='html'>" + ResourceUtils.getText("web.page", lang) + "</td></tr><tr><td onclick='exportPage(\"excel\");' class='excel'>" + ResourceUtils.getText("excel.sheet", lang) + "</td></tr><tr><td onclick='exportPage(\"text\");' class='text'>" + ResourceUtils.getText("plain.text", lang) + "</td></tr></table><div><a href='javascript:$(\"exportopt\").hide();'>" + ResourceUtils.getText("cancel", lang) + "</a></div></div>";
+		final String EXPORT_OPTIONS = "<div id='exportopt' class='baroptions' style='display:none;'><table><tr><td onclick='exportPage(\"html\");' class='html'>" + ResourceUtils.getText("web.page", lang) + "</td></tr><tr><td onclick='exportPage(\"csv\");' class='csv'>" + ResourceUtils.getText("csv.file", lang) + "</td></tr><tr><td onclick='exportPage(\"excel\");' class='excel'>" + ResourceUtils.getText("excel.sheet", lang) + "</td></tr><tr><td onclick='exportPage(\"pdf\");' class='pdf'>" + ResourceUtils.getText("pdf.file", lang) + "</td></tr><tr><td onclick='exportPage(\"txt\");' class='text'>" + ResourceUtils.getText("plain.text", lang) + "</td></tr></table><div><a href='javascript:$(\"exportopt\").hide();'>" + ResourceUtils.getText("cancel", lang) + "</a></div></div>";
 		if (m != null && url != null && url.matches("^results.*"))
 			html.append("<td><input id='add' type='button' class='button add' onclick='location.href=\"" + h.get("url").replaceAll("\\/results", "/update") + "\";' value='" + ResourceUtils.getText("button.add", lang) + "'/></td>");
 		html.append("<td><input id='share' type='button' class='button share' onclick='displayShare();' value='" + ResourceUtils.getText("share", lang) + "'/>" + SHARE_OPTIONS + "</td>");
@@ -174,24 +174,6 @@ public class HtmlUtils {
 			html.append(s.matches("^\\#\\#.*") ? s.substring(2) : writeTip("cmt-" + id, s));
 		}
 		return html.toString();
-	}
-
-	public static StringBuffer writeWinRecTable(Collection<WinRecordsBean> c, String lang) {
-		StringBuffer html = new StringBuffer();
-		html.append("<table class='winrec'><thead><tr><th colspan='3'>" + writeToggleTitle(ResourceUtils.getText("win.records", lang)) + "</th></tr></thead><tbody class='tby'>");
-		int max = -1;
-		int i = 0;
-		for (WinRecordsBean bean : c) {
-			max = (max == -1 ? bean.getCountWin() : max);
-			html.append("<tr" + (++i > 5 ? " class='hidden'" : "") + "><td class='caption'>" + writeLink(bean.getEntityType() < 10 ? Athlete.alias : (bean.getEntityType() == 50 ? Team.alias : Country.alias), bean.getEntityId(), bean.getEntityStr(), bean.getEntityStrEN()) + "</td>");
-			html.append("<td><table><tr><td class='bar1'>&nbsp;</td>");
-			html.append("<td class='bar2' style='width:" + (int)((bean.getCountWin() * 100) / max) + "px;'>&nbsp;</td>");
-			html.append("<td class='bar3'>&nbsp;</td></tr></table></td>");
-			html.append("<td class='count'>" + bean.getCountWin() + "</td></tr>");
-		}
-		if (i > 5)
-			html.append("<tr class='moreitems' onclick='winrecMore(this);'><td colspan='3'></td></tr>");
-		return html.append("</tbody></table>");
 	}
 
 	public static String writeRecordItems(Collection<RefItem> cRecord, String lang) {

@@ -55,7 +55,8 @@ public class SearchServlet extends AbstractServlet {
 				for (Object obj : list) {
 					RefItem item = (RefItem) obj;
 					String label = item.getLabel() + (item.getEntity().equals(City.alias) ? " (" + item.getLabelRel3() + ")" : (item.getEntity().equals(Complex.alias) ? " (" + item.getLabelRel1() + ")" : ""));
-					html.append("<li id='" + StringUtils.encode(item.getEntity() + "-" + item.getIdItem()) + "'>" + label + "</li>");
+					String details = "<div class='ajxdetails'>" + ResourceUtils.getText("entity." + item.getEntity() + ".1", getLocale(request)) + "&nbsp;(" + item.getCountRef() + "&nbsp;ref.)</div>";
+					html.append("<li id='" + StringUtils.encode(item.getEntity() + "-" + item.getIdItem()) + "'>" + label + details + "</li>");
 				}
 //				if (!list.isEmpty())
 				html.append("<li class='ajaxlastrow' id=\"LR\">" + ResourceUtils.getText("search.for", getLocale(request)) + "&nbsp;:&nbsp;\"" + hParams.get("value") + "\"</li>");

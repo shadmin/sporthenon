@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.util.Collection"%>
 <%@ page import="java.util.List"%>
+<%@ page import="com.sporthenon.db.entity.*"%>
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
+<%@ page import="com.sporthenon.db.PicklistBean"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
+<%@ page import="com.sporthenon.web.servlet.USLeaguesServlet"%>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="usleagues" class="fieldset">
 	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
@@ -83,6 +87,38 @@
 <%@include file="../../html/buttons.html"%>
 <%@include file="../../html/tabcontrol.html"%>
 <script type="text/javascript">
+var tHofYr = [];
+var tChampYr = [];
+var tTm = [];
+var tRcSe = [];
+<%
+for (short i : new short[]{1, 2, 3, 4}) {
+	// Hof (year)
+	Collection<PicklistBean> c = DatabaseHelper.getPicklist(HallOfFame.class, "year", "league.id=" + i, null, (short)1, "en");
+	StringBuffer sb = new StringBuffer();
+	for (PicklistBean plb : c)
+		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
+	out.print("tHofYr[" + i + "] = '<option value=\"0\">---&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;---</option>" + sb.toString() + "';\r\n");
+	// Championships (year)
+	c = DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i), null, (short)1, "en");
+	sb = new StringBuffer();
+	for (PicklistBean plb : c)
+		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
+	out.print("tChampYr[" + i + "] = '<option value=\"0\">---&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;---</option>" + sb.toString() + "';\r\n");
+	// Retnum + Stadiums + Winloss (team)
+	c = DatabaseHelper.getPicklist(WinLoss.class, "team", "league.id=" + i, "x.team.inactive || '-'", "x.team.inactive, x.team.label", "en");
+	sb = new StringBuffer();
+	for (PicklistBean plb : c)
+		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText().replaceAll("^true\\-", "&dagger;").replaceAll("^false\\-", "") + "</option>");
+	out.print("tTm[" + i + "] = '<option value=\"0\">---&nbsp;" + ResourceUtils.getText("all.teams", "en") + "&nbsp;---</option>" + sb.toString() + "';\r\n");
+	// Record (Subevent)
+	c = DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and x.type1='Individual'", null, "x.subevent.index, x.subevent.label", "en");
+	sb = new StringBuffer();
+	for (PicklistBean plb : c)
+		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
+	out.print("tRcSe[" + i + "] = '<option value=\"0\">---&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;---</option>" + sb.toString() + "';\r\n");
+}
+%>
 var tPos = new Array();
 window.onload = function() {
 	initSelectMult('sm-pl-championships-yr', TX_YEARS, 200);

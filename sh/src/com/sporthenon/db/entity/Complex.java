@@ -34,6 +34,9 @@ public class Complex {
 	@JoinColumn(name = "id_city", nullable = false)
 	private City city;
 	
+	@Column(name = "link")
+	private Integer link;
+	
 	@Column(name = "ref")
 	private Integer ref;
 	
@@ -84,6 +87,14 @@ public class Complex {
 		return (lang != null && lang.equalsIgnoreCase("fr") ? labelFR : label);
 	}
 	
+	public Integer getLink() {
+		return link;
+	}
+
+	public void setLink(Integer link) {
+		this.link = link;
+	}
+
 	public Integer getRef() {
 		return ref;
 	}

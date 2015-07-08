@@ -90,6 +90,7 @@
 	var TX_SELECTION = "<%=StringUtils.text("selection", session)%>";
 	var TX_LOADING = "<%=StringUtils.text("loading", session)%>";
 	var TX_SEARCH = "<%=StringUtils.text("search.for", session)%>";
+	var TX_SEARCH2 = "<%=StringUtils.text("search.in", session)%> Sporthenon";
 	var TX_DESC_RESULTS = "<%=StringUtils.text("desc.results", session)%>";
 	var TX_DESC_OLYMPICS = "<%=StringUtils.text("desc.olympics", session)%>";
 	var TX_DESC_USLEAGUES = "<%=StringUtils.text("desc.usleagues", session)%>";
@@ -117,7 +118,7 @@
 	<div id="flags"><a title="English" href="javascript:setLang('en');"><img alt="EN" src="/img/header/lang-en.png"/></a>&nbsp;<a title="Français" href="javascript:setLang('fr');"><img alt="FR" src="/img/header/lang-fr.png"/></a>&nbsp;</div>
 	<div id="searchpanel">
 		<table style="border-spacing:0px;"><tr><td style="padding-top:3px;"><a title="<%=StringUtils.text("advanced.search", session)%>" href="/search"><img alt="Search" src="/img/menu/dbsearch.png"/></a></td>
-		<td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.for", session)%>" title="<%=StringUtils.text("search.in", session)%> Sporthenon" onfocus="dpatternFocus();" onblur="dpatternBlur();"></input></td>
+		<td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.in", session)%> Sporthenon" onfocus="dpatternFocus();" onblur="dpatternBlur();"></input></td>
 		</tr></table>
 	</div>
 </div>

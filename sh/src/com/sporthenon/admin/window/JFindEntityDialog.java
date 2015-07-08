@@ -39,7 +39,6 @@ import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.utils.StringUtils;
 
-
 public class JFindEntityDialog extends JDialog implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;

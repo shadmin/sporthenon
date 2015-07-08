@@ -22,6 +22,9 @@ public class LastUpdateBean {
 	@Column(name = "rs_text3")
 	private String rsText3;
 	
+	@Column(name = "rs_text4")
+	private String rsText4;
+	
 	@Column(name = "rs_date")
 	private String rsDate;
 	
@@ -97,17 +100,8 @@ public class LastUpdateBean {
 	@Column(name = "pr1_country")
 	private Integer pr1Country;
 	
-	@Column(name = "pr2_id")
-	private Integer pr2Id;
-	
-	@Column(name = "pr2_first_name")
-	private String pr2FirstName;
-	
-	@Column(name = "pr2_last_name")
-	private String pr2LastName;
-	
-	@Column(name = "pr2_country")
-	private Integer pr2Country;
+	@Column(name = "pr1_country_code")
+	private String pr1CountryCode;
 	
 	@Column(name = "tm1_id")
 	private Integer tm1Id;
@@ -115,12 +109,6 @@ public class LastUpdateBean {
 	@Column(name = "tm1_label")
 	private String tm1Label;
 	
-	@Column(name = "tm2_id")
-	private Integer tm2Id;
-	
-	@Column(name = "tm2_label")
-	private String tm2Label;
-
 	@Column(name = "cn1_id")
 	private Integer cn1Id;
 	
@@ -133,6 +121,27 @@ public class LastUpdateBean {
 	@Column(name = "cn1_label_en")
 	private String cn1LabelEN;
 	
+	@Column(name = "pr2_id")
+	private Integer pr2Id;
+	
+	@Column(name = "pr2_first_name")
+	private String pr2FirstName;
+	
+	@Column(name = "pr2_last_name")
+	private String pr2LastName;
+	
+	@Column(name = "pr2_country")
+	private Integer pr2Country;
+	
+	@Column(name = "pr2_country_code")
+	private String pr2CountryCode;
+	
+	@Column(name = "tm2_id")
+	private Integer tm2Id;
+	
+	@Column(name = "tm2_label")
+	private String tm2Label;
+
 	@Column(name = "cn2_id")
 	private Integer cn2Id;
 	
@@ -144,6 +153,72 @@ public class LastUpdateBean {
 
 	@Column(name = "cn2_label_en")
 	private String cn2LabelEN;
+	
+	@Column(name = "pr3_id")
+	private Integer pr3Id;
+	
+	@Column(name = "pr3_first_name")
+	private String pr3FirstName;
+	
+	@Column(name = "pr3_last_name")
+	private String pr3LastName;
+	
+	@Column(name = "pr3_country")
+	private Integer pr3Country;
+	
+	@Column(name = "pr3_country_code")
+	private String pr3CountryCode;
+	
+	@Column(name = "tm3_id")
+	private Integer tm3Id;
+	
+	@Column(name = "tm3_label")
+	private String tm3Label;
+
+	@Column(name = "cn3_id")
+	private Integer cn3Id;
+	
+	@Column(name = "cn3_code")
+	private String cn3Code;
+	
+	@Column(name = "cn3_label")
+	private String cn3Label;
+
+	@Column(name = "cn3_label_en")
+	private String cn3LabelEN;
+
+	@Column(name = "pr4_id")
+	private Integer pr4Id;
+	
+	@Column(name = "pr4_first_name")
+	private String pr4FirstName;
+	
+	@Column(name = "pr4_last_name")
+	private String pr4LastName;
+	
+	@Column(name = "pr4_country")
+	private Integer pr4Country;
+	
+	@Column(name = "pr4_country_code")
+	private String pr4CountryCode;
+	
+	@Column(name = "tm4_id")
+	private Integer tm4Id;
+	
+	@Column(name = "tm4_label")
+	private String tm4Label;
+
+	@Column(name = "cn4_id")
+	private Integer cn4Id;
+	
+	@Column(name = "cn4_code")
+	private String cn4Code;
+	
+	@Column(name = "cn4_label")
+	private String cn4Label;
+
+	@Column(name = "cn4_label_en")
+	private String cn4LabelEN;
 	
 	public Integer getRsId() {
 		return rsId;
@@ -503,6 +578,206 @@ public class LastUpdateBean {
 
 	public void setSe2LabelEN(String se2LabelEN) {
 		this.se2LabelEN = se2LabelEN;
+	}
+
+	public String getRsText4() {
+		return rsText4;
+	}
+
+	public String getPr3FirstName() {
+		return pr3FirstName;
+	}
+
+	public String getPr3LastName() {
+		return pr3LastName;
+	}
+
+	public Integer getPr3Country() {
+		return pr3Country;
+	}
+
+	public Integer getTm3Id() {
+		return tm3Id;
+	}
+
+	public String getTm3Label() {
+		return tm3Label;
+	}
+
+	public Integer getCn3Id() {
+		return cn3Id;
+	}
+
+	public String getCn3Code() {
+		return cn3Code;
+	}
+
+	public String getCn3Label() {
+		return cn3Label;
+	}
+
+	public String getCn3LabelEN() {
+		return cn3LabelEN;
+	}
+
+	public String getPr4FirstName() {
+		return pr4FirstName;
+	}
+
+	public String getPr4LastName() {
+		return pr4LastName;
+	}
+
+	public Integer getPr4Country() {
+		return pr4Country;
+	}
+
+	public Integer getTm4Id() {
+		return tm4Id;
+	}
+
+	public String getTm4Label() {
+		return tm4Label;
+	}
+
+	public Integer getCn4Id() {
+		return cn4Id;
+	}
+
+	public String getCn4Code() {
+		return cn4Code;
+	}
+
+	public String getCn4Label() {
+		return cn4Label;
+	}
+
+	public String getCn4LabelEN() {
+		return cn4LabelEN;
+	}
+
+	public void setRsText4(String rsText4) {
+		this.rsText4 = rsText4;
+	}
+
+	public void setPr3FirstName(String pr3FirstName) {
+		this.pr3FirstName = pr3FirstName;
+	}
+
+	public void setPr3LastName(String pr3LastName) {
+		this.pr3LastName = pr3LastName;
+	}
+
+	public void setPr3Country(Integer pr3Country) {
+		this.pr3Country = pr3Country;
+	}
+
+	public void setTm3Id(Integer tm3Id) {
+		this.tm3Id = tm3Id;
+	}
+
+	public void setTm3Label(String tm3Label) {
+		this.tm3Label = tm3Label;
+	}
+
+	public void setCn3Id(Integer cn3Id) {
+		this.cn3Id = cn3Id;
+	}
+
+	public void setCn3Code(String cn3Code) {
+		this.cn3Code = cn3Code;
+	}
+
+	public void setCn3Label(String cn3Label) {
+		this.cn3Label = cn3Label;
+	}
+
+	public void setCn3LabelEN(String cn3LabelEN) {
+		this.cn3LabelEN = cn3LabelEN;
+	}
+
+	public void setPr4FirstName(String pr4FirstName) {
+		this.pr4FirstName = pr4FirstName;
+	}
+
+	public void setPr4LastName(String pr4LastName) {
+		this.pr4LastName = pr4LastName;
+	}
+
+	public void setPr4Country(Integer pr4Country) {
+		this.pr4Country = pr4Country;
+	}
+
+	public void setTm4Id(Integer tm4Id) {
+		this.tm4Id = tm4Id;
+	}
+
+	public void setTm4Label(String tm4Label) {
+		this.tm4Label = tm4Label;
+	}
+
+	public void setCn4Id(Integer cn4Id) {
+		this.cn4Id = cn4Id;
+	}
+
+	public void setCn4Code(String cn4Code) {
+		this.cn4Code = cn4Code;
+	}
+
+	public void setCn4Label(String cn4Label) {
+		this.cn4Label = cn4Label;
+	}
+
+	public void setCn4LabelEN(String cn4LabelEN) {
+		this.cn4LabelEN = cn4LabelEN;
+	}
+
+	public Integer getPr3Id() {
+		return pr3Id;
+	}
+
+	public Integer getPr4Id() {
+		return pr4Id;
+	}
+
+	public void setPr3Id(Integer pr3Id) {
+		this.pr3Id = pr3Id;
+	}
+
+	public void setPr4Id(Integer pr4Id) {
+		this.pr4Id = pr4Id;
+	}
+
+	public String getPr1CountryCode() {
+		return pr1CountryCode;
+	}
+
+	public String getPr2CountryCode() {
+		return pr2CountryCode;
+	}
+
+	public String getPr3CountryCode() {
+		return pr3CountryCode;
+	}
+
+	public String getPr4CountryCode() {
+		return pr4CountryCode;
+	}
+
+	public void setPr1CountryCode(String pr1CountryCode) {
+		this.pr1CountryCode = pr1CountryCode;
+	}
+
+	public void setPr2CountryCode(String pr2CountryCode) {
+		this.pr2CountryCode = pr2CountryCode;
+	}
+
+	public void setPr3CountryCode(String pr3CountryCode) {
+		this.pr3CountryCode = pr3CountryCode;
+	}
+
+	public void setPr4CountryCode(String pr4CountryCode) {
+		this.pr4CountryCode = pr4CountryCode;
 	}
 	
 }

@@ -373,11 +373,11 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLink(pr.getLink() != null ? String.valueOf(pr.getLink()) : null);
 			p.setLastName(pr.getLastName());
 			p.setFirstName(StringUtils.notEmpty(pr.getFirstName()) ? pr.getFirstName() : "");
-			p.setLinkLabel("Linked to:");
+			p.setLinkLabel(" Linked to:");
 			if (pr.getLink() != null && pr.getLink() > 0) {
 				try {
 					Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, pr.getLink());
-					p.setLinkLabel("Linked to: [" + a.getLastName() + (StringUtils.notEmpty(a.getFirstName()) ? ", " + a.getFirstName() : "") + (a.getCountry() != null ? ", " + a.getCountry().getCode() : "") + (a.getTeam() != null ? ", " + a.getTeam().getLabel() : "") + "]");
+					p.setLinkLabel(" Linked to: [" + a.getLastName() + (StringUtils.notEmpty(a.getFirstName()) ? ", " + a.getFirstName() : "") + (a.getCountry() != null ? ", " + a.getCountry().getCode() : "") + (a.getTeam() != null ? ", " + a.getTeam().getLabel() : "") + "]");
 				}
 				catch (Exception e) {
 					Logger.getLogger("sh").error(e.getMessage());
@@ -398,6 +398,17 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabelFR(ct.getLabelFr());
 			p.setState(ct.getState() != null ? ct.getState().getId() : null);
 			p.setCountry(ct.getCountry() != null ? ct.getCountry().getId() : null);
+			p.setLink(ct.getLink() != null ? String.valueOf(ct.getLink()) : null);
+			p.setLinkLabel(" Linked to:");
+			if (ct.getLink() != null && ct.getLink() > 0) {
+				try {
+					City ct_ = (City) DatabaseHelper.loadEntity(City.class, ct.getLink());
+					p.setLinkLabel(" Linked to: [" + ct_.toString2() + "]");
+				}
+				catch (Exception e) {
+					Logger.getLogger("sh").error(e.getMessage());
+				}
+			}
 		}
 		else if (o instanceof Complex) {
 			Complex cx = (Complex) o;
@@ -405,6 +416,17 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabel(cx.getLabel());
 			p.setLabelFR(cx.getLabelFr());
 			p.setCity(cx.getCity() != null ? cx.getCity().getId() : null);
+			p.setLink(cx.getLink() != null ? String.valueOf(cx.getLink()) : null);
+			p.setLinkLabel(" Linked to:");
+			if (cx.getLink() != null && cx.getLink() > 0) {
+				try {
+					Complex cx_ = (Complex) DatabaseHelper.loadEntity(Complex.class, cx.getLink());
+					p.setLinkLabel("Linked to: [" + cx_.toString2() + "]");
+				}
+				catch (Exception e) {
+					Logger.getLogger("sh").error(e.getMessage());
+				}
+			}
 		}
 		else if (o instanceof Country) {
 			Country cn = (Country) o;
@@ -464,11 +486,11 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setComment(StringUtils.notEmpty(tm.getComment()) ? tm.getComment() : "");
 			p.setLink(tm.getLink() != null ? String.valueOf(tm.getLink()) : null);
 			p.setInactive(tm.getInactive());
-			p.setLinkLabel("Linked to:");
+			p.setLinkLabel(" Linked to:");
 			if (tm.getLink() != null && tm.getLink() > 0) {
 				try {
 					Team a = (Team) DatabaseHelper.loadEntity(Team.class, tm.getLink());
-					p.setLinkLabel("Linked to: [" + a.getLabel() + "]");
+					p.setLinkLabel(" Linked to: [" + a.getLabel() + "]");
 				}
 				catch (Exception e) {
 					Logger.getLogger("sh").error(e.getMessage());

@@ -74,7 +74,7 @@ public abstract class JAbstractEntityPanel extends JPanel implements ActionListe
 		}
 		else if (e.getActionCommand().matches(".*\\-find")) {
 			JFindEntityDialog dlg = JMainFrame.getFindDialog();
-			dlg.open(alias, srcPicklist);
+			dlg.open(alias, parent instanceof JEntityPicklist ? srcPicklist : null);
 			if (dlg.getSelectedItem() != null) {
 				int value = dlg.getSelectedItem().getValue();
 				if (parent instanceof JEntityPicklist)

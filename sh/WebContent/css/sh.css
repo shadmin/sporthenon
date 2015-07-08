@@ -190,7 +190,7 @@ input{
 #headertop #searchpanel #dpattern{
 	color: #AAA;
 	border: 1px solid #999;
-	width: 250px;
+	width: 350px;
 }
 #headertop #searchpanel #dpattern.focus{
 	color: #000;
@@ -319,20 +319,24 @@ input{
 #dupdates td{
 	padding: 0px 3px;
 }
-#dupdates td td, #dupdates td td td{
-	padding: 0px 0px;
+#dupdates td td, #dupdates td th, #dupdates td td td{
+	padding: 1px 0px;
 	vertical-align: middle;
+}
+#dupdates td td td{
+	padding-top: 3px;
 }
 #dupdates td table{
 	width: auto;
-	margin: 0px;
 }
 #dupdates td th, #dupdates td td{
 	border: none;
 	background-color: transparent;
 }
 #dupdates td th img{
-	vertical-align: top;
+	padding: 1px;
+	padding-right: 3px;
+	vertical-align: middle;
 }
 #dupdates th.sorted{
 	border: 2px solid #555;
@@ -541,7 +545,7 @@ input{
     overflow: hidden;
     width: 100%;
 }
-#buttons .button, .toolbar .button, #lupdatesok, #logindiv .button, #update .button{
+#buttons .button, .toolbar .button, #logindiv .button, #update .button{
 	height: 25px;
 	margin: 0px;
 	background-color: #E5E5E5;
@@ -554,10 +558,10 @@ input{
 #buttons #bleft .button{
 	margin-right: 3px;
 }
-#buttons #bright .button, .toolbar .button, #lupdatesok{
+#buttons #bright .button, .toolbar .button{
 	margin-left: 2px;
 }
-#buttons .button:hover, .toolbar .button:hover, #lupdatesok:hover, #logindiv .button:hover, #update .button:hover{
+#buttons .button:hover, .toolbar .button:hover, #logindiv .button:hover, #update .button:hover{
 	color: #FFF;
 	background-color: #444;
 }
@@ -571,10 +575,6 @@ input{
 }
 #buttons .options{
 	background-image: url('../img/component/button/options.png?3');
-}
-#lupdatesok{
-	background-image: url('../img/component/button/ok.png?3');
-	background-position: 4px center;
 }
 /*===============================
   ========== TREE VIEW ========== 
@@ -1180,7 +1180,7 @@ input{
 .ajaxsearch {
 	position: absolute;
 	font: 12px Verdana;
-	width: 800px;
+	width: auto;
 	background-color: #FFF;
 	margin: 0px;
 	padding: 0px;
@@ -1209,6 +1209,11 @@ input{
 	color: #555;
 	font-style: italic;
 	border-top: 1px solid #888;
+}
+.ajaxsearch ul .ajxdetails {
+	float: right;
+	font-size: 10px;
+	color: #888;
 }
 /*=============================
   ========== DIALOGS ========== 
@@ -1321,13 +1326,19 @@ input{
 	background-image:url(../img/header/tumblr.png?5);
 }
 .baroptions td.html{
-	background-image:url(../img/db/html.png?5);
+	background-image:url(../img/db/export/html.png?5);
+}
+.baroptions td.csv{
+	background-image:url(../img/db/export/csv.png?5);
 }
 .baroptions td.excel{
-	background-image:url(../img/db/excel.png?5);
+	background-image:url(../img/db/export/xls.png?5);
+}
+.baroptions td.pdf{
+	background-image:url(../img/db/export/pdf.png?5);
 }
 .baroptions td.text{
-	background-image:url(../img/db/text.png?5);
+	background-image:url(../img/db/export/txt.png?5);
 }
 .baroptions div{
 	background-color: #F0F0F0;

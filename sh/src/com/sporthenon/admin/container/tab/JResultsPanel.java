@@ -126,28 +126,28 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					plb = new PicklistBean(item2.getIdItem(), item2.getStdLabel(), item.getIdItem() + "," + item2.getIdItem());
 					level2Node = new DefaultMutableTreeNode(plb);
 					level1Node.add(level2Node);
-					treeItems.add(new PicklistBean(plb.getValue(), item.getStdLabel() + " - " + item2.getStdLabel(), plb.getParam()));
+					treeItems.add(new PicklistBean(plb.getValue(), item.getStdLabel() + " | " + item2.getStdLabel(), plb.getParam()));
 					for (k = j + 1 ; k < lst.size() ; k++) {
 						TreeItem item3 = (TreeItem) lst.get(k);
 						if (item3.getLevel() < 3) {k--; break;}
 						plb = new PicklistBean(item3.getIdItem(), item3.getStdLabel(), item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem());
 						level3Node = new DefaultMutableTreeNode(plb);
 						level2Node.add(level3Node);
-						treeItems.add(new PicklistBean(plb.getValue(), item.getStdLabel() + " - " + item2.getStdLabel() + " - " + item3.getStdLabel(), plb.getParam()));
+						treeItems.add(new PicklistBean(plb.getValue(), item.getStdLabel() + " | " + item2.getStdLabel() + " | " + item3.getStdLabel(), plb.getParam()));
 						for (l = k + 1 ; l < lst.size() ; l++) {
 							TreeItem item4 = (TreeItem) lst.get(l);
 							if (item4.getLevel() < 4) {l--; break;}
 							plb = new PicklistBean(item4.getIdItem(), item4.getStdLabel(), item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem() + "," + item4.getIdItem());
 							level4Node = new DefaultMutableTreeNode(plb);
 							level3Node.add(level4Node);
-							treeItems.add(new PicklistBean(plb.getValue(), item.getStdLabel() + " - " + item2.getStdLabel() + " - " + item3.getStdLabel() + " - " + item4.getStdLabel(), plb.getParam()));
+							treeItems.add(new PicklistBean(plb.getValue(), item.getStdLabel() + " | " + item2.getStdLabel() + " | " + item3.getStdLabel() + " | " + item4.getStdLabel(), plb.getParam()));
 							for (m = l + 1 ; m < lst.size() ; m++) {
 								TreeItem item5 = (TreeItem) lst.get(m);
 								if (item5.getLevel() < 5) {m--; break;}
 								plb = new PicklistBean(item5.getIdItem(), item5.getStdLabel(), item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem() + "," + item4.getIdItem() + "," + item5.getIdItem());
 								level5Node = new DefaultMutableTreeNode(plb);
 								level4Node.add(level5Node);
-								treeItems.add(new PicklistBean(plb.getValue(), item.getStdLabel() + " - " + item2.getStdLabel() + " - " + item3.getStdLabel() + " - " + item4.getStdLabel() + " - " + item5.getStdLabel(), plb.getParam()));
+								treeItems.add(new PicklistBean(plb.getValue(), item.getStdLabel() + " | " + item2.getStdLabel() + " | " + item3.getStdLabel() + " | " + item4.getStdLabel() + " | " + item5.getStdLabel(), plb.getParam()));
 							}
 							l = m;
 						}

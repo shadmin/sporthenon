@@ -59,15 +59,15 @@ public class ImageUtils {
 	}
 	
 	public static String getGoldMedImg() {
-		return "<img alt='Gold' title='Gold' src='" + getRenderUrl() + "gold-mini.png?2'/>";
+		return "<img alt='Gold' title='Gold' src='" + getRenderUrl() + "gold-mini.png?4'/>";
 	}
 	
 	public static String getSilverMedImg() {
-		return "<img alt='Silver' title='Silver' src='" + getRenderUrl() + "silver-mini.png?2'/>";
+		return "<img alt='Silver' title='Silver' src='" + getRenderUrl() + "silver-mini.png?4'/>";
 	}
 	
 	public static String getBronzeMedImg() {
-		return "<img alt='Bronze' title='Bronze' src='" + getRenderUrl() + "bronze-mini.png?2'/>";
+		return "<img alt='Bronze' title='Bronze' src='" + getRenderUrl() + "bronze-mini.png?4'/>";
 	}
 	
 	public static String getGoldHeader(String lang) {

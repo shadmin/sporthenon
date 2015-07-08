@@ -20,6 +20,9 @@ public class WinRecordsBean {
 	@Column(name = "entity_str_en")
 	private String entityStrEN;
 	
+	@Column(name = "entity_rel")
+	private String entityRel;
+	
 	@Column(name = "count_win")
 	private Integer countWin;
 
@@ -61,6 +64,14 @@ public class WinRecordsBean {
 
 	public void setEntityStrEN(String entityStrEN) {
 		this.entityStrEN = entityStrEN;
+	}
+
+	public String getEntityRel() {
+		return entityRel;
+	}
+
+	public void setEntityRel(String entityRel) {
+		this.entityRel = entityRel;
 	}
 
 	@Override

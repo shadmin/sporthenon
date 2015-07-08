@@ -5,7 +5,9 @@ import javax.swing.JTextField;
 
 import com.sporthenon.admin.component.JCustomTextField;
 import com.sporthenon.admin.component.JEntityPicklist;
+import com.sporthenon.admin.component.JLinkTextField;
 import com.sporthenon.db.entity.City;
+import com.sporthenon.db.entity.Complex;
 import com.sporthenon.utils.SwingUtils;
 
 
@@ -16,9 +18,11 @@ public class JComplexPanel extends JAbstractEntityPanel {
 	public JCustomTextField jLabel;
 	public JTextField jLabelFR;
 	public JEntityPicklist jCity;
+	public JLabel lLink;
+	public JLinkTextField jLink;
 
 	public JComplexPanel() {
-		super(4);
+		super(5);
 		initialize();
 	}
 
@@ -45,6 +49,14 @@ public class JComplexPanel extends JAbstractEntityPanel {
         gridPanel.add(lCity);
         jCity = new JEntityPicklist(this, City.alias);
         gridPanel.add(jCity);
+        
+		//Link
+		lLink = new JLabel(" Linked to:");
+		lLink.setHorizontalAlignment(LABEL_ALIGNMENT);
+		gridPanel.add(lLink);
+		jLink = new JLinkTextField(this, Complex.alias);
+		jLink.setPreferredSize(TEXT_SIZE);
+		gridPanel.add(jLink);
 	}
 
 	public JCustomTextField getLabel() {
@@ -59,6 +71,10 @@ public class JComplexPanel extends JAbstractEntityPanel {
 		return jCity;
 	}
 	
+	public JLinkTextField getLink() {
+		return jLink;
+	}
+	
 	public void setLabel(String s) {
 		jLabel.setText(s);
 	}
@@ -71,11 +87,20 @@ public class JComplexPanel extends JAbstractEntityPanel {
 		SwingUtils.selectValue(jCity, id);
 	}
 	
+	public void setLink(String s) {
+		jLink.setText(s);
+	}
+	
+	public void setLinkLabel(String s) {
+		lLink.setText(s);
+	}
+	
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
 		jLabelFR.setText("");
 		jCity.clear();
+		jLink.setText("");
 	}
 	
 	public void focus() {

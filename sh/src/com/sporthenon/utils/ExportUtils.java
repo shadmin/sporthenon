@@ -169,6 +169,39 @@ public class ExportUtils {
 		hwb.write(out);
 	}
 	
+	private static void buildCSV(PrintWriter pw, List<ArrayList<String>> lTh, List<ArrayList<String>> lTd) throws Exception {
+		StringBuffer sbCSV = new StringBuffer();
+		int n = 0;
+		for (List<String> l : lTd) {
+			// HEADER
+			if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
+				ArrayList<String> lTh_ = lTh.get(n++);
+				for (int i = 0 ; i < lTh_.size() ; i++) {
+					String s = lTh_.get(i);
+					sbCSV.append(i > 0 ? "," : "").append(s);
+				}
+				sbCSV.append("\r\n");
+			}
+			// INFO
+			else if (l != null && !l.isEmpty() && l.get(0).matches("^\\#CAPTION\\#.*")) {
+				String s1 = l.get(0).replaceAll("^\\#.*\\#", "");
+				String s2 = l.get(1).replaceAll("^\\#.*\\#", "");
+				sbCSV.append(s1).append(",").append(s2).append("\r\n");
+			}
+			// TABLE
+			else {
+				for (int i = 0 ; i < l.size() ; i++) {
+					if (l.get(i) != null) {
+						String s = l.get(i).replaceAll("^\\#.*\\#", "");
+						sbCSV.append(i > 0 ? "," : "").append(s.contains(",") ? "\"" + s + "\"" : s);
+					}
+				}
+				sbCSV.append("\r\n");
+			}
+		}
+		pw.write(sbCSV.toString());
+	}
+	
 	private static void buildText(PrintWriter pw, List<ArrayList<String>> lTh, List<ArrayList<String>> lTd) throws Exception {
 		StringBuffer sbText = new StringBuffer();
 		int n = 0;
@@ -244,7 +277,7 @@ public class ExportUtils {
 		return html;
 	}
 
-	public static void toExcelOrText(OutputStream out, PrintWriter pw, Document doc, boolean isExcel) throws Exception {
+	public static void parseHTML(OutputStream out, PrintWriter pw, Document doc, boolean isExcel, boolean isCSV) throws Exception {
 		ArrayList<MergedCell> lMerge = new ArrayList<MergedCell>();
 		ArrayList<ArrayList<String>> lTh = new ArrayList<ArrayList<String>>();
 		ArrayList<ArrayList<String>> lTd = new ArrayList<ArrayList<String>>();
@@ -307,7 +340,11 @@ public class ExportUtils {
 				cell = 0;
 				while (td != null) {
 					Integer span = (StringUtils.notEmpty(td.attr("colspan")) ? new Integer(td.attr("colspan")) : 1);
-					lTd_.add(td.text());
+					String title_ = td.attr("title");
+					if (StringUtils.notEmpty(title_))
+						lTd_.add(title_);
+					else
+						lTd_.add(td.text());
 					if (span > 1) {
 						lMerge.add(new MergedCell(row, cell, span));
 						cell += span;
@@ -328,6 +365,8 @@ public class ExportUtils {
 		}
 		if (isExcel)
 			buildExcel(out, title.text(), lTh, lTd, lMerge, new boolean[]{false});
+		else if (isCSV)
+			buildCSV(pw, lTh, lTd);
 		else
 			buildText(pw, lTh, lTd);
 	}
@@ -336,27 +375,30 @@ public class ExportUtils {
 		try {
 			String html_ = html.toString();
 //			Logger.getLogger("sh").info(html_);
-			if (format.matches("excel|text"))
+			if (format.matches("csv|excel|txt"))
 				html_ = html_.replaceAll("&nbsp;", " ").replaceAll("<br/>", "&nbsp;/&nbsp;");
 			Document doc = Jsoup.parse(html_);
 			Element elTitle = doc.getElementsByAttributeValue("class", "title").first();
 			String title = elTitle.text().replaceAll("\\,\\s", "_");
 			response.setCharacterEncoding("UTF-8");
+			response.setHeader("Content-Disposition", "attachment;filename=" + title + " [Sporthenon]." + format);
 			if (format.equalsIgnoreCase("html")) {
 				response.setContentType("text/html");
-				response.setHeader("Content-Disposition", "attachment;filename=" + title + " [Sporthenon].html");
 				response.getWriter().write(toHtml(doc));
 			}
+			else if (format.equalsIgnoreCase("csv")) {
+				response.setContentType("text/csv");
+				parseHTML(null, response.getWriter(), doc, false, true);
+			}	
 			else if (format.equalsIgnoreCase("excel")) {
 				response.setContentType("application/vnd.ms-excel");
-				response.setHeader("Content-Disposition", "attachment;filename=" + title + " [Sporthenon].xls");
-				toExcelOrText(response.getOutputStream(), null, doc, true);
+				parseHTML(response.getOutputStream(), null, doc, true, false);
 			}	
-			else if (format.equalsIgnoreCase("pdf")) {}
-			else if (format.equalsIgnoreCase("text")) {
+			else if (format.equalsIgnoreCase("pdf")) {
+			}
+			else if (format.equalsIgnoreCase("txt")) {
 				response.setContentType("text/plain");
-				response.setHeader("Content-Disposition", "attachment;filename=" + title + " [Sporthenon].txt");
-				toExcelOrText(null, response.getWriter(), doc, false);
+				parseHTML(null, response.getWriter(), doc, false, false);
 			}
 		}
 		finally {
