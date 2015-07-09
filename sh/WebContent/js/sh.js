@@ -678,14 +678,13 @@ function loadReport(cdata_, clabel_, ccolor_) {
 	else if (cindex == 2) {
 		var pie = new RGraph.Pie('cvs', cdata_)
 		.Set('labels', clabel_)
-		//.Set('colors', ccolor_)
 		.Set('text.font', 'Verdana')
 		.Set('text.size', 8)
 		.Set('gutter.top', 40)
 		.Set('gutter.bottom', 40)
 		.Set('vmargin', 5)
-		.Set('exploded', 12)
-		.Set('strokestyle', 'rgba(0,0,0,0)')
+		.Set('exploded', 0)
+		.Set('strokestyle', '#000')
 		.Draw();
 	}
 }
@@ -1184,50 +1183,6 @@ function resetSearch() {
 	$('ref').checked = true;
 	$$('.scope input').each(function(id) {
 		$(id).checked = true;
-	});
-}
-/*============================
-  ========== PROJECT ========= 
-  ============================*/
-function loadChart() {
-	$('charttxt').update('<tr><td><img src="/img/db/loading.gif?6"/></td></tr>');
-	new Ajax.Request('/ProjectServlet?index=' + $('charts').value, {
-		onSuccess: function(response) {
-			var tData = new Array();
-			var xml = response.responseXML;
-			if (!xml) {return;}
-			var root = xml.documentElement;
-			var node = null;
-			var tHtml = new Array();
-			var key = null;
-			var value = null;
-			var n1 = 0;
-			var n2 = 0;
-			for (var i = 0 ; i < root.childNodes.length ; i++) {
-				node = root.childNodes[i];
-				key = node.getAttribute('key');
-				value = parseInt(node.getAttribute('value'));
-				if (n1 < 5 && value > 0) {
-					tData.push({data: [[0, value]], label: key});
-					n1++;
-				}
-				if (n2 < 10 && value > 0) {
-					tHtml.push('<tr><td>' + key + '</td><td>' + value + '</td></tr>');
-				}
-			}
-			$('charttxt').update('<tr><th>Type</th><th>Count</th></tr>' + tHtml.join(''));
-			Flotr.draw($('chart'), tData, {
-				//colors: ['#00A8F0', '#C0D800', '#CB4B4B', '#4DA74D', '#9440ED'],
-				resolution: 2,
-				shadowSize: 4,
-				HtmlText: true, 
-				grid: {outlineWidth: 0, verticalLines: false,  horizontalLines: false},
-				xaxis: {showLabels: false},
-				yaxis: {showLabels: false},
-				pie: {show: true},
-				legend:{position: 'se', backgroundColor: '#FFF'}
-			});
-		}
 	});
 }
 /*============================

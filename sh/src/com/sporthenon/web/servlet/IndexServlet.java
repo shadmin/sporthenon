@@ -80,7 +80,7 @@ private static final long serialVersionUID = 1L;
 			}
 		}
 		catch (Exception e) {
-			handleException(e);
+			handleException(request, response, e);
 		}
 	}
 	

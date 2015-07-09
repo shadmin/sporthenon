@@ -107,7 +107,7 @@ public class SearchServlet extends AbstractServlet {
 			}
 		}
 		catch (Exception e) {
-			handleException(e);
+			handleException(request, response, e);
 		}
 	}
 	

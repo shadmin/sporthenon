@@ -4,6 +4,7 @@
 <!-- HEADER -->
 	<entry key="title">SPORTHENON – The Temple of Sports Results</entry>
 	<entry key="desc">Sports results database (free and opened to contributors)</entry>
+	<entry key="keywords">sport, results, database, records, olympics</entry>
 	<entry key="menu.results">RESULTS</entry>
 	<entry key="menu.olympics">OLYMPICS</entry>
 	<entry key="menu.usleagues">US LEAGUES</entry>
@@ -215,6 +216,7 @@
 	<entry key="other.years">All years</entry>
 	<entry key="none">None</entry>
 	<entry key="report.error">Report an error on this page</entry>
+	<entry key="page.error">An error occured. The page has been moved or deleted.</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>

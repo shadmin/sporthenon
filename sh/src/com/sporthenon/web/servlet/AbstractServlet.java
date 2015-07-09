@@ -19,10 +19,10 @@ public abstract class AbstractServlet extends HttpServlet {
 	protected static Logger logger = Logger.getLogger("sh");
 	
 	@Override
-	protected abstract void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;
+	protected abstract void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException;
 
 	@Override
-	protected abstract void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;
+	protected abstract void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException;
 	
 	protected void init(HttpServletRequest req) {
 		req.setAttribute("t1", System.currentTimeMillis());
@@ -37,8 +37,9 @@ public abstract class AbstractServlet extends HttpServlet {
 		return (req.getSession().getAttribute("user") != null ? (Contributor) req.getSession().getAttribute("user") : null);
 	}
 	
-	protected void handleException(Throwable e) {
+	protected void handleException(HttpServletRequest req, HttpServletResponse res, Throwable e) throws ServletException, IOException {
 		logger.error(e.getMessage(), e);
+		req.getRequestDispatcher("/jsp/error.jsp").forward(req, res);
 	}
 	
 }

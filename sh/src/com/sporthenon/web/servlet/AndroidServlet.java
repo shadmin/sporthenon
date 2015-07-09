@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import org.w3c.dom.Document;
@@ -300,7 +301,7 @@ public class AndroidServlet extends AbstractServlet {
 	        response.flushBuffer();
 		}
 		catch (Exception e) {
-			handleException(e);
+			Logger.getLogger("sh").error(e.getMessage(), e);
 		}
 	}
 	
@@ -374,7 +375,7 @@ public class AndroidServlet extends AbstractServlet {
 				}
 			}
 			catch (Exception e) {
-				handleException(e);
+				Logger.getLogger("sh").error(e.getMessage(), e);
 			}
 		}
 	}

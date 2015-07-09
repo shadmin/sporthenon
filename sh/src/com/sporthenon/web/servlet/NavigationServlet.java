@@ -88,7 +88,7 @@ public class NavigationServlet extends AbstractServlet {
 					dispatcher = request.getRequestDispatcher("/jsp/index.jsp");
 				}
 				else {
-					request.setAttribute("title", ResourceUtils.getText(hTitle.containsKey(key) ? hTitle.get(key) : "title", getLocale(request)) + " | SPORTHENON");
+					request.setAttribute("title", ResourceUtils.getText(hTitle.containsKey(key) ? hTitle.get(key) : "title", getLocale(request)) + " | Sporthenon");
 					request.setAttribute("menu", key);
 					dispatcher = request.getRequestDispatcher("/jsp/" + hPages.get(key));
 				}
@@ -97,7 +97,7 @@ public class NavigationServlet extends AbstractServlet {
 		    	dispatcher.forward(request, response);
 		}
 		catch (Exception e) {
-			handleException(e);
+			handleException(request, response, e);
 		}
 	}
 

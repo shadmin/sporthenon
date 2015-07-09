@@ -21,6 +21,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 public class ExportUtils {
 	
 	protected static class MergedCell {
@@ -51,6 +57,15 @@ public class ExportUtils {
 		}
 		protected void setSpan(int span) {
 			this.span = span;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (o instanceof MergedCell) {
+				MergedCell mc = (MergedCell) o;
+				return (mc.getRow() == getRow() && mc.getCell() == getCell());
+			}
+			return false;
 		}
 
 		@Override
@@ -266,7 +281,7 @@ public class ExportUtils {
 		pw.write(sbText.toString());
 	}
 	
-	public static String toHtml(Document doc) throws Exception {
+	public static String buildHTML(Document doc) throws Exception {
 		String html = doc.toString();
 		html = html.replaceAll("<head>", "<head>\r\n<style>*{font:12px Verdana;}</style>\r\n<link rel='stylesheet' type='text/css' href='" + ConfigUtils.getProperty("url") + "css/sh.css'/>\r\n<link rel='stylesheet' type='text/css' href='" + ConfigUtils.getProperty("url") + "css/render.css'/>\r\n");
 		html = html.replaceAll("<body>", "<body class='print'><div id='content'><div class='tc'>");
@@ -276,12 +291,72 @@ public class ExportUtils {
 		html = html.replaceAll("class\\=\"toolbar\"", "class=\"toolbar\" style=\"display:none;\"");
 		return html;
 	}
+	
+	public static void buildPDF(OutputStream output, List lTh, List lTd, List lMerge) throws Exception {
+		PdfPCell cell = null;
+		com.itextpdf.text.Document doc = new com.itextpdf.text.Document(PageSize.A4.rotate());
+		doc.setMargins(25.0f, 25.0f, 25.0f, 25.0f);
+		PdfWriter.getInstance(doc, output);
+		doc.open();
+		
+		PdfPTable t = new PdfPTable(new float[] { 1.0f });
+		t.setWidthPercentage(100.0f);
 
-	public static void parseHTML(OutputStream out, PrintWriter pw, Document doc, boolean isExcel, boolean isCSV) throws Exception {
-		ArrayList<MergedCell> lMerge = new ArrayList<MergedCell>();
-		ArrayList<ArrayList<String>> lTh = new ArrayList<ArrayList<String>>();
-		ArrayList<ArrayList<String>> lTd = new ArrayList<ArrayList<String>>();
-		Element title = doc.getElementsByAttributeValue("class", "title").first();
+		PdfPTable table = null;
+		int n = 0;
+		for (List<String> l : (List<List<String>>) lTd) {
+			if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
+				if (n < lTh.size()) {
+					List<String> l_ = (List<String>) lTh.get(n);
+					table = new PdfPTable(l_.size());
+					table.setWidthPercentage(100.0f);
+					for (int i = 0 ; i < l_.size() ; i++) {
+						String s = l_.get(i);
+						int mcindex = lMerge.indexOf(new MergedCell(n, i, 0));
+						cell = new PdfPCell(new Phrase(s));
+						cell.setPadding(5.0f);
+						if (mcindex > -1) {
+							int span = ((MergedCell)lMerge.get(mcindex)).getSpan();
+							cell.setColspan(span);
+							i += span;
+						}
+						else
+							cell.setColspan(1);
+						cell.setHorizontalAlignment(com.itextpdf.text.Element.ALIGN_LEFT);
+						table.addCell(cell);
+					}
+					n++;
+				}
+			}
+			else {
+				for (String s : l) {
+					cell = new PdfPCell(new Phrase(s));
+					cell.setPadding(5.0f);
+					cell.setColspan(1);
+					cell.setHorizontalAlignment(com.itextpdf.text.Element.ALIGN_LEFT);
+//					cell.setVerticalAlignment(valign);
+					table.addCell(cell);
+				}
+			}
+		}
+		PdfPCell c = new PdfPCell(table);
+		c.setBorderWidth(2);
+		t.addCell(c);
+		doc.add(t);
+//		cell = new PdfPCell(getDescriptionTable(ht, langue));
+//		cell.setColspan(3);
+//		cell.setPadding(0);
+//		table.addCell(cell);
+//		cell = new PdfPCell(getOpexTable(ht, langue));
+//		cell.setColspan(2);
+//		cell.setPadding(0);
+//		table.addCell(cell);
+		if (doc.isOpen())
+			doc.close();
+	}
+
+	public static void parseHTML(Document doc, List lTh, List lTd, List lMerge) throws Exception {
+//		Element title = doc.getElementsByAttributeValue("class", "title").first();
 		int row = 0;
 		
 		// INFO
@@ -363,42 +438,44 @@ public class ExportUtils {
 				row++;
 			}
 		}
-		if (isExcel)
-			buildExcel(out, title.text(), lTh, lTd, lMerge, new boolean[]{false});
-		else if (isCSV)
-			buildCSV(pw, lTh, lTd);
-		else
-			buildText(pw, lTh, lTd);
 	}
 
 	public static void export(HttpServletResponse response, StringBuffer html, String format) throws Exception {
 		try {
 			String html_ = html.toString();
-//			Logger.getLogger("sh").info(html_);
 			if (format.matches("csv|excel|txt"))
 				html_ = html_.replaceAll("&nbsp;", " ").replaceAll("<br/>", "&nbsp;/&nbsp;");
 			Document doc = Jsoup.parse(html_);
 			Element elTitle = doc.getElementsByAttributeValue("class", "title").first();
 			String title = elTitle.text().replaceAll("\\,\\s", "_");
+			List lTh = new ArrayList<ArrayList<String>>();
+			List lTd = new ArrayList<ArrayList<String>>();
+			List lMerge = new ArrayList<MergedCell>();
 			response.setCharacterEncoding("UTF-8");
 			response.setHeader("Content-Disposition", "attachment;filename=" + title + " [Sporthenon]." + format);
 			if (format.equalsIgnoreCase("html")) {
 				response.setContentType("text/html");
-				response.getWriter().write(toHtml(doc));
+				response.getWriter().write(buildHTML(doc));
 			}
 			else if (format.equalsIgnoreCase("csv")) {
 				response.setContentType("text/csv");
-				parseHTML(null, response.getWriter(), doc, false, true);
+				parseHTML(doc, lTh, lTd, lMerge);
+				buildCSV(response.getWriter(), lTh, lTd);
 			}	
 			else if (format.equalsIgnoreCase("excel")) {
 				response.setContentType("application/vnd.ms-excel");
-				parseHTML(response.getOutputStream(), null, doc, true, false);
-			}	
+				parseHTML(doc, lTh, lTd, lMerge);
+				buildExcel(response.getOutputStream(), "", lTh, lTd, lMerge, new boolean[]{false});
+			}
 			else if (format.equalsIgnoreCase("pdf")) {
+				response.setContentType("application/pdf");
+				parseHTML(doc, lTh, lTd, lMerge);
+				buildPDF(response.getOutputStream(), lTh, lTd, lMerge);
 			}
 			else if (format.equalsIgnoreCase("txt")) {
 				response.setContentType("text/plain");
-				parseHTML(null, response.getWriter(), doc, false, false);
+				parseHTML(doc, lTh, lTd, lMerge);
+				buildText(response.getWriter(), lTh, lTd);
 			}
 		}
 		finally {

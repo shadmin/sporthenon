@@ -2015,7 +2015,7 @@ public class HtmlConverter {
 			String path = bean.getYrLabel() + "/" + bean.getSpLabelEN() + "/" + bean.getCpLabelEN() + "/" + bean.getEvLabelEN() + (bean.getSeId() != null ? "/" + bean.getSeLabelEN() : "") + (bean.getSe2Id() != null ? "/" + bean.getSe2LabelEN() : "");
 			boolean isScore = (pos1 != null && pos2 != null && StringUtils.notEmpty(bean.getRsText1()) && !StringUtils.notEmpty(bean.getRsText2()));
 			boolean isDouble = (pos1 != null && pos2 != null && (number == 4 || (bean.getRsText4() != null && bean.getRsText4().equals("#DOUBLE#")) || (bean.getRsText3() != null && bean.getRsText3().equals("1-2"))));
-			boolean isTriple = (pos1 != null && pos2 != null && pos3 != null && (number == 5 || (bean.getRsText4() != null && bean.getRsText4().equals("#TRIPLE#")) || (bean.getRsText3() != null && bean.getRsText3().matches("^1.*"))));
+			boolean isTriple = (pos1 != null && pos2 != null && pos3 != null && (number == 5 || (bean.getRsText4() != null && bean.getRsText4().equals("#TRIPLE#")) || (bean.getRsText3() != null && bean.getRsText3().matches("^1\\-(3|4|5|6|7|8).*"))));
 			
 			// Write line
 			String pos1_ = "<td style='padding-right:3px;'>" + pos1 + ((isDouble || isTriple) && pos2 != null ? pos2 : "") + (isTriple && pos3 != null ? pos3 : "") + "</td>";

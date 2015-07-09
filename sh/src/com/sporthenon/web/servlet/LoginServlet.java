@@ -78,7 +78,7 @@ public class LoginServlet extends AbstractServlet {
 			}
 		}
 		catch (Exception e) {
-			handleException(e);
+			handleException(request, response, e);
 		}
 	}
 

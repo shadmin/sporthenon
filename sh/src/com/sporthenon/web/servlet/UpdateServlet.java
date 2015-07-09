@@ -320,7 +320,7 @@ public class UpdateServlet extends AbstractServlet {
 					sbMsg.append(ResourceUtils.getText("result." + (idRS != null ? "modified" : "created"), getLocale(request)));
 				}
 				catch (Exception e) {
-					handleException(e);
+					Logger.getLogger("sh").error(e.getMessage(), e);
 					sbMsg.append("ERR:" + e.getMessage());
 				}
 				finally {
@@ -337,12 +337,12 @@ public class UpdateServlet extends AbstractServlet {
 					ServletHelper.writeText(response, html.append("</table>").toString());
 				}
 				catch (Exception e) {
-					handleException(e);
+					Logger.getLogger("sh").error(e.getMessage(), e);
 				}
 			}
 			else { // Load result
 				Object tp = hParams.get("tp");
-				request.setAttribute("title", ResourceUtils.getText("menu.update", getLocale(request)) + " | SPORTHENON");
+				request.setAttribute("title", ResourceUtils.getText("menu.update", getLocale(request)) + " | Sporthenon");
 				String p = String.valueOf(hParams.get("p"));
 				p = StringUtils.decode(p);
 				Object[] t = p.split("\\-");
@@ -489,7 +489,7 @@ public class UpdateServlet extends AbstractServlet {
 			}
 		}
 		catch (Exception e) {
-			handleException(e);
+			handleException(request, response, e);
 		}
 	}
 	

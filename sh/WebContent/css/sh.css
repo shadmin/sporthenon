@@ -1297,6 +1297,7 @@ input{
 }
 #shareopt td, #exportopt td{
 	cursor: pointer;
+	width: 60px;
 	padding: 5px;
 	padding-left: 25px;
 	padding-right: 20px;
@@ -1306,7 +1307,6 @@ input{
 	background-repeat: no-repeat;
 }
 #shareopt td:HOVER, #exportopt td:HOVER{
-	/*background-color: #BEE0FF;*/
 	color: #FFF;
 	background-color: #444;
 }

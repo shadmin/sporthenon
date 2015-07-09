@@ -37,39 +37,9 @@ private static final long serialVersionUID = 1L;
 			request.setAttribute("contributors", html.toString());
 			request.setAttribute("t2", System.currentTimeMillis());
 			request.getRequestDispatcher("/jsp/project.jsp").forward(request, response);
-			
-			// Statistics
-//			HashMap<String, Object> hParams = ServletHelper.getParams(request);
-//			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-//			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-//			Document doc = docBuilder.newDocument();
-//			Element root = doc.createElement("stats");
-//			doc.appendChild(root);
-//			
-//			String index = String.valueOf(hParams.get("index"));
-//			ArrayList<Object> lFuncParams = new ArrayList<Object>();
-//			lFuncParams.add(Short.valueOf(index));
-//			int i = 0;
-//			for (Object o : DatabaseHelper.call("StatRequest", lFuncParams)) {
-//				StatRequestBean srb = (StatRequestBean) o;
-//				Element item = doc.createElement("stat");
-//				String key = srb.getKey();
-//				if (index.equals("0"))
-//					key = key.replaceAll("RS", "Results").replaceAll("OL", "Olympics").replaceAll("US", "US Leagues").replaceAll("SC", "Search").replaceAll("IF", "Info");
-//				item.setAttribute("key", key); item.setAttribute("value", String.valueOf(srb.getValue()));
-//				root.appendChild(item);
-//				if (++i == 12)
-//					break;
-//			}
-//
-//			response.setContentType("text/xml");
-//			response.setCharacterEncoding("utf-8");
-//			XMLSerializer serializer = new XMLSerializer();
-//			serializer.setOutputCharStream(response.getWriter());
-//			serializer.serialize(doc);
 		}
 		catch (Exception e) {
-			handleException(e);
+			handleException(request, response, e);
 		}
 	}
 	

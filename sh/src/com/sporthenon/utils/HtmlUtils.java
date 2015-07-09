@@ -237,7 +237,7 @@ public class HtmlUtils {
 	}
 	
 	public static void setTitle(HttpServletRequest req, String header) throws Exception {
-		req.setAttribute("title", header.replaceAll("\\</span\\>.*", "").replaceAll(".*'title'\\>", "") + " | SPORTHENON");
+		req.setAttribute("title", header.replaceAll("\\</span\\>.*", "").replaceAll(".*'title'\\>", "") + " | Sporthenon");
 	}
 
 }
