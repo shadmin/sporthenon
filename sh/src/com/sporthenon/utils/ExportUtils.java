@@ -21,6 +21,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -299,6 +302,9 @@ public class ExportUtils {
 		PdfWriter.getInstance(doc, output);
 		doc.open();
 		
+		com.itextpdf.text.Font font = new com.itextpdf.text.Font(FontFamily.HELVETICA, 10);
+		com.itextpdf.text.Font fontBold = new com.itextpdf.text.Font(font);
+		fontBold.setStyle(com.itextpdf.text.Font.BOLD);
 		PdfPTable t = new PdfPTable(new float[] { 1.0f });
 		t.setWidthPercentage(100.0f);
 
@@ -308,17 +314,21 @@ public class ExportUtils {
 			if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
 				if (n < lTh.size()) {
 					List<String> l_ = (List<String>) lTh.get(n);
-					table = new PdfPTable(l_.size());
+					float[] tf = new float[l_.size()];
+					for (int i = 0 ; i < l_.size() ; i++)
+						tf[i] = (i <= 1 ? 0.5f : 1.0f);
+					table = new PdfPTable(tf);
 					table.setWidthPercentage(100.0f);
 					for (int i = 0 ; i < l_.size() ; i++) {
 						String s = l_.get(i);
 						int mcindex = lMerge.indexOf(new MergedCell(n, i, 0));
-						cell = new PdfPCell(new Phrase(s));
-						cell.setPadding(5.0f);
+						cell = new PdfPCell(new Phrase(s, fontBold));
+						cell.setBackgroundColor(BaseColor.YELLOW);
+						cell.setPadding(2.0f);
 						if (mcindex > -1) {
 							int span = ((MergedCell)lMerge.get(mcindex)).getSpan();
 							cell.setColspan(span);
-							i += span;
+							i += (span - 1);
 						}
 						else
 							cell.setColspan(1);
@@ -330,12 +340,28 @@ public class ExportUtils {
 			}
 			else {
 				for (String s : l) {
-					cell = new PdfPCell(new Phrase(s));
-					cell.setPadding(5.0f);
-					cell.setColspan(1);
+					cell = new PdfPCell(new Phrase(s.replaceAll("^\\#.+\\#", ""), font));
+					cell.setPadding(2.0f);
 					cell.setHorizontalAlignment(com.itextpdf.text.Element.ALIGN_LEFT);
-//					cell.setVerticalAlignment(valign);
-					table.addCell(cell);
+					PdfPTable table_ = null;
+					if (s.matches("^\\#.+\\.png\\#.+")) {
+						String src = s.substring(1, s.lastIndexOf("#"));
+						if (!src.contains("details.png")) {
+							Image img = Image.getInstance(src);
+							PdfPCell cell_ = new PdfPCell(img);
+							cell_.setPadding(2);
+							cell_.setBorder(0);
+							cell_.setHorizontalAlignment(com.itextpdf.text.Element.ALIGN_LEFT);
+							cell.setBorder(0);
+							table_ = new PdfPTable(2);
+							table_.addCell(cell_);
+							table_.addCell(cell);
+						}
+					}
+					if (table_ != null)
+						table.addCell(table_);
+					else
+						table.addCell(cell);
 				}
 			}
 		}
@@ -374,7 +400,7 @@ public class ExportUtils {
 						lTd_.add("#ALIGN_LEFT#" + td.text());
 						lTd.add(lTd_);
 						row++;
-					}	
+					}
 				}
 			}
 		}
@@ -418,8 +444,13 @@ public class ExportUtils {
 					String title_ = td.attr("title");
 					if (StringUtils.notEmpty(title_))
 						lTd_.add(title_);
-					else
-						lTd_.add(td.text());
+					else {
+						String img = "";
+						Elements imgs = td.getElementsByTag("img");
+						if (!imgs.isEmpty())
+							img = "#" + imgs.get(0).attr("src") + "#";
+						lTd_.add(img + td.text());
+					}
 					if (span > 1) {
 						lMerge.add(new MergedCell(row, cell, span));
 						cell += span;
