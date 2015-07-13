@@ -156,7 +156,7 @@ public class USLeaguesServlet extends AbstractServlet {
 				if (isLink) {
 					HtmlUtils.setTitle(request, html.toString());
 					if (hParams.containsKey("export"))
-						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
+						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), getLocale(request));
 					else {
 						request.setAttribute("menu", "usleagues");
 						ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));

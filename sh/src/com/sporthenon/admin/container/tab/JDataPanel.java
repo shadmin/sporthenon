@@ -579,7 +579,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setComplex(ts.getComplex().getId());
 			p.setDate1(String.valueOf(ts.getDate1()));
 			p.setDate2(String.valueOf(ts.getDate2()));
-			p.setRenamed(ts.getRenamed() != null);
+			p.setRenamed(ts.getRenamed() != null && ts.getRenamed());
 		}
 		else if (o instanceof WinLoss) {
 			WinLoss wl = (WinLoss) o;

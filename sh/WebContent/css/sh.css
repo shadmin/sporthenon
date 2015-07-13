@@ -430,7 +430,7 @@ input{
   ============================*/
 .slider .arrow{
 	float: left;
-	width: 23px;
+	width: 22px;
 	padding-top: 25px;
 }
 .slider .slider-control{
@@ -719,9 +719,6 @@ input{
 }
 .homecontent .info{
 	background-image: url(../img/iconfav.png?5);
-}
-.homecontent .contact{
-	background-image: url(../img/contact.png?5);
 }
 .homecontent .statistics{
 	background-image: url(../img/project/statistics.png?5);
@@ -1233,6 +1230,9 @@ input{
 }
 #d-info .fstitle{
 	background-image: url(../img/component/button/info.png?5);
+}
+#d-help .fstitle{
+	background-image: url(../img/help.png?6);
 }
 .dialog .dlgbuttons{
 	height: 33px;

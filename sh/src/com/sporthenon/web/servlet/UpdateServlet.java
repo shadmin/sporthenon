@@ -227,16 +227,24 @@ public class UpdateServlet extends AbstractServlet {
 							else
 								id = DatabaseHelper.insertPlace(0, String.valueOf(hParams.get("pl" + i + "-l")), user, null, lang);
 							if (isComplex) {
-								if (i == 1)
+								if (i == 1) {
 									result.setComplex1((Complex)DatabaseHelper.loadEntity(Complex.class, id));
-								else
+									result.setCity1(null);
+								}
+								else {
 									result.setComplex2((Complex)DatabaseHelper.loadEntity(Complex.class, id));
+									result.setCity2(null);
+								}
 							}
 							else {
-								if (i == 1)
+								if (i == 1) {
 									result.setCity1((City)DatabaseHelper.loadEntity(City.class, id));
-								else
+									result.setComplex1(null);
+								}
+								else {
 									result.setCity2((City)DatabaseHelper.loadEntity(City.class, id));
+									result.setComplex2(null);
+								}
 							}
 						}
 					}
@@ -317,7 +325,7 @@ public class UpdateServlet extends AbstractServlet {
 						draw.setIdResult(result.getId());
 						draw = (Draw) DatabaseHelper.saveEntity(draw, user);
 					}
-					sbMsg.append(ResourceUtils.getText("result." + (idRS != null ? "modified" : "created"), getLocale(request)));
+					sbMsg.append(result.getId() + "#" + ResourceUtils.getText("result." + (idRS != null ? "modified" : "created"), getLocale(request)));
 				}
 				catch (Exception e) {
 					Logger.getLogger("sh").error(e.getMessage(), e);
@@ -342,7 +350,7 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			else { // Load result
 				Object tp = hParams.get("tp");
-				request.setAttribute("title", ResourceUtils.getText("menu.update", getLocale(request)) + " | Sporthenon");
+				request.setAttribute("title", StringUtils.getTitle(ResourceUtils.getText("menu.update", getLocale(request))));
 				String p = String.valueOf(hParams.get("p"));
 				p = StringUtils.decode(p);
 				Object[] t = p.split("\\-");

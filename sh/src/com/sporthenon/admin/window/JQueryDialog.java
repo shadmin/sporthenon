@@ -54,6 +54,8 @@ public class JQueryDialog extends JDialog implements ActionListener {
 		QUERIES.add("SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2, SP.label AS label1, CP.label AS label2, EV.label AS label3, SE.label AS label4, SE2.label AS label5 FROM \"RESULT\" RS LEFT JOIN \"SPORT\" SP ON RS.id_sport=SP.id LEFT JOIN \"CHAMPIONSHIP\" CP ON RS.id_championship=CP.id LEFT JOIN \"EVENT\" EV ON RS.id_event=EV.id LEFT JOIN \"EVENT\" SE ON RS.id_subevent=SE.id LEFT JOIN \"EVENT\" SE2 ON RS.id_subevent2=SE2.id ORDER BY SP.label, CP.label, EV.label, SE.label, SE2.label");
 		QUERIES.add("SELECT * FROM (SELECT 'CP', ID, LABEL FROM \"CHAMPIONSHIP\" WHERE LABEL=LABEL_FR UNION SELECT 'CT', ID, LABEL FROM \"CITY\" WHERE LABEL=LABEL_FR UNION SELECT 'CX', ID, LABEL FROM \"COMPLEX\" WHERE LABEL=LABEL_FR UNION SELECT 'CN', ID, LABEL FROM \"COUNTRY\" WHERE LABEL=LABEL_FR UNION SELECT 'EV', ID, LABEL FROM \"EVENT\" WHERE LABEL=LABEL_FR UNION SELECT 'SP', ID, LABEL FROM \"SPORT\" WHERE LABEL=LABEL_FR ) T ORDER BY 1,2");
 		QUERIES.add("SELECT DISTINCT SP.label || '-' || CP.label || '-' || EV.label || (CASE WHEN SE.id IS NOT NULL THEN '-' || SE.label ELSE '' END) || (CASE WHEN SE2.id IS NOT NULL THEN '-' || SE2.label ELSE '' END), COUNT(*) AS N FROM \"RESULT\" RS LEFT JOIN \"SPORT\" SP ON RS.id_sport=SP.id LEFT JOIN \"CHAMPIONSHIP\" CP ON RS.id_championship=CP.id LEFT JOIN \"EVENT\" EV ON RS.id_event=EV.id LEFT JOIN \"EVENT\" SE ON RS.id_subevent=SE.id LEFT JOIN \"EVENT\" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN \"~INACTIVE_ITEM\" II ON (RS.id_sport = II.id_sport AND RS.id_championship = II.id_championship AND RS.id_event = II.id_event AND (RS.id_subevent = II.id_subevent OR RS.id_subevent IS NULL) AND (RS.id_subevent2 = II.id_subevent2 OR RS.id_subevent2 IS NULL)) WHERE II.id IS NULL GROUP BY 1 HAVING COUNT(*)<5 ORDER BY 2, 1");
+		QUERIES.add("SELECT 'PR', id, last_name || ', ' || first_name AS label FROM \"PERSON\" WHERE id_country IS NULL UNION SELECT 'TM', id, label FROM \"TEAM\" WHERE id_country IS NULL ORDER BY 1, 3");
+		QUERIES.add("SELECT 'CT', id, label FROM \"CITY\" WHERE id NOT IN (SELECT id_item FROM \"~EXTERNAL_LINK\" WHERE entity='CT') UNION SELECT 'CX', id, label FROM \"COMPLEX\" WHERE id NOT IN (SELECT id_item FROM \"~EXTERNAL_LINK\" WHERE entity='CX') UNION SELECT 'CN', id, label FROM \"COUNTRY\" WHERE id NOT IN (SELECT id_item FROM \"~EXTERNAL_LINK\" WHERE entity='CN') UNION SELECT 'CP', id, label FROM \"CHAMPIONSHIP\" WHERE id NOT IN (SELECT id_item FROM \"~EXTERNAL_LINK\" WHERE entity='CP') UNION SELECT 'EV', id, label FROM \"EVENT\" WHERE id NOT IN (SELECT id_item FROM \"~EXTERNAL_LINK\" WHERE entity='EV') UNION SELECT 'PR', id, last_name || ', ' || first_name FROM \"PERSON\" WHERE id NOT IN (SELECT id_item FROM \"~EXTERNAL_LINK\" WHERE entity='PR') UNION SELECT 'RS', RS.id, SP.label || '-' || CP.label || '-' || EV.label || '-' || YR.label AS label FROM \"RESULT\" RS LEFT JOIN \"SPORT\" SP ON RS.id_sport=SP.id LEFT JOIN \"CHAMPIONSHIP\" CP ON RS.id_championship=CP.id LEFT JOIN \"EVENT\" EV ON RS.id_event=EV.id LEFT JOIN \"YEAR\" YR ON RS.id_year=YR.id WHERE RS.id NOT IN (SELECT id_item FROM \"~EXTERNAL_LINK\" WHERE entity='RS') UNION SELECT 'SP', id, label FROM \"SPORT\" WHERE id NOT IN (SELECT id_item FROM \"~EXTERNAL_LINK\" WHERE entity='SP') UNION SELECT 'TM', id, label FROM \"TEAM\" WHERE id NOT IN (SELECT id_item FROM \"~EXTERNAL_LINK\" WHERE entity='TM') ORDER BY 1, 3");
 	}
 	
 	public JQueryDialog(JFrame owner) {
@@ -120,7 +122,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 	}
 	
 	private JPanel getButtonPanel() {
-		JPanel p = new JPanel(new GridLayout(4, 2));
+		JPanel p = new JPanel(new GridLayout(5, 2));
 		p.setBorder(BorderFactory.createTitledBorder(null, "Useful Queries", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 
 		JButton jButton = new JButton("Duplicate Athletes by Sport");
@@ -155,6 +157,16 @@ public class JQueryDialog extends JDialog implements ActionListener {
 		
 		jButton = new JButton("Incomplete event results");
 		jButton.setActionCommand("query5");
+		jButton.addActionListener(this);
+		p.add(jButton);
+		
+		jButton = new JButton("Athletes/teams without country");
+		jButton.setActionCommand("query6");
+		jButton.addActionListener(this);
+		p.add(jButton);
+
+		jButton = new JButton("Entities without external link");
+		jButton.setActionCommand("query7");
 		jButton.addActionListener(this);
 		p.add(jButton);
 		

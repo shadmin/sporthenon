@@ -15,7 +15,7 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 	<div class="fieldset">
 		<div class="fstitle"><%=StringUtils.text("create.modify.result", session)%></div>
 		<div class="fscontent" style="height:auto;">
-			<div style="float:right;text-align:right;"><a href="javascript:loadDataDialog('country');">Codes pays</a><br/><a href="javascript:loadDataDialog('team');">Equipes</a></div>
+			<div style="float:right;text-align:right;"><a href="javascript:dHelp.open();"><b><%=StringUtils.text("help", session)%></b></a><br/><a href="javascript:loadDataDialog('country');"><%=StringUtils.text("country.codes", session)%></a><br/><a href="javascript:loadDataDialog('team');"><%=StringUtils.text("entity.TM", session)%></a></div>
 			<!-- RESULT INFO -->
 			<div style="float:left;padding-right:10px;">
 			<table style="margin-top:0px;">

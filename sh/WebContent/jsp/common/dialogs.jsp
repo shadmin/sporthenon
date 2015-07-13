@@ -42,10 +42,19 @@
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="savePersonList();"/><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dPersonList);"/></div>
 </div>
 </div>
+<!-- HELP -->
+<div id="d-help" class="dialog" style="display:none;">
+<div class="fieldset">
+	<div class="fstitle">Help</div>
+	<div class="fscontent" style="width:600px;height:250px;overflow:auto;">1. Formats<br/><br/>Dates : <b>JJ/MM/AAAA</b> (J = Jour / M = Mois / A = Année)<hr/>Lieu : <b>Nom du complexe, Ville, Code pays</b><br/>ou<br/><b>Ville, Code pays</b><br/>(Code pays : sur 3 caractères)<hr/></div>
+	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dHelp);"/></div>
+</div>
+</div>
 <script type="text/javascript">
 dError = new Control.Modal($('d-error'),{ closeOnClick: false, fade: false });
 dLink = new Control.Modal($('d-link'),{ closeOnClick: false, fade: false });
 dInfo = new Control.Modal($('d-info'),{ closeOnClick: false, fade: false });
 dDataTip = new Control.Modal($('d-data'),{ closeOnClick: false, fade: false });
 dPersonList = new Control.Modal($('d-plist'),{ closeOnClick: false, fade: false });
+dHelp = new Control.Modal($('d-help'),{ closeOnClick: false, fade: false });
 </script>

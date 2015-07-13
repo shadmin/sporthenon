@@ -344,4 +344,6 @@
 	<entry key="co.update">Modification</entry>
 	<entry key="co.adds">Ajouts</entry>
 	<entry key="co.updates">Modifications</entry>
+	<entry key="country.codes">Codes pays</entry>
+	<entry key="help">Aide</entry>
 </properties>

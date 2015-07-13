@@ -3,6 +3,7 @@ package com.sporthenon.utils;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,13 +23,14 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.sporthenon.utils.res.ResourceUtils;
 
 public class ExportUtils {
 	
@@ -295,28 +297,35 @@ public class ExportUtils {
 		return html;
 	}
 	
-	public static void buildPDF(OutputStream output, List lTh, List lTd, List lMerge) throws Exception {
+	public static void buildPDF(OutputStream output, List lTh, List lTd, List lMerge, String lang) throws Exception {
 		PdfPCell cell = null;
 		com.itextpdf.text.Document doc = new com.itextpdf.text.Document(PageSize.A4.rotate());
-		doc.setMargins(25.0f, 25.0f, 25.0f, 25.0f);
+		doc.setMargins(20.0f, 20.0f, 20.0f, 20.0f);
 		PdfWriter.getInstance(doc, output);
 		doc.open();
 		
-		com.itextpdf.text.Font font = new com.itextpdf.text.Font(FontFamily.HELVETICA, 10);
-		com.itextpdf.text.Font fontBold = new com.itextpdf.text.Font(font);
+		BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
+		com.itextpdf.text.Font font = new com.itextpdf.text.Font(bf, 9);
+		com.itextpdf.text.Font fontBold = new com.itextpdf.text.Font(bf, 9);
 		fontBold.setStyle(com.itextpdf.text.Font.BOLD);
 		PdfPTable t = new PdfPTable(new float[] { 1.0f });
 		t.setWidthPercentage(100.0f);
 
 		PdfPTable table = null;
 		int n = 0;
+		HashMap<String, Float> hWidth = new HashMap<String, Float>();
+		hWidth.put("", 0.5f);
+		hWidth.put(ResourceUtils.getText("entity.YR.1", lang), 0.25f);
+		hWidth.put(ResourceUtils.getText("score", lang), 0.7f);
+		hWidth.put(ResourceUtils.getText("date", lang), 0.5f);
+		hWidth.put(ResourceUtils.getText("place", lang), 1.4f);
 		for (List<String> l : (List<List<String>>) lTd) {
 			if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
 				if (n < lTh.size()) {
 					List<String> l_ = (List<String>) lTh.get(n);
 					float[] tf = new float[l_.size()];
 					for (int i = 0 ; i < l_.size() ; i++)
-						tf[i] = (i <= 1 ? 0.5f : 1.0f);
+						tf[i] = (hWidth.containsKey(l_.get(i)) ? hWidth.get(l_.get(i)) : 1.0f);
 					table = new PdfPTable(tf);
 					table.setWidthPercentage(100.0f);
 					for (int i = 0 ; i < l_.size() ; i++) {
@@ -340,7 +349,8 @@ public class ExportUtils {
 			}
 			else {
 				for (String s : l) {
-					cell = new PdfPCell(new Phrase(s.replaceAll("^\\#.+\\#", ""), font));
+					String txt = s.replaceAll("^\\#.+\\#", "");
+					cell = new PdfPCell(new Phrase(txt, font));
 					cell.setPadding(2.0f);
 					cell.setHorizontalAlignment(com.itextpdf.text.Element.ALIGN_LEFT);
 					PdfPTable table_ = null;
@@ -353,7 +363,7 @@ public class ExportUtils {
 							cell_.setBorder(0);
 							cell_.setHorizontalAlignment(com.itextpdf.text.Element.ALIGN_LEFT);
 							cell.setBorder(0);
-							table_ = new PdfPTable(2);
+							table_ = new PdfPTable(txt.length() > 3 ? new float[]{0.15f, 1.0f} : new float[]{0.5f, 0.5f});
 							table_.addCell(cell_);
 							table_.addCell(cell);
 						}
@@ -369,14 +379,6 @@ public class ExportUtils {
 		c.setBorderWidth(2);
 		t.addCell(c);
 		doc.add(t);
-//		cell = new PdfPCell(getDescriptionTable(ht, langue));
-//		cell.setColspan(3);
-//		cell.setPadding(0);
-//		table.addCell(cell);
-//		cell = new PdfPCell(getOpexTable(ht, langue));
-//		cell.setColspan(2);
-//		cell.setPadding(0);
-//		table.addCell(cell);
 		if (doc.isOpen())
 			doc.close();
 	}
@@ -471,10 +473,10 @@ public class ExportUtils {
 		}
 	}
 
-	public static void export(HttpServletResponse response, StringBuffer html, String format) throws Exception {
+	public static void export(HttpServletResponse response, StringBuffer html, String format, String lang) throws Exception {
 		try {
 			String html_ = html.toString();
-			if (format.matches("csv|excel|txt"))
+			if (format.matches("csv|xls|txt"))
 				html_ = html_.replaceAll("&nbsp;", " ").replaceAll("<br/>", "&nbsp;/&nbsp;");
 			Document doc = Jsoup.parse(html_);
 			Element elTitle = doc.getElementsByAttributeValue("class", "title").first();
@@ -493,15 +495,15 @@ public class ExportUtils {
 				parseHTML(doc, lTh, lTd, lMerge);
 				buildCSV(response.getWriter(), lTh, lTd);
 			}	
-			else if (format.equalsIgnoreCase("excel")) {
+			else if (format.equalsIgnoreCase("xls")) {
 				response.setContentType("application/vnd.ms-excel");
 				parseHTML(doc, lTh, lTd, lMerge);
-				buildExcel(response.getOutputStream(), "", lTh, lTd, lMerge, new boolean[]{false});
+				buildExcel(response.getOutputStream(), null, lTh, lTd, lMerge, new boolean[]{false});
 			}
 			else if (format.equalsIgnoreCase("pdf")) {
 				response.setContentType("application/pdf");
 				parseHTML(doc, lTh, lTd, lMerge);
-				buildPDF(response.getOutputStream(), lTh, lTd, lMerge);
+				buildPDF(response.getOutputStream(), lTh, lTd, lMerge, lang);
 			}
 			else if (format.equalsIgnoreCase("txt")) {
 				response.setContentType("text/plain");

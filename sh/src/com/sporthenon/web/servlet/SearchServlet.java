@@ -98,7 +98,7 @@ public class SearchServlet extends AbstractServlet {
 				if (isLink) {
 					HtmlUtils.setTitle(request, ResourceUtils.getText("menu.search", getLocale(request)));
 					if (hParams.containsKey("export"))
-						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
+						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), getLocale(request));
 					else
 						ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
 				}

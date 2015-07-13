@@ -85,6 +85,7 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	public static String getSportDivs(String lang) throws Exception {
+		final int N = 8;
 		HashMap<Integer, String> hSports = new HashMap<Integer, String>();
 		ArrayList<Integer> lId = new ArrayList<Integer>();
 		for (Object obj : DatabaseHelper.execute("from Sport order by index")) {
@@ -101,15 +102,15 @@ private static final long serialVersionUID = 1L;
 		int index = 0;
 		int count = 1;
 		for (Integer i : lId) {
-			if (index > 0 && index % 7 == 0) {
+			if (index > 0 && index % N == 0) {
 				sports.append("</div><div class='slide'>");
 				count++;
 			}
 			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(index)));
 			index++;
-			if (index == 7)
+			if (index == N)
 				slide1 = sports.toString();
-			if (count > 5 && index % 7 == 0)
+			if (count > 5 && index % N == 0)
 				break;
 		}
 		sports.append("</div>");

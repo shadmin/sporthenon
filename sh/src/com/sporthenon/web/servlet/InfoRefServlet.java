@@ -75,7 +75,7 @@ public class InfoRefServlet extends AbstractServlet {
 				if (isLink) {
 					HtmlUtils.setTitle(request, html.toString());
 					if (isExport)
-						ExportUtils.export(response, html, String.valueOf(hParams.get("export")));
+						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), getLocale(request));
 					else
 						ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
 				}

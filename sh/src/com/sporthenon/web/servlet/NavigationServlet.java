@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.utils.ConfigUtils;
+import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 
 public class NavigationServlet extends AbstractServlet {
@@ -88,7 +89,7 @@ public class NavigationServlet extends AbstractServlet {
 					dispatcher = request.getRequestDispatcher("/jsp/index.jsp");
 				}
 				else {
-					request.setAttribute("title", ResourceUtils.getText(hTitle.containsKey(key) ? hTitle.get(key) : "title", getLocale(request)) + " | Sporthenon");
+					request.setAttribute("title", StringUtils.getTitle(ResourceUtils.getText(hTitle.containsKey(key) ? hTitle.get(key) : "title", getLocale(request))));
 					request.setAttribute("menu", key);
 					dispatcher = request.getRequestDispatcher("/jsp/" + hPages.get(key));
 				}

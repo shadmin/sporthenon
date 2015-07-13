@@ -403,6 +403,7 @@ var dLink = null;
 var dInfo = null;
 var dDataTip = null;
 var dPersonList = null;
+var dHelp = null;
 function share(type) {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	var langParam = '?lang=' + lang;
@@ -643,7 +644,7 @@ function moreSports(index1, index2) {
 }
 function initSliderHome(html) {
 	$$('#sports .content')[0].update(html);
-	createSlider('sports', 768, 120, true);
+	createSlider('sports', 876, 120, true);
 }
 function moreLastUpdates(row, p) {
 	var cell = $(row).up();
@@ -1458,7 +1459,12 @@ function saveResult() {
 		onSuccess: function(response){
 			var text = response.responseText;
 			$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
-			$('msg').update(text.replace(/ERR\:/i, ''));
+			$('msg').update(text.replace(/^.*#|ERR\:/i, ''));
+			if (text.indexOf('ERR:') == -1) {
+				$('addbtn').hide();
+				$('modifybtn').show();
+				tValues['id'] = text.split('#')[0];
+			}
 		},
 		parameters: h
 	});

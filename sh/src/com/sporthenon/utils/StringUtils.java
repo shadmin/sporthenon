@@ -339,4 +339,8 @@ public class StringUtils {
 		return (notEmpty(s) ? Jsoup.parse(s).text() : s);
 	}
 	
+	public static String getTitle(String s) {
+		return s.replaceAll("\\-", "–") + " | Sporthenon";
+	}
+	
 }

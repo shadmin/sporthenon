@@ -4,6 +4,7 @@
 <%@ page import="java.util.Collection"%>
 <%@ page import="java.util.List"%>
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
+<%@ page import="com.sporthenon.db.entity.Sport"%>
 <%@ page import="com.sporthenon.db.function.LastUpdateBean"%>
 <%@ page import="com.sporthenon.db.function.StatisticsBean"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
@@ -28,7 +29,13 @@
 				<td class="olympics" onclick="location.href='/olympics';" onmouseover='overTopic(TX_DESC_OLYMPICS);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.olympics", session)%></td>
 				<td class="usleagues" onclick="location.href='/usleagues';" onmouseover='overTopic(TX_DESC_USLEAGUES);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.usleagues", session)%></td>
 				<td id="details" style="display:none;"></td></tr></table></div>
-			<hr/><img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("access.sport", session)%></b><br/>
+			<hr/><img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("access.sport", session)%></b><select style="margin-left:10px;" onchange="location.href=this.value;"><option value="">--- Choose sport ---</option>
+			<%
+				String lang = String.valueOf(session.getAttribute("locale"));
+				for (Sport sp : (List<Sport>) DatabaseHelper.execute("from Sport order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "")))
+					out.print("<option value=\"" + StringUtils.urlEscape("/sport/" + sp.getLabel() + "/" + StringUtils.encode("SP-" + sp.getId())) + "\">" + sp.getLabel(lang) + "</option>");
+			%>
+			</select><br/>
 			<div id="sports" class="slider"><%@include file="../html/slider.html"%></div>
 		</div>
 	</div>
@@ -45,7 +52,6 @@
 			<th id="tlast-dtcol" class="sorted desc" onclick="sort('tlast', this, 4);"><%=StringUtils.text("updated.on", session).replaceAll("\\s", "&nbsp;")%></th>
 		</tr></thead><tbody class="tby" id="tb-tlast">
 		<%
-			String lang = String.valueOf(session.getAttribute("locale"));
         	ArrayList<Object> lParams = new ArrayList<Object>();
         	lParams.add(new Integer(20));
         	lParams.add(new Integer(0));
