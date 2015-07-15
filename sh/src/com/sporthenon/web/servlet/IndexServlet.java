@@ -60,7 +60,7 @@ private static final long serialVersionUID = 1L;
 		        lParams.add(count);
 		        lParams.add(offset);
 		        lParams.add("_" + lang);
-		        ServletHelper.writeTabHtml(response, HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams), count, offset, getLocale(request)), getLocale(request));
+		        ServletHelper.writeTabHtml(request, response, HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams), count, offset, getLocale(request)), getLocale(request));
 			}
 			else if (hParams.containsKey("report")) { // Report
 				ArrayList<String> lReport = new ArrayList<String>();

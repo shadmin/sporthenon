@@ -87,7 +87,7 @@ public class ResultServlet extends AbstractServlet {
 						}
 					}
 					else
-						ServletHelper.writeTabHtml(response, html.append(isLink ? "</div>" : ""), getLocale(request));
+						ServletHelper.writeTabHtml(request, response, html.append(isLink ? "</div>" : ""), getLocale(request));
 				}
 			}
 			else { // Picklists

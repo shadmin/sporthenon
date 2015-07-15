@@ -88,7 +88,7 @@ public class OlympicsServlet extends AbstractServlet {
 					}
 				}
 				else
-					ServletHelper.writeTabHtml(response, html, getLocale(request));
+					ServletHelper.writeTabHtml(request, response, html, getLocale(request));
 			}
 			else if (hParams.containsKey("tree")) { // Tree of sports/events
 				String ol = String.valueOf(hParams.get("ol"));

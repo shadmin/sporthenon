@@ -103,7 +103,7 @@ public class SearchServlet extends AbstractServlet {
 						ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
 				}
 				else
-					ServletHelper.writeTabHtml(response, html, getLocale(request));
+					ServletHelper.writeTabHtml(request, response, html, getLocale(request));
 			}
 		}
 		catch (Exception e) {

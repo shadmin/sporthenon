@@ -60,6 +60,7 @@ public class NavigationServlet extends AbstractServlet {
 			String[] tURI = request.getRequestURI().substring(1).split("\\/", 0);
 			String key = tURI[0];
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
+			request.setAttribute("url", request.getRequestURL());
 			RequestDispatcher dispatcher = null;
 			if (ConfigUtils.getProperty("env").matches("test|prod"))
 				if (key != null && key.equals("update") && (request.getSession() == null || request.getSession().getAttribute("user") == null))

@@ -662,6 +662,8 @@ public class HtmlConverter {
 		else if (type.equals(Result.alias)) {
 			StringBuffer html = new StringBuffer();
 			Result r = (Result) DatabaseHelper.loadEntity(Result.class, id);
+			Map<Integer, List<StringBuffer>> mpl = getPersonLists(String.valueOf(id));
+			List<StringBuffer> plist = mpl.get(id);
 			// Info
 			Integer eventId = (r.getSubevent2() != null ? r.getSubevent2().getId() : (r.getSubevent() != null ? r.getSubevent().getId() : r.getEvent().getId()));
 			html.append("<span class='title'>[" + r.getYear().getLabel() + "] " + r.getSport().getLabel(lang) + "&nbsp;-&nbsp;" + r.getChampionship().getLabel(lang) + (r.getEvent() != null ? "&nbsp;-&nbsp;" + r.getEvent().getLabel(lang) + (r.getSubevent() != null ? "&nbsp;-&nbsp;" + r.getSubevent().getLabel(lang) : "") + (r.getSubevent2() != null ? "&nbsp;-&nbsp;" + r.getSubevent2().getLabel(lang) : "") : "") + "</span>");
@@ -736,44 +738,44 @@ public class HtmlConverter {
 				int type_ = ev_.getType().getNumber();
 				boolean isScore = (bean.getRsRank1() != null && bean.getRsRank2() != null && StringUtils.notEmpty(bean.getRsResult1()) && !StringUtils.notEmpty(bean.getRsResult2()) && !StringUtils.notEmpty(bean.getRsResult3()));
 				if (bean.getRsRank1() != null) {
-					tEntity[0] = getResultsEntity(type_, bean.getRsRank1(), bean.getEn1Str1(), bean.getEn1Str2(), bean.getEn1Str3(), bean.getEn1Rel2Code(), bean.getYrLabel(), null);
+					tEntity[0] = getResultsEntity(type_, bean.getRsRank1(), bean.getEn1Str1(), bean.getEn1Str2(), bean.getEn1Str3(), bean.getEn1Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 0 ? "plist-" + id + "-0" : null);
 					tEntityRel[0] = getResultsEntityRel(bean.getEn1Rel1Id(), bean.getEn1Rel1Label(), bean.getEn1Rel1Label(), bean.getEn1Rel2Id(), bean.getEn1Rel2Label(), bean.getEn1Rel2Label(), bean.getEn1Rel2LabelEN(), false, false, bean.getYrLabel());
 					tResult[0] = bean.getRsResult1();
 				}
 				if (bean.getRsRank2() != null) {
-					tEntity[1] = getResultsEntity(type_, bean.getRsRank2(), bean.getEn2Str1(), bean.getEn2Str2(), bean.getEn2Str3(), bean.getEn2Rel2Code(), bean.getYrLabel(), null);
+					tEntity[1] = getResultsEntity(type_, bean.getRsRank2(), bean.getEn2Str1(), bean.getEn2Str2(), bean.getEn2Str3(), bean.getEn2Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 1 ? "plist-" + id + "-1" : null);
 					tEntityRel[1] = getResultsEntityRel(bean.getEn2Rel1Id(), bean.getEn2Rel1Label(), bean.getEn2Rel1Label(), bean.getEn2Rel2Id(), bean.getEn2Rel2Label(), bean.getEn2Rel2Label(), bean.getEn2Rel2LabelEN(), false, false, bean.getYrLabel());
 					tResult[1] = bean.getRsResult2();
 				}
 				if (bean.getRsRank3() != null) {
-					tEntity[2] = getResultsEntity(type_, bean.getRsRank3(), bean.getEn3Str1(), bean.getEn3Str2(), bean.getEn3Str3(), bean.getEn3Rel2Code(), bean.getYrLabel(), null);
+					tEntity[2] = getResultsEntity(type_, bean.getRsRank3(), bean.getEn3Str1(), bean.getEn3Str2(), bean.getEn3Str3(), bean.getEn3Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 2 ? "plist-" + id + "-2" : null);
 					tEntityRel[2] = getResultsEntityRel(bean.getEn3Rel1Id(), bean.getEn3Rel1Label(), bean.getEn3Rel1Label(), bean.getEn3Rel2Id(), bean.getEn3Rel2Label(), bean.getEn3Rel2Label(), bean.getEn3Rel2LabelEN(), false, false, bean.getYrLabel());
 					tResult[2] = bean.getRsResult3();
 				}
 				if (bean.getRsRank4() != null) {
-					tEntity[3] = getResultsEntity(type_, bean.getRsRank4(), bean.getEn4Str1(), bean.getEn4Str2(), bean.getEn4Str3(), bean.getEn4Rel2Code(), bean.getYrLabel(), null);
+					tEntity[3] = getResultsEntity(type_, bean.getRsRank4(), bean.getEn4Str1(), bean.getEn4Str2(), bean.getEn4Str3(), bean.getEn4Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 3 ? "plist-" + id + "-3" : null);
 					tEntityRel[3] = getResultsEntityRel(bean.getEn3Rel1Id(), bean.getEn4Rel1Label(), bean.getEn4Rel1Label(), bean.getEn4Rel2Id(), bean.getEn4Rel2Label(), bean.getEn4Rel2Label(), bean.getEn4Rel2LabelEN(), false, false, bean.getYrLabel());
 					tResult[3] = bean.getRsResult4();
 				}
 				if (bean.getRsRank5() != null) {
-					tEntity[4] = getResultsEntity(type_, bean.getRsRank5(), bean.getEn5Str1(), bean.getEn5Str2(), bean.getEn5Str3(), bean.getEn5Rel2Code(), bean.getYrLabel(), null);
+					tEntity[4] = getResultsEntity(type_, bean.getRsRank5(), bean.getEn5Str1(), bean.getEn5Str2(), bean.getEn5Str3(), bean.getEn5Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 4 ? "plist-" + id + "-4" : null);
 					tEntityRel[4] = getResultsEntityRel(bean.getEn5Rel1Id(), bean.getEn5Rel1Label(), bean.getEn5Rel1Label(), bean.getEn5Rel2Id(), bean.getEn5Rel2Label(), bean.getEn5Rel2Label(), bean.getEn5Rel2LabelEN(), false, false, bean.getYrLabel());
 					tResult[4] = bean.getRsResult5();
 				}
 				if (bean.getRsRank6() != null) {
-					tEntity[5] = getResultsEntity(type_, bean.getRsRank6(), bean.getEn6Str1(), bean.getEn6Str2(), bean.getEn6Str3(), bean.getEn6Rel2Code(), bean.getYrLabel(), null);
+					tEntity[5] = getResultsEntity(type_, bean.getRsRank6(), bean.getEn6Str1(), bean.getEn6Str2(), bean.getEn6Str3(), bean.getEn6Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 5 ? "plist-" + id + "-5" : null);
 					tEntityRel[5] = getResultsEntityRel(bean.getEn6Rel1Id(), bean.getEn6Rel1Label(), bean.getEn6Rel1Label(), bean.getEn6Rel2Id(), bean.getEn6Rel2Label(), bean.getEn6Rel2Label(), bean.getEn6Rel2LabelEN(), false, false, bean.getYrLabel());
 				}
 				if (bean.getRsRank7() != null) {
-					tEntity[6] = getResultsEntity(type_, bean.getRsRank7(), bean.getEn7Str1(), bean.getEn7Str2(), bean.getEn7Str3(), bean.getEn7Rel2Code(), bean.getYrLabel(), null);
+					tEntity[6] = getResultsEntity(type_, bean.getRsRank7(), bean.getEn7Str1(), bean.getEn7Str2(), bean.getEn7Str3(), bean.getEn7Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 6 ? "plist-" + id + "-6" : null);
 					tEntityRel[6] = getResultsEntityRel(bean.getEn7Rel1Id(), bean.getEn7Rel1Label(), bean.getEn7Rel1Label(), bean.getEn7Rel2Id(), bean.getEn7Rel2Label(), bean.getEn7Rel2Label(), bean.getEn7Rel2LabelEN(), false, false, bean.getYrLabel());
 				}
 				if (bean.getRsRank8() != null) {
-					tEntity[7] = getResultsEntity(type_, bean.getRsRank8(), bean.getEn8Str1(), bean.getEn8Str2(), bean.getEn8Str3(), bean.getEn8Rel2Code(), bean.getYrLabel(), null);
+					tEntity[7] = getResultsEntity(type_, bean.getRsRank8(), bean.getEn8Str1(), bean.getEn8Str2(), bean.getEn8Str3(), bean.getEn8Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 7 ? "plist-" + id + "-7" : null);
 					tEntityRel[7] = getResultsEntityRel(bean.getEn8Rel1Id(), bean.getEn8Rel1Label(), bean.getEn8Rel1Label(), bean.getEn8Rel2Id(), bean.getEn8Rel2Label(), bean.getEn8Rel2Label(), bean.getEn8Rel2LabelEN(), false, false, bean.getYrLabel());
 				}
 				if (bean.getRsRank9() != null) {
-					tEntity[8] = getResultsEntity(type_, bean.getRsRank9(), bean.getEn9Str1(), bean.getEn9Str2(), bean.getEn9Str3(), bean.getEn9Rel2Code(), bean.getYrLabel(), null);
+					tEntity[8] = getResultsEntity(type_, bean.getRsRank9(), bean.getEn9Str1(), bean.getEn9Str2(), bean.getEn9Str3(), bean.getEn9Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 8 ? "plist-" + id + "-8" : null);
 					tEntityRel[8] = getResultsEntityRel(bean.getEn9Rel1Id(), bean.getEn9Rel1Label(), bean.getEn9Rel1Label(), bean.getEn9Rel2Id(), bean.getEn9Rel2Label(), bean.getEn9Rel2Label(), bean.getEn9Rel2LabelEN(), false, false, bean.getYrLabel());
 				}
 				boolean isDouble = (type_ == 4 || (bean.getRsComment() != null && bean.getRsComment().equals("#DOUBLE#")));
@@ -781,11 +783,11 @@ public class HtmlConverter {
 				setTies(getTieList(isDouble, isTriple, bean.getRsExa()), type_, tEntity, tEntityRel);
 				if (isTriple || isDouble) {
 					tEntity = StringUtils.removeNulls(tEntity);
-					tEntityRel = StringUtils.removeNulls(tEntityRel);		
+					tEntityRel = StringUtils.removeNulls(tEntityRel);
 				}
 				for (int i = 0 ; i < 9 ; i++)
 					if (tEntity[i] != null)
-						tEntityHtml[i] = ("<td>" + tEntity[i] + "</td>" + tEntityRel[i] + (StringUtils.notEmpty(tResult[i]) && !isScore ? "<td>" + tResult[i] + "</td>" : ""));
+						tEntityHtml[i] = ("<td>" + tEntity[i] + (plist != null && plist.size() > i ? "<table id='plist-" + id + "-" + i + "' class='plist' style='display:none;'>" + plist.get(i).toString() + "</table>" : "") + "</td>" + tEntityRel[i] + (StringUtils.notEmpty(tResult[i]) && !isScore ? "<td>" + tResult[i] + "</td>" : ""));
 				html.append("<tr><td colspan='2' class='result'>");
 				html.append("<table><tr style='font-weight:bold;'><th>" + ResourceUtils.getText("rank.winner", lang) + "&nbsp;</th>" + (tEntityHtml[0] != null ? tEntityHtml[0] : "<td>" + ResourceUtils.getText("none", lang) + "</td>"));
 				if (isScore)
@@ -2010,7 +2012,7 @@ public class HtmlConverter {
 					pos4 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn4Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, bean.getCn4Id(), bean.getCn4Label(), bean.getCn4LabelEN()));
 			}
 			String year = "<b>" + bean.getYrLabel() + "</b>";
-			String update = new SimpleDateFormat("dd MMM yyyy").format(bean.getRsUpdate());
+			String update = StringUtils.toTextDate(bean.getRsUpdate(), lang, "dd MMM yyyy");
 			String update2 = new SimpleDateFormat("yyyyMMddHHmm").format(bean.getRsUpdate());
 			String path = bean.getYrLabel() + "/" + bean.getSpLabelEN() + "/" + bean.getCpLabelEN() + "/" + bean.getEvLabelEN() + (bean.getSeId() != null ? "/" + bean.getSeLabelEN() : "") + (bean.getSe2Id() != null ? "/" + bean.getSe2LabelEN() : "");
 			boolean isScore = (pos1 != null && pos2 != null && StringUtils.notEmpty(bean.getRsText1()) && !StringUtils.notEmpty(bean.getRsText2()));

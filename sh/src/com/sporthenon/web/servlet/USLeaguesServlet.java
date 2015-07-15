@@ -163,7 +163,7 @@ public class USLeaguesServlet extends AbstractServlet {
 					}
 				}
 				else
-					ServletHelper.writeTabHtml(response, html, getLocale(request));
+					ServletHelper.writeTabHtml(request, response, html, getLocale(request));
 			}
 		}
 		catch (Exception e) {
