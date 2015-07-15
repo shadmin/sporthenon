@@ -1,8 +1,38 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.10.0  |
+| Last Version: 0.10.1  |
 +-----------------------+
 
++--------+
+| 0.10.1 |
++--------+
+[15 Jul 2015]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.10.1
+o Website
+	- New feature: <Error Report> (==> Link in all pages to report an error in contents)
+	- New feature: <Folder History> (==> Keep history of moved folders for URL redirection)
+	- New export formats: CSV/PDF
+	- Improved contributors info (new table to store separately adds/updates)
+	- Added meta tag <link> with hreflang for localized indexation
+	- Added "linked to" field for cities/complexes
+	- Added entity type and ref. count in search autocompletion results
+	- New stat report: request count per sport (pie chart)
+	- Picklists preloaded in US leagues page (instead of ajax requests)
+	- Automatic sorting of inactive items in treeview (displayed at end of folder)
+	- Bugfix: wrong display of special characters (UTF8) in exports
+	- Bugfix: ref. count is NULL on some olympic games (results not counted)
+	- Bugfix: tied entities (and doubles) not displayed in last updates
+	- Bugfix: entities counted twice in ref. count (when linked to another record)
+	- Bugfix: invididual olympic medals not counted in coutry stats
+	- Bugfix: person lists 
+o Android
+	[none]
+o Admin (Swing app)
+	- Added checkboxes to clear subevents in folder edition
+	- New query: untranslated items
+	- New query: incomplete event results
+	- New query: athletes/teams without country
+	
 +--------+
 | 0.10.0 |
 +--------+
