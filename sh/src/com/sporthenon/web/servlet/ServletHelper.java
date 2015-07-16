@@ -55,7 +55,9 @@ public class ServletHelper {
 	}
 	
 	public static void writeTabHtml(HttpServletRequest req, HttpServletResponse res, StringBuffer sb, String lang) throws IOException {
-		String s = sb.append(getErrorReportLink(req)).toString();
+		if (!sb.toString().startsWith("<tr"))
+			sb.append(getErrorReportLink(req));
+		String s = sb.toString();
 		res.setContentType("text/html");
         res.setCharacterEncoding("utf-8");
         if (s.matches(".*\\#INFO\\#.*")) {

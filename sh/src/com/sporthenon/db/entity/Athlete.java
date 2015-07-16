@@ -48,6 +48,9 @@ public class Athlete {
 	@Column(name = "ref")
 	private Integer ref;
 	
+	@Column(name = "img_url")
+	private String imgUrl;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -121,6 +124,14 @@ public class Athlete {
 
 	public void setRef(Integer ref) {
 		this.ref = ref;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 
 	@Override

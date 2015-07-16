@@ -252,6 +252,7 @@ public class UpdateServlet extends AbstractServlet {
 					result.setDate2(StringUtils.notEmpty(hParams.get("dt2-l")) ? String.valueOf(hParams.get("dt2-l")) : null);
 					result.setComment(StringUtils.notEmpty(hParams.get("cmt-l")) ? String.valueOf(hParams.get("cmt-l")) : null);
 					result.setExa(StringUtils.notEmpty(hParams.get("exa-l")) ? String.valueOf(hParams.get("exa-l")) : null);
+					result.setImgUrl(StringUtils.notEmpty(hParams.get("img-l")) ? String.valueOf(hParams.get("img-l")) : null);
 					// Rankings
 					for (int i = 1 ; i <= 10 ; i++) {
 						Integer id = (StringUtils.notEmpty(hParams.get("rk" + i)) ? new Integer(String.valueOf(hParams.get("rk" + i))) : 0);
@@ -406,7 +407,7 @@ public class UpdateServlet extends AbstractServlet {
 						sb.append(rs.getComplex1() != null ? rs.getComplex1().toString2() : (rs.getCity1() != null ? rs.getCity1().toString2() : "")).append("~");
 						sb.append(rs.getComplex2() != null ? rs.getComplex2().getId() : (rs.getCity2() != null ? rs.getCity2().getId() : "")).append("~");
 						sb.append(rs.getComplex2() != null ? rs.getComplex2().toString2() : (rs.getCity2() != null ? rs.getCity2().toString2() : "")).append("~");
-						sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~");
+						sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~").append(rs.getImgUrl()).append("~");
 						// External links
 						StringBuffer sbLinks = new StringBuffer();
 						try {

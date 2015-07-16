@@ -377,10 +377,13 @@ public class HtmlConverter {
 			StringBuffer sbTm = new StringBuffer();
 			StringBuffer sbCn = new StringBuffer();
 			StringBuffer sbSp = new StringBuffer();
+			String img = null;
 			ArrayList<Integer> lId = new ArrayList<Integer>();
 			for (Athlete a : lAthlete) {
 				lId.add(a.getId());
 				ref += (a.getRef() != null ? a.getRef() : 0);
+				if (StringUtils.notEmpty(a.getImgUrl()))
+					img = a.getImgUrl();
 				if (StringUtils.notEmpty(a.getLastName())) {
 					String fullName = null;
 					if (a.getCountry() != null && a.getCountry().getCode().matches(StringUtils.PATTERN_REVERT_NAME))
@@ -438,6 +441,8 @@ public class HtmlConverter {
 				hInfo.put("sport", sp);
 			if (StringUtils.notEmpty(tm))
 				hInfo.put("team", tm);
+			if (img != null)
+				hInfo.put("imgurl", img);
 			// Record
 			ArrayList<Object> lFuncParams = new ArrayList<Object>();
 			lFuncParams.add("PR");
@@ -474,10 +479,13 @@ public class HtmlConverter {
 			StringBuffer sbNm = new StringBuffer();
 			StringBuffer sbSt = new StringBuffer();
 			StringBuffer sbCn = new StringBuffer();
+			String img = null;
 			ArrayList<Integer> lId = new ArrayList<Integer>();
 			for (City c : lCity) {
 				lId.add(c.getId());
 				ref += (c.getRef() != null ? c.getRef() : 0);
+				if (StringUtils.notEmpty(c.getImgUrl()))
+					img = c.getImgUrl();
 				if (!vNm.contains(c.getLabel(lang))) {
 					sbNm.append(sbNm.toString().length() > 0 ? "<br/>" : "").append(c.getLabel(lang).toUpperCase());
 					vNm.add(c.getLabel(lang));
@@ -513,6 +521,8 @@ public class HtmlConverter {
 				hInfo.put("state", st);
 			if (StringUtils.notEmpty(cn))
 				hInfo.put("country", cn);
+			if (img != null)
+				hInfo.put("imgurl", img);
 			lastUpdate = e.getMetadata().getLastUpdate();
 		}
 		else if (type.equals(Complex.alias)) {
@@ -534,10 +544,13 @@ public class HtmlConverter {
 			StringBuffer sbCt = new StringBuffer();
 			StringBuffer sbSt = new StringBuffer();
 			StringBuffer sbCn = new StringBuffer();
+			String img = null;
 			ArrayList<Integer> lId = new ArrayList<Integer>();
 			for (Complex c : lComplex) {
 				lId.add(c.getId());
 				ref += (c.getRef() != null ? c.getRef() : 0);
+				if (StringUtils.notEmpty(c.getImgUrl()))
+					img = c.getImgUrl();
 				if (!vNm.contains(c.getLabel(lang))) {
 					sbNm.append(sbNm.toString().length() > 0 ? "<br/>" : "").append(c.getLabel(lang).toUpperCase());
 					vNm.add(c.getLabel(lang));
@@ -580,6 +593,8 @@ public class HtmlConverter {
 				hInfo.put("state", st);
 			if (StringUtils.notEmpty(cn))
 				hInfo.put("country", cn);
+			if (img != null)
+				hInfo.put("imgurl", img);
 			lastUpdate = e.getMetadata().getLastUpdate();
 		}
 		else if (type.equals(Contributor.alias)) {
@@ -668,6 +683,7 @@ public class HtmlConverter {
 			Integer eventId = (r.getSubevent2() != null ? r.getSubevent2().getId() : (r.getSubevent() != null ? r.getSubevent().getId() : r.getEvent().getId()));
 			html.append("<span class='title'>[" + r.getYear().getLabel() + "] " + r.getSport().getLabel(lang) + "&nbsp;-&nbsp;" + r.getChampionship().getLabel(lang) + (r.getEvent() != null ? "&nbsp;-&nbsp;" + r.getEvent().getLabel(lang) + (r.getSubevent() != null ? "&nbsp;-&nbsp;" + r.getSubevent().getLabel(lang) : "") + (r.getSubevent2() != null ? "&nbsp;-&nbsp;" + r.getSubevent2().getLabel(lang) : "") : "") + "</span>");
 			html.append("<span class='url'>" + HtmlUtils.writeLink(type, id, null, r.getYear().getLabel() + "/" + r.getSport().getLabel() + "/" + r.getChampionship().getLabel() + "/" + r.getEvent().getLabel() + (r.getSubevent() != null ? "/" + r.getSubevent().getLabel() : "") + (r.getSubevent2() != null ? "/" + r.getSubevent2().getLabel() : "")) + "</span>");
+			html.append("<ul class='uinfo'><li>");
 			html.append("<table class='info'><thead><tr><th colspan='2'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity.RS.1", lang).toUpperCase()) + "</th></tr></thead><tbody class='tby'>");
 			html.append("<tr><th class='caption'>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><td>" + HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, r.getSport().getId(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Sport.alias, r.getSport().getId(), r.getSport().getLabel(lang), r.getSport().getLabel())) + "</td></tr>");
 			html.append("<tr><th class='caption'>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><td>" + HtmlUtils.writeLink(Year.alias, r.getYear().getId(), r.getYear().getLabel(lang), r.getYear().getLabel()) + "</td></tr>");
@@ -799,7 +815,13 @@ public class HtmlConverter {
 					html.append("<tr><th>" + ResourceUtils.getText("rank.3", lang) + "&nbsp;</th>" + tEntityHtml[2] + "</tr>");
 				html.append("</table>");
 				html.append("</td></tr>");
-				html.append("</tbody></table>");
+				html.append("</tbody></table></li>");
+				if (StringUtils.notEmpty(r.getImgUrl())) {
+					html.append("<li><table class='photo'><tr><th><img alt='' src='/img/render/photo.png'/>" + ResourceUtils.getText("photo", lang) + "</th></tr><tr><td>");
+					html.append("<a href='" + r.getImgUrl() + "' target='_blank' title=\"" + ResourceUtils.getText("enlarge", lang) + "\"><img alt='Photo' height='230px' src='" + r.getImgUrl() + "'/></a>");
+					html.append("</td></tr></table></li>");
+				}
+				html.append("</ul>");
 			}
 			// Draw
 			lFuncParams = new ArrayList<Object>();
@@ -863,6 +885,8 @@ public class HtmlConverter {
 			hInfo.put("titlename", e.getLabel(lang).toUpperCase());
 			hInfo.put("references", "<b>" + ResourceUtils.getText("references", lang) + "</b>&nbsp;:&nbsp;" + String.valueOf(e.getRef()));
 			hInfo.put("extlinks", HtmlUtils.writeExternalLinks(type, id, lang));
+			if (StringUtils.notEmpty(e.getImgUrl()))
+				hInfo.put("imgurl", e.getImgUrl());
 			lastUpdate = e.getMetadata().getLastUpdate();
 			StringWriter sw = new StringWriter();
 			ArrayList<Object> lFuncParams = new ArrayList<Object>();
@@ -928,7 +952,7 @@ public class HtmlConverter {
 			}
 			String sp = sbSp.toString();
 			hInfo.put("title", e.getLabel());
-			hInfo.put("name", "<b>" + sbTm.toString() + "</b>");
+			hInfo.put("name", "<b>" + (StringUtils.notEmpty(e.getYear1()) ? e.getLabel().toUpperCase() : sbTm.toString()) + "</b>");
 			hInfo.put("logo", currentLogo);
 			StringBuffer sbOtherLogos = new StringBuffer();
 			if (lAllLogos != null && lAllLogos.size() > 1) {

@@ -218,6 +218,8 @@
 	<entry key="report.error">Signaler une erreur sur cette page</entry>
 	<entry key="page.error">Une erreur s'est produite. La page a été déplacée ou supprimée.</entry>
 	<entry key="select.sport">Choisir un sport</entry>
+	<entry key="photo">Photo</entry>
+	<entry key="enlarge">Agrandir l'image</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
@@ -347,4 +349,5 @@
 	<entry key="co.updates">Modifications</entry>
 	<entry key="country.codes">Codes pays</entry>
 	<entry key="help">Aide</entry>
+	<entry key="photo.url">URL photo</entry>
 </properties>

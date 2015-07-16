@@ -12,9 +12,10 @@ public class JSportPanel extends JAbstractEntityPanel {
 	public JTextField jType;
 	public JTextField jIndex;
 	public JTextField jWikiPattern;
+	public JTextField jImgURL;
 	
 	public JSportPanel() {
-		super(6);
+		super(7);
 		initialize();
 	}
 
@@ -50,13 +51,21 @@ public class JSportPanel extends JAbstractEntityPanel {
         jIndex = new JTextField();
         gridPanel.add(jIndex);
         
-		//WIKI PATTERN
+		//Wiki pattern
 		JLabel lWikiPattern = new JLabel(" Wiki Pattern:");
 		lWikiPattern.setHorizontalAlignment(LABEL_ALIGNMENT);
 		gridPanel.add(lWikiPattern);
 		jWikiPattern = new JTextField();
 		jWikiPattern.setPreferredSize(TEXT_SIZE);
 		gridPanel.add(jWikiPattern);
+		
+		//Image URL
+		JLabel lImgURL = new JLabel(" Image URL:");
+		lImgURL.setHorizontalAlignment(LABEL_ALIGNMENT);
+		gridPanel.add(lImgURL);
+		jImgURL = new JTextField();
+		jImgURL.setPreferredSize(TEXT_SIZE);
+		gridPanel.add(jImgURL);
 	}
 
 	public JTextField getLabel() {
@@ -73,6 +82,10 @@ public class JSportPanel extends JAbstractEntityPanel {
 	
 	public JTextField getIndex() {
 		return jIndex;
+	}
+	
+	public JTextField getImgURL() {
+		return jImgURL;
 	}
 
 	public JTextField getWikiPattern() {
@@ -98,6 +111,10 @@ public class JSportPanel extends JAbstractEntityPanel {
 	public void setWikiPattern(String s) {
 		jWikiPattern.setText(s);
 	}
+	
+	public void setImgURL(String s) {
+		jImgURL.setText(s);
+	}
 
 	public void clear() {
 		jId.setText("");
@@ -106,6 +123,7 @@ public class JSportPanel extends JAbstractEntityPanel {
 		jType.setText("");
 		jIndex.setText("");
 		jWikiPattern.setText("");
+		jImgURL.setText("");
 	}
 	
 	public void focus() {

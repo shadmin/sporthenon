@@ -146,17 +146,25 @@ public class HtmlUtils {
 		html.append("<span class='title'>" + title.replaceAll(".{6}\\[.+#.*\\]$", "") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
+		// Info
+		html.append("<ul class='uinfo'><li>");
 		html.append("<table class='info'" + (width != null && width > 0 ? " style='width:" + width + "px;'" : "") + ">");
 		if (h.containsKey("titlename"))
 			html.append("<tr><th>" + h.get("titlename") + "</th></tr>");
 		for (String key : h.keySet()) {
-			if (!key.matches("(tab|^)title|titleEN|url|info|\\_sport\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
+			if (!key.matches("(tab|^)title|titleEN|imgurl|url|info|\\_sport\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
 				html.append("<tr>" + (h.containsKey("_sport_") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
 				html.append("<td" + (key.matches("logo|logosport|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + ">" + h.get(key) + "</td></tr>");
 			}
 		}
-		html.append("</table>");
-		return html;
+		html.append("</table></li>");
+		// Photo
+		if (h.containsKey("imgurl")) {
+			html.append("<li><table class='photo'><tr><th><img alt='' src='/img/render/photo.png'/>" + ResourceUtils.getText("photo", lang) + "</th></tr><tr><td>");
+			html.append("<a href='" + h.get("imgurl") + "' target='_blank' title=\"" + ResourceUtils.getText("enlarge", lang) + "\"><img alt='Photo' height='230px' src='" + h.get("imgurl") + "'/></a>");
+			html.append("</td></tr></table></li>");
+		}
+		return html.append("</ul>");
 	}
 
 	public static String writeTip(String t, Object o) {

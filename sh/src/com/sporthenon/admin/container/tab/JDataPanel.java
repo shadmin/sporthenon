@@ -373,6 +373,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLink(pr.getLink() != null ? String.valueOf(pr.getLink()) : null);
 			p.setLastName(pr.getLastName());
 			p.setFirstName(StringUtils.notEmpty(pr.getFirstName()) ? pr.getFirstName() : "");
+			p.setImgURL(StringUtils.notEmpty(pr.getImgUrl()) ? pr.getImgUrl() : "");
 			p.setLinkLabel(" Linked to:");
 			if (pr.getLink() != null && pr.getLink() > 0) {
 				try {
@@ -398,6 +399,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabelFR(ct.getLabelFr());
 			p.setState(ct.getState() != null ? ct.getState().getId() : null);
 			p.setCountry(ct.getCountry() != null ? ct.getCountry().getId() : null);
+			p.setImgURL(StringUtils.notEmpty(ct.getImgUrl()) ? ct.getImgUrl() : "");
 			p.setLink(ct.getLink() != null ? String.valueOf(ct.getLink()) : null);
 			p.setLinkLabel(" Linked to:");
 			if (ct.getLink() != null && ct.getLink() > 0) {
@@ -416,6 +418,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabel(cx.getLabel());
 			p.setLabelFR(cx.getLabelFr());
 			p.setCity(cx.getCity() != null ? cx.getCity().getId() : null);
+			p.setImgURL(StringUtils.notEmpty(cx.getImgUrl()) ? cx.getImgUrl() : "");
 			p.setLink(cx.getLink() != null ? String.valueOf(cx.getLink()) : null);
 			p.setLinkLabel(" Linked to:");
 			if (cx.getLink() != null && cx.getLink() > 0) {
@@ -464,6 +467,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setIndex(sp.getIndex() != null ? String.valueOf(sp.getIndex()) : null);
 			p.setType(String.valueOf(sp.getType()));
 			p.setWikiPattern(sp.getWikiPattern());
+			p.setImgURL(StringUtils.notEmpty(sp.getImgUrl()) ? sp.getImgUrl() : "");
 		}
 		else if (o instanceof State) {
 			State st = (State) o;

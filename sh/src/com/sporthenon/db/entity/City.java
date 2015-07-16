@@ -44,6 +44,9 @@ public class City {
 	@Column(name = "ref")
 	private Integer ref;
 	
+	@Column(name = "img_url")
+	private String imgUrl;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -113,6 +116,14 @@ public class City {
 
 	public void setRef(Integer ref) {
 		this.ref = ref;
+	}
+	
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 
 	@Override

@@ -141,9 +141,35 @@
 .tc .toggletext:hover{
 	text-decoration: underline;
 }
-.tc .info{
+.tc .uinfo{
+	margin: 0 auto;
+	padding: 0px;
 	margin-top: 5px;
 	margin-bottom: 10px;
+	clear: both;
+	text-align: center;
+}
+.tc .uinfo li{
+	vertical-align: top;
+	display: inline-block;
+}
+.tc .photo{
+	margin: 0px;
+	margin-left: 10px;
+	border: 2px solid #000;
+}
+.tc .photo td{
+	padding: 6px;
+}
+.tc .photo th img{
+	padding-right: 3px;
+	vertical-align: text-top;
+}
+.tc .photo td img{
+	vertical-align: middle;
+}
+.tc .info{
+	margin: 0px;
 	border: 2px solid #000;
 }
 .tc .info td{

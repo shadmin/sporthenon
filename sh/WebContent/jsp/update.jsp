@@ -60,7 +60,10 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 				<tr><td><input type="text" id="rk10" tabindex="114" name="<%=StringUtils.text("rank.10", session)%>"/><a href="javascript:clearValue('rk10');">[X]</a></td><td><a href="javascript:initPersonList(10);"><img src="/img/personlist.png"/></a></td></tr>
 			</table>
 			<table>
-				<tr><td><textarea id="exl" tabindex="13" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="5" style="width:400px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
+				<tr><td><input type="text" id="img" tabindex="13" name="<%=StringUtils.text("photo.url", session)%>" style="width:400px;"/></td></tr>
+			</table>
+			<table>
+				<tr><td><textarea id="exl" tabindex="14" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="3" style="width:400px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
 			</table>
 			</div>
 			<!-- DRAWS -->

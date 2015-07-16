@@ -317,6 +317,7 @@ public class JMainFrame extends JFrame {
 			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
 			en.setLastName(p.getLastName().getText());
 			en.setFirstName(p.getFirstName().getText());
+			en.setImgUrl(p.getImgURL().getText());
 			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLastName() + ", " + en.getFirstName() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : "") + (en.getTeam() != null ? " [" + en.getTeam().getLabel() + "]" : ""));
 			if (en.getLink() != null && en.getLink() > 0) {
 				try {
@@ -347,6 +348,7 @@ public class JMainFrame extends JFrame {
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setState((State)DatabaseHelper.loadEntity(State.class, SwingUtils.getValue(p.getState())));
 			en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
+			en.setImgUrl(p.getImgURL().getText());
 			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
 			plb.setText(en.getLabel() + ", " + en.getCountry().getCode());
 			if (en.getLink() != null && en.getLink() > 0) {
@@ -369,6 +371,7 @@ public class JMainFrame extends JFrame {
 			en.setLabel(p.getLabel().getText());
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setCity((City)DatabaseHelper.loadEntity(City.class, SwingUtils.getValue(p.getCity())));
+			en.setImgUrl(p.getImgURL().getText());
 			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
 			plb.setText(en.getLabel() + " [" + en.getCity().getLabel() + ", " + en.getCity().getCountry().getCode() + "]");
 			if (en.getLink() != null && en.getLink() > 0) {
@@ -424,6 +427,7 @@ public class JMainFrame extends JFrame {
 			en.setType(new Integer(p.getType().getText()));
 			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? new Float(p.getIndex().getText()) : null);
 			en.setWikiPattern(p.getWikiPattern().getText());
+			en.setImgUrl(p.getImgURL().getText());
 			plb.setText(en.getLabel());
 		}
 		else if (alias.equalsIgnoreCase(State.alias)) {

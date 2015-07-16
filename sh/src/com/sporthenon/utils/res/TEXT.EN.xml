@@ -218,6 +218,8 @@
 	<entry key="report.error">Report an error on this page</entry>
 	<entry key="page.error">An error occured. The page has been moved or deleted.</entry>
 	<entry key="select.sport">Select a sport</entry>
+	<entry key="photo">Photo</entry>
+	<entry key="enlarge">Enlarge image</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>
@@ -348,4 +350,5 @@
 	<entry key="co.updates">Updates</entry>
 	<entry key="country.codes">Country codes</entry>
 	<entry key="help">Help</entry>
+	<entry key="photo.url">Photo URL</entry>
 </properties>

@@ -20,9 +20,10 @@ public class JComplexPanel extends JAbstractEntityPanel {
 	public JEntityPicklist jCity;
 	public JLabel lLink;
 	public JLinkTextField jLink;
-
+	public JTextField jImgURL;
+	
 	public JComplexPanel() {
-		super(5);
+		super(6);
 		initialize();
 	}
 
@@ -50,6 +51,14 @@ public class JComplexPanel extends JAbstractEntityPanel {
         jCity = new JEntityPicklist(this, City.alias);
         gridPanel.add(jCity);
         
+		//Image URL
+		JLabel lImgURL = new JLabel(" Image URL:");
+		lImgURL.setHorizontalAlignment(LABEL_ALIGNMENT);
+		gridPanel.add(lImgURL);
+		jImgURL = new JTextField();
+		jImgURL.setPreferredSize(TEXT_SIZE);
+		gridPanel.add(jImgURL);
+        
 		//Link
 		lLink = new JLabel(" Linked to:");
 		lLink.setHorizontalAlignment(LABEL_ALIGNMENT);
@@ -71,6 +80,10 @@ public class JComplexPanel extends JAbstractEntityPanel {
 		return jCity;
 	}
 	
+	public JTextField getImgURL() {
+		return jImgURL;
+	}
+	
 	public JLinkTextField getLink() {
 		return jLink;
 	}
@@ -87,6 +100,10 @@ public class JComplexPanel extends JAbstractEntityPanel {
 		SwingUtils.selectValue(jCity, id);
 	}
 	
+	public void setImgURL(String s) {
+		jImgURL.setText(s);
+	}
+	
 	public void setLink(String s) {
 		jLink.setText(s);
 	}
@@ -100,6 +117,7 @@ public class JComplexPanel extends JAbstractEntityPanel {
 		jLabel.setText("");
 		jLabelFR.setText("");
 		jCity.clear();
+		jImgURL.setText("");
 		jLink.setText("");
 	}
 	
