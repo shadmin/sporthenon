@@ -27,8 +27,8 @@ import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.meta.InactiveItem;
+import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.db.function.ResultsBean;
-import com.sporthenon.db.function.WinRecordsBean;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
@@ -367,11 +367,11 @@ public class AndroidServlet extends AbstractServlet {
 				ArrayList<Object> lParams = new ArrayList<Object>();
 				lParams.add(StringUtils.implode(lIds, ","));
 				lParams.add("_" + lang);
-				List<WinRecordsBean> list_ = (List<WinRecordsBean>) DatabaseHelper.call("WinRecords", lParams);
+				List<RefItem> list_ = (List<RefItem>) DatabaseHelper.call("WinRecords", lParams);
 				if (list_ != null && list_.size() > 0) {
-					WinRecordsBean bean = list_.get(0);
-					root.setAttribute("winrec-name", bean.getEntityStr());
-					root.setAttribute("winrec-count", String.valueOf(bean.getCountWin()));
+					RefItem item = list_.get(0);
+					root.setAttribute("winrec-name", item.getLabel());
+					root.setAttribute("winrec-count", String.valueOf(item.getCount1()));
 				}
 			}
 			catch (Exception e) {

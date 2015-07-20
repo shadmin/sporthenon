@@ -34,14 +34,15 @@ var treeItems = null;
 <div id="results" class="fieldset">
 	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
 	<form action="/results">
-	<div class="spcpdiv">
+	<ul>
+	<li class="spcpdiv">
 	<table>
 		<tr><td style="text-align:left;"><%=StringUtils.text("sport", session)%>:</td></tr>
 		<tr><td><select id="pl-sp" name="pl-sp"><option/></select></td></tr>
 		<tr><td><div id="slider-sp" class="slider"><%@include file="../../html/slider.html" %></div></td></tr>
 	</table>
-	</div>
-	<div class="evdiv" style="padding-left:5px;">
+	</li>
+	<li class="evdiv" style="padding-left:5px;">
 	<table>
 		<tr><td colspan="4" style="text-align:left;"><%=StringUtils.text("event", session)%>:</td></tr>
 		<tr>
@@ -66,7 +67,8 @@ var treeItems = null;
 		<tr><td colspan="4" style="padding:0;"><div id="sm-pl-yr" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
 		<tr><td colspan="4" style="padding-top:15px;text-align:right;">(&dagger;&nbsp;<%=StringUtils.text("event.notheld", session)%>)</td></tr>
 	</table>
-	</div>
+	</li>
+	</ul>
 	</form>
 </div>
 <%@include file="../../html/buttons.html" %>

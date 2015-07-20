@@ -38,6 +38,15 @@ a:focus{
 input{
 	outline: none;
 }
+ul{
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+li{
+	vertical-align: top;
+}
 .fieldset{
 	background: #FFF;
 	text-align: left;
@@ -429,8 +438,8 @@ input{
   ========== SLIDER ========== 
   ============================*/
 .slider .arrow{
-	float: left;
-	width: 22px;
+	display: inline-block;
+	width: 18px;
 	padding-top: 25px;
 }
 .slider .slider-control{
@@ -445,7 +454,7 @@ input{
 	background-color: #E0E0E0;
 }
 .slider .container{
-	float: left;
+	display: inline-block;
 	overflow: hidden;
 	text-align: center;
 	border: none;
@@ -736,6 +745,15 @@ input{
 	vertical-align: top;
 	padding: 5px;
 }
+#home .fscontent ul{
+	list-style: none;
+	margin: 0px;
+	padding-left: 0px;
+}
+#home .fscontent li{
+	display: inline-block;
+	list-style-image: none;
+}
 /*=============================
   ========== RESULTS ========== 
   =============================*/
@@ -747,13 +765,12 @@ input{
 	margin-right: 5px;
 }
 #results{
-	/*overflow: auto;*/
 	height: 245px;
 	margin-left: 390px;
 	margin-right: 10px;
 }
 #results .spcpdiv{
-	float: left;
+	display: inline-block;
 	width: 200px;
 	height: 210px;
 	border-right: 1px solid #BBB;
@@ -782,7 +799,7 @@ input{
 	width: 100%;
 }
 #results .evdiv{
-	float: left;
+	display: inline-block;
 	width: 290px;
 	height: 182px;
 	padding: 0px 0px;
@@ -831,17 +848,17 @@ input{
 	height: 290px;
 }
 #olympics #oltype{
-	float: left;
+	display: inline-block;
+	width: 185px;
+	height: 240px;
 }
 #olympics #oltype div{
-	float: left;
-	width: 175px;
 	margin: 6px 6px;
 	margin-right: 0px;
 	padding: 3px;
-	border: 1px solid #FFF;
 	text-align: center;
 	cursor: pointer;
+	border: 1px solid #FFF;
 }
 #olympics #oltype input{
 	cursor: pointer;
@@ -851,7 +868,7 @@ input{
 	background-color: #FFC;
 }
 #olympics .fieldset{
-	float: left;
+	display: inline-block;
 	width: 460px;
 	height: 242px;
 	margin: 6px 6px;
@@ -898,14 +915,14 @@ input{
 	/*overflow: auto;*/
 }
 #usleagues .league{
-	float: left;
+	display: inline-block;
 	margin: 18px 0px;
 	margin-right: 5px;
-	width: 195px;
+	width: 180px;
 	text-align: center;
 }
 #usleagues .league .slider{
-	margin-left: 20px;
+	margin-left: 6px;
 }
 #usleagues .league .slide{
 	background-color: #FFF;
@@ -916,13 +933,13 @@ input{
 	margin-top: 25px;
 }
 #usleagues #usltype{
-	float: left;
+	display: inline-block;
 	padding: 10px;
 	padding-left: 0px;
 	margin-top: 8px;
 }
 #usleagues #usltype div{
-	width: 280px;
+	width: 275px;
 	border: 1px solid #CCC;
 	margin-bottom: 15px;
 	padding: 5px; 

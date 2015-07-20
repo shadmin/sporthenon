@@ -21,11 +21,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta name="Description" content="<%=StringUtils.text("desc", session)%>"/>
 	<meta name="keywords" content="<%=StringUtils.text("keywords", session)%>"/>
-	<% if (lang.equals(ResourceUtils.LGDEFAULT)) { %>
-	<link rel="alternate" hreflang="fr" href="http://fr.sporthenon.com/"/>
-	<% } else { %>
 	<link rel="alternate" hreflang="x-default" href="http://www.sporthenon.com/"/>
-	<% } %>
+	<link rel="alternate" hreflang="fr" href="http://fr.sporthenon.com/"/>
 	<meta property="og:title" content="<%=title%>"/>
 	<meta property="og:type" content="website"/>
 	<meta property="og:image" content="<%=url%>img/icon-notext-shadow.png?1"/>

@@ -19,7 +19,6 @@ import com.sporthenon.db.function.TeamStadiumBean;
 import com.sporthenon.db.function.USChampionshipsBean;
 import com.sporthenon.db.function.USRecordsBean;
 import com.sporthenon.db.function.WinLossBean;
-import com.sporthenon.db.function.WinRecordsBean;
 
 public class FunctionTest extends TestCase {
 
@@ -173,7 +172,7 @@ public class FunctionTest extends TestCase {
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
 		ArrayList<Object> lst = new ArrayList<Object>(col);
-		assertTrue(lst.get(0) instanceof WinRecordsBean);
+		assertTrue(lst.get(0) instanceof RefItem);
 //		for (Object obj : lst)
 //			System.out.println(obj);
 	}

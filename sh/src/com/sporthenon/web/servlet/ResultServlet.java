@@ -74,7 +74,7 @@ public class ResultServlet extends AbstractServlet {
 					Championship oCp = (Championship) DatabaseHelper.loadEntity(Championship.class, new Integer(String.valueOf(lFuncParams.get(1))));
 					Event oEv = (Event) DatabaseHelper.loadEntity(Event.class, new Integer(!String.valueOf(lFuncParams.get(4)).equals("0") ? String.valueOf(lFuncParams.get(4)) : (!String.valueOf(lFuncParams.get(3)).equals("0") ? String.valueOf(lFuncParams.get(3)) : String.valueOf(lFuncParams.get(2)))));
 					StringBuffer html = new StringBuffer();
-					html.append(HtmlConverter.getHeader(HtmlConverter.HEADER_RESULTS, lFuncParams, getUser(request), getLocale(request)));
+					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_RESULTS, lFuncParams, getUser(request), getLocale(request)));
 					html.append(HtmlConverter.convertResults(c, oCp, oEv, getUser(request), getLocale(request)));
 
 					if (isLink) {

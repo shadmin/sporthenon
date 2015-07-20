@@ -12,21 +12,22 @@
 <div id="olympics" class="fieldset">
 	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
 	<form id="olympics-form" action="/olympics">
+	<ul>
 	<!-- TYPE SELECTION -->
-	<div id="oltype">
+	<li id="oltype">
 		<div onclick="$('olt1').checked = true;$('olt1').onclick();">
 			<img alt="Summer" src="/img/db/summer2.png"/><br/>
 			<input type="radio" name="ol-type" id="olt1" checked="checked" onclick="changeModeOL()"/><br/>
 			<b><%=StringUtils.text("summer.games", session)%></b>
 		</div>
-		<div style="clear:left;margin-top:0px;" onclick="$('olt2').checked = true;$('olt2').onclick();">
+		<div style="margin-top:0px;" onclick="$('olt2').checked = true;$('olt2').onclick();">
 			<img alt="Winter" src="/img/db/winter2.png"/><br/>
 			<input type="radio" name="ol-type" id="olt2" onclick="changeModeOL()"/><br/>
 			<b><%=StringUtils.text("winter.games", session)%></b>
 		</div>
-	</div>
+	</li>
 	<!-- SUMMER -->
-	<div id="summerfs" class="fieldset">
+	<li id="summerfs" class="fieldset">
 		<div id="slider-summer-ol" class="slider"><%@include file="../../html/slider.html" %></div>
 		<table id="summer-tb" style="margin-top:5px;">
 			<tr><td style="padding-bottom:3px;"><div id="sm-summer-pl-ol" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
@@ -52,9 +53,9 @@
 				<tr><td><div id="sm-summer-pl-cn" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
 			</table></td></tr>
 		</table>
-	</div>
+	</li>
 	<!-- WINTER -->
-	<div id="winterfs" class="fieldset" style="display:none;">
+	<li id="winterfs" class="fieldset" style="display:none;">
 		<div id="slider-winter-ol" class="slider"><%@include file="../../html/slider.html" %></div>
 		<table id="winter-tb" style="margin-top:5px;">
 			<tr><td style="padding-bottom:3px;"><div id="sm-winter-pl-ol" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
@@ -80,7 +81,8 @@
 				<tr><td><div id="sm-winter-pl-cn" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
 			</table></td></tr>
 		</table>
-	</div>
+	</li>
+	</ul>
 	</form>
 </div>
 <%@include file="../../html/buttons.html" %>

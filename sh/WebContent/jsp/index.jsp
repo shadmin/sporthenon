@@ -75,8 +75,8 @@
 	<div class="fieldset">
 		<div class="fstitle statistics"><%=StringUtils.text("title.statistics", session)%></div>
 		<div class="fscontent" style="height:440px;overflow:auto;">
-			<div style="width:200px;margin-right:10px;float:left;">
-			<table>
+			<ul>
+			<li style="width:200px;margin-right:5px;"><table>
 				<tr><th><%=StringUtils.text("entity.SP", session)%></th><td class="stat"><%=stb.getCountSport()%></td></tr>
 				<tr><th><%=StringUtils.text("entity.EV", session)%></th><td class="stat"><%=stb.getCountEvent()%></td></tr>
 				<tr><th><%=StringUtils.text("entity.RS", session)%></th><td class="stat"><%=stb.getCountResult()%></td></tr>
@@ -86,14 +86,12 @@
 				<tr><th><%=StringUtils.text("entity.CN", session)%></th><td class="stat"><%=stb.getCountCountry()%></td></tr>
 				<tr><th><%=StringUtils.text("entity.CT", session)%></th><td class="stat"><%=stb.getCountCity()%></td></tr>
 				<tr><th><%=StringUtils.text("entity.CX", session)%></th><td class="stat"><%=stb.getCountComplex()%></td></tr>
-			</table>
-			</div>
-			<div style="float:left;">
-			<table>
+			</table></li>
+			<li><table>
 				<tr><th style="text-align:center;"><div style="float:left;margin-left:2px;font-weight:normal;"><a href="javascript:changeReport(-1);">&lt;&nbsp;<%=StringUtils.text("previous", session)%></a></div><div style="float:right;margin-right:2px;font-weight:normal;"><a href="javascript:changeReport(1);"><%=StringUtils.text("next", session)%>&nbsp;&gt;</a></div><span id="ctitle"><%=StringUtils.text("report.1", session)%></span></th></tr>
 				<tr><td id="chart"></td></tr>
-			</table>
-			</div>
+			</table></li>
+			</ul>
 		</div>
 	</div>
 	<div style="clear:both;"></div>

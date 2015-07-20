@@ -70,7 +70,7 @@ public class UpdateServlet extends AbstractServlet {
 				String labelHQL = "lower(label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !field.matches("tm|yr") ? lang.toUpperCase() : "") + ")";
 				String whereHQL = "";
 				if( field.equalsIgnoreCase(Athlete.alias)) {
-					labelHQL = "lower(last_name) || ', ' || lower(first_name)";
+					labelHQL = "lower(last_name) || ', ' || lower(first_name) || ' (' || lower(country.code) || ')'";
 					whereHQL = (sport != null ? " and sport.id=" + sport : "");
 				}
 				else if( field.equalsIgnoreCase(Team.alias))
@@ -89,7 +89,7 @@ public class UpdateServlet extends AbstractServlet {
 					}
 					if (o instanceof Event) {
 						Event e = (Event) o;
-						text += " [" + e.getType().getLabel(lang) + "]";
+						text += " (" + e.getType().getLabel(lang) + ")";
 					}
 					else if (o instanceof Complex) {
 						Complex c = (Complex) o;
@@ -105,7 +105,7 @@ public class UpdateServlet extends AbstractServlet {
 					}
 					else if (o instanceof Team) {
 						Team t = (Team) o;
-						text = t.getLabel() + (t.getCountry() != null ? " [" + t.getCountry().getCode() + "]" : "");
+						text = t.getLabel() + (t.getCountry() != null ? " (" + t.getCountry().getCode() + ")" : "");
 					}
 					html.append("<li id='" + field + "-" + id + (o instanceof Event ? "-" + ((Event)o).getType().getNumber() : "") + "'>" + text + "</li>");
 				}
@@ -393,9 +393,9 @@ public class UpdateServlet extends AbstractServlet {
 					StringBuffer sb = new StringBuffer();
 					sb.append(sp.getId()).append("~").append(sp.getLabel(lang)).append("~");
 					sb.append(cp.getId()).append("~").append(cp.getLabel(lang)).append("~");
-					sb.append(ev.getId()).append("~").append(ev.getLabel(lang) + " [" + ev.getType().getLabel(lang) + "]").append("~").append(ev.getType().getNumber()).append("~");
-					sb.append(se != null ? se.getId() : "").append("~").append(se != null ? se.getLabel(lang) + " [" + se.getType().getLabel(lang) + "]" : "").append("~").append(se != null ? se.getType().getNumber() : "").append("~");
-					sb.append(se2 != null ? se2.getId() : "").append("~").append(se2 != null ? se2.getLabel(lang) + " [" + se2.getType().getLabel(lang) + "]" : "").append("~").append(se2 != null ? se2.getType().getNumber() : "").append("~");
+					sb.append(ev.getId()).append("~").append(ev.getLabel(lang) + " (" + ev.getType().getLabel(lang) + ")").append("~").append(ev.getType().getNumber()).append("~");
+					sb.append(se != null ? se.getId() : "").append("~").append(se != null ? se.getLabel(lang) + " (" + se.getType().getLabel(lang) + ")" : "").append("~").append(se != null ? se.getType().getNumber() : "").append("~");
+					sb.append(se2 != null ? se2.getId() : "").append("~").append(se2 != null ? se2.getLabel(lang) + " (" + se2.getType().getLabel(lang) + ")" : "").append("~").append(se2 != null ? se2.getType().getNumber() : "").append("~");
 					sb.append(yr.getId()).append("~").append(yr.getLabel()).append("~");
 					if (rs != null) { // Existing result
 						request.setAttribute("id", rs.getId());
@@ -510,7 +510,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 		else if (n == 50) {
 			Team t_ = (Team) DatabaseHelper.loadEntity(Team.class, id);
-			label = t_.getLabel() + (t_.getCountry() != null ? " [" + t_.getCountry().getCode() + "]" : "");
+			label = t_.getLabel() + (t_.getCountry() != null ? " (" + t_.getCountry().getCode() + ")" : "");
 		}
 		else {
 			Country c = (Country) DatabaseHelper.loadEntity(Country.class, id);

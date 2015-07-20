@@ -332,7 +332,7 @@ public class StringUtils {
 	}
 	
 	public static final String urlEscape(String s) {
-		return (StringUtils.notEmpty(s) ? s.replaceAll("\\s\\-\\s|\\&nbsp\\;\\-\\&nbsp\\;", "/").replaceAll("\\s|'", "-").replaceAll("\\s", "-") : "");
+		return (StringUtils.notEmpty(s) ? s.replaceAll("\\s\\-\\s|\\&nbsp\\;\\-\\&nbsp\\;", "/").replaceAll("\\s", "-").replaceAll("%", "%25") .replaceAll("'", "%27"): "");
 	}
 	
 	public static String removeTags(String s) {

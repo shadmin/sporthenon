@@ -140,7 +140,7 @@ public class Athlete {
 	}
 	
 	public String toString2() {
-		return lastName + ", " + firstName + (country != null ? " [" + country.getCode() + (team != null ? ", " + team.getLabel() : "") + "]" : "");
+		return lastName + ", " + firstName + (country != null ? " (" + country.getCode() + (team != null ? ", " + team.getLabel() : "") + ")" : "");
 	}
 	
 }

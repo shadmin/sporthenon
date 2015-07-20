@@ -122,7 +122,10 @@ public class HtmlUtils {
 		html.append(h.containsKey("item3") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item3") + "</td>" : "");
 		html.append(h.containsKey("item4") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item4") + "</td>" : "");
 		html.append(h.containsKey("item5") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item5") + "</td>" : "");
-		html.append("</tr></table></div>");
+		html.append("</tr></table>");
+		if (h.containsKey("errors"))
+			html.append("<br/>" + h.get("errors"));	
+		html.append("</div>");
 		html.append("<div class='toolbar'>");
 		html.append("<table><tr>");
 		final String SHARE_OPTIONS = "<div id='shareopt' class='baroptions' style='display:none;'><table><tr><td onclick='share(\"fb\");' class='fb'>Facebook</td></tr><tr><td onclick='share(\"tw\");' class='tw'>Twitter</td></tr><tr><td onclick='share(\"gp\");' class='gp'>Google+</td></tr><tr><td onclick='share(\"bg\");' class='bg'>Blogger</td></tr><tr><td onclick='share(\"tm\");' class='tm'>Tumblr</td></tr></table><div><a href='javascript:$(\"shareopt\").hide();'>" + ResourceUtils.getText("cancel", lang) + "</a></div></div>";
@@ -247,5 +250,5 @@ public class HtmlUtils {
 	public static void setTitle(HttpServletRequest req, String header) throws Exception {
 		req.setAttribute("title", StringUtils.getTitle(header.replaceAll("\\</span\\>.*", "").replaceAll(".*'title'\\>", "")));
 	}
-
+	
 }

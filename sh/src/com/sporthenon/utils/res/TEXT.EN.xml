@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <!-- HEADER -->
-	<entry key="title">SPORTHENON – The Temple of Sports Results</entry>
+	<entry key="title">SPORTHENON – The temple of sports results</entry>
 	<entry key="desc">Sports results database (free and opened to contributors)</entry>
 	<entry key="keywords">sport, results, database, records, olympics</entry>
 	<entry key="menu.results">RESULTS</entry>
@@ -195,10 +195,17 @@
 	<entry key="yesterday">Yesterday</entry>
 	<entry key="more">More</entry>
 	<entry key="more.sports">More sports</entry>
-	<entry key="draw.qf">Quarter-final</entry>
-	<entry key="draw.sf">Semi-final</entry>
+	<entry key="draw.qf">Quarterfinal</entry>
+	<entry key="draw.sf">Semifinal</entry>
 	<entry key="draw.thd">Third place</entry>
 	<entry key="draw.f">Final</entry>
+	<entry key="draw2.qf">1/4 F</entry>
+	<entry key="draw2.sf">1/2 F</entry>
+	<entry key="draw2.thd">3rd place</entry>
+	<entry key="draw2.f">F</entry>
+	<entry key="draw3.qf">Quarterfinalist</entry>
+	<entry key="draw3.sf">Semifinalist</entry>
+	<entry key="draw3.f">Runner-up</entry>
 	<entry key="next.20">Next 20</entry>
 	<entry key="complete.list">Complete list</entry>
 	<entry key="search.in">Search in</entry>
@@ -220,6 +227,12 @@
 	<entry key="select.sport">Select a sport</entry>
 	<entry key="photo">Photo</entry>
 	<entry key="enlarge">Enlarge image</entry>
+	<entry key="page.address">Page address</entry>
+	<entry key="error.description">Error description</entry>
+	<entry key="error">error</entry>
+	<entry key="errors">errors</entry>
+	<entry key="on.this.page">on this page</entry>
+	<entry key="result.detail">Result Detail</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>

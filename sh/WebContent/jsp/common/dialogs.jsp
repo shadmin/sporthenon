@@ -4,7 +4,8 @@
 <div id="d-error" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fstitle"><%=StringUtils.text("report.error", session).toUpperCase()%></div>
-	<div class="fscontent"><input id="errlinkurl" disabled="disabled" style="width:650px;"/><br/><textarea id="errlinktext" rows="10" cols="80" style="width:650px;margin-top:5px;"></textarea></div>
+	<div class="fscontent"><%=StringUtils.text("page.address", session)%>:<br/><input id="errlinkurl" disabled="disabled" style="width:650px;margin-top:3px;"/><br/><br/>
+	<%=StringUtils.text("error.description", session)%>:<br/><textarea id="errlinktext" rows="10" cols="80" style="width:650px;margin-top:3px;"></textarea></div>
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="saveError();"/><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dError);"/></div>
 </div>
 </div>

@@ -398,3 +398,10 @@ th.desc{
 .plist{
 	font-size: 11px;
 }
+.vcenter li{
+	display: inline-block;
+	vertical-align: middle;
+}
+.vcenter li img{
+	margin-bottom: -1px;
+}

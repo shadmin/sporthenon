@@ -11,16 +11,17 @@
 <div id="usleagues" class="fieldset">
 	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
 	<form id="usleagues-form" action="/usleagues">
-	<div class="league">
+	<ul>
+	<li class="league">
 		<div id="slider-league-img" class="slider"><%@include file="../../html/slider.html"%></div>
-	</div>
-	<div id="usltype">
+	</li>
+	<li id="usltype">
 		<div id="nfl" class="selected" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/>&nbsp;NFL &#150; National Football League</div>
 		<div id="nba" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/>&nbsp;NBA &#150; National Basketball Association</div>
 		<div id="nhl" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/>&nbsp;NHL &#150; National Hockey League</div>
 		<div id="mlb" onclick="changeLeague(this.id);" style="margin-bottom:0px;"><img alt="-" src="/img/bullet.gif"/>&nbsp;MLB &#150; Major League Baseball</div>
-	</div>
-	<div style="float:left;width:400px;height:170px;" class="fieldset">
+	</li>
+	<li style="display:inline-block;width:400px;height:170px;" class="fieldset">
 		<div style="float:left;width:auto;">
 			<table id="usstype">
 				<tr><td id="championships" onclick="changeModeUS(this.id);"><img alt="-" src="/img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("championships", "en")%></td></tr>
@@ -81,7 +82,8 @@
 				<div id="sm-pl-winloss-tm" class="selmultiple"><%@include file="../../html/selectmult.html"%></div>
 			</div>
 		</div>
-	</div>
+	</li>
+	</ul>
 	</form>
 </div>
 <%@include file="../../html/buttons.html"%>

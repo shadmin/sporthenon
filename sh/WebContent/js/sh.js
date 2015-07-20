@@ -115,8 +115,8 @@ function handleRender() {
 	}
 	var info = $$('#' + tabId + ' .infostats')[0];
 	$$('#' + tabId + ' .rendertip').each(function(el) {
-		new Control.Window($(document.body).down('[href=#' + el.id + ']'),{  
-			position: 'relative', hover: true, offsetLeft: 20, offsetTop: 0, className: 'tip'
+		new Control.Window($(document.body).down('[href=#' + el.id + ']'),{
+			position: 'relative', hover: true, offsetLeft: 20, offsetTop: 28, className: 'tip'
 		});
 	});
 	var t = elapsedTime(t1, t2);
@@ -439,9 +439,10 @@ function displayExport() {
 	$('exportopt').show();
 }
 function displayErrorReport() {
+	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	$('header').setStyle({ opacity: 0.4 });
 	$('content').setStyle({ opacity: 0.4 });
-	$('errlinkurl').value = window.location.href;
+	$('errlinkurl').value = url;
 	$('errlinktext').value = '';
 	dError.open();
 	$('errlinktext').focus();
@@ -477,9 +478,11 @@ function printCurrentTab() {
 	}
 }
 function saveError() {
-	new Ajax.Request('/IndexServlet?error=1&url=' + escape($F('errlinkurl')) + '&text=' + escape($F('errlinktext')), {
+	var h = $H({url: $F('errlinkurl'), text: $F('errlinktext')});
+	new Ajax.Request('/IndexServlet?error=1', {
 		onSuccess: function(response){
-		}
+		},
+		parameters: h
 	});
 	closeDialog(dError);
 }
@@ -644,7 +647,7 @@ function moreSports(index1, index2) {
 }
 function initSliderHome(html) {
 	$$('#sports .content')[0].update(html);
-	createSlider('sports', 876, 120, true);
+	createSlider('sports', 872, 120, true);
 }
 function moreLastUpdates(row, p) {
 	var cell = $(row).up();
@@ -866,13 +869,13 @@ function initOlympics(picklistId) {
 function changeModeOL() {
 	var isSummer = $F('olt1');
 	if (isSummer) {
-		$('summerfs').show();
+		$('summerfs').style.display = 'inline-block';
 		$('winterfs').hide();
 		changeOlympics('summer-pl-ol');
 	}
 	else {
 		$('summerfs').hide();
-		$('winterfs').show();
+		$('winterfs').style.display = 'inline-block';
 		changeOlympics('winter-pl-ol');
 	}
 }
@@ -1061,14 +1064,14 @@ function changeLeague(id, srcsl) {
 		$('nfl').removeClassName('selected');$('nba').removeClassName('selected');$('nhl').removeClassName('selected');$('mlb').removeClassName('selected');$(id).addClassName('selected');
 		var league = (id == 'nfl' ? 1 : (id == 'nba' ? 2 : (id == 'nhl' ? 3 : 4)));
 		var url = '/USLeaguesServlet?league=' + league;
-		$('pl-hof-yr').update(tHofYr[league]);
-		$('pl-championships-yr').update(tChampYr[league]);
-		$('pl-retnum-tm').update(tTm[league]);
-		$('pl-teamstadiums-tm').update(tTm[league]);
-		$('pl-winloss-tm').update(tTm[league]);
-		$('pl-records-se').update(tRcSe[league]);
-		$('hof-position').value = '';
-		$('hof-postip').title = tPos[league];
+		$('pl-hof-yr').update(tHofYr[league]); updateTip('pl-hof-yr'); updateSelectMult('pl-hof-yr');
+		$('pl-championships-yr').update(tChampYr[league]); updateTip('pl-championships-yr'); updateSelectMult('pl-championships-yr');
+		$('pl-retnum-tm').update(tTm[league]); updateTip('pl-retnum-tm'); updateSelectMult('pl-retnum-tm');
+		$('pl-teamstadiums-tm').update(tTm[league]); updateTip('pl-teamstadiums-tm'); updateSelectMult('pl-teamstadiums-tm');
+		$('pl-winloss-tm').update(tTm[league]); updateTip('pl-winloss-tm'); updateSelectMult('pl-winloss-tm');
+		$('pl-records-se').update(tRcSe[league]); updateTip('pl-records-se'); updateSelectMult('pl-records-se');
+		$('hof-position').value = ''; updateTip('hof-position'); updateSelectMult('hof-position');
+		$('hof-postip').title = tPos[league]; updateTip('hof-postip'); updateSelectMult('hof-postip');
 		$('retnum-number').value = '';
 		var tType2 = ['Alltime/Career', 'Season', 'Series', 'Game'];
 		var tAll = new Array();

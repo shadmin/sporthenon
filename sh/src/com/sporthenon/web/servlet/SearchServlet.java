@@ -93,7 +93,7 @@ public class SearchServlet extends AbstractServlet {
 				if (scope.equals("."))
 					html = new StringBuffer("<div class='searchtitle'>" + ResourceUtils.getText("search.results", getLocale(request)) + "&nbsp;:&nbsp;<b>" + String.valueOf(hParams.get("pattern")) + "</b></div>");
 				else
-					html = HtmlConverter.getHeader(HtmlConverter.HEADER_SEARCH, lFuncParams, getUser(request), getLocale(request));
+					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_SEARCH, lFuncParams, getUser(request), getLocale(request));
 				html.append(HtmlConverter.convertSearch(DatabaseHelper.call("Search", lFuncParams), String.valueOf(hParams.get("pattern")), getLocale(request)));
 				if (isLink) {
 					HtmlUtils.setTitle(request, ResourceUtils.getText("menu.search", getLocale(request)));

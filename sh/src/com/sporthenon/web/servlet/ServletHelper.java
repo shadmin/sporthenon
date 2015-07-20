@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -56,7 +55,7 @@ public class ServletHelper {
 	
 	public static void writeTabHtml(HttpServletRequest req, HttpServletResponse res, StringBuffer sb, String lang) throws IOException {
 		if (!sb.toString().startsWith("<tr"))
-			sb.append(getErrorReportLink(req));
+			sb.append("<br/><a id=\"errorlink\" href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", req.getSession()) + "</a><br/>");
 		String s = sb.toString();
 		res.setContentType("text/html");
         res.setCharacterEncoding("utf-8");
@@ -74,7 +73,7 @@ public class ServletHelper {
 	}
 	
 	public static void writePageHtml(HttpServletRequest req, HttpServletResponse res, StringBuffer sb, boolean isPrint) throws ServletException, IOException {
-		String s = sb.append(getErrorReportLink(req)).toString();
+		String s = sb.append("<br/><a id=\"errorlink\" href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", req.getSession()) + "</a>").toString();
 		if (s.matches(".*\\#INFO\\#.*")) {
 			StringBuffer sbInfo = new StringBuffer();
 			sbInfo.append(StringUtils.getSizeBytes(s));
@@ -96,21 +95,4 @@ public class ServletHelper {
         res.flushBuffer();
 	}
 	
-	private static String getErrorReportLink(HttpServletRequest req) {
-		String s = "<br/><a id=\"errorlink\" href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", req.getSession()) + "</a>";
-		try {
-//			List<ErrorReport> list = (List<ErrorReport>) DatabaseHelper.execute("from ErrorReport where url='" + req.getAttribute("url") + "' order by id");
-//			if (list != null && list.size() > 0) {
-//				s += "&nbsp;–&nbsp;Erreur signalées&nbsp;:&nbsp;" + list.size();
-//			}
-		}
-		catch (Exception e) {
-			Logger.getLogger("sh").error(e.getMessage(), e);
-		}
-		finally {
-			req.removeAttribute("url");
-		}
-		return s;
-	}
-
 }

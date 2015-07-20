@@ -199,6 +199,13 @@
 	<entry key="draw.sf">Demi-finale</entry>
 	<entry key="draw.thd">Troisième place</entry>
 	<entry key="draw.f">Finale</entry>
+	<entry key="draw2.qf">1/4 F</entry>
+	<entry key="draw2.sf">1/2 F</entry>
+	<entry key="draw2.thd">3e place</entry>
+	<entry key="draw2.f">F</entry>
+	<entry key="draw3.qf">Quart de finaliste</entry>
+	<entry key="draw3.sf">Demi-finaliste</entry>
+	<entry key="draw3.f">Finaliste</entry>
 	<entry key="next.20">20 suivants</entry>
 	<entry key="complete.list">Toute la liste</entry>
 	<entry key="search.in">Rechercher dans</entry>
@@ -220,6 +227,12 @@
 	<entry key="select.sport">Choisir un sport</entry>
 	<entry key="photo">Photo</entry>
 	<entry key="enlarge">Agrandir l'image</entry>
+	<entry key="page.address">Adresse de la page</entry>
+	<entry key="error.description">Description de l'erreur</entry>
+	<entry key="error">erreur</entry>
+	<entry key="errors">erreurs</entry>
+	<entry key="on.this.page">sur cette page</entry>
+	<entry key="result.detail">Détail résultat</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>

@@ -117,7 +117,7 @@
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 	<named-native-query name="Search2" result-class="com.sporthenon.db.entity.meta.RefItem">  
-		<query>SELECT * FROM "SEARCH"(?, ?, ?, ?) ORDER BY COUNT_REF DESC LIMIT 10</query>
+		<query>SELECT * FROM "SEARCH"(?, ?, ?, ?) ORDER BY count_ref DESC LIMIT 10</query>
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 	
@@ -132,11 +132,11 @@
 	<!--
 		WIN_RECORDS(text, varchar)
 	-->
-	<named-native-query name="WinRecords" result-class="com.sporthenon.db.function.WinRecordsBean">  
-		<query>{? = CALL "WIN_RECORDS"(?, ?)}</query>
-		<hint name="org.hibernate.callable" value="true" />
+	<named-native-query name="WinRecords" result-class="com.sporthenon.db.entity.meta.RefItem">  
+		<query>SELECT * FROM "WIN_RECORDS"(?, ?) ORDER BY count1 DESC, LABEL</query>
+		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
-	
+
 	<!--
 		~CONTRIBUTORS()
 	-->
