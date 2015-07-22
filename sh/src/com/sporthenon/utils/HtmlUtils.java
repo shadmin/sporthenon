@@ -189,18 +189,24 @@ public class HtmlUtils {
 
 	public static String writeRecordItems(Collection<RefItem> cRecord, String lang) {
 		StringBuffer sbRecord = new StringBuffer();
+		String currentHeader = null;
 		for (RefItem item : cRecord) {
-			sbRecord.append("<table" + (sbRecord.toString().length() > 0 ? " style='margin-top:5px;'" : "") + "><tr><td rowspan='2' style='text-align:right;width:125px;font-weight:normal;text-decoration:underline;'>" + ResourceUtils.getText("rec." + item.getLabel(), lang).replaceAll("\\s", "&nbsp;") + "</td>");
-			if (StringUtils.notEmpty(item.getTxt1()))
-				sbRecord.append("<th>" + (item.getTxt1().equalsIgnoreCase("#GOLD#") ? ImageUtils.getGoldMedImg() : ResourceUtils.getText(item.getTxt1(), lang)) + "</th>");
-			if (StringUtils.notEmpty(item.getTxt2()))
-				sbRecord.append("<th>" + (item.getTxt2().equalsIgnoreCase("#SILVER#") ? ImageUtils.getSilverMedImg() : ResourceUtils.getText(item.getTxt2(), lang)) + "</th>");
-			if (StringUtils.notEmpty(item.getTxt3()))
-				sbRecord.append("<th>" + (item.getTxt3().equalsIgnoreCase("#BRONZE#") ? ImageUtils.getBronzeMedImg() : ResourceUtils.getText(item.getTxt3(), lang)) + "</th>");
-			if (StringUtils.notEmpty(item.getTxt4()))
-				sbRecord.append("<th>" + item.getTxt4() + "</th>");
-			sbRecord.append("</tr>");
-			sbRecord.append("<tr>");
+			if (currentHeader == null || !currentHeader.equals(item.getTxt1() + item.getTxt2() + item.getTxt3())) {
+				if (currentHeader != null)
+					sbRecord.append("</table>");
+				sbRecord.append("<table" + (sbRecord.toString().length() > 0 ? " style='margin-top:5px;'" : "") + "><tr><td style='border:none;'/>");
+				if (StringUtils.notEmpty(item.getTxt1()))
+					sbRecord.append("<th>" + (item.getTxt1().equalsIgnoreCase("#GOLD#") ? ImageUtils.getGoldMedImg(lang) : ResourceUtils.getText(item.getTxt1(), lang)) + "</th>");
+				if (StringUtils.notEmpty(item.getTxt2()))
+					sbRecord.append("<th>" + (item.getTxt2().equalsIgnoreCase("#SILVER#") ? ImageUtils.getSilverMedImg(lang) : ResourceUtils.getText(item.getTxt2(), lang)) + "</th>");
+				if (StringUtils.notEmpty(item.getTxt3()))
+					sbRecord.append("<th>" + (item.getTxt3().equalsIgnoreCase("#BRONZE#") ? ImageUtils.getBronzeMedImg(lang) : ResourceUtils.getText(item.getTxt3(), lang)) + "</th>");
+				if (StringUtils.notEmpty(item.getTxt4()))
+					sbRecord.append("<th>" + item.getTxt4() + "</th>");
+				sbRecord.append("</tr>");
+				currentHeader = item.getTxt1() + item.getTxt2() + item.getTxt3();
+			}
+			sbRecord.append("<tr><td style='text-align:right;padding-left:10px;font-weight:normal;text-decoration:underline;'>" + ResourceUtils.getText("rec." + item.getLabel(), lang).replaceAll("\\s", "&nbsp;") + "</td>");
 			if (StringUtils.notEmpty(item.getTxt1()))
 				sbRecord.append("<td>" + item.getCount1() + "</td>");
 			if (StringUtils.notEmpty(item.getTxt2()))
@@ -209,8 +215,10 @@ public class HtmlUtils {
 				sbRecord.append("<td>" + item.getCount3() + "</td>");
 			if (StringUtils.notEmpty(item.getTxt4()))
 				sbRecord.append("<td>" + item.getCount4() + "</td>");
-			sbRecord.append("</tr></table>");
+			sbRecord.append("</tr>");
 		}
+		if (sbRecord.toString().length() > 0)
+			sbRecord.append("</table>");
 		return sbRecord.toString();
 	}
 	

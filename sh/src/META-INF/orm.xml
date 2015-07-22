@@ -6,10 +6,10 @@
 	version="1.0">
 	
 	<!--
-		ENTITY_REF(varchar, integer, varchar, varchar, integer, varchar)
+		EntityRef(varchar, integer, varchar, varchar, integer, varchar)
 	-->
 	<named-native-query name="EntityRef" result-class="com.sporthenon.db.entity.meta.RefItem">  
-		<query>SELECT * FROM "ENTITY_REF"(?, ?, ?, ?, ?, ?)</query>
+		<query>SELECT * FROM "EntityRef"(?, ?, ?, ?, ?, ?)</query>
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 	
@@ -113,11 +113,11 @@
 		SEARCH(varchar, varchar, smallint, varchar)
 	-->
 	<named-native-query name="Search" result-class="com.sporthenon.db.entity.meta.RefItem">  
-		<query>SELECT * FROM "SEARCH"(?, ?, ?, ?)</query>
+		<query>SELECT * FROM "Search"(?, ?, ?, ?)</query>
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 	<named-native-query name="Search2" result-class="com.sporthenon.db.entity.meta.RefItem">  
-		<query>SELECT * FROM "SEARCH"(?, ?, ?, ?) ORDER BY count_ref DESC LIMIT 10</query>
+		<query>SELECT * FROM "Search"(?, ?, ?, ?) ORDER BY count_ref DESC LIMIT 10</query>
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 	

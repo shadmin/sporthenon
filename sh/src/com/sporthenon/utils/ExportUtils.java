@@ -79,7 +79,7 @@ public class ExportUtils {
 		}
 	}
 
-	public static void buildExcel(OutputStream out, String title, List<ArrayList<String>> lTh, List<ArrayList<String>> lTd, List<MergedCell> lMerge , boolean[] tBold) throws Exception {
+	public static void buildXLS(OutputStream out, String title, List<ArrayList<String>> lTh, List<ArrayList<String>> lTd, List<MergedCell> lMerge , boolean[] tBold) throws Exception {
 		HSSFWorkbook hwb = new HSSFWorkbook();
 		HSSFSheet sheet = null;
 		HSSFRow row = null;
@@ -135,7 +135,7 @@ public class ExportUtils {
 				row = sheet.createRow(rowIndex++);
 				if (n < lTh.size()) {
 					for (String s : lTh.get(n)) {
-						(cell = row.createCell(i++)).setCellValue(s);
+						(cell = row.createCell(i++)).setCellValue(s.replaceAll("^\\#.*\\#", ""));
 						cell.setCellStyle(headerStyle);
 					}
 					n++;
@@ -198,7 +198,7 @@ public class ExportUtils {
 				ArrayList<String> lTh_ = lTh.get(n++);
 				for (int i = 0 ; i < lTh_.size() ; i++) {
 					String s = lTh_.get(i);
-					sbCSV.append(i > 0 ? "," : "").append(s);
+					sbCSV.append(i > 0 ? "," : "").append(s.replaceAll("^\\#.*\\#", ""));
 				}
 				sbCSV.append("\r\n");
 			}
@@ -253,7 +253,7 @@ public class ExportUtils {
 				}
 				sbText.append(sbSep).append("\r\n|");
 				for (int i = 0 ; i < lTh_.size() ; i++) {
-					String s = lTh_.get(i);
+					String s = lTh_.get(i).replaceAll("^\\#.*\\#", "");
 					sbText.append(s);
 					for (int j = s.length() ; j < tMaxLength[i] ; j++)
 						sbText.append(" ");
@@ -304,7 +304,7 @@ public class ExportUtils {
 		PdfWriter.getInstance(doc, output);
 		doc.open();
 		
-		BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.EMBEDDED);
+		BaseFont bf = BaseFont.createFont(ConfigUtils.getProperty("font.folder") + "verdana.ttf", BaseFont.IDENTITY_H, true);
 		com.itextpdf.text.Font font = new com.itextpdf.text.Font(bf, 9);
 		com.itextpdf.text.Font fontBold = new com.itextpdf.text.Font(bf, 9);
 		fontBold.setStyle(com.itextpdf.text.Font.BOLD);
@@ -315,21 +315,30 @@ public class ExportUtils {
 		int n = 0;
 		HashMap<String, Float> hWidth = new HashMap<String, Float>();
 		hWidth.put("", 0.5f);
+		hWidth.put(ResourceUtils.getText("entity.SP.1", lang), 0.4f);
 		hWidth.put(ResourceUtils.getText("entity.YR.1", lang), 0.25f);
 		hWidth.put(ResourceUtils.getText("score", lang), 0.7f);
 		hWidth.put(ResourceUtils.getText("date", lang), 0.5f);
 		hWidth.put(ResourceUtils.getText("place", lang), 1.4f);
-		for (List<String> l : (List<List<String>>) lTd) {
+		for (List<String> l : (List<List<String>>) lTd) { 
 			if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
 				if (n < lTh.size()) {
 					List<String> l_ = (List<String>) lTh.get(n);
 					float[] tf = new float[l_.size()];
 					for (int i = 0 ; i < l_.size() ; i++)
 						tf[i] = (hWidth.containsKey(l_.get(i)) ? hWidth.get(l_.get(i)) : 1.0f);
+					if (table != null) {
+						table.setWidthPercentage(50.0f);
+						PdfPCell c = new PdfPCell(table);
+						c.setBorderWidth(2);
+						t.addCell(c);
+						c.setPaddingBottom(10.0f);
+						doc.add(t);
+					}
 					table = new PdfPTable(tf);
 					table.setWidthPercentage(100.0f);
 					for (int i = 0 ; i < l_.size() ; i++) {
-						String s = l_.get(i);
+						String s = l_.get(i).replaceAll("^\\#.*\\#", "");
 						int mcindex = lMerge.indexOf(new MergedCell(n, i, 0));
 						cell = new PdfPCell(new Phrase(s, fontBold));
 						cell.setBackgroundColor(BaseColor.YELLOW);
@@ -370,8 +379,11 @@ public class ExportUtils {
 					}
 					if (table_ != null)
 						table.addCell(table_);
-					else
+					else {
+						if (table == null)
+							table = new PdfPTable(2);
 						table.addCell(cell);
+					}
 				}
 			}
 		}
@@ -415,12 +427,13 @@ public class ExportUtils {
 			lTd.add(lTd_);
 			Element thead = table.getElementsByTag("thead").get(0);
 			Element tbody = thead.nextElementSibling();
-			Element th = thead.getElementsByTag("th").get(0);
+			Element th1 = thead.getElementsByTag("tr").first().getElementsByTag("th").get(0);
+			Element th = thead.getElementsByTag("tr").last().getElementsByTag("th").get(0);
 			int cell = 0;
 			ArrayList<String> lTh_ = new ArrayList<String>();
 			while(th != null) {
 				Integer span = (StringUtils.notEmpty(th.attr("colspan")) ? new Integer(th.attr("colspan")) : 1);
-				lTh_.add(th.text());
+				lTh_.add((th1 != null && th1.nextElementSibling() == null && lTh_.isEmpty() ? "#" + th1.text() + "#" : "") + th.text());
 				if (span > 1) {
 					lMerge.add(new MergedCell(row, cell, span));
 					cell += span;
@@ -498,7 +511,7 @@ public class ExportUtils {
 			else if (format.equalsIgnoreCase("xls")) {
 				response.setContentType("application/vnd.ms-excel");
 				parseHTML(doc, lTh, lTd, lMerge);
-				buildExcel(response.getOutputStream(), null, lTh, lTd, lMerge, new boolean[]{false});
+				buildXLS(response.getOutputStream(), null, lTh, lTd, lMerge, new boolean[]{false});
 			}
 			else if (format.equalsIgnoreCase("pdf")) {
 				response.setContentType("application/pdf");

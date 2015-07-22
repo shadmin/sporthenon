@@ -364,4 +364,5 @@
 	<entry key="country.codes">Country codes</entry>
 	<entry key="help">Help</entry>
 	<entry key="photo.url">Photo URL</entry>
+	<entry key="for.any.request">For any request, please send an email to</entry>
 </properties>

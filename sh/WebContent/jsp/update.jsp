@@ -93,6 +93,8 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 			</tr></table>
 		</div>
 	</div>
+	<br/>
+	<span class="small"><%=StringUtils.text("for.any.request", session)%>&nbsp;:&nbsp;<a href="mailto:admin@sporthenon.com">admin@sporthenon.com</a></span>
 </div>
 <script type="text/javascript">
 window.onload = function() {

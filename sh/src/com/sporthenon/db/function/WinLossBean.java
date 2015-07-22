@@ -32,9 +32,6 @@ public class WinLossBean {
 	@Column(name = "wl_count_otloss")
 	private Integer wlCountOtloss;
 	
-	@Column(name = "wl_average")
-	private String wlAverage;
-
 	public Integer getWlId() {
 		return wlId;
 	}
@@ -99,19 +96,10 @@ public class WinLossBean {
 		this.wlCountOtloss = wlCountOtloss;
 	}
 
-	public String getWlAverage() {
-		return wlAverage;
-	}
-
-	public void setWlAverage(String wlAverage) {
-		this.wlAverage = wlAverage;
-	}
-
 	@Override
 	public String toString() {
 		return "WinLossBean [tmId=" + tmId
-				+ ", tmLabel=" + tmLabel + ", wlAverage=" + wlAverage
-				+ ", wlCountLoss=" + wlCountLoss + ", wlCountOtloss="
+				+ ", tmLabel=" + tmLabel + ", wlCountLoss=" + wlCountLoss + ", wlCountOtloss="
 				+ wlCountOtloss + ", wlCountTie=" + wlCountTie
 				+ ", wlCountWin=" + wlCountWin + ", wlId=" + wlId + ", wlType="
 				+ wlType + "]";

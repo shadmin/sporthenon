@@ -47,9 +47,6 @@ public class WinLoss {
 	@Column(name = "count_otloss")
 	private Integer countOtloss;
 	
-	@Column(name = "average", length = 5)
-	private String average;
-	
 	@Embedded
 	private Metadata metadata;
 	
@@ -125,20 +122,12 @@ public class WinLoss {
 		this.countOtloss = countOtloss;
 	}
 
-	public String getAverage() {
-		return average;
-	}
-
-	public void setAverage(String average) {
-		this.average = average;
-	}
-
 	@Override
 	public String toString() {
 		return "WinLoss [id=" + id + ", league=" + league + ", team=" + team
 				+ ", type=" + type + ", countWin=" + countWin + ", countLoss="
 				+ countLoss + ", countTie=" + countTie + ", countOtloss="
-				+ countOtloss + ", average=" + average + "]";
+				+ countOtloss + "]";
 	}
 	
 }

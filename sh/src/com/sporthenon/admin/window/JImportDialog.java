@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -42,6 +44,7 @@ import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
+import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Record;
@@ -302,7 +305,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 					File f = jFileChooser.getSelectedFile();
 					fos = new FileOutputStream(new File(f.getAbsolutePath() + "\\SH-Template-" + type + "." + ext));
 					if (ext.equalsIgnoreCase("xls")) {
-						ExportUtils.buildExcel(fos, null, null, list, null, new boolean[]{false});
+						ExportUtils.buildXLS(fos, null, null, list, null, new boolean[]{false});
 					}
 					else if (ext.equalsIgnoreCase("csv")) {
 						StringBuffer sb = new StringBuffer();
@@ -516,6 +519,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 	private boolean processLineRS(int row, Vector<String> vHeader, Vector<String> vLine, boolean isUpdate) throws Exception {
 		boolean isError = false;
 		List<Integer> lId = null;
+		List<Country> lCountries = DatabaseHelper.execute("from Country");
 		HashMap<String, Integer> hId = new HashMap();
 		Integer n = null;
 		boolean isComplex1 = false;
@@ -541,29 +545,35 @@ public class JImportDialog extends JDialog implements ActionListener {
 						hql = "select id from Year where lower(label) like '" + s_ + "'";
 					else if (h.matches("pl\\d")) {
 						String[] t = s.toLowerCase().split("\\,\\s");
-						String cx = null;
-						String ct = null;
-						String st = null;
-						String cn = t[t.length - 1];
-						if (t.length > 2 && t[t.length - 2].length() == 2)
-							st = t[t.length - 2];
-						if (t.length > (st != null ? 3 : 2)) {
-							cx = t[0].replaceAll(scPattern, "_");
-							ct = t[1].replaceAll(scPattern, "_");
-						}
-						else
-							ct = t[0].replaceAll(scPattern, "_");
-						if (cx != null) {
-							h = "cx" + h.replaceAll("pl", "");
-							hql = "select id from Complex where lower(city.country.code) like '" + cn + "' and lower(city.label) like '" + ct.replaceAll("'", "''") + "' and lower(label) like '" + cx.replaceAll("'", "''") + "'";
-							if (h.equals("cx1"))
-								isComplex1 = true;
-							else
-								isComplex2 = true;
+						if (t.length < 2 || t.length > 4) {
+							isError = true;
+							writeError(vLine, "ERROR: Invalid Format (Column " + h.toUpperCase() + ")");
 						}
 						else {
-							h = "ct" + h.replaceAll("pl", "");
-							hql = "select id from City where lower(country.code) like '" + cn + "' and lower(label) like '" + ct.replaceAll("'", "''") + "'";
+							String cx = null;
+							String ct = null;
+							String st = null;
+							String cn = t[t.length - 1];
+							if (t.length > 2 && t[t.length - 2].length() == 2)
+								st = t[t.length - 2];
+							if (t.length > (st != null ? 3 : 2)) {
+								cx = t[0].replaceAll(scPattern, "_");
+								ct = t[1].replaceAll(scPattern, "_");
+							}
+							else
+								ct = t[0].replaceAll(scPattern, "_");
+							if (cx != null) {
+								h = "cx" + h.replaceAll("pl", "");
+								hql = "select id from Complex where lower(city.country.code) like '" + cn + "' and lower(city.label) like '" + ct.replaceAll("'", "''") + "' and lower(label) like '" + cx.replaceAll("'", "''") + "'";
+								if (h.equals("cx1"))
+									isComplex1 = true;
+								else
+									isComplex2 = true;
+							}
+							else {
+								h = "ct" + h.replaceAll("pl", "");
+								hql = "select id from City where lower(country.code) like '" + cn + "' and lower(label) like '" + ct.replaceAll("'", "''") + "'";
+							}
 						}
 					}
 					else if (h.matches("rk\\d")) {
@@ -628,9 +638,27 @@ public class JImportDialog extends JDialog implements ActionListener {
 							isError = true;
 							writeError(vLine, "ERROR: Invalid Year");
 						}
-						else if (n == 99 && h.matches("rk\\d")) {
-							isError = true;
-							writeError(vLine, "ERROR: Invalid Country (column " + h.toUpperCase() + ")");
+						else if (h.matches("(cx|ct)\\d") && StringUtils.notEmpty(s)) {
+							Pattern pattern = Pattern.compile("[A-Z]{3}$");
+							Matcher matcher = pattern.matcher(s);
+							if (!matcher.find() || !lCountries.contains(new Country(matcher.group(0)))) {
+								isError = true;
+								writeError(vLine, "ERROR: Invalid Country (column " + h.toUpperCase() + ")");
+							}
+						}
+						else if (h.matches("rk\\d")) {
+							if (n == 99) {
+								isError = true;
+								writeError(vLine, "ERROR: Invalid Country (column " + h.toUpperCase() + ")");
+							}
+							else {
+								Pattern pattern = Pattern.compile("[A-Z]{3}");
+								Matcher matcher = pattern.matcher(s);
+								if (!matcher.find() || !lCountries.contains(new Country(matcher.group(0)))) {
+									isError = true;
+									writeError(vLine, "ERROR: Invalid Country (column " + h.toUpperCase() + ")");
+								}
+							}
 						}
 						vLine.set(i, s);
 					}

@@ -25,7 +25,6 @@ private static final long serialVersionUID = 1L;
 	public JTextField jLoss;
 	public JTextField jTie;
 	public JTextField jOtLoss;
-	public JTextField jAverage;
 	
 	public JWinLossPanel() {
 		super(9);
@@ -89,13 +88,6 @@ private static final long serialVersionUID = 1L;
         gridPanel.add(lOtLoss);
         jOtLoss = new JTextField();
         gridPanel.add(jOtLoss);
-        
-        //Average
-        JLabel lAverage = new JLabel(" Average:");
-        lAverage.setHorizontalAlignment(LABEL_ALIGNMENT);
-        gridPanel.add(lAverage);
-        jAverage = new JTextField();
-        gridPanel.add(jAverage);
 	}
 	
 	public JEntityPicklist getLeague() {
@@ -126,10 +118,6 @@ private static final long serialVersionUID = 1L;
 		return jOtLoss;
 	}
 	
-	public JTextField getAverage() {
-		return jAverage;
-	}
-	
 	public void setLeague(Integer id) {
 		SwingUtils.selectValue(jLeague, id);
 	}
@@ -158,10 +146,6 @@ private static final long serialVersionUID = 1L;
 		jOtLoss.setText(s);
 	}
 	
-	public void setAverage(String s) {
-		jAverage.setText(s);
-	}
-
 	public void clear() {
 		jId.setText("");
 		jLeague.clear();
@@ -171,7 +155,6 @@ private static final long serialVersionUID = 1L;
 		jLoss.setText("");
 		jTie.setText("");
 		jOtLoss.setText("");
-		jAverage.setText("");
 	}
 	
 	public void focus() {

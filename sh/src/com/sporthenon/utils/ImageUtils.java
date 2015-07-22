@@ -58,28 +58,28 @@ public class ImageUtils {
 		return "/img/render/";
 	}
 	
-	public static String getGoldMedImg() {
-		return "<img alt='Gold' title='Gold' src='" + getRenderUrl() + "gold-mini.png?4'/>";
+	public static String getGoldMedImg(String lang) {
+		return "<img alt='Gold' title='" + ResourceUtils.getText("gold", lang) + "' src='" + getRenderUrl() + "gold-mini.png?4'/>";
 	}
 	
-	public static String getSilverMedImg() {
-		return "<img alt='Silver' title='Silver' src='" + getRenderUrl() + "silver-mini.png?4'/>";
+	public static String getSilverMedImg(String lang) {
+		return "<img alt='Silver' title='" + ResourceUtils.getText("silver", lang) + "' src='" + getRenderUrl() + "silver-mini.png?4'/>";
 	}
 	
-	public static String getBronzeMedImg() {
-		return "<img alt='Bronze' title='Bronze' src='" + getRenderUrl() + "bronze-mini.png?4'/>";
+	public static String getBronzeMedImg(String lang) {
+		return "<img alt='Bronze' title='" + ResourceUtils.getText("bronze", lang) + "' src='" + getRenderUrl() + "bronze-mini.png?4'/>";
 	}
 	
 	public static String getGoldHeader(String lang) {
-		return "<table><tr><td><img alt='Gold' src='" + getRenderUrl() + "gold.png'/></td><td class='bold'>" + ResourceUtils.getText("gold", lang) + "</td></tr></table>";
+		return "<table><tr><td><img alt='" + ResourceUtils.getText("gold", lang) + "' src='" + getRenderUrl() + "gold.png'/></td><td class='bold'>" + ResourceUtils.getText("gold", lang) + "</td></tr></table>";
 	}
 	
 	public static String getSilverHeader(String lang) {
-		return "<table><tr><td><img alt='Silver' src='" + getRenderUrl() + "silver.png'/></td><td class='bold'>" + ResourceUtils.getText("silver", lang) + "</td></tr></table>";
+		return "<table><tr><td><img alt='" + ResourceUtils.getText("silver", lang) + "' src='" + getRenderUrl() + "silver.png'/></td><td class='bold'>" + ResourceUtils.getText("silver", lang) + "</td></tr></table>";
 	}
 	
 	public static String getBronzeHeader(String lang) {
-		return "<table><tr><td><img alt='Bronze' src='" + getRenderUrl() + "bronze.png'/></td><td class='bold'>" + ResourceUtils.getText("bronze", lang) + "</td></tr></table>";
+		return "<table><tr><td><img alt='" + ResourceUtils.getText("bronze", lang) + "' src='" + getRenderUrl() + "bronze.png'/></td><td class='bold'>" + ResourceUtils.getText("bronze", lang) + "</td></tr></table>";
 	}
 	
 	public static Collection<String> getImgFiles() {

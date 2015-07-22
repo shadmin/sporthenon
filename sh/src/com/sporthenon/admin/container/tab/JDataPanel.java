@@ -597,7 +597,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLoss(wl.getCountLoss() != null ? String.valueOf(wl.getCountLoss()) : "");
 			p.setTie(wl.getCountTie() != null ? String.valueOf(wl.getCountTie()) : "");
 			p.setOtLoss(wl.getCountOtloss() != null ? String.valueOf(wl.getCountOtloss()) : "");
-			p.setAverage(wl.getAverage() != null ? wl.getAverage() : "");
 		}
 		jQueryStatus.clear();
 	}

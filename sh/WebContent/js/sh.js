@@ -1277,6 +1277,10 @@ function initUpdate(value) {
 				$(this).value = '';
 			}
 		});
+		Event.observe($(el), 'keypress', function(){
+			$(this).removeClassName('completed').removeClassName('completed2');
+			tValues[$(this).id] = null;
+		});
 		Event.observe($(el), 'blur', function(){
 			if ($(this).value == '') {
 				$(this).value = $(this).name;

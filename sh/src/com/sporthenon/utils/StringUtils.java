@@ -46,8 +46,6 @@ public class StringUtils {
 	public static String encode(String s) {
 		Base32 b32 = new Base32();
 		return b32.encodeAsString(s.replaceAll("(\\-0)+$", "").getBytes()).replaceAll("\\=+$", "");
-//		Base64 b64 = new Base64();
-//		return new String(b64.encode(s.replaceAll("(\\-0)+$", "").getBytes())).replaceAll("\\=+$", "");
 	}
 
 	public static String decode(String s) {
@@ -56,8 +54,6 @@ public class StringUtils {
 				s += "=";
 		Base32 b32 = new Base32();
 		return new String(b32.decode(s));
-//		Base64 b64 = new Base64();
-//		return new String(b64.decode(s.getBytes()));
 	}
 
 	public static String implode(Iterable<String> tValues, String sSeparator) {

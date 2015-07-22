@@ -132,7 +132,7 @@ new Ajax.Autocompleter(
 	'dpattern',
 	'ajaxsearch',
 	'/search/ajax/1',
-	{ paramName: 'value', minChars: 1, frequency: 0.05, updateElement: directSearch}
+	{ paramName: 'value', minChars: 2, frequency: 0.05, updateElement: directSearch}
 );
 Event.observe($('dpattern'), 'keyup', directSearch);
 var lang = '<%=lang%>';

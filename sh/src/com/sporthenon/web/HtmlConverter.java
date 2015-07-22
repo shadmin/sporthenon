@@ -5,6 +5,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,6 +16,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Vector;
 
@@ -1244,16 +1247,16 @@ public class HtmlConverter {
 					}
 					else {
 						StringBuffer sb = new StringBuffer("<table><tr>");
-						sb.append("<td class='small'>" + (tEntity[0] != null || isMedal ? (isMedal ? ResourceUtils.getText("gold", lang) + "&nbsp;:</td><td class='small'>" + ImageUtils.getGoldMedImg() + "&nbsp;" : (tEntity[1] != null ? ResourceUtils.getText("rank.1", lang) + "&nbsp;:&nbsp;" : "")) : "") + "</td><td style='font-weight:bold;'>" + tEntity[0] + "</td>");
+						sb.append("<td class='small'>" + (tEntity[0] != null || isMedal ? (isMedal ? ResourceUtils.getText("gold", lang) + "&nbsp;:</td><td class='small'>" + ImageUtils.getGoldMedImg(lang) + "&nbsp;" : (tEntity[1] != null ? ResourceUtils.getText("rank.1", lang) + "&nbsp;:&nbsp;" : "")) : "") + "</td><td style='font-weight:bold;'>" + tEntity[0] + "</td>");
 						if (tEntity[1] != null)
-							sb.append("<td class='small'>&nbsp;" + (isMedal ? ResourceUtils.getText("silver", lang) + "&nbsp;:</td><td class='small'>" + ImageUtils.getSilverMedImg() : ResourceUtils.getText("rank.2", lang) + ":") + "&nbsp;</td><td>" + tEntity[1] + "</td>");
+							sb.append("<td class='small'>&nbsp;" + (isMedal ? ResourceUtils.getText("silver", lang) + "&nbsp;:</td><td class='small'>" + ImageUtils.getSilverMedImg(lang) : ResourceUtils.getText("rank.2", lang) + ":") + "&nbsp;</td><td>" + tEntity[1] + "</td>");
 						if (tEntity[2] != null)
-							sb.append("<td class='small'>&nbsp;" + (isMedal ? ResourceUtils.getText("bronze", lang) + "&nbsp;:</td><td class='small'>" + ImageUtils.getBronzeMedImg() : ResourceUtils.getText("rank.3", lang) + ":") + "&nbsp;</td><td>" + tEntity[2] + "</td>");
+							sb.append("<td class='small'>&nbsp;" + (isMedal ? ResourceUtils.getText("bronze", lang) + "&nbsp;:</td><td class='small'>" + ImageUtils.getBronzeMedImg(lang) : ResourceUtils.getText("rank.3", lang) + ":") + "&nbsp;</td><td>" + tEntity[2] + "</td>");
 						c5 = sb.append("</tr></table>").toString();
 					}
-					if (etype.matches(Athlete.alias + "|" + Team.alias + "|" + Country.alias)) {
+					if (etype.matches(Athlete.alias + "|" + Team.alias + "|" + Country.alias) && item.getCount1() != null) {
 						if (isMedal)
-							c4 = "<ul class='vcenter'>" + (item.getCount1() == 1 ? "<li>" + ImageUtils.getGoldMedImg() + "</li><li>&nbsp;" + ResourceUtils.getText("gold", lang) : (item.getCount1() == 2 ? "<li>" + ImageUtils.getSilverMedImg() + "</li><li>&nbsp;" + ResourceUtils.getText("silver", lang) : "<li>" + ImageUtils.getBronzeMedImg() + "</li><li>&nbsp;" + ResourceUtils.getText("bronze", lang))) + "</li></ul>";
+							c4 = "<ul class='vcenter'>" + (item.getCount1() == 1 ? "<li>" + ImageUtils.getGoldMedImg(lang) + "</li><li>&nbsp;" + ResourceUtils.getText("gold", lang) : (item.getCount1() == 2 ? "<li>" + ImageUtils.getSilverMedImg(lang) + "</li><li>&nbsp;" + ResourceUtils.getText("silver", lang) : "<li>" + ImageUtils.getBronzeMedImg(lang) + "</li><li>&nbsp;" + ResourceUtils.getText("bronze", lang))) + "</li></ul>";
 						else if (isScore)
 							c4 = ResourceUtils.getText(item.getCount1() == 1 ? "rank.winner" : (item.getCount1() == 2 ? "draw3.f" : "rank.3"), lang);
 						else
@@ -2011,7 +2014,11 @@ public class HtmlConverter {
 				stats += "<td class='srt'>" + (bean.getWlCountTie() != null ? bean.getWlCountTie() : StringUtils.EMPTY) + "</td>";
 			if (isOtloss)
 				stats += "<td class='srt'>" + (bean.getWlCountOtloss() != null ? bean.getWlCountOtloss() : StringUtils.EMPTY) + "</td>";
-			stats += "<td class='srt'>" + bean.getWlAverage() + "</td>";
+			int sumAll = bean.getWlCountWin() + bean.getWlCountLoss() + (bean.getWlCountTie() != null ? bean.getWlCountTie() : 0) + (bean.getWlCountOtloss() != null ? bean.getWlCountOtloss() : 0);
+			NumberFormat nf = NumberFormat.getNumberInstance(Locale.ENGLISH);
+			nf.setMinimumFractionDigits(1);
+			nf.setMaximumFractionDigits(1);
+			stats += "<td class='srt'>" + ((DecimalFormat) nf).format((bean.getWlCountWin() * 100.0d) / sumAll) + "</td>";
 
 			// Write line
 			html.append("<tr><td class='srt'>" + team + "</td><td class='srt'>" + bean.getWlType() + "</td>" + stats + "</tr>");

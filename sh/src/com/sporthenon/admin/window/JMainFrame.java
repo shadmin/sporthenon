@@ -549,7 +549,6 @@ public class JMainFrame extends JFrame {
 			en.setCountLoss(StringUtils.notEmpty(p.getLoss().getText()) ? new Integer(p.getLoss().getText()) : null);
 			en.setCountTie(StringUtils.notEmpty(p.getTie().getText()) ? new Integer(p.getTie().getText()) : null);
 			en.setCountOtloss(StringUtils.notEmpty(p.getOtLoss().getText()) ? new Integer(p.getOtLoss().getText()) : null);
-			en.setAverage(p.getAverage().getText());
 		}
 		o = DatabaseHelper.saveEntity(o, contributor);
 		String id_ = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));

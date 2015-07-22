@@ -37,6 +37,12 @@ public class Country {
 	@Embedded
 	private Metadata metadata;
 	
+	public Country() {}
+	
+	public Country(String code) {
+		this.code = code;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -87,6 +93,11 @@ public class Country {
 
 	public void setRef(Integer ref) {
 		this.ref = ref;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return (obj instanceof Country && ((Country) obj).getCode().equals(code));
 	}
 
 	@Override
