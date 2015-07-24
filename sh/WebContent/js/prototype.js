@@ -1544,12 +1544,11 @@ Ajax.Request = Class.create(Ajax.Base, {
 Ajax.Request.Events =
   ['Uninitialized', 'Loading', 'Loaded', 'Interactive', 'Complete'];
 
-
-
-
-
-
-
+Ajax.Request.prototype.abort = function() {
+    this.transport.onreadystatechange = Prototype.emptyFunction;
+    this.transport.abort();
+    Ajax.activeRequestCount--;
+};
 
 Ajax.Response = Class.create({
   initialize: function(request){

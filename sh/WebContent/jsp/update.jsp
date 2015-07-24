@@ -15,7 +15,7 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 	<div class="fieldset">
 		<div class="fstitle"><%=StringUtils.text("create.modify.result", session)%></div>
 		<div class="fscontent" style="height:auto;">
-			<div style="float:right;text-align:right;"><a href="javascript:dHelp.open();"><b><%=StringUtils.text("help", session)%></b></a><br/><a href="javascript:loadDataDialog('country');"><%=StringUtils.text("country.codes", session)%></a><br/><a href="javascript:loadDataDialog('team');"><%=StringUtils.text("entity.TM", session)%></a></div>
+			<div style="float:right;text-align:right;"><a href="javascript:$('header').setStyle({ opacity: 0.4 });$('content').setStyle({ opacity: 0.4 });dHelp.open();"><b><%=StringUtils.text("help", session)%></b></a><br/><a href="javascript:loadDataDialog('country');"><%=StringUtils.text("country.codes", session)%></a><br/><a href="javascript:loadDataDialog('state');"><%=StringUtils.text("country.states", session)%></a><br/><a href="javascript:loadDataDialog('team');"><%=StringUtils.text("entity.TM", session)%></a></div>
 			<!-- RESULT INFO -->
 			<div style="float:left;padding-right:10px;">
 			<table style="margin-top:0px;">
@@ -31,8 +31,8 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 				<td><input id='nextbtn' type='button' class='button' onclick='loadResult("next");' value=''/></td></tr>
 			</table>
 			<table>
-				<tr><td><input type="text" id="dt1" tabindex="7" name="<%=StringUtils.text("date.from", session)%>"/><a href="javascript:clearValue('dt1');">[X]</a><br/><a href="#" onclick="$('dt1').value='<%=today%>';$('dt1').addClassName('completed2');"><%=StringUtils.text("today", session)%></a>&nbsp;<a href="#" onclick="$('dt1').value='<%=yesterday%>';$('dt1').addClassName('completed2');"><%=StringUtils.text("yesterday", session)%></a></td>
-				<td>&nbsp;<input type="text" id="dt2" tabindex="8" name="<%=StringUtils.text("date.to", session)%>"/><a href="javascript:clearValue('dt2');">[X]</a><br/><a href="#" onclick="$('dt2').value='<%=today%>';$('dt2').addClassName('completed2');"><%=StringUtils.text("today", session)%></a>&nbsp;<a href="#" onclick="$('dt2').value='<%=yesterday%>';$('dt2').addClassName('completed2');"><%=StringUtils.text("yesterday", session)%></a></td></tr>
+				<tr><td><input type="text" id="dt1" tabindex="7" name="<%=StringUtils.text("date", session)%> #1"/><a href="javascript:clearValue('dt1');">[X]</a><br/><a href="#" onclick="$('dt1').value='<%=today%>';$('dt1').addClassName('completed2');"><%=StringUtils.text("today", session)%></a>&nbsp;<a href="#" onclick="$('dt1').value='<%=yesterday%>';$('dt1').addClassName('completed2');"><%=StringUtils.text("yesterday", session)%></a></td>
+				<td>&nbsp;<input type="text" id="dt2" tabindex="8" name="<%=StringUtils.text("date", session)%> #2"/><a href="javascript:clearValue('dt2');">[X]</a><br/><a href="#" onclick="$('dt2').value='<%=today%>';$('dt2').addClassName('completed2');"><%=StringUtils.text("today", session)%></a>&nbsp;<a href="#" onclick="$('dt2').value='<%=yesterday%>';$('dt2').addClassName('completed2');"><%=StringUtils.text("yesterday", session)%></a></td></tr>
 			</table>
 			<table>
 				<tr><td><input type="text" id="pl1" tabindex="9" name="<%=StringUtils.text("venue.city", session)%> #1"/><a href="javascript:clearValue('pl1');">[X]</a></td></tr>

@@ -9,14 +9,14 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"~MEMBER\"")
+@Table(name = "\"~Contributor\"")
 public class Contributor {
 
 	public static final transient String alias = "CB";
 	
 	@Id
-	@SequenceGenerator(name = "sq_member", sequenceName = "\"~SQ_MEMBER\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_member")
+	@SequenceGenerator(name = "sq_contributor", sequenceName = "\"~SqContributor\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_contributor")
 	private Integer id;
 	
 	@Column(name = "\"login\"", length = 15, nullable = false)
@@ -33,6 +33,12 @@ public class Contributor {
 	
 	@Column(name = "active")
 	private Boolean active;
+	
+	@Column(name = "admin")
+	private Boolean admin;
+	
+	@Column(name = "sports")
+	private String sports;
 	
 	public Integer getId() {
 		return id;
@@ -80,6 +86,27 @@ public class Contributor {
 
 	public void setPublicName(String publicName) {
 		this.publicName = publicName;
+	}
+
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
+	}
+
+	public String getSports() {
+		return sports;
+	}
+
+	public void setSports(String sports) {
+		this.sports = sports;
+	}
+
+	@Override
+	public String toString() {
+		return login;
 	}
 	
 }

@@ -158,15 +158,11 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		jLastButton.setActionCommand("last");
 		jLastButton.setMnemonic(KeyEvent.VK_PAGE_DOWN);
 		leftPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 1));
-		JCustomButton jUrlUpdateButton = new JCustomButton("URL Update", "url.png", null);
-		jUrlUpdateButton.addActionListener(this);
-		jUrlUpdateButton.setActionCommand("urlupdate");
 		leftPanel.add(jFirstButton, null);
 		leftPanel.add(jPreviousButton, null);
 		leftPanel.add(jFindButton, null);
 		leftPanel.add(jNextButton, null);
 		leftPanel.add(jLastButton, null);
-		leftPanel.add(jUrlUpdateButton, null);
 
 		JPanel rightPanel = new JPanel();
 		JCustomButton jAddButton = new JCustomButton("New", "add.png", "New");
@@ -256,9 +252,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			catch (Exception e_) {
 				Logger.getLogger("sh").error(e_.getMessage(), e_);
 			}
-		}
-		else if (e.getActionCommand().equals("urlupdate")) {
-			JMainFrame.getUrlUpdateDialog().open();
 		}
 		else if (e.getActionCommand().equals("extlinks")) {
 			StringBuffer sbLinks = new StringBuffer();
@@ -405,7 +398,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			if (ct.getLink() != null && ct.getLink() > 0) {
 				try {
 					City ct_ = (City) DatabaseHelper.loadEntity(City.class, ct.getLink());
-					p.setLinkLabel(" Linked to: [" + ct_.toString2() + "]");
+					p.setLinkLabel(" Linked to: [" + ct_.toString2(ResourceUtils.LGDEFAULT) + "]");
 				}
 				catch (Exception e) {
 					Logger.getLogger("sh").error(e.getMessage());
@@ -424,7 +417,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			if (cx.getLink() != null && cx.getLink() > 0) {
 				try {
 					Complex cx_ = (Complex) DatabaseHelper.loadEntity(Complex.class, cx.getLink());
-					p.setLinkLabel("Linked to: [" + cx_.toString2() + "]");
+					p.setLinkLabel("Linked to: [" + cx_.toString2(ResourceUtils.LGDEFAULT) + "]");
 				}
 				catch (Exception e) {
 					Logger.getLogger("sh").error(e.getMessage());
@@ -466,7 +459,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabelFR(sp.getLabelFr());
 			p.setIndex(sp.getIndex() != null ? String.valueOf(sp.getIndex()) : null);
 			p.setType(String.valueOf(sp.getType()));
-			p.setWikiPattern(sp.getWikiPattern());
 			p.setImgURL(StringUtils.notEmpty(sp.getImgUrl()) ? sp.getImgUrl() : "");
 		}
 		else if (o instanceof State) {

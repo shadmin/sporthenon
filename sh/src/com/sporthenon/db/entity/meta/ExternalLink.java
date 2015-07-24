@@ -28,6 +28,9 @@ public class ExternalLink {
 	
 	@Column(name = "url", length = 200, nullable = false)
 	private String url;
+	
+	@Column(name = "checked")
+	private Boolean checked;
 
 	public Integer getId() {
 		return id;
@@ -67,6 +70,14 @@ public class ExternalLink {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public Boolean getChecked() {
+		return checked;
+	}
+
+	public void setChecked(Boolean checked) {
+		this.checked = checked;
 	}
 	
 }

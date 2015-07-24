@@ -340,7 +340,11 @@ public class UpdateServlet extends AbstractServlet {
 				try {
 					String lang_ = (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "");
 					StringBuffer html = new StringBuffer("<table>");
-					List<Object[]> list = DatabaseHelper.execute(hParams.get("p").equals("team") ? "select label, sport.label" + lang_ + " from Team order by 1" : "select label" + lang_ + ", code from Country order by 1");
+					HashMap<String, String> hHql = new HashMap<String, String>();
+					hHql.put("team", "select label, sport.label" + lang_ + " from Team order by 1");
+					hHql.put("country", "select label" + lang_ + ", code from Country order by 1");
+					hHql.put("state", "select label" + lang_ + ", code from State order by 1");
+					List<Object[]> list = DatabaseHelper.execute(hHql.get(hParams.get("p")));
 					for (Object[] t : list)
 						html.append("<tr><td>" + t[0] + "</td><td>" + t[1] + "</td></tr>");
 					ServletHelper.writeText(response, html.append("</table>").toString());
@@ -404,9 +408,9 @@ public class UpdateServlet extends AbstractServlet {
 						sb.append(rs.getResult1()).append("~").append(rs.getResult2()).append("~").append(rs.getResult3()).append("~").append(rs.getResult4()).append("~").append(rs.getResult5()).append("~");
 						sb.append(rs.getDate1()).append("~").append(rs.getDate2()).append("~");
 						sb.append(rs.getComplex1() != null ? rs.getComplex1().getId() : (rs.getCity1() != null ? rs.getCity1().getId() : "")).append("~");
-						sb.append(rs.getComplex1() != null ? rs.getComplex1().toString2() : (rs.getCity1() != null ? rs.getCity1().toString2() : "")).append("~");
+						sb.append(rs.getComplex1() != null ? rs.getComplex1().toString2(lang) : (rs.getCity1() != null ? rs.getCity1().toString2(lang) : "")).append("~");
 						sb.append(rs.getComplex2() != null ? rs.getComplex2().getId() : (rs.getCity2() != null ? rs.getCity2().getId() : "")).append("~");
-						sb.append(rs.getComplex2() != null ? rs.getComplex2().toString2() : (rs.getCity2() != null ? rs.getCity2().toString2() : "")).append("~");
+						sb.append(rs.getComplex2() != null ? rs.getComplex2().toString2(lang) : (rs.getCity2() != null ? rs.getCity2().toString2(lang) : "")).append("~");
 						sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~").append(rs.getImgUrl()).append("~");
 						// External links
 						StringBuffer sbLinks = new StringBuffer();

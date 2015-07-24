@@ -131,8 +131,8 @@ public class City {
 		return label + (country != null ? ", " + country : "") + " [#" + id + "]";
 	}
 	
-	public String toString2() {
-		return label + (state != null ? ", " + state.getCode() : "") + (country != null ? ", " + country.getCode() : "");
+	public String toString2(String lang) {
+		return getLabel(lang) + (state != null ? ", " + state.getCode() : "") + (country != null ? ", " + country.getCode() : "");
 	}
 
 }

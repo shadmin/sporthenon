@@ -1489,6 +1489,8 @@ function toggleDraw() {
 }
 function loadDataDialog(type) {
 	new Ajax.Updater($('datatip'), '/update/data/' + type);
+	$('header').setStyle({ opacity: 0.4 });
+	$('content').setStyle({ opacity: 0.4 });
 	dDataTip.open();
 }
 var rkList = null;

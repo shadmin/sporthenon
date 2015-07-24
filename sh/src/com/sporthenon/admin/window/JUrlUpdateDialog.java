@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,9 +25,6 @@ import javax.swing.JTextField;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JDialogButtonBar;
@@ -147,6 +145,8 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 		try {
 			String proxyAddr = JMainFrame.getOptionsDialog().getProxyAddr().getText();
 			String proxyPort = JMainFrame.getOptionsDialog().getProxyPort().getText();
+//			proxyAddr = "globalproxy-emea.pharma.aventis.com";
+//			proxyPort = "3129";
 			if (StringUtils.notEmpty(proxyAddr)) {
 				System.getProperties().setProperty("http.proxyHost", proxyAddr);
 				System.getProperties().setProperty("http.proxyPort", proxyPort);
@@ -197,12 +197,11 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 
 	private String getUrlUpdate(Object o, String msg) throws Exception {
 		StringBuffer sql = new StringBuffer();
-		String str1 = "", str2 = "", str3 = "", alias = "";
+		String str1 = "", str2 = "", alias = "";
 		if (o instanceof Athlete) {
 			Athlete a = (Athlete) o;
 			str1 = a.getFirstName() + " " + a.getLastName();
 			str2 = a.getLastName();
-			str3 = a.getSport().getWikiPattern();
 			alias = Athlete.alias;
 		}
 		else if (o instanceof Championship) {
@@ -259,41 +258,12 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 		HttpURLConnection conn = null;
 		// WIKIPEDIA
 		if (msg.matches(".*\\(Wiki\\)$")) {
-			url = "http://en.wikipedia.org/wiki/" + str1.replaceAll("\\s", "_").replaceAll("'", "%27");
-			url_ = new URL(url + "_(disambiguation)");
+			url = "https://en.wikipedia.org/wiki/" + URLEncoder.encode(str1.replaceAll("\\s", "_"), "utf-8");
+			url_ = new URL(url);
 			conn = (HttpURLConnection) url_.openConnection();
 			conn.setDoOutput(true);
-			if (conn.getResponseCode() == 200) {
-				StringWriter writer = new StringWriter();
-				IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
-				Document doc = Jsoup.parse(writer.toString());
-				for (Element e : doc.getElementsByTag("a")) {
-					if (e.attr("href") != null && e.attr("href").matches("^/wiki/.*")) {
-						Element parent = e.parent();
-						if (parent != null && parent.tagName().equalsIgnoreCase("b"))
-							parent = parent.parent();
-						boolean b = false;
-						b |= (o instanceof Athlete && parent != null && parent.text().matches(".*(" + str3 + ").*"));
-						b |= (o instanceof City && parent != null && parent.text().matches(".*(city|town|capital).*"));
-						b |= (o instanceof Complex && parent != null && parent.text().matches(".*(stadium|arena|venue).*"));
-						b |= (o instanceof Country && parent != null && parent.text().matches(".*(country).*"));
-						b |= (o instanceof Sport && parent != null && parent.text().matches(".*(sport).*"));
-						b |= (o instanceof State && parent != null && parent.text().matches(".*(state).*"));
-						b |= (o instanceof Team && parent != null && parent.text().matches(".*(team).*"));
-						if (b) {
-							sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'wiki', '" + url.replaceAll("/wiki.+$", e.attr("href")) + "');\r\n");
-							break;				
-						}
-					}
-				}
-			}
-			else {
-				url_ = new URL(url);
-				conn = (HttpURLConnection) url_.openConnection();
-				conn.setDoOutput(true);
-				if (conn.getResponseCode() == 200)
-					sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'wiki', '" + url + "');\r\n");
-			}
+			if (conn.getResponseCode() == 200)
+				sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'wiki', '" + url + "');\r\n");
 		}
 		// OLYMPICS-REFERENCE
 		if (msg.matches(".*\\(Oly\\)$")) {

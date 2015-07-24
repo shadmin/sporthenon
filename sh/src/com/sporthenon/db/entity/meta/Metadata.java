@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 public class Metadata {
 
 	@ManyToOne
-	@JoinColumn(name = "id_member", nullable = false)
+	@JoinColumn(name = "id_contributor", nullable = false)
 	private Contributor contributor;
 	
 	@Column(name = "first_update", nullable = false)

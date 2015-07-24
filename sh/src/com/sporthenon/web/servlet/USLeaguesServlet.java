@@ -106,13 +106,13 @@ public class USLeaguesServlet extends AbstractServlet {
 					lFuncParams.add(teams);
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("num")) ? new Short(String.valueOf(hParams.get("num"))) : -1);
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_US_LEAGUES_RETNUM, lFuncParams, getUser(request), getLocale(request));
-					html.append(HtmlConverter.convertRetiredNumber(DatabaseHelper.call("GetRetiredNumber", lFuncParams), "en"));
+					html.append(HtmlConverter.convertRetiredNumber(DatabaseHelper.call("GetRetiredNumbers", lFuncParams), "en"));
 				}
 				else if (type.equals(TYPE_TEAMSTADIUM)) {
 					lFuncParams.add(teams);
 					lFuncParams.add("_en");
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_US_LEAGUES_TEAMSTADIUM, lFuncParams, getUser(request), getLocale(request));
-					html.append(HtmlConverter.convertTeamStadium(DatabaseHelper.call("GetTeamStadium", lFuncParams), "en"));
+					html.append(HtmlConverter.convertTeamStadium(DatabaseHelper.call("GetTeamStadiums", lFuncParams), "en"));
 				}
 				else if (type.equals(TYPE_WINLOSS)) {
 					lFuncParams.add(teams);

@@ -233,7 +233,7 @@ public class DatabaseHelper {
 					id = o.getClass().getMethod("getId").invoke(o);
 					Contribution co = new Contribution();
 					co.setIdItem(new Integer(String.valueOf(id)));
-					co.setIdMember(m.getId());
+					co.setIdContributor(m.getId());
 					co.setType(isAdd ? 'A' : 'U');
 					co.setDate(currentDate);
 					em.persist(co);
@@ -551,7 +551,7 @@ public class DatabaseHelper {
 				ct = t[0];
 			City ct_ = null;
 			if (cx != null) { // Set City (for complex)
-				Object o_ = loadEntityFromQuery("from City ct where lower(ct.label) like '" + ct.toLowerCase().replaceAll("'", "''") + "' and lower(country.code) = '" + cn.toLowerCase() + "'");
+				Object o_ = loadEntityFromQuery("from City ct where lower(ct.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "") + ") like '" + ct.toLowerCase().replaceAll("'", "''") + "' and lower(country.code) = '" + cn.toLowerCase() + "'");
 				if (o_ == null) {
 					Integer idCt = insertPlace(row, ct + (st != null ? ", " + st : "") + ", " + cn, m, processReport, lang);
 					o_ = loadEntity(City.class, idCt);
@@ -628,6 +628,7 @@ public class DatabaseHelper {
 						link.setType("hk-ref");
 					else
 						link.setType("others");
+					link.setChecked(false);
 					link.setUrl(s_);
 					saveEntity(link, null);
 				}

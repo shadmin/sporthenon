@@ -1,4 +1,4 @@
-<%@ page language="java"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.sporthenon.utils.StringUtils" %>
 <!-- REPORT ERROR -->
 <div id="d-error" class="dialog" style="display:none;">
@@ -47,7 +47,24 @@
 <div id="d-help" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fstitle">Help</div>
-	<div class="fscontent" style="width:600px;height:250px;overflow:auto;">1. Formats<br/><br/>Dates : <b>JJ/MM/AAAA</b> (J = Jour / M = Mois / A = Ann�e)<hr/>Lieu : <b>Nom du complexe, Ville, Code pays</b><br/>ou<br/><b>Ville, Code pays</b><br/>(Code pays : sur 3 caract�res)<hr/></div>
+	<div class="fscontent" style="width:850px;height:400px;overflow:auto;">
+	<h3>1. Format des champs</h3>
+	<table><tr><th>Champ</th><th>Format</th><th>Exemples</th><th style="width:300px;">Commentaires</th></tr>
+	<tr><td>Sport</td><td><b>NomSport</b></td><td><i>Football</i></td><td></td></tr>
+	<tr><td>Championnat</td><td><b>NomChampionnat</b></td><td><i>Championnats du monde</i></td><td></td></tr>
+	<tr><td>Epreuve</td><td><b>NomEpreuve (TypeEpreuve)</b></td><td><i>Hommes (Individuel)</i></td><td>Types d'épreuve :<ul><li>Individuel</li><li>Doubles</li></ul></td></tr>
+	<tr><td>Année</td><td><b>AAAA</b></td><td><i>2001</i></td><td>Numéro de l'année sur 4 chiffres</td></tr>
+	<tr><td>Date #1</td><td><b>JJ/MM/AAAA</b></td><td><i>01/12/2001<br/>12 Décembre 2001</i></td><td>Date de début de l'épreuve (<u>vide si épreuve sur 1 seule journée</u>)</td></tr>
+	<tr><td>Date #2</td><td><b>JJ/MM/AAAA</b></td><td>Voir Date #1</td><td>Date de fin de l'épreuve (renseigner uniquement ce champ si épreuve sur 1 journée)</td></tr>
+	<tr><td>Lieu/Ville&nbsp;#1</td><td><b>[NomComplexe,&nbsp;]NomVille[,&nbsp;CodeEtatUS], CodePays</b></td><td><i>Paris,&nbsp;FRA<br/>Los Angeles,&nbsp;CA,&nbsp;USA<br/>Stade&nbsp;Maracana,&nbsp;Rio&nbsp;de&nbsp;Janeiro,&nbsp;BRA</i></td><td>Lieu de départ/début (<u>vide si épreuve disputée à 1 seul endroit</u>)</td></tr>
+	<tr><td>Lieu/Ville&nbsp;#2</td><td><b>[NomComplexe,&nbsp;]NomVille[,&nbsp;CodeEtatUS], CodePays</b></td><td>Voir Lieu/Ville #1</td><td>Lieu d'arrivée/fin (<u>renseigner uniquement ce champ si épreuve disputée à 1 seul endroit</u>)</td></tr>
+	<tr><td>Ex-aequo</td><td><b>NuméroPosition1&#8209;NuméroPosition2[/...]</b></td><td><i>1&#8209;2<br/>1&#8209;3/4&#8209;5</i></td><td></td></tr>
+	<tr><td>Commentaire</td><td><b>TexteCommentaire</b></td><td><i>L. Armstrong disqualified (doping)</i></td><td>Utiliser le caractère | pour les retours à la ligne</td></tr>
+	<tr><td>1er,&nbsp;2ème,&nbsp;3ème...</td><td><b>NomAthlete[,&nbsp;PrenomAthlete]&nbsp;(CodePays[,&nbsp;NomEquipe])</b>&nbsp;ou<br/><b>NomEquipe[&nbsp;(CodePays)]</b>&nbsp;ou<br/><b>NomPays</b></td><td><i>Nadal,&nbsp;Rafael&nbsp;(ESP)<br/>Gretzky,&nbsp;Wayne&nbsp;(CAN,&nbsp;Edmonton&nbsp;Oilers)<br/>Juventus&nbsp;FC&nbsp;(ITA)<br/>Etats-Unis</i></td><td>Classement de l'épreuve</td></tr>
+	<tr><td>URL photo</td><td><b>AdresseHttpImage</b></td><td><i>-</i></td><td>Adresse internet d'une photo illustrant l'épreuve</td></tr>
+	<tr><td>Liens&nbsp;externes</td><td><b>AdresseHttpLien1<br/>[AdresseHttpLien2<br/>AdresseHttpLien3]</b></td><td><i>-</i></td><td></td></tr>
+	</table>
+	</div>
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dHelp);"/></div>
 </div>
 </div>

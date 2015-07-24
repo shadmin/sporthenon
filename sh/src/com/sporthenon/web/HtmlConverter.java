@@ -754,10 +754,10 @@ public class HtmlConverter {
 						sbOtherYears.append("<b>" + label + "</b>");
 					sbOtherYears.append(" ");
 				}
-				html.append("<tr><th class='caption'>" + ResourceUtils.getText("other.years", lang) + "</th><td style='width:500px;'>" + sbOtherYears.toString() + "</td></tr>");
+				html.append("<tr><th class='caption'>" + ResourceUtils.getText("other.years", lang) + "</th><td style='width:500px;white-space:normal;'>" + sbOtherYears.toString() + "</td></tr>");
 			}
-			if (StringUtils.notEmpty(r.getComment()) && !r.getComment().startsWith("##"))
-				html.append("<tr><th class='caption'>" + ResourceUtils.getText("comment", lang) + "</th><td>" + r.getComment().replaceAll("\r\n", "<br/>") + "</td></tr>");
+			if (StringUtils.notEmpty(r.getComment()) && !r.getComment().startsWith("##") && !r.getComment().matches("\\#(DOUBLE|TRIPLE)\\#"))
+				html.append("<tr><th class='caption'>" + ResourceUtils.getText("comment", lang) + "</th><td>" + r.getComment().replaceAll("\r\n|\\|", "<br/>") + "</td></tr>");
 			// Result
 			ArrayList<Object> lFuncParams = new ArrayList<Object>();
 			lFuncParams.add(r.getSport().getId());
@@ -1402,7 +1402,7 @@ public class HtmlConverter {
 			year = "<table><tr><td>" + year + "</td><td>&nbsp;" + HtmlUtils.writeLink(Result.alias, bean.getRsId(), "<img alt='details' title='" +  ResourceUtils.getText("details", lang) + " (" + bean.getYrLabel() + ")' src='/img/render/details.png'/>", bean.getYrLabel() + "/" + path) + "</td><td>" + (m != null ? "&nbsp;<a href='" + HtmlUtils.writeURL("/update", "RS-" + bean.getRsId(), null) + "'><img alt='modify' title='" + ResourceUtils.getText("button.modify", lang) + "' src='/img/component/button/modify.png'/></a>" : "") + "</td></tr></table>";
 			String dates = (StringUtils.notEmpty(bean.getRsDate1()) ? StringUtils.toTextDate(bean.getRsDate1(), lang, "d MMM yyyy") + "<br/>" : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? StringUtils.toTextDate(bean.getRsDate2(), lang, "d MMM yyyy") : "");
 			String place1 = null, place2 = null;
-			String comment = (StringUtils.notEmpty(bean.getRsComment()) && !bean.getRsComment().matches("\\#(DOUBLE|TRIPLE)\\#") ? bean.getRsComment().replaceAll("\\|", "<br/>") : null);
+			String comment = (StringUtils.notEmpty(bean.getRsComment()) && !bean.getRsComment().matches("\\#(DOUBLE|TRIPLE)\\#") ? bean.getRsComment().replaceAll("\r\n|\\|", "<br/>") : null);
 			boolean isResultEmpty = (bean.getRsRank1() == null && bean.getRsRank2() == null && bean.getRsRank3() == null && bean.getRsRank4() == null && bean.getRsRank5() == null);
 			List<StringBuffer> plist = mpl.get(bean.getRsId());
 			if (bean.getCx1Id() != null)

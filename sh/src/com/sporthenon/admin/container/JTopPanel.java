@@ -24,6 +24,9 @@ public class JTopPanel extends JPanel implements ActionListener {
 	private JCustomToggleButton jResultsButton = null;
 	private JCustomToggleButton jDataButton = null;
 	private JCustomToggleButton jPicturesButton = null;
+	private JCustomToggleButton jExtLinksButton = null;
+	private JCustomToggleButton jUsersButton = null;
+	
 	private JCustomButton jImportButton = null;
 	private JCustomButton jQueryButton = null;
 	private JCustomButton jOptionsButton = null;
@@ -58,6 +61,12 @@ public class JTopPanel extends JPanel implements ActionListener {
 		jPicturesButton = new JCustomToggleButton("Pictures", "image.png", "pictures");
 		jPicturesButton.setActionCommand("pictures");
 		setButtonLayout(jPicturesButton);
+		jExtLinksButton = new JCustomToggleButton("Ext. Links", "weblinks.png", "extlinks");
+		jExtLinksButton.setActionCommand("extlinks");
+		setButtonLayout(jExtLinksButton);
+		jUsersButton = new JCustomToggleButton("Users", "users.png", "users");
+		jUsersButton.setActionCommand("users");
+		setButtonLayout(jUsersButton);
 		jImportButton = new JCustomButton("Import", "import.png", null);
 		jImportButton.setActionCommand("import");
 		jImportButton.setEnabled(false);
@@ -80,6 +89,8 @@ public class JTopPanel extends JPanel implements ActionListener {
 		this.add(jResultsButton, null);
 		this.add(jDataButton, null);
 		this.add(jPicturesButton, null);
+		this.add(jExtLinksButton, null);
+		this.add(jUsersButton, null);
 		this.add(jImportButton, null);
 		this.add(jQueryButton, null);
 		this.add(jOptionsButton, null);
@@ -100,6 +111,8 @@ public class JTopPanel extends JPanel implements ActionListener {
 						jImportButton.setEnabled(connected);
 						jQueryButton.setEnabled(connected);
 						jPicturesButton.setEnabled(connected);
+						jExtLinksButton.setEnabled(connected);
+						jUsersButton.setEnabled(connected);
 						jResultsButton.setSelected(connected);
 						if (connected)
 							parent.changeTabPanel("results");
@@ -145,6 +158,8 @@ public class JTopPanel extends JPanel implements ActionListener {
 					jResultsButton.setSelected(e.getActionCommand().equalsIgnoreCase("results"));
 					jDataButton.setSelected(e.getActionCommand().equalsIgnoreCase("data"));
 					jPicturesButton.setSelected(e.getActionCommand().equalsIgnoreCase("pictures"));
+					jExtLinksButton.setSelected(e.getActionCommand().equalsIgnoreCase("extlinks"));
+					jUsersButton.setSelected(e.getActionCommand().equalsIgnoreCase("users"));
 				}
 			});
 		}
@@ -160,6 +175,14 @@ public class JTopPanel extends JPanel implements ActionListener {
 
 	public JCustomToggleButton getPicturesButton() {
 		return jPicturesButton;
+	}
+	
+	public JCustomToggleButton getExtLinksButton() {
+		return jExtLinksButton;
+	}
+	
+	public JCustomToggleButton getUsersButton() {
+		return jUsersButton;
 	}
 	
 	public JCustomButton getImportButton() {

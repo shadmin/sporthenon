@@ -34,9 +34,6 @@ public class Sport {
 	@Column(name = "\"index\"")
 	private Float index;
 	
-	@Column(name = "wiki_pattern")
-	private String wikiPattern;
-	
 	@Column(name = "ref")
 	private Integer ref;
 
@@ -84,14 +81,6 @@ public class Sport {
 
 	public void setType(Integer type) {
 		this.type = type;
-	}
-
-	public String getWikiPattern() {
-		return wikiPattern;
-	}
-
-	public void setWikiPattern(String wikiPattern) {
-		this.wikiPattern = wikiPattern;
 	}
 
 	public Float getIndex() {

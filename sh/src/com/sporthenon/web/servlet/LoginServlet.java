@@ -59,6 +59,7 @@ public class LoginServlet extends AbstractServlet {
 					m.setPublicName(String.valueOf(hParams.get("rpublicname")));
 //					m.setActive(false);
 					m.setActive(true);
+					m.setAdmin(false);
 					DatabaseHelper.saveEntity(m, null);
 					ServletHelper.writeText(response, ResourceUtils.getText("msg.registered", getLocale(request)) + "&nbsp;<a href='javascript:' onclick='rauth()'>" + ResourceUtils.getText("menu.login", getLocale(request)) + "</a>");					
 				}

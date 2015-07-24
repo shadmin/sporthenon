@@ -46,8 +46,10 @@ import com.sporthenon.admin.container.entity.JTeamStadiumPanel;
 import com.sporthenon.admin.container.entity.JWinLossPanel;
 import com.sporthenon.admin.container.entity.JYearPanel;
 import com.sporthenon.admin.container.tab.JDataPanel;
+import com.sporthenon.admin.container.tab.JExtLinksPanel;
 import com.sporthenon.admin.container.tab.JPicturesPanel;
 import com.sporthenon.admin.container.tab.JResultsPanel;
+import com.sporthenon.admin.container.tab.JUsersPanel;
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.PicklistBean;
 import com.sporthenon.db.entity.Athlete;
@@ -86,6 +88,8 @@ public class JMainFrame extends JFrame {
 	private JResultsPanel jResultsPanel = null;
 	private JDataPanel jDataPanel = null;
 	private JPicturesPanel jPicturesPanel = null;
+	private JExtLinksPanel jExtLinksPanel = null;
+	private JUsersPanel jUsersPanel = null;
 	private JLabel jConnectInfoLabel = null;
 	private static JPasswordDialog jPasswordDialog = null;
 	private static JEditResultDialog jResultDialog = null;
@@ -145,7 +149,7 @@ public class JMainFrame extends JFrame {
 			
 			this.setFont(SwingUtils.getDefaultFont());
 			this.setMinimumSize(new Dimension(640, 480));
-			this.setSize(new Dimension(1000, 700));
+			this.setSize(new Dimension(1050, 700));
 			this.setTitle("Sporthenon Admin v" + ConfigUtils.getProperty("version"));
 			this.setContentPane(getJContentPane());
 			this.setLocationRelativeTo(null);
@@ -357,7 +361,7 @@ public class JMainFrame extends JFrame {
 					while (c_.getLink() != null && c_.getLink() > 0)
 						c_ = (City) DatabaseHelper.loadEntity(City.class, c_.getLink());
 					en.setLink(c_.getId());
-					p.setLinkLabel(" Linked to: [" + c_.toString2() + "]");
+					p.setLinkLabel(" Linked to: [" + c_.toString2(ResourceUtils.LGDEFAULT) + "]");
 					DatabaseHelper.executeUpdate("UPDATE \"CITY\" SET LINK=0 WHERE ID=" + en.getLink());
 				}
 				catch (Exception e) {
@@ -380,7 +384,7 @@ public class JMainFrame extends JFrame {
 					while (c_.getLink() != null && c_.getLink() > 0)
 						c_ = (Complex) DatabaseHelper.loadEntity(Complex.class, c_.getLink());
 					en.setLink(c_.getId());
-					p.setLinkLabel(" Linked to: [" + c_.toString2() + "]");
+					p.setLinkLabel(" Linked to: [" + c_.toString2(ResourceUtils.LGDEFAULT) + "]");
 					DatabaseHelper.executeUpdate("UPDATE \"COMPLEX\" SET LINK=0 WHERE ID=" + en.getLink());
 				}
 				catch (Exception e) {
@@ -426,8 +430,6 @@ public class JMainFrame extends JFrame {
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setType(new Integer(p.getType().getText()));
 			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? new Float(p.getIndex().getText()) : null);
-			en.setWikiPattern(p.getWikiPattern().getText());
-			en.setImgUrl(p.getImgURL().getText());
 			plb.setText(en.getLabel());
 		}
 		else if (alias.equalsIgnoreCase(State.alias)) {
@@ -583,6 +585,8 @@ public class JMainFrame extends JFrame {
 		jResultsPanel = new JResultsPanel(this);
 		jDataPanel = new JDataPanel(this);
 		jPicturesPanel = new JPicturesPanel(this);
+		jExtLinksPanel = new JExtLinksPanel(this);
+		jUsersPanel = new JUsersPanel(this);
 		JPanel p = new JPanel();
 		CardLayout cardLayout = new CardLayout();
 		p.setLayout(cardLayout);
@@ -590,6 +594,8 @@ public class JMainFrame extends JFrame {
 		p.add(jResultsPanel, "results");
 		p.add(jDataPanel, "data");
 		p.add(jPicturesPanel, "pictures");
+		p.add(jExtLinksPanel, "extlinks");
+		p.add(jUsersPanel, "users");
 		return p;
 	}
 	
@@ -614,14 +620,19 @@ public class JMainFrame extends JFrame {
 				h.put("hibernate.connection.autocommit", "false");
 				h.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 				DatabaseHelper.setFactory(h, "standalone");
-				String hql = "from Contributor where login='" + jOptionsDialog.getLogin().getText() + "' and active=true";
+				String hql = "from Contributor where login='" + jOptionsDialog.getLogin().getText() + "' and active=TRUE and admin=TRUE";
 				ArrayList<Contributor> lst = (ArrayList<Contributor>) DatabaseHelper.execute(hql);
+				if (lst == null || lst.isEmpty())
+					throw new Exception("Your account is not active or has not admin rights.");
 				contributor = lst.get(0);
 				initAll(jPasswordDialog.getQuickLoading().isSelected());
 				jDataPanel.getList().setSelectedIndex(0);
 				jDataPanel.valueChanged(new ListSelectionEvent(this, 0, 0, true));
 				jPicturesPanel.getList().setSelectedIndex(0);
 				jPicturesPanel.valueChanged(new ListSelectionEvent(this, 0, 0, true));
+				jExtLinksPanel.valueChanged(new ListSelectionEvent(this, 0, 0, true));
+				jUsersPanel.initList();
+				jUsersPanel.valueChanged(new ListSelectionEvent(jUsersPanel.getList(), 0, 0, true));
 			}
 			else {
 				DatabaseHelper.unsetFactory();
@@ -630,6 +641,8 @@ public class JMainFrame extends JFrame {
 				jTopPanel.getResultsButton().setSelected(false);
 				jTopPanel.getDataButton().setSelected(false);
 				jTopPanel.getPicturesButton().setSelected(false);
+				jTopPanel.getExtLinksButton().setSelected(false);
+				jTopPanel.getUsersButton().setSelected(false);
 				jTopPanel.getImportButton().setEnabled(false);
 				jTopPanel.getQueryButton().setEnabled(false);
 				jBottomPanel.getQueryStatus().set((short)-1, null);
@@ -639,7 +652,7 @@ public class JMainFrame extends JFrame {
 			err = true;
 			connected = false;
 			Logger.getLogger("sh").error(e.getMessage(), e);
-			JOptionPane.showMessageDialog(this, "Failed to connect to database. See message below:\r\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Failed to connect to database. See message below:\r\n\r\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		finally {
 			jBottomPanel.getConnectionStatus().set((short)(connected ? 2 : 0), jOptionsDialog.getDatabase().getText());

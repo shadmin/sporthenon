@@ -70,6 +70,11 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 			hConfig = new HashMap<String, String>();
 			for (Object key : props.keySet())
 				hConfig.put(String.valueOf(key), props.getProperty(String.valueOf(key)));
+			if (ConfigUtils.getProperty("env").equals("local")) {
+				hConfig.put("db.host", "localhost");
+				hConfig.put("db.name", "shlocal");
+				hConfig.put("db.user", "inachos");
+			}
 		}
 		catch (IOException e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);

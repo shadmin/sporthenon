@@ -24,8 +24,8 @@ public class Contribution {
 	@Column(name = "id_item", nullable = false)
 	private Integer idItem;
 	
-	@Column(name = "id_member", nullable = false)
-	private Integer idMember;
+	@Column(name = "id_contributor", nullable = false)
+	private Integer idContributor;
 	
 	@Column(name = "\"type\"")
 	private Character type;
@@ -41,8 +41,8 @@ public class Contribution {
 		return idItem;
 	}
 
-	public Integer getIdMember() {
-		return idMember;
+	public Integer getIdContributor() {
+		return idContributor;
 	}
 
 	public Character getType() {
@@ -61,8 +61,8 @@ public class Contribution {
 		this.idItem = idItem;
 	}
 
-	public void setIdMember(Integer idMember) {
-		this.idMember = idMember;
+	public void setIdContributor(Integer idContributor) {
+		this.idContributor = idContributor;
 	}
 
 	public void setType(Character type) {

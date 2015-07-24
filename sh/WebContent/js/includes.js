@@ -1655,6 +1655,31 @@ render: function() {
 },
 
 markPrevious: function() {
+ if(this.index > 0) {this.index--;}
+ else {
+  this.index = this.entryCount-1;
+  this.update.scrollTop = this.update.scrollHeight;
+ }
+ selection = this.getEntry(this.index);
+ selection_top = selection.offsetTop;
+ if(selection_top < this.update.scrollTop){
+  this.update.scrollTop = this.update.scrollTop-selection.offsetHeight;
+ }
+},
+ 
+markNext: function() {
+ if(this.index < this.entryCount-1) {this.index++;}
+ else {
+  this.index = 0;
+  this.update.scrollTop = 0;
+ }
+ selection = this.getEntry(this.index);
+ selection_bottom = selection.offsetTop+selection.offsetHeight;
+ if(selection_bottom > this.update.scrollTop+this.update.offsetHeight){
+  this.update.scrollTop = this.update.scrollTop+selection.offsetHeight;
+ }
+},
+/*markPrevious: function() {
  if(this.index > 0) this.index--;
    else this.index = this.entryCount-1;
  this.getEntry(this.index).scrollIntoView(true);
@@ -1664,7 +1689,7 @@ markNext: function() {
  if(this.index < this.entryCount-1) this.index++;
    else this.index = 0;
  this.getEntry(this.index).scrollIntoView(false);
-},
+},*/
 
 getEntry: function(index) {
  return this.update.firstChild.childNodes[index];
@@ -1727,6 +1752,7 @@ updateChoices: function(choices) {
    }
 
    this.stopIndicator();
+   this.update.scrollTop = 0;
    this.index = 0;
 
    if(this.entryCount==1 && this.options.autoSelect) {
@@ -1786,6 +1812,7 @@ for (var index = 0; index < boundary; ++index)
 return boundary;
 };
 
+var currentAjaxRequest = null;
 Ajax.Autocompleter = Class.create(Autocompleter.Base, {
 initialize: function(element, update, url, options) {
  this.baseInitialize(element, update, options);
@@ -1796,6 +1823,9 @@ initialize: function(element, update, url, options) {
 },
 
 getUpdatedChoices: function() {
+	if (currentAjaxRequest != null) {
+		currentAjaxRequest.abort();
+	}
  this.startIndicator();
 
  var entry = encodeURIComponent(this.options.paramName) + '=' +
@@ -1807,11 +1837,14 @@ getUpdatedChoices: function() {
  if(this.options.defaultParams)
    this.options.parameters += '&' + this.options.defaultParams;
 
- new Ajax.Request(this.url, this.options);
+ currentAjaxRequest = new Ajax.Request(this.url, this.options);
 },
 
 onComplete: function(request) {
  this.updateChoices(request.responseText);
+ if (Ajax.activeRequestCount < 0) {
+    Ajax.activeRequestCount = 0;
+}
 }
 });
 
