@@ -329,7 +329,7 @@
 	<entry key="msg.login.err1">Login failed. The user is not active.</entry>
 	<entry key="msg.login.err2">Login failed. Please check your login and password.</entry>
 	<entry key="msg.login.err3">Login already in use. Please choose another one.</entry>
-	<entry key="msg.registered">Account created successfully.</entry>
+	<entry key="msg.registered">Your account has been created.</entry>
 	<entry key="msg.logout">You were logged out.</entry>
 	<entry key="title.authentication">AUTHENTICATION</entry>
 	<entry key="title.createaccount">NOT REGISTERED? CREATE AN ACCOUNT</entry>
@@ -343,7 +343,9 @@
 	<entry key="mandatory.password">Field 'Password' is mandatory.</entry>
 	<entry key="mandatory.confirmpwd">You must confirm the password.</entry>
 	<entry key="mandatory.email">Field 'E-Mail Address' is mandatory.</entry>
+	<entry key="mandatory.sports">You must select at least 1 sport.</entry>
 	<entry key="pwd.nomatch">The entered passwords do not match.</entry>
+	<entry key="select.sports.contributor">Select the sports you want to contribute to</entry>
 <!-- UPDATE -->
 	<entry key="err.invalid.athlete"><![CDATA[Invalid format [#S#]: should be "Lastname, FirstName (CountryCode, TeamName)"]]></entry>
 	<entry key="err.invalid.team"><![CDATA[Invalid format [#S#]: should be "TeamName (CountryCode)"]]></entry>

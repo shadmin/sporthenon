@@ -100,6 +100,7 @@
 	var TX_MPASSWORD = "<%=StringUtils.text("mandatory.password", session)%>";
 	var TX_MCONFIRMPWD = "<%=StringUtils.text("mandatory.confirmpwd", session)%>";
 	var TX_MEMAIL = "<%=StringUtils.text("mandatory.email", session)%>";
+	var TX_MSPORTS = "<%=StringUtils.text("mandatory.sports", session)%>";
 	var TX_PWDNOTMATCH = "<%=StringUtils.text("pwd.nomatch", session)%>";
 	var TX_PREVIOUS = "<%=StringUtils.text("previous", session)%>";
 	var TX_NEXT = "<%=StringUtils.text("next", session)%>";

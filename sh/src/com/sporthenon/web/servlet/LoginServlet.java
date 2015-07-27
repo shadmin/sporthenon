@@ -57,7 +57,7 @@ public class LoginServlet extends AbstractServlet {
 					m.setPassword(StringUtils.toMD5(String.valueOf(hParams.get("rpassword"))));
 					m.setEmail(String.valueOf(hParams.get("remail")));
 					m.setPublicName(String.valueOf(hParams.get("rpublicname")));
-//					m.setActive(false);
+					m.setSports(String.valueOf(hParams.get("rsports")));
 					m.setActive(true);
 					m.setAdmin(false);
 					DatabaseHelper.saveEntity(m, null);

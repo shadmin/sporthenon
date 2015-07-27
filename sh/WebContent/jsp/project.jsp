@@ -8,7 +8,7 @@
 		<div class="fieldset" style="height:300px;margin-top:0px;">
 		<div class="fstitle contributors"><%=StringUtils.text("contributors", session)%></div>
 		<div class="fscontent">
-			<table><tr><th>ID</th><th><%=StringUtils.text("name", session)%></th><th><%=StringUtils.text("contributions", session)%></th></tr><%=request.getAttribute("contributors")%></table>
+			<table><tr><th>ID</th><th><%=StringUtils.text("name", session)%></th><th><%=StringUtils.text("entity.SP", session)%></th><th><%=StringUtils.text("contributions", session)%></th></tr><%=request.getAttribute("contributors")%></table>
 		</div>
 		</div>
 	</div>
@@ -21,7 +21,7 @@
 				<table style="margin-top:10px;">
 					<tr><th style="padding:0px;"><table><tr><td><img alt="" src="/img/project/download.png"/></td><td style="padding-bottom:1px;"><%=StringUtils.text("download.admin", session)%></td></tr></table></th></tr>
 					<tr><td style="text-align:center;"><a target="_blank" href="<%=ConfigUtils.getProperty("setup.url")%>"><%=ConfigUtils.getProperty("setup.url")%></a></td></tr>
-					<tr><th style="padding:0px;"><table><tr><td><img alt="" src="/img/db/text.png"/></td><td style="padding-bottom:1px;"><%=StringUtils.text("change.log", session)%></td></tr></table></th></tr>
+					<tr><th style="padding:0px;"><table><tr><td><img alt="" src="/img/db/export/txt.png"/></td><td style="padding-bottom:1px;"><%=StringUtils.text("change.log", session)%></td></tr></table></th></tr>
 					<tr><td style="text-align:center;"><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/CHANGELOG.txt">https://raw.githubusercontent.com/shadmin/sporthenon/master/CHANGELOG.txt</a></td></tr>
 					<tr><th style="padding:0px;"><table><tr><td><img alt="" src="/img/project/reportbug.png"/></td><td style="padding-bottom:1px;"><%=StringUtils.text("report.bug", session)%></td></tr></table></th></tr>
 					<tr><td style="text-align:center;"><a target="_blank" href="http://github.com/shadmin/sporthenon/issues">http://github.com/shadmin/sporthenon/issues</a></td></tr>

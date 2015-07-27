@@ -1,6 +1,12 @@
+<%@page import="com.sporthenon.utils.HtmlUtils"%>
+<%@page import="java.util.Collection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.sporthenon.utils.ConfigUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
+<%@ page import="com.sporthenon.db.DatabaseHelper"%>
+<%@ page import="com.sporthenon.db.entity.Sport"%>
+<%@ page import="com.sporthenon.db.PicklistBean"%>
+<%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
 <form id="flogin" name="flogin" action="/LoginServlet?auth" method="post">
 <div id="logindiv">
@@ -45,10 +51,20 @@
 		<tr>
 			<th><%=StringUtils.text("public.name", session)%>&nbsp;:</td><td><input type="text" id="rpublicname"/></td>
 		</tr>
+	</table>
+	<table>
+		<tr><td colspan="2"><span class="mandatory">*</span><%=StringUtils.text("select.sports.contributor", session)%>&nbsp;:</td></tr>
 		<tr>
-			<th><%=StringUtils.text("entity.SP", session)%>&nbsp;:</td><td><table><tr>
-				<td><select></select></td>
-			</tr></table></td>
+			<td><ul id="sp1" class="loginsports">
+			<%
+				String lang = String.valueOf(session.getAttribute("locale"));
+				Collection<PicklistBean> cPicklist = DatabaseHelper.getEntityPicklist(Sport.class, "label", null, lang);
+				for (PicklistBean plb : cPicklist)
+					out.print("<li id='sp-" + plb.getValue() + "' onclick='moveSport(this, \"sp1\", \"sp2\");'><div class='left'>" + HtmlUtils.writeImage((short)0, plb.getValue(), 'S', null, null) + "</div><div class='right'>" + plb.getText() + "</div></li>");
+			%>
+			</ul></td>
+			<td><ul id="sp2" class="loginsports"></ul></td>
+			<td>
 		</tr>
 		<tr>
 		<td colspan="2" style="padding-top:10px;text-align:center;"><input type="button" class="button ok" onclick="createAccount();" value="<%=StringUtils.text("create.account", session)%>"/></td>

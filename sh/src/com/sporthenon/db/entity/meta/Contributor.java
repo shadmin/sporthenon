@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.sporthenon.utils.StringUtils;
+
 @Entity
 @Table(name = "\"~Contributor\"")
 public class Contributor {
@@ -107,6 +109,10 @@ public class Contributor {
 	@Override
 	public String toString() {
 		return login;
+	}
+
+	public boolean isSport(Integer id) {
+		return ((admin != null && admin) || (StringUtils.notEmpty(sports) && sports.matches("(^|.*\\,)" + id + "(\\,.*|$)")));
 	}
 	
 }

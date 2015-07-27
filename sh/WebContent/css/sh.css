@@ -1105,6 +1105,7 @@ li{
 }
 #logindiv td{
 	text-align: left;
+	padding: 3px;
 }
 #logindiv input[type=text]:focus, #logindiv input[type=password]:focus{
 	border: 1px solid #D00;
@@ -1123,6 +1124,29 @@ li{
 }
 #logindiv .error{
 	color: #F00;
+}
+.loginsports{
+	width: 250px;
+ 	height: 180px;
+ 	overflow: auto;
+ 	border: 1px solid #EEE;
+}
+.loginsports li{
+	height: 32px;
+	cursor: pointer;
+	border-bottom: 1px solid #F0F0F0;
+}
+.loginsports li:hover{
+	background-color: #FFD;
+}
+.loginsports div.left{
+	clear: both;
+	float: left;
+	padding-left: 6px;
+}
+.loginsports div.right{
+	padding-left: 40px;
+	padding-top: 9px;
 }
 /*============================
   ========== UPDATE ========== 

@@ -23,6 +23,12 @@ public class ContributorBean {
 	@Column(name = "count_u")
 	private Integer countU;
 	
+	@Column(name = "sports")
+	private String sports;
+	
+	@Column(name = "sports_fr")
+	private String sportsFR;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -61,6 +67,22 @@ public class ContributorBean {
 
 	public void setCountU(Integer countU) {
 		this.countU = countU;
+	}
+
+	public String getSports() {
+		return sports;
+	}
+
+	public String getSportsFR() {
+		return sportsFR;
+	}
+
+	public void setSports(String sports) {
+		this.sports = sports;
+	}
+
+	public void setSportsFR(String sportsFR) {
+		this.sportsFR = sportsFR;
 	}
 	
 }

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
@@ -328,7 +329,13 @@ public class StringUtils {
 	}
 	
 	public static final String urlEscape(String s) {
-		return (StringUtils.notEmpty(s) ? s.replaceAll("\\s\\-\\s|\\&nbsp\\;\\-\\&nbsp\\;", "/").replaceAll("\\s", "-").replaceAll("%", "%25") .replaceAll("'", "%27"): "");
+		try {
+			return (StringUtils.notEmpty(s) ? URLEncoder.encode(s, "UTF-8").replaceAll("%2F", "/").replaceAll("\\+", "-") : "");	
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+		}
+		return "";
 	}
 	
 	public static String removeTags(String s) {

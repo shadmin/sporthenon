@@ -328,7 +328,7 @@
 	<entry key="msg.login.err1">La connexion a échoué. Cet utilisateur n'est pas actif.</entry>
 	<entry key="msg.login.err2">La connexion a échoué. Merci de vérifier votre identifiant/mot de passe.</entry>
 	<entry key="msg.login.err3">Identifiant déjà utilisé. Veuillez en utiliser un autre.</entry>
-	<entry key="msg.registered">Le compte a été créé.</entry>
+	<entry key="msg.registered">Votre compte a été créé.</entry>
 	<entry key="msg.logout">Vous avez été déconnecté.</entry>
 	<entry key="title.authentication">AUTHENTIFICATION</entry>
 	<entry key="title.createaccount">PAS ENREGISTRÉ ? CRÉER UN COMPTE</entry>
@@ -342,7 +342,9 @@
 	<entry key="mandatory.password">Le champ 'Mot de passe' est obligatoire.</entry>
 	<entry key="mandatory.confirmpwd">Vous devez confirmer le mot de passe.</entry>
 	<entry key="mandatory.email">Le champ 'Addresse E-mail' est obligatoire.</entry>
+	<entry key="mandatory.sports">Vous devez sélectionner au moins 1 sport.</entry>
 	<entry key="pwd.nomatch">Les mots de passe saisis ne correspondent pas.</entry>
+	<entry key="select.sports.contributor">Sélectionnez les sports sur lesquels vous souhaitez contribuer</entry>
 <!-- UPDATE -->
 	<entry key="err.invalid.athlete"><![CDATA[Format incorrect [#S#]: doit être "Nom, Prénom (CodePays, NomEquipe)"]]></entry>
 	<entry key="err.invalid.team"><![CDATA[Format incorrect [#S#]: doit être "NomEquipe (CodePays)"]]></entry>

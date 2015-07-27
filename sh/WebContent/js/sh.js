@@ -1209,8 +1209,12 @@ function rauth() {
 	auth();
 }
 function createAccount() {
+	var tSp = [];
+	$$('#sp2 li').each(function(el){
+		tSp.push($(el).id.replace('sp-', ''));
+	});
 	if ($('rlogin').value == '') {
-		accountErr(pwd.nomatch);
+		accountErr(TX_MLOGIN);
 		$('rlogin').focus();
 		{return;}
 	}
@@ -1219,6 +1223,7 @@ function createAccount() {
 		$('rpassword').focus();
 		{return;}
 	}
+	
 	else if ($('rpassword2').value == '') {
 		accountErr(TX_MCONFIRMPWD);
 		$('rpassword2').focus();
@@ -1234,11 +1239,17 @@ function createAccount() {
 		$('rpassword2').focus();
 		{return;}
 	}
+	else if (tSp.length == 0) {
+		accountErr(TX_MSPORTS);
+		{return;}
+	}
 	$('rmsg').update('<img src="/img/db/loading.gif?6"/>').removeClassName('error').removeClassName('success').show();
 	var h = $H();
 	$$('.register input').each(function(el) {
 		h.set(el.id, el.value);
 	});
+	h.set('rsports', tSp.join(','));
+	alert(tSp.join(','));
 	new Ajax.Request('/LoginServlet?create', { onSuccess: function(response) {
 		var s = response.responseText;
 		if (!/ERR\|.*/.match(s)) {
@@ -1252,6 +1263,12 @@ function createAccount() {
 }
 function accountErr(s) {
 	$('rmsg').update(s).removeClassName('success').addClassName('error').show();
+}
+function moveSport(sp, list1, list2) {
+	$(list2).insert($(sp));
+	Event.observe($(sp), 'click', function(){
+		moveSport(this, list2, list1);
+	});
 }
 /*============================
   ========== UPDATE ========== 

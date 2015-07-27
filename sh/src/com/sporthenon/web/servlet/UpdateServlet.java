@@ -75,6 +75,8 @@ public class UpdateServlet extends AbstractServlet {
 				}
 				else if( field.equalsIgnoreCase(Team.alias))
 					whereHQL = (sport != null ? " and sport.id=" + sport : "");
+				else if( field.equalsIgnoreCase(Sport.alias) && StringUtils.notEmpty(user.getSports()))
+					whereHQL = (" and id in (" + user.getSports() + ")");
 				List<Object> l = DatabaseHelper.execute("from " + hTable.get(field) + " where " + labelHQL + " like '" + value.toLowerCase() + "'" + whereHQL + " order by " + labelHQL);
 				if (field.matches("pl\\d"))
 					l.addAll(DatabaseHelper.execute("from City where " + labelHQL + " like '" + value.toLowerCase() + "' order by " + labelHQL));

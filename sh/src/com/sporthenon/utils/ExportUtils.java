@@ -229,7 +229,10 @@ public class ExportUtils {
 		StringBuffer sbSep = null;
 		for (List<String> l : lTd) {
 			// HEADER
-			if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
+			if (l != null && l.size() > 1 && l.get(0).equalsIgnoreCase("--INFO--")) {
+				
+			}
+			else if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
 				if (sbSep != null)
 					sbText.append("\r\n").append(sbSep).append("\r\n\r\n");
 				ArrayList<String> lTh_ = lTh.get(n++);
@@ -274,6 +277,7 @@ public class ExportUtils {
 					if (l.get(i) != null) {
 						String s = l.get(i).replaceAll("^\\#.*\\#", "");
 						sbText.append(s);
+				System.out.println(s+"--");
 						for (int j = s.length() ; j < tMaxLength[i] ; j++)
 							sbText.append(" ");
 						sbText.append("|");
@@ -308,6 +312,8 @@ public class ExportUtils {
 		com.itextpdf.text.Font font = new com.itextpdf.text.Font(bf, 9);
 		com.itextpdf.text.Font fontBold = new com.itextpdf.text.Font(bf, 9);
 		fontBold.setStyle(com.itextpdf.text.Font.BOLD);
+		BaseColor thcolor = new BaseColor(255, 255, 220);
+		Float padding = 5.0f;
 		PdfPTable t = new PdfPTable(new float[] { 1.0f });
 		t.setWidthPercentage(100.0f);
 
@@ -315,34 +321,59 @@ public class ExportUtils {
 		int n = 0;
 		HashMap<String, Float> hWidth = new HashMap<String, Float>();
 		hWidth.put("", 0.5f);
-		hWidth.put(ResourceUtils.getText("entity.SP.1", lang), 0.4f);
+		hWidth.put(ResourceUtils.getText("entity.EV.1", lang), 0.6f);
+		hWidth.put(ResourceUtils.getText("entity.SP.1", lang), 0.3f);
+		hWidth.put(ResourceUtils.getText("entity.RS.1", lang), 0.4f);
 		hWidth.put(ResourceUtils.getText("entity.YR.1", lang), 0.25f);
+		hWidth.put(ResourceUtils.getText("result.detail", lang), 1.0f);
 		hWidth.put(ResourceUtils.getText("score", lang), 0.7f);
 		hWidth.put(ResourceUtils.getText("date", lang), 0.5f);
 		hWidth.put(ResourceUtils.getText("place", lang), 1.4f);
-		for (List<String> l : (List<List<String>>) lTd) { 
-			if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
+		for (List<String> l : (List<List<String>>) lTd) {
+			if (l != null && l.size() > 1 && l.get(0).equalsIgnoreCase("--INFO--")) {
+				table = new PdfPTable(2);
+				table.setWidthPercentage(50.0f);
+				for (int i = 1 ; i < l.size() ; i++) {
+					cell = new PdfPCell(new Phrase(l.get(i).replaceAll("^\\#.*\\#", ""), i % 2 == 1 ? fontBold : font));
+					cell.setHorizontalAlignment(com.itextpdf.text.Element.ALIGN_LEFT);
+					cell.setPadding(padding);
+					if (i % 2 == 1) {
+						cell.setBackgroundColor(new BaseColor(255, 255, 220));
+						cell.setHorizontalAlignment(com.itextpdf.text.Element.ALIGN_RIGHT);
+					}
+					table.addCell(cell);
+				}
+				doc.add(table);
+				doc.add(new Phrase(" ", font));
+				table = null;
+			}
+			else if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
+				if (table != null) {
+					PdfPCell c = new PdfPCell(table);
+					c.setBorderWidth(2);
+					t.addCell(c);
+				}
 				if (n < lTh.size()) {
 					List<String> l_ = (List<String>) lTh.get(n);
 					float[] tf = new float[l_.size()];
 					for (int i = 0 ; i < l_.size() ; i++)
-						tf[i] = (hWidth.containsKey(l_.get(i)) ? hWidth.get(l_.get(i)) : 1.0f);
-					if (table != null) {
-						table.setWidthPercentage(50.0f);
-						PdfPCell c = new PdfPCell(table);
-						c.setBorderWidth(2);
-						t.addCell(c);
-						c.setPaddingBottom(10.0f);
-						doc.add(t);
-					}
+						tf[i] = (hWidth.containsKey(l_.get(i)) ? hWidth.get(l_.get(i).replaceAll("^\\#.*\\#", "")) : 0.5f);
 					table = new PdfPTable(tf);
 					table.setWidthPercentage(100.0f);
 					for (int i = 0 ; i < l_.size() ; i++) {
+						if (i == 0 && l_.size() > 1 && l_.get(0).startsWith("#")) {
+							cell = new PdfPCell(new Phrase(l_.get(0).replaceAll("^\\#.*\\#", ""), fontBold));
+							cell.setBackgroundColor(thcolor);
+							cell.setPadding(padding);
+							cell.setColspan(l_.size());
+							cell.setHorizontalAlignment(com.itextpdf.text.Element.ALIGN_CENTER);
+							table.addCell(cell);
+						}
 						String s = l_.get(i).replaceAll("^\\#.*\\#", "");
 						int mcindex = lMerge.indexOf(new MergedCell(n, i, 0));
 						cell = new PdfPCell(new Phrase(s, fontBold));
-						cell.setBackgroundColor(BaseColor.YELLOW);
-						cell.setPadding(2.0f);
+						cell.setBackgroundColor(thcolor);
+						cell.setPadding(padding);
 						if (mcindex > -1) {
 							int span = ((MergedCell)lMerge.get(mcindex)).getSpan();
 							cell.setColspan(span);
@@ -368,7 +399,7 @@ public class ExportUtils {
 						if (!src.contains("details.png")) {
 							Image img = Image.getInstance(src);
 							PdfPCell cell_ = new PdfPCell(img);
-							cell_.setPadding(2);
+							cell_.setPadding(padding);
 							cell_.setBorder(0);
 							cell_.setHorizontalAlignment(com.itextpdf.text.Element.ALIGN_LEFT);
 							cell.setBorder(0);
@@ -379,11 +410,8 @@ public class ExportUtils {
 					}
 					if (table_ != null)
 						table.addCell(table_);
-					else {
-						if (table == null)
-							table = new PdfPTable(2);
+					else
 						table.addCell(cell);
-					}
 				}
 			}
 		}
@@ -402,6 +430,8 @@ public class ExportUtils {
 		// INFO
 		Elements tinfo = doc.getElementsByClass("info");
 		if (tinfo != null && !tinfo.isEmpty()) {
+			ArrayList<String> lTd_ = new ArrayList<String>();
+			lTd_.add("--INFO--");
 			Element info = tinfo.get(0);
 			for (Element tr : info.getElementsByTag("tr")) {
 				List<Element> lCaption = tr.getElementsByClass("caption");
@@ -409,16 +439,14 @@ public class ExportUtils {
 					Element th = lCaption.get(0);
 					Element td = tr.getElementsByTag("td").get(0);
 					if (td.className() == null || !td.className().matches("^(logo|flag|otherflags|otherlogos|record|extlinks).*")) {
-						ArrayList<String> lTd_ = new ArrayList<String>();
 						lTd_.add("#CAPTION#" + th.text());
 						lTd_.add("#ALIGN_LEFT#" + td.text());
-						lTd.add(lTd_);
 						row++;
 					}
 				}
 			}
+			lTd.add(lTd_);
 		}
-		
 		// TABLE
 		Elements tsorts = doc.getElementsByClass("tsort");
 		for (Element table : tsorts) {
@@ -427,8 +455,9 @@ public class ExportUtils {
 			lTd.add(lTd_);
 			Element thead = table.getElementsByTag("thead").get(0);
 			Element tbody = thead.nextElementSibling();
+			System.out.println(thead.text());
 			Element th1 = thead.getElementsByTag("tr").first().getElementsByTag("th").get(0);
-			Element th = thead.getElementsByTag("tr").last().getElementsByTag("th").get(0);
+			Element th = thead.getElementsByTag("tr").get(1).getElementsByTag("th").get(0);
 			int cell = 0;
 			ArrayList<String> lTh_ = new ArrayList<String>();
 			while(th != null) {

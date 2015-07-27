@@ -70,6 +70,10 @@
 .tc .bold a{
 	font-weight: bold;
 }
+/*
+.tc .bold td{
+	font-weight: bold;
+}*/
 .tc .bordered{
 	background-color: #FFF;
 }
@@ -404,4 +408,7 @@ th.desc{
 }
 .vcenter li img{
 	margin-bottom: -1px;
+}
+.underline{
+	text-decoration: underline;
 }
