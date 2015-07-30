@@ -48,19 +48,30 @@ public class EventActivity extends AbstractActivity implements AdapterView.OnIte
             if (getEvent2Id() != null && getEvent2Id() > 0) {
                 setEvent3Id(ev.getId());
                 setEvent3Name(ev.getName());
-                loadResults();
                 isResults = true;
             }
             else {
                 b.putInt("ev2id", ev.getId());
                 b.putString("ev2name", ev.getName());
+                if (ev.getParam() != null && ev.getParam() == 0) {
+                    setEvent2Id(ev.getId());
+                    setEvent2Name(ev.getName());
+                    isResults = true;
+                }
             }
         }
         else {
             b.putInt("ev1id", ev.getId());
             b.putString("ev1name", ev.getName());
+            if (ev.getParam() != null && ev.getParam() == 0) {
+                setEvent1Id(ev.getId());
+                setEvent1Name(ev.getName());
+                isResults = true;
+            }
         }
-        if (!isResults) {
+        if (isResults)
+            loadResults();
+        else {
             Intent i = new Intent(this, EventActivity.class);
             i.putExtras(b);
             startActivity(i);

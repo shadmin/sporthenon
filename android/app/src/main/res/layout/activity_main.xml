@@ -32,7 +32,7 @@
         android:gravity="center"
         android:textSize="14sp"
         android:padding="3dip"
-        android:background="#FFD"
+        android:background="@drawable/border"
         />
 
     <ListView
@@ -42,9 +42,10 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:choiceMode="singleChoice"
-        android:layout_margin="8sp"
-        android:divider="#EEE"
-        android:dividerHeight="8.0sp"
+        android:layout_margin="0sp"
+        android:divider="#888"
+        android:dividerHeight="1.0sp"
+        android:listSelector="#00000000"
         />
 
 </RelativeLayout>

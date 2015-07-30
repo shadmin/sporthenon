@@ -49,19 +49,20 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(input);
             NodeList list = doc.getElementsByTagName("item");
-            if (list == null || list.getLength() == 0) {
+            /*if (list == null || list.getLength() == 0) {
                 activity.loadResults();
                 activity.finish();
                 return null;
-            }
+            }*/
             for (int i = 0 ; i < list.getLength() ; i++) {
                 Node n = list.item(i);
                 if (n.getNodeType() == Node.ELEMENT_NODE) {
                     Element e = (Element) n;
                     Integer id = Integer.parseInt(e.getAttribute("value"));
                     String name = e.getAttribute("text");
+                    Integer subcount = Integer.parseInt(e.getAttribute("subcount"));
                     String img = e.getAttribute("img");
-                    events.add(new DataItem(id, name, AndroidUtils.getImage(activity, img)));
+                    events.add(new DataItem(id, name, subcount, AndroidUtils.getImage(activity, img)));
                 }
             }
             connection.disconnect();
