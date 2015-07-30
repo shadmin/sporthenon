@@ -17,8 +17,8 @@ public class FolderHistory {
 	public static final transient String alias = "FH";
 	
 	@Id
-	@SequenceGenerator(name = "sq_folder_history", sequenceName = "\"~SQ_FOLDER_HISTORY\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_folder_history")
+	@SequenceGenerator(name = "seq_folder_history", sequenceName = "\"~SeqFolderHistory\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_folder_history")
 	private Integer id;
 	
 	@Column(name = "previous_params", length = 30)

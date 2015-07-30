@@ -96,9 +96,9 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 	<br/>
 	<span class="small"><%=StringUtils.text("for.any.request", session)%>&nbsp;:&nbsp;<a href="mailto:admin@sporthenon.com">admin@sporthenon.com</a></span>
 </div>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 window.onload = function() {
 	initUpdate("<%=request.getAttribute("value")%>");
 }
-</script>
+--></script>
 <jsp:include page="/jsp/common/footer.jsp" />

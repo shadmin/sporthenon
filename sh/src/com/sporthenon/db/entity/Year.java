@@ -18,8 +18,8 @@ public class Year {
 	public static final transient String alias = "YR";
 
 	@Id
-	@SequenceGenerator(name = "sq_year", sequenceName = "\"SQ_YEAR\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_year")
+	@SequenceGenerator(name = "seq_year", sequenceName = "\"SqYear\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_year")
 	private Integer id;
 	
 	@Column(name = "label", length = 4, nullable = false)

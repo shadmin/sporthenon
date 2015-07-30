@@ -25,9 +25,9 @@ var treeItems = null;
 </div>
 	<div class="treediv"><div id="treeview" class="collapsed">
 		<table cellpadding="0" cellspacing="0"><tr><td>
-		<script type="text/javascript">
+		<script type="text/javascript"><!--
 			new Tree(treeItems, treeTemplate);
-		</script>
+		--></script>
 		</td></tr></table>
 	</div></div>
 </div>
@@ -79,7 +79,7 @@ Collection<PicklistBean> cPicklist = DatabaseHelper.getPicklist(Result.class, "s
 for (PicklistBean plb : cPicklist)
 	hSportImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)0, plb.getValue(), 'L', null, null));
 %>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 var hSportImg = new Array();
 window.onload = function() {
 	<%for (String s : hSportImg.keySet()) {%>
@@ -94,5 +94,5 @@ window.onload = function() {
 	changeSport();
 	initTabControl();
 }
-</script>
+--></script>
 <jsp:include page="/jsp/common/footer.jsp" />

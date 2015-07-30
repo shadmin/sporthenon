@@ -111,6 +111,7 @@
 	<entry key="record2">Record</entry>
 	<entry key="rec.OLYMP">Olympic Games</entry>
 	<entry key="rec.WORLDCP">World Championships</entry>
+	<entry key="rec.EURCP">European Championships</entry>
 	<entry key="rec.GSLAM">Grand Slam</entry>
 	<entry key="rec.MAJORS">Majors</entry>
 	<entry key="rec.MTOURS">Major Tours</entry>
@@ -233,6 +234,9 @@
 	<entry key="errors">errors</entry>
 	<entry key="on.this.page">on this page</entry>
 	<entry key="result.detail">Result Detail</entry>
+	<entry key="yes">Yes</entry>
+	<entry key="no">No</entry>
+	<entry key="admin">Administrator</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>

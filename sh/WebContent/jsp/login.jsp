@@ -74,7 +74,7 @@
 </div>
 </div>
 </form>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 	$('login').focus();
-</script>
+--></script>
 <jsp:include page="/jsp/common/footer.jsp" />

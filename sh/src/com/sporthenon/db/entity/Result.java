@@ -20,8 +20,8 @@ public class Result {
 	public static final transient String alias = "RS";
 	
 	@Id
-	@SequenceGenerator(name = "sq_result", sequenceName = "\"SQ_RESULT\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_result")
+	@SequenceGenerator(name = "seq_result", sequenceName = "\"SeqResult\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_result")
 	private Integer id;
 	
 	@ManyToOne

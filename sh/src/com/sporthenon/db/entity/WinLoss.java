@@ -20,8 +20,8 @@ public class WinLoss {
 	public static final transient String alias = "WL";
 	
 	@Id
-	@SequenceGenerator(name = "sq_win_loss", sequenceName = "\"SQ_WIN_LOSS\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_win_loss")
+	@SequenceGenerator(name = "seq_win_loss", sequenceName = "\"SeqWinLoss\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_win_loss")
 	private Integer id;
 	
 	@ManyToOne

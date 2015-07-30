@@ -18,8 +18,8 @@ public class Type {
 	public static final transient String alias = "TP";
 	
 	@Id
-	@SequenceGenerator(name = "sq_type", sequenceName = "\"SQ_TYPE\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_type")
+	@SequenceGenerator(name = "seq_type", sequenceName = "\"SeqType\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_type")
 	private Integer id;
 	
 	@Column(name = "label", length = 25, nullable = false)

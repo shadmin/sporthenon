@@ -203,7 +203,7 @@ public class JExtLinksPanel extends JSplitPane implements ActionListener, ListSe
 				hql.append(" and (checked = FALSE or checked IS NULL)");
 			hql.append(" order by idItem, type");
 			HashMap<Integer, String> hLabel = new HashMap<Integer, String>();
-			for (Object[] t_ : (List<Object[]>) DatabaseHelper.execute("select id, " + (alias.equals(Athlete.alias) ? "lastName || ', ' || firstName" : "label") + " from " + DatabaseHelper.getClassFromAlias(alias).getName() + (tIds.length > 1 ? " where id between " + tIds[0] + " and " + tIds[1] : "")))
+			for (Object[] t_ : (List<Object[]>) DatabaseHelper.execute("select id, " + (alias.equals(Athlete.alias) ? "lastName || ', ' || firstName || ' - ' || sport.label" : "label") + " from " + DatabaseHelper.getClassFromAlias(alias).getName() + (tIds.length > 1 ? " where id between " + tIds[0] + " and " + tIds[1] : "")))
 				hLabel.put(Integer.parseInt(String.valueOf(t_[0])), String.valueOf(t_[1]));
 			
 			List<ExternalLink> lLinks = DatabaseHelper.execute(hql.toString());

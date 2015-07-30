@@ -13,8 +13,8 @@ import javax.persistence.Table;
 public class ExternalLink {
 	
 	@Id
-	@SequenceGenerator(name = "sq_external_link", sequenceName = "\"~SQ_EXTERNAL_LINK\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_external_link")
+	@SequenceGenerator(name = "seq_external_link", sequenceName = "\"~SeqExternalLink\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_external_link")
 	private Integer id;
 
 	@Column(name = "entity", length = 2, nullable = false)

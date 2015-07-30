@@ -17,8 +17,8 @@ public class Contributor {
 	public static final transient String alias = "CB";
 	
 	@Id
-	@SequenceGenerator(name = "sq_contributor", sequenceName = "\"~SqContributor\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_contributor")
+	@SequenceGenerator(name = "seq_contributor", sequenceName = "\"~SeqContributor\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_contributor")
 	private Integer id;
 	
 	@Column(name = "\"login\"", length = 15, nullable = false)

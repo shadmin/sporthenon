@@ -20,8 +20,8 @@ public class Event {
 	public static final transient String alias = "EV";
 
 	@Id
-	@SequenceGenerator(name = "sq_event", sequenceName = "\"SQ_EVENT\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_event")
+	@SequenceGenerator(name = "seq_event", sequenceName = "\"SeqEvent\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_event")
 	private Integer id;
 	
 	@Column(name = "label", length = 50, nullable = false)

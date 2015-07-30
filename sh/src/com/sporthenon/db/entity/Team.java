@@ -20,8 +20,8 @@ public class Team {
 	public static final transient String alias = "TM";
 	
 	@Id
-	@SequenceGenerator(name = "sq_team", sequenceName = "\"SQ_TEAM\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_team")
+	@SequenceGenerator(name = "seq_team", sequenceName = "\"SeqTeam\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_team")
 	private Integer id;
 	
 	@Column(name = "label", length = 60, nullable = false)

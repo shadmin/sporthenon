@@ -111,6 +111,7 @@
 	<entry key="record2">Record</entry>
 	<entry key="rec.OLYMP">Jeux Olympiques</entry>
 	<entry key="rec.WORLDCP">Championnats du Monde</entry>
+	<entry key="rec.EURCP">Championnats d'Europe</entry>
 	<entry key="rec.GSLAM">Grand Chelem</entry>
 	<entry key="rec.MAJORS">Majeurs</entry>
 	<entry key="rec.MTOURS">Grands Tours</entry>
@@ -233,6 +234,9 @@
 	<entry key="errors">erreurs</entry>
 	<entry key="on.this.page">sur cette page</entry>
 	<entry key="result.detail">Détail résultat</entry>
+	<entry key="yes">Oui</entry>
+	<entry key="no">Non</entry>
+	<entry key="admin">Administrateur</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>

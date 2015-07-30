@@ -18,8 +18,8 @@ public class League {
 	public static final transient String alias = "LG";
 
 	@Id
-	@SequenceGenerator(name = "sq_league", sequenceName = "\"SQ_LEAGUE\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_league")
+	@SequenceGenerator(name = "seq_league", sequenceName = "\"SeqLeague\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_league")
 	private Integer id;
 	
 	@Column(name = "label", length = 5, nullable = false)

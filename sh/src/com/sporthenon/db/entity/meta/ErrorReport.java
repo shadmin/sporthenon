@@ -17,8 +17,8 @@ public class ErrorReport {
 	public static final transient String alias = "ER";
 	
 	@Id
-	@SequenceGenerator(name = "sq_error_report", sequenceName = "\"~SQ_ERROR_REPORT\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_error_report")
+	@SequenceGenerator(name = "seq_error_report", sequenceName = "\"~SeqErrorReport\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_error_report")
 	private Integer id;
 	
 	@Column(name = "url", length = 255)

@@ -14,7 +14,7 @@
 <div id="content">
 <div class="tc">${html}</div>
 <jsp:include page="/jsp/common/footer.jsp" />
-<script type="text/javascript">
+<script type="text/javascript"><!--
 var title = $$('.title')[0].innerHTML + ' | Sporthenon';
 if (title) {
 	document.title = replaceAll(title, '&nbsp;', ' ');
@@ -26,4 +26,4 @@ if ('<%=request.getParameter("print")%>' != 'null') {
 	}
 	window.print();
 }
-</script>
+--></script>

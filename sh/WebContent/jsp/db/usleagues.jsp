@@ -88,7 +88,7 @@
 </div>
 <%@include file="../../html/buttons.html"%>
 <%@include file="../../html/tabcontrol.html"%>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 var tHofYr = [];
 var tChampYr = [];
 var tTm = [];
@@ -144,5 +144,5 @@ window.onload = function() {
 	tPos[<%=league%>] = (tPos[<%=league%>] ? tPos[<%=league%>] + '\r\n' : '') + <%="'" + position + "'"%> + ' - ' + <%="'" + labelpos + "'"%>;
 <%}}%>
 }
-</script>
+--></script>
 <jsp:include page="/jsp/common/footer.jsp" />

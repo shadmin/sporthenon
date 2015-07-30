@@ -20,8 +20,8 @@ public class TeamStadium {
 	public static final transient String alias = "TS";
 	
 	@Id
-	@SequenceGenerator(name = "sq_team_stadium", sequenceName = "\"SQ_TEAM_STADIUM\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_team_stadium")
+	@SequenceGenerator(name = "seq_team_stadium", sequenceName = "\"SeqTeamStadium\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_team_stadium")
 	private Integer id;
 	
 	@ManyToOne

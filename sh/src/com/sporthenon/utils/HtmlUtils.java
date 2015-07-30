@@ -62,13 +62,13 @@ public class HtmlUtils {
 		if (!list.isEmpty())
 			html.append("<img alt=''" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + " src='" + ImageUtils.getUrl() + list.getLast() + "'/>");
 		else if (size == ImageUtils.SIZE_LARGE && type != ImageUtils.INDEX_SPORT_CHAMPIONSHIP && type != ImageUtils.INDEX_SPORT_EVENT)
-			html.append("<img alt='' src='/img/noimage.png'/>");
+			html.append("<img alt='' src='/img/noimage.png?0'/>");
 		return html.toString();
 	}
 	
 	public static String writeURL(String main, String params, String text) {
 		params = params.replaceAll("\\,\\s", "-").replaceAll("[\\[\\]]", "").replaceAll("\\-\\_(en|fr)$", "");
-		return main + (StringUtils.notEmpty(text) ? "/" + StringUtils.urlEscape(text) : "") + "/" + StringUtils.encode(params);
+		return main + (StringUtils.notEmpty(text) ? "/" + StringUtils.urlEscape(text.replaceAll("\\&nbsp;\\-\\&nbsp\\;", "/")) : "") + "/" + StringUtils.encode(params);
 	}
 
 	public static String writeLink(String alias, int id, String text1, String text2) {

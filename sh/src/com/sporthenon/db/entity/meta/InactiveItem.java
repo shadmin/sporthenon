@@ -13,8 +13,8 @@ import javax.persistence.Table;
 public class InactiveItem {
 
 	@Id
-	@SequenceGenerator(name = "sq_inactive_item", sequenceName = "\"~SQ_INACTIVE_ITEM\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_inactive_item")
+	@SequenceGenerator(name = "seq_inactive_item", sequenceName = "\"~SeqInactiveItem\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_inactive_item")
 	private Integer id;
 	
 	@Column(name = "id_sport", nullable = false)

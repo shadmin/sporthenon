@@ -13,8 +13,8 @@ import javax.persistence.Table;
 public class PersonList {
 	
 	@Id
-	@SequenceGenerator(name = "sq_person_list", sequenceName = "\"~SQ_PERSON_LIST\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_person_list")
+	@SequenceGenerator(name = "seq_person_list", sequenceName = "\"~SeqPersonList\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_person_list")
 	private Integer id;
 
 	

@@ -18,8 +18,8 @@ public class State {
 	public static final transient String alias = "ST";
 
 	@Id
-	@SequenceGenerator(name = "sq_state", sequenceName = "\"SQ_STATE\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_state")
+	@SequenceGenerator(name = "seq_state", sequenceName = "\"SeqState\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_state")
 	private Integer id;
 	
 	@Column(name = "code", length = 2, nullable = false)

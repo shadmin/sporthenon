@@ -1,6 +1,7 @@
 package com.sporthenon.web.servlet;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -70,25 +71,25 @@ public class AndroidServlet extends AbstractServlet {
 	        root.setAttribute("id", p2);
 	        doc.appendChild(root);
 	        if (p2.equalsIgnoreCase(Sport.alias))
-	        	addItems(doc, root, ImageUtils.INDEX_SPORT, DatabaseHelper.getEntityPicklist(Sport.class, "label", null, lang), null, null, null);
+	        	addItems(doc, root, ImageUtils.INDEX_SPORT, DatabaseHelper.getEntityPicklist(Sport.class, "label", null, lang), null, null, null, null);
 	        else if (p2.equalsIgnoreCase(Championship.alias)) {
 	        	String filter = "sport.id=" + p;
-	        	addItems(doc, root, ImageUtils.INDEX_SPORT_CHAMPIONSHIP, DatabaseHelper.getPicklist(Result.class, "championship", filter, null, "x.championship.index, x.championship." + label, lang), null, p, null);
+	        	addItems(doc, root, ImageUtils.INDEX_SPORT_CHAMPIONSHIP, DatabaseHelper.getPicklist(Result.class, "championship", filter, null, "x.championship.index, x.championship." + label, lang), null, p, null, null);
 	        }
 	        else if (p2.equalsIgnoreCase(Event.alias)) {
 	        	String[] t = p.split("\\-");
 	        	String filter = "sport.id=" + t[0] + " and championship.id=" + t[1];
-	        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseHelper.getPicklist(Result.class, "event", filter, null, "x.event.index, x.event." + label, lang), lInactive, t[0], t[1]);
+	        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseHelper.getPicklist(Result.class, "event", filter, null, "x.event.index, x.event." + label, lang), lInactive, t[0], t[1], "SELECT COUNT(DISTINCT id_subevent) from \"RESULT\" WHERE id_sport=" + t[0] + " and id_championship=" + t[1] + " and id_event=#ID#");
 	        }
 	        else if (p2.equalsIgnoreCase("SE")) {
 	        	String[] t = p.split("\\-");
 	        	String filter = "sport.id=" + t[0] + " and championship.id=" + t[1] + " and event.id=" + t[2];
-	        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent", filter, null, "x.subevent.index, x.subevent." + label, lang), lInactive, t[0], t[1] + "-" + t[2]);
+	        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent", filter, null, "x.subevent.index, x.subevent." + label, lang), lInactive, t[0], t[1] + "-" + t[2], "SELECT COUNT(DISTINCT id_subevent2) from \"RESULT\" WHERE id_sport=" + t[0] + " and id_championship=" + t[1] + " and id_event=" + t[2] + " and id_subevent=#ID#");
 	        }
 	        else if (p2.equalsIgnoreCase("SE2")) {
 	        	String[] t = p.split("\\-");
 	        	String filter = "sport.id=" + t[0] + " and championship.id=" + t[1] + " and event.id=" + t[2] + " and subevent.id=" + t[3];
-	        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent2", filter, null, "x.subevent2.index, x.subevent2." + label, lang), lInactive, t[0], t[1] + "-" + t[2] + "-" + t[3]);
+	        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent2", filter, null, "x.subevent2.index, x.subevent2." + label, lang), lInactive, t[0], t[1] + "-" + t[2] + "-" + t[3], null);
 	        }
 	        else if (p2.equalsIgnoreCase(Result.alias)) {
 	        	String[] t = p.split("\\-");
@@ -310,7 +311,7 @@ public class AndroidServlet extends AbstractServlet {
 		return html.replaceAll(".*\\ssrc\\=\\'|\\'\\/\\>", "");
 	}
 	
-	private void addItems(Document doc, Element root, short index, Collection<PicklistBean> picklist, List<String> lInactive, Object spid, String currentPath) {
+	private void addItems(Document doc, Element root, short index, Collection<PicklistBean> picklist, List<String> lInactive, Object spid, String currentPath, String subcountSQL) throws Exception {
 		if (picklist != null && picklist.size() > 0) {
 			for (PicklistBean plb : picklist) {
 				Element item = doc.createElement("item");
@@ -322,6 +323,10 @@ public class AndroidServlet extends AbstractServlet {
 				item.setAttribute("value", String.valueOf(id));
 				item.setAttribute("text", text);
 				item.setAttribute("img", img.replaceAll(".*src\\='|'\\/\\>", ""));
+				Integer n = 1;
+				if (subcountSQL != null)
+					n = ((BigInteger) DatabaseHelper.executeNative(subcountSQL.replace("#ID#", String.valueOf(id))).get(0)).intValue();
+				item.setAttribute("subcount", String.valueOf(n));
 				root.appendChild(item);
 			}
 		}
@@ -370,7 +375,12 @@ public class AndroidServlet extends AbstractServlet {
 				List<RefItem> list_ = (List<RefItem>) DatabaseHelper.call("WinRecords", lParams);
 				if (list_ != null && list_.size() > 0) {
 					RefItem item = list_.get(0);
-					root.setAttribute("winrec-name", item.getLabel());
+					String str = item.getLabel();
+					if (item.getIdRel1() < 10) {
+						String[] t = str.split("\\,\\s", -1);
+						str = StringUtils.toFullName(t[0], t[1], item.getLabelRel1(), true);
+					}
+					root.setAttribute("winrec-name", str);
 					root.setAttribute("winrec-count", String.valueOf(item.getCount1()));
 				}
 			}

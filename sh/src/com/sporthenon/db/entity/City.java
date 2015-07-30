@@ -20,8 +20,8 @@ public class City {
 	public static final transient String alias = "CT";
 	
 	@Id
-	@SequenceGenerator(name = "sq_city", sequenceName = "\"SQ_CITY\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_city")
+	@SequenceGenerator(name = "seq_city", sequenceName = "\"SeqCity\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_city")
 	private Integer id;
 	
 	@Column(name = "label", length = 25, nullable = false)

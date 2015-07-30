@@ -10,6 +10,7 @@ import java.security.MessageDigest;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.Normalizer;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -126,9 +127,23 @@ public class StringUtils {
 		return toTextDate(df.format(dt), lang, format);
 	}
 
-	public static String formatNumber(Integer n) {
-		DecimalFormat df = new DecimalFormat("###,###.##");
-		return df.format(n);
+	public static String formatNumber(Object n, String lang) {
+		Integer n_ = null;
+		if (n instanceof Integer)
+			n_ = (Integer) n;
+		else {
+			String s = String.valueOf(n);
+			if (s.matches("\\d+"))
+				n_ = Integer.parseInt(s);
+		}
+		if (n_ != null)
+			return ((DecimalFormat) NumberFormat.getNumberInstance(lang != null && lang.equalsIgnoreCase("fr") ? Locale.FRENCH : Locale.ENGLISH)).format(n_);
+		else
+			return String.valueOf(n);
+	}
+	
+	public static String formatResult(Object s, String lang) {
+		return formatNumber(s, lang).replaceAll("\\-|\\/", "–").replaceAll("\\s", "&nbsp;");
 	}
 
 	public static Integer extractId(Object o) {

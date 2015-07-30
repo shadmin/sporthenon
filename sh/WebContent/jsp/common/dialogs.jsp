@@ -68,11 +68,11 @@
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dHelp);"/></div>
 </div>
 </div>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 dError = new Control.Modal($('d-error'),{ closeOnClick: false, fade: false });
 dLink = new Control.Modal($('d-link'),{ closeOnClick: false, fade: false });
 dInfo = new Control.Modal($('d-info'),{ closeOnClick: false, fade: false });
 dDataTip = new Control.Modal($('d-data'),{ closeOnClick: false, fade: false });
 dPersonList = new Control.Modal($('d-plist'),{ closeOnClick: false, fade: false });
 dHelp = new Control.Modal($('d-help'),{ closeOnClick: false, fade: false });
-</script>
+--></script>

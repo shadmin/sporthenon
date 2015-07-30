@@ -263,7 +263,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 			conn = (HttpURLConnection) url_.openConnection();
 			conn.setDoOutput(true);
 			if (conn.getResponseCode() == 200)
-				sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'wiki', '" + url + "');\r\n");
+				sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'wiki', '" + url + "');\r\n");
 		}
 		// OLYMPICS-REFERENCE
 		if (msg.matches(".*\\(Oly\\)$")) {
@@ -285,7 +285,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 					StringWriter writer = new StringWriter();
 					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
 					if (writer.toString().indexOf("File Not Found") == -1 && writer.toString().indexOf("0 hits") == -1)
-						sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'oly-ref', '" + StringUtils.normalize(url) + "');\r\n");
+						sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'oly-ref', '" + StringUtils.normalize(url) + "');\r\n");
 				}
 			}
 		}
@@ -303,7 +303,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 					StringWriter writer = new StringWriter();
 					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
 					if (writer.toString().indexOf("File Not Found") == -1)
-						sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'bkt-ref', '" + StringUtils.normalize(url) + "');\r\n");
+						sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'bkt-ref', '" + StringUtils.normalize(url) + "');\r\n");
 				}
 			}
 		}
@@ -321,7 +321,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 					StringWriter writer = new StringWriter();
 					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
 					if (writer.toString().indexOf("File Not Found") == -1)
-						sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'bb-ref', '" + StringUtils.normalize(url) + "');\r\n");
+						sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'bb-ref', '" + StringUtils.normalize(url) + "');\r\n");
 				}
 			}
 		}
@@ -339,7 +339,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 					StringWriter writer = new StringWriter();
 					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
 					if (writer.toString().indexOf("File Not Found") == -1)
-						sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'ft-ref', '" + StringUtils.normalize(url) + "');\r\n");
+						sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'ft-ref', '" + StringUtils.normalize(url) + "');\r\n");
 				}
 			}
 		}
@@ -357,7 +357,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 					StringWriter writer = new StringWriter();
 					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
 					if (writer.toString().indexOf("File Not Found") == -1)
-						sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SQ_EXTERNAL_LINK\"'), '" + alias + "', " + id + ", 'hk-ref', '" + StringUtils.normalize(url) + "');\r\n");
+						sql.append("insert into \"~EXTERNAL_LINK\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'hk-ref', '" + StringUtils.normalize(url) + "');\r\n");
 				}
 			}
 		}

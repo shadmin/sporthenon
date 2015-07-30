@@ -128,7 +128,7 @@
 
 <div id="ajaxsearch" class="ajaxsearch"></div>
 
-<script type="text/javascript">
+<script type="text/javascript"><!--
 new Ajax.Autocompleter(
 	'dpattern',
 	'ajaxsearch',
@@ -137,6 +137,6 @@ new Ajax.Autocompleter(
 );
 Event.observe($('dpattern'), 'keyup', directSearch);
 var lang = '<%=lang%>';
-</script>
+--></script>
 
 <div id="content">

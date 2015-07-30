@@ -18,8 +18,8 @@ public class Country {
 	public static final transient String alias = "CN";
 
 	@Id
-	@SequenceGenerator(name = "sq_country", sequenceName = "\"SQ_COUNTRY\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_country")
+	@SequenceGenerator(name = "seq_country", sequenceName = "\"SeqCountry\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_country")
 	private Integer id;
 	
 	@Column(name = "code", length = 3, nullable = false)

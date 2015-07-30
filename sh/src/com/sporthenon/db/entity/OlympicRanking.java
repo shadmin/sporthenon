@@ -20,8 +20,8 @@ public class OlympicRanking {
 	public static final transient String alias = "OR";
 
 	@Id
-	@SequenceGenerator(name = "sq_olympic_ranking", sequenceName = "\"SQ_OLYMPIC_RANKING\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_olympic_ranking")
+	@SequenceGenerator(name = "seq_olympic_ranking", sequenceName = "\"SeqOlympicRanking\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_olympic_ranking")
 	private Integer id;
 	
 	@ManyToOne

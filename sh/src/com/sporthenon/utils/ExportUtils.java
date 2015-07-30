@@ -277,7 +277,6 @@ public class ExportUtils {
 					if (l.get(i) != null) {
 						String s = l.get(i).replaceAll("^\\#.*\\#", "");
 						sbText.append(s);
-				System.out.println(s+"--");
 						for (int j = s.length() ; j < tMaxLength[i] ; j++)
 							sbText.append(" ");
 						sbText.append("|");
@@ -455,9 +454,9 @@ public class ExportUtils {
 			lTd.add(lTd_);
 			Element thead = table.getElementsByTag("thead").get(0);
 			Element tbody = thead.nextElementSibling();
-			System.out.println(thead.text());
-			Element th1 = thead.getElementsByTag("tr").first().getElementsByTag("th").get(0);
-			Element th = thead.getElementsByTag("tr").get(1).getElementsByTag("th").get(0);
+			Elements htr = thead.getElementsByTag("tr");
+			Element th1 = htr.first().getElementsByTag("th").get(0);
+			Element th = (htr.size() > 1 ? htr.get(1) : htr.first()).getElementsByTag("th").get(0);
 			int cell = 0;
 			ArrayList<String> lTh_ = new ArrayList<String>();
 			while(th != null) {

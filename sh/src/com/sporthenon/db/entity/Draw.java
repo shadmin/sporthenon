@@ -18,8 +18,8 @@ public class Draw {
 	public static final transient String alias = "DR";
 	
 	@Id
-	@SequenceGenerator(name = "sq_draw", sequenceName = "\"SQ_DRAW\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_draw")
+	@SequenceGenerator(name = "seq_draw", sequenceName = "\"SeqDraw\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_draw")
 	private Integer id;
 	
 	@Column(name = "id_result")

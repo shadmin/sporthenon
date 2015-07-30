@@ -15,8 +15,8 @@ import javax.persistence.Table;
 public class Request {
 
 	@Id
-	@SequenceGenerator(name = "sq_request", sequenceName = "\"~SQ_REQUEST\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_request")
+	@SequenceGenerator(name = "seq_request", sequenceName = "\"~SeqRequest\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_request")
 	private Integer id;
 	
 	@Column(name = "\"type\"")

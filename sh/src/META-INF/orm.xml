@@ -33,7 +33,7 @@
 		GetMedalCount(varchar, integer, varchar)
 	-->
 	<named-native-query name="GetMedalCount" result-class="com.sporthenon.db.entity.meta.RefItem">  
-		<query>SELECT * FROM "GetMedalCount"(?, ?, ?)</query>
+		<query>SELECT * FROM "GetMedalCount"(?, ?, ?) WHERE count1 > 0 OR count2 > 0 OR count3 > 0</query>
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 

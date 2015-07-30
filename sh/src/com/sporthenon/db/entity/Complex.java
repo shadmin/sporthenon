@@ -20,8 +20,8 @@ public class Complex {
 	public static final transient String alias = "CX";
 
 	@Id
-	@SequenceGenerator(name = "sq_complex", sequenceName = "\"SQ_COMPLEX\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_complex")
+	@SequenceGenerator(name = "seq_complex", sequenceName = "\"SeqComplex\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_complex")
 	private Integer id;
 	
 	@Column(name = "label", length = 40, nullable = false)

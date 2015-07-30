@@ -39,7 +39,7 @@
 </div>
 <%@include file="../../html/buttons.html" %>
 <%@include file="../../html/tabcontrol.html" %>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 function toggleCheck(cb) {
 	$$('#search .scope input').each(function(el){
 		$(el).checked = cb.checked;
@@ -52,5 +52,5 @@ window.onload = function() {
 	});
 	initTabControl();
 }
-</script>
+--></script>
 <jsp:include page="/jsp/common/footer.jsp" />

@@ -20,8 +20,8 @@ public class Athlete {
 	public static final transient String alias = "PR";
 
 	@Id
-	@SequenceGenerator(name = "sq_person", sequenceName = "\"SQ_PERSON\"")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sq_person")
+	@SequenceGenerator(name = "seq_person", sequenceName = "\"SeqPerson\"")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_person")
 	private Integer id;
 	
 	@Column(name = "last_name", length = 30, nullable = false)
