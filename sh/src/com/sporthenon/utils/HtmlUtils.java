@@ -182,7 +182,7 @@ public class HtmlUtils {
 		StringBuffer html = new StringBuffer();
 		if (StringUtils.notEmpty(s)) {
 			s = s.replaceAll("\r|\n", "<br/>");
-			html.append(s.matches("^\\#\\#.*") ? s.substring(2) : writeTip("cmt-" + id, s));
+			html.append(s.matches("^\\#\\#.*") ? s.substring(2).replaceAll("\\s", "&nbsp;") : writeTip("cmt-" + id, s));
 		}
 		return html.toString();
 	}

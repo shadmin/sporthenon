@@ -139,7 +139,7 @@ public class StringUtils {
 		if (n_ != null)
 			return ((DecimalFormat) NumberFormat.getNumberInstance(lang != null && lang.equalsIgnoreCase("fr") ? Locale.FRENCH : Locale.ENGLISH)).format(n_);
 		else
-			return String.valueOf(n);
+			return (n != null ? String.valueOf(n) : "");
 	}
 	
 	public static String formatResult(Object s, String lang) {

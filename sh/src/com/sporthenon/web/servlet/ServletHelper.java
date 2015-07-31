@@ -55,7 +55,7 @@ public class ServletHelper {
 	
 	public static void writeTabHtml(HttpServletRequest req, HttpServletResponse res, StringBuffer sb, String lang) throws IOException {
 		if (!sb.toString().startsWith("<tr"))
-			sb.append("<br/><a id=\"errorlink\" href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", req.getSession()) + "</a><br/>");
+			sb.append("<p id=\"errorlink\"><a href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", req.getSession()) + "</p></span>");
 		String s = sb.toString();
 		res.setContentType("text/html");
         res.setCharacterEncoding("utf-8");
@@ -73,7 +73,7 @@ public class ServletHelper {
 	}
 	
 	public static void writePageHtml(HttpServletRequest req, HttpServletResponse res, StringBuffer sb, boolean isPrint) throws ServletException, IOException {
-		String s = sb.append("<br/><a id=\"errorlink\" href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", req.getSession()) + "</a>").toString();
+		String s = sb.append("<p id=\"errorlink\"><a href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", req.getSession()) + "</a></p>").toString();
 		if (s.matches(".*\\#INFO\\#.*")) {
 			StringBuffer sbInfo = new StringBuffer();
 			sbInfo.append(StringUtils.getSizeBytes(s));

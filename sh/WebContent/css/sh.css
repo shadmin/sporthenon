@@ -135,10 +135,6 @@ li{
 .criteria{
 	background-image: url(../img/db/criteria.png?5);
 }
-#errorlink{
-	float: left;
-	font-size: 11px;
-}
 /*=================================
   ========== HEADER/MENU ========== 
   =================================*/
@@ -323,7 +319,7 @@ li{
 }
 #dupdates{
 	text-align: center;
-	overflow: auto;
+	/*overflow: auto;*/
 }
 #dupdates td{
 	padding: 0px 3px;
@@ -419,10 +415,6 @@ li{
 	padding: 10px 10px;
 	border: 1px solid #AAA;
 	background-color: #F5F5F5;
-	overflow: auto;
-}
-#tabcontrol .tc{
-	overflow: visible;
 }
 .print .tc{
 	border: none;

@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<entry key="env">test</entry><!-- Environment (standalone|local|test|prod) -->
-	<entry key="version">0.10.2_3</entry>
+	<entry key="version">0.10.2_4</entry>
 	<entry key="date">24/04/2015</entry>
 	<entry key="url">http://test.sporthenon.com/</entry>
 	<entry key="url.s">http://test.sporthenon.com/</entry>

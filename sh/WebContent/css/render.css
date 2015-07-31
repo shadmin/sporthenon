@@ -148,9 +148,8 @@
 .tc .uinfo{
 	margin: 0 auto;
 	padding: 0px;
-	margin-top: 5px;
+	margin-top: 40px;
 	margin-bottom: 10px;
-	clear: both;
 	text-align: center;
 }
 .tc .uinfo li{
@@ -411,4 +410,14 @@ th.desc{
 }
 .underline{
 	text-decoration: underline;
+}
+.nowrap{
+	white-space: nowrap;
+}
+#errorlink{
+	margin-top: 10px;
+	margin-bottom: -5px;
+}
+#errorlink a{
+	font-size: 11px;
 }

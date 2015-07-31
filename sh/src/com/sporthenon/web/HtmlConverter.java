@@ -1510,7 +1510,7 @@ public class HtmlConverter {
 			}
 			for (int i = 0 ; i < 9 ; i++)
 				if (tEntity[i] != null)
-					tEntityHtml[i] = ("<td" + (i < 3 && StringUtils.notEmpty(tLN[i]) ? " id=\"" + tLN[i].replaceAll("\\s", "-") + "\"" : "") + " class='srt'" + (i == 0 ? " style='font-weight:bold;'" : "") + ">" + tEntity[i] + (plist != null && plist.size() > i ? "<table id='plist-" + bean.getRsId() + "-" + i + "' class='plist' style='display:none;'>" + plist.get(i).toString() + "</table>" : "")  + "</td>" + (StringUtils.notEmpty(tEntityRel[i]) ?  tEntityRel[i] : (tIsEntityRel1[i] ? "<td></td>" : "") + (tIsEntityRel2[i] ? "<td></td>" : ""))) + (StringUtils.notEmpty(tResult[i]) ? "<td" + (isScore && i == 0 ? " class='centered'" : "") + ">" + tResult[i].replaceAll("\\s", "&nbsp;").replaceAll("\\-", "&#8209;") + "</td>" : (tIsResult[i] ? "<td></td>" : ""));
+					tEntityHtml[i] = ("<td" + (i < 3 && StringUtils.notEmpty(tLN[i]) ? " id=\"" + tLN[i].replaceAll("\\s", "-") + "\"" : "") + " class='srt'" + (i == 0 ? " style='font-weight:bold;'" : "") + ">" + tEntity[i] + (plist != null && plist.size() > i ? "<table id='plist-" + bean.getRsId() + "-" + i + "' class='plist' style='display:none;'>" + plist.get(i).toString() + "</table>" : "")  + "</td>" + (StringUtils.notEmpty(tEntityRel[i]) ?  tEntityRel[i] : (tIsEntityRel1[i] ? "<td></td>" : "") + (tIsEntityRel2[i] ? "<td></td>" : ""))) + (StringUtils.notEmpty(tResult[i]) ? "<td" + (isScore && i == 0 ? " class='centered nowrap'" : "") + ">" + tResult[i] + "</td>" : (tIsResult[i] ? "<td></td>" : ""));
 				
 			String commentTitle = null;
 			String commentColor = null;
@@ -1523,7 +1523,7 @@ public class HtmlConverter {
 			
 			// Write line
 			html.append("<tr>");
-			html.append(isComment ? "<td" + (StringUtils.notEmpty(commentTitle) ? " title='" + commentTitle + "' style='width:15px;background-color:" + commentColor + ";'" : "") + ">" + (StringUtils.notEmpty(comment) && !isResultEmpty ? HtmlUtils.writeComment(bean.getRsId(), comment) : "") + "</td>" : "");
+			html.append(isComment ? "<td" + (StringUtils.notEmpty(commentTitle) ? " title='" + commentTitle + "' style='width:15px;white-space:nowrap;background-color:" + commentColor + ";'" : "") + ">" + (StringUtils.notEmpty(comment) && !isResultEmpty ? HtmlUtils.writeComment(bean.getRsId(), comment) : "") + "</td>" : "");
 			html.append("<td class='srt'>" + year + "</td>");
 			if (isResultEmpty && StringUtils.notEmpty(bean.getRsComment()))
 				html.append("<td colspan='" + (tColspan[0] + (entityCount > 1 ? tColspan[1] : 0) + (entityCount > 2 ? tColspan[2] : 0) + (isDates ? 1 : 0) + (isPlace ? 1 : 0) + (isScore ? 1 : 0)) + "'>" + bean.getRsComment().replaceAll("\r\n|\\|", "<br/>") + "</td>");
