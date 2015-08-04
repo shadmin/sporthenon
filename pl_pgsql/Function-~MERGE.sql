@@ -1,8 +1,8 @@
--- Function: "~MERGE"(character varying, integer, integer)
+-- Function: "~Merge"(character varying, integer, integer)
 
--- DROP FUNCTION "~MERGE"(character varying, integer, integer);
+-- DROP FUNCTION "~Merge"(character varying, integer, integer);
 
-CREATE OR REPLACE FUNCTION "~MERGE"(_alias character varying, _id1 integer, _id2 integer)
+CREATE OR REPLACE FUNCTION "~Merge"(_alias character varying, _id1 integer, _id2 integer)
   RETURNS boolean AS
 $BODY$
 declare
@@ -98,6 +98,7 @@ begin
 		UPDATE "RETIRED_NUMBER" SET id_person = _id2 WHERE id_person = _id1;
 		DELETE FROM "PERSON" WHERE id = _id1;
 	ELSIF _alias = 'SP' THEN
+		UPDATE "PERSON" SET id_sport = _id2 WHERE id_sport = _id1;
 		UPDATE "RESULT" SET id_sport = _id2 WHERE id_sport = _id1;
 		UPDATE "RECORD" SET id_sport = _id2 WHERE id_sport = _id1;
 		DELETE FROM "SPORT" WHERE id = _id1;
@@ -134,6 +135,7 @@ begin
 		UPDATE "RECORD" SET id_rank3 = _id2 WHERE id_rank3 = _id1 AND id IN (SELECT RC.id FROM "RECORD" RC LEFT JOIN "EVENT" EV ON RC.id_event = EV.id LEFT JOIN "EVENT" SE ON RC.id_subevent = SE.id LEFT JOIN "TYPE" TP1 ON EV.id_type = TP1.id LEFT JOIN "TYPE" TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number=50) OR (RC.id_subevent IS NOT NULL AND TP2.number=50));
 		UPDATE "RECORD" SET id_rank4 = _id2 WHERE id_rank4 = _id1 AND id IN (SELECT RC.id FROM "RECORD" RC LEFT JOIN "EVENT" EV ON RC.id_event = EV.id LEFT JOIN "EVENT" SE ON RC.id_subevent = SE.id LEFT JOIN "TYPE" TP1 ON EV.id_type = TP1.id LEFT JOIN "TYPE" TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number=50) OR (RC.id_subevent IS NOT NULL AND TP2.number=50));
 		UPDATE "RECORD" SET id_rank5 = _id2 WHERE id_rank5 = _id1 AND id IN (SELECT RC.id FROM "RECORD" RC LEFT JOIN "EVENT" EV ON RC.id_event = EV.id LEFT JOIN "EVENT" SE ON RC.id_subevent = SE.id LEFT JOIN "TYPE" TP1 ON EV.id_type = TP1.id LEFT JOIN "TYPE" TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number=50) OR (RC.id_subevent IS NOT NULL AND TP2.number=50));
+		UPDATE "PERSON" SET id_team = _id2 WHERE id_team = _id1;
 		UPDATE "RETIRED_NUMBER" SET id_team = _id2 WHERE id_team = _id1;
 		UPDATE "TEAM_STADIUM" SET id_team = _id2 WHERE id_team = _id1;
 		UPDATE "WIN_LOSS" SET id_team = _id2 WHERE id_team = _id1;

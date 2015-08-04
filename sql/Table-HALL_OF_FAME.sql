@@ -8,7 +8,7 @@ CREATE TABLE "HALL_OF_FAME"
   id_league integer NOT NULL,
   id_year integer NOT NULL,
   id_person integer NOT NULL,
-  id_member integer NOT NULL,
+  id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   "position" character varying(30),
   first_update timestamp without time zone NOT NULL DEFAULT now(),
@@ -16,8 +16,8 @@ CREATE TABLE "HALL_OF_FAME"
   CONSTRAINT "HALL_OF_FAME_id_league_fkey" FOREIGN KEY (id_league)
       REFERENCES "LEAGUE" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
-  CONSTRAINT "HALL_OF_FAME_id_member_fkey" FOREIGN KEY (id_member)
-      REFERENCES "~MEMBER" (id) MATCH SIMPLE
+  CONSTRAINT "HALL_OF_FAME_id_member_fkey" FOREIGN KEY (id_contributor)
+      REFERENCES "~Contributor" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "HALL_OF_FAME_id_person_fkey" FOREIGN KEY (id_person)
       REFERENCES "PERSON" (id) MATCH SIMPLE

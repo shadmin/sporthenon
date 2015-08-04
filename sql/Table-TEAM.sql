@@ -13,7 +13,7 @@ CREATE TABLE "TEAM"
   conference character varying(10) DEFAULT NULL::character varying,
   division character varying(10) DEFAULT NULL::character varying,
   "comment" character varying(500) DEFAULT NULL::character varying,
-  id_member integer NOT NULL,
+  id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   link integer,
   inactive boolean,
@@ -23,8 +23,8 @@ CREATE TABLE "TEAM"
   CONSTRAINT "TEAM_id_country_fkey" FOREIGN KEY (id_country)
       REFERENCES "COUNTRY" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
-  CONSTRAINT "TEAM_id_member_fkey" FOREIGN KEY (id_member)
-      REFERENCES "~MEMBER" (id) MATCH SIMPLE
+  CONSTRAINT "TEAM_id_member_fkey" FOREIGN KEY (id_contributor)
+      REFERENCES "~Contributor" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "TEAM_id_sport_fkey" FOREIGN KEY (id_sport)
       REFERENCES "SPORT" (id) MATCH SIMPLE
@@ -34,6 +34,16 @@ CREATE TABLE "TEAM"
 WITH (
   OIDS=FALSE
 );
+
+-- Index: "TM_LABEL_INDEX"
+
+-- DROP INDEX "TM_LABEL_INDEX";
+
+CREATE INDEX "TM_LABEL_INDEX"
+  ON "TEAM"
+  USING btree
+  (lower(label::text));
+
 
 -- Trigger: trigger_tm on "TEAM"
 

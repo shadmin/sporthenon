@@ -11,7 +11,7 @@ CREATE TABLE "TEAM_STADIUM"
   date1 smallint NOT NULL,
   date2 smallint NOT NULL,
   "comment" character varying(500) DEFAULT NULL::character varying,
-  id_member integer NOT NULL,
+  id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   renamed boolean,
   first_update timestamp without time zone NOT NULL DEFAULT now(),
@@ -22,8 +22,8 @@ CREATE TABLE "TEAM_STADIUM"
   CONSTRAINT "TEAM_STADIUM_id_league_fkey" FOREIGN KEY (id_league)
       REFERENCES "LEAGUE" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
-  CONSTRAINT "TEAM_STADIUM_id_member_fkey" FOREIGN KEY (id_member)
-      REFERENCES "~MEMBER" (id) MATCH SIMPLE
+  CONSTRAINT "TEAM_STADIUM_id_member_fkey" FOREIGN KEY (id_contributor)
+      REFERENCES "~Contributor" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "TEAM_STADIUM_id_team_fkey" FOREIGN KEY (id_team)
       REFERENCES "TEAM" (id) MATCH SIMPLE

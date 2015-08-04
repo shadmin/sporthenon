@@ -10,17 +10,18 @@ CREATE TABLE "PERSON"
   id_country integer,
   id_team integer,
   id_sport integer NOT NULL,
-  id_member integer NOT NULL,
+  id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   link integer,
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
+  img_url character varying(255),
   CONSTRAINT "PERSON_pkey" PRIMARY KEY (id),
   CONSTRAINT "PERSON_id_country_fkey" FOREIGN KEY (id_country)
       REFERENCES "COUNTRY" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
-  CONSTRAINT "PERSON_id_member_fkey" FOREIGN KEY (id_member)
-      REFERENCES "~MEMBER" (id) MATCH SIMPLE
+  CONSTRAINT "PERSON_id_member_fkey" FOREIGN KEY (id_contributor)
+      REFERENCES "~Contributor" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "PERSON_id_sport_fkey" FOREIGN KEY (id_sport)
       REFERENCES "SPORT" (id) MATCH SIMPLE
@@ -34,6 +35,16 @@ WITH (
   OIDS=FALSE
 );
 
+-- Index: "PR_LAST_NAME_INDEX"
+
+-- DROP INDEX "PR_LAST_NAME_INDEX";
+
+CREATE INDEX "PR_LAST_NAME_INDEX"
+  ON "PERSON"
+  USING btree
+  (lower(last_name::text));
+
+
 -- Trigger: trigger_pr on "PERSON"
 
 -- DROP TRIGGER trigger_pr ON "PERSON";
@@ -43,3 +54,4 @@ CREATE TRIGGER trigger_pr
   ON "PERSON"
   FOR EACH ROW
   EXECUTE PROCEDURE "UPDATE_REF"('PR');
+

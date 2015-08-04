@@ -1,8 +1,8 @@
--- Function: "~STATREQUEST"(smallint)
+-- Function: "~StatRequest"(smallint)
 
--- DROP FUNCTION "~STATREQUEST"(smallint);
+-- DROP FUNCTION "~StatRequest"(smallint);
 
-CREATE OR REPLACE FUNCTION "~STATREQUEST"(_index smallint)
+CREATE OR REPLACE FUNCTION "~StatRequest"(_index smallint)
   RETURNS refcursor AS
 $BODY$
 declare

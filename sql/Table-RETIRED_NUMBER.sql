@@ -9,7 +9,7 @@ CREATE TABLE "RETIRED_NUMBER"
   id_team integer NOT NULL,
   id_person integer NOT NULL,
   "number" smallint NOT NULL,
-  id_member integer NOT NULL,
+  id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   id_year integer,
   first_update timestamp without time zone NOT NULL DEFAULT now(),
@@ -17,8 +17,8 @@ CREATE TABLE "RETIRED_NUMBER"
   CONSTRAINT "RETIRED_NUMBER_id_league_fkey" FOREIGN KEY (id_league)
       REFERENCES "LEAGUE" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
-  CONSTRAINT "RETIRED_NUMBER_id_member_fkey" FOREIGN KEY (id_member)
-      REFERENCES "~MEMBER" (id) MATCH SIMPLE
+  CONSTRAINT "RETIRED_NUMBER_id_member_fkey" FOREIGN KEY (id_contributor)
+      REFERENCES "~Contributor" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "RETIRED_NUMBER_id_person_fkey" FOREIGN KEY (id_person)
       REFERENCES "PERSON" (id) MATCH SIMPLE

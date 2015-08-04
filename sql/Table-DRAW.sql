@@ -24,7 +24,7 @@ CREATE TABLE "DRAW"
   result_qf4 character varying(40),
   result_sf1 character varying(40),
   result_sf2 character varying(40),
-  id_member integer NOT NULL,
+  id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   id1_thd integer,

@@ -30,13 +30,14 @@ CREATE TABLE "RESULT"
   result4 character varying(20) DEFAULT NULL::character varying,
   result5 character varying(20) DEFAULT NULL::character varying,
   "comment" character varying(500) DEFAULT NULL::character varying,
-  id_member integer NOT NULL,
+  id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   exa character varying(15),
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   id_city1 integer,
   id_complex1 integer,
   id_subevent2 integer,
+  img_url character varying(255),
   CONSTRAINT "RESULT_pkey" PRIMARY KEY (id),
   CONSTRAINT "RESULT_id_championship_fkey" FOREIGN KEY (id_championship)
       REFERENCES "CHAMPIONSHIP" (id) MATCH SIMPLE
@@ -50,8 +51,8 @@ CREATE TABLE "RESULT"
   CONSTRAINT "RESULT_id_event_fkey" FOREIGN KEY (id_event)
       REFERENCES "EVENT" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
-  CONSTRAINT "RESULT_id_member_fkey" FOREIGN KEY (id_member)
-      REFERENCES "~MEMBER" (id) MATCH SIMPLE
+  CONSTRAINT "RESULT_id_member_fkey" FOREIGN KEY (id_contributor)
+      REFERENCES "~Contributor" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "RESULT_id_sport_fkey" FOREIGN KEY (id_sport)
       REFERENCES "SPORT" (id) MATCH SIMPLE

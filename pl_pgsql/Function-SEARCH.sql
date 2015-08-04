@@ -1,8 +1,8 @@
--- Function: "SEARCH"(character varying, character varying, smallint, character varying)
+-- Function: "Search"(character varying, character varying, smallint, character varying)
 
--- DROP FUNCTION "SEARCH"(character varying, character varying, smallint, character varying);
+-- DROP FUNCTION "Search"(character varying, character varying, smallint, character varying);
 
-CREATE OR REPLACE FUNCTION "SEARCH"(_pattern character varying, _scope character varying, _limit smallint, _lang character varying)
+CREATE OR REPLACE FUNCTION "Search"(_pattern character varying, _scope character varying, _limit smallint, _lang character varying)
   RETURNS SETOF "~REF_ITEM" AS
 $BODY$
 declare
@@ -35,7 +35,7 @@ declare
 	_rel_count smallint;
 	__pattern text;
 begin
-	INSERT INTO "~REQUEST" VALUES (NEXTVAL('"~SQ_REQUEST"'), 'SC', _pattern, current_date);
+	INSERT INTO "~REQUEST" VALUES (NEXTVAL('"~SeqRequest"'), 'SC', _pattern, current_date);
 	
 	_i := 1;
 	_index := 1;
@@ -67,7 +67,7 @@ begin
 
 			-- Get related fields
 			IF (_s ~ 'PR|TM') THEN -- Relation: Country
-				_rel_cols := _rel_cols || ', CN.id, CN.label' || _lang || ' || '' ('' || CN.code || '')'', CN.label';
+				_rel_cols := _rel_cols || ', CN.id, CN.label' || _lang || ' || '' ('' || CN.code || '')'', CN.code';
 				_rel_joins := _rel_joins || ' LEFT JOIN "COUNTRY" CN ON ' || _s || '.id_country = CN.id';
 				_rel_count := _rel_count + 1;
 			END IF;
@@ -77,7 +77,7 @@ begin
 				_rel_count := _rel_count + 1;
 			END IF;
 			IF (_s = 'PR') THEN -- Relation: Team
-				_rel_cols := _rel_cols || ', TM.id, TM.label, TM.label, PR.link';
+				_rel_cols := _rel_cols || ', TM.id, TM.label, TM.label';
 				_rel_joins := _rel_joins || ' LEFT JOIN "TEAM" TM ON ' || _s || '.id_team = TM.id';
 				_rel_count := _rel_count + 1;
 			END IF;
@@ -98,6 +98,9 @@ begin
 				_rel_joins := _rel_joins || ' LEFT JOIN "COUNTRY" CN ON ' || _s || '.id_country = CN.id';
 				_rel_count := _rel_count + 3;
 			END IF;
+			IF (_s ~ 'CT|CX|PR|TM') THEN
+				_rel_cols := _rel_cols || ', ' || _s || '.link';
+			END IF;
 			FOR _j IN 1.._rel_count LOOP
 				_rel_cols := _rel_cols || ', NULL, NULL, NULL';
 			END LOOP;
@@ -109,9 +112,9 @@ begin
 				_label := 'label' || _lang;
 			END IF;
 			_query := 'SELECT ' || _s || '.id, ' || _s || '.' || _label || ',' || _s || '.' || _label_en || ',' || _s || '.ref' || _rel_cols || ' FROM "' || _tables[_i] || '" ' || _s;
-			_query := _query || _rel_joins || ' WHERE ' || _s || '.' || _label || ' ~* ''' || __pattern || '''' || (CASE _limit WHEN 0 THEN ' ORDER BY ' || _s || '.' || _label ELSE '' END);
+			_query := _query || _rel_joins || ' WHERE ' || (CASE _s WHEN 'CT' THEN '(CT.link = 0 OR CT.link IS NULL) AND ' WHEN 'CX' THEN '(CX.link = 0 OR CX.link IS NULL) AND ' WHEN 'TM' THEN '(TM.link = 0 OR TM.link IS NULL) AND ' ELSE '' END) || _s || '.' || _label || ' ~* ''' || __pattern || '''' || (CASE _limit WHEN 0 THEN ' ORDER BY ' || _s || '.' || _label ELSE '' END);
 			IF _s = 'PR' THEN
-				_query := 'SELECT PR.id, PR.last_name || '', '' || PR.first_name, PR.first_name || '' '' || PR.last_name, PR.ref' || _rel_cols || ' FROM "PERSON" PR' || _rel_joins;
+				_query := 'SELECT PR.id, PR.last_name || (CASE WHEN length(PR.first_name) > 0 THEN '', '' || PR.first_name ELSE '''' END), (CASE WHEN length(PR.first_name) > 0 THEN PR.first_name || '' '' ELSE '''' END) || PR.last_name, PR.ref' || _rel_cols || ' FROM "PERSON" PR' || _rel_joins;
 				_query := _query || ' WHERE (PR.link = 0 OR PR.link IS NULL) AND (PR.last_name || '' '' || PR.first_name ~* ''' || __pattern || ''' OR PR.first_name || '' '' || PR.last_name ~* ''' || __pattern || ''' OR PR.last_name ~* ''' || __pattern || ''' OR PR.first_name ~* ''' || __pattern || ''')';
 				_query := _query || (CASE _limit WHEN 0 THEN ' ORDER BY PR.last_name, PR.first_name' ELSE '' END);
 			END IF;
@@ -122,7 +125,19 @@ begin
 				_item.id = _index;
 				_item.id_item = _current_id;
 				_item.label = _current_label;
-				_item.count_ref = _current_ref;
+				IF _current_link IS NOT NULL THEN
+					IF _s = 'CT' THEN
+						SELECT SUM(ref) INTO _item.count_ref FROM "CITY" WHERE id=_current_id OR link=_current_id;
+					ELSIF _s = 'CX' THEN
+						SELECT SUM(ref) INTO _item.count_ref FROM "COMPLEX" WHERE id=_current_id OR link=_current_id;
+					ELSIF _s = 'PR' THEN
+						SELECT SUM(ref) INTO _item.count_ref FROM "PERSON" WHERE id=_current_id OR link=_current_id;
+					ELSIF _s = 'TM' THEN
+						SELECT SUM(ref) INTO _item.count_ref FROM "TEAM" WHERE id=_current_id OR link=_current_id;
+					END IF;
+				ELSE
+					_item.count_ref = (CASE WHEN _current_ref IS NOT NULL THEN _current_ref ELSE 0 END);
+				END IF;
 				_item.entity = _s;
 				_item.label_rel1 = _current_label_rel1;
 				_item.label_rel3 = _current_label_rel3;

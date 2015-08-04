@@ -30,7 +30,7 @@ CREATE TABLE "RECORD"
   type2 character varying(15) DEFAULT NULL::character varying,
   "comment" character varying(500) DEFAULT NULL::character varying,
   label character varying(70) NOT NULL,
-  id_member integer NOT NULL,
+  id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   counting boolean,
   first_update timestamp without time zone NOT NULL DEFAULT now(),
@@ -45,8 +45,8 @@ CREATE TABLE "RECORD"
   CONSTRAINT "RECORD_id_event_fkey" FOREIGN KEY (id_event)
       REFERENCES "EVENT" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
-  CONSTRAINT "RECORD_id_member_fkey" FOREIGN KEY (id_member)
-      REFERENCES "~MEMBER" (id) MATCH SIMPLE
+  CONSTRAINT "RECORD_id_member_fkey" FOREIGN KEY (id_contributor)
+      REFERENCES "~Contributor" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "RECORD_id_sport_fkey" FOREIGN KEY (id_sport)
       REFERENCES "SPORT" (id) MATCH SIMPLE
@@ -68,3 +68,4 @@ CREATE TRIGGER trigger_rc
   ON "RECORD"
   FOR EACH ROW
   EXECUTE PROCEDURE "UPDATE_REF"('RC');
+
