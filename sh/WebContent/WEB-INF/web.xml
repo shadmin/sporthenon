@@ -121,6 +121,7 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>NavigationServlet</servlet-name>
+		<url-pattern>/index</url-pattern>
 		<url-pattern>/results/*</url-pattern>
 		<url-pattern>/olympics/*</url-pattern>
 		<url-pattern>/usleagues/*</url-pattern>
@@ -153,7 +154,7 @@
 	</servlet-mapping>
 	
 	<welcome-file-list>
-		<welcome-file>jsp/index.jsp</welcome-file>
+		<welcome-file>index</welcome-file>
 	</welcome-file-list>
 	
 	<session-config>

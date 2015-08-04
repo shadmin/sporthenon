@@ -308,7 +308,7 @@ public class HtmlConverter {
 			List<ErrorReport> list = (List<ErrorReport>) DatabaseHelper.execute("from ErrorReport where url='" + req.getAttribute("url") + "' order by id");
 			if (list != null && list.size() > 0) {
 				StringBuffer sb = new StringBuffer();
-				sb.append("<a style=\"cursor:help;background:url('/img/project/error.png') left top no-repeat;padding:1px;padding-left:20px;\" href='#ereport'>" + list.size() + " " + ResourceUtils.getText("error" + (list.size() > 1 ? "s" : ""), lang) + " " + ResourceUtils.getText("on.this.page", lang) + "</a>");
+				sb.append("<a class='ertip' href='#ereport'>" + list.size() + " " + ResourceUtils.getText("error" + (list.size() > 1 ? "s" : ""), lang) + " " + ResourceUtils.getText("on.this.page", lang) + "</a>");
 				sb.append("<div id='ereport' class='rendertip'>");
 				for (ErrorReport er : list)
 					sb.append("-&nbsp;" + er.getText().replaceAll("\r\n|\n", "<br/>")).append("<br/>");
@@ -2117,7 +2117,7 @@ public class HtmlConverter {
 					pos4 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn4Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, bean.getCn4Id(), bean.getCn4Label(), bean.getCn4LabelEN()));
 			}
 			String year = "<b>" + bean.getYrLabel() + "</b>";
-			String update = StringUtils.toTextDate(bean.getRsUpdate(), lang, "dd MMM yyyy");
+			String update = StringUtils.toTextDate(bean.getRsUpdate(), lang, "d MMM yyyy");
 			String update2 = new SimpleDateFormat("yyyyMMddHHmm").format(bean.getRsUpdate());
 			String path = bean.getYrLabel() + "/" + bean.getSpLabelEN() + "/" + bean.getCpLabelEN() + "/" + bean.getEvLabelEN() + (bean.getSeId() != null ? "/" + bean.getSeLabelEN() : "") + (bean.getSe2Id() != null ? "/" + bean.getSe2LabelEN() : "");
 			boolean isScore = (pos1 != null && pos2 != null && StringUtils.notEmpty(bean.getRsText1()) && !StringUtils.notEmpty(bean.getRsText2()));

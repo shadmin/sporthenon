@@ -9,7 +9,7 @@
 	if (o != null && o instanceof Contributor)
 		m = (Contributor) o;
 	ResourceUtils.setLocale(request);
-	Object title = (StringUtils.notEmpty(request.getAttribute("title")) ? request.getAttribute("title") : StringUtils.text("title", session));
+	Object title = request.getAttribute("title");
 	String version = ConfigUtils.getProperty("version");
 	String lang = String.valueOf(session.getAttribute("locale"));
 	String url = ConfigUtils.getProperty("url");
@@ -118,7 +118,7 @@
 		<div id="mtlogin"><a href="<%=ConfigUtils.getProperty("url.s")%>login"><%=StringUtils.text("menu.login", session)%></a></div>
 		<% } %>
 	</div>
-	<div id="flags"><a title="English" href="javascript:setLang('en');"><img alt="EN" src="/img/header/lang-en.png"/></a>&nbsp;<a title="Français" href="javascript:setLang('fr');"><img alt="FR" src="/img/header/lang-fr.png"/></a>&nbsp;</div>
+	<div id="flags"><a title="English" href="<%=request.getAttribute("urlEN")%>"><img alt="EN" src="/img/header/lang-en.png"/></a>&nbsp;<a title="Français" href="<%=request.getAttribute("urlFR")%>"><img alt="FR" src="/img/header/lang-fr.png"/></a>&nbsp;</div>
 	<div id="searchpanel">
 		<table style="border-spacing:0px;"><tr><td style="padding-top:3px;"><a title="<%=StringUtils.text("advanced.search", session)%>" href="/search"><img alt="Search" src="/img/menu/dbsearch.png"/></a></td>
 		<td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.in", session)%> Sporthenon" onfocus="dpatternFocus();" onblur="dpatternBlur();"></input></td>

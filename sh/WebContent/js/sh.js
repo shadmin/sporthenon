@@ -320,13 +320,6 @@ function elapsedTime(t1_, t2_) {
 function backTop() {
 	window.scrollTo(0, 0);
 }
-function setLang(s) {
-	new Ajax.Request('/IndexServlet?lang=1&value=' + s, {
-		onSuccess: function(response){
-			window.location.reload();
-		}
-	});
-}
 /*=================================
   ========== TAB CONTROL ========== 
   =================================*/

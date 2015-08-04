@@ -3,7 +3,7 @@
 <properties>
 	<entry key="env">prod</entry><!-- Environment (standalone|local|test|prod) -->
 	<entry key="version">0.10.2</entry>
-	<entry key="date">15/08/2015</entry>
+	<entry key="date">04/08/2015</entry>
 	<entry key="url">http://www.sporthenon.com/</entry>
 	<entry key="url.s">https://www.sporthenon.com/</entry>
 	<entry key="img.url">http://img.sporthenon.com/</entry>
