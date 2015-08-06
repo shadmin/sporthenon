@@ -358,7 +358,7 @@ public class StringUtils {
 	}
 	
 	public static String getTitle(String s) {
-		return s.replaceAll("\\-", "–") + " | Sporthenon";
+		return s.replaceAll("\\-", "–") + (s.toLowerCase().startsWith("sporthenon") ? "" : " | Sporthenon");
 	}
 	
 }

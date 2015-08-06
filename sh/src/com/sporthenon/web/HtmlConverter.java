@@ -1006,6 +1006,10 @@ public class HtmlConverter {
 				hInfo.put("country", cn);
 			if (sp != null)
 				hInfo.put("sport", sp);
+			if (e.getLeague() != null) {
+				Short cp = USLeaguesServlet.HLEAGUES.get(Short.valueOf(e.getLeague().getId().toString()));
+				hInfo.put("league", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, cp, ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Championship.alias, cp, e.getLeague().getLabel(), null)));
+			}
 			if (StringUtils.notEmpty(e.getConference()))
 				hInfo.put("conference", e.getConference());
 			if (StringUtils.notEmpty(e.getDivision()))
@@ -1079,6 +1083,7 @@ public class HtmlConverter {
 
 	public static StringBuffer getRecordRef(ArrayList<Object> params, Collection<Object> coll, boolean isExport, Contributor m, String lang) throws Exception {
 		String etype = String.valueOf(params.get(0));
+		Integer itemId = (Integer) params.get(1);
 		boolean isAllRef = (isExport || !StringUtils.notEmpty(params.get(2)));
 		String limit = (params.size() > 3 ? String.valueOf(params.get(3)) : "20");
 		Integer offset = (params.size() > 4 ? new Integer(String.valueOf(params.get(4))) : 0);
@@ -1106,6 +1111,14 @@ public class HtmlConverter {
 						return 0;
 				}});
 		}
+		
+		// Get linked entities
+		ArrayList<Integer> eList = new ArrayList<Integer>();
+		if (etype.matches(Athlete.alias + "|" + Team.alias))
+			for (Integer id_ : (List<Integer>) DatabaseHelper.executeNative("SELECT id FROM \"" + (etype.equals(Athlete.alias) ? "PERSON" : "TEAM") + "\" WHERE id=" + itemId + " OR link=" + itemId + " OR id=(SELECT link FROM \"" + (etype.equals(Athlete.alias) ? "PERSON" : "TEAM") + "\" WHERE id=" + itemId + ")"))
+				eList.add(id_);
+		else
+			eList.add(itemId);
 
 		// Write items
 		String currentEntity = "";
@@ -1239,6 +1252,10 @@ public class HtmlConverter {
 					short index = (alias.equals(Athlete.alias) || alias.equals(Country.alias) ? ImageUtils.INDEX_COUNTRY : ImageUtils.INDEX_TEAM);
 					tEntity[0] = (tEntity[0] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel12() != null ? item.getIdRel12() : item.getIdRel6(), ImageUtils.SIZE_SMALL, item.getLabelRel1(), null), tEntity[0]) : null);
 					tEntity[1] = (tEntity[1] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel13() != null ? item.getIdRel13() : item.getIdRel7(), ImageUtils.SIZE_SMALL, item.getLabelRel1(), null), tEntity[1]) : null);
+					if (item.getIdRel6() != null && eList.contains(item.getIdRel6()))
+						tEntity[0] = tEntity[0].replaceFirst("table", "table class='highlight'");
+					if (item.getIdRel7() != null && eList.contains(item.getIdRel7()))
+						tEntity[1] = tEntity[1].replaceFirst("table", "table class='highlight'");
 					StringBuffer sb = new StringBuffer("<table><tr>");
 					sb.append("<td class='small'>" + ResourceUtils.getText("draw2." + txt2, lang) + "&nbsp;:&nbsp;</td><td style='font-weight:bold;'>" + tEntity[0] + "</td><td>&nbsp;" + StringUtils.formatResult(item.getTxt1(), lang) + "&nbsp;</td><td>" + tEntity[1] + "</td>");
 					c5 = sb.append("</tr></table>").toString();
@@ -1262,6 +1279,20 @@ public class HtmlConverter {
 					tEntity[3] = (tEntity[3] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel15() != null ? item.getIdRel15() : item.getIdRel9(), ImageUtils.SIZE_SMALL, item.getLabelRel1(), null), tEntity[3]) : null);
 					tEntity[4] = (tEntity[4] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel16() != null ? item.getIdRel16() : item.getIdRel10(), ImageUtils.SIZE_SMALL, item.getLabelRel1(), null), tEntity[4]) : null);
 					tEntity[5] = (tEntity[5] != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(index, alias.equals(Athlete.alias) && item.getIdRel17() != null ? item.getIdRel17() : item.getIdRel11(), ImageUtils.SIZE_SMALL, item.getLabelRel1(), null), tEntity[5]) : null);
+					// Highlight entity
+					if (item.getIdRel6() != null && eList.contains(item.getIdRel6()))
+						tEntity[0] = tEntity[0].replaceFirst("table", "table class='highlight'");
+					if (item.getIdRel7() != null && eList.contains(item.getIdRel7()))
+						tEntity[1] = tEntity[1].replaceFirst("table", "table class='highlight'");
+					if (item.getIdRel8() != null && eList.contains(item.getIdRel8()))
+						tEntity[2] = tEntity[2].replaceFirst("table", "table class='highlight'");
+					if (item.getIdRel9() != null && eList.contains(item.getIdRel9()))
+						tEntity[3] = tEntity[3].replaceFirst("table", "table class='highlight'");
+					if (item.getIdRel10() != null && eList.contains(item.getIdRel10()))
+						tEntity[4] = tEntity[4].replaceFirst("table", "table class='highlight'");
+					if (item.getIdRel11() != null && eList.contains(item.getIdRel11()))
+						tEntity[5] = tEntity[5].replaceFirst("table", "table class='highlight'");
+					// Manage ties
 					List<Integer> tieList = getTieList(false, false, item.getTxt4());
 					if (tieList != null && !tieList.isEmpty()) {
 						Integer idx = tieList.get(0) - 1;

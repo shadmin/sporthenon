@@ -475,6 +475,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setCountry(tm.getCountry() != null ? tm.getCountry().getId() : null);
 			p.setSport(tm.getSport() != null ? tm.getSport().getId() : null);
 			p.setLabel(tm.getLabel());
+			p.setLeague(tm.getLeague() != null ? tm.getLeague().getId() : null);
 			p.setConference(StringUtils.notEmpty(tm.getConference()) ? tm.getConference() : "");
 			p.setDivision(StringUtils.notEmpty(tm.getDivision()) ? tm.getDivision() : "");
 			p.setYear1(tm.getYear1());

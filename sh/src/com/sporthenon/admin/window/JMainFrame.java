@@ -251,6 +251,7 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(jAllTeams, hPicklists.get(Team.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(League.alias)) {
+			SwingUtils.fillPicklist(((JTeamPanel)jEntityPanels.get(Team.alias)).getLeague(), hPicklists.get(League.alias), null);
 			SwingUtils.fillPicklist(((JHallOfFamePanel)jEntityPanels.get(HallOfFame.alias)).getLeague(), hPicklists.get(League.alias), null);
 			SwingUtils.fillPicklist(((JRetiredNumberPanel)jEntityPanels.get(RetiredNumber.alias)).getLeague(), hPicklists.get(League.alias), null);
 			SwingUtils.fillPicklist(((JTeamStadiumPanel)jEntityPanels.get(TeamStadium.alias)).getLeague(), hPicklists.get(League.alias), null);
@@ -447,6 +448,7 @@ public class JMainFrame extends JFrame {
 			en.setLabel(p.getLabel().getText());
 			en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, SwingUtils.getValue(p.getSport())));
 			en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
+			en.setLeague((League)DatabaseHelper.loadEntity(League.class, SwingUtils.getValue(p.getLeague())));
 			en.setConference(p.getConference().getText());
 			en.setDivision(p.getDivision().getText());
 			en.setComment(p.getComment().getText());
@@ -560,7 +562,7 @@ public class JMainFrame extends JFrame {
 	}
 
 	public static void mergeEntities(String alias, Integer id1, Integer id2) throws Exception {
-		DatabaseHelper.executeNative("select \"~MERGE\"('" + alias + "', " + id1 + ", " + id2 + ")");
+		DatabaseHelper.executeNative("select \"~Merge\"('" + alias + "', " + id1 + ", " + id2 + ")");
 	}
 	
 	private JPanel getJContentPane() {

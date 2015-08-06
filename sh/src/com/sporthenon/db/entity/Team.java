@@ -41,6 +41,10 @@ public class Team {
 	@JoinColumn(name = "id_country")
 	private Country country;
 	
+	@ManyToOne
+	@JoinColumn(name = "id_league")
+	private League league;
+	
 	@Column(name = "conference", length = 10)
 	private String conference;
 	
@@ -164,6 +168,14 @@ public class Team {
 
 	public void setRef(Integer ref) {
 		this.ref = ref;
+	}
+
+	public League getLeague() {
+		return league;
+	}
+
+	public void setLeague(League league) {
+		this.league = league;
 	}
 
 	@Override

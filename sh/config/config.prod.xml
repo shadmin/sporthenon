@@ -2,12 +2,12 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<entry key="env">prod</entry><!-- Environment (standalone|local|test|prod) -->
-	<entry key="version">0.10.2</entry>
-	<entry key="date">04/08/2015</entry>
+	<entry key="version">0.10.3</entry>
+	<entry key="date">01/09/2015</entry>
 	<entry key="url">http://www.sporthenon.com/</entry>
 	<entry key="url.s">https://www.sporthenon.com/</entry>
 	<entry key="img.url">http://img.sporthenon.com/</entry>
 	<entry key="img.folder">/usr/share/glassfish3/glassfish/domains/domain1/docroot/img/</entry>
 	<entry key="font.folder">/usr/share/fonts/</entry>
-	<entry key="setup.url">http://github.com/shadmin/sporthenon/releases/download/v0_10_2/shadmin-0.10.2-setup.exe</entry>
+	<entry key="setup.url">http://github.com/shadmin/sporthenon/releases/download/v0_10_3/shadmin-0.10.3-setup.exe</entry>
 </properties>

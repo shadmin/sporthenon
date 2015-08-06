@@ -8,6 +8,7 @@ import com.sporthenon.admin.component.JCustomTextField;
 import com.sporthenon.admin.component.JEntityPicklist;
 import com.sporthenon.admin.component.JLinkTextField;
 import com.sporthenon.db.entity.Country;
+import com.sporthenon.db.entity.League;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.utils.SwingUtils;
@@ -19,6 +20,7 @@ public class JTeamPanel extends JAbstractEntityPanel {
 	public JCustomTextField jLabel;
 	public JEntityPicklist jSport;
 	public JEntityPicklist jCountry;
+	public JEntityPicklist jLeague;
 	public JTextField jConference;
 	public JTextField jDivision;
 	public JTextField jComment;
@@ -29,7 +31,7 @@ public class JTeamPanel extends JAbstractEntityPanel {
 	public JCheckBox jInactive;
 	
 	public JTeamPanel() {
-		super(12);
+		super(13);
 		initialize();
 	}
 
@@ -79,6 +81,15 @@ public class JTeamPanel extends JAbstractEntityPanel {
         jInactive = new JCheckBox();
         gridPanel.add(jInactive);
         
+        //League
+        JLabel lLeague = new JLabel(" League:");
+        lLeague.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lLeague);
+        jLeague = new JEntityPicklist(this, League.alias);
+        jLeague.getAddButton().setVisible(false);
+        jLeague.setPreferredSize(TEXT_SIZE);
+        gridPanel.add(jLeague);
+        
         //Conference
         JLabel lConference = new JLabel(" [US] Conference:");
         lConference.setHorizontalAlignment(LABEL_ALIGNMENT);
@@ -123,7 +134,11 @@ public class JTeamPanel extends JAbstractEntityPanel {
 	public JEntityPicklist getCountry() {
 		return jCountry;
 	}
-
+	
+	public JEntityPicklist getLeague() {
+		return jLeague;
+	}
+	
 	public JTextField getConference() {
 		return jConference;
 	}
@@ -163,6 +178,10 @@ public class JTeamPanel extends JAbstractEntityPanel {
 	public void setCountry(Integer id) {
 		SwingUtils.selectValue(jCountry, id);
 	}
+	
+	public void setLeague(Integer id) {
+		SwingUtils.selectValue(jLeague, id);
+	}
 
 	public void setConference(String s) {
 		jConference.setText(s);
@@ -201,10 +220,11 @@ public class JTeamPanel extends JAbstractEntityPanel {
 		jLabel.setText("");
 		jSport.clear();
 		jCountry.clear();
+		jLeague.clear();
 		jConference.setText("");
+		jDivision.setText("");
 		jLink.setText("");
 		jInactive.setSelected(false);
-		jDivision.setText("");
 		jComment.setText("");
 		jYear1.setText("");
 		jYear2.setText("");

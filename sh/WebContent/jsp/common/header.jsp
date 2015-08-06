@@ -1,3 +1,4 @@
+<%@page import="org.hibernate.exception.Configurable"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.sporthenon.utils.ConfigUtils" %>
 <%@ page import="com.sporthenon.utils.StringUtils" %>
@@ -26,7 +27,7 @@
 	<meta property="og:title" content="<%=title%>"/>
 	<meta property="og:type" content="website"/>
 	<meta property="og:image" content="<%=url%>img/icon-notext-shadow.png?1"/>
-	<% if (request.isSecure()) { %>
+	<% if (request.isSecure() || !ConfigUtils.getProperty("env").equals("prod")) { %>
 	<meta name="robots" content="noindex, nofollow">
 	<% } %>
 	<link rel="stylesheet" type="text/css" href="/css/sh.css?v=<%=version%>"/>	
