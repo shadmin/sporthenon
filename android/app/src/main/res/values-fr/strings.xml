@@ -12,4 +12,7 @@
     <string name="error">ERREUR - Non trouvé</string>
     <string name="details">Détails</string>
     <string name="winrec">Record de victoires</string>
+    <string name="date">Date</string>
+    <string name="place">Lieu</string>
+    <string name="result">Résultat</string>
 </resources>

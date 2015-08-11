@@ -23,10 +23,8 @@
         android:gravity="center"
         android:padding="2dip"
         android:textStyle="bold"
-        android:background="#FFF"
-        android:layout_marginTop="6dip"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
+        android:layout_margin="0dip"
+        android:background="@drawable/border"
         />
 
     <TextView
@@ -36,9 +34,7 @@
         android:gravity="center"
         android:padding="2dip"
         android:background="#FFF"
-        android:layout_marginTop="6dip"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
+        android:layout_margin="0dip"
         />
 
     <TextView
@@ -48,9 +44,7 @@
         android:gravity="center"
         android:padding="2dip"
         android:background="#FFF"
-        android:layout_marginTop="6dip"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
+        android:layout_margin="0dip"
         />
 
     <TextView
@@ -60,9 +54,7 @@
         android:gravity="center"
         android:padding="2dip"
         android:background="#FFF"
-        android:layout_marginTop="6dip"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
+        android:layout_margin="0dip"
         />
 
     <TextView
@@ -72,9 +64,7 @@
         android:gravity="center"
         android:padding="2dip"
         android:background="#FFF"
-        android:layout_marginTop="6dip"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
+        android:layout_margin="0dip"
         />
 
     <TextView
@@ -84,9 +74,19 @@
         android:gravity="center"
         android:padding="2dip"
         android:background="#FFF"
-        android:layout_marginTop="6dip"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
+        android:layout_margin="0dip"
+        />
+
+    <TextView
+        android:id="@+id/rs_label_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="2dip"
+        android:textStyle="bold"
+        android:layout_margin="0dip"
+        android:background="@drawable/border"
+        android:text="@string/date"
         />
 
     <TextView
@@ -96,9 +96,19 @@
         android:gravity="center"
         android:padding="2dip"
         android:background="#FFF"
-        android:layout_marginTop="6dip"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
+        android:layout_margin="0dip"
+        />
+
+    <TextView
+        android:id="@+id/rs_label_place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="2dip"
+        android:textStyle="bold"
+        android:layout_margin="0dip"
+        android:background="@drawable/border"
+        android:text="@string/place"
         />
 
     <TextView
@@ -108,9 +118,7 @@
         android:gravity="center"
         android:padding="2dip"
         android:background="#FFF"
-        android:layout_marginTop="6dip"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
+        android:layout_margin="0dip"
         />
 
     <TextView
@@ -120,35 +128,33 @@
         android:gravity="center"
         android:padding="2dip"
         android:background="#FFF"
-        android:layout_marginTop="6dip"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
+        android:layout_margin="0dip"
         />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/rs_label_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="#FFF"
-        android:layout_marginTop="6dip"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
-        android:padding="2dip">
-        <ImageView
-            android:id="@+id/rank1_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            />
-        <TextView
-            android:id="@+id/rank1_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingLeft="8dip"
-            android:textStyle="bold"
-            />
-    </LinearLayout>
+        android:padding="2dip"
+        android:textStyle="bold"
+        android:layout_margin="0dip"
+        android:background="@drawable/border"
+        android:text="@string/result"
+        />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_below="@+id/search"
+        android:layout_above="@+id/path"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:choiceMode="singleChoice"
+        android:layout_margin="0sp"
+        android:divider="#888"
+        android:dividerHeight="1.0sp"
+        android:listSelector="#00000000"
+        />
 
     <TextView
         android:id="@+id/score"
