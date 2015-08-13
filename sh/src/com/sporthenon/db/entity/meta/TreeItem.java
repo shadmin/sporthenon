@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"~TREE_ITEM\"")
+@Table(name = "\"~TreeItem\"")
 public class TreeItem  {
 	
 	@Id

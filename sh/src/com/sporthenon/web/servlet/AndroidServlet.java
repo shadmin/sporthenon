@@ -79,12 +79,12 @@ public class AndroidServlet extends AbstractServlet {
 	        else if (p2.equalsIgnoreCase(Event.alias)) {
 	        	String[] t = p.split("\\-");
 	        	String filter = "sport.id=" + t[0] + " and championship.id=" + t[1];
-	        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseHelper.getPicklist(Result.class, "event", filter, null, "x.event.index, x.event." + label, lang), lInactive, t[0], t[1], "SELECT COUNT(DISTINCT id_subevent) from \"RESULT\" WHERE id_sport=" + t[0] + " and id_championship=" + t[1] + " and id_event=#ID#");
+	        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseHelper.getPicklist(Result.class, "event", filter, null, "x.event.index, x.event." + label, lang), lInactive, t[0], t[1], "SELECT COUNT(DISTINCT id_subevent) from \"Result\" WHERE id_sport=" + t[0] + " and id_championship=" + t[1] + " and id_event=#ID#");
 	        }
 	        else if (p2.equalsIgnoreCase("SE")) {
 	        	String[] t = p.split("\\-");
 	        	String filter = "sport.id=" + t[0] + " and championship.id=" + t[1] + " and event.id=" + t[2];
-	        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent", filter, null, "x.subevent.index, x.subevent." + label, lang), lInactive, t[0], t[1] + "-" + t[2], "SELECT COUNT(DISTINCT id_subevent2) from \"RESULT\" WHERE id_sport=" + t[0] + " and id_championship=" + t[1] + " and id_event=" + t[2] + " and id_subevent=#ID#");
+	        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent", filter, null, "x.subevent.index, x.subevent." + label, lang), lInactive, t[0], t[1] + "-" + t[2], "SELECT COUNT(DISTINCT id_subevent2) from \"Result\" WHERE id_sport=" + t[0] + " and id_championship=" + t[1] + " and id_event=" + t[2] + " and id_subevent=#ID#");
 	        }
 	        else if (p2.equalsIgnoreCase("SE2")) {
 	        	String[] t = p.split("\\-");

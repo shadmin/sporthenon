@@ -170,7 +170,7 @@ public class DatabaseHelper {
 				tr = getTransaction();
 				if (tr != null) tr.begin();
 				em = getEntityManager();
-				Object o = em.find(entity, new Integer(String.valueOf(id)));
+				Object o = em.find(entity, id instanceof Integer ? (Integer) id : String.valueOf(id));
 				if (tr != null) tr.commit();
 				return o;
 			}
@@ -608,7 +608,7 @@ public class DatabaseHelper {
 	
 	public static void saveExternalLinks(String alias, Integer id, String s) {
 		try {
-			executeUpdate("DELETE FROM \"~EXTERNAL_LINK\" WHERE ENTITY='" + alias + "' AND ID_ITEM=" + id);
+			executeUpdate("DELETE FROM \"~ExternalLink\" WHERE ENTITY='" + alias + "' AND ID_ITEM=" + id);
 			for (String s_ : s.split("\\s")) {
 				if (StringUtils.notEmpty(s_)) {
 					ExternalLink link = new ExternalLink();

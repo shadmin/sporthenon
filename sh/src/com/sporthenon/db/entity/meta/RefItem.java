@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"~REF_ITEM\"")
+@Table(name = "\"~RefItem\"")
 public class RefItem  {
 	
 	@Id

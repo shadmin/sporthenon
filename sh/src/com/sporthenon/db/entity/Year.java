@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.sporthenon.db.entity.meta.Metadata;
 
 @Entity
-@Table(name = "\"YEAR\"")
+@Table(name = "\"Year\"")
 public class Year {
 	
 	public static final transient String alias = "YR";

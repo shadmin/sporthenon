@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import com.sporthenon.db.entity.meta.Metadata;
 
 @Entity
-@Table(name = "\"COMPLEX\"")
+@Table(name = "\"Complex\"")
 public class Complex {
 	
 	public static final transient String alias = "CX";
@@ -39,9 +39,6 @@ public class Complex {
 	
 	@Column(name = "ref")
 	private Integer ref;
-	
-	@Column(name = "img_url")
-	private String imgUrl;
 	
 	@Embedded
 	private Metadata metadata;
@@ -106,14 +103,6 @@ public class Complex {
 		this.ref = ref;
 	}
 	
-	public String getImgUrl() {
-		return imgUrl;
-	}
-
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
-	}
-
 	@Override
 	public String toString() {
 		return label + (city != null ? ", " + city : "") + " [#" + id + "]";

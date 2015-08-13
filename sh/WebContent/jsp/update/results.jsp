@@ -11,11 +11,12 @@ cal.add(Calendar.DAY_OF_YEAR, -1);
 String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), lang, "dd/MM/yyyy");
 %>
 <jsp:include page="/jsp/common/header.jsp" />
-<div id="update">
+<div id="update-results" class="update">
+	<jsp:include page="/jsp/update/toolbar.jsp" />
 	<div class="fieldset">
-		<div class="fstitle"><%=StringUtils.text("create.modify.result", session)%></div>
+		<div class="fstitle"><%=StringUtils.text("update.results", session).toUpperCase()%></div>
 		<div class="fscontent" style="height:auto;">
-			<div style="float:right;text-align:right;"><a href="javascript:$('header').setStyle({ opacity: 0.4 });$('content').setStyle({ opacity: 0.4 });dHelp.open();"><b><%=StringUtils.text("help", session)%></b></a><br/><a href="javascript:loadDataDialog('country');"><%=StringUtils.text("country.codes", session)%></a><br/><a href="javascript:loadDataDialog('state');"><%=StringUtils.text("country.states", session)%></a><br/><a href="javascript:loadDataDialog('team');"><%=StringUtils.text("entity.TM", session)%></a></div>
+			<div style="float:right;text-align:right;"><a href="javascript:loadDataDialog('country');"><%=StringUtils.text("country.codes", session)%></a><br/><a href="javascript:loadDataDialog('state');"><%=StringUtils.text("country.states", session)%></a><br/><a href="javascript:loadDataDialog('team');"><%=StringUtils.text("entity.TM", session)%></a></div>
 			<!-- RESULT INFO -->
 			<div style="float:left;padding-right:10px;">
 			<table style="margin-top:0px;">
@@ -48,16 +49,16 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 			<!-- RANKINGS -->
 			<div>
 			<table style="margin-top:0px;">
-				<tr><td><input type="text" id="rk1" tabindex="100" name="<%=StringUtils.text("rank.1", session)%>"/><a href="javascript:clearValue('rk1');">[X]</a></td><td><a href="javascript:initPersonList(1);"><img src="/img/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs1" tabindex="101" name="<%=StringUtils.text("result.score", session)%>" style="width:120px;"/></td></tr>
-				<tr><td><input type="text" id="rk2" tabindex="102" name="<%=StringUtils.text("rank.2", session)%>"/><a href="javascript:clearValue('rk2');">[X]</a></td><td><a href="javascript:initPersonList(2);"><img src="/img/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs2" tabindex="103" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
-				<tr><td><input type="text" id="rk3" tabindex="104" name="<%=StringUtils.text("rank.3", session)%>"/><a href="javascript:clearValue('rk3');">[X]</a></td><td><a href="javascript:initPersonList(3);"><img src="/img/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs3" tabindex="105" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
-				<tr><td><input type="text" id="rk4" tabindex="106" name="<%=StringUtils.text("rank.4", session)%>"/><a href="javascript:clearValue('rk4');">[X]</a></td><td><a href="javascript:initPersonList(4);"><img src="/img/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs4" tabindex="107" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
-				<tr><td><input type="text" id="rk5" tabindex="108" name="<%=StringUtils.text("rank.5", session)%>"/><a href="javascript:clearValue('rk5');">[X]</a></td><td><a href="javascript:initPersonList(5);"><img src="/img/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs5" tabindex="109" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
-				<tr><td><input type="text" id="rk6" tabindex="110" name="<%=StringUtils.text("rank.6", session)%>"/><a href="javascript:clearValue('rk6');">[X]</a></td><td><a href="javascript:initPersonList(6);"><img src="/img/personlist.png"/></a></td></tr>
-				<tr><td><input type="text" id="rk7" tabindex="111" name="<%=StringUtils.text("rank.7", session)%>"/><a href="javascript:clearValue('rk7');">[X]</a></td><td><a href="javascript:initPersonList(7);"><img src="/img/personlist.png"/></a></td></tr>
-				<tr><td><input type="text" id="rk8" tabindex="112" name="<%=StringUtils.text("rank.8", session)%>"/><a href="javascript:clearValue('rk8');">[X]</a></td><td><a href="javascript:initPersonList(8);"><img src="/img/personlist.png"/></a></td></tr>
-				<tr><td><input type="text" id="rk9" tabindex="113" name="<%=StringUtils.text("rank.9", session)%>"/><a href="javascript:clearValue('rk9');">[X]</a></td><td><a href="javascript:initPersonList(9);"><img src="/img/personlist.png"/></a></td></tr>
-				<tr><td><input type="text" id="rk10" tabindex="114" name="<%=StringUtils.text("rank.10", session)%>"/><a href="javascript:clearValue('rk10');">[X]</a></td><td><a href="javascript:initPersonList(10);"><img src="/img/personlist.png"/></a></td></tr>
+				<tr><td><input type="text" id="rk1" tabindex="100" name="<%=StringUtils.text("rank.1", session)%>"/><a href="javascript:clearValue('rk1');">[X]</a></td><td><a href="javascript:initPersonList(1);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs1" tabindex="101" name="<%=StringUtils.text("result.score", session)%>" style="width:120px;"/></td></tr>
+				<tr><td><input type="text" id="rk2" tabindex="102" name="<%=StringUtils.text("rank.2", session)%>"/><a href="javascript:clearValue('rk2');">[X]</a></td><td><a href="javascript:initPersonList(2);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs2" tabindex="103" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
+				<tr><td><input type="text" id="rk3" tabindex="104" name="<%=StringUtils.text("rank.3", session)%>"/><a href="javascript:clearValue('rk3');">[X]</a></td><td><a href="javascript:initPersonList(3);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs3" tabindex="105" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
+				<tr><td><input type="text" id="rk4" tabindex="106" name="<%=StringUtils.text("rank.4", session)%>"/><a href="javascript:clearValue('rk4');">[X]</a></td><td><a href="javascript:initPersonList(4);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs4" tabindex="107" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
+				<tr><td><input type="text" id="rk5" tabindex="108" name="<%=StringUtils.text("rank.5", session)%>"/><a href="javascript:clearValue('rk5');">[X]</a></td><td><a href="javascript:initPersonList(5);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs5" tabindex="109" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
+				<tr><td><input type="text" id="rk6" tabindex="110" name="<%=StringUtils.text("rank.6", session)%>"/><a href="javascript:clearValue('rk6');">[X]</a></td><td><a href="javascript:initPersonList(6);"><img src="/img/update/personlist.png"/></a></td></tr>
+				<tr><td><input type="text" id="rk7" tabindex="111" name="<%=StringUtils.text("rank.7", session)%>"/><a href="javascript:clearValue('rk7');">[X]</a></td><td><a href="javascript:initPersonList(7);"><img src="/img/update/personlist.png"/></a></td></tr>
+				<tr><td><input type="text" id="rk8" tabindex="112" name="<%=StringUtils.text("rank.8", session)%>"/><a href="javascript:clearValue('rk8');">[X]</a></td><td><a href="javascript:initPersonList(8);"><img src="/img/update/personlist.png"/></a></td></tr>
+				<tr><td><input type="text" id="rk9" tabindex="113" name="<%=StringUtils.text("rank.9", session)%>"/><a href="javascript:clearValue('rk9');">[X]</a></td><td><a href="javascript:initPersonList(9);"><img src="/img/update/personlist.png"/></a></td></tr>
+				<tr><td><input type="text" id="rk10" tabindex="114" name="<%=StringUtils.text("rank.10", session)%>"/><a href="javascript:clearValue('rk10');">[X]</a></td><td><a href="javascript:initPersonList(10);"><img src="/img/update/personlist.png"/></a></td></tr>
 			</table>
 			<table>
 				<tr><td><input type="text" id="img" tabindex="13" name="<%=StringUtils.text("photo.url", session)%>" style="width:400px;"/></td></tr>
@@ -89,7 +90,7 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 			<table><tr>
 				<td><input id='addbtn' type='button' class='button' onclick='saveResult();' value='<%=StringUtils.text("button.add", session)%>'/></td>
 				<td><input id='modifybtn' type='button' class='button' onclick='saveResult();' value='<%=StringUtils.text("button.modify", session)%>' style="display:none;"/></td>
-				<td id="msg" style="font-weight:bold;padding:5px;height:45px;"></td>
+				<td id="msg"></td>
 			</tr></table>
 		</div>
 	</div>
@@ -98,7 +99,7 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 </div>
 <script type="text/javascript"><!--
 window.onload = function() {
-	initUpdate("<%=request.getAttribute("value")%>");
+	initUpdateResults("<%=request.getAttribute("value")%>");
 }
 --></script>
 <jsp:include page="/jsp/common/footer.jsp" />

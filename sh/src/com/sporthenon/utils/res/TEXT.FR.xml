@@ -18,6 +18,7 @@
 	<entry key="menu.login">Connexion</entry>
 	<entry key="menu.logout">Déconnexion</entry>
 	<entry key="menu.update">Mettre à jour</entry>
+	<entry key="menu.cbarea">Espace contributeur</entry>
 	<entry key="share">Partager</entry>
 <!-- GLOBAL -->
 	<entry key="ok">OK</entry>
@@ -39,6 +40,7 @@
 	<entry key="button.info">Infos</entry>
 	<entry key="button.close">Fermer</entry>
 	<entry key="entity.CB">Contributeurs</entry>
+	<entry key="entity.CO">Contributions</entry>
 	<entry key="entity.CP">Championnats</entry>
 	<entry key="entity.CT">Villes</entry>
 	<entry key="entity.CX">Complexes</entry>
@@ -59,6 +61,7 @@
 	<entry key="entity.WL">Victoires/Défaites</entry>
 	<entry key="entity.YR">Années</entry>
 	<entry key="entity.CB.1">Contributeur</entry>
+	<entry key="entity.CO.1">Contribution</entry>
 	<entry key="entity.CP.1">Championnat</entry>
 	<entry key="entity.CT.1">Ville</entry>
 	<entry key="entity.CX.1">Complexe</entry>
@@ -107,6 +110,7 @@
 	<entry key="first.name">Prénom</entry>
 	<entry key="city">Ville</entry>
 	<entry key="name">Nom</entry>
+	<entry key="names">Noms</entry>
 	<entry key="record">Palmarès</entry>
 	<entry key="record2">Record</entry>
 	<entry key="rec.OLYMP">Jeux Olympiques</entry>
@@ -157,7 +161,6 @@
 	<entry key="x.scopes">types</entry>
 	<entry key="no.result">La recherche n'a renvoyé aucun résultat.</entry>
 	<entry key="win.records">RECORDS DE VICTOIRES</entry>
-	<entry key="search.results">Résultats de recherche</entry>
 	<entry key="draw">Tableau</entry>
 	<entry key="quarterfinal">Quart de finale</entry>
 	<entry key="semifinal">Demi-finale</entry>
@@ -350,10 +353,13 @@
 	<entry key="pwd.nomatch">Les mots de passe saisis ne correspondent pas.</entry>
 	<entry key="select.sports.contributor">Sélectionnez les sports sur lesquels vous souhaitez contribuer</entry>
 <!-- UPDATE -->
+	<entry key="update.overview">Rapport global</entry>
+	<entry key="update.results">Ajouter/modifier un résultat</entry>
+	<entry key="update.data">Administrer les données</entry>
+	<entry key="update.help">Aide</entry>
 	<entry key="err.invalid.athlete"><![CDATA[Format incorrect [#S#]: doit être "Nom, Prénom (CodePays, NomEquipe)"]]></entry>
 	<entry key="err.invalid.team"><![CDATA[Format incorrect [#S#]: doit être "NomEquipe (CodePays)"]]></entry>
 	<entry key="err.invalid.place"><![CDATA[Format incorrect [#S#]: doit être "NomComplexe, Ville, CodePays"]]></entry>
-	<entry key="create.modify.result">CRÉER/MODIFIER UN RÉSULTAT</entry>
 	<entry key="date.from">Du</entry>
 	<entry key="date.to">Au</entry>
 	<entry key="date.pattern">JJ/MM/AAAA</entry>
@@ -368,7 +374,16 @@
 	<entry key="co.updates">Modifications</entry>
 	<entry key="country.codes">Codes pays</entry>
 	<entry key="country.states">Codes états US</entry>
-	<entry key="help">Aide</entry>
 	<entry key="photo.url">URL photo</entry>
 	<entry key="for.any.request">Pour toute question, merci d'envoyer un e-mail à</entry>
+	<entry key="new">Nouveau</entry>
+	<entry key="save">Enregistrer</entry>
+	<entry key="copy">Copier</entry>
+	<entry key="first">Premier</entry>
+	<entry key="previous">Précédent</entry>
+	<entry key="find">Chercher</entry>
+	<entry key="next">Suivant</entry>
+	<entry key="last">Dernier</entry>
+	<entry key="update.ok">Enregistrement OK</entry>
+	<entry key="click.drag.drop">Cliquer ou glisser/déposer</entry>
 </properties>

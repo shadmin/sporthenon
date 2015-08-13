@@ -134,7 +134,7 @@ window.onload = function() {
 	changeLeague('nfl');
 	initTabControl();
 <%
-	List<Object[]> l = (List<Object[]>) DatabaseHelper.executeNative("select distinct id_league, position from \"HALL_OF_FAME\" where position is not null and position<>'' order by id_league, position");
+	List<Object[]> l = (List<Object[]>) DatabaseHelper.executeNative("select distinct id_league, position from \"HallOfFame\" where position is not null and position<>'' order by id_league, position");
 	for (Object[] tObj : l) {
 		String league = String.valueOf(tObj[0]);
 		String position = String.valueOf(tObj[1]);

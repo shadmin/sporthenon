@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.sporthenon.utils.StringUtils" %>
-<!-- REPORT ERROR -->
+<!-- Report Error -->
 <div id="d-error" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fstitle"><%=StringUtils.text("report.error", session).toUpperCase()%></div>
@@ -9,7 +9,7 @@
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="saveError();"/><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dError);"/></div>
 </div>
 </div>
-<!-- LINK -->
+<!-- Link -->
 <div id="d-link" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fstitle"><%=StringUtils.text("dialog.link", session)%></div>
@@ -17,7 +17,7 @@
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dLink);"/></div>
 </div>
 </div>
-<!-- INFO -->
+<!-- Info -->
 <div id="d-info" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fstitle"><%=StringUtils.text("dialog.info", session)%></div>
@@ -28,14 +28,14 @@
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dInfo);"/></div>
 </div>
 </div>
-<!-- DATA -->
+<!-- Data -->
 <div id="d-data" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div id="datatip" class="fscontent"></div>
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dDataTip);"/></div>
 </div>
 </div>
-<!-- PERSON LIST -->
+<!-- Person List -->
 <div id="d-plist" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fstitle">Person List</div>
@@ -43,7 +43,15 @@
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="savePersonList();"/><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dPersonList);"/></div>
 </div>
 </div>
-<!-- HELP -->
+<!-- Find -->
+<div id="d-find" class="dialog" style="display:none;">
+<div class="fieldset">
+	<div class="fstitle"><%=StringUtils.text("find", session)%></div>
+	<div class="fscontent"><input type="text" id="fpattern" onkeyup="searchEntity();"/><div id="fresults"></div></div>
+	<div class="dlgbuttons"><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dFind);"/></div>
+</div>
+</div>
+<!-- Help -->
 <div id="d-help" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fstitle">Help</div>
@@ -74,5 +82,6 @@ dLink = new Control.Modal($('d-link'),{ closeOnClick: false, fade: false });
 dInfo = new Control.Modal($('d-info'),{ closeOnClick: false, fade: false });
 dDataTip = new Control.Modal($('d-data'),{ closeOnClick: false, fade: false });
 dPersonList = new Control.Modal($('d-plist'),{ closeOnClick: false, fade: false });
+dFind = new Control.Modal($('d-find'),{ closeOnClick: false, fade: false });
 dHelp = new Control.Modal($('d-help'),{ closeOnClick: false, fade: false });
 --></script>

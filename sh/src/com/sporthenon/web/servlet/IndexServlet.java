@@ -23,9 +23,9 @@ public class IndexServlet extends AbstractServlet {
 
 private static final long serialVersionUID = 1L;
 
-	public static final String REPORT_QUERY1 = "SELECT SP.label#LANG#, COUNT(*) FROM \"RESULT\" RS LEFT JOIN \"SPORT\" SP ON RS.id_sport=SP.id GROUP BY SP.label#LANG# ORDER BY 2 DESC LIMIT 15";
-	public static final String REPORT_QUERY2 = "SELECT CN.label#LANG#, COUNT(*) FROM \"COUNTRY\" CN LEFT JOIN \"PERSON\" PR ON PR.id_country=CN.id GROUP BY CN.label#LANG# ORDER BY 2 DESC LIMIT 15";
-	public static final String REPORT_QUERY3 = "SELECT SP.label#LANG#, COUNT(*) FROM \"~REQUEST\" RQ LEFT JOIN \"SPORT\" SP ON SP.ID=CAST(SUBSTRING(params, 0, POSITION('-' IN params)) AS INTEGER) WHERE RQ.type='RS' GROUP BY SP.id, SP.label#LANG# ORDER BY 2 DESC LIMIT 10";
+	public static final String REPORT_QUERY1 = "SELECT SP.label#LANG#, COUNT(*) FROM \"Result\" RS LEFT JOIN \"Sport\" SP ON RS.id_sport=SP.id GROUP BY SP.label#LANG# ORDER BY 2 DESC LIMIT 15";
+	public static final String REPORT_QUERY2 = "SELECT CN.label#LANG#, COUNT(*) FROM \"Country\" CN LEFT JOIN \"Athlete\" PR ON PR.id_country=CN.id GROUP BY CN.label#LANG# ORDER BY 2 DESC LIMIT 15";
+	public static final String REPORT_QUERY3 = "SELECT SP.label#LANG#, COUNT(*) FROM \"~Request\" RQ LEFT JOIN \"Sport\" SP ON SP.ID=CAST(SUBSTRING(params, 0, POSITION('-' IN params)) AS INTEGER) WHERE RQ.type='RS' GROUP BY SP.id, SP.label#LANG# ORDER BY 2 DESC LIMIT 10";
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);

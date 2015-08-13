@@ -18,6 +18,7 @@
 	<entry key="menu.login">Login</entry>
 	<entry key="menu.logout">Logout</entry>
 	<entry key="menu.update">Update</entry>
+	<entry key="menu.cbarea">Contributor area</entry>
 	<entry key="share">Share</entry>
 <!-- GLOBAL -->
 	<entry key="ok">OK</entry>
@@ -39,6 +40,7 @@
 	<entry key="button.info">Info</entry>
 	<entry key="button.close">Close</entry>
 	<entry key="entity.CB">Contributors</entry>
+	<entry key="entity.CO">Contributions</entry>
 	<entry key="entity.CP">Championships</entry>
 	<entry key="entity.CT">Cities</entry>
 	<entry key="entity.CX">Complexes</entry>
@@ -59,6 +61,7 @@
 	<entry key="entity.WL">Wins/Losses</entry>
 	<entry key="entity.YR">Years</entry>
 	<entry key="entity.CB.1">Contributor</entry>
+	<entry key="entity.CO.1">Contribution</entry>
 	<entry key="entity.CP.1">Championship</entry>
 	<entry key="entity.CT.1">City</entry>
 	<entry key="entity.CX.1">Complex</entry>
@@ -107,6 +110,7 @@
 	<entry key="first.name">First Name</entry>
 	<entry key="city">City</entry>
 	<entry key="name">Name</entry>
+	<entry key="names">Names</entry>
 	<entry key="record">Record</entry>
 	<entry key="record2">Record</entry>
 	<entry key="rec.OLYMP">Olympic Games</entry>
@@ -157,7 +161,6 @@
 	<entry key="x.scopes">Scopes</entry>
 	<entry key="no.result">Your search returned no results.</entry>
 	<entry key="win.records">WIN RECORDS</entry>
-	<entry key="search.results">Search Results</entry>
 	<entry key="draw">Draw</entry>
 	<entry key="quarterfinal">Quarterfinal</entry>
 	<entry key="semifinal">Semifinal</entry>
@@ -351,10 +354,13 @@
 	<entry key="pwd.nomatch">The entered passwords do not match.</entry>
 	<entry key="select.sports.contributor">Select the sports you want to contribute to</entry>
 <!-- UPDATE -->
+	<entry key="update.overview">Overview</entry>
+	<entry key="update.results">Add/modify a result</entry>
+	<entry key="update.data">Administer data</entry>
+	<entry key="update.help">Help</entry>
 	<entry key="err.invalid.athlete"><![CDATA[Invalid format [#S#]: should be "Lastname, FirstName (CountryCode, TeamName)"]]></entry>
 	<entry key="err.invalid.team"><![CDATA[Invalid format [#S#]: should be "TeamName (CountryCode)"]]></entry>
 	<entry key="err.invalid.place"><![CDATA[Invalid format [#S#]: should be "ComplexName, City, CountryCode"]]></entry>
-	<entry key="create.modify.result">CREATE/MODIFY A RESULT</entry>
 	<entry key="date.from">From</entry>
 	<entry key="date.to">To</entry>
 	<entry key="date.pattern">DD/MM/YYYY</entry>
@@ -369,7 +375,16 @@
 	<entry key="co.updates">Updates</entry>
 	<entry key="country.codes">Country codes</entry>
 	<entry key="country.states">US states codes</entry>
-	<entry key="help">Help</entry>
 	<entry key="photo.url">Photo URL</entry>
 	<entry key="for.any.request">For any request, please send an email to</entry>
+	<entry key="new">New</entry>
+	<entry key="save">Save</entry>
+	<entry key="copy">Copy</entry>
+	<entry key="first">First</entry>
+	<entry key="previous">Previous</entry>
+	<entry key="find">Find</entry>
+	<entry key="next">Next</entry>
+	<entry key="last">Last</entry>
+	<entry key="update.ok">Update OK</entry>
+	<entry key="click.drag.drop">Click or drag/drop</entry>
 </properties>

@@ -397,6 +397,7 @@ var dInfo = null;
 var dDataTip = null;
 var dPersonList = null;
 var dHelp = null;
+var dFind = null;
 function share(type) {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	var langParam = '?lang=' + lang;
@@ -1236,7 +1237,7 @@ function createAccount() {
 		accountErr(TX_MSPORTS);
 		{return;}
 	}
-	$('rmsg').update('<img src="/img/db/loading.gif?6"/>').removeClassName('error').removeClassName('success').show();
+	$('rmsg').update('<div><img src="/img/db/loading.gif?6"/></div>').removeClassName('error').removeClassName('success').show();
 	var h = $H();
 	$$('.register input').each(function(el) {
 		h.set(el.id, el.value);
@@ -1266,8 +1267,9 @@ function moveSport(sp, list1, list2) {
 /*============================
   ========== UPDATE ========== 
   ============================*/
+/*========== RESULTS ==========*/
 var tValues = [];
-function initUpdate(value) {
+function initUpdateResults(value) {
 	['sp', 'cp', 'ev', 'se', 'se2', 'yr', 'pl1', 'pl2'].each(function(s){
 		new Ajax.Autocompleter(
 			s,
@@ -1276,7 +1278,7 @@ function initUpdate(value) {
 			{ paramName: 'value', minChars: 2, frequency: 0.05, afterUpdateElement: setValue}
 		);
 	});
-	$$('#update input', '#update textarea').each(function(el){
+	$$('#update-results input', '#update-results textarea').each(function(el){
 		if ($(el).type == 'button') {
 			return;
 		}
@@ -1414,11 +1416,16 @@ function clearValue(s) {
 	$(s).focus();
 }
 function setValue(text, li) {
-	var t = li.id.split('-');
-	tValues[text.id] = t[1];
-	$(text).removeClassName('completed2').addClassName('completed');
-	if (t.length > 2) {
-		updateType(t[0], t[2]);
+	var t = li.id.split('|');
+	if (t[0].indexOf('-' != -1)) {
+		$(t[0]).value = t[1];
+	}
+	else {
+		tValues[text.id] = t[1];
+		$(text).removeClassName('completed2').addClassName('completed');
+		if (t.length > 2) {
+			updateType(t[0], t[2]);
+		}	
 	}
 }
 var currentTp = null;
@@ -1461,7 +1468,7 @@ function loadResult(type) {
 	});
 }
 function saveResult() {
-	$('msg').update('<img src="/img/db/loading.gif?6"/>');
+	$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
 	var h = $H({sp: tValues['sp']});
 	var t = ['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'cmt', 'img', 'exl', 'rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'rk6', 'rk7', 'rk8', 'rk9', 'rk10', 'rs1', 'rs2', 'rs3', 'rs4', 'rs5', 'drid', 'qf1w', 'qf1l', 'qf1rs', 'qf2w', 'qf2l', 'qf2rs', 'qf3w', 'qf3l', 'qf3rs', 'qf4w', 'qf4l', 'qf4rs', 'sf1w', 'sf1l', 'sf2w', 'sf1rs', 'sf2l', 'sf2rs', 'thdw', 'thdl', 'thdrs'];
 	for (var i = 1 ; i <= pListCount ; i++) {
@@ -1477,7 +1484,7 @@ function saveResult() {
 		onSuccess: function(response){
 			var text = response.responseText;
 			$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
-			$('msg').update(text.replace(/^.*#|ERR\:/i, ''));
+			$('msg').update('<div>' + text.replace(/^.*#|ERR\:/i, '') + '</div>');
 			if (text.indexOf('ERR:') == -1) {
 				$('addbtn').hide();
 				$('modifybtn').show();
@@ -1575,4 +1582,272 @@ function addPersonList() {
 		setPLInput('plist' + i);
 	}
 	pListCount += 10;
+}
+/*========== DATA ==========*/
+var dz = null;
+function initUpdateData() {
+	$$('#update-data input').each(function(el){
+		if ($(el).id.lastIndexOf('-l') == $(el).id.length - 2) {
+			new Ajax.Autocompleter(
+				$(el).id,
+				'ajaxsearch',
+				'/update/ajax/' + $(el).id,
+				{ paramName: 'value', minChars: 2, frequency: 0.05, afterUpdateElement: setValue}
+			);
+		}
+		if ($(el).type == 'button') {
+			return;
+		}
+		$(el).value = $(el).name;
+		$(el).addClassName('default');
+		Event.observe($(el), 'focus', function(){
+			if ($(this).value == $(this).name) {
+				$(this).value = '';
+			}
+		});
+		Event.observe($(el), 'keypress', function(){
+			$(this).removeClassName('completed');
+		});
+		Event.observe($(el), 'blur', function(){
+			if ($(this).value == '') {
+				$(this).removeClassName('completed');
+				var s = $(this).id.substring(0, $(this).id.lastIndexOf('-l'));
+				if ($(s)) {
+					$(s).value = '';
+				}
+			}
+			else {
+				$(this).addClassName('completed');
+			}
+		});
+	});
+	dz = new Dropzone($('dz-file'), {
+		url: '/',
+		paramName: 'photo-file',
+		addRemoveLinks: false});
+	dz.on("complete", function(file) {
+		$$('#imgzone p')[0].remove();
+	});
+	showPanel('PR');
+}
+var currentAlias = null;
+var currentId = null;
+function showPanel(p) {
+	if (currentAlias != null) {
+		$('link-' + currentAlias).style.fontWeight = 'normal';
+		$('table-' + currentAlias).hide();
+	}
+	$('link-' + p).style.fontWeight = 'bold';
+	$('table-' + p).show();
+	currentAlias = p;
+	loadEntity('last');
+}
+function loadEntity(action_, id_) {
+	var h = $H({action: action_, alias: currentAlias, id: (id_ ? id_ : currentId)});
+	new Ajax.Request('/update/load-entity', {
+		onSuccess: function(response){
+			setEntityValues(response.responseText);
+		},
+		parameters: h
+	});
+	$('msg').update();
+}
+function setEntityValues(text) {
+	var t = text.split('~');
+	if (t.length <= 1) {
+		return;
+	}
+	var i = 0;
+	currentId = t[i++];
+	if (dz != null) {
+		$('dz-file').update('<p>' + TX_CLICK_DRAGDROP + '</p>');
+		dz.options.url = 'ImageServlet?upload-photo&entity=' + currentAlias + '&id=' + currentId;
+	}
+	if (currentAlias == 'PR') {
+		$('pr-id').value = currentId;
+		$('pr-lastname').value = t[i++];
+		$('pr-firstname').value = t[i++];
+		$('pr-sport').value = t[i++];
+		$('pr-sport-l').value = t[i++];
+		$('pr-team').value = t[i++];
+		$('pr-team-l').value = t[i++];
+		$('pr-country').value = t[i++];
+		$('pr-country-l').value = t[i++];
+		$('pr-link').value = t[i++];
+		$('pr-link-l').value = t[i++];
+	}
+	else if (currentAlias == 'CP') {
+		$('cp-id').value = currentId;
+		$('cp-label').value = t[i++];
+		$('cp-labelfr').value = t[i++];
+		$('cp-index').value = t[i++];
+	}
+	else if (currentAlias == 'CT') {
+		$('ct-id').value = currentId;
+		$('ct-label').value = t[i++];
+		$('ct-labelfr').value = t[i++];
+		$('ct-state').value = t[i++];
+		$('ct-state-l').value = t[i++];
+		$('ct-country').value = t[i++];
+		$('ct-country-l').value = t[i++];
+		$('ct-link').value = t[i++];
+		$('ct-link-l').value = t[i++];
+	}
+	else if (currentAlias == 'CX') {
+		$('cx-id').value = currentId;
+		$('cx-label').value = t[i++];
+		$('cx-labelfr').value = t[i++];
+		$('cx-city').value = t[i++];
+		$('cx-city-l').value = t[i++];
+		$('cx-link').value = t[i++];
+		$('cx-link-l').value = t[i++];
+	}
+	else if (currentAlias == 'CN') {
+		$('cn-id').value = currentId;
+		$('cn-label').value = t[i++];
+		$('cn-labelfr').value = t[i++];
+		$('cn-code').value = t[i++];
+	}
+	else if (currentAlias == 'EV') {
+		$('ev-id').value = currentId;
+		$('ev-label').value = t[i++];
+		$('ev-labelfr').value = t[i++];
+		$('ev-type').value = t[i++];
+		$('ev-type-l').value = t[i++];
+		$('ev-index').value = t[i++];
+	}
+	else if (currentAlias == 'OL') {
+		$('ol-id').value = currentId;
+		$('ol-year').value = t[i++];
+		$('ol-year-l').value = t[i++];
+		$('ol-city').value = t[i++];
+		$('ol-city-l').value = t[i++];
+		$('ol-type').value = t[i++];
+		$('ol-start').value = t[i++];
+		$('ol-end').value = t[i++];
+		$('ol-sports').value = t[i++];
+		$('ol-events').svalue = t[i++];
+		$('ol-countries').value = t[i++];
+		$('ol-persons').value = t[i++];
+	}
+	else if (currentAlias == 'SP') {
+		$('sp-id').value = currentId;
+		$('sp-label').value = t[i++];
+		$('sp-labelfr').value = t[i++];
+		$('sp-type').value = t[i++];
+		$('sp-index').value = t[i++];
+	}
+	else if (currentAlias == 'ST') {
+		$('st-id').value = currentId;
+		$('st-label').value = t[i++];
+		$('st-labelfr').value = t[i++];
+		$('st-code').value = t[i++];
+		$('st-capital').value = t[i++];
+	}
+	else if (currentAlias == 'TM') {
+		$('tm-id').value = currentId;
+		$('tm-label').value = t[i++];
+		$('tm-sport').value = t[i++];
+		$('tm-sport-l').value = t[i++];
+		$('tm-country').value = t[i++];
+		$('tm-country-l').value = t[i++];
+		$('tm-league').value = t[i++];
+		$('tm-league-l').value = t[i++];
+		$('tm-conference').value = t[i++];
+		$('tm-division').value = t[i++];
+		$('tm-comment').value = t[i++];
+		$('tm-year1').value = t[i++];
+		$('tm-year2').value = t[i++];
+		$('tm-link').value = t[i++];
+		$('tm-link-l').value = t[i++];
+	}
+	else if (currentAlias == 'YR') {
+		$('yr-id').value = currentId;
+		$('yr-label').value = t[i++];
+	}
+	if (currentAlias == 'PR' || currentAlias == 'CT' || currentAlias == 'CX') {
+		if (t[i++] != '') {
+			$('currentimg').update('<img alt="" src="' + IMG_URL + t[i - 1] + '"/>');
+			$('currentimg').show();
+		}
+		else {
+			$('currentimg').hide();
+		}
+		$('imgzone').show();
+	}
+	else {
+		$('imgzone').hide();
+	}
+	$$('#update-data input').each(function(el){
+		if ($(el).value != '' && $(el).id.indexOf('-id') == -1) {
+			$(el).addClassName('completed');
+		}
+		else {
+			$(el).removeClassName('completed');
+		}
+	});
+}
+function newEntity() {
+	var t = $$('#table-' + currentAlias + ' input');
+	t.each(function(el){
+		$(el).value = '';
+		$(el).removeClassName('completed');
+	});
+	currentId = null;
+	t[1].focus();
+}
+function saveEntity() {
+	$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
+	var h = $H({alias: currentAlias, id: currentId});
+	$$('#table-' + currentAlias + ' input').each(function(el){
+		if ($(el).id.lastIndexOf('-l') < $(el).id.length - 2) {
+			h.set($(el).id, $(el).value);
+		}
+	});
+	new Ajax.Request('/update/save-entity', {
+		onSuccess: function(response){
+			var text = response.responseText;
+			$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
+			$('msg').update('<div>' + text.replace(/^ERR\:/i, '') + '</div>');
+			if (text.indexOf('ERR:') == -1) {
+				$(currentAlias.toLowerCase() + '-id').value = text.substring(text.lastIndexOf('#') + 1);	
+			}
+		},
+		parameters: h
+	});
+}
+function copyEntity() {
+	$(currentAlias.toLowerCase() + '-id').value = '';
+	currentId = null;
+}
+function findEntity() {
+	$('header').setStyle({ opacity: 0.4 });
+	$('content').setStyle({ opacity: 0.4 });
+	dFind.open();
+	$('fpattern').focus();
+}
+var findRequest = null;
+function searchEntity() {
+	if ($F('fpattern').length < 2) {
+		return;
+	}
+	if (findRequest != null) {
+		findRequest.abort();
+	}
+	$('fresults').update('<img src="/img/db/loading.gif?6"/>');
+	var h = $H({value: $F('fpattern')});
+	findRequest = new Ajax.Request('/update/ajax/' + currentAlias.toLowerCase(), {
+		onSuccess: function(response){
+			$('fresults').update(response.responseText);
+			$$('#fresults li').each(function(el){
+				Event.observe($(el), 'click', function(){
+					loadEntity('find', $(this).id.split('|')[1]);
+					$('header').setStyle({ opacity: 1.0 });
+					$('content').setStyle({ opacity: 1.0 });
+					dFind.close();
+				});
+			});
+		},
+		parameters: h
+	});
 }

@@ -9,7 +9,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"~EXTERNAL_LINK\"")
+@Table(name = "\"~ExternalLink\"")
 public class ExternalLink {
 	
 	@Id

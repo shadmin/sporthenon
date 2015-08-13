@@ -11,7 +11,6 @@ public class JSportPanel extends JAbstractEntityPanel {
 	public JTextField jLabelFR;
 	public JTextField jType;
 	public JTextField jIndex;
-	public JTextField jImgURL;
 	
 	public JSportPanel() {
 		super(6);
@@ -49,14 +48,6 @@ public class JSportPanel extends JAbstractEntityPanel {
         gridPanel.add(lIndex);
         jIndex = new JTextField();
         gridPanel.add(jIndex);
-        
-		//Image URL
-		JLabel lImgURL = new JLabel(" Image URL:");
-		lImgURL.setHorizontalAlignment(LABEL_ALIGNMENT);
-		gridPanel.add(lImgURL);
-		jImgURL = new JTextField();
-		jImgURL.setPreferredSize(TEXT_SIZE);
-		gridPanel.add(jImgURL);
 	}
 
 	public JTextField getLabel() {
@@ -75,10 +66,6 @@ public class JSportPanel extends JAbstractEntityPanel {
 		return jIndex;
 	}
 	
-	public JTextField getImgURL() {
-		return jImgURL;
-	}
-
 	public void setLabel(String s) {
 		jLabel.setText(s);
 	}
@@ -95,17 +82,12 @@ public class JSportPanel extends JAbstractEntityPanel {
 		jIndex.setText(s);
 	}
 	
-	public void setImgURL(String s) {
-		jImgURL.setText(s);
-	}
-
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
 		jLabelFR.setText("");
 		jType.setText("");
 		jIndex.setText("");
-		jImgURL.setText("");
 	}
 	
 	public void focus() {

@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import com.sporthenon.db.entity.meta.Metadata;
 
 @Entity
-@Table(name = "\"OLYMPICS\"")
+@Table(name = "\"Olympics\"")
 public class Olympics {
 	
 	public static final transient String alias = "OL";

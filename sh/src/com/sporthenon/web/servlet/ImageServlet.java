@@ -37,7 +37,30 @@ public class ImageServlet extends AbstractServlet {
 		try {
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			String entity = String.valueOf(hParams.get("entity"));
-			if (hParams.containsKey("upload")) {
+			if (hParams.containsKey("upload-photo")) {
+				byte[] b = null;
+				FileItemFactory factory = new DiskFileItemFactory();
+				ServletFileUpload upload = new ServletFileUpload(factory);
+				Collection<FileItem> items = upload.parseRequest(request);
+				String name = null;
+				for (FileItem fitem : items) {
+					if (!fitem.isFormField() && fitem.getFieldName().equalsIgnoreCase("photo-file")) {
+						name = fitem.getName();
+						b = fitem.get();
+					}
+				}
+				Object id = hParams.get("id");
+				String ext = name.substring(name.lastIndexOf(".") + 1).toLowerCase();
+				String fileName = "photo" + StringUtils.encode(entity + "-" + id) + "." + ext;
+				File f = new File(ConfigUtils.getProperty("img.folder") + fileName);
+				if (f.exists())
+					f.delete();
+				FileOutputStream fos = new FileOutputStream(f);
+				fos.write(b);
+				fos.close();
+				ImageUtils.getImgFiles().add(f.getName());
+			}
+			else if (hParams.containsKey("upload")) {
 				String id = null;
 				byte[] b = null;
 				FileItemFactory factory = new DiskFileItemFactory();

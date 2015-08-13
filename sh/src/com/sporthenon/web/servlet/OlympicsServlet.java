@@ -107,8 +107,8 @@ public class OlympicsServlet extends AbstractServlet {
 				Collection<PicklistBean> cPicklist = new ArrayList<PicklistBean>();
 				String plId = null;
 				if (hParams.containsKey(PICKLIST_ID_COUNTRY)) {
-					String sql = "SELECT DISTINCT CN.id, CN.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "") + " FROM \"OLYMPIC_RANKING\" OR_";
-					sql += " LEFT JOIN \"COUNTRY\" CN ON OR_.id_country = CN.id";
+					String sql = "SELECT DISTINCT CN.id, CN.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "") + " FROM \"OlympicRanking\" OR_";
+					sql += " LEFT JOIN \"Country\" CN ON OR_.id_country = CN.id";
 					sql += (!ol.equals("0") ? " WHERE OR_.id_olympics IN (" + ol + ")" : "");
 					sql += " ORDER BY CN.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
 					cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.countries", getLocale(request)) + "&nbsp;---"));

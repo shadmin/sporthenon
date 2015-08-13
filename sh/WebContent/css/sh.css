@@ -177,8 +177,8 @@ li{
 #menutop #mtlogout{
 	background: url(../img/menu/logout.png?5) 1px 0 no-repeat;
 }
-#menutop #mtupdate{
-	background: url(../img/menu/update.png?5) left 0 no-repeat;
+#menutop #mtcbarea{
+	background: url(../img/menu/contributor_area.png?5) left 0 no-repeat;
 }
 #flags{
 	padding: 2px;
@@ -546,7 +546,7 @@ li{
     overflow: hidden;
     width: 100%;
 }
-#buttons .button, .toolbar .button, #logindiv .button, #update .button{
+#buttons .button, .toolbar .button, #logindiv .button, .update .button{
 	height: 25px;
 	margin: 0px;
 	background-color: #E5E5E5;
@@ -562,7 +562,7 @@ li{
 #buttons #bright .button, .toolbar .button{
 	margin-left: 2px;
 }
-#buttons .button:hover, .toolbar .button:hover, #logindiv .button:hover, #update .button:hover{
+#buttons .button:hover, .toolbar .button:hover, #logindiv .button:hover, .update .button:hover{
 	color: #FFF;
 	background-color: #444;
 }
@@ -1143,69 +1143,139 @@ li{
 /*============================
   ========== UPDATE ========== 
   ============================*/
-#update{
+.update{
 	margin-left: 10px;
 	margin-right: 10px;
+	margin-top: -5px;
 	margin-bottom: 10px;
 	overflow: auto;
 }
-#update .fstitle{
-	background-image: url(../img/addresult.png?5);
+.update .fieldset{
+	margin-top: 50px;
 }
-#update table{
+#update-overview .fstitle{
+	background-image: url(../img/update/overview.png?5);
+}
+#update-results .fstitle{
+	background-image: url(../img/update/results.png?5);
+}
+#update-data .fstitle{
+	background-image: url(../img/update/data.png?5);
+}
+.update table{
 	width: auto;
 	margin-top:10px;
 }
-#update td, #d-plist td{
+.update td, #d-plist td{
 	border: none;
 	padding: 1px;
 }
-#update a, #d-plist a{
+#update-results a, #d-plist a{
 	font-size: 11px;
 }
-#update input[type=text], #update textarea, #d-plist input[type=text]{
+.update input[type=text], .update textarea, #d-plist input[type=text]{
 	font: 12px Verdana;
 	width: 250px;
 	color: #888;
 	border: 1px solid #AAA;
 	padding: 2px;
 }
-#update textarea{
+.update textarea{
 	outline: none;
 	white-space: nowrap;
 }
-#update input[type=text]:focus, #update textarea:focus, #d-plist input[type=text]:focus{
+.update input[type=text]:focus, .update textarea:focus, #d-plist input[type=text]:focus{
 	border: 1px solid #D00;
 	color: #000;
 }
-#update input[type=text].completed, #d-plist input[type=text].completed{
+.update input[type=text].completed, #d-plist input[type=text].completed{
 	border: 1px solid #080;
 	color: #000;
 }
-#update input[type=text].completed2, #update textarea.completed2, #d-plist input[type=text].completed2{
+.update input[type=text].completed2, .update textarea.completed2, #d-plist input[type=text].completed2{
 	border: 1px solid #000;
 	color: #000;
 }
-#update #dt1, #update #dt2, #update #yr{
+.update #dt1, .update #dt2, .update #yr{
 	width: 100px;
 }
-#update #prevbtn{
+.update #prevbtn{
 	background-image: url('../img/component/button/previous.png?5');
 	background-position: 4px center;
 	padding-left: 18px;
 }
-#update #nextbtn{
+.update #nextbtn{
 	background-image: url('../img/component/button/next.png?5');
 	background-position: 4px center;
 	padding-left: 18px;
 }
-#update #modifybtn{
+.update #modifybtn{
 	background-image: url('../img/component/button/modify.png?5');
 	background-position: 4px center;
 }
-#update #addbtn{
+.update #addbtn{
 	background-image: url('../img/component/button/add.png?5');
 	background-position: 4px center;
+}
+#update-data .fscontent{
+	padding-bottom: 70px;
+}
+#update-data .fscontent table{
+	margin-left: auto;
+	margin-right: auto;
+}
+#update-data .fscontent td{
+	border: 1px solid #DDD;
+	padding: 2px;
+}
+#update-data .fscontent .toolbar td{
+	border: none;
+}
+#update-data input[type=text]{
+	width: 400px;
+}
+#update-data  input.id{
+	color: #666;
+	width: 60px;
+}
+#imgzone{
+	position: absolute;
+}
+#imgzone fieldset{
+	border: 1px solid #AAA;
+}
+#imgzone #dz-file{
+	text-align: center;
+	cursor: pointer;
+	width: 120px;
+	height: 120px;
+	border: 1px dashed #CCC;
+}
+#imgzone #dz-file:hover{
+	background-color: #FFD;
+}
+.dz-success-mark, .dz-error-mark, .dz-details{
+	display: none;
+}
+#currentimg{
+	position: absolute;
+	right: 25px;
+}
+#currentimg img{
+	border: 1px solid #AAA;
+	width: 120px;
+	height: 120px;
+}
+#msg{
+	position: relative;
+	font-weight: bold;
+	min-height: 50px;
+	white-space: nowrap;
+}
+#msg div{
+	position: absolute;
+	left: 5px;
+	bottom: 15px;
 }
 .ajaxsearch {
 	position: absolute;
@@ -1264,8 +1334,11 @@ li{
 #d-info .fstitle{
 	background-image: url(../img/component/button/info.png?5);
 }
+#d-find .fstitle{
+	background-image: url(../img/update/find.png?5);
+}
 #d-help .fstitle{
-	background-image: url(../img/help.png?6);
+	background-image: url(../img/update/help.png?6);
 }
 .dialog .dlgbuttons{
 	height: 33px;
@@ -1298,6 +1371,35 @@ li{
 	height: 400px;
 	overflow: auto;
 }
+#d-find #fpattern{
+	padding: 2px;
+	border: 1px solid #CCC;
+	width: 99%;
+}
+#d-find #fpattern:focus{
+	border: 1px solid #D00;
+}
+#d-find #fresults{
+	margin-top: 10px;
+	border: 1px solid #DDD;
+	width: 500px;
+	height: 250px;
+	overflow: auto;
+}
+#d-find #fresults ul{
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+#d-find li{
+	cursor: pointer;
+	padding: 2px;
+	border-bottom: 1px solid #CCC;
+}
+#d-find li:hover{
+	background-color: #FFD;
+}
 /*=============================
   ========== TOOLBAR ========== 
   =============================*/
@@ -1318,6 +1420,42 @@ li{
 }
 #buttons .info2, .toolbar .info2{
 	background-image: url('../img/component/button/info.png?3');
+}
+#buttons .upd-overview, .toolbar .upd-overview{
+	background-image: url('../img/update/overview.png?3');
+}
+#buttons .upd-results, .toolbar .upd-results{
+	background-image: url('../img/update/results.png?3');
+}
+#buttons .upd-data, .toolbar .upd-data{
+	background-image: url('../img/update/data.png?3');
+}
+#buttons .upd-help, .toolbar .upd-help{
+	background-image: url('../img/update/help.png?3');
+}
+#buttons .upd-new, .toolbar .upd-new{
+	background-image: url('../img/update/new.png?3');
+}
+#buttons .upd-save, .toolbar .upd-save{
+	background-image: url('../img/update/save.png?3');
+}
+#buttons .upd-copy, .toolbar .upd-copy{
+	background-image: url('../img/update/copy.png?3');
+}
+#buttons .upd-first, .toolbar .upd-first{
+	background-image: url('../img/update/first.png?3');
+}
+#buttons .upd-previous, .toolbar .upd-previous{
+	background-image: url('../img/update/previous.png?3');
+}
+#buttons .upd-find, .toolbar .upd-find{
+	background-image: url('../img/update/find.png?3');
+}
+#buttons .upd-next, .toolbar .upd-next{
+	background-image: url('../img/update/next.png?3');
+}
+#buttons .upd-last, .toolbar .upd-last{
+	background-image: url('../img/update/last.png?3');
 }
 #shareopt, #exportopt{
 	position: absolute;

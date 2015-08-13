@@ -1,7 +1,6 @@
 package com.sporthenon.admin.container.entity;
 
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 import com.sporthenon.admin.component.JCustomTextField;
 import com.sporthenon.admin.component.JEntityPicklist;
@@ -23,7 +22,6 @@ public class JAthletePanel extends JAbstractEntityPanel {
 	public JEntityPicklist jCountry;
 	public JLabel lLink;
 	public JLinkTextField jLink;
-	public JTextField jImgURL;
 	
 	public JAthletePanel() {
 		super(9);
@@ -39,7 +37,7 @@ public class JAthletePanel extends JAbstractEntityPanel {
 		jLastName.setPreferredSize(TEXT_SIZE);
 		gridPanel.add(jLastName);
 
-		//Last Name
+		//First Name
 		JLabel lFirstName = new JLabel(" First Name:");
 		lFirstName.setHorizontalAlignment(LABEL_ALIGNMENT);
 		gridPanel.add(lFirstName);
@@ -68,14 +66,6 @@ public class JAthletePanel extends JAbstractEntityPanel {
 		jCountry = new JEntityPicklist(this, Country.alias);
 		gridPanel.add(jCountry);
 		
-		//Image URL
-		JLabel lImgURL = new JLabel(" Image URL:");
-		lImgURL.setHorizontalAlignment(LABEL_ALIGNMENT);
-		gridPanel.add(lImgURL);
-		jImgURL = new JTextField();
-		jImgURL.setPreferredSize(TEXT_SIZE);
-		gridPanel.add(jImgURL);
-
 		//Link
 		lLink = new JLabel(" Linked to:");
 		lLink.setHorizontalAlignment(LABEL_ALIGNMENT);
@@ -104,10 +94,6 @@ public class JAthletePanel extends JAbstractEntityPanel {
 	public JEntityPicklist getCountry() {
 		return jCountry;
 	}
-
-	public JTextField getImgURL() {
-		return jImgURL;
-	}
 	
 	public JLinkTextField getLink() {
 		return jLink;
@@ -132,10 +118,6 @@ public class JAthletePanel extends JAbstractEntityPanel {
 	public void setCountry(Integer id) {
 		SwingUtils.selectValue(jCountry, id);
 	}
-	
-	public void setImgURL(String s) {
-		jImgURL.setText(s);
-	}
 
 	public void setLink(String s) {
 		jLink.setText(s);
@@ -152,7 +134,6 @@ public class JAthletePanel extends JAbstractEntityPanel {
 		jSport.clear();
 		jCountry.clear();
 		jTeam.clear();
-		jImgURL.setText("");
 		jLink.setText("");
 	}
 

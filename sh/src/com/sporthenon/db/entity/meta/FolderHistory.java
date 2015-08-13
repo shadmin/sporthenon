@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"~FOLDER_HISTORY\"")
+@Table(name = "\"~FolderHistory\"")
 public class FolderHistory {
 
 	public static final transient String alias = "FH";

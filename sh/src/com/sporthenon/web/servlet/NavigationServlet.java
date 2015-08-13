@@ -30,7 +30,9 @@ public class NavigationServlet extends AbstractServlet {
 		hPages.put("project", "project.jsp");
 		hPages.put("contribute", "contribute.jsp");
 		hPages.put("login", "login.jsp");
-		hPages.put("update", "update.jsp");
+		hPages.put("update-overview", "update/overview.jsp");
+		hPages.put("update-results", "update/results.jsp");
+		hPages.put("update-data", "update/data.jsp");
 		hServlet = new HashMap<String, String>();
 		hServlet.put("results", "/ResultServlet");
 		hServlet.put("olympics", "/OlympicsServlet");
@@ -49,7 +51,9 @@ public class NavigationServlet extends AbstractServlet {
 		hTitle.put("contribute", "menu.contribute");
 		hTitle.put("search", "menu.search");
 		hTitle.put("login", "menu.login");
-		hTitle.put("update", "menu.update");
+		hTitle.put("update-overview", "update.overview");
+		hTitle.put("update-results", "update.results");
+		hTitle.put("update-data", "update.data");
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -77,6 +81,10 @@ public class NavigationServlet extends AbstractServlet {
 				request.getSession().setAttribute("locale", String.valueOf(hParams.get("lang")));
 			if (key != null && key.equals("project"))
 				hParams.put("p", 1);
+			if (key != null && key.equals("update") && tURI.length <= 1) {
+				key += "-" + hParams.get("p");
+				hParams.remove("p");
+			}
 			request.setAttribute("title", StringUtils.getTitle(ResourceUtils.getText(hTitle.containsKey(key) ? hTitle.get(key) : "title", getLocale(request))));
 			if (tURI.length > 1 || hParams.containsKey("p")) {
 				Object export = hParams.get("export");

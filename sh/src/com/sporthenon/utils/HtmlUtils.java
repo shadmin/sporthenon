@@ -67,8 +67,9 @@ public class HtmlUtils {
 	}
 	
 	public static String writeURL(String main, String params, String text) {
-		params = params.replaceAll("\\,\\s", "-").replaceAll("[\\[\\]]", "").replaceAll("\\-\\_(en|fr)$", "");
-		return main + (StringUtils.notEmpty(text) ? "/" + StringUtils.urlEscape(text.replaceAll("\\&nbsp;\\-\\&nbsp\\;", "/")) : "") + "/" + StringUtils.encode(params);
+		if (params != null)
+			params = params.replaceAll("\\,\\s", "-").replaceAll("[\\[\\]]", "").replaceAll("\\-\\_(en|fr)$", "");
+		return main + (StringUtils.notEmpty(text) ? "/" + StringUtils.urlEscape(text.replaceAll("\\&nbsp;\\-\\&nbsp\\;", "/")) : "") + (StringUtils.notEmpty(params) ? "/" + StringUtils.encode(params) : "");
 	}
 
 	public static String writeLink(String alias, int id, String text1, String text2) {
@@ -116,7 +117,8 @@ public class HtmlUtils {
 			html.append("<span class='url'>" + ConfigUtils.getProperty("url") + url + "</span>");
 		}
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
-		html.append("<div class='header'><table><tr><td style='font-weight:bold;'>" + h.get("item0") + "</td>");
+		html.append("<div class='header'><table><tr>");
+		html.append(h.containsKey("item0") ? "<td style='font-weight:bold;'>" + h.get("item0") + "</td>" : "");
 		html.append(h.containsKey("item1") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item1") + "</td>" : "");
 		html.append(h.containsKey("item2") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item2") + "</td>" : "");
 		html.append(h.containsKey("item3") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item3") + "</td>" : "");
@@ -162,11 +164,8 @@ public class HtmlUtils {
 		}
 		html.append("</table></li>");
 		// Photo
-		if (h.containsKey("imgurl")) {
-			html.append("<li><table class='photo'><tr><th><img alt='' src='/img/render/photo.png'/>" + ResourceUtils.getText("photo", lang) + "</th></tr><tr><td>");
-			html.append("<a href='" + h.get("imgurl") + "' target='_blank' title=\"" + ResourceUtils.getText("enlarge", lang) + "\"><img alt='Photo' height='230px' src='" + h.get("imgurl") + "'/></a>");
-			html.append("</td></tr></table></li>");
-		}
+		if (h.containsKey("imgurl"))
+			html.append(ImageUtils.getPhotoFieldset(h.get("imgurl"), lang));
 		return html.append("</ul>");
 	}
 

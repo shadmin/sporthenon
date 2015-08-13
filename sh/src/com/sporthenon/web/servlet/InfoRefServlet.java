@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Result;
+import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
@@ -51,7 +52,7 @@ public class InfoRefServlet extends AbstractServlet {
 				lFuncParams.add(params[0]);
 				lFuncParams.add(new Integer(params[1]));
 				lFuncParams.add(params.length > 2 ? params[2] : "");
-				lFuncParams.add(params.length > 3 ? params[3] : "20");
+				lFuncParams.add(params.length > 3 ? params[3] : ConfigUtils.getValue("default_ref_limit"));
 				lFuncParams.add(params.length > 4 ? new Integer(params[4]) : 0);
 				lFuncParams.add("_" + getLocale(request));
 				if (isExport) {

@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"~CONTRIBUTION\"")
+@Table(name = "\"~Contribution\"")
 public class Contribution {
 
 	public static final transient String alias = "CO";

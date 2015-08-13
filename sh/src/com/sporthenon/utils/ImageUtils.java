@@ -97,4 +97,24 @@ public class ImageUtils {
 		return list;
 	}
 	
+	public static String getPhotoFile(String entity, Object id) {
+		String s = "";
+		String p = "photo" + StringUtils.encode(entity + "-" + id);
+		for (String img : getImgFiles())
+			if (img.startsWith(p)) {
+				s = img;
+				break;
+			}
+		return s;
+	}
+	
+	public static StringBuffer getPhotoFieldset(String url, String lang) {
+		StringBuffer html = new StringBuffer();
+		url = ConfigUtils.getProperty("img.url") + url;
+		html.append("<li><fieldset class='photo'><legend>" + ResourceUtils.getText("photo", lang) + "</legend>");
+		html.append("<a href='" + url + "' target='_blank' title=\"" + ResourceUtils.getText("enlarge", lang) + "\"><img alt='Photo' height='230px' src='" + url + "'/></a>");
+		html.append("</fieldset></li>");
+		return html;
+	}
+
 }

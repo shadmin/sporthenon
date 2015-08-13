@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.sporthenon.db.entity.meta.Metadata;
 
 @Entity
-@Table(name = "\"SPORT\"")
+@Table(name = "\"Sport\"")
 public class Sport {
 	
 	public static final transient String alias = "SP";
@@ -36,9 +36,6 @@ public class Sport {
 	
 	@Column(name = "ref")
 	private Integer ref;
-
-	@Column(name = "img_url")
-	private String imgUrl;
 	
 	@Embedded
 	private Metadata metadata;
@@ -103,14 +100,6 @@ public class Sport {
 		this.ref = ref;
 	}
 	
-	public String getImgUrl() {
-		return imgUrl;
-	}
-
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
-	}
-
 	@Override
 	public String toString() {
 		return label + " [#" + id + "]";

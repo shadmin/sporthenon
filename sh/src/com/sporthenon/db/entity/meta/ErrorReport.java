@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"~ERROR_REPORT\"")
+@Table(name = "\"~ErrorReport\"")
 public class ErrorReport {
 
 	public static final transient String alias = "ER";

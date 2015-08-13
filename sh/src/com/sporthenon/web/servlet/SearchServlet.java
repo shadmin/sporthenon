@@ -96,7 +96,7 @@ public class SearchServlet extends AbstractServlet {
 				lFuncParams.add((short)0);
 				lFuncParams.add("_" + getLocale(request));
 				StringBuffer html = null;
-				if (scope.equals("."))
+				if (isLink && scope.equals("."))
 					html = new StringBuffer("<div class='searchtitle'>" + ResourceUtils.getText("search.results", getLocale(request)) + "&nbsp;:&nbsp;<b>" + String.valueOf(hParams.get("pattern")) + "</b></div>");
 				else
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_SEARCH, lFuncParams, getUser(request), getLocale(request));

@@ -273,19 +273,19 @@ public class JMainFrame extends JFrame {
 			String sql = null;
 			if (c_.equals(City.class)) {
 				sql = "select CT.id, CT.label || case when id_state is not null then ', ' || ST.code else '' end || ', ' || CN.code as text ";
-				sql += "from \"CITY\" CT left join \"STATE\" ST on CT.id_state=ST.id left join \"COUNTRY\" CN on CT.id_country=CN.id order by text";
+				sql += "from \"City\" CT left join \"State\" ST on CT.id_state=ST.id left join \"Country\" CN on CT.id_country=CN.id order by text";
 			}
 			else if (c_.equals(Complex.class)) {
 				sql = "select CX.id, CX.label || ' [' || CT.label || case when id_state is not null then ', ' || ST.code else '' end || ', ' || CN.code || ']' as text ";
-				sql += "from \"COMPLEX\" CX left join \"CITY\" CT on CX.id_city=CT.id left join \"STATE\" ST on CT.id_state=ST.id left join \"COUNTRY\" CN on CT.id_country=CN.id order by text";
+				sql += "from \"Complex\" CX left join \"City\" CT on CX.id_city=CT.id left join \"State\" ST on CT.id_state=ST.id left join \"Country\" CN on CT.id_country=CN.id order by text";
 			}
 			else if (c_.equals(Athlete.class)) {
 				sql = "select PR.id, last_name || ', ' || first_name || case when PR.id_country is not null then ' [' || CN.code || ']' else '' end || case when PR.id_team is not null then ' [' || TM.label || ']' else '' end as text, PR.id_sport ";
-				sql += "from \"PERSON\" PR left join \"COUNTRY\" CN on PR.id_country=CN.id left join \"TEAM\" TM on PR.id_team=TM.id order by text";
+				sql += "from \"Athlete\" PR left join \"Country\" CN on PR.id_country=CN.id left join \"Team\" TM on PR.id_team=TM.id order by text";
 			}
 			else if (c_.equals(Team.class)) {
 				sql = "select TM.id, TM.label || case when id_country is not null then ' [' || CN.code || ']' else '' end || case when TM.year1 is not null and TM.year1 <> '' then ' [' || TM.year1 || ']' else '' end || case when TM.year2 is not null and TM.year2 <> '' then ' [' || TM.year2 || ']' else '' end as text, TM.id_sport ";
-				sql += "from \"TEAM\" TM left join \"COUNTRY\" CN on TM.id_country=CN.id order by text";
+				sql += "from \"Team\" TM left join \"Country\" CN on TM.id_country=CN.id order by text";
 			}
 			ArrayList<PicklistBean> lst = new ArrayList<PicklistBean>(sql != null ? DatabaseHelper.getPicklistFromQuery(sql, true) : DatabaseHelper.getEntityPicklist(c_, label, null, ResourceUtils.LGDEFAULT));
 			Field alias = c_.getDeclaredField("alias");
@@ -322,7 +322,6 @@ public class JMainFrame extends JFrame {
 			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
 			en.setLastName(p.getLastName().getText());
 			en.setFirstName(p.getFirstName().getText());
-			en.setImgUrl(p.getImgURL().getText());
 			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLastName() + ", " + en.getFirstName() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : "") + (en.getTeam() != null ? " [" + en.getTeam().getLabel() + "]" : ""));
 			if (en.getLink() != null && en.getLink() > 0) {
 				try {
@@ -331,7 +330,7 @@ public class JMainFrame extends JFrame {
 						a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, a.getLink());
 					en.setLink(a.getId());
 					p.setLinkLabel(" Linked to: [" + a.getLastName() + (StringUtils.notEmpty(a.getFirstName()) ? ", " + a.getFirstName() : "") + (a.getCountry() != null ? ", " + a.getCountry().getCode() : "") + (a.getTeam() != null ? ", " + a.getTeam().getLabel() : "") + "]");
-					DatabaseHelper.executeUpdate("UPDATE \"PERSON\" SET LINK=0 WHERE ID=" + en.getLink());
+					DatabaseHelper.executeUpdate("UPDATE \"Athlete\" SET LINK=0 WHERE ID=" + en.getLink());
 				}
 				catch (Exception e) {
 					Logger.getLogger("sh").error(e.getMessage());
@@ -353,7 +352,6 @@ public class JMainFrame extends JFrame {
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setState((State)DatabaseHelper.loadEntity(State.class, SwingUtils.getValue(p.getState())));
 			en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
-			en.setImgUrl(p.getImgURL().getText());
 			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
 			plb.setText(en.getLabel() + ", " + en.getCountry().getCode());
 			if (en.getLink() != null && en.getLink() > 0) {
@@ -363,7 +361,7 @@ public class JMainFrame extends JFrame {
 						c_ = (City) DatabaseHelper.loadEntity(City.class, c_.getLink());
 					en.setLink(c_.getId());
 					p.setLinkLabel(" Linked to: [" + c_.toString2(ResourceUtils.LGDEFAULT) + "]");
-					DatabaseHelper.executeUpdate("UPDATE \"CITY\" SET LINK=0 WHERE ID=" + en.getLink());
+					DatabaseHelper.executeUpdate("UPDATE \"City\" SET LINK=0 WHERE ID=" + en.getLink());
 				}
 				catch (Exception e) {
 					Logger.getLogger("sh").error(e.getMessage());
@@ -376,7 +374,6 @@ public class JMainFrame extends JFrame {
 			en.setLabel(p.getLabel().getText());
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setCity((City)DatabaseHelper.loadEntity(City.class, SwingUtils.getValue(p.getCity())));
-			en.setImgUrl(p.getImgURL().getText());
 			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
 			plb.setText(en.getLabel() + " [" + en.getCity().getLabel() + ", " + en.getCity().getCountry().getCode() + "]");
 			if (en.getLink() != null && en.getLink() > 0) {
@@ -386,7 +383,7 @@ public class JMainFrame extends JFrame {
 						c_ = (Complex) DatabaseHelper.loadEntity(Complex.class, c_.getLink());
 					en.setLink(c_.getId());
 					p.setLinkLabel(" Linked to: [" + c_.toString2(ResourceUtils.LGDEFAULT) + "]");
-					DatabaseHelper.executeUpdate("UPDATE \"COMPLEX\" SET LINK=0 WHERE ID=" + en.getLink());
+					DatabaseHelper.executeUpdate("UPDATE \"Complex\" SET LINK=0 WHERE ID=" + en.getLink());
 				}
 				catch (Exception e) {
 					Logger.getLogger("sh").error(e.getMessage());
@@ -464,7 +461,7 @@ public class JMainFrame extends JFrame {
 						t = (Team) DatabaseHelper.loadEntity(Team.class, t.getLink());
 					en.setLink(t.getId());
 					p.setLinkLabel(" Linked to: [" + t.getLabel() + "]");
-					DatabaseHelper.executeUpdate("UPDATE \"TEAM\" SET LINK=0 WHERE ID=" + en.getLink());
+					DatabaseHelper.executeUpdate("UPDATE \"Team\" SET LINK=0 WHERE ID=" + en.getLink());
 				}
 				catch (Exception e) {
 					Logger.getLogger("sh").error(e.getMessage());

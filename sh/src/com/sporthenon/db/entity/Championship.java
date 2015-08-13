@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.sporthenon.db.entity.meta.Metadata;
 
 @Entity
-@Table(name = "\"CHAMPIONSHIP\"")
+@Table(name = "\"Championship\"")
 public class Championship {
 	
 	public static final transient String alias = "CP";

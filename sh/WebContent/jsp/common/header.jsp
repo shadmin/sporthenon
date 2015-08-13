@@ -31,9 +31,6 @@
 	<meta name="robots" content="noindex, nofollow">
 	<% } %>
 	<link rel="stylesheet" type="text/css" href="/css/sh.css?v=<%=version%>"/>	
-	<!--[if IE 6]>
-	<link rel="stylesheet" type="text/css" href="/css/ie6fix.css?v=<%=version%>"/>
-	<![endif]-->
 	<link rel="stylesheet" type="text/css" href="/css/render.css?v=<%=version%>"/>
 	<link rel="shortcut icon" type="image/x-icon" href="/img/iconfav.ico?v=6"/>
 	<script type="text/javascript" src="/js/prototype.js?v=<%=version%>"></script>
@@ -65,6 +62,7 @@
 </div>
 
 <script type="text/javascript"><!--
+	var IMG_URL = "<%=ConfigUtils.getProperty("img.url")%>";
 	var TX_OK = "<%=StringUtils.text("ok", session)%>";
 	var TX_CANCEL = "<%=StringUtils.text("cancel", session)%>";
 	var TX_ACTIONS_TAB = "<%=StringUtils.text("actions.currenttab", session)%>";
@@ -105,6 +103,7 @@
 	var TX_PWDNOTMATCH = "<%=StringUtils.text("pwd.nomatch", session)%>";
 	var TX_PREVIOUS = "<%=StringUtils.text("previous", session)%>";
 	var TX_NEXT = "<%=StringUtils.text("next", session)%>";
+	var TX_CLICK_DRAGDROP = "<%=StringUtils.text("click.drag.drop", session)%>";
 --></script>
 
 <div id="headertop">
@@ -113,7 +112,7 @@
 		<div id="mtproject"><a href="/project"><%=StringUtils.text("menu.project", session)%></a></div>
 		<div id="mtcontribute"><a href="/contribute"><%=StringUtils.text("menu.contribute", session)%></a></div>
 		<% if (m != null) { %>
-		<div id="mtupdate"><a href="/update"><%=StringUtils.text("menu.update", session)%></a></div>
+		<div id="mtcbarea"><a href="/update?p=overview"><%=StringUtils.text("menu.cbarea", session)%></a></div>
 		<div id="mtlogout"><a href="/LoginServlet?logout"><%=StringUtils.text("menu.logout", session)%></a>&nbsp;(<%=m.getLogin()%>)</div>
 		<% } else { %>
 		<div id="mtlogin"><a href="<%=ConfigUtils.getProperty("url.s")%>login"><%=StringUtils.text("menu.login", session)%></a></div>

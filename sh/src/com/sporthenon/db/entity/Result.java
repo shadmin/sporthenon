@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import com.sporthenon.db.entity.meta.Metadata;
 
 @Entity
-@Table(name = "\"RESULT\"")
+@Table(name = "\"Result\"")
 public class Result {
 
 	public static final transient String alias = "RS";
@@ -126,9 +126,6 @@ public class Result {
 	
 	@Column(name = "exa", length = 15)
 	private String exa;
-	
-	@Column(name = "img_url")
-	private String imgUrl;
 	
 	@Embedded
 	private Metadata metadata;
@@ -419,14 +416,6 @@ public class Result {
 
 	public void setSubevent2(Event subevent2) {
 		this.subevent2 = subevent2;
-	}
-	
-	public String getImgUrl() {
-		return imgUrl;
-	}
-
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
 	}
 
 	@Override

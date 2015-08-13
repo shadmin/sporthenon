@@ -9,7 +9,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "\"~INACTIVE_ITEM\"")
+@Table(name = "\"~InactiveItem\"")
 public class InactiveItem {
 
 	@Id

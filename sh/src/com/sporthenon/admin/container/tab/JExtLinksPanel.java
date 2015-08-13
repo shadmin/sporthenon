@@ -162,7 +162,7 @@ public class JExtLinksPanel extends JSplitPane implements ActionListener, ListSe
 			else if (e.getActionCommand().equals("check")) {
 				for (int i : jLinkTable.getSelectedRows()) {
 					String id = String.valueOf(jLinkTable.getValueAt(i, 0));
-					DatabaseHelper.executeUpdate("UPDATE \"~EXTERNAL_LINK\" SET checked=TRUE WHERE id=" + id);
+					DatabaseHelper.executeUpdate("UPDATE \"~ExternalLink\" SET checked=TRUE WHERE id=" + id);
 					jLinkTable.setValueAt("X", i, 6);
 				}
 				msg = "Links checked successfully (" + jLinkTable.getSelectedRowCount() + ")";
@@ -170,7 +170,7 @@ public class JExtLinksPanel extends JSplitPane implements ActionListener, ListSe
 			else if (e.getActionCommand().equals("save")) {
 				for (int i : jLinkTable.getSelectedRows()) {
 					String id = String.valueOf(jLinkTable.getValueAt(i, 0));
-					DatabaseHelper.executeUpdate("UPDATE \"~EXTERNAL_LINK\" SET type='" + jLinkTable.getValueAt(i, 4) + "', url='" + jLinkTable.getValueAt(i, 5) + "' WHERE id=" + id);
+					DatabaseHelper.executeUpdate("UPDATE \"~ExternalLink\" SET type='" + jLinkTable.getValueAt(i, 4) + "', url='" + jLinkTable.getValueAt(i, 5) + "' WHERE id=" + id);
 				}
 				msg = "Links updated successfully (" + jLinkTable.getSelectedRowCount() + ")";
 			}

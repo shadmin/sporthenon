@@ -158,18 +158,16 @@
 }
 .tc .photo{
 	margin: 0px;
-	margin-left: 10px;
-	border: 2px solid #000;
+	margin-top: 0px;
+	margin-left: 8px;
+	padding: 0px;
+	border: none;
 }
-.tc .photo td{
-	padding: 6px;
+.tc .photo legend{
+	display: none;
 }
-.tc .photo th img{
-	padding-right: 3px;
-	vertical-align: text-top;
-}
-.tc .photo td img{
-	vertical-align: middle;
+.tc .photo img{
+	border: 1px solid #AAA;
 }
 .tc .info{
 	margin: 0px;
