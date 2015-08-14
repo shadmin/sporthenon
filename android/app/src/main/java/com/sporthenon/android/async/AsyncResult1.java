@@ -9,6 +9,10 @@ import android.widget.LinearLayout;
 import com.sporthenon.android.R;
 import com.sporthenon.android.activity.Result1Activity;
 import com.sporthenon.android.activity.ResultActivity;
+import com.sporthenon.android.adapter.ItemListAdapter;
+import com.sporthenon.android.adapter.RankListAdapter;
+import com.sporthenon.android.data.DataItem;
+import com.sporthenon.android.data.RankItem;
 import com.sporthenon.android.data.Result1Item;
 import com.sporthenon.android.utils.AndroidUtils;
 
@@ -19,6 +23,7 @@ import org.w3c.dom.Node;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -27,6 +32,7 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
 
     private Result1Activity activity;
     private Result1Item result1;
+    private ArrayList<RankItem> ranks;
 
     @Override
     protected String doInBackground(Object... params) {
@@ -34,6 +40,7 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
         Integer rsid = (Integer) params[1];
         String rsyr = (String) params[2];
         result1 = new Result1Item(rsid, rsyr);
+        ranks = new ArrayList<RankItem>();
         try {
             StringBuffer url = new StringBuffer(activity.getString(R.string.url) + "/android/R1/");
             url.append(rsid).append("?lang=").append(activity.getLang());
@@ -77,39 +84,32 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
                 result1.setPlace2Img(AndroidUtils.getImage(activity, place2.getAttribute("img")));
             }
             // Rankings
-            String rs1 = null;
-            String rs2 = null;
-            String rs3 = null;
             Element rank1 = (Element) doc.getElementsByTagName("rank1").item(0);
             if (rank1 != null) {
-                result1.setRank1(rank1.getTextContent().replaceAll("\\s\\(", "\\\r\\\n("));
-                result1.setRank1ImgURL(rank1.getAttribute("img"));
-                result1.setRank1Img(AndroidUtils.getImage(activity, result1.getRank1ImgURL()));
-                rs1 = rank1.getAttribute("result");
+                RankItem item = new RankItem("1.");
+                item.setText(rank1.getTextContent().replaceAll("\\s\\(", "\\\r\\\n("));
+                item.setImgURL(rank1.getAttribute("img"));
+                item.setImg(AndroidUtils.getImage(activity, item.getImgURL()));
+                item.setResult(rank1.getAttribute("result"));
+                ranks.add(item);
             }
             Element rank2 = (Element) doc.getElementsByTagName("rank2").item(0);
             if (rank2 != null) {
-                result1.setRank2(rank2.getTextContent().replaceAll("\\s\\(", "\\\r\\\n("));
-                result1.setRank2ImgURL(rank2.getAttribute("img"));
-                result1.setRank2Img(AndroidUtils.getImage(activity, result1.getRank2ImgURL()));
-                rs2 = rank2.getAttribute("result");
+                RankItem item = new RankItem("2.");
+                item.setText(rank2.getTextContent().replaceAll("\\s\\(", "\\\r\\\n("));
+                item.setImgURL(rank2.getAttribute("img"));
+                item.setImg(AndroidUtils.getImage(activity, item.getImgURL()));
+                item.setResult(rank2.getAttribute("result"));
+                ranks.add(item);
             }
             Element rank3 = (Element) doc.getElementsByTagName("rank3").item(0);
             if (rank3 != null) {
-                result1.setRank3(rank3.getTextContent().replaceAll("\\s\\(", "\\\r\\\n("));
-                result1.setRank3ImgURL(rank3.getAttribute("img"));
-                result1.setRank3Img(AndroidUtils.getImage(activity, result1.getRank3ImgURL()));
-                rs3 = rank3.getAttribute("result");
-            }
-            if (AndroidUtils.notEmpty(result1.getRank1()) && AndroidUtils.notEmpty(result1.getRank2()) && AndroidUtils.notEmpty(rs1) && !AndroidUtils.notEmpty(rs2) && !AndroidUtils.notEmpty(rs3))
-                result1.setScore(rs1);
-            else {
-                if (AndroidUtils.notEmpty(rs1))
-                    result1.setRank1(result1.getRank1() + "\r\n" + rs1);
-                if (AndroidUtils.notEmpty(rs2))
-                    result1.setRank2(result1.getRank2() + "\r\n" + rs2);
-                if (AndroidUtils.notEmpty(rs3))
-                    result1.setRank3(result1.getRank3() + "\r\n" + rs3);
+                RankItem item = new RankItem("3.");
+                item.setText(rank3.getTextContent().replaceAll("\\s\\(", "\\\r\\\n("));
+                item.setImgURL(rank3.getAttribute("img"));
+                item.setImg(AndroidUtils.getImage(activity, item.getImgURL()));
+                item.setResult(rank3.getAttribute("result"));
+                ranks.add(item);
             }
             connection.disconnect();
         }
@@ -137,8 +137,10 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
                 activity.getSubevent2().setVisibility(View.GONE);
             if (AndroidUtils.notEmpty(result1.getDate()))
                 activity.getDate().setText(result1.getDate().replaceAll("\\&nbsp\\;", " "));
-            else
+            else {
+                activity.getLabelDate().setVisibility(View.GONE);
                 activity.getDate().setVisibility(View.GONE);
+            }
             if (AndroidUtils.notEmpty(result1.getPlace1()))
                 activity.getPlace1().setText(result1.getPlace1());
             else
@@ -147,32 +149,9 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
                 activity.getPlace2().setText(result1.getPlace2());
             else
                 activity.getPlace2().setVisibility(View.GONE);
-            // Rankings
-            if (AndroidUtils.notEmpty(result1.getRank1())) {
-                activity.getRank1Text().setText(result1.getRank1().replaceAll("\\|", " / "));
-                if (result1.getRank1Img() != null) {
-                    activity.getRank1Img().setImageDrawable(result1.getRank1Img());
-                    activity.getRank1Img().setLayoutParams(AndroidUtils.getImageSize(activity.getApplicationContext(), result1.getRank1ImgURL()));
-                }
-            }
-            if (AndroidUtils.notEmpty(result1.getRank2())) {
-                activity.getRank2Text().setText(result1.getRank2().replaceAll("\\|", " / "));
-                if (result1.getRank2Img() != null) {
-                    activity.getRank2Img().setImageDrawable(result1.getRank2Img());
-                    activity.getRank2Img().setLayoutParams(AndroidUtils.getImageSize(activity.getApplicationContext(), result1.getRank2ImgURL()));
-                }
-            }
-            if (AndroidUtils.notEmpty(result1.getRank3())) {
-                activity.getRank3Text().setText(result1.getRank3().replaceAll("\\|", " / "));
-                if (result1.getRank3Img() != null) {
-                    activity.getRank3Img().setImageDrawable(result1.getRank3Img());
-                    activity.getRank3Img().setLayoutParams(AndroidUtils.getImageSize(activity.getApplicationContext(), result1.getRank3ImgURL()));
-                }
-            }
-            if (AndroidUtils.notEmpty(result1.getScore()))
-                activity.getScore().setText(result1.getScore());
-            else
-                activity.getScore().setVisibility(View.GONE);
+            if (!AndroidUtils.notEmpty(result1.getPlace1()) && !AndroidUtils.notEmpty(result1.getPlace2()))
+                activity.getLabelPlace().setVisibility(View.GONE);
+            activity.getRankList().setAdapter(new RankListAdapter(activity.getApplicationContext(), ranks));
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);

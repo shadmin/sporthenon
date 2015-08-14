@@ -21,16 +21,6 @@ public class Result1Item {
     private Drawable place1Img;
     private String place2;
     private Drawable place2Img;
-    private String rank1;
-    private Drawable rank1Img;
-    private String rank1ImgURL;
-    private String rank2;
-    private Drawable rank2Img;
-    private String rank2ImgURL;
-    private String rank3;
-    private Drawable rank3Img;
-    private String rank3ImgURL;
-    private String score;
 
 	public Result1Item(int id, String year) {
 		super();
@@ -176,86 +166,6 @@ public class Result1Item {
 
     public void setPlace2Img(Drawable place2Img) {
         this.place2Img = place2Img;
-    }
-
-    public String getRank1() {
-        return rank1;
-    }
-
-    public void setRank1(String rank1) {
-        this.rank1 = rank1;
-    }
-
-    public Drawable getRank1Img() {
-        return rank1Img;
-    }
-
-    public void setRank1Img(Drawable rank1Img) {
-        this.rank1Img = rank1Img;
-    }
-
-    public String getRank2() {
-        return rank2;
-    }
-
-    public void setRank2(String rank2) {
-        this.rank2 = rank2;
-    }
-
-    public Drawable getRank2Img() {
-        return rank2Img;
-    }
-
-    public void setRank2Img(Drawable rank2Img) {
-        this.rank2Img = rank2Img;
-    }
-
-    public String getRank3() {
-        return rank3;
-    }
-
-    public void setRank3(String rank3) {
-        this.rank3 = rank3;
-    }
-
-    public Drawable getRank3Img() {
-        return rank3Img;
-    }
-
-    public void setRank3Img(Drawable rank3Img) {
-        this.rank3Img = rank3Img;
-    }
-
-    public String getRank1ImgURL() {
-        return rank1ImgURL;
-    }
-
-    public void setRank1ImgURL(String rank1ImgURL) {
-        this.rank1ImgURL = rank1ImgURL;
-    }
-
-    public String getRank2ImgURL() {
-        return rank2ImgURL;
-    }
-
-    public void setRank2ImgURL(String rank2ImgURL) {
-        this.rank2ImgURL = rank2ImgURL;
-    }
-
-    public String getRank3ImgURL() {
-        return rank3ImgURL;
-    }
-
-    public void setRank3ImgURL(String rank3ImgURL) {
-        this.rank3ImgURL = rank3ImgURL;
-    }
-
-    public String getScore() {
-        return score;
-    }
-
-    public void setScore(String score) {
-        this.score = score;
     }
 
 }

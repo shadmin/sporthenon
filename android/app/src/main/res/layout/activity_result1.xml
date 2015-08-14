@@ -144,7 +144,7 @@
         />
 
     <ListView
-        android:id="@+id/list"
+        android:id="@+id/rank_list"
         android:layout_below="@+id/search"
         android:layout_above="@+id/path"
         android:layout_width="match_parent"
@@ -155,60 +155,5 @@
         android:dividerHeight="1.0sp"
         android:listSelector="#00000000"
         />
-
-    <TextView
-        android:id="@+id/score"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="2dip"
-        android:background="#FFF"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip"
-        />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="2dip"
-        android:background="#FFF"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip">
-        <ImageView
-            android:id="@+id/rank2_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-        <TextView
-            android:id="@+id/rank2_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingLeft="8dip"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="2dip"
-        android:background="#FFF"
-        android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip">
-        <ImageView
-            android:id="@+id/rank3_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-        <TextView
-            android:id="@+id/rank3_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingLeft="8dip"
-            />
-    </LinearLayout>
 
 </LinearLayout>
