@@ -154,6 +154,14 @@
 	</named-native-query>
 
 	<!--
+		~Overview(varchar, integer, integer, varchar, varchar)
+	-->
+	<named-native-query name="Overview" result-class="com.sporthenon.db.entity.meta.RefItem">  
+		<query>SELECT * FROM "~Overview"(?, ?, ?, ?, ?) ORDER BY id</query>
+		<hint name="org.hibernate.callable" value="false" />
+	</named-native-query>
+
+	<!--
 		~Statistics()
 	-->
 	<named-native-query name="Statistics" result-class="com.sporthenon.db.function.StatisticsBean">  

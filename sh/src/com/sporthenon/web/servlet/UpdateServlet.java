@@ -33,6 +33,7 @@ import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.PersonList;
+import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
@@ -60,6 +61,8 @@ public class UpdateServlet extends AbstractServlet {
 				loadEntity(response, hParams, lang, user);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("save-entity"))
 				saveEntity(response, hParams, lang, user);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("load-overview"))
+				loadOverview(response, hParams, lang, user);
 			else
 				loadResult(request, response, hParams, lang, user);
 		}
@@ -386,6 +389,50 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
+	private static void loadOverview(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+		StringBuffer html = new StringBuffer();
+		ArrayList<Object> lFuncParams = new ArrayList<Object>();
+		lFuncParams.add(hParams.get("entity"));
+		lFuncParams.add(StringUtils.toInt(hParams.get("sport")));
+		lFuncParams.add(StringUtils.toInt(hParams.get("count")));
+		lFuncParams.add(hParams.get("pattern"));
+		lFuncParams.add("_" + lang);
+		final String TICK = "<img alt='ok' src='/img/update/tick.png'/>";
+		final String MISSING = "<img alt='miss' src='/img/update/missing.png'/>";
+		String currentEntity = null;
+		for (RefItem item : (List<RefItem>) DatabaseHelper.call("Overview", lFuncParams)) {
+			if (currentEntity == null || !item.getEntity().equals(currentEntity)) {
+				if (currentEntity != null);
+					html.append("</table>");
+				if (item.getEntity().equals(Result.alias))
+					html.append("<table><tr><th colspan='8' style='text-align:center;'>" + ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase() + "</th></tr><tr><th>ID</th><th>Event</th><th>Podium</th><th>Podium+Results</th><th>Final+Score</th><th>Draw</th><th>Ext.links</th><th>Photo</th></tr>");
+				else if (item.getEntity().equals(Athlete.alias))
+					html.append("<table><tr><th colspan='5' style='text-align:center;'>" + ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase() + "</th></tr><tr><th>ID</th><th>Name</th><th>Ref.</th><th>Ext.links</th><th>Photo</th></tr>");
+				currentEntity = item.getEntity();
+			}
+			boolean isPhoto = StringUtils.notEmpty(ImageUtils.getPhotoFile(item.getEntity(), item.getIdItem()));
+			html.append("<tr><td>" + item.getIdItem() + "</td>");
+			if (item.getEntity().equals(Result.alias)) {
+				int rkcount = (item.getTxt3() != null ? item.getTxt3().split("\\-").length : 0);
+				html.append("<td style='font-weight:bold;'>" + item.getLabelRel1() + " - " + item.getLabelRel2() + " - " + item.getLabelRel3() + "</td>");
+				html.append("<td>" + (rkcount >= 3 ? TICK : "") + "</td>");
+				html.append("<td></td>");
+				html.append("<td></td>");
+				html.append("<td>" + (item.getIdRel4() != null ? TICK : "") + "</td>");
+				html.append("<td>" + (item.getCount1() > 0 ? item.getCount1() : MISSING) + "</td>");
+				html.append("<td>" + (isPhoto ? TICK : MISSING) + "</td>");
+			}
+			else if (item.getEntity().equals(Athlete.alias)) {
+				html.append("<td style='font-weight:bold;'>" + item.getLabelRel1() + ",&nbsp;" + item.getLabelRel2() + "</td>");
+				html.append("<td>" + item.getCount2() + "</td>");
+				html.append("<td>" + (item.getCount1() > 0 ? item.getCount1() : MISSING) + "</td>");
+				html.append("<td>" + (isPhoto ? TICK : MISSING) + "</td>");
+			}
+			html.append("</tr>");
+		}
+		ServletHelper.writeText(response, html.append("</table>").toString());
+	}
+	
 	private static void loadResult(HttpServletRequest request, HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
 		Object tp = hParams.get("tp");
 		request.setAttribute("title", StringUtils.getTitle(ResourceUtils.getText("menu.update", lang)));
@@ -444,7 +491,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(rs.getComplex1() != null ? rs.getComplex1().toString2(lang) : (rs.getCity1() != null ? rs.getCity1().toString2(lang) : "")).append("~");
 				sb.append(rs.getComplex2() != null ? rs.getComplex2().getId() : (rs.getCity2() != null ? rs.getCity2().getId() : "")).append("~");
 				sb.append(rs.getComplex2() != null ? rs.getComplex2().toString2(lang) : (rs.getCity2() != null ? rs.getCity2().toString2(lang) : "")).append("~");
-				sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~").append(""/*rs.getImgUrl()*/).append("~");
+				sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~").append(ImageUtils.getPhotoFile(Result.alias, rs.getId())).append("~");
 				// External links
 				StringBuffer sbLinks = new StringBuffer();
 				try {
@@ -527,7 +574,7 @@ public class UpdateServlet extends AbstractServlet {
 				ServletHelper.writeText(response, result);
 			else {
 				request.setAttribute("value", result);
-				request.getRequestDispatcher("/jsp/update.jsp").forward(request, response);					
+				request.getRequestDispatcher("/jsp/update/results.jsp").forward(request, response);					
 			}
 		}
 		else
@@ -544,7 +591,7 @@ public class UpdateServlet extends AbstractServlet {
 		String id = String.valueOf(hParams.get("id"));
 		String alias = String.valueOf(hParams.get("alias"));
 		Class c = DatabaseHelper.getClassFromAlias(alias);
-		Object o = (action.equals("find") ? DatabaseHelper.loadEntity(c, Integer.parseInt(id)) : DatabaseHelper.move(c, id, hLocs.get(action), null));
+		Object o = (action.equals("find") ? DatabaseHelper.loadEntity(c, id) : DatabaseHelper.move(c, id, hLocs.get(action), null));
 		StringBuffer sb = new StringBuffer();
 		if (o != null) {
 			id = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));

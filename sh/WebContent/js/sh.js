@@ -1269,6 +1269,7 @@ function moveSport(sp, list1, list2) {
   ============================*/
 /*========== RESULTS ==========*/
 var tValues = [];
+var dz = null;
 function initUpdateResults(value) {
 	['sp', 'cp', 'ev', 'se', 'se2', 'yr', 'pl1', 'pl2'].each(function(s){
 		new Ajax.Autocompleter(
@@ -1283,6 +1284,7 @@ function initUpdateResults(value) {
 			return;
 		}
 		$(el).value = $(el).name;
+		$(el).title = $(el).name;
 		$(el).addClassName('default');
 		Event.observe($(el), 'focus', function(){
 			if ($(this).value == $(this).name) {
@@ -1305,11 +1307,16 @@ function initUpdateResults(value) {
 			}
 		});
 	});
+	dz = new Dropzone($('dz-file'), {
+		url: '/',
+		paramName: 'photo-file',
+		addRemoveLinks: false});
+	dz.on("complete", function(file) {
+		$$('#imgzone p')[0].remove();
+	});
 	loadResValues(value);
 }
 function loadResValues(value) {
-	$('addbtn').show();
-	$('modifybtn').hide();
 	$('msg').update('');
 	var t = value.split('~');
 	if (t != null && t.length > 1) {
@@ -1320,9 +1327,11 @@ function loadResValues(value) {
 		if (t[10] != '') {tValues['se2'] = t[10]; $('se2').value = t[11]; updateType('se2', t[12]); $('se2').addClassName('completed');}
 		tValues['yr'] = t[13]; $('yr').value = t[14]; $('yr').addClassName('completed');
 		if (t.length > 16) {
-			$('addbtn').hide();
-			$('modifybtn').show();
 			tValues['id'] = t[15];
+			if (dz != null) {
+				$('dz-file').update('<p>' + TX_CLICK_DRAGDROP + '</p>');
+				dz.options.url = '/ImageServlet?upload-photo&entity=RS&id=' + tValues['id'];
+			}
 			// Result Info
 			tValues['rs1'] = t[16]; if (t[16] != '') {$('rs1').value = t[16]; $('rs1').addClassName('completed2');} else {$('rs1').value = $('rs1').name; $('rs1').removeClassName('completed2');}
 			tValues['rs2'] = t[17]; if (t[17] != '') {$('rs2').value = t[17]; $('rs2').addClassName('completed2');} else {$('rs2').value = $('rs2').name; $('rs2').removeClassName('completed2');}
@@ -1335,7 +1344,13 @@ function loadResValues(value) {
 			tValues['pl2'] = t[25]; if (t[25] != '') {$('pl2').value = t[26]; $('pl2').addClassName('completed').removeClassName('completed2');} else {$('pl2').value = $('pl2').name; $('pl2').removeClassName('completed').removeClassName('completed2');}
 			tValues['exa'] = t[27]; if (t[27] != '') {$('exa').value = t[27]; $('exa').addClassName('completed2');} else {$('exa').value = $('exa').name; $('exa').removeClassName('completed2');}
 			tValues['cmt'] = t[28]; if (t[28] != '') {$('cmt').value = t[28]; $('cmt').addClassName('completed2');} else {$('cmt').value = $('cmt').name; $('cmt').removeClassName('completed2');}
-			tValues['img'] = t[29]; if (t[29] != '') {$('img').value = t[29]; $('img').addClassName('completed2');} else {$('img').value = $('img').name; $('img').removeClassName('completed2');}
+			if (t[29] != '') {
+				$('currentimg').update('<img alt="" src="' + IMG_URL + t[29] + '"/>');
+				$('currentimg').show();
+			}
+			else {
+				$('currentimg').hide();
+			}
 			tValues['exl'] = t[30]; if (t[30] != '') {$('exl').value = t[30].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
 			// Rankings
 			var j = 30;
@@ -1376,6 +1391,7 @@ function loadResValues(value) {
 			// Draws
 			var k = j;
 			tValues['drid'] = t[++k];
+			$('cbdraw').checked = (tValues['drid'] != '');
 			if (tValues['drid'] != '') {
 				['qf1', 'qf2', 'qf3', 'qf4', 'sf1', 'sf2', 'thd'].each(function(s){
 					tValues[s + 'w'] = t[++k];
@@ -1407,8 +1423,6 @@ function clearValue(s) {
 	if (s == 'yr') {
 		tValues['id'] = null;
 		tValues['drid'] = null;
-		$('addbtn').show();
-		$('modifybtn').hide();
 	}
 	tValues[s] = '';
 	$(s).value = '';
@@ -1417,10 +1431,10 @@ function clearValue(s) {
 }
 function setValue(text, li) {
 	var t = li.id.split('|');
-	if (t[0].indexOf('-' != -1)) {
+	if (t[0].indexOf('-') != -1) { // Result
 		$(t[0]).value = t[1];
 	}
-	else {
+	else { // Data
 		tValues[text.id] = t[1];
 		$(text).removeClassName('completed2').addClassName('completed');
 		if (t.length > 2) {
@@ -1486,8 +1500,6 @@ function saveResult() {
 			$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
 			$('msg').update('<div>' + text.replace(/^.*#|ERR\:/i, '') + '</div>');
 			if (text.indexOf('ERR:') == -1) {
-				$('addbtn').hide();
-				$('modifybtn').show();
 				tValues['id'] = text.split('#')[0];
 			}
 		},
@@ -1495,13 +1507,11 @@ function saveResult() {
 	});
 }
 function toggleDraw() {
-	if ($('draw').style.display == 'none') {
+	if ($('cbdraw').checked == true) {
 		$('draw').show();
-		$('drawimg').src = '/img/render/collapse.gif';
 	}
 	else {
 		$('draw').hide();
-		$('drawimg').src = '/img/render/expand.gif';
 	}
 }
 function loadDataDialog(type) {
@@ -1584,7 +1594,6 @@ function addPersonList() {
 	pListCount += 10;
 }
 /*========== DATA ==========*/
-var dz = null;
 function initUpdateData() {
 	$$('#update-data input').each(function(el){
 		if ($(el).id.lastIndexOf('-l') == $(el).id.length - 2) {
@@ -1661,7 +1670,7 @@ function setEntityValues(text) {
 	currentId = t[i++];
 	if (dz != null) {
 		$('dz-file').update('<p>' + TX_CLICK_DRAGDROP + '</p>');
-		dz.options.url = 'ImageServlet?upload-photo&entity=' + currentAlias + '&id=' + currentId;
+		dz.options.url = '/ImageServlet?upload-photo&entity=' + currentAlias + '&id=' + currentId;
 	}
 	if (currentAlias == 'PR') {
 		$('pr-id').value = currentId;
@@ -1848,6 +1857,15 @@ function searchEntity() {
 				});
 			});
 		},
+		parameters: h
+	});
+}
+/*========== OVERVIEW ==========*/
+function loadOverview() {
+	var entity_ = '';
+	var h = $H({entity: entity_, sport: $F('ovsport'), count: $F('ovcount'), pattern: $F('ovpattern')});
+	$('ovcontent').update('<img src="/img/db/loading.gif?6"/>');
+	new Ajax.Updater($('ovcontent'), '/update/load-overview', {
 		parameters: h
 	});
 }

@@ -79,7 +79,7 @@ public class OlympicsServlet extends AbstractServlet {
 					html.append(HtmlConverter.convertOlympicRankings(DatabaseHelper.call("GetOlympicRankings", lFuncParams), getLocale(request)));
 				}
 				if (isLink) {
-					HtmlUtils.setTitle(request, html.toString());
+					HtmlUtils.setHeadInfo(request, html.toString());
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), getLocale(request));
 					else {

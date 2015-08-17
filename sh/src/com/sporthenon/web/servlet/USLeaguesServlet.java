@@ -154,7 +154,7 @@ public class USLeaguesServlet extends AbstractServlet {
 					html.append(HtmlConverter.convertUSRecords(DatabaseHelper.call("GetUSRecords", lFuncParams), "en"));
 				}
 				if (isLink) {
-					HtmlUtils.setTitle(request, html.toString());
+					HtmlUtils.setHeadInfo(request, html.toString());
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), getLocale(request));
 					else {

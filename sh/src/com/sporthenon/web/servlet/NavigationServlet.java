@@ -41,6 +41,9 @@ public class NavigationServlet extends AbstractServlet {
 		hServlet.put("search", "/SearchServlet");
 		hServlet.put("login", "/LoginServlet");
 		hServlet.put("update", "/UpdateServlet");
+		hServlet.put("update-overview", "/UpdateServlet");
+		hServlet.put("update-results", "/UpdateServlet");
+		hServlet.put("update-data", "/UpdateServlet");
 		hServlet.put("android", "/AndroidServlet");
 		hTitle = new HashMap<String, String>();
 		hTitle.put("index", "title");
@@ -81,12 +84,18 @@ public class NavigationServlet extends AbstractServlet {
 				request.getSession().setAttribute("locale", String.valueOf(hParams.get("lang")));
 			if (key != null && key.equals("project"))
 				hParams.put("p", 1);
-			if (key != null && key.equals("update") && tURI.length <= 1) {
-				key += "-" + hParams.get("p");
-				hParams.remove("p");
+			boolean isRun = (tURI.length > 1 || hParams.containsKey("p"));
+			if (key != null && key.equals("update")) {
+				if (hPages.containsKey("update-" + tURI[1])) {
+					key += "-" + tURI[1];
+					isRun = (tURI.length > 2);
+				}
+				else	
+					isRun = true;
 			}
 			request.setAttribute("title", StringUtils.getTitle(ResourceUtils.getText(hTitle.containsKey(key) ? hTitle.get(key) : "title", getLocale(request))));
-			if (tURI.length > 1 || hParams.containsKey("p")) {
+			request.setAttribute("desc", ResourceUtils.getText(key.equals("index") ? "desc" : "desc." + key, getLocale(request)));
+			if (isRun) {
 				Object export = hParams.get("export");
 				boolean isPrint = hParams.containsKey("print");
 				if (export != null)

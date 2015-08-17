@@ -6,8 +6,13 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Athlete;
@@ -108,9 +113,10 @@ public class HtmlUtils {
 		return html.toString();
 	}
 
-	public static StringBuffer writeHeader(HashMap<String, String> h, Integer sp, Contributor m, String lang) {
+	public static StringBuffer writeHeader(Map<String, String> h, Integer sp, Contributor m, String lang) {
 		StringBuffer html = new StringBuffer();
 		html.append("<span class='title'>" + h.get("title") + "</span>");
+		html.append("<span class='desc'>" + h.get("desc") + "</span>");
 		String url = null;
 		if (h.containsKey("url") && StringUtils.notEmpty(h.get("url"))) {
 			url = h.get("url").substring(1);
@@ -254,8 +260,13 @@ public class HtmlUtils {
 		return (sbHtml.toString().length() > 0 ? "<table>" + sbHtml.append("</table>").toString() : "");
 	}
 	
-	public static void setTitle(HttpServletRequest req, String header) throws Exception {
-		req.setAttribute("title", StringUtils.getTitle(header.replaceAll("\\</span\\>.*", "").replaceAll(".*'title'\\>", "")));
+	public static void setHeadInfo(HttpServletRequest req, String header) throws Exception {
+		Document d = Jsoup.parse(header);
+		Elements e = d.getElementsByTag("span");
+		String title = e.get(0).text();
+		String desc = e.get(1).text();
+		req.setAttribute("title", StringUtils.getTitle(title));
+		req.setAttribute("desc", desc);
 	}
 	
 }

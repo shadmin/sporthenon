@@ -100,6 +100,36 @@ public class Result {
 	@Column(name = "id_rank10")
 	private Integer idRank10;
 	
+	@Column(name = "id_rank11")
+	private Integer idRank11;
+	
+	@Column(name = "id_rank12")
+	private Integer idRank12;
+	
+	@Column(name = "id_rank13")
+	private Integer idRank13;
+	
+	@Column(name = "id_rank14")
+	private Integer idRank14;
+	
+	@Column(name = "id_rank15")
+	private Integer idRank15;
+	
+	@Column(name = "id_rank16")
+	private Integer idRank16;
+	
+	@Column(name = "id_rank17")
+	private Integer idRank17;
+	
+	@Column(name = "id_rank18")
+	private Integer idRank18;
+	
+	@Column(name = "id_rank19")
+	private Integer idRank19;
+	
+	@Column(name = "id_rank20")
+	private Integer idRank20;
+	
 	@Column(name = "result1", length = 40)
 	private String result1;
 	
@@ -115,11 +145,50 @@ public class Result {
 	@Column(name = "result5", length = 20)
 	private String result5;
 	
-	private transient String result6;
-	private transient String result7;
-	private transient String result8;
-	private transient String result9;
-	private transient String result10;
+	@Column(name = "result6", length = 20)
+	private String result6;
+	
+	@Column(name = "result7", length = 20)
+	private String result7;
+	
+	@Column(name = "result8", length = 20)
+	private String result8;
+	
+	@Column(name = "result9", length = 20)
+	private String result9;
+	
+	@Column(name = "result10", length = 20)
+	private String result10;
+	
+	@Column(name = "result11", length = 20)
+	private String result11;
+	
+	@Column(name = "result12", length = 20)
+	private String result12;
+	
+	@Column(name = "result13", length = 20)
+	private String result13;
+	
+	@Column(name = "result14", length = 20)
+	private String result14;
+	
+	@Column(name = "result15", length = 20)
+	private String result15;
+	
+	@Column(name = "result16", length = 20)
+	private String result16;
+	
+	@Column(name = "result17", length = 20)
+	private String result17;
+
+	@Column(name = "result18", length = 20)
+	private String result18;
+	
+	@Column(name = "result19", length = 20)
+	private String result19;
+	
+	@Column(name = "result20", length = 20)
+	private String result20;
 	
 	@Column(name = "\"comment\"", length = 500)
 	private String comment;
@@ -416,6 +485,166 @@ public class Result {
 
 	public void setSubevent2(Event subevent2) {
 		this.subevent2 = subevent2;
+	}
+
+	public Integer getIdRank11() {
+		return idRank11;
+	}
+
+	public Integer getIdRank12() {
+		return idRank12;
+	}
+
+	public Integer getIdRank13() {
+		return idRank13;
+	}
+
+	public Integer getIdRank14() {
+		return idRank14;
+	}
+
+	public Integer getIdRank15() {
+		return idRank15;
+	}
+
+	public Integer getIdRank16() {
+		return idRank16;
+	}
+
+	public Integer getIdRank17() {
+		return idRank17;
+	}
+
+	public Integer getIdRank18() {
+		return idRank18;
+	}
+
+	public Integer getIdRank19() {
+		return idRank19;
+	}
+
+	public Integer getIdRank20() {
+		return idRank20;
+	}
+
+	public String getResult11() {
+		return result11;
+	}
+
+	public String getResult12() {
+		return result12;
+	}
+
+	public String getResult13() {
+		return result13;
+	}
+
+	public String getResult14() {
+		return result14;
+	}
+
+	public String getResult15() {
+		return result15;
+	}
+
+	public String getResult16() {
+		return result16;
+	}
+
+	public String getResult17() {
+		return result17;
+	}
+
+	public String getResult18() {
+		return result18;
+	}
+
+	public String getResult19() {
+		return result19;
+	}
+
+	public String getResult20() {
+		return result20;
+	}
+
+	public void setIdRank11(Integer idRank11) {
+		this.idRank11 = idRank11;
+	}
+
+	public void setIdRank12(Integer idRank12) {
+		this.idRank12 = idRank12;
+	}
+
+	public void setIdRank13(Integer idRank13) {
+		this.idRank13 = idRank13;
+	}
+
+	public void setIdRank14(Integer idRank14) {
+		this.idRank14 = idRank14;
+	}
+
+	public void setIdRank15(Integer idRank15) {
+		this.idRank15 = idRank15;
+	}
+
+	public void setIdRank16(Integer idRank16) {
+		this.idRank16 = idRank16;
+	}
+
+	public void setIdRank17(Integer idRank17) {
+		this.idRank17 = idRank17;
+	}
+
+	public void setIdRank18(Integer idRank18) {
+		this.idRank18 = idRank18;
+	}
+
+	public void setIdRank19(Integer idRank19) {
+		this.idRank19 = idRank19;
+	}
+
+	public void setIdRank20(Integer idRank20) {
+		this.idRank20 = idRank20;
+	}
+
+	public void setResult11(String result11) {
+		this.result11 = result11;
+	}
+
+	public void setResult12(String result12) {
+		this.result12 = result12;
+	}
+
+	public void setResult13(String result13) {
+		this.result13 = result13;
+	}
+
+	public void setResult14(String result14) {
+		this.result14 = result14;
+	}
+
+	public void setResult15(String result15) {
+		this.result15 = result15;
+	}
+
+	public void setResult16(String result16) {
+		this.result16 = result16;
+	}
+
+	public void setResult17(String result17) {
+		this.result17 = result17;
+	}
+
+	public void setResult18(String result18) {
+		this.result18 = result18;
+	}
+
+	public void setResult19(String result19) {
+		this.result19 = result19;
+	}
+
+	public void setResult20(String result20) {
+		this.result20 = result20;
 	}
 
 	@Override

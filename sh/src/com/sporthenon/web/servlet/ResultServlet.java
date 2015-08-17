@@ -78,7 +78,7 @@ public class ResultServlet extends AbstractServlet {
 					html.append(HtmlConverter.convertResults(c, oCp, oEv, getUser(request), getLocale(request)));
 
 					if (isLink) {
-						HtmlUtils.setTitle(request, html.toString());
+						HtmlUtils.setHeadInfo(request, html.toString());
 						if (hParams.containsKey("export"))
 							ExportUtils.export(response, html, String.valueOf(hParams.get("export")), getLocale(request));
 						else {

@@ -92,6 +92,16 @@
 	<entry key="rank.8">8th</entry>
 	<entry key="rank.9">9th</entry>
 	<entry key="rank.10">10th</entry>
+	<entry key="rank.11">11th</entry>
+	<entry key="rank.12">12th</entry>
+	<entry key="rank.13">13th</entry>
+	<entry key="rank.14">14th</entry>
+	<entry key="rank.15">15th</entry>
+	<entry key="rank.16">16th</entry>
+	<entry key="rank.17">17th</entry>
+	<entry key="rank.18">18th</entry>
+	<entry key="rank.19">19th</entry>
+	<entry key="rank.20">20th</entry>
 	<entry key="label">Label</entry>
 	<entry key="state">State</entry>
 	<entry key="website">Official Website</entry>
@@ -240,6 +250,10 @@
 	<entry key="yes">Yes</entry>
 	<entry key="no">No</entry>
 	<entry key="admin">Administrator</entry>
+	<entry key="desc.results.page">Results and history</entry>
+	<entry key="desc.olympics1.page">Event results at the Olympic Games</entry>
+	<entry key="desc.olympics2.page">Medals tables at the Olympic Games</entry>
+	<entry key="desc.usleagues.page">History, records and statistics</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>
@@ -252,6 +266,10 @@
 	<entry key="desc.results">Complete results organized by sport / championship / event</entry>
 	<entry key="desc.olympics">Podiums and medals tables of winter and summer Olympic Games</entry>
 	<entry key="desc.usleagues">Specific page for the 4 major US leagues (NFL / NBA / NHL / MLB))</entry>
+	<entry key="desc.search">Search in Sporthenon database</entry>
+	<entry key="desc.project">Informations on Sporthenon project and its contributors</entry>
+	<entry key="desc.contribute">Contribute to Sporthenon project</entry>
+	<entry key="desc.login">Login to add/update data</entry>
 	<entry key="report.1">Results per sport</entry>
 	<entry key="report.2">Athletes per country</entry>
 	<entry key="report.3">Split of requests by sport</entry>

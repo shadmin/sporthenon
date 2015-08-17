@@ -92,6 +92,16 @@
 	<entry key="rank.8">8ème</entry>
 	<entry key="rank.9">9ème</entry>
 	<entry key="rank.10">10ème</entry>
+	<entry key="rank.11">11ème</entry>
+	<entry key="rank.12">12ème</entry>
+	<entry key="rank.13">13ème</entry>
+	<entry key="rank.14">14ème</entry>
+	<entry key="rank.15">15ème</entry>
+	<entry key="rank.16">16ème</entry>
+	<entry key="rank.17">17ème</entry>
+	<entry key="rank.18">18ème</entry>
+	<entry key="rank.19">19ème</entry>
+	<entry key="rank.20">20ème</entry>
 	<entry key="label">Libellé</entry>
 	<entry key="state">Etat</entry>
 	<entry key="website">Site officiel</entry>
@@ -240,6 +250,10 @@
 	<entry key="yes">Oui</entry>
 	<entry key="no">Non</entry>
 	<entry key="admin">Administrateur</entry>
+	<entry key="desc.results.page">Résultats et palmarès</entry>
+	<entry key="desc.olympics1.page">Résultats des épreuves aux Jeux Olympiques</entry>
+	<entry key="desc.olympics2.page">Tableaux de médailles aux Jeux Olympiques</entry>
+	<entry key="desc.usleagues.page">Palmarès, records et statistiques</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
@@ -252,6 +266,10 @@
 	<entry key="desc.results">Palmarès complets classés par sport / championnat / épreuve</entry>
 	<entry key="desc.olympics">Podiums et tableaux de médailles des Jeux Olympiques d'hiver et d'été</entry>
 	<entry key="desc.usleagues">Page spécifique aux 4 ligues majeures US (NFL / NBA / NHL / MLB))</entry>
+	<entry key="desc.search">Rechercher dans la base de données Sporthenon</entry>
+	<entry key="desc.project">Informations sur le projet Sporthenon et ses contributeurs</entry>
+	<entry key="desc.contribute">Contribuer au projet Sporthenon</entry>
+	<entry key="desc.login">Se connecter pour ajouter/modifier des données</entry>
 	<entry key="report.1">Résultats par sport</entry>
 	<entry key="report.2">Athlètes par pays</entry>
 	<entry key="report.3">Répartition des requêtes par sport</entry>

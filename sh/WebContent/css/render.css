@@ -80,7 +80,7 @@
 .tc .bordered img{
 	border: 1px solid #666;
 }
-.tc .hidden, .tc span.title, .tc span.url, .tc span.infostats{
+.tc .hidden, .tc span.title, .tc span.desc, .tc span.url, .tc span.infostats{
 	display: none;
 }
 .tc .header{

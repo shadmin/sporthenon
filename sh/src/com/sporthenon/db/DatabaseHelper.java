@@ -170,7 +170,7 @@ public class DatabaseHelper {
 				tr = getTransaction();
 				if (tr != null) tr.begin();
 				em = getEntityManager();
-				Object o = em.find(entity, id instanceof Integer ? (Integer) id : String.valueOf(id));
+				Object o = em.find(entity, id instanceof Integer ? (Integer) id : (String.valueOf(id).matches("\\d+") ? StringUtils.toInt(id) : String.valueOf(id)));
 				if (tr != null) tr.commit();
 				return o;
 			}

@@ -11,6 +11,7 @@
 		m = (Contributor) o;
 	ResourceUtils.setLocale(request);
 	Object title = request.getAttribute("title");
+	Object desc = request.getAttribute("desc");
 	String version = ConfigUtils.getProperty("version");
 	String lang = String.valueOf(session.getAttribute("locale"));
 	String url = ConfigUtils.getProperty("url");
@@ -20,7 +21,7 @@
 <head>
 	<title><%=title%></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta name="Description" content="<%=StringUtils.text("desc", session)%>"/>
+	<meta name="Description" content="<%=desc%>"/>
 	<meta name="keywords" content="<%=StringUtils.text("keywords", session)%>"/>
 	<link rel="alternate" hreflang="x-default" href="http://www.sporthenon.com/"/>
 	<link rel="alternate" hreflang="fr" href="http://fr.sporthenon.com/"/>
@@ -112,7 +113,7 @@
 		<div id="mtproject"><a href="/project"><%=StringUtils.text("menu.project", session)%></a></div>
 		<div id="mtcontribute"><a href="/contribute"><%=StringUtils.text("menu.contribute", session)%></a></div>
 		<% if (m != null) { %>
-		<div id="mtcbarea"><a href="/update?p=overview"><%=StringUtils.text("menu.cbarea", session)%></a></div>
+		<div id="mtcbarea"><a href="/update/overview"><%=StringUtils.text("menu.cbarea", session)%></a></div>
 		<div id="mtlogout"><a href="/LoginServlet?logout"><%=StringUtils.text("menu.logout", session)%></a>&nbsp;(<%=m.getLogin()%>)</div>
 		<% } else { %>
 		<div id="mtlogin"><a href="<%=ConfigUtils.getProperty("url.s")%>login"><%=StringUtils.text("menu.login", session)%></a></div>

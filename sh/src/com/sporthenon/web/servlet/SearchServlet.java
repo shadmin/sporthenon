@@ -102,7 +102,7 @@ public class SearchServlet extends AbstractServlet {
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_SEARCH, lFuncParams, getUser(request), getLocale(request));
 				html.append(HtmlConverter.convertSearch(DatabaseHelper.call("Search", lFuncParams), String.valueOf(hParams.get("pattern")), getLocale(request)));
 				if (isLink) {
-					HtmlUtils.setTitle(request, ResourceUtils.getText("menu.search", getLocale(request)));
+					HtmlUtils.setHeadInfo(request, ResourceUtils.getText("menu.search", getLocale(request)));
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), getLocale(request));
 					else

@@ -7272,4 +7272,457 @@ $BODY$
   
   
   
+  CREATE OR REPLACE FUNCTION "WinRecords"(_results text, _lang character varying)
+  RETURNS SETOF "~RefItem" AS
+$BODY$
+declare
+	_item "~RefItem"%rowtype;
+	_id1 integer;
+	_id2 integer;
+	_id3 integer;
+	_id4 integer;
+	_id5 integer;
+	_id6 integer;
+	_id7 integer;
+	_id8 integer;
+	_id9 integer;
+	_id10 integer;
+	_link1 integer;
+	_link2 integer;
+	_link3 integer;
+	_link4 integer;
+	_link5 integer;
+	_link6 integer;
+	_link7 integer;
+	_link8 integer;
+	_link9 integer;
+	_link10 integer;
+	_str varchar;
+	_type smallint;
+	_type2 smallint;
+	_type3 smallint;
+	_cmt text;
+	_exa text;
+	_query text;
+	_c refcursor;
+begin
+	SELECT DISTINCT
+		TP1.number, TP2.number, TP3.number
+	INTO
+		_type, _type2, _type3
+	FROM
+		"Result" RS
+		LEFT JOIN "Event" EV ON RS.id_event = EV.id LEFT JOIN "Type" TP1 ON EV.id_type = TP1.id
+		LEFT JOIN "Event" SE ON RS.id_subevent = SE.id LEFT JOIN "Type" TP2 ON SE.id_type = TP2.id
+		LEFT JOIN "Event" SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN "Type" TP3 ON SE2.id_type = TP3.id
+	WHERE
+		RS.id = CAST(CASE WHEN POSITION(',' IN _results) > 0 THEN SUBSTRING(_results FROM 1 FOR POSITION(',' IN _results) - 1) ELSE _results END AS integer);
+	IF _type3 IS NOT NULL THEN
+		_type := _type3;
+	ELSIF _type2 IS NOT NULL THEN
+		_type := _type2;
+	END IF;
+
+	_str := '';
+	
+	OPEN _c FOR EXECUTE '
+	SELECT RS.id_rank1, RS.id_rank2, RS.id_rank3, RS.id_rank4, RS.id_rank5, RS.id_rank6, RS.id_rank7, RS.id_rank8, RS.id_rank9, RS.id_rank10, RS.exa, RS.comment
+	FROM "Result" RS
+	WHERE RS.id IN (' || _results || ')';
+	LOOP	
+		FETCH _c INTO _id1, _id2, _id3, _id4, _id5, _id6, _id7, _id8, _id9, _id10, _exa, _cmt;
+		EXIT WHEN NOT FOUND;
+		IF (_type < 10) THEN
+			SELECT PR.link INTO _link1 FROM "Athlete" PR WHERE PR.id = _id1;IF _link1 IS NOT NULL and _link1 > 0 THEN _id1 := _link1; END IF;
+			SELECT PR.link INTO _link2 FROM "Athlete" PR WHERE PR.id = _id2;IF _link2 IS NOT NULL and _link2 > 0 THEN _id2 := _link2; END IF;
+			SELECT PR.link INTO _link3 FROM "Athlete" PR WHERE PR.id = _id3;IF _link3 IS NOT NULL and _link3 > 0 THEN _id3 := _link3; END IF;
+			SELECT PR.link INTO _link4 FROM "Athlete" PR WHERE PR.id = _id4;IF _link4 IS NOT NULL and _link4 > 0 THEN _id4 := _link4; END IF;
+			SELECT PR.link INTO _link5 FROM "Athlete" PR WHERE PR.id = _id5;IF _link5 IS NOT NULL and _link5 > 0 THEN _id5 := _link5; END IF;
+			SELECT PR.link INTO _link6 FROM "Athlete" PR WHERE PR.id = _id6;IF _link6 IS NOT NULL and _link6 > 0 THEN _id6 := _link6; END IF;
+			SELECT PR.link INTO _link7 FROM "Athlete" PR WHERE PR.id = _id7;IF _link7 IS NOT NULL and _link7 > 0 THEN _id7 := _link7; END IF;
+			SELECT PR.link INTO _link8 FROM "Athlete" PR WHERE PR.id = _id8;IF _link8 IS NOT NULL and _link8 > 0 THEN _id8 := _link8; END IF;
+			SELECT PR.link INTO _link9 FROM "Athlete" PR WHERE PR.id = _id9;IF _link9 IS NOT NULL and _link9 > 0 THEN _id9 := _link9; END IF;
+			SELECT PR.link INTO _link10 FROM "Athlete" PR WHERE PR.id = _id10;IF _link10 IS NOT NULL and _link10 > 0 THEN _id10 := _link10; END IF;
+		ELSIF (_type = 50) THEN
+			SELECT TM.link INTO _link1 FROM "Team" TM WHERE TM.id = _id1;IF _link1 IS NOT NULL and _link1 > 0 THEN _id1 := _link1; END IF;
+			SELECT TM.link INTO _link2 FROM "Team" TM WHERE TM.id = _id2;IF _link2 IS NOT NULL and _link2 > 0 THEN _id2 := _link2; END IF;
+			SELECT TM.link INTO _link3 FROM "Team" TM WHERE TM.id = _id3;IF _link3 IS NOT NULL and _link3 > 0 THEN _id3 := _link3; END IF;
+			SELECT TM.link INTO _link4 FROM "Team" TM WHERE TM.id = _id4;IF _link4 IS NOT NULL and _link4 > 0 THEN _id4 := _link4; END IF;
+			SELECT TM.link INTO _link5 FROM "Team" TM WHERE TM.id = _id5;IF _link5 IS NOT NULL and _link5 > 0 THEN _id5 := _link5; END IF;
+			SELECT TM.link INTO _link6 FROM "Team" TM WHERE TM.id = _id6;IF _link6 IS NOT NULL and _link6 > 0 THEN _id6 := _link6; END IF;
+			SELECT TM.link INTO _link7 FROM "Team" TM WHERE TM.id = _id7;IF _link7 IS NOT NULL and _link7 > 0 THEN _id7 := _link7; END IF;
+			SELECT TM.link INTO _link8 FROM "Team" TM WHERE TM.id = _id8;IF _link8 IS NOT NULL and _link8 > 0 THEN _id8 := _link8; END IF;
+			SELECT TM.link INTO _link9 FROM "Team" TM WHERE TM.id = _id9;IF _link9 IS NOT NULL and _link9 > 0 THEN _id9 := _link9; END IF;
+			SELECT TM.link INTO _link10 FROM "Team" TM WHERE TM.id = _id10;IF _link10 IS NOT NULL and _link10 > 0 THEN _id10 := _link10; END IF;
+		END IF;
+		IF (_id1 IS NOT NULL) THEN
+			_str := _str || (CASE WHEN _str <> '' THEN ',' ELSE '' END) || _id1;
+		END IF;
+		IF (_id2 IS NOT NULL AND (_type IN (4, 5) OR _cmt IN ('#DOUBLE#', '#TRIPLE#') OR _exa ~ '(^|/)1.*(/|$)')) THEN
+			_str := _str || (CASE WHEN _str <> '' THEN ',' ELSE '' END) || _id2;
+		END IF;
+		IF (_id3 IS NOT NULL AND (_type = 5 OR _cmt = '#TRIPLE#' OR _exa ~ '(^|/)1-(3|4|5|6|7|8|9)(/|$)')) THEN
+			_str := _str || (CASE WHEN _str <> '' THEN ',' ELSE '' END) || _id3;
+		END IF;
+		IF (_id4 IS NOT NULL AND _exa ~ '(^|/)1-(4|5|6|7|8|9)(/|$)') THEN
+			_str := _str || (CASE WHEN _str <> '' THEN ',' ELSE '' END) || _id4;
+		END IF;
+		IF (_id5 IS NOT NULL AND _exa ~ '(^|/)1-(5|6|7|8|9)(/|$)') THEN
+			_str := _str || (CASE WHEN _str <> '' THEN ',' ELSE '' END) || _id5;
+		END IF;
+		IF (_id6 IS NOT NULL AND _exa ~ '(^|/)1-(6|7|8|9)(/|$)') THEN
+			_str := _str || (CASE WHEN _str <> '' THEN ',' ELSE '' END) || _id6;
+		END IF;
+		IF (_id7 IS NOT NULL AND _exa ~ '(^|/)1-(7|8|9)(/|$)') THEN
+			_str := _str || (CASE WHEN _str <> '' THEN ',' ELSE '' END) || _id7;
+		END IF;
+		IF (_id8 IS NOT NULL AND _exa ~ '(^|/)1-(8|9)(/|$)') THEN
+			_str := _str || (CASE WHEN _str <> '' THEN ',' ELSE '' END) || _id8;
+		END IF;
+		IF (_id9 IS NOT NULL AND _exa ~ '(^|/)1-9(/|$)') THEN
+			_str := _str || (CASE WHEN _str <> '' THEN ',' ELSE '' END) || _id9;
+		END IF;
+	END LOOP;
+	CLOSE _c;
+
+	_query := 'SELECT ';
+	IF (_type < 10) THEN
+		_query := _query || 'PR.id, PR.last_name || '', '' || PR.first_name, PR.last_name || '', '' || PR.first_name, CN.code';
+		_query := _query || ' FROM "Athlete" PR LEFT JOIN "Country" CN ON PR.id_country = CN.id WHERE PR.id IN (' || _str || ')';
+	ELSIF (_type = 50) THEN
+		_query := _query || 'TM.id, TM.label, TM.label, NULL';
+		_query := _query || ' FROM "Team" TM WHERE TM.id IN (' || _str || ')';
+	ELSIF (_type = 99) THEN
+		_query := _query || 'CN.id, CN.label' || _lang || ', CN.label, NULL';
+		_query := _query || ' FROM "Country" CN WHERE CN.id IN (' || _str || ')';
+	END IF;
+	OPEN _c FOR EXECUTE _query;
+	LOOP
+		FETCH _c INTO _item.id_item, _item.label, _item.label_en, _item.label_rel1;
+		EXIT WHEN NOT FOUND;
+		SELECT COUNT(*) INTO _item.count1 FROM unnest(string_to_array(_str, ',')) item WHERE item = CAST(_item.id_item AS varchar);
+		_item.id := _item.id_item;
+		_item.id_rel1 = _type;
+		RETURN NEXT _item;
+	END LOOP;
+	RETURN;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100
+  ROWS 1000;
+  
+  
+  
+  
+  CREATE OR REPLACE FUNCTION "~Overview"(_entity character varying, _id_sport integer, _count integer, _pattern varchar, _lang varchar)
+  RETURNS SETOF "~RefItem" AS
+$BODY$
+declare
+	_item "~RefItem"%rowtype;
+	_c refcursor;
+	_index integer;
+	_query text;
+begin
+	_index := 1;
+	
+	-- Results
+	IF (_entity = 'RS' OR _entity = '') THEN
+		_query = 'SELECT RS.id, YR.label, SP.label' || _lang || ', CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', SE2.label' || _lang || ', (CASE WHEN id_rank1 IS NOT NULL THEN id_rank1 || ''-'' ELSE '''' END) || (CASE WHEN id_rank2 IS NOT NULL THEN id_rank2 || ''-'' ELSE '''' END) || (CASE WHEN id_rank3 IS NOT NULL THEN id_rank3 || ''-'' ELSE '''' END) || (CASE WHEN id_rank4 IS NOT NULL THEN id_rank4 || ''-'' ELSE '''' END) || (CASE WHEN id_rank5 IS NOT NULL THEN id_rank5 || ''-'' ELSE '''' END) || (CASE WHEN id_rank6 IS NOT NULL THEN id_rank6 || ''-'' ELSE '''' END) || (CASE WHEN id_rank7 IS NOT NULL THEN id_rank7 || ''-'' ELSE '''' END) || (CASE WHEN id_rank8 IS NOT NULL THEN id_rank8 || ''-'' ELSE '''' END) || (CASE WHEN id_rank9 IS NOT NULL THEN id_rank9 || ''-'' ELSE '''' END) || (CASE WHEN id_rank10 IS NOT NULL THEN id_rank10 || ''-'' ELSE '''' END), TP1.number, TP2.number, TP3.number, DR.id, (SELECT COUNT(*) AS el_count FROM "~ExternalLink" EL WHERE EL.entity=''RS'' AND EL.id=RS.id)';
+		_query = _query || ' FROM "Result" RS';
+		_query = _query || ' LEFT JOIN "Year" YR ON RS.id_year = YR.id';
+		_query = _query || ' LEFT JOIN "Sport" SP ON RS.id_sport = SP.id';
+		_query = _query || ' LEFT JOIN "Championship" CP ON RS.id_championship = CP.id';
+		_query = _query || ' LEFT JOIN "Event" EV ON RS.id_event = EV.id';
+		_query = _query || ' LEFT JOIN "Event" SE ON RS.id_subevent = SE.id';
+		_query = _query || ' LEFT JOIN "Event" SE2 ON RS.id_subevent2 = SE2.id';
+		_query = _query || ' LEFT JOIN "Type" TP1 ON EV.id_type = TP1.id';
+		_query = _query || ' LEFT JOIN "Type" TP2 ON SE.id_type = TP2.id';
+		_query = _query || ' LEFT JOIN "Type" TP3 ON SE2.id_type = TP3.id';
+		_query = _query || ' LEFT JOIN "Draw" DR ON RS.id = DR.id_result';
+		_query = _query || ' WHERE 0=1';
+		IF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' OR lower(SP.label' || _lang || ') like ''' || lower(_pattern) || '%''';
+		ELSE
+			_query = _query || ' OR SP.id = ' || _id_sport;
+		END IF;
+		_query = _query || ' ORDER BY YR.id DESC, SP.label' || _lang || ', CP.index, EV.index, SE.index, CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ' LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.label_rel5, _item.label_rel6, _item.txt3, _item.id_rel1, _item.id_rel2, _item.id_rel3, _item.id_rel4, _item.count1;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'RS';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- Athletes
+	IF (_entity = 'PR' OR _entity = '') THEN
+		_query = 'SELECT PR.id, PR.last_name, PR.first_name, CN.code, TM.label, (SELECT COUNT(*) AS el_count FROM "~ExternalLink" EL WHERE EL.entity=''PR'' AND EL.id=PR.id), PR.ref';
+		_query = _query || ' FROM "Athlete" PR';
+		_query = _query || ' LEFT JOIN "Country" CN ON PR.id_country = CN.id';
+		_query = _query || ' LEFT JOIN "Team" TM ON PR.id_team = TM.id';
+		_query = _query || ' WHERE 0=1';
+		IF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' OR lower(PR.last_name) like ''' || lower(_pattern) || '%''';
+		ELSE
+			_query = _query || ' OR PR.id_sport = ' || _id_sport;
+		END IF;
+		_query = _query || ' ORDER BY PR.last_name, PR.first_name LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.count1, _item.count2;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'PR';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+	
+	RETURN;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100
+  ROWS 1000; 
+  
+  
+  
+  
+  ALTER TABLE "Result" add result6 varchar(20);
+ALTER TABLE "Result" add result7 varchar(20);
+ALTER TABLE "Result" add result8 varchar(20);
+ALTER TABLE "Result" add result9 varchar(20);
+ALTER TABLE "Result" add result10 varchar(20);
+
+ALTER TABLE "Result" add id_rank11 integer; ALTER TABLE "Result" add result11 varchar(20);
+ALTER TABLE "Result" add id_rank12 integer; ALTER TABLE "Result" add result12 varchar(20);
+ALTER TABLE "Result" add id_rank13 integer; ALTER TABLE "Result" add result13 varchar(20);
+ALTER TABLE "Result" add id_rank14 integer; ALTER TABLE "Result" add result14 varchar(20);
+ALTER TABLE "Result" add id_rank15 integer; ALTER TABLE "Result" add result15 varchar(20);
+ALTER TABLE "Result" add id_rank16 integer; ALTER TABLE "Result" add result16 varchar(20);
+ALTER TABLE "Result" add id_rank17 integer; ALTER TABLE "Result" add result17 varchar(20);
+ALTER TABLE "Result" add id_rank18 integer; ALTER TABLE "Result" add result18 varchar(20);
+ALTER TABLE "Result" add id_rank19 integer; ALTER TABLE "Result" add result19 varchar(20);
+ALTER TABLE "Result" add id_rank20 integer; ALTER TABLE "Result" add result20 varchar(20);
+
+
+  
+  
+  
+  
+  CREATE OR REPLACE FUNCTION "UpdateRef"()
+  RETURNS trigger AS
+$BODY$
+DECLARE
+	_row record;
+	_entity varchar(2);
+	_id_event integer;
+	_id_subevent integer;
+	_id_subevent2 integer;
+	_id_olympics integer;
+	_sp_type integer;
+	_type integer;
+BEGIN
+	_entity := TG_ARGV[0];
+	IF (TG_OP = 'DELETE') THEN
+		_row := OLD;
+	ELSIF (TG_OP IN ('INSERT', 'UPDATE')) THEN
+		_row := NEW;
+	END IF;
+
+	IF _entity = 'CT' THEN
+		UPDATE "State" SET REF="CountRef"('ST', _row.id_state) WHERE id=_row.id_state;
+		UPDATE "Country" SET REF="CountRef"('CN', _row.id_country) WHERE id=_row.id_country;
+	ELSIF _entity = 'CX' THEN
+		UPDATE "City" SET REF="CountRef"('CT', _row.id_city) WHERE id=_row.id_city;
+	ELSIF _entity = 'DR' THEN
+		SELECT RS.id_event, RS.id_subevent, RS.id_subevent2 INTO _id_event, _id_subevent, _id_subevent2 FROM "RESULT" RS WHERE RS.id = _row.id_result;
+
+		IF _id_subevent2 IS NOT NULL AND _id_subevent2 <> 0 THEN
+			SELECT TP.number INTO _type FROM "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id WHERE EV.id = _id_subevent2;
+		ELSIF _id_subevent IS NOT NULL AND _id_subevent <> 0 THEN
+			SELECT TP.number INTO _type FROM "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id WHERE EV.id = _id_subevent;
+		ELSE
+			SELECT TP.number INTO _type FROM "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id WHERE EV.id = _id_event;
+		END IF;
+
+		IF _type < 10 THEN
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id1_qf1) WHERE id=_row.id1_qf1;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id2_qf1) WHERE id=_row.id2_qf1;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id1_qf2) WHERE id=_row.id1_qf2;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id2_qf2) WHERE id=_row.id2_qf2;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id1_qf3) WHERE id=_row.id1_qf3;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id2_qf3) WHERE id=_row.id2_qf3;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id1_qf4) WHERE id=_row.id1_qf4;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id2_qf4) WHERE id=_row.id2_qf4;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id1_sf1) WHERE id=_row.id1_sf1;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id2_sf1) WHERE id=_row.id2_sf1;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id1_sf2) WHERE id=_row.id1_sf2;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id2_sf2) WHERE id=_row.id2_sf2;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id1_thd) WHERE id=_row.id1_thd;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id2_thd) WHERE id=_row.id2_thd;
+		ELSIF _type = 50 THEN
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id1_qf1) WHERE id=_row.id1_qf1;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id2_qf1) WHERE id=_row.id2_qf1;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id1_qf2) WHERE id=_row.id1_qf2;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id2_qf2) WHERE id=_row.id2_qf2;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id1_qf3) WHERE id=_row.id1_qf3;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id2_qf3) WHERE id=_row.id2_qf3;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id1_qf4) WHERE id=_row.id1_qf4;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id2_qf4) WHERE id=_row.id2_qf4;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id1_sf1) WHERE id=_row.id1_sf1;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id2_sf1) WHERE id=_row.id2_sf1;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id1_sf2) WHERE id=_row.id1_sf2;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id2_sf2) WHERE id=_row.id2_sf2;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id1_thd) WHERE id=_row.id1_thd;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id2_thd) WHERE id=_row.id2_thd;
+		ELSIF _type = 99 THEN
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id1_qf1) WHERE id=_row.id1_qf1;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id2_qf1) WHERE id=_row.id2_qf1;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id1_qf2) WHERE id=_row.id1_qf2;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id2_qf2) WHERE id=_row.id2_qf2;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id1_qf3) WHERE id=_row.id1_qf3;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id2_qf3) WHERE id=_row.id2_qf3;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id1_qf4) WHERE id=_row.id1_qf4;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id2_qf4) WHERE id=_row.id2_qf4;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id1_sf1) WHERE id=_row.id1_sf1;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id2_sf1) WHERE id=_row.id2_sf1;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id1_sf2) WHERE id=_row.id1_sf2;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id2_sf2) WHERE id=_row.id2_sf2;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id1_thd) WHERE id=_row.id1_thd;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id2_thd) WHERE id=_row.id2_thd;
+		END IF;
+	ELSIF _entity = 'HF' THEN
+		UPDATE "Year" SET REF="CountRef"('YR', _row.id_year) WHERE id=_row.id_year;
+		UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_person) WHERE id=_row.id_person;
+	ELSIF _entity = 'OL' THEN
+		UPDATE "Year" SET REF="CountRef"('YR', _row.id_year) WHERE id=_row.id_year;
+		UPDATE "City" SET REF="CountRef"('CT', _row.id_city) WHERE id=_row.id_city;
+	ELSIF _entity = 'OR' THEN
+		UPDATE "Olympics" SET REF="CountRef"('OL', _row.id_olympics) WHERE id=_row.id_olympics;
+		UPDATE "Country" SET REF="CountRef"('CN', _row.id_country) WHERE id=_row.id_country;
+	ELSIF _entity = 'PL' THEN
+		UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_person) WHERE id=_row.id_person;
+	ELSIF _entity = 'PR' THEN
+		UPDATE "Country" SET REF="CountRef"('CN', _row.id_country) WHERE id=_row.id_country;
+		UPDATE "Team" SET REF="CountRef"('TM', _row.id_team) WHERE id=_row.id_team;
+		UPDATE "Sport" SET REF="CountRef"('SP', _row.id_sport) WHERE id=_row.id_sport;
+	ELSIF _entity = 'RC' THEN
+		UPDATE "Sport" SET REF="CountRef"('SP', _row.id_sport) WHERE id=_row.id_sport;
+		UPDATE "Championship" SET REF="CountRef"('CP', _row.id_championship) WHERE id=_row.id_championship;
+		UPDATE "Event" SET REF="CountRef"('EV', _row.id_event) WHERE id=_row.id_event;
+		UPDATE "Event" SET REF="CountRef"('EV', _row.id_subevent) WHERE id=_row.id_subevent;
+		UPDATE "City" SET REF="CountRef"('CT', _row.id_city) WHERE id=_row.id_city;
+
+		IF _row.id_subevent IS NOT NULL AND _row.id_subevent <> 0 THEN
+			SELECT TP.number INTO _type FROM "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id WHERE EV.id = _row.id_subevent;
+		ELSE
+			SELECT TP.number INTO _type FROM "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id WHERE EV.id = _row.id_event;
+		END IF;
+
+		IF _type < 10 THEN
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank1) WHERE id=_row.id_rank1;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank2) WHERE id=_row.id_rank2;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank3) WHERE id=_row.id_rank3;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank4) WHERE id=_row.id_rank4;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank5) WHERE id=_row.id_rank5;
+		ELSIF _type = 50 THEN
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank1) WHERE id=_row.id_rank1;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank2) WHERE id=_row.id_rank2;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank3) WHERE id=_row.id_rank3;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank4) WHERE id=_row.id_rank4;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank5) WHERE id=_row.id_rank5;
+		ELSIF _type = 99 THEN
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank1) WHERE id=_row.id_rank1;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank2) WHERE id=_row.id_rank2;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank3) WHERE id=_row.id_rank3;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank4) WHERE id=_row.id_rank4;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank5) WHERE id=_row.id_rank5;
+		END IF;
+	ELSIF _entity = 'RS' THEN
+		UPDATE "Year" SET REF="CountRef"('YR', _row.id_year) WHERE id=_row.id_year;
+		UPDATE "Sport" SET REF="CountRef"('SP', _row.id_sport) WHERE id=_row.id_sport;
+		UPDATE "Championship" SET REF="CountRef"('CP', _row.id_championship) WHERE id=_row.id_championship;
+		UPDATE "Event" SET REF="CountRef"('EV', _row.id_event) WHERE id=_row.id_event;
+		UPDATE "Event" SET REF="CountRef"('EV', _row.id_subevent) WHERE id=_row.id_subevent;
+		UPDATE "Event" SET REF="CountRef"('EV', _row.id_subevent2) WHERE id=_row.id_subevent2;
+		UPDATE "Complex" SET REF="CountRef"('CX', _row.id_complex1) WHERE id=_row.id_complex1;
+		UPDATE "Complex" SET REF="CountRef"('CX', _row.id_complex2) WHERE id=_row.id_complex2;
+		UPDATE "City" SET REF="CountRef"('CT', _row.id_city1) WHERE id=_row.id_city1;
+		UPDATE "City" SET REF="CountRef"('CT', _row.id_city2) WHERE id=_row.id_city2;
+		IF _row.id_championship = 1 THEN
+			SELECT SP.type INTO _sp_type FROM "Sport" SP WHERE SP.id=_row.id_sport;
+			SELECT OL.id INTO _id_olympics FROM "Olympics" OL WHERE OL.id_year=_row.id_year AND OL.type=_sp_type;
+			UPDATE "Olympics" SET REF="CountRef"('OL', _id_olympics) WHERE id=_id_olympics;
+		END IF;
+		IF _row.id_subevent2 IS NOT NULL AND _row.id_subevent2 <> 0 THEN
+			SELECT TP.number INTO _type FROM "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id WHERE EV.id = _row.id_subevent2;
+		ELSIF _row.id_subevent IS NOT NULL AND _row.id_subevent <> 0 THEN
+			SELECT TP.number INTO _type FROM "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id WHERE EV.id = _row.id_subevent;
+		ELSE
+			SELECT TP.number INTO _type FROM "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id WHERE EV.id = _row.id_event;
+		END IF;
+
+		IF _type < 10 THEN
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank1) WHERE id=_row.id_rank1;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank2) WHERE id=_row.id_rank2;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank3) WHERE id=_row.id_rank3;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank4) WHERE id=_row.id_rank4;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank5) WHERE id=_row.id_rank5;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank6) WHERE id=_row.id_rank6;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank7) WHERE id=_row.id_rank7;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank8) WHERE id=_row.id_rank8;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank9) WHERE id=_row.id_rank9;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank10) WHERE id=_row.id_rank10;
+		ELSIF _type = 50 THEN
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank1) WHERE id=_row.id_rank1;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank2) WHERE id=_row.id_rank2;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank3) WHERE id=_row.id_rank3;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank4) WHERE id=_row.id_rank4;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank5) WHERE id=_row.id_rank5;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank6) WHERE id=_row.id_rank6;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank7) WHERE id=_row.id_rank7;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank8) WHERE id=_row.id_rank8;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank9) WHERE id=_row.id_rank9;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank10) WHERE id=_row.id_rank10;
+		ELSIF _type = 99 THEN
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank1) WHERE id=_row.id_rank1;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank2) WHERE id=_row.id_rank2;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank3) WHERE id=_row.id_rank3;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank4) WHERE id=_row.id_rank4;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank5) WHERE id=_row.id_rank5;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank6) WHERE id=_row.id_rank6;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank7) WHERE id=_row.id_rank7;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank8) WHERE id=_row.id_rank8;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank9) WHERE id=_row.id_rank9;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank10) WHERE id=_row.id_rank10;
+		END IF;
+	ELSIF _entity = 'RN' THEN
+		UPDATE "Team" SET REF="CountRef"('TM', _row.id_team) WHERE id=_row.id_team;
+		UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_person) WHERE id=_row.id_person;
+	ELSIF _entity = 'TM' THEN
+		UPDATE "Team" SET REF="CountRef"('TM', _row.link) WHERE id=_row.link;
+	ELSIF _entity = 'TS' THEN
+		UPDATE "Team" SET REF="CountRef"('TM', _row.id_team) WHERE id=_row.id_team;
+		UPDATE "Complex" SET REF="CountRef"('CX', _row.id_complex) WHERE id=_row.id_complex;
+	ELSIF _entity = 'WL' THEN
+		UPDATE "Team" SET REF="CountRef"('TM', _row.id_team) WHERE id=_row.id_team;
+	END IF;
+	
+        RETURN NULL;
+    END;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+  
+  
+  
+  
+  
   
