@@ -1397,7 +1397,7 @@ public class HtmlConverter {
 	public static StringBuffer convertResults(Collection<Object> coll, Championship cp, Event ev, Contributor m, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
-		// Evaluate columns
+		final int MAX_RANKS = 3;
 		short entityCount = 0;
 		short[] tColspan = {1, 1, 1, 1, 1, 1, 1, 1, 1};
 		boolean[] tIsEntityRel1 = {false, false, false, false, false, false, false, false, false};
@@ -1411,6 +1411,7 @@ public class HtmlConverter {
 		boolean isMedal = String.valueOf(cp.getId()).matches("1|3|4");
 		ArrayList<String> lIds = new ArrayList<String>();
 		Result rs = null;
+		// Evaluate columns
 		for (Object obj : coll) {
 			ResultsBean bean = (ResultsBean) obj;
 			lIds.add(String.valueOf(bean.getRsId()));
@@ -1449,7 +1450,7 @@ public class HtmlConverter {
 			isPlace |= (bean.getCx1Id() != null || bean.getCx2Id() != null || bean.getCt2Id() != null || bean.getCt4Id() != null);
 			isComment |= (StringUtils.notEmpty(bean.getRsComment()) && !bean.getRsComment().matches("\\#(DOUBLE|TRIPLE)\\#"));
 		}
-		//entityCount /= (isDouble ? 2 : 1);
+		entityCount = (entityCount > MAX_RANKS ? MAX_RANKS : entityCount);
 		tColspan[0] += (tIsEntityRel1[0] ? 1 : 0) + (tIsEntityRel2[0] ? 1 : 0);
 		tColspan[1] += (tIsEntityRel1[1] ? 1 : 0) + (tIsEntityRel2[1] ? 1 : 0);
 		tColspan[2] += (tIsEntityRel1[2] ? 1 : 0) + (tIsEntityRel2[2] ? 1 : 0);
@@ -1550,7 +1551,7 @@ public class HtmlConverter {
 				tEntity = StringUtils.removeNulls(tEntity);
 				tEntityRel = StringUtils.removeNulls(tEntityRel);					
 			}
-			for (int i = 0 ; i < 9 ; i++)
+			for (int i = 0 ; i < MAX_RANKS ; i++)
 				if (tEntity[i] != null)
 					tEntityHtml[i] = ("<td" + (i < 3 && StringUtils.notEmpty(tLN[i]) ? " id=\"" + tLN[i].replaceAll("\\s", "-") + "\"" : "") + " class='srt'" + (i == 0 ? " style='font-weight:bold;'" : "") + ">" + tEntity[i] + (plist != null && plist.size() > i ? "<table id='plist-" + bean.getRsId() + "-" + i + "' class='plist' style='display:none;'>" + plist.get(i).toString() + "</table>" : "")  + "</td>" + (StringUtils.notEmpty(tEntityRel[i]) ?  tEntityRel[i] : (tIsEntityRel1[i] ? "<td></td>" : "") + (tIsEntityRel2[i] ? "<td></td>" : ""))) + (StringUtils.notEmpty(tResult[i]) ? "<td" + (isScore && i == 0 ? " class='centered nowrap'" : "") + ">" + tResult[i] + "</td>" : (tIsResult[i] ? "<td></td>" : ""));
 				

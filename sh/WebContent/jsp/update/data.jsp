@@ -19,7 +19,7 @@
 			<a id="link-ST" href="javascript:showPanel('ST');"><%=StringUtils.text("entity.ST", session)%></a>&nbsp;|&nbsp;
 			<a id="link-TM" href="javascript:showPanel('TM');"><%=StringUtils.text("entity.TM", session)%></a>&nbsp;|&nbsp;
 			<a id="link-YR" href="javascript:showPanel('YR');"><%=StringUtils.text("entity.YR", session)%></a><br/><br/>
-			<!-- Images -->
+			<!-- PHOTO -->
 			<div id="imgzone">
 				<fieldset><legend><%=StringUtils.text("photo", session)%></legend>
 					<div id="dz-file"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>	

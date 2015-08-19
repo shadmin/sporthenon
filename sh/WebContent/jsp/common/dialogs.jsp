@@ -28,13 +28,6 @@
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dInfo);"/></div>
 </div>
 </div>
-<!-- Data -->
-<div id="d-data" class="dialog" style="display:none;">
-<div class="fieldset">
-	<div id="datatip" class="fscontent"></div>
-	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dDataTip);"/></div>
-</div>
-</div>
 <!-- Person List -->
 <div id="d-plist" class="dialog" style="display:none;">
 <div class="fieldset">
@@ -47,7 +40,7 @@
 <div id="d-find" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fstitle"><%=StringUtils.text("find", session)%></div>
-	<div class="fscontent"><input type="text" id="fpattern" onkeyup="searchEntity();"/><div id="fresults"></div></div>
+	<div class="fscontent"><input type="text" id="fpattern" onkeydown="if(event.keyCode==13){searchEntity();}"/><div id="fresults"></div></div>
 	<div class="dlgbuttons"><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dFind);"/></div>
 </div>
 </div>
@@ -56,7 +49,12 @@
 <div class="fieldset">
 	<div class="fstitle">Help</div>
 	<div class="fscontent" style="width:850px;height:400px;overflow:auto;">
-	<h3>1. Format des champs</h3>
+	<h3>1. Codes pays/équipes</h3>
+	<a href="javascript:loadDataTip('country');"><%=StringUtils.text("country.codes", session)%></a><br/><br/>
+	<a href="javascript:loadDataTip('state');"><%=StringUtils.text("country.states", session)%></a><br/><br/>
+	<a href="javascript:loadDataTip('team');"><%=StringUtils.text("entity.TM", session)%></a>
+	<div id="datatip" style="display:none;"></div>
+	<h3>2. Format des champs</h3>
 	<table><tr><th>Champ</th><th>Format</th><th>Exemples</th><th style="width:300px;">Commentaires</th></tr>
 	<tr><td>Sport</td><td><b>NomSport</b></td><td><i>Football</i></td><td></td></tr>
 	<tr><td>Championnat</td><td><b>NomChampionnat</b></td><td><i>Championnats du monde</i></td><td></td></tr>
@@ -80,7 +78,6 @@
 dError = new Control.Modal($('d-error'),{ closeOnClick: false, fade: false });
 dLink = new Control.Modal($('d-link'),{ closeOnClick: false, fade: false });
 dInfo = new Control.Modal($('d-info'),{ closeOnClick: false, fade: false });
-dDataTip = new Control.Modal($('d-data'),{ closeOnClick: false, fade: false });
 dPersonList = new Control.Modal($('d-plist'),{ closeOnClick: false, fade: false });
 dFind = new Control.Modal($('d-find'),{ closeOnClick: false, fade: false });
 dHelp = new Control.Modal($('d-help'),{ closeOnClick: false, fade: false });

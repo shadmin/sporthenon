@@ -33,6 +33,9 @@ public class NavigationServlet extends AbstractServlet {
 		hPages.put("update-overview", "update/overview.jsp");
 		hPages.put("update-results", "update/results.jsp");
 		hPages.put("update-data", "update/data.jsp");
+		hPages.put("update-pictures", "update/pictures.jsp");
+		hPages.put("update-tools", "update/tools.jsp");
+		hPages.put("update-admin", "update/admin.jsp");
 		hServlet = new HashMap<String, String>();
 		hServlet.put("results", "/ResultServlet");
 		hServlet.put("olympics", "/OlympicsServlet");
@@ -44,6 +47,9 @@ public class NavigationServlet extends AbstractServlet {
 		hServlet.put("update-overview", "/UpdateServlet");
 		hServlet.put("update-results", "/UpdateServlet");
 		hServlet.put("update-data", "/UpdateServlet");
+		hServlet.put("update-pictures", "/UpdateServlet");
+		hServlet.put("update-tools", "/UpdateServlet");
+		hServlet.put("update-admin", "/UpdateServlet");
 		hServlet.put("android", "/AndroidServlet");
 		hTitle = new HashMap<String, String>();
 		hTitle.put("index", "title");
@@ -56,7 +62,7 @@ public class NavigationServlet extends AbstractServlet {
 		hTitle.put("login", "menu.login");
 		hTitle.put("update-overview", "update.overview");
 		hTitle.put("update-results", "update.results");
-		hTitle.put("update-data", "update.data");
+		hTitle.put("update-admin", "Admin");
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -66,7 +72,7 @@ public class NavigationServlet extends AbstractServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String url = request.getRequestURL().toString();
-			if (!url.contains("/ajax"))
+			if (!url.contains("/ajax") && !url.contains("/load"))
 				logger.fatal("URL: " + url);
 			String[] tURI = request.getRequestURI().substring(1).split("\\/", 0);
 			String key = tURI[0];
@@ -79,7 +85,7 @@ public class NavigationServlet extends AbstractServlet {
 			RequestDispatcher dispatcher = null;
 			if (ConfigUtils.getProperty("env").matches("test|prod"))
 				if (key != null && key.equals("update") && (request.getSession() == null || request.getSession().getAttribute("user") == null))
-					key = "login";
+					response.sendRedirect("/login");
 			if (hParams.containsKey("lang"))
 				request.getSession().setAttribute("locale", String.valueOf(hParams.get("lang")));
 			if (key != null && key.equals("project"))

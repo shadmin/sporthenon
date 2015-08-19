@@ -1153,15 +1153,6 @@ li{
 .update .fieldset{
 	margin-top: 50px;
 }
-#update-overview .fstitle{
-	background-image: url(../img/update/overview.png?5);
-}
-#update-results .fstitle{
-	background-image: url(../img/update/results.png?5);
-}
-#update-data .fstitle{
-	background-image: url(../img/update/data.png?5);
-}
 .update #prevbtn{
 	background-image: url('../img/component/button/previous.png?5');
 	background-position: 4px center;
@@ -1188,11 +1179,16 @@ li{
 #imgzone #dz-file:hover{
 	background-color: #FFD;
 }
+#imgzone #dz-file p{
+	font-style: italic;
+	margin-top: 40px;
+}
 .dz-success-mark, .dz-error-mark, .dz-details{
 	display: none;
 }
 #currentimg{
 	position: absolute;
+	text-align: right;
 	right: 25px;
 }
 #currentimg img{
@@ -1200,18 +1196,40 @@ li{
 	width: 120px;
 	height: 120px;
 }
-#msg{
+#msg, #msg2{
 	position: relative;
 	font-weight: bold;
 	min-height: 50px;
 	white-space: nowrap;
 }
-#msg div{
+#msg div, #msg2 div{
 	position: absolute;
 	left: 5px;
 	bottom: 15px;
 }
+.update input[type=text], .update textarea, #d-plist input[type=text]{
+	font: 12px Verdana;
+	width: 250px;
+	color: #888;
+	border: 1px solid #AAA;
+	padding: 2px;
+}
+.update input[type=text]:focus, .update textarea:focus, #d-plist input[type=text]:focus{
+	border: 1px solid #D00;
+	color: #000;
+}
+.update input[type=text].completed, #d-plist input[type=text].completed{
+	border: 1px solid #080;
+	color: #000;
+}
+.update input[type=text].completed2, .update textarea.completed2, #d-plist input[type=text].completed2{
+	border: 1px solid #000;
+	color: #000;
+}
 /*---------- OVERVIEW ----------*/
+#update-overview .fstitle{
+	background-image: url(../img/update/overview.png?5);
+}
 #update-overview #options{
 	width: auto;
 	margin-top: 0px;
@@ -1230,11 +1248,14 @@ li{
 #update-overview .fscontent tr:hover{
 	background-color: #FFD;
 }
-#update-data .fscontent td{
+#update-overview .fscontent td{
 	border: 1px solid #DDD;
-	padding: 1px;
+	padding: 2px;
 }
 /*---------- RESULTS ----------*/
+#update-results .fstitle{
+	background-image: url(../img/update/results.png?5);
+}
 #update-results .fscontent{
 	padding-bottom: 70px;
 }
@@ -1252,35 +1273,19 @@ li{
 #update-results a, #d-plist a{
 	font-size: 11px;
 }
-#update-results input[type=text], #update-results textarea, #d-plist input[type=text]{
-	font: 12px Verdana;
-	width: 250px;
-	color: #888;
-	border: 1px solid #AAA;
-	padding: 2px;
-}
 #update-results textarea{
 	outline: none;
 	white-space: nowrap;
-}
-#update-results input[type=text]:focus, #update-results textarea:focus, #d-plist input[type=text]:focus{
-	border: 1px solid #D00;
-	color: #000;
-}
-#update-results input[type=text].completed, #d-plist input[type=text].completed{
-	border: 1px solid #080;
-	color: #000;
-}
-#update-results input[type=text].completed2, #update-results textarea.completed2, #d-plist input[type=text].completed2{
-	border: 1px solid #000;
-	color: #000;
 }
 #update-results #dt1, #update-results #dt2, #update-results #yr{
 	width: 100px;
 }
 /*---------- DATA ----------*/
+#update-data .fstitle{
+	background-image: url(../img/update/data.png?5);
+}
 #update-data .fscontent{
-	padding-bottom: 70px;
+	padding-bottom: 60px;
 }
 #update-data .fscontent table{
 	width: auto;
@@ -1295,11 +1300,47 @@ li{
 	border: none;
 }
 #update-data input[type=text]{
-	width: 400px;
+	width: 500px;
 }
 #update-data  input.id{
 	color: #666;
-	width: 60px;
+	width: 50px;
+}
+/*---------- DATA ----------*/
+#update-pictures .fstitle{
+	background-image: url(../img/update/pictures.png?5);
+}
+/*---------- TOOLS ----------*/
+#update-tools .fstitle{
+	background-image: url(../img/update/tools.png?5);
+}
+#update-tools #qresults{
+	margin-top: 10px;
+}
+/*---------- ADMIN ----------*/
+#update-admin .fstitle{
+	background-image: url(../img/update/admin.png?5);
+}
+#update-admin .users{
+	background-image: url(../img/update/users.png?5);
+}
+#update-admin .config{
+	background-image: url(../img/update/config.png?5);
+}
+#update-admin .fscontent{
+	padding-bottom: 45px;
+}
+#update-admin .fscontent table{
+	width: auto;
+	margin-left: auto;
+	margin-right: auto;
+}
+#update-admin .fscontent td{
+	border: 1px solid #DDD;
+	padding: 3px;
+}
+#update-admin .fscontent .toolbar td{
+	border: none;
 }
 /*=============================
   ========== DIALOGS ========== 
@@ -1353,9 +1394,8 @@ li{
 	background-image: url('../img/component/button/cancel.png?5');
 }
 #datatip{
-	width: 500px;
-	height: 400px;
-	overflow: auto;
+	width: auto;
+	margin-top: 5px;
 }
 #d-find #fpattern{
 	padding: 2px;
@@ -1415,6 +1455,15 @@ li{
 }
 #buttons .upd-data, .toolbar .upd-data{
 	background-image: url('../img/update/data.png?3');
+}
+#buttons .upd-pictures, .toolbar .upd-pictures{
+	background-image: url('../img/update/pictures.png?3');
+}
+#buttons .upd-tools, .toolbar .upd-tools{
+	background-image: url('../img/update/tools.png?3');
+}
+#buttons .upd-admin, .toolbar .upd-admin{
+	background-image: url('../img/update/admin.png?3');
 }
 #buttons .upd-help, .toolbar .upd-help{
 	background-image: url('../img/update/help.png?3');

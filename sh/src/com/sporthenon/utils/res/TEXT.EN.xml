@@ -375,6 +375,10 @@
 	<entry key="update.overview">Overview</entry>
 	<entry key="update.results">Add/modify a result</entry>
 	<entry key="update.data">Administer data</entry>
+	<entry key="update.pictures">Pictures</entry>
+	<entry key="update.tools">Tools</entry>
+	<entry key="update.users">Users</entry>
+	<entry key="update.config">Configuration</entry>
 	<entry key="update.help">Help</entry>
 	<entry key="err.invalid.athlete"><![CDATA[Invalid format [#S#]: should be "Lastname, FirstName (CountryCode, TeamName)"]]></entry>
 	<entry key="err.invalid.team"><![CDATA[Invalid format [#S#]: should be "TeamName (CountryCode)"]]></entry>
@@ -405,4 +409,6 @@
 	<entry key="last">Last</entry>
 	<entry key="update.ok">Update OK</entry>
 	<entry key="click.drag.drop">Click or drag/drop</entry>
+	<entry key="remove">Remove</entry>
+	<entry key="active">Active</entry>
 </properties>

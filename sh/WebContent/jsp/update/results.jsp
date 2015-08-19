@@ -17,7 +17,12 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 	<div class="fieldset">
 		<div class="fstitle"><%=StringUtils.text("update.results", session).toUpperCase()%></div>
 		<div class="fscontent" style="height:auto;">
-			<div style="float:right;text-align:right;"><a href="javascript:loadDataDialog('country');"><%=StringUtils.text("country.codes", session)%></a><br/><a href="javascript:loadDataDialog('state');"><%=StringUtils.text("country.states", session)%></a><br/><a href="javascript:loadDataDialog('team');"><%=StringUtils.text("entity.TM", session)%></a></div>
+			<!-- ID -->
+			<div style="float:right;">
+				<table style="margin-top:0px;"><tr>
+				<td>ID:</td><td><input id="id" type="text" disabled="disabled" style="width:50px;"/></td>
+				</tr></table>
+			</div>
 			<!-- EVENT -->
 			<div style="float:left;width:auto;margin-right:5px;">
 			<fieldset style="height:140px;"><legend>Event</legend>
@@ -47,10 +52,10 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 			<!-- PHOTO -->
 			<div id="imgzone" style="left:950px;">
 				<fieldset style="height:140px;"><legend><%=StringUtils.text("photo", session)%></legend>
-					<div id="dz-file"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>	
+					<div id="dz-file"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>
 				</fieldset>
 			</div>
-			<div id="currentimg"></div>
+			<div id="currentimg" style="margin-top:30px;"></div>
 			<!-- PLACES/VENUES -->
 			<div style="clear:left;float:left;width:auto;margin-right:5px;margin-top:8px;">
 			<fieldset style="height:145px;"><legend>Places</legend>
@@ -113,7 +118,7 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 			<!-- BUTTON PANEL -->
 			<table class="toolbar" style="float:right;">
 				<tr>
-					<td><input id="upd-add" type="button" class="button upd-add" onclick="tValues['id']=null;saveResult();" value="<%=StringUtils.text("button.add", session)%>"/></td>
+					<td><input id="upd-add" type="button" class="button upd-add" onclick="addResult();" value="<%=StringUtils.text("button.add", session)%>"/></td>
 					<td><input id="upd-modify" type="button" class="button upd-modify" onclick="saveResult();" value="<%=StringUtils.text("button.modify", session)%>"/></td>
 				</tr>
 			</table><br/>
@@ -122,7 +127,7 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 					<td><input id="upd-first" type="button" class="button upd-first" onclick="loadResult('first');" value="<%=StringUtils.text("first", session)%>"/></td>
 					<td><input id="upd-previous" type="button" class="button upd-previous" onclick="loadResult('prev');" value="<%=StringUtils.text("previous", session)%>"/></td>
 					<td><input id="upd-find" type="button" class="button upd-find" onclick="findEntity();" value="<%=StringUtils.text("find", session)%>"/></td>
-					<td><input id="upd-next" type="button" class="button upd-next" onclick="loadResult('prev');" value="<%=StringUtils.text("next", session)%>"/></td>
+					<td><input id="upd-next" type="button" class="button upd-next" onclick="loadResult('next');" value="<%=StringUtils.text("next", session)%>"/></td>
 					<td><input id="upd-last" type="button" class="button upd-last" onclick="loadEntity('last');" value="<%=StringUtils.text("last", session)%>"/></td>
 				</tr>
 			</table>

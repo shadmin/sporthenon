@@ -183,4 +183,8 @@ public class Team {
 		return label + (country != null ? ", " + country : "") + (sport != null ? ", " + sport : "") + " [#" + id + "]";
 	}
 	
+	public String toString2() {
+		return label + (country != null ? " (" + country.getCode() + ")" : "");
+	}
+	
 }

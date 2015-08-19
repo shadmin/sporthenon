@@ -2,7 +2,7 @@
 ; Sporthenon Setup Script ;
 ;-------------------------;
 
-!define VERSION "0.10.2"
+!define VERSION "0.11.0"
 
 ;!define OUTPUT "C:\Sporthenon\Setup"
 ;!define IMGPATH "C:\Sporthenon\Setup\Graphics"

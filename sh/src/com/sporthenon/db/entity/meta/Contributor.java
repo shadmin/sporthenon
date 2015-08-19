@@ -110,6 +110,14 @@ public class Contributor {
 	public String toString() {
 		return login;
 	}
+	
+	public boolean isActive() {
+		return (active != null && active);
+	}
+	
+	public boolean isAdmin() {
+		return (admin != null && admin);
+	}
 
 	public boolean isSport(Integer id) {
 		return ((admin != null && admin) || (StringUtils.notEmpty(sports) && sports.matches("(^|.*\\,)" + id + "(\\,.*|$)")));

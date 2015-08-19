@@ -8,6 +8,7 @@
 <%@ page import="com.sporthenon.db.function.LastUpdateBean"%>
 <%@ page import="com.sporthenon.db.function.StatisticsBean"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
+<%@ page import="com.sporthenon.utils.ConfigUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="com.sporthenon.web.HtmlConverter"%>
 <%@ page import="com.sporthenon.web.servlet.IndexServlet"%>
@@ -52,8 +53,9 @@
 			<th id="tlast-dtcol" class="sorted desc" onclick="sort('tlast', this, 4);"><%=StringUtils.text("updated.on", session).replaceAll("\\s", "&nbsp;")%></th>
 		</tr></thead><tbody class="tby" id="tb-tlast">
 		<%
+			final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_lastupdates_limit"));
         	ArrayList<Object> lParams = new ArrayList<Object>();
-        	lParams.add(new Integer(20));
+        	lParams.add(ITEM_LIMIT);
         	lParams.add(new Integer(0));
         	lParams.add("_" + lang);
         	Collection coll = DatabaseHelper.call("LastUpdates", lParams);

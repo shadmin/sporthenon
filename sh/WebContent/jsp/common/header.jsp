@@ -105,6 +105,7 @@
 	var TX_PREVIOUS = "<%=StringUtils.text("previous", session)%>";
 	var TX_NEXT = "<%=StringUtils.text("next", session)%>";
 	var TX_CLICK_DRAGDROP = "<%=StringUtils.text("click.drag.drop", session)%>";
+	var TX_REMOVE = "<%=StringUtils.text("remove", session)%>";
 --></script>
 
 <div id="headertop">
