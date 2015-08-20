@@ -426,37 +426,45 @@ public class UpdateServlet extends AbstractServlet {
 		lFuncParams.add(StringUtils.toInt(hParams.get("count")));
 		lFuncParams.add(hParams.get("pattern"));
 		lFuncParams.add("_" + lang);
-		final String TICK = "<img alt='ok' src='/img/update/tick.png'/>";
-		final String MISSING = "<img alt='miss' src='/img/update/missing.png'/>";
 		String currentEntity = null;
 		for (RefItem item : (List<RefItem>) DatabaseHelper.call("Overview", lFuncParams)) {
 			if (currentEntity == null || !item.getEntity().equals(currentEntity)) {
 				if (currentEntity != null);
 					html.append("</table>");
 				if (item.getEntity().equals(Result.alias))
-					html.append("<table><tr><th colspan='8' style='text-align:center;'>" + ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase() + "</th></tr><tr><th>ID</th><th>Event</th><th>Podium</th><th>Podium+Results</th><th>Final+Score</th><th>Draw</th><th>Ext.links</th><th>Photo</th></tr>");
+					html.append("<table><tr><th colspan='11' style='text-align:center;'>" + ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase() + "</th></tr><tr><th>Year</th><th>Event</th><th>Podium</th><th>Results</th><th>Final+Score</th><th>Complex</th><th>City</th><th>Date</th><th>Draw</th><th>Ext.links</th><th>Photo</th></tr>");
 				else if (item.getEntity().equals(Athlete.alias))
-					html.append("<table><tr><th colspan='5' style='text-align:center;'>" + ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase() + "</th></tr><tr><th>ID</th><th>Name</th><th>Ref.</th><th>Ext.links</th><th>Photo</th></tr>");
+					html.append("<table><tr><th colspan='5' style='text-align:center;'>" + ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase() + "</th></tr><tr><th>Name</th><th>Ref.</th><th>Ext.links</th><th>Photo</th></tr>");
 				currentEntity = item.getEntity();
 			}
 			boolean isPhoto = StringUtils.notEmpty(ImageUtils.getPhotoFile(item.getEntity(), item.getIdItem()));
-			html.append("<tr><td>" + item.getIdItem() + "</td>");
+			html.append("<tr>");
+			//html.append("<td>" + item.getIdItem() + "</td>");
 			if (item.getEntity().equals(Result.alias)) {
-				int rkcount = (item.getTxt3() != null ? item.getTxt3().split("\\-").length : 0);
-				html.append("<td style='font-weight:bold;'>" + item.getLabelRel1() + " - " + item.getLabelRel2() + " - " + item.getLabelRel3() + "</td>");
-				html.append("<td>" + (rkcount >= 3 ? TICK : "") + "</td>");
-				html.append("<td></td>");
-				html.append("<td></td>");
-				html.append("<td>" + (item.getIdRel4() != null ? TICK : "") + "</td>");
-				html.append("<td>" + (item.getCount1() > 0 ? item.getCount1() : MISSING) + "</td>");
-				html.append("<td>" + (isPhoto ? TICK : MISSING) + "</td>");
+				int rkcount = (item.getTxt3() != null ? item.getTxt3().split("\\|").length : 0);
+				int rscount = (item.getTxt4() != null ? item.getTxt4().split("\\|").length : 0);
+				boolean isScore = (rkcount >= 2 && rscount == 1);
+				String[] tplace = item.getTxt1().split("\\|", -1);
+				int cxcount = (StringUtils.notEmpty(tplace[0]) && !tplace[0].equals("0") ? 1 : 0) + (StringUtils.notEmpty(tplace[1]) && !tplace[1].equals("0") ? 1 : 0);
+				int ctcount = (StringUtils.notEmpty(tplace[2]) && !tplace[2].equals("0") ? 1 : 0) + (StringUtils.notEmpty(tplace[3]) && !tplace[3].equals("0") ? 1 : 0);
+				String[] tdate = item.getTxt2().split("\\|", -1);
+				int dtcount = (StringUtils.notEmpty(tdate[0]) && !tdate[0].equals("0") ? 1 : 0) + (StringUtils.notEmpty(tdate[1]) && !tdate[1].equals("0") ? 1 : 0);
+				html.append("<td>" + item.getLabelRel1() + "</td>");
+				html.append("<td><a href='/update/results/" + StringUtils.encode(Result.alias + "-" + item.getIdItem()) + "' target='_blank'>" + item.getLabelRel2() + " - " + item.getLabelRel3() + (StringUtils.notEmpty(item.getLabelRel4()) ? " - " + item.getLabelRel4() : "") + (StringUtils.notEmpty(item.getLabelRel5()) ? " - " + item.getLabelRel5() : "") + (StringUtils.notEmpty(item.getLabelRel6()) ? " - " + item.getLabelRel6() : "") + "</a></td>");
+				html.append("<td" + (rkcount >= 3 ? " class='tick'>(" + rkcount + ")" : ">") + "</td>");
+				html.append("<td" + (rscount >= 3 ? " class='tick'>(" + rscount + ")" : ">") + "</td>");
+				html.append("<td" + (isScore ? " class='tick'" : "") + "></td>");
+				html.append("<td" + (cxcount > 0 ? " class='tick'>(" + cxcount + ")" : ">") + "</td>");
+				html.append("<td" + (ctcount > 0 ? " class='tick'>(" + ctcount + ")" : ">") + "</td>");
+				html.append("<td" + (dtcount > 0 ? " class='tick'>(" + dtcount + ")" : " class='missing'>") + "</td>");
+				html.append("<td" + (item.getIdRel4() != null ? " class='tick'" : "") + "></td>");
 			}
 			else if (item.getEntity().equals(Athlete.alias)) {
 				html.append("<td style='font-weight:bold;'>" + item.getLabelRel1() + ",&nbsp;" + item.getLabelRel2() + "</td>");
 				html.append("<td>" + item.getCount2() + "</td>");
-				html.append("<td>" + (item.getCount1() > 0 ? item.getCount1() : MISSING) + "</td>");
-				html.append("<td>" + (isPhoto ? TICK : MISSING) + "</td>");
 			}
+			html.append("<td" + (item.getCount1() > 0 ? " class='tick'>(" + item.getCount1() + ")" : " class='missing'>") + "</td>");
+			html.append("<td" + (isPhoto ? " class='tick'" : " class='missing'") + "></td>");
 			html.append("</tr>");
 		}
 		ServletHelper.writeText(response, html.append("</table>").toString());

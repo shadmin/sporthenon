@@ -14,7 +14,7 @@
 		<div class="fscontent" style="height:auto;">
 			<table id="options"><tr>
 				<td><%=StringUtils.text("sport", session)%>&nbsp;:</td>
-				<td><select id='ovsport' onchange="loadOverview();">
+				<td><select id='ovsport'>
 				<%
 					String lang = String.valueOf(session.getAttribute("locale"));
 					for (Sport sp : (List<Sport>) DatabaseHelper.execute("from Sport order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "")))
@@ -22,9 +22,10 @@
 				%>
 				</select></td>
 				<td><%=StringUtils.text("count", session)%>&nbsp;:</td>
-				<td><input id="ovcount" type="text" value="50" style="width:50px;" onblur="loadOverview();"/>
+				<td><input id="ovcount" type="text" value="50" style="width:50px;"/>
 				<td><%=StringUtils.text("find", session)%>&nbsp;:</td>
-				<td><input id="ovpattern" type="text" style="width:100px;" onblur="loadOverview();"/>
+				<td><input id="ovpattern" type="text" style="width:100px;"/>
+				<td><input type="button" value="OK" onclick="loadOverview();"/></td>
 			</tr></table>
 			<div id="ovcontent"></div>
 		</div>

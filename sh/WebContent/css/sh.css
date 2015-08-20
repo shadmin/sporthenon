@@ -1252,6 +1252,14 @@ li{
 	border: 1px solid #DDD;
 	padding: 2px;
 }
+#update-overview .fscontent td.tick{
+	background: url(../img/update/tick.png?5) 2px center no-repeat;
+	padding-left: 20px;
+}
+#update-overview .fscontent td.missing{
+	background: url(../img/update/missing.png?5) 2px center no-repeat;
+	padding-left: 20px;
+}
 /*---------- RESULTS ----------*/
 #update-results .fstitle{
 	background-image: url(../img/update/results.png?5);
