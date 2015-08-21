@@ -411,4 +411,5 @@
 	<entry key="click.drag.drop">Click or drag/drop</entry>
 	<entry key="remove">Remove</entry>
 	<entry key="active">Active</entry>
+	<entry key="data">Data</entry>
 </properties>

@@ -20,6 +20,7 @@
 					for (Sport sp : (List<Sport>) DatabaseHelper.execute("from Sport order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "")))
 						out.print("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
 				%>
+				<option value="0">[<%=StringUtils.text("all", session)%>]</option>
 				</select></td>
 				<td><%=StringUtils.text("count", session)%>&nbsp;:</td>
 				<td><input id="ovcount" type="text" value="50" style="width:50px;"/>

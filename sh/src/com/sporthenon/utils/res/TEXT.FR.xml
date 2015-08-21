@@ -410,4 +410,5 @@
 	<entry key="click.drag.drop">Cliquer ou glisser/déposer</entry>
 	<entry key="remove">Supprimer</entry>
 	<entry key="active">Actif</entry>
+	<entry key="data">Données</entry>
 </properties>

@@ -135,16 +135,6 @@
 .tc .winrec .bar3{
 	background: url(../img/render/bar3.gif) right center no-repeat;
 }
-.tc .toggleimg{
-	cursor: pointer;
-	padding-right: 3px;
-}
-.tc .toggletext{
-	cursor: pointer;
-}
-.tc .toggletext:hover{
-	text-decoration: underline;
-}
 .tc .uinfo{
 	margin: 0 auto;
 	padding: 0px;

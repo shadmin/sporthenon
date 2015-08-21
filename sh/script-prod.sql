@@ -1515,10 +1515,10 @@ $BODY$
   
   
   
-update "TEAM" set id_league=1 where id_sport=23 and conference is not null;
-update "TEAM" set id_league=2 where id_sport=24 and conference is not null;
-update "TEAM" set id_league=3 where id_sport=25 and conference is not null;
-update "TEAM" set id_league=4 where id_sport=26 and conference is not null;
+update "TEAM" set id_league=1 where id_sport=23 and (conference is not null and conference <>'');
+update "TEAM" set id_league=2 where id_sport=24 and (conference is not null and conference <>'');
+update "TEAM" set id_league=3 where id_sport=25 and (conference is not null and conference <>'');
+update "TEAM" set id_league=4 where id_sport=26 and (conference is not null and conference <>'');
 
 
 

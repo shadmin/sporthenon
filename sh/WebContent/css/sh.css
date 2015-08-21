@@ -135,6 +135,16 @@ li{
 .criteria{
 	background-image: url(../img/db/criteria.png?5);
 }
+.toggleimg{
+	cursor: pointer;
+	padding-right: 3px;
+}
+.toggletext{
+	cursor: pointer;
+}
+.toggletext:hover{
+	text-decoration: underline;
+}
 /*=================================
   ========== HEADER/MENU ========== 
   =================================*/

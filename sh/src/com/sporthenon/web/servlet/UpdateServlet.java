@@ -35,6 +35,7 @@ import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.PersonList;
 import com.sporthenon.db.entity.meta.RefItem;
+import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
@@ -430,14 +431,23 @@ public class UpdateServlet extends AbstractServlet {
 		for (RefItem item : (List<RefItem>) DatabaseHelper.call("Overview", lFuncParams)) {
 			if (currentEntity == null || !item.getEntity().equals(currentEntity)) {
 				if (currentEntity != null);
-					html.append("</table>");
+					html.append("</tbody></table>");
+					html.append("<table><thead><tr>");
 				if (item.getEntity().equals(Result.alias))
-					html.append("<table><tr><th colspan='11' style='text-align:center;'>" + ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase() + "</th></tr><tr><th>Year</th><th>Event</th><th>Podium</th><th>Results</th><th>Final+Score</th><th>Complex</th><th>City</th><th>Date</th><th>Draw</th><th>Ext.links</th><th>Photo</th></tr>");
+					html.append("<th colspan='11' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase()) + "</th></tr><tr><th>Year</th><th>Event</th><th>Podium</th><th>Results</th><th>Final+Score</th><th>Complex</th><th>City</th><th>Date</th><th>Draw</th><th>Ext.links</th><th>Photo</th>");
 				else if (item.getEntity().equals(Athlete.alias))
-					html.append("<table><tr><th colspan='5' style='text-align:center;'>" + ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase() + "</th></tr><tr><th>Name</th><th>Ref.</th><th>Ext.links</th><th>Photo</th></tr>");
+					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Sport</th><th>Country</th><th>Team</th><th>Ref.</th><th>Ext.links</th><th>Photo</th>");
+				else if (item.getEntity().equals(Sport.alias))
+					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Sport.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Ref.</th><th>Ext.links</th><th>Picture</th>");
+				else if (item.getEntity().equals(Team.alias))
+					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Team.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Sport</th><th>Country</th><th>League</th><th>Ref.</th><th>Ext.links</th><th>Logo</th>");
+				html.append("</tr></thead><tbody class='tby'>");
 				currentEntity = item.getEntity();
 			}
 			boolean isPhoto = StringUtils.notEmpty(ImageUtils.getPhotoFile(item.getEntity(), item.getIdItem()));
+			int picsL = ImageUtils.getImageList(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_LARGE).size();
+			int picsS = ImageUtils.getImageList(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_SMALL).size();
+			String href = "#";
 			html.append("<tr>");
 			//html.append("<td>" + item.getIdItem() + "</td>");
 			if (item.getEntity().equals(Result.alias)) {
@@ -460,14 +470,31 @@ public class UpdateServlet extends AbstractServlet {
 				html.append("<td" + (item.getIdRel4() != null ? " class='tick'" : "") + "></td>");
 			}
 			else if (item.getEntity().equals(Athlete.alias)) {
-				html.append("<td style='font-weight:bold;'>" + item.getLabelRel1() + ",&nbsp;" + item.getLabelRel2() + "</td>");
+				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + ",&nbsp;" + item.getLabelRel2() + "</a></td>");
+				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel5()) ? ">" + item.getLabelRel5() : " class='missing'>") + "</td>");
+				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel3()) ? ">" + item.getLabelRel3() : " class='missing'>") + "</td>");
+				html.append("<td>" + (StringUtils.notEmpty(item.getLabelRel4()) ? item.getLabelRel4() : "-") + "</td>");
+				html.append("<td>" + item.getCount2() + "</td>");
+			}
+			else if (item.getEntity().equals(Sport.alias)) {
+				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
+				html.append("<td>" + item.getCount2() + "</td>");
+			}
+			else if (item.getEntity().equals(Team.alias)) {
+				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
+				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel2()) ? ">" + item.getLabelRel2() : " class='missing'>") + "</td>");
+				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel3()) ? ">" + item.getLabelRel3() : " class='missing'>") + "</td>");
+				html.append("<td>" + (StringUtils.notEmpty(item.getLabelRel4()) ? item.getLabelRel4() : "-") + "</td>");
 				html.append("<td>" + item.getCount2() + "</td>");
 			}
 			html.append("<td" + (item.getCount1() > 0 ? " class='tick'>(" + item.getCount1() + ")" : " class='missing'>") + "</td>");
-			html.append("<td" + (isPhoto ? " class='tick'" : " class='missing'") + "></td>");
+			if (item.getEntity().matches(Athlete.alias + "|" + Result.alias))
+				html.append("<td" + (isPhoto ? " class='tick'" : " class='missing'") + "></td>");
+			else
+				html.append("<td" + (picsL > 0 && picsS > 0 ? " class='tick'>(" + picsL + "L+" + picsS + "S)" : " class='missing'>") + "</td>");
 			html.append("</tr>");
 		}
-		ServletHelper.writeText(response, html.append("</table>").toString());
+		ServletHelper.writeText(response, html.append("</tbody></table>").toString());
 	}
 	
 	private static void saveConfig(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
