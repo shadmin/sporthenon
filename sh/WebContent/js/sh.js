@@ -680,8 +680,8 @@ function loadReport(cdata_, clabel_, ccolor_) {
 		.Set('gutter.top', 40)
 		.Set('gutter.bottom', 40)
 		.Set('vmargin', 5)
-		.Set('exploded', 0)
-		.Set('strokestyle', '#000')
+		.Set('exploded', 8)
+		.Set('strokestyle', '#666')
 		.Draw();
 	}
 }
@@ -1911,12 +1911,18 @@ function loadOverview() {
 }
 /*========== TOOLS ==========*/
 function executeQuery(index) {
-	$('qresults').update('<img src="/img/db/loading.gif?6"/>');
-	new Ajax.Request('/update/execute-query?index=' + index, {
-		onSuccess: function(response){
-			$('qresults').update(response.responseText);		
-		}
-	});
+	var url = '/update/execute-query?index=' + index + ($('rcsv').checked ? '&csv=1' : '');
+	if ($('rcsv').checked) {
+		location.href = url;
+	}
+	else {
+		$('qresults').update('<img src="/img/db/loading.gif?6"/>');
+		new Ajax.Request(url, {
+			onSuccess: function(response){
+				$('qresults').update(response.responseText);		
+			}
+		});
+	}
 }
 /*========== ADMIN ==========*/
 function saveConfig() {

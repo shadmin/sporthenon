@@ -230,7 +230,7 @@ public class HtmlUtils {
 	public static String writeExternalLinks(String alias, Object id, String lang) throws Exception {
 		StringBuffer sbHtml = new StringBuffer();
 		String currentType = null;
-		List<ExternalLink> list = DatabaseHelper.execute("from ExternalLink where entity='" + alias + "' and idItem=" + id + " and checked=TRUE order by id");
+		List<ExternalLink> list = DatabaseHelper.execute("from ExternalLink where entity='" + alias + "' and idItem=" + id + " order by id");
 		for (ExternalLink link : list) {
 			// Title
 			if (currentType == null || !currentType.equalsIgnoreCase(link.getType())) {

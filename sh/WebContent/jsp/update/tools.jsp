@@ -6,6 +6,7 @@
 	<div class="fieldset">
 		<div class="fstitle"><%=StringUtils.text("update.tools", session).toUpperCase()%></div>
 		<div class="fscontent">
+			<div style="position:absolute;left:550px;"><input type="radio" id="rscreen" name="output" checked="checked"/><label for="rscreen">Screen</label>&nbsp;<input type="radio" id="rcsv" name="output"/><label for="rcsv">CSV</label></div>
 			<a href="javascript:executeQuery(0);">Duplicate athletes by sport</a><br/>
 			<a href="javascript:executeQuery(1);">Events/Championships not used</a><br/>
 			<a href="javascript:executeQuery(2);">Events not completed for current year</a><br/>

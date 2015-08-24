@@ -313,9 +313,16 @@ public class HtmlConverter {
 		else if (type == HEADER_REF) {
 			String entity = String.valueOf(lstParams.get(0));
 			hHeader.put("title", String.valueOf(lstParams.get(6)));
-			hHeader.put("desc", ResourceUtils.getText("details", lang) +" " + ResourceUtils.getText("entity." + entity + ".1", lang) + " : " + hHeader.get("title"));
+			hHeader.put("desc", ResourceUtils.getText("details", lang) + " " + ResourceUtils.getText("entity." + entity + ".1", lang) + " : " + hHeader.get("title"));
 			hHeader.put("item0", "<table><tr><td><img alt='Ref' src='/img/menu/dbref.png'/></td><td>&nbsp;" + ResourceUtils.getText("entity." + entity, lang) + "</td></tr></table>");
-			hHeader.put("item1", hHeader.get("title"));
+			if (entity.equals(Result.alias)) {
+				Result r = (Result) DatabaseHelper.loadEntity(Result.class, lstParams.get(1));
+				String path = r.getSport().getLabel() + "/" + r.getChampionship().getLabel() + "/" + r.getEvent().getLabel() + (r.getSubevent() != null ? "/" + r.getSubevent().getLabel() : "") + (r.getSubevent2() != null ? "/" + r.getSubevent2().getLabel() : "");
+				hHeader.put("item1", HtmlUtils.writeLink(Year.alias, r.getYear().getId(), r.getYear().getLabel(), null));
+				hHeader.put("item2", "<a href='" + HtmlUtils.writeURL("/results", r.getSport().getId() + "-" + r.getChampionship().getId() + "-" + r.getEvent().getId() + (r.getSubevent() != null ? "-" + r.getSubevent().getId() : "") + (r.getSubevent2() != null ? "-" + r.getSubevent2().getId() : ""), path) + "'>" + (r.getSport().getLabel(lang) + "&nbsp;–&nbsp;" + r.getChampionship().getLabel(lang) + "&nbsp;–&nbsp;" + r.getEvent().getLabel(lang) + (r.getSubevent() != null ? "&nbsp;–&nbsp;" + r.getSubevent().getLabel(lang) : "") + (r.getSubevent2() != null ? "&nbsp;–&nbsp;" + r.getSubevent2().getLabel(lang) : "")) + "</a>");
+			}
+			else
+				hHeader.put("item1", hHeader.get("title"));
 		}
 		// Reported errors
 		try {
@@ -325,7 +332,7 @@ public class HtmlConverter {
 				sb.append("<a class='ertip' href='#ereport'>" + list.size() + " " + ResourceUtils.getText("error" + (list.size() > 1 ? "s" : ""), lang) + " " + ResourceUtils.getText("on.this.page", lang) + "</a>");
 				sb.append("<div id='ereport' class='rendertip'>");
 				for (ErrorReport er : list)
-					sb.append("-&nbsp;" + er.getText().replaceAll("\r\n|\n", "<br/>")).append("<br/>");
+					sb.append("–&nbsp;" + er.getText().replaceAll("\r\n|\n", "<br/>")).append("<br/>");
 				sb.append("</div>");
 				hHeader.put("errors", sb.toString());
 			}
@@ -494,6 +501,7 @@ public class HtmlConverter {
 			hInfo.put("titleEN", e.getLabel());
 			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, e.getId(), ImageUtils.SIZE_LARGE, null, null));
 			hInfo.put("name", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
+			hInfo.put("extlinks", HtmlUtils.writeExternalLinks(type, id, lang));
 			ref = e.getRef();
 			lastUpdate = e.getMetadata().getLastUpdate();
 		}
@@ -676,6 +684,7 @@ public class HtmlConverter {
 			hInfo.put("titleEN", e.getLabel());
 			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_EVENT, e.getId(), ImageUtils.SIZE_LARGE, null, null));
 			hInfo.put("name", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
+			hInfo.put("extlinks", HtmlUtils.writeExternalLinks(type, id, lang));
 			ref = e.getRef();
 			lastUpdate = e.getMetadata().getLastUpdate();
 		}
@@ -1121,7 +1130,7 @@ public class HtmlConverter {
 		// Get linked entities
 		ArrayList<Integer> eList = new ArrayList<Integer>();
 		if (etype.matches(Athlete.alias + "|" + Team.alias))
-			for (Integer id_ : (List<Integer>) DatabaseHelper.executeNative("SELECT id FROM \"" + (etype.equals(Athlete.alias) ? "Athlete" : "TEAM") + "\" WHERE id=" + itemId + " OR link=" + itemId + " OR id=(SELECT link FROM \"" + (etype.equals(Athlete.alias) ? "Athlete" : "TEAM") + "\" WHERE id=" + itemId + ")"))
+			for (Integer id_ : (List<Integer>) DatabaseHelper.executeNative("SELECT id FROM \"" + (etype.equals(Athlete.alias) ? "Athlete" : "Team") + "\" WHERE id=" + itemId + " OR link=" + itemId + " OR id=(SELECT link FROM \"" + (etype.equals(Athlete.alias) ? "Athlete" : "Team") + "\" WHERE id=" + itemId + ")"))
 				eList.add(id_);
 		else
 			eList.add(itemId);
@@ -1388,7 +1397,7 @@ public class HtmlConverter {
 		}
 		if (limit != null && !limit.equalsIgnoreCase("ALL") && count >= Integer.parseInt(limit)) {
 			String p = params.get(0) + "-" + params.get(1) + "-" + currentEntity + "-#LIMIT#-" + (offset + (!limit.equalsIgnoreCase("all") ? Integer.parseInt(limit) : 0));
-			html.append(MORE_ITEMS.replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", "20"))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
+			html.append(MORE_ITEMS.replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", String.valueOf(ITEM_LIMIT)))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
 		}
 		html.append(isAllRef ? "</tbody></table>" : "");
 		return html;
@@ -2109,6 +2118,7 @@ public class HtmlConverter {
 	}
 	
 	public static StringBuffer convertLastUpdates(Collection<Object> coll, Integer limit, Integer offset, String lang) throws Exception {
+		final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_lastupdates_limit"));
 		StringBuffer html = new StringBuffer();
 		int i = 0;
 		for (Object obj : coll) {
@@ -2159,7 +2169,7 @@ public class HtmlConverter {
 				if (bean.getCn4Id() != null)
 					pos4 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn4Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, bean.getCn4Id(), bean.getCn4Label(), bean.getCn4LabelEN()));
 			}
-			String year = "<b>" + bean.getYrLabel() + "</b>";
+			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
 			String update = StringUtils.toTextDate(bean.getRsUpdate(), lang, "d MMM yyyy");
 			String update2 = new SimpleDateFormat("yyyyMMddHHmm").format(bean.getRsUpdate());
 			String path = bean.getYrLabel() + "/" + bean.getSpLabelEN() + "/" + bean.getCpLabelEN() + "/" + bean.getEvLabelEN() + (bean.getSeId() != null ? "/" + bean.getSeLabelEN() : "") + (bean.getSe2Id() != null ? "/" + bean.getSe2LabelEN() : "");
@@ -2191,9 +2201,9 @@ public class HtmlConverter {
 			html.append("<td id='dt-" + update2 + "-" + i + "' class='srt'>" + update + "</td></tr>");
 			i++;
 		}
-		final String MORE_ITEMS = "<tr class='moreitems'><td colspan='5'><div class='sfdiv1' onclick='moreLastUpdates(this, \"#P1#\");'>&nbsp;(+20)&nbsp;</div><div class='sfdiv2' onclick='moreLastUpdates(this, \"#P2#\");'>&nbsp;(+50)&nbsp;</div><div class='sfdiv3' onclick='moreLastUpdates(this, \"#P3#\");'>&nbsp;(+100)&nbsp;</div></td></tr>";
+		final String MORE_ITEMS = "<tr class='moreitems'><td colspan='5'><div class='sfdiv1' onclick='moreLastUpdates(this, \"#P1#\");'>&nbsp;(+" + ITEM_LIMIT + ")&nbsp;</div><div class='sfdiv2' onclick='moreLastUpdates(this, \"#P2#\");'>&nbsp;(+50)&nbsp;</div><div class='sfdiv3' onclick='moreLastUpdates(this, \"#P3#\");'>&nbsp;(+100)&nbsp;</div></td></tr>";
 		String p ="#LIMIT#-" + (offset + limit);
-		html.append(MORE_ITEMS.replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", "20"))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "50"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))));
+		html.append(MORE_ITEMS.replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", String.valueOf(ITEM_LIMIT)))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "50"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))));
 		return html;
 	}
 	

@@ -329,9 +329,12 @@ li{
 }
 #dupdates{
 	text-align: center;
-	/*overflow: auto;*/
+}
+#dupdates tr:hover td{
+	background-color: #BEE0FF;
 }
 #dupdates td{
+	background-color: #FFF;
 	padding: 0px 3px;
 }
 #dupdates td td, #dupdates td th, #dupdates td td td{
@@ -592,7 +595,6 @@ li{
   ===============================*/
 #treeview{
 	width: 100%;
-	overflow: auto;
 	border: none;
 	margin-left: -5px;
 	margin-bottom: 0px;
@@ -610,7 +612,9 @@ li{
 	color: black;
 }
 #treeview .nodetext{
-	padding-left: 2px;
+	padding-left: 1px;
+	padding-right: 5px;
+	padding-top: 1px;
 	cursor: pointer;
 }
 #treeview .over {
@@ -1220,13 +1224,16 @@ li{
 .update input[type=text], .update textarea, #d-plist input[type=text]{
 	font: 12px Verdana;
 	width: 250px;
-	color: #888;
 	border: 1px solid #AAA;
 	padding: 2px;
 }
 .update input[type=text]:focus, .update textarea:focus, #d-plist input[type=text]:focus{
 	border: 1px solid #D00;
 	color: #000;
+}
+.update input[type=text].default, #d-plist input[type=text].default{
+	border: 1px solid #AAA;
+	color: #888;
 }
 .update input[type=text].completed, #d-plist input[type=text].completed{
 	border: 1px solid #080;

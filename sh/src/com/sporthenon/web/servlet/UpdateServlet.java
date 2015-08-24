@@ -104,6 +104,9 @@ public class UpdateServlet extends AbstractServlet {
 		hTable.put("se", "Event"); hTable.put("event", "Event");
 		hTable.put("se2", "Event"); hTable.put("event", "Event");
 		hTable.put("yr", "Year"); hTable.put("year", "Year");
+		hTable.put("cx", "Complex"); hTable.put("complex", "Complex");
+		hTable.put("ct", "City"); hTable.put("city", "City");
+		hTable.put("st", "State"); hTable.put("state", "State");
 		hTable.put("pl1", "Complex"); hTable.put("complex", "Complex");
 		hTable.put("pl2", "Complex"); hTable.put("complex", "Complex");
 		hTable.put("pr", "Athlete"); hTable.put("athlete", "Athlete");
@@ -430,17 +433,25 @@ public class UpdateServlet extends AbstractServlet {
 		String currentEntity = null;
 		for (RefItem item : (List<RefItem>) DatabaseHelper.call("Overview", lFuncParams)) {
 			if (currentEntity == null || !item.getEntity().equals(currentEntity)) {
-				if (currentEntity != null);
+				if (currentEntity != null)
 					html.append("</tbody></table>");
-					html.append("<table><thead><tr>");
+				html.append("<table><thead><tr>");
 				if (item.getEntity().equals(Result.alias))
 					html.append("<th colspan='11' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase()) + "</th></tr><tr><th>Year</th><th>Event</th><th>Podium</th><th>Results</th><th>Final+Score</th><th>Complex</th><th>City</th><th>Date</th><th>Draw</th><th>Ext.links</th><th>Photo</th>");
 				else if (item.getEntity().equals(Athlete.alias))
 					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Sport</th><th>Country</th><th>Team</th><th>Ref.</th><th>Ext.links</th><th>Photo</th>");
-				else if (item.getEntity().equals(Sport.alias))
-					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Sport.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Ref.</th><th>Ext.links</th><th>Picture</th>");
 				else if (item.getEntity().equals(Team.alias))
 					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Team.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Sport</th><th>Country</th><th>League</th><th>Ref.</th><th>Ext.links</th><th>Logo</th>");
+				else if (item.getEntity().equals(Sport.alias))
+					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Sport.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Ref.</th><th>Ext.links</th><th>Picture</th>");
+				else if (item.getEntity().equals(Championship.alias))
+					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Championship.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Ref.</th><th>Ext.links</th><th>Picture</th>");
+				else if (item.getEntity().equals(Event.alias))
+					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Event.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Ref.</th><th>Ext.links</th><th>Picture</th>");
+				else if (item.getEntity().equals(City.alias))
+					html.append("<th colspan='6' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + City.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Country</th><th>Ref.</th><th>Ext.links</th><th>Picture</th>");
+				else if (item.getEntity().equals(Complex.alias))
+					html.append("<th colspan='6' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Complex.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>City</th><th>Ref.</th><th>Ext.links</th><th>Picture</th>");
 				html.append("</tr></thead><tbody class='tby'>");
 				currentEntity = item.getEntity();
 			}
@@ -476,15 +487,33 @@ public class UpdateServlet extends AbstractServlet {
 				html.append("<td>" + (StringUtils.notEmpty(item.getLabelRel4()) ? item.getLabelRel4() : "-") + "</td>");
 				html.append("<td>" + item.getCount2() + "</td>");
 			}
-			else if (item.getEntity().equals(Sport.alias)) {
-				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
-				html.append("<td>" + item.getCount2() + "</td>");
-			}
 			else if (item.getEntity().equals(Team.alias)) {
 				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel2()) ? ">" + item.getLabelRel2() : " class='missing'>") + "</td>");
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel3()) ? ">" + item.getLabelRel3() : " class='missing'>") + "</td>");
 				html.append("<td>" + (StringUtils.notEmpty(item.getLabelRel4()) ? item.getLabelRel4() : "-") + "</td>");
+				html.append("<td>" + item.getCount2() + "</td>");
+			}
+			else if (item.getEntity().equals(Sport.alias)) {
+				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
+				html.append("<td>" + item.getCount2() + "</td>");
+			}
+			else if (item.getEntity().equals(Championship.alias)) {
+				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
+				html.append("<td>" + item.getCount2() + "</td>");
+			}
+			else if (item.getEntity().equals(Event.alias)) {
+				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
+				html.append("<td>" + item.getCount2() + "</td>");
+			}
+			else if (item.getEntity().equals(City.alias)) {
+				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
+				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel2()) ? ">" + item.getLabelRel2() : " class='missing'>") + "</td>");
+				html.append("<td>" + item.getCount2() + "</td>");
+			}
+			else if (item.getEntity().equals(Complex.alias)) {
+				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
+				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel2()) ? ">" + item.getLabelRel2() + ", " + item.getLabelRel3() : " class='missing'>") + "</td>");
 				html.append("<td>" + item.getCount2() + "</td>");
 			}
 			html.append("<td" + (item.getCount1() > 0 ? " class='tick'>(" + item.getCount1() + ")" : " class='missing'>") + "</td>");
@@ -522,7 +551,8 @@ public class UpdateServlet extends AbstractServlet {
 	}
 	
 	private static void executeQuery(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
-		StringBuffer sb = new StringBuffer("<table>");
+		boolean isCSV = hParams.containsKey("csv");
+		StringBuffer sb = new StringBuffer(!isCSV ? "<table>" : "");
 		ArrayList<String> queries = new ArrayList<String>();
 		queries.add("SELECT DISTINCT LAST_NAME || ',' || FIRST_NAME || ',' || ID_SPORT AS N, COUNT(*) AS C\r\nFROM \"Athlete\"\r\nWHERE LINK IS NULL\r\nGROUP BY N\r\nORDER BY C DESC\r\nLIMIT 100");
 		queries.add("SELECT 'EV', ID, LABEL FROM \"Event\"\r\nWHERE ID NOT IN (SELECT ID_EVENT FROM \"Result\" WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM \"Result\" WHERE ID_SUBEVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT2 FROM \"Result\" WHERE ID_SUBEVENT2 IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_EVENT FROM \"Record\" WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM \"Record\" WHERE ID_SUBEVENT IS NOT NULL)\r\nUNION SELECT 'CP', ID, LABEL FROM \"Championship\" WHERE ID NOT IN (SELECT ID_CHAMPIONSHIP FROM \"Result\" WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_CHAMPIONSHIP FROM \"Record\" WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nORDER BY 1, 3");
@@ -540,21 +570,35 @@ public class UpdateServlet extends AbstractServlet {
 		
 		List<Object[]> list = (List<Object[]>) DatabaseHelper.executeNative(query);
 		if (list != null && list.size() > 0) {
+			int i = 0;
 			boolean isFirstRow = true;
 			for (Object[] t : list)  {
-				sb.append("<tr>");
+				if (!isCSV)
+					sb.append("<tr>");
 				if (isFirstRow) {
-					for (int i = 1 ; i <= t.length ; i++)
-						sb.append("<th>Col." + i + "</th>");
-					sb.append("</tr><tr>");	
+					for (i = 1 ; i <= t.length ; i++)
+						sb.append(!isCSV ? "<th>" : (i > 1 ? "," : "")).append("Col." + i).append(!isCSV ? "</th>" : "");
+					sb.append(isCSV ? "\r\n" : "</tr><tr>");
 					isFirstRow = false;
 				}
+				i = 0;
 				for (Object o : t)
-					sb.append("<td>").append(o != null ? String.valueOf(o) : "").append("</td>");
-				sb.append("</tr>");
+					sb.append(!isCSV ? "<td>" : (i++ > 0 ? "," : "")).append(o != null ? String.valueOf(o) : "").append(!isCSV ? "</td>" : "");
+				sb.append(isCSV ? "\r\n" : "</tr>");
 			}
 		}
-		ServletHelper.writeText(response, sb.append("</table>").toString());
+
+		if (!isCSV)
+			sb.append("</table>");
+
+		if (isCSV) {
+			response.setCharacterEncoding("UTF-8");
+			response.setHeader("Content-Disposition", "attachment;filename=query" + (hParams.get("index"))+ ".csv");
+			response.setContentType("text/csv");
+			response.getWriter().write(sb.toString());
+		}
+		else
+			ServletHelper.writeText(response, sb.toString());
 	}
 	
 	private static void loadResult(HttpServletRequest request, HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
@@ -760,7 +804,7 @@ public class UpdateServlet extends AbstractServlet {
 				Championship cp = (Championship) o;
 				sb.append(cp.getLabel()).append("~");
 				sb.append(cp.getLabelFr()).append("~");
-				sb.append(cp.getIndex() != null ? String.valueOf(cp.getIndex()) : "").append("~");
+				sb.append(cp.getIndex() != null ? cp.getIndex() : "").append("~");
 			}
 			else if (o instanceof City) {
 				City ct = (City) o;
@@ -825,7 +869,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(ev.getLabelFr()).append("~");
 				sb.append(ev.getType() != null ? ev.getType().getId() : 0).append("~");
 				sb.append(ev.getType() != null ? ev.getType().getLabel(lang) : "").append("~");
-				sb.append(ev.getIndex()).append("~");
+				sb.append(ev.getIndex() != null ? ev.getIndex() : "").append("~");
 			}
 			else if (o instanceof Olympics) {
 				Olympics ol = (Olympics) o;

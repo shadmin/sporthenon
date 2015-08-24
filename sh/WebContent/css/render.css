@@ -285,7 +285,7 @@
 .tc .f table{
 	border: 2px solid #333;
 }
-.tc .tsort tr:hover, #dupdates .tsort tr:hover{
+.tc .tsort tr:hover{
 	background-color: #BEE0FF;
 }
 .tc .tsort table tr:hover, .tc .tsort .moreitems:hover, #dupdates .tsort .moreitems:hover{

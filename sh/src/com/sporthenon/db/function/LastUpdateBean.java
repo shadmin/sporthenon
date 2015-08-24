@@ -28,6 +28,9 @@ public class LastUpdateBean {
 	@Column(name = "rs_date")
 	private String rsDate;
 	
+	@Column(name = "yr_id")
+	private Integer yrId;
+	
 	@Column(name = "yr_label")
 	private String yrLabel;
 	
@@ -778,6 +781,14 @@ public class LastUpdateBean {
 
 	public void setPr4CountryCode(String pr4CountryCode) {
 		this.pr4CountryCode = pr4CountryCode;
+	}
+
+	public Integer getYrId() {
+		return yrId;
+	}
+
+	public void setYrId(Integer yrId) {
+		this.yrId = yrId;
 	}
 	
 }
