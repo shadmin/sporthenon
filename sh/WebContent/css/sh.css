@@ -1227,13 +1227,13 @@ li{
 	border: 1px solid #AAA;
 	padding: 2px;
 }
-.update input[type=text]:focus, .update textarea:focus, #d-plist input[type=text]:focus{
-	border: 1px solid #D00;
-	color: #000;
-}
-.update input[type=text].default, #d-plist input[type=text].default{
+.update input[type=text].default, .update textarea.default, #d-plist input[type=text].default{
 	border: 1px solid #AAA;
 	color: #888;
+}
+.update input[type=text]:focus, .update textarea:focus, #d-plist input[type=text]:focus, .update input[type=text].default:focus, .update textarea.default:focus, #d-plist input[type=text].default:focus{
+	border: 1px solid #D00;
+	color: #000;
 }
 .update input[type=text].completed, #d-plist input[type=text].completed{
 	border: 1px solid #080;
@@ -1445,7 +1445,7 @@ li{
 }
 #d-find li{
 	cursor: pointer;
-	padding: 2px;
+	padding: 3px;
 	border-bottom: 1px solid #CCC;
 }
 #d-find li:hover{

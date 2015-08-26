@@ -1425,7 +1425,6 @@ function loadResValues(value) {
 					if (tValues[s + 'rs']) { $(s + 'rs').addClassName('completed2'); } else { $(s + 'rs').removeClassName('completed2'); }
 				});
 				$('draw').show();
-				$('drawimg').src = '/img/render/collapse.gif';
 			}
 			else {
 				$$('#draw input').each(function(el){
@@ -1434,7 +1433,6 @@ function loadResValues(value) {
 					$(el).removeClassName('completed').removeClassName('completed2');
 				});
 				$('draw').hide();
-				$('drawimg').src = '/img/render/expand.gif';
 			}
 		}
 	}
