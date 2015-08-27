@@ -395,8 +395,9 @@ var dError = null;
 var dLink = null;
 var dInfo = null;
 var dPersonList = null;
-var dHelp = null;
 var dFind = null;
+var dQuestion = null;
+var dHelp = null;
 function share(type) {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	var langParam = '?lang=' + lang;
@@ -1279,6 +1280,10 @@ function removePhoto(name) {
 		}
 	});
 }
+function showMessage(text) {
+	$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
+	$('msg').update('<div>' + text.replace(/ERR\:/i, '') + '</div>');
+}
 /*========== RESULTS ==========*/
 var tValues = [];
 var dz = null;
@@ -1520,8 +1525,7 @@ function saveResult() {
 	new Ajax.Request('/update/save', {
 		onSuccess: function(response){
 			var text = response.responseText;
-			$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
-			$('msg').update('<div>' + text.replace(/^.*#|ERR\:/i, '') + '</div>');
+			showMessage(text);
 			if (text.indexOf('ERR:') == -1) {
 				tValues['id'] = text.split('#')[0];
 				$('id').value = tValues['id'];
@@ -1617,6 +1621,7 @@ function addPersonList() {
 	pListCount += 10;
 }
 /*========== DATA ==========*/
+var isMerge = null;
 function initUpdateData() {
 	$$('#update-data input').each(function(el){
 		if ($(el).id.lastIndexOf('-l') == $(el).id.length - 2) {
@@ -1845,8 +1850,7 @@ function saveEntity() {
 	new Ajax.Request('/update/save-entity', {
 		onSuccess: function(response){
 			var text = response.responseText;
-			$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
-			$('msg').update('<div>' + text.replace(/^ERR\:/i, '') + '</div>');
+			showMessage(text);
 			if (text.indexOf('ERR:') == -1) {
 				$(currentAlias.toLowerCase() + '-id').value = text.substring(text.lastIndexOf('#') + 1);	
 			}
@@ -1858,7 +1862,27 @@ function copyEntity() {
 	$(currentAlias.toLowerCase() + '-id').value = '';
 	currentId = null;
 }
-function findEntity() {
+function mergeEntity(id1_, id2_) {
+	$('header').setStyle({ opacity: 0.4 });
+	$('content').setStyle({ opacity: 0.4 });
+	dQuestion.open();
+	new Ajax.Updater($('confirmtxt'), '/update/merge?confirm=1&id1=' + id1_ + '&id2=' + id2_ + '&alias=' + currentAlias);
+	Event.observe($('confirmbtn'), 'click', function(){
+		$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
+		var h = $H({alias: currentAlias, id1: id1_, id2: id2_});
+		new Ajax.Request('/update/merge', {
+			onSuccess: function(response){
+				showMessage(response.responseText);
+			},
+			parameters: h
+		});
+		$('header').setStyle({ opacity: 1.0 });
+		$('content').setStyle({ opacity: 1.0 });
+		dQuestion.close();
+	});
+}
+function findEntity(m) {
+	isMerge = (m == 1);
 	$('header').setStyle({ opacity: 0.4 });
 	$('content').setStyle({ opacity: 0.4 });
 	dFind.open();
@@ -1866,32 +1890,31 @@ function findEntity() {
 	$('fpattern').value = '';
 	$('fpattern').focus();
 }
-var findRequest = null;
 function searchEntity() {
 	if ($F('fpattern').length < 2) {
 		return;
 	}
-	if (findRequest != null) {
-		findRequest.abort();
-	}
 	$('fresults').update('<img src="/img/db/loading.gif?6"/>');
 	var h = $H({value: $F('fpattern')});
-	findRequest = new Ajax.Request('/update/ajax/' + currentAlias.toLowerCase(), {
+	new Ajax.Request('/update/ajax/' + currentAlias.toLowerCase(), {
 		onSuccess: function(response){
 			$('fresults').update(response.responseText);
 			$$('#fresults li').each(function(el){
 				Event.observe($(el), 'click', function(){
 					var id = $(this).id.split('|')[1];
+					$('header').setStyle({ opacity: 1.0 });
+					$('content').setStyle({ opacity: 1.0 });
+					dFind.close();
 					if (currentAlias == 'RS') {
-						tValues['id'] = id
+						tValues['id'] = id;
 						loadResult('direct');
+					}
+					else if (isMerge) {
+						mergeEntity(currentId, id);
 					}
 					else {
 						loadEntity('find', id);
 					}
-					$('header').setStyle({ opacity: 1.0 });
-					$('content').setStyle({ opacity: 1.0 });
-					dFind.close();
 				});
 			});
 		},

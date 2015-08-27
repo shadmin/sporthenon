@@ -411,4 +411,8 @@
 	<entry key="remove">Supprimer</entry>
 	<entry key="active">Actif</entry>
 	<entry key="data">Données</entry>
+	<entry key="merge">Fusionner</entry>
+	<entry key="confirm">Confirmer</entry>
+	<entry key="confirm.merge">Confirmer la fusion depuis : {1} vers : {2}</entry>
+	<entry key="merge.success">Enregistrements #{1} et #{2} fusionnés avec succès.</entry>
 </properties>

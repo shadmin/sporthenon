@@ -124,18 +124,19 @@
 				<tr><th>Label</th><td><input type="text" id="yr-label"/></td></tr>
 			</table>
 			<!-- BUTTON PANEL -->
-			<table class="toolbar" style="float:right;">
+			<table class="toolbar" style="float:right;margin-top:15px;">
 				<tr>
 					<td><input id="upd-new" type="button" class="button upd-new" onclick="newEntity();" value="<%=StringUtils.text("new", session)%>"/></td>
 					<td><input id="upd-save" type="button" class="button upd-save" onclick="saveEntity();" value="<%=StringUtils.text("save", session)%>"/></td>
 					<td><input id="upd-copy" type="button" class="button upd-copy" onclick="copyEntity();" value="<%=StringUtils.text("copy", session)%>"/></td>
+					<td><input id="upd-merge" type="button" class="button upd-merge" onclick="findEntity(1);" value="<%=StringUtils.text("merge", session)%>"/></td>
 				</tr>
 			</table><br/>
 			<table class="toolbar" style="clear:right;float:right;margin-top:5px;">
 				<tr>
 					<td><input id="upd-first" type="button" class="button upd-first" onclick="loadEntity('first');" value="<%=StringUtils.text("first", session)%>"/></td>
 					<td><input id="upd-previous" type="button" class="button upd-previous" onclick="loadEntity('previous');" value="<%=StringUtils.text("previous", session)%>"/></td>
-					<td><input id="upd-find" type="button" class="button upd-find" onclick="findEntity();" value="<%=StringUtils.text("find", session)%>"/></td>
+					<td><input id="upd-find" type="button" class="button upd-find" onclick="findEntity(0);" value="<%=StringUtils.text("find", session)%>"/></td>
 					<td><input id="upd-next" type="button" class="button upd-next" onclick="loadEntity('next');" value="<%=StringUtils.text("next", session)%>"/></td>
 					<td><input id="upd-last" type="button" class="button upd-last" onclick="loadEntity('last');" value="<%=StringUtils.text("last", session)%>"/></td>
 				</tr>

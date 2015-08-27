@@ -412,4 +412,8 @@
 	<entry key="remove">Remove</entry>
 	<entry key="active">Active</entry>
 	<entry key="data">Data</entry>
+	<entry key="merge">Merge</entry>
+	<entry key="confirm">Confirm</entry>
+	<entry key="confirm.merge">Confirm merge from: {1} to: {2}</entry>
+	<entry key="merge.success">Records #{1} and #{2} merged successfully.</entry>
 </properties>

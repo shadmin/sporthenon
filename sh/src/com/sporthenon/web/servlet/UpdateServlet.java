@@ -71,6 +71,8 @@ public class UpdateServlet extends AbstractServlet {
 				saveConfig(response, hParams, lang, user);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("execute-query"))
 				executeQuery(response, hParams, lang, user);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("merge"))
+				mergeEntity(response, hParams, lang, user);
 			else
 				loadResult(request, response, hParams, lang, user);
 		}
@@ -599,6 +601,30 @@ public class UpdateServlet extends AbstractServlet {
 		}
 		else
 			ServletHelper.writeText(response, sb.toString());
+	}
+	
+	private static void mergeEntity(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+		String msg = "";
+		try {
+			String alias = String.valueOf(hParams.get("alias"));
+			Integer id1 = StringUtils.toInt(hParams.get("id1"));
+			Integer id2 = StringUtils.toInt(hParams.get("id2"));
+			Object o1 = DatabaseHelper.loadEntity(DatabaseHelper.getClassFromAlias(alias), id1);
+			Object o2 = DatabaseHelper.loadEntity(DatabaseHelper.getClassFromAlias(alias), id2);
+			if (hParams.containsKey("confirm"))
+				msg = ResourceUtils.getText("confirm.merge", lang).replaceFirst("\\{1\\}", "<br/><b>" + o1.toString() + "</b><br/><br/>").replaceFirst("\\{2\\}", "<br/><b>" + o2.toString() + "</b>");
+			else {
+				DatabaseHelper.executeNative("select \"~Merge\"('" + alias + "', " + id1 + ", " + id2 + ")");
+				msg = ResourceUtils.getText("merge.success", lang).replaceFirst("\\{1\\}", String.valueOf(id1)).replaceFirst("\\{2\\}", String.valueOf(id2));
+			}
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+			msg = "ERR:" + e.getMessage();
+		}
+		finally {
+			ServletHelper.writeText(response, msg);
+		}
 	}
 	
 	private static void loadResult(HttpServletRequest request, HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {

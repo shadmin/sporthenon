@@ -12,7 +12,7 @@
 <!-- Link -->
 <div id="d-link" class="dialog" style="display:none;">
 <div class="fieldset">
-	<div class="fstitle"><%=StringUtils.text("dialog.link", session)%></div>
+	<div class="fstitle"><%=StringUtils.text("dialog.link", session).toUpperCase()%></div>
 	<div class="fscontent"><%=StringUtils.text("direct.address", session)%>:<br/><input id="linktxt" type="text" readonly="readonly" onclick="this.select();"/><br/>(<%=StringUtils.text("use.ctrl.C", session)%>)</div>
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dLink);"/></div>
 </div>
@@ -20,7 +20,7 @@
 <!-- Info -->
 <div id="d-info" class="dialog" style="display:none;">
 <div class="fieldset">
-	<div class="fstitle"><%=StringUtils.text("dialog.info", session)%></div>
+	<div class="fstitle"><%=StringUtils.text("dialog.info", session).toUpperCase()%></div>
 	<div class="fscontent"><%=StringUtils.text("info.statistics", session)%>:<table style="width:600px;margin-top:8px;">
 		<tr><th><%=StringUtils.text("address", session)%></th><td></td></tr><tr><th><%=StringUtils.text("size", session)%></th><td></td></tr>
 		<tr><th><%=StringUtils.text("display.time", session)%></th><td></td></tr><tr><th><%=StringUtils.text("pictures", session)%></th><td></td></tr>
@@ -39,9 +39,17 @@
 <!-- Find -->
 <div id="d-find" class="dialog" style="display:none;">
 <div class="fieldset">
-	<div class="fstitle"><%=StringUtils.text("find", session)%></div>
+	<div class="fstitle"><%=StringUtils.text("find", session).toUpperCase()%></div>
 	<div class="fscontent"><input type="text" id="fpattern" onkeydown="if(event.keyCode==13){searchEntity();}"/><div id="fresults"></div></div>
 	<div class="dlgbuttons"><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dFind);"/></div>
+</div>
+</div>
+<!-- Confirm -->
+<div id="d-question" class="dialog" style="display:none;">
+<div class="fieldset">
+	<div class="fstitle"><%=StringUtils.text("confirm", session).toUpperCase()%></div>
+	<div class="fscontent"><div id="confirmtxt"></div></div>
+	<div class="dlgbuttons"><input type="button" class="button cancel" value="<%=StringUtils.text("no", session)%>" onclick="closeDialog(dQuestion);"/><input id="confirmbtn" type="button" class="button ok" value="<%=StringUtils.text("yes", session)%>"/></div>
 </div>
 </div>
 <!-- Help -->
@@ -80,5 +88,6 @@ dLink = new Control.Modal($('d-link'),{ closeOnClick: false, fade: false });
 dInfo = new Control.Modal($('d-info'),{ closeOnClick: false, fade: false });
 dPersonList = new Control.Modal($('d-plist'),{ closeOnClick: false, fade: false });
 dFind = new Control.Modal($('d-find'),{ closeOnClick: false, fade: false });
+dQuestion = new Control.Modal($('d-question'),{ closeOnClick: false, fade: false });
 dHelp = new Control.Modal($('d-help'),{ closeOnClick: false, fade: false });
 --></script>

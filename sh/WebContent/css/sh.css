@@ -1219,7 +1219,7 @@ li{
 #msg div, #msg2 div{
 	position: absolute;
 	left: 5px;
-	bottom: 15px;
+	bottom: 20px;
 }
 .update input[type=text], .update textarea, #d-plist input[type=text]{
 	font: 12px Verdana;
@@ -1310,7 +1310,7 @@ li{
 	background-image: url(../img/update/data.png?5);
 }
 #update-data .fscontent{
-	padding-bottom: 60px;
+	padding-bottom: 70px;
 }
 #update-data .fscontent table{
 	width: auto;
@@ -1389,6 +1389,9 @@ li{
 #d-find .fstitle{
 	background-image: url(../img/update/find.png?5);
 }
+#d-question .fstitle{
+	background-image: url(../img/update/question.png?5);
+}
 #d-help .fstitle{
 	background-image: url(../img/update/help.png?6);
 }
@@ -1451,6 +1454,10 @@ li{
 #d-find li:hover{
 	background-color: #FFD;
 }
+#d-question #confirmtxt{
+	width: 600px;
+	height: 100px;
+}
 /*=============================
   ========== TOOLBAR ========== 
   =============================*/
@@ -1501,6 +1508,9 @@ li{
 }
 #buttons .upd-copy, .toolbar .upd-copy{
 	background-image: url('../img/update/copy.png?3');
+}
+#buttons .upd-merge, .toolbar .upd-merge{
+	background-image: url('../img/update/merge.png?3');
 }
 #buttons .upd-first, .toolbar .upd-first{
 	background-image: url('../img/update/first.png?3');

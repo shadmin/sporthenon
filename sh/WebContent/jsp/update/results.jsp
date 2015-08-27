@@ -116,7 +116,7 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 			</fieldset>
 			</div>
 			<!-- BUTTON PANEL -->
-			<table class="toolbar" style="float:right;">
+			<table class="toolbar" style="float:right;margin-top:15px;">
 				<tr>
 					<td><input id="upd-add" type="button" class="button upd-add" onclick="addResult();" value="<%=StringUtils.text("button.add", session)%>"/></td>
 					<td><input id="upd-modify" type="button" class="button upd-modify" onclick="saveResult();" value="<%=StringUtils.text("button.modify", session)%>"/></td>
@@ -126,7 +126,7 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 				<tr>
 					<td><input id="upd-first" type="button" class="button upd-first" onclick="loadResult('first');" value="<%=StringUtils.text("first", session)%>"/></td>
 					<td><input id="upd-previous" type="button" class="button upd-previous" onclick="loadResult('prev');" value="<%=StringUtils.text("previous", session)%>"/></td>
-					<td><input id="upd-find" type="button" class="button upd-find" onclick="findEntity();" value="<%=StringUtils.text("find", session)%>"/></td>
+					<td><input id="upd-find" type="button" class="button upd-find" onclick="findEntity(0);" value="<%=StringUtils.text("find", session)%>"/></td>
 					<td><input id="upd-next" type="button" class="button upd-next" onclick="loadResult('next');" value="<%=StringUtils.text("next", session)%>"/></td>
 					<td><input id="upd-last" type="button" class="button upd-last" onclick="loadEntity('last');" value="<%=StringUtils.text("last", session)%>"/></td>
 				</tr>
