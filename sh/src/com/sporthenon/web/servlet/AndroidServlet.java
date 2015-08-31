@@ -1,6 +1,7 @@
 package com.sporthenon.web.servlet;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -111,6 +112,7 @@ public class AndroidServlet extends AbstractServlet {
 				addResultItems(doc, root, ev_, DatabaseHelper.call("GetResults", lFuncParams), lang);
 	        }
 	        else if (p2.equalsIgnoreCase("R1")) {
+	        	final int MAX_RANKS = 20;
 	        	Result r = (Result) DatabaseHelper.loadEntity(Result.class, p);
 	        	Element sp = doc.createElement("sport");
 	        	sp.setAttribute("id", String.valueOf(r.getSport().getId()));
@@ -203,10 +205,10 @@ public class AndroidServlet extends AbstractServlet {
 				List<ResultsBean> list = (List<ResultsBean>) DatabaseHelper.call("GetResults", lFuncParams);
 				if (list != null && !list.isEmpty()) {
 					ResultsBean bean = list.get(0);
-					String[] tEntity = {null, null, null, null, null, null, null, null, null};
-					String[] tEntityRel = {null, null, null, null, null, null, null, null, null};
-					String[] tEntityImg = {null, null, null};
-					String[] tResult = {null, null, null, null, null, null, null, null, null};
+					String[] tEntity = new String[MAX_RANKS];
+					String[] tEntityRel = new String[MAX_RANKS];
+					String[] tEntityImg = new String[MAX_RANKS];
+					String[] tResult = new String[MAX_RANKS];
 					Event ev_ = (Event) DatabaseHelper.loadEntity(Event.class, (r.getSubevent2() != null ? r.getSubevent2().getId() : (r.getSubevent() != null ? r.getSubevent().getId() : r.getEvent().getId())));
 					int type_ = ev_.getType().getNumber();
 					if (bean.getRsRank1() != null) {
@@ -250,15 +252,15 @@ public class AndroidServlet extends AbstractServlet {
 						tEntity[8] = HtmlConverter.getResultsEntity(type_, bean.getRsRank9(), bean.getEn9Str1(), bean.getEn9Str2(), bean.getEn9Str3(), bean.getEn9Rel2Code(), bean.getYrLabel(), null);
 						tEntityRel[8] = HtmlConverter.getResultsEntityRel(bean.getEn9Rel1Id(), bean.getEn9Rel1Label(), bean.getEn9Rel1Label(), bean.getEn9Rel2Id(), bean.getEn9Rel2Label(), bean.getEn9Rel2Label(), bean.getEn9Rel2LabelEN(), false, false, bean.getYrLabel());
 					}
-					boolean isDouble = (type_ == 4);
-					boolean isTriple = (bean.getRsComment() != null && bean.getRsComment().equals("#TRIPLE#"));
+					boolean isDouble = (type_ == 4 || (bean.getRsComment() != null && bean.getRsComment().equals("#DOUBLE#")));
+					boolean isTriple = (type_ == 5 || (bean.getRsComment() != null && bean.getRsComment().equals("#TRIPLE#")));
 					HtmlConverter.setTies(HtmlConverter.getTieList(isDouble, isTriple, bean.getRsExa()), type_, tEntity, tEntityRel);
 					if (isTriple || isDouble) {
 						tEntity = StringUtils.removeNulls(tEntity);
 						tEntityRel = StringUtils.removeNulls(tEntityRel);
 					}
 					org.jsoup.nodes.Document d = null;
-					for (int i = 0 ; i < 3 ; i++) {
+					for (int i = 0 ; i < MAX_RANKS ; i++) {
 						if (StringUtils.notEmpty(tEntity[i])) {
 							d = Jsoup.parse(tEntity[i]);
 							StringBuffer sb = new StringBuffer();
@@ -337,34 +339,52 @@ public class AndroidServlet extends AbstractServlet {
 			List<String> lIds = new ArrayList<String>();
 			Integer tp = ev.getType().getNumber();
 			for (ResultsBean bean : list) {
+				boolean isDouble = (tp == 4 || (bean.getRsComment() != null && bean.getRsComment().equals("#DOUBLE#")));
+				boolean isTriple = (tp == 5 || (bean.getRsComment() != null && bean.getRsComment().equals("#TRIPLE#")));
 				Element item = doc.createElement("item");
 				lIds.add(String.valueOf(bean.getRsId()));
 				item.setAttribute("id", String.valueOf(bean.getRsId()));
 				item.setAttribute("year", bean.getYrLabel());
 				item.setAttribute("type", String.valueOf(tp));
-				item.setAttribute("rk1", String.valueOf(bean.getRsRank1()));
-				item.setAttribute("str1", bean.getEn1Str1());
-				item.setAttribute("str2", bean.getEn1Str2());
-				item.setAttribute("str3", bean.getEn1Str3());
-				item.setAttribute("rs1", bean.getRsResult1());
+				item.setAttribute("str1", bean.getEn1Str1()); item.setAttribute("str2", bean.getEn1Str2()); item.setAttribute("str3", bean.getEn1Str3());
+				item.setAttribute("str4", bean.getEn2Str1()); item.setAttribute("str5", bean.getEn2Str2()); item.setAttribute("str6", bean.getEn2Str3());
+				item.setAttribute("str7", bean.getEn3Str1()); item.setAttribute("str8", bean.getEn3Str2()); item.setAttribute("str9", bean.getEn3Str3());
+				item.setAttribute("tie1", isDouble ? "1" : "0");
+				item.setAttribute("tie2", isTriple ? "1" : "0");
+				item.setAttribute("rs1", bean.getRsResult1()); item.setAttribute("rs2", bean.getRsResult2()); item.setAttribute("rs3", bean.getRsResult3());
 				item.setAttribute("score", bean.getRsRank1() != null && bean.getRsRank2() != null && StringUtils.notEmpty(bean.getRsResult1()) && !StringUtils.notEmpty(bean.getRsResult2()) && !StringUtils.notEmpty(bean.getRsResult3()) && !StringUtils.notEmpty(bean.getRsResult4()) && !StringUtils.notEmpty(bean.getRsResult5()) ? "1" : "0");
-				if (bean.getRsRank1() != null) {
-					String img = null;
-					if (tp < 10) {
-						Integer tm = bean.getEn1Rel1Id();
-						Integer cn = bean.getEn1Rel2Id();
-						if (tm != null && tm > 0)
-							img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, tm, ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
-						else {
-							img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, cn, ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
-							item.setAttribute("code", bean.getEn1Rel2Code());
+				try {
+					StringBuffer sbCode = new StringBuffer();
+					StringBuffer sbImg = new StringBuffer();
+					for (int i = 1 ; i <= 3 ; i++) {
+						Method m = ResultsBean.class.getMethod("getRsRank" + i);
+						Object o = m.invoke(bean);
+						if (o != null) {
+							Integer id = (Integer) o;
+							String img = null;
+							if (tp < 10) {
+								Integer tm = StringUtils.toInt(ResultsBean.class.getMethod("getEn" + i + "Rel1Id").invoke(bean));
+								Integer cn = StringUtils.toInt(ResultsBean.class.getMethod("getEn" + i + "Rel2Id").invoke(bean));
+								if (tm != null && tm> 0)
+									img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, tm, ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
+								else {
+									img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, cn, ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
+									sbCode.append(sbCode.toString().length() > 0 ? "|" : "").append(ResultsBean.class.getMethod("getEn" + i + "Rel2Code").invoke(bean));
+								}
+							}
+							else if (tp == 50)
+								img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, id, ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
+							else if (tp == 99)
+								img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, id, ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
+							sbImg.append(sbImg.toString().length() > 0 ? "|" : "").append(img.replaceAll(".*src\\='|'\\/\\>", ""));
+							
 						}
 					}
-					else if (tp == 50)
-						img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsRank1(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
-					else if (tp == 99)
-						img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank1(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
-					item.setAttribute("img", img.replaceAll(".*src\\='|'\\/\\>", ""));
+					item.setAttribute("code", sbCode.toString());
+					item.setAttribute("img", sbImg.toString());
+				}
+				catch (Exception e) {
+					Logger.getLogger("sh").error(e.getMessage(), e);
 				}
 				root.appendChild(item);
 			}

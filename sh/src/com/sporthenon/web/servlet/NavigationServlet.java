@@ -62,6 +62,9 @@ public class NavigationServlet extends AbstractServlet {
 		hTitle.put("login", "menu.login");
 		hTitle.put("update-overview", "update.overview");
 		hTitle.put("update-results", "update.results");
+		hTitle.put("update-data", "data");
+		hTitle.put("update-pictures", "update.pictures");
+		hTitle.put("update-tools", "update.tools");
 		hTitle.put("update-admin", "Admin");
 	}
 
@@ -85,7 +88,7 @@ public class NavigationServlet extends AbstractServlet {
 			RequestDispatcher dispatcher = null;
 			if (ConfigUtils.getProperty("env").matches("test|prod"))
 				if (key != null && key.equals("update") && (request.getSession() == null || request.getSession().getAttribute("user") == null))
-					response.sendRedirect("/login");
+					throw new NotLoggedInException();
 			if (hParams.containsKey("lang"))
 				request.getSession().setAttribute("locale", String.valueOf(hParams.get("lang")));
 			if (key != null && key.equals("project"))
@@ -129,9 +132,16 @@ public class NavigationServlet extends AbstractServlet {
 		    if (dispatcher != null)
 		    	dispatcher.forward(request, response);
 		}
+		catch (NotLoggedInException e) {
+			response.sendRedirect("/login");
+		}
 		catch (Exception e) {
 			handleException(request, response, e);
 		}
+	}
+	
+	class NotLoggedInException extends Exception{
+		private static final long serialVersionUID = 1L;
 	}
 
 }

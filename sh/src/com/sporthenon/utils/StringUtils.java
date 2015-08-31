@@ -70,7 +70,7 @@ public class StringUtils {
 	}
 
 	public static Integer toInt(Object o) {
-		return (o instanceof Integer ? (Integer) o : (notEmpty(o) ? new Integer(String.valueOf(o)) : 0));
+		return (o != null && o instanceof Integer ? (Integer) o : (notEmpty(o) ? new Integer(String.valueOf(o)) : 0));
 	}
 
 	public static String toMD5(String s) {
