@@ -1,7 +1,28 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.10.2  |
+| Last Version: 0.11.0  |
 +-----------------------+
+
++--------+
+| 0.11.0 |
++--------+
+[1 Sept 2015]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.11.0
+o Website
+	- New feature: <Update/Overview> (==> global report to check if DB records are properly completed)
+	- New feature: <Update/Data> (==> add/update/remove/copy/merge/find records)
+	- New feature: <Update/Admin> (==> users management and dynamic configuration)
+	- Current athlete/team/country yellow-highlighted in referenced results
+	- Added "dropzone" component to upload pictures (data + results)
+	- Added <meta> description in all pages
+	- Added league in US team header
+	- Improved performance significantly on athlete pages (medal counts)
+	- Added list of contained events in championship/event details
+	- Renamed DB tables (not only upper case format)
+	- Bugfix: tab title NULL in advanced search page
+o Android
+	- Added splash screen with logo
+	- Enhanced UI in results details (especially for ties)
 
 +--------+
 | 0.10.2 |
@@ -81,7 +102,7 @@ o Admin (Swing app)
 +-------+
 | 0.9.3 |
 +-------+
-[03 Jun 2015]
+[3 Jun 2015]
 Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.9.3
 o Website
 	- New feature: <Result Page> (==> Details for single result, external links, draws)
@@ -210,7 +231,7 @@ o Admin (Swing app)
 +-------+
 | 0.7.0 |
 +-------+
-[02 May 2014]
+[2 May 2014]
 o Website
 	- New feature: <Entity Statistics> (==> medals/titles records for athletes/countries/teams)
 	- New feature: <External Links> (==> display URLs to external sites, i.e. wikipedia)
@@ -287,7 +308,7 @@ o Admin (Swing app)
 +-------+
 | 0.4.0 |
 +-------+
-[08 Nov 2013]
+[8 Nov 2013]
 o Website
 	- Pictures management improved significantly (better caching performance)
 	- Some comments can be displayed as a colored cell
