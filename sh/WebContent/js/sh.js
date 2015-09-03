@@ -1307,10 +1307,12 @@ function initUpdateResults(value) {
 			if ($(this).value == $(this).name) {
 				$(this).value = '';
 			}
+			$(this).select();
 		});
-		Event.observe($(el), 'keypress', function(){
+		Event.observe($(el), 'change', function(){
 			$(this).removeClassName('completed').removeClassName('completed2');
 			tValues[$(this).id] = null;
+			$('msg').update('<div class="warning">' + TX_MODIF_WARNING + '</div>');
 		});
 		Event.observe($(el), 'blur', function(){
 			if ($(this).value == '') {
@@ -1641,9 +1643,11 @@ function initUpdateData() {
 			if ($(this).value == $(this).name) {
 				$(this).value = '';
 			}
+			$(this).select();
 		});
-		Event.observe($(el), 'keypress', function(){
+		Event.observe($(el), 'change', function(){
 			$(this).removeClassName('completed');
+			$('msg').update('<div class="warning">' + TX_MODIF_WARNING + '</div>');
 		});
 		Event.observe($(el), 'blur', function(){
 			if ($(this).value == '') {
@@ -1923,12 +1927,19 @@ function searchEntity() {
 }
 /*========== OVERVIEW ==========*/
 function loadOverview() {
-	var entity_ = '';
-	var h = $H({entity: entity_, sport: $F('ovsport'), count: $F('ovcount'), pattern: $F('ovpattern')});
+	var h = $H({entity: $F('oventity'), sport: $F('ovsport'), count: $F('ovcount'), pattern: $F('ovpattern')});
 	$('ovcontent').update('<img src="/img/db/loading.gif?6"/>');
 	new Ajax.Updater($('ovcontent'), '/update/load-overview', {
 		parameters: h
 	});
+}
+/*========== IMPORT ==========*/
+function executeImport() {
+	$('f').request({
+		onComplete: function(response){
+			alert(response.responseText);
+		}
+	})
 }
 /*========== TOOLS ==========*/
 function executeQuery(index) {

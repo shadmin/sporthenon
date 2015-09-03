@@ -376,6 +376,7 @@
 	<entry key="update.results">Add/modify a result</entry>
 	<entry key="update.data">Administer data</entry>
 	<entry key="update.pictures">Pictures</entry>
+	<entry key="update.import">Import</entry>
 	<entry key="update.tools">Tools</entry>
 	<entry key="update.users">Users</entry>
 	<entry key="update.config">Configuration</entry>
@@ -416,4 +417,5 @@
 	<entry key="confirm">Confirm</entry>
 	<entry key="confirm.merge">Confirm merge from: {1} to: {2}</entry>
 	<entry key="merge.success">Records #{1} and #{2} merged successfully.</entry>
+	<entry key="modif.warning">Modifications have been made. Click on Save.</entry>
 </properties>

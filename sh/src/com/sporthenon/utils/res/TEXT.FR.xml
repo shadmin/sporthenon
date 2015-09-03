@@ -375,6 +375,7 @@
 	<entry key="update.results">Ajouter/modifier un résultat</entry>
 	<entry key="update.data">Administrer les données</entry>
 	<entry key="update.pictures">Images</entry>
+	<entry key="update.import">Importer</entry>
 	<entry key="update.tools">Outils</entry>
 	<entry key="update.users">Utilisateurs</entry>
 	<entry key="update.config">Configuration</entry>
@@ -415,4 +416,5 @@
 	<entry key="confirm">Confirmer</entry>
 	<entry key="confirm.merge">Confirmer la fusion depuis : {1} vers : {2}</entry>
 	<entry key="merge.success">Enregistrements #{1} et #{2} fusionnés avec succès.</entry>
+	<entry key="modif.warning">Des modifications ont été effectuées. Cliquez sur Enregistrer.</entry>
 </properties>

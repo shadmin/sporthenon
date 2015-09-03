@@ -1216,6 +1216,11 @@ li{
 	min-height: 50px;
 	white-space: nowrap;
 }
+.warning{
+	background: url(../img/update/warning.gif?5) left center no-repeat;
+	padding-left: 18px;
+	color: #F00;
+}
 #msg div, #msg2 div{
 	position: absolute;
 	left: 5px;
@@ -1243,20 +1248,20 @@ li{
 	border: 1px solid #000;
 	color: #000;
 }
-/*---------- OVERVIEW ----------*/
-#update-overview .fstitle{
-	background-image: url(../img/update/overview.png?5);
-}
-#update-overview #options{
+.update #options{
 	width: auto;
 	margin-top: 0px;
 }
-#update-overview #options tr:hover{
+.update #options tr:hover{
 	background-color: transparent;
 }
-#update-overview #options td{
+.update #options td{
 	border: none;
 	padding: 2px;
+}
+/*---------- OVERVIEW ----------*/
+#update-overview .fstitle{
+	background-image: url(../img/update/overview.png?5);
 }
 #update-overview .fscontent table{
 	width: auto;
@@ -1331,9 +1336,13 @@ li{
 	color: #666;
 	width: 50px;
 }
-/*---------- DATA ----------*/
+/*---------- PICTURES ----------*/
 #update-pictures .fstitle{
 	background-image: url(../img/update/pictures.png?5);
+}
+/*---------- IMPORT ----------*/
+#update-import .fstitle{
+	background-image: url(../img/update/import.png?5);
 }
 /*---------- TOOLS ----------*/
 #update-tools .fstitle{
@@ -1490,6 +1499,9 @@ li{
 }
 #buttons .upd-pictures, .toolbar .upd-pictures{
 	background-image: url('../img/update/pictures.png?3');
+}
+#buttons .upd-import, .toolbar .upd-import{
+	background-image: url('../img/update/import.png?3');
 }
 #buttons .upd-tools, .toolbar .upd-tools{
 	background-image: url('../img/update/tools.png?3');

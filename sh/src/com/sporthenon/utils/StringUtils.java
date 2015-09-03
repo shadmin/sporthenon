@@ -1,9 +1,5 @@
 package com.sporthenon.utils;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -150,31 +146,6 @@ public class StringUtils {
 		return (notEmpty(o) ? new Integer(String.valueOf(o).replaceAll(".*\\s\\[#|\\]$", "")) : 0);
 	}
 
-	public static Vector<Vector<String>> readCSV(String file) throws IOException {
-		Vector v = new Vector<Vector<String>>();
-		BufferedReader bf = null;
-		try {
-			bf = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8"));
-			String s = null;
-			while ((s = bf.readLine()) != null) {
-				if (StringUtils.notEmpty(s)) {
-					Vector v_ = new Vector<String>();
-					for (String s_ : s.split(";", -1))
-						v_.add(s_.trim());
-					v.add(v_);
-				}
-			}
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		finally {
-			if (bf != null)
-				bf.close();
-		}
-		return v;
-	}
-	
 	public static final String toTree(String s) {
 		return (s.matches("^\\+.*") ? "<font color=\"#666\">&dagger;&nbsp;<i>" + s.substring(1) + "</i></font>" : s);
 	}

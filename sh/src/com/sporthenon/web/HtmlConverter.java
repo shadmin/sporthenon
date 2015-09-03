@@ -776,6 +776,7 @@ public class HtmlConverter {
 			if (StringUtils.notEmpty(r.getComment()) && !r.getComment().startsWith("##") && !r.getComment().matches("\\#(DOUBLE|TRIPLE)\\#"))
 				html.append("<tr><th class='caption'>" + ResourceUtils.getText("comment", lang) + "</th><td>" + r.getComment().replaceAll("\r\n|\\|", "<br/>") + "</td></tr>");
 			// Result
+			final int MAX_RANKS = 20;
 			ArrayList<Object> lFuncParams = new ArrayList<Object>();
 			lFuncParams.add(r.getSport().getId());
 			lFuncParams.add(r.getChampionship().getId());
@@ -787,53 +788,30 @@ public class HtmlConverter {
 			List<ResultsBean> list = (List<ResultsBean>) DatabaseHelper.call("GetResults", lFuncParams);
 			if (list != null && !list.isEmpty()) {
 				ResultsBean bean = list.get(0);
-				String[] tEntity = {null, null, null, null, null, null, null, null, null};
-				String[] tEntityRel = {null, null, null, null, null, null, null, null, null};
-				String[] tEntityHtml = {null, null, null, null, null, null, null, null, null};
-				String[] tResult = {null, null, null, null, null, null, null, null, null};
+				String[] tEntity = new String[MAX_RANKS];
+				String[] tEntityRel = new String[MAX_RANKS];
+				String[] tEntityHtml = new String[MAX_RANKS];
+				String[] tResult = new String[MAX_RANKS];
 				Event ev_ = (Event) DatabaseHelper.loadEntity(Event.class, (r.getSubevent2() != null ? r.getSubevent2().getId() : (r.getSubevent() != null ? r.getSubevent().getId() : r.getEvent().getId())));
 				int type_ = ev_.getType().getNumber();
 				boolean isScore = (bean.getRsRank1() != null && bean.getRsRank2() != null && StringUtils.notEmpty(bean.getRsResult1()) && !StringUtils.notEmpty(bean.getRsResult2()) && !StringUtils.notEmpty(bean.getRsResult3()));
-				if (bean.getRsRank1() != null) {
-					tEntity[0] = getResultsEntity(type_, bean.getRsRank1(), bean.getEn1Str1(), bean.getEn1Str2(), bean.getEn1Str3(), bean.getEn1Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 0 ? "plist-" + id + "-0" : null);
-					tEntityRel[0] = getResultsEntityRel(bean.getEn1Rel1Id(), bean.getEn1Rel1Label(), bean.getEn1Rel1Label(), bean.getEn1Rel2Id(), bean.getEn1Rel2Label(), bean.getEn1Rel2Label(), bean.getEn1Rel2LabelEN(), false, false, bean.getYrLabel());
-					tResult[0] = StringUtils.formatResult(bean.getRsResult1(), lang);
-				}
-				if (bean.getRsRank2() != null) {
-					tEntity[1] = getResultsEntity(type_, bean.getRsRank2(), bean.getEn2Str1(), bean.getEn2Str2(), bean.getEn2Str3(), bean.getEn2Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 1 ? "plist-" + id + "-1" : null);
-					tEntityRel[1] = getResultsEntityRel(bean.getEn2Rel1Id(), bean.getEn2Rel1Label(), bean.getEn2Rel1Label(), bean.getEn2Rel2Id(), bean.getEn2Rel2Label(), bean.getEn2Rel2Label(), bean.getEn2Rel2LabelEN(), false, false, bean.getYrLabel());
-					tResult[1] = StringUtils.formatResult(bean.getRsResult2(), lang);
-				}
-				if (bean.getRsRank3() != null) {
-					tEntity[2] = getResultsEntity(type_, bean.getRsRank3(), bean.getEn3Str1(), bean.getEn3Str2(), bean.getEn3Str3(), bean.getEn3Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 2 ? "plist-" + id + "-2" : null);
-					tEntityRel[2] = getResultsEntityRel(bean.getEn3Rel1Id(), bean.getEn3Rel1Label(), bean.getEn3Rel1Label(), bean.getEn3Rel2Id(), bean.getEn3Rel2Label(), bean.getEn3Rel2Label(), bean.getEn3Rel2LabelEN(), false, false, bean.getYrLabel());
-					tResult[2] = StringUtils.formatResult(bean.getRsResult3(), lang);
-				}
-				if (bean.getRsRank4() != null) {
-					tEntity[3] = getResultsEntity(type_, bean.getRsRank4(), bean.getEn4Str1(), bean.getEn4Str2(), bean.getEn4Str3(), bean.getEn4Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 3 ? "plist-" + id + "-3" : null);
-					tEntityRel[3] = getResultsEntityRel(bean.getEn3Rel1Id(), bean.getEn4Rel1Label(), bean.getEn4Rel1Label(), bean.getEn4Rel2Id(), bean.getEn4Rel2Label(), bean.getEn4Rel2Label(), bean.getEn4Rel2LabelEN(), false, false, bean.getYrLabel());
-					tResult[3] = StringUtils.formatResult(bean.getRsResult4(), lang);
-				}
-				if (bean.getRsRank5() != null) {
-					tEntity[4] = getResultsEntity(type_, bean.getRsRank5(), bean.getEn5Str1(), bean.getEn5Str2(), bean.getEn5Str3(), bean.getEn5Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 4 ? "plist-" + id + "-4" : null);
-					tEntityRel[4] = getResultsEntityRel(bean.getEn5Rel1Id(), bean.getEn5Rel1Label(), bean.getEn5Rel1Label(), bean.getEn5Rel2Id(), bean.getEn5Rel2Label(), bean.getEn5Rel2Label(), bean.getEn5Rel2LabelEN(), false, false, bean.getYrLabel());
-					tResult[4] = StringUtils.formatResult(bean.getRsResult5(), lang);
-				}
-				if (bean.getRsRank6() != null) {
-					tEntity[5] = getResultsEntity(type_, bean.getRsRank6(), bean.getEn6Str1(), bean.getEn6Str2(), bean.getEn6Str3(), bean.getEn6Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 5 ? "plist-" + id + "-5" : null);
-					tEntityRel[5] = getResultsEntityRel(bean.getEn6Rel1Id(), bean.getEn6Rel1Label(), bean.getEn6Rel1Label(), bean.getEn6Rel2Id(), bean.getEn6Rel2Label(), bean.getEn6Rel2Label(), bean.getEn6Rel2LabelEN(), false, false, bean.getYrLabel());
-				}
-				if (bean.getRsRank7() != null) {
-					tEntity[6] = getResultsEntity(type_, bean.getRsRank7(), bean.getEn7Str1(), bean.getEn7Str2(), bean.getEn7Str3(), bean.getEn7Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 6 ? "plist-" + id + "-6" : null);
-					tEntityRel[6] = getResultsEntityRel(bean.getEn7Rel1Id(), bean.getEn7Rel1Label(), bean.getEn7Rel1Label(), bean.getEn7Rel2Id(), bean.getEn7Rel2Label(), bean.getEn7Rel2Label(), bean.getEn7Rel2LabelEN(), false, false, bean.getYrLabel());
-				}
-				if (bean.getRsRank8() != null) {
-					tEntity[7] = getResultsEntity(type_, bean.getRsRank8(), bean.getEn8Str1(), bean.getEn8Str2(), bean.getEn8Str3(), bean.getEn8Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 7 ? "plist-" + id + "-7" : null);
-					tEntityRel[7] = getResultsEntityRel(bean.getEn8Rel1Id(), bean.getEn8Rel1Label(), bean.getEn8Rel1Label(), bean.getEn8Rel2Id(), bean.getEn8Rel2Label(), bean.getEn8Rel2Label(), bean.getEn8Rel2LabelEN(), false, false, bean.getYrLabel());
-				}
-				if (bean.getRsRank9() != null) {
-					tEntity[8] = getResultsEntity(type_, bean.getRsRank9(), bean.getEn9Str1(), bean.getEn9Str2(), bean.getEn9Str3(), bean.getEn9Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 8 ? "plist-" + id + "-8" : null);
-					tEntityRel[8] = getResultsEntityRel(bean.getEn9Rel1Id(), bean.getEn9Rel1Label(), bean.getEn9Rel1Label(), bean.getEn9Rel2Id(), bean.getEn9Rel2Label(), bean.getEn9Rel2Label(), bean.getEn9Rel2LabelEN(), false, false, bean.getYrLabel());
+				for (int i = 1 ; i <= MAX_RANKS ; i++) {
+					Integer idRank = StringUtils.toInt(ResultsBean.class.getMethod("getRsRank" + i).invoke(bean));
+					if (idRank != null && idRank > 0) {
+						Object result = ResultsBean.class.getMethod("getRsRank" + i).invoke(bean);
+						String str1 = (String) ResultsBean.class.getMethod("getEn" + i + "Str1").invoke(bean);
+						String str2 = (String) ResultsBean.class.getMethod("getEn" + i + "Str2").invoke(bean);
+						String str3 = (String) ResultsBean.class.getMethod("getEn" + i + "Str3").invoke(bean);
+						Integer rel1Id = StringUtils.toInt(ResultsBean.class.getMethod("getEn" + i + "Rel1Id").invoke(bean));
+						String rel1Label = (String) ResultsBean.class.getMethod("getEn" + i + "Rel1Label").invoke(bean);
+						Integer rel2Id = StringUtils.toInt(ResultsBean.class.getMethod("getEn" + i + "Rel2Id").invoke(bean));
+						String rel2Label = (String) ResultsBean.class.getMethod("getEn" + i + "Rel2Label").invoke(bean);
+						String rel2LabelEN = (String) ResultsBean.class.getMethod("getEn" + i + "Rel2LabelEN").invoke(bean);
+						String rel2Code = (String) ResultsBean.class.getMethod("getEn" + i + "Rel2Code").invoke(bean);
+						tEntity[i - 1] = getResultsEntity(type_, idRank, str1, str2, str3, rel2Code, bean.getYrLabel(), plist != null && plist.size() > 0 ? "plist-" + id + "-" + (i - 1) : null);
+						tEntityRel[i - 1] = getResultsEntityRel(rel1Id, rel1Label, rel1Label, rel2Id, rel2Label, rel2Label, rel2LabelEN, false, false, bean.getYrLabel());
+						tResult[i - 1] = StringUtils.formatResult(result, lang);
+					}	
 				}
 				boolean isDouble = (type_ == 4 || (bean.getRsComment() != null && bean.getRsComment().equals("#DOUBLE#")));
 				boolean isTriple = (type_ == 5 || (bean.getRsComment() != null && bean.getRsComment().equals("#TRIPLE#")));
@@ -842,7 +820,7 @@ public class HtmlConverter {
 					tEntity = StringUtils.removeNulls(tEntity);
 					tEntityRel = StringUtils.removeNulls(tEntityRel);
 				}
-				for (int i = 0 ; i < 9 ; i++)
+				for (int i = 0 ; i < MAX_RANKS ; i++)
 					if (tEntity[i] != null)
 						tEntityHtml[i] = ("<td>" + tEntity[i] + (plist != null && plist.size() > i ? "<table id='plist-" + id + "-" + i + "' class='plist' style='display:none;'>" + plist.get(i).toString() + "</table>" : "") + "</td>" + tEntityRel[i] + (StringUtils.notEmpty(tResult[i]) && !isScore ? "<td>" + tResult[i] + "</td>" : ""));
 				html.append("<tr><td colspan='2' class='result'>");
@@ -850,10 +828,8 @@ public class HtmlConverter {
 				if (isScore)
 					html.append("<td rowspan='2'><b>" + tResult[0] + "</b></td>");
 				html.append("</tr>");
-				if (StringUtils.notEmpty(tEntityHtml[1]))
-					html.append("<tr><th>" + ResourceUtils.getText(isScore ? "runner.up" : "rank.2", lang) + "&nbsp;</th>" + tEntityHtml[1] + "</tr>");
-				if (StringUtils.notEmpty(tEntityHtml[2]))
-					html.append("<tr><th>" + ResourceUtils.getText("rank.3", lang) + "&nbsp;</th>" + tEntityHtml[2] + "</tr>");
+				for (int i = 1 ; i < MAX_RANKS ; i++)
+					html.append("<tr><th>" + (i + 1) + ".&nbsp;</th>" + tEntityHtml[i] + "</tr>");
 				html.append("</table>");
 				html.append("</td></tr>");
 				html.append("</tbody></table></li>");

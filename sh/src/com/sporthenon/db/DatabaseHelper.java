@@ -452,7 +452,7 @@ public class DatabaseHelper {
 			   (alias.equalsIgnoreCase(Year.alias) ? Year.class : null)))))))))))))))))))));
 	}
 	
-	public static Integer insertEntity(int row, int n, int spid, String s, String date, Contributor m, StringBuffer processReport, String lang) throws Exception {
+	public static Integer insertEntity(int row, int n, int spid, String s, String date, Contributor m, StringBuffer sb, String lang) throws Exception {
 		Integer id = null;
 		Object o = null;
 		String msg = null;
@@ -485,7 +485,7 @@ public class DatabaseHelper {
 						date = (StringUtils.notEmpty(date) && date.matches(".*\\d{4}$") ? date.substring(date.length() - 4) : null);
 					Object o_ = loadEntityFromQuery("from Team tm where sport.id=" + spid + " and lower(tm.label) = '" + tm.toLowerCase().replaceAll("'", "''") + "'" + (date != null ? " and '" + date + "' between year1 and (case year2 when null then '9999' when '' then '9999' else year2 end)" : ""));
 					if (o_ == null) {
-						Integer idTm = insertEntity(row, 50, spid, tm, null, m, processReport, lang);
+						Integer idTm = insertEntity(row, 50, spid, tm, null, m, sb, lang);
 						o_ = loadEntity(Team.class, idTm);
 					}
 					a.setTeam((Team)o_);
@@ -521,15 +521,15 @@ public class DatabaseHelper {
 		}
 		finally {
 			if (o != null) {
-				if (processReport != null)
-					processReport.append("Row " + (row + 1) + ": " + msg + " | " + o).append("\r\n");
+				if (sb != null)
+					sb.append("Row " + (row + 1) + ": " + msg + " | " + o).append("\r\n");
 				id = Integer.valueOf(String.valueOf(o.getClass().getMethod("getId").invoke(o)));
 			}
 		}
 		return id;
 	}
 	
-	public static Integer insertPlace(int row, String s, Contributor m, StringBuffer processReport, String lang) throws Exception {
+	public static Integer insertPlace(int row, String s, Contributor m, StringBuffer sb, String lang) throws Exception {
 		Integer id = null;
 		Object o = null;
 		String msg = null;
@@ -553,7 +553,7 @@ public class DatabaseHelper {
 			if (cx != null) { // Set City (for complex)
 				Object o_ = loadEntityFromQuery("from City ct where lower(ct.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "") + ") like '" + ct.toLowerCase().replaceAll("'", "''") + "' and lower(country.code) = '" + cn.toLowerCase() + "'");
 				if (o_ == null) {
-					Integer idCt = insertPlace(row, ct + (st != null ? ", " + st : "") + ", " + cn, m, processReport, lang);
+					Integer idCt = insertPlace(row, ct + (st != null ? ", " + st : "") + ", " + cn, m, sb, lang);
 					o_ = loadEntity(City.class, idCt);
 				}
 				ct_ = (City)o_;
@@ -598,8 +598,8 @@ public class DatabaseHelper {
 		}
 		finally {
 			if (o != null) {
-				if (processReport != null)
-					processReport.append("Row " + (row + 1) + ": " + msg + " | " + o).append("\r\n");
+				if (sb != null)
+					sb.append("Row " + (row + 1) + ": " + msg + " | " + o).append("\r\n");
 				id = Integer.valueOf(String.valueOf(o.getClass().getMethod("getId").invoke(o)));
 			}
 		}

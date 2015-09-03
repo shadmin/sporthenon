@@ -47,6 +47,36 @@ public class ResultsBean {
 	@Column(name = "rs_rank10")
 	private Integer rsRank10;
 	
+	@Column(name = "rs_rank11")
+	private Integer rsRank11;
+	
+	@Column(name = "rs_rank12")
+	private Integer rsRank12;
+	
+	@Column(name = "rs_rank13")
+	private Integer rsRank13;
+	
+	@Column(name = "rs_rank14")
+	private Integer rsRank14;
+	
+	@Column(name = "rs_rank15")
+	private Integer rsRank15;
+	
+	@Column(name = "rs_rank16")
+	private Integer rsRank16;
+	
+	@Column(name = "rs_rank17")
+	private Integer rsRank17;
+	
+	@Column(name = "rs_rank18")
+	private Integer rsRank18;
+	
+	@Column(name = "rs_rank19")
+	private Integer rsRank19;
+	
+	@Column(name = "rs_rank20")
+	private Integer rsRank20;
+	
 	@Column(name = "rs_result1")
 	private String rsResult1;
 	
@@ -61,6 +91,51 @@ public class ResultsBean {
 	
 	@Column(name = "rs_result5")
 	private String rsResult5;
+	
+	@Column(name = "rs_result6")
+	private String rsResult6;
+	
+	@Column(name = "rs_result7")
+	private String rsResult7;
+	
+	@Column(name = "rs_result8")
+	private String rsResult8;
+	
+	@Column(name = "rs_result9")
+	private String rsResult9;
+	
+	@Column(name = "rs_result10")
+	private String rsResult10;
+	
+	@Column(name = "rs_result11")
+	private String rsResult11;
+	
+	@Column(name = "rs_result12")
+	private String rsResult12;
+	
+	@Column(name = "rs_result13")
+	private String rsResult13;
+	
+	@Column(name = "rs_result14")
+	private String rsResult14;
+	
+	@Column(name = "rs_result15")
+	private String rsResult15;
+	
+	@Column(name = "rs_result16")
+	private String rsResult16;
+	
+	@Column(name = "rs_result17")
+	private String rsResult17;
+	
+	@Column(name = "rs_result18")
+	private String rsResult18;
+	
+	@Column(name = "rs_result19")
+	private String rsResult19;
+	
+	@Column(name = "rs_result20")
+	private String rsResult20;
 	
 	@Column(name = "rs_comment")
 	private String rsComment;
@@ -523,6 +598,306 @@ public class ResultsBean {
 	
 	@Column(name = "en10_rel2_label_en")
 	private String en10Rel2LabelEN;
+	
+	@Column(name = "en11_str1")
+	private String en11Str1;
+	
+	@Column(name = "en11_str2")
+	private String en11Str2;
+	
+	@Column(name = "en11_str3")
+	private String en11Str3;
+	
+	@Column(name = "en11_rel1_id")
+	private Integer en11Rel1Id;
+	
+	@Column(name = "en11_rel1_code")
+	private String en11Rel1Code;
+	
+	@Column(name = "en11_rel1_label")
+	private String en11Rel1Label;
+	
+	@Column(name = "en11_rel2_id")
+	private Integer en11Rel2Id;
+	
+	@Column(name = "en11_rel2_code")
+	private String en11Rel2Code;
+	
+	@Column(name = "en11_rel2_label")
+	private String en11Rel2Label;
+	
+	@Column(name = "en11_rel2_label_en")
+	private String en11Rel2LabelEN;
+	
+	@Column(name = "en12_str1")
+	private String en12Str1;
+	
+	@Column(name = "en12_str2")
+	private String en12Str2;
+	
+	@Column(name = "en12_str3")
+	private String en12Str3;
+	
+	@Column(name = "en12_rel1_id")
+	private Integer en12Rel1Id;
+	
+	@Column(name = "en12_rel1_code")
+	private String en12Rel1Code;
+	
+	@Column(name = "en12_rel1_label")
+	private String en12Rel1Label;
+	
+	@Column(name = "en12_rel2_id")
+	private Integer en12Rel2Id;
+	
+	@Column(name = "en12_rel2_code")
+	private String en12Rel2Code;
+	
+	@Column(name = "en12_rel2_label")
+	private String en12Rel2Label;
+	
+	@Column(name = "en12_rel2_label_en")
+	private String en12Rel2LabelEN;
+	
+	@Column(name = "en13_str1")
+	private String en13Str1;
+	
+	@Column(name = "en13_str2")
+	private String en13Str2;
+	
+	@Column(name = "en13_str3")
+	private String en13Str3;
+	
+	@Column(name = "en13_rel1_id")
+	private Integer en13Rel1Id;
+	
+	@Column(name = "en13_rel1_code")
+	private String en13Rel1Code;
+	
+	@Column(name = "en13_rel1_label")
+	private String en13Rel1Label;
+	
+	@Column(name = "en13_rel2_id")
+	private Integer en13Rel2Id;
+	
+	@Column(name = "en13_rel2_code")
+	private String en13Rel2Code;
+	
+	@Column(name = "en13_rel2_label")
+	private String en13Rel2Label;
+	
+	@Column(name = "en13_rel2_label_en")
+	private String en13Rel2LabelEN;
+	
+	@Column(name = "en14_str1")
+	private String en14Str1;
+	
+	@Column(name = "en14_str2")
+	private String en14Str2;
+	
+	@Column(name = "en14_str3")
+	private String en14Str3;
+	
+	@Column(name = "en14_rel1_id")
+	private Integer en14Rel1Id;
+	
+	@Column(name = "en14_rel1_code")
+	private String en14Rel1Code;
+	
+	@Column(name = "en14_rel1_label")
+	private String en14Rel1Label;
+	
+	@Column(name = "en14_rel2_id")
+	private Integer en14Rel2Id;
+	
+	@Column(name = "en14_rel2_code")
+	private String en14Rel2Code;
+	
+	@Column(name = "en14_rel2_label")
+	private String en14Rel2Label;
+	
+	@Column(name = "en14_rel2_label_en")
+	private String en14Rel2LabelEN;
+	
+	@Column(name = "en15_str1")
+	private String en15Str1;
+	
+	@Column(name = "en15_str2")
+	private String en15Str2;
+	
+	@Column(name = "en15_str3")
+	private String en15Str3;
+	
+	@Column(name = "en15_rel1_id")
+	private Integer en15Rel1Id;
+	
+	@Column(name = "en15_rel1_code")
+	private String en15Rel1Code;
+	
+	@Column(name = "en15_rel1_label")
+	private String en15Rel1Label;
+	
+	@Column(name = "en15_rel2_id")
+	private Integer en15Rel2Id;
+	
+	@Column(name = "en15_rel2_code")
+	private String en15Rel2Code;
+	
+	@Column(name = "en15_rel2_label")
+	private String en15Rel2Label;
+	
+	@Column(name = "en15_rel2_label_en")
+	private String en15Rel2LabelEN;
+	
+	@Column(name = "en16_str1")
+	private String en16Str1;
+	
+	@Column(name = "en16_str2")
+	private String en16Str2;
+	
+	@Column(name = "en16_str3")
+	private String en16Str3;
+	
+	@Column(name = "en16_rel1_id")
+	private Integer en16Rel1Id;
+	
+	@Column(name = "en16_rel1_code")
+	private String en16Rel1Code;
+	
+	@Column(name = "en16_rel1_label")
+	private String en16Rel1Label;
+	
+	@Column(name = "en16_rel2_id")
+	private Integer en16Rel2Id;
+	
+	@Column(name = "en16_rel2_code")
+	private String en16Rel2Code;
+	
+	@Column(name = "en16_rel2_label")
+	private String en16Rel2Label;
+	
+	@Column(name = "en16_rel2_label_en")
+	private String en16Rel2LabelEN;
+	
+	@Column(name = "en17_str1")
+	private String en17Str1;
+	
+	@Column(name = "en17_str2")
+	private String en17Str2;
+	
+	@Column(name = "en17_str3")
+	private String en17Str3;
+	
+	@Column(name = "en17_rel1_id")
+	private Integer en17Rel1Id;
+	
+	@Column(name = "en17_rel1_code")
+	private String en17Rel1Code;
+	
+	@Column(name = "en17_rel1_label")
+	private String en17Rel1Label;
+	
+	@Column(name = "en17_rel2_id")
+	private Integer en17Rel2Id;
+	
+	@Column(name = "en17_rel2_code")
+	private String en17Rel2Code;
+	
+	@Column(name = "en17_rel2_label")
+	private String en17Rel2Label;
+	
+	@Column(name = "en17_rel2_label_en")
+	private String en17Rel2LabelEN;
+	
+	@Column(name = "en18_str1")
+	private String en18Str1;
+	
+	@Column(name = "en18_str2")
+	private String en18Str2;
+	
+	@Column(name = "en18_str3")
+	private String en18Str3;
+	
+	@Column(name = "en18_rel1_id")
+	private Integer en18Rel1Id;
+	
+	@Column(name = "en18_rel1_code")
+	private String en18Rel1Code;
+	
+	@Column(name = "en18_rel1_label")
+	private String en18Rel1Label;
+	
+	@Column(name = "en18_rel2_id")
+	private Integer en18Rel2Id;
+	
+	@Column(name = "en18_rel2_code")
+	private String en18Rel2Code;
+	
+	@Column(name = "en18_rel2_label")
+	private String en18Rel2Label;
+	
+	@Column(name = "en18_rel2_label_en")
+	private String en18Rel2LabelEN;
+	
+	@Column(name = "en19_str1")
+	private String en19Str1;
+	
+	@Column(name = "en19_str2")
+	private String en19Str2;
+	
+	@Column(name = "en19_str3")
+	private String en19Str3;
+	
+	@Column(name = "en19_rel1_id")
+	private Integer en19Rel1Id;
+	
+	@Column(name = "en19_rel1_code")
+	private String en19Rel1Code;
+	
+	@Column(name = "en19_rel1_label")
+	private String en19Rel1Label;
+	
+	@Column(name = "en19_rel2_id")
+	private Integer en19Rel2Id;
+	
+	@Column(name = "en19_rel2_code")
+	private String en19Rel2Code;
+	
+	@Column(name = "en19_rel2_label")
+	private String en19Rel2Label;
+	
+	@Column(name = "en19_rel2_label_en")
+	private String en19Rel2LabelEN;
+	
+	@Column(name = "en20_str1")
+	private String en20Str1;
+	
+	@Column(name = "en20_str2")
+	private String en20Str2;
+	
+	@Column(name = "en20_str3")
+	private String en20Str3;
+	
+	@Column(name = "en20_rel1_id")
+	private Integer en20Rel1Id;
+	
+	@Column(name = "en20_rel1_code")
+	private String en20Rel1Code;
+	
+	@Column(name = "en20_rel1_label")
+	private String en20Rel1Label;
+	
+	@Column(name = "en20_rel2_id")
+	private Integer en20Rel2Id;
+	
+	@Column(name = "en20_rel2_code")
+	private String en20Rel2Code;
+	
+	@Column(name = "en20_rel2_label")
+	private String en20Rel2Label;
+	
+	@Column(name = "en20_rel2_label_en")
+	private String en20Rel2LabelEN;
 	
 	@Column(name = "dr_id")
 	private Integer drId;
@@ -1913,6 +2288,1006 @@ public class ResultsBean {
 
 	public void setEn10Rel2LabelEN(String en10Rel2LabelEN) {
 		this.en10Rel2LabelEN = en10Rel2LabelEN;
+	}
+
+	public Integer getRsRank11() {
+		return rsRank11;
+	}
+
+	public Integer getRsRank12() {
+		return rsRank12;
+	}
+
+	public Integer getRsRank13() {
+		return rsRank13;
+	}
+
+	public Integer getRsRank14() {
+		return rsRank14;
+	}
+
+	public Integer getRsRank15() {
+		return rsRank15;
+	}
+
+	public Integer getRsRank16() {
+		return rsRank16;
+	}
+
+	public Integer getRsRank17() {
+		return rsRank17;
+	}
+
+	public Integer getRsRank18() {
+		return rsRank18;
+	}
+
+	public Integer getRsRank19() {
+		return rsRank19;
+	}
+
+	public Integer getRsRank20() {
+		return rsRank20;
+	}
+
+	public String getRsResult6() {
+		return rsResult6;
+	}
+
+	public String getRsResult7() {
+		return rsResult7;
+	}
+
+	public String getRsResult8() {
+		return rsResult8;
+	}
+
+	public String getRsResult9() {
+		return rsResult9;
+	}
+
+	public String getRsResult10() {
+		return rsResult10;
+	}
+
+	public String getRsResult11() {
+		return rsResult11;
+	}
+
+	public String getRsResult12() {
+		return rsResult12;
+	}
+
+	public String getRsResult13() {
+		return rsResult13;
+	}
+
+	public String getRsResult14() {
+		return rsResult14;
+	}
+
+	public String getRsResult15() {
+		return rsResult15;
+	}
+
+	public String getRsResult16() {
+		return rsResult16;
+	}
+
+	public String getRsResult17() {
+		return rsResult17;
+	}
+
+	public String getRsResult18() {
+		return rsResult18;
+	}
+
+	public String getRsResult19() {
+		return rsResult19;
+	}
+
+	public String getRsResult20() {
+		return rsResult20;
+	}
+
+	public String getEn11Str1() {
+		return en11Str1;
+	}
+
+	public String getEn11Str2() {
+		return en11Str2;
+	}
+
+	public String getEn11Str3() {
+		return en11Str3;
+	}
+
+	public Integer getEn11Rel1Id() {
+		return en11Rel1Id;
+	}
+
+	public String getEn11Rel1Code() {
+		return en11Rel1Code;
+	}
+
+	public String getEn11Rel1Label() {
+		return en11Rel1Label;
+	}
+
+	public Integer getEn11Rel2Id() {
+		return en11Rel2Id;
+	}
+
+	public String getEn11Rel2Code() {
+		return en11Rel2Code;
+	}
+
+	public String getEn11Rel2Label() {
+		return en11Rel2Label;
+	}
+
+	public String getEn11Rel2LabelEN() {
+		return en11Rel2LabelEN;
+	}
+
+	public String getEn12Str1() {
+		return en12Str1;
+	}
+
+	public String getEn12Str2() {
+		return en12Str2;
+	}
+
+	public String getEn12Str3() {
+		return en12Str3;
+	}
+
+	public Integer getEn12Rel1Id() {
+		return en12Rel1Id;
+	}
+
+	public String getEn12Rel1Code() {
+		return en12Rel1Code;
+	}
+
+	public String getEn12Rel1Label() {
+		return en12Rel1Label;
+	}
+
+	public Integer getEn12Rel2Id() {
+		return en12Rel2Id;
+	}
+
+	public String getEn12Rel2Code() {
+		return en12Rel2Code;
+	}
+
+	public String getEn12Rel2Label() {
+		return en12Rel2Label;
+	}
+
+	public String getEn12Rel2LabelEN() {
+		return en12Rel2LabelEN;
+	}
+
+	public String getEn13Str1() {
+		return en13Str1;
+	}
+
+	public String getEn13Str2() {
+		return en13Str2;
+	}
+
+	public String getEn13Str3() {
+		return en13Str3;
+	}
+
+	public Integer getEn13Rel1Id() {
+		return en13Rel1Id;
+	}
+
+	public String getEn13Rel1Code() {
+		return en13Rel1Code;
+	}
+
+	public String getEn13Rel1Label() {
+		return en13Rel1Label;
+	}
+
+	public Integer getEn13Rel2Id() {
+		return en13Rel2Id;
+	}
+
+	public String getEn13Rel2Code() {
+		return en13Rel2Code;
+	}
+
+	public String getEn13Rel2Label() {
+		return en13Rel2Label;
+	}
+
+	public String getEn13Rel2LabelEN() {
+		return en13Rel2LabelEN;
+	}
+
+	public String getEn14Str1() {
+		return en14Str1;
+	}
+
+	public String getEn14Str2() {
+		return en14Str2;
+	}
+
+	public String getEn14Str3() {
+		return en14Str3;
+	}
+
+	public Integer getEn14Rel1Id() {
+		return en14Rel1Id;
+	}
+
+	public String getEn14Rel1Code() {
+		return en14Rel1Code;
+	}
+
+	public String getEn14Rel1Label() {
+		return en14Rel1Label;
+	}
+
+	public Integer getEn14Rel2Id() {
+		return en14Rel2Id;
+	}
+
+	public String getEn14Rel2Code() {
+		return en14Rel2Code;
+	}
+
+	public String getEn14Rel2Label() {
+		return en14Rel2Label;
+	}
+
+	public String getEn14Rel2LabelEN() {
+		return en14Rel2LabelEN;
+	}
+
+	public String getEn15Str1() {
+		return en15Str1;
+	}
+
+	public String getEn15Str2() {
+		return en15Str2;
+	}
+
+	public String getEn15Str3() {
+		return en15Str3;
+	}
+
+	public Integer getEn15Rel1Id() {
+		return en15Rel1Id;
+	}
+
+	public String getEn15Rel1Code() {
+		return en15Rel1Code;
+	}
+
+	public String getEn15Rel1Label() {
+		return en15Rel1Label;
+	}
+
+	public Integer getEn15Rel2Id() {
+		return en15Rel2Id;
+	}
+
+	public String getEn15Rel2Code() {
+		return en15Rel2Code;
+	}
+
+	public String getEn15Rel2Label() {
+		return en15Rel2Label;
+	}
+
+	public String getEn15Rel2LabelEN() {
+		return en15Rel2LabelEN;
+	}
+
+	public String getEn16Str1() {
+		return en16Str1;
+	}
+
+	public String getEn16Str2() {
+		return en16Str2;
+	}
+
+	public String getEn16Str3() {
+		return en16Str3;
+	}
+
+	public Integer getEn16Rel1Id() {
+		return en16Rel1Id;
+	}
+
+	public String getEn16Rel1Code() {
+		return en16Rel1Code;
+	}
+
+	public String getEn16Rel1Label() {
+		return en16Rel1Label;
+	}
+
+	public Integer getEn16Rel2Id() {
+		return en16Rel2Id;
+	}
+
+	public String getEn16Rel2Code() {
+		return en16Rel2Code;
+	}
+
+	public String getEn16Rel2Label() {
+		return en16Rel2Label;
+	}
+
+	public String getEn16Rel2LabelEN() {
+		return en16Rel2LabelEN;
+	}
+
+	public String getEn17Str1() {
+		return en17Str1;
+	}
+
+	public String getEn17Str2() {
+		return en17Str2;
+	}
+
+	public String getEn17Str3() {
+		return en17Str3;
+	}
+
+	public Integer getEn17Rel1Id() {
+		return en17Rel1Id;
+	}
+
+	public String getEn17Rel1Code() {
+		return en17Rel1Code;
+	}
+
+	public String getEn17Rel1Label() {
+		return en17Rel1Label;
+	}
+
+	public Integer getEn17Rel2Id() {
+		return en17Rel2Id;
+	}
+
+	public String getEn17Rel2Code() {
+		return en17Rel2Code;
+	}
+
+	public String getEn17Rel2Label() {
+		return en17Rel2Label;
+	}
+
+	public String getEn17Rel2LabelEN() {
+		return en17Rel2LabelEN;
+	}
+
+	public String getEn18Str1() {
+		return en18Str1;
+	}
+
+	public String getEn18Str2() {
+		return en18Str2;
+	}
+
+	public String getEn18Str3() {
+		return en18Str3;
+	}
+
+	public Integer getEn18Rel1Id() {
+		return en18Rel1Id;
+	}
+
+	public String getEn18Rel1Code() {
+		return en18Rel1Code;
+	}
+
+	public String getEn18Rel1Label() {
+		return en18Rel1Label;
+	}
+
+	public Integer getEn18Rel2Id() {
+		return en18Rel2Id;
+	}
+
+	public String getEn18Rel2Code() {
+		return en18Rel2Code;
+	}
+
+	public String getEn18Rel2Label() {
+		return en18Rel2Label;
+	}
+
+	public String getEn18Rel2LabelEN() {
+		return en18Rel2LabelEN;
+	}
+
+	public String getEn19Str1() {
+		return en19Str1;
+	}
+
+	public String getEn19Str2() {
+		return en19Str2;
+	}
+
+	public String getEn19Str3() {
+		return en19Str3;
+	}
+
+	public Integer getEn19Rel1Id() {
+		return en19Rel1Id;
+	}
+
+	public String getEn19Rel1Code() {
+		return en19Rel1Code;
+	}
+
+	public String getEn19Rel1Label() {
+		return en19Rel1Label;
+	}
+
+	public Integer getEn19Rel2Id() {
+		return en19Rel2Id;
+	}
+
+	public String getEn19Rel2Code() {
+		return en19Rel2Code;
+	}
+
+	public String getEn19Rel2Label() {
+		return en19Rel2Label;
+	}
+
+	public String getEn19Rel2LabelEN() {
+		return en19Rel2LabelEN;
+	}
+
+	public String getEn20Str1() {
+		return en20Str1;
+	}
+
+	public String getEn20Str2() {
+		return en20Str2;
+	}
+
+	public String getEn20Str3() {
+		return en20Str3;
+	}
+
+	public Integer getEn20Rel1Id() {
+		return en20Rel1Id;
+	}
+
+	public String getEn20Rel1Code() {
+		return en20Rel1Code;
+	}
+
+	public String getEn20Rel1Label() {
+		return en20Rel1Label;
+	}
+
+	public Integer getEn20Rel2Id() {
+		return en20Rel2Id;
+	}
+
+	public String getEn20Rel2Code() {
+		return en20Rel2Code;
+	}
+
+	public String getEn20Rel2Label() {
+		return en20Rel2Label;
+	}
+
+	public String getEn20Rel2LabelEN() {
+		return en20Rel2LabelEN;
+	}
+
+	public void setRsRank11(Integer rsRank11) {
+		this.rsRank11 = rsRank11;
+	}
+
+	public void setRsRank12(Integer rsRank12) {
+		this.rsRank12 = rsRank12;
+	}
+
+	public void setRsRank13(Integer rsRank13) {
+		this.rsRank13 = rsRank13;
+	}
+
+	public void setRsRank14(Integer rsRank14) {
+		this.rsRank14 = rsRank14;
+	}
+
+	public void setRsRank15(Integer rsRank15) {
+		this.rsRank15 = rsRank15;
+	}
+
+	public void setRsRank16(Integer rsRank16) {
+		this.rsRank16 = rsRank16;
+	}
+
+	public void setRsRank17(Integer rsRank17) {
+		this.rsRank17 = rsRank17;
+	}
+
+	public void setRsRank18(Integer rsRank18) {
+		this.rsRank18 = rsRank18;
+	}
+
+	public void setRsRank19(Integer rsRank19) {
+		this.rsRank19 = rsRank19;
+	}
+
+	public void setRsRank20(Integer rsRank20) {
+		this.rsRank20 = rsRank20;
+	}
+
+	public void setRsResult6(String rsResult6) {
+		this.rsResult6 = rsResult6;
+	}
+
+	public void setRsResult7(String rsResult7) {
+		this.rsResult7 = rsResult7;
+	}
+
+	public void setRsResult8(String rsResult8) {
+		this.rsResult8 = rsResult8;
+	}
+
+	public void setRsResult9(String rsResult9) {
+		this.rsResult9 = rsResult9;
+	}
+
+	public void setRsResult10(String rsResult10) {
+		this.rsResult10 = rsResult10;
+	}
+
+	public void setRsResult11(String rsResult11) {
+		this.rsResult11 = rsResult11;
+	}
+
+	public void setRsResult12(String rsResult12) {
+		this.rsResult12 = rsResult12;
+	}
+
+	public void setRsResult13(String rsResult13) {
+		this.rsResult13 = rsResult13;
+	}
+
+	public void setRsResult14(String rsResult14) {
+		this.rsResult14 = rsResult14;
+	}
+
+	public void setRsResult15(String rsResult15) {
+		this.rsResult15 = rsResult15;
+	}
+
+	public void setRsResult16(String rsResult16) {
+		this.rsResult16 = rsResult16;
+	}
+
+	public void setRsResult17(String rsResult17) {
+		this.rsResult17 = rsResult17;
+	}
+
+	public void setRsResult18(String rsResult18) {
+		this.rsResult18 = rsResult18;
+	}
+
+	public void setRsResult19(String rsResult19) {
+		this.rsResult19 = rsResult19;
+	}
+
+	public void setRsResult20(String rsResult20) {
+		this.rsResult20 = rsResult20;
+	}
+
+	public void setEn11Str1(String en11Str1) {
+		this.en11Str1 = en11Str1;
+	}
+
+	public void setEn11Str2(String en11Str2) {
+		this.en11Str2 = en11Str2;
+	}
+
+	public void setEn11Str3(String en11Str3) {
+		this.en11Str3 = en11Str3;
+	}
+
+	public void setEn11Rel1Id(Integer en11Rel1Id) {
+		this.en11Rel1Id = en11Rel1Id;
+	}
+
+	public void setEn11Rel1Code(String en11Rel1Code) {
+		this.en11Rel1Code = en11Rel1Code;
+	}
+
+	public void setEn11Rel1Label(String en11Rel1Label) {
+		this.en11Rel1Label = en11Rel1Label;
+	}
+
+	public void setEn11Rel2Id(Integer en11Rel2Id) {
+		this.en11Rel2Id = en11Rel2Id;
+	}
+
+	public void setEn11Rel2Code(String en11Rel2Code) {
+		this.en11Rel2Code = en11Rel2Code;
+	}
+
+	public void setEn11Rel2Label(String en11Rel2Label) {
+		this.en11Rel2Label = en11Rel2Label;
+	}
+
+	public void setEn11Rel2LabelEN(String en11Rel2LabelEN) {
+		this.en11Rel2LabelEN = en11Rel2LabelEN;
+	}
+
+	public void setEn12Str1(String en12Str1) {
+		this.en12Str1 = en12Str1;
+	}
+
+	public void setEn12Str2(String en12Str2) {
+		this.en12Str2 = en12Str2;
+	}
+
+	public void setEn12Str3(String en12Str3) {
+		this.en12Str3 = en12Str3;
+	}
+
+	public void setEn12Rel1Id(Integer en12Rel1Id) {
+		this.en12Rel1Id = en12Rel1Id;
+	}
+
+	public void setEn12Rel1Code(String en12Rel1Code) {
+		this.en12Rel1Code = en12Rel1Code;
+	}
+
+	public void setEn12Rel1Label(String en12Rel1Label) {
+		this.en12Rel1Label = en12Rel1Label;
+	}
+
+	public void setEn12Rel2Id(Integer en12Rel2Id) {
+		this.en12Rel2Id = en12Rel2Id;
+	}
+
+	public void setEn12Rel2Code(String en12Rel2Code) {
+		this.en12Rel2Code = en12Rel2Code;
+	}
+
+	public void setEn12Rel2Label(String en12Rel2Label) {
+		this.en12Rel2Label = en12Rel2Label;
+	}
+
+	public void setEn12Rel2LabelEN(String en12Rel2LabelEN) {
+		this.en12Rel2LabelEN = en12Rel2LabelEN;
+	}
+
+	public void setEn13Str1(String en13Str1) {
+		this.en13Str1 = en13Str1;
+	}
+
+	public void setEn13Str2(String en13Str2) {
+		this.en13Str2 = en13Str2;
+	}
+
+	public void setEn13Str3(String en13Str3) {
+		this.en13Str3 = en13Str3;
+	}
+
+	public void setEn13Rel1Id(Integer en13Rel1Id) {
+		this.en13Rel1Id = en13Rel1Id;
+	}
+
+	public void setEn13Rel1Code(String en13Rel1Code) {
+		this.en13Rel1Code = en13Rel1Code;
+	}
+
+	public void setEn13Rel1Label(String en13Rel1Label) {
+		this.en13Rel1Label = en13Rel1Label;
+	}
+
+	public void setEn13Rel2Id(Integer en13Rel2Id) {
+		this.en13Rel2Id = en13Rel2Id;
+	}
+
+	public void setEn13Rel2Code(String en13Rel2Code) {
+		this.en13Rel2Code = en13Rel2Code;
+	}
+
+	public void setEn13Rel2Label(String en13Rel2Label) {
+		this.en13Rel2Label = en13Rel2Label;
+	}
+
+	public void setEn13Rel2LabelEN(String en13Rel2LabelEN) {
+		this.en13Rel2LabelEN = en13Rel2LabelEN;
+	}
+
+	public void setEn14Str1(String en14Str1) {
+		this.en14Str1 = en14Str1;
+	}
+
+	public void setEn14Str2(String en14Str2) {
+		this.en14Str2 = en14Str2;
+	}
+
+	public void setEn14Str3(String en14Str3) {
+		this.en14Str3 = en14Str3;
+	}
+
+	public void setEn14Rel1Id(Integer en14Rel1Id) {
+		this.en14Rel1Id = en14Rel1Id;
+	}
+
+	public void setEn14Rel1Code(String en14Rel1Code) {
+		this.en14Rel1Code = en14Rel1Code;
+	}
+
+	public void setEn14Rel1Label(String en14Rel1Label) {
+		this.en14Rel1Label = en14Rel1Label;
+	}
+
+	public void setEn14Rel2Id(Integer en14Rel2Id) {
+		this.en14Rel2Id = en14Rel2Id;
+	}
+
+	public void setEn14Rel2Code(String en14Rel2Code) {
+		this.en14Rel2Code = en14Rel2Code;
+	}
+
+	public void setEn14Rel2Label(String en14Rel2Label) {
+		this.en14Rel2Label = en14Rel2Label;
+	}
+
+	public void setEn14Rel2LabelEN(String en14Rel2LabelEN) {
+		this.en14Rel2LabelEN = en14Rel2LabelEN;
+	}
+
+	public void setEn15Str1(String en15Str1) {
+		this.en15Str1 = en15Str1;
+	}
+
+	public void setEn15Str2(String en15Str2) {
+		this.en15Str2 = en15Str2;
+	}
+
+	public void setEn15Str3(String en15Str3) {
+		this.en15Str3 = en15Str3;
+	}
+
+	public void setEn15Rel1Id(Integer en15Rel1Id) {
+		this.en15Rel1Id = en15Rel1Id;
+	}
+
+	public void setEn15Rel1Code(String en15Rel1Code) {
+		this.en15Rel1Code = en15Rel1Code;
+	}
+
+	public void setEn15Rel1Label(String en15Rel1Label) {
+		this.en15Rel1Label = en15Rel1Label;
+	}
+
+	public void setEn15Rel2Id(Integer en15Rel2Id) {
+		this.en15Rel2Id = en15Rel2Id;
+	}
+
+	public void setEn15Rel2Code(String en15Rel2Code) {
+		this.en15Rel2Code = en15Rel2Code;
+	}
+
+	public void setEn15Rel2Label(String en15Rel2Label) {
+		this.en15Rel2Label = en15Rel2Label;
+	}
+
+	public void setEn15Rel2LabelEN(String en15Rel2LabelEN) {
+		this.en15Rel2LabelEN = en15Rel2LabelEN;
+	}
+
+	public void setEn16Str1(String en16Str1) {
+		this.en16Str1 = en16Str1;
+	}
+
+	public void setEn16Str2(String en16Str2) {
+		this.en16Str2 = en16Str2;
+	}
+
+	public void setEn16Str3(String en16Str3) {
+		this.en16Str3 = en16Str3;
+	}
+
+	public void setEn16Rel1Id(Integer en16Rel1Id) {
+		this.en16Rel1Id = en16Rel1Id;
+	}
+
+	public void setEn16Rel1Code(String en16Rel1Code) {
+		this.en16Rel1Code = en16Rel1Code;
+	}
+
+	public void setEn16Rel1Label(String en16Rel1Label) {
+		this.en16Rel1Label = en16Rel1Label;
+	}
+
+	public void setEn16Rel2Id(Integer en16Rel2Id) {
+		this.en16Rel2Id = en16Rel2Id;
+	}
+
+	public void setEn16Rel2Code(String en16Rel2Code) {
+		this.en16Rel2Code = en16Rel2Code;
+	}
+
+	public void setEn16Rel2Label(String en16Rel2Label) {
+		this.en16Rel2Label = en16Rel2Label;
+	}
+
+	public void setEn16Rel2LabelEN(String en16Rel2LabelEN) {
+		this.en16Rel2LabelEN = en16Rel2LabelEN;
+	}
+
+	public void setEn17Str1(String en17Str1) {
+		this.en17Str1 = en17Str1;
+	}
+
+	public void setEn17Str2(String en17Str2) {
+		this.en17Str2 = en17Str2;
+	}
+
+	public void setEn17Str3(String en17Str3) {
+		this.en17Str3 = en17Str3;
+	}
+
+	public void setEn17Rel1Id(Integer en17Rel1Id) {
+		this.en17Rel1Id = en17Rel1Id;
+	}
+
+	public void setEn17Rel1Code(String en17Rel1Code) {
+		this.en17Rel1Code = en17Rel1Code;
+	}
+
+	public void setEn17Rel1Label(String en17Rel1Label) {
+		this.en17Rel1Label = en17Rel1Label;
+	}
+
+	public void setEn17Rel2Id(Integer en17Rel2Id) {
+		this.en17Rel2Id = en17Rel2Id;
+	}
+
+	public void setEn17Rel2Code(String en17Rel2Code) {
+		this.en17Rel2Code = en17Rel2Code;
+	}
+
+	public void setEn17Rel2Label(String en17Rel2Label) {
+		this.en17Rel2Label = en17Rel2Label;
+	}
+
+	public void setEn17Rel2LabelEN(String en17Rel2LabelEN) {
+		this.en17Rel2LabelEN = en17Rel2LabelEN;
+	}
+
+	public void setEn18Str1(String en18Str1) {
+		this.en18Str1 = en18Str1;
+	}
+
+	public void setEn18Str2(String en18Str2) {
+		this.en18Str2 = en18Str2;
+	}
+
+	public void setEn18Str3(String en18Str3) {
+		this.en18Str3 = en18Str3;
+	}
+
+	public void setEn18Rel1Id(Integer en18Rel1Id) {
+		this.en18Rel1Id = en18Rel1Id;
+	}
+
+	public void setEn18Rel1Code(String en18Rel1Code) {
+		this.en18Rel1Code = en18Rel1Code;
+	}
+
+	public void setEn18Rel1Label(String en18Rel1Label) {
+		this.en18Rel1Label = en18Rel1Label;
+	}
+
+	public void setEn18Rel2Id(Integer en18Rel2Id) {
+		this.en18Rel2Id = en18Rel2Id;
+	}
+
+	public void setEn18Rel2Code(String en18Rel2Code) {
+		this.en18Rel2Code = en18Rel2Code;
+	}
+
+	public void setEn18Rel2Label(String en18Rel2Label) {
+		this.en18Rel2Label = en18Rel2Label;
+	}
+
+	public void setEn18Rel2LabelEN(String en18Rel2LabelEN) {
+		this.en18Rel2LabelEN = en18Rel2LabelEN;
+	}
+
+	public void setEn19Str1(String en19Str1) {
+		this.en19Str1 = en19Str1;
+	}
+
+	public void setEn19Str2(String en19Str2) {
+		this.en19Str2 = en19Str2;
+	}
+
+	public void setEn19Str3(String en19Str3) {
+		this.en19Str3 = en19Str3;
+	}
+
+	public void setEn19Rel1Id(Integer en19Rel1Id) {
+		this.en19Rel1Id = en19Rel1Id;
+	}
+
+	public void setEn19Rel1Code(String en19Rel1Code) {
+		this.en19Rel1Code = en19Rel1Code;
+	}
+
+	public void setEn19Rel1Label(String en19Rel1Label) {
+		this.en19Rel1Label = en19Rel1Label;
+	}
+
+	public void setEn19Rel2Id(Integer en19Rel2Id) {
+		this.en19Rel2Id = en19Rel2Id;
+	}
+
+	public void setEn19Rel2Code(String en19Rel2Code) {
+		this.en19Rel2Code = en19Rel2Code;
+	}
+
+	public void setEn19Rel2Label(String en19Rel2Label) {
+		this.en19Rel2Label = en19Rel2Label;
+	}
+
+	public void setEn19Rel2LabelEN(String en19Rel2LabelEN) {
+		this.en19Rel2LabelEN = en19Rel2LabelEN;
+	}
+
+	public void setEn20Str1(String en20Str1) {
+		this.en20Str1 = en20Str1;
+	}
+
+	public void setEn20Str2(String en20Str2) {
+		this.en20Str2 = en20Str2;
+	}
+
+	public void setEn20Str3(String en20Str3) {
+		this.en20Str3 = en20Str3;
+	}
+
+	public void setEn20Rel1Id(Integer en20Rel1Id) {
+		this.en20Rel1Id = en20Rel1Id;
+	}
+
+	public void setEn20Rel1Code(String en20Rel1Code) {
+		this.en20Rel1Code = en20Rel1Code;
+	}
+
+	public void setEn20Rel1Label(String en20Rel1Label) {
+		this.en20Rel1Label = en20Rel1Label;
+	}
+
+	public void setEn20Rel2Id(Integer en20Rel2Id) {
+		this.en20Rel2Id = en20Rel2Id;
+	}
+
+	public void setEn20Rel2Code(String en20Rel2Code) {
+		this.en20Rel2Code = en20Rel2Code;
+	}
+
+	public void setEn20Rel2Label(String en20Rel2Label) {
+		this.en20Rel2Label = en20Rel2Label;
+	}
+
+	public void setEn20Rel2LabelEN(String en20Rel2LabelEN) {
+		this.en20Rel2LabelEN = en20Rel2LabelEN;
 	}
 
 }

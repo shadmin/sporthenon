@@ -14,7 +14,7 @@
 		<div class="fscontent" style="height:auto;">
 			<table id="options"><tr>
 				<td><%=StringUtils.text("sport", session)%>&nbsp;:</td>
-				<td><select id='ovsport'>
+				<td><select id="ovsport">
 				<%
 					String lang = String.valueOf(session.getAttribute("locale"));
 					for (Sport sp : (List<Sport>) DatabaseHelper.execute("from Sport order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "")))
@@ -26,6 +26,17 @@
 				<td><input id="ovcount" type="text" value="50" style="width:50px;"/>
 				<td><%=StringUtils.text("find", session)%>&nbsp;:</td>
 				<td><input id="ovpattern" type="text" style="width:100px;"/>
+				<td><%=StringUtils.text("show", session)%>&nbsp;:</td>
+				<td><select id="oventity">
+				<option value="RS"><%=StringUtils.text("entity.RS", session)%></option>
+				<option value="PR"><%=StringUtils.text("entity.PR", session)%></option>
+				<option value="SP"><%=StringUtils.text("entity.SP", session)%></option>
+				<option value="CP"><%=StringUtils.text("entity.CP", session)%></option>
+				<option value="EV"><%=StringUtils.text("entity.EV", session)%></option>
+				<option value="CT"><%=StringUtils.text("entity.CT", session)%></option>
+				<option value="CX"><%=StringUtils.text("entity.CX", session)%></option>
+				<option value="">[<%=StringUtils.text("all", session)%>]</option>
+				</select></td>
 				<td><input type="button" value="OK" onclick="loadOverview();"/></td>
 			</tr></table>
 			<div id="ovcontent"></div>

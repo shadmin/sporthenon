@@ -4,14 +4,20 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 
 import com.sporthenon.db.DatabaseHelper;
@@ -37,6 +43,7 @@ import com.sporthenon.db.entity.meta.PersonList;
 import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
+import com.sporthenon.utils.ImportUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 
@@ -73,6 +80,8 @@ public class UpdateServlet extends AbstractServlet {
 				executeQuery(response, hParams, lang, user);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("merge"))
 				mergeEntity(response, hParams, lang, user);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("execute-import"))
+				executeImport(request, response, hParams, lang, user);
 			else
 				loadResult(request, response, hParams, lang, user);
 		}
@@ -1121,6 +1130,27 @@ public class UpdateServlet extends AbstractServlet {
 		finally {
 			ServletHelper.writeText(response, msg);
 		}
+	}
+	
+	private static void executeImport(HttpServletRequest request, HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+		byte[] b = null;
+		FileItemFactory factory = new DiskFileItemFactory();
+		ServletFileUpload upload = new ServletFileUpload(factory);
+		Collection<FileItem> items = upload.parseRequest(request);
+		for (FileItem fitem : items)
+			b = fitem.get();
+		String s = new String(b);
+		Vector v = new Vector<Vector<String>>();
+		for (String s_ : s.split("\r\n")) {
+			if (StringUtils.notEmpty(s_)) {
+				Vector v_ = new Vector<String>();
+				for (String s__ : s.split(";", -1))
+					v_.add(s__.trim());
+				v.add(v_);
+			}
+		}
+		String result = ImportUtils.processAll(v, false, true, false, false);
+		ServletHelper.writeText(response, result);
 	}
 	
 	private static String getEntityLabel(int n, Integer id, String lang) throws Exception {
