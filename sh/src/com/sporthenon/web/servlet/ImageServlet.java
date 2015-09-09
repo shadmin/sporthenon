@@ -61,16 +61,14 @@ public class ImageServlet extends AbstractServlet {
 				ImageUtils.getImgFiles().add(f.getName());
 			}
 			else if (hParams.containsKey("upload")) {
-				String id = null;
+				String id = String.valueOf(hParams.get("id"));
 				byte[] b = null;
 				FileItemFactory factory = new DiskFileItemFactory();
 				ServletFileUpload upload = new ServletFileUpload(factory);
 				Collection<FileItem> items = upload.parseRequest(request);
 				for (FileItem fitem : items) {
-					if (!fitem.isFormField() && fitem.getFieldName().equalsIgnoreCase(entity + "-file"))
+					if (!fitem.isFormField() && fitem.getFieldName().equalsIgnoreCase("f"))
 						b = fitem.get();
-					else if (StringUtils.notEmpty(fitem.getFieldName()) && fitem.getFieldName().equalsIgnoreCase(entity + "-id"))
-						id = fitem.getString();
 				}
 				String y1 = String.valueOf(hParams.get("y1"));
 				String y2 = String.valueOf(hParams.get("y2"));
@@ -98,18 +96,16 @@ public class ImageServlet extends AbstractServlet {
 				}
 			}
 			else if (hParams.containsKey("url")) {
-				String type = String.valueOf(hParams.get("type"));
 				String id = String.valueOf(hParams.get("id"));
 				String size = String.valueOf(hParams.get("size"));
-				String s = HtmlUtils.writeImage(Short.valueOf(type), Integer.valueOf(id), size.charAt(0), null, null);
+				String s = HtmlUtils.writeImage(ImageUtils.getIndex(entity), Integer.valueOf(id), size.charAt(0), null, null);
 				ServletHelper.writeText(response, s.replaceAll(".*src\\=\\'", "").replaceAll("\\'\\/\\>", ""));
 			}
 			else if (hParams.containsKey("list")) {
-				String type = String.valueOf(hParams.get("type"));
 				String id = String.valueOf(hParams.get("id"));
 				String size = String.valueOf(hParams.get("size"));
 				StringBuffer sb = new StringBuffer();
-				for (String s : ImageUtils.getImageList(Short.valueOf(type), id, size.charAt(0)))
+				for (String s : ImageUtils.getImageList(ImageUtils.getIndex(entity), id, size.charAt(0)))
 					sb.append(s).append(",");
 				ServletHelper.writeText(response, sb.toString());
 			}

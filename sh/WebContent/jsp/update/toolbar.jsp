@@ -7,7 +7,7 @@
 	if (o != null && o instanceof Contributor)
 		m = (Contributor) o;
 %>
-<table class="toolbar" style="float:right;margin-top:10px;">
+<table class="toolbar">
 	<tr>
 		<td><input id="upd-overview" type="button" class="button upd-overview" onclick="location.href='/update/overview';" value="<%=StringUtils.text("update.overview", session)%>"/></td>
 		<td><input id="upd-results" type="button" class="button upd-results" onclick="location.href='/update/results';" value="<%=StringUtils.text("entity.RS", session)%>"/></td>

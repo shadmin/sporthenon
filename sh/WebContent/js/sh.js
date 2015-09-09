@@ -826,6 +826,16 @@ function treeLeafClick(anchor, value) {
 		return;
 	}
 	var t = value.split('_');
+	if (location.href.indexOf('/update/results') != -1) {
+		tValues['sp'] = t[0];
+		tValues['cp'] = t[1];
+		tValues['ev'] = t[2];
+		tValues['se'] = (t.length > 3 ? t[3] : '');
+		tValues['se2'] = (t.length > 4 ? t[4] : '');
+		tValues['yr'] = '10000';
+		loadResult();
+		return;
+	}
 	runResults(t);
 	$('pl-sp').value = t[0];
 	$('pl-sp').onchange();
@@ -1527,13 +1537,34 @@ function saveResult() {
 	new Ajax.Request('/update/save', {
 		onSuccess: function(response){
 			var text = response.responseText;
-			showMessage(text);
+			showMessage(text.split('#')[1]);
 			if (text.indexOf('ERR:') == -1) {
 				tValues['id'] = text.split('#')[0];
 				$('id').value = tValues['id'];
 			}
 		},
 		parameters: h
+	});
+}
+function deleteResult() {
+	$('header').setStyle({ opacity: 0.4 });
+	$('content').setStyle({ opacity: 0.4 });
+	dQuestion.open();
+	$('confirmtxt').update(TX_CONFIRM + ' ?');
+	Event.stopObserving($('confirmbtn'), 'click');
+	Event.observe($('confirmbtn'), 'click', function(){
+		$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
+		var h = $H({id: tValues['id']});
+		new Ajax.Request('/update/delete', {
+			onSuccess: function(response){
+				var text = response.responseText;
+				showMessage(text);
+			},
+			parameters: h
+		});
+		$('header').setStyle({ opacity: 1.0 });
+		$('content').setStyle({ opacity: 1.0 });
+		dQuestion.close();
 	});
 }
 function toggleDraw() {
@@ -1683,7 +1714,7 @@ function showPanel(p) {
 }
 function loadEntity(action_, id_) {
 	var h = $H({action: action_, alias: currentAlias, id: (id_ ? id_ : currentId)});
-	new Ajax.Request('/update/load-entity', {
+	new Ajax.Request('/update/load-entity?t=' + currentTime(), {
 		onSuccess: function(response){
 			setEntityValues(response.responseText);
 		},
@@ -1856,10 +1887,34 @@ function saveEntity() {
 			var text = response.responseText;
 			showMessage(text);
 			if (text.indexOf('ERR:') == -1) {
-				$(currentAlias.toLowerCase() + '-id').value = text.substring(text.lastIndexOf('#') + 1);	
+				var id_ = text.substring(text.lastIndexOf('#') + 1);
+				$(currentAlias.toLowerCase() + '-id').value = id_;
+				currentId = id_;
 			}
 		},
 		parameters: h
+	});
+}
+function deleteEntity() {
+	$('header').setStyle({ opacity: 0.4 });
+	$('content').setStyle({ opacity: 0.4 });
+	dQuestion.open();
+	$('confirmtxt').update(TX_CONFIRM + ' ?');
+	Event.stopObserving($('confirmbtn'), 'click');
+	Event.observe($('confirmbtn'), 'click', function(){
+		$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
+		var h = $H({alias: currentAlias, id: currentId});
+		new Ajax.Request('/update/delete-entity', {
+			onSuccess: function(response){
+				var text = response.responseText;
+				loadEntity('previous');
+				showMessage(text);
+			},
+			parameters: h
+		});
+		$('header').setStyle({ opacity: 1.0 });
+		$('content').setStyle({ opacity: 1.0 });
+		dQuestion.close();
 	});
 }
 function copyEntity() {
@@ -1871,6 +1926,7 @@ function mergeEntity(id1_, id2_) {
 	$('content').setStyle({ opacity: 0.4 });
 	dQuestion.open();
 	new Ajax.Updater($('confirmtxt'), '/update/merge?confirm=1&id1=' + id1_ + '&id2=' + id2_ + '&alias=' + currentAlias);
+	Event.stopObserving($('confirmbtn'), 'click');
 	Event.observe($('confirmbtn'), 'click', function(){
 		$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
 		var h = $H({alias: currentAlias, id1: id1_, id2: id2_});
@@ -1913,11 +1969,14 @@ function searchEntity() {
 						tValues['id'] = id;
 						loadResult('direct');
 					}
+					else if ($('update-pictures')) {
+						loadPictures('direct', id);
+					}
 					else if (isMerge) {
 						mergeEntity(currentId, id);
 					}
 					else {
-						loadEntity('find', id);
+						loadEntity('direct', id);
 					}
 				});
 			});
@@ -1933,13 +1992,96 @@ function loadOverview() {
 		parameters: h
 	});
 }
-/*========== IMPORT ==========*/
-function executeImport() {
-	$('f').request({
-		onComplete: function(response){
-			alert(response.responseText);
+/*========== PICTURES ==========*/
+var dzp = null;
+var fp = null;
+function initPictures() {
+	dzp = new Dropzone($('dz-file'), {
+		url: '/',
+		paramName: 'f',
+		autoProcessQueue: false,
+		addRemoveLinks: false});
+	dzp.on('addedfile', function(f) {
+		fp = f;
+		$('name-local').update(f.name);
+	});
+	dzp.on('success', function(f, text) {
+		loadPictures('direct');
+	});
+	currentAlias = $F('type');
+	loadPictures('last');
+}
+function uploadPicture() {
+	dzp.options.url = '/ImageServlet?upload=1&entity=' + currentAlias + '&id=' + currentId + '&size=' + ($('size1').checked ? 'L' : 'S') + '&y1=' + $F('year1') + '&y2=' + $F('year2');
+	dzp.processFile(fp);
+}
+function deletePicture() {
+	new Ajax.Request('/ImageServlet?remove=1&name=' + $F('list-remote'), {
+		onSuccess: function(response){
+			loadPictures('direct');
 		}
-	})
+	});
+}
+function loadPicture() {
+	$('img-remote').update('<img alt="-" src="' + ($F('list-remote') != null ? IMG_URL + $F('list-remote') : '/img/noimage.png') + '"/>');
+}
+function loadPictures(action_, id_) {
+	var h = $H({action: action_, alias: currentAlias, id: (id_ ? id_ : currentId)});
+	new Ajax.Request('/update/load-entity?t=' + currentTime(), {
+		onSuccess: function(response){
+			var t = response.responseText.split('~');
+			$('label-remote').update(t[1]);
+			currentId = t[0];
+			var h_ = $H({entity: $F('type'), id: t[0], size: ($('size1').checked ? 'L' : 'S')});
+			new Ajax.Request('/ImageServlet?list=1', {
+				onSuccess: function(response){
+					var t_ = [];
+					response.responseText.split(',').each(function(s){
+						if (s != '') {
+							t_.push('<option value="' + s + '">' + s + '</option>');	
+						}
+					});
+					$('list-remote').update(t_.join(''));
+					if (t_.length > 0) {
+						$('list-remote').selectedIndex = 0;
+					}
+					loadPicture();
+				},
+				parameters: h_
+			});
+		},
+		parameters: h
+	});
+}
+/*========== IMPORT ==========*/
+var dzi = null;
+var fi = null;
+function initImport() {
+	dzi = new Dropzone($('dz-file'), {
+		url: '/',
+		paramName: 'f',
+		autoProcessQueue: false,
+		addRemoveLinks: false});
+	dzi.on('addedfile', function(f) {
+		fi = f;
+		$('fname').update(f.name);
+		$('processbtn').disabled = false;
+		$('updatebtn').disabled = true;
+	});
+	dzi.on('sending', function() {
+		$('report').update('<div><img src="/img/db/loading.gif?6"/></div>');
+	});
+	dzi.on('success', function(f, text) {
+		$('report').update(text);
+		$('updatebtn').disabled = (text.indexOf("ERROR:") > -1);
+	});
+}
+function executeImport(u) {
+	dzi.options.url = '/update/execute-import?type=' + $F('type') + '&update=' + u;
+	dzi.processFile(fi);
+}
+function loadTemplate() {
+	location.href = '/update/load-template?type=' + $F('type');
 }
 /*========== TOOLS ==========*/
 function executeQuery(index) {

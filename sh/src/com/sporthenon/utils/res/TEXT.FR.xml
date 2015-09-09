@@ -6,9 +6,11 @@
 	<entry key="desc">Base de données de résultats sportifs (gratuite et ouverte aux contributeurs)</entry>
 	<entry key="keywords">sport, résultats sportifs, base de données, records, jeux olympiques</entry>
 	<entry key="menu.results">RÉSULTATS</entry>
+	<entry key="menu.calendar">CALENDRIER</entry>
 	<entry key="menu.olympics">OLYMPIQUE</entry>
 	<entry key="menu.usleagues">LIGUES US</entry>
 	<entry key="menu.results.2">Résultats</entry>
+	<entry key="menu.calendar.2">Calendrier</entry>
 	<entry key="menu.olympics.2">Olympique</entry>
 	<entry key="menu.usleagues.2">Ligues US</entry>
 	<entry key="menu.home">Accueil</entry>
@@ -34,6 +36,7 @@
 	<entry key="button.reset">Réinitialiser</entry>
 	<entry key="button.add">Ajouter</entry>
 	<entry key="button.modify">Modifier</entry>
+	<entry key="button.delete">Supprimer</entry>
 	<entry key="button.export">Exporter</entry>
 	<entry key="button.link">Lien</entry>
 	<entry key="button.print">Imprimer</entry>
@@ -251,6 +254,7 @@
 	<entry key="no">Non</entry>
 	<entry key="admin">Administrateur</entry>
 	<entry key="desc.results.page">Résultats et palmarès</entry>
+	<entry key="desc.calendar.page">Calendrier des épreuves</entry>
 	<entry key="desc.olympics1.page">Résultats des épreuves aux Jeux Olympiques</entry>
 	<entry key="desc.olympics2.page">Tableaux de médailles aux Jeux Olympiques</entry>
 	<entry key="desc.usleagues.page">Palmarès, records et statistiques</entry>
@@ -264,6 +268,7 @@
 	<entry key="access.sport">Accès direct par sport</entry>
 	<entry key="share.on">Partager sur</entry>
 	<entry key="desc.results">Palmarès complets classés par sport / championnat / épreuve</entry>
+	<entry key="desc.calendar">Calendrier des épreuves par semaine / mois / année</entry>
 	<entry key="desc.olympics">Podiums et tableaux de médailles des Jeux Olympiques d'hiver et d'été</entry>
 	<entry key="desc.usleagues">Page spécifique aux 4 ligues majeures US (NFL / NBA / NHL / MLB))</entry>
 	<entry key="desc.search">Rechercher dans la base de données Sporthenon</entry>
@@ -391,6 +396,7 @@
 	<entry key="result.score">Résultat/Score</entry>
 	<entry key="result.created">Résultat ajouté.</entry>
 	<entry key="result.modified">Résultat modifié.</entry>
+	<entry key="result.deleted">Résultat supprimé.</entry>
 	<entry key="co.add">Ajout</entry>
 	<entry key="co.update">Modification</entry>
 	<entry key="co.adds">Ajouts</entry>
@@ -408,13 +414,17 @@
 	<entry key="next">Suivant</entry>
 	<entry key="last">Dernier</entry>
 	<entry key="update.ok">Enregistrement OK</entry>
+	<entry key="delete.ok">Suppression OK</entry>
 	<entry key="click.drag.drop">Cliquer ou glisser/déposer</entry>
 	<entry key="remove">Supprimer</entry>
 	<entry key="active">Actif</entry>
 	<entry key="data">Données</entry>
 	<entry key="merge">Fusionner</entry>
 	<entry key="confirm">Confirmer</entry>
+	<entry key="csv.file">Fichier CSV</entry>
 	<entry key="confirm.merge">Confirmer la fusion depuis : {1} vers : {2}</entry>
 	<entry key="merge.success">Enregistrements #{1} et #{2} fusionnés avec succès.</entry>
 	<entry key="modif.warning">Des modifications ont été effectuées. Cliquez sur Enregistrer.</entry>
+	<entry key="upload">Envoyer</entry>
+	<entry key="download">Télécharger</entry>
 </properties>

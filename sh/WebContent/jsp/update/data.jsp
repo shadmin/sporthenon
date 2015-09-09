@@ -20,7 +20,7 @@
 			<a id="link-TM" href="javascript:showPanel('TM');"><%=StringUtils.text("entity.TM", session)%></a>&nbsp;|&nbsp;
 			<a id="link-YR" href="javascript:showPanel('YR');"><%=StringUtils.text("entity.YR", session)%></a><br/><br/>
 			<!-- PHOTO -->
-			<div id="imgzone">
+			<div id="imgzone" style="position:absolute;width:130px;">
 				<fieldset><legend><%=StringUtils.text("photo", session)%></legend>
 					<div id="dz-file"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>	
 				</fieldset>
@@ -124,15 +124,16 @@
 				<tr><th>Label</th><td><input type="text" id="yr-label"/></td></tr>
 			</table>
 			<!-- BUTTON PANEL -->
-			<table class="toolbar" style="float:right;margin-top:15px;">
+			<table class="toolbar" style="position:relative;top:0;right:0;float:right;margin-top:15px;">
 				<tr>
 					<td><input id="upd-new" type="button" class="button upd-new" onclick="newEntity();" value="<%=StringUtils.text("new", session)%>"/></td>
 					<td><input id="upd-save" type="button" class="button upd-save" onclick="saveEntity();" value="<%=StringUtils.text("save", session)%>"/></td>
+					<td><input id="upd-delete" type="button" class="button upd-delete" onclick="deleteEntity();" value="<%=StringUtils.text("button.delete", session)%>"/></td>
 					<td><input id="upd-copy" type="button" class="button upd-copy" onclick="copyEntity();" value="<%=StringUtils.text("copy", session)%>"/></td>
 					<td><input id="upd-merge" type="button" class="button upd-merge" onclick="findEntity(1);" value="<%=StringUtils.text("merge", session)%>"/></td>
 				</tr>
 			</table><br/>
-			<table class="toolbar" style="clear:right;float:right;margin-top:5px;">
+			<table class="toolbar" style="position:relative;top:0;right:0;clear:right;float:right;margin-top:5px;">
 				<tr>
 					<td><input id="upd-first" type="button" class="button upd-first" onclick="loadEntity('first');" value="<%=StringUtils.text("first", session)%>"/></td>
 					<td><input id="upd-previous" type="button" class="button upd-previous" onclick="loadEntity('previous');" value="<%=StringUtils.text("previous", session)%>"/></td>

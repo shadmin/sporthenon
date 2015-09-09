@@ -45,6 +45,7 @@
 	<div id="shmenu">
 		<ul>
 			<li><a id="shmenu-results" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("results") ? "class='selected'" : "")%> href="/results"><%=StringUtils.text("menu.results", session)%></a></li>
+			<li><a id="shmenu-calendar" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("calendar") ? "class='selected'" : "")%> href="/calendar"><%=StringUtils.text("menu.calendar", session)%></a></li>
 			<li><a id="shmenu-olympics" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("olympics") ? "class='selected'" : "")%> href="/olympics"><%=StringUtils.text("menu.olympics", session)%></a></li>
 			<li><a id="shmenu-usleagues" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("usleagues") ? "class='selected'" : "")%> href="/usleagues"><%=StringUtils.text("menu.usleagues", session)%></a></li>
 		</ul>
@@ -94,6 +95,7 @@
 	var TX_SEARCH = "<%=StringUtils.text("search.for", session)%>";
 	var TX_SEARCH2 = "<%=StringUtils.text("search.in", session)%> Sporthenon";
 	var TX_DESC_RESULTS = "<%=StringUtils.text("desc.results", session)%>";
+	var TX_DESC_CALENDAR = "<%=StringUtils.text("desc.calendar", session)%>";
 	var TX_DESC_OLYMPICS = "<%=StringUtils.text("desc.olympics", session)%>";
 	var TX_DESC_USLEAGUES = "<%=StringUtils.text("desc.usleagues", session)%>";
 	var TX_MLOGIN = "<%=StringUtils.text("mandatory.login", session)%>";
@@ -107,6 +109,7 @@
 	var TX_CLICK_DRAGDROP = "<%=StringUtils.text("click.drag.drop", session)%>";
 	var TX_REMOVE = "<%=StringUtils.text("remove", session)%>";
 	var TX_MODIF_WARNING = "<%=StringUtils.text("modif.warning", session)%>";
+	var TX_CONFIRM = "<%=StringUtils.text("confirm", session)%>";
 --></script>
 
 <div id="headertop">

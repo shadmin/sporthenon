@@ -616,7 +616,7 @@ public class JMainFrame extends JFrame {
 				h.put("hibernate.connection.password", new String(jPasswordDialog.getPassword().getPassword()));
 				h.put("hibernate.show_sql", "false");
 				h.put("hibernate.connection.driver_class", "org.postgresql.Driver");
-				h.put("hibernate.connection.autocommit", "false");
+				h.put("hibernate.connection.autocommit", "true");
 				h.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 				DatabaseHelper.setFactory(h, "standalone");
 				String hql = "from Contributor where login='" + jOptionsDialog.getLogin().getText() + "' and active=TRUE and admin=TRUE";

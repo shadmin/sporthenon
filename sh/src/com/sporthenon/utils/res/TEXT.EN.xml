@@ -6,9 +6,11 @@
 	<entry key="desc">Sports results database (free and opened to contributors)</entry>
 	<entry key="keywords">sport, results, database, records, olympics</entry>
 	<entry key="menu.results">RESULTS</entry>
+	<entry key="menu.calendar">CALENDAR</entry>
 	<entry key="menu.olympics">OLYMPICS</entry>
 	<entry key="menu.usleagues">US LEAGUES</entry>
 	<entry key="menu.results.2">Results</entry>
+	<entry key="menu.calendar.2">Calendar</entry>
 	<entry key="menu.olympics.2">Olympics</entry>
 	<entry key="menu.usleagues.2">US Leagues</entry>
 	<entry key="menu.home">Home Page</entry>
@@ -34,6 +36,7 @@
 	<entry key="button.reset">Reset</entry>
 	<entry key="button.add">Add</entry>
 	<entry key="button.modify">Modify</entry>
+	<entry key="button.delete">Delete</entry>
 	<entry key="button.export">Export</entry>
 	<entry key="button.link">Link</entry>
 	<entry key="button.print">Print</entry>
@@ -251,6 +254,7 @@
 	<entry key="no">No</entry>
 	<entry key="admin">Administrator</entry>
 	<entry key="desc.results.page">Results and history</entry>
+	<entry key="desc.calendar.page">Events calendar</entry>
 	<entry key="desc.olympics1.page">Event results at the Olympic Games</entry>
 	<entry key="desc.olympics2.page">Medals tables at the Olympic Games</entry>
 	<entry key="desc.usleagues.page">History, records and statistics</entry>
@@ -264,6 +268,7 @@
 	<entry key="access.sport">Direct access by sport</entry>
 	<entry key="share.on">Share on</entry>
 	<entry key="desc.results">Complete results organized by sport / championship / event</entry>
+	<entry key="desc.calendar">Events calendar by week / month / year</entry>
 	<entry key="desc.olympics">Podiums and medals tables of winter and summer Olympic Games</entry>
 	<entry key="desc.usleagues">Specific page for the 4 major US leagues (NFL / NBA / NHL / MLB))</entry>
 	<entry key="desc.search">Search in Sporthenon database</entry>
@@ -392,6 +397,7 @@
 	<entry key="result.score">Result/Score</entry>
 	<entry key="result.created">Result created.</entry>
 	<entry key="result.modified">Result modified.</entry>
+	<entry key="result.deleted">Result deleted.</entry>
 	<entry key="co.add">Add</entry>
 	<entry key="co.update">Update</entry>
 	<entry key="co.adds">Adds</entry>
@@ -409,13 +415,17 @@
 	<entry key="next">Next</entry>
 	<entry key="last">Last</entry>
 	<entry key="update.ok">Update OK</entry>
+	<entry key="delete.ok">Delete OK</entry>
 	<entry key="click.drag.drop">Click or drag/drop</entry>
 	<entry key="remove">Remove</entry>
 	<entry key="active">Active</entry>
 	<entry key="data">Data</entry>
 	<entry key="merge">Merge</entry>
 	<entry key="confirm">Confirm</entry>
+	<entry key="csv.file">CSV file</entry>
 	<entry key="confirm.merge">Confirm merge from: {1} to: {2}</entry>
 	<entry key="merge.success">Records #{1} and #{2} merged successfully.</entry>
 	<entry key="modif.warning">Modifications have been made. Click on Save.</entry>
+	<entry key="upload">Envoyer</entry>
+	<entry key="download">Télécharger</entry>
 </properties>

@@ -56,6 +56,11 @@
 		<servlet-class>com.sporthenon.web.servlet.OlympicsServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<display-name>CalendarServlet</display-name>
+		<servlet-name>CalendarServlet</servlet-name>
+		<servlet-class>com.sporthenon.web.servlet.CalendarServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<display-name>ResultServlet</display-name>
 		<servlet-name>ResultServlet</servlet-name>
 		<servlet-class>com.sporthenon.web.servlet.ResultServlet</servlet-class>
@@ -108,6 +113,10 @@
 		<url-pattern>/OlympicsServlet</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
+		<servlet-name>CalendarServlet</servlet-name>
+		<url-pattern>/CalendarServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
 		<servlet-name>ResultServlet</servlet-name>
 		<url-pattern>/ResultServlet</url-pattern>
 	</servlet-mapping>
@@ -123,6 +132,7 @@
 		<servlet-name>NavigationServlet</servlet-name>
 		<url-pattern>/index</url-pattern>
 		<url-pattern>/results/*</url-pattern>
+		<url-pattern>/calendar/*</url-pattern>
 		<url-pattern>/olympics/*</url-pattern>
 		<url-pattern>/usleagues/*</url-pattern>
 		<url-pattern>/search/*</url-pattern>

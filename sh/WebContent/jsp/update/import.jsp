@@ -4,19 +4,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
-<form id="f" action="/update/execute-import" method="post" enctype="multipart/form-data">
 <div id="update-import" class="update">
+	<script type="text/javascript" src="/js/dropzone.js"></script>
 	<jsp:include page="/jsp/update/toolbar.jsp" />
 	<div class="fieldset">
 		<div class="fstitle users"><%=StringUtils.text("update.import", session).toUpperCase()%></div>
 		<div class="fscontent">
 			<table id="options"><tr>
-				<td><%=StringUtils.text("file", session)%>&nbsp;:</td>
-				<td><input id="f" name="f" type="file"/>
-				<td><input type="button" value="OK" onclick="executeImport();"/></td>
+				<td><%=StringUtils.text("type", session)%>&nbsp;:</td>
+				<td><select id="type"><option value="RS"><%=StringUtils.text("entity.RS", session)%></option><option value="DR"><%=StringUtils.text("entity.DR", session)%></option><option value="RC"><%=StringUtils.text("entity.RC", session)%></option></select></td>
+				<td><%=StringUtils.text("csv.file", session)%>&nbsp;:</td>
+				<td><div id="dz-file"><p id="fname"></p></div></td>
+				<td><input id="processbtn" type="button" value="Process" disabled="disabled" onclick="executeImport(0);"/></td>
+				<td><input id="updatebtn" type="button" value="Update" disabled="disabled" onclick="executeImport(1);"/></td>
+				<td><input type="button" value="Template" onclick="loadTemplate();"/></td>
 			</tr></table>
+			<div id="report"></div>
 		</div>
 	</div>
 </div>
-</form>
+<script type="text/javascript"><!--
+window.onload = function() {
+	initImport();
+}
+--></script>
 <jsp:include page="/jsp/common/footer.jsp" />

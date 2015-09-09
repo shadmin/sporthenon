@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
-import com.sporthenon.admin.window.JMainFrame;
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Championship;
@@ -24,18 +23,19 @@ import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.Year;
+import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.utils.res.ResourceUtils;
 
 public class ImportUtils {
 	
 	private static final String scPattern = "[^a-zA-Z0-9\\|\\,\\s\\(\\)_]";
 
-	public static String processAll(Vector<Vector<String>> vFile, boolean isUpdate, boolean isRS, boolean isDR, boolean isRC) {
-		StringBuffer html = new StringBuffer();
+	public static String processAll(Vector<Vector<String>> vFile, boolean isUpdate, boolean isRS, boolean isDR, boolean isRC, Contributor cb) {
+		StringBuffer html = new StringBuffer("<table>");
+		StringBuffer report = new StringBuffer();
 		try {
 			Vector<String> vHeader = null;
 			final HashMap<String, String> hTitle = new HashMap<String, String>();
-			Vector<String> vHeaderLabel = new Vector<String>();
 			if (isRS) {
 				vHeader = new Vector(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rk5", "rk6", "rk7", "rk8", "rk9", "dt1", "dt2", "pl1", "pl2", "exa", "cmt", "exl"}));
 				hTitle.put("msg", "Message");
@@ -119,34 +119,38 @@ public class ImportUtils {
 				hTitle.put("exa", "Tie");
 				hTitle.put("cmt", "Comment");
 			}
+			html.append("<tr>");
 			for (String s : vHeader)
-				vHeaderLabel.add(hTitle.get(s));
+				html.append("<th>").append(hTitle.get(s)).append("</th>");
+			html.append("</tr>");
 			int i = 0;
-			float pg = 0.0f;
-			StringBuffer sb = new StringBuffer();
+//			float pg = 0.0f;
 			for (Vector<String> v : vFile) {
-				v.insertElementAt("", 0);
+				v.insertElementAt("-", 0);
 				if (isRS)
-					processLineRS(i, vHeader, v, isUpdate, sb);
+					processLineRS(i, vHeader, v, isUpdate, report, cb);
 				else if (isDR)
-					processLineDR(i, vHeader, v, isUpdate, sb);
+					processLineDR(i, vHeader, v, isUpdate, report, cb);
 				else if (isRC)
-					processLineRC(i, vHeader, v, isUpdate, sb);
+					processLineRC(i, vHeader, v, isUpdate, report, cb);
 				html.append("<tr><td>").append(StringUtils.implode(v, "</td><td>")).append("</td></tr>");
-				if (i * 100 / vFile.size() > pg) {
+//				if (i * 100 / vFile.size() > pg) {
 //					incrementProgress();
-					pg = i * 100 / vFile.size();
-				}
+//					pg = i * 100 / vFile.size();
+//				}
 				i++;
 			}
 		}
 		catch (Exception e_) {
 			Logger.getLogger("sh").error(e_.getMessage(), e_);
 		}
+		html.append("</table>");
+		if (isUpdate)
+			html.append("<div id='ureport'>").append(report.toString()).append("</div>");
 		return html.toString();
 	}
 	
-	public static boolean processLineRS(int row, Vector<String> vHeader, Vector<String> vLine, boolean isUpdate, StringBuffer sb) throws Exception {
+	public static boolean processLineRS(int row, Vector<String> vHeader, Vector<String> vLine, boolean isUpdate, StringBuffer sb, Contributor cb) throws Exception {
 		boolean isError = false;
 		List<Integer> lId = null;
 		List<Country> lCountries = DatabaseHelper.execute("from Country");
@@ -249,7 +253,7 @@ public class ImportUtils {
 					lId = (List<Integer>) DatabaseHelper.execute(hql);
 					if (lId != null && lId.size() > 0) {
 						hId.put(h, lId.get(0));
-						vLine.set(i, s + " [#" + lId.get(0) + "]");
+						vLine.set(i, (!isUpdate ? "<span class='green'>" : "") + s + " [#" + lId.get(0) + "]" + (!isUpdate ? "</span>" : ""));
 					}
 					else {
 						if (h.equalsIgnoreCase(Sport.alias)) {
@@ -343,52 +347,52 @@ public class ImportUtils {
 					String s = vLine.get(i);
 					if (StringUtils.notEmpty(s)) {
 						if(idRk1 == null && h.equalsIgnoreCase("rk1"))
-							idRk1 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+							idRk1 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 						else if(idRk2 == null && h.equalsIgnoreCase("rk2"))
-							idRk2 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+							idRk2 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 						else if(idRk3 == null && h.equalsIgnoreCase("rk3"))
-							idRk3 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+							idRk3 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 						else if(idRk4 == null && h.equalsIgnoreCase("rk4"))
-							idRk4 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+							idRk4 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 						else if(idRk5 == null && h.equalsIgnoreCase("rk5"))
-							idRk5 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+							idRk5 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 						else if(idRk6 == null && h.equalsIgnoreCase("rk6"))
-							idRk6 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+							idRk6 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 						else if(idRk7 == null && h.equalsIgnoreCase("rk7"))
-							idRk7 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+							idRk7 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 						else if(idRk8 == null && h.equalsIgnoreCase("rk8"))
-							idRk8 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+							idRk8 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 						else if(idRk9 == null && h.equalsIgnoreCase("rk9"))
-							idRk9 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+							idRk9 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk1"))
-							updateEntity(row, n, idRk1, s, sb);
+							updateEntity(row, n, idRk1, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk2"))
-							updateEntity(row, n, idRk2, s, sb);
+							updateEntity(row, n, idRk2, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk3"))
-							updateEntity(row, n, idRk3, s, sb);
+							updateEntity(row, n, idRk3, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk4"))
-							updateEntity(row, n, idRk4, s, sb);
+							updateEntity(row, n, idRk4, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk5"))
-							updateEntity(row, n, idRk5, s, sb);
+							updateEntity(row, n, idRk5, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk6"))
-							updateEntity(row, n, idRk6, s, sb);
+							updateEntity(row, n, idRk6, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk7"))
-							updateEntity(row, n, idRk7, s, sb);
+							updateEntity(row, n, idRk7, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk8"))
-							updateEntity(row, n, idRk8, s, sb);
+							updateEntity(row, n, idRk8, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk9"))
-							updateEntity(row, n, idRk9, s, sb);
+							updateEntity(row, n, idRk9, s, sb, cb);
 						else if (idCx1 == null && idCt1 == null && h.matches("pl1")) {
 							if (isComplex1)
-								idCx1 = DatabaseHelper.insertPlace(row, s, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								idCx1 = DatabaseHelper.insertPlace(row, s, cb, sb, ResourceUtils.LGDEFAULT);
 							else
-								idCt1 = DatabaseHelper.insertPlace(row, s, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								idCt1 = DatabaseHelper.insertPlace(row, s, cb, sb, ResourceUtils.LGDEFAULT);
 						}
 						else if (idCx2 == null && idCt2 == null && h.matches("pl2")) {
 							if (isComplex2)
-								idCx2 = DatabaseHelper.insertPlace(row, s, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								idCx2 = DatabaseHelper.insertPlace(row, s, cb, sb, ResourceUtils.LGDEFAULT);
 							else
-								idCt2 = DatabaseHelper.insertPlace(row, s, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								idCt2 = DatabaseHelper.insertPlace(row, s, cb, sb, ResourceUtils.LGDEFAULT);
 						}
 						else if (h.equalsIgnoreCase("rs1"))
 							rs1 = s;
@@ -449,16 +453,16 @@ public class ImportUtils {
 				rs.setResult3(rs3);
 				rs.setResult4(rs4);
 				rs.setResult5(rs5);
-				rs = (Result) DatabaseHelper.saveEntity(rs, JMainFrame.getContributor());
+				rs = (Result) DatabaseHelper.saveEntity(rs, cb);
 				if (StringUtils.notEmpty(exl))
 					DatabaseHelper.saveExternalLinks(Result.alias, rs.getId(), exl);
-				sb.append("Row " + (row + 1) + ": New Result | " + rs).append("\r\n");
+				sb.append("Row " + (row + 1) + ": New Result | " + rs).append("<br/>");
 			}
 		}
 		return isError;
 	}
 
-	public static boolean processLineDR(int row, Vector<String> vHeader, Vector<String> vLine, boolean isUpdate, StringBuffer sb) throws Exception {
+	public static boolean processLineDR(int row, Vector<String> vHeader, Vector<String> vLine, boolean isUpdate, StringBuffer sb, Contributor cb) throws Exception {
 		boolean isError = false;
 		List<Integer> lId = null;
 		HashMap<String, Integer> hId = new HashMap();
@@ -587,7 +591,7 @@ public class ImportUtils {
 							if (hAlreadyInserted.containsKey(s))
 								id1Qf1 = hAlreadyInserted.get(s);
 							else {
-								id1Qf1 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								id1Qf1 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 								hAlreadyInserted.put(s, id1Qf1);	
 							}
 						}
@@ -595,7 +599,7 @@ public class ImportUtils {
 							if (hAlreadyInserted.containsKey(s))
 								id2Qf1 = hAlreadyInserted.get(s);
 							else {
-								id2Qf1 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								id2Qf1 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 								hAlreadyInserted.put(s, id2Qf1);
 							}
 						}
@@ -603,7 +607,7 @@ public class ImportUtils {
 							if (hAlreadyInserted.containsKey(s))
 								id1Qf2 = hAlreadyInserted.get(s);
 							else {
-								id1Qf2 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								id1Qf2 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 								hAlreadyInserted.put(s, id1Qf2);
 							}
 						}
@@ -611,7 +615,7 @@ public class ImportUtils {
 							if (hAlreadyInserted.containsKey(s))
 								id2Qf2 = hAlreadyInserted.get(s);
 							else {
-								id2Qf2 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								id2Qf2 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 								hAlreadyInserted.put(s, id2Qf2);
 							}
 						}
@@ -619,7 +623,7 @@ public class ImportUtils {
 							if (hAlreadyInserted.containsKey(s))
 								id1Qf3 = hAlreadyInserted.get(s);
 							else {
-								id1Qf3 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								id1Qf3 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 								hAlreadyInserted.put(s, id1Qf3);
 							}
 						}
@@ -627,7 +631,7 @@ public class ImportUtils {
 							if (hAlreadyInserted.containsKey(s))
 								id2Qf3 = hAlreadyInserted.get(s);
 							else {
-								id2Qf3 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								id2Qf3 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 								hAlreadyInserted.put(s, id2Qf3);
 							}
 						}
@@ -635,7 +639,7 @@ public class ImportUtils {
 							if (hAlreadyInserted.containsKey(s))
 								id1Qf4 = hAlreadyInserted.get(s);
 							else {
-								id1Qf4 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								id1Qf4 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 								hAlreadyInserted.put(s, id1Qf4);
 							}
 						}
@@ -643,7 +647,7 @@ public class ImportUtils {
 							if (hAlreadyInserted.containsKey(s))
 								id1Qf4 = hAlreadyInserted.get(s);
 							else {
-								id1Qf4 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								id1Qf4 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 								hAlreadyInserted.put(s, id1Qf4);
 							}
 						}
@@ -651,7 +655,7 @@ public class ImportUtils {
 							if (hAlreadyInserted.containsKey(s))
 								id1Sf1 = hAlreadyInserted.get(s);
 							else {
-								id1Sf1 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								id1Sf1 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 								hAlreadyInserted.put(s, id1Sf1);
 							}
 						}
@@ -659,7 +663,7 @@ public class ImportUtils {
 							if (hAlreadyInserted.containsKey(s))
 								id2Sf1 = hAlreadyInserted.get(s);
 							else {
-								id2Sf1 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								id2Sf1 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 								hAlreadyInserted.put(s, id2Sf1);
 							}
 						}
@@ -667,7 +671,7 @@ public class ImportUtils {
 							if (hAlreadyInserted.containsKey(s))
 								id1Sf2 = hAlreadyInserted.get(s);
 							else {
-								id1Sf2 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								id1Sf2 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 								hAlreadyInserted.put(s, id1Sf2);
 							}
 						}
@@ -675,7 +679,7 @@ public class ImportUtils {
 							if (hAlreadyInserted.containsKey(s))
 								id2Sf2 = hAlreadyInserted.get(s);
 							else {
-								id2Sf2 = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								id2Sf2 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 								hAlreadyInserted.put(s, id2Sf2);
 							}
 						}
@@ -683,7 +687,7 @@ public class ImportUtils {
 							if (hAlreadyInserted.containsKey(s))
 								id1Thd = hAlreadyInserted.get(s);
 							else {
-								id1Thd = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								id1Thd = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 								hAlreadyInserted.put(s, id1Thd);
 							}
 						}
@@ -691,38 +695,38 @@ public class ImportUtils {
 							if (hAlreadyInserted.containsKey(s))
 								id2Thd = hAlreadyInserted.get(s);
 							else {
-								id2Thd = DatabaseHelper.insertEntity(row, n, idSp, s, null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+								id2Thd = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 								hAlreadyInserted.put(s, id2Thd);
 							}
 						}
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf1w"))
-							updateEntity(row, n, id1Qf1, s, sb);
+							updateEntity(row, n, id1Qf1, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf1r"))
-							updateEntity(row, n, id2Qf1, s, sb);
+							updateEntity(row, n, id2Qf1, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf2w"))
-							updateEntity(row, n, id1Qf2, s, sb);
+							updateEntity(row, n, id1Qf2, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf2r"))
-							updateEntity(row, n, id2Qf2, s, sb);
+							updateEntity(row, n, id2Qf2, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf3w"))
-							updateEntity(row, n, id1Qf3, s, sb);
+							updateEntity(row, n, id1Qf3, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf3r"))
-							updateEntity(row, n, id2Qf3, s, sb);
+							updateEntity(row, n, id2Qf3, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf4w"))
-							updateEntity(row, n, id1Qf4, s, sb);
+							updateEntity(row, n, id1Qf4, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("qf4r"))
-							updateEntity(row, n, id2Qf4, s, sb);
+							updateEntity(row, n, id2Qf4, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("sf1w"))
-							updateEntity(row, n, id1Sf1, s, sb);
+							updateEntity(row, n, id1Sf1, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("sf1r"))
-							updateEntity(row, n, id2Sf1, s, sb);
+							updateEntity(row, n, id2Sf1, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("sf2w"))
-							updateEntity(row, n, id1Sf2, s, sb);
+							updateEntity(row, n, id1Sf2, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("sf2r"))
-							updateEntity(row, n, id2Sf2, s, sb);
+							updateEntity(row, n, id2Sf2, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("thdw"))
-							updateEntity(row, n, id1Thd, s, sb);
+							updateEntity(row, n, id1Thd, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("thdr"))
-							updateEntity(row, n, id2Thd, s, sb);
+							updateEntity(row, n, id2Thd, s, sb, cb);
 						else if (h.equalsIgnoreCase("qf1s"))
 							sQf1 = s;
 						else if (h.equalsIgnoreCase("qf2s"))
@@ -756,14 +760,14 @@ public class ImportUtils {
 				dr.setId1Sf1(id1Sf1); dr.setId2Sf1(id2Sf1); dr.setResult_sf1(sSf1);
 				dr.setId1Sf2(id1Sf2); dr.setId2Sf2(id2Sf2); dr.setResult_sf2(sSf2);
 				dr.setId1Thd(id1Thd); dr.setId2Thd(id2Thd); dr.setResult_thd(sThd);
-				dr = (Draw) DatabaseHelper.saveEntity(dr, JMainFrame.getContributor());
-				sb.append("Row " + (row + 1) + ": New Draw | " + dr).append("\r\n");
+				dr = (Draw) DatabaseHelper.saveEntity(dr, cb);
+				sb.append("Row " + (row + 1) + ": New Draw | " + dr).append("<br/>");
 			}
 		}
 		return isError;
 	}
 	
-	public static boolean processLineRC(int row, Vector<String> vHeader, Vector<String> vLine, boolean isUpdate, StringBuffer sb) throws Exception {
+	public static boolean processLineRC(int row, Vector<String> vHeader, Vector<String> vLine, boolean isUpdate, StringBuffer sb, Contributor cb) throws Exception {
 		boolean isError = false;
 		List<Integer> lId = null;
 		HashMap<String, Integer> hId = new HashMap();
@@ -902,15 +906,15 @@ public class ImportUtils {
 					String s = vLine.get(i);
 					if (StringUtils.notEmpty(s)) {
 						if(idRk1 == null && h.equalsIgnoreCase("rk1"))
-							idRk1 = DatabaseHelper.insertEntity(row, n, idSp, s, vLine.size() > i + 2 ? vLine.get(i + 2) : null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+							idRk1 = DatabaseHelper.insertEntity(row, n, idSp, s, vLine.size() > i + 2 ? vLine.get(i + 2) : null, cb, sb, ResourceUtils.LGDEFAULT);
 						else if(idRk2 == null && h.equalsIgnoreCase("rk2"))
-							idRk2 = DatabaseHelper.insertEntity(row, n, idSp, s, vLine.size() > i + 2 ? vLine.get(i + 2) : null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+							idRk2 = DatabaseHelper.insertEntity(row, n, idSp, s, vLine.size() > i + 2 ? vLine.get(i + 2) : null, cb, sb, ResourceUtils.LGDEFAULT);
 						else if(idRk3 == null && h.equalsIgnoreCase("rk3"))
-							idRk3 = DatabaseHelper.insertEntity(row, n, idSp, s, vLine.size() > i + 2 ? vLine.get(i + 2) : null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+							idRk3 = DatabaseHelper.insertEntity(row, n, idSp, s, vLine.size() > i + 2 ? vLine.get(i + 2) : null, cb, sb, ResourceUtils.LGDEFAULT);
 						else if(idRk4 == null && h.equalsIgnoreCase("rk4"))
-							idRk4 = DatabaseHelper.insertEntity(row, n, idSp, s, vLine.size() > i + 2 ? vLine.get(i + 2) : null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+							idRk4 = DatabaseHelper.insertEntity(row, n, idSp, s, vLine.size() > i + 2 ? vLine.get(i + 2) : null, cb, sb, ResourceUtils.LGDEFAULT);
 						else if(idRk5 == null && h.equalsIgnoreCase("rk5"))
-							idRk5 = DatabaseHelper.insertEntity(row, n, idSp, s, vLine.size() > i + 2 ? vLine.get(i + 2) : null, JMainFrame.getContributor(), sb, ResourceUtils.LGDEFAULT);
+							idRk5 = DatabaseHelper.insertEntity(row, n, idSp, s, vLine.size() > i + 2 ? vLine.get(i + 2) : null, cb, sb, ResourceUtils.LGDEFAULT);
 						else if (h.equalsIgnoreCase("rc1"))
 							rc1 = s;
 						else if (h.equalsIgnoreCase("rc2"))
@@ -978,14 +982,14 @@ public class ImportUtils {
 				rc.setIndex(idx);
 				rc.setExa(StringUtils.notEmpty(exa) ? exa : null);
 				rc.setComment(StringUtils.notEmpty(cmt) ? cmt : null);
-				rc = (Record) DatabaseHelper.saveEntity(rc, JMainFrame.getContributor());
-				sb.append("Row " + (row + 1) + ": Record " + (rcId != null ? "Updated" : "Created") + " | " + rc).append("\r\n");
+				rc = (Record) DatabaseHelper.saveEntity(rc, cb);
+				sb.append("Row " + (row + 1) + ": Record " + (rcId != null ? "Updated" : "Created") + " | " + rc).append("<br/>");
 			}
 		}
 		return isError;
 	}
 	
-	public static void updateEntity(int row, int n, int id, String s, StringBuffer sb) throws Exception {
+	public static void updateEntity(int row, int n, int id, String s, StringBuffer sb, Contributor cb) throws Exception {
 		Object o = null;
 		String msg = null;
 		try {
@@ -999,7 +1003,7 @@ public class ImportUtils {
 				if ((lastName + firstName).matches(".*" + scPattern + ".*") && (!lastName.equals(a.getLastName()) || !firstName.equals(a.getFirstName()))) {
 					a.setLastName(lastName);
 					a.setFirstName(firstName);
-					o = DatabaseHelper.saveEntity(a, JMainFrame.getContributor());
+					o = DatabaseHelper.saveEntity(a, cb);
 					msg = "Update Athlete";
 				}
 			}
@@ -1012,20 +1016,20 @@ public class ImportUtils {
 				}
 				if (label.matches(".*" + scPattern + ".*") && !label.equals(t.getLabel())) {
 					t.setLabel(label);
-					o = DatabaseHelper.saveEntity(t, JMainFrame.getContributor());
+					o = DatabaseHelper.saveEntity(t, cb);
 					msg = "Update Team";
 				}
 			}
 		}
 		finally {
 			if (o != null)
-				sb.append("Row " + (row + 1) + ": " + msg + " | " + o).append("\r\n");
+				sb.append("Row " + (row + 1) + ": " + msg + " | " + o).append("<br/>");
 		}
 	}
 	
 	private static void writeError(Vector<String> vLine, String msg) {
-		if (vLine != null && !StringUtils.notEmpty(vLine.get(0)))
-			vLine.set(0, msg);
+		if (vLine != null && (!StringUtils.notEmpty(vLine.get(0)) || vLine.get(0).equals("-")))
+			vLine.set(0, "<span class='red'>" + msg + "</span>");
 	}
 	
 	public static List getTemplate(String type) {

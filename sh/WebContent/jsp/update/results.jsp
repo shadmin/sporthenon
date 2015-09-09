@@ -1,18 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Calendar"%>
 <%@ page import="java.sql.Timestamp"%>
+<%@ page import="com.sporthenon.db.DatabaseHelper"%>
 <%@ page import="com.sporthenon.utils.ConfigUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
+<%@ page import="com.sporthenon.web.HtmlConverter"%>
 <%
-String lang = String.valueOf(session.getAttribute("locale"));
-Calendar cal = Calendar.getInstance();
-String today = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), lang, "dd/MM/yyyy");
-cal.add(Calendar.DAY_OF_YEAR, -1);
-String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), lang, "dd/MM/yyyy");
+	String lang = String.valueOf(session.getAttribute("locale"));
+	Calendar cal = Calendar.getInstance();
+	String today = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), lang, "dd/MM/yyyy");
+	cal.add(Calendar.DAY_OF_YEAR, -1);
+	String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), lang, "dd/MM/yyyy");
 %>
 <jsp:include page="/jsp/common/header.jsp" />
+<script type="text/javascript"><!--
+var treeItems = null;
+<%
+	ArrayList<Object> params = new ArrayList<Object>();
+	params.add("");
+	params.add("_" + lang.toLowerCase());
+	HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", params), out, false);
+%>
+--></script>
+<script type="text/javascript" src="/js/dropzone.js"></script>
 <div id="update-results" class="update">
-	<script type="text/javascript" src="/js/dropzone.js"></script>
 	<jsp:include page="/jsp/update/toolbar.jsp" />
 	<div class="fieldset">
 		<div class="fstitle"><%=StringUtils.text("update.results", session).toUpperCase()%></div>
@@ -23,8 +35,16 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 				<td>ID:</td><td><input id="id" type="text" disabled="disabled" style="width:50px;"/></td>
 				</tr></table>
 			</div>
+			<div class="treediv" style="clear:right;float:right;"><div id="treeview">
+				<table cellpadding="0" cellspacing="0">
+				<thead><tr><th style="text-align:right;"><img alt="" src="/img/render/expand.gif" class="toggleimg" onclick="toggleContent(this);"/><span class="toggletext" onclick="toggleContent(this);"><%=StringUtils.text("tree", session)%></span></th></tr></thead>
+				<tbody class="tby"><tr style="display:none;"><td id="tree">
+				<script type="text/javascript">new Tree(treeItems, treeTemplate);</script>
+				</td></tr></tbody></table>
+			</div></div>
+			<ul>
 			<!-- EVENT -->
-			<div style="float:left;width:auto;margin-right:5px;">
+			<li>
 			<fieldset style="height:140px;"><legend>Event</legend>
 				<table>
 					<tr><td colspan="5"><input type="text" id="sp" tabindex="1" name="<%=StringUtils.text("entity.SP.1", session)%>"/><a href="javascript:clearValue('sp');">[X]</a></td></tr>
@@ -34,9 +54,9 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 					<tr><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/join.gif"/></td><td><input type="text" tabindex="5" id="se2" name="<%=StringUtils.text("entity.EV.1", session)%> #3"/><a href="javascript:clearValue('se2');">[X]</a></td></tr>
 				</table>
 			</fieldset>
-			</div>
+			</li>
 			<!-- DATES -->
-			<div style="float:left;width:auto;margin-right:5px;">
+			<li>
 			<fieldset style="height:140px;"><legend>Dates</legend>
 				<table>
 					<tr><td><input type="text" id="yr" tabindex="6" name="<%=StringUtils.text("entity.YR.1", session)%>"/><a href="javascript:clearValue('yr');">[X]</a></td>
@@ -48,25 +68,27 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 					<td>&nbsp;<input type="text" id="dt2" tabindex="8" name="<%=StringUtils.text("date", session)%> #2"/><a href="javascript:clearValue('dt2');">[X]</a><br/><a href="#" onclick="$('dt2').value='<%=today%>';$('dt2').addClassName('completed2');"><%=StringUtils.text("today", session)%></a>&nbsp;<a href="#" onclick="$('dt2').value='<%=yesterday%>';$('dt2').addClassName('completed2');"><%=StringUtils.text("yesterday", session)%></a></td></tr>
 				</table>
 			</fieldset>
-			</div>
+			</li>
 			<!-- PHOTO -->
-			<div id="imgzone" style="left:950px;">
+			<li id="imgzone">
 				<fieldset style="height:140px;"><legend><%=StringUtils.text("photo", session)%></legend>
 					<div id="dz-file"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>
 				</fieldset>
-			</div>
+			</li>
+			</ul>
 			<div id="currentimg" style="margin-top:30px;"></div>
+			<ul>
 			<!-- PLACES/VENUES -->
-			<div style="clear:left;float:left;width:auto;margin-right:5px;margin-top:8px;">
+			<li>
 			<fieldset style="height:145px;"><legend>Places</legend>
 				<table>
 					<tr><td><input type="text" id="pl1" tabindex="9" name="<%=StringUtils.text("venue.city", session)%> #1"/><a href="javascript:clearValue('pl1');">[X]</a></td></tr>
 					<tr><td><input type="text" id="pl2" tabindex="10" name="<%=StringUtils.text("venue.city", session)%> #2"/><a href="javascript:clearValue('pl2');">[X]</a></td></tr>
 				</table>
 			</fieldset>
-			</div>
+			</li>
 			<!-- OTHER -->
-			<div style="float:left;width:auto;margin-right:5px;margin-top:8px;">
+			<li>
 			<fieldset style="height:145px;"><legend>Other Info</legend>
 				<table>
 					<tr><td><input type="text" id="exa" tabindex="11" name="<%=StringUtils.text("tie", session)%>" style="width:150px;"/></td></tr>
@@ -78,9 +100,11 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 					<tr><td><textarea id="exl" tabindex="14" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="3" style="width:500px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
 				</table>
 			</fieldset>
-			</div>
+			</li>
+			</ul>
+			<ul>
 			<!-- RANKINGS -->
-			<div style="clear:left;float:left;width:auto;margin-right:5px;margin-top:8px;">
+			<li>
 			<fieldset><legend>Rankings</legend>
 				<table style="margin-top:0px;">
 					<tr><td><input type="text" id="rk1" tabindex="100" name="<%=StringUtils.text("rank.1", session)%>"/><a href="javascript:clearValue('rk1');">[X]</a></td><td><a href="javascript:initPersonList(1);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs1" tabindex="101" name="<%=StringUtils.text("result.score", session)%>" style="width:120px;"/></td><td><input type="text" id="rk11" tabindex="120" name="<%=StringUtils.text("rank.11", session)%>"/><a href="javascript:clearValue('rk11');">[X]</a></td><td><a href="javascript:initPersonList(11);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs11" tabindex="121" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
@@ -95,9 +119,10 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 					<tr><td><input type="text" id="rk10" tabindex="118" name="<%=StringUtils.text("rank.10", session)%>"/><a href="javascript:clearValue('rk10');">[X]</a></td><td><a href="javascript:initPersonList(10);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs10" tabindex="119" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td><td><input type="text" id="rk20" tabindex="138" name="<%=StringUtils.text("rank.20", session)%>"/><a href="javascript:clearValue('rk20');">[X]</a></td><td><a href="javascript:initPersonList(20);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs20" tabindex="139" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
 				</table>	
 			</fieldset>
-			</div>
+			</ul>
+			<ul>
 			<!-- DRAW -->
-			<div style="clear:left;width:800px;margin-right:5px;padding-top:10px;">
+			<li>
 			<fieldset><legend><table><tr><td><input type="checkbox" id="cbdraw" onclick="toggleDraw();"/></td><td><label for="cbdraw">Add Draw</label></td></tr></table></legend>
 				<table id="draw" style="display:none;">
 					<tr><td><input type="text" id="qf1w" tabindex="1000" name="<%=StringUtils.text("quarterfinal", session)%> #1 - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('qf1w');">[X]</a></td></tr>
@@ -114,15 +139,17 @@ String yesterday = StringUtils.toTextDate(new Timestamp(cal.getTimeInMillis()), 
 					<tr><td style="text-align:center;">&nbsp;<input type="text" id="qf4rs" tabindex="1011" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td><td style="padding-left:50px;text-align:center;">&nbsp;<input type="text" id="thdrs" tabindex="1020" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td></tr>
 				</table>
 			</fieldset>
-			</div>
+			</li>
+			</ul>
 			<!-- BUTTON PANEL -->
-			<table class="toolbar" style="float:right;margin-top:15px;">
+			<table class="toolbar" style="position:relative;top:0;right:0;float:right;margin-top:15px;">
 				<tr>
 					<td><input id="upd-add" type="button" class="button upd-add" onclick="addResult();" value="<%=StringUtils.text("button.add", session)%>"/></td>
 					<td><input id="upd-modify" type="button" class="button upd-modify" onclick="saveResult();" value="<%=StringUtils.text("button.modify", session)%>"/></td>
+					<td><input id="upd-delete" type="button" class="button upd-delete" onclick="deleteResult();" value="<%=StringUtils.text("button.delete", session)%>"/></td>
 				</tr>
 			</table><br/>
-			<table class="toolbar" style="clear:right;float:right;margin-top:5px;">
+			<table class="toolbar" style="position:relative;top:0;right:0;clear:right;float:right;margin-top:5px;">
 				<tr>
 					<td><input id="upd-first" type="button" class="button upd-first" onclick="loadResult('first');" value="<%=StringUtils.text("first", session)%>"/></td>
 					<td><input id="upd-previous" type="button" class="button upd-previous" onclick="loadResult('prev');" value="<%=StringUtils.text("previous", session)%>"/></td>

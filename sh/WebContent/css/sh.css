@@ -2,7 +2,7 @@
   ========== COMMON ========== 
   ============================*/
 body{
-	background: #F5F5F5 url(../img/header/bg2.png?5) 0 0 repeat-y;
+	background: #F5F5F5 url(../img/header/bg2.png?6) 0 0 repeat-y;
 	margin: 0;
 	padding: 0;
 }
@@ -88,7 +88,7 @@ li{
 	padding-left: 20px;
 }
 .fieldset .fscontent li{
-	list-style-image: url(../img/bullet.gif?0);
+	list-style-image: url(../img/bullet.gif?6);
 }
 .legend{
 	margin-top: -12px;
@@ -115,7 +115,7 @@ li{
 	font-weight: bold;
 }
 .loading{
-	background: #FFF url(../img/db/loading.gif?0) center center no-repeat;
+	background: #FFF url(../img/db/loading.gif?6) center center no-repeat;
 	width: 180px;
 	height: 80px;
 	margin: 0 auto;
@@ -133,7 +133,7 @@ li{
 	display: none;
 }
 .criteria{
-	background-image: url(../img/db/criteria.png?5);
+	background-image: url(../img/db/criteria.png?6);
 }
 .toggleimg{
 	cursor: pointer;
@@ -171,24 +171,24 @@ li{
 	margin-right: 6px;
 }
 #menutop #mthome{
-	background: url(../img/menu/home.png?5) left 0 no-repeat;
+	background: url(../img/menu/home.png?6) left 0 no-repeat;
 }
 #menutop #mtproject{
-	background: url(../img/menu/project.png?5) left 0 no-repeat;
+	background: url(../img/menu/project.png?6) left 0 no-repeat;
 	margin-right: 7px;
 }
 #menutop #mtcontribute{
-	background: url(../img/menu/contribute.png?5) left 0 no-repeat;
+	background: url(../img/menu/contribute.png?6) left 0 no-repeat;
 	margin-right: 5px;
 }
 #menutop #mtlogin{
-	background: url(../img/menu/login.png?5) 1px 0 no-repeat;
+	background: url(../img/menu/login.png?6) 1px 0 no-repeat;
 }
 #menutop #mtlogout{
-	background: url(../img/menu/logout.png?5) 1px 0 no-repeat;
+	background: url(../img/menu/logout.png?6) 1px 0 no-repeat;
 }
 #menutop #mtcbarea{
-	background: url(../img/menu/contributor_area.png?5) left 0 no-repeat;
+	background: url(../img/menu/contributor_area.png?6) left 0 no-repeat;
 }
 #flags{
 	padding: 2px;
@@ -262,19 +262,25 @@ li{
 	color: #FFF;
 }
 #shmenu-results{
-	background-image:url(../img/menu/dbresults.png?5);
+	background-image:url(../img/menu/dbresults.png?6);
 }
 #shmenu-results:hover, #shmenu-results.selected{
 	background-color: #389f47;
 }
 #shmenu-olympics{
-	background-image:url(../img/menu/dbolympics.png?5);
+	background-image:url(../img/menu/dbolympics.png?6);
 }
 #shmenu-olympics:hover, #shmenu-olympics.selected{
 	background-color: #1482c5;
 }
+#shmenu-calendar{
+	background-image:url(../img/menu/dbcalendar.png?6);
+}
+#shmenu-calendar:hover, #shmenu-calendar.selected{
+	background-color: #f47322;
+}
 #shmenu-usleagues{
-	background-image:url(../img/menu/dbusleagues.png?5);
+	background-image:url(../img/menu/dbusleagues.png?6);
 }
 #shmenu-usleagues:hover, #shmenu-usleagues.selected{
 	background-color: #de1f26;
@@ -433,7 +439,7 @@ li{
 	border: none;
 }
 #link-add a {
-	background: #D6D6D6 url(../img/component/tabcontrol/add.png?5) center center no-repeat;
+	background: #D6D6D6 url(../img/component/tabcontrol/add.png?6) center center no-repeat;
 	width: 12px;
 }
 #link-add a:hover {
@@ -580,15 +586,15 @@ li{
 	background-color: #444;
 }
 #buttons .execute{
-	background-image: url('../img/component/button/execute.png?5');
+	background-image: url('../img/component/button/execute.png?6');
 	padding-left: 24px;
 	font-weight: bold;
 }
 #buttons .reset{
-	background-image: url('../img/component/button/reset.png?5');
+	background-image: url('../img/component/button/reset.png?6');
 }
 #buttons .options{
-	background-image: url('../img/component/button/options.png?3');
+	background-image: url('../img/component/button/options.png?6');
 }
 /*===============================
   ========== TREE VIEW ========== 
@@ -669,19 +675,25 @@ li{
 	border: 1px solid #000;
 }
 .homecontent #topics td.results{
-	background-image:url(../img/menu/dbresults.png?5);
+	background-image:url(../img/menu/dbresults.png?6);
 }
 .homecontent #topics td.results:hover{
 	background-color: #389f47;
 }
 .homecontent #topics td.olympics{
-	background-image:url(../img/menu/dbolympics.png?5);
+	background-image:url(../img/menu/dbolympics.png?6);
 }
 .homecontent #topics td.olympics:hover{
 	background-color: #1482c5;
 }
+.homecontent #topics td.calendar{
+	background-image:url(../img/menu/dbcalendar.png?6);
+}
+.homecontent #topics td.calendar:hover{
+	background-color: #f47322;
+}
 .homecontent #topics td.usleagues{
-	background-image:url(../img/menu/dbusleagues.png?5);
+	background-image:url(../img/menu/dbusleagues.png?6);
 }
 .homecontent #topics td.usleagues:hover{
 	background-color: #de1f26;
@@ -733,13 +745,13 @@ li{
 	margin: 0px;
 }
 .homecontent .info{
-	background-image: url(../img/iconfav.png?5);
+	background-image: url(../img/iconfav.png?6);
 }
 .homecontent .statistics{
-	background-image: url(../img/project/statistics.png?5);
+	background-image: url(../img/project/statistics.png?6);
 }
 .homecontent .lastupdates{
-	background-image: url(../img/calendar.png?5);
+	background-image: url(../img/updates.png?6);
 }
 #home .stat{
 	width: 60px;
@@ -783,7 +795,7 @@ li{
 	padding-left: 3px;
 	padding-right: 5px;
 	margin: 3px;
-	background: #FFF url(../img/column.png?5) 37px 152px no-repeat;
+	background: #FFF url(../img/column.png?6) 37px 152px no-repeat;
 }
 #results .spcpdiv table{
 	width: 100%;
@@ -843,7 +855,7 @@ li{
 	border-right: none;
 }
 #tree .treetitle{
-	background-image: url(../img/db/tree.png?5);
+	background-image: url(../img/db/tree.png?6);
 }
 /*==============================
   ========== OLYMPICS ========== 
@@ -917,7 +929,7 @@ li{
 	margin-bottom: 0px;
 	margin-left: 10px;
 	margin-right: 10px;
-	background: #FFF url(../img/column.png?5) 28px 146px no-repeat;
+	background: #FFF url(../img/column.png?6) 28px 146px no-repeat;
 	/*overflow: auto;*/
 }
 #usleagues .league{
@@ -1055,16 +1067,16 @@ li{
 	padding-left: 5px;
 }
 .contributors{
-	background-image: url(../img/project/contributors.png?5);
+	background-image: url(../img/project/contributors.png?6);
 }
 .github{
-	background-image: url(../img/project/github.png?5);
+	background-image: url(../img/project/github.png?6);
 }
 .statistics{
-	background-image: url(../img/project/statistics.png?5);
+	background-image: url(../img/project/statistics.png?6);
 }
 .technicalinfo{
-	background-image: url(../img/project/technicalinfo.png?5);
+	background-image: url(../img/project/technicalinfo.png?6);
 }
 #project th table{
 	width: auto;
@@ -1085,7 +1097,7 @@ li{
 	margin-bottom: 10px;
 }
 #contribute .info{
-	background-image: url(../img/info.png?5);
+	background-image: url(../img/info.png?6);
 }
 /*===========================
   ========== LOGIN ========== 
@@ -1162,23 +1174,25 @@ li{
 	margin-right: 10px;
 	margin-top: -5px;
 	margin-bottom: 10px;
-	overflow: auto;
+}
+.update .toolbar{
+	 position: absolute;
+	 width: auto;
+	 top: 60px;
+	 right: 12px;
 }
 .update .fieldset{
 	margin-top: 50px;
 }
 .update #prevbtn{
-	background-image: url('../img/component/button/previous.png?5');
+	background-image: url('../img/component/button/previous.png?6');
 	background-position: 4px center;
 	padding-left: 18px;
 }
 .update #nextbtn{
-	background-image: url('../img/component/button/next.png?5');
+	background-image: url('../img/component/button/next.png?6');
 	background-position: 4px center;
 	padding-left: 18px;
-}
-#imgzone{
-	position: absolute;
 }
 #imgzone fieldset{
 	border: 1px solid #AAA;
@@ -1194,6 +1208,7 @@ li{
 	background-color: #FFD;
 }
 #imgzone #dz-file p{
+	white-space: normal;
 	font-style: italic;
 	margin-top: 40px;
 }
@@ -1217,9 +1232,9 @@ li{
 	white-space: nowrap;
 }
 .warning{
-	background: url(../img/update/warning.gif?5) left center no-repeat;
+	background: url(../img/update/warning.gif?6) left center no-repeat;
 	padding-left: 18px;
-	color: #F00;
+	color: #F80;
 }
 #msg div, #msg2 div{
 	position: absolute;
@@ -1261,30 +1276,23 @@ li{
 }
 /*---------- OVERVIEW ----------*/
 #update-overview .fstitle{
-	background-image: url(../img/update/overview.png?5);
+	background-image: url(../img/update/overview.png?6);
 }
 #update-overview .fscontent table{
 	width: auto;
-	margin-top: 10px;
-}
-#update-overview .fscontent tr:hover{
-	background-color: #FFD;
-}
-#update-overview .fscontent td{
-	border: 1px solid #DDD;
-	padding: 2px;
+	margin-bottom: 10px;
 }
 #update-overview .fscontent td.tick{
-	background: url(../img/update/tick.png?5) 2px center no-repeat;
+	background: url(../img/update/tick.png?6) 2px center no-repeat;
 	padding-left: 20px;
 }
 #update-overview .fscontent td.missing{
-	background: url(../img/update/missing.png?5) 2px center no-repeat;
+	background: url(../img/update/missing.png?6) 2px center no-repeat;
 	padding-left: 20px;
 }
 /*---------- RESULTS ----------*/
 #update-results .fstitle{
-	background-image: url(../img/update/results.png?5);
+	background-image: url(../img/update/results.png?6);
 }
 #update-results .fscontent{
 	padding-bottom: 70px;
@@ -1292,7 +1300,7 @@ li{
 #update-results fieldset{
 	border: 1px solid #AAA;
 }
-#update-results table{
+#update-results .fieldset table{
 	width: auto;
 	margin-top: 10px;
 }
@@ -1310,9 +1318,39 @@ li{
 #update-results #dt1, #update-results #dt2, #update-results #yr{
 	width: 100px;
 }
+#update-results ul{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+#update-results li{
+	display: inline-block;
+	vertical-align: top;
+	padding: 2px;
+}
+#update-results .treediv{
+	white-space: nowrap;
+	margin: 0px;
+}
+#update-results #tree{
+	overflow: auto;
+	border: 1px solid #DDD;
+	border-top: none;
+	width: 300px;
+	height: 550px;
+	padding: 3px;
+	margin: 0px;
+	padding-right: 30px;
+}
+#update-results #tree table{
+	margin-top: 0px;
+}
+#update-results #tree td{
+	padding: 0px;
+}
 /*---------- DATA ----------*/
 #update-data .fstitle{
-	background-image: url(../img/update/data.png?5);
+	background-image: url(../img/update/data.png?6);
 }
 #update-data .fscontent{
 	padding-bottom: 70px;
@@ -1338,28 +1376,93 @@ li{
 }
 /*---------- PICTURES ----------*/
 #update-pictures .fstitle{
-	background-image: url(../img/update/pictures.png?5);
+	background-image: url(../img/update/pictures.png?6);
+}
+#update-pictures .fscontent{
+	height: 230px;
+	padding-bottom: 70px;
+}
+#update-pictures .fscontent div{
+	float: left;
+	width: 430px;
+}
+#update-pictures #dz-file{
+	cursor: pointer;
+	width: 100px;
+	height: 100px;
+	border: 1px dashed #CCC;
+}
+#update-pictures #dz-file img{
+	width: 100px;
+	height: 100px;
+}
+#update-pictures #dz-file:hover{
+	background-color: #FFD;
+}
+#update-pictures fieldset{
+	border: 1px solid #AAA;
+}
+#update-pictures #img-remote img{
+	min-height: 100px;
+	max-height: 100px;
+}
+#update-pictures .fscontent .toolbar td{
+	padding: 2px;
+	border: none;
 }
 /*---------- IMPORT ----------*/
 #update-import .fstitle{
-	background-image: url(../img/update/import.png?5);
+	background-image: url(../img/update/import.png?6);
+}
+#update-import #dz-file{
+	cursor: pointer;
+	width: 200px;
+	height: 20px;
+	border: 1px dashed #CCC;
+}
+#update-import #dz-file:hover{
+	background-color: #FFD;
+}
+#update-import #dz-file p{
+	margin: 3px;
+}
+#update-import .green{
+	color: #080;
+}
+#update-import .red{
+	color: #F00;
+}
+#update-import #report{
+	margin-top: 10px;
+}
+#update-import #report th, #update-import #report td{
+	white-space: nowrap;
+}
+#update-import #report td{
+	background-color: #FFF;
+}
+#update-import #ureport{
+	border: 1px solid #DDD;
+	font-style: italic;
+	margin-top: 10px;
+	padding: 10px;
 }
 /*---------- TOOLS ----------*/
 #update-tools .fstitle{
-	background-image: url(../img/update/tools.png?5);
+	background-image: url(../img/update/tools.png?6);
 }
 #update-tools #qresults{
 	margin-top: 10px;
 }
 /*---------- ADMIN ----------*/
 #update-admin .fstitle{
-	background-image: url(../img/update/admin.png?5);
+	background-image: url(../img/update/admin.png?6);
 }
 #update-admin .users{
-	background-image: url(../img/update/users.png?5);
+	background-image: url(../img/update/users.png?6);
 }
 #update-admin .config{
-	background-image: url(../img/update/config.png?5);
+	background-image: url(../img/update/config.png?6);
 }
 #update-admin .fscontent{
 	padding-bottom: 45px;
@@ -1387,19 +1490,19 @@ li{
 	color: #FFF;
 }
 #d-error .fstitle{
-	background-image: url(../img/project/error.png?5);
+	background-image: url(../img/project/error.png?6);
 }
 #d-link .fstitle{
-	background-image: url(../img/component/button/link.png?5);
+	background-image: url(../img/component/button/link.png?6);
 }
 #d-info .fstitle{
-	background-image: url(../img/component/button/info.png?5);
+	background-image: url(../img/component/button/info.png?6);
 }
 #d-find .fstitle{
-	background-image: url(../img/update/find.png?5);
+	background-image: url(../img/update/find.png?6);
 }
 #d-question .fstitle{
-	background-image: url(../img/update/question.png?5);
+	background-image: url(../img/update/question.png?6);
 }
 #d-help .fstitle{
 	background-image: url(../img/update/help.png?6);
@@ -1425,10 +1528,10 @@ li{
 	background-color: #444;
 }
 .dialog .dlgbuttons .ok, .optcontainer .ok, #logindiv .ok{
-	background-image: url('../img/component/button/ok.png?5');
+	background-image: url('../img/component/button/ok.png?6');
 }
 .dialog .dlgbuttons .cancel, .optcontainer .cancel{
-	background-image: url('../img/component/button/cancel.png?5');
+	background-image: url('../img/component/button/cancel.png?6');
 }
 #datatip{
 	width: auto;
@@ -1471,79 +1574,88 @@ li{
   ========== TOOLBAR ========== 
   =============================*/
 #toolbar .add, .toolbar .add{
-	background-image: url('../img/component/button/add.png?3');
+	background-image: url('../img/component/button/add.png?6');
 }
 #toolbar .share, .toolbar .share{
-	background-image: url('../img/component/button/share.png?3');
+	background-image: url('../img/component/button/share.png?6');
 }
 #toolbar .export, .toolbar .export{
-	background-image: url('../img/component/button/export.png?3');
+	background-image: url('../img/component/button/export.png?6');
 }
 #buttons .link, .toolbar .link{
-	background-image: url('../img/component/button/link.png?3');
+	background-image: url('../img/component/button/link.png?6');
 }
 #buttons .print, .toolbar .print{
-	background-image: url('../img/component/button/print.png?3');
+	background-image: url('../img/component/button/print.png?6');
 }
 #buttons .info2, .toolbar .info2{
-	background-image: url('../img/component/button/info.png?3');
+	background-image: url('../img/component/button/info.png?6');
 }
 #buttons .upd-overview, .toolbar .upd-overview{
-	background-image: url('../img/update/overview.png?3');
+	background-image: url('../img/update/overview.png?6');
 }
 #buttons .upd-results, .toolbar .upd-results{
-	background-image: url('../img/update/results.png?3');
+	background-image: url('../img/update/results.png?6');
 }
 #buttons .upd-data, .toolbar .upd-data{
-	background-image: url('../img/update/data.png?3');
+	background-image: url('../img/update/data.png?6');
 }
 #buttons .upd-pictures, .toolbar .upd-pictures{
-	background-image: url('../img/update/pictures.png?3');
+	background-image: url('../img/update/pictures.png?6');
 }
 #buttons .upd-import, .toolbar .upd-import{
-	background-image: url('../img/update/import.png?3');
+	background-image: url('../img/update/import.png?6');
 }
 #buttons .upd-tools, .toolbar .upd-tools{
-	background-image: url('../img/update/tools.png?3');
+	background-image: url('../img/update/tools.png?6');
 }
 #buttons .upd-admin, .toolbar .upd-admin{
-	background-image: url('../img/update/admin.png?3');
+	background-image: url('../img/update/admin.png?6');
 }
 #buttons .upd-help, .toolbar .upd-help{
-	background-image: url('../img/update/help.png?3');
+	background-image: url('../img/update/help.png?6');
 }
 #buttons .upd-new, .toolbar .upd-new{
-	background-image: url('../img/update/new.png?3');
+	background-image: url('../img/update/new.png?6');
 }
 #buttons .upd-save, .toolbar .upd-save{
-	background-image: url('../img/update/save.png?3');
+	background-image: url('../img/update/save.png?6');
 }
 #buttons .upd-copy, .toolbar .upd-copy{
-	background-image: url('../img/update/copy.png?3');
+	background-image: url('../img/update/copy.png?6');
 }
 #buttons .upd-merge, .toolbar .upd-merge{
-	background-image: url('../img/update/merge.png?3');
+	background-image: url('../img/update/merge.png?6');
+}
+#buttons .upd-upload, .toolbar .upd-upload{
+	background-image: url('../img/update/upload.png?6');
+}
+#buttons .upd-download, .toolbar .upd-download{
+	background-image: url('../img/update/download.png?6');
 }
 #buttons .upd-first, .toolbar .upd-first{
-	background-image: url('../img/update/first.png?3');
+	background-image: url('../img/update/first.png?6');
 }
 #buttons .upd-previous, .toolbar .upd-previous{
-	background-image: url('../img/update/previous.png?3');
+	background-image: url('../img/update/previous.png?6');
 }
 #buttons .upd-find, .toolbar .upd-find{
-	background-image: url('../img/update/find.png?3');
+	background-image: url('../img/update/find.png?6');
 }
 #buttons .upd-next, .toolbar .upd-next{
-	background-image: url('../img/update/next.png?3');
+	background-image: url('../img/update/next.png?6');
 }
 #buttons .upd-last, .toolbar .upd-last{
-	background-image: url('../img/update/last.png?3');
+	background-image: url('../img/update/last.png?6');
 }
 #buttons .upd-add, .toolbar .upd-add{
-	background-image: url('../img/component/button/add.png?5');
+	background-image: url('../img/component/button/add.png?6');
 }
 #buttons .upd-modify, .toolbar .upd-modify{
-	background-image: url('../img/component/button/modify.png?5');
+	background-image: url('../img/component/button/modify.png?6');
+}
+#buttons .upd-delete, .toolbar .upd-delete{
+	background-image: url('../img/component/button/delete.png?6');
 }
 #shareopt, #exportopt{
 	position: absolute;
@@ -1570,41 +1682,41 @@ li{
 	background-color: #444;
 }
 .baroptions td.fb{
-	background-image:url(../img/header/facebook.png?5);
+	background-image:url(../img/header/facebook.png?6);
 }
 .baroptions td.tw{
-	background-image:url(../img/header/twitter.png?5);
+	background-image:url(../img/header/twitter.png?6);
 }
 .baroptions td.gp{
-	background-image:url(../img/header/gplus.png?5);
+	background-image:url(../img/header/gplus.png?6);
 }
 .baroptions td.bg{
-	background-image:url(../img/header/blogger.png?5);
+	background-image:url(../img/header/blogger.png?6);
 }
 .baroptions td.tm{
-	background-image:url(../img/header/tumblr.png?5);
+	background-image:url(../img/header/tumblr.png?6);
 }
 .baroptions td.html{
-	background-image:url(../img/db/export/html.png?5);
+	background-image:url(../img/db/export/html.png?6);
 }
 .baroptions td.csv{
-	background-image:url(../img/db/export/csv.png?5);
+	background-image:url(../img/db/export/csv.png?6);
 }
 .baroptions td.excel{
-	background-image:url(../img/db/export/xls.png?5);
+	background-image:url(../img/db/export/xls.png?6);
 }
 .baroptions td.pdf{
-	background-image:url(../img/db/export/pdf.png?5);
+	background-image:url(../img/db/export/pdf.png?6);
 }
 .baroptions td.text{
-	background-image:url(../img/db/export/txt.png?5);
+	background-image:url(../img/db/export/txt.png?6);
 }
 .baroptions div{
 	background-color: #F0F0F0;
 	padding: 3px;
 }
 .baroptions a{
-	background: transparent url(../img/component/button/cancel.png?5) left center no-repeat;
+	background: transparent url(../img/component/button/cancel.png?6) left center no-repeat;
 	padding-left: 18px;
 }
 /*==========================

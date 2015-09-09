@@ -10,11 +10,13 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.transaction.UserTransaction;
 
 import org.apache.log4j.Logger;
+import org.hibernate.StaleStateException;
 
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Championship;
@@ -199,7 +201,7 @@ public class DatabaseHelper {
 		return null;
 	}
 
-	public static Object saveEntity(Object o, Contributor m) throws Exception {
+	public static Object saveEntity(Object o, Contributor cb) throws Exception {
 		UserTransaction tr = null;
 		EntityManager em = null;
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
@@ -212,7 +214,7 @@ public class DatabaseHelper {
 			try {
 				id = o.getClass().getMethod("getId").invoke(o);
 				isAdd = (id == null);
-				if (m != null) {
+				if (cb != null) {
 					Metadata md = null;
 					if (isAdd) {
 						md = new Metadata();
@@ -220,7 +222,7 @@ public class DatabaseHelper {
 					}
 					else
 						md = (Metadata) o.getClass().getMethod("getMetadata").invoke(o);
-					md.setContributor(m);		
+					md.setContributor(cb);		
 					md.setLastUpdate(currentDate);
 					o.getClass().getMethod("setMetadata", Metadata.class).invoke(o, md);
 				}
@@ -228,12 +230,12 @@ public class DatabaseHelper {
 			catch (NoSuchMethodException e) {}
 			o = em.merge(o);
 			// Contribution
-			if (o instanceof Result && m != null) {
+			if (o instanceof Result && cb != null) {
 				try {
 					id = o.getClass().getMethod("getId").invoke(o);
 					Contribution co = new Contribution();
 					co.setIdItem(new Integer(String.valueOf(id)));
-					co.setIdContributor(m.getId());
+					co.setIdContributor(cb.getId());
 					co.setType(isAdd ? 'A' : 'U');
 					co.setDate(currentDate);
 					em.persist(co);
@@ -266,9 +268,13 @@ public class DatabaseHelper {
 			if (tr != null) {em.flush(); tr.commit();} else em.getTransaction().commit();
 		}
 		catch (Exception e) {
-			if (tr != null)
-				tr.rollback();
-			throw e;
+			if (e instanceof StaleStateException || e instanceof OptimisticLockException)
+				logger.error(e.getMessage());
+			else {
+				if (tr != null)
+					tr.rollback();
+				throw e;
+			}
 		}
 		finally {
 			if (em != null && em.isOpen())
@@ -452,7 +458,7 @@ public class DatabaseHelper {
 			   (alias.equalsIgnoreCase(Year.alias) ? Year.class : null)))))))))))))))))))));
 	}
 	
-	public static Integer insertEntity(int row, int n, int spid, String s, String date, Contributor m, StringBuffer sb, String lang) throws Exception {
+	public static Integer insertEntity(int row, int n, int spid, String s, String date, Contributor cb, StringBuffer sb, String lang) throws Exception {
 		Integer id = null;
 		Object o = null;
 		String msg = null;
@@ -485,13 +491,13 @@ public class DatabaseHelper {
 						date = (StringUtils.notEmpty(date) && date.matches(".*\\d{4}$") ? date.substring(date.length() - 4) : null);
 					Object o_ = loadEntityFromQuery("from Team tm where sport.id=" + spid + " and lower(tm.label) = '" + tm.toLowerCase().replaceAll("'", "''") + "'" + (date != null ? " and '" + date + "' between year1 and (case year2 when null then '9999' when '' then '9999' else year2 end)" : ""));
 					if (o_ == null) {
-						Integer idTm = insertEntity(row, 50, spid, tm, null, m, sb, lang);
+						Integer idTm = insertEntity(row, 50, spid, tm, null, cb, sb, lang);
 						o_ = loadEntity(Team.class, idTm);
 					}
 					a.setTeam((Team)o_);
 				}
 				o = a;
-				o = saveEntity(a, m);
+				o = saveEntity(a, cb);
 				msg = "New Athlete";
 			}
 			else if (n == 50) {
@@ -511,7 +517,7 @@ public class DatabaseHelper {
 					t.setCountry((Country)o_);
 				}
 				o = t;
-				o = saveEntity(t, m);
+				o = saveEntity(t, cb);
 				msg = "New Team";
 			}
 		}
@@ -522,14 +528,14 @@ public class DatabaseHelper {
 		finally {
 			if (o != null) {
 				if (sb != null)
-					sb.append("Row " + (row + 1) + ": " + msg + " | " + o).append("\r\n");
+					sb.append("Row " + (row + 1) + ": " + msg + " | " + o).append("<br/>");
 				id = Integer.valueOf(String.valueOf(o.getClass().getMethod("getId").invoke(o)));
 			}
 		}
 		return id;
 	}
 	
-	public static Integer insertPlace(int row, String s, Contributor m, StringBuffer sb, String lang) throws Exception {
+	public static Integer insertPlace(int row, String s, Contributor cb, StringBuffer sb, String lang) throws Exception {
 		Integer id = null;
 		Object o = null;
 		String msg = null;
@@ -553,7 +559,7 @@ public class DatabaseHelper {
 			if (cx != null) { // Set City (for complex)
 				Object o_ = loadEntityFromQuery("from City ct where lower(ct.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "") + ") like '" + ct.toLowerCase().replaceAll("'", "''") + "' and lower(country.code) = '" + cn.toLowerCase() + "'");
 				if (o_ == null) {
-					Integer idCt = insertPlace(row, ct + (st != null ? ", " + st : "") + ", " + cn, m, sb, lang);
+					Integer idCt = insertPlace(row, ct + (st != null ? ", " + st : "") + ", " + cn, cb, sb, lang);
 					o_ = loadEntity(City.class, idCt);
 				}
 				ct_ = (City)o_;
@@ -578,7 +584,7 @@ public class DatabaseHelper {
 				c.setLabelFr(cx);
 				c.setCity(ct_);
 				o = c;
-				o = saveEntity(c, m);
+				o = saveEntity(c, cb);
 				msg = "New Complex";
 			}
 			else if (ct != null) {
@@ -588,7 +594,7 @@ public class DatabaseHelper {
 				c.setState(st_);
 				c.setCountry(cn_);
 				o = c;
-				o = saveEntity(c, m);
+				o = saveEntity(c, cb);
 				msg = "New City";
 			}
 		}
@@ -599,7 +605,7 @@ public class DatabaseHelper {
 		finally {
 			if (o != null) {
 				if (sb != null)
-					sb.append("Row " + (row + 1) + ": " + msg + " | " + o).append("\r\n");
+					sb.append("Row " + (row + 1) + ": " + msg + " | " + o).append("<br/>");
 				id = Integer.valueOf(String.valueOf(o.getClass().getMethod("getId").invoke(o)));
 			}
 		}

@@ -1,6 +1,9 @@
 package com.sporthenon.web.servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,6 +33,7 @@ import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.League;
 import com.sporthenon.db.entity.Olympics;
+import com.sporthenon.db.entity.Record;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
@@ -66,12 +70,16 @@ public class UpdateServlet extends AbstractServlet {
 				ajaxAutocomplete(response, hParams, lang, user);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("save"))
 				saveResult(response, hParams, lang, user);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("delete"))
+				deleteResult(response, hParams, lang, user);
 			else if (hParams.containsKey("p2") && hParams.get("p2").equals("data"))
 				dataTips(response, hParams, lang, user);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-entity"))
 				loadEntity(response, hParams, lang, user);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("save-entity"))
 				saveEntity(response, hParams, lang, user);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("delete-entity"))
+				deleteEntity(response, hParams, lang, user);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-overview"))
 				loadOverview(response, hParams, lang, user);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("save-config"))
@@ -82,6 +90,8 @@ public class UpdateServlet extends AbstractServlet {
 				mergeEntity(response, hParams, lang, user);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("execute-import"))
 				executeImport(request, response, hParams, lang, user);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("load-template"))
+				loadTemplate(response, hParams, lang, user);
 			else
 				loadResult(request, response, hParams, lang, user);
 		}
@@ -93,6 +103,7 @@ public class UpdateServlet extends AbstractServlet {
 	private static void ajaxAutocomplete(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
 		String field = String.valueOf(hParams.get("p"));
 		String field_ = field;
+		boolean isId = String.valueOf(hParams.get("value")).matches("^\\#\\d+");
 		String value = (hParams.get("value") + "%").replaceAll("\\*", "%").replaceAll("'", "''");
 		String sport = null;
 		boolean isData = field.matches(".*\\-l$");
@@ -143,7 +154,7 @@ public class UpdateServlet extends AbstractServlet {
 			// TODO coalesce(subevent." + l + ", ''), coalesce(subevent2." + l + ", '')
 			labelHQL = "concat(lower(sport." + l + "), ' - ', lower(championship." + l + "), ' - ', lower(event." + l + "), ' - ', year.label)";
 		}
-		List<Object> l = DatabaseHelper.execute("from " + hTable.get(field) + " where " + labelHQL + " like '" + value.toLowerCase() + "'" + whereHQL + " order by " + (field.equalsIgnoreCase(Result.alias) ? "year.id desc" : labelHQL));
+		List<Object> l = DatabaseHelper.execute("from " + hTable.get(field) + " where " + (isId ? "id=" + value.substring(1).replaceFirst("\\%", "") : labelHQL + " like '" + value.toLowerCase() + "'") + whereHQL + " order by " + (field.equalsIgnoreCase(Result.alias) ? "year.id desc" : labelHQL));
 		if (field.matches("pl\\d|complex"))
 			l.addAll(DatabaseHelper.execute("from City where " + labelHQL + " like '" + value.toLowerCase() + "' order by " + labelHQL));
 		StringBuffer html = new StringBuffer("<ul>");
@@ -405,6 +416,22 @@ public class UpdateServlet extends AbstractServlet {
 				draw = (Draw) DatabaseHelper.saveEntity(draw, user);
 			}
 			sbMsg.append(result.getId() + "#" + ResourceUtils.getText("result." + (idRS != null ? "modified" : "created"), lang));
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+			sbMsg.append("ERR:" + e.getMessage());
+		}
+		finally {
+			ServletHelper.writeText(response, sbMsg.toString());
+		}
+	}
+	
+	private static void deleteResult(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+		StringBuffer sbMsg = new StringBuffer();
+		try {
+			Object id = hParams.get("id");
+			DatabaseHelper.removeEntity(DatabaseHelper.loadEntity(Result.class, StringUtils.toInt(id)));
+			sbMsg.append(ResourceUtils.getText("result.deleted", lang));
 		}
 		catch (Exception e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);
@@ -806,7 +833,7 @@ public class UpdateServlet extends AbstractServlet {
 		String id = String.valueOf(hParams.get("id"));
 		String alias = String.valueOf(hParams.get("alias"));
 		Class c = DatabaseHelper.getClassFromAlias(alias);
-		Object o = (action.equals("find") ? DatabaseHelper.loadEntity(c, id) : DatabaseHelper.move(c, id, hLocs.get(action), null));
+		Object o = (action.equals("direct") ? DatabaseHelper.loadEntity(c, id) : DatabaseHelper.move(c, id, hLocs.get(action), null));
 		StringBuffer sb = new StringBuffer();
 		if (o != null) {
 			id = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
@@ -1132,25 +1159,68 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
+	private static void deleteEntity(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+		StringBuffer sbMsg = new StringBuffer();
+		try {
+			String id = String.valueOf(hParams.get("id"));
+			String alias = String.valueOf(hParams.get("alias"));
+			Class c = DatabaseHelper.getClassFromAlias(alias);
+			DatabaseHelper.removeEntity(DatabaseHelper.loadEntity(c, StringUtils.toInt(id)));
+			sbMsg.append(ResourceUtils.getText("delete.ok", lang) + "&nbsp;–&nbsp;" + ResourceUtils.getText("entity." + alias + ".1", lang) + " #" + id);
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+			sbMsg.append("ERR:" + e.getMessage());
+		}
+		finally {
+			ServletHelper.writeText(response, sbMsg.toString());
+		}
+	}
+	
 	private static void executeImport(HttpServletRequest request, HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
-		byte[] b = null;
+		InputStream input = null;
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		Collection<FileItem> items = upload.parseRequest(request);
 		for (FileItem fitem : items)
-			b = fitem.get();
-		String s = new String(b);
+			input = fitem.getInputStream();
 		Vector v = new Vector<Vector<String>>();
-		for (String s_ : s.split("\r\n")) {
-			if (StringUtils.notEmpty(s_)) {
+		BufferedReader bf = new BufferedReader(new InputStreamReader(input, "UTF8"));
+		String s = null;
+		while ((s = bf.readLine()) != null) {
+			if (StringUtils.notEmpty(s)) {
 				Vector v_ = new Vector<String>();
-				for (String s__ : s.split(";", -1))
-					v_.add(s__.trim());
+				for (String s_ : s.split(";", -1))
+					v_.add(s_.trim());
 				v.add(v_);
 			}
 		}
-		String result = ImportUtils.processAll(v, false, true, false, false);
+		String type = String.valueOf(hParams.get("type"));
+		String update = String.valueOf(hParams.get("update"));
+		String result = ImportUtils.processAll(v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Draw.alias), type.equalsIgnoreCase(Record.alias), user);
 		ServletHelper.writeText(response, result);
+	}
+	
+	private static void loadTemplate(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+		try {
+			String type = String.valueOf(hParams.get("type"));
+			List<ArrayList<String>> list = ImportUtils.getTemplate(type);
+			StringBuffer sb = new StringBuffer();
+			for (ArrayList<String> list_ : list) {
+				int i = 0;
+				for (String s : list_)
+					sb.append(i++ > 0 ? ";" : "").append(s);
+				sb.append("\r\n");
+			}
+			response.setCharacterEncoding("utf-8");
+			response.setHeader("Content-Disposition", "attachment;filename=" + ResourceUtils.getText("entity." + type, ResourceUtils.LGDEFAULT) + ".csv");
+			response.setContentType("text/plain");
+			response.getWriter().write(sb.toString());
+			response.flushBuffer();
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+		}
 	}
 	
 	private static String getEntityLabel(int n, Integer id, String lang) throws Exception {

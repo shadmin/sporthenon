@@ -11,7 +11,7 @@
       <property name="password" value="password" />
       <property name="portNumber" value="5432" />
       <property name="serverName" value="localhost" />
-      <property name="defaultAutoCommit" value="false" />
+      <property name="defaultAutoCommit" value="true" />
     </jdbc-connection-pool>
     
     <jdbc-resource pool-name="shpool" jndi-name="jdbc/shpool" />
