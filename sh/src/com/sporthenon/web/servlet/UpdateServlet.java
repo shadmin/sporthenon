@@ -125,6 +125,7 @@ public class UpdateServlet extends AbstractServlet {
 		hTable.put("ev", "Event"); hTable.put("event", "Event");
 		hTable.put("se", "Event"); hTable.put("event", "Event");
 		hTable.put("se2", "Event"); hTable.put("event", "Event");
+		hTable.put("tp", "Type"); hTable.put("type", "Type");
 		hTable.put("yr", "Year"); hTable.put("year", "Year");
 		hTable.put("cx", "Complex"); hTable.put("complex", "Complex");
 		hTable.put("ct", "City"); hTable.put("city", "City");

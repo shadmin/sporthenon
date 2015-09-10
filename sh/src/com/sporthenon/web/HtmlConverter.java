@@ -798,7 +798,7 @@ public class HtmlConverter {
 				for (int i = 1 ; i <= MAX_RANKS ; i++) {
 					Integer idRank = StringUtils.toInt(ResultsBean.class.getMethod("getRsRank" + i).invoke(bean));
 					if (idRank != null && idRank > 0) {
-						Object result = ResultsBean.class.getMethod("getRsRank" + i).invoke(bean);
+						Object result = ResultsBean.class.getMethod("getRsResult" + i).invoke(bean);
 						String str1 = (String) ResultsBean.class.getMethod("getEn" + i + "Str1").invoke(bean);
 						String str2 = (String) ResultsBean.class.getMethod("getEn" + i + "Str2").invoke(bean);
 						String str3 = (String) ResultsBean.class.getMethod("getEn" + i + "Str3").invoke(bean);
@@ -821,7 +821,7 @@ public class HtmlConverter {
 					tEntityRel = StringUtils.removeNulls(tEntityRel);
 				}
 				for (int i = 0 ; i < MAX_RANKS ; i++)
-					if (tEntity[i] != null)
+					if (StringUtils.notEmpty(tEntity[i]))
 						tEntityHtml[i] = ("<td>" + tEntity[i] + (plist != null && plist.size() > i ? "<table id='plist-" + id + "-" + i + "' class='plist' style='display:none;'>" + plist.get(i).toString() + "</table>" : "") + "</td>" + tEntityRel[i] + (StringUtils.notEmpty(tResult[i]) && !isScore ? "<td>" + tResult[i] + "</td>" : ""));
 				html.append("<tr><td colspan='2' class='result'>");
 				html.append("<table><tr style='font-weight:bold;'><th>" + ResourceUtils.getText("rank.winner", lang) + "&nbsp;</th>" + (tEntityHtml[0] != null ? tEntityHtml[0] : "<td>" + ResourceUtils.getText("none", lang) + "</td>"));
@@ -829,7 +829,8 @@ public class HtmlConverter {
 					html.append("<td rowspan='2'><b>" + tResult[0] + "</b></td>");
 				html.append("</tr>");
 				for (int i = 1 ; i < MAX_RANKS ; i++)
-					html.append("<tr><th>" + (i + 1) + ".&nbsp;</th>" + tEntityHtml[i] + "</tr>");
+					if (StringUtils.notEmpty(tEntityHtml[i]))
+						html.append("<tr><th>" + (i == 1 && isScore ? ResourceUtils.getText("runner.up", lang) : (i + 1) + ".&nbsp;") + "</th>" + tEntityHtml[i] + "</tr>");
 				html.append("</table>");
 				html.append("</td></tr>");
 				html.append("</tbody></table></li>");
@@ -1140,7 +1141,7 @@ public class HtmlConverter {
 				else if (en.equals(Record.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("category", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("scope", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("record2", lang) + "</th>");				
 				else if (en.equals(Result.alias))
-					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("year", lang)  + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("entity.RS.1", lang) + "</th>" + (etype.matches(Athlete.alias + "|" + Team.alias + "|" + Country.alias) ? "<th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("result.detail", lang) + "</th>" : ""));
+					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("year", lang)  + "</th>" + (etype.matches(Athlete.alias + "|" + Team.alias + "|" + Country.alias) ? "<th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("rank", lang) + "</th>" : "") + "<th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("result.detail", lang) + "</th>");
 				else if (en.equals(RetiredNumber.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("league", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("name", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("number", lang) + "</th>");
 				else if (en.equals(Team.alias))
@@ -1255,7 +1256,7 @@ public class HtmlConverter {
 					StringBuffer sb = new StringBuffer("<table><tr>");
 					sb.append("<td class='small'>" + ResourceUtils.getText("draw2." + txt2, lang) + "&nbsp;:&nbsp;</td><td style='font-weight:bold;'>" + tEntity[0] + "</td><td>&nbsp;" + StringUtils.formatResult(item.getTxt1(), lang) + "&nbsp;</td><td>" + tEntity[1] + "</td>");
 					c5 = sb.append("</tr></table>").toString();
-					c4 = ResourceUtils.getText(txt2.equals("thd") ? "rank.3" : "draw3." + txt2, lang);
+					c4 = ResourceUtils.getText("draw4." + txt2, lang);
 				}
 				else { // Result
 					idResult = item.getIdItem();
@@ -1314,32 +1315,30 @@ public class HtmlConverter {
 						StringBuffer sb = new StringBuffer("<table><tr>");
 						sb.append("<td class='small'>" + ResourceUtils.getText("draw2.f", lang) + "&nbsp;:&nbsp;</td><td style='font-weight:bold;'>" + tEntity[0] + "</td><td>&nbsp;" + StringUtils.formatResult(item.getTxt1(), lang) + "&nbsp;</td><td>" + tEntity[1] + "</td>");
 						if (tEntity[2] != null)
-							sb.append("<td class='small'>&nbsp;" + ResourceUtils.getText("rank.3", lang) + "&nbsp;:&nbsp;</td><td>" + tEntity[2] + "</td>");
+							sb.append("<td class='small'>&nbsp;" + "3.&nbsp;</td><td>" + tEntity[2] + "</td>");
 						c5 = sb.append("</tr></table>").toString();
 					}
 					else {
 						StringBuffer sb = new StringBuffer("<table><tr>");
-						sb.append("<td class='small'>" + (tEntity[0] != null || isMedal ? (isMedal ? ResourceUtils.getText("gold", lang) + "&nbsp;:</td><td class='small'>" + ImageUtils.getGoldMedImg(lang) + "&nbsp;" : (tEntity[1] != null ? ResourceUtils.getText("rank.1", lang) + "&nbsp;:&nbsp;" : "")) : "") + "</td><td style='font-weight:bold;'>" + tEntity[0] + "</td>");
+						sb.append("<td class='small'>" + (tEntity[0] != null || isMedal ? (isMedal ? "1&nbsp;.</td><td class='small'>" + ImageUtils.getGoldMedImg(lang) + "&nbsp;" : "1.&nbsp;") : "") + "</td><td style='font-weight:bold;'>" + tEntity[0] + "</td>");
 						if (tEntity[1] != null)
-							sb.append("<td class='small'>&nbsp;" + (isMedal ? ResourceUtils.getText("silver", lang) + "&nbsp;:</td><td class='small'>" + ImageUtils.getSilverMedImg(lang) : ResourceUtils.getText("rank.2", lang) + ":") + "&nbsp;</td><td>" + tEntity[1] + "</td>");
+							sb.append("<td class='small'>&nbsp;" + (isMedal ? "2.</td><td class='small'>" + ImageUtils.getSilverMedImg(lang) : "2.") + "&nbsp;</td><td>" + tEntity[1] + "</td>");
 						if (tEntity[2] != null)
-							sb.append("<td class='small'>&nbsp;" + (isMedal ? ResourceUtils.getText("bronze", lang) + "&nbsp;:</td><td class='small'>" + ImageUtils.getBronzeMedImg(lang) : ResourceUtils.getText("rank.3", lang) + ":") + "&nbsp;</td><td>" + tEntity[2] + "</td>");
+							sb.append("<td class='small'>&nbsp;" + (isMedal ? "3.</td><td class='small'>" + ImageUtils.getBronzeMedImg(lang) : "3.") + "&nbsp;</td><td>" + tEntity[2] + "</td>");
 						c5 = sb.append("</tr></table>").toString();
 					}
 					if (etype.matches(Athlete.alias + "|" + Team.alias + "|" + Country.alias) && item.getCount1() != null) {
 						if (isMedal)
-							c4 = "<ul class='vcenter'>" + (item.getCount1() == 1 ? "<li>" + ImageUtils.getGoldMedImg(lang) + "</li><li>&nbsp;" + ResourceUtils.getText("gold", lang) : (item.getCount1() == 2 ? "<li>" + ImageUtils.getSilverMedImg(lang) + "</li><li>&nbsp;" + ResourceUtils.getText("silver", lang) : "<li>" + ImageUtils.getBronzeMedImg(lang) + "</li><li>&nbsp;" + ResourceUtils.getText("bronze", lang))) + "</li></ul>";
-						else if (isScore)
-							c4 = ResourceUtils.getText(item.getCount1() == 1 ? "rank.winner" : (item.getCount1() == 2 ? "draw3.f" : "rank.3"), lang);
+							c4 = "<ul class='vcenter'>" + (item.getCount1() == 1 ? "<li>1&nbsp;</li><li>" + ImageUtils.getGoldMedImg(lang) + "</li>" : (item.getCount1() == 2 ? "<li>2&nbsp;</li><li>" + ImageUtils.getSilverMedImg(lang) + "</li>" : "<li>3&nbsp;</li><li>" + ImageUtils.getBronzeMedImg(lang) + "</li>")) + "</ul>";
 						else
-							c4 = ResourceUtils.getText("rank." + item.getCount1(), lang);						
+							c4 = String.valueOf(item.getCount1());						
 					}
 				}
 				if (!etype.matches(Athlete.alias + "|" + Team.alias + "|" + Country.alias)) {
 					c4 = c5;
 					c5 = null;
 				}
-				c3 = "<table><tr><td>" + HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1(), null) + "</td><td>&nbsp;" + HtmlUtils.writeLink(Result.alias, idResult, "<img alt='details' title='" +  ResourceUtils.getText("details", lang) + "' src='/img/render/details.png'/>", path) + "</td><td>" + (m != null && m.isSport(item.getIdRel2()) ? "&nbsp;<a href='" + HtmlUtils.writeURL("/update/results", "RS-" + idResult, null) + "'><img alt='modify' title='" + ResourceUtils.getText("button.modify", lang) + "' src='/img/component/button/modify.png'/></a>" : "") + "</td></tr></table>";
+				c3 = "<ul class='vcenter'><li>" + HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1(), null) + "</li><li>&nbsp;" + HtmlUtils.writeLink(Result.alias, idResult, "<img alt='details' title='" +  ResourceUtils.getText("details", lang) + "' src='/img/render/details.png'/>", path) + "</li><li>" + (m != null && m.isSport(item.getIdRel2()) ? "&nbsp;<a href='" + HtmlUtils.writeURL("/update/results", "RS-" + idResult, null) + "'><img alt='modify' title='" + ResourceUtils.getText("button.modify", lang) + "' src='/img/component/button/modify.png'/></a>" : "") + "</li></ul>";
 			}
 			else if (en.equals(RetiredNumber.alias)) {
 				Short cp = USLeaguesServlet.HLEAGUES.get(Short.valueOf(item.getIdRel3().toString()));

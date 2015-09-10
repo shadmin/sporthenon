@@ -223,6 +223,10 @@
 	<entry key="draw3.qf">Quarterfinalist</entry>
 	<entry key="draw3.sf">Semifinalist</entry>
 	<entry key="draw3.f">Runner-up</entry>
+	<entry key="draw4.qf">QF</entry>
+	<entry key="draw4.sf">SF</entry>
+	<entry key="draw4.thd">3</entry>
+	<entry key="draw4.f">F</entry>
 	<entry key="next.20">Next 20</entry>
 	<entry key="complete.list">Complete list</entry>
 	<entry key="search.in">Search in</entry>
@@ -258,6 +262,7 @@
 	<entry key="desc.olympics1.page">Event results at the Olympic Games</entry>
 	<entry key="desc.olympics2.page">Medals tables at the Olympic Games</entry>
 	<entry key="desc.usleagues.page">History, records and statistics</entry>
+	<entry key="rank">Rank</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>

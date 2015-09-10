@@ -1296,7 +1296,8 @@ function showMessage(text) {
 }
 /*========== RESULTS ==========*/
 var tValues = [];
-var dz = null;
+var dzr = null;
+var fr = null;
 function initUpdateResults(value) {
 	['sp', 'cp', 'ev', 'se', 'se2', 'yr', 'pl1', 'pl2'].each(function(s){
 		new Ajax.Autocompleter(
@@ -1336,11 +1337,13 @@ function initUpdateResults(value) {
 			}
 		});
 	});
-	dz = new Dropzone($('dz-file'), {
+	dzr = new Dropzone($('dz-file'), {
 		url: '/',
 		paramName: 'photo-file',
+		autoProcessQueue: false,
 		addRemoveLinks: false});
-	dz.on('processing', function(file) {
+	dzr.on('addedfile', function(f) {
+		fr = f;
 		$$('#imgzone p')[0].remove();
 	});
 	loadResValues(value);
@@ -1360,9 +1363,9 @@ function loadResValues(value) {
 		if (t.length > 16) {
 			tValues['id'] = t[15];
 			$('id').value = tValues['id'];
-			if (dz != null) {
+			if (dzr != null) {
 				$('dz-file').update('<p>' + TX_CLICK_DRAGDROP + '</p>');
-				dz.options.url = '/ImageServlet?upload-photo&entity=RS&id=' + tValues['id'];
+				dzr.options.url = '/ImageServlet?upload-photo&entity=RS&id=' + tValues['id'];
 			}
 			// Result Info
 			tValues['dt1'] = t[16]; if (t[16] != '') {$('dt1').value = t[16]; $('dt1').addClassName('completed2');} else {$('dt1').value = $('dt1').name; $('dt1').removeClassName('completed2');}
@@ -1545,6 +1548,7 @@ function saveResult() {
 		},
 		parameters: h
 	});
+	dzr.processFile(fr);
 }
 function deleteResult() {
 	$('header').setStyle({ opacity: 0.4 });
@@ -1655,6 +1659,8 @@ function addPersonList() {
 }
 /*========== DATA ==========*/
 var isMerge = null;
+var dzd = null;
+var fd = null;
 function initUpdateData() {
 	$$('#update-data input').each(function(el){
 		if ($(el).id.lastIndexOf('-l') == $(el).id.length - 2) {
@@ -1693,11 +1699,13 @@ function initUpdateData() {
 			}
 		});
 	});
-	dz = new Dropzone($('dz-file'), {
+	dzd = new Dropzone($('dz-file'), {
 		url: '/',
 		paramName: 'photo-file',
+		autoProcessQueue: false,
 		addRemoveLinks: false});
-	dz.on("complete", function(file) {
+	dzd.on("addedfile", function(f) {
+		fd = f;
 		$$('#imgzone p')[0].remove();
 	});
 	showPanel('PR');
@@ -1729,9 +1737,9 @@ function setEntityValues(text) {
 	}
 	var i = 0;
 	currentId = t[i++];
-	if (dz != null) {
+	if (dzd != null) {
 		$('dz-file').update('<p>' + TX_CLICK_DRAGDROP + '</p>');
-		dz.options.url = '/ImageServlet?upload-photo&entity=' + currentAlias + '&id=' + currentId;
+		dzd.options.url = '/ImageServlet?upload-photo&entity=' + currentAlias + '&id=' + currentId;
 	}
 	if (currentAlias == 'PR') {
 		$('pr-id').value = currentId;
@@ -1894,6 +1902,7 @@ function saveEntity() {
 		},
 		parameters: h
 	});
+	dzd.processFile(fd);
 }
 function deleteEntity() {
 	$('header').setStyle({ opacity: 0.4 });
@@ -2004,23 +2013,56 @@ function initPictures() {
 	dzp.on('addedfile', function(f) {
 		fp = f;
 		$('name-local').update(f.name);
+		$('remove-local').show();
 	});
 	dzp.on('success', function(f, text) {
 		loadPictures('direct');
+		$('year1').value = '';
+		$('year2').value = '';
 	});
+	changePictureType();
+}
+function changePictureType() {
 	currentAlias = $F('type');
 	loadPictures('last');
+	if (currentAlias == 'CP' || currentAlias == 'EV' || currentAlias == 'TM') {
+		$('spcell1').show();
+		$('spcell2').show();
+	}
+	else {
+		$('spcell1').hide();
+		$('spcell2').hide();
+	}
+}
+function removeLocalPicture() {
+	dzp.removeFile(fp);
+	$('name-local').update();
+	$('remove-local').hide();
 }
 function uploadPicture() {
-	dzp.options.url = '/ImageServlet?upload=1&entity=' + currentAlias + '&id=' + currentId + '&size=' + ($('size1').checked ? 'L' : 'S') + '&y1=' + $F('year1') + '&y2=' + $F('year2');
+	var sp = $F('sport');
+	var alias_ = currentAlias;
+	var id_ = currentId;
+	if ((alias_ == 'CP' || alias_ == 'EV') && sp != '') {
+		alias_ = 'SP' + alias_;
+		id_ = sp + "-" + id_;
+	}
+	dzp.options.url = '/ImageServlet?upload=1&entity=' + alias_ + '&id=' + id_ + '&size=' + ($('size1').checked ? 'L' : 'S') + '&y1=' + $F('year1') + '&y2=' + $F('year2');
 	dzp.processFile(fp);
 }
+function downloadPicture() {
+	if ($F('list-remote') != null) {
+		location.href = '/ImageServlet?download=1&name=' + $F('list-remote');	
+	}
+}
 function deletePicture() {
-	new Ajax.Request('/ImageServlet?remove=1&name=' + $F('list-remote'), {
-		onSuccess: function(response){
-			loadPictures('direct');
-		}
-	});
+	if ($F('list-remote') != null) {
+		new Ajax.Request('/ImageServlet?remove=1&name=' + $F('list-remote'), {
+			onSuccess: function(response){
+				loadPictures('direct');
+			}
+		});	
+	}
 }
 function loadPicture() {
 	$('img-remote').update('<img alt="-" src="' + ($F('list-remote') != null ? IMG_URL + $F('list-remote') : '/img/noimage.png') + '"/>');
@@ -2032,13 +2074,20 @@ function loadPictures(action_, id_) {
 			var t = response.responseText.split('~');
 			$('label-remote').update(t[1]);
 			currentId = t[0];
-			var h_ = $H({entity: $F('type'), id: t[0], size: ($('size1').checked ? 'L' : 'S')});
+			var sp = $F('sport');
+			var alias_ = currentAlias;
+			var id__ = currentId;
+			if ((alias_ == 'CP' || alias_ == 'EV') && sp != '') {
+				alias_ = 'SP' + alias_;
+				id__ = sp + "-" + id__;
+			}
+			var h_ = $H({entity: alias_, id: id__, size: ($('size1').checked ? 'L' : 'S')});
 			new Ajax.Request('/ImageServlet?list=1', {
 				onSuccess: function(response){
 					var t_ = [];
 					response.responseText.split(',').each(function(s){
 						if (s != '') {
-							t_.push('<option value="' + s + '">' + s + '</option>');	
+							t_.push('<option value="' + s + '">' + s + '</option>');
 						}
 					});
 					$('list-remote').update(t_.join(''));

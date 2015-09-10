@@ -35,13 +35,14 @@ var treeItems = null;
 				<td>ID:</td><td><input id="id" type="text" disabled="disabled" style="width:50px;"/></td>
 				</tr></table>
 			</div>
-			<div class="treediv" style="clear:right;float:right;"><div id="treeview">
+			<div class="treediv"><div id="treeview">
 				<table cellpadding="0" cellspacing="0">
 				<thead><tr><th style="text-align:right;"><img alt="" src="/img/render/expand.gif" class="toggleimg" onclick="toggleContent(this);"/><span class="toggletext" onclick="toggleContent(this);"><%=StringUtils.text("tree", session)%></span></th></tr></thead>
 				<tbody class="tby"><tr style="display:none;"><td id="tree">
 				<script type="text/javascript">new Tree(treeItems, treeTemplate);</script>
 				</td></tr></tbody></table>
 			</div></div>
+			<div id="currentimg" style="margin-top:70px;"></div>
 			<ul>
 			<!-- EVENT -->
 			<li>
@@ -76,7 +77,6 @@ var treeItems = null;
 				</fieldset>
 			</li>
 			</ul>
-			<div id="currentimg" style="margin-top:30px;"></div>
 			<ul>
 			<!-- PLACES/VENUES -->
 			<li>

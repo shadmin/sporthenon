@@ -223,6 +223,10 @@
 	<entry key="draw3.qf">Quart de finaliste</entry>
 	<entry key="draw3.sf">Demi-finaliste</entry>
 	<entry key="draw3.f">Finaliste</entry>
+	<entry key="draw4.qf">QF</entry>
+	<entry key="draw4.sf">DF</entry>
+	<entry key="draw4.thd">3</entry>
+	<entry key="draw4.f">F</entry>
 	<entry key="next.20">20 suivants</entry>
 	<entry key="complete.list">Toute la liste</entry>
 	<entry key="search.in">Rechercher dans</entry>
@@ -258,6 +262,7 @@
 	<entry key="desc.olympics1.page">Résultats des épreuves aux Jeux Olympiques</entry>
 	<entry key="desc.olympics2.page">Tableaux de médailles aux Jeux Olympiques</entry>
 	<entry key="desc.usleagues.page">Palmarès, records et statistiques</entry>
+	<entry key="rank">Rang</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>

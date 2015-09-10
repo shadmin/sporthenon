@@ -1217,6 +1217,7 @@ li{
 }
 #currentimg{
 	position: absolute;
+	z-index: 0;
 	text-align: right;
 	right: 25px;
 }
@@ -1329,8 +1330,13 @@ li{
 	padding: 2px;
 }
 #update-results .treediv{
+	position: absolute;
+	z-index: 1;
+	right: 24px;
+	background-color: #FFF;
 	white-space: nowrap;
 	margin: 0px;
+	margin-top: 25px;
 }
 #update-results #tree{
 	overflow: auto;
@@ -1379,12 +1385,20 @@ li{
 	background-image: url(../img/update/pictures.png?6);
 }
 #update-pictures .fscontent{
-	height: 230px;
+	height: 280px;
 	padding-bottom: 70px;
 }
 #update-pictures .fscontent div{
 	float: left;
 	width: 430px;
+}
+#update-pictures .fscontent .toolbar{
+	position: relative;
+	clear: right;
+	float: right;
+	top: 0;
+	right: 0;
+	margin-top: 15px;
 }
 #update-pictures #dz-file{
 	cursor: pointer;
@@ -1399,16 +1413,33 @@ li{
 #update-pictures #dz-file:hover{
 	background-color: #FFD;
 }
+#update-pictures #remove-local{
+	float: left;
+	width: auto;
+	margin-top: 80px;
+	padding: 5px;
+	padding-bottom: 0px;
+}
 #update-pictures fieldset{
 	border: 1px solid #AAA;
 }
-#update-pictures #img-remote img{
+#update-pictures #img-remote{
+	width: auto;
 	min-height: 100px;
 	max-height: 100px;
 }
 #update-pictures .fscontent .toolbar td{
 	padding: 2px;
 	border: none;
+}
+#update-pictures .fscontent #tsize{
+	width: auto;
+	padding: 0px;
+	margin: 0px;
+}
+#update-pictures .fscontent #tsize td{
+	border: none;
+	padding: 0px;
 }
 /*---------- IMPORT ----------*/
 #update-import .fstitle{

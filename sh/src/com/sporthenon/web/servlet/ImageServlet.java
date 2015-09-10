@@ -1,6 +1,9 @@
 package com.sporthenon.web.servlet;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
@@ -86,6 +89,21 @@ public class ImageServlet extends AbstractServlet {
 				fos.write(b);
 				fos.close();
 				ImageUtils.getImgFiles().add(f.getName());
+			}
+			else if (hParams.containsKey("download")) {
+				String fname = String.valueOf(hParams.get("name"));
+				File f = new File(ConfigUtils.getProperty("img.folder") + fname);
+				response.setHeader("Content-Disposition", "attachment;filename=" + fname);
+				response.setContentType("text/html");
+				BufferedInputStream in = new BufferedInputStream(new FileInputStream(f));
+				BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+				int i;
+				while ((i = in.read()) != -1) {
+					out.write(i);
+				}
+				out.flush();
+				out.close();
+				in.close();
 			}
 			else if (hParams.containsKey("remove")) {
 				String fname = String.valueOf(hParams.get("name"));
