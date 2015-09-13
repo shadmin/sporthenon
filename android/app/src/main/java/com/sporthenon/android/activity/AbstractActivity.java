@@ -195,7 +195,7 @@ public abstract class AbstractActivity extends Activity implements AdapterView.O
             ArrayList<ResultItem> list_ = new ArrayList<>();
             for (Object o : itemList) {
                 ResultItem item = (ResultItem) o;
-                if (text.length() == 0 || item.getRank1().toLowerCase().matches(".*" + text + ".*"))
+                if (text.length() == 0 || item.getTxt1().toLowerCase().matches(".*" + text + ".*"))
                     list_.add(item);
             }
           /*  if (list_.size() == 0)

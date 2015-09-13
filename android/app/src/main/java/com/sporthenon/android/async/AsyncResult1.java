@@ -72,7 +72,7 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
             }
             Element date = (Element) doc.getElementsByTagName("dates").item(0);
             if (date != null)
-                result1.setDate((date.getAttribute("date1") != null && date.getAttribute("date1").length() > 0 ? date.getAttribute("date1") + Html.fromHtml(" &ndash; ") : "") + date.getAttribute("date2"));
+                result1.setDate((date.getAttribute("date1") != null && date.getAttribute("date1").length() > 0 ? date.getAttribute("date1") + Html.fromHtml("&nbsp;&ndash;&nbsp;") : "") + date.getAttribute("date2"));
             Element place1 = (Element) doc.getElementsByTagName("place1").item(0);
             if (place1 != null) {
                 result1.setPlace1(place1.getTextContent());
@@ -84,32 +84,47 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
                 result1.setPlace2Img(AndroidUtils.getImage(activity, place2.getAttribute("img")));
             }
             // Rankings
+            RankItem item = null;
             Element rank1 = (Element) doc.getElementsByTagName("rank1").item(0);
-            if (rank1 != null) {
-                RankItem item = new RankItem("1.");
-                item.setText(rank1.getTextContent().replaceAll("\\s\\(", "\\\r\\\n("));
-                item.setImgURL(rank1.getAttribute("img"));
-                item.setImg(AndroidUtils.getImage(activity, item.getImgURL()));
-                item.setResult(rank1.getAttribute("result"));
-                ranks.add(item);
-            }
             Element rank2 = (Element) doc.getElementsByTagName("rank2").item(0);
-            if (rank2 != null) {
-                RankItem item = new RankItem("2.");
-                item.setText(rank2.getTextContent().replaceAll("\\s\\(", "\\\r\\\n("));
-                item.setImgURL(rank2.getAttribute("img"));
-                item.setImg(AndroidUtils.getImage(activity, item.getImgURL()));
-                item.setResult(rank2.getAttribute("result"));
-                ranks.add(item);
-            }
             Element rank3 = (Element) doc.getElementsByTagName("rank3").item(0);
+            // TODO gerer isScore
+            //boolean isScore = (rank1 != null && rank2 != null)
+            if (rank1 != null) {
+                String[] t1 = rank1.getTextContent().replaceAll("\\s\\(", "\\\r\\\n(").split("\\|");
+                String[] t2 = rank1.getAttribute("img").split("\\|");
+                for (int i = 0 ; i < t1.length ; i++) {
+                    item = new RankItem("1.");
+                    item.setText(t1[i]);
+                    item.setImgURL(t2[i]);
+                    item.setImg(AndroidUtils.getImage(activity, item.getImgURL()));
+                    item.setResult(rank1.getAttribute("result"));
+                    ranks.add(item);
+                }
+            }
+            if (rank2 != null) {
+                String[] t1 = rank2.getTextContent().replaceAll("\\s\\(", "\\\r\\\n(").split("\\|");
+                String[] t2 = rank2.getAttribute("img").split("\\|");
+                for (int i = 0 ; i < t1.length ; i++) {
+                    item = new RankItem("2.");
+                    item.setText(t1[i]);
+                    item.setImgURL(t2[i]);
+                    item.setImg(AndroidUtils.getImage(activity, item.getImgURL()));
+                    item.setResult(rank2.getAttribute("result"));
+                    ranks.add(item);
+                }
+            }
             if (rank3 != null) {
-                RankItem item = new RankItem("3.");
-                item.setText(rank3.getTextContent().replaceAll("\\s\\(", "\\\r\\\n("));
-                item.setImgURL(rank3.getAttribute("img"));
-                item.setImg(AndroidUtils.getImage(activity, item.getImgURL()));
-                item.setResult(rank3.getAttribute("result"));
-                ranks.add(item);
+                String[] t1 = rank3.getTextContent().replaceAll("\\s\\(", "\\\r\\\n(").split("\\|");
+                String[] t2 = rank3.getAttribute("img").split("\\|");
+                for (int i = 0 ; i < t1.length ; i++) {
+                    item = new RankItem("3.");
+                    item.setText(t1[i]);
+                    item.setImgURL(t2[i]);
+                    item.setImg(AndroidUtils.getImage(activity, item.getImgURL()));
+                    item.setResult(rank3.getAttribute("result"));
+                    ranks.add(item);
+                }
             }
             connection.disconnect();
         }

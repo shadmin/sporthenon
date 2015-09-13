@@ -2,6 +2,7 @@ package com.sporthenon.android.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -46,51 +47,30 @@ public class EventActivity extends AbstractActivity implements AdapterView.OnIte
             b.putInt("ev1id", getEvent1Id());
             b.putString("ev1name", getEvent1Name());
             if (getEvent2Id() != null && getEvent2Id() > 0) {
-                setEvent3Id(ev.getId());
-                setEvent3Name(ev.getName());
+                b.putInt("ev2id", getEvent2Id());
+                b.putString("ev2name", getEvent2Name());
+                b.putInt("ev3id", ev.getId());
+                b.putString("ev3name", ev.getName());
                 isResults = true;
             }
             else {
                 b.putInt("ev2id", ev.getId());
                 b.putString("ev2name", ev.getName());
-                if (ev.getParam() != null && ev.getParam() == 0) {
-                    setEvent2Id(ev.getId());
-                    setEvent2Name(ev.getName());
+                if (ev.getParam() != null && ev.getParam() == 0)
                     isResults = true;
-                }
             }
         }
         else {
             b.putInt("ev1id", ev.getId());
             b.putString("ev1name", ev.getName());
-            if (ev.getParam() != null && ev.getParam() == 0) {
-                setEvent1Id(ev.getId());
-                setEvent1Name(ev.getName());
+            if (ev.getParam() != null && ev.getParam() == 0)
                 isResults = true;
-            }
         }
+        Intent i = null;
         if (isResults)
-            loadResults();
-        else {
-            Intent i = new Intent(this, EventActivity.class);
-            i.putExtras(b);
-            startActivity(i);
-        }
-    }
-
-    public void loadResults() {
-        Intent i = new Intent(this, ResultActivity.class);
-        Bundle b = new Bundle();
-        b.putInt("spid", getSportId());
-        b.putString("spname", getSportName());
-        b.putInt("cpid", getChampionshipId());
-        b.putString("cpname", getChampionshipName());
-        b.putInt("ev1id", getEvent1Id());
-        b.putString("ev1name", getEvent1Name());
-        b.putInt("ev2id", getEvent2Id());
-        b.putString("ev2name", getEvent2Name());
-        b.putInt("ev3id", getEvent3Id());
-        b.putString("ev3name", getEvent3Name());
+            i = new Intent(this, ResultActivity.class);
+        else
+            i = new Intent(this, EventActivity.class);
         i.putExtras(b);
         startActivity(i);
     }

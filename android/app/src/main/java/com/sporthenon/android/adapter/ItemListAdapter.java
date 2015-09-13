@@ -61,12 +61,10 @@ public class ItemListAdapter extends BaseAdapter {
         else
 			holder = (ViewHolder) convertView.getTag();
 		String text = list.get(position).getName();
-		if (text.startsWith("+")) {
-			text = text.replaceAll("^\\+", "");
-			holder.name.setTextColor(Color.GRAY);
-			holder.name.setTypeface(null, Typeface.ITALIC);
-		}
-		holder.name.setText(text);
+		boolean isInactive = text.startsWith("+");
+		holder.name.setTextColor(isInactive ? Color.GRAY : Color.BLACK);
+		holder.name.setTypeface(null, isInactive ? Typeface.ITALIC : Typeface.BOLD);
+		holder.name.setText(text.replaceAll("^\\+", ""));
 		Drawable img = list.get(position).getPicture();
 		holder.picture.setImageDrawable(img);
 		holder.picture.setVisibility(img != null ? View.VISIBLE : View.GONE);

@@ -59,10 +59,29 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
                     Element e = (Element) n;
                     Integer id = Integer.parseInt(e.getAttribute("id"));
                     String year = e.getAttribute("year");
-                    String code = e.getAttribute("code");
-                    String str1 = e.getAttribute("str1");
-                    String str2 = e.getAttribute("str2");
-                    results.add(new ResultItem(id, year, e.getAttribute("img"), AndroidUtils.getImage(activity, e.getAttribute("img")), str2 + (str1 != null && !str1.matches("^[A-Z]{3}$") ? " " + str1 : "") + (code != null && code.length() > 0 ? " (" + code + ")" : "")));
+                    String type = e.getAttribute("type");
+                    String tie1 = e.getAttribute("tie1");
+                    String tie2 = e.getAttribute("tie2");
+                    String str1 = e.getAttribute("str1"); String str2 = e.getAttribute("str2"); String str3 = e.getAttribute("str3");
+                    String str4 = e.getAttribute("str4"); String str5 = e.getAttribute("str5"); String str6 = e.getAttribute("str6");
+                    String str7 = e.getAttribute("str7"); String str8 = e.getAttribute("str8"); String str9 = e.getAttribute("str9");
+                    String[] tCode = e.getAttribute("code").split("\\|");
+                    String[] tImg = e.getAttribute("img").split("\\|");
+                    boolean isTie = (tie1.equals("1") || tie2.equals("1") || type.equals("4") || type.equals("5"));
+                    ResultItem ri = new ResultItem(id, year, tImg[0], AndroidUtils.getImage(activity, tImg[0]), str2 + (str1 != null && !str1.matches("^[A-Z]{3}$") ? " " + str1 : "") + (tCode.length <= 0 && AndroidUtils.notEmpty(tCode[0]) ? " (" + tCode[0] + ")" : ""));
+                    if (isTie) {
+                        if (AndroidUtils.notEmpty(str5)) {
+                            ri.setImgURL2(tImg[1]);
+                            ri.setImg2(AndroidUtils.getImage(activity, tImg[1]));
+                            ri.setTxt2(str5 + (str4 != null && !str4.matches("^[A-Z]{3}$") ? " " + str4 : "") + (tCode.length > 1 && AndroidUtils.notEmpty(tCode[1]) ? " (" + tCode[1] + ")" : ""));
+                        }
+                        if (AndroidUtils.notEmpty(str8) && !type.equals("4")) {
+                            ri.setImgURL3(tImg[2]);
+                            ri.setImg3(AndroidUtils.getImage(activity, tImg[2]));
+                            ri.setTxt3(str8 + (str7 != null && !str7.matches("^[A-Z]{3}$") ? " " + str7 : "") + (tCode.length > 2 && AndroidUtils.notEmpty(tCode[2]) ? " (" + tCode[2] + ")" : ""));
+                        }
+                    }
+                    results.add(ri);
                 }
             }
             connection.disconnect();

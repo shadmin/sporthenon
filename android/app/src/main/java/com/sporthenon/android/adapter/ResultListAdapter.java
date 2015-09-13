@@ -2,6 +2,7 @@ package com.sporthenon.android.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +46,15 @@ public class ResultListAdapter extends BaseAdapter {
 
 	static class ViewHolder {
 		TextView year;
-		ImageView img;
-        TextView rank1;
+		LinearLayout line1;
+		ImageView img1;
+        TextView txt1;
+		LinearLayout line2;
+		ImageView img2;
+		TextView txt2;
+		LinearLayout line3;
+		ImageView img3;
+		TextView txt3;
 	}
 
 	@Override
@@ -56,22 +64,67 @@ public class ResultListAdapter extends BaseAdapter {
 			convertView = layoutInflater.inflate(R.layout.item_result, null);
 			holder = new ViewHolder();
 			holder.year = (TextView) convertView.findViewById(R.id.year);
-			holder.img = (ImageView) convertView.findViewById(R.id.img);
-			holder.rank1 = (TextView) convertView.findViewById(R.id.rank1);
+			holder.line1 = (LinearLayout) convertView.findViewById(R.id.line1);
+			holder.img1 = (ImageView) convertView.findViewById(R.id.img1);
+			holder.txt1 = (TextView) convertView.findViewById(R.id.txt1);
+			holder.line2 = (LinearLayout) convertView.findViewById(R.id.line2);
+			holder.img2 = (ImageView) convertView.findViewById(R.id.img2);
+			holder.txt2 = (TextView) convertView.findViewById(R.id.txt2);
+			holder.line3 = (LinearLayout) convertView.findViewById(R.id.line3);
+			holder.img3 = (ImageView) convertView.findViewById(R.id.img3);
+			holder.txt3 = (TextView) convertView.findViewById(R.id.txt3);
 			convertView.setTag(holder);
 		}
         else
 			holder = (ViewHolder) convertView.getTag();
-		holder.year.setText(list.get(position).getYear());
-		Drawable img = list.get(position).getImg();
-		String imgURL = list.get(position).getImgURL();
-		if (img != null) {
-			holder.img.setImageDrawable(img);
-			holder.img.setLayoutParams(AndroidUtils.getImageSize(convertView.getContext(), imgURL));
+		ResultItem ri = list.get(position);
+		holder.year.setText(ri.getYear());
+		// Line 1
+		Drawable img1 = ri.getImg1();
+		String imgURL1 = ri.getImgURL1();
+		String txt1 = ri.getTxt1();
+		if (img1 != null) {
+			holder.img1.setImageDrawable(img1);
+			holder.img1.setLayoutParams(AndroidUtils.getImageSize(convertView.getContext(), imgURL1));
+			holder.img1.setVisibility(View.VISIBLE);
 		}
 		else
-			holder.img.setVisibility(View.GONE);
-        holder.rank1.setText(list.get(position).getRank1());
+			holder.img1.setVisibility(View.GONE);
+        holder.txt1.setText(txt1);
+		// Line 2
+		String txt2 = ri.getTxt2();
+		if (AndroidUtils.notEmpty(txt2)) {
+			Drawable img2 = ri.getImg2();
+			String imgURL2 = ri.getImgURL2();
+			if (img2 != null) {
+				holder.img2.setImageDrawable(img2);
+				holder.img2.setLayoutParams(AndroidUtils.getImageSize(convertView.getContext(), imgURL2));
+				holder.img2.setVisibility(View.VISIBLE);
+			}
+			else
+				holder.img2.setVisibility(View.GONE);
+			holder.txt2.setText(txt2);
+			holder.line2.setVisibility(View.VISIBLE);
+		}
+		else
+			holder.line2.setVisibility(View.GONE);
+		// Line 3
+		String txt3 = ri.getTxt3();
+		if (AndroidUtils.notEmpty(txt3)) {
+			Drawable img3 = ri.getImg3();
+			String imgURL3 = ri.getImgURL3();
+			if (img3 != null) {
+				holder.img3.setImageDrawable(img3);
+				holder.img3.setLayoutParams(AndroidUtils.getImageSize(convertView.getContext(), imgURL3));
+				holder.img3.setVisibility(View.VISIBLE);
+			}
+			else
+				holder.img3.setVisibility(View.GONE);
+			holder.txt3.setText(txt3);
+			holder.line3.setVisibility(View.VISIBLE);
+		}
+		else
+			holder.line3.setVisibility(View.GONE);
 		return convertView;
 	}
 
