@@ -9,5 +9,4 @@
 	<entry key="img.url">http://img.sporthenon.com/</entry>
 	<entry key="img.folder">/usr/share/glassfish3/glassfish/domains/domain1/docroot/img/</entry>
 	<entry key="font.folder">/usr/share/fonts/</entry>
-	<entry key="setup.url">http://github.com/shadmin/sporthenon/releases/download/v0_12_0/shadmin-0.12.0-setup.exe</entry>
 </properties>

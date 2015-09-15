@@ -19,8 +19,6 @@
 			<div class="fscontent">
 				<%=StringUtils.text("github.desc", session)%>&nbsp;:<br/><a target="_blank" href="https://github.com/shadmin/sporthenon">https://github.com/shadmin/sporthenon</a>
 				<table style="margin-top:10px;">
-					<tr><th style="padding:0px;"><table><tr><td><img alt="" src="/img/project/download.png"/></td><td style="padding-bottom:1px;"><%=StringUtils.text("download.admin", session)%></td></tr></table></th></tr>
-					<tr><td style="text-align:center;"><a target="_blank" href="<%=ConfigUtils.getProperty("setup.url")%>"><%=ConfigUtils.getProperty("setup.url")%></a></td></tr>
 					<tr><th style="padding:0px;"><table><tr><td><img alt="" src="/img/db/export/txt.png"/></td><td style="padding-bottom:1px;"><%=StringUtils.text("change.log", session)%></td></tr></table></th></tr>
 					<tr><td style="text-align:center;"><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/CHANGELOG.txt">https://raw.githubusercontent.com/shadmin/sporthenon/master/CHANGELOG.txt</a></td></tr>
 					<tr><th style="padding:0px;"><table><tr><td><img alt="" src="/img/project/reportbug.png"/></td><td style="padding-bottom:1px;"><%=StringUtils.text("report.bug", session)%></td></tr></table></th></tr>

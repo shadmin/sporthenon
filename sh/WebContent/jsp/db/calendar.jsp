@@ -1,56 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.util.Calendar"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
-<div id="search" class="fieldset">
+<div id="calendar" class="fieldset">
 	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
-	<form id="search-form" action="/search" onsubmit="return false;">
-	<div class="pattern">
-		<%=StringUtils.text("search.for", session)%>:<br/><input type="text" class="text" name="pattern" id="pattern" onkeydown="if(event.keyCode == 13){runSearch();}"></input>
-		<a href="#helplink" style="cursor:help;color:#000;">[?]</a>
-		<br/><br/><table id="advtable" cellspacing="0">
-			<tr><td><input type="checkbox" name="case" id="case"></input></td><td><label for="case"><%=StringUtils.text("case.sensitive", session)%></label></td></tr>
-			<tr><td><input type="checkbox" name="match" id="match"></input></td><td><label for="match"><%=StringUtils.text("exact.match", session)%></label></td></tr>
+	<ul>
+	<li id="dateimg"><div id="day"></div><div id="month"></div><div id="year"></div></li>
+	<li style="display:inline-block;">
+		<table>
+			<tr><td><%=StringUtils.text("year", session)%>&nbsp;:</td><td><select id="yr" onchange="refreshDate();">
+			<%
+				int y = Calendar.getInstance().get(Calendar.YEAR);
+				for (int i = 1851 ; i <= y + 5 ; i++) {
+					out.print("<option value='" + i + "'" + (i == y ? " selected='selected'" : "") + ">" + i + "</option>");
+				}
+			%></select></td></tr>
+			<tr><td><%=StringUtils.text("month", session)%>&nbsp;:</td><td><select id="mo" onchange="refreshDate();"><option value=""></option>
+			<%
+				int m = Calendar.getInstance().get(Calendar.MONTH) + 1;
+				for (int i = 1 ; i <= 12 ; i++) {
+					String s = (i < 10 ? "0" : "") + i;
+					out.print("<option value='" + s + "'" + (i == m ? " selected='selected'" : "") + ">" + s + " – " + StringUtils.text("month." + i, session) + "</option>");
+				}
+			%></select></td></tr>
+			<tr><td><%=StringUtils.text("day", session)%>&nbsp;:</td><td><select id="dt" onchange="refreshDate();"><option value=""></option>
+			<%
+				int d = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+				for (int i = 1 ; i <= 31 ; i++) {
+					out.print("<option value='" + i + "'" + (i == d ? " selected='selected'" : "") + ">" + i + "</option>");
+				}
+			%></select></td></tr>
 		</table>
-	</div>
-	<div id="helplink" class="rendertip"><%=StringUtils.text("pattern.tip", session)%></div>
-	<fieldset class="scope">
-		<legend><%=StringUtils.text("scope", session)%></legend>
-		<table cellspacing="2">
-		<tr>
-			<td><input type="checkbox" value="PR" name="scope" id="PR" checked="checked"></input></td><td><label for="PR"><%=StringUtils.text("athletes", session)%></label></td>
-			<td><input type="checkbox" value="SP" name="scope" id="SP" checked="checked"></input></td><td><label for="SP"><%=StringUtils.text("sports", session)%></label></td>
-		</tr>
-		<tr>
-			<td><input type="checkbox" value="CN" name="scope" id="CN" checked="checked"></input></td><td><label for="CN"><%=StringUtils.text("countries", session)%></label>&nbsp;</td>
-			<td><input type="checkbox" value="TM" name="scope" id="TM" checked="checked"></input></td><td><label for="TM"><%=StringUtils.text("teams", session)%></label></td>
-		</tr>
-		<tr>
-			<td><input type="checkbox" value="CP,EV" name="scope" id="EV" checked="checked"></input></td><td><label for="EV"><%=StringUtils.text("events", session)%></label></td>
-			<td><input type="checkbox" value="YR" name="scope" id="YR" checked="checked"></input></td><td><label for="YR"><%=StringUtils.text("years", session)%></label></td>
-		</tr>
-		<tr>
-			<td><input type="checkbox" value="CT,CX,ST" name="scope" id="PL" checked="checked"></input></td><td><label for="PL"><%=StringUtils.text("places", session)%></label></td>
-			<td colspan="2"></td>
-			<td style="padding-left:50px;"><label for="AL"><%=StringUtils.text("all", session)%>:</label></td><td><input type="checkbox" value="AL" name="scope" id="AL" checked="checked" onclick="toggleCheck(this);"></input></td>
-		</tr>
-		</table>
-	</fieldset>
-	</form>
+	</li>
+	</ul>
 </div>
 <%@include file="../../html/buttons.html" %>
 <%@include file="../../html/tabcontrol.html" %>
 <script type="text/javascript"><!--
-function toggleCheck(cb) {
-	$$('#search .scope input').each(function(el){
-		$(el).checked = cb.checked;
-	});
-}
 window.onload = function() {
-	$('pattern').activate();
-	new Control.Window($(document.body).down('[href=#helplink]'),{  
-		position: 'relative', hover: true, offsetLeft: 20, offsetTop: 0, className: 'tip'
-	});
 	initTabControl();
+	refreshDate();
 }
 --></script>
 <jsp:include page="/jsp/common/footer.jsp" />

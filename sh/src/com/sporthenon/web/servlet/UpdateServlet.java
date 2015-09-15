@@ -859,6 +859,8 @@ public class UpdateServlet extends AbstractServlet {
 						Logger.getLogger("sh").error(e.getMessage());
 					}
 				}
+				else if (at.getLink() != null && at.getLink() == 0)
+					sb.append("0~[root]~");
 				else
 					sb.append("~~");
 				sb.append(ImageUtils.getPhotoFile(Athlete.alias, id)).append("~");
@@ -887,6 +889,8 @@ public class UpdateServlet extends AbstractServlet {
 						Logger.getLogger("sh").error(e.getMessage());
 					}
 				}
+				else if (ct.getLink() != null && ct.getLink() == 0)
+					sb.append("0~[root]~");
 				else
 					sb.append("~~");
 				sb.append(ImageUtils.getPhotoFile(City.alias, id)).append("~");
@@ -907,6 +911,8 @@ public class UpdateServlet extends AbstractServlet {
 						Logger.getLogger("sh").error(e.getMessage());
 					}
 				}
+				else if (cx.getLink() != null && cx.getLink() == 0)
+					sb.append("0~[root]~");
 				else
 					sb.append("~~");
 				sb.append(ImageUtils.getPhotoFile(Complex.alias, id)).append("~");
@@ -986,6 +992,8 @@ public class UpdateServlet extends AbstractServlet {
 						Logger.getLogger("sh").error(e.getMessage());
 					}
 				}
+				else if (tm.getLink() != null && tm.getLink() == 0)
+					sb.append("0~[root]~");
 				else
 					sb.append("~~");
 			}

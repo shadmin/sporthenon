@@ -70,6 +70,14 @@
 	</named-native-query>
 	
 	<!--
+		GetCalendarResults(varchar, varchar, varchar)
+	-->
+	<named-native-query name="GetCalendarResults" result-class="com.sporthenon.db.entity.meta.RefItem">  
+		<query>SELECT * FROM "GetCalendarResults"(?, ?, ?)</query>
+		<hint name="org.hibernate.callable" value="false" />
+	</named-native-query>
+	
+	<!--
 		GetRetiredNumbers(integer, text, smallint)
 	-->
 	<named-native-query name="GetRetiredNumbers" result-class="com.sporthenon.db.function.RetiredNumberBean">  

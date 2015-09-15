@@ -263,6 +263,20 @@
 	<entry key="desc.olympics2.page">Medals tables at the Olympic Games</entry>
 	<entry key="desc.usleagues.page">History, records and statistics</entry>
 	<entry key="rank">Rank</entry>
+	<entry key="month">Month</entry>
+	<entry key="day">Day</entry>
+	<entry key="month.1">January</entry>
+	<entry key="month.2">February</entry>
+	<entry key="month.3">March</entry>
+	<entry key="month.4">April</entry>
+	<entry key="month.5">May</entry>
+	<entry key="month.6">June</entry>
+	<entry key="month.7">July</entry>
+	<entry key="month.8">August</entry>
+	<entry key="month.9">September</entry>
+	<entry key="month.10">October</entry>
+	<entry key="month.11">November</entry>
+	<entry key="month.12">December</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>

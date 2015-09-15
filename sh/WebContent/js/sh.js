@@ -173,30 +173,6 @@ function info(s) {
 function currentTime() {
 	return new Date().getTime();
 }
-function initOptionsPanel() {
-	var selOpt = new Control.SelectMultiple('optionsselect', 'optionspanel', {
-		checkboxSelector: 'tr td input[type=checkbox]',
-		nameSelector: 'tr td.name'
-	});
-	$('options').observe('click',function(event){
-		$(this.select).style.visibility = 'hidden';
-		new Effect.BlindDown(this.container,{ duration: 0.4 });
-		Event.stop(event);
-		return false;
-	}.bindAsEventListener(selOpt));
-	$$('#optionspanel .button a')[0].observe('click',function(event){
-		$(this.select).style.visibility = 'visible';
-		new Effect.BlindUp(this.container,{ duration: 0.4 });
-		Event.stop(event);
-		return false;
-	}.bindAsEventListener(selOpt));
-}
-function addOptions(h) {
-	$$('#optionspanel input, #optionspanel select').each(function(el) {
-		h.set(el.id, (el.tagName == 'SELECT' ? el.value : (el.checked ? '1' : '0')));
-	});
-	return h;
-}
 function replaceAll(s1, s2, s3) {
 	while (s1.indexOf(s2) != -1) {
 		s1 = s1.replace(s2, s3);
@@ -860,6 +836,50 @@ function treeLeafClick(anchor, value) {
 	}, 600);
 }
 /*==============================
+  ========== CALENDAR ========== 
+  ==============================*/
+function refreshDate() {
+	var y = $F('yr');
+	var m = $F('mo');
+	var d = $F('dt');
+	$('year').update(y);
+	if (m != '') {
+		m = $('mo').options[$('mo').options.selectedIndex].text;
+		m = m.substring(4).toUpperCase();
+		$('month').update(m);
+		$('month').show();
+		$('year').style.paddingTop = '0px';
+	}
+	else {
+		$('year').style.paddingTop = '25px';
+		$('month').hide();
+	}
+	if (d != '') {
+		$('day').update(d);
+		$('day').show();
+		$('month').style.paddingTop = '0px';
+	}
+	else {
+		$('day').hide();
+		$('month').style.paddingTop = '20px';
+	}
+}
+function runCalendar() {
+	t1 = currentTime();
+	var tab = initTab();
+	var yr = $F('yr');
+	var mo = $F('mo');
+	var dt = $F('dt');
+	var h = $H({dt1: yr + mo + dt, dt2: ''});
+	new Ajax.Updater(tab, '/CalendarServlet?run', {
+		parameters: h,
+		onComplete: handleRender
+	});
+}
+function resetCalendar() {
+	
+}
+/*==============================
   ========== OLYMPICS ========== 
   ==============================*/
 function initOlympics(picklistId) {
@@ -1277,6 +1297,7 @@ function moveSport(sp, list1, list2) {
 /*============================
   ========== UPDATE ========== 
   ============================*/
+var currentInputValue = null;
 var currentAlias = null;
 var currentId = null;
 function updatePhoto(name) {
@@ -1293,6 +1314,9 @@ function removePhoto(name) {
 function showMessage(text) {
 	$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
 	$('msg').update('<div>' + text.replace(/ERR\:/i, '') + '</div>');
+}
+function showWarning() {
+	$('msg').update('<div class="warning">' + TX_MODIF_WARNING + '</div>');
 }
 /*========== RESULTS ==========*/
 var tValues = [];
@@ -1318,21 +1342,20 @@ function initUpdateResults(value) {
 			if ($(this).value == $(this).name) {
 				$(this).value = '';
 			}
+			currentInputValue = $(this).value;
 			$(this).select();
 		});
-		Event.observe($(el), 'change', function(){
-			$(this).removeClassName('completed').removeClassName('completed2');
-			tValues[$(this).id] = null;
-			$('msg').update('<div class="warning">' + TX_MODIF_WARNING + '</div>');
-		});
 		Event.observe($(el), 'blur', function(){
+			if (currentInputValue = $(this).value) {
+				$(this).removeClassName('completed').removeClassName('completed2');
+				showWarning();
+			}
 			if ($(this).value == '') {
 				$(this).value = $(this).name;
-				$(this).removeClassName('completed').removeClassName('completed2');
 				tValues[$(this).id] = null;
 			}
 			else if ($(this).value != $(this).name && !$(this).hasClassName('completed')) {
-				$(this).removeClassName('completed').addClassName('completed2');
+				$(this).addClassName('completed2');
 				tValues[$(this).id] = null;
 			}
 		});
@@ -1345,6 +1368,7 @@ function initUpdateResults(value) {
 	dzr.on('addedfile', function(f) {
 		fr = f;
 		$$('#imgzone p')[0].remove();
+		showWarning();
 	});
 	loadResValues(value);
 	currentAlias = 'RS';
@@ -1462,14 +1486,16 @@ function clearValue(s) {
 	$(s).value = '';
 	$(s).removeClassName('completed').removeClassName('completed2');
 	$(s).focus();
+	showWarning();
 }
 function setValue(text, li) {
 	var t = li.id.split('|');
-	if (t[0].indexOf('-') != -1) { // Result
+	if (t[0].indexOf('-') != -1) { // Data
 		$(t[0]).value = t[1];
 	}
-	else { // Data
+	else { // Result
 		tValues[text.id] = t[1];
+		$(text).blur();
 		$(text).removeClassName('completed2').addClassName('completed');
 		if (t.length > 2) {
 			updateType(t[0], t[2]);
@@ -1540,15 +1566,20 @@ function saveResult() {
 	new Ajax.Request('/update/save', {
 		onSuccess: function(response){
 			var text = response.responseText;
-			showMessage(text.split('#')[1]);
 			if (text.indexOf('ERR:') == -1) {
 				tValues['id'] = text.split('#')[0];
 				$('id').value = tValues['id'];
+				showMessage(text.split('#')[1]);
+			}
+			else {
+				showMessage(text);
 			}
 		},
 		parameters: h
 	});
-	dzr.processFile(fr);
+	if (fr != null) {
+		dzr.processFile(fr);	
+	}
 }
 function deleteResult() {
 	$('header').setStyle({ opacity: 0.4 });
@@ -1684,7 +1715,7 @@ function initUpdateData() {
 		});
 		Event.observe($(el), 'change', function(){
 			$(this).removeClassName('completed');
-			$('msg').update('<div class="warning">' + TX_MODIF_WARNING + '</div>');
+			showWarning();
 		});
 		Event.observe($(el), 'blur', function(){
 			if ($(this).value == '') {
@@ -1707,6 +1738,7 @@ function initUpdateData() {
 	dzd.on("addedfile", function(f) {
 		fd = f;
 		$$('#imgzone p')[0].remove();
+		showWarning();
 	});
 	showPanel('PR');
 }
@@ -1902,7 +1934,9 @@ function saveEntity() {
 		},
 		parameters: h
 	});
-	dzd.processFile(fd);
+	if (fd != null) {
+		dzd.processFile(fd);	
+	}
 }
 function deleteEntity() {
 	$('header').setStyle({ opacity: 0.4 });
@@ -2040,15 +2074,17 @@ function removeLocalPicture() {
 	$('remove-local').hide();
 }
 function uploadPicture() {
-	var sp = $F('sport');
-	var alias_ = currentAlias;
-	var id_ = currentId;
-	if ((alias_ == 'CP' || alias_ == 'EV') && sp != '') {
-		alias_ = 'SP' + alias_;
-		id_ = sp + "-" + id_;
+	if (fp != null) {
+		var sp = $F('sport');
+		var alias_ = currentAlias;
+		var id_ = currentId;
+		if ((alias_ == 'CP' || alias_ == 'EV') && sp != '') {
+			alias_ = 'SP' + alias_;
+			id_ = sp + "-" + id_;
+		}
+		dzp.options.url = '/ImageServlet?upload=1&entity=' + alias_ + '&id=' + id_ + '&size=' + ($('size1').checked ? 'L' : 'S') + '&y1=' + $F('year1') + '&y2=' + $F('year2');
+		dzp.processFile(fp);	
 	}
-	dzp.options.url = '/ImageServlet?upload=1&entity=' + alias_ + '&id=' + id_ + '&size=' + ($('size1').checked ? 'L' : 'S') + '&y1=' + $F('year1') + '&y2=' + $F('year2');
-	dzp.processFile(fp);
 }
 function downloadPicture() {
 	if ($F('list-remote') != null) {
@@ -2126,8 +2162,10 @@ function initImport() {
 	});
 }
 function executeImport(u) {
-	dzi.options.url = '/update/execute-import?type=' + $F('type') + '&update=' + u;
-	dzi.processFile(fi);
+	if (fi != null) {
+		dzi.options.url = '/update/execute-import?type=' + $F('type') + '&update=' + u;
+		dzi.processFile(fi);	
+	}
 }
 function loadTemplate() {
 	location.href = '/update/load-template?type=' + $F('type');

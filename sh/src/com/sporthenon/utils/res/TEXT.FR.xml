@@ -262,7 +262,20 @@
 	<entry key="desc.olympics1.page">Résultats des épreuves aux Jeux Olympiques</entry>
 	<entry key="desc.olympics2.page">Tableaux de médailles aux Jeux Olympiques</entry>
 	<entry key="desc.usleagues.page">Palmarès, records et statistiques</entry>
-	<entry key="rank">Rang</entry>
+	<entry key="month">Mois</entry>
+	<entry key="day">Jour</entry>
+	<entry key="month.1">Janvier</entry>
+	<entry key="month.2">Février</entry>
+	<entry key="month.3">Mars</entry>
+	<entry key="month.4">Avril</entry>
+	<entry key="month.5">Mai</entry>
+	<entry key="month.6">Juin</entry>
+	<entry key="month.7">Juillet</entry>
+	<entry key="month.8">Août</entry>
+	<entry key="month.9">Septembre</entry>
+	<entry key="month.10">Octobre</entry>
+	<entry key="month.11">Novembre</entry>
+	<entry key="month.12">Décembre</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>

@@ -166,7 +166,7 @@ public class StringUtils {
 		String color = "#FFF";
 		if (s.matches("^clay.*"))
 			color = "#ffc24c";
-		else if (s.matches("^cecoturf.*"))
+		else if (s.matches("^decoturf.*"))
 			color = "#8cb9ff";
 		else if (s.matches("^grass.*"))
 			color = "#0F0";

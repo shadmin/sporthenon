@@ -1,5 +1,7 @@
 package com.sporthenon.utils;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -92,6 +94,26 @@ public class HtmlUtils {
 		}
 		else
 			html.append(ConfigUtils.getProperty("url") + url.toString().substring(1));
+		return html.toString();
+	}
+	
+	public static String writeDateLink(Object value, String text) throws Exception {
+		StringBuffer html = new StringBuffer();
+		StringBuffer url = new StringBuffer("/date");
+		String s1 = "";
+		String s2 = "";
+		if (value != null) {
+			if (value instanceof String) {
+				SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+				value = new Timestamp(df.parse(String.valueOf(value)).getTime());
+			}
+			if (value instanceof Timestamp) {
+				s1 = StringUtils.toTextDate((Timestamp) value, ResourceUtils.LGDEFAULT, "yyyy-MM-dd");
+				s2 = StringUtils.toTextDate((Timestamp) value, ResourceUtils.LGDEFAULT, "yyyyMMdd");
+			}
+		}
+		url.append("/" + s1).append("/" + StringUtils.encode(s2));
+		html.append("<a href='").append(url).append("'>").append(text).append("</a>");
 		return html.toString();
 	}
 

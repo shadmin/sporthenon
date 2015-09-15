@@ -9,5 +9,4 @@
 	<entry key="img.url">http://localhost:8181/</entry>
 	<entry key="img.folder">C:/glassfish4/glassfish/domains/domain1/docroot/img/</entry>
 	<entry key="font.folder">C:/windows/fonts/</entry>
-	<entry key="setup.url">http://github.com/shadmin/sporthenon/releases/download/v0_10_0/shadmin-0.10.0-setup.exe</entry>
 </properties>

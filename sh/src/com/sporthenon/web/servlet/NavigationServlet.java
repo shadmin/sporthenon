@@ -24,6 +24,7 @@ public class NavigationServlet extends AbstractServlet {
 		hPages = new HashMap<String, String>();
 		hPages.put("index", "index.jsp");
 		hPages.put("results", "db/results.jsp");
+		hPages.put("calendar", "db/calendar.jsp");
 		hPages.put("olympics", "db/olympics.jsp");
 		hPages.put("usleagues", "db/usleagues.jsp");
 		hPages.put("search", "db/search.jsp");
@@ -39,6 +40,7 @@ public class NavigationServlet extends AbstractServlet {
 		hPages.put("update-admin", "update/admin.jsp");
 		hServlet = new HashMap<String, String>();
 		hServlet.put("results", "/ResultServlet");
+		hServlet.put("calendar", "/CalendarServlet");
 		hServlet.put("olympics", "/OlympicsServlet");
 		hServlet.put("usleagues", "/USLeaguesServlet");
 		hServlet.put("project", "/ProjectServlet");
@@ -57,6 +59,7 @@ public class NavigationServlet extends AbstractServlet {
 		hTitle.put("index", "title");
 		hTitle.put("results", "menu.results.2");
 		hTitle.put("olympics", "menu.olympics.2");
+		hTitle.put("calendar", "menu.calendar.2");
 		hTitle.put("usleagues", "menu.usleagues.2");
 		hTitle.put("project", "menu.project");
 		hTitle.put("contribute", "menu.contribute");
@@ -76,8 +79,10 @@ public class NavigationServlet extends AbstractServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String url = request.getRequestURL().toString();
 		try {
-			String url = request.getRequestURL().toString();
+			if (url.matches(".*\\/(athletes|championships|cities|complexes|countries|events|sports|usstates|teams|years)\\/.*"))
+				throw new OldPatternException();
 			if (!url.contains("/ajax") && !url.contains("/load"))
 				logger.fatal("URL: " + url);
 			String[] tURI = request.getRequestURI().substring(1).split("\\/", 0);
@@ -135,6 +140,9 @@ public class NavigationServlet extends AbstractServlet {
 		    if (dispatcher != null)
 		    	dispatcher.forward(request, response);
 		}
+		catch (OldPatternException e) {
+			response.sendRedirect(url.replaceAll("\\/athletes", "/athlete").replaceAll("\\/championships", "/championship").replaceAll("\\/cities", "/city").replaceAll("\\/complexes", "/complex").replaceAll("\\/countries", "/country").replaceAll("\\/events", "/event").replaceAll("\\/sports", "/sport").replaceAll("\\/usstates", "/usstate").replaceAll("\\/teams", "/team").replaceAll("\\/years", "/year"));
+		}
 		catch (NotLoggedInException e) {
 			response.sendRedirect("/login");
 		}
@@ -143,6 +151,9 @@ public class NavigationServlet extends AbstractServlet {
 		}
 	}
 	
+	class OldPatternException extends Exception{
+		private static final long serialVersionUID = 1L;
+	}
 	class NotLoggedInException extends Exception{
 		private static final long serialVersionUID = 1L;
 	}

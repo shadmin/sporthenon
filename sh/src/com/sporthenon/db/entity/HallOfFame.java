@@ -20,7 +20,7 @@ public class HallOfFame {
 	public static final transient String alias = "HF";
 
 	@Id
-	@SequenceGenerator(name = "seq_hall_of_fame", sequenceName = "\"SqHallOfFame\"")
+	@SequenceGenerator(name = "seq_hall_of_fame", sequenceName = "\"SeqHallOfFame\"")
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_hall_of_fame")
 	private Integer id;
 	

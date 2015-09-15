@@ -48,9 +48,10 @@ public class InfoRefServlet extends AbstractServlet {
 				response.sendRedirect("/results/" + StringUtils.encode(p));
 			}
 			else {
+				int id = (params.length > 1 ? new Integer(params[1]) : 0);
 				ArrayList<Object> lFuncParams = new ArrayList<Object>();
 				lFuncParams.add(params[0]);
-				lFuncParams.add(new Integer(params[1]));
+				lFuncParams.add(id);
 				lFuncParams.add(params.length > 2 ? params[2] : "");
 				lFuncParams.add(params.length > 3 ? params[3] : ConfigUtils.getValue("default_ref_limit"));
 				lFuncParams.add(params.length > 4 ? new Integer(params[4]) : 0);
@@ -61,8 +62,8 @@ public class InfoRefServlet extends AbstractServlet {
 				}
 				
 				// Info
-				if (params.length == 2 || isResult1) {
-					StringBuffer sbRecordInfo = HtmlConverter.getRecordInfo(request, params[0], new Integer(params[1]), getLocale(request));
+				if (params.length == 2 || (params.length == 1 && params[0].matches("\\d{8}")) || isResult1) {
+					StringBuffer sbRecordInfo = HtmlConverter.getRecordInfo(request, params[0], id, getLocale(request));
 					lFuncParams.add(sbRecordInfo.toString().replaceAll("\\</span\\>.*", "").replaceAll(".*title'\\>", ""));
 					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_REF, lFuncParams, getUser(request), getLocale(request)));
 					html.append(sbRecordInfo);
