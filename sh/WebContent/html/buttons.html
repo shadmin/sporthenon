@@ -6,7 +6,7 @@
 </div>
 <script type="text/javascript">
 var runClick = ($('results') ? runResults : ($('usleagues') ? runUSLeagues : ($('search') ? runSearch : ($('olympics') ? runOlympics : ($('calendar') ? runCalendar : null)))));
-var resetClick = ($('results') ? resetResults : ($('usleagues') ? resetUSLeagues : ($('search') ? resetSearch : ($('olympics') ? ($('calendar') ? resetCalendar : null) : null))));
+var resetClick = ($('results') ? resetResults : ($('usleagues') ? resetUSLeagues : ($('search') ? resetSearch : ($('olympics') ? resetOlympics : ($('calendar') ? resetCalendar : null)))));
 Event.observe($('execute'), 'click', runClick);
 Event.observe($('reset'), 'click', resetClick);
 $('execute').value = TX_RUN;

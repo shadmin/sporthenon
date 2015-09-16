@@ -37,12 +37,12 @@ private static final long serialVersionUID = 1L;
 					p = StringUtils.decode(p);
 					String[] t = p.split("\\-");
 					hParams.put("dt1", t[0]);
-					hParams.put("dt2", t[1]);
+					hParams.put("dt2", t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1] : t[0]);
 					isLink = true;
 				}
 				ArrayList<Object> lFuncParams = new ArrayList<Object>();
-				lFuncParams.add(StringUtils.notEmpty(hParams.get("dt1")) ? String.valueOf(hParams.get("dt1")) : "01011800");
-				lFuncParams.add(StringUtils.notEmpty(hParams.get("dt2")) ? String.valueOf(hParams.get("dt2")) : "31129999");
+				lFuncParams.add(StringUtils.notEmpty(hParams.get("dt1")) ? String.valueOf(hParams.get("dt1")) : "18500101");
+				lFuncParams.add(StringUtils.notEmpty(hParams.get("dt2")) ? String.valueOf(hParams.get("dt2")) : "21001231");
 				lFuncParams.add("_" + getLocale(request));
 				Collection c = DatabaseHelper.call("GetCalendarResults", lFuncParams);
 				StringBuffer html = new StringBuffer();
@@ -53,7 +53,7 @@ private static final long serialVersionUID = 1L;
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), getLocale(request));
 					else {
-						request.setAttribute("menu", "results");
+						request.setAttribute("menu", "calendar");
 						ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
 					}
 				}

@@ -149,7 +149,6 @@
 		<url-pattern>/complex/*</url-pattern>
 		<url-pattern>/contributor/*</url-pattern>
 		<url-pattern>/country/*</url-pattern>
-		<url-pattern>/date/*</url-pattern>
 		<url-pattern>/draw/*</url-pattern>
 		<url-pattern>/entity/*</url-pattern>
 		<url-pattern>/event/*</url-pattern>

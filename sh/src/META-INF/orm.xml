@@ -73,7 +73,7 @@
 		GetCalendarResults(varchar, varchar, varchar)
 	-->
 	<named-native-query name="GetCalendarResults" result-class="com.sporthenon.db.entity.meta.RefItem">  
-		<query>SELECT * FROM "GetCalendarResults"(?, ?, ?)</query>
+		<query>SELECT * FROM "GetCalendarResults"(?, ?, ?) ORDER BY date2 DESC</query>
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 	

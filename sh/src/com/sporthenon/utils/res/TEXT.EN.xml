@@ -277,6 +277,7 @@
 	<entry key="month.10">October</entry>
 	<entry key="month.11">November</entry>
 	<entry key="month.12">December</entry>
+	<entry key="photo.copyright">Photo copyright</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>
@@ -315,6 +316,10 @@
 	<entry key="olympic.games">Olympic Games</entry>
 	<entry key="events">Events</entry>
 	<entry key="countries">Countries</entry>
+<!-- CALENDAR -->
+	<entry key="date.from">From</entry>
+	<entry key="date.to">To</entry>
+	<entry key="define.span">Define a span</entry>
 <!-- US LEAGUES -->
 	<entry key="league">League</entry>
 	<entry key="championships">Championships</entry>
@@ -408,8 +413,6 @@
 	<entry key="err.invalid.athlete"><![CDATA[Invalid format [#S#]: should be "Lastname, FirstName (CountryCode, TeamName)"]]></entry>
 	<entry key="err.invalid.team"><![CDATA[Invalid format [#S#]: should be "TeamName (CountryCode)"]]></entry>
 	<entry key="err.invalid.place"><![CDATA[Invalid format [#S#]: should be "ComplexName, City, CountryCode"]]></entry>
-	<entry key="date.from">From</entry>
-	<entry key="date.to">To</entry>
 	<entry key="date.pattern">DD/MM/YYYY</entry>
 	<entry key="venue.city">Venue/City</entry>
 	<entry key="tie">Tie</entry>

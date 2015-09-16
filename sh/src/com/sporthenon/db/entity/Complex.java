@@ -34,6 +34,9 @@ public class Complex {
 	@JoinColumn(name = "id_city", nullable = false)
 	private City city;
 	
+	@Column(name = "photo_copyright")
+	private String photoCopyright;
+	
 	@Column(name = "link")
 	private Integer link;
 	
@@ -103,6 +106,14 @@ public class Complex {
 		this.ref = ref;
 	}
 	
+	public String getPhotoCopyright() {
+		return photoCopyright;
+	}
+
+	public void setPhotoCopyright(String photoCopyright) {
+		this.photoCopyright = photoCopyright;
+	}
+
 	@Override
 	public String toString() {
 		return label + (city != null ? ", " + city : "") + " [#" + id + "]";

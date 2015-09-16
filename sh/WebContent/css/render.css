@@ -159,6 +159,10 @@
 .tc .photo img{
 	border: 1px solid #AAA;
 }
+.tc .copyright{
+	font-size: 11px;
+	color: #555;
+}
 .tc .info{
 	margin: 0px;
 	border: 2px solid #000;

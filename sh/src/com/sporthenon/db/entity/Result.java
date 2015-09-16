@@ -196,6 +196,9 @@ public class Result {
 	@Column(name = "exa", length = 15)
 	private String exa;
 	
+	@Column(name = "photo_copyright")
+	private String photoCopyright;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -645,6 +648,14 @@ public class Result {
 
 	public void setResult20(String result20) {
 		this.result20 = result20;
+	}
+
+	public String getPhotoCopyright() {
+		return photoCopyright;
+	}
+
+	public void setPhotoCopyright(String photoCopyright) {
+		this.photoCopyright = photoCopyright;
 	}
 
 	@Override

@@ -34,6 +34,7 @@
 				<tr><th>Sport</th><td><input type="hidden" id="pr-sport"/><input type="text" id="pr-sport-l"/></td></tr>
 				<tr><th>Team</th><td><input type="hidden" id="pr-team"/><input type="text" id="pr-team-l"/></td></tr>
 				<tr><th>Country</th><td><input type="hidden" id="pr-country"/><input type="text" id="pr-country-l"/></td></tr>
+				<tr><th>Photo copyright</th><td><input type="text" id="pr-copyright"/></td></tr>
 				<tr><th>Linked to</th><td><input type="hidden" id="pr-link"/><input type="text" id="pr-link-l"/></td></tr>
 			</table>
 			<!-- CHAMPIONSHIP -->
@@ -50,6 +51,7 @@
 				<tr><th>Label (FR)</th><td><input type="text" id="ct-labelfr"/></td></tr>
 				<tr><th>State</th><td><input type="hidden" id="ct-state"/><input type="text" id="ct-state-l"/></td></tr>
 				<tr><th>Country</th><td><input type="hidden" id="ct-country"/><input type="text" id="ct-country-l"/></td></tr>
+				<tr><th>Photo copyright</th><td><input type="text" id="ct-copyright"/></td></tr>
 				<tr><th>Linked to</th><td><input type="hidden" id="ct-link"/><input type="text" id="ct-link-l"/></td></tr>
 			</table>
 			<!-- COMPLEX -->
@@ -58,6 +60,7 @@
 				<tr><th>Label (EN)</th><td><input type="text" id="cx-label"/></td></tr>
 				<tr><th>Label (FR)</th><td><input type="text" id="cx-labelfr"/></td></tr>
 				<tr><th>City</th><td><input type="hidden" id="cx-city"/><input type="text" id="cx-city-l"/></td></tr>
+				<tr><th>Photo copyright</th><td><input type="text" id="cx-copyright"/></td></tr>
 				<tr><th>Linked to</th><td><input type="hidden" id="cx-link"/><input type="text" id="cx-link-l"/></td></tr>
 			</table>
 			<!-- COUNTRY -->

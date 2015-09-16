@@ -108,12 +108,15 @@ public class ImageUtils {
 		return s;
 	}
 	
-	public static StringBuffer getPhotoFieldset(String url, String lang) {
+	public static StringBuffer getPhotoFieldset(String url, String copyright, String lang) {
 		StringBuffer html = new StringBuffer();
 		url = ConfigUtils.getProperty("img.url") + url;
-		html.append("<li><fieldset class='photo'><legend>" + ResourceUtils.getText("photo", lang) + "</legend>");
+		html.append("<li style='text-align:right;'><fieldset class='photo'><legend>" + ResourceUtils.getText("photo", lang) + "</legend>");
 		html.append("<a href='" + url + "' target='_blank' title=\"" + ResourceUtils.getText("enlarge", lang) + "\"><img alt='Photo' height='230px' src='" + url + "'/></a>");
-		html.append("</fieldset></li>");
+		html.append("</fieldset>");
+		if (StringUtils.notEmpty(copyright))
+			html.append("<span class='copyright'>&copy;" + copyright + "</span>");
+		html.append("</li>");
 		return html;
 	}
 

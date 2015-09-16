@@ -99,7 +99,7 @@ public class HtmlUtils {
 	
 	public static String writeDateLink(Object value, String text) throws Exception {
 		StringBuffer html = new StringBuffer();
-		StringBuffer url = new StringBuffer("/date");
+		StringBuffer url = new StringBuffer("/calendar");
 		String s1 = "";
 		String s2 = "";
 		if (value != null) {
@@ -185,7 +185,7 @@ public class HtmlUtils {
 		if (h.containsKey("titlename"))
 			html.append("<tr><th>" + h.get("titlename") + "</th></tr>");
 		for (String key : h.keySet()) {
-			if (!key.matches("(tab|^)title|titleEN|imgurl|url|info|\\_sport\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
+			if (!key.matches("(tab|^)title|titleEN|imgurl|copyright|url|info|\\_sport\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
 				html.append("<tr>" + (h.containsKey("_sport_") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
 				html.append("<td" + (key.matches("logo|logosport|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + ">" + h.get(key) + "</td></tr>");
 			}
@@ -193,7 +193,7 @@ public class HtmlUtils {
 		html.append("</table></li>");
 		// Photo
 		if (h.containsKey("imgurl"))
-			html.append(ImageUtils.getPhotoFieldset(h.get("imgurl"), lang));
+			html.append(ImageUtils.getPhotoFieldset(h.get("imgurl"), h.get("copyright"), lang));
 		return html.append("</ul>");
 	}
 

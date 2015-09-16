@@ -62,7 +62,7 @@ public class InfoRefServlet extends AbstractServlet {
 				}
 				
 				// Info
-				if (params.length == 2 || (params.length == 1 && params[0].matches("\\d{8}")) || isResult1) {
+				if (params.length == 2 || isResult1) {
 					StringBuffer sbRecordInfo = HtmlConverter.getRecordInfo(request, params[0], id, getLocale(request));
 					lFuncParams.add(sbRecordInfo.toString().replaceAll("\\</span\\>.*", "").replaceAll(".*title'\\>", ""));
 					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_REF, lFuncParams, getUser(request), getLocale(request)));

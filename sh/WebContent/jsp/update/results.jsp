@@ -83,7 +83,7 @@ var treeItems = null;
 			<fieldset style="height:145px;"><legend>Places</legend>
 				<table>
 					<tr><td><input type="text" id="pl1" tabindex="9" name="<%=StringUtils.text("venue.city", session)%> #1"/><a href="javascript:clearValue('pl1');">[X]</a></td></tr>
-					<tr><td><input type="text" id="pl2" tabindex="10" name="<%=StringUtils.text("venue.city", session)%> #2"/><a href="javascript:clearValue('pl2');">[X]</a></td></tr>
+					<tr><td style="padding-top:10px;"><input type="text" id="pl2" tabindex="10" name="<%=StringUtils.text("venue.city", session)%> #2"/><a href="javascript:clearValue('pl2');">[X]</a></td></tr>
 				</table>
 			</fieldset>
 			</li>
@@ -92,11 +92,8 @@ var treeItems = null;
 			<fieldset style="height:145px;"><legend>Other Info</legend>
 				<table>
 					<tr><td><input type="text" id="exa" tabindex="11" name="<%=StringUtils.text("tie", session)%>" style="width:150px;"/></td></tr>
-				</table>
-				<table>
 					<tr><td><input type="text" id="cmt" tabindex="12" name="<%=StringUtils.text("comment", session)%>" style="width:500px;"/></td></tr>
-				</table>
-				<table>
+					<tr><td><input type="text" id="copyright" tabindex="13" name="<%=StringUtils.text("photo.copyright", session)%>" style="width:500px;"/></td></tr>
 					<tr><td><textarea id="exl" tabindex="14" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="3" style="width:500px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
 				</table>
 			</fieldset>

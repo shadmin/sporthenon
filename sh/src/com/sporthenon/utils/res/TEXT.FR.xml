@@ -262,6 +262,7 @@
 	<entry key="desc.olympics1.page">Résultats des épreuves aux Jeux Olympiques</entry>
 	<entry key="desc.olympics2.page">Tableaux de médailles aux Jeux Olympiques</entry>
 	<entry key="desc.usleagues.page">Palmarès, records et statistiques</entry>
+	<entry key="rank">Rang</entry>
 	<entry key="month">Mois</entry>
 	<entry key="day">Jour</entry>
 	<entry key="month.1">Janvier</entry>
@@ -276,6 +277,7 @@
 	<entry key="month.10">Octobre</entry>
 	<entry key="month.11">Novembre</entry>
 	<entry key="month.12">Décembre</entry>
+	<entry key="photo.copyright">Copyright photo</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
@@ -314,6 +316,10 @@
 	<entry key="olympic.games">Jeux Olympiques</entry>
 	<entry key="events">Epreuves</entry>
 	<entry key="countries">Pays</entry>
+<!-- CALENDAR -->
+	<entry key="date.from">Du</entry>
+	<entry key="date.to">Au</entry>
+	<entry key="define.span">Définir une période</entry>
 <!-- US LEAGUES -->
 	<entry key="league">Ligue</entry>
 	<entry key="championships">Championnats</entry>
@@ -406,8 +412,6 @@
 	<entry key="err.invalid.athlete"><![CDATA[Format incorrect [#S#]: doit être "Nom, Prénom (CodePays, NomEquipe)"]]></entry>
 	<entry key="err.invalid.team"><![CDATA[Format incorrect [#S#]: doit être "NomEquipe (CodePays)"]]></entry>
 	<entry key="err.invalid.place"><![CDATA[Format incorrect [#S#]: doit être "NomComplexe, Ville, CodePays"]]></entry>
-	<entry key="date.from">Du</entry>
-	<entry key="date.to">Au</entry>
 	<entry key="date.pattern">JJ/MM/AAAA</entry>
 	<entry key="venue.city">Lieu/Ville</entry>
 	<entry key="tie">Ex-aequo</entry>

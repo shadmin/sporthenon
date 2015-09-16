@@ -162,8 +162,7 @@ function info(s) {
 		addTab(TX_BLANK);
 		var tab = initTab();
 		new Ajax.Updater(tab, '/InfoRefServlet?p=' + s, {
-			onComplete: handleRender,
-			parameters: addOptions($H())
+			onComplete: handleRender
 		});
 	}
 	else {
@@ -187,8 +186,7 @@ function moreItems(row, p) {
 		onSuccess: function(response){
 			$(cell).up('tbody').insert(response.responseText);
 			$(cell).up('tr').remove();
-		},
-		parameters: addOptions($H())
+		}
 	});
 }
 function togglePlist(img, id) {
@@ -627,8 +625,7 @@ function moreLastUpdates(row, p) {
 		onSuccess: function(response){
 			$(cell).up('tbody').insert(response.responseText);
 			$(cell).up('tr').remove();
-		},
-		parameters: addOptions($H())
+		}
 	});
 }
 var cindex = 0;
@@ -782,7 +779,6 @@ function runResults(tleaf) {
 	else { // Picklist
 		h = $H({sp: $F('pl-sp'), cp: $F('pl-cp'), ev: $F('pl-ev'), se: $F('pl-se'), se2: $F('pl-se2'), yr: $F('pl-yr')});
 	}
-	addOptions(h);
 	new Ajax.Updater(tab, '/ResultServlet?run', {
 		parameters: h,
 		onComplete: handleRender
@@ -838,46 +834,81 @@ function treeLeafClick(anchor, value) {
 /*==============================
   ========== CALENDAR ========== 
   ==============================*/
-function refreshDate() {
-	var y = $F('yr');
-	var m = $F('mo');
-	var d = $F('dt');
-	$('year').update(y);
+var isDate2 = false;
+function refreshDate(i) {
+	var y = $F('yr' + i);
+	var m = $F('mo' + i);
+	var d = $F('dt' + i);
+	$('year' + i).update(y);
 	if (m != '') {
-		m = $('mo').options[$('mo').options.selectedIndex].text;
+		m = $('mo' + i).options[$('mo' + i).options.selectedIndex].text;
 		m = m.substring(4).toUpperCase();
-		$('month').update(m);
-		$('month').show();
-		$('year').style.paddingTop = '0px';
+		$('month' + i).update(m);
+		$('month' + i).show();
+		$('year' + i).style.paddingTop = '0px';
 	}
 	else {
-		$('year').style.paddingTop = '25px';
-		$('month').hide();
+		$('year' + i).style.paddingTop = '25px';
+		$('month' + i).hide();
+		d = '';
+		$('dt' + i).value = '';
 	}
 	if (d != '') {
-		$('day').update(d);
-		$('day').show();
-		$('month').style.paddingTop = '0px';
+		$('day' + i).update(d);
+		$('day' + i).show();
+		$('month' + i).style.paddingTop = '0px';
 	}
 	else {
-		$('day').hide();
-		$('month').style.paddingTop = '20px';
+		$('day' + i).hide();
+		$('month' + i).style.paddingTop = '20px';
 	}
 }
+function showDate2() {
+	refreshDate(2);
+	$('spanbutton').hide();
+	$('date2-1').show();
+	$('date2-2').show();
+	$('label1').show();
+	isDate2 = true;
+}
 function runCalendar() {
+	var tm = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 	t1 = currentTime();
 	var tab = initTab();
-	var yr = $F('yr');
-	var mo = $F('mo');
-	var dt = $F('dt');
-	var h = $H({dt1: yr + mo + dt, dt2: ''});
+	var yr1 = $F('yr1');
+	var mo1 = $F('mo1');
+	var dt1 = $F('dt1');
+	var yr2 = $F('yr2');
+	var mo2 = $F('mo2');
+	var dt2 = $F('dt2');
+	if (isDate2) {
+		mo2 = (mo2 == '' ? '12' : mo2);
+		dt2 = (dt2 == '' ? tm[parseInt(mo2)] : dt2);
+	}
+	else {
+		yr2 = yr1;
+		mo2 = (mo1 == '' ? '12' : mo1);
+		dt2 = (dt1 == '' ? tm[parseInt(mo2)] : dt1);
+	}
+	mo1 = (mo1 == '' ? '01' : mo1);
+	dt1 = (dt1 == '' ? '01' : dt1);
+	var h = $H({dt1: yr1 + mo1 + dt1, dt2: yr2 + mo2 + dt2});
 	new Ajax.Updater(tab, '/CalendarServlet?run', {
 		parameters: h,
 		onComplete: handleRender
 	});
 }
 function resetCalendar() {
-	
+	closeTabs();
+	$('spanbutton').show();
+	$('date2-1').hide();
+	$('date2-2').hide();
+	$('label1').hide();
+	$('yr1').value = todayY;
+	$('mo1').value = todayM;
+	$('dt1').value = todayD;
+	refreshDate(1);
+	isDate2 = false;
 }
 /*==============================
   ========== OLYMPICS ========== 
@@ -1042,7 +1073,6 @@ function runOlympics() {
 	else {
 		h.set('cn', $F(code + '-pl-cn'));
 	}
-	addOptions(h);
 	var url = '/OlympicsServlet?run&type=' + (ind ? 'ind' : 'cnt');
 	new Ajax.Updater(tab, url, {
 		parameters: h,
@@ -1135,7 +1165,6 @@ function runUSLeagues() {
 	h.set('pf', $('records-pf').checked ? '1' : '0');
 	h.set('num', $F('retnum-number'));
 	h.set('pos', $F('hof-position'));
-	addOptions(h);
 	new Ajax.Updater(tab, '/USLeaguesServlet?run', {
 		parameters: h,
 		onComplete: handleRender
@@ -1196,7 +1225,6 @@ function runSearch() {
 		h.set('case', $F('case'));
 		h.set('match', $F('match'));
 		h.set('scope', tScopeValue.join(','));
-		addOptions(h);
 		new Ajax.Updater(tab, '/SearchServlet?run', {
 			parameters: h,
 			onComplete: handleRender
@@ -1404,9 +1432,10 @@ function loadResValues(value) {
 			else {
 				$('currentimg').hide();
 			}
-			tValues['exl'] = t[25]; if (t[25] != '') {$('exl').value = t[25].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
+			tValues['copyright'] = t[25]; if (t[25] != '') {$('copyright').value = t[25]; $('copyright').addClassName('completed2');} else {$('copyright').value = $('copyright').name; $('copyright').removeClassName('completed2');}
+			tValues['exl'] = t[26]; if (t[26] != '') {$('exl').value = t[26].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
 			// Rankings
-			var j = 25;
+			var j = 26;
 			for (var i = 1 ; i <= 20 ; i++) {
 				tValues['rk' + i] = t[++j];
 				// Name
@@ -1535,7 +1564,7 @@ function loadResult(type) {
 		onSuccess: function(response){
 			var text = response.responseText;
 			if (text != '') {
-				loadResValues(text);	
+				loadResValues(text);
 			}
 		},
 		parameters: h
@@ -1549,7 +1578,7 @@ function addResult() {
 function saveResult() {
 	$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
 	var h = $H({sp: tValues['sp']});
-	var t = ['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'cmt', 'img', 'exl', 'drid', 'qf1w', 'qf1l', 'qf1rs', 'qf2w', 'qf2l', 'qf2rs', 'qf3w', 'qf3l', 'qf3rs', 'qf4w', 'qf4l', 'qf4rs', 'sf1w', 'sf1l', 'sf2w', 'sf1rs', 'sf2l', 'sf2rs', 'thdw', 'thdl', 'thdrs'];
+	var t = ['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'copyright', 'cmt', 'img', 'exl', 'drid', 'qf1w', 'qf1l', 'qf1rs', 'qf2w', 'qf2l', 'qf2rs', 'qf3w', 'qf3l', 'qf3rs', 'qf4w', 'qf4l', 'qf4rs', 'sf1w', 'sf1l', 'sf2w', 'sf1rs', 'sf2l', 'sf2rs', 'thdw', 'thdl', 'thdrs'];
 	for (var i = 1 ; i <= 20 ; i++) {
 		t.push('rk' + i);
 		t.push('rs' + i);
@@ -1783,6 +1812,7 @@ function setEntityValues(text) {
 		$('pr-team-l').value = t[i++];
 		$('pr-country').value = t[i++];
 		$('pr-country-l').value = t[i++];
+		$('pr-copyright').value = t[i++];
 		$('pr-link').value = t[i++];
 		$('pr-link-l').value = t[i++];
 	}
@@ -1800,6 +1830,7 @@ function setEntityValues(text) {
 		$('ct-state-l').value = t[i++];
 		$('ct-country').value = t[i++];
 		$('ct-country-l').value = t[i++];
+		$('ct-copyright').value = t[i++];
 		$('ct-link').value = t[i++];
 		$('ct-link-l').value = t[i++];
 	}
@@ -1809,6 +1840,7 @@ function setEntityValues(text) {
 		$('cx-labelfr').value = t[i++];
 		$('cx-city').value = t[i++];
 		$('cx-city-l').value = t[i++];
+		$('cx-copyright').value = t[i++];
 		$('cx-link').value = t[i++];
 		$('cx-link-l').value = t[i++];
 	}
@@ -2173,6 +2205,9 @@ function loadTemplate() {
 /*========== TOOLS ==========*/
 function executeQuery(index) {
 	var url = '/update/execute-query?index=' + index + ($('rcsv').checked ? '&csv=1' : '');
+	if (index == -1) {
+		url += '&query=' + escape($F('query'));
+	}
 	if ($('rcsv').checked) {
 		location.href = url;
 	}

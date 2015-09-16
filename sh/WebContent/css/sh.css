@@ -858,18 +858,30 @@ li{
 	margin-right: 10px;
 	height: 165px;
 }
-#calendar #dateimg{
+#calendar li{
 	display: inline-block;
+}
+#calendar .dateimg{
 	width: 120px;
+	height: 70px;
 	background: url(../img/db/calendar.png) center 10px no-repeat;
 	text-align: center;
 	padding: 10px;
+	padding-right: 0px;
 	padding-top: 52px;
 	font-family: Tahoma, Geneva, sans-serif;
 	/*font-family: "Lucida Console", Monaco, monospace;*/
 	font-weight: bold;
 }
-#calendar #dateimg #day{
+#calendar .dateimg div{
+	width: 110px;
+}
+#calendar .label{
+	position: absolute;
+	margin-top: -20px;
+	color: #FFF;
+}
+#calendar .day{
 	font-size: 28px;
 	color: #F25;
 }
@@ -877,7 +889,7 @@ li{
 	width: 160px;
 }
 #calendar table{
-	padding: 20px;
+	padding: 25px;
 	padding-left: 0px;
 }
 #calendar td{
@@ -1511,6 +1523,17 @@ li{
 #update-tools #qresults{
 	margin-top: 10px;
 }
+#update-tools .fscontent ul{
+	padding: 0px;
+}
+#update-tools .fscontent li{
+	display: inline-block;
+	list-style-image: none;
+}
+#update-tools .fscontent fieldset{
+	border: 1px solid #AAA;
+	height: 135px;
+}
 /*---------- ADMIN ----------*/
 #update-admin .fstitle{
 	background-image: url(../img/update/admin.png?6);
@@ -1647,6 +1670,9 @@ li{
 }
 #buttons .info2, .toolbar .info2{
 	background-image: url('../img/component/button/info.png?6');
+}
+#buttons .calendarspan, .toolbar .calendarspan{
+	background-image: url('../img/db/calendar-span.png?6');
 }
 #buttons .upd-overview, .toolbar .upd-overview{
 	background-image: url('../img/update/overview.png?6');

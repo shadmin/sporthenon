@@ -191,6 +191,9 @@ public class RefItem  {
 	@Column(name = "date1")
 	private Timestamp date1;
 	
+	@Column(name = "date2")
+	private Timestamp date2;
+	
 	@Column(name = "comment", length = 20)
 	private String comment;
 	
@@ -680,6 +683,14 @@ public class RefItem  {
 
 	public void setLabelRel25(String labelRel25) {
 		this.labelRel25 = labelRel25;
+	}
+
+	public Timestamp getDate2() {
+		return date2;
+	}
+
+	public void setDate2(Timestamp date2) {
+		this.date2 = date2;
 	}
 
 	@Override
