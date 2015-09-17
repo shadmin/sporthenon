@@ -100,18 +100,13 @@ private static final long serialVersionUID = 1L;
 		StringBuffer sports = new StringBuffer("<div class='slide'>");
 		String slide1 = null;
 		int index = 0;
-		int count = 1;
 		for (Integer i : lId) {
-			if (index > 0 && index % N == 0) {
+			if (index > 0 && index % N == 0)
 				sports.append("</div><div class='slide'>");
-				count++;
-			}
 			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(index)));
 			index++;
 			if (index == N)
 				slide1 = sports.toString();
-			if (count > 5 && index % N == 0)
-				break;
 		}
 		sports.append("</div>");
 		

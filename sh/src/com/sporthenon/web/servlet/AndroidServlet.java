@@ -11,14 +11,15 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.log4j.Logger;
+import org.dom4j.Document;
+import org.dom4j.DocumentFactory;
+import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.PicklistBean;
@@ -36,7 +37,6 @@ import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 import com.sporthenon.web.HtmlConverter;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 public class AndroidServlet extends AbstractServlet {
 
@@ -65,12 +65,9 @@ public class AndroidServlet extends AbstractServlet {
 					lInactive.add(item.getIdChampionship() + "-" + item.getIdEvent() + (item.getIdSubevent() != null ? "-" + item.getIdSubevent() : "") + (item.getIdSubevent2() != null ? "-" + item.getIdSubevent2() : ""));
 			}
 			
-			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-	        Document doc = docBuilder.newDocument();
-	        Element root = doc.createElement("picklist");
-	        root.setAttribute("id", p2);
-	        doc.appendChild(root);
+	        Document doc = DocumentFactory.getInstance().createDocument();
+	        Element root = doc.addElement("picklist");
+	        root.addAttribute("id", p2);
 	        if (p2.equalsIgnoreCase(Sport.alias))
 	        	addItems(doc, root, ImageUtils.INDEX_SPORT, DatabaseHelper.getEntityPicklist(Sport.class, "label", null, lang), null, null, null, null);
 	        else if (p2.equalsIgnoreCase(Championship.alias)) {
@@ -114,41 +111,35 @@ public class AndroidServlet extends AbstractServlet {
 	        else if (p2.equalsIgnoreCase("R1")) {
 	        	final int MAX_RANKS = 20;
 	        	Result r = (Result) DatabaseHelper.loadEntity(Result.class, p);
-	        	Element sp = doc.createElement("sport");
-	        	sp.setAttribute("id", String.valueOf(r.getSport().getId()));
-	        	sp.setAttribute("img", getImage(ImageUtils.INDEX_SPORT, r.getSport().getId(), ImageUtils.SIZE_LARGE, null, null));
-	        	sp.setTextContent(r.getSport().getLabel(lang));
-	        	root.appendChild(sp);
-	        	Element cp = doc.createElement("championship");
-	        	cp.setAttribute("id", String.valueOf(r.getChampionship().getId()));
-	        	cp.setAttribute("img", getImage(ImageUtils.INDEX_SPORT_CHAMPIONSHIP, r.getSport().getId() + "-" + r.getChampionship().getId(), ImageUtils.SIZE_LARGE, null, null));
-	        	cp.setTextContent(r.getChampionship().getLabel(lang));
-	        	root.appendChild(cp);
-	        	Element ev = doc.createElement("event");
-	        	ev.setAttribute("id", String.valueOf(r.getEvent().getId()));
-	        	ev.setAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getEvent().getId(), ImageUtils.SIZE_LARGE, null, null));
-	        	ev.setTextContent(r.getEvent().getLabel(lang));
-	        	root.appendChild(ev);
+	        	Element sp = root.addElement("sport");
+	        	sp.addAttribute("id", String.valueOf(r.getSport().getId()));
+	        	sp.addAttribute("img", getImage(ImageUtils.INDEX_SPORT, r.getSport().getId(), ImageUtils.SIZE_LARGE, null, null));
+	        	sp.addText(r.getSport().getLabel(lang));
+	        	Element cp = root.addElement("championship");
+	        	cp.addAttribute("id", String.valueOf(r.getChampionship().getId()));
+	        	cp.addAttribute("img", getImage(ImageUtils.INDEX_SPORT_CHAMPIONSHIP, r.getSport().getId() + "-" + r.getChampionship().getId(), ImageUtils.SIZE_LARGE, null, null));
+	        	cp.addText(r.getChampionship().getLabel(lang));
+	        	Element ev = root.addElement("event");
+	        	ev.addAttribute("id", String.valueOf(r.getEvent().getId()));
+	        	ev.addAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getEvent().getId(), ImageUtils.SIZE_LARGE, null, null));
+	        	ev.addText(r.getEvent().getLabel(lang));
 	        	if (r.getSubevent() != null) {
-	        		Element se = doc.createElement("subevent");
-	        		se.setAttribute("id", String.valueOf(r.getSubevent().getId()));
-		        	se.setAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getSubevent().getId(), ImageUtils.SIZE_LARGE, null, null));
-		        	se.setTextContent(r.getSubevent().getLabel(lang));
-		        	root.appendChild(se);
+	        		Element se = root.addElement("subevent");
+	        		se.addAttribute("id", String.valueOf(r.getSubevent().getId()));
+		        	se.addAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getSubevent().getId(), ImageUtils.SIZE_LARGE, null, null));
+		        	se.addText(r.getSubevent().getLabel(lang));
 	        	}
 	        	if (r.getSubevent2() != null) {
-	        		Element se2 = doc.createElement("subevent2");
-	        		se2.setAttribute("id", String.valueOf(r.getSubevent2().getId()));
-		        	se2.setAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getSubevent2().getId(), ImageUtils.SIZE_LARGE, null, null));
-		        	se2.setTextContent(r.getSubevent2().getLabel(lang));
-		        	root.appendChild(se2);	
+	        		Element se2 = root.addElement("subevent2");
+	        		se2.addAttribute("id", String.valueOf(r.getSubevent2().getId()));
+		        	se2.addAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getSubevent2().getId(), ImageUtils.SIZE_LARGE, null, null));
+		        	se2.addText(r.getSubevent2().getLabel(lang));
 	        	}
 	        	if (StringUtils.notEmpty(r.getDate2())) {
-	        		Element dates = doc.createElement("dates");
+	        		Element dates = root.addElement("dates");
 	        		if (StringUtils.notEmpty(r.getDate1()))
-	        			dates.setAttribute("date1", StringUtils.toTextDate(r.getDate1(), lang, "d MMMM yyyy"));
-	        		dates.setAttribute("date2", StringUtils.toTextDate(r.getDate2(), lang, "d MMMM yyyy"));
-		        	root.appendChild(dates);
+	        			dates.addAttribute("date1", StringUtils.toTextDate(r.getDate1(), lang, "d MMMM yyyy"));
+	        		dates.addAttribute("date2", StringUtils.toTextDate(r.getDate2(), lang, "d MMMM yyyy"));
 	        	}
 				if (StringUtils.notEmpty(r.getComplex2()) || StringUtils.notEmpty(r.getCity2())) {
 					String pl1 = null;
@@ -176,21 +167,19 @@ public class AndroidServlet extends AbstractServlet {
 						cn2 = ct.getCountry().getId();
 					}
 					if (StringUtils.notEmpty(pl1)) {
-						Element place1 = doc.createElement("place1");
+						Element place1 = root.addElement("place1");
 						if (cn1 != null) {
-							place1.setAttribute("id", String.valueOf(cn1));
-							place1.setAttribute("img", getImage(ImageUtils.INDEX_COUNTRY, cn1, ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null));	
+							place1.addAttribute("id", String.valueOf(cn1));
+							place1.addAttribute("img", getImage(ImageUtils.INDEX_COUNTRY, cn1, ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null));	
 						}
-						place1.setTextContent(StringUtils.removeTags(pl1));
-						root.appendChild(place1);
+						place1.addText(StringUtils.removeTags(pl1));
 					}
-					Element place2 = doc.createElement("place2");
+					Element place2 = root.addElement("place2");
 					if (cn2 != null) {
-						place2.setAttribute("id", String.valueOf(cn2));
-						place2.setAttribute("img", getImage(ImageUtils.INDEX_COUNTRY, cn2, ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null));	
+						place2.addAttribute("id", String.valueOf(cn2));
+						place2.addAttribute("img", getImage(ImageUtils.INDEX_COUNTRY, cn2, ImageUtils.SIZE_SMALL, r.getYear().getLabel(), null));	
 					}
-					place2.setTextContent(StringUtils.removeTags(pl2));
-					root.appendChild(place2);
+					place2.addText(StringUtils.removeTags(pl2));
 				}
 			
 				// Result
@@ -285,12 +274,11 @@ public class AndroidServlet extends AbstractServlet {
 								tEntityRel[i] = sb.toString();
 							}
 								
-							Element rank = doc.createElement("rank" + (i + 1));
-							rank.setAttribute("img", tEntityImg[i]);
-							rank.setAttribute("result", tResult[i]);
-							rank.setAttribute("rel", tEntityRel[i]);
-							rank.setTextContent(tEntity[i]);
-							root.appendChild(rank);	
+							Element rank = root.addElement("rank" + (i + 1));
+							rank.addAttribute("img", tEntityImg[i]);
+							rank.addAttribute("result", tResult[i]);
+							rank.addAttribute("rel", tEntityRel[i]);
+							rank.addText(tEntity[i]);
 						}
 					}
 				}
@@ -298,9 +286,9 @@ public class AndroidServlet extends AbstractServlet {
 	        
 	        response.setContentType("text/xml");
 	        response.setCharacterEncoding("utf-8");
-	        XMLSerializer serializer = new XMLSerializer();
-	        serializer.setOutputCharStream(response.getWriter());
-	        serializer.serialize(doc);
+	        XMLWriter writer = new XMLWriter(response.getOutputStream(), OutputFormat.createPrettyPrint());
+	        writer.write(doc);
+	        writer.flush();
 	        response.flushBuffer();
 		}
 		catch (Exception e) {
@@ -316,20 +304,19 @@ public class AndroidServlet extends AbstractServlet {
 	private void addItems(Document doc, Element root, short index, Collection<PicklistBean> picklist, List<String> lInactive, Object spid, String currentPath, String subcountSQL) throws Exception {
 		if (picklist != null && picklist.size() > 0) {
 			for (PicklistBean plb : picklist) {
-				Element item = doc.createElement("item");
+				Element item = root.addElement("item");
 				String img = HtmlUtils.writeImage(index, (spid != null ? spid + "-" : "") + plb.getValue(), ImageUtils.SIZE_LARGE, null, null);
 				int id = plb.getValue();
 				String text = plb.getText();
 				if (lInactive != null && lInactive.contains(currentPath + "-" + id))
 					text = "+" + text;
-				item.setAttribute("value", String.valueOf(id));
-				item.setAttribute("text", text);
-				item.setAttribute("img", img.replaceAll(".*src\\='|'\\/\\>", ""));
+				item.addAttribute("value", String.valueOf(id));
+				item.addAttribute("text", text);
+				item.addAttribute("img", img.replaceAll(".*src\\='|'\\/\\>", ""));
 				Integer n = 1;
 				if (subcountSQL != null)
 					n = ((BigInteger) DatabaseHelper.executeNative(subcountSQL.replace("#ID#", String.valueOf(id))).get(0)).intValue();
-				item.setAttribute("subcount", String.valueOf(n));
-				root.appendChild(item);
+				item.addAttribute("subcount", String.valueOf(n));
 			}
 		}
 	}
@@ -341,18 +328,18 @@ public class AndroidServlet extends AbstractServlet {
 			for (ResultsBean bean : list) {
 				boolean isDouble = (tp == 4 || (bean.getRsComment() != null && bean.getRsComment().equals("#DOUBLE#")));
 				boolean isTriple = (tp == 5 || (bean.getRsComment() != null && bean.getRsComment().equals("#TRIPLE#")));
-				Element item = doc.createElement("item");
+				Element item = root.addElement("item");
 				lIds.add(String.valueOf(bean.getRsId()));
-				item.setAttribute("id", String.valueOf(bean.getRsId()));
-				item.setAttribute("year", bean.getYrLabel());
-				item.setAttribute("type", String.valueOf(tp));
-				item.setAttribute("str1", bean.getEn1Str1()); item.setAttribute("str2", bean.getEn1Str2()); item.setAttribute("str3", bean.getEn1Str3());
-				item.setAttribute("str4", bean.getEn2Str1()); item.setAttribute("str5", bean.getEn2Str2()); item.setAttribute("str6", bean.getEn2Str3());
-				item.setAttribute("str7", bean.getEn3Str1()); item.setAttribute("str8", bean.getEn3Str2()); item.setAttribute("str9", bean.getEn3Str3());
-				item.setAttribute("tie1", isDouble ? "1" : "0");
-				item.setAttribute("tie2", isTriple ? "1" : "0");
-				item.setAttribute("rs1", bean.getRsResult1()); item.setAttribute("rs2", bean.getRsResult2()); item.setAttribute("rs3", bean.getRsResult3());
-				item.setAttribute("score", bean.getRsRank1() != null && bean.getRsRank2() != null && StringUtils.notEmpty(bean.getRsResult1()) && !StringUtils.notEmpty(bean.getRsResult2()) && !StringUtils.notEmpty(bean.getRsResult3()) && !StringUtils.notEmpty(bean.getRsResult4()) && !StringUtils.notEmpty(bean.getRsResult5()) ? "1" : "0");
+				item.addAttribute("id", String.valueOf(bean.getRsId()));
+				item.addAttribute("year", bean.getYrLabel());
+				item.addAttribute("type", String.valueOf(tp));
+				item.addAttribute("str1", bean.getEn1Str1()); item.addAttribute("str2", bean.getEn1Str2()); item.addAttribute("str3", bean.getEn1Str3());
+				item.addAttribute("str4", bean.getEn2Str1()); item.addAttribute("str5", bean.getEn2Str2()); item.addAttribute("str6", bean.getEn2Str3());
+				item.addAttribute("str7", bean.getEn3Str1()); item.addAttribute("str8", bean.getEn3Str2()); item.addAttribute("str9", bean.getEn3Str3());
+				item.addAttribute("tie1", isDouble ? "1" : "0");
+				item.addAttribute("tie2", isTriple ? "1" : "0");
+				item.addAttribute("rs1", bean.getRsResult1()); item.addAttribute("rs2", bean.getRsResult2()); item.addAttribute("rs3", bean.getRsResult3());
+				item.addAttribute("score", bean.getRsRank1() != null && bean.getRsRank2() != null && StringUtils.notEmpty(bean.getRsResult1()) && !StringUtils.notEmpty(bean.getRsResult2()) && !StringUtils.notEmpty(bean.getRsResult3()) && !StringUtils.notEmpty(bean.getRsResult4()) && !StringUtils.notEmpty(bean.getRsResult5()) ? "1" : "0");
 				try {
 					StringBuffer sbCode = new StringBuffer();
 					StringBuffer sbImg = new StringBuffer();
@@ -380,13 +367,12 @@ public class AndroidServlet extends AbstractServlet {
 							
 						}
 					}
-					item.setAttribute("code", sbCode.toString());
-					item.setAttribute("img", sbImg.toString());
+					item.addAttribute("code", sbCode.toString());
+					item.addAttribute("img", sbImg.toString());
 				}
 				catch (Exception e) {
 					Logger.getLogger("sh").error(e.getMessage(), e);
 				}
-				root.appendChild(item);
 			}
 			try {
 				ArrayList<Object> lParams = new ArrayList<Object>();
@@ -400,8 +386,8 @@ public class AndroidServlet extends AbstractServlet {
 						String[] t = str.split("\\,\\s", -1);
 						str = StringUtils.toFullName(t[0], t[1], item.getLabelRel1(), true);
 					}
-					root.setAttribute("winrec-name", str);
-					root.setAttribute("winrec-count", String.valueOf(item.getCount1()));
+					root.addAttribute("winrec-name", str);
+					root.addAttribute("winrec-count", String.valueOf(item.getCount1()));
 				}
 			}
 			catch (Exception e) {

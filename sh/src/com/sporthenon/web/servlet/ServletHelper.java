@@ -9,16 +9,16 @@ import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.dom4j.Document;
+import org.dom4j.DocumentFactory;
+import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 
 import com.sporthenon.db.PicklistBean;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 public class ServletHelper {
 	
@@ -30,26 +30,22 @@ public class ServletHelper {
 	}
 	
 	public static void writePicklist(HttpServletResponse res, Collection<PicklistBean> picklist, String plId) throws Exception {
-		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-        Document doc = docBuilder.newDocument();
-        Element root = doc.createElement("picklist");
-        root.setAttribute("id", plId);
-        doc.appendChild(root);
+        Document doc = DocumentFactory.getInstance().createDocument();
+        Element root = doc.addElement("picklist");
+        root.addAttribute("id", plId);
         if (picklist != null && picklist.size() > 0)
         	for (PicklistBean plb : picklist) {
-        		Element item = doc.createElement("item");
-        		item.setAttribute("value", String.valueOf(plb.getValue()));
-        		item.setAttribute("text", plb.getText());
+        		Element item = root.addElement("item");
+        		item.addAttribute("value", String.valueOf(plb.getValue()));
+        		item.addAttribute("text", plb.getText());
         		if (plb.getParam() != null)
-        			item.setAttribute("param", String.valueOf(plb.getParam()));
-        		root.appendChild(item);
+        			item.addAttribute("param", String.valueOf(plb.getParam()));
         	}
         res.setContentType("text/xml");
         res.setCharacterEncoding("utf-8");
-        XMLSerializer serializer = new XMLSerializer();
-        serializer.setOutputCharStream(res.getWriter());
-        serializer.serialize(doc);
+        XMLWriter writer = new XMLWriter(res.getOutputStream(), OutputFormat.createPrettyPrint());
+        writer.write(doc);
+        writer.flush();
         res.flushBuffer();
 	}
 	

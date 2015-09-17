@@ -7,11 +7,12 @@ function fillPicklistXML(response) {
 	var root = xml.documentElement;
 	var picklistId = root.getAttribute('id');
 	var picklist = $(picklistId);
-	if (root.childNodes.length > 0) {
+	var items = root.getElementsByTagName('item');
+	if (items.length > 0) {
 		var tHtml = new Array();
 		var node = null;
-		for (var i = 0 ; i < root.childNodes.length ; i++) {
-			node = root.childNodes[i];
+		for (var i = 0 ; i < items.length ; i++) {
+			node = items[i];
 			tHtml.push('<option value="' + node.getAttribute('value') + '">' + node.getAttribute('text') + '</option>');
 		}
 		picklistId.split(',').each(function(pl) {
@@ -468,7 +469,7 @@ function createSlider(id, w, h, c) {
 	var container = $$('#' + id + ' .container')[0];
 	var slides = $$('#' + id + ' .slide');
 	var links = $$('#' + id + ' .slider-control');
-	container.down().style.width = '5000px';
+	container.down().style.width = '50000px';
 	container.setStyle({width: w + 'px', height: h + 'px'});
 	slides.each(function(slide) {
 		slide.setStyle({width: w + 'px', height: h + 'px'});
@@ -1475,6 +1476,9 @@ function loadResValues(value) {
 					for (var i_ = 0 ; i_ < t__.length ; i_++) {
 						t___.push(t__[i_].split(':')[0]);
 					}
+					while (t__.length > pListCount) {
+						addPersonList();
+					}
 					tValues['rk' + (i + 1) + 'list'] = t___.join('|');
 				}
 			}
@@ -1564,6 +1568,9 @@ function loadResult(type) {
 		onSuccess: function(response){
 			var text = response.responseText;
 			if (text != '') {
+				tValues['ev'] = null;
+				tValues['se'] = null;
+				tValues['se2'] = null;
 				loadResValues(text);
 			}
 		},
@@ -1711,10 +1718,13 @@ function savePersonList() {
 	dPersonList.close();
 }
 function addPersonList() {
-	for (var i = pListCount + 1 ; i <= pListCount + 10 ; i++) {
-		$$('#plist table')[0].insert('<tr><td><input type="text" id="plist' + i + '" tabindex="' + (100000 + i) + '" name="Name #' + i + '"/><a href="javascript:clearValue(\'plist' + i + '\');">[X]</a></td></tr>');
-		setPLInput('plist' + i);
+	try {
+		for (var i = pListCount + 1 ; i <= pListCount + 10 ; i++) {
+			$$('#plist table')[0].insert('<tr><td><input type="text" id="plist' + i + '" tabindex="' + (100000 + i) + '" name="Name #' + i + '"/><a href="javascript:clearValue(\'plist' + i + '\');">[X]</a></td></tr>');
+			setPLInput('plist' + i);
+		}
 	}
+	catch(err){}
 	pListCount += 10;
 }
 /*========== DATA ==========*/

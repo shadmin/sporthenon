@@ -68,7 +68,6 @@ import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
-import com.sporthenon.db.entity.Type;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Contributor;
@@ -240,8 +239,8 @@ public class JMainFrame extends JFrame {
 		if (alias == null || alias.equalsIgnoreCase(State.alias)) {
 			SwingUtils.fillPicklist(((JCityPanel)jEntityPanels.get(City.alias)).getState(), hPicklists.get(State.alias), null);
 		}
-		if (alias == null || alias.equalsIgnoreCase(Type.alias)) {
-			SwingUtils.fillPicklist(((JEventPanel)jEntityPanels.get(Event.alias)).getType(), hPicklists.get(Type.alias), null);
+		if (alias == null || alias.equalsIgnoreCase(com.sporthenon.db.entity.Type.alias)) {
+			SwingUtils.fillPicklist(((JEventPanel)jEntityPanels.get(Event.alias)).getType(), hPicklists.get(com.sporthenon.db.entity.Type.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(Team.alias)) {
 			SwingUtils.fillPicklist(((JAthletePanel)jEntityPanels.get(Athlete.alias)).getTeam(), hPicklists.get(Team.alias), null);
@@ -403,7 +402,7 @@ public class JMainFrame extends JFrame {
 			Event en = (Event) o;
 			en.setLabel(p.getLabel().getText());
 			en.setLabelFr(p.getLabelFR().getText());
-			en.setType((Type)DatabaseHelper.loadEntity(Type.class, SwingUtils.getValue(p.getType())));
+			en.setType((com.sporthenon.db.entity.Type)DatabaseHelper.loadEntity(com.sporthenon.db.entity.Type.class, SwingUtils.getValue(p.getType())));
 			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Integer.parseInt(p.getIndex().getText()) : Integer.MAX_VALUE);
 			plb.setText(en.getLabel());
 		}

@@ -7,9 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.DataInputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,16 +22,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.TableColumnModel;
 
 import org.apache.log4j.Logger;
-
-import sun.net.www.content.text.PlainTextInputStream;
 
 import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JDialogButtonBar;
 import com.sporthenon.db.DatabaseHelper;
-import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
 
 public class JQueryDialog extends JDialog implements ActionListener {
@@ -256,49 +249,48 @@ public class JQueryDialog extends JDialog implements ActionListener {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void missingPictures() {
-		try {
-			Vector cols = new Vector();
-			cols.add("TYPE");
-			cols.add("INDEX");
-			cols.add("ID");
-			cols.add("NAME");
-			Vector v = new Vector();
-			URL url = new URL(ConfigUtils.getProperty("url") + "ImageServlet?missing=1");
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			if (conn.getResponseCode() == 200) {
-				PlainTextInputStream pis = (PlainTextInputStream) conn.getContent();
-				DataInputStream dis = new DataInputStream(pis);
-				String s = dis.readLine();
-				for (String s_ : s.split("\\|")) {
-					String[] t = s_.split(";");
-					Vector v_ = new Vector();
-					v_.add(t[0]);
-					v_.add(t[1]);
-					v_.add(t[2]);
-					v_.add(t[3]);
-					v.add(v_);
-				}
-			}
-			jResult = new JTable(v, cols) {
-				private static final long serialVersionUID = 1L;
-				public boolean isCellEditable(int row, int column) {
-					return true;
-				}
-			};
-			jResult.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			TableColumnModel tcm = jResult.getColumnModel();
-			tcm.getColumn(0).setPreferredWidth(50);
-			tcm.getColumn(1).setPreferredWidth(50);
-			tcm.getColumn(2).setPreferredWidth(50);
-			tcm.getColumn(3).setPreferredWidth(250);
-			jResultPane.setViewportView(jResult);
-		}
-		catch (Exception e_) {
-			Logger.getLogger("sh").error(e_.getMessage(), e_);
-			JOptionPane.showMessageDialog(this, e_.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		}
+//		try {
+//			Vector cols = new Vector();
+//			cols.add("TYPE");
+//			cols.add("INDEX");
+//			cols.add("ID");
+//			cols.add("NAME");
+//			Vector v = new Vector();
+//			URL url = new URL(ConfigUtils.getProperty("url") + "ImageServlet?missing=1");
+//			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//			if (conn.getResponseCode() == 200) {
+//				PlainTextInputStream pis = (PlainTextInputStream) conn.getContent();
+//				DataInputStream dis = new DataInputStream(pis);
+//				String s = dis.readLine();
+//				for (String s_ : s.split("\\|")) {
+//					String[] t = s_.split(";");
+//					Vector v_ = new Vector();
+//					v_.add(t[0]);
+//					v_.add(t[1]);
+//					v_.add(t[2]);
+//					v_.add(t[3]);
+//					v.add(v_);
+//				}
+//			}
+//			jResult = new JTable(v, cols) {
+//				private static final long serialVersionUID = 1L;
+//				public boolean isCellEditable(int row, int column) {
+//					return true;
+//				}
+//			};
+//			jResult.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//			TableColumnModel tcm = jResult.getColumnModel();
+//			tcm.getColumn(0).setPreferredWidth(50);
+//			tcm.getColumn(1).setPreferredWidth(50);
+//			tcm.getColumn(2).setPreferredWidth(50);
+//			tcm.getColumn(3).setPreferredWidth(250);
+//			jResultPane.setViewportView(jResult);
+//		}
+//		catch (Exception e_) {
+//			Logger.getLogger("sh").error(e_.getMessage(), e_);
+//			JOptionPane.showMessageDialog(this, e_.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//		}
 	}
 	
 }
