@@ -8,6 +8,8 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 
 import com.sporthenon.db.DatabaseHelper;
@@ -30,7 +32,7 @@ public class ImportUtils {
 	
 	private static final String scPattern = "[^a-zA-Z0-9\\|\\,\\s\\(\\)_]";
 
-	public static String processAll(Vector<Vector<String>> vFile, boolean isUpdate, boolean isRS, boolean isDR, boolean isRC, Contributor cb) {
+	public static String processAll(HttpSession session, Vector<Vector<String>> vFile, boolean isUpdate, boolean isRS, boolean isDR, boolean isRC, Contributor cb) {
 		StringBuffer html = new StringBuffer("<table>");
 		StringBuffer report = new StringBuffer();
 		try {
@@ -124,7 +126,7 @@ public class ImportUtils {
 				html.append("<th>").append(hTitle.get(s)).append("</th>");
 			html.append("</tr>");
 			int i = 0;
-//			float pg = 0.0f;
+			int pg = 0;
 			for (Vector<String> v : vFile) {
 				v.insertElementAt("-", 0);
 				if (isRS)
@@ -134,10 +136,10 @@ public class ImportUtils {
 				else if (isRC)
 					processLineRC(i, vHeader, v, isUpdate, report, cb);
 				html.append("<tr><td>").append(StringUtils.implode(v, "</td><td>")).append("</td></tr>");
-//				if (i * 100 / vFile.size() > pg) {
-//					incrementProgress();
-//					pg = i * 100 / vFile.size();
-//				}
+				if (i * 100 / vFile.size() > pg) {
+					pg = i * 100 / vFile.size();
+					session.setAttribute("progress", pg);
+				}
 				i++;
 			}
 		}

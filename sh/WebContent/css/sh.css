@@ -642,7 +642,7 @@ li{
 }
 .homecontent hr {
   height: 1px;
-  margin: 8px 0px;
+  margin: 6px 0px;
   padding: 0px;
   border: 0px;
   background-color: gray;
@@ -698,6 +698,14 @@ li{
 	padding: 5px;
 	padding-left: 15px;
 	background: transparent url(../img/render/more2.gif) left center no-repeat;
+}
+.homecontent #randomevent{
+	width: auto;
+	margin-top: 5px;
+	margin-bottom: 0px;
+}
+.homecontent #randomevent td{
+	border: none;
 }
 .homecontent #sports{
 	margin-top: 8px;
@@ -1515,6 +1523,15 @@ li{
 	font-style: italic;
 	margin-top: 10px;
 	padding: 10px;
+}
+#update-import #progressbar{
+	width: 200px;
+	border: 1px solid #888;
+}
+#update-import #progressbar #progress{
+	background: orange;
+	width: 0px;
+	height: 18px;
 }
 /*---------- TOOLS ----------*/
 #update-tools .fstitle{

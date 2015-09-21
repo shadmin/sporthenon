@@ -298,6 +298,7 @@
 	<entry key="report.1">Results per sport</entry>
 	<entry key="report.2">Athletes per country</entry>
 	<entry key="report.3">Split of requests by sport</entry>
+	<entry key="random.event">Random event</entry>
 <!-- RESULTS -->
 	<entry key="sport">Sport</entry>
 	<entry key="event">Event</entry>

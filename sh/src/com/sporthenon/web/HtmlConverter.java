@@ -1588,6 +1588,8 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertCalendarResults(Collection<Object> coll, Contributor m, String lang) throws Exception {
+		if (coll == null || coll.isEmpty())
+			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		StringBuffer html = new StringBuffer();
 		html.append("<table class='tsort'>");
 		long id = System.currentTimeMillis();

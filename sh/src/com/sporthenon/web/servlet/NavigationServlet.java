@@ -83,7 +83,7 @@ public class NavigationServlet extends AbstractServlet {
 		try {
 			if (url.matches(".*\\/(athletes|championships|cities|complexes|countries|events|sports|usstates|teams|years)\\/.*"))
 				throw new OldPatternException();
-			if (!url.contains("/ajax") && !url.contains("/load"))
+			if (!url.contains("/ajax") && !url.contains("/load") && !url.contains("/check-progress-import"))
 				logger.fatal("URL: " + url);
 			String[] tURI = request.getRequestURI().substring(1).split("\\/", 0);
 			String key = tURI[0];

@@ -629,6 +629,9 @@ function moreLastUpdates(row, p) {
 		}
 	});
 }
+function getRandomEvent() {
+	new Ajax.Updater($('randomeventvalue'), '/IndexServlet?randomevent&t=' + currentTime());
+}
 var cindex = 0;
 var cmax = 2;
 var cdata = [];
@@ -2206,8 +2209,22 @@ function initImport() {
 function executeImport(u) {
 	if (fi != null) {
 		dzi.options.url = '/update/execute-import?type=' + $F('type') + '&update=' + u;
-		dzi.processFile(fi);	
+		dzi.processFile(fi);
+		setTimeout(checkImportProgress, 250);
+		$('progressbar').show();
 	}
+}
+function checkImportProgress() {
+	new Ajax.Request('check-progress-import', {
+		onSuccess: function(response){
+			var pg = response.responseText;
+			$('pgpercent').update(pg + '&nbsp;%');
+			$('progress').style.width = (pg * 2) + 'px';
+			if (parseInt(pg) < 100) {
+				setTimeout(checkImportProgress, 250);
+			}
+		}
+	});
 }
 function loadTemplate() {
 	location.href = '/update/load-template?type=' + $F('type');

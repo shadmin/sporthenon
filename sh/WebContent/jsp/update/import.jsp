@@ -18,6 +18,8 @@
 				<td><input id="processbtn" type="button" value="Process" disabled="disabled" onclick="executeImport(0);"/></td>
 				<td><input id="updatebtn" type="button" value="Update" disabled="disabled" onclick="executeImport(1);"/></td>
 				<td><input type="button" value="Template" onclick="loadTemplate();"/></td>
+				<td><div id="progressbar" style="display:none;"><div id="progress"></div></div></td>
+				<td id="pgpercent"></td>
 			</tr></table>
 			<div id="report"></div>
 		</div>

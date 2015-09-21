@@ -96,16 +96,15 @@ public class ImageUtils {
 		Collections.reverse(list);
 		return list;
 	}
-	
+
 	public static String getPhotoFile(String entity, Object id) {
-		String s = "";
 		String p = "photo" + StringUtils.encode(entity + "-" + id);
-		for (String img : getImgFiles())
-			if (img.startsWith(p)) {
-				s = img;
-				break;
-			}
-		return s;
+		LinkedList<String> list = new LinkedList<String>();
+		for (String s : ImageUtils.getImgFiles())
+			if (s.startsWith(p))
+				list.add(s);
+		Collections.sort(list);
+		return (!list.isEmpty() ? list.getLast() : "");
 	}
 	
 	public static StringBuffer getPhotoFieldset(String url, String copyright, String lang) {

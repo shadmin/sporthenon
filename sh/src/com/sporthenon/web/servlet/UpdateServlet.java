@@ -16,6 +16,7 @@ import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -90,6 +91,8 @@ public class UpdateServlet extends AbstractServlet {
 				mergeEntity(response, hParams, lang, user);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("execute-import"))
 				executeImport(request, response, hParams, lang, user);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("check-progress-import"))
+				ServletHelper.writeText(response, String.valueOf(request.getSession().getAttribute("progress")));
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-template"))
 				loadTemplate(response, hParams, lang, user);
 			else
@@ -1207,6 +1210,8 @@ public class UpdateServlet extends AbstractServlet {
 	}
 	
 	private static void executeImport(HttpServletRequest request, HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+		HttpSession session = request.getSession();
+		session.setAttribute("progress", 0);
 		InputStream input = null;
 		FileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload(factory);
@@ -1226,7 +1231,8 @@ public class UpdateServlet extends AbstractServlet {
 		}
 		String type = String.valueOf(hParams.get("type"));
 		String update = String.valueOf(hParams.get("update"));
-		String result = ImportUtils.processAll(v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Draw.alias), type.equalsIgnoreCase(Record.alias), user);
+		String result = ImportUtils.processAll(session,  v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Draw.alias), type.equalsIgnoreCase(Record.alias), user);
+		session.setAttribute("progress", 100);
 		ServletHelper.writeText(response, result);
 	}
 	

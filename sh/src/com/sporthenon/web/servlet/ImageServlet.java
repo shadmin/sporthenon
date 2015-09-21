@@ -53,11 +53,16 @@ public class ImageServlet extends AbstractServlet {
 					}
 				}
 				Object id = hParams.get("id");
-				String ext = name.substring(name.lastIndexOf(".") + 1).toLowerCase();
-				String fileName = "photo" + StringUtils.encode(entity + "-" + id) + "." + ext;
-				File f = new File(ConfigUtils.getProperty("img.folder") + fileName);
-				if (f.exists())
-					f.delete();
+				String ext = "." + name.substring(name.lastIndexOf(".") + 1).toLowerCase();
+				String fileName = "photo" + StringUtils.encode(entity + "-" + id);
+				File f = new File(ConfigUtils.getProperty("img.folder") + fileName + ext);
+				if (f.exists()) {
+					int i = 1;
+					while (f.exists()) {
+						f = new File(ConfigUtils.getProperty("img.folder") + fileName + i + ext);
+						i++;
+					}
+				}
 				FileOutputStream fos = new FileOutputStream(f);
 				fos.write(b);
 				fos.close();

@@ -5,12 +5,14 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseHelper;
+import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.meta.ErrorReport;
 import com.sporthenon.utils.HtmlUtils;
@@ -62,6 +64,9 @@ private static final long serialVersionUID = 1L;
 		        lParams.add("_" + lang);
 		        ServletHelper.writeTabHtml(request, response, HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams), count, offset, getLocale(request)), getLocale(request));
 			}
+			else if (hParams.containsKey("randomevent")) { // Random Event
+				ServletHelper.writeText(response, getRandomEvent(lang));
+			}
 			else if (hParams.containsKey("report")) { // Report
 				ArrayList<String> lReport = new ArrayList<String>();
 				lReport.add(REPORT_QUERY1);
@@ -111,6 +116,23 @@ private static final long serialVersionUID = 1L;
 		sports.append("</div>");
 		
 		return sports.append(slide1).toString().replaceAll("\"", "\\\\\"");
+	}
+	
+	public static String getRandomEvent(String lang) {
+		String s = "";
+		try {
+			Integer max = (Integer) DatabaseHelper.executeNative("SELECT max(id) FROM \"Result\"").get(0);
+			int id = new Random().nextInt(max);
+			Result rs = (Result) DatabaseHelper.loadEntity(Result.class, id);
+			if (rs != null) {
+				s = HtmlUtils.writeURL("/results", rs.getSport().getId() + "-" + rs.getChampionship().getId() + "-" + rs.getEvent().getId() + (rs.getSubevent() != null ? "-" + rs.getSubevent().getId() : "") + (rs.getSubevent2() != null ? "-" + rs.getSubevent2().getId() : ""), rs.getSport().getLabel() + "/" + rs.getChampionship().getLabel() + (rs.getEvent() != null ? "/" + rs.getEvent().getLabel() + (rs.getSubevent() != null ? "/" + rs.getSubevent().getLabel() : "") + (rs.getSubevent2() != null ? "/" + rs.getSubevent2().getLabel() : "") : ""));
+				s = "<a href='" + s + "'>" + rs.getSport().getLabel(lang) + "&nbsp;–&nbsp;" + rs.getChampionship().getLabel(lang) + "&nbsp;–&nbsp;" + rs.getEvent().getLabel(lang) + (rs.getSubevent() != null ? "&nbsp;–&nbsp;" + rs.getSubevent().getLabel(lang) : "") + (rs.getSubevent2() != null ? "&nbsp;–&nbsp;" + rs.getSubevent2().getLabel(lang) : "") + "</a>";
+			}
+		}
+		catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return s;
 	}
 	
 }
