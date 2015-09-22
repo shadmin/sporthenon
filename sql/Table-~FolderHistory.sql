@@ -1,8 +1,8 @@
--- Table: "~FOLDER_HISTORY"
+-- Table: "~FolderHistory"
 
--- DROP TABLE "~FOLDER_HISTORY";
+-- DROP TABLE "~FolderHistory";
 
-CREATE TABLE "~FOLDER_HISTORY"
+CREATE TABLE "~FolderHistory"
 (
   id integer NOT NULL,
   previous_params character varying(30),

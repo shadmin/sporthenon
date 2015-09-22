@@ -1,8 +1,8 @@
--- Table: "TEAM_STADIUM"
+-- Table: "TeamStadium"
 
--- DROP TABLE "TEAM_STADIUM";
+-- DROP TABLE "TeamStadium";
 
-CREATE TABLE "TEAM_STADIUM"
+CREATE TABLE "TeamStadium"
 (
   id integer NOT NULL,
   id_league integer NOT NULL,
@@ -17,29 +17,29 @@ CREATE TABLE "TEAM_STADIUM"
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   CONSTRAINT "TEAM_STADIUM_pkey" PRIMARY KEY (id),
   CONSTRAINT "TEAM_STADIUM_id_complex_fkey" FOREIGN KEY (id_complex)
-      REFERENCES "COMPLEX" (id) MATCH SIMPLE
+      REFERENCES "Complex" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "TEAM_STADIUM_id_league_fkey" FOREIGN KEY (id_league)
-      REFERENCES "LEAGUE" (id) MATCH SIMPLE
+      REFERENCES "League" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "TEAM_STADIUM_id_member_fkey" FOREIGN KEY (id_contributor)
       REFERENCES "~Contributor" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "TEAM_STADIUM_id_team_fkey" FOREIGN KEY (id_team)
-      REFERENCES "TEAM" (id) MATCH SIMPLE
+      REFERENCES "Team" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL
 )
 WITH (
   OIDS=FALSE
 );
 
--- Trigger: trigger_ts on "TEAM_STADIUM"
+-- Trigger: TriggerTS on "TeamStadium"
 
--- DROP TRIGGER trigger_ts ON "TEAM_STADIUM";
+-- DROP TRIGGER "TriggerTS" ON "TeamStadium";
 
-CREATE TRIGGER trigger_ts
+CREATE TRIGGER "TriggerTS"
   AFTER INSERT OR UPDATE OR DELETE
-  ON "TEAM_STADIUM"
+  ON "TeamStadium"
   FOR EACH ROW
-  EXECUTE PROCEDURE "UPDATE_REF"('TS');
+  EXECUTE PROCEDURE "UpdateRef"('TS');
 

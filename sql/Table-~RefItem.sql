@@ -1,8 +1,8 @@
--- Table: "~REF_ITEM"
+-- Table: "~RefItem"
 
--- DROP TABLE "~REF_ITEM";
+-- DROP TABLE "~RefItem";
 
-CREATE TABLE "~REF_ITEM"
+CREATE TABLE "~RefItem"
 (
   id integer NOT NULL,
   id_item integer NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE "~REF_ITEM"
   label_rel9 character varying(50),
   label_rel10 character varying(50),
   txt3 character varying(500),
-  txt4 character varying(40),
+  txt4 character varying(500),
   id_rel11 integer,
   label_rel11 character varying(50),
   id_rel12 integer,
@@ -64,7 +64,8 @@ CREATE TABLE "~REF_ITEM"
   label_rel22 character varying(50),
   label_rel23 character varying(50),
   label_rel24 character varying(50),
-  label_rel25 character varying(50)
+  label_rel25 character varying(50),
+  date2 timestamp without time zone
 )
 WITH (
   OIDS=FALSE

@@ -1,8 +1,8 @@
--- Table: "~ERROR_REPORT"
+-- Table: "~ErrorReport"
 
--- DROP TABLE "~ERROR_REPORT";
+-- DROP TABLE "~ErrorReport";
 
-CREATE TABLE "~ERROR_REPORT"
+CREATE TABLE "~ErrorReport"
 (
   id integer NOT NULL,
   url character varying(255),

@@ -1,8 +1,8 @@
--- Table: "PERSON"
+-- Table: "Athlete"
 
--- DROP TABLE "PERSON";
+-- DROP TABLE "Athlete";
 
-CREATE TABLE "PERSON"
+CREATE TABLE "Athlete"
 (
   id integer NOT NULL,
   last_name character varying(30) NOT NULL,
@@ -15,19 +15,19 @@ CREATE TABLE "PERSON"
   link integer,
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
-  img_url character varying(255),
+  photo_copyright character varying(100),
   CONSTRAINT "PERSON_pkey" PRIMARY KEY (id),
   CONSTRAINT "PERSON_id_country_fkey" FOREIGN KEY (id_country)
-      REFERENCES "COUNTRY" (id) MATCH SIMPLE
+      REFERENCES "Country" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "PERSON_id_member_fkey" FOREIGN KEY (id_contributor)
       REFERENCES "~Contributor" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "PERSON_id_sport_fkey" FOREIGN KEY (id_sport)
-      REFERENCES "SPORT" (id) MATCH SIMPLE
+      REFERENCES "Sport" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "PERSON_id_team_fkey" FOREIGN KEY (id_team)
-      REFERENCES "TEAM" (id) MATCH SIMPLE
+      REFERENCES "Team" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "PERSON_last_name_key" UNIQUE (last_name, first_name, id_country, id_sport, id_team)
 )
@@ -40,18 +40,18 @@ WITH (
 -- DROP INDEX "PR_LAST_NAME_INDEX";
 
 CREATE INDEX "PR_LAST_NAME_INDEX"
-  ON "PERSON"
+  ON "Athlete"
   USING btree
   (lower(last_name::text));
 
 
--- Trigger: trigger_pr on "PERSON"
+-- Trigger: TriggerPR on "Athlete"
 
--- DROP TRIGGER trigger_pr ON "PERSON";
+-- DROP TRIGGER "TriggerPR" ON "Athlete";
 
-CREATE TRIGGER trigger_pr
+CREATE TRIGGER "TriggerPR"
   AFTER INSERT OR UPDATE OR DELETE
-  ON "PERSON"
+  ON "Athlete"
   FOR EACH ROW
-  EXECUTE PROCEDURE "UPDATE_REF"('PR');
+  EXECUTE PROCEDURE "UpdateRef"('PR');
 

@@ -1,8 +1,8 @@
--- Table: "RETIRED_NUMBER"
+-- Table: "RetiredNumber"
 
--- DROP TABLE "RETIRED_NUMBER";
+-- DROP TABLE "RetiredNumber";
 
-CREATE TABLE "RETIRED_NUMBER"
+CREATE TABLE "RetiredNumber"
 (
   id integer NOT NULL,
   id_league integer NOT NULL,
@@ -15,29 +15,29 @@ CREATE TABLE "RETIRED_NUMBER"
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   CONSTRAINT "RETIRED_NUMBER_pkey" PRIMARY KEY (id),
   CONSTRAINT "RETIRED_NUMBER_id_league_fkey" FOREIGN KEY (id_league)
-      REFERENCES "LEAGUE" (id) MATCH SIMPLE
+      REFERENCES "League" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "RETIRED_NUMBER_id_member_fkey" FOREIGN KEY (id_contributor)
       REFERENCES "~Contributor" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "RETIRED_NUMBER_id_person_fkey" FOREIGN KEY (id_person)
-      REFERENCES "PERSON" (id) MATCH SIMPLE
+      REFERENCES "Athlete" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "RETIRED_NUMBER_id_team_fkey" FOREIGN KEY (id_team)
-      REFERENCES "TEAM" (id) MATCH SIMPLE
+      REFERENCES "Team" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL
 )
 WITH (
   OIDS=FALSE
 );
 
--- Trigger: trigger_rn on "RETIRED_NUMBER"
+-- Trigger: TriggerRN on "RetiredNumber"
 
--- DROP TRIGGER trigger_rn ON "RETIRED_NUMBER";
+-- DROP TRIGGER "TriggerRN" ON "RetiredNumber";
 
-CREATE TRIGGER trigger_rn
+CREATE TRIGGER "TriggerRN"
   AFTER INSERT OR UPDATE OR DELETE
-  ON "RETIRED_NUMBER"
+  ON "RetiredNumber"
   FOR EACH ROW
-  EXECUTE PROCEDURE "UPDATE_REF"('RN');
+  EXECUTE PROCEDURE "UpdateRef"('RN');
 

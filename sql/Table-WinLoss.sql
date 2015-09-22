@@ -1,8 +1,8 @@
--- Table: "WIN_LOSS"
+-- Table: "WinLoss"
 
--- DROP TABLE "WIN_LOSS";
+-- DROP TABLE "WinLoss";
 
-CREATE TABLE "WIN_LOSS"
+CREATE TABLE "WinLoss"
 (
   id integer NOT NULL,
   id_league integer NOT NULL,
@@ -17,26 +17,26 @@ CREATE TABLE "WIN_LOSS"
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   CONSTRAINT "WIN_LOSS_pkey" PRIMARY KEY (id),
   CONSTRAINT "WIN_LOSS_id_league_fkey" FOREIGN KEY (id_league)
-      REFERENCES "LEAGUE" (id) MATCH SIMPLE
+      REFERENCES "League" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "WIN_LOSS_id_member_fkey" FOREIGN KEY (id_contributor)
       REFERENCES "~Contributor" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "WIN_LOSS_id_team_fkey" FOREIGN KEY (id_team)
-      REFERENCES "TEAM" (id) MATCH SIMPLE
+      REFERENCES "Team" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL
 )
 WITH (
   OIDS=FALSE
 );
 
--- Trigger: trigger_wl on "WIN_LOSS"
+-- Trigger: TriggerWL on "WinLoss"
 
--- DROP TRIGGER trigger_wl ON "WIN_LOSS";
+-- DROP TRIGGER "TriggerWL" ON "WinLoss";
 
-CREATE TRIGGER trigger_wl
+CREATE TRIGGER "TriggerWL"
   AFTER INSERT OR UPDATE OR DELETE
-  ON "WIN_LOSS"
+  ON "WinLoss"
   FOR EACH ROW
-  EXECUTE PROCEDURE "UPDATE_REF"('WL');
+  EXECUTE PROCEDURE "UpdateRef"('WL');
 

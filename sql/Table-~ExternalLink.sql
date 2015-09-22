@@ -1,8 +1,8 @@
--- Table: "~EXTERNAL_LINK"
+-- Table: "~ExternalLink"
 
--- DROP TABLE "~EXTERNAL_LINK";
+-- DROP TABLE "~ExternalLink";
 
-CREATE TABLE "~EXTERNAL_LINK"
+CREATE TABLE "~ExternalLink"
 (
   id integer NOT NULL,
   entity character varying(2),

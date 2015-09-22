@@ -1,8 +1,8 @@
--- Table: "OLYMPIC_RANKING"
+-- Table: "OlympicRanking"
 
--- DROP TABLE "OLYMPIC_RANKING";
+-- DROP TABLE "OlympicRanking";
 
-CREATE TABLE "OLYMPIC_RANKING"
+CREATE TABLE "OlympicRanking"
 (
   id integer NOT NULL,
   id_olympics integer NOT NULL,
@@ -15,26 +15,26 @@ CREATE TABLE "OLYMPIC_RANKING"
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   CONSTRAINT "OLYMPIC_RANKING_pkey" PRIMARY KEY (id),
   CONSTRAINT "OLYMPIC_RANKING_id_country_fkey" FOREIGN KEY (id_country)
-      REFERENCES "COUNTRY" (id) MATCH SIMPLE
+      REFERENCES "Country" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "OLYMPIC_RANKING_id_member_fkey" FOREIGN KEY (id_contributor)
       REFERENCES "~Contributor" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL,
   CONSTRAINT "OLYMPIC_RANKING_id_olympics_fkey" FOREIGN KEY (id_olympics)
-      REFERENCES "OLYMPICS" (id) MATCH SIMPLE
+      REFERENCES "Olympics" (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE SET NULL
 )
 WITH (
   OIDS=FALSE
 );
 
--- Trigger: trigger_or on "OLYMPIC_RANKING"
+-- Trigger: TriggerOR on "OlympicRanking"
 
--- DROP TRIGGER trigger_or ON "OLYMPIC_RANKING";
+-- DROP TRIGGER "TriggerOR" ON "OlympicRanking";
 
-CREATE TRIGGER trigger_or
+CREATE TRIGGER "TriggerOR"
   AFTER INSERT OR UPDATE OR DELETE
-  ON "OLYMPIC_RANKING"
+  ON "OlympicRanking"
   FOR EACH ROW
-  EXECUTE PROCEDURE "UPDATE_REF"('OR');
+  EXECUTE PROCEDURE "UpdateRef"('OR');
 

@@ -1,8 +1,8 @@
--- Table: "~INACTIVE_ITEM"
+-- Table: "~InactiveItem"
 
--- DROP TABLE "~INACTIVE_ITEM";
+-- DROP TABLE "~InactiveItem";
 
-CREATE TABLE "~INACTIVE_ITEM"
+CREATE TABLE "~InactiveItem"
 (
   id integer NOT NULL,
   id_sport integer NOT NULL,

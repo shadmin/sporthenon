@@ -1,8 +1,8 @@
--- Table: "~TREE_ITEM"
+-- Table: "~TreeItem"
 
--- DROP TABLE "~TREE_ITEM";
+-- DROP TABLE "~TreeItem";
 
-CREATE TABLE "~TREE_ITEM"
+CREATE TABLE "~TreeItem"
 (
   id integer NOT NULL,
   id_item integer NOT NULL,
