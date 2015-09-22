@@ -16,7 +16,7 @@ declare
     _type1_condition text;
     _type2_condition text;
 begin
-	INSERT INTO "~REQUEST" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'RC-' || _id_championship, current_date);
+	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'RC-' || _id_championship, current_date);
 
 	_event_condition := CASE WHEN _events <> '0' THEN ' AND RC.id_event IN (' || _events || ')' ELSE '' END;
 	_subevent_condition := CASE WHEN _subevents <> '0' THEN ' AND RC.id_subevent IN (' || _subevents || ')' ELSE '' END;
@@ -28,9 +28,9 @@ begin
 	FOR i IN 1..5 LOOP
 	        _c := ', RC.id_rank# AS rc_rank#, RC.record# AS rc_record#, RC.date# AS rc_date#';
 	        _c := _c || ', PR#.last_name || '', '' || PR#.first_name AS rc_person#, TM#.label AS rc_team#, PRTM#.id AS rc_idprteam#, PRTM#.label AS rc_prteam#';
-	        _j := ' LEFT JOIN "PERSON" PR# ON RC.id_rank# = PR#.id';
-	        _j := _j || ' LEFT JOIN "TEAM" TM# ON RC.id_rank# = TM#.id';
-	        _j := _j || ' LEFT JOIN "TEAM" PRTM# ON PR#.id_team = PRTM#.id';
+	        _j := ' LEFT JOIN "Athlete" PR# ON RC.id_rank# = PR#.id';
+	        _j := _j || ' LEFT JOIN "Team" TM# ON RC.id_rank# = TM#.id';
+	        _j := _j || ' LEFT JOIN "Team" PRTM# ON PR#.id_team = PRTM#.id';
 	        _columns := _columns || regexp_replace(_c, '#', CAST(i AS varchar), 'g');
 	        _joins := _joins || regexp_replace(_j, '#', CAST(i AS varchar), 'g');
 	END LOOP;
@@ -42,11 +42,11 @@ begin
 		RC.type1 AS rc_type1, RC.type2 AS rc_type2, TP1.number AS rc_number1, TP2.number AS rc_number2, RC.exa AS rc_exa, RC.comment AS rc_comment' ||
 		_columns || '
 	FROM
-		"RECORD" RC
-		LEFT JOIN "EVENT" EV ON RC.id_event = EV.id
-		LEFT JOIN "EVENT" SE ON RC.id_subevent = SE.id
-		LEFT JOIN "TYPE" TP1 ON EV.id_type = TP1.id
-		LEFT JOIN "TYPE" TP2 ON SE.id_type = TP2.id' ||
+		"Record" RC
+		LEFT JOIN "Event" EV ON RC.id_event = EV.id
+		LEFT JOIN "Event" SE ON RC.id_subevent = SE.id
+		LEFT JOIN "Type" TP1 ON EV.id_type = TP1.id
+		LEFT JOIN "Type" TP2 ON SE.id_type = TP2.id' ||
 		_joins || '
 	WHERE
 		RC.id_championship = ' || _id_championship || _event_condition || _subevent_condition || _type1_condition || _type2_condition || '

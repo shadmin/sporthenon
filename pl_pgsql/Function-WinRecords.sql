@@ -3,10 +3,10 @@
 -- DROP FUNCTION "WinRecords"(text, character varying);
 
 CREATE OR REPLACE FUNCTION "WinRecords"(_results text, _lang character varying)
-  RETURNS SETOF "~REF_ITEM" AS
+  RETURNS SETOF "~RefItem" AS
 $BODY$
 declare
-	_item "~REF_ITEM"%rowtype;
+	_item "~RefItem"%rowtype;
 	_id1 integer;
 	_id2 integer;
 	_id3 integer;
@@ -41,10 +41,10 @@ begin
 	INTO
 		_type, _type2, _type3
 	FROM
-		"RESULT" RS
-		LEFT JOIN "EVENT" EV ON RS.id_event = EV.id LEFT JOIN "TYPE" TP1 ON EV.id_type = TP1.id
-		LEFT JOIN "EVENT" SE ON RS.id_subevent = SE.id LEFT JOIN "TYPE" TP2 ON SE.id_type = TP2.id
-		LEFT JOIN "EVENT" SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN "TYPE" TP3 ON SE2.id_type = TP3.id
+		"Result" RS
+		LEFT JOIN "Event" EV ON RS.id_event = EV.id LEFT JOIN "Type" TP1 ON EV.id_type = TP1.id
+		LEFT JOIN "Event" SE ON RS.id_subevent = SE.id LEFT JOIN "Type" TP2 ON SE.id_type = TP2.id
+		LEFT JOIN "Event" SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN "Type" TP3 ON SE2.id_type = TP3.id
 	WHERE
 		RS.id = CAST(CASE WHEN POSITION(',' IN _results) > 0 THEN SUBSTRING(_results FROM 1 FOR POSITION(',' IN _results) - 1) ELSE _results END AS integer);
 	IF _type3 IS NOT NULL THEN
@@ -57,33 +57,33 @@ begin
 	
 	OPEN _c FOR EXECUTE '
 	SELECT RS.id_rank1, RS.id_rank2, RS.id_rank3, RS.id_rank4, RS.id_rank5, RS.id_rank6, RS.id_rank7, RS.id_rank8, RS.id_rank9, RS.id_rank10, RS.exa, RS.comment
-	FROM "RESULT" RS
+	FROM "Result" RS
 	WHERE RS.id IN (' || _results || ')';
 	LOOP	
 		FETCH _c INTO _id1, _id2, _id3, _id4, _id5, _id6, _id7, _id8, _id9, _id10, _exa, _cmt;
 		EXIT WHEN NOT FOUND;
 		IF (_type < 10) THEN
-			SELECT PR.link INTO _link1 FROM "PERSON" PR WHERE PR.id = _id1;IF _link1 IS NOT NULL and _link1 > 0 THEN _id1 := _link1; END IF;
-			SELECT PR.link INTO _link2 FROM "PERSON" PR WHERE PR.id = _id2;IF _link2 IS NOT NULL and _link2 > 0 THEN _id2 := _link2; END IF;
-			SELECT PR.link INTO _link3 FROM "PERSON" PR WHERE PR.id = _id3;IF _link3 IS NOT NULL and _link3 > 0 THEN _id3 := _link3; END IF;
-			SELECT PR.link INTO _link4 FROM "PERSON" PR WHERE PR.id = _id4;IF _link4 IS NOT NULL and _link4 > 0 THEN _id4 := _link4; END IF;
-			SELECT PR.link INTO _link5 FROM "PERSON" PR WHERE PR.id = _id5;IF _link5 IS NOT NULL and _link5 > 0 THEN _id5 := _link5; END IF;
-			SELECT PR.link INTO _link6 FROM "PERSON" PR WHERE PR.id = _id6;IF _link6 IS NOT NULL and _link6 > 0 THEN _id6 := _link6; END IF;
-			SELECT PR.link INTO _link7 FROM "PERSON" PR WHERE PR.id = _id7;IF _link7 IS NOT NULL and _link7 > 0 THEN _id7 := _link7; END IF;
-			SELECT PR.link INTO _link8 FROM "PERSON" PR WHERE PR.id = _id8;IF _link8 IS NOT NULL and _link8 > 0 THEN _id8 := _link8; END IF;
-			SELECT PR.link INTO _link9 FROM "PERSON" PR WHERE PR.id = _id9;IF _link9 IS NOT NULL and _link9 > 0 THEN _id9 := _link9; END IF;
-			SELECT PR.link INTO _link10 FROM "PERSON" PR WHERE PR.id = _id10;IF _link10 IS NOT NULL and _link10 > 0 THEN _id10 := _link10; END IF;
+			SELECT PR.link INTO _link1 FROM "Athlete" PR WHERE PR.id = _id1;IF _link1 IS NOT NULL and _link1 > 0 THEN _id1 := _link1; END IF;
+			SELECT PR.link INTO _link2 FROM "Athlete" PR WHERE PR.id = _id2;IF _link2 IS NOT NULL and _link2 > 0 THEN _id2 := _link2; END IF;
+			SELECT PR.link INTO _link3 FROM "Athlete" PR WHERE PR.id = _id3;IF _link3 IS NOT NULL and _link3 > 0 THEN _id3 := _link3; END IF;
+			SELECT PR.link INTO _link4 FROM "Athlete" PR WHERE PR.id = _id4;IF _link4 IS NOT NULL and _link4 > 0 THEN _id4 := _link4; END IF;
+			SELECT PR.link INTO _link5 FROM "Athlete" PR WHERE PR.id = _id5;IF _link5 IS NOT NULL and _link5 > 0 THEN _id5 := _link5; END IF;
+			SELECT PR.link INTO _link6 FROM "Athlete" PR WHERE PR.id = _id6;IF _link6 IS NOT NULL and _link6 > 0 THEN _id6 := _link6; END IF;
+			SELECT PR.link INTO _link7 FROM "Athlete" PR WHERE PR.id = _id7;IF _link7 IS NOT NULL and _link7 > 0 THEN _id7 := _link7; END IF;
+			SELECT PR.link INTO _link8 FROM "Athlete" PR WHERE PR.id = _id8;IF _link8 IS NOT NULL and _link8 > 0 THEN _id8 := _link8; END IF;
+			SELECT PR.link INTO _link9 FROM "Athlete" PR WHERE PR.id = _id9;IF _link9 IS NOT NULL and _link9 > 0 THEN _id9 := _link9; END IF;
+			SELECT PR.link INTO _link10 FROM "Athlete" PR WHERE PR.id = _id10;IF _link10 IS NOT NULL and _link10 > 0 THEN _id10 := _link10; END IF;
 		ELSIF (_type = 50) THEN
-			SELECT TM.link INTO _link1 FROM "TEAM" TM WHERE TM.id = _id1;IF _link1 IS NOT NULL and _link1 > 0 THEN _id1 := _link1; END IF;
-			SELECT TM.link INTO _link2 FROM "TEAM" TM WHERE TM.id = _id2;IF _link2 IS NOT NULL and _link2 > 0 THEN _id2 := _link2; END IF;
-			SELECT TM.link INTO _link3 FROM "TEAM" TM WHERE TM.id = _id3;IF _link3 IS NOT NULL and _link3 > 0 THEN _id3 := _link3; END IF;
-			SELECT TM.link INTO _link4 FROM "TEAM" TM WHERE TM.id = _id4;IF _link4 IS NOT NULL and _link4 > 0 THEN _id4 := _link4; END IF;
-			SELECT TM.link INTO _link5 FROM "TEAM" TM WHERE TM.id = _id5;IF _link5 IS NOT NULL and _link5 > 0 THEN _id5 := _link5; END IF;
-			SELECT TM.link INTO _link6 FROM "TEAM" TM WHERE TM.id = _id6;IF _link6 IS NOT NULL and _link6 > 0 THEN _id6 := _link6; END IF;
-			SELECT TM.link INTO _link7 FROM "TEAM" TM WHERE TM.id = _id7;IF _link7 IS NOT NULL and _link7 > 0 THEN _id7 := _link7; END IF;
-			SELECT TM.link INTO _link8 FROM "TEAM" TM WHERE TM.id = _id8;IF _link8 IS NOT NULL and _link8 > 0 THEN _id8 := _link8; END IF;
-			SELECT TM.link INTO _link9 FROM "TEAM" TM WHERE TM.id = _id9;IF _link9 IS NOT NULL and _link9 > 0 THEN _id9 := _link9; END IF;
-			SELECT TM.link INTO _link10 FROM "TEAM" TM WHERE TM.id = _id10;IF _link10 IS NOT NULL and _link10 > 0 THEN _id10 := _link10; END IF;
+			SELECT TM.link INTO _link1 FROM "Team" TM WHERE TM.id = _id1;IF _link1 IS NOT NULL and _link1 > 0 THEN _id1 := _link1; END IF;
+			SELECT TM.link INTO _link2 FROM "Team" TM WHERE TM.id = _id2;IF _link2 IS NOT NULL and _link2 > 0 THEN _id2 := _link2; END IF;
+			SELECT TM.link INTO _link3 FROM "Team" TM WHERE TM.id = _id3;IF _link3 IS NOT NULL and _link3 > 0 THEN _id3 := _link3; END IF;
+			SELECT TM.link INTO _link4 FROM "Team" TM WHERE TM.id = _id4;IF _link4 IS NOT NULL and _link4 > 0 THEN _id4 := _link4; END IF;
+			SELECT TM.link INTO _link5 FROM "Team" TM WHERE TM.id = _id5;IF _link5 IS NOT NULL and _link5 > 0 THEN _id5 := _link5; END IF;
+			SELECT TM.link INTO _link6 FROM "Team" TM WHERE TM.id = _id6;IF _link6 IS NOT NULL and _link6 > 0 THEN _id6 := _link6; END IF;
+			SELECT TM.link INTO _link7 FROM "Team" TM WHERE TM.id = _id7;IF _link7 IS NOT NULL and _link7 > 0 THEN _id7 := _link7; END IF;
+			SELECT TM.link INTO _link8 FROM "Team" TM WHERE TM.id = _id8;IF _link8 IS NOT NULL and _link8 > 0 THEN _id8 := _link8; END IF;
+			SELECT TM.link INTO _link9 FROM "Team" TM WHERE TM.id = _id9;IF _link9 IS NOT NULL and _link9 > 0 THEN _id9 := _link9; END IF;
+			SELECT TM.link INTO _link10 FROM "Team" TM WHERE TM.id = _id10;IF _link10 IS NOT NULL and _link10 > 0 THEN _id10 := _link10; END IF;
 		END IF;
 		IF (_id1 IS NOT NULL) THEN
 			_str := _str || (CASE WHEN _str <> '' THEN ',' ELSE '' END) || _id1;
@@ -118,13 +118,13 @@ begin
 	_query := 'SELECT ';
 	IF (_type < 10) THEN
 		_query := _query || 'PR.id, PR.last_name || '', '' || PR.first_name, PR.last_name || '', '' || PR.first_name, CN.code';
-		_query := _query || ' FROM "PERSON" PR LEFT JOIN "COUNTRY" CN ON PR.id_country = CN.id WHERE PR.id IN (' || _str || ')';
+		_query := _query || ' FROM "Athlete" PR LEFT JOIN "Country" CN ON PR.id_country = CN.id WHERE PR.id IN (' || _str || ')';
 	ELSIF (_type = 50) THEN
 		_query := _query || 'TM.id, TM.label, TM.label, NULL';
-		_query := _query || ' FROM "TEAM" TM WHERE TM.id IN (' || _str || ')';
+		_query := _query || ' FROM "Team" TM WHERE TM.id IN (' || _str || ')';
 	ELSIF (_type = 99) THEN
 		_query := _query || 'CN.id, CN.label' || _lang || ', CN.label, NULL';
-		_query := _query || ' FROM "COUNTRY" CN WHERE CN.id IN (' || _str || ')';
+		_query := _query || ' FROM "Country" CN WHERE CN.id IN (' || _str || ')';
 	END IF;
 	OPEN _c FOR EXECUTE _query;
 	LOOP

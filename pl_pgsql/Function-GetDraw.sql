@@ -24,7 +24,7 @@ begin
 	INTO
 		_id_sport, _id_championship, _id_event, _id_subevent, _id_subevent2
 	FROM
-		"RESULT" RS
+		"Result" RS
 	WHERE
 		RS.id = _id_result;
 	-- Get entity type (person, country, team)
@@ -34,8 +34,8 @@ begin
 	    INTO
 	        _type
 	    FROM
-	        "EVENT" EV
-	        LEFT JOIN "TYPE" TP ON EV.id_type = TP.id
+	        "Event" EV
+	        LEFT JOIN "Type" TP ON EV.id_type = TP.id
 	    WHERE
 	        EV.id = _id_subevent2;
 	ELSIF _id_subevent <> 0 THEN
@@ -44,8 +44,8 @@ begin
 	    INTO
 	        _type
 	    FROM
-	        "EVENT" EV
-	        LEFT JOIN "TYPE" TP ON EV.id_type = TP.id
+	        "Event" EV
+	        LEFT JOIN "Type" TP ON EV.id_type = TP.id
 	    WHERE
 	        EV.id = _id_subevent;
 	ELSIF _id_event <> 0 THEN
@@ -54,8 +54,8 @@ begin
 	    INTO
 	        _type
 	    FROM
-	        "EVENT" EV
-	        LEFT JOIN "TYPE" TP ON EV.id_type = TP.id
+	        "Event" EV
+	        LEFT JOIN "Type" TP ON EV.id_type = TP.id
 	    WHERE
 	        EV.id = _id_event;	        
 	ELSE
@@ -64,14 +64,14 @@ begin
 	    INTO
 	        _type
 	    FROM
-	        "RESULT" RS
-	        LEFT JOIN "EVENT" EV ON RS.id_event = EV.id
-	        LEFT JOIN "TYPE" TP ON EV.id_type = TP.id
+	        "Result" RS
+	        LEFT JOIN "Event" EV ON RS.id_event = EV.id
+	        LEFT JOIN "Type" TP ON EV.id_type = TP.id
 	    WHERE
 	         RS.id_sport = _id_sport AND RS.id_championship = _id_championship;
 	END IF;
 
-	INSERT INTO "~REQUEST" VALUES (NEXTVAL('"~SeqRequest"'), 'DR', _id_sport || '-' || _id_championship || '-' || _id_event, current_date);
+	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'DR', _id_sport || '-' || _id_championship || '-' || _id_event, current_date);
 
 	-- Build entity-specific columns/joins
 	_level = '{qf1,qf1,qf2,qf2,qf3,qf3,qf4,qf4,sf1,sf1,sf2,sf2,f,f,thd,thd}';
@@ -84,20 +84,20 @@ begin
 			_columns := _columns || ', PR' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_id, PR' || i || '.last_name AS ' || _entity[i] || '_' || _level[i] || '_str1, PR' || i || '.first_name AS ' || _entity[i] || '_' || _level[i] || '_str2, NULL AS ' || _entity[i] || '_' || _level[i] || '_str3';
 			_columns := _columns || ', PRTM' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_rel1_id, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_code, PRTM' || i || '.label AS ' || _entity[i] || '_' || _level[i] || '_rel1_label, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_label_en';
 			_columns := _columns || ', PRCN' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_rel2_id, PRCN' || i || '.code AS ' || _entity[i] || '_' || _level[i] || '_rel2_code, PRCN' || i || '.label' || _lang || ' AS ' || _entity[i] || '_' || _level[i] || '_rel2_label, PRCN' || i || '.label AS ' || _entity[i] || '_' || _level[i] || '_rel2_label_en';
-			_joins := _joins || ' LEFT JOIN "PERSON" PR' || i || ' ON ' || _entity_id[i] || ' = PR' || i || '.id';
-			_joins := _joins || ' LEFT JOIN "TEAM" PRTM' || i || ' ON PR' || i || '.id_team = PRTM' || i || '.id';
-			_joins := _joins || ' LEFT JOIN "COUNTRY" PRCN' || i || ' ON PR' || i || '.id_country = PRCN' || i || '.id';
+			_joins := _joins || ' LEFT JOIN "Athlete" PR' || i || ' ON ' || _entity_id[i] || ' = PR' || i || '.id';
+			_joins := _joins || ' LEFT JOIN "Team" PRTM' || i || ' ON PR' || i || '.id_team = PRTM' || i || '.id';
+			_joins := _joins || ' LEFT JOIN "Country" PRCN' || i || ' ON PR' || i || '.id_country = PRCN' || i || '.id';
 		ELSIF _type = 50 THEN -- Team
 			_columns := _columns || ', TM' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_id, NULL AS ' || _entity[i] || '_' || _level[i] || '_str1, TM' || i || '.label AS ' || _entity[i] || '_' || _level[i] || '_str2, NULL AS ' || _entity[i] || '_' || _level[i] || '_str3';
 			_columns := _columns || ', NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_id, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_code, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_label, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_label_en';
 			_columns := _columns || ', TMCN' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_rel2_id, TMCN' || i || '.code AS ' || _entity[i] || '_' || _level[i] || '_rel2_code, TMCN' || i || '.label' || _lang || ' AS ' || _entity[i] || '_' || _level[i] || '_rel2_label, TMCN' || i || '.label AS ' || _entity[i] || '_' || _level[i] || '_rel2_label_en';
-			_joins := _joins || ' LEFT JOIN "TEAM" TM' || i || ' ON ' || _entity_id[i] || ' = TM' || i || '.id';
-			_joins := _joins || ' LEFT JOIN "COUNTRY" TMCN' || i || ' ON TM' || i || '.id_country = TMCN' || i || '.id';
+			_joins := _joins || ' LEFT JOIN "Team" TM' || i || ' ON ' || _entity_id[i] || ' = TM' || i || '.id';
+			_joins := _joins || ' LEFT JOIN "Country" TMCN' || i || ' ON TM' || i || '.id_country = TMCN' || i || '.id';
 		ELSIF _type = 99 THEN -- Country
 			_columns := _columns || ', CN' || i || '.id AS ' || _entity[i] || '_' || _level[i] || '_id, CN' || i || '.code AS ' || _entity[i] || '_' || _level[i] || '_str1, CN' || i || '.label' || _lang || ' AS ' || _entity[i] || '_' || _level[i] || '_str2, CN' || i || '.label AS ' || _entity[i] || '_' || _level[i] || '_str3';
 			_columns := _columns || ', NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_id, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_code, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_label, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel1_label_en';
 			_columns := _columns || ', NULL AS ' || _entity[i] || '_' || _level[i] || '_rel2_id, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel2_code, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel2_label, NULL AS ' || _entity[i] || '_' || _level[i] || '_rel2_label_en';
-			_joins := _joins || ' LEFT JOIN "COUNTRY" CN' || i || ' ON ' || _entity_id[i] || ' = CN' || i || '.id';
+			_joins := _joins || ' LEFT JOIN "Country" CN' || i || ' ON ' || _entity_id[i] || ' = CN' || i || '.id';
 		END IF;
 	END LOOP;
 
@@ -108,9 +108,9 @@ begin
 		DR.result_sf1 AS dr_result_sf1, DR.result_sf2 AS dr_result_sf2, RS.result1 AS rs_result_f, DR.result_thd AS dr_result_thd' ||
 		_columns || '
 	FROM
-		"DRAW" DR
-		LEFT JOIN "RESULT" RS ON DR.id_result = RS.id
-		LEFT JOIN "YEAR" YR ON RS.id_year = YR.id' ||
+		"Draw" DR
+		LEFT JOIN "Result" RS ON DR.id_result = RS.id
+		LEFT JOIN "Year" YR ON RS.id_year = YR.id' ||
 		_joins || '
 	WHERE
 		DR.id_result = ' || _id_result;

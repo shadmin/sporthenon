@@ -24,8 +24,8 @@ begin
 		WL.type AS wl_type, WL.count_win AS wl_count_win, WL.count_loss AS wl_count_loss, WL.count_tie AS wl_count_tie,
 		WL.count_otloss AS wl_count_otloss
 	FROM
-		"WIN_LOSS" WL
-		LEFT JOIN "TEAM" TM ON WL.id_team = TM.id
+		"WinLoss" WL
+		LEFT JOIN "Team" TM ON WL.id_team = TM.id
 	WHERE
 		WL.id_league = ' || _id_league || _team_condition || '
 	ORDER BY

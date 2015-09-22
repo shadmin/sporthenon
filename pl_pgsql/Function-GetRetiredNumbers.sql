@@ -10,7 +10,7 @@ declare
     _team_condition text;
     _number_condition text;
 begin
-	INSERT INTO "~REQUEST" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'RN-' || _id_league, current_date);
+	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'RN-' || _id_league, current_date);
 
 	-- Set team condition ('All teams' = Empty condition)
 	_team_condition := '';
@@ -29,10 +29,10 @@ begin
 		RN.id AS rn_id, TM.id AS tm_id, TM.label AS tm_label, 
 		PR.id AS pr_id, PR.last_name AS pr_last_name, PR.first_name AS pr_first_name, YR.id AS yr_id, YR.label AS yr_label, RN.number AS rn_number
 	FROM
-		"RETIRED_NUMBER" RN
-		LEFT JOIN "TEAM" TM ON RN.id_team = TM.id
-		LEFT JOIN "PERSON" PR ON RN.id_person = PR.id
-		LEFT JOIN "YEAR" YR ON RN.id_year = YR.id
+		"RetiredNumber" RN
+		LEFT JOIN "Team" TM ON RN.id_team = TM.id
+		LEFT JOIN "Athlete" PR ON RN.id_person = PR.id
+		LEFT JOIN "Year" YR ON RN.id_year = YR.id
 	WHERE
 		RN.id_league = ' || _id_league || _team_condition || _number_condition || '
 	ORDER BY

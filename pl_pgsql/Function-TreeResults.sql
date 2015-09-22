@@ -3,10 +3,10 @@
 -- DROP FUNCTION "TreeResults"(character varying, character varying);
 
 CREATE OR REPLACE FUNCTION "TreeResults"(_filter character varying, _lang character varying)
-  RETURNS SETOF "~TREE_ITEM" AS
+  RETURNS SETOF "~TreeItem" AS
 $BODY$
 declare
-	_item "~TREE_ITEM"%rowtype;
+	_item "~TreeItem"%rowtype;
 	_c refcursor;
 	_sp_id integer;
 	_sp_label varchar(25);
@@ -41,13 +41,13 @@ begin
 	_current_se_id := 0;
 	OPEN _c FOR EXECUTE
 	'SELECT DISTINCT SP.id, SP.label' || _lang || ', SP.label, CP.id, CP.label' || _lang || ', CP.label, EV.id, EV.label' || _lang || ', EV.label, SE.id, SE.label' || _lang || ', SE.label, SE2.id, SE2.label' || _lang || ', SE2.label, II.id_championship, II.id_event, II.id_subevent, II.id_subevent2, CP.index, EV.index, SE.index, SE2.index, (CASE WHEN II.id_event IS NOT NULL AND II.id_subevent IS NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_ev, (CASE WHEN II.id_subevent IS NOT NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_se, (CASE WHEN II.id_subevent2 IS NOT NULL THEN 1 ELSE 0 END) AS o_ii_se2
-	    FROM "RESULT" RS LEFT JOIN "SPORT" SP ON RS.id_sport = SP.id
-	    LEFT JOIN "CHAMPIONSHIP" CP ON RS.id_championship = CP.id
-	    LEFT JOIN "EVENT" EV ON RS.id_event = EV.id
-	    LEFT JOIN "EVENT" SE ON RS.id_subevent = SE.id
-	    LEFT JOIN "EVENT" SE2 ON RS.id_subevent2 = SE2.id
-	    LEFT JOIN "OLYMPICS" OL ON OL.id_year = RS.id_year
-	    LEFT JOIN "~INACTIVE_ITEM" II ON (RS.id_sport = II.id_sport AND RS.id_championship = II.id_championship AND RS.id_event = II.id_event AND (RS.id_subevent = II.id_subevent OR RS.id_subevent IS NULL) AND (RS.id_subevent2 = II.id_subevent2 OR RS.id_subevent2 IS NULL))
+	    FROM "Result" RS LEFT JOIN "Sport" SP ON RS.id_sport = SP.id
+	    LEFT JOIN "Championship" CP ON RS.id_championship = CP.id
+	    LEFT JOIN "Event" EV ON RS.id_event = EV.id
+	    LEFT JOIN "Event" SE ON RS.id_subevent = SE.id
+	    LEFT JOIN "Event" SE2 ON RS.id_subevent2 = SE2.id
+	    LEFT JOIN "Olympics" OL ON OL.id_year = RS.id_year
+	    LEFT JOIN "~InactiveItem" II ON (RS.id_sport = II.id_sport AND RS.id_championship = II.id_championship AND RS.id_event = II.id_event AND (RS.id_subevent = II.id_subevent OR RS.id_subevent IS NULL) AND (RS.id_subevent2 = II.id_subevent2 OR RS.id_subevent2 IS NULL))
 	    ' || _filter || ' ORDER BY SP.label' || _lang || ', CP.index, o_ii_ev, EV.index, o_ii_se, SE.index, o_ii_se2, SE2.index, CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', SE2.label' || _lang;
 	LOOP
 		FETCH _c INTO _sp_id, _sp_label, _sp_label_en, _cp_id, _cp_label, _cp_label_en, _ev_id, _ev_label, _ev_label_en, _se_id, _se_label, _se_label_en, _se2_id, _se2_label, _se2_label_en, _ii_championship, _ii_event, _ii_subevent, _ii_subevent2;

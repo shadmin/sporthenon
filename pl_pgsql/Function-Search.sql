@@ -3,10 +3,10 @@
 -- DROP FUNCTION "Search"(character varying, character varying, smallint, character varying);
 
 CREATE OR REPLACE FUNCTION "Search"(_pattern character varying, _scope character varying, _limit smallint, _lang character varying)
-  RETURNS SETOF "~REF_ITEM" AS
+  RETURNS SETOF "~RefItem" AS
 $BODY$
 declare
-	_item "~REF_ITEM"%rowtype;
+	_item "~RefItem"%rowtype;
 	_index smallint;
 	_current_id integer;
 	_current_label varchar(100);
@@ -35,7 +35,7 @@ declare
 	_rel_count smallint;
 	__pattern text;
 begin
-	INSERT INTO "~REQUEST" VALUES (NEXTVAL('"~SeqRequest"'), 'SC', _pattern, current_date);
+	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'SC', _pattern, current_date);
 	
 	_i := 1;
 	_index := 1;
@@ -58,7 +58,7 @@ begin
 	__pattern := replace(__pattern, 'y', '(y|ý)');
 	__pattern := replace(__pattern, 'z', '(z|ż|ź|ž|Ž)');
 	_scopes = '{PR,CT,CX,CN,CP,EV,SP,TM,ST,YR}';
-	_tables = '{PERSON,CITY,COMPLEX,COUNTRY,CHAMPIONSHIP,EVENT,SPORT,TEAM,STATE,YEAR}';
+	_tables = '{Athlete,City,Complex,Country,Championship,Event,Sport,Team,State,Year}';
 	FOR _s IN SELECT UNNEST(_scopes) LOOP
 		IF _scope ~ ('(^|,)' || _s || '($|,)') OR _scope = '.' THEN
 			_rel_cols := '';
@@ -68,43 +68,43 @@ begin
 			-- Get related fields
 			IF (_s ~ 'PR|TM') THEN -- Relation: Country
 				_rel_cols := _rel_cols || ', CN.id, CN.label' || _lang || ' || '' ('' || CN.code || '')'', CN.code';
-				_rel_joins := _rel_joins || ' LEFT JOIN "COUNTRY" CN ON ' || _s || '.id_country = CN.id';
+				_rel_joins := _rel_joins || ' LEFT JOIN "Country" CN ON ' || _s || '.id_country = CN.id';
 				_rel_count := _rel_count + 1;
 			END IF;
 			IF (_s ~ 'PR|TM') THEN -- Relation: Sport
 				_rel_cols := _rel_cols || ', SP.id, SP.label' || _lang || ', SP.label';
-				_rel_joins := _rel_joins || ' LEFT JOIN "SPORT" SP ON ' || _s || '.id_sport = SP.id';
+				_rel_joins := _rel_joins || ' LEFT JOIN "Sport" SP ON ' || _s || '.id_sport = SP.id';
 				_rel_count := _rel_count + 1;
 			END IF;
 			IF (_s = 'PR') THEN -- Relation: Team
 				_rel_cols := _rel_cols || ', TM.id, TM.label, TM.label';
-				_rel_joins := _rel_joins || ' LEFT JOIN "TEAM" TM ON ' || _s || '.id_team = TM.id';
+				_rel_joins := _rel_joins || ' LEFT JOIN "Team" TM ON ' || _s || '.id_team = TM.id';
 				_rel_count := _rel_count + 1;
 			END IF;
 			IF (_s = 'CX') THEN -- Relation: City/State/Country
 				_rel_cols := _rel_cols || ', CT.id, CT.label' || _lang || ', CT.label';
 				_rel_cols := _rel_cols || ', ST.id, ST.label' || _lang || ', ST.label';
 				_rel_cols := _rel_cols || ', CN.id, CN.label' || _lang || ', CN.label';
-				_rel_joins := _rel_joins || ' LEFT JOIN "CITY" CT ON ' || _s || '.id_city = CT.id';
-				_rel_joins := _rel_joins || ' LEFT JOIN "STATE" ST ON CT.id_state = ST.id';
-				_rel_joins := _rel_joins || ' LEFT JOIN "COUNTRY" CN ON CT.id_country = CN.id';
+				_rel_joins := _rel_joins || ' LEFT JOIN "City" CT ON ' || _s || '.id_city = CT.id';
+				_rel_joins := _rel_joins || ' LEFT JOIN "State" ST ON CT.id_state = ST.id';
+				_rel_joins := _rel_joins || ' LEFT JOIN "Country" CN ON CT.id_country = CN.id';
 				_rel_count := _rel_count + 3;
 			END IF;
 			IF (_s = 'CT') THEN -- Relation: State/Country
 				_rel_cols := _rel_cols || ', NULL, NULL, NULL';
 				_rel_cols := _rel_cols || ', ST.id, ST.label' || _lang || ', ST.label';
 				_rel_cols := _rel_cols || ', CN.id, CN.label' || _lang || ', CN.label';
-				_rel_joins := _rel_joins || ' LEFT JOIN "STATE" ST ON ' || _s || '.id_state = ST.id';
-				_rel_joins := _rel_joins || ' LEFT JOIN "COUNTRY" CN ON ' || _s || '.id_country = CN.id';
+				_rel_joins := _rel_joins || ' LEFT JOIN "State" ST ON ' || _s || '.id_state = ST.id';
+				_rel_joins := _rel_joins || ' LEFT JOIN "Country" CN ON ' || _s || '.id_country = CN.id';
 				_rel_count := _rel_count + 3;
 			END IF;
+			FOR _j IN (_rel_count + 1)..3 LOOP
+				_rel_cols := _rel_cols || ', NULL, NULL, NULL';
+			END LOOP;
 			IF (_s ~ 'CT|CX|PR|TM') THEN
 				_rel_cols := _rel_cols || ', ' || _s || '.link';
 			END IF;
-			FOR _j IN 1.._rel_count LOOP
-				_rel_cols := _rel_cols || ', NULL, NULL, NULL';
-			END LOOP;
-
+			
 			-- Execute query
 			_label := 'label';
 			_label_en := 'label';
@@ -112,9 +112,9 @@ begin
 				_label := 'label' || _lang;
 			END IF;
 			_query := 'SELECT ' || _s || '.id, ' || _s || '.' || _label || ',' || _s || '.' || _label_en || ',' || _s || '.ref' || _rel_cols || ' FROM "' || _tables[_i] || '" ' || _s;
-			_query := _query || _rel_joins || ' WHERE ' || (CASE _s WHEN 'CT' THEN '(CT.link = 0 OR CT.link IS NULL) AND ' WHEN 'CX' THEN '(CX.link = 0 OR CX.link IS NULL) AND ' WHEN 'TM' THEN '(TM.link = 0 OR TM.link IS NULL) AND ' ELSE '' END) || _s || '.' || _label || ' ~* ''' || __pattern || '''' || (CASE _limit WHEN 0 THEN ' ORDER BY ' || _s || '.' || _label ELSE '' END);
+			_query := _query || _rel_joins || ' WHERE ' || (CASE _s WHEN 'CT' THEN '(CT.link = 0 OR CT.link IS NULL) AND ' WHEN 'CX' THEN '(CX.link = 0 OR CX.link IS NULL) AND ' WHEN 'TM' THEN '(TM.link = 0 OR TM.link IS NULL OR (TM.year1 IS NOT NULL AND TM.year1 <> '''')) AND ' ELSE '' END) || _s || '.' || _label || ' ~* ''' || __pattern || '''' || (CASE _limit WHEN 0 THEN ' ORDER BY ' || _s || '.' || _label ELSE '' END);
 			IF _s = 'PR' THEN
-				_query := 'SELECT PR.id, PR.last_name || (CASE WHEN length(PR.first_name) > 0 THEN '', '' || PR.first_name ELSE '''' END), (CASE WHEN length(PR.first_name) > 0 THEN PR.first_name || '' '' ELSE '''' END) || PR.last_name, PR.ref' || _rel_cols || ' FROM "PERSON" PR' || _rel_joins;
+				_query := 'SELECT PR.id, PR.last_name || (CASE WHEN length(PR.first_name) > 0 THEN '', '' || PR.first_name ELSE '''' END), (CASE WHEN length(PR.first_name) > 0 THEN PR.first_name || '' '' ELSE '''' END) || PR.last_name, PR.ref' || _rel_cols || ' FROM "Athlete" PR' || _rel_joins;
 				_query := _query || ' WHERE (PR.link = 0 OR PR.link IS NULL) AND (PR.last_name || '' '' || PR.first_name ~* ''' || __pattern || ''' OR PR.first_name || '' '' || PR.last_name ~* ''' || __pattern || ''' OR PR.last_name ~* ''' || __pattern || ''' OR PR.first_name ~* ''' || __pattern || ''')';
 				_query := _query || (CASE _limit WHEN 0 THEN ' ORDER BY PR.last_name, PR.first_name' ELSE '' END);
 			END IF;
@@ -127,13 +127,13 @@ begin
 				_item.label = _current_label;
 				IF _current_link IS NOT NULL THEN
 					IF _s = 'CT' THEN
-						SELECT SUM(ref) INTO _item.count_ref FROM "CITY" WHERE id=_current_id OR link=_current_id;
+						SELECT SUM(ref) INTO _item.count_ref FROM "City" WHERE id=_current_id OR link=_current_id;
 					ELSIF _s = 'CX' THEN
-						SELECT SUM(ref) INTO _item.count_ref FROM "COMPLEX" WHERE id=_current_id OR link=_current_id;
+						SELECT SUM(ref) INTO _item.count_ref FROM "Complex" WHERE id=_current_id OR link=_current_id;
 					ELSIF _s = 'PR' THEN
-						SELECT SUM(ref) INTO _item.count_ref FROM "PERSON" WHERE id=_current_id OR link=_current_id;
+						SELECT SUM(ref) INTO _item.count_ref FROM "Athlete" WHERE id=_current_id OR link=_current_id;
 					ELSIF _s = 'TM' THEN
-						SELECT SUM(ref) INTO _item.count_ref FROM "TEAM" WHERE id=_current_id OR link=_current_id;
+						SELECT SUM(ref) INTO _item.count_ref FROM "Team" WHERE id=_current_id OR link=_current_id;
 					END IF;
 				ELSE
 					_item.count_ref = (CASE WHEN _current_ref IS NOT NULL THEN _current_ref ELSE 0 END);

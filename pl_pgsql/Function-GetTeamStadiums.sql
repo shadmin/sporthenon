@@ -9,7 +9,7 @@ declare
     _c refcursor;
     _team_condition text;
 begin
-	INSERT INTO "~REQUEST" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'TS-' || _id_league, current_date);
+	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'TS-' || _id_league, current_date);
 	
 	-- Set team condition ('All teams' = Empty condition)
 	_team_condition := '';
@@ -24,12 +24,12 @@ begin
 		CX.id AS cx_id, CX.label' || _lang || ' AS cx_label, CX.label AS cx_label_en, CT.id AS ct_id, CT.label' || _lang || ' AS ct_label_en, CT.label AS ct_label, ST.id AS st_id, ST.code AS st_code, ST.label' || _lang || ' AS st_label, ST.label AS st_label_en,
 		CN.id AS cn_id, CN.code AS cn_code, CN.label' || _lang || ' AS cn_label, CN.label AS cn_label_en, TS.date1 AS ts_date1, TS.date2 AS ts_date2
 	FROM
-		"TEAM_STADIUM" TS
-		LEFT JOIN "TEAM" TM ON TS.id_team = TM.id
-		LEFT JOIN "COMPLEX" CX ON TS.id_complex = CX.id
-		LEFT JOIN "CITY" CT ON CX.id_city = CT.id
-		LEFT JOIN "STATE" ST ON CT.id_state = ST.id
-		LEFT JOIN "COUNTRY" CN ON CT.id_country = CN.id
+		"TeamStadium" TS
+		LEFT JOIN "Team" TM ON TS.id_team = TM.id
+		LEFT JOIN "Complex" CX ON TS.id_complex = CX.id
+		LEFT JOIN "City" CT ON CX.id_city = CT.id
+		LEFT JOIN "State" ST ON CT.id_state = ST.id
+		LEFT JOIN "Country" CN ON CT.id_country = CN.id
 	WHERE
 		TS.id_league = ' || _id_league || _team_condition || '
 	ORDER BY

@@ -14,8 +14,12 @@ CREATE OR REPLACE VIEW "~Contributors" AS
                     ELSE 0
                 END) AS count_u
            FROM "~Contributor" cr
-      LEFT JOIN "~CONTRIBUTION" cb ON cr.id = cb.id_contributor
+      LEFT JOIN "~Contribution" cb ON cr.id = cb.id_contributor
      GROUP BY cr.id, cr.login, cr.public_name, cr.sports) t
-   LEFT JOIN "SPORT" sp ON sp.id = ANY (string_to_array(t.sports::text, ','::text)::integer[])
+   LEFT JOIN "Sport" sp ON sp.id = ANY (string_to_array(
+   CASE
+       WHEN t.sports IS NULL OR t.sports::text = 'null'::text THEN ''::character varying
+       ELSE t.sports
+   END::text, ','::text)::integer[])
   GROUP BY t.id, t.login, t.name, t.count_a, t.count_u
   ORDER BY t.count_a DESC;

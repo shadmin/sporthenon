@@ -10,7 +10,7 @@ declare
 	_olympics_condition text;
 	_country_condition text;
 begin
-	INSERT INTO "~REQUEST" VALUES (NEXTVAL('"~SeqRequest"'), 'OL', 'CN-' || _olympics, current_date);
+	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'OL', 'CN-' || _olympics, current_date);
 
 	-- Set olympics condition
 	_olympics_condition := '';
@@ -31,13 +31,13 @@ begin
 		OL.id AS ol_id, OL.type AS ol_type, OL.date1 AS ol_date1, OL.date2 AS ol_date2, YR.id AS yr_id, YR.label AS yr_label, CT.id AS ct_id, CT.label' || _lang || ' AS ct_label, CT.label AS ct_label_en,
 		ST.id AS st_id, ST.code AS st_code, ST.label' || _lang || ' AS st_label, CN2.id AS cn2_id, CN2.code AS cn2_code, CN2.label' || _lang || ' AS cn2_label,
 		OR_.count_gold AS or_count_gold, OR_.count_silver AS or_count_silver, OR_.count_bronze AS or_count_bronze
-	FROM "OLYMPIC_RANKING" OR_
-		LEFT JOIN "OLYMPICS" OL ON OR_.id_olympics = OL.id
-		LEFT JOIN "COUNTRY" CN1 ON OR_.id_country = CN1.id
-		LEFT JOIN "YEAR" YR ON OL.id_year = YR.id
-		LEFT JOIN "CITY" CT ON OL.id_city = CT.id
-		LEFT JOIN "STATE" ST ON CT.id_state = ST.id
-		LEFT JOIN "COUNTRY" CN2 ON CT.id_country = CN2.id
+	FROM "OlympicRanking" OR_
+		LEFT JOIN "Olympics" OL ON OR_.id_olympics = OL.id
+		LEFT JOIN "Country" CN1 ON OR_.id_country = CN1.id
+		LEFT JOIN "Year" YR ON OL.id_year = YR.id
+		LEFT JOIN "City" CT ON OL.id_city = CT.id
+		LEFT JOIN "State" ST ON CT.id_state = ST.id
+		LEFT JOIN "Country" CN2 ON CT.id_country = CN2.id
 	WHERE
 		TRUE' || _olympics_condition || _country_condition || '
 	ORDER BY

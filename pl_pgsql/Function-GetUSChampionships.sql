@@ -9,7 +9,7 @@ declare
     _c refcursor;
     _year_condition text;
 begin
-	INSERT INTO "~REQUEST" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'CP-' || _id_championship, current_date);
+	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'CP-' || _id_championship, current_date);
 
 	_year_condition := CASE WHEN _years <> '0' THEN ' AND YR.id IN (' || _years || ')' ELSE '' END;
 	
@@ -20,14 +20,14 @@ begin
 		RS.comment AS rs_comment, RS.exa AS rs_exa, YR.id AS yr_id, YR.label AS yr_label, CX.id AS cx_id, CX.label' || _lang || ' AS cx_label, CX.label AS cx_label_en,
 		CT.id AS ct_id, CT.label' || _lang || ' AS ct_label, CT.label AS ct_label_en, ST.id AS st_id, ST.code AS st_code, ST.label' || _lang || ' AS st_label, ST.label AS st_label_en, CN.id AS cn_id, CN.code AS cn_code, CN.label' || _lang || ' AS cn_label, CN.label AS cn_label_en
 	FROM
-		"RESULT" RS
-		LEFT JOIN "TEAM" TM1 ON RS.id_rank1 = TM1.id
-		LEFT JOIN "TEAM" TM2 ON RS.id_rank2 = TM2.id
-		LEFT JOIN "YEAR" YR ON RS.id_year = YR.id
-		LEFT JOIN "COMPLEX" CX ON RS.id_complex2 = CX.id
-		LEFT JOIN "CITY" CT ON CX.id_city = CT.id
-		LEFT JOIN "STATE" ST ON CT.id_state = ST.id
-		LEFT JOIN "COUNTRY" CN ON CT.id_country = CN.id
+		"Result" RS
+		LEFT JOIN "Team" TM1 ON RS.id_rank1 = TM1.id
+		LEFT JOIN "Team" TM2 ON RS.id_rank2 = TM2.id
+		LEFT JOIN "Year" YR ON RS.id_year = YR.id
+		LEFT JOIN "Complex" CX ON RS.id_complex2 = CX.id
+		LEFT JOIN "City" CT ON CX.id_city = CT.id
+		LEFT JOIN "State" ST ON CT.id_state = ST.id
+		LEFT JOIN "Country" CN ON CT.id_country = CN.id
 	WHERE
 		RS.id_championship = ' || _id_championship || ' AND 
 		RS.id_event IN (455,532,572,621) AND (RS.id_subevent IS NULL OR RS.id_subevent IN (452,453,454,573,624,530)) AND (RS.id_subevent2 IS NULL OR RS.id_subevent2 IN (452,453,454,573,624,530)) ' || _year_condition || '

@@ -10,7 +10,7 @@ declare
     _year_condition text;
     _position_condition text;
 begin
-	INSERT INTO "~REQUEST" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'HF-' || _id_league, current_date);
+	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'HF-' || _id_league, current_date);
 
 	-- Set year condition ('All years' = Empty condition)
 	_year_condition := '';
@@ -30,9 +30,9 @@ begin
 		HF.id AS hf_id, HF.id_league AS lg_id, YR.id AS yr_id, YR.label AS yr_label, PR.id AS pr_id, PR.last_name AS pr_last_name,
 		PR.first_name AS pr_first_name, HF.position AS hf_position
 	FROM
-		"HALL_OF_FAME" HF
-		LEFT JOIN "YEAR" YR ON HF.id_year = YR.id
-		LEFT JOIN "PERSON" PR ON HF.id_person = PR.id
+		"HallOfFame" HF
+		LEFT JOIN "Year" YR ON HF.id_year = YR.id
+		LEFT JOIN "Athlete" PR ON HF.id_person = PR.id
 	WHERE
 		HF.id_league = ' || _id_league || _year_condition || _position_condition || '
 	ORDER BY

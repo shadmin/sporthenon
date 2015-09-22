@@ -18,7 +18,7 @@ declare
     _subevent_condition text;
     _subevent2_condition text;
 begin
-	INSERT INTO "~REQUEST" VALUES (NEXTVAL('"~SeqRequest"'), 'OL', 'IN-' || _id_sport, current_date);
+	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'OL', 'IN-' || _id_sport, current_date);
 
 	-- Build entity columns/joins
 	_columns := '';
@@ -27,11 +27,11 @@ begin
 		-- Person
 	        _columns := _columns || ', PR' || i || '.last_name AS pr' || i || '_last_name, PR' || i || '.first_name AS pr' || i || '_first_name';
 	        _columns := _columns || ', PRCN' || i || '.id AS pr' || i || '_cn_id, PRCN' || i || '.code AS pr' || i || '_cn_code, PRCN' || i || '.label' || _lang || ' AS pr' || i || '_cn_label, PRCN' || i || '.label AS pr' || i || '_cn_label_en';
-	        _joins := _joins || ' LEFT JOIN "PERSON" PR' || i || ' ON RS.id_rank' || i || ' = PR' || i || '.id';
-	        _joins := _joins || ' LEFT JOIN "COUNTRY" PRCN' || i || ' ON PR' || i || '.id_country = PRCN' || i || '.id';
+	        _joins := _joins || ' LEFT JOIN "Athlete" PR' || i || ' ON RS.id_rank' || i || ' = PR' || i || '.id';
+	        _joins := _joins || ' LEFT JOIN "Country" PRCN' || i || ' ON PR' || i || '.id_country = PRCN' || i || '.id';
 		-- Country
 	        _columns := _columns || ', _CN' || i || '.code AS cn' || i || '_code, _CN' || i || '.label' || _lang || ' AS cn' || i || '_label, _CN' || i || '.label AS cn' || i || '_label_en';
-	        _joins := _joins || ' LEFT JOIN "COUNTRY" _CN' || i || ' ON RS.id_rank' || i || ' = _CN' || i || '.id';
+	        _joins := _joins || ' LEFT JOIN "Country" _CN' || i || ' ON RS.id_rank' || i || ' = _CN' || i || '.id';
 	END LOOP;
 
 	-- Set year condition
@@ -68,24 +68,24 @@ begin
 		RS.result1 AS rs_result1, RS.result2 AS rs_result2, RS.result3 AS rs_result3, TP1.number AS tp1_number, TP2.number AS tp2_number, TP3.number AS tp3_number, OL.id AS ol_id, OL.type AS ol_type, OL.date1 AS ol_date1, OL.date2 AS ol_date2, CT3.label' || _lang || ' AS ol_city, CT3.label AS ol_city_en, RS.comment as rs_comment, RS.exa as rs_exa'
 		|| _columns || '
 	FROM
-		"RESULT" RS
-		LEFT JOIN "SPORT" SP ON RS.id_sport = SP.id
-		LEFT JOIN "EVENT" EV ON RS.id_event = EV.id
-		LEFT JOIN "EVENT" SE ON RS.id_subevent = SE.id
-		LEFT JOIN "EVENT" SE2 ON RS.id_subevent2 = SE2.id
-		LEFT JOIN "COMPLEX" CX ON RS.id_complex2 = CX.id
-		LEFT JOIN "CITY" CT1 ON CX.id_city = CT1.id
-		LEFT JOIN "CITY" CT2 ON RS.id_city2 = CT2.id
-		LEFT JOIN "STATE" ST1 ON CT1.id_state = ST1.id
-		LEFT JOIN "STATE" ST2 ON CT2.id_state = ST2.id
-		LEFT JOIN "COUNTRY" CN1 ON CT1.id_country = CN1.id
-		LEFT JOIN "COUNTRY" CN2 ON CT2.id_country = CN2.id
-		LEFT JOIN "YEAR" YR ON RS.id_year = YR.id
-		LEFT JOIN "TYPE" TP1 ON EV.id_type = TP1.id
-		LEFT JOIN "TYPE" TP2 ON SE.id_type = TP2.id
-		LEFT JOIN "TYPE" TP3 ON SE2.id_type = TP3.id
-		LEFT JOIN "OLYMPICS" OL ON (RS.id_year = OL.id_year AND SP.type = OL.type)
-		LEFT JOIN "CITY" CT3 ON OL.id_city = CT3.id'
+		"Result" RS
+		LEFT JOIN "Sport" SP ON RS.id_sport = SP.id
+		LEFT JOIN "Event" EV ON RS.id_event = EV.id
+		LEFT JOIN "Event" SE ON RS.id_subevent = SE.id
+		LEFT JOIN "Event" SE2 ON RS.id_subevent2 = SE2.id
+		LEFT JOIN "Complex" CX ON RS.id_complex2 = CX.id
+		LEFT JOIN "City" CT1 ON CX.id_city = CT1.id
+		LEFT JOIN "City" CT2 ON RS.id_city2 = CT2.id
+		LEFT JOIN "State" ST1 ON CT1.id_state = ST1.id
+		LEFT JOIN "State" ST2 ON CT2.id_state = ST2.id
+		LEFT JOIN "Country" CN1 ON CT1.id_country = CN1.id
+		LEFT JOIN "Country" CN2 ON CT2.id_country = CN2.id
+		LEFT JOIN "Year" YR ON RS.id_year = YR.id
+		LEFT JOIN "Type" TP1 ON EV.id_type = TP1.id
+		LEFT JOIN "Type" TP2 ON SE.id_type = TP2.id
+		LEFT JOIN "Type" TP3 ON SE2.id_type = TP3.id
+		LEFT JOIN "Olympics" OL ON (RS.id_year = OL.id_year AND SP.type = OL.type)
+		LEFT JOIN "City" CT3 ON OL.id_city = CT3.id'
 		|| _joins || '
 	WHERE 
 		RS.id_championship = 1 AND RS.id_sport = ' || _id_sport
