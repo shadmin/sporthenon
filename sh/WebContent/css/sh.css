@@ -363,6 +363,10 @@ li{
 }
 #dupdates .moreitems td{
 	padding: 0px;
+	background-color: #FFF;
+}
+#dupdates tr.moreitems:hover td{
+	background-color: transparent;
 }
 #dupdates .moreitems div{
 	background: transparent url(../img/render/more4.gif) 0 0 no-repeat;

@@ -50,7 +50,8 @@ public class ServletHelper {
 	}
 	
 	public static void writeTabHtml(HttpServletRequest req, HttpServletResponse res, StringBuffer sb, String lang) throws IOException {
-		if (!sb.toString().startsWith("<tr"))
+		boolean isMoreItems = sb.toString().startsWith("<tr");
+		if (!isMoreItems)
 			sb.append("<p id=\"errorlink\"><a href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", req.getSession()) + "</p></span>");
 		String s = sb.toString();
 		res.setContentType("text/html");
@@ -62,7 +63,8 @@ public class ServletHelper {
         	sbInfo.append("|" + StringUtils.countIn(s, "<img"));
         	s = s.replaceAll("\\#INFO\\#", sbInfo.toString());
         }
-        s = s.replaceAll("\\shref\\=", " target='_blank' href=");
+        if (!isMoreItems)
+        	s = s.replaceAll("\\shref\\=", " target='_blank' href=");
         PrintWriter writer = res.getWriter();
         writer.write(s);
         res.flushBuffer();
