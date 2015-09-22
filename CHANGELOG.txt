@@ -1,7 +1,30 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.11.0  |
+| Last Version: 0.12.0  |
 +-----------------------+
+
++--------+
+| 0.12.0 |
++--------+
+[22 Sept 2015]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.0
+o Website
+	- New module: <Calendar> (==> search events by year/month/date)
+	- New feature: <Update/Pictures> (==> upload/download pictures/logos)
+	- New feature: <Update/Import> (==> mass import of CSV files)
+	- Added "remove" button for results and data
+	- Added tree view of events in update/results
+	- Added warning message when data is modified and not saved
+	- Added picklist to select category in update/overview
+	- Added custom SQL query in update/tools
+	- Added full available standings (1-20) in result details
+	- Show all sports ordered by index (slides on home page)
+	- Display random event on home page
+	- Redirection for obsolete URL patterns
+	- Copyright mention on photos
+	- Indexed photo file names (new version)
+	- Bugfix: consecutive merges cause mixed requests
+	- Bugfix: error occurs when saving draws
 
 +--------+
 | 0.11.0 |
