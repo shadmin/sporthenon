@@ -189,7 +189,7 @@ li{
 }
 #headertop #searchpanel{
 	float: right;
-	margin-top: 1px;
+	margin-top: 0px;
 	margin-right: 5px;
 }
 #headertop #searchpanel td{
@@ -198,11 +198,12 @@ li{
 #headertop #searchpanel #dpattern{
 	color: #AAA;
 	border: 1px solid #999;
+	padding: 3px;
 	width: 350px;
 }
 #headertop #searchpanel #dpattern.focus{
 	color: #000;
-	border: 1px solid #23C;
+	border: 1px solid #000;
 }
 #logo{
 	margin: 12px;
@@ -1230,6 +1231,10 @@ li{
 	 width: auto;
 	 top: 60px;
 	 right: 12px;
+	 z-index: 0;
+}
+.update .toolbar .baroptions table{
+	border-spacing: 0px;
 }
 .update .fieldset{
 	margin-top: 50px;
@@ -1491,6 +1496,10 @@ li{
 	border: none;
 	padding: 0px;
 }
+/*---------- FOLDERS ----------*/
+#update-folders .fstitle{
+	background-image: url(../img/update/folders.png?6);
+}
 /*---------- IMPORT ----------*/
 #update-import .fstitle{
 	background-image: url(../img/update/import.png?6);
@@ -1512,6 +1521,9 @@ li{
 }
 #update-import .red{
 	color: #F00;
+}
+#update-import .orange{
+	color: #FA0;
 }
 #update-import #report{
 	margin-top: 10px;
@@ -1537,21 +1549,47 @@ li{
 	width: 0px;
 	height: 18px;
 }
-/*---------- TOOLS ----------*/
-#update-tools .fstitle{
-	background-image: url(../img/update/tools.png?6);
+/*---------- EXT.LINKS ----------*/
+#update-extlinks .fscontent table{
+	margin-bottom: 10px;
 }
-#update-tools #qresults{
+#update-extlinks #elcontent input{
+	margin: 1px;
+}
+/*---------- TOOLS ----------*/
+#toolsopt td {
+	padding-right: 5px;
+	text-align: left;
+}
+#toolsopt td.query{
+	background-image:url(../img/update/query.png?6);
+}
+#toolsopt td.translations{
+	background-image:url(../img/update/translations.png?6);
+}
+#toolsopt td.extlinks{
+	background-image:url(../img/update/extlinks.png?6);
+}
+#update-extlinks .fstitle{
+	background-image: url(../img/update/extlinks.png?6);
+}
+#update-translations .fstitle{
+	background-image: url(../img/update/translations.png?6);
+}
+#update-query .fstitle{
+	background-image: url(../img/update/query.png?6);
+}
+#update-query #qresults{
 	margin-top: 10px;
 }
-#update-tools .fscontent ul{
+#update-query .fscontent ul{
 	padding: 0px;
 }
-#update-tools .fscontent li{
+#update-query .fscontent li{
 	display: inline-block;
 	list-style-image: none;
 }
-#update-tools .fscontent fieldset{
+#update-query .fscontent fieldset{
 	border: 1px solid #AAA;
 	height: 135px;
 }
@@ -1677,6 +1715,9 @@ li{
 #toolbar .add, .toolbar .add{
 	background-image: url('../img/component/button/add.png?6');
 }
+#toolbar .modify, .toolbar .modify{
+	background-image: url('../img/component/button/modify.png?6');
+}
 #toolbar .share, .toolbar .share{
 	background-image: url('../img/component/button/share.png?6');
 }
@@ -1706,6 +1747,9 @@ li{
 }
 #buttons .upd-pictures, .toolbar .upd-pictures{
 	background-image: url('../img/update/pictures.png?6');
+}
+#buttons .upd-folders, .toolbar .upd-folders{
+	background-image: url('../img/update/folders.png?6');
 }
 #buttons .upd-import, .toolbar .upd-import{
 	background-image: url('../img/update/import.png?6');
@@ -1761,7 +1805,7 @@ li{
 #buttons .upd-delete, .toolbar .upd-delete{
 	background-image: url('../img/component/button/delete.png?6');
 }
-#shareopt, #exportopt{
+#shareopt, #exportopt, #toolsopt{
 	position: absolute;
 	text-align: right;
 	margin-left: 2px;
@@ -1769,19 +1813,21 @@ li{
 	border: 1px solid #000;
 	background: #FFF;
 	width: auto;
+	z-index: 100;
 }
-#shareopt td, #exportopt td{
+#shareopt td, #exportopt td, #toolsopt td{
 	cursor: pointer;
 	width: 60px;
 	padding: 5px;
 	padding-left: 25px;
-	padding-right: 20px;
+	padding-right: 15px;
 	border-bottom: 1px solid #888;
 	background-color: #F0F0F0;
 	background-position: 4px center;
 	background-repeat: no-repeat;
+	white-space: nowrap;
 }
-#shareopt td:HOVER, #exportopt td:HOVER{
+#shareopt td:HOVER, #exportopt td:HOVER, #toolsopt td:HOVER{
 	color: #FFF;
 	background-color: #444;
 }
@@ -1833,6 +1879,7 @@ li{
 	background-color: #FFF;
 	margin: 0px;
 	padding: 0px;
+	z-index: 100;
 }
 .ajaxsearch ul {
 	list-style-type: none;

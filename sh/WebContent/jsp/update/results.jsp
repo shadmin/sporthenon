@@ -93,7 +93,7 @@ var treeItems = null;
 				<table>
 					<tr><td><input type="text" id="exa" tabindex="11" name="<%=StringUtils.text("tie", session)%>" style="width:150px;"/></td></tr>
 					<tr><td><input type="text" id="cmt" tabindex="12" name="<%=StringUtils.text("comment", session)%>" style="width:500px;"/></td></tr>
-					<tr><td><input type="text" id="copyright" tabindex="13" name="<%=StringUtils.text("photo.copyright", session)%>" style="width:500px;"/></td></tr>
+					<tr><td><input type="text" id="source" tabindex="13" name="<%=StringUtils.text("photo.source", session)%>" style="width:500px;"/></td></tr>
 					<tr><td><textarea id="exl" tabindex="14" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="3" style="width:500px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
 				</table>
 			</fieldset>

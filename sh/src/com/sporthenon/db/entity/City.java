@@ -38,8 +38,8 @@ public class City {
 	@JoinColumn(name = "id_state")
 	private State state;
 	
-	@Column(name = "photo_copyright")
-	private String photoCopyright;
+	@Column(name = "photo_source")
+	private String photoSource;
 	
 	@Column(name = "link")
 	private Integer link;
@@ -118,12 +118,12 @@ public class City {
 		this.ref = ref;
 	}
 
-	public String getPhotoCopyright() {
-		return photoCopyright;
+	public String getPhotoSource() {
+		return photoSource;
 	}
 
-	public void setPhotoCopyright(String photoCopyright) {
-		this.photoCopyright = photoCopyright;
+	public void setPhotoSource(String photoSource) {
+		this.photoSource = photoSource;
 	}
 
 	@Override

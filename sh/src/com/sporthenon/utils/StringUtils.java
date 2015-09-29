@@ -308,9 +308,9 @@ public class StringUtils {
 	public static final String toFullName(String ln, String fn, String country, boolean uc) {
 		String result = "";
 		if (notEmpty(country) && country.matches(PATTERN_REVERT_NAME))
-			result = (ln != null ? (uc ? ln.toUpperCase()  : ln) : "") + (StringUtils.notEmpty(fn) ? HtmlUtils.SPACE + fn : "");
+			result = (ln != null ? (uc ? ln.toUpperCase()  : ln) : "") + (StringUtils.notEmpty(fn) ? " " + fn : "");
 		else
-			result = (StringUtils.notEmpty(fn) ? fn + HtmlUtils.SPACE : "") + (ln != null ? (uc ? ln.toUpperCase()  : ln) : "");
+			result = (StringUtils.notEmpty(fn) ? fn + " " : "") + (ln != null ? (uc ? ln.toUpperCase()  : ln) : "");
 		return result;
 	}
 	

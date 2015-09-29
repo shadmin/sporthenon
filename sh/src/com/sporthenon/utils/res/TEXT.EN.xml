@@ -277,7 +277,8 @@
 	<entry key="month.10">October</entry>
 	<entry key="month.11">November</entry>
 	<entry key="month.12">December</entry>
-	<entry key="photo.copyright">Photo copyright</entry>
+	<entry key="source">Source</entry>
+	<entry key="note">Note</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>
@@ -299,6 +300,7 @@
 	<entry key="report.2">Athletes per country</entry>
 	<entry key="report.3">Split of requests by sport</entry>
 	<entry key="random.event">Random event</entry>
+	<entry key="note">Note</entry>
 <!-- RESULTS -->
 	<entry key="sport">Sport</entry>
 	<entry key="event">Event</entry>
@@ -406,8 +408,12 @@
 	<entry key="update.results">Add/modify a result</entry>
 	<entry key="update.data">Administer data</entry>
 	<entry key="update.pictures">Pictures</entry>
+	<entry key="update.folders">Folders</entry>
 	<entry key="update.import">Import</entry>
 	<entry key="update.tools">Tools</entry>
+	<entry key="update.query">Queries</entry>
+	<entry key="update.extlinks">External links</entry>
+	<entry key="update.translations">Translations</entry>
 	<entry key="update.users">Users</entry>
 	<entry key="update.config">Configuration</entry>
 	<entry key="update.help">Help</entry>
@@ -451,4 +457,5 @@
 	<entry key="modif.warning">Modifications have been made. Click on Save.</entry>
 	<entry key="upload">Envoyer</entry>
 	<entry key="download">Télécharger</entry>
+	<entry key="include.checked.links">Include checked links</entry>
 </properties>

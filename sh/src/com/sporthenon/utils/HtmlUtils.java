@@ -26,8 +26,6 @@ import com.sporthenon.utils.res.ResourceUtils;
 
 public class HtmlUtils {
 
-	public final static String SPACE = " ";
-
 	public static String writeNoResult(String lang) {
 		return "<div class='noresult'>" + ResourceUtils.getText("no.result", lang) + "</div>";
 	}
@@ -144,6 +142,7 @@ public class HtmlUtils {
 			url = h.get("url").substring(1);
 			html.append("<span class='url'>" + ConfigUtils.getProperty("url") + url + "</span>");
 		}
+		System.out.println(url+"= "+sp);
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
 		html.append("<div class='header'><table><tr>");
 		html.append(h.containsKey("item0") ? "<td style='font-weight:bold;'>" + h.get("item0") + "</td>" : "");
@@ -160,15 +159,18 @@ public class HtmlUtils {
 		final String EXPORT_OPTIONS = "<div id='exportopt' class='baroptions' style='display:none;'><table><tr><td onclick='exportPage(\"html\");' class='html'>" + ResourceUtils.getText("web.page", lang) + "</td></tr><tr><td onclick='exportPage(\"csv\");' class='csv'>" + ResourceUtils.getText("csv.file", lang) + "</td></tr><tr><td onclick='exportPage(\"xls\");' class='excel'>" + ResourceUtils.getText("excel.sheet", lang) + "</td></tr><tr><td onclick='exportPage(\"pdf\");' class='pdf'>" + ResourceUtils.getText("pdf.file", lang) + "</td></tr><tr><td onclick='exportPage(\"txt\");' class='text'>" + ResourceUtils.getText("plain.text", lang) + "</td></tr></table><div><a href='javascript:$(\"exportopt\").hide();'>" + ResourceUtils.getText("cancel", lang) + "</a></div></div>";
 		if (h.containsKey("errors"))
 			html.append("<td>" + h.get("errors") + "</td>");
-		if (m != null && url != null && url.matches("^results.*") && sp != null && m.isSport(sp))
-			html.append("<td><input id='add' type='button' class='button add' onclick='location.href=\"" + h.get("url").replaceAll("\\/results", "/update") + "\";' value='" + ResourceUtils.getText("button.add", lang) + "'/></td>");
+		if (m != null && url != null && sp != null && m.isSport(sp)) {
+			if (url.matches("^results.*"))
+				html.append("<td><input id='add' type='button' class='button add' onclick='location.href=\"" + h.get("url").replaceAll("\\/results", "/update") + "\";' value='" + ResourceUtils.getText("button.add", lang) + "'/></td>");	
+			else if (url.matches("^result.*"))
+				html.append("<td><input id='modify' type='button' class='button modify' onclick='location.href=\"" + h.get("url").replaceAll("\\/result", "/update") + "\";' value='" + ResourceUtils.getText("button.modify", lang) + "'/></td>");
+		}
 		html.append("<td><input id='share' type='button' class='button share' onclick='displayShare();' value='" + ResourceUtils.getText("share", lang) + "'/>" + SHARE_OPTIONS + "</td>");
 		html.append("<td><input id='export' type='button' class='button export' onclick='displayExport();' value='" + ResourceUtils.getText("button.export", lang) + "'/>" + EXPORT_OPTIONS + "</td>");
 		html.append("<td><input id='link' type='button' class='button link' onclick='displayLink();' value='" + ResourceUtils.getText("button.link", lang) + "'/></td>");
 		html.append("<td><input id='print' type='button' class='button print' onclick='javascript:printCurrentTab();' value='" + ResourceUtils.getText("button.print", lang) + "'/></td>");
 		html.append("<td><input id='info2' type='button' class='button info2' onclick='displayInfo();' value='" + ResourceUtils.getText("button.info", lang) + "'/></td>");
 		html.append("</tr></table></div>");
-		html.append("<div class='separatortop'></div>");
 		return html;
 	}
 	
@@ -185,7 +187,7 @@ public class HtmlUtils {
 		if (h.containsKey("titlename"))
 			html.append("<tr><th>" + h.get("titlename") + "</th></tr>");
 		for (String key : h.keySet()) {
-			if (!key.matches("(tab|^)title|titleEN|imgurl|copyright|url|info|\\_sport\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
+			if (!key.matches("(tab|^)title|titleEN|imgurl|source|url|info|\\_sport\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
 				html.append("<tr>" + (h.containsKey("_sport_") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
 				html.append("<td" + (key.matches("logo|logosport|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + ">" + h.get(key) + "</td></tr>");
 			}
@@ -193,7 +195,7 @@ public class HtmlUtils {
 		html.append("</table></li>");
 		// Photo
 		if (h.containsKey("imgurl"))
-			html.append(ImageUtils.getPhotoFieldset(h.get("imgurl"), h.get("copyright"), lang));
+			html.append(ImageUtils.getPhotoFieldset(h.get("imgurl"), h.get("source"), lang));
 		return html.append("</ul>");
 	}
 

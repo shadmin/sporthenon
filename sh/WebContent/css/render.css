@@ -101,15 +101,10 @@
 }
 .tc .toolbar{
 	float: right;
+	margin-bottom: 10px;
 }
 .tc .toolbar td{
 	padding: 1px;
-}
-.tc .separatortop{
-	float: left;
-	width: 100%;
-	margin: 0px;
-	margin-bottom: 10px;
 }
 .tc .winrec{
 	margin-bottom: 5px;
@@ -136,6 +131,7 @@
 	background: url(../img/render/bar3.gif) right center no-repeat;
 }
 .tc .uinfo{
+	clear: right;
 	margin: 0 auto;
 	padding: 0px;
 	margin-top: 40px;
@@ -152,15 +148,16 @@
 	margin-left: 8px;
 	padding: 0px;
 	border: none;
+	margin-bottom: -3px;
 }
-.tc .photo legend{
-	display: none;
+.tc .photo a{
+	display: block;
 }
 .tc .photo img{
 	border: 1px solid #AAA;
 }
-.tc .copyright{
-	font-size: 11px;
+.tc .source{
+	font-size: 10px;
 	color: #777;
 }
 .tc .info{
@@ -288,6 +285,9 @@
 }
 .tc .f table{
 	border: 2px solid #333;
+}
+.tc .tsort{
+	clear: right;
 }
 .tc .tsort tr:hover{
 	background-color: #BEE0FF;
@@ -422,4 +422,23 @@ th.desc{
 }
 .highlight td{
 	background: #FF5;
+}
+.refscore{
+	float: right;
+	font-size: 11px;
+	margin-top: 2px;
+}
+.medal{
+	padding-right: 18px;
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+.gold{
+	background-image: url(../img/render/gold.png);
+}
+.silver{
+	background-image: url(../img/render/silver.png);
+}
+.bronze{
+	background-image: url(../img/render/bronze.png);
 }

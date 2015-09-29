@@ -28,7 +28,7 @@
 	<meta property="og:title" content="<%=title%>"/>
 	<meta property="og:type" content="website"/>
 	<meta property="og:image" content="<%=url%>img/icon-notext-shadow.png?1"/>
-	<% if (request.isSecure() || !ConfigUtils.getProperty("env").equals("prod")) { %>
+	<% if (request.isSecure() || !ConfigUtils.getProperty("env").equals("prod") || !request.getRequestURL().toString().contains("sporthenon.com")) { %>
 	<meta name="robots" content="noindex, nofollow">
 	<% } %>
 	<link rel="stylesheet" type="text/css" href="/css/sh.css?v=<%=version%>"/>	

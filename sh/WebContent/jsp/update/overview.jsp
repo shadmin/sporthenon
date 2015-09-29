@@ -30,6 +30,7 @@
 				<td><select id="oventity">
 				<option value="RS"><%=StringUtils.text("entity.RS", session)%></option>
 				<option value="PR"><%=StringUtils.text("entity.PR", session)%></option>
+				<option value="TM"><%=StringUtils.text("entity.TM", session)%></option>
 				<option value="SP"><%=StringUtils.text("entity.SP", session)%></option>
 				<option value="CP"><%=StringUtils.text("entity.CP", session)%></option>
 				<option value="EV"><%=StringUtils.text("entity.EV", session)%></option>

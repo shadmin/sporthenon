@@ -35,8 +35,11 @@ public class NavigationServlet extends AbstractServlet {
 		hPages.put("update-results", "update/results.jsp");
 		hPages.put("update-data", "update/data.jsp");
 		hPages.put("update-pictures", "update/pictures.jsp");
+		hPages.put("update-folders", "update/folders.jsp");
 		hPages.put("update-import", "update/import.jsp");
-		hPages.put("update-tools", "update/tools.jsp");
+		hPages.put("update-extlinks", "update/extlinks.jsp");
+		hPages.put("update-translations", "update/translations.jsp");
+		hPages.put("update-query", "update/query.jsp");
 		hPages.put("update-admin", "update/admin.jsp");
 		hServlet = new HashMap<String, String>();
 		hServlet.put("results", "/ResultServlet");
@@ -51,8 +54,11 @@ public class NavigationServlet extends AbstractServlet {
 		hServlet.put("update-results", "/UpdateServlet");
 		hServlet.put("update-data", "/UpdateServlet");
 		hServlet.put("update-pictures", "/UpdateServlet");
+		hServlet.put("update-folders", "/UpdateServlet");
 		hServlet.put("update-import", "/UpdateServlet");
-		hServlet.put("update-tools", "/UpdateServlet");
+		hServlet.put("update-extlinks", "/UpdateServlet");
+		hServlet.put("update-translations", "/UpdateServlet");
+		hServlet.put("update-query", "/UpdateServlet");
 		hServlet.put("update-admin", "/UpdateServlet");
 		hServlet.put("android", "/AndroidServlet");
 		hTitle = new HashMap<String, String>();
@@ -69,8 +75,11 @@ public class NavigationServlet extends AbstractServlet {
 		hTitle.put("update-results", "update.results");
 		hTitle.put("update-data", "data");
 		hTitle.put("update-pictures", "update.pictures");
+		hTitle.put("update-folders", "update.folders");
 		hTitle.put("update-import", "update.import");
-		hTitle.put("update-tools", "update.tools");
+		hTitle.put("update-extlinks", "update.extlinks");
+		hTitle.put("update-translations", "update.translations");
+		hTitle.put("update-query", "update.query");
 		hTitle.put("update-admin", "Admin");
 	}
 

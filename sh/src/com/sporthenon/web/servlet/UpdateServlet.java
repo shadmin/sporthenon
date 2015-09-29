@@ -95,6 +95,8 @@ public class UpdateServlet extends AbstractServlet {
 				ServletHelper.writeText(response, String.valueOf(request.getSession().getAttribute("progress")));
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-template"))
 				loadTemplate(response, hParams, lang, user);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("load-extlinks"))
+				loadExternalLinks(response, hParams, lang, user);
 			else
 				loadResult(request, response, hParams, lang, user);
 		}
@@ -347,7 +349,7 @@ public class UpdateServlet extends AbstractServlet {
 			result.setDate2(StringUtils.notEmpty(hParams.get("dt2-l")) ? String.valueOf(hParams.get("dt2-l")) : null);
 			result.setComment(StringUtils.notEmpty(hParams.get("cmt-l")) ? String.valueOf(hParams.get("cmt-l")) : null);
 			result.setExa(StringUtils.notEmpty(hParams.get("exa-l")) ? String.valueOf(hParams.get("exa-l")) : null);
-			result.setPhotoCopyright(StringUtils.notEmpty(hParams.get("copyright-l")) ? String.valueOf(hParams.get("copyright-l")) : null);
+			result.setPhotoSource(StringUtils.notEmpty(hParams.get("source-l")) ? String.valueOf(hParams.get("source-l")) : null);
 			// Rankings
 			for (int i = 1 ; i <= MAX_RANKS ; i++) {
 				Integer id = (StringUtils.notEmpty(hParams.get("rk" + i)) ? new Integer(String.valueOf(hParams.get("rk" + i))) : 0);
@@ -598,6 +600,7 @@ public class UpdateServlet extends AbstractServlet {
 		StringBuffer sb = new StringBuffer(!isCSV ? "<table>" : "");
 		ArrayList<String> queries = new ArrayList<String>();
 		queries.add("SELECT DISTINCT LAST_NAME || ',' || FIRST_NAME || ',' || ID_SPORT AS N, COUNT(*) AS C\r\nFROM \"Athlete\"\r\nWHERE LINK IS NULL\r\nGROUP BY N\r\nORDER BY C DESC\r\nLIMIT 100");
+		queries.add("SELECT DISTINCT LABEL AS N, COUNT(*) AS C\r\nFROM \"City\"\r\nWHERE LINK IS NULL\r\nGROUP BY N\r\nORDER BY C DESC\r\nLIMIT 100");
 		queries.add("SELECT 'EV', ID, LABEL FROM \"Event\"\r\nWHERE ID NOT IN (SELECT ID_EVENT FROM \"Result\" WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM \"Result\" WHERE ID_SUBEVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT2 FROM \"Result\" WHERE ID_SUBEVENT2 IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_EVENT FROM \"Record\" WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM \"Record\" WHERE ID_SUBEVENT IS NOT NULL)\r\nUNION SELECT 'CP', ID, LABEL FROM \"Championship\" WHERE ID NOT IN (SELECT ID_CHAMPIONSHIP FROM \"Result\" WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_CHAMPIONSHIP FROM \"Record\" WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nORDER BY 1, 3");
 		queries.add("SELECT SP.label AS SPORT, CP.label AS Championship, EV.label AS EVENT, SE.label AS SUBEVENT, SE2.label AS SUBEVENT2, YR.label AS YEAR\r\nFROM (SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM \"Result\" EXCEPT SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM \"Result\" WHERE id_year = (SELECT id FROM \"Year\" WHERE label = '#YEAR#')) T\r\nLEFT JOIN \"Sport\" SP ON T.id_sport = SP.id\r\nLEFT JOIN \"Championship\" CP ON T.id_championship = CP.id LEFT JOIN \"Event\" EV ON T.id_event = EV.id\r\nLEFT JOIN \"Event\" SE ON T.id_subevent = SE.id LEFT JOIN \"Event\" SE2 ON T.id_subevent2 = SE2.id LEFT JOIN \"Year\" YR ON YR.label = '#YEAR#'\r\nLEFT JOIN \"~InactiveItem\" II ON (T.id_sport=II.id_sport AND T.id_championship=II.id_championship AND T.id_event=II.id_event AND (T.id_subevent IS NULL OR T.id_subevent=II.id_subevent) AND (T.id_subevent2 IS NULL OR T.id_subevent2=II.id_subevent2))\r\nWHERE 1=1 AND #WHERE# AND II.id IS NULL\r\nORDER BY SP.label, CP.index, CP.label, EV.index, EV.label, SE.index, SE.label, SE2.index, SE2.label");
 		queries.add("SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2, SP.label AS label1, CP.label AS label2, EV.label AS label3, SE.label AS label4, SE2.label AS label5 FROM \"Result\" RS LEFT JOIN \"Sport\" SP ON RS.id_sport=SP.id LEFT JOIN \"Championship\" CP ON RS.id_championship=CP.id LEFT JOIN \"Event\" EV ON RS.id_event=EV.id LEFT JOIN \"Event\" SE ON RS.id_subevent=SE.id LEFT JOIN \"Event\" SE2 ON RS.id_subevent2=SE2.id ORDER BY SP.label, CP.label, EV.label, SE.label, SE2.label");
@@ -616,6 +619,9 @@ public class UpdateServlet extends AbstractServlet {
 		}
 		else
 			query = String.valueOf(hParams.get("query"));
+		
+		if (!isCSV)
+			sb.append("<tr style='display:none;'><td>" + query + "</td></tr>");
 		
 		List<Object[]> list = (List<Object[]>) DatabaseHelper.executeNative(query);
 		if (list != null && list.size() > 0) {
@@ -743,7 +749,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(rs.getComplex1() != null ? rs.getComplex1().toString2(lang) : (rs.getCity1() != null ? rs.getCity1().toString2(lang) : "")).append("~");
 				sb.append(rs.getComplex2() != null ? rs.getComplex2().getId() : (rs.getCity2() != null ? rs.getCity2().getId() : "")).append("~");
 				sb.append(rs.getComplex2() != null ? rs.getComplex2().toString2(lang) : (rs.getCity2() != null ? rs.getCity2().toString2(lang) : "")).append("~");
-				sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~").append(ImageUtils.getPhotoFile(Result.alias, rs.getId())).append("~").append(rs.getPhotoCopyright()).append("~");
+				sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~").append(ImageUtils.getPhotoFile(Result.alias, rs.getId())).append("~").append(rs.getPhotoSource()).append("~");
 				// External links
 				StringBuffer sbLinks = new StringBuffer();
 				try {
@@ -866,7 +872,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(at.getTeam() != null ? at.getTeam().getLabel() : "").append("~");
 				sb.append(at.getCountry() != null ? at.getCountry().getId() : 0).append("~");
 				sb.append(at.getCountry() != null ? at.getCountry().getLabel(lang) : "").append("~");
-				sb.append(StringUtils.notEmpty(at.getPhotoCopyright()) ? at.getPhotoCopyright() : "").append("~");
+				sb.append(StringUtils.notEmpty(at.getPhotoSource()) ? at.getPhotoSource() : "").append("~");
 				if (at.getLink() != null && at.getLink() > 0) {
 					try {
 						Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, at.getLink());
@@ -897,7 +903,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(ct.getState() != null ? ct.getState().getLabel(lang) : "").append("~");
 				sb.append(ct.getCountry() != null ? ct.getCountry().getId() : 0).append("~");
 				sb.append(ct.getCountry() != null ? ct.getCountry().getLabel(lang) : "").append("~");
-				sb.append(StringUtils.notEmpty(ct.getPhotoCopyright()) ? ct.getPhotoCopyright() : "").append("~");
+				sb.append(StringUtils.notEmpty(ct.getPhotoSource()) ? ct.getPhotoSource() : "").append("~");
 				if (ct.getLink() != null && ct.getLink() > 0) {
 					try {
 						City c_ = (City) DatabaseHelper.loadEntity(City.class, ct.getLink());
@@ -920,7 +926,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(cx.getLabelFr()).append("~");
 				sb.append(cx.getCity() != null ? cx.getCity().getId() : 0).append("~");
 				sb.append(cx.getCity() != null ? cx.getCity().toString2(lang) : "").append("~");
-				sb.append(StringUtils.notEmpty(cx.getPhotoCopyright()) ? cx.getPhotoCopyright() : "").append("~");
+				sb.append(StringUtils.notEmpty(cx.getPhotoSource()) ? cx.getPhotoSource() : "").append("~");
 				if (cx.getLink() != null && cx.getLink() > 0) {
 					try {
 						Complex c_ = (Complex) DatabaseHelper.loadEntity(Complex.class, cx.getLink());
@@ -1040,7 +1046,7 @@ public class UpdateServlet extends AbstractServlet {
 				en.setLastName(String.valueOf(hParams.get("pr-lastname")));
 				en.setFirstName(String.valueOf(hParams.get("pr-firstname")));
 				en.setLink(StringUtils.notEmpty(hParams.get("pr-link")) ? new Integer(String.valueOf(hParams.get("pr-link"))) : null);
-				en.setPhotoCopyright(String.valueOf(hParams.get("pr-copyright")));
+				en.setPhotoSource(String.valueOf(hParams.get("pr-source")));
 				if (en.getLink() != null && en.getLink() > 0) {
 					try {
 						Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, en.getLink());
@@ -1066,7 +1072,7 @@ public class UpdateServlet extends AbstractServlet {
 				en.setLabelFr(String.valueOf(hParams.get("ct-labelfr")));
 				en.setState((State)DatabaseHelper.loadEntity(State.class, StringUtils.toInt(hParams.get("ct-state"))));
 				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("ct-country"))));
-				en.setPhotoCopyright(String.valueOf(hParams.get("ct-copyright")));
+				en.setPhotoSource(String.valueOf(hParams.get("ct-source")));
 				en.setLink(StringUtils.notEmpty(hParams.get("ct-link")) ? new Integer(String.valueOf(hParams.get("ct-link"))) : null);
 				if (en.getLink() != null && en.getLink() > 0) {
 					try {
@@ -1086,7 +1092,7 @@ public class UpdateServlet extends AbstractServlet {
 				en.setLabel(String.valueOf(hParams.get("cx-label")));
 				en.setLabelFr(String.valueOf(hParams.get("cx-labelfr")));
 				en.setCity((City)DatabaseHelper.loadEntity(City.class, StringUtils.toInt(hParams.get("cx-city"))));
-				en.setPhotoCopyright(String.valueOf(hParams.get("cx-copyright")));
+				en.setPhotoSource(String.valueOf(hParams.get("cx-source")));
 				en.setLink(StringUtils.notEmpty(hParams.get("cx-link")) ? new Integer(String.valueOf(hParams.get("cx-link"))) : null);
 				if (en.getLink() != null && en.getLink() > 0) {
 					try {
@@ -1252,6 +1258,46 @@ public class UpdateServlet extends AbstractServlet {
 			response.setContentType("text/plain");
 			response.getWriter().write(sb.toString());
 			response.flushBuffer();
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+		}
+	}
+	
+	private static void loadExternalLinks(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+		try {
+			StringBuffer html = new StringBuffer("<table>");
+			String range = String.valueOf(hParams.get("range"));
+			String pattern = String.valueOf(hParams.get("pattern"));
+			String entity = String.valueOf(hParams.get("entity"));
+			String includechecked = String.valueOf(hParams.get("includechecked"));
+			
+			String[] tIds = range.split("\\-");
+			StringBuffer hql = new StringBuffer("from ExternalLink where entity='" + entity + "'");
+			if (tIds.length > 1)
+				hql.append(" and idItem between " + tIds[0] + " and " + tIds[1]);				
+			if (StringUtils.notEmpty(pattern)) {
+				hql.append(" and (0=1" + (pattern.matches("\\d+") ? " or idItem=" + pattern : ""));
+				hql.append(" or lower(url) like '%" + pattern.toLowerCase() + "%'");
+				hql.append(")");
+			}
+			if (includechecked.equals("0"))
+				hql.append(" and (checked = FALSE or checked IS NULL)");
+			hql.append(" order by idItem, type");
+			HashMap<Integer, String> hLabel = new HashMap<Integer, String>();
+			for (Object[] t_ : (List<Object[]>) DatabaseHelper.execute("select id, " + (entity.equals(Athlete.alias) ? "lastName || ', ' || firstName || ' - ' || sport.label" : "label") + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + (tIds.length > 1 ? " where id between " + tIds[0] + " and " + tIds[1] : "")))
+				hLabel.put(Integer.parseInt(String.valueOf(t_[0])), String.valueOf(t_[1]));
+			List<ExternalLink> lLinks = DatabaseHelper.execute(hql.toString());
+			html.append("<thead><th>ID</th><th>Label</th><th>URL type</th><th>URL</th><th>Checked&nbsp;<input type='checkbox' onclick='checkAllLinks();'/></th></thead><tbody>");
+			for (ExternalLink l : lLinks) {
+				html.append("<tr><td style='display:none;'>" + l.getId() + "</td>");
+				html.append("<td>" + l.getIdItem() + "</td>");
+				html.append("<td>" + hLabel.get(l.getIdItem()) + "</td>");
+				html.append("<td>" + l.getType() + "</td>");
+				html.append("<td><a href='" + l.getUrl() + "' target='_blank'>" + l.getUrl() + "</a></td>");
+				html.append("<td><input id='cb-" + l.getId() + "' type='checkbox'" + (l.getChecked() != null && l.getChecked() ? " checked='checked'" : "") + "/></td></tr>");
+			}
+			ServletHelper.writeText(response, html.append("</tbody></table>").toString());
 		}
 		catch (Exception e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);

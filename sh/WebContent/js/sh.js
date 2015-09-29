@@ -1378,17 +1378,16 @@ function initUpdateResults(value) {
 			$(this).select();
 		});
 		Event.observe($(el), 'blur', function(){
-			if (currentInputValue = $(this).value) {
-				$(this).removeClassName('completed').removeClassName('completed2');
+			if (currentInputValue != $(this).value) {
 				showWarning();
 			}
 			if ($(this).value == '') {
+				$(this).removeClassName('completed').removeClassName('completed2');
 				$(this).value = $(this).name;
 				tValues[$(this).id] = null;
 			}
-			else if ($(this).value != $(this).name && !$(this).hasClassName('completed')) {
+			else if (!$(this).hasClassName('completed')) {
 				$(this).addClassName('completed2');
-				tValues[$(this).id] = null;
 			}
 		});
 	});
@@ -1436,7 +1435,7 @@ function loadResValues(value) {
 			else {
 				$('currentimg').hide();
 			}
-			tValues['copyright'] = t[25]; if (t[25] != '') {$('copyright').value = t[25]; $('copyright').addClassName('completed2');} else {$('copyright').value = $('copyright').name; $('copyright').removeClassName('completed2');}
+			tValues['source'] = t[25]; if (t[25] != '') {$('source').value = t[25]; $('source').addClassName('completed2');} else {$('source').value = $('source').name; $('source').removeClassName('completed2');}
 			tValues['exl'] = t[26]; if (t[26] != '') {$('exl').value = t[26].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
 			// Rankings
 			var j = 26;
@@ -1531,7 +1530,6 @@ function setValue(text, li) {
 	}
 	else { // Result
 		tValues[text.id] = t[1];
-		$(text).blur();
 		$(text).removeClassName('completed2').addClassName('completed');
 		if (t.length > 2) {
 			updateType(t[0], t[2]);
@@ -1588,7 +1586,7 @@ function addResult() {
 function saveResult() {
 	$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
 	var h = $H({sp: tValues['sp']});
-	var t = ['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'copyright', 'cmt', 'img', 'exl', 'drid', 'qf1w', 'qf1l', 'qf1rs', 'qf2w', 'qf2l', 'qf2rs', 'qf3w', 'qf3l', 'qf3rs', 'qf4w', 'qf4l', 'qf4rs', 'sf1w', 'sf1l', 'sf2w', 'sf1rs', 'sf2l', 'sf2rs', 'thdw', 'thdl', 'thdrs'];
+	var t = ['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'source', 'cmt', 'img', 'exl', 'drid', 'qf1w', 'qf1l', 'qf1rs', 'qf2w', 'qf2l', 'qf2rs', 'qf3w', 'qf3l', 'qf3rs', 'qf4w', 'qf4l', 'qf4rs', 'sf1w', 'sf1l', 'sf2w', 'sf1rs', 'sf2l', 'sf2rs', 'thdw', 'thdl', 'thdrs'];
 	for (var i = 1 ; i <= 20 ; i++) {
 		t.push('rk' + i);
 		t.push('rs' + i);
@@ -1825,7 +1823,7 @@ function setEntityValues(text) {
 		$('pr-team-l').value = t[i++];
 		$('pr-country').value = t[i++];
 		$('pr-country-l').value = t[i++];
-		$('pr-copyright').value = t[i++];
+		$('pr-source').value = t[i++];
 		$('pr-link').value = t[i++];
 		$('pr-link-l').value = t[i++];
 	}
@@ -1843,7 +1841,7 @@ function setEntityValues(text) {
 		$('ct-state-l').value = t[i++];
 		$('ct-country').value = t[i++];
 		$('ct-country-l').value = t[i++];
-		$('ct-copyright').value = t[i++];
+		$('ct-source').value = t[i++];
 		$('ct-link').value = t[i++];
 		$('ct-link-l').value = t[i++];
 	}
@@ -1853,7 +1851,7 @@ function setEntityValues(text) {
 		$('cx-labelfr').value = t[i++];
 		$('cx-city').value = t[i++];
 		$('cx-city-l').value = t[i++];
-		$('cx-copyright').value = t[i++];
+		$('cx-source').value = t[i++];
 		$('cx-link').value = t[i++];
 		$('cx-link-l').value = t[i++];
 	}
@@ -2229,7 +2227,10 @@ function checkImportProgress() {
 function loadTemplate() {
 	location.href = '/update/load-template?type=' + $F('type');
 }
-/*========== TOOLS ==========*/
+/*========== QUERY ==========*/
+function displayTools() {
+	$('toolsopt').show();
+}
 function executeQuery(index) {
 	var url = '/update/execute-query?index=' + index + ($('rcsv').checked ? '&csv=1' : '');
 	if (index == -1) {
@@ -2242,10 +2243,24 @@ function executeQuery(index) {
 		$('qresults').update('<img src="/img/db/loading.gif?6"/>');
 		new Ajax.Request(url, {
 			onSuccess: function(response){
-				$('qresults').update(response.responseText);		
+				$('qresults').update(response.responseText);
+				$('query').value = $('qresults').down('td').innerHTML;
 			}
 		});
 	}
+}
+/*========== EXT.LINKS ==========*/
+function loadExtLinks() {
+	var h = $H({range: $F('elrange'), pattern: $F('elpattern'), entity: $F('elentity'), includechecked: ($('elincludechecked').checked ? '1' : '0')});
+	$('elcontent').update('<img src="/img/db/loading.gif?6"/>');
+	new Ajax.Updater($('elcontent'), '/update/load-extlinks', {
+		parameters: h
+	});
+}
+function checkAllLinks() {
+	$$('#elcontent input').each(function(el){
+		$(el).checked = true;
+	});
 }
 /*========== ADMIN ==========*/
 function saveConfig() {

@@ -196,8 +196,8 @@ public class Result {
 	@Column(name = "exa", length = 15)
 	private String exa;
 	
-	@Column(name = "photo_copyright")
-	private String photoCopyright;
+	@Column(name = "photo_source")
+	private String photoSource;
 	
 	@Embedded
 	private Metadata metadata;
@@ -650,12 +650,12 @@ public class Result {
 		this.result20 = result20;
 	}
 
-	public String getPhotoCopyright() {
-		return photoCopyright;
+	public String getPhotoSource() {
+		return photoSource;
 	}
 
-	public void setPhotoCopyright(String photoCopyright) {
-		this.photoCopyright = photoCopyright;
+	public void setPhotoSource(String photoSource) {
+		this.photoSource = photoSource;
 	}
 
 	@Override

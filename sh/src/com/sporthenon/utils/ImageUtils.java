@@ -59,15 +59,15 @@ public class ImageUtils {
 	}
 	
 	public static String getGoldMedImg(String lang) {
-		return "<img alt='Gold' title='" + ResourceUtils.getText("gold", lang) + "' src='" + getRenderUrl() + "gold-mini.png?4'/>";
+		return "<img alt='Gold' title='" + ResourceUtils.getText("gold", lang) + "' src='" + getRenderUrl() + "gold.png?4'/>";
 	}
 	
 	public static String getSilverMedImg(String lang) {
-		return "<img alt='Silver' title='" + ResourceUtils.getText("silver", lang) + "' src='" + getRenderUrl() + "silver-mini.png?4'/>";
+		return "<img alt='Silver' title='" + ResourceUtils.getText("silver", lang) + "' src='" + getRenderUrl() + "silver.png?4'/>";
 	}
 	
 	public static String getBronzeMedImg(String lang) {
-		return "<img alt='Bronze' title='" + ResourceUtils.getText("bronze", lang) + "' src='" + getRenderUrl() + "bronze-mini.png?4'/>";
+		return "<img alt='Bronze' title='" + ResourceUtils.getText("bronze", lang) + "' src='" + getRenderUrl() + "bronze.png?4'/>";
 	}
 	
 	public static String getGoldHeader(String lang) {
@@ -107,14 +107,13 @@ public class ImageUtils {
 		return (!list.isEmpty() ? list.getLast() : "");
 	}
 	
-	public static StringBuffer getPhotoFieldset(String url, String copyright, String lang) {
+	public static StringBuffer getPhotoFieldset(String url, String source, String lang) {
 		StringBuffer html = new StringBuffer();
 		url = ConfigUtils.getProperty("img.url") + url;
-		html.append("<li style='text-align:right;'><fieldset class='photo'><legend>" + ResourceUtils.getText("photo", lang) + "</legend>");
-		html.append("<a href='" + url + "' target='_blank' title=\"" + ResourceUtils.getText("enlarge", lang) + "\"><img alt='Photo' height='230px' src='" + url + "'/></a>");
-		html.append("</fieldset>");
-		if (StringUtils.notEmpty(copyright))
-			html.append("<span class='copyright'>&copy;" + copyright + "</span>");
+		html.append("<li style='text-align:right;'><fieldset class='photo'>");
+		html.append("<a href='" + url + "' target='_blank' title=\"" + ResourceUtils.getText("enlarge", lang) + "\"><img alt='Photo' height='230px' src='" + url + "'/></a></fieldset>");
+		if (StringUtils.notEmpty(source))
+			html.append("<span class='source'>" + ResourceUtils.getText("source", lang) + ":&nbsp;" + source + "</span>");
 		html.append("</li>");
 		return html;
 	}

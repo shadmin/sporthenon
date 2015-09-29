@@ -287,12 +287,21 @@ public class ImportUtils {
 								isError = true;
 								writeError(vLine, "ERROR: Invalid Country (column " + h.toUpperCase() + ")");
 							}
+							else if (n == 50)
+								writeError(vLine, "WARNING: Team does not exist (column " + h.toUpperCase() + ")");
 							else {
 								Pattern pattern = Pattern.compile("[A-Z]{3}");
 								Matcher matcher = pattern.matcher(s);
 								if (!matcher.find() || !lCountries.contains(new Country(matcher.group(0)))) {
 									isError = true;
 									writeError(vLine, "ERROR: Invalid Country (column " + h.toUpperCase() + ")");
+								}
+								boolean isCountryTeam = s.toLowerCase().matches(".*\\([a-z]{3}\\,\\s.+\\)$");
+								if (isCountryTeam) {
+									String tm = s.substring(s.lastIndexOf(", ") + 2);
+									List l = DatabaseHelper.execute("from Team where lower(label)='" + tm.toLowerCase().replaceAll("\\)$", "") + "'");
+									if (l == null || l.isEmpty())
+										writeError(vLine, "WARNING: Team does not exist (column " + h.toUpperCase() + ")");
 								}
 							}
 						}
@@ -1031,7 +1040,7 @@ public class ImportUtils {
 	
 	private static void writeError(Vector<String> vLine, String msg) {
 		if (vLine != null && (!StringUtils.notEmpty(vLine.get(0)) || vLine.get(0).equals("-")))
-			vLine.set(0, "<span class='red'>" + msg + "</span>");
+			vLine.set(0, "<span class='" + (msg.startsWith("ERROR") ? "red" : "orange") + "'>" + msg + "</span>");
 	}
 	
 	public static List getTemplate(String type) {

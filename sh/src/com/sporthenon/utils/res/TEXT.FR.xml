@@ -277,7 +277,8 @@
 	<entry key="month.10">Octobre</entry>
 	<entry key="month.11">Novembre</entry>
 	<entry key="month.12">Décembre</entry>
-	<entry key="photo.copyright">Copyright photo</entry>
+	<entry key="source">Source</entry>
+	<entry key="note">Note</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
@@ -405,8 +406,12 @@
 	<entry key="update.results">Ajouter/modifier un résultat</entry>
 	<entry key="update.data">Administrer les données</entry>
 	<entry key="update.pictures">Images</entry>
+	<entry key="update.folders">Dossiers</entry>
 	<entry key="update.import">Importer</entry>
 	<entry key="update.tools">Outils</entry>
+	<entry key="update.query">Requêtes</entry>
+	<entry key="update.extlinks">Liens externes</entry>
+	<entry key="update.translations">Traductions</entry>
 	<entry key="update.users">Utilisateurs</entry>
 	<entry key="update.config">Configuration</entry>
 	<entry key="update.help">Aide</entry>
@@ -450,4 +455,5 @@
 	<entry key="modif.warning">Des modifications ont été effectuées. Cliquez sur Enregistrer.</entry>
 	<entry key="upload">Envoyer</entry>
 	<entry key="download">Télécharger</entry>
+	<entry key="include.checked.links">Inclure liens vérifiés</entry>
 </properties>
