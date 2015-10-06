@@ -5,23 +5,6 @@
 	<property name="webcontent" value="../WebContent" />
 	<property name="temp" value="./temp" />
 	
-	<!-- SHADMIN.JAR -->
-	<target name="shadmin.jar">
-		<mkdir dir="${temp}"/>
-		<copy todir="${temp}">
-			<fileset dir="${classes}">
-				<include name="**/sporthenon/db/**"/>
-				<include name="**/sporthenon/admin/**"/>
-				<include name="**/sporthenon/utils/**"/>
-				<include name="**/META-INF/**"/>
-				<exclude name="**/sporthenon/admin/MANIFEST.MF"/>
-			</fileset>
-		</copy>
-		<copy file="${classes}/config.prod.xml" tofile="${temp}/config.xml"/>
-		<jar jarfile="./shadmin.jar" basedir="${temp}" manifest="${classes}/com/sporthenon/admin/MANIFEST.MF"/>
-		<delete dir="${temp}" failonerror="false"/>
-	</target>
-	
 	<!-- SH[ENV].WAR -->
 	<target name="initwar">
 		<mkdir dir="${temp}"/>

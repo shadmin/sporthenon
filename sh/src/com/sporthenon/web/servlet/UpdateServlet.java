@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -44,8 +46,11 @@ import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Config;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.ExternalLink;
+import com.sporthenon.db.entity.meta.FolderHistory;
 import com.sporthenon.db.entity.meta.PersonList;
 import com.sporthenon.db.entity.meta.RefItem;
+import com.sporthenon.db.entity.meta.Translation;
+import com.sporthenon.db.entity.meta.TreeItem;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.ImportUtils;
@@ -97,6 +102,16 @@ public class UpdateServlet extends AbstractServlet {
 				loadTemplate(response, hParams, lang, user);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-extlinks"))
 				loadExternalLinks(response, hParams, lang, user);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("save-extlinks"))
+				saveExternalLinks(response, hParams, lang, user);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("load-translations"))
+				loadTranslations(response, hParams, lang, user);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("save-translations"))
+				saveTranslations(response, hParams, lang, user);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("load-folders"))
+				loadFolders(response, hParams, lang, user);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("save-folders"))
+				saveFolders(response, hParams, lang, user);
 			else
 				loadResult(request, response, hParams, lang, user);
 		}
@@ -482,21 +497,21 @@ public class UpdateServlet extends AbstractServlet {
 					html.append("</tbody></table>");
 				html.append("<table><thead><tr>");
 				if (item.getEntity().equals(Result.alias))
-					html.append("<th colspan='11' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase()) + "</th></tr><tr><th>Year</th><th>Event</th><th>Podium</th><th>Results</th><th>Final+Score</th><th>Complex</th><th>City</th><th>Date</th><th>Draw</th><th>Ext.links</th><th>Photo</th>");
+					html.append("<th colspan='11' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><th>" + ResourceUtils.getText("entity.EV.1", lang) + "</th><th>" + ResourceUtils.getText("podium", lang) + "</th><th>" + ResourceUtils.getText("entity.RS", lang) + "</th><th>" + ResourceUtils.getText("final", lang) + "+" + ResourceUtils.getText("score", lang) + "</th><th>" + ResourceUtils.getText("entity.CX.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CT.1", lang) + "</th><th>" + ResourceUtils.getText("date", lang) + "</th><th>" + ResourceUtils.getText("entity.DR.1", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photo", lang) + "</th>");
 				else if (item.getEntity().equals(Athlete.alias))
-					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Sport</th><th>Country</th><th>Team</th><th>Ref.</th><th>Ext.links</th><th>Photo</th>");
+					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("entity.TM.1", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photo", lang) + "</th>");
 				else if (item.getEntity().equals(Team.alias))
-					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Team.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Sport</th><th>Country</th><th>League</th><th>Ref.</th><th>Ext.links</th><th>Logo</th>");
+					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Team.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("league", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("logo", lang) + "</th>");
 				else if (item.getEntity().equals(Sport.alias))
-					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Sport.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Ref.</th><th>Ext.links</th><th>Picture</th>");
+					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Sport.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
 				else if (item.getEntity().equals(Championship.alias))
-					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Championship.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Ref.</th><th>Ext.links</th><th>Picture</th>");
+					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Championship.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
 				else if (item.getEntity().equals(Event.alias))
-					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Event.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Ref.</th><th>Ext.links</th><th>Picture</th>");
+					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Event.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
 				else if (item.getEntity().equals(City.alias))
-					html.append("<th colspan='6' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + City.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>Country</th><th>Ref.</th><th>Ext.links</th><th>Picture</th>");
+					html.append("<th colspan='6' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + City.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
 				else if (item.getEntity().equals(Complex.alias))
-					html.append("<th colspan='6' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Complex.alias, lang).toUpperCase()) + "</th></tr><tr><th>Name</th><th>City</th><th>Ref.</th><th>Ext.links</th><th>Picture</th>");
+					html.append("<th colspan='6' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Complex.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.CT.1", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
 				html.append("</tr></thead><tbody class='tby'>");
 				currentEntity = item.getEntity();
 			}
@@ -1237,7 +1252,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 		String type = String.valueOf(hParams.get("type"));
 		String update = String.valueOf(hParams.get("update"));
-		String result = ImportUtils.processAll(session,  v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Draw.alias), type.equalsIgnoreCase(Record.alias), user);
+		String result = ImportUtils.processAll(session,  v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Draw.alias), type.equalsIgnoreCase(Record.alias), user, lang);
 		session.setAttribute("progress", 100);
 		ServletHelper.writeText(response, result);
 	}
@@ -1281,26 +1296,299 @@ public class UpdateServlet extends AbstractServlet {
 				hql.append(" or lower(url) like '%" + pattern.toLowerCase() + "%'");
 				hql.append(")");
 			}
-			if (includechecked.equals("0"))
-				hql.append(" and (checked = FALSE or checked IS NULL)");
 			hql.append(" order by idItem, type");
-			HashMap<Integer, String> hLabel = new HashMap<Integer, String>();
-			for (Object[] t_ : (List<Object[]>) DatabaseHelper.execute("select id, " + (entity.equals(Athlete.alias) ? "lastName || ', ' || firstName || ' - ' || sport.label" : "label") + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + (tIds.length > 1 ? " where id between " + tIds[0] + " and " + tIds[1] : "")))
-				hLabel.put(Integer.parseInt(String.valueOf(t_[0])), String.valueOf(t_[1]));
-			List<ExternalLink> lLinks = DatabaseHelper.execute(hql.toString());
-			html.append("<thead><th>ID</th><th>Label</th><th>URL type</th><th>URL</th><th>Checked&nbsp;<input type='checkbox' onclick='checkAllLinks();'/></th></thead><tbody>");
-			for (ExternalLink l : lLinks) {
-				html.append("<tr><td style='display:none;'>" + l.getId() + "</td>");
-				html.append("<td>" + l.getIdItem() + "</td>");
-				html.append("<td>" + hLabel.get(l.getIdItem()) + "</td>");
-				html.append("<td>" + l.getType() + "</td>");
-				html.append("<td><a href='" + l.getUrl() + "' target='_blank'>" + l.getUrl() + "</a></td>");
-				html.append("<td><input id='cb-" + l.getId() + "' type='checkbox'" + (l.getChecked() != null && l.getChecked() ? " checked='checked'" : "") + "/></td></tr>");
+			
+			List<Object[]> items = DatabaseHelper.execute("select id, " + (entity.equals(Athlete.alias) ? "lastName || ', ' || firstName || ' - ' || sport.label" : "label") + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + (tIds.length > 1 ? " where id between " + tIds[0] + " and " + tIds[1] : "") + " order by id");
+			List<ExternalLink> links = DatabaseHelper.execute(hql.toString());
+			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + "</th><th>" + ResourceUtils.getText("type", lang) + "</th><th>URL</th><th>" + ResourceUtils.getText("checked", lang) + "&nbsp;<input type='checkbox' onclick='checkAllLinks();'/></th></thead><tbody>");
+			for (Object[] t : items) {
+				Integer id = StringUtils.toInt(t[0]);
+				String label = String.valueOf(t[1]);
+				boolean isLink = false;
+				boolean isExclude = false;
+				for (ExternalLink el : links) {
+					if (el.getIdItem().equals(id)) {
+						if (includechecked.equals("0") && el.isChecked()) {
+							isExclude = true;
+							continue;
+						}
+						isLink = true;
+						html.append("<tr id='el-" + el.getId() + "'><td style='display:none;'>" + el.getId() + "</td>");
+						html.append("<td>" + el.getIdItem() + "</td>");
+						html.append("<td>" + label + "</td>");
+						html.append("<td>" + el.getType() + "</td>");
+						html.append("<td><a href='" + el.getUrl() + "' target='_blank'>" + el.getUrl() + "</a></td>");
+						html.append("<td><input type='checkbox'" + (el.isChecked() ? " checked='checked'" : "") + "/></td>");
+						html.append("<td><a href='javascript:modifyExtLink(" + el.getId() + ");'><img alt='' src='/img/component/button/modify.png'/></a></td></tr>");
+					}
+					else if (isLink)
+						break;
+				}
+				if (!isLink && !isExclude) {
+					html.append("<tr><td style='display:none;'>0</td>");
+					html.append("<td>" + id + "</td>");
+					html.append("<td>" + label + "</td>");
+					html.append("<td><input type='text' style='width:60px;'/></td>");
+					html.append("<td><input type='text' style='width:500px;'/></td>");
+					html.append("<td><input type='checkbox'/></td><td/></tr>");
+				}
 			}
 			ServletHelper.writeText(response, html.append("</tbody></table>").toString());
 		}
 		catch (Exception e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);
+		}
+	}
+	
+	private static void saveExternalLinks(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+		StringBuffer sbMsg = new StringBuffer();
+		try {
+			String entity = String.valueOf(hParams.get("entity"));
+			String value = String.valueOf(hParams.get("value"));
+			for (String s : value.split("\\|")) {
+				String[] t = s.split("\\~");
+				String id = t[0];
+				ExternalLink el = (id.equals("0") ? new ExternalLink() : (ExternalLink) DatabaseHelper.loadEntity(ExternalLink.class, id));
+				if (t.length > 2) {
+					el.setEntity(entity);
+					el.setIdItem(Integer.parseInt(t[1]));
+					el.setType(t[2]);
+					el.setUrl(t[3]);
+					el.setChecked(t[4].equals("1"));
+					DatabaseHelper.saveEntity(el, user);
+				}
+				else if (t.length == 2 && el.getId() != null) {
+					el.setChecked(t[1].equals("1"));
+					DatabaseHelper.saveEntity(el, user);
+				}
+			}
+			sbMsg.append(ResourceUtils.getText("update.ok", lang));
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+			sbMsg.append("ERR:" + e.getMessage());
+		}
+		finally {
+			ServletHelper.writeText(response, sbMsg.toString());
+		}
+	}
+	
+	private static void loadTranslations(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+		try {
+			StringBuffer html = new StringBuffer("<table>");
+			String range = String.valueOf(hParams.get("range"));
+			String pattern = String.valueOf(hParams.get("pattern"));
+			String entity = String.valueOf(hParams.get("entity"));
+			String includechecked = String.valueOf(hParams.get("includechecked"));
+			
+			String[] tIds = range.split("\\-");
+			StringBuffer hql = new StringBuffer("from Translation where entity='" + entity + "'");
+			if (tIds.length > 1)
+				hql.append(" and idItem between " + tIds[0] + " and " + tIds[1]);				
+			if (StringUtils.notEmpty(pattern))
+				hql.append(" and (0=1" + (pattern.matches("\\d+") ? " or idItem=" + pattern : "") + ")");
+			hql.append(" order by idItem");
+
+			List<Object[]> items = DatabaseHelper.execute("select id, label, labelFR from " + DatabaseHelper.getClassFromAlias(entity).getName() + (tIds.length > 1 ? " where id between " + tIds[0] + " and " + tIds[1] : "") + " order by id");
+			List<Translation> translations = DatabaseHelper.execute(hql.toString());
+			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + " (EN)</th><th>" + ResourceUtils.getText("label", lang) + " (FR)</th><th>" + ResourceUtils.getText("checked", lang) + "&nbsp;<input type='checkbox' onclick='checkAllTranslations();'/></th></thead><tbody>");
+			for (Object[] t : items) {
+				Integer id = StringUtils.toInt(t[0]);
+				String labelEN = String.valueOf(t[1]);
+				String labelFR = String.valueOf(t[2]);
+				boolean isTranslation = false;
+				boolean isExclude = false;
+				for (Translation tr : translations) {
+					if (tr.getIdItem().equals(id)) {
+						if (includechecked.equals("0") && tr.isChecked()) {
+							isExclude = true;
+							continue;
+						}
+						isTranslation = true;
+						html.append("<tr id='tr-" + tr.getId() + "'><td style='display:none;'>" + tr.getId() + "</td>");
+						html.append("<td>" + tr.getIdItem() + "</td>");
+						html.append("<td>" + labelEN + "</td>");
+						html.append("<td>" + labelFR + "</td>");
+						html.append("<td><input type='checkbox'" + (tr.isChecked() ? " checked='checked'" : "") + "/></td></tr>");
+					}
+					else if (isTranslation)
+						break;
+				}
+				if (!isTranslation && !isExclude) {
+					html.append("<tr><td style='display:none;'>0</td>");
+					html.append("<td>" + id + "</td>");
+					html.append("<td>" + labelEN + "</td>");
+					html.append("<td>" + labelFR + "</td>");
+					html.append("<td><input type='checkbox'/></td></tr>");
+				}
+			}
+			ServletHelper.writeText(response, html.append("</tbody></table>").toString());
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+		}
+	}
+	
+	private static void saveTranslations(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+		StringBuffer sbMsg = new StringBuffer();
+		try {
+			String entity = String.valueOf(hParams.get("entity"));
+			String value = String.valueOf(hParams.get("value"));
+			for (String s : value.split("\\|")) {
+				String[] t = s.split("\\~");
+				String id = t[0];
+				Translation tr = (id.equals("0") ? new Translation() : (Translation) DatabaseHelper.loadEntity(Translation.class, id));
+				if (tr.getId() == null) {
+					tr.setIdItem(Integer.parseInt(t[1]));
+					tr.setEntity(entity);
+				}
+				tr.setChecked(t[2].equals("1"));
+				DatabaseHelper.saveEntity(tr, user);
+			}
+			sbMsg.append(ResourceUtils.getText("update.ok", lang));
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+			sbMsg.append("ERR:" + e.getMessage());
+		}
+		finally {
+			ServletHelper.writeText(response, sbMsg.toString());
+		}
+	}
+	
+	private static void loadFolders(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+		try {
+			ArrayList<Object> params = new ArrayList<Object>();
+			params.add("");
+			params.add("_" + lang.toLowerCase());
+			Collection<Object> coll = DatabaseHelper.call("TreeResults", params);
+			StringBuffer sb = new StringBuffer();
+			ArrayList<Object> lst = new ArrayList<Object>(coll);
+			int i, j, k, l, m;
+			for (i = 0 ; i < lst.size() ; i++) {
+				TreeItem item = (TreeItem) lst.get(i);
+				sb.append("<option value='" + item.getIdItem() + "'>" + item.getStdLabel() + "</option>");
+				for (j = i + 1 ; j < lst.size() ; j++) {
+					TreeItem item2 = (TreeItem) lst.get(j);
+					if (item2.getLevel() < 2) {j--; break;}
+					sb.append("<option value='" + item.getIdItem() + "," + item2.getIdItem() + "'>" + item.getStdLabel() + "-" + item2.getStdLabel() + "</option>");	
+					for (k = j + 1 ; k < lst.size() ; k++) {
+						TreeItem item3 = (TreeItem) lst.get(k);
+						if (item3.getLevel() < 3) {k--; break;}
+						sb.append("<option value='" + item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem() + "'>" + item.getStdLabel() + "-" + item2.getStdLabel() + "-" + item3.getStdLabel() + "</option>");
+						for (l = k + 1 ; l < lst.size() ; l++) {
+							TreeItem item4 = (TreeItem) lst.get(l);
+							if (item4.getLevel() < 4) {l--; break;}
+							sb.append("<option value='" + item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem() + "," + item4.getIdItem() + "'>" + item.getStdLabel() + "-" + item2.getStdLabel() + "-" + item3.getStdLabel() + "-" + item4.getStdLabel() + "</option>");
+							for (m = l + 1 ; m < lst.size() ; m++) {
+								TreeItem item5 = (TreeItem) lst.get(m);
+								if (item5.getLevel() < 5) {m--; break;}
+								sb.append("<option value='" + item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem() + "," + item4.getIdItem() + "," + item5.getIdItem() + "'>" + item.getStdLabel() + "-" + item2.getStdLabel() + "-" + item3.getStdLabel() + "-" + item4.getStdLabel() + "-" + item5.getStdLabel() + "</option>");
+							}
+							l = m;
+						}
+						k = l;
+					}
+					j = k;
+				}
+				i = j;
+			}
+			ServletHelper.writeText(response, sb.toString());
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+		}
+	}
+	
+	private static void saveFolders(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+		StringBuffer sbMsg = new StringBuffer();
+		try {
+			DatabaseHelper.executeUpdate("ALTER TABLE \"Result\" DISABLE TRIGGER \"TriggerRS\";");
+			Integer sp = StringUtils.toInt(hParams.get("sp"));
+			Integer c1 = StringUtils.toInt(hParams.get("cp"));
+			Integer c2 = StringUtils.toInt(hParams.get("ev1"));
+			Integer c3 = StringUtils.toInt(hParams.get("ev2"));
+			Integer c4 = StringUtils.toInt(hParams.get("ev3"));
+			Integer autose = StringUtils.toInt(hParams.get("cb1"));
+			Integer clearse1 = StringUtils.toInt(hParams.get("cb2"));
+			Integer clearse2 = StringUtils.toInt(hParams.get("cb3"));
+			String splabel = ((Sport) DatabaseHelper.loadEntity(Sport.class, sp)).getLabel();
+			String cplabel = null;
+			String ev1label = null;
+			String ev2label = null;
+			String ev3label = null;
+			StringBuffer sql_ = new StringBuffer("UPDATE \"Result\" SET id_sport=" + sp);
+			if (c1 != null && c1 > 0) {
+				sql_.append(", id_championship=" + c1);
+				cplabel = ((Championship) DatabaseHelper.loadEntity(Championship.class, c1)).getLabel();
+			}
+			if (c2 != null && c2 > 0) {
+				sql_.append(", id_event=" + c2);
+				ev1label = ((Event) DatabaseHelper.loadEntity(Event.class, c2)).getLabel();
+			}
+			if (c3 != null && c3 > 0) {
+				sql_.append(", id_subevent=" + c3);
+				ev2label = ((Event) DatabaseHelper.loadEntity(Event.class, c3)).getLabel();
+			}
+			if (c4 != null && c4 > 0) {
+				sql_.append(", id_subevent2=" + c4);
+				ev3label = ((Event) DatabaseHelper.loadEntity(Event.class, c4)).getLabel();
+			}
+			if (clearse1 == 1)
+				sql_.append(", id_subevent=NULL");
+			if (clearse2 == 1)
+				sql_.append(", id_subevent2=NULL");
+			for (String s : String.valueOf(hParams.get("list")).split("\\~")) {
+				String[] t = s.split("\\,");
+				StringBuffer sql = new StringBuffer(sql_);
+				if (autose == 1) {
+					if (t.length == 3 && (c3 == null || c3 == 0))
+						sql.append(", id_subevent=" + t[2]);
+					else if (t.length == 4 && (c4 == null || c4 == 0))
+						sql.append(", id_subevent2=" + t[3]);
+				}
+				sql.append(" WHERE id_sport=" + t[0]);
+				if (t.length > 1)
+					sql.append(" AND id_championship=" + t[1]);
+				if (t.length > 2)
+					sql.append(" AND id_event=" + t[2]);
+				if (t.length > 3)
+					sql.append(" AND id_subevent=" + t[3]);
+				if (t.length > 4)
+					sql.append(" AND id_subevent2=" + t[4]);
+				DatabaseHelper.executeUpdate(sql.toString());
+				DatabaseHelper.executeUpdate(sql.toString().replaceAll("Result", "~InactiveItem"));
+				// Keep previous path in folders history (for redirection)
+				String currentParams = sp + (c1 != null && c1 > 0 ? "-" + c1 : "") + (c2 != null && c2 > 0 ? "-" + c2 : "") + (c3 != null && c3 > 0 ? "-" + c3 : "") + (c4 != null && c4 > 0 ? "-" + c4 : "");
+				String currentPath = splabel + (c1 != null && c1 > 0 ? "/" + cplabel : "") + (c2 != null && c2 > 0 ? "/" + ev1label : "") + (c3 != null && c3 > 0 ? "/" + ev2label : "") + (c4 != null && c4 > 0 ? "/" + ev3label : "");
+				if (autose == 1) {
+					String s_ = ((Sport) DatabaseHelper.loadEntity(Sport.class, t[0])).getLabel() + (t.length > 1 ? " | " + ((Championship) DatabaseHelper.loadEntity(Championship.class, t[1])).getLabel() : "") + (t.length > 2 ? " | " + ((Event) DatabaseHelper.loadEntity(Event.class, t[2])).getLabel() : "") + (t.length > 3 ? " | " + ((Event) DatabaseHelper.loadEntity(Event.class, t[3])).getLabel() : "") + (t.length > 4 ? " | " + ((Event) DatabaseHelper.loadEntity(Event.class, t[4])).getLabel() : "");
+					String[] t_ = s_.split("\\s\\|\\s");
+					if (t.length == 3 && (c3 == null || c3 == 0)) {
+						currentParams += "-" + t[2];
+						currentPath += "/" + t_[2];
+					}
+					else if (t.length == 4 && (c4 == null || c4 == 0)) {
+						currentParams += "-" + t[3];
+						currentPath += "/" + t_[3];
+					}
+				}
+				FolderHistory fh = new FolderHistory();
+				fh.setPreviousParams(StringUtils.implode(Arrays.asList(t),"-"));
+				fh.setCurrentParams(currentParams);
+				fh.setCurrentPath(currentPath);
+				fh.setDate(new Timestamp(System.currentTimeMillis()));
+				DatabaseHelper.saveEntity(fh, null);
+			}
+			DatabaseHelper.executeUpdate("ALTER TABLE \"Result\" ENABLE TRIGGER \"TriggerRS\";");
+			sbMsg.append(ResourceUtils.getText("update.ok", lang));
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+			sbMsg.append("ERR:" + e.getMessage());
+		}
+		finally {
+			ServletHelper.writeText(response, sbMsg.toString());
 		}
 	}
 	

@@ -1287,15 +1287,15 @@ li{
 	min-height: 50px;
 	white-space: nowrap;
 }
-.warning{
-	background: url(../img/update/warning.gif?6) left center no-repeat;
-	padding-left: 18px;
-	color: #F80;
-}
 #msg div, #msg2 div{
 	position: absolute;
 	left: 5px;
 	bottom: 20px;
+}
+.warning{
+	background: url(../img/update/warning.gif?6) left center no-repeat;
+	padding-left: 18px;
+	color: #F80;
 }
 .update input[type=text], .update textarea, #d-plist input[type=text]{
 	font: 12px Verdana;
@@ -1500,6 +1500,22 @@ li{
 #update-folders .fstitle{
 	background-image: url(../img/update/folders.png?6);
 }
+#update-folders .fscontent table{
+	margin-bottom: 10px;
+}
+#update-folders .fscontent .toolbar td{
+	padding: 2px;
+	border: none;
+}
+#update-folders #msg div{
+	position: relative;
+	bottom: 0px;
+	padding-right: 10px;
+}
+#update-folders select{
+	width: 400px;
+	font-size: 11px;
+}
 /*---------- IMPORT ----------*/
 #update-import .fstitle{
 	background-image: url(../img/update/import.png?6);
@@ -1549,6 +1565,22 @@ li{
 	width: 0px;
 	height: 18px;
 }
+/*---------- TRANSLATIONS ----------*/
+#update-translations .fscontent table{
+	margin-bottom: 10px;
+}
+#update-translations #elcontent input{
+	margin: 1px;
+}
+#update-translations .fscontent .toolbar td{
+	padding: 2px;
+	border: none;
+}
+#update-translations #msg div{
+	position: relative;
+	bottom: 0px;
+	padding-right: 10px;
+}
 /*---------- EXT.LINKS ----------*/
 #update-extlinks .fscontent table{
 	margin-bottom: 10px;
@@ -1556,7 +1588,23 @@ li{
 #update-extlinks #elcontent input{
 	margin: 1px;
 }
+#update-extlinks .fscontent .toolbar td{
+	padding: 2px;
+	border: none;
+}
+#update-extlinks #msg div{
+	position: relative;
+	bottom: 0px;
+	padding-right: 10px;
+}
 /*---------- TOOLS ----------*/
+#toolsopt{
+	margin-top: -12px;
+	right: 12px;
+}
+#toolsopt table{
+	border-spacing: 0px;
+}
 #toolsopt td {
 	padding-right: 5px;
 	text-align: left;

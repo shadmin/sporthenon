@@ -2250,16 +2250,123 @@ function executeQuery(index) {
 	}
 }
 /*========== EXT.LINKS ==========*/
+var currentExtLinkEntity = null;
 function loadExtLinks() {
 	var h = $H({range: $F('elrange'), pattern: $F('elpattern'), entity: $F('elentity'), includechecked: ($('elincludechecked').checked ? '1' : '0')});
 	$('elcontent').update('<img src="/img/db/loading.gif?6"/>');
 	new Ajax.Updater($('elcontent'), '/update/load-extlinks', {
 		parameters: h
 	});
+	currentExtLinkEntity = $F('elentity');
 }
 function checkAllLinks() {
 	$$('#elcontent input').each(function(el){
 		$(el).checked = true;
+	});
+}
+function modifyExtLink(id) {
+	var t = $$('#el-' + id + ' td');
+	t[3].innerHTML = '<input type="text" value="' + t[3].innerHTML + '" style="width:60px;"/>';
+	t[4].innerHTML = '<input type="text" value="' + t[4].down('a').href + '" style="width:500px;"/>';
+}
+function saveExtLinks() {
+	var t = [];
+	$$('#elcontent tbody tr').each(function(el){
+		var t_ = $(el).getElementsByTagName('input');
+		var t__ = $(el).getElementsByTagName('td');
+		var idlink = t__[0].innerHTML;
+		var iditem = t__[1].innerHTML;
+		if (t_.length == 1) {
+			t.push(idlink + '~' + (t_[0].checked ? '1' : '0'));
+		}
+		else if (t_[0].value != '') {
+			t.push(idlink + '~' + iditem + '~' + t_[0].value + '~' + t_[1].value + '~' + (t_[2].checked ? '1' : '0'));
+		}
+	});
+	new Ajax.Request('/update/save-extlinks', {
+		onSuccess: function(response){
+			var text = response.responseText;
+			$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
+			$('msg').update('<div>' + text.replace(/^ERR\:/i, '') + '</div>');
+			loadExtLinks();
+		},
+		parameters: $H({entity: currentExtLinkEntity, value: t.join('|')})
+	});
+}
+/*========== TRANSLATIONS ==========*/
+var currentTranslationEntity = null;
+function loadTranslations() {
+	var h = $H({range: $F('trrange'), pattern: $F('trpattern'), entity: $F('trentity'), includechecked: ($('trincludechecked').checked ? '1' : '0')});
+	$('trcontent').update('<img src="/img/db/loading.gif?6"/>');
+	new Ajax.Updater($('trcontent'), '/update/load-translations', {
+		parameters: h
+	});
+	currentTranslationEntity = $F('trentity');
+}
+function checkAllTranslations() {
+	$$('#trcontent input').each(function(el){
+		$(el).checked = true;
+	});
+}
+function saveTranslations() {
+	var t = [];
+	$$('#trcontent tbody tr').each(function(el){
+		var cb = $(el).getElementsByTagName('input')[0];
+		var t_ = $(el).getElementsByTagName('td');
+		t.push(t_[0].innerHTML + '~' + t_[1].innerHTML + '~' + (cb.checked ? '1' : '0'));
+	});
+	new Ajax.Request('/update/save-translations', {
+		onSuccess: function(response){
+			var text = response.responseText;
+			$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
+			$('msg').update('<div>' + text.replace(/^ERR\:/i, '') + '</div>');
+			loadTranslations();
+		},
+		parameters: $H({entity: currentTranslationEntity, value: t.join('|')})
+	});
+}
+/*========== FOLDERS ==========*/
+function loadFolders() {
+	new Ajax.Updater($('list1'), '/update/load-folders');
+}
+function moveFolder(list1, list2) {
+	var opt = null;
+	var t = null;
+	for (var i = $(list1).options.length - 1 ; i >= 0 ; i--) {
+		opt = $(list1).options[i];
+		if (opt.selected) {
+			$(list2).options.add(opt);
+			opt.selected = false;
+			t = opt.value.split(',');
+			$('sp').value = t[0];
+			if (t.length > 1) {
+				$('cp').value = t[1];
+				if (t.length > 2) {
+					$('ev1').value = t[2];
+					if (t.length > 3) {
+						$('ev2').value = t[3];
+						if (t.length > 4) {
+							$('ev3').value = t[4];
+						}
+					}
+				}
+			}
+		}
+	}
+}
+function saveFolders() {
+	var t = [];
+	$$('#list2 option').each(function(el){
+		t.push($(el).value);
+	});
+	new Ajax.Request('/update/save-folders', {
+		onSuccess: function(response){
+			var text = response.responseText;
+			$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
+			$('msg').update('<div>' + text.replace(/^ERR\:/i, '') + '</div>');
+			loadFolders();
+		},
+		parameters: $H({list: t.join('~'), sp: $F('sp'), cp: $F('cp'), ev1: $F('ev1'), ev2: $F('ev2'), ev3: $F('ev3'), cb1: ($('cb1').checked ? '1' : '0'), cb2: ($('cb2').checked ? '1' : '0'), cb3: ($('cb3').checked ? '1' : '0')})
 	});
 }
 /*========== ADMIN ==========*/

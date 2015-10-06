@@ -46,7 +46,7 @@ var treeItems = null;
 			<ul>
 			<!-- EVENT -->
 			<li>
-			<fieldset style="height:140px;"><legend>Event</legend>
+			<fieldset style="height:140px;"><legend><%=StringUtils.text("entity.EV.1", session)%></legend>
 				<table>
 					<tr><td colspan="5"><input type="text" id="sp" tabindex="1" name="<%=StringUtils.text("entity.SP.1", session)%>"/><a href="javascript:clearValue('sp');">[X]</a></td></tr>
 					<tr><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="4"><input type="text" id="cp" tabindex="2" name="<%=StringUtils.text("entity.CP.1", session)%>"/><a href="javascript:clearValue('cp');">[X]</a></td></tr>
@@ -58,7 +58,7 @@ var treeItems = null;
 			</li>
 			<!-- DATES -->
 			<li>
-			<fieldset style="height:140px;"><legend>Dates</legend>
+			<fieldset style="height:140px;"><legend><%=StringUtils.text("dates", session)%></legend>
 				<table>
 					<tr><td><input type="text" id="yr" tabindex="6" name="<%=StringUtils.text("entity.YR.1", session)%>"/><a href="javascript:clearValue('yr');">[X]</a></td>
 					<td><input id='prevbtn' type='button' class='button' onclick='loadResult("prev");' value=''/></td>
@@ -80,7 +80,7 @@ var treeItems = null;
 			<ul>
 			<!-- PLACES/VENUES -->
 			<li>
-			<fieldset style="height:145px;"><legend>Places</legend>
+			<fieldset style="height:145px;"><legend><%=StringUtils.text("places", session)%></legend>
 				<table>
 					<tr><td><input type="text" id="pl1" tabindex="9" name="<%=StringUtils.text("venue.city", session)%> #1"/><a href="javascript:clearValue('pl1');">[X]</a></td></tr>
 					<tr><td style="padding-top:10px;"><input type="text" id="pl2" tabindex="10" name="<%=StringUtils.text("venue.city", session)%> #2"/><a href="javascript:clearValue('pl2');">[X]</a></td></tr>
@@ -89,7 +89,7 @@ var treeItems = null;
 			</li>
 			<!-- OTHER -->
 			<li>
-			<fieldset style="height:145px;"><legend>Other Info</legend>
+			<fieldset style="height:145px;"><legend><%=StringUtils.text("other.info", session)%></legend>
 				<table>
 					<tr><td><input type="text" id="exa" tabindex="11" name="<%=StringUtils.text("tie", session)%>" style="width:150px;"/></td></tr>
 					<tr><td><input type="text" id="cmt" tabindex="12" name="<%=StringUtils.text("comment", session)%>" style="width:500px;"/></td></tr>
@@ -102,7 +102,7 @@ var treeItems = null;
 			<ul>
 			<!-- RANKINGS -->
 			<li>
-			<fieldset><legend>Rankings</legend>
+			<fieldset><legend><%=StringUtils.text("rankings", session)%></legend>
 				<table style="margin-top:0px;">
 					<tr><td><input type="text" id="rk1" tabindex="100" name="<%=StringUtils.text("rank.1", session)%>"/><a href="javascript:clearValue('rk1');">[X]</a></td><td><a href="javascript:initPersonList(1);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs1" tabindex="101" name="<%=StringUtils.text("result.score", session)%>" style="width:120px;"/></td><td><input type="text" id="rk11" tabindex="120" name="<%=StringUtils.text("rank.11", session)%>"/><a href="javascript:clearValue('rk11');">[X]</a></td><td><a href="javascript:initPersonList(11);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs11" tabindex="121" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
 					<tr><td><input type="text" id="rk2" tabindex="102" name="<%=StringUtils.text("rank.2", session)%>"/><a href="javascript:clearValue('rk2');">[X]</a></td><td><a href="javascript:initPersonList(2);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs2" tabindex="103" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td><td><input type="text" id="rk12" tabindex="122" name="<%=StringUtils.text("rank.12", session)%>"/><a href="javascript:clearValue('rk12');">[X]</a></td><td><a href="javascript:initPersonList(12);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs12" tabindex="123" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
@@ -120,7 +120,7 @@ var treeItems = null;
 			<ul>
 			<!-- DRAW -->
 			<li>
-			<fieldset><legend><table><tr><td><input type="checkbox" id="cbdraw" onclick="toggleDraw();"/></td><td><label for="cbdraw">Add Draw</label></td></tr></table></legend>
+			<fieldset><legend><table><tr><td><input type="checkbox" id="cbdraw" onclick="toggleDraw();"/></td><td><label for="cbdraw"><%=StringUtils.text("add.draw", session)%></label></td></tr></table></legend>
 				<table id="draw" style="display:none;">
 					<tr><td><input type="text" id="qf1w" tabindex="1000" name="<%=StringUtils.text("quarterfinal", session)%> #1 - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('qf1w');">[X]</a></td></tr>
 					<tr><td><input type="text" id="qf1l" tabindex="1001" name="<%=StringUtils.text("quarterfinal", session)%> #1 - <%=StringUtils.text("loser", session)%>"/><a href="javascript:clearValue('qf1l');">[X]</a></td></tr>

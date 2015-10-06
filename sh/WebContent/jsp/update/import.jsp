@@ -15,9 +15,9 @@
 				<td><select id="type"><option value="RS"><%=StringUtils.text("entity.RS", session)%></option><option value="DR"><%=StringUtils.text("entity.DR", session)%></option><option value="RC"><%=StringUtils.text("entity.RC", session)%></option></select></td>
 				<td><%=StringUtils.text("csv.file", session)%>&nbsp;:</td>
 				<td><div id="dz-file"><p id="fname"></p></div></td>
-				<td><input id="processbtn" type="button" value="Process" disabled="disabled" onclick="executeImport(0);"/></td>
-				<td><input id="updatebtn" type="button" value="Update" disabled="disabled" onclick="executeImport(1);"/></td>
-				<td><input type="button" value="Template" onclick="loadTemplate();"/></td>
+				<td><input id="processbtn" type="button" value="<%=StringUtils.text("btn.process", session)%>" disabled="disabled" onclick="executeImport(0);"/></td>
+				<td><input id="updatebtn" type="button" value="<%=StringUtils.text("btn.update", session)%>" disabled="disabled" onclick="executeImport(1);"/></td>
+				<td><input type="button" value="<%=StringUtils.text("btn.template", session)%>" onclick="loadTemplate();"/></td>
 				<td><div id="progressbar" style="display:none;"><div id="progress"></div></div></td>
 				<td id="pgpercent"></td>
 			</tr></table>

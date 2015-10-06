@@ -8,7 +8,7 @@
 		<div class="fscontent">
 			<ul>
 			<li>
-				<fieldset><legend>Predefined queries</legend>
+				<fieldset><legend><%=StringUtils.text("predefined.queries", session)%></legend>
 				<a href="javascript:executeQuery(0);">Duplicate athletes by sport</a><br/>
 				<a href="javascript:executeQuery(1);">Duplicate cities</a><br/>
 				<a href="javascript:executeQuery(2);">Events/Championships not used</a><br/>
@@ -20,15 +20,15 @@
 				</fieldset>
 			</li>
 			<li>
-				<fieldset><legend>Custom queries</legend>
+				<fieldset><legend><%=StringUtils.text("custom.queries", session)%></legend>
 				<textarea id="query" rows="6" cols="200" style="width:500px;"></textarea>
-				<br/><button onclick="executeQuery(-1);">Execute</button>
+				<br/><button onclick="executeQuery(-1);"><%=StringUtils.text("execute", session)%></button>
 				</fieldset>
 			</li>
 			<li>
-				<fieldset><legend>Output</legend>
-				<input type="radio" id="rscreen" name="output" checked="checked"/><label for="rscreen">Screen</label><br/>
-				<input type="radio" id="rcsv" name="output"/><label for="rcsv">CSV</label>
+				<fieldset><legend><%=StringUtils.text("output", session)%></legend>
+				<input type="radio" id="rscreen" name="output" checked="checked"/><label for="rscreen"><%=StringUtils.text("screen", session)%></label><br/>
+				<input type="radio" id="rcsv" name="output"/><label for="rcsv"><%=StringUtils.text("csv.file", session)%></label>
 				</fieldset>
 			</li>
 			</ul>

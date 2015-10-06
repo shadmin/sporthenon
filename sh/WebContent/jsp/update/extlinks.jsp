@@ -1,9 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ page import="java.util.Calendar"%>
-<%@ page import="java.util.List"%>
-<%@ page import="com.sporthenon.db.DatabaseHelper"%>
-<%@ page import="com.sporthenon.utils.ConfigUtils"%>
-<%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="update-extlinks" class="update">
@@ -11,8 +6,14 @@
 	<div class="fieldset">
 		<div class="fstitle"><%=StringUtils.text("update.extlinks", session).toUpperCase()%></div>
 		<div class="fscontent" style="height:auto;">
+			<table class="toolbar" style="position:relative;top:0;right:0;float:right;">
+				<tr>
+					<td id="msg"></td>
+					<td><input id="upd-save" type="button" class="button upd-save" onclick="saveExtLinks();" value="<%=StringUtils.text("save", session)%>"/></td>
+				</tr>
+			</table>
 			<table id="options"><tr>
-				<td><%=StringUtils.text("Range", session)%>&nbsp;:</td>
+				<td>IDs&nbsp;:</td>
 				<td><input id="elrange" type="text" value="1-50" style="width:50px;"/>
 				<td><%=StringUtils.text("find", session)%>&nbsp;:</td>
 				<td><input id="elpattern" type="text" style="width:100px;"/>

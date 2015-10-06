@@ -1,9 +1,9 @@
-<%@page import="java.util.List"%>
-<%@page import="com.sporthenon.db.DatabaseHelper"%>
-<%@page import="com.sporthenon.db.entity.Sport"%>
-<%@page import="com.sporthenon.db.entity.meta.Config"%>
-<%@page import="com.sporthenon.utils.res.ResourceUtils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.sporthenon.db.DatabaseHelper"%>
+<%@ page import="com.sporthenon.db.entity.Sport"%>
+<%@ page import="com.sporthenon.db.entity.meta.Config"%>
+<%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="update-pictures" class="update">
@@ -13,9 +13,9 @@
 		<div class="fstitle users"><%=StringUtils.text("update.pictures", session).toUpperCase()%></div>
 		<div class="fscontent">
 			<div>
-			<fieldset><legend>Local</legend>
-			<table><tr><th style="width:80px;">Picture</th><td><div id="dz-file"></div><div id="remove-local" style="display:none;"><a href="javascript:removeLocalPicture();"><%=StringUtils.text("button.delete", session)%></a></div></td></tr>
-			<tr><th>Name</th><td id="name-local"></td></tr>
+			<fieldset><legend><%=StringUtils.text("local", session)%></legend>
+			<table><tr><th style="width:80px;"><%=StringUtils.text("picture", session)%></th><td><div id="dz-file"></div><div id="remove-local" style="display:none;"><a href="javascript:removeLocalPicture();"><%=StringUtils.text("button.delete", session)%></a></div></td></tr>
+			<tr><th><%=StringUtils.text("name", session)%></th><td id="name-local"></td></tr>
 			</table>
 			</fieldset>
 			</div>
@@ -27,11 +27,11 @@
 			</table>
 			</div>
 			<div>
-			<fieldset><legend>Remote</legend>
-			<table><tr><th style="width:80px;">Picture</th><td><div id="img-remote"><img src=""/></div></td></tr>
-			<tr><th>Label</th><td id="label-remote" style="font-weight:bold;"></td></tr>
-			<tr><th>Size</th><td><table id="tsize"><tr><td style="border:none;"><input id="size1" type="radio" name="size" checked="checked" onclick="loadPictures('direct');"/></td><td><label for="size1">Large</label></td><td><input id="size2" type="radio" name="size" onclick="loadPictures('direct');"/></td><td><label for="size2">Small</label></td></tr></table></td></tr>
-			<tr><th>Name</th><td><select id="list-remote" size="5" style="width:250px;height:70px;" onchange="loadPicture();"></select></td></tr>
+			<fieldset><legend><%=StringUtils.text("remote", session)%></legend>
+			<table><tr><th style="width:80px;"><%=StringUtils.text("picture", session)%></th><td><div id="img-remote"><img src=""/></div></td></tr>
+			<tr><th><%=StringUtils.text("label", session)%></th><td id="label-remote" style="font-weight:bold;"></td></tr>
+			<tr><th><%=StringUtils.text("size", session)%></th><td><table id="tsize"><tr><td style="border:none;"><input id="size1" type="radio" name="size" checked="checked" onclick="loadPictures('direct');"/></td><td><label for="size1">Large</label></td><td><input id="size2" type="radio" name="size" onclick="loadPictures('direct');"/></td><td><label for="size2">Small</label></td></tr></table></td></tr>
+			<tr><th><%=StringUtils.text("name", session)%></th><td><select id="list-remote" size="5" style="width:250px;height:70px;" onchange="loadPicture();"></select></td></tr>
 			</table>
 			</fieldset>
 			</div>
