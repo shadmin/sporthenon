@@ -18,5 +18,5 @@
 <li>Server OS: CentOS 5.6</li>
 </ul>
 ### Screenshots
-![Screenshot #1](./res/sc1_0-12-1.png)
-![Screenshot #2](./res/sc2_0-12-1.png)
+![Screenshot #1](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/sc1_0-12-1.png)
+![Screenshot #2](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/sc2_0-12-1.png)
