@@ -421,7 +421,10 @@ th.desc{
 	padding-right: 20px;
 }
 .highlight td{
-	background: #FF5;
+	font-weight: bold;
+}
+.coloredcell{
+	background-color: #EAEAEA;
 }
 .refscore{
 	float: right;

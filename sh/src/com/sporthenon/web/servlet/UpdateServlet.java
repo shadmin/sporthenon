@@ -1260,7 +1260,7 @@ public class UpdateServlet extends AbstractServlet {
 	private static void loadTemplate(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
 		try {
 			String type = String.valueOf(hParams.get("type"));
-			List<ArrayList<String>> list = ImportUtils.getTemplate(type);
+			List<ArrayList<String>> list = ImportUtils.getTemplate(type, lang);
 			StringBuffer sb = new StringBuffer();
 			for (ArrayList<String> list_ : list) {
 				int i = 0;

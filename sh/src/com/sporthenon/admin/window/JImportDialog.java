@@ -237,7 +237,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 				int x = e.getActionCommand().lastIndexOf("-");
 				String type = e.getActionCommand().substring(x - 2, x);
 				String ext = e.getActionCommand().substring(x + 1);
-				List<ArrayList<String>> list = ImportUtils.getTemplate(type);
+				List<ArrayList<String>> list = ImportUtils.getTemplate(type, null);
 				FileOutputStream fos = null;
 				try {
 					File f = jFileChooser.getSelectedFile();

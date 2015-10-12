@@ -494,4 +494,15 @@
 	<entry key="screen">Screen</entry>
 	<entry key="other.info">Other info</entry>
 	<entry key="rankings">Rankings</entry>
+	<entry key="template.rs.winner">Winner / Gold Medal / 1st Place</entry>
+	<entry key="template.rs.score">Winner Result (or Game Score)</entry>
+	<entry key="template.rs.second">Runner-up / Silver Medal / 2nd Place</entry>
+	<entry key="template.rs.third">Bronze Medal / 3rd Place</entry>
+	<entry key="template.rs.result">Result</entry>
+	<entry key="template.date1">Start Date (DD/MM/YYYY)</entry>
+	<entry key="template.date2">End Date (DD/MM/YYYY)</entry>
+	<entry key="template.place1">Place #1 (Complex Name or City)</entry>
+	<entry key="template.place2">Place #2 (Complex Name or City)</entry>
+	<entry key="template.record.label">Record Label</entry>
+	<entry key="add.draw">Add draw</entry>
 </properties>

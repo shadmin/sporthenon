@@ -492,4 +492,15 @@
 	<entry key="screen">Ecran</entry>
 	<entry key="other.info">Autres infos</entry>
 	<entry key="rankings">Classement</entry>
+	<entry key="template.rs.winner">Vainqueur / Médaille d'or / 1ère place</entry>
+	<entry key="template.rs.score">Résultat du vainqieur (ou score du match)</entry>
+	<entry key="template.rs.second">Finaliste / Médaille d'argent / 2ème place</entry>
+	<entry key="template.rs.third">Médaille de bronze / 3ème place</entry>
+	<entry key="template.rs.result">Résultat</entry>
+	<entry key="template.date1">Date de début (DD/MM/YYYY)</entry>
+	<entry key="template.date2">Date de fin (DD/MM/YYYY)</entry>
+	<entry key="template.place1">Lieu #1 (Complexe ou Ville)</entry>
+	<entry key="template.place2">Lieu #2 (Complexe ou Ville)</entry>
+	<entry key="template.record.label">Libellé du record</entry>
+	<entry key="add.draw">Ajouter tableau</entry>
 </properties>

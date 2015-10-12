@@ -181,7 +181,7 @@ li{
 	background: url(../img/menu/logout.png?6) 1px 0 no-repeat;
 }
 #menutop #mtcbarea{
-	background: url(../img/menu/contributor_area.png?6) left 0 no-repeat;
+	background: url(../img/menu/contributor_area.png?8) left 0 no-repeat;
 }
 #flags{
 	padding: 2px;
@@ -189,7 +189,7 @@ li{
 }
 #headertop #searchpanel{
 	float: right;
-	margin-top: 0px;
+	margin-top: -1px;
 	margin-right: 5px;
 }
 #headertop #searchpanel td{

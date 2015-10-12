@@ -142,7 +142,6 @@ public class HtmlUtils {
 			url = h.get("url").substring(1);
 			html.append("<span class='url'>" + ConfigUtils.getProperty("url") + url + "</span>");
 		}
-		System.out.println(url+"= "+sp);
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
 		html.append("<div class='header'><table><tr>");
 		html.append(h.containsKey("item0") ? "<td style='font-weight:bold;'>" + h.get("item0") + "</td>" : "");

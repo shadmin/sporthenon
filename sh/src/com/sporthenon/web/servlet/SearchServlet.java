@@ -96,17 +96,22 @@ public class SearchServlet extends AbstractServlet {
 				lFuncParams.add((short)0);
 				lFuncParams.add("_" + getLocale(request));
 				StringBuffer html = null;
-				if (isLink && scope.equals("."))
-					html = new StringBuffer("<div class='searchtitle'>" + ResourceUtils.getText("search.results", getLocale(request)) + "&nbsp;:&nbsp;<b>" + String.valueOf(hParams.get("pattern")) + "</b></div>");
+				if (isLink && scope.equals(".")) {
+					html = new StringBuffer();
+					html.append("<span class='title'>" + ResourceUtils.getText("search.results", getLocale(request)) + " : \"" + String.valueOf(hParams.get("pattern")) + "\"</span>");
+					html.append("<span class='desc'>" + ResourceUtils.getText("desc.search", getLocale(request)) + "</span>");
+					html.append("<div class='searchtitle'>" + ResourceUtils.getText("search.results", getLocale(request)) + "&nbsp;:&nbsp;<b>" + String.valueOf(hParams.get("pattern")) + "</b></div>");
+				}
 				else
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_SEARCH, lFuncParams, getUser(request), getLocale(request));
 				html.append(HtmlConverter.convertSearch(DatabaseHelper.call("Search", lFuncParams), String.valueOf(hParams.get("pattern")), getLocale(request)));
 				if (isLink) {
-					HtmlUtils.setHeadInfo(request, ResourceUtils.getText("menu.search", getLocale(request)));
+					HtmlUtils.setHeadInfo(request, html.toString());
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), getLocale(request));
 					else
 						ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
+						
 				}
 				else
 					ServletHelper.writeTabHtml(request, response, html, getLocale(request));
