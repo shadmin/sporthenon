@@ -1,7 +1,27 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.12.0  |
+| Last Version: 0.12.1  |
 +-----------------------+
+
++--------+
+| 0.12.1 |
++--------+
+[12 Oct 2015]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.1
+o Website
+	- New feature: <Update/Folders> (=> move list of folders to another location)
+	- New feature: <Update/External Links> (=> review/modify/check external links)
+	- New feature: <Update/Translations> (=> review translations of values in database)
+	- Made all dates clickable (link to calendar search)
+	- Added "Note" column in results + separate column for details icon
+	- Added "teams" in Update/overview picklist
+	- Added new query: Duplicate cities
+	- Added warning on non-existing team in Update/import
+	- Added "Modify" button for contributors in results details
+	- Photos: "copyright" mention replaced by "source/credits"
+	- Separate columns (1st/2nd/3rd) for rankings in results references
+	- Bufgix: creation of duplicate records in Update/results (value ID is cleared)
+	- Bugfix: error occurs on pattern search
 
 +--------+
 | 0.12.0 |
