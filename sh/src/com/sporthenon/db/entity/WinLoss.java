@@ -124,10 +124,11 @@ public class WinLoss {
 
 	@Override
 	public String toString() {
-		return "WinLoss [id=" + id + ", league=" + league + ", team=" + team
-				+ ", type=" + type + ", countWin=" + countWin + ", countLoss="
-				+ countLoss + ", countTie=" + countTie + ", countOtloss="
-				+ countOtloss + "]";
+		return "WinLoss [id=" + id + ", league=" + league + ", team=" + team + ", type=" + type + ", countWin=" + countWin + ", countLoss=" + countLoss + ", countTie=" + countTie + ", countOtloss=" + countOtloss + "]";
+	}
+	
+	public String toString2() {
+		return league.getLabel() + " - " + team.getLabel();
 	}
 	
 }

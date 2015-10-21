@@ -40,6 +40,7 @@ public class NavigationServlet extends AbstractServlet {
 		hPages.put("update-extlinks", "update/extlinks.jsp");
 		hPages.put("update-translations", "update/translations.jsp");
 		hPages.put("update-query", "update/query.jsp");
+		hPages.put("update-errors", "update/errors.jsp");
 		hPages.put("update-admin", "update/admin.jsp");
 		hServlet = new HashMap<String, String>();
 		hServlet.put("results", "/ResultServlet");
@@ -59,6 +60,7 @@ public class NavigationServlet extends AbstractServlet {
 		hServlet.put("update-extlinks", "/UpdateServlet");
 		hServlet.put("update-translations", "/UpdateServlet");
 		hServlet.put("update-query", "/UpdateServlet");
+		hServlet.put("update-errors", "/UpdateServlet");
 		hServlet.put("update-admin", "/UpdateServlet");
 		hServlet.put("android", "/AndroidServlet");
 		hTitle = new HashMap<String, String>();
@@ -80,6 +82,7 @@ public class NavigationServlet extends AbstractServlet {
 		hTitle.put("update-extlinks", "update.extlinks");
 		hTitle.put("update-translations", "update.translations");
 		hTitle.put("update-query", "update.query");
+		hTitle.put("update-errors", "update.errors");
 		hTitle.put("update-admin", "Admin");
 	}
 
@@ -119,7 +122,7 @@ public class NavigationServlet extends AbstractServlet {
 				else	
 					isRun = true;
 			}
-			request.setAttribute("title", StringUtils.getTitle(ResourceUtils.getText(hTitle.containsKey(key) ? hTitle.get(key) : "title", getLocale(request))));
+			request.setAttribute("title", StringUtils.getTitle(ResourceUtils.getText(hTitle.containsKey(key) ? hTitle.get(key) : "title", getLocale(request)) + (key.startsWith("update-") ? " | " + ResourceUtils.getText("menu.cbarea", getLocale(request)) : "")));
 			request.setAttribute("desc", ResourceUtils.getText(key.equals("index") ? "desc" : "desc." + key, getLocale(request)));
 			if (isRun) {
 				Object export = hParams.get("export");

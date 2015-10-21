@@ -104,8 +104,11 @@ public class RetiredNumber {
 
 	@Override
 	public String toString() {
-		return "RetiredNumber [id=" + id + ", league=" + league + ", team="
-				+ team + ", person=" + person + ", number=" + number + "]";
+		return "RetiredNumber [id=" + id + ", league=" + league + ", team=" + team + ", person=" + person + ", number=" + number + "]";
+	}
+
+	public String toString2() {
+		return league.getLabel() + " - " + team.getLabel();
 	}
 	
 }

@@ -82,7 +82,7 @@
 	<entry key="entity.ST.1">US State</entry>
 	<entry key="entity.TM.1">Team</entry>
 	<entry key="entity.TS.1">Team Stadium</entry>
-	<entry key="entity.WL.1">Win/Losse</entry>
+	<entry key="entity.WL.1">Win/Loss</entry>
 	<entry key="entity.YR.1">Year</entry>
 	<entry key="rank.winner">Winner</entry>
 	<entry key="rank.1">1st</entry>
@@ -414,6 +414,7 @@
 	<entry key="update.query">Queries</entry>
 	<entry key="update.extlinks">External links</entry>
 	<entry key="update.translations">Translations</entry>
+	<entry key="update.errors">Errors</entry>
 	<entry key="update.users">Users</entry>
 	<entry key="update.config">Configuration</entry>
 	<entry key="update.help">Help</entry>
@@ -505,4 +506,10 @@
 	<entry key="template.place2">Place #2 (Complex Name or City)</entry>
 	<entry key="template.record.label">Record Label</entry>
 	<entry key="add.draw">Add draw</entry>
+	<entry key="renamed">Same stadium renamed?</entry>
+	<entry key="counting">Counting</entry>
+	<entry key="win">Wins</entry>
+	<entry key="loss">Losses</entry>
+	<entry key="tie2">Ties</entry>
+	<entry key="ot.loss">Losses (OT)</entry>
 </properties>

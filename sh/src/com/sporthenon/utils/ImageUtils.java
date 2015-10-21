@@ -108,10 +108,11 @@ public class ImageUtils {
 	}
 	
 	public static StringBuffer getPhotoFieldset(String url, String source, String lang) {
+		final int MAX_WIDTH = Integer.parseInt(ConfigUtils.getValue("max_photo_width"));
 		StringBuffer html = new StringBuffer();
 		url = ConfigUtils.getProperty("img.url") + url;
 		html.append("<li style='text-align:right;'><fieldset class='photo'>");
-		html.append("<a href='" + url + "' target='_blank' title=\"" + ResourceUtils.getText("enlarge", lang) + "\"><img alt='Photo' height='230px' src='" + url + "'/></a></fieldset>");
+		html.append("<a href='" + url + "' target='_blank' title=\"" + ResourceUtils.getText("enlarge", lang) + "\"><img alt='Photo' style='max-width:" + MAX_WIDTH + "px;' src='" + url + "'/></a></fieldset>");
 		if (StringUtils.notEmpty(source))
 			html.append("<span class='source'>" + ResourceUtils.getText("source", lang) + ":&nbsp;" + source + "</span>");
 		html.append("</li>");

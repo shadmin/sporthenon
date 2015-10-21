@@ -1364,7 +1364,7 @@ function initUpdateResults(value) {
 		);
 	});
 	$$('#update-results input', '#update-results textarea').each(function(el){
-		if ($(el).type == 'button') {
+		if ($(el).type == 'button' || $(el).id == 'yrfind') {
 			return;
 		}
 		$(el).value = $(el).name;
@@ -1436,9 +1436,10 @@ function loadResValues(value) {
 				$('currentimg').hide();
 			}
 			tValues['source'] = t[25]; if (t[25] != '') {$('source').value = t[25]; $('source').addClassName('completed2');} else {$('source').value = $('source').name; $('source').removeClassName('completed2');}
-			tValues['exl'] = t[26]; if (t[26] != '') {$('exl').value = t[26].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
+			tValues['inact'] = t[26]; $('inact').checked = (t[26] == '1');
+			tValues['exl'] = t[27]; if (t[27] != '') {$('exl').value = t[27].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
 			// Rankings
-			var j = 26;
+			var j = 27;
 			for (var i = 1 ; i <= 20 ; i++) {
 				tValues['rk' + i] = t[++j];
 				// Name
@@ -1562,7 +1563,7 @@ function updateType(s, tp) {
 }
 function loadResult(type) {
 	var h = $H({tp: type});
-	['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr'].each(function(s){
+	['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'yrfind'].each(function(s){
 		h.set(s, tValues[s]);
 	});
 	new Ajax.Request('/update/load', {
@@ -1577,6 +1578,7 @@ function loadResult(type) {
 		},
 		parameters: h
 	});
+	$('yrfind').value = '';
 }
 function addResult() {
 	tValues['id'] = null;
@@ -1600,6 +1602,7 @@ function saveResult() {
 			h.set(s + "-l", $F(s));
 		}
 	});
+	h.set('inact', $('inact').checked ? '1' : '0');
 	new Ajax.Request('/update/save', {
 		onSuccess: function(response){
 			var text = response.responseText;
@@ -1768,6 +1771,9 @@ function initUpdateData() {
 			else {
 				$(this).addClassName('completed');
 			}
+			if ($(this).id == 'rc-type1') {
+				updateRecordType($(this).value);
+			}
 		});
 	});
 	dzd = new Dropzone($('dz-file'), {
@@ -1781,6 +1787,26 @@ function initUpdateData() {
 		showWarning();
 	});
 	showPanel('PR');
+}
+function updateRecordType(tp) {
+	['rc-rank1-l', 'rc-rank2-l', 'rc-rank3-l', 'rc-rank4-l', 'rc-rank5-l'].each(function(s){
+		Event.stopObserving($(s), 'blur');
+		Event.stopObserving($(s), 'keydown');
+		new Ajax.Autocompleter(
+			s,
+			'ajaxsearch',
+			'/update/ajax/' + (tp.toLowerCase() == 'individual' ? 'pr' : 'tm'),
+			{ paramName: 'value', minChars: 2, frequency: 0.05, afterUpdateElement: setValue}
+		);
+		Event.observe($(s), 'blur', function(){
+			if ($(this).value == '') {
+				$(this).value = $(this).name;
+			}
+			else if ($(this).value != $(this).name && !$(this).hasClassName('completed')) {
+				$(this).addClassName('completed2');
+			}
+		});
+	});
 }
 function showPanel(p) {
 	if (currentAlias != null) {
@@ -1926,6 +1952,93 @@ function setEntityValues(text) {
 	else if (currentAlias == 'YR') {
 		$('yr-id').value = currentId;
 		$('yr-label').value = t[i++];
+	}
+	else if (currentAlias == 'HF') {
+		$('hf-id').value = currentId;
+		$('hf-league').value = t[i++];
+		$('hf-league-l').value = t[i++];
+		$('hf-year').value = t[i++];
+		$('hf-year-l').value = t[i++];
+		$('hf-person').value = t[i++];
+		$('hf-person-l').value = t[i++];
+		$('hf-position').value = t[i++];
+	}
+	else if (currentAlias == 'RC') {
+		$('rc-id').value = currentId;
+		$('rc-sport').value = t[i++];
+		$('rc-sport-l').value = t[i++];
+		$('rc-championship').value = t[i++];
+		$('rc-championship-l').value = t[i++];
+		$('rc-event').value = t[i++];
+		$('rc-event-l').value = t[i++];
+		$('rc-subevent').value = t[i++];
+		$('rc-subevent-l').value = t[i++];
+		$('rc-type1').value = t[i++];
+		$('rc-type2').value = t[i++];
+		$('rc-city').value = t[i++];
+		$('rc-city-l').value = t[i++];
+		$('rc-label').value = t[i++];
+		$('rc-rank1').value = t[i++];
+		$('rc-rank1-l').value = t[i++];
+		$('rc-record1').value = t[i++];
+		$('rc-date1').value = t[i++];
+		$('rc-rank2').value = t[i++];
+		$('rc-rank2-l').value = t[i++];
+		$('rc-record2').value = t[i++];
+		$('rc-date2').value = t[i++];
+		$('rc-rank3').value = t[i++];
+		$('rc-rank3-l').value = t[i++];
+		$('rc-record3').value = t[i++];
+		$('rc-date3').value = t[i++];
+		$('rc-rank4').value = t[i++];
+		$('rc-rank4-l').value = t[i++];
+		$('rc-record4').value = t[i++];
+		$('rc-date4').value = t[i++];
+		$('rc-rank5').value = t[i++];
+		$('rc-rank5-l').value = t[i++];
+		$('rc-record5').value = t[i++];
+		$('rc-date5').value = t[i++];
+		$('rc-counting').value = t[i++];
+		$('rc-index').value = t[i++];
+		$('rc-tie').value = t[i++];
+		$('rc-comment').value = t[i++];
+		updateRecordType($F('rc-type1'));
+	}
+	else if (currentAlias == 'RN') {
+		$('rn-id').value = currentId;
+		$('rn-league').value = t[i++];
+		$('rn-league-l').value = t[i++];
+		$('rn-team').value = t[i++];
+		$('rn-team-l').value = t[i++];
+		$('rn-person').value = t[i++];
+		$('rn-person-l').value = t[i++];
+		$('rn-year').value = t[i++];
+		$('rn-year-l').value = t[i++];
+		$('rn-number').value = t[i++];
+	}
+	else if (currentAlias == 'TS') {
+		$('ts-id').value = currentId;
+		$('ts-league').value = t[i++];
+		$('ts-league-l').value = t[i++];
+		$('ts-team').value = t[i++];
+		$('ts-team-l').value = t[i++];
+		$('ts-complex').value = t[i++];
+		$('ts-complex-l').value = t[i++];
+		$('ts-date1').value = t[i++];
+		$('ts-date2').value = t[i++];
+		$('ts-renamed').value = t[i++];
+	}
+	else if (currentAlias == 'WL') {
+		$('wl-id').value = currentId;
+		$('wl-league').value = t[i++];
+		$('wl-league-l').value = t[i++];
+		$('wl-team').value = t[i++];
+		$('wl-team-l').value = t[i++];
+		$('wl-type').value = t[i++];
+		$('wl-win').value = t[i++];
+		$('wl-loss').value = t[i++];
+		$('wl-tie').value = t[i++];
+		$('wl-otloss').value = t[i++];
 	}
 	if (currentAlias == 'PR' || currentAlias == 'CT' || currentAlias == 'CX') {
 		if (t[i++] != '') {
@@ -2244,7 +2357,11 @@ function executeQuery(index) {
 		new Ajax.Request(url, {
 			onSuccess: function(response){
 				$('qresults').update(response.responseText);
-				$('query').value = $('qresults').down('td').innerHTML;
+				var q = $('qresults').down('td').innerHTML;
+				q = replaceAll(q, '&nbsp;', ' ');
+				q = replaceAll(q, '&lt;', '<');
+				q = replaceAll(q, '&gt;', '>');
+				$('query').value = q;
 			}
 		});
 	}
@@ -2368,6 +2485,11 @@ function saveFolders() {
 		},
 		parameters: $H({list: t.join('~'), sp: $F('sp'), cp: $F('cp'), ev1: $F('ev1'), ev2: $F('ev2'), ev3: $F('ev3'), cb1: ($('cb1').checked ? '1' : '0'), cb2: ($('cb2').checked ? '1' : '0'), cb3: ($('cb3').checked ? '1' : '0')})
 	});
+}
+/*========== ERRORS ==========*/
+function loadErrors() {
+	$('ercontent').update('<img src="/img/db/loading.gif?6"/>');
+	new Ajax.Updater($('ercontent'), '/update/load-errors');
 }
 /*========== ADMIN ==========*/
 function saveConfig() {

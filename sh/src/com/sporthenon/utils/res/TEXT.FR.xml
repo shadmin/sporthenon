@@ -412,6 +412,7 @@
 	<entry key="update.query">Requêtes</entry>
 	<entry key="update.extlinks">Liens externes</entry>
 	<entry key="update.translations">Traductions</entry>
+	<entry key="update.errors">Erreurs</entry>
 	<entry key="update.users">Utilisateurs</entry>
 	<entry key="update.config">Configuration</entry>
 	<entry key="update.help">Aide</entry>
@@ -503,4 +504,10 @@
 	<entry key="template.place2">Lieu #2 (Complexe ou Ville)</entry>
 	<entry key="template.record.label">Libellé du record</entry>
 	<entry key="add.draw">Ajouter tableau</entry>
+	<entry key="renamed">Même stade renommé ?</entry>
+	<entry key="counting">En cours</entry>
+	<entry key="win">Victoires</entry>
+	<entry key="loss">Défaites</entry>
+	<entry key="tie2">Matches nuls</entry>
+	<entry key="ot.loss">Défaites (OT)</entry>
 </properties>

@@ -7,7 +7,7 @@
 	if (o != null && o instanceof Contributor)
 		m = (Contributor) o;
 %>
-<div id="toolsopt" class="baroptions" style="display:none;"><table><tr><td onclick="location.href='/update/extlinks';" class="extlinks"><%=StringUtils.text("update.extlinks", session)%></td></tr><tr><td onclick="location.href='/update/translations';" class="translations"><%=StringUtils.text("update.translations", session)%></td></tr><tr><td onclick="location.href='/update/query';" class="query"><%=StringUtils.text("update.query", session)%></td></tr></table><div><a href="javascript:$('toolsopt').hide();"><%=StringUtils.text("cancel", session)%></a></div></div>
+<div id="toolsopt" class="baroptions" style="display:none;"><table><tr><td onclick="location.href='/update/extlinks';" class="extlinks"><%=StringUtils.text("update.extlinks", session)%></td></tr><tr><td onclick="location.href='/update/translations';" class="translations"><%=StringUtils.text("update.translations", session)%></td></tr><tr><td onclick="location.href='/update/query';" class="query"><%=StringUtils.text("update.query", session)%></td></tr><tr><td onclick="location.href='/update/errors';" class="errors"><%=StringUtils.text("update.errors", session)%></td></tr><%if (m != null && m.isAdmin()) { %><tr><td onclick="location.href='/update/admin';" class="admin">Admin</td></tr><%}%></table><div><a href="javascript:$('toolsopt').hide();"><%=StringUtils.text("cancel", session)%></a></div></div>
 <table class="toolbar">
 	<tr>
 		<td><input id="upd-overview" type="button" class="button upd-overview" onclick="location.href='/update/overview';" value="<%=StringUtils.text("update.overview", session)%>"/></td>
@@ -17,9 +17,6 @@
 		<td><input id="upd-folders" type="button" class="button upd-folders" onclick="location.href='/update/folders';" value="<%=StringUtils.text("update.folders", session)%>"/></td>
 		<td><input id="upd-import" type="button" class="button upd-import" onclick="location.href='/update/import';" value="<%=StringUtils.text("update.import", session)%>"/></td>
 		<td><input id="upd-tools" type="button" class="button upd-tools" onclick="displayTools();" value="<%=StringUtils.text("update.tools", session)%>"/></td>
-		<% if (m != null && m.isAdmin()) { %>
-		<td><input id="upd-admin" type="button" class="button upd-admin" onclick="location.href='/update/admin';" value="Admin"/></td>
-		<% } %>
 		<td><input id="upd-help" type="button" class="button upd-help" onclick="$('header').setStyle({ opacity: 0.4 });$('content').setStyle({ opacity: 0.4 });dHelp.open();" value="<%=StringUtils.text("update.help", session)%>"/></td>
 	</tr>
 </table>

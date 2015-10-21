@@ -18,12 +18,12 @@
 				<tr><th><%=StringUtils.text("admin", session)%></th><td><input type="checkbox" id="cb-admin"/></td></tr>
 				<tr><th><%=StringUtils.text("sports", session)%></th><td><input type="text" id="cb-sports"/></td></tr>
 			</table>
-			<table class="toolbar" style="float:right;">
+			<table class="toolbar" style="position:relative;float:right;top:0;right:0;">
 				<tr>
 					<td><input id="upd-save" type="button" class="button upd-save" onclick="saveEntity();" value="<%=StringUtils.text("save", session)%>"/></td>
 				</tr>
 			</table><br/>
-			<table class="toolbar" style="clear:right;float:right;margin-top:5px;">
+			<table class="toolbar" style="position:relative;clear:right;float:right;top:0;right:0;">
 				<tr>
 					<td><input id="upd-first" type="button" class="button upd-first" onclick="loadEntity('first');" value="<%=StringUtils.text("first", session)%>"/></td>
 					<td><input id="upd-previous" type="button" class="button upd-previous" onclick="loadEntity('previous');" value="<%=StringUtils.text("previous", session)%>"/></td>
@@ -46,7 +46,7 @@
 			}
 		%>
 		</table>
-		<table class="toolbar" style="clear:right;float:right;margin-top:5px;">
+		<table class="toolbar" style="position:relative;clear:right;float:right;top:0;right:0;">
 			<tr>
 				<td><input id="upd-save" type="button" class="button upd-save" onclick="saveConfig();" value="<%=StringUtils.text("save", session)%>"/></td>
 			</tr>

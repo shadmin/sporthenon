@@ -92,8 +92,11 @@ public class HallOfFame {
 
 	@Override
 	public String toString() {
-		return "HallOfFame [id=" + id + ", league=" + league + ", year=" + year
-				+ ", person=" + person + ", position=" + position + "]";
+		return "HallOfFame [id=" + id + ", league=" + league + ", year=" + year + ", person=" + person + ", position=" + position + "]";
+	}
+	
+	public String toString2() {
+		return league.getLabel() + " - " + year.getLabel();
 	}
 	
 }

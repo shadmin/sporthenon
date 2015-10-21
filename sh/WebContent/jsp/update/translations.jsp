@@ -26,7 +26,6 @@
 				<option value="EV"><%=StringUtils.text("entity.EV", session)%></option>
 				<option value="SP"><%=StringUtils.text("entity.SP", session)%></option>
 				<option value="ST"><%=StringUtils.text("entity.ST", session)%></option>
-				<option value="TM"><%=StringUtils.text("entity.TM", session)%></option>
 				</select></td>
 				<td><input id="trincludechecked" type="checkbox"/></td>
 				<td><label for="trincludechecked"><%=StringUtils.text("include.checked.translations", session)%></label>&nbsp;</td>

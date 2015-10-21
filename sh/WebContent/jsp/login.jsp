@@ -26,7 +26,7 @@
 				<th><%=StringUtils.text("password", session)%>&nbsp;:</td><td><input type="password" id="password" name="password" size="15" onkeydown="if(event.keyCode==13){$('flogin').submit();}"/></td>
 			</tr>
 			<tr>
-				<td colspan="2" style="padding-top:10px;text-align:center;"><input type="button" class="button ok" onclick="auth();" value="OK"/></td>
+				<td colspan="2" style="padding-top:10px;text-align:center;"><input type="button" class="button ok" onclick="auth();" value="OK" style="padding-right:5px;"/></td>
 			</tr>
 		</table>
 	</div>
@@ -67,7 +67,7 @@
 			<td>
 		</tr>
 		<tr>
-		<td colspan="2" style="padding-top:10px;text-align:center;"><input type="button" class="button ok" onclick="createAccount();" value="<%=StringUtils.text("create.account", session)%>"/></td>
+		<td colspan="2" style="padding-top:10px;text-align:center;"><input type="button" class="button ok" onclick="createAccount();" value="<%=StringUtils.text("create.account", session)%>" style="padding-right:5px;"/></td>
 	</tr>
 	</table>
 	</div>

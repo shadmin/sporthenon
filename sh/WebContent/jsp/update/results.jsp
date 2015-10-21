@@ -58,11 +58,12 @@ var treeItems = null;
 			</li>
 			<!-- DATES -->
 			<li>
-			<fieldset style="height:140px;"><legend><%=StringUtils.text("dates", session)%></legend>
+			<fieldset style="height:140px;width:307px;"><legend><%=StringUtils.text("dates", session)%></legend>
 				<table>
 					<tr><td><input type="text" id="yr" tabindex="6" name="<%=StringUtils.text("entity.YR.1", session)%>"/><a href="javascript:clearValue('yr');">[X]</a></td>
-					<td><input id='prevbtn' type='button' class='button' onclick='loadResult("prev");' value=''/></td>
-					<td><input id='nextbtn' type='button' class='button' onclick='loadResult("next");' value=''/></td></tr>
+					<td><input id="prevbtn" type="button" class="button" onclick="loadResult('prev');" value=""/></td>
+					<td><input id="yrfind" type="text" style="font-size:11px;width:35px;" onblur="tValues['yrfind']=this.value;loadResult('year');" onkeydown="if (event.keyCode == 13){this.blur();}"/></td>
+					<td><input id="nextbtn" type="button" class="button" onclick="loadResult('next');" value=""/></td></tr>
 				</table>
 				<table>
 					<tr><td><input type="text" id="dt1" tabindex="7" name="<%=StringUtils.text("date", session)%> #1"/><a href="javascript:clearValue('dt1');">[X]</a><br/><a href="#" onclick="$('dt1').value='<%=today%>';$('dt1').addClassName('completed2');"><%=StringUtils.text("today", session)%></a>&nbsp;<a href="#" onclick="$('dt1').value='<%=yesterday%>';$('dt1').addClassName('completed2');"><%=StringUtils.text("yesterday", session)%></a></td>
@@ -89,12 +90,14 @@ var treeItems = null;
 			</li>
 			<!-- OTHER -->
 			<li>
-			<fieldset style="height:145px;"><legend><%=StringUtils.text("other.info", session)%></legend>
+			<fieldset style="height:145px;width:545px;"><legend><%=StringUtils.text("other.info", session)%></legend>
 				<table>
-					<tr><td><input type="text" id="exa" tabindex="11" name="<%=StringUtils.text("tie", session)%>" style="width:150px;"/></td></tr>
-					<tr><td><input type="text" id="cmt" tabindex="12" name="<%=StringUtils.text("comment", session)%>" style="width:500px;"/></td></tr>
-					<tr><td><input type="text" id="source" tabindex="13" name="<%=StringUtils.text("photo.source", session)%>" style="width:500px;"/></td></tr>
-					<tr><td><textarea id="exl" tabindex="14" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="3" style="width:500px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
+					<tr><td style="width:200px;"><input type="text" id="exa" tabindex="11" name="<%=StringUtils.text("tie", session)%>" style="width:150px;"/></td>
+						<td style="width:20px;"><input id="inact" type="checkbox" onclick="showWarning();"/></td>
+						<td><label for="inact"><%=StringUtils.text("event.notheld", session)%></label></td></tr>
+					<tr><td colspan="3"><input type="text" id="cmt" tabindex="12" name="<%=StringUtils.text("comment", session)%>" style="width:500px;"/></td></tr>
+					<tr><td colspan="3"><input type="text" id="source" tabindex="13" name="<%=StringUtils.text("photo.source", session)%>" style="width:500px;"/></td></tr>
+					<tr><td colspan="3"><textarea id="exl" tabindex="14" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="3" style="width:500px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
 				</table>
 			</fieldset>
 			</li>
@@ -152,7 +155,7 @@ var treeItems = null;
 					<td><input id="upd-previous" type="button" class="button upd-previous" onclick="loadResult('prev');" value="<%=StringUtils.text("previous", session)%>"/></td>
 					<td><input id="upd-find" type="button" class="button upd-find" onclick="findEntity(0);" value="<%=StringUtils.text("find", session)%>"/></td>
 					<td><input id="upd-next" type="button" class="button upd-next" onclick="loadResult('next');" value="<%=StringUtils.text("next", session)%>"/></td>
-					<td><input id="upd-last" type="button" class="button upd-last" onclick="loadEntity('last');" value="<%=StringUtils.text("last", session)%>"/></td>
+					<td><input id="upd-last" type="button" class="button upd-last" onclick="loadResult('last');" value="<%=StringUtils.text("last", session)%>"/></td>
 				</tr>
 			</table>
 			<div id="msg" style="float:left;"></div>

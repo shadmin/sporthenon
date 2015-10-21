@@ -154,10 +154,10 @@
 	display: block;
 }
 .tc .photo img{
-	border: 1px solid #AAA;
+	/*border: 1px solid #AAA;*/
 }
 .tc .source{
-	font-size: 10px;
+	font-size: 9px;
 	color: #777;
 }
 .tc .info{
@@ -424,7 +424,7 @@ th.desc{
 	font-weight: bold;
 }
 .coloredcell{
-	background-color: #EAEAEA;
+	background-color: #DADADA;
 }
 .refscore{
 	float: right;

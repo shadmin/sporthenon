@@ -347,18 +347,11 @@ public class Record {
 
 	@Override
 	public String toString() {
-		return "Record [id=" + id + ", sport=" + sport + ", championship="
-				+ championship + ", event=" + event + ", subevent=" + subevent
-				+ ", city=" + city + ", label=" + label + ", idRank1="
-				+ idRank1 + ", idRank2=" + idRank2 + ", idRank3=" + idRank3
-				+ ", idRank4=" + idRank4 + ", idRank5=" + idRank5
-				+ ", record1=" + record1 + ", record2=" + record2
-				+ ", record3=" + record3 + ", record4=" + record4
-				+ ", record5=" + record5 + ", date1=" + date1 + ", date2="
-				+ date2 + ", date3=" + date3 + ", date4=" + date4 + ", date5="
-				+ date5 + ", counting=" + counting + ", index=" + index
-				+ ", type1=" + type1 + ", type2=" + type2 + ", comment="
-				+ comment + ", exa=" + exa + ", metadata=" + metadata + "]";
+		return "Record [id=" + id + ", sport=" + sport + ", championship=" + championship + ", event=" + event + ", subevent=" + subevent + ", city=" + city + ", label=" + label + ", idRank1=" + idRank1 + ", idRank2=" + idRank2 + ", idRank3=" + idRank3 + ", idRank4=" + idRank4 + ", idRank5=" + idRank5 + ", record1=" + record1 + ", record2=" + record2 + ", record3=" + record3 + ", record4=" + record4 + ", record5=" + record5 + ", date1=" + date1 + ", date2=" + date2 + ", date3=" + date3 + ", date4=" + date4 + ", date5=" + date5 + ", counting=" + counting + ", index=" + index + ", type1=" + type1 + ", type2=" + type2 + ", comment=" + comment + ", exa=" + exa + ", metadata=" + metadata + "]";
+	}
+	
+	public String toString2(String lang) {
+		return sport.getLabel(lang) + " - " + championship.getLabel(lang) + (event != null ? " - " + event.getLabel(lang) : "") + (subevent != null ? " - " + subevent.getLabel(lang) : "") + " - " + type1 + " - " + type2 + " - " + label;
 	}
 	
 }

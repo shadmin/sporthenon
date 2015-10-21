@@ -1079,6 +1079,7 @@ li{
 #search .pattern input, #headertop .pattern input, #logindiv input{
 	border: 1px solid #CCC;
 	font-size: 13px;
+	padding: 2px;
 }
 #search .pattern input:focus, #headertop .pattern input:focus{
 	border: 1px solid #D00;
@@ -1618,6 +1619,12 @@ li{
 #toolsopt td.extlinks{
 	background-image:url(../img/update/extlinks.png?6);
 }
+#toolsopt td.errors{
+	background-image:url(../img/project/error.png?6);
+}
+#toolsopt td.admin{
+	background-image: url('../img/update/admin.png?6');
+}
 #update-extlinks .fstitle{
 	background-image: url(../img/update/extlinks.png?6);
 }
@@ -1640,6 +1647,9 @@ li{
 #update-query .fscontent fieldset{
 	border: 1px solid #AAA;
 	height: 135px;
+}
+#update-errors .fstitle{
+	background-image: url(../img/project/error.png?6);
 }
 /*---------- ADMIN ----------*/
 #update-admin .fstitle{
@@ -1804,9 +1814,6 @@ li{
 }
 #buttons .upd-tools, .toolbar .upd-tools{
 	background-image: url('../img/update/tools.png?6');
-}
-#buttons .upd-admin, .toolbar .upd-admin{
-	background-image: url('../img/update/admin.png?6');
 }
 #buttons .upd-help, .toolbar .upd-help{
 	background-image: url('../img/update/help.png?6');

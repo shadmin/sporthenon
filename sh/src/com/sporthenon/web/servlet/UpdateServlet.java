@@ -34,19 +34,25 @@ import com.sporthenon.db.entity.Complex;
 import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Event;
+import com.sporthenon.db.entity.HallOfFame;
 import com.sporthenon.db.entity.League;
 import com.sporthenon.db.entity.Olympics;
 import com.sporthenon.db.entity.Record;
 import com.sporthenon.db.entity.Result;
+import com.sporthenon.db.entity.RetiredNumber;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
+import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.Type;
+import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Config;
 import com.sporthenon.db.entity.meta.Contributor;
+import com.sporthenon.db.entity.meta.ErrorReport;
 import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.FolderHistory;
+import com.sporthenon.db.entity.meta.InactiveItem;
 import com.sporthenon.db.entity.meta.PersonList;
 import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.db.entity.meta.Translation;
@@ -112,6 +118,8 @@ public class UpdateServlet extends AbstractServlet {
 				loadFolders(response, hParams, lang, user);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("save-folders"))
 				saveFolders(response, hParams, lang, user);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("load-errors"))
+				loadErrors(response, hParams, lang, user);
 			else
 				loadResult(request, response, hParams, lang, user);
 		}
@@ -152,18 +160,24 @@ public class UpdateServlet extends AbstractServlet {
 		hTable.put("st", "State"); hTable.put("state", "State");
 		hTable.put("pl1", "Complex"); hTable.put("complex", "Complex");
 		hTable.put("pl2", "Complex"); hTable.put("complex", "Complex");
-		hTable.put("pr", "Athlete"); hTable.put("athlete", "Athlete");
+		hTable.put("pr", "Athlete"); hTable.put("athlete", "Athlete"); hTable.put("person", "Athlete");
 		hTable.put("tm", "Team"); hTable.put("team", "Team");
 		hTable.put("cn", "Country"); hTable.put("country", "Country");
 		hTable.put("cb", "Contributor"); hTable.put("contributor", "Contributor");
+		hTable.put("lg", "League"); hTable.put("league", "League");
 		hTable.put("rs", "Result"); hTable.put("result", "Result");
-		String labelHQL = "lower(label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !field.matches("tm|yr|team|year") ? lang.toUpperCase() : "") + ")";
+		hTable.put("hf", "HallOfFame");
+		hTable.put("rc", "Record");
+		hTable.put("rn", "RetiredNumber");
+		hTable.put("ts", "TeamStadium");
+		hTable.put("wl", "WinLoss");
+		String labelHQL = "lower(label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !field.matches("lg|tm|yr|league|team|year") ? lang.toUpperCase() : "") + ")";
 		String whereHQL = "";
-		if (field.equalsIgnoreCase(Athlete.alias)) {
+		if (field.matches(Athlete.alias.toLowerCase() + "|athlete|person")) {
 			labelHQL = "lower(last_name) || ', ' || lower(first_name) || ' (' || lower(country.code) || ')'";
 			whereHQL = (sport != null ? " and sport.id=" + sport : "");
 		}
-		else if (field.equalsIgnoreCase(Team.alias))
+		else if (field.matches(Team.alias.toLowerCase() + "|team"))
 			whereHQL = (sport != null ? " and sport.id=" + sport : "");
 		else if (field.equalsIgnoreCase(Sport.alias) && user != null && StringUtils.notEmpty(user.getSports()))
 			whereHQL = (" and id in (" + user.getSports() + ")");
@@ -175,6 +189,15 @@ public class UpdateServlet extends AbstractServlet {
 			// TODO coalesce(subevent." + l + ", ''), coalesce(subevent2." + l + ", '')
 			labelHQL = "concat(lower(sport." + l + "), ' - ', lower(championship." + l + "), ' - ', lower(event." + l + "), ' - ', year.label)";
 		}
+		else if (field.equalsIgnoreCase(HallOfFame.alias))
+			labelHQL = "concat(lower(league.label), ' - ', lower(year.label))";
+		else if (field.equalsIgnoreCase(Record.alias)) {
+			String l = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "");
+			value = "%" + value;
+			labelHQL = "concat(lower(sport." + l + "), ' - ', lower(championship." + l + "), ' - ', lower(event." + l + "), ' - ', lower(type1), ' - ', lower(type2), ' - ', lower(label))";
+		}
+		else if (field.toUpperCase().matches(RetiredNumber.alias + "|" + TeamStadium.alias + "|" + WinLoss.alias))
+			labelHQL = "concat(lower(league.label), ' - ', lower(team.label))";
 		List<Object> l = DatabaseHelper.execute("from " + hTable.get(field) + " where " + (isId ? "id=" + value.substring(1).replaceFirst("\\%", "") : labelHQL + " like '" + value.toLowerCase() + "'") + whereHQL + " order by " + (field.equalsIgnoreCase(Result.alias) ? "year.id desc" : labelHQL));
 		if (field.matches("pl\\d|complex"))
 			l.addAll(DatabaseHelper.execute("from City where " + labelHQL + " like '" + value.toLowerCase() + "' order by " + labelHQL));
@@ -186,7 +209,7 @@ public class UpdateServlet extends AbstractServlet {
 			Method m1 = o.getClass().getMethod("getId");
 			String id = String.valueOf(m1.invoke(o));
 			String text = null;
-			if (!(o instanceof Athlete) && !(o instanceof Team) && !(o instanceof Result) && !(o instanceof Contributor)) {
+			if (!(o instanceof Athlete) && !(o instanceof League) && !(o instanceof Team) && !(o instanceof Result) && !(o instanceof Contributor) && !(o instanceof HallOfFame) && !(o instanceof Record) && !(o instanceof RetiredNumber) && !(o instanceof TeamStadium) && !(o instanceof WinLoss)) {
 				Method m2 = o.getClass().getMethod("getLabel", String.class);
 				text = String.valueOf(m2.invoke(o, lang));	
 			}
@@ -212,11 +235,35 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			else if (o instanceof Team) {
 				Team t = (Team) o;
-				text = t.toString2() + (isData ? (StringUtils.notEmpty(t.getYear1()) ? " [" + t.getYear1() + "]" : "") + (StringUtils.notEmpty(t.getYear2()) ? " [" + t.getYear2() + "]" : "") + " [#" + t.getId() + "]" : "");;
+				text = t.toString() + (isData ? (StringUtils.notEmpty(t.getYear1()) ? " [" + t.getYear1() + "]" : "") + (StringUtils.notEmpty(t.getYear2()) ? " [" + t.getYear2() + "]" : "") + " [#" + t.getId() + "]" : "");;
+			}
+			else if (o instanceof League) {
+				League l_ = (League) o;
+				text = l_.getLabel();
 			}
 			else if (o instanceof Result) {
 				Result r = (Result) o;
 				text = r.toString2(lang);
+			}
+			else if (o instanceof HallOfFame) {
+				HallOfFame h = (HallOfFame) o;
+				text = h.toString2();
+			}
+			else if (o instanceof Record) {
+				Record r = (Record) o;
+				text = r.toString2(lang);
+			}
+			else if (o instanceof RetiredNumber) {
+				RetiredNumber r = (RetiredNumber) o;
+				text = r.toString2();
+			}
+			else if (o instanceof TeamStadium) {
+				TeamStadium t = (TeamStadium) o;
+				text = t.toString2();
+			}
+			else if (o instanceof WinLoss) {
+				WinLoss w = (WinLoss) o;
+				text = w.toString2();
 			}
 			html.append("<li id='" + field_ + "|" + id + (o instanceof Event ? "|" + ((Event)o).getType().getNumber() : "") + "'>" + text + "</li>");
 		}
@@ -365,10 +412,29 @@ public class UpdateServlet extends AbstractServlet {
 			result.setComment(StringUtils.notEmpty(hParams.get("cmt-l")) ? String.valueOf(hParams.get("cmt-l")) : null);
 			result.setExa(StringUtils.notEmpty(hParams.get("exa-l")) ? String.valueOf(hParams.get("exa-l")) : null);
 			result.setPhotoSource(StringUtils.notEmpty(hParams.get("source-l")) ? String.valueOf(hParams.get("source-l")) : null);
+			// Inactive item
+			String hql = "from InactiveItem where id_sport=" + result.getSport().getId() + " and id_championship=" + result.getChampionship().getId() + " and id_event=" + result.getEvent().getId();
+			hql += (result.getSubevent() != null ? " and id_subevent=" + result.getSubevent().getId() : "");
+			hql += (result.getSubevent2() != null ? " and id_subevent2=" + result.getSubevent2().getId() : "");
+			Object o = DatabaseHelper.loadEntityFromQuery(hql);
+			String inact = (o != null ? "1" : "0");
+			if (!inact.equals(String.valueOf(hParams.get("inact")))) {
+				if (o != null)
+					DatabaseHelper.removeEntity(o);
+				else {
+					InactiveItem item = new InactiveItem();
+					item.setIdSport(result.getSport().getId());
+					item.setIdChampionship(result.getChampionship().getId());
+					item.setIdEvent(result.getEvent().getId());
+					item.setIdSubevent(result.getSubevent() != null ? result.getSubevent().getId() : null);
+					item.setIdSubevent2(result.getSubevent2() != null ? result.getSubevent2().getId() : null);
+					DatabaseHelper.saveEntity(item, null);
+				}
+			}
 			// Rankings
 			for (int i = 1 ; i <= MAX_RANKS ; i++) {
 				Integer id = (StringUtils.notEmpty(hParams.get("rk" + i)) ? new Integer(String.valueOf(hParams.get("rk" + i))) : 0);
-				Object o = hParams.get("rk" + i + "-l");
+				o = hParams.get("rk" + i + "-l");
 				if (id == 0 && StringUtils.notEmpty(o)) {
 					if (hInserted.keySet().contains(o))
 						id = hInserted.get(o);
@@ -497,21 +563,21 @@ public class UpdateServlet extends AbstractServlet {
 					html.append("</tbody></table>");
 				html.append("<table><thead><tr>");
 				if (item.getEntity().equals(Result.alias))
-					html.append("<th colspan='11' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><th>" + ResourceUtils.getText("entity.EV.1", lang) + "</th><th>" + ResourceUtils.getText("podium", lang) + "</th><th>" + ResourceUtils.getText("entity.RS", lang) + "</th><th>" + ResourceUtils.getText("final", lang) + "+" + ResourceUtils.getText("score", lang) + "</th><th>" + ResourceUtils.getText("entity.CX.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CT.1", lang) + "</th><th>" + ResourceUtils.getText("date", lang) + "</th><th>" + ResourceUtils.getText("entity.DR.1", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photo", lang) + "</th>");
+					html.append("<th colspan='11' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><th>" + ResourceUtils.getText("entity.EV.1", lang) + "</th><th>" + ResourceUtils.getText("podium", lang) + "</th><th>" + ResourceUtils.getText("entity.RS", lang) + "</th><th>" + ResourceUtils.getText("final", lang) + "+" + ResourceUtils.getText("score", lang) + "</th><th>" + ResourceUtils.getText("entity.CX.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CT.1", lang) + "</th><th>" + ResourceUtils.getText("date", lang) + "</th><th>" + ResourceUtils.getText("entity.DR.1", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photo", lang) + "</th>");
 				else if (item.getEntity().equals(Athlete.alias))
-					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("entity.TM.1", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photo", lang) + "</th>");
+					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("entity.TM.1", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photo", lang) + "</th>");
 				else if (item.getEntity().equals(Team.alias))
-					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Team.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("league", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("logo", lang) + "</th>");
+					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Team.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("league", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("logo", lang) + "</th>");
 				else if (item.getEntity().equals(Sport.alias))
-					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Sport.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
+					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Sport.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
 				else if (item.getEntity().equals(Championship.alias))
-					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Championship.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
+					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Championship.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
 				else if (item.getEntity().equals(Event.alias))
-					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Event.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
+					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Event.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
 				else if (item.getEntity().equals(City.alias))
-					html.append("<th colspan='6' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + City.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
+					html.append("<th colspan='6' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + City.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
 				else if (item.getEntity().equals(Complex.alias))
-					html.append("<th colspan='6' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Complex.alias, lang).toUpperCase()) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.CT.1", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
+					html.append("<th colspan='6' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Complex.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.CT.1", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
 				html.append("</tr></thead><tbody class='tby'>");
 				currentEntity = item.getEntity();
 			}
@@ -630,7 +696,7 @@ public class UpdateServlet extends AbstractServlet {
 		if (index != -1) {
 			query = queries.get(index);
 			query = query.replaceAll("#YEAR#", String.valueOf(year));
-			query = query.replaceAll("#WHERE#", (year % 4 == 0 ? "(CP.id<>1 OR SP.type<>0)" : (year % 4 == 2 ? "(CP.id<>1 OR SP.type<>1)" : "CP.id<>1")));			
+			query = query.replaceAll("#WHERE#", (year % 4 == 0 ? "(CP.id<>1 OR SP.type<>0)" : (year % 4 == 2 ? "(CP.id<>1 OR SP.type<>1)" : "CP.id<>1")) + (year % 4 != 1 ? " AND CP.id<>78" : ""));			
 		}
 		else
 			query = String.valueOf(hParams.get("query"));
@@ -705,12 +771,17 @@ public class UpdateServlet extends AbstractServlet {
 		Year yr = null;
 
 		if (tp != null) {
-			String hql = "from Result where ";
+			String where = null;
 			if (String.valueOf(tp).equalsIgnoreCase("direct"))
-				hql += "id=" + hParams.get("id");
-			else
-				hql += "year.id " + (tp.equals("next") ? ">" : "<") + " " + hParams.get("yr") + " and sport.id=" + hParams.get("sp") + " and championship.id=" + hParams.get("cp") + " and event.id=" + hParams.get("ev") + (StringUtils.notEmpty(hParams.get("se")) ? " and subevent.id=" + hParams.get("se") : "") + (StringUtils.notEmpty(hParams.get("se2")) ? " and subevent2.id=" + hParams.get("se2") : "") + " order by year.id " + (tp.equals("next") ? "asc" : "desc");
-			rs = (Result) DatabaseHelper.loadEntityFromQuery(hql);
+				where = "id=" + hParams.get("id");
+			else if (String.valueOf(tp).equalsIgnoreCase("year") && StringUtils.notEmpty(hParams.get("yrfind")))
+				where = "year.label='" + hParams.get("yrfind") + "' and sport.id=" + hParams.get("sp") + " and championship.id=" + hParams.get("cp") + " and event.id=" + hParams.get("ev") + (StringUtils.notEmpty(hParams.get("se")) ? " and subevent.id=" + hParams.get("se") : "") + (StringUtils.notEmpty(hParams.get("se2")) ? " and subevent2.id=" + hParams.get("se2") : "");
+			else if (String.valueOf(tp).matches("first|last"))
+				where = "sport.id=" + hParams.get("sp") + " and championship.id=" + hParams.get("cp") + " and event.id=" + hParams.get("ev") + (StringUtils.notEmpty(hParams.get("se")) ? " and subevent.id=" + hParams.get("se") : "") + (StringUtils.notEmpty(hParams.get("se2")) ? " and subevent2.id=" + hParams.get("se2") : "") + " order by year.id " + (tp.equals("first") ? "asc" : "desc");			
+			else if (StringUtils.notEmpty(hParams.get("yr")))
+				where = "year.id " + (tp.equals("next") ? ">" : "<") + " " + hParams.get("yr") + " and sport.id=" + hParams.get("sp") + " and championship.id=" + hParams.get("cp") + " and event.id=" + hParams.get("ev") + (StringUtils.notEmpty(hParams.get("se")) ? " and subevent.id=" + hParams.get("se") : "") + (StringUtils.notEmpty(hParams.get("se2")) ? " and subevent2.id=" + hParams.get("se2") : "") + " order by year.id " + (tp.equals("next") ? "asc" : "desc");
+			if (where != null)
+				rs = (Result) DatabaseHelper.loadEntityFromQuery("from Result where " + where);
 			if (rs != null) {
 				yr = rs.getYear();
 				t = new Object[3 + (rs.getSubevent() != null ? 1 : 0) + (rs.getSubevent2() != null ? 1 : 0)];
@@ -765,6 +836,12 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(rs.getComplex2() != null ? rs.getComplex2().getId() : (rs.getCity2() != null ? rs.getCity2().getId() : "")).append("~");
 				sb.append(rs.getComplex2() != null ? rs.getComplex2().toString2(lang) : (rs.getCity2() != null ? rs.getCity2().toString2(lang) : "")).append("~");
 				sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~").append(ImageUtils.getPhotoFile(Result.alias, rs.getId())).append("~").append(rs.getPhotoSource()).append("~");
+				// Inactive item?
+				String hql = "from InactiveItem where id_sport=" + rs.getSport().getId() + " and id_championship=" + rs.getChampionship().getId() + " and id_event=" + rs.getEvent().getId();
+				hql += (rs.getSubevent() != null ? " and id_subevent=" + rs.getSubevent().getId() : "");
+				hql += (rs.getSubevent2() != null ? " and id_subevent2=" + rs.getSubevent2().getId() : "");
+				Object inact = DatabaseHelper.loadEntityFromQuery(hql);
+				sb.append(inact != null ? "1" : "0").append("~");
 				// External links
 				StringBuffer sbLinks = new StringBuffer();
 				try {
@@ -1042,6 +1119,97 @@ public class UpdateServlet extends AbstractServlet {
 				Year yr = (Year) o;
 				sb.append(yr.getLabel()).append("~");
 			}
+			else if (o instanceof HallOfFame) {
+				HallOfFame hf = (HallOfFame) o;
+				sb.append(hf.getLeague() != null ? hf.getLeague().getId() : 0).append("~");
+				sb.append(hf.getLeague() != null ? hf.getLeague().getLabel() : "").append("~");
+				sb.append(hf.getYear() != null ? hf.getYear().getId() : 0).append("~");
+				sb.append(hf.getYear() != null ? hf.getYear().getLabel() : "").append("~");
+				sb.append(hf.getPerson() != null ? hf.getPerson().getId() : 0).append("~");
+				sb.append(hf.getPerson() != null ? hf.getPerson().toString2() : "").append("~");
+				sb.append(StringUtils.notEmpty(hf.getPosition()) ? hf.getPosition() : "").append("~");
+			}
+			else if (o instanceof Record) {
+				Record rc = (Record) o;
+				Integer n = rc.getEvent().getType().getNumber();
+				if (StringUtils.notEmpty(rc.getType1()))
+					n = (rc.getType1().equalsIgnoreCase("individual") ? 1 : 50);
+				else if (rc.getSubevent() != null)
+					n = rc.getSubevent().getType().getNumber();
+				sb.append(rc.getSport() != null ? rc.getSport().getId() : 0).append("~");
+				sb.append(rc.getSport() != null ? rc.getSport().getLabel(lang) : "").append("~");
+				sb.append(rc.getChampionship() != null ? rc.getChampionship().getId() : 0).append("~");
+				sb.append(rc.getChampionship() != null ? rc.getChampionship().getLabel(lang) : "").append("~");
+				sb.append(rc.getEvent() != null ? rc.getEvent().getId() : 0).append("~");
+				sb.append(rc.getEvent() != null ? rc.getEvent().getLabel(lang) : "").append("~");
+				sb.append(rc.getSubevent() != null ? rc.getSubevent().getId() : 0).append("~");
+				sb.append(rc.getSubevent() != null ? rc.getSubevent().getLabel(lang) : "").append("~");
+				sb.append(rc.getType1() != null ? rc.getType1() : "").append("~");
+				sb.append(rc.getType2() != null ? rc.getType2() : "").append("~");
+				sb.append(rc.getCity() != null ? rc.getCity().getId() : 0).append("~");
+				sb.append(rc.getCity() != null ? rc.getCity().toString2(lang) : "").append("~");
+				sb.append(rc.getLabel() != null ? rc.getLabel() : "").append("~");
+				sb.append(rc.getIdRank1() != null ? rc.getIdRank1() :"").append("~");
+				sb.append(rc.getIdRank1() != null ? getEntityLabel(n, rc.getIdRank1(), lang) : "").append("~");
+				sb.append(StringUtils.notEmpty(rc.getRecord1()) ? rc.getRecord1() : "").append("~");
+				sb.append(StringUtils.notEmpty(rc.getDate1()) ? rc.getDate1() : "").append("~");
+				sb.append(rc.getIdRank2() != null ? rc.getIdRank2() : "").append("~");
+				sb.append(rc.getIdRank2() != null ? getEntityLabel(n, rc.getIdRank2(), lang) : "").append("~");
+				sb.append(StringUtils.notEmpty(rc.getRecord2()) ? rc.getRecord2() : "").append("~");
+				sb.append(StringUtils.notEmpty(rc.getDate2()) ? rc.getDate2() : "").append("~");
+				sb.append(rc.getIdRank3() != null ? rc.getIdRank3() : "").append("~");
+				sb.append(rc.getIdRank3() != null ? getEntityLabel(n, rc.getIdRank3(), lang) : "").append("~");
+				sb.append(StringUtils.notEmpty(rc.getRecord3()) ? rc.getRecord3() : "").append("~");
+				sb.append(StringUtils.notEmpty(rc.getDate3()) ? rc.getDate3() : "").append("~");
+				sb.append(rc.getIdRank4() != null ? rc.getIdRank4() : "").append("~");
+				sb.append(rc.getIdRank4() != null ? getEntityLabel(n, rc.getIdRank4(), lang) : "").append("~");
+				sb.append(StringUtils.notEmpty(rc.getRecord4()) ? rc.getRecord4() : "").append("~");
+				sb.append(StringUtils.notEmpty(rc.getDate4()) ? rc.getDate4() : "").append("~");
+				sb.append(rc.getIdRank5() != null ? rc.getIdRank5() : "").append("~");
+				sb.append(rc.getIdRank5() != null ? getEntityLabel(n, rc.getIdRank5(), lang) : "").append("~");
+				sb.append(StringUtils.notEmpty(rc.getRecord5()) ? rc.getRecord5() : "").append("~");
+				sb.append(StringUtils.notEmpty(rc.getDate5()) ? rc.getDate5() : "").append("~");
+				sb.append(rc.getCounting() != null ? rc.getCounting() : "").append("~");
+				sb.append(rc.getIndex() != null ? rc.getIndex() : "").append("~");
+				sb.append(StringUtils.notEmpty(rc.getExa()) ? rc.getExa() : "").append("~");
+				sb.append(StringUtils.notEmpty(rc.getComment()) ? rc.getComment() : "").append("~");
+			}
+			else if (o instanceof RetiredNumber) {
+				RetiredNumber rn = (RetiredNumber) o;
+				sb.append(rn.getLeague() != null ? rn.getLeague().getId() : 0).append("~");
+				sb.append(rn.getLeague() != null ? rn.getLeague().getLabel() : "").append("~");
+				sb.append(rn.getTeam() != null ? rn.getTeam().getId() : 0).append("~");
+				sb.append(rn.getTeam() != null ? rn.getTeam().getLabel() : "").append("~");
+				sb.append(rn.getPerson() != null ? rn.getPerson().getId() : 0).append("~");
+				sb.append(rn.getPerson() != null ? rn.getPerson().toString2() : "").append("~");
+				sb.append(rn.getYear() != null ? rn.getYear().getId() : 0).append("~");
+				sb.append(rn.getYear() != null ? rn.getYear().getLabel() : "").append("~");
+				sb.append(StringUtils.notEmpty(rn.getNumber()) ? rn.getNumber() : "").append("~");
+			}
+			else if (o instanceof TeamStadium) {
+				TeamStadium ts = (TeamStadium) o;
+				sb.append(ts.getLeague() != null ? ts.getLeague().getId() : 0).append("~");
+				sb.append(ts.getLeague() != null ? ts.getLeague().getLabel() : "").append("~");
+				sb.append(ts.getTeam() != null ? ts.getTeam().getId() : 0).append("~");
+				sb.append(ts.getTeam() != null ? ts.getTeam().getLabel() : "").append("~");
+				sb.append(ts.getComplex() != null ? ts.getComplex().getId() : 0).append("~");
+				sb.append(ts.getComplex() != null ? ts.getComplex().toString2(lang) : "").append("~");
+				sb.append(StringUtils.notEmpty(ts.getDate1()) ? ts.getDate1() : "").append("~");
+				sb.append(StringUtils.notEmpty(ts.getDate2()) ? ts.getDate2() : "").append("~");
+				sb.append(ts.getRenamed() != null && ts.getRenamed() ? "1" : "0").append("~");
+			}
+			else if (o instanceof WinLoss) {
+				WinLoss wl = (WinLoss) o;
+				sb.append(wl.getLeague() != null ? wl.getLeague().getId() : 0).append("~");
+				sb.append(wl.getLeague() != null ? wl.getLeague().getLabel() : "").append("~");
+				sb.append(wl.getTeam() != null ? wl.getTeam().getId() : 0).append("~");
+				sb.append(wl.getTeam() != null ? wl.getTeam().getLabel() : "").append("~");
+				sb.append(StringUtils.notEmpty(wl.getType()) ? wl.getType() : "").append("~");
+				sb.append(StringUtils.notEmpty(wl.getCountWin()) ? wl.getCountWin() : "").append("~");
+				sb.append(StringUtils.notEmpty(wl.getCountLoss()) ? wl.getCountLoss() : "").append("~");
+				sb.append(StringUtils.notEmpty(wl.getCountTie()) ? wl.getCountTie() : "").append("~");
+				sb.append(StringUtils.notEmpty(wl.getCountLoss()) ? wl.getCountLoss() : "").append("~");
+			}
 		}
 		ServletHelper.writeText(response, sb.toString());
 	}
@@ -1133,9 +1301,9 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			else if (alias.equalsIgnoreCase(Country.alias)) {
 				Country en = (Country) o;
-				en.setLabel(String.valueOf(hParams.get("cp-label")));
-				en.setLabelFr(String.valueOf(hParams.get("cp-labelfr")));
-				en.setCode(String.valueOf(hParams.get("cp-code")));
+				en.setLabel(String.valueOf(hParams.get("cn-label")));
+				en.setLabelFr(String.valueOf(hParams.get("cn-labelfr")));
+				en.setCode(String.valueOf(hParams.get("cn-code")));
 			}
 			else if (alias.equalsIgnoreCase(Event.alias)) {
 				Event en = (Event) o;
@@ -1198,6 +1366,70 @@ public class UpdateServlet extends AbstractServlet {
 			else if (alias.equalsIgnoreCase(Year.alias)) {
 				Year en = (Year) o;
 				en.setLabel(String.valueOf(hParams.get("yr-label")));
+			}
+			else if (alias.equalsIgnoreCase(HallOfFame.alias)) {
+				HallOfFame en = (HallOfFame) o;
+				en.setLeague((League)DatabaseHelper.loadEntity(League.class, StringUtils.toInt(hParams.get("hf-league"))));
+				en.setYear((Year)DatabaseHelper.loadEntity(Year.class, StringUtils.toInt(hParams.get("hf-year"))));
+				en.setPerson((Athlete)DatabaseHelper.loadEntity(Athlete.class, StringUtils.toInt(hParams.get("hf-person"))));
+				en.setPosition(StringUtils.notEmpty(hParams.get("hf-position")) ? String.valueOf(hParams.get("hf-position")) : null);
+			}
+			else if (alias.equalsIgnoreCase(Record.alias)) {
+				Record en = (Record) o;
+				en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, StringUtils.toInt(hParams.get("rc-sport"))));
+				en.setChampionship((Championship)DatabaseHelper.loadEntity(Championship.class, StringUtils.toInt(hParams.get("rc-championship"))));
+				en.setEvent((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("rc-event"))));
+				en.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("rc-subevent"))));
+				en.setType1(StringUtils.notEmpty(hParams.get("rc-type1")) ? String.valueOf(hParams.get("rc-type1")) : null);
+				en.setType2(StringUtils.notEmpty(hParams.get("rc-type2")) ? String.valueOf(hParams.get("rc-type2")) : null);
+				en.setCity((City)DatabaseHelper.loadEntity(City.class, StringUtils.toInt(hParams.get("rc-city"))));
+				en.setLabel(StringUtils.notEmpty(hParams.get("rc-label")) ? String.valueOf(hParams.get("rc-label")) : null);
+				en.setIdRank1(StringUtils.notEmpty(hParams.get("rc-rank1")) ? new Integer(String.valueOf(hParams.get("rc-rank1"))) : null);
+				en.setRecord1(StringUtils.notEmpty(hParams.get("rc-record1")) ? String.valueOf(hParams.get("rc-record1")) : null);
+				en.setDate1(StringUtils.notEmpty(hParams.get("rc-date1")) ? String.valueOf(hParams.get("rc-date1")) : null);
+				en.setIdRank2(StringUtils.notEmpty(hParams.get("rc-rank2")) ? new Integer(String.valueOf(hParams.get("rc-rank2"))) : null);
+				en.setRecord2(StringUtils.notEmpty(hParams.get("rc-record2")) ? String.valueOf(hParams.get("rc-record2")) : null);
+				en.setDate2(StringUtils.notEmpty(hParams.get("rc-date2")) ? String.valueOf(hParams.get("rc-date2")) : null);
+				en.setIdRank3(StringUtils.notEmpty(hParams.get("rc-rank3")) ? new Integer(String.valueOf(hParams.get("rc-rank3"))) : null);
+				en.setRecord3(StringUtils.notEmpty(hParams.get("rc-record3")) ? String.valueOf(hParams.get("rc-record3")) : null);
+				en.setDate3(StringUtils.notEmpty(hParams.get("rc-date3")) ? String.valueOf(hParams.get("rc-date3")) : null);
+				en.setIdRank4(StringUtils.notEmpty(hParams.get("rc-rank4")) ? new Integer(String.valueOf(hParams.get("rc-rank4"))) : null);
+				en.setRecord4(StringUtils.notEmpty(hParams.get("rc-record4")) ? String.valueOf(hParams.get("rc-record4")) : null);
+				en.setDate4(StringUtils.notEmpty(hParams.get("rc-date4")) ? String.valueOf(hParams.get("rc-date4")) : null);
+				en.setIdRank5(StringUtils.notEmpty(hParams.get("rc-rank5")) ? new Integer(String.valueOf(hParams.get("rc-rank5"))) : null);
+				en.setRecord5(StringUtils.notEmpty(hParams.get("rc-record5")) ? String.valueOf(hParams.get("rc-record5")) : null);
+				en.setDate5(StringUtils.notEmpty(hParams.get("rc-date5")) ? String.valueOf(hParams.get("rc-date5")) : null);
+				en.setCounting(StringUtils.notEmpty(hParams.get("rc-counting")) ? String.valueOf(hParams.get("rc-counting")).equals("1") : null);
+				en.setIndex(StringUtils.notEmpty(hParams.get("rc-index")) ? new Float(String.valueOf(hParams.get("rc-index"))) : null);
+				en.setExa(StringUtils.notEmpty(hParams.get("rc-tie")) ? String.valueOf(hParams.get("rc-tie")) : null);
+				en.setComment(StringUtils.notEmpty(hParams.get("rc-comment")) ? String.valueOf(hParams.get("rc-comment")) : null);
+			}
+			else if (alias.equalsIgnoreCase(RetiredNumber.alias)) {
+				RetiredNumber en = (RetiredNumber) o;
+				en.setLeague((League)DatabaseHelper.loadEntity(League.class, StringUtils.toInt(hParams.get("rn-league"))));
+				en.setTeam((Team)DatabaseHelper.loadEntity(Team.class, StringUtils.toInt(hParams.get("rn-team"))));
+				en.setPerson((Athlete)DatabaseHelper.loadEntity(Athlete.class, StringUtils.toInt(hParams.get("rn-person"))));
+				en.setYear((Year)DatabaseHelper.loadEntity(Year.class, StringUtils.toInt(hParams.get("rn-year"))));
+				en.setNumber(StringUtils.notEmpty(hParams.get("rn-number")) ? new Integer(String.valueOf(hParams.get("rn-number"))) : null);
+			}
+			else if (alias.equalsIgnoreCase(TeamStadium.alias)) {
+				TeamStadium en = (TeamStadium) o;
+				en.setLeague((League)DatabaseHelper.loadEntity(League.class, StringUtils.toInt(hParams.get("ts-league"))));
+				en.setTeam((Team)DatabaseHelper.loadEntity(Team.class, StringUtils.toInt(hParams.get("ts-team"))));
+				en.setComplex((Complex)DatabaseHelper.loadEntity(Complex.class, StringUtils.toInt(hParams.get("ts-complex"))));
+				en.setDate1(StringUtils.notEmpty(hParams.get("ts-date1")) ? new Integer(String.valueOf(hParams.get("ts-date1"))) : null);
+				en.setDate2(StringUtils.notEmpty(hParams.get("ts-date2")) ? new Integer(String.valueOf(hParams.get("ts-date2"))) : null);
+				en.setRenamed(StringUtils.notEmpty(hParams.get("ts-renamed")) ? String.valueOf(hParams.get("ts-renamed")).equals("1") : null);
+			}
+			else if (alias.equalsIgnoreCase(WinLoss.alias)) {
+				WinLoss en = (WinLoss) o;
+				en.setLeague((League)DatabaseHelper.loadEntity(League.class, StringUtils.toInt(hParams.get("wl-league"))));
+				en.setTeam((Team)DatabaseHelper.loadEntity(Team.class, StringUtils.toInt(hParams.get("wl-team"))));
+				en.setType(StringUtils.notEmpty(hParams.get("wl-type")) ? String.valueOf(hParams.get("wl-type")) : null);
+				en.setCountWin(StringUtils.notEmpty(hParams.get("wl-win")) ? new Integer(String.valueOf(hParams.get("wl-win"))) : null);
+				en.setCountLoss(StringUtils.notEmpty(hParams.get("wl-loss")) ? new Integer(String.valueOf(hParams.get("wl-loss"))) : null);
+				en.setCountTie(StringUtils.notEmpty(hParams.get("wl-tie")) ? new Integer(String.valueOf(hParams.get("wl-tie"))) : null);
+				en.setCountOtloss(StringUtils.notEmpty(hParams.get("wl-otloss")) ? new Integer(String.valueOf(hParams.get("wl-otloss"))) : null);
 			}
 			o = DatabaseHelper.saveEntity(o, user);
 			String id_ = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
@@ -1589,6 +1821,24 @@ public class UpdateServlet extends AbstractServlet {
 		}
 		finally {
 			ServletHelper.writeText(response, sbMsg.toString());
+		}
+	}
+	
+	private static void loadErrors(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+		try {
+			StringBuffer html = new StringBuffer("<table>");
+			html.append("<thead><th>URL</th><th>Text</th><th>" + ResourceUtils.getText("date", lang) + "</th></thead><tbody>");
+			for (ErrorReport er : (List<ErrorReport>) DatabaseHelper.execute("from ErrorReport order by date desc")) {
+				String url = er.getUrl().replaceFirst("http\\:\\/\\/", "");
+				html.append("<tr><td style='display:none;'>0</td>");
+				html.append("<td><a href='http://" + url + "' target='_blank'>" + url.substring(url.indexOf("/")) + "</a></td>");
+				html.append("<td>" + er.getText().replaceAll("\\||\r\n|\n", "<br/>") + "</td>");
+				html.append("<td>" + StringUtils.toTextDate(er.getDate(), lang, null) + "</td></tr>");
+			}
+			ServletHelper.writeText(response, html.append("</tbody></table>").toString());
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
 		}
 	}
 	

@@ -180,7 +180,7 @@ public class Team {
 
 	@Override
 	public String toString() {
-		return label + (country != null ? ", " + country : "") + (sport != null ? ", " + sport : "") + " [#" + id + "]";
+		return label + (country != null ? ", " + country : "") + (sport != null ? ", " + sport.getLabel() : "") + " [#" + id + "]";
 	}
 	
 	public String toString2() {

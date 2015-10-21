@@ -125,10 +125,11 @@ public class TeamStadium {
 
 	@Override
 	public String toString() {
-		return "TeamStadium [id=" + id + ", league=" + league + ", team="
-				+ team + ", complex=" + complex + ", date1=" + date1
-				+ ", date2=" + date2 + ", renamed=" + renamed + ", comment="
-				+ comment + "]";
+		return "TeamStadium [id=" + id + ", league=" + league + ", team=" + team + ", complex=" + complex + ", date1=" + date1 + ", date2=" + date2 + ", renamed=" + renamed + ", comment=" + comment + "]";
+	}
+
+	public String toString2() {
+		return league.getLabel() + " - " + team.getLabel();
 	}
 	
 }

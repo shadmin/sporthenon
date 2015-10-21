@@ -38,7 +38,7 @@ public class LoginServlet extends AbstractServlet {
 					Contributor m = lstContributor.get(0);
 					if (m.getActive() != null && m.getActive()) {
 						request.getSession().setAttribute("user", m);
-						response.sendRedirect("/");
+						response.sendRedirect("/update/overview");
 						isMsg = false;
 					}
 					else
