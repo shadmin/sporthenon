@@ -172,6 +172,7 @@ public class UpdateServlet extends AbstractServlet {
 		hTable.put("ts", "TeamStadium");
 		hTable.put("wl", "WinLoss");
 		String labelHQL = "lower(label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !field.matches("lg|tm|yr|league|team|year") ? lang.toUpperCase() : "") + ")";
+		String l_ = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "");
 		String whereHQL = "";
 		if (field.matches(Athlete.alias.toLowerCase() + "|athlete|person")) {
 			labelHQL = "lower(last_name) || ', ' || lower(first_name) || ' (' || lower(country.code) || ')'";
@@ -183,24 +184,28 @@ public class UpdateServlet extends AbstractServlet {
 			whereHQL = (" and id in (" + user.getSports() + ")");
 		else if (field.equalsIgnoreCase(Contributor.alias))
 			labelHQL = "lower(login)";
+		else if (field.matches("pl\\d|complex"))
+			labelHQL = "concat(lower(" + l_ + "), ', ', lower(city." + l_ + "), ', ', lower(city.country.code))";
 		else if (field.equalsIgnoreCase(Result.alias)) {
-			String l = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "");
 			value = "%" + value;
 			// TODO coalesce(subevent." + l + ", ''), coalesce(subevent2." + l + ", '')
-			labelHQL = "concat(lower(sport." + l + "), ' - ', lower(championship." + l + "), ' - ', lower(event." + l + "), ' - ', year.label)";
+			labelHQL = "concat(lower(sport." + l_ + "), ' - ', lower(championship." + l_ + "), ' - ', lower(event." + l_ + "), ' - ', year.label)";
 		}
 		else if (field.equalsIgnoreCase(HallOfFame.alias))
 			labelHQL = "concat(lower(league.label), ' - ', lower(year.label))";
 		else if (field.equalsIgnoreCase(Record.alias)) {
-			String l = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "");
 			value = "%" + value;
-			labelHQL = "concat(lower(sport." + l + "), ' - ', lower(championship." + l + "), ' - ', lower(event." + l + "), ' - ', lower(type1), ' - ', lower(type2), ' - ', lower(label))";
+			labelHQL = "concat(lower(sport." + l_ + "), ' - ', lower(championship." + l_ + "), ' - ', lower(event." + l_ + "), ' - ', lower(type1), ' - ', lower(type2), ' - ', lower(label))";
 		}
 		else if (field.toUpperCase().matches(RetiredNumber.alias + "|" + TeamStadium.alias + "|" + WinLoss.alias))
 			labelHQL = "concat(lower(league.label), ' - ', lower(team.label))";
-		List<Object> l = DatabaseHelper.execute("from " + hTable.get(field) + " where " + (isId ? "id=" + value.substring(1).replaceFirst("\\%", "") : labelHQL + " like '" + value.toLowerCase() + "'") + whereHQL + " order by " + (field.equalsIgnoreCase(Result.alias) ? "year.id desc" : labelHQL));
-		if (field.matches("pl\\d|complex"))
-			l.addAll(DatabaseHelper.execute("from City where " + labelHQL + " like '" + value.toLowerCase() + "' order by " + labelHQL));
+		List<Object> l = DatabaseHelper.execute("from " + hTable.get(field) + " where (" + (isId ? "id=" + value.substring(1).replaceFirst("\\%", "") : labelHQL + " like '" + value.toLowerCase() + "'") + ")" + whereHQL + " order by " + (field.equalsIgnoreCase(Result.alias) ? "year.id desc" : labelHQL));
+		if (field.matches(Athlete.alias.toLowerCase() + "|athlete|person")) {
+			String labelHQL_ = "lower(last_name) || ', ' || lower(first_name) || ' (' || lower(country.code) || ', ' || lower(team.label) || ')'";
+			l.addAll(DatabaseHelper.execute("from " + hTable.get(field) + " where (" + labelHQL_ + " like '" + value.toLowerCase() + "')" + whereHQL + " order by " + (field.equalsIgnoreCase(Result.alias) ? "year.id desc" : labelHQL_)));
+		}
+		else if (field.matches("pl\\d|complex"))
+			l.addAll(DatabaseHelper.execute("from City where concat(lower(" + l_ + "), ', ', lower(country.code)) like '" + value.toLowerCase() + "' order by " + l_));
 		StringBuffer html = new StringBuffer("<ul>");
 		int n = 0;
 		for (Object o : l) {
@@ -238,8 +243,8 @@ public class UpdateServlet extends AbstractServlet {
 				text = t.toString() + (isData ? (StringUtils.notEmpty(t.getYear1()) ? " [" + t.getYear1() + "]" : "") + (StringUtils.notEmpty(t.getYear2()) ? " [" + t.getYear2() + "]" : "") + " [#" + t.getId() + "]" : "");;
 			}
 			else if (o instanceof League) {
-				League l_ = (League) o;
-				text = l_.getLabel();
+				League l__ = (League) o;
+				text = l__.getLabel();
 			}
 			else if (o instanceof Result) {
 				Result r = (Result) o;
@@ -457,14 +462,18 @@ public class UpdateServlet extends AbstractServlet {
 				while (hParams.containsKey("rk" + i + "list")) {
 					String[] t = String.valueOf(hParams.get("rk" + i + "list")).split("\\|", 0);
 					for (String value : t) {
-						if (StringUtils.notEmpty(value) && !value.equals("null") && !value.startsWith("Name #")) {
+						String[] t_ = value.split("\\-");
+						String idp = t_[0];
+						if (StringUtils.notEmpty(idp) && !idp.equals("null") && !idp.startsWith("Name #")) {
+							String index = t_[1];
 							PersonList plist = new PersonList();
 							plist.setIdResult(result.getId());
 							plist.setRank(i);
-							if (value.matches("\\d+"))
-								plist.setIdPerson(Integer.parseInt(value));
+							if (idp.matches("\\d+"))
+								plist.setIdPerson(Integer.parseInt(idp));
 							else
-								plist.setIdPerson(DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, value, null, user, null, lang));
+								plist.setIdPerson(DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, idp, null, user, null, lang));
+							plist.setIndex(StringUtils.notEmpty(index) && !index.equals("null") ? index : null);
 							DatabaseHelper.saveEntity(plist, user);
 						}
 					}
@@ -887,7 +896,7 @@ public class UpdateServlet extends AbstractServlet {
 						if (l.size() < rk)
 							l.add("");
 						Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, pl.getIdPerson());
-						l.set(rk - 1, (StringUtils.notEmpty(l.get(rk - 1)) ? l.get(rk - 1) + "|" : "") + pl.getIdPerson() + ":" + a.toString2());
+						l.set(rk - 1, (StringUtils.notEmpty(l.get(rk - 1)) ? l.get(rk - 1) + "|" : "") + pl.getIdPerson() + ":" + a.toString2() + ":" + (StringUtils.notEmpty(pl.getIndex()) ? pl.getIndex() : ""));
 					}
 					sb.append("rkl-" + StringUtils.implode(l, "#")).append("~");
 				}

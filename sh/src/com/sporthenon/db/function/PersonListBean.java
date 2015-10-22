@@ -17,6 +17,9 @@ public class PersonListBean {
 	@Column(name = "pl_rank")
 	private Integer plRank;
 	
+	@Column(name = "pl_index")
+	private Integer plIndex;
+	
 	@Column(name = "pr_id")
 	private Integer prId;
 	
@@ -94,6 +97,14 @@ public class PersonListBean {
 
 	public void setRsId(Integer rsId) {
 		this.rsId = rsId;
+	}
+
+	public Integer getPlIndex() {
+		return plIndex;
+	}
+
+	public void setPlIndex(Integer plIndex) {
+		this.plIndex = plIndex;
 	}
 	
 }

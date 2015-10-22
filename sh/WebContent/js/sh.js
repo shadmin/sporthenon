@@ -1305,7 +1305,6 @@ function createAccount() {
 		h.set(el.id, el.value);
 	});
 	h.set('rsports', tSp.join(','));
-	alert(tSp.join(','));
 	new Ajax.Request('/LoginServlet?create', { onSuccess: function(response) {
 		var s = response.responseText;
 		if (!/ERR\|.*/.match(s)) {
@@ -1692,17 +1691,20 @@ function initPersonList(index) {
 	t = (t ? t.split('|') : null);
 	var pid = null;
 	var ptxt = null;
+	var pindex = null;
 	for (var i = 1 ; i <= pListCount ; i++) {
 		if (t && t[i - 1]) {
 			pid = t[i - 1].split(':')[0];
 			ptxt = t[i - 1].split(':')[1];
+			pindex = t[i - 1].split(':')[2];
 		}
 		else {
 			pid = null;
 			ptxt = '';
+			pindex = '';
 		}
 		tValues['plist' + i] = pid;
-		html.push('<tr><td><input type="text" id="plist' + i + '" tabindex="' + (100000 + i) + '" name="Name #' + i + '" class="' + (pid != null ? 'completed' : '') + '" value="' + ptxt + '"/><a href="javascript:clearValue(\'plist' + i + '\');">[X]</a></td></tr>');	
+		html.push('<tr><td><input type="text" id="plist' + i + '-index" tabindex="' + (100000 + i) + '" name="Index" style="width:50px;" class="' + (pindex != null && pindex != '' ? 'completed2' : '') + '" value="' + pindex + '"/></td><td><input type="text" id="plist' + i + '" tabindex="' + (100001 + i) + '" name="Name #' + i + '" class="' + (pid != null ? 'completed' : '') + '" value="' + ptxt + '"/><a href="javascript:clearValue(\'plist' + i + '\');">[X]</a></td></tr>');	
 	}
 	$('plist').update('<table>' + html.join('') + '</table>');
 	$$('#plist input').each(function(id){
@@ -1716,7 +1718,7 @@ function savePersonList() {
 	var val = null;
 	for (var i = 1 ; i <= pListCount ; i++) {
 		val = tValues['plist' + i];
-		t.push(val && val != '' ? val : $('plist' + i).value);
+		t.push(val && val != '' ? val + '-' + $('plist' + i + '-index').value : $('plist' + i).value);
 	}
 	tValues['rk' + pListIndex + 'list'] = t.join('|');
 	dPersonList.close();
@@ -1724,7 +1726,7 @@ function savePersonList() {
 function addPersonList() {
 	try {
 		for (var i = pListCount + 1 ; i <= pListCount + 10 ; i++) {
-			$$('#plist table')[0].insert('<tr><td><input type="text" id="plist' + i + '" tabindex="' + (100000 + i) + '" name="Name #' + i + '"/><a href="javascript:clearValue(\'plist' + i + '\');">[X]</a></td></tr>');
+			$$('#plist table')[0].insert('<tr><td><input type="text" id="plist' + i + '-index" tabindex="' + (100000 + i) + '" name="Index" style="width:50px;"/></td><td><input type="text" id="plist' + i + '" tabindex="' + (100001 + i) + '" name="Name #' + i + '"/><a href="javascript:clearValue(\'plist' + i + '\');">[X]</a></td></tr>');
 			setPLInput('plist' + i);
 		}
 	}

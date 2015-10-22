@@ -27,6 +27,9 @@ public class PersonList {
 	@Column(name = "id_person", nullable = false)
 	private Integer idPerson;
 
+	@Column(name = "index")
+	private String index;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -58,5 +61,13 @@ public class PersonList {
 	public void setIdPerson(Integer idPerson) {
 		this.idPerson = idPerson;
 	}
-	
+
+	public String getIndex() {
+		return index;
+	}
+
+	public void setIndex(String index) {
+		this.index = index;
+	}
+
 }
