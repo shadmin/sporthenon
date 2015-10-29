@@ -110,10 +110,10 @@
 	</named-native-query>
 
 	<!--
-		GetWinLoss(integer, text)
+		GetYearlyStats(integer, text, text, boolean, boolean, varchar)
 	-->
-	<named-native-query name="GetWinLoss" result-class="com.sporthenon.db.function.WinLossBean">  
-		<query>{? = CALL "GetWinLoss"(?, ?)}</query>
+	<named-native-query name="GetYearlyStats" result-class="com.sporthenon.db.function.YearlyStatsBean">  
+		<query>{? = CALL "GetYearlyStats"(?, ?, ?, ?, ?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	

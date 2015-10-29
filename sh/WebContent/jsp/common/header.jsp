@@ -110,6 +110,9 @@
 	var TX_REMOVE = "<%=StringUtils.text("remove", session)%>";
 	var TX_MODIF_WARNING = "<%=StringUtils.text("modif.warning", session)%>";
 	var TX_CONFIRM = "<%=StringUtils.text("confirm", session)%>";
+	var TX_ADDFAV = "<%=StringUtils.text("add.favorites", session)%>";
+	var TX_DELFAV = "<%=StringUtils.text("delete.favorites", session)%>";
+	var TX_NOFAV = "<%=StringUtils.text("no.favorite", session)%>";
 --></script>
 
 <div id="headertop">
@@ -117,6 +120,7 @@
 		<div id="mthome"><a href="/"><%=StringUtils.text("menu.home", session)%></a></div>
 		<div id="mtproject"><a href="/project"><%=StringUtils.text("menu.project", session)%></a></div>
 		<div id="mtcontribute"><a href="/contribute"><%=StringUtils.text("menu.contribute", session)%></a></div>
+		<div id="mtfavorites"><a href="javascript:$('favorites').show();"><%=StringUtils.text("menu.favorites", session)%></a><div id="favorites" style="display:none;"></div></div>
 		<% if (m != null) { %>
 		<div id="mtcbarea"><a href="/update/overview"><%=StringUtils.text("menu.cbarea", session)%></a></div>
 		<div id="mtlogout"><a href="/LoginServlet?logout"><%=StringUtils.text("menu.logout", session)%></a>&nbsp;(<%=m.getLogin()%>)</div>
@@ -131,7 +135,6 @@
 		</tr></table>
 	</div>
 </div>
-
 <div id="ajaxsearch" class="ajaxsearch"></div>
 
 <script type="text/javascript"><!--
@@ -142,6 +145,26 @@ new Ajax.Autocompleter(
 	{ paramName: 'value', minChars: 1, frequency: 0.05, updateElement: directSearch}
 );
 Event.observe($('dpattern'), 'keyup', directSearch);
+
+// Load favorites
+var tfav = getCookie('shfav').split('|');
+var tfavHTML = [];
+var nf = 0;
+for (var i = 0 ; i < tfav.length ; i++) {
+	var t = tfav[i].split(':');
+	if (t && t.length > 1) {
+		tfavHTML.push('<li id="fav-' + i + '"><a href="' + t[0] + '">' + t[1] + '</a>&nbsp;<img alt="del" title="' + TX_REMOVE + '" src="/img/delete.gif" style="cursor:pointer;" onclick="deleteFavClick(' + i + ');"/></li>');
+		nf++;
+	}
+}
+if (tfavHTML.length == 0) {
+	tfavHTML.push('<b>' + TX_NOFAV + '</b>');
+	nf = 1;
+}
+tfavHTML.push('<a href="javascript:$(\'favorites\').hide();" style="padding-top:5px;float:right;">' + TX_CANCEL + '</a>');
+$('favorites').style.height = ((nf * 15) + 25) + 'px';
+$('favorites').update(tfavHTML.join(''));
+
 var lang = '<%=lang%>';
 --></script>
 

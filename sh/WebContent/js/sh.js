@@ -128,6 +128,20 @@ function handleRender() {
 		$('loadtime').down('span').update(t);
 		$('loadtime').show();
 	}
+	// Favorites
+	if ($('favimg')) {
+		var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
+		if (isFavorite(url)) {
+			$('favimg').onclick = function(){deleteFavorite();};
+			$('favimg').src = '/img/menu/favorites.png';
+			$('favimg').title = TX_DELFAV;			
+		}
+		else {
+			$('favimg').onclick = function(){addFavorite();};
+			$('favimg').src = '/img/menu/favorites2.png';
+			$('favimg').title = TX_ADDFAV;
+		}
+	}
 }
 function toggleContent(el) {
 	if (el.tagName != 'IMG') {
@@ -284,6 +298,55 @@ function moreImg(c) {
 	});
 	$(c + '-link').hide();
 }
+function addFavorite() {
+	var fav = getCookie('shfav');
+	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
+	url = url.replace('http://', '').replace('https://', '');
+	url = url.substring(url.indexOf('/'));
+	fav += '|' + url + ':' + document.title.replace(' | Sporthenon', '');
+	setCookie('shfav', fav);
+	if ($('favimg')) {
+		$('favimg').onclick = function(){deleteFavorite();};
+		$('favimg').src = '/img/menu/favorites.png';
+		$('favimg').title = TX_DELFAV;	
+	}
+}
+function deleteFavorite(url) {
+	if (!url) {
+		url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
+	}
+	url = url.replace('http://', '').replace('https://', '');
+	url = url.substring(url.indexOf('/'));
+	var tfav = getCookie('shfav').split('|');
+	var tfav_ = [];
+	for (var i = 0 ; i < tfav.length ; i++) {
+		if (tfav[i].indexOf(url) != 0) {
+			tfav_.push(tfav[i]);
+		}
+	}
+	setCookie('shfav', tfav_.join('|'));
+	if ($('favimg')) {
+		$('favimg').onclick = function(){addFavorite();};
+		$('favimg').src = '/img/menu/favorites2.png';
+		$('favimg').title = TX_ADDFAV;	
+	}
+}
+function deleteFavClick(i) {
+	deleteFavorite($('fav-' + i).down('a').href);
+	$('fav-' + i).remove();
+}
+function isFavorite(url) {
+	url = url.replace('http://', '').replace('https://', '');
+	url = url.substring(url.indexOf('/'));
+	var fav = false;
+	var tfav = getCookie('shfav').split('|');
+	for (var i = 0 ; i < tfav.length ; i++ && !fav) {
+		if (tfav[i].indexOf(url) == 0) {
+			fav = true;
+		}
+	}
+	return fav;
+}
 /*============================
   ========== UTILS ========== 
   ============================*/
@@ -294,6 +357,25 @@ function elapsedTime(t1_, t2_) {
 }
 function backTop() {
 	window.scrollTo(0, 0);
+}
+function setCookie(name, value) {
+    var d = new Date();
+    d.setTime(d.getTime() + (10*365*24*60*60*1000));
+    document.cookie = name + '=' + value + '; expires=' + d.toUTCString() + ';path=/';
+}
+function getCookie(name) {
+    name = name + '=';
+    var ca = document.cookie.split(';');
+    for(var i = 0 ; i < ca.length ; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') {
+        	c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+        	return c.substring(name.length,c.length);
+        }
+    }
+    return '';
 }
 /*=================================
   ========== TAB CONTROL ========== 
@@ -1126,8 +1208,9 @@ function changeLeague(id, srcsl) {
 		$('pl-championships-yr').update(tChampYr[league]); updateTip('pl-championships-yr'); updateSelectMult('pl-championships-yr');
 		$('pl-retnum-tm').update(tTm[league]); updateTip('pl-retnum-tm'); updateSelectMult('pl-retnum-tm');
 		$('pl-teamstadiums-tm').update(tTm[league]); updateTip('pl-teamstadiums-tm'); updateSelectMult('pl-teamstadiums-tm');
-		$('pl-winloss-tm').update(tTm[league]); updateTip('pl-winloss-tm'); updateSelectMult('pl-winloss-tm');
-		$('pl-records-se').update(tRcSe[league]); updateTip('pl-records-se'); updateSelectMult('pl-records-se');
+		$('pl-records-ct').update(tRcCt[league]); updateTip('pl-records-ct'); updateSelectMult('pl-records-ct');
+		$('pl-stats-yr').update(tStatsYr[league]); updateTip('pl-stats-yr'); updateSelectMult('pl-stats-yr');
+		$('pl-stats-ct').update(tStatsCt[league]); updateTip('pl-stats-ct'); updateSelectMult('pl-stats-ct');
 		$('hof-position').value = ''; updateTip('hof-position'); updateSelectMult('hof-position');
 		$('hof-postip').title = tPos[league]; updateTip('hof-postip'); updateSelectMult('hof-postip');
 		$('retnum-number').value = '';
@@ -1147,7 +1230,7 @@ function changeLeague(id, srcsl) {
 function changeModeUS(id) {
 	id = (id != null ? id : 'championships');
 	currentUtype = id;
-	['championships', 'records', 'winloss', 'hof', 'retnum', 'teamstadiums'].each(function(id_) {
+	['championships', 'records', 'stats', 'hof', 'retnum', 'teamstadiums'].each(function(id_) {
 		$(id_).removeClassName('selected');	
 		$('f-' + id_).hide();
 	});
@@ -1163,9 +1246,11 @@ function runUSLeagues() {
 	h.set('type', currentUtype);
 	h.set('tm', $('pl-' + currentUtype + '-tm') ? $F('pl-' + currentUtype + '-tm') : null);
 	h.set('yr', $('pl-' + currentUtype + '-yr') ? $F('pl-' + currentUtype + '-yr') : null);
-	h.set('se', $('pl-' + currentUtype + '-se') ? $F('pl-' + currentUtype + '-se') : null);
+	h.set('ct', $('pl-' + currentUtype + '-ct') ? $F('pl-' + currentUtype + '-ct') : null);
 	h.set('tp1', $('pl-' + currentUtype + '-tp1') ? $F('pl-' + currentUtype + '-tp1') : null);
 	h.set('tp2', $('pl-' + currentUtype + '-tp2') ? $F('pl-' + currentUtype + '-tp2') : null);
+	h.set('tpind', $('stats-ind').checked ? '1' : '0');
+	h.set('tptm', $('stats-tm').checked ? '1' : '0');
 	h.set('pf', $('records-pf').checked ? '1' : '0');
 	h.set('num', $F('retnum-number'));
 	h.set('pos', $F('hof-position'));
@@ -1855,6 +1940,25 @@ function setEntityValues(text) {
 		$('pr-link').value = t[i++];
 		$('pr-link-l').value = t[i++];
 	}
+	else if (currentAlias == 'CL') {
+		$('cl-id').value = currentId;
+		$('cl-sport').value = t[i++];
+		$('cl-sport-l').value = t[i++];
+		$('cl-championship').value = t[i++];
+		$('cl-championship-l').value = t[i++];
+		$('cl-event').value = t[i++];
+		$('cl-event-l').value = t[i++];
+		$('cl-subevent').value = t[i++];
+		$('cl-subevent-l').value = t[i++];
+		$('cl-subevent2').value = t[i++];
+		$('cl-subevent2-l').value = t[i++];
+		$('cl-complex').value = t[i++];
+		$('cl-complex-l').value = t[i++];
+		$('cl-city').value = t[i++];
+		$('cl-city-l').value = t[i++];
+		$('cl-date1').value = t[i++];
+		$('cl-date2').value = t[i++];
+	}
 	else if (currentAlias == 'CP') {
 		$('cp-id').value = currentId;
 		$('cp-label').value = t[i++];
@@ -2377,6 +2481,7 @@ function loadExtLinks() {
 		parameters: h
 	});
 	currentExtLinkEntity = $F('elentity');
+	$('msg').update();
 }
 function checkAllLinks() {
 	$$('#elcontent input').each(function(el){
@@ -2410,6 +2515,29 @@ function saveExtLinks() {
 			loadExtLinks();
 		},
 		parameters: $H({entity: currentExtLinkEntity, value: t.join('|')})
+	});
+}
+function updateLinksAuto() {
+	$('header').setStyle({ opacity: 0.4 });
+	$('content').setStyle({ opacity: 0.4 });
+	dQuestion.open();
+	$('confirmtxt').update(TX_CONFIRM + ' ?');
+	Event.stopObserving($('confirmbtn'), 'click');
+	Event.observe($('confirmbtn'), 'click', function(){
+		$('header').setStyle({ opacity: 1.0 });
+		$('content').setStyle({ opacity: 1.0 });
+		dQuestion.close();
+		$('elcontent').update('<img src="/img/db/loading.gif?6"/>');
+		var h = $H({range: $F('elrange'), pattern: $F('elpattern'), entity: $F('elentity'), includechecked: ($('elincludechecked').checked ? '1' : '0')});
+		new Ajax.Request('/update/updateauto-extlinks', {
+			onSuccess: function(response){
+				var text = response.responseText;
+				$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
+				$('msg').update('<div>' + text.replace(/^ERR\:/i, '') + '</div>');
+				loadExtLinks();
+			},
+			parameters: h
+		});
 	});
 }
 /*========== TRANSLATIONS ==========*/

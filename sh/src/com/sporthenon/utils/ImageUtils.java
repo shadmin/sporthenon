@@ -82,17 +82,22 @@ public class ImageUtils {
 		return "<table><tr><td><img alt='" + ResourceUtils.getText("bronze", lang) + "' src='" + getRenderUrl() + "bronze.png'/></td><td class='bold'>" + ResourceUtils.getText("bronze", lang) + "</td></tr></table>";
 	}
 	
-	public static Collection<String> getImgFiles() {
+	public static List<String> getImgFiles() {
 		return lImgFiles;
 	}
 	
 	public static Collection<String> getImageList(short type, Object id, char size) {
 		LinkedList<String> list = new LinkedList<String>();
 		String name = type + "-" + id + "-" + size;
-		for (String s : lImgFiles)
-			if (s.indexOf(name) == 0)
+		boolean found = false;
+		for (String s : lImgFiles) {
+			if (s.indexOf(name) == 0) {
 				list.add(s);
-		Collections.sort(list);
+				found = true;
+			}
+			else if (found)
+				break;
+		}
 		Collections.reverse(list);
 		return list;
 	}

@@ -21,6 +21,7 @@
 	<entry key="menu.logout">Déconnexion</entry>
 	<entry key="menu.update">Mettre à jour</entry>
 	<entry key="menu.cbarea">Espace contributeur</entry>
+	<entry key="menu.favorites">Favoris</entry>
 	<entry key="share">Partager</entry>
 <!-- GLOBAL -->
 	<entry key="ok">OK</entry>
@@ -44,6 +45,7 @@
 	<entry key="button.close">Fermer</entry>
 	<entry key="entity.CB">Contributeurs</entry>
 	<entry key="entity.CO">Contributions</entry>
+	<entry key="entity.CL">Calendriers</entry>
 	<entry key="entity.CP">Championnats</entry>
 	<entry key="entity.CT">Villes</entry>
 	<entry key="entity.CX">Complexes</entry>
@@ -65,6 +67,7 @@
 	<entry key="entity.YR">Années</entry>
 	<entry key="entity.CB.1">Contributeur</entry>
 	<entry key="entity.CO.1">Contribution</entry>
+	<entry key="entity.CL.1">Calendrier</entry>
 	<entry key="entity.CP.1">Championnat</entry>
 	<entry key="entity.CT.1">Ville</entry>
 	<entry key="entity.CX.1">Complexe</entry>
@@ -279,6 +282,9 @@
 	<entry key="month.12">Décembre</entry>
 	<entry key="source">Source</entry>
 	<entry key="note">Note</entry>
+	<entry key="add.favorites">Ajouter aux favoris</entry>
+	<entry key="delete.favorites">Supprimer des favoris</entry>
+	<entry key="no.favorite">Aucun favori enregistré.</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
@@ -337,6 +343,7 @@
 	<entry key="retired.numbers">Numéros retirés</entry>
 	<entry key="number">Numéro</entry>
 	<entry key="team.stadiums">Stades</entry>
+	<entry key="yearly.stats">Stats annuelles</entry>
 	<entry key="teams">Equipes</entry>
 	<entry key="categories">Catégories</entry>
 	<entry key="wins">Victoires</entry>
@@ -384,6 +391,7 @@
 	<entry key="msg.login.err1">La connexion a échoué. Cet utilisateur n'est pas actif.</entry>
 	<entry key="msg.login.err2">La connexion a échoué. Merci de vérifier votre identifiant/mot de passe.</entry>
 	<entry key="msg.login.err3">Identifiant déjà utilisé. Veuillez en utiliser un autre.</entry>
+	<entry key="msg.login.err4">Merci de sélectionner au maximum {1} sports.</entry>
 	<entry key="msg.registered">Votre compte a été créé.</entry>
 	<entry key="msg.logout">Vous avez été déconnecté.</entry>
 	<entry key="title.authentication">AUTHENTIFICATION</entry>
@@ -474,6 +482,7 @@
 	<entry key="err.value.toolong">ERREUR: Valeur trop longue</entry>
 	<entry key="err.result.notexist">ERREUR: Résultat inexistant</entry>
 	<entry key="warning.team.notexist">AVERTISSEMENT: Equipe inexistante</entry>
+	<entry key="warning.event.notexist">AVERTISSEMENT: Epreuve inexistante</entry>
 	<entry key="checked">Vérifié</entry>
 	<entry key="photo.source">Source photo</entry>
 	<entry key="linked.to">Lié à</entry>
@@ -510,4 +519,5 @@
 	<entry key="loss">Défaites</entry>
 	<entry key="tie2">Matches nuls</entry>
 	<entry key="ot.loss">Défaites (OT)</entry>
+	<entry key="automatic.update">Mise à jour auto</entry>
 </properties>

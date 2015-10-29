@@ -18,7 +18,6 @@ import com.sporthenon.db.function.RetiredNumberBean;
 import com.sporthenon.db.function.TeamStadiumBean;
 import com.sporthenon.db.function.USChampionshipsBean;
 import com.sporthenon.db.function.USRecordsBean;
-import com.sporthenon.db.function.WinLossBean;
 
 public class FunctionTest extends TestCase {
 
@@ -151,19 +150,6 @@ public class FunctionTest extends TestCase {
 //			System.out.println(obj);
 	}
 
-	public void testWinLoss() throws Exception {
-		ArrayList<Object> params = new ArrayList<Object>();
-		params.add(new Integer(1));
-		params.add(new String("0"));
-		Collection col = DatabaseHelper.call("GetWinLoss", params);
-		assertNotNull(col);
-		assertTrue(col.size() > 0);
-		ArrayList<Object> lst = new ArrayList<Object>(col);
-		assertTrue(lst.get(0) instanceof WinLossBean);
-//		for (Object obj : lst)
-//			System.out.println(obj);
-	}
-	
 	public void testWinRecords() throws Exception {
 		ArrayList<Object> params = new ArrayList<Object>();
 		params.add(new String("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26"));

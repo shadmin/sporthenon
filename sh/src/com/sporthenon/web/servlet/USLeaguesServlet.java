@@ -32,7 +32,7 @@ public class USLeaguesServlet extends AbstractServlet {
 	
 	public static final String TYPE_RETNUM = "retnum";
 	public static final String TYPE_TEAMSTADIUM = "teamstadiums";
-	public static final String TYPE_WINLOSS = "winloss";
+	public static final String TYPE_STATS = "stats";
 	public static final String TYPE_HOF = "hof";
 	public static final String TYPE_CHAMPIONSHIP = "championships";
 	public static final String TYPE_RECORD = "records";
@@ -79,8 +79,11 @@ public class USLeaguesServlet extends AbstractServlet {
 					else if (t[0].equals(TYPE_TEAMSTADIUM)) {
 						hParams.put("tm", t[2]);
 					}
-					else if (t[0].equals(TYPE_WINLOSS)) {
-						hParams.put("tm", t[2]);
+					else if (t[0].equals(TYPE_STATS)) {
+						hParams.put("yr", t[2]);
+						hParams.put("ct", t[3]);
+						hParams.put("ind", t[4]);
+						hParams.put("tm", t[5]);
 					}
 					else if (t[0].equals(TYPE_HOF)) {
 						hParams.put("yr", t[2]);
@@ -90,7 +93,7 @@ public class USLeaguesServlet extends AbstractServlet {
 					}
 					else if (t[0].equals(TYPE_RECORD)) {
 						hParams.put("pf", t[3]);
-						hParams.put("se", t[4]);
+						hParams.put("ct", t[4]);
 						hParams.put("tp1", t[5]);
 						hParams.put("tp2", t.length > 6 ? t[6] : "");
 					}
@@ -114,10 +117,17 @@ public class USLeaguesServlet extends AbstractServlet {
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_US_LEAGUES_TEAMSTADIUM, lFuncParams, getUser(request), getLocale(request));
 					html.append(HtmlConverter.convertTeamStadium(DatabaseHelper.call("GetTeamStadiums", lFuncParams), "en"));
 				}
-				else if (type.equals(TYPE_WINLOSS)) {
-					lFuncParams.add(teams);
-					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_US_LEAGUES_WINLOSS, lFuncParams, getUser(request), getLocale(request));
-					html.append(HtmlConverter.convertWinLoss(DatabaseHelper.call("GetWinLoss", lFuncParams), "en"));
+				else if (type.equals(TYPE_STATS)) {
+					String categories = StringUtils.notEmpty(hParams.get("ct")) ? String.valueOf(hParams.get("ct")) : "0";
+					lFuncParams.add(HLEAGUES.get(Short.valueOf(league)));
+					lFuncParams.add(years);
+					lFuncParams.add(categories);
+					lFuncParams.add(String.valueOf(hParams.get("tpind")).equals("1") ? true : false);
+					lFuncParams.add(String.valueOf(hParams.get("tptm")).equals("1") ? true : false);
+					lFuncParams.add("_en");
+					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_US_LEAGUES_STATS, lFuncParams, getUser(request), getLocale(request));
+					lFuncParams.remove(0);
+					html.append(HtmlConverter.convertYearlyStats(DatabaseHelper.call("GetYearlyStats", lFuncParams), "en"));
 				}
 				else if (type.equals(TYPE_HOF)) {
 					lFuncParams.add(years);
@@ -136,7 +146,7 @@ public class USLeaguesServlet extends AbstractServlet {
 				else if (type.equals(TYPE_RECORD)) {
 					lFuncParams.add(HLEAGUES.get(Short.valueOf(league)));
 					lFuncParams.add(String.valueOf(hParams.get("pf")).equals("1") ? "0" : "495");
-					lFuncParams.add(StringUtils.notEmpty(hParams.get("se")) ? String.valueOf(hParams.get("se")) : "0");
+					lFuncParams.add(StringUtils.notEmpty(hParams.get("ct")) ? String.valueOf(hParams.get("ct")) : "0");
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp1")) ? String.valueOf(hParams.get("tp1")) : "i");
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("tp2")) ? String.valueOf(hParams.get("tp2")) : "-");
 					lFuncParams.add("_en");
@@ -145,7 +155,7 @@ public class USLeaguesServlet extends AbstractServlet {
 					lFuncParams.set(5, HTYPE2.get(lFuncParams.get(5)));
 					lFuncParams.remove(0);
 					if (String.valueOf(lFuncParams.get(3)).matches(".*Team.*") && !String.valueOf(lFuncParams.get(2)).equals("0")) {
-						String hql = "select id from Event where type.number<=50 and label in (select label from Event where id in (" + String.valueOf(hParams.get("se")) + "))";
+						String hql = "select id from Event where type.number<=50 and label in (select label from Event where id in (" + String.valueOf(hParams.get("ct")) + "))";
 						ArrayList<String> lstSe = new ArrayList<String>();
 						for (Integer i : (ArrayList<Integer>) DatabaseHelper.execute(hql))
 							lstSe.add(String.valueOf(i));

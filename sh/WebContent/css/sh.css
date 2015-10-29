@@ -170,6 +170,9 @@ li{
 	background: url(../img/menu/project.png?6) left 0 no-repeat;
 	margin-right: 7px;
 }
+#menutop #mtfavorites{
+	background: url(../img/menu/favorites.png?7) left 0 no-repeat;
+}
 #menutop #mtcontribute{
 	background: url(../img/menu/contribute.png?6) left 0 no-repeat;
 	margin-right: 5px;
@@ -182,6 +185,18 @@ li{
 }
 #menutop #mtcbarea{
 	background: url(../img/menu/contributor_area.png?8) left 0 no-repeat;
+}
+#menutop div#favorites{
+	position: absolute;
+	background: #FFF;
+	border: 2px solid gray;
+	margin-left: -20px;
+	padding-left: 0px;
+	padding: 5px;
+}
+#menutop div#favorites li{
+	list-style-image: url(../img/bullet.gif?6);
+	padding: 1px;
 }
 #flags{
 	padding: 2px;
@@ -1514,7 +1529,7 @@ li{
 	padding-right: 10px;
 }
 #update-folders select{
-	width: 400px;
+	width: 450px;
 	font-size: 11px;
 }
 /*---------- IMPORT ----------*/

@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -67,6 +68,7 @@ public class ImageServlet extends AbstractServlet {
 				fos.write(b);
 				fos.close();
 				ImageUtils.getImgFiles().add(f.getName());
+				Collections.sort(ImageUtils.getImgFiles());
 			}
 			else if (hParams.containsKey("upload")) {
 				String id = String.valueOf(hParams.get("id"));
@@ -94,6 +96,7 @@ public class ImageServlet extends AbstractServlet {
 				fos.write(b);
 				fos.close();
 				ImageUtils.getImgFiles().add(f.getName());
+				Collections.sort(ImageUtils.getImgFiles());
 			}
 			else if (hParams.containsKey("download")) {
 				String fname = String.valueOf(hParams.get("name"));
@@ -116,6 +119,7 @@ public class ImageServlet extends AbstractServlet {
 				if (f.exists()) {
 					f.delete();
 					ImageUtils.getImgFiles().remove(f.getName());
+					Collections.sort(ImageUtils.getImgFiles());
 				}
 			}
 			else if (hParams.containsKey("url")) {

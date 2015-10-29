@@ -1,16 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ page import="com.sporthenon.utils.StringUtils"%>
+<%@ page import="java.util.List"%>
 <%@ page import="com.sporthenon.db.entity.*"%>
+<%@ page import="com.sporthenon.db.entity.meta.Contributor"%>
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
 <%@ page import="com.sporthenon.db.PicklistBean"%>
+<%@ page import="com.sporthenon.utils.StringUtils"%>
+<%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
 <%
+	Contributor cb = (Contributor) session.getAttribute("user");
 	String lang = String.valueOf(session.getAttribute("locale"));
 	StringBuffer sbSport = new StringBuffer();
 	StringBuffer sbChampionship = new StringBuffer();
 	StringBuffer sbEvent = new StringBuffer();
-	for (PicklistBean plb : DatabaseHelper.getEntityPicklist(Sport.class, "label", null, lang))
-		sbSport.append("<option value='" + plb.getValue() + "'>" + plb.getText() + "</option>");
+	for (Sport sp : (List<Sport>) DatabaseHelper.execute("from Sport" + (cb != null && !cb.isAdmin() ? " where id in (" + cb.getSports() + ")" : "") + " order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "")))
+		sbSport.append("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
 	for (PicklistBean plb : DatabaseHelper.getEntityPicklist(Championship.class, "label", null, lang))
 		sbChampionship.append("<option value='" + plb.getValue() + "'>" + plb.getText() + "</option>");
 	for (PicklistBean plb : DatabaseHelper.getEntityPicklist(Event.class, "label", "type.label", lang))

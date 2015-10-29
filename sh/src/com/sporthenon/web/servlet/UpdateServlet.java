@@ -4,13 +4,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -24,6 +29,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 import com.sporthenon.db.DatabaseHelper;
@@ -76,59 +82,61 @@ public class UpdateServlet extends AbstractServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String lang = getLocale(request);
-			Contributor user = getUser(request);
+			Contributor cb = getUser(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			if (hParams.containsKey("p2") && hParams.get("p2").equals("ajax"))
-				ajaxAutocomplete(response, hParams, lang, user);
+				ajaxAutocomplete(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("save"))
-				saveResult(response, hParams, lang, user);
+				saveResult(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("delete"))
-				deleteResult(response, hParams, lang, user);
+				deleteResult(response, hParams, lang, cb);
 			else if (hParams.containsKey("p2") && hParams.get("p2").equals("data"))
-				dataTips(response, hParams, lang, user);
+				dataTips(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-entity"))
-				loadEntity(response, hParams, lang, user);
+				loadEntity(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("save-entity"))
-				saveEntity(response, hParams, lang, user);
+				saveEntity(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("delete-entity"))
-				deleteEntity(response, hParams, lang, user);
+				deleteEntity(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-overview"))
-				loadOverview(response, hParams, lang, user);
+				loadOverview(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("save-config"))
-				saveConfig(response, hParams, lang, user);
+				saveConfig(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("execute-query"))
-				executeQuery(response, hParams, lang, user);
+				executeQuery(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("merge"))
-				mergeEntity(response, hParams, lang, user);
+				mergeEntity(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("execute-import"))
-				executeImport(request, response, hParams, lang, user);
+				executeImport(request, response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("check-progress-import"))
 				ServletHelper.writeText(response, String.valueOf(request.getSession().getAttribute("progress")));
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-template"))
-				loadTemplate(response, hParams, lang, user);
+				loadTemplate(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-extlinks"))
-				loadExternalLinks(response, hParams, lang, user);
+				loadExternalLinks(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("save-extlinks"))
-				saveExternalLinks(response, hParams, lang, user);
+				saveExternalLinks(response, hParams, lang, cb);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("updateauto-extlinks"))
+				updateAutoExternalLinks(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-translations"))
-				loadTranslations(response, hParams, lang, user);
+				loadTranslations(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("save-translations"))
-				saveTranslations(response, hParams, lang, user);
+				saveTranslations(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-folders"))
-				loadFolders(response, hParams, lang, user);
+				loadFolders(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("save-folders"))
-				saveFolders(response, hParams, lang, user);
+				saveFolders(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-errors"))
-				loadErrors(response, hParams, lang, user);
+				loadErrors(response, hParams, lang, cb);
 			else
-				loadResult(request, response, hParams, lang, user);
+				loadResult(request, response, hParams, lang, cb);
 		}
 		catch (Exception e) {
 			handleException(request, response, e);
 		}
 	}
 	
-	private static void ajaxAutocomplete(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void ajaxAutocomplete(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		String field = String.valueOf(hParams.get("p"));
 		String field_ = field;
 		boolean isId = String.valueOf(hParams.get("value")).matches("^\\#\\d+");
@@ -150,9 +158,9 @@ public class UpdateServlet extends AbstractServlet {
 		HashMap<String, String> hTable = new HashMap<String, String>();
 		hTable.put("sp", "Sport"); hTable.put("sport", "Sport");
 		hTable.put("cp", "Championship"); hTable.put("championship", "Championship");
-		hTable.put("ev", "Event"); hTable.put("event", "Event");
-		hTable.put("se", "Event"); hTable.put("event", "Event");
-		hTable.put("se2", "Event"); hTable.put("event", "Event");
+		hTable.put("ev", "Event"); hTable.put("event", "Event"); hTable.put("subevent", "Event"); hTable.put("subevent2", "Event");
+		hTable.put("se", "Event");
+		hTable.put("se2", "Event");
 		hTable.put("tp", "Type"); hTable.put("type", "Type");
 		hTable.put("yr", "Year"); hTable.put("year", "Year");
 		hTable.put("cx", "Complex"); hTable.put("complex", "Complex");
@@ -177,11 +185,14 @@ public class UpdateServlet extends AbstractServlet {
 		if (field.matches(Athlete.alias.toLowerCase() + "|athlete|person")) {
 			labelHQL = "lower(last_name) || ', ' || lower(first_name) || ' (' || lower(country.code) || ')'";
 			whereHQL = (sport != null ? " and sport.id=" + sport : "");
+			whereHQL += (cb != null && !cb.isAdmin() ? " and sport.id in (" + cb.getSports() + ")" : "");
 		}
-		else if (field.matches(Team.alias.toLowerCase() + "|team"))
+		else if (field.matches(Team.alias.toLowerCase() + "|team")) {
 			whereHQL = (sport != null ? " and sport.id=" + sport : "");
-		else if (field.equalsIgnoreCase(Sport.alias) && user != null && StringUtils.notEmpty(user.getSports()))
-			whereHQL = (" and id in (" + user.getSports() + ")");
+			whereHQL += (cb != null && !cb.isAdmin() ? " and sport.id in (" + cb.getSports() + ")" : "");
+		}
+		else if (field.equalsIgnoreCase(Sport.alias) && cb != null && StringUtils.notEmpty(cb.getSports()))
+			whereHQL = (" and id in (" + cb.getSports() + ")");
 		else if (field.equalsIgnoreCase(Contributor.alias))
 			labelHQL = "lower(login)";
 		else if (field.matches("pl\\d|complex"))
@@ -275,7 +286,7 @@ public class UpdateServlet extends AbstractServlet {
 		ServletHelper.writeText(response, html.append("</ul>").toString());
 	}
 	
-	private static void saveResult(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void saveResult(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		HashMap<Object, Integer> hInserted = new HashMap<Object, Integer>();
 		StringBuffer sbMsg = new StringBuffer();
 		try {
@@ -293,7 +304,7 @@ public class UpdateServlet extends AbstractServlet {
 				s.setLabelFr(s.getLabel());
 				s.setType(1);
 				s.setIndex(Float.MAX_VALUE);
-				s = (Sport) DatabaseHelper.saveEntity(s, user);
+				s = (Sport) DatabaseHelper.saveEntity(s, cb);
 				result.setSport(s);
 			}
 			// Championship
@@ -303,7 +314,7 @@ public class UpdateServlet extends AbstractServlet {
 				c.setLabel(String.valueOf(hParams.get("cp-l")));
 				c.setLabelFr(c.getLabel());
 				c.setIndex(Integer.MAX_VALUE);
-				c = (Championship) DatabaseHelper.saveEntity(c, user);
+				c = (Championship) DatabaseHelper.saveEntity(c, cb);
 				result.setChampionship(c);
 			}
 			// Event #1
@@ -321,7 +332,7 @@ public class UpdateServlet extends AbstractServlet {
 				e.setLabelFr(label_);
 				e.setType(type_);
 				e.setIndex(Integer.MAX_VALUE);
-				e = (Event) DatabaseHelper.saveEntity(e, user);
+				e = (Event) DatabaseHelper.saveEntity(e, cb);
 				result.setEvent(e);
 			}
 			tp = result.getEvent().getType().getNumber();
@@ -341,7 +352,7 @@ public class UpdateServlet extends AbstractServlet {
 					e.setLabelFr(label_);
 					e.setType(type_);
 					e.setIndex(Integer.MAX_VALUE);
-					e = (Event) DatabaseHelper.saveEntity(e, user);
+					e = (Event) DatabaseHelper.saveEntity(e, cb);
 					result.setSubevent(e);
 				}
 				tp = result.getSubevent().getType().getNumber();
@@ -362,7 +373,7 @@ public class UpdateServlet extends AbstractServlet {
 					e.setLabelFr(label_);
 					e.setType(type_);
 					e.setIndex(Integer.MAX_VALUE);
-					e = (Event) DatabaseHelper.saveEntity(e, user);
+					e = (Event) DatabaseHelper.saveEntity(e, cb);
 					result.setSubevent2(e);
 				}
 				tp = result.getSubevent2().getType().getNumber();
@@ -372,7 +383,7 @@ public class UpdateServlet extends AbstractServlet {
 			if (result.getYear() == null) {
 				Year y = new Year();
 				y.setLabel(String.valueOf(hParams.get("yr-l")));
-				y = (Year) DatabaseHelper.saveEntity(y, user);
+				y = (Year) DatabaseHelper.saveEntity(y, cb);
 				result.setYear(y);
 			}
 			// Places
@@ -389,7 +400,7 @@ public class UpdateServlet extends AbstractServlet {
 					if (StringUtils.notEmpty(hParams.get("pl" + i)))
 						id = new Integer(String.valueOf(hParams.get("pl" + i)));
 					else
-						id = DatabaseHelper.insertPlace(0, String.valueOf(hParams.get("pl" + i + "-l")), user, null, lang);
+						id = DatabaseHelper.insertPlace(0, String.valueOf(hParams.get("pl" + i + "-l")), cb, null, lang);
 					if (isComplex) {
 						if (i == 1) {
 							result.setComplex1((Complex)DatabaseHelper.loadEntity(Complex.class, id));
@@ -444,14 +455,14 @@ public class UpdateServlet extends AbstractServlet {
 					if (hInserted.keySet().contains(o))
 						id = hInserted.get(o);
 					else {
-						id = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(o), null, user, null, lang);
+						id = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(o), null, cb, null, lang);
 						hInserted.put(o, id);
 					}
 				}
 				Result.class.getMethod("setIdRank" + i, Integer.class).invoke(result, id > 0 ? id : null);
 				Result.class.getMethod("setResult" + i, String.class).invoke(result, StringUtils.notEmpty(hParams.get("rs" + i + "-l")) ? hParams.get("rs" + i + "-l") : null);
 			}
-			result = (Result) DatabaseHelper.saveEntity(result, user);
+			result = (Result) DatabaseHelper.saveEntity(result, cb);
 			// External links
 			if (StringUtils.notEmpty(hParams.get("exl-l")))
 				DatabaseHelper.saveExternalLinks(Result.alias, result.getId(), String.valueOf(hParams.get("exl-l")));
@@ -472,9 +483,9 @@ public class UpdateServlet extends AbstractServlet {
 							if (idp.matches("\\d+"))
 								plist.setIdPerson(Integer.parseInt(idp));
 							else
-								plist.setIdPerson(DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, idp, null, user, null, lang));
+								plist.setIdPerson(DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, idp, null, cb, null, lang));
 							plist.setIndex(StringUtils.notEmpty(index) && !index.equals("null") ? index : null);
-							DatabaseHelper.saveEntity(plist, user);
+							DatabaseHelper.saveEntity(plist, cb);
 						}
 					}
 					i++;
@@ -493,7 +504,7 @@ public class UpdateServlet extends AbstractServlet {
 						if (hInserted.keySet().contains(ow))
 							id1 = hInserted.get(ow);
 						else {
-							id1 = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(ow), null, user, null, lang);
+							id1 = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(ow), null, cb, null, lang);
 							hInserted.put(ow, id1);
 						}
 					}
@@ -501,7 +512,7 @@ public class UpdateServlet extends AbstractServlet {
 						if (hInserted.keySet().contains(ol))
 							id2 = hInserted.get(ol);
 						else {
-							id2 = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(ol), null, user, null, lang);
+							id2 = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(ol), null, cb, null, lang);
 							hInserted.put(ol, id2);
 						}
 					}
@@ -510,7 +521,7 @@ public class UpdateServlet extends AbstractServlet {
 					Draw.class.getMethod("setResult_" + s, String.class).invoke(draw, StringUtils.notEmpty(hParams.get(s + "rs-l")) ? hParams.get(s + "rs-l") : null);
 				}
 				draw.setIdResult(result.getId());
-				draw = (Draw) DatabaseHelper.saveEntity(draw, user);
+				draw = (Draw) DatabaseHelper.saveEntity(draw, cb);
 			}
 			sbMsg.append(result.getId() + "#" + ResourceUtils.getText("result." + (idRS != null ? "modified" : "created"), lang));
 		}
@@ -523,7 +534,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
-	private static void deleteResult(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void deleteResult(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		StringBuffer sbMsg = new StringBuffer();
 		try {
 			Object id = hParams.get("id");
@@ -539,7 +550,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
-	private static void dataTips(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void dataTips(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		try {
 			String lang_ = (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "");
 			StringBuffer html = new StringBuffer("<table>");
@@ -557,7 +568,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
-	private static void loadOverview(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void loadOverview(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		StringBuffer html = new StringBuffer();
 		ArrayList<Object> lFuncParams = new ArrayList<Object>();
 		lFuncParams.add(hParams.get("entity"));
@@ -661,7 +672,7 @@ public class UpdateServlet extends AbstractServlet {
 		ServletHelper.writeText(response, html.append("</tbody></table>").toString());
 	}
 	
-	private static void saveConfig(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void saveConfig(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		StringBuffer sbMsg = new StringBuffer();
 		try {
 			for (Object o : hParams.keySet()) {
@@ -685,7 +696,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
-	private static void executeQuery(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void executeQuery(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		boolean isCSV = hParams.containsKey("csv");
 		StringBuffer sb = new StringBuffer(!isCSV ? "<table>" : "");
 		ArrayList<String> queries = new ArrayList<String>();
@@ -746,7 +757,7 @@ public class UpdateServlet extends AbstractServlet {
 			ServletHelper.writeText(response, sb.toString());
 	}
 	
-	private static void mergeEntity(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void mergeEntity(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		String msg = "";
 		try {
 			String alias = String.valueOf(hParams.get("alias"));
@@ -770,7 +781,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
-	private static void loadResult(HttpServletRequest request, HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void loadResult(HttpServletRequest request, HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		Object tp = hParams.get("tp");
 		request.setAttribute("title", StringUtils.getTitle(ResourceUtils.getText("update.results", lang)));
 		String p = String.valueOf(hParams.get("p"));
@@ -948,7 +959,7 @@ public class UpdateServlet extends AbstractServlet {
 			ServletHelper.writeText(response, "");
 	}
 	
-	private static void loadEntity(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void loadEntity(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		HashMap<String, Short> hLocs = new HashMap<String, Short>();
 		hLocs.put("first", DatabaseHelper.FIRST);
 		hLocs.put("previous", DatabaseHelper.PREVIOUS);
@@ -957,8 +968,9 @@ public class UpdateServlet extends AbstractServlet {
 		String action = String.valueOf(hParams.get("action"));
 		String id = String.valueOf(hParams.get("id"));
 		String alias = String.valueOf(hParams.get("alias"));
+		String filter = (alias.matches(Athlete.alias + "|" + Team.alias + "|" + Sport.alias) ? (cb != null && !cb.isAdmin() ? (alias.equalsIgnoreCase(Sport.alias) ? "" : "sport.") + "id in (" + cb.getSports() + ")" : null) : null);
 		Class c = DatabaseHelper.getClassFromAlias(alias);
-		Object o = (action.equals("direct") ? DatabaseHelper.loadEntity(c, id) : DatabaseHelper.move(c, id, hLocs.get(action), null));
+		Object o = (action.equals("direct") ? DatabaseHelper.loadEntity(c, id) : DatabaseHelper.move(c, id, hLocs.get(action), filter));
 		StringBuffer sb = new StringBuffer();
 		if (o != null) {
 			id = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
@@ -990,6 +1002,25 @@ public class UpdateServlet extends AbstractServlet {
 					sb.append("~~");
 				sb.append(ImageUtils.getPhotoFile(Athlete.alias, id)).append("~");
 			}
+			else if (o instanceof com.sporthenon.db.entity.Calendar) {
+				com.sporthenon.db.entity.Calendar cl = (com.sporthenon.db.entity.Calendar) o;
+				sb.append(cl.getSport() != null ? cl.getSport().getId() : 0).append("~");
+				sb.append(cl.getSport() != null ? cl.getSport().getLabel(lang) : "").append("~");
+				sb.append(cl.getChampionship() != null ? cl.getChampionship().getId() : 0).append("~");
+				sb.append(cl.getChampionship() != null ? cl.getChampionship().getLabel(lang) : "").append("~");
+				sb.append(cl.getEvent() != null ? cl.getEvent().getId() : 0).append("~");
+				sb.append(cl.getEvent() != null ? cl.getEvent().getLabel(lang) : "").append("~");
+				sb.append(cl.getSubevent() != null ? cl.getSubevent().getId() : 0).append("~");
+				sb.append(cl.getSubevent() != null ? cl.getSubevent().getLabel(lang) : "").append("~");
+				sb.append(cl.getSubevent2() != null ? cl.getSubevent2().getId() : 0).append("~");
+				sb.append(cl.getSubevent2() != null ? cl.getSubevent2().getLabel(lang) : "").append("~");
+				sb.append(cl.getComplex() != null ? cl.getComplex().getId() : 0).append("~");
+				sb.append(cl.getComplex() != null ? cl.getComplex().getLabel(lang) : "").append("~");
+				sb.append(cl.getCity() != null ? cl.getCity().getId() : 0).append("~");
+				sb.append(cl.getCity() != null ? cl.getCity().getLabel(lang) : "").append("~");
+				sb.append(cl.getDate1() != null ? cl.getDate1() : "").append("~");
+				sb.append(cl.getDate2() != null ? cl.getDate2() : "").append("~");
+			}	
 			else if (o instanceof Championship) {
 				Championship cp = (Championship) o;
 				sb.append(cp.getLabel()).append("~");
@@ -1045,13 +1076,13 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(ImageUtils.getPhotoFile(Complex.alias, id)).append("~");
 			}
 			else if (o instanceof Contributor) {
-				Contributor cb = (Contributor) o;
-				sb.append(cb.getLogin()).append("~");
-				sb.append(cb.getPublicName()).append("~");
-				sb.append(cb.getEmail()).append("~");
-				sb.append(cb.isActive() ? "1" : "0").append("~");
-				sb.append(cb.isAdmin() ? "1" : "0").append("~");
-				sb.append(cb.getSports()).append("~");
+				Contributor cb_ = (Contributor) o;
+				sb.append(cb_.getLogin()).append("~");
+				sb.append(cb_.getPublicName()).append("~");
+				sb.append(cb_.getEmail()).append("~");
+				sb.append(cb_.isActive() ? "1" : "0").append("~");
+				sb.append(cb_.isAdmin() ? "1" : "0").append("~");
+				sb.append(cb_.getSports()).append("~");
 			}
 			else if (o instanceof Country) {
 				Country cn = (Country) o;
@@ -1223,7 +1254,7 @@ public class UpdateServlet extends AbstractServlet {
 		ServletHelper.writeText(response, sb.toString());
 	}
 	
-	private static void saveEntity(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void saveEntity(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		String msg = null;
 		try {
 			String id = String.valueOf(hParams.get("id"));
@@ -1251,6 +1282,18 @@ public class UpdateServlet extends AbstractServlet {
 						Logger.getLogger("sh").error(e.getMessage());
 					}
 				}
+			}
+			else if (alias.equalsIgnoreCase(com.sporthenon.db.entity.Calendar.alias)) {
+				com.sporthenon.db.entity.Calendar en = (com.sporthenon.db.entity.Calendar) o;
+				en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, StringUtils.toInt(hParams.get("cl-sport"))));
+				en.setChampionship((Championship)DatabaseHelper.loadEntity(Championship.class, StringUtils.toInt(hParams.get("cl-championship"))));
+				en.setEvent((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("cl-event"))));
+				en.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("cl-subevent"))));
+				en.setSubevent2((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("cl-subevent2"))));
+				en.setComplex((Complex)DatabaseHelper.loadEntity(Complex.class, StringUtils.toInt(hParams.get("cl-complex"))));
+				en.setCity((City)DatabaseHelper.loadEntity(City.class, StringUtils.toInt(hParams.get("cl-city"))));
+				en.setDate1(StringUtils.notEmpty(hParams.get("cl-date1")) ? String.valueOf(hParams.get("cl-date1")) : null);
+				en.setDate2(StringUtils.notEmpty(hParams.get("cl-date2")) ? String.valueOf(hParams.get("cl-date2")) : null);
 			}
 			else if (alias.equalsIgnoreCase(Championship.alias)) {
 				Championship en = (Championship) o;
@@ -1440,7 +1483,7 @@ public class UpdateServlet extends AbstractServlet {
 				en.setCountTie(StringUtils.notEmpty(hParams.get("wl-tie")) ? new Integer(String.valueOf(hParams.get("wl-tie"))) : null);
 				en.setCountOtloss(StringUtils.notEmpty(hParams.get("wl-otloss")) ? new Integer(String.valueOf(hParams.get("wl-otloss"))) : null);
 			}
-			o = DatabaseHelper.saveEntity(o, user);
+			o = DatabaseHelper.saveEntity(o, cb);
 			String id_ = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
 			msg = ResourceUtils.getText("update.ok", lang) + "&nbsp;–&nbsp;" + ResourceUtils.getText("entity." + alias + ".1", lang) + " #" + id_;
 		}
@@ -1453,7 +1496,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
-	private static void deleteEntity(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void deleteEntity(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		StringBuffer sbMsg = new StringBuffer();
 		try {
 			String id = String.valueOf(hParams.get("id"));
@@ -1471,7 +1514,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
-	private static void executeImport(HttpServletRequest request, HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void executeImport(HttpServletRequest request, HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		HttpSession session = request.getSession();
 		session.setAttribute("progress", 0);
 		InputStream input = null;
@@ -1493,12 +1536,12 @@ public class UpdateServlet extends AbstractServlet {
 		}
 		String type = String.valueOf(hParams.get("type"));
 		String update = String.valueOf(hParams.get("update"));
-		String result = ImportUtils.processAll(session,  v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Draw.alias), type.equalsIgnoreCase(Record.alias), user, lang);
+		String result = ImportUtils.processAll(session,  v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Draw.alias), type.equalsIgnoreCase(Record.alias), cb, lang);
 		session.setAttribute("progress", 100);
 		ServletHelper.writeText(response, result);
 	}
 	
-	private static void loadTemplate(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void loadTemplate(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		try {
 			String type = String.valueOf(hParams.get("type"));
 			List<ArrayList<String>> list = ImportUtils.getTemplate(type, lang);
@@ -1520,7 +1563,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
-	private static void loadExternalLinks(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void loadExternalLinks(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		try {
 			StringBuffer html = new StringBuffer("<table>");
 			String range = String.valueOf(hParams.get("range"));
@@ -1539,7 +1582,10 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			hql.append(" order by idItem, type");
 			
-			List<Object[]> items = DatabaseHelper.execute("select id, " + (entity.equals(Athlete.alias) ? "lastName || ', ' || firstName || ' - ' || sport.label" : "label") + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + (tIds.length > 1 ? " where id between " + tIds[0] + " and " + tIds[1] : "") + " order by id");
+			String where = " where 1=1";
+			where += (tIds.length > 1 ? " and id between " + tIds[0] + " and " + tIds[1] : "");
+			where += (entity.matches(Athlete.alias + "|" + Team.alias + "|" + Sport.alias) ? (cb != null && !cb.isAdmin() ? " and " + (entity.equalsIgnoreCase(Sport.alias) ? "" : "sport.") + "id in (" + cb.getSports() + ")" : "") : "");
+			List<Object[]> items = DatabaseHelper.execute("select id, " + (entity.equals(Athlete.alias) ? "lastName || ', ' || firstName || ' - ' || sport.label" : (entity.equals(Team.alias) ? "label || ' - ' || sport.label" : "label")) + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + where + " order by id");
 			List<ExternalLink> links = DatabaseHelper.execute(hql.toString());
 			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + "</th><th>" + ResourceUtils.getText("type", lang) + "</th><th>URL</th><th>" + ResourceUtils.getText("checked", lang) + "&nbsp;<input type='checkbox' onclick='checkAllLinks();'/></th></thead><tbody>");
 			for (Object[] t : items) {
@@ -1581,7 +1627,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
-	private static void saveExternalLinks(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void saveExternalLinks(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		StringBuffer sbMsg = new StringBuffer();
 		try {
 			String entity = String.valueOf(hParams.get("entity"));
@@ -1596,11 +1642,11 @@ public class UpdateServlet extends AbstractServlet {
 					el.setType(t[2]);
 					el.setUrl(t[3]);
 					el.setChecked(t[4].equals("1"));
-					DatabaseHelper.saveEntity(el, user);
+					DatabaseHelper.saveEntity(el, cb);
 				}
 				else if (t.length == 2 && el.getId() != null) {
 					el.setChecked(t[1].equals("1"));
-					DatabaseHelper.saveEntity(el, user);
+					DatabaseHelper.saveEntity(el, cb);
 				}
 			}
 			sbMsg.append(ResourceUtils.getText("update.ok", lang));
@@ -1614,7 +1660,72 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
-	private static void loadTranslations(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void updateAutoExternalLinks(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
+		StringBuffer sbMsg = new StringBuffer();
+		try {
+//			System.getProperties().setProperty("http.proxyHost", "globalproxy-emea.pharma.aventis.com");
+//			System.getProperties().setProperty("http.proxyPort", "3129");
+
+			String range = String.valueOf(hParams.get("range"));
+			String entity = String.valueOf(hParams.get("entity"));
+			StringBuffer sbUpdateSql = new StringBuffer();
+			List<String> lHql = new LinkedList<String>();
+			String filter = " and id between " + range.replaceAll("\\-", " and ");
+			if (entity.equalsIgnoreCase(Athlete.alias)) {
+				lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='wiki')" + filter + " order by id");
+				lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='oly-ref')" + filter + " order by id");
+				lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='bkt-ref')" + filter + " order by id");
+				lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='bb-ref')" + filter + " order by id");
+				lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='ft-ref')" + filter + " order by id");
+				lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='hk-ref')" + filter + " order by id");
+			}
+			if (entity.equalsIgnoreCase(Championship.alias))
+				lHql.add("from Championship where id not in (select idItem from ExternalLink where entity='" + Championship.alias + "' and type='wiki')" + filter + " order by id");
+			if (entity.equalsIgnoreCase(City.alias))
+				lHql.add("from City where id not in (select idItem from ExternalLink where entity='" + City.alias + "' and type='wiki')" + filter + " order by id");
+			if (entity.equalsIgnoreCase(Complex.alias))
+				lHql.add("from Complex where id not in (select idItem from ExternalLink where entity='" + Complex.alias + "' and type='wiki')" + filter + " order by id");
+			if (entity.equalsIgnoreCase(Country.alias)) {
+				lHql.add("from Country where id not in (select idItem from ExternalLink where entity='" + Country.alias + "' and type='wiki')" + filter + " order by id");
+				lHql.add("from Country where id not in (select idItem from ExternalLink where entity='" + Country.alias + "' and type='oly-ref')" + filter + " order by id");	
+			}
+			if (entity.equalsIgnoreCase(Event.alias))
+				lHql.add("from Event where id not in (select idItem from ExternalLink where entity='" + Event.alias + "' and type='wiki')" + filter + " order by id");
+			if (entity.equalsIgnoreCase(Olympics.alias)) {
+				lHql.add("from Olympics where id not in (select idItem from ExternalLink where entity='" + Olympics.alias + "' and type='wiki')" + filter + " order by id");
+				lHql.add("from Olympics where id not in (select idItem from ExternalLink where entity='" + Olympics.alias + "' and type='oly-ref')" + filter + " order by id");	
+			}
+			if (entity.equalsIgnoreCase(Sport.alias)) {
+				lHql.add("from Sport where id not in (select idItem from ExternalLink where entity='" + Sport.alias + "' and type='wiki')" + filter + " order by id");
+				lHql.add("from Sport where id not in (select idItem from ExternalLink where entity='" + Sport.alias + "' and type='oly-ref')" + filter + " order by id");	
+			}
+			if (entity.equalsIgnoreCase(State.alias))
+				lHql.add("from State where id not in (select idItem from ExternalLink where entity='" + State.alias + "' and type='wiki')" + filter + " order by id");
+			if (entity.equalsIgnoreCase(Team.alias)) {
+				lHql.add("from Team where id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and type='wiki')" + filter + " order by id");
+				lHql.add("from Team where id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and type='bkt-ref')" + filter + " order by id");
+				lHql.add("from Team where id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and type='bb-ref')" + filter + " order by id");
+				lHql.add("from Team where id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and type='ft-ref')" + filter + " order by id");
+				lHql.add("from Team where id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and type='hk-ref')" + filter + " order by id");	
+			}
+			for (String hql : lHql) {
+				List<Object> l = DatabaseHelper.execute(hql);
+				for (Object o : l)
+					sbUpdateSql.append(getExternalLink(o, hql));
+			}
+			DatabaseHelper.executeUpdate(sbUpdateSql.toString());
+			sbMsg.append(ResourceUtils.getText("update.ok", lang));
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+			sbMsg.append("ERR:" + e.getMessage());
+		}
+		finally {
+			ServletHelper.writeText(response, sbMsg.toString());
+		}
+	}
+	
+	private static void loadTranslations(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		try {
 			StringBuffer html = new StringBuffer("<table>");
 			String range = String.valueOf(hParams.get("range"));
@@ -1670,7 +1781,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
-	private static void saveTranslations(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void saveTranslations(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		StringBuffer sbMsg = new StringBuffer();
 		try {
 			String entity = String.valueOf(hParams.get("entity"));
@@ -1684,7 +1795,7 @@ public class UpdateServlet extends AbstractServlet {
 					tr.setEntity(entity);
 				}
 				tr.setChecked(t[2].equals("1"));
-				DatabaseHelper.saveEntity(tr, user);
+				DatabaseHelper.saveEntity(tr, cb);
 			}
 			sbMsg.append(ResourceUtils.getText("update.ok", lang));
 		}
@@ -1697,10 +1808,10 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
-	private static void loadFolders(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void loadFolders(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		try {
 			ArrayList<Object> params = new ArrayList<Object>();
-			params.add("");
+			params.add(cb != null && !cb.isAdmin() ? " where SP.id in (" + cb.getSports() + ")" : "");
 			params.add("_" + lang.toLowerCase());
 			Collection<Object> coll = DatabaseHelper.call("TreeResults", params);
 			StringBuffer sb = new StringBuffer();
@@ -1741,7 +1852,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
-	private static void saveFolders(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void saveFolders(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		StringBuffer sbMsg = new StringBuffer();
 		try {
 			DatabaseHelper.executeUpdate("ALTER TABLE \"Result\" DISABLE TRIGGER \"TriggerRS\";");
@@ -1833,7 +1944,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
-	private static void loadErrors(HttpServletResponse response, Map hParams, String lang, Contributor user) throws Exception {
+	private static void loadErrors(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		try {
 			StringBuffer html = new StringBuffer("<table>");
 			html.append("<thead><th>URL</th><th>Text</th><th>" + ResourceUtils.getText("date", lang) + "</th></thead><tbody>");
@@ -1869,6 +1980,171 @@ public class UpdateServlet extends AbstractServlet {
 				label = c.getLabel(lang);
 		}
 		return label;
+	}
+	
+	private static String getExternalLink(Object o, String hql) throws Exception {
+		StringBuffer sql = new StringBuffer();
+		String str1 = "", str2 = "", alias = "";
+		if (o instanceof Athlete) {
+			Athlete a = (Athlete) o;
+			str1 = a.getFirstName() + " " + a.getLastName();
+			str2 = a.getLastName();
+			alias = Athlete.alias;
+		}
+		else if (o instanceof Championship) {
+			Championship c = (Championship) o;
+			str1 = c.getLabel();
+			alias = Championship.alias;
+		}
+		else if (o instanceof City) {
+			City c = (City) o;
+			str1 = c.getLabel();
+			str2 = c.getCountry().getLabel();
+			alias = City.alias;
+		}
+		else if (o instanceof Complex) {
+			Complex c = (Complex) o;
+			str1 = c.getLabel();
+			alias = Complex.alias;
+		}
+		else if (o instanceof Country) {
+			Country c = (Country) o;
+			str1 = c.getLabel();
+			str2 = c.getCode();
+			alias = Country.alias;
+		}
+		else if (o instanceof Event) {
+			Event e = (Event) o;
+			str1 = e.getLabel();
+			alias = Event.alias;
+		}
+		else if (o instanceof Olympics) {
+			Olympics o_ = (Olympics) o;
+			str1 = o_.getYear().getLabel() + " " + (o_.getType() == 0 ? "Winter" : "Summer") + " Olympics";
+			str2 = (o_.getType() == 0 ? "Winter" : "Summer") + "/" + o_.getYear().getLabel() + "/";
+			alias = Olympics.alias;
+		}
+		else if (o instanceof Sport) {
+			Sport s = (Sport) o;
+			str1 = s.getLabel();
+			alias = Sport.alias;
+		}
+		else if (o instanceof State) {
+			State s = (State) o;
+			str1 = s.getLabel();
+			alias = State.alias;
+		}
+		else if (o instanceof Team) {
+			Team t = (Team) o;
+			str1 = t.getLabel();
+			alias = Team.alias;
+		}
+		Integer id = (Integer) o.getClass().getMethod("getId").invoke(o);
+		String url = null;
+		URL url_ = null;
+		HttpURLConnection conn = null;
+		// WIKIPEDIA
+		if (hql.matches(".*\\'wiki\\'.*")) {
+			url = "https://en.wikipedia.org/wiki/" + URLEncoder.encode(str1.replaceAll("\\s", "_"), "utf-8");
+			sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'wiki', '" + url + "');\r\n");
+		}
+		// OLYMPICS-REFERENCE
+		if (hql.matches(".*\\'oly-ref\\'.*")) {
+			url = null;
+			if (o instanceof Athlete) {
+				url = "http://www.sports-reference.com/olympics/athletes/" + str2.substring(0, 2).toLowerCase() + "/" + str1.replaceAll("\\s", "-").toLowerCase() + "-1.html";	
+			}
+			else if (o instanceof Country) {
+				url = "http://www.sports-reference.com/olympics/countries/" + str2;
+			}
+			else if (o instanceof Olympics) {
+				url = "http://www.sports-reference.com/olympics/" + str2;
+			}
+			if (url != null) {
+				url_ = new URL(StringUtils.normalize(url));
+				conn = (HttpURLConnection) url_.openConnection();
+				conn.setDoOutput(true);
+				if (conn.getResponseCode() == 200) {
+					StringWriter writer = new StringWriter();
+					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+					if (writer.toString().indexOf("File Not Found") == -1 && writer.toString().indexOf("0 hits") == -1)
+						sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'oly-ref', '" + StringUtils.normalize(url) + "');\r\n");
+				}
+			}
+		}
+		// BASKETBALL-REFERENCE
+		if (hql.matches(".*\\'bkt-ref\\'.*")) {
+			url = null;
+			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 24) {
+				url = "http://www.basketball-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.html";	
+			}
+			if (url != null) {
+				url_ = new URL(StringUtils.normalize(url));
+				conn = (HttpURLConnection) url_.openConnection();
+				conn.setDoOutput(true);
+				if (conn.getResponseCode() == 200) {
+					StringWriter writer = new StringWriter();
+					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+					if (writer.toString().indexOf("File Not Found") == -1)
+						sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'bkt-ref', '" + StringUtils.normalize(url) + "');\r\n");
+				}
+			}
+		}
+		// BASEBALL-REFERENCE
+		if (hql.matches(".*\\'bb-ref\\'.*")) {
+			url = null;
+			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 26) {
+				url = "http://www.baseball-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.shtml";	
+			}
+			if (url != null) {
+				url_ = new URL(StringUtils.normalize(url));
+				conn = (HttpURLConnection) url_.openConnection();
+				conn.setDoOutput(true);
+				if (conn.getResponseCode() == 200) {
+					StringWriter writer = new StringWriter();
+					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+					if (writer.toString().indexOf("File Not Found") == -1)
+						sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'bb-ref', '" + StringUtils.normalize(url) + "');\r\n");
+				}
+			}
+		}
+		// PRO-FOOTBALL-REFERENCE
+		if (hql.matches(".*\\'ft-ref\\'.*")) {
+			url = null;
+			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 23) {
+				url = "http://www.pro-football-reference.com/players/" + str2.substring(0, 1) + "/" + str2.substring(0, str2.length() > 4 ? 4 : str2.length()) + str1.substring(0, 2) + "00.htm";	
+			}
+			if (url != null) {
+				url_ = new URL(StringUtils.normalize(url));
+				conn = (HttpURLConnection) url_.openConnection();
+				conn.setDoOutput(true);
+				if (conn.getResponseCode() == 200) {
+					StringWriter writer = new StringWriter();
+					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+					if (writer.toString().indexOf("File Not Found") == -1)
+						sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'ft-ref', '" + StringUtils.normalize(url) + "');\r\n");
+				}
+			}
+		}
+		// HOCKEY-REFERENCE
+		if (hql.matches(".*\\'hk-ref\\'.*")) {
+			url = null;
+			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 25) {
+				url = "http://www.hockey-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.html";	
+			}
+			if (url != null) {
+				url_ = new URL(StringUtils.normalize(url));
+				conn = (HttpURLConnection) url_.openConnection();
+				conn.setDoOutput(true);
+				if (conn.getResponseCode() == 200) {
+					StringWriter writer = new StringWriter();
+					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
+					if (writer.toString().indexOf("File Not Found") == -1)
+						sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'hk-ref', '" + StringUtils.normalize(url) + "');\r\n");
+				}
+			}
+		}
+		return sql.toString();
 	}
 
 }

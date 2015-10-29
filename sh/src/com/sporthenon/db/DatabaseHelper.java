@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.StaleStateException;
 
 import com.sporthenon.db.entity.Athlete;
+import com.sporthenon.db.entity.Calendar;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
@@ -435,7 +436,8 @@ public class DatabaseHelper {
 	}
 	
 	public static Class getClassFromAlias(String alias) {
-		return (alias.equalsIgnoreCase(Championship.alias) ? Championship.class :
+		return (alias.equalsIgnoreCase(Calendar.alias) ? Calendar.class :
+			   (alias.equalsIgnoreCase(Championship.alias) ? Championship.class :
 			   (alias.equalsIgnoreCase(City.alias) ? City.class :
 			   (alias.equalsIgnoreCase(Complex.alias) ? Complex.class :
 			   (alias.equalsIgnoreCase(Contributor.alias) ? Contributor.class :
@@ -455,7 +457,36 @@ public class DatabaseHelper {
 			   (alias.equalsIgnoreCase(TeamStadium.alias) ? TeamStadium.class : 
 			   (alias.equalsIgnoreCase(Type.alias) ? Type.class : 
 			   (alias.equalsIgnoreCase(WinLoss.alias) ? WinLoss.class : 
-			   (alias.equalsIgnoreCase(Year.alias) ? Year.class : null)))))))))))))))))))));
+			   (alias.equalsIgnoreCase(Year.alias) ? Year.class : null))))))))))))))))))))));
+	}
+	
+	public static Integer insertEvent(int row, String s, Contributor cb, StringBuffer sb, String lang) throws Exception {
+		Integer id = null;
+		Object o = null;
+		String msg = null;
+		try {
+			String[] t = s.split("\\|");
+			Object o_ = loadEntityFromQuery("from Type tp where lower(tp.label) = '" + t[1].toLowerCase() + "'");
+			Event ev = new Event();
+			ev.setLabel(t[0]);
+			ev.setLabelFr(t[0]);
+			ev.setIndex(Integer.MAX_VALUE);
+			ev.setType((Type)o_);
+			o = saveEntity(ev, cb);
+			msg = "New Event";
+		}
+		catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+		finally {
+			if (o != null) {
+				if (sb != null)
+					sb.append("Row " + (row + 1) + ": " + msg + " | " + o).append("<br/>");
+				id = Integer.valueOf(String.valueOf(o.getClass().getMethod("getId").invoke(o)));
+			}
+		}
+		return id;
 	}
 	
 	public static Integer insertEntity(int row, int n, int spid, String s, String date, Contributor cb, StringBuffer sb, String lang) throws Exception {

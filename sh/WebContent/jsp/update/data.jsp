@@ -10,6 +10,7 @@
 		<div class="fscontent" style="min-height:150px;height:auto;">
 			<!-- Global data -->
 			<a id="link-PR" href="javascript:showPanel('PR');"><%=StringUtils.text("entity.PR", session)%></a>&nbsp;|&nbsp;
+			<a id="link-CL" href="javascript:showPanel('CL');"><%=StringUtils.text("entity.CL", session)%></a>&nbsp;|&nbsp;
 			<a id="link-CP" href="javascript:showPanel('CP');"><%=StringUtils.text("entity.CP", session)%></a>&nbsp;|&nbsp;
 			<a id="link-CT" href="javascript:showPanel('CT');"><%=StringUtils.text("entity.CT", session)%></a>&nbsp;|&nbsp;
 			<a id="link-CX" href="javascript:showPanel('CX');"><%=StringUtils.text("entity.CX", session)%></a>&nbsp;|&nbsp;
@@ -44,6 +45,19 @@
 				<tr><th><%=StringUtils.text("entity.CN.1", session)%></th><td><input type="hidden" id="pr-country"/><input type="text" id="pr-country-l"/></td></tr>
 				<tr><th><%=StringUtils.text("photo.source", session)%></th><td><input type="text" id="pr-source"/></td></tr>
 				<tr><th><%=StringUtils.text("linked.to", session)%></th><td><input type="hidden" id="pr-link"/><input type="text" id="pr-link-l"/></td></tr>
+			</table>
+			<!-- CALENDAR -->
+			<table id="table-CL" style="display:none;">
+				<tr><th>ID</th><td><input type="text" disabled="disabled" id="cl-id" class="id"/></td></tr>
+				<tr><th><%=StringUtils.text("entity.SP.1", session)%></th><td><input type="hidden" id="cl-sport"/><input type="text" id="cl-sport-l"/></td></tr>
+				<tr><th><%=StringUtils.text("entity.CP.1", session)%></th><td><input type="hidden" id="cl-championship"/><input type="text" id="cl-championship-l"/></td></tr>
+				<tr><th><%=StringUtils.text("entity.EV.1", session)%>&nbsp;1</th><td><input type="hidden" id="cl-event"/><input type="text" id="cl-event-l"/></td></tr>
+				<tr><th><%=StringUtils.text("entity.EV.1", session)%>&nbsp;2</th><td><input type="hidden" id="cl-subevent"/><input type="text" id="cl-subevent-l"/></td></tr>
+				<tr><th><%=StringUtils.text("entity.EV.1", session)%>&nbsp;3</th><td><input type="hidden" id="cl-subevent2"/><input type="text" id="cl-subevent2-l"/></td></tr>
+				<tr><th><%=StringUtils.text("entity.CX.1", session)%></th><td><input type="hidden" id="cl-complex"/><input type="text" id="cl-complex-l"/></td></tr>
+				<tr><th><%=StringUtils.text("entity.CT.1", session)%></th><td><input type="hidden" id="cl-city"/><input type="text" id="cl-city-l"/></td></tr>
+				<tr><th><%=StringUtils.text("date", session)%>&nbsp;1</th><td><input type="text" id="cl-date1"/></td></tr>
+				<tr><th><%=StringUtils.text("date", session)%>&nbsp;2</th><td><input type="text" id="cl-date2"/></td></tr>
 			</table>
 			<!-- CHAMPIONSHIP -->
 			<table id="table-CP" style="display:none;">
@@ -136,7 +150,7 @@
 			</table>
 			<!-- HALL OF FAME -->
 			<table id="table-HF" style="display:none;">
-				<tr><th>ID</th><td><input type="text" disabled="disabled" id="hf-id" class="hf"/></td></tr>
+				<tr><th>ID</th><td><input type="text" disabled="disabled" id="hf-id" class="id"/></td></tr>
 				<tr><th><%=StringUtils.text("league", session)%></th><td><input type="hidden" id="hf-league"/><input type="text" id="hf-league-l"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.YR.1", session)%></th><td><input type="hidden" id="hf-year"/><input type="text" id="hf-year-l"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.PR.1", session)%></th><td><input type="hidden" id="hf-person"/><input type="text" id="hf-person-l"/></td></tr>
@@ -144,7 +158,7 @@
 			</table>
 			<!-- RECORD -->
 			<table id="table-RC" style="display:none;">
-				<tr><th>ID</th><td><input type="text" disabled="disabled" id="rc-id" class="rc"/></td></tr>
+				<tr><th>ID</th><td><input type="text" disabled="disabled" id="rc-id" class="id"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.SP.1", session)%></th><td><input type="hidden" id="rc-sport"/><input type="text" id="rc-sport-l"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.CP.1", session)%></th><td><input type="hidden" id="rc-championship"/><input type="text" id="rc-championship-l"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.EV.1", session)%>&nbsp;1</th><td><input type="hidden" id="rc-event"/><input type="text" id="rc-event-l"/></td></tr>
@@ -175,7 +189,7 @@
 			</table>
 			<!-- RETIRED NUMBER -->
 			<table id="table-RN" style="display:none;">
-				<tr><th>ID</th><td><input type="text" disabled="disabled" id="rn-id" class="rn"/></td></tr>
+				<tr><th>ID</th><td><input type="text" disabled="disabled" id="rn-id" class="id"/></td></tr>
 				<tr><th><%=StringUtils.text("league", session)%></th><td><input type="hidden" id="rn-league"/><input type="text" id="rn-league-l"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.TM.1", session)%></th><td><input type="hidden" id="rn-team"/><input type="text" id="rn-team-l"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.PR.1", session)%></th><td><input type="hidden" id="rn-person"/><input type="text" id="rn-person-l"/></td></tr>
@@ -184,7 +198,7 @@
 			</table>
 			<!-- TEAM STADIUMS -->
 			<table id="table-TS" style="display:none;">
-				<tr><th>ID</th><td><input type="text" disabled="disabled" id="ts-id" class="ts"/></td></tr>
+				<tr><th>ID</th><td><input type="text" disabled="disabled" id="ts-id" class="id"/></td></tr>
 				<tr><th><%=StringUtils.text("league", session)%></th><td><input type="hidden" id="ts-league"/><input type="text" id="ts-league-l"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.TM.1", session)%></th><td><input type="hidden" id="ts-team"/><input type="text" id="ts-team-l"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.CX.1", session)%></th><td><input type="hidden" id="ts-complex"/><input type="text" id="ts-complex-l"/></td></tr>
@@ -194,7 +208,7 @@
 			</table>
 			<!-- WIN/LOSS -->
 			<table id="table-WL" style="display:none;">
-				<tr><th>ID</th><td><input type="text" disabled="disabled" id="wl-id" class="wl"/></td></tr>
+				<tr><th>ID</th><td><input type="text" disabled="disabled" id="wl-id" class="id"/></td></tr>
 				<tr><th><%=StringUtils.text("league", session)%></th><td><input type="hidden" id="wl-league"/><input type="text" id="wl-league-l"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.TM.1", session)%></th><td><input type="hidden" id="wl-team"/><input type="text" id="wl-team-l"/></td></tr>
 				<tr><th><%=StringUtils.text("type", session)%></th><td><input type="text" id="wl-type"/></td></tr>

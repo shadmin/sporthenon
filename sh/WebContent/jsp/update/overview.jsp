@@ -3,6 +3,7 @@
 <%@ page import="java.util.List"%>
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
 <%@ page import="com.sporthenon.db.entity.Sport"%>
+<%@ page import="com.sporthenon.db.entity.meta.Contributor"%>
 <%@ page import="com.sporthenon.utils.ConfigUtils"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
@@ -16,11 +17,13 @@
 				<td><%=StringUtils.text("sport", session)%>&nbsp;:</td>
 				<td><select id="ovsport">
 				<%
+					Contributor cb = (Contributor) session.getAttribute("user");
 					String lang = String.valueOf(session.getAttribute("locale"));
-					for (Sport sp : (List<Sport>) DatabaseHelper.execute("from Sport order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "")))
+					for (Sport sp : (List<Sport>) DatabaseHelper.execute("from Sport" + (cb != null && !cb.isAdmin() ? " where id in (" + cb.getSports() + ")" : "") + " order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "")))
 						out.print("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
+					if (cb != null && cb.isAdmin())
+						out.print("<option value='0'>[" + StringUtils.text("all", session) + "]</option>");
 				%>
-				<option value="0">[<%=StringUtils.text("all", session)%>]</option>
 				</select></td>
 				<td><%=StringUtils.text("count", session)%>&nbsp;:</td>
 				<td><input id="ovcount" type="text" value="50" style="width:50px;"/>

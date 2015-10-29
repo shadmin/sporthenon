@@ -48,20 +48,26 @@ public class LoginServlet extends AbstractServlet {
 					msg = ResourceUtils.getText("msg.login.err2", getLocale(request));
 			}
 			else if (hParams.containsKey("create")) {
+				final int MAX_SPORTS = Integer.parseInt(ConfigUtils.getValue("max_contributor_sports"));
 				List l = DatabaseHelper.execute("from Contributor where login='" + hParams.get("rlogin") + "'");
 				if (l != null && l.size() > 0)
 					ServletHelper.writeText(response, "ERR|" + ResourceUtils.getText("msg.login.err3", getLocale(request)));
 				else {
-					Contributor m = new Contributor();
-					m.setLogin(String.valueOf(hParams.get("rlogin")));
-					m.setPassword(StringUtils.toMD5(String.valueOf(hParams.get("rpassword"))));
-					m.setEmail(String.valueOf(hParams.get("remail")));
-					m.setPublicName(String.valueOf(hParams.get("rpublicname")));
-					m.setSports(String.valueOf(hParams.get("rsports")));
-					m.setActive(true);
-					m.setAdmin(false);
-					DatabaseHelper.saveEntity(m, null);
-					ServletHelper.writeText(response, ResourceUtils.getText("msg.registered", getLocale(request)) + "&nbsp;<a href='javascript:' onclick='rauth()'>" + ResourceUtils.getText("menu.login", getLocale(request)) + "</a>");					
+					String rsports = String.valueOf(hParams.get("rsports"));
+					if (rsports != null && rsports.split("\\,").length > MAX_SPORTS)
+						ServletHelper.writeText(response, "ERR|" + ResourceUtils.getText("msg.login.err4", getLocale(request)).replaceFirst("\\{1\\}", String.valueOf(MAX_SPORTS)));
+					else {
+						Contributor m = new Contributor();
+						m.setLogin(String.valueOf(hParams.get("rlogin")));
+						m.setPassword(StringUtils.toMD5(String.valueOf(hParams.get("rpassword"))));
+						m.setEmail(String.valueOf(hParams.get("remail")));
+						m.setPublicName(String.valueOf(hParams.get("rpublicname")));
+						m.setSports(rsports);
+						m.setActive(true);
+						m.setAdmin(false);
+						DatabaseHelper.saveEntity(m, null);
+						ServletHelper.writeText(response, ResourceUtils.getText("msg.registered", getLocale(request)) + "&nbsp;<a href='javascript:' onclick='rauth()'>" + ResourceUtils.getText("menu.login", getLocale(request)) + "</a>");	
+					}
 				}
 				isMsg = false;
 			}

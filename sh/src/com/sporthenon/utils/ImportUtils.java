@@ -160,6 +160,7 @@ public class ImportUtils {
 		Integer n = null;
 		boolean isComplex1 = false;
 		boolean isComplex2 = false;
+		String tp = null;
 		for (int i = 0 ; i < vLine.size() ; i++) {
 			try {
 				String h = vHeader.get(i).replaceAll(scPattern, "").toLowerCase();
@@ -176,6 +177,7 @@ public class ImportUtils {
 					else if (h.matches("ev|se|se2")) {
 						String[] tEv = s_.split("\\|");
 						hql = "select id from Event where lower(label) like '" + tEv[0] + "'" + (tEv.length > 1 ? " and lower(type.label)='" + tEv[1] + "'" : "") + " order by id";
+						tp = (tEv.length > 1 ? tEv[1] : null);
 					}
 					else if (h.equalsIgnoreCase(Year.alias))
 						hql = "select id from Year where lower(label) like '" + s_ + "'";
@@ -217,6 +219,8 @@ public class ImportUtils {
 							List<Integer> lNumber = (List<Integer>) DatabaseHelper.execute("select type.number from Event ev where ev.id = " + hId.get(hId.containsKey("se2") ? "se2" : (hId.containsKey("se") ? "se" : "ev")));
 							if (lNumber != null && lNumber.size() > 0)
 								n = lNumber.get(0);
+							else if (tp != null)
+								n = (tp.equalsIgnoreCase("country") ? 99 : (tp.equalsIgnoreCase("team") ? 50 : 1));
 						}
 						if (n != null) {
 							if (n < 10) { // Athlete
@@ -266,10 +270,8 @@ public class ImportUtils {
 							isError = true;
 							writeError(vLine, ResourceUtils.getText("err.invalid.championship", lang));
 						}
-						else if (h.matches("ev|se")) {
-							isError = true;
-							writeError(vLine, ResourceUtils.getText("err.invalid.event", lang));
-						}
+						else if (h.matches("ev|se|se2"))
+							writeError(vLine, ResourceUtils.getText("warning.event.notexist", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
 						else if (h.equalsIgnoreCase(Year.alias)) {
 							isError = true;
 							writeError(vLine, ResourceUtils.getText("err.invalid.year", lang));
@@ -357,7 +359,13 @@ public class ImportUtils {
 					String h = vHeader.get(i).replaceAll(scPattern, "").toLowerCase();
 					String s = vLine.get(i);
 					if (StringUtils.notEmpty(s)) {
-						if(idRk1 == null && h.equalsIgnoreCase("rk1"))
+						if(idEv == null && h.equalsIgnoreCase("ev"))
+							idEv = DatabaseHelper.insertEvent(row, s, cb, sb, ResourceUtils.LGDEFAULT);
+						else if(idSe == null && h.equalsIgnoreCase("se"))
+							idSe = DatabaseHelper.insertEvent(row, s, cb, sb, ResourceUtils.LGDEFAULT);
+						else if(idSe2 == null && h.equalsIgnoreCase("se2"))
+							idSe2 = DatabaseHelper.insertEvent(row, s, cb, sb, ResourceUtils.LGDEFAULT);
+						else if(idRk1 == null && h.equalsIgnoreCase("rk1"))
 							idRk1 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
 						else if(idRk2 == null && h.equalsIgnoreCase("rk2"))
 							idRk2 = DatabaseHelper.insertEntity(row, n, idSp, s, null, cb, sb, ResourceUtils.LGDEFAULT);
@@ -1040,7 +1048,7 @@ public class ImportUtils {
 	
 	private static void writeError(Vector<String> vLine, String msg) {
 		if (vLine != null && (!StringUtils.notEmpty(vLine.get(0)) || vLine.get(0).equals("-")))
-			vLine.set(0, "<span class='" + (msg.startsWith("ERROR") ? "red" : "orange") + "'>" + msg + "</span>");
+			vLine.set(0, "<span class='" + (msg.startsWith("ERR") ? "red" : "orange") + "'>" + msg + "</span>");
 	}
 	
 	public static List getTemplate(String type, String lang) {

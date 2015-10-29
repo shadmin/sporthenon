@@ -14,7 +14,7 @@
 			</table>
 			<table id="options"><tr>
 				<td>IDs&nbsp;:</td>
-				<td><input id="elrange" type="text" value="1-50" style="width:50px;"/>
+				<td><input id="elrange" type="text" value="1-50" style="width:90px;"/>
 				<td><%=StringUtils.text("find", session)%>&nbsp;:</td>
 				<td><input id="elpattern" type="text" style="width:100px;"/>
 				<td><%=StringUtils.text("show", session)%>&nbsp;:</td>
@@ -34,6 +34,7 @@
 				<td><input id="elincludechecked" type="checkbox"/></td>
 				<td><label for="elincludechecked"><%=StringUtils.text("include.checked.links", session)%></label>&nbsp;</td>
 				<td><input type="button" value="OK" onclick="loadExtLinks();"/></td>
+				<td><input type="button" value="<%=StringUtils.text("automatic.update", session)%>" onclick="updateLinksAuto();"/></td>
 			</tr></table>
 			<div id="elcontent"></div>
 		</div>

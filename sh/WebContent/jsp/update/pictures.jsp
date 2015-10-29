@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.util.List"%>
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
+<%@ page import="com.sporthenon.db.entity.meta.Contributor"%>
 <%@ page import="com.sporthenon.db.entity.Sport"%>
 <%@ page import="com.sporthenon.db.entity.meta.Config"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
@@ -48,8 +49,9 @@
 					<td id="spcell1"><%=StringUtils.text("entity.SP.1", session)%>&nbsp;:</td>
 					<td id="spcell2"><select id="sport" onchange="loadPictures('direct');"><option value=""></option>
 					<%
+						Contributor cb = (Contributor) session.getAttribute("user");
 						String lang = String.valueOf(session.getAttribute("locale"));
-						for (Sport sp : (List<Sport>) DatabaseHelper.execute("from Sport order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "")))
+						for (Sport sp : (List<Sport>) DatabaseHelper.execute("from Sport" + (cb != null && !cb.isAdmin() ? " where id in (" + cb.getSports() + ")" : "") + " order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "")))
 							out.print("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
 					%>
 					</select></td>

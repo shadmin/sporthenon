@@ -2,6 +2,7 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.Calendar"%>
 <%@ page import="java.sql.Timestamp"%>
+<%@ page import="com.sporthenon.db.entity.meta.Contributor"%>
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
 <%@ page import="com.sporthenon.utils.ConfigUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
@@ -17,8 +18,9 @@
 <script type="text/javascript"><!--
 var treeItems = null;
 <%
+	Contributor cb = (Contributor) session.getAttribute("user");
 	ArrayList<Object> params = new ArrayList<Object>();
-	params.add("");
+	params.add(cb != null && !cb.isAdmin() ? " where SP.id in (" + cb.getSports() + ")" : "");
 	params.add("_" + lang.toLowerCase());
 	HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", params), out, false);
 %>

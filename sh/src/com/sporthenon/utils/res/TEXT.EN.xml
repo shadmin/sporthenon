@@ -21,6 +21,7 @@
 	<entry key="menu.logout">Logout</entry>
 	<entry key="menu.update">Update</entry>
 	<entry key="menu.cbarea">Contributor area</entry>
+	<entry key="menu.favorites">Favorites</entry>
 	<entry key="share">Share</entry>
 <!-- GLOBAL -->
 	<entry key="ok">OK</entry>
@@ -44,6 +45,7 @@
 	<entry key="button.close">Close</entry>
 	<entry key="entity.CB">Contributors</entry>
 	<entry key="entity.CO">Contributions</entry>
+	<entry key="entity.CL">Calendars</entry>
 	<entry key="entity.CP">Championships</entry>
 	<entry key="entity.CT">Cities</entry>
 	<entry key="entity.CX">Complexes</entry>
@@ -65,6 +67,7 @@
 	<entry key="entity.YR">Years</entry>
 	<entry key="entity.CB.1">Contributor</entry>
 	<entry key="entity.CO.1">Contribution</entry>
+	<entry key="entity.CL.1">Calendar</entry>
 	<entry key="entity.CP.1">Championship</entry>
 	<entry key="entity.CT.1">City</entry>
 	<entry key="entity.CX.1">Complex</entry>
@@ -279,6 +282,9 @@
 	<entry key="month.12">December</entry>
 	<entry key="source">Source</entry>
 	<entry key="note">Note</entry>
+	<entry key="add.favorites">Add to favorites</entry>
+	<entry key="delete.favorites">Delete from favorites</entry>
+	<entry key="no.favorite">No favorite saved.</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>
@@ -338,6 +344,7 @@
 	<entry key="retired.numbers">Retired Numbers</entry>
 	<entry key="number">Number</entry>
 	<entry key="team.stadiums">Team Stadiums</entry>
+	<entry key="yearly.stats">Stats Leaders</entry>
 	<entry key="teams">Teams</entry>
 	<entry key="categories">Categories</entry>
 	<entry key="wins">Wins</entry>
@@ -386,6 +393,7 @@
 	<entry key="msg.login.err1">Login failed. The user is not active.</entry>
 	<entry key="msg.login.err2">Login failed. Please check your login and password.</entry>
 	<entry key="msg.login.err3">Login already in use. Please choose another one.</entry>
+	<entry key="msg.login.err4">Please select {1} sports max.</entry>
 	<entry key="msg.registered">Your account has been created.</entry>
 	<entry key="msg.logout">You were logged out.</entry>
 	<entry key="title.authentication">AUTHENTICATION</entry>
@@ -476,6 +484,7 @@
 	<entry key="err.value.toolong">ERROR: Too long value</entry>
 	<entry key="err.result.notexist">ERROR: Result does not exist</entry>
 	<entry key="warning.team.notexist">WARNING: Team does not exist</entry>
+	<entry key="warning.event.notexist">WARNING: Event does not exist</entry>
 	<entry key="checked">Checked</entry>
 	<entry key="photo.source">Photo source</entry>
 	<entry key="linked.to">Linked to</entry>
@@ -512,4 +521,5 @@
 	<entry key="loss">Losses</entry>
 	<entry key="tie2">Ties</entry>
 	<entry key="ot.loss">Losses (OT)</entry>
+	<entry key="automatic.update">Automatic update</entry>
 </properties>
