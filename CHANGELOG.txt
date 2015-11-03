@@ -1,7 +1,32 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.12.1  |
+| Last Version: 0.12.2  |
 +-----------------------+
+
++--------+
+| 0.12.2 |
++--------+
+[03 Nov 2015]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.2
+o Website
+	- New feature: <Favorites> (=> favorite pages can be stored using cookies)
+	- New feature: <Update/Errors> (=> overview of reported errors)
+	- Redirection to contributor area instead of home after login
+	- US leagues: wins/losses replaced by stats leaders
+	- Added calendar and US leagues data (hall of fame, retired numbers..) in update/data
+	- Added "urlrewrite" filter to redirect not-sporthenon.com hosts
+	- Added checkbox for inactive events (update/results)
+	- Added "index" field for athlete lists (player number/position or free text)
+	- Added first/last buttons in update/results + direct access to specific year
+	- Multiple external links can be added for a same record (update/ext.links)
+	- Added automatic update feature (update/ext.links)
+	- Import: create event automatically if not existing (with warning msg)
+	- Filtered access by sport in contributor area
+	- All rankings from 1st to 20th are managed (including ties)
+	- Default photo width can be set in update/admin
+	- Bugfix: comment tooltip not hidden by default
+	- Bugfix: error occurs when saving countries (update/data)
+	- Bugfix: autocompletion does not work with full athlete/complex pattern
 
 +--------+
 | 0.12.1 |
