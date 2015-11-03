@@ -2488,6 +2488,19 @@ function checkAllLinks() {
 		$(el).checked = true;
 	});
 }
+function addExtLink(id) {
+	var t = [];
+	var t_ = $$('#el-' + id + ' td');
+	t.push('<tr><td style="display:none;">0</td>');
+	t.push('<td>' + t_[1].innerHTML + '</td>');
+	t.push('<td>' + t_[2].innerHTML + '</td>');
+	t.push('<td><input type="text" style="width:60px;"/></td>');
+	t.push('<td><input type="text" style="width:500px;"/></td>');
+	t.push('<td><input type="checkbox"/></td><td/></tr>');	
+	$('el-' + id).insert({
+		after: t.join('')
+	});
+}
 function modifyExtLink(id) {
 	var t = $$('#el-' + id + ' td');
 	t[3].innerHTML = '<input type="text" value="' + t[3].innerHTML + '" style="width:60px;"/>';

@@ -205,7 +205,7 @@ public class HtmlUtils {
 		StringBuffer html = new StringBuffer();
 		long time = System.currentTimeMillis();
 		html.append("<a style='cursor:help;' href='#" + t + "-" + time + "'><img src='" + ImageUtils.getRenderUrl() + "note.png'/></a>" + (o instanceof Collection ? "&nbsp;" + ((Collection)o).size() : ""));
-		html.append("<div id='" + t + "-" + time + "' class='rendertip'>" + (o instanceof String ? o : StringUtils.implode((Collection<String>) o, "<br/>")) + "</div>");
+		html.append("<div id='" + t + "-" + time + "' class='rendertip' style='display:none;'>" + (o instanceof String ? o : StringUtils.implode((Collection<String>) o, "<br/>")) + "</div>");
 		return html.toString();
 	}
 	

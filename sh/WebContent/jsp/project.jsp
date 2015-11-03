@@ -8,7 +8,9 @@
 		<div class="fieldset" style="height:300px;margin-top:0px;">
 		<div class="fstitle contributors"><%=StringUtils.text("contributors", session)%></div>
 		<div class="fscontent">
+			<div style="height:260px;overflow:auto;">
 			<table><tr><th>ID</th><th><%=StringUtils.text("name", session)%></th><th><%=StringUtils.text("entity.SP", session)%></th><th><%=StringUtils.text("contributions", session)%></th></tr><%=request.getAttribute("contributors")%></table>
+			</div>
 		</div>
 		</div>
 	</div>

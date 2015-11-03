@@ -1,6 +1,5 @@
 insert into "~Config" values ('max_photo_width', '300');
 
-
 alter TABLE "~PersonList" add index varchar(20);
 
 CREATE OR REPLACE FUNCTION "GetPersonList"(_results text)

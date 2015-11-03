@@ -158,7 +158,7 @@ for (var i = 0 ; i < tfav.length ; i++) {
 	}
 }
 if (tfavHTML.length == 0) {
-	tfavHTML.push('<b>' + TX_NOFAV + '</b>');
+	tfavHTML.push('<li style="list-style:none;"><b>' + TX_NOFAV + '</b></li>');
 	nf = 1;
 }
 tfavHTML.push('<a href="javascript:$(\'favorites\').hide();" style="padding-top:5px;float:right;">' + TX_CANCEL + '</a>');
