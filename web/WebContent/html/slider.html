@@ -1,0 +1,15 @@
+<ul class="uslider">
+<li class="arrow" title="arr1">
+	<a href="javascript:" class="slider-control" rel="prev"><img src="/img/component/slider/slider-left-over.gif" alt="&lt;"/></a>
+</li>
+<li class="container"><div class="content"></div>
+</li>
+<li class="arrow" title="arr2">
+	<a href="javascript:" class="slider-control" rel="next"><img src="/img/component/slider/slider-right-over.gif" alt="&gt;"/></a>
+</li>
+</ul>
+<script type="text/javascript">
+$$('.uslider .arrow').each(function(el){
+	$(el).title = ($(el).title == 'arr1' ? TX_PREVIOUS : ($(el).title == 'arr2' ? TX_NEXT : $(el).title));
+});
+</script>

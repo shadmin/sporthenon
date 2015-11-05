@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence
+	xmlns="http://java.sun.com/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
+
+	<!-- Local Environment (No pool) -->
+    <persistence-unit name="shunit-standalone" transaction-type="RESOURCE_LOCAL">
+        <properties>
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.connection.url" value="jdbc:postgresql:shlocal/5432" />
+			<property name="hibernate.connection.username" value="postgres" />
+			<property name="hibernate.connection.password" value="password" />
+			<property name="hibernate.connection.autocommit" value="true" />
+			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+        </properties>
+    </persistence-unit>
+    
+    <!-- Local Environment -->
+    <persistence-unit name="shunit-local" transaction-type="JTA">
+    	<provider>org.hibernate.ejb.HibernatePersistence</provider>
+    	<jta-data-source>jdbc/shpool</jta-data-source>
+        <properties>
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.transaction.factory_class" value="org.hibernate.transaction.JTATransactionFactory"/>
+			<property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.SunONETransactionManagerLookup"/>
+        </properties>
+    </persistence-unit>
+    
+    <!-- Test Environment -->
+    <persistence-unit name="shunit-test" transaction-type="JTA">
+    	<provider>org.hibernate.ejb.HibernatePersistence</provider>
+    	<jta-data-source>jdbc/shtestpool</jta-data-source>
+        <properties>
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.transaction.factory_class" value="org.hibernate.transaction.JTATransactionFactory"/>
+			<property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.SunONETransactionManagerLookup"/>
+        </properties>
+    </persistence-unit>
+  
+    <!-- Prod Environment -->
+    <persistence-unit name="shunit-prod" transaction-type="JTA">
+    	<provider>org.hibernate.ejb.HibernatePersistence</provider>
+    	<jta-data-source>jdbc/shpool</jta-data-source>
+        <properties>
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.transaction.factory_class" value="org.hibernate.transaction.JTATransactionFactory"/>
+			<property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.SunONETransactionManagerLookup"/>
+        </properties>
+    </persistence-unit>
+    
+</persistence>
