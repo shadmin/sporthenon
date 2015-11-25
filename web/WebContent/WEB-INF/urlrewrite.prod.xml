@@ -5,6 +5,7 @@
 		<name>Check Domain</name>
 		<condition name="host" operator="notequal" next="and">www.sporthenon.com</condition>
 		<condition name="host" operator="notequal">fr.sporthenon.com</condition>
+		<condition name="host" operator="notequal">en.sporthenon.com</condition>
 		<from>^(.*)$</from>
 		<to type="redirect">http://www.sporthenon.com$1</to>
 	</rule>
