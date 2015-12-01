@@ -476,18 +476,12 @@ function share(type) {
 	$('shareopt').hide();
 	window.open(url, '_blank');
 }
-function displayShare() {
-	$('shareopt').show();
-}
 function exportPage(type) {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	if (url) {
 		location.href = url + '?export=' + type;
 		$('exportopt').hide();
 	}
-}
-function displayExport() {
-	$('exportopt').show();
 }
 function displayErrorReport() {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
@@ -875,6 +869,7 @@ function resetResults() {
 	$('pl-sp').selectedIndex = 0;
 	changeSport();
 }
+var currentNodeLink = null;
 function treeLeafClick(anchor, value) {
 	if (treeExpanded) {
 		toggleTreeExpand();
@@ -892,6 +887,11 @@ function treeLeafClick(anchor, value) {
 		tValues['se2'] = (t.length > 4 ? t[4] : '');
 		tValues['yr'] = '10000';
 		loadResult();
+		$(anchor).addClassName('selectednode');
+		if (currentNodeLink != null) {
+			$(currentNodeLink).removeClassName('selectednode');	
+		}
+		currentNodeLink = anchor;
 		return;
 	}
 	runResults(t);
@@ -1496,8 +1496,8 @@ function loadResValues(value) {
 		tValues['sp'] = t[0]; $('sp').value = t[1]; $('sp').addClassName('completed');
 		tValues['cp'] = t[2]; $('cp').value = t[3]; $('cp').addClassName('completed');
 		tValues['ev'] = t[4]; $('ev').value = t[5]; updateType('ev', t[6]); $('ev').addClassName('completed');
-		if (t[7] != '') {tValues['se'] = t[7]; $('se').value = t[8]; updateType('se', t[9]); $('se').addClassName('completed');}
-		if (t[10] != '') {tValues['se2'] = t[10]; $('se2').value = t[11]; updateType('se2', t[12]); $('se2').addClassName('completed');}
+		if (t[7] != '') {tValues['se'] = t[7]; $('se').value = t[8]; updateType('se', t[9]); $('se').addClassName('completed');} else {$('se').value = $('se').name; $('se').removeClassName('completed');}
+		if (t[10] != '') {tValues['se2'] = t[10]; $('se2').value = t[11]; updateType('se2', t[12]); $('se2').addClassName('completed');} else {$('se2').value = $('se2').name; $('se2').removeClassName('completed');}
 		tValues['yr'] = t[13]; $('yr').value = t[14]; $('yr').addClassName('completed');
 		if (t.length > 16) {
 			tValues['id'] = t[15];
@@ -1620,6 +1620,7 @@ function setValue(text, li) {
 			updateType(t[0], t[2]);
 		}
 	}
+	showWarning();
 }
 var currentTp = null;
 function updateType(s, tp) {
@@ -1830,7 +1831,7 @@ function initUpdateData() {
 				'ajaxsearch',
 				'/update/ajax/' + $(el).id,
 				{ paramName: 'value', minChars: 2, frequency: 0.05, afterUpdateElement: setValue}
-			);
+			)
 		}
 		if ($(el).type == 'button') {
 			return;
@@ -2166,6 +2167,17 @@ function setEntityValues(text) {
 			$(el).removeClassName('completed');
 		}
 	});
+	['pr-link-l', 'ct-link-l', 'cx-link-l', 'tm-link-l'].each(function(el){
+		if (el.toUpperCase().indexOf(currentAlias) == 0) {
+			Event.stopObserving($(el), 'keyup');
+			new Ajax.Autocompleter(
+				$(el).id,
+				'ajaxsearch',
+				'/update/ajax/' + $(el).id + '~' + currentId,
+				{ paramName: 'value', minChars: 2, frequency: 0.05, afterUpdateElement: setValue}
+			)
+		}
+	});
 }
 function newEntity() {
 	var t = $$('#table-' + currentAlias + ' input');
@@ -2420,7 +2432,7 @@ function initImport() {
 	});
 	dzi.on('success', function(f, text) {
 		$('report').update(text);
-		$('updatebtn').disabled = (text.indexOf("ERROR:") > -1);
+		$('updatebtn').disabled = (text.indexOf(TX_ERROR.toUpperCase() + ":") > -1);
 	});
 }
 function executeImport(u) {
@@ -2447,9 +2459,6 @@ function loadTemplate() {
 	location.href = '/update/load-template?type=' + $F('type');
 }
 /*========== QUERY ==========*/
-function displayTools() {
-	$('toolsopt').show();
-}
 function executeQuery(index) {
 	var url = '/update/execute-query?index=' + index + ($('rcsv').checked ? '&csv=1' : '');
 	if (index == -1) {

@@ -190,11 +190,8 @@ public class ImportUtils {
 						else {
 							String cx = null;
 							String ct = null;
-							String st = null;
 							String cn = t[t.length - 1];
-							if (t.length > 2 && t[t.length - 2].length() == 2)
-								st = t[t.length - 2];
-							if (t.length > (st != null ? 3 : 2)) {
+							if (t.length > 2) {
 								cx = t[0].replaceAll(scPattern, "_");
 								ct = t[1].replaceAll(scPattern, "_");
 							}
@@ -254,9 +251,9 @@ public class ImportUtils {
 						}
 					}
 				}
-				if (hql != null) {
+				if (hql != null || h.matches("sp|cp|ev")) {
 //					Logger.getLogger("sh").info(hql);
-					lId = (List<Integer>) DatabaseHelper.execute(hql);
+					lId = (hql != null ? (List<Integer>) DatabaseHelper.execute(hql) : null);
 					if (lId != null && lId.size() > 0) {
 						hId.put(h, lId.get(0));
 						vLine.set(i, (!isUpdate ? "<span class='green'>" : "") + s + " [#" + lId.get(0) + "]" + (!isUpdate ? "</span>" : ""));
@@ -269,6 +266,10 @@ public class ImportUtils {
 						else if (h.equalsIgnoreCase(Championship.alias)) {
 							isError = true;
 							writeError(vLine, ResourceUtils.getText("err.invalid.championship", lang));
+						}
+						else if (h.equalsIgnoreCase(Event.alias) && !StringUtils.notEmpty(s)) {
+							isError = true;
+							writeError(vLine, ResourceUtils.getText("err.invalid.event", lang));
 						}
 						else if (h.matches("ev|se|se2"))
 							writeError(vLine, ResourceUtils.getText("warning.event.notexist", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");

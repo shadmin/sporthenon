@@ -103,7 +103,7 @@ public class NavigationServlet extends AbstractServlet {
 				key = "index";
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			request.setAttribute("url", url);
-			request.setAttribute("urlLogin", ConfigUtils.getProperty("env").matches("test|prod") ? "https://" + url.replaceFirst("http(|s)\\:\\/\\/", "") : "http://localhost:8080/login");//TODO
+			request.setAttribute("urlLogin", ConfigUtils.getProperty("env").matches("test|prod") ? "https://" + url.replaceFirst("http(|s)\\:\\/\\/", "").replaceAll("\\/.*", "") + "/login" : "http://localhost:8080/login");
 			request.setAttribute("urlEN", url.replaceFirst("\\S+\\.sporthenon\\.com", "en.sporthenon.com"));
 			request.setAttribute("urlFR", url.replaceFirst("\\S+\\.sporthenon\\.com", "fr.sporthenon.com"));
 			RequestDispatcher dispatcher = null;

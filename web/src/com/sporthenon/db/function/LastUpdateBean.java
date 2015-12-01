@@ -26,7 +26,7 @@ public class LastUpdateBean {
 	private String rsText4;
 	
 	@Column(name = "rs_date")
-	private String rsDate;
+	private Timestamp rsDate;
 	
 	@Column(name = "yr_id")
 	private Integer yrId;
@@ -78,9 +78,6 @@ public class LastUpdateBean {
 
 	@Column(name = "se2_label_en")
 	private String se2LabelEN;
-	
-	@Column(name = "rs_update")
-	private Timestamp rsUpdate;
 	
 	@Column(name = "tp1_number")
 	private Integer tp1Number;
@@ -287,10 +284,6 @@ public class LastUpdateBean {
 		return se2Label;
 	}
 
-	public Timestamp getRsUpdate() {
-		return rsUpdate;
-	}
-
 	public Integer getTp1Number() {
 		return tp1Number;
 	}
@@ -407,10 +400,6 @@ public class LastUpdateBean {
 		this.se2Label = se2Label;
 	}
 
-	public void setRsUpdate(Timestamp rsUpdate) {
-		this.rsUpdate = rsUpdate;
-	}
-
 	public void setTp1Number(Integer tp1Number) {
 		this.tp1Number = tp1Number;
 	}
@@ -487,11 +476,11 @@ public class LastUpdateBean {
 		this.cn2Id = cn2Id;
 	}
 
-	public String getRsDate() {
+	public Timestamp getRsDate() {
 		return rsDate;
 	}
 
-	public void setRsDate(String rsDate) {
+	public void setRsDate(Timestamp rsDate) {
 		this.rsDate = rsDate;
 	}
 

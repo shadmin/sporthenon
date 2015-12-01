@@ -113,6 +113,7 @@
 	var TX_ADDFAV = "<%=StringUtils.text("add.favorites", session)%>";
 	var TX_DELFAV = "<%=StringUtils.text("delete.favorites", session)%>";
 	var TX_NOFAV = "<%=StringUtils.text("no.favorite", session)%>";
+	var TX_ERROR = "<%=StringUtils.text("error", session)%>";
 --></script>
 
 <div id="headertop">

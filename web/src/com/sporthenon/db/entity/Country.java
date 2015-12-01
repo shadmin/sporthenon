@@ -105,4 +105,8 @@ public class Country {
 		return label + ", " + code + " [#" + id + "]";
 	}
 	
+	public String toString2(String lang) {
+		return getLabel(lang) + " (" + code + ")";
+	}
+	
 }

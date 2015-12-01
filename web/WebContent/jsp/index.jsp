@@ -54,7 +54,7 @@
 			<th onclick="sort('tlast', this, 1);"><%=StringUtils.text("sport", session)%></th>
 			<th onclick="sort('tlast', this, 2);"><%=StringUtils.text("event", session)%></th>
 			<th onclick="sort('tlast', this, 3);"><%=StringUtils.text("entity.RS.1", session)%></th>
-			<th id="tlast-dtcol" class="sorted desc" onclick="sort('tlast', this, 4);"><%=StringUtils.text("updated.on", session).replaceAll("\\s", "&nbsp;")%></th>
+			<th id="tlast-dtcol" class="sorted desc" style="width:100px;" onclick="sort('tlast', this, 4);"><%=StringUtils.text("date", session).replaceAll("\\s", "&nbsp;")%></th>
 		</tr></thead><tbody class="tby" id="tb-tlast">
 		<%
 			final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_lastupdates_limit"));
@@ -67,8 +67,8 @@
         	Timestamp ts = null;
         	for (Object o : coll) {
         		LastUpdateBean bean = (LastUpdateBean) o;
-        		if (ts == null || bean.getRsUpdate().compareTo(ts) > 0)
-        			ts = bean.getRsUpdate();
+        		if (ts == null || bean.getRsDate().compareTo(ts) > 0)
+        			ts = bean.getRsDate();
         	}
         	request.setAttribute("lastupdate", StringUtils.toTextDate(ts, lang, "dd/MM/yyyy"));
 		%></tbody></table></div></div>

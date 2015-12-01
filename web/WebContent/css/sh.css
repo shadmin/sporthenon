@@ -639,6 +639,11 @@ li{
 #treeview .over {
 	text-decoration: underline;
 }
+#treeview .selectednode{
+	font-weight: bold;
+	color: #00F;
+	text-decoration: underline;
+}
 /*==========================
   ========== HOME ========== 
   ==========================*/
@@ -1615,8 +1620,8 @@ li{
 }
 /*---------- TOOLS ----------*/
 #toolsopt{
-	margin-top: -12px;
-	right: 12px;
+	right: 60px;
+	z-index: 100;
 }
 #toolsopt table{
 	border-spacing: 0px;
@@ -1966,6 +1971,11 @@ li{
 	padding: 3px;
 	border: 1px solid #FFF;
 	cursor: pointer;
+	white-space: nowrap;
+}
+.ajaxsearch ul li div.ajaxid, #d-find li div.ajaxid{
+	display: inline-block;
+	color: #888;
 }
 .ajaxsearch ul li.selected {
     background-color: #CDE8FF;

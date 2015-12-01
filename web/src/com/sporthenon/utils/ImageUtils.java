@@ -42,6 +42,7 @@ public class ImageUtils {
 		try {
 			for (File f : new File(ConfigUtils.getProperty("img.folder")).listFiles())
 				lImgFiles.add(f.getName());
+			Collections.sort(lImgFiles);
 		}
 		catch (Exception e) {}
 	}
@@ -119,7 +120,7 @@ public class ImageUtils {
 		html.append("<li style='text-align:right;'><fieldset class='photo'>");
 		html.append("<a href='" + url + "' target='_blank' title=\"" + ResourceUtils.getText("enlarge", lang) + "\"><img alt='Photo' style='max-width:" + MAX_WIDTH + "px;' src='" + url + "'/></a></fieldset>");
 		if (StringUtils.notEmpty(source))
-			html.append("<span class='source'>" + ResourceUtils.getText("source", lang) + ":&nbsp;" + source + "</span>");
+			html.append("<span class='source'>(" + source + ")</span>");
 		html.append("</li>");
 		return html;
 	}

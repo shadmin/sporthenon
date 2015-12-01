@@ -463,7 +463,7 @@
 	<entry key="csv.file">CSV file</entry>
 	<entry key="confirm.merge">Confirm merge from: {1} to: {2}</entry>
 	<entry key="merge.success">Records #{1} and #{2} merged successfully.</entry>
-	<entry key="modif.warning">Modifications have been made. Click on Save.</entry>
+	<entry key="modif.warning">Modifications have been made. Click on Add/Save.</entry>
 	<entry key="upload">Upload</entry>
 	<entry key="download">Download</entry>
 	<entry key="include.checked.links">Include checked links</entry>

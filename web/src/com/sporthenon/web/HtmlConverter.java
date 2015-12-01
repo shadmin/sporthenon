@@ -489,13 +489,13 @@ public class HtmlConverter {
 				hInfo.put("title", e.getLastName() + (StringUtils.notEmpty(e.getFirstName()) ? " " + e.getFirstName() : ""));
 			else
 				hInfo.put("title", (StringUtils.notEmpty(e.getFirstName()) ? e.getFirstName() + " " : "") + e.getLastName());
-			hInfo.put("name", "<b>" + sbNm.toString() + "</b>");
+			hInfo.put(vNm.size() > 1 ? "names" : "name", "<b>" + sbNm.toString() + "</b>");
 			if (StringUtils.notEmpty(cn))
-				hInfo.put("country", cn);
+				hInfo.put(vCn.size() > 1 ? "countries" : "country", cn);
 			if (StringUtils.notEmpty(sp))
-				hInfo.put("sport", sp);
+				hInfo.put(vSp.size() > 1 ? "sports" : "sport", sp);
 			if (StringUtils.notEmpty(tm))
-				hInfo.put("team", tm);
+				hInfo.put(vTm.size() > 1 ? "teams" : "team", tm);
 			hInfo.put("source", StringUtils.notEmpty(e.getPhotoSource()) ? e.getPhotoSource() : "");
 			// Record
 			ArrayList<Object> lFuncParams = new ArrayList<Object>();
@@ -1131,9 +1131,19 @@ public class HtmlConverter {
 		
 		// Get linked entities
 		ArrayList<Integer> eList = new ArrayList<Integer>();
-		if (etype.matches(Athlete.alias + "|" + Team.alias))
-			for (Integer id_ : (List<Integer>) DatabaseHelper.executeNative("SELECT id FROM \"" + (etype.equals(Athlete.alias) ? "Athlete" : "Team") + "\" WHERE id=" + itemId + " OR link=" + itemId + " OR id=(SELECT link FROM \"" + (etype.equals(Athlete.alias) ? "Athlete" : "Team") + "\" WHERE id=" + itemId + ")"))
+		if (etype.matches(Athlete.alias + "|" + Team.alias)) {
+			Integer itemLink = 0;
+			if (etype.equals(Athlete.alias)) {
+				Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, itemId);
+				itemLink = (a.getLink() != null ? a.getLink() : 0);
+			}
+			else if (etype.equals(Team.alias)) {
+				Team t = (Team) DatabaseHelper.loadEntity(Team.class, itemId);
+				itemLink = (t.getLink() != null ? t.getLink() : 0);
+			}
+			for (Integer id_ : (List<Integer>) DatabaseHelper.executeNative("SELECT id FROM \"" + (etype.equals(Athlete.alias) ? "Athlete" : "Team") + "\" WHERE id IN (" + itemId + ", " + itemLink + ") OR link IN (" + itemId + ", " + itemLink + ")"))
 				eList.add(id_);
+		}
 		else
 			eList.add(itemId);
 
@@ -2241,8 +2251,8 @@ public class HtmlConverter {
 			}
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
 			String sport = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, bean.getSpId(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Sport.alias, bean.getSpId(), bean.getSpLabel(), bean.getSpLabelEN()));
-			String update = HtmlUtils.writeDateLink(bean.getRsUpdate(), StringUtils.toTextDate(bean.getRsUpdate(), lang, "d MMM yyyy"));
-			String update2 = new SimpleDateFormat("yyyyMMddHHmm").format(bean.getRsUpdate());
+			String date = HtmlUtils.writeDateLink(bean.getRsDate(), StringUtils.toTextDate(bean.getRsDate(), lang, "d MMM yyyy"));
+			String date_ = new SimpleDateFormat("yyyyMMddHHmm").format(bean.getRsDate());
 			String path = bean.getYrLabel() + "/" + bean.getSpLabelEN() + "/" + bean.getCpLabelEN() + "/" + bean.getEvLabelEN() + (bean.getSeId() != null ? "/" + bean.getSeLabelEN() : "") + (bean.getSe2Id() != null ? "/" + bean.getSe2LabelEN() : "");
 			boolean isScore = (pos1 != null && pos2 != null && StringUtils.notEmpty(bean.getRsText1()) && !StringUtils.notEmpty(bean.getRsText2()));
 			boolean isDouble = (pos1 != null && pos2 != null && (number == 4 || (bean.getRsText4() != null && bean.getRsText4().equals("#DOUBLE#")) || (bean.getRsText3() != null && bean.getRsText3().equals("1-2"))));
@@ -2269,7 +2279,7 @@ public class HtmlConverter {
 			html.append("<tr><td class='srt'>" + year + "</td><td class='srt'>" + sport + "</td>");
 			html.append("<td class='srt'>" + event + "</td>");
 			html.append("<td class='srt'><table><tr>" + pos1_ + (isScore ? "<td style='padding-left:2px;padding-right:3px;padding-top:3px;'>" + StringUtils.formatResult(bean.getRsText1(), lang) + "</td>" : "") + (pos2_ != null ? pos2_ : "") + (pos3_ != null ? pos3_ : "") + "<td style='padding-left:2px;padding-top:4px;'>" + HtmlUtils.writeLink(Result.alias, bean.getRsId(), "<img alt='details' title='" +  ResourceUtils.getText("details", lang) + "' src='/img/render/details.png'/>", path) + "</td></tr></table></td>");
-			html.append("<td id='dt-" + update2 + "-" + i + "' class='srt'>" + update + "</td></tr>");
+			html.append("<td id='dt-" + date_ + "-" + i + "' class='srt'>" + date + "</td></tr>");
 			i++;
 		}
 		final String MORE_ITEMS = "<tr class='moreitems'><td colspan='5'><div class='sfdiv1' onclick='moreLastUpdates(this, \"#P1#\");'>&nbsp;(+" + ITEM_LIMIT + ")&nbsp;</div><div class='sfdiv2' onclick='moreLastUpdates(this, \"#P2#\");'>&nbsp;(+50)&nbsp;</div><div class='sfdiv3' onclick='moreLastUpdates(this, \"#P3#\");'>&nbsp;(+100)&nbsp;</div></td></tr>";

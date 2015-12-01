@@ -461,7 +461,7 @@
 	<entry key="csv.file">Fichier CSV</entry>
 	<entry key="confirm.merge">Confirmer la fusion depuis : {1} vers : {2}</entry>
 	<entry key="merge.success">Enregistrements #{1} et #{2} fusionnés avec succès.</entry>
-	<entry key="modif.warning">Des modifications ont été effectuées. Cliquez sur Enregistrer.</entry>
+	<entry key="modif.warning">Des modifications ont été effectuées. Cliquez sur Ajouter/Modifier.</entry>
 	<entry key="upload">Envoyer</entry>
 	<entry key="download">Télécharger</entry>
 	<entry key="include.checked.links">Inclure liens vérifiés</entry>

@@ -137,17 +137,21 @@ public class UpdateServlet extends AbstractServlet {
 	}
 	
 	private static void ajaxAutocomplete(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
-		String field = String.valueOf(hParams.get("p"));
+		String p = String.valueOf(hParams.get("p"));
+		String field = p.split("\\~")[0];
+		String currentId = null;
 		String field_ = field;
 		boolean isId = String.valueOf(hParams.get("value")).matches("^\\#\\d+");
-		String value = (hParams.get("value") + "%").replaceAll("\\*", "%").replaceAll("'", "''");
+		String value = "^" + (hParams.get("value") + "%").replaceAll("\\*", "%").replaceAll("'", "''");
 		String sport = null;
 		boolean isData = field.matches(".*\\-l$");
 		if (isData) {
 			field = field.substring(3).replaceAll("\\-l$", "");
 			field_ = field_.replaceFirst("\\-l$", "");
-			if (field.equals("link"))
+			if (field.equals("link")) {
 				field = (field_.startsWith("pr") ? "pr" : (field_.startsWith("cx") ? "cx" : (field_.startsWith("ct") ? "ct" : (field_.startsWith("tm") ? "tm" : ""))));
+				currentId = (p.contains("~") ? p.split("\\~")[1] : null);
+			}
 		}
 		else if (field.matches("(pr|tm|cn)\\-.*")) {
 			String[] t = field.split("\\-", -1);
@@ -179,55 +183,63 @@ public class UpdateServlet extends AbstractServlet {
 		hTable.put("rn", "RetiredNumber");
 		hTable.put("ts", "TeamStadium");
 		hTable.put("wl", "WinLoss");
-		String labelHQL = "lower(label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !field.matches("lg|tm|yr|league|team|year") ? lang.toUpperCase() : "") + ")";
-		String l_ = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "");
+		String alias = (String) Class.forName("com.sporthenon.db.entity." + hTable.get(field)).getField("alias").get(null);
+		String labelHQL = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !field.matches("lg|tm|yr|league|team|year") ? "_" + lang : "");
+		String l_ = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
 		String whereHQL = "";
 		if (field.matches(Athlete.alias.toLowerCase() + "|athlete|person")) {
-			labelHQL = "lower(last_name) || ', ' || lower(first_name) || ' (' || lower(country.code) || ')'";
-			whereHQL = (sport != null ? " and sport.id=" + sport : "");
-			whereHQL += (cb != null && !cb.isAdmin() ? " and sport.id in (" + cb.getSports() + ")" : "");
+			labelHQL = "last_name || ', ' || first_name || ' (' || country.code || ')'"; // TODO gestion joins
+			whereHQL += (sport != null ? " and id_sport=" + sport : "");
+			whereHQL += (cb != null && !cb.isAdmin() ? " and id_sport in (" + cb.getSports() + ")" : "");
 		}
 		else if (field.matches(Team.alias.toLowerCase() + "|team")) {
-			whereHQL = (sport != null ? " and sport.id=" + sport : "");
-			whereHQL += (cb != null && !cb.isAdmin() ? " and sport.id in (" + cb.getSports() + ")" : "");
+			whereHQL += (sport != null ? " and id_sport=" + sport : "");
+			whereHQL += (cb != null && !cb.isAdmin() ? " and id_sport in (" + cb.getSports() + ")" : "");
 		}
 		else if (field.equalsIgnoreCase(Sport.alias) && cb != null && StringUtils.notEmpty(cb.getSports()))
-			whereHQL = (" and id in (" + cb.getSports() + ")");
+			whereHQL += (" and id in (" + cb.getSports() + ")");
 		else if (field.equalsIgnoreCase(Contributor.alias))
-			labelHQL = "lower(login)";
+			labelHQL = "login";
 		else if (field.matches("pl\\d|complex"))
-			labelHQL = "concat(lower(" + l_ + "), ', ', lower(city." + l_ + "), ', ', lower(city.country.code))";
+			labelHQL = "concat(" + l_ + ", ', ', city." + l_ + ", ', ', city.country.code)";
 		else if (field.equalsIgnoreCase(Result.alias)) {
 			value = "%" + value;
 			// TODO coalesce(subevent." + l + ", ''), coalesce(subevent2." + l + ", '')
-			labelHQL = "concat(lower(sport." + l_ + "), ' - ', lower(championship." + l_ + "), ' - ', lower(event." + l_ + "), ' - ', year.label)";
+			labelHQL = "concat(sport." + l_ + ", ' - ', championship." + l_ + ", ' - ', event." + l_ + ", ' - ', year.label)";
 		}
 		else if (field.equalsIgnoreCase(HallOfFame.alias))
-			labelHQL = "concat(lower(league.label), ' - ', lower(year.label))";
+			labelHQL = "concat(league.label, ' - ', year.label)";
 		else if (field.equalsIgnoreCase(Record.alias)) {
 			value = "%" + value;
-			labelHQL = "concat(lower(sport." + l_ + "), ' - ', lower(championship." + l_ + "), ' - ', lower(event." + l_ + "), ' - ', lower(type1), ' - ', lower(type2), ' - ', lower(label))";
+			labelHQL = "concat(sport." + l_ + ", ' - ', championship." + l_ + ", ' - ', event." + l_ + ", ' - ', type1, ' - ', type2, ' - ', label)";
 		}
 		else if (field.toUpperCase().matches(RetiredNumber.alias + "|" + TeamStadium.alias + "|" + WinLoss.alias))
-			labelHQL = "concat(lower(league.label), ' - ', lower(team.label))";
-		List<Object> l = DatabaseHelper.execute("from " + hTable.get(field) + " where (" + (isId ? "id=" + value.substring(1).replaceFirst("\\%", "") : labelHQL + " like '" + value.toLowerCase() + "'") + ")" + whereHQL + " order by " + (field.equalsIgnoreCase(Result.alias) ? "year.id desc" : labelHQL));
+			labelHQL = "concat(league.label, ' - ', team.label)";
+		if (StringUtils.notEmpty(currentId))
+			whereHQL += " and id <> " + currentId;
+		// Execute query
+		List<Object[]> l = DatabaseHelper.executeNative("SELECT id, " + labelHQL + ", CAST('" + alias + "' AS VARCHAR) FROM \"" + hTable.get(field) + "\" WHERE (" + (isId ? "id=" + value.substring(1).replaceFirst("\\%", "") : "lower(" + labelHQL + ") ~ \"~PatternString\"('" + value + "')") + ")" + whereHQL + " ORDER BY " + (field.equalsIgnoreCase(Result.alias) ? "id_year desc" : labelHQL));
 		if (field.matches(Athlete.alias.toLowerCase() + "|athlete|person")) {
-			String labelHQL_ = "lower(last_name) || ', ' || lower(first_name) || ' (' || lower(country.code) || ', ' || lower(team.label) || ')'";
-			l.addAll(DatabaseHelper.execute("from " + hTable.get(field) + " where (" + labelHQL_ + " like '" + value.toLowerCase() + "')" + whereHQL + " order by " + (field.equalsIgnoreCase(Result.alias) ? "year.id desc" : labelHQL_)));
+			String labelHQL_ = "last_name || ', ' || first_name || ' (' || country.code || ', ' || team.label || ')'";
+			l.addAll(DatabaseHelper.executeNative("SELECT id, " + labelHQL_ + ", CAST('" + Athlete.alias + "' AS VARCHAR) FROM \"Athlete\" WHERE lower(" + labelHQL_ + ") ~ \"~PatternString\"('" + value.toLowerCase() + "')" + whereHQL + " ORDER BY " + (field.equalsIgnoreCase(Result.alias) ? "id_year desc" : labelHQL_)));
 		}
 		else if (field.matches("pl\\d|complex"))
-			l.addAll(DatabaseHelper.execute("from City where concat(lower(" + l_ + "), ', ', lower(country.code)) like '" + value.toLowerCase() + "' order by " + l_));
+			l.addAll(DatabaseHelper.executeNative("SELECT id, " + labelHQL + ", CAST('" + City.alias + "' AS VARCHAR) FROM \"City\" where concat(lower(" + l_ + "), ', ', lower(country.code)) ~ \"~PatternString\"('" + value.toLowerCase() + "') ORDER BY " + l_));
 		StringBuffer html = new StringBuffer("<ul>");
 		int n = 0;
-		for (Object o : l) {
+		ArrayList<String> list = new ArrayList<String>();
+		for (Object[] t : l) {
 			if (n++ == MAX_AUTOCOMPLETE_RESULTS)
 				break;
-			Method m1 = o.getClass().getMethod("getId");
-			String id = String.valueOf(m1.invoke(o));
-			String text = null;
+			String id = String.valueOf(t[0]);
+			String text = String.valueOf(t[1]);
+			String alias_ = String.valueOf(t[2]);
+			if (list.contains(id))
+				continue;
+			Object o = DatabaseHelper.loadEntity(DatabaseHelper.getClassFromAlias(alias_), id);
 			if (!(o instanceof Athlete) && !(o instanceof League) && !(o instanceof Team) && !(o instanceof Result) && !(o instanceof Contributor) && !(o instanceof HallOfFame) && !(o instanceof Record) && !(o instanceof RetiredNumber) && !(o instanceof TeamStadium) && !(o instanceof WinLoss)) {
 				Method m2 = o.getClass().getMethod("getLabel", String.class);
-				text = String.valueOf(m2.invoke(o, lang));	
+				text = String.valueOf(m2.invoke(o, lang));
 			}
 			if (o instanceof Event) {
 				Event e = (Event) o;
@@ -235,11 +247,15 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			else if (o instanceof Complex) {
 				Complex c = (Complex) o;
-				text += ", " + c.getCity().getLabel(lang) + (c.getCity().getState() != null ? ", " + c.getCity().getState().getCode() : "") + ", " + c.getCity().getCountry().getCode();
+				text += ", " + c.getCity().getLabel(lang) + ", " + c.getCity().getCountry().getCode();
 			}
 			else if (o instanceof City) {
 				City c = (City) o;
-				text += (c.getState() != null ? ", " + c.getState().getCode() : "") + ", " + c.getCountry().getCode();
+				text += ", " + c.getCountry().getCode();
+			}
+			else if (o instanceof Country) {
+				Country c = (Country) o;
+				text = c.toString2(lang);
 			}
 			else if (o instanceof Contributor) {
 				Contributor c = (Contributor) o;
@@ -247,11 +263,11 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			else if (o instanceof Athlete) {
 				Athlete a = (Athlete) o;
-				text = a.toString2() + (isData ? " [#" + a.getId() + "]" : "");
+				text = a.toString2();
 			}
 			else if (o instanceof Team) {
-				Team t = (Team) o;
-				text = t.toString() + (isData ? (StringUtils.notEmpty(t.getYear1()) ? " [" + t.getYear1() + "]" : "") + (StringUtils.notEmpty(t.getYear2()) ? " [" + t.getYear2() + "]" : "") + " [#" + t.getId() + "]" : "");;
+				Team t_ = (Team) o;
+				text = t_.toString2() + (isData ? (StringUtils.notEmpty(t_.getYear1()) ? " [" + t_.getYear1() + "]" : "") + (StringUtils.notEmpty(t_.getYear2()) ? " [" + t_.getYear2() + "]" : "") : "");;
 			}
 			else if (o instanceof League) {
 				League l__ = (League) o;
@@ -274,14 +290,16 @@ public class UpdateServlet extends AbstractServlet {
 				text = r.toString2();
 			}
 			else if (o instanceof TeamStadium) {
-				TeamStadium t = (TeamStadium) o;
-				text = t.toString2();
+				TeamStadium t_ = (TeamStadium) o;
+				text = t_.toString2();
 			}
 			else if (o instanceof WinLoss) {
 				WinLoss w = (WinLoss) o;
 				text = w.toString2();
 			}
+			text += "<div class='ajaxid'>&nbsp;[#" + id + "]</div>";
 			html.append("<li id='" + field_ + "|" + id + (o instanceof Event ? "|" + ((Event)o).getType().getNumber() : "") + "'>" + text + "</li>");
+			list.add(id);
 		}
 		ServletHelper.writeText(response, html.append("</ul>").toString());
 	}
@@ -1266,8 +1284,8 @@ public class UpdateServlet extends AbstractServlet {
 				en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, StringUtils.toInt(hParams.get("pr-sport"))));
 				en.setTeam((Team)DatabaseHelper.loadEntity(Team.class, StringUtils.toInt(hParams.get("pr-team"))));
 				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("pr-country"))));
-				en.setLastName(String.valueOf(hParams.get("pr-lastname")));
-				en.setFirstName(String.valueOf(hParams.get("pr-firstname")));
+				en.setLastName(String.valueOf(hParams.get("pr-lastname")).trim());
+				en.setFirstName(String.valueOf(hParams.get("pr-firstname")).trim());
 				en.setLink(StringUtils.notEmpty(hParams.get("pr-link")) ? new Integer(String.valueOf(hParams.get("pr-link"))) : null);
 				en.setPhotoSource(String.valueOf(hParams.get("pr-source")));
 				if (en.getLink() != null && en.getLink() > 0) {
@@ -1392,7 +1410,7 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			else if (alias.equalsIgnoreCase(Team.alias)) {
 				Team en = (Team) o;
-				en.setLabel(String.valueOf(hParams.get("tm-label")));
+				en.setLabel(String.valueOf(hParams.get("tm-label")).trim());
 				en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, StringUtils.toInt(hParams.get("tm-sport"))));
 				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("tm-country"))));
 				en.setLeague((League)DatabaseHelper.loadEntity(League.class, StringUtils.toInt(hParams.get("tm-league"))));

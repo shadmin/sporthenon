@@ -507,6 +507,11 @@ public class DatabaseHelper {
 				boolean isCountryTeam = s.toLowerCase().matches(".*\\([a-z]{3}\\,\\s.+\\)$");
 				boolean isCountry = s.toLowerCase().matches(".*\\([a-z]{3}\\)$");
 				boolean isTeam = (!isCountry && s.toLowerCase().matches(".*\\([^\\,\\(\\)]+\\)$")); 
+				// Check if exists
+				String hql = "select id from Athlete where sport.id=" + spid + " and lower(last_name) || ', ' || lower(first_name) " + (isCountryTeam ? " || ' (' || lower(country.code) " + " || ', ' || lower(team.label) || ')'" : (isCountry ? " || ' (' || lower(country.code) || ')'" : (isTeam ? " || ' (' || lower(team.label) || ')'" : ""))) + " like '" + s.toLowerCase() + "'";
+				List<Integer> lId = (List<Integer>) DatabaseHelper.execute(hql);
+				if (lId != null && lId.size() > 0)
+					return lId.get(0);
 				if (isCountry || isCountryTeam) { // Country set
 					p = s.indexOf(" (") + 2;
 					String countryCode = s.substring(p, p + 3).toLowerCase();
@@ -535,6 +540,11 @@ public class DatabaseHelper {
 				s = s.replaceAll("\\[", "(").replaceAll("\\]", ")");
 				if (!s.toLowerCase().matches(StringUtils.PATTERN_TEAM))
 					throw new Exception(ResourceUtils.getText("err.invalid.team", lang).replaceAll("#S#", s));
+				// Check if exists
+				String hql = "select id from Team where sport.id=" + spid + " and lower(label) like '" + (s.indexOf(" (") > -1 ? s.substring(0, s.indexOf(" (")).toLowerCase() : s.toLowerCase()) + "' and (link is null or link = 0)";
+				List<Integer> lId = (List<Integer>) DatabaseHelper.execute(hql);
+				if (lId != null && lId.size() > 0)
+					return lId.get(0);
 				Team t = new Team();
 				t.setLabel(s);
 				t.setSport((Sport)loadEntity(Sport.class, spid));
@@ -576,11 +586,8 @@ public class DatabaseHelper {
 			String[] t = s.split("\\,\\s");
 			String cx = null;
 			String ct = null;
-			String st = null;
 			String cn = t[t.length - 1];
-			if (t.length > 2 && t[t.length - 2].length() == 2)
-				st = t[t.length - 2];
-			if (t.length > (st != null ? 3 : 2)) {
+			if (t.length > 2) {
 				cx = t[0];
 				ct = t[1];
 			}
@@ -590,17 +597,10 @@ public class DatabaseHelper {
 			if (cx != null) { // Set City (for complex)
 				Object o_ = loadEntityFromQuery("from City ct where lower(ct.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "") + ") like '" + ct.toLowerCase().replaceAll("'", "''") + "' and lower(country.code) = '" + cn.toLowerCase() + "'");
 				if (o_ == null) {
-					Integer idCt = insertPlace(row, ct + (st != null ? ", " + st : "") + ", " + cn, cb, sb, lang);
+					Integer idCt = insertPlace(row, ct + ", " + cn, cb, sb, lang);
 					o_ = loadEntity(City.class, idCt);
 				}
 				ct_ = (City)o_;
-			}
-			State st_ = null;
-			if (st != null) { // Set State
-				Object o_ = loadEntityFromQuery("from State st where lower(st.code) = '" + st.toLowerCase() + "'");
-				if (o_ == null)
-					throw new Exception("Invalid State: " + st.toUpperCase());
-				st_ = (State)o_;
 			}
 			Country cn_ = null;
 			if (cn != null) { // Set Country
@@ -610,6 +610,12 @@ public class DatabaseHelper {
 				cn_ = (Country)o_;
 			}
 			if (cx != null) {
+				// Check if exists
+				String hql = "select id from Complex where lower(city.country.code) like '" + cn.toLowerCase() + "' and lower(city.label) like '" + ct.replaceAll("'", "''").toLowerCase() + "' and lower(label) like '" + cx.replaceAll("'", "''").toLowerCase() + "'";
+				List<Integer> lId = (List<Integer>) DatabaseHelper.execute(hql);
+				if (lId != null && lId.size() > 0)
+					return lId.get(0);
+				
 				Complex c = new Complex();
 				c.setLabel(cx);
 				c.setLabelFr(cx);
@@ -619,10 +625,15 @@ public class DatabaseHelper {
 				msg = "New Complex";
 			}
 			else if (ct != null) {
+				// Check if exists
+				String hql = "select id from City where lower(country.code) like '" + cn.toLowerCase() + "' and lower(label) like '" + ct.replaceAll("'", "''").toLowerCase() + "'";
+				List<Integer> lId = (List<Integer>) DatabaseHelper.execute(hql);
+				if (lId != null && lId.size() > 0)
+					return lId.get(0);
+				
 				City c = new City();
 				c.setLabel(ct);
 				c.setLabelFr(ct);
-				c.setState(st_);
 				c.setCountry(cn_);
 				o = c;
 				o = saveEntity(c, cb);
