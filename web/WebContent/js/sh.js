@@ -1557,11 +1557,15 @@ function loadResValues(value) {
 				var t_ = rkList.split('#');
 				var t__ = null;
 				var t___ = null;
+				var idp = null;
+				var indexp = null;
 				for (var i = 0 ; i < t_.length ; i++) {
 					t__ = t_[i].split('|');
 					t___ = [];
 					for (var i_ = 0 ; i_ < t__.length ; i_++) {
-						t___.push(t__[i_].split(':')[0]);
+						idp = t__[i_].split(':')[0];
+						indexp = t__[i_].split(':')[2];
+						t___.push(idp + '-' + indexp);
 					}
 					while (t__.length > pListCount) {
 						addPersonList();
@@ -1619,6 +1623,10 @@ function setValue(text, li) {
 		if (t.length > 2) {
 			updateType(t[0], t[2]);
 		}
+	}
+	var index = text.value.indexOf('[#');
+	if (index != -1) {
+		text.value = text.value.substring(0, index - 1);	
 	}
 	showWarning();
 }
@@ -1801,12 +1809,17 @@ function initPersonList(index) {
 }
 function savePersonList() {
 	var t = [];
+	var t_ = [];
 	var val = null;
 	for (var i = 1 ; i <= pListCount ; i++) {
 		val = tValues['plist' + i];
-		t.push(val && val != '' ? val + '-' + $('plist' + i + '-index').value : $('plist' + i).value);
+		t.push(val && val != '' ? val + '-' + $('plist' + i + '-index').value.replace('Index', '') : $('plist' + i).value);
+		if (val && val != '' && val.indexOf('Name #') == -1) {
+			t_.push(val + ':' + $('plist' + i).value + ':' + $('plist' + i + '-index').value.replace('Index', ''));	
+		}
 	}
 	tValues['rk' + pListIndex + 'list'] = t.join('|');
+	rkList = t_.join('|');
 	dPersonList.close();
 }
 function addPersonList() {
@@ -1818,6 +1831,12 @@ function addPersonList() {
 	}
 	catch(err){}
 	pListCount += 10;
+}
+function displayShortcuts() {
+	$$('#shortcutdiv a')[0].remove();
+	$('shortcuts1').show();
+	$('shortcuts2').show();
+	$('treediv').style.marginTop = '80px';
 }
 /*========== DATA ==========*/
 var isMerge = null;
@@ -2431,8 +2450,13 @@ function initImport() {
 		$('report').update('<div><img src="/img/db/loading.gif?6"/></div>');
 	});
 	dzi.on('success', function(f, text) {
-		$('report').update(text);
-		$('updatebtn').disabled = (text.indexOf(TX_ERROR.toUpperCase() + ":") > -1);
+		if (/html$/.match(text)) {
+			$('report').update("<span style='color:green;font-weight:bold;'>" + TX_IMPORT_COMPLETE.replace('{1}', '/update/execute-import?file=' + text) + "</span>");
+		}
+		else {
+			$('report').update(text);
+			$('updatebtn').disabled = (text.indexOf(TX_ERROR.toUpperCase() + ":") > -1);
+		}
 	});
 }
 function executeImport(u) {

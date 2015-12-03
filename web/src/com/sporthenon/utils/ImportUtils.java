@@ -37,93 +37,15 @@ public class ImportUtils {
 		StringBuffer report = new StringBuffer();
 		try {
 			Vector<String> vHeader = null;
-			final HashMap<String, String> hTitle = new HashMap<String, String>();
-			if (isRS) {
+			if (isRS)
 				vHeader = new Vector(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rk5", "rk6", "rk7", "rk8", "rk9", "dt1", "dt2", "pl1", "pl2", "exa", "cmt", "exl"}));
-				hTitle.put("msg", ResourceUtils.getText("message", lang));
-				hTitle.put("sp", ResourceUtils.getText("entity.SP.1", lang));
-				hTitle.put("cp", ResourceUtils.getText("entity.CP.1", lang));
-				hTitle.put("ev", ResourceUtils.getText("entity.EV.1", lang) + " #1");
-				hTitle.put("se", ResourceUtils.getText("entity.EV.1", lang) + " #2");
-				hTitle.put("se2", ResourceUtils.getText("entity.EV.1", lang) + " #3");
-				hTitle.put("yr", ResourceUtils.getText("entity.YR.1", lang));
-				hTitle.put("rk1", ResourceUtils.getText("rank.1", lang)); hTitle.put("rk2", ResourceUtils.getText("rank.2", lang)); hTitle.put("rk3", ResourceUtils.getText("rank.3", lang)); hTitle.put("rk4", ResourceUtils.getText("rank.4", lang)); hTitle.put("rk5", ResourceUtils.getText("rank.5", lang)); hTitle.put("rk6", ResourceUtils.getText("rank.6", lang)); hTitle.put("rk7", ResourceUtils.getText("rank.7", lang)); hTitle.put("rk8", ResourceUtils.getText("rank.8", lang)); hTitle.put("rk9", ResourceUtils.getText("rank.9", lang));
-				hTitle.put("rs1", ResourceUtils.getText("entity.RS.1", lang) + " #1");
-				hTitle.put("rs2", ResourceUtils.getText("entity.RS.1", lang) + " #2");
-				hTitle.put("rs3", ResourceUtils.getText("entity.RS.1", lang) + " #3");
-				hTitle.put("rs4", ResourceUtils.getText("entity.RS.1", lang) + " #4");
-				hTitle.put("rs5", ResourceUtils.getText("entity.RS.1", lang) + " #5");
-				hTitle.put("dt1", ResourceUtils.getText("date", lang) + " #1");
-				hTitle.put("dt2", ResourceUtils.getText("date", lang) + " #2");
-				hTitle.put("pl1", ResourceUtils.getText("place", lang) + " #1");
-				hTitle.put("pl2", ResourceUtils.getText("place", lang) + " #2");
-				hTitle.put("exa", ResourceUtils.getText("tie", lang));
-				hTitle.put("cmt", ResourceUtils.getText("comment", lang));
-				hTitle.put("exl", ResourceUtils.getText("ext.links", lang));
-			}
-			else if (isDR) {
+			else if (isDR)
 				vHeader = new Vector(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "qf1w", "qf1r", "qf1s", "qf2w", "qf2r", "qf2s", "qf3w", "qf3r", "qf3s", "qf4w", "qf4r", "qf4s", "sf1w", "sf1r", "sf1s", "sf2w", "sf2r", "sf2s", "thdw", "thdr", "thds"}));
-				hTitle.put("msg", ResourceUtils.getText("message", lang));
-				hTitle.put("sp", ResourceUtils.getText("entity.SP.1", lang));
-				hTitle.put("cp", ResourceUtils.getText("entity.CP.1", lang));
-				hTitle.put("ev", ResourceUtils.getText("entity.EV.1", lang) + " #1");
-				hTitle.put("se", ResourceUtils.getText("entity.EV.1", lang) + " #2");
-				hTitle.put("se2", ResourceUtils.getText("entity.EV.1", lang) + " #3");
-				hTitle.put("yr", ResourceUtils.getText("entity.YR.1", lang));
-				hTitle.put("qf1w", ResourceUtils.getText("quarterfinal", lang) + " #1 - W");
-				hTitle.put("qf1r", ResourceUtils.getText("quarterfinal", lang) + " #1 - L");
-				hTitle.put("qf1s", ResourceUtils.getText("quarterfinal", lang) + " #1 - Score");
-				hTitle.put("qf2w", ResourceUtils.getText("quarterfinal", lang) + " #2 - W");
-				hTitle.put("qf2r", ResourceUtils.getText("quarterfinal", lang) + " #2 - L");
-				hTitle.put("qf2s", ResourceUtils.getText("quarterfinal", lang) + " #2 - Score");
-				hTitle.put("qf3w", ResourceUtils.getText("quarterfinal", lang) + " #3 - W");
-				hTitle.put("qf3r", ResourceUtils.getText("quarterfinal", lang) + " #3 - L");
-				hTitle.put("qf3s", ResourceUtils.getText("quarterfinal", lang) + " #3 - Score");
-				hTitle.put("qf4w", ResourceUtils.getText("quarterfinal", lang) + " #4 - W");
-				hTitle.put("qf4r", ResourceUtils.getText("quarterfinal", lang) + " #4 - L");
-				hTitle.put("qf4s", ResourceUtils.getText("quarterfinal", lang) + " #4 - Score");
-				hTitle.put("sf1w", ResourceUtils.getText("semifinal", lang) + " #1 - W");
-				hTitle.put("sf1r", ResourceUtils.getText("semifinal", lang) + " #1 - L");
-				hTitle.put("sf1s", ResourceUtils.getText("semifinal", lang) + " #1 - Score");
-				hTitle.put("sf2w", ResourceUtils.getText("semifinal", lang) + " #2 - W");
-				hTitle.put("sf2r", ResourceUtils.getText("semifinal", lang) + " #2 - L");
-				hTitle.put("sf2s", ResourceUtils.getText("semifinal", lang) + " #2 - Score");
-				hTitle.put("thdw", ResourceUtils.getText("third.place", lang) + " - W");
-				hTitle.put("thdr", ResourceUtils.getText("third.place", lang) + " - L");
-				hTitle.put("thds", ResourceUtils.getText("third.place", lang) + " - Score");
-			}
-			else if (isRC) {
+			else if (isRC)
 				vHeader = new Vector(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "tp1", "tp2", "label", "rk1", "rc1", "dt1", "rk2", "rc2", "dt2", "rk3", "rc3", "dt3", "rk4", "rc4", "dt4", "rk5", "rc5", "dt5", "idx", "exa", "cmt"}));
-				hTitle.put("msg", ResourceUtils.getText("message", lang));
-				hTitle.put("sp", ResourceUtils.getText("entity.SP.1", lang));
-				hTitle.put("cp", ResourceUtils.getText("entity.CP.1", lang));
-				hTitle.put("ev", ResourceUtils.getText("entity.EV.1", lang));
-				hTitle.put("se", ResourceUtils.getText("entity.SE.1", lang));
-				hTitle.put("tp1", ResourceUtils.getText("type", lang) + " #1");
-				hTitle.put("tp2", ResourceUtils.getText("type", lang) + " #2");
-				hTitle.put("label", ResourceUtils.getText("name", lang));
-				hTitle.put("rk1", ResourceUtils.getText("record.holder", lang));
-				hTitle.put("rc1", ResourceUtils.getText("record2", lang));
-				hTitle.put("dt1", ResourceUtils.getText("date", lang));
-				hTitle.put("rk2", ResourceUtils.getText("rank.2", lang));
-				hTitle.put("rc2", ResourceUtils.getText("record2", lang));
-				hTitle.put("dt2", ResourceUtils.getText("date", lang));
-				hTitle.put("rk3", ResourceUtils.getText("rank.3", lang));
-				hTitle.put("rc3", ResourceUtils.getText("record2", lang));
-				hTitle.put("dt3", ResourceUtils.getText("date", lang));
-				hTitle.put("rk4", ResourceUtils.getText("rank.4", lang));
-				hTitle.put("rc4", ResourceUtils.getText("record2", lang));
-				hTitle.put("dt4", ResourceUtils.getText("date", lang));
-				hTitle.put("rk5", ResourceUtils.getText("rank.5", lang));
-				hTitle.put("rc5", ResourceUtils.getText("record2", lang));
-				hTitle.put("dt5", ResourceUtils.getText("date", lang));
-				hTitle.put("idx", "Index");
-				hTitle.put("exa", ResourceUtils.getText("tie", lang));
-				hTitle.put("cmt", ResourceUtils.getText("comment", lang));
-			}
 			html.append("<tr>");
 			for (String s : vHeader)
-				html.append("<th>").append(hTitle.get(s)).append("</th>");
+				html.append("<th>").append(getColumnTitle(s, lang)).append("</th>");
 			html.append("</tr>");
 			int i = 0;
 			int pg = 0;
@@ -148,13 +70,13 @@ public class ImportUtils {
 		}
 		html.append("</table>");
 		if (isUpdate)
-			html.append("<div id='ureport'>").append(report.toString()).append("</div>");
+			html.append("<div>").append(report.toString()).append("</div>");
 		return html.toString();
 	}
 	
 	public static boolean processLineRS(int row, Vector<String> vHeader, Vector<String> vLine, boolean isUpdate, StringBuffer sb, Contributor cb, String lang) throws Exception {
 		boolean isError = false;
-		List<Integer> lId = null;
+		List lId = null;
 		List<Country> lCountries = DatabaseHelper.execute("from Country");
 		HashMap<String, Integer> hId = new HashMap();
 		Integer n = null;
@@ -165,41 +87,43 @@ public class ImportUtils {
 			try {
 				String h = vHeader.get(i).replaceAll(scPattern, "").toLowerCase();
 				String s = vLine.get(i);
-				String hql = null;
+				String sql = null;
 				if (StringUtils.notEmpty(s)) {
 					if (s.matches(".*\\s\\[#\\d+]$"))
 						s = s.substring(0, s.indexOf("[#") - 1);
 					String s_ = s.replaceAll(scPattern, "_").toLowerCase();
+					String regexp = StringUtils.toPatternString(s_);
 					if (h.equalsIgnoreCase(Sport.alias))
-						hql = "select id from Sport where lower(label) like '" + s_ + "'";
+						sql = "SELECT T.id FROM \"Sport\" T WHERE lower(T.label) ~ E'" + regexp + "'";
 					else if (h.equalsIgnoreCase(Championship.alias))
-						hql = "select id from Championship where lower(label) like '" + s_ + "'";
+						sql = "SELECT T.id FROM \"Championship\" T WHERE lower(T.label) ~ E'" + regexp + "'";
 					else if (h.matches("ev|se|se2")) {
 						String[] tEv = s_.split("\\|");
-						hql = "select id from Event where lower(label) like '" + tEv[0] + "'" + (tEv.length > 1 ? " and lower(type.label)='" + tEv[1] + "'" : "") + " order by id";
-						tp = (tEv.length > 1 ? tEv[1] : null);
+						sql = "SELECT T.id from \"Event\" T LEFT JOIN \"Type\" TP ON T.id_type=TP.id WHERE lower(T.label) ~ E'" + tEv[0] + "'" + (tEv.length > 1 ? " AND lower(TP.label) ~ E'" + tEv[1] + "'" : "") + " ORDER BY T.id";
+						if (tEv.length > 1)
+							tp = tEv[1];
 					}
 					else if (h.equalsIgnoreCase(Year.alias))
-						hql = "select id from Year where lower(label) like '" + s_ + "'";
+						sql = "SELECT T.id FROM \"Year\" T WHERE lower(T.label) ~ E'" + regexp + "'";
 					else if (h.matches("pl\\d")) {
 						String[] t = s.toLowerCase().split("\\,\\s");
 						if (t.length < 2 || t.length > 4) {
 							isError = true;
-							writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+							writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang)+ ")");
 						}
 						else {
 							String cx = null;
 							String ct = null;
 							String cn = t[t.length - 1];
 							if (t.length > 2) {
-								cx = t[0].replaceAll(scPattern, "_");
-								ct = t[1].replaceAll(scPattern, "_");
+								cx = StringUtils.toPatternString(t[0]);
+								ct = StringUtils.toPatternString(t[1]);
 							}
 							else
-								ct = t[0].replaceAll(scPattern, "_");
+								ct = StringUtils.toPatternString(t[0]);
 							if (cx != null) {
 								h = "cx" + h.replaceAll("pl", "");
-								hql = "select id from Complex where lower(city.country.code) like '" + cn + "' and lower(city.label) like '" + ct.replaceAll("'", "''") + "' and lower(label) like '" + cx.replaceAll("'", "''") + "'";
+								sql = "SELECT T.id from \"Complex\" T LEFT JOIN \"City\" CT ON T.id_city=CT.id LEFT JOIN \"Country\" CN ON CT.id_country=CN.id WHERE lower(CN.code) = '" + cn + "' AND lower(CT.label) ~ E'" + ct.replaceAll("'", "''") + "' AND lower(T.label) ~ E'" + cx.replaceAll("'", "''") + "'";
 								if (h.equals("cx1"))
 									isComplex1 = true;
 								else
@@ -207,55 +131,57 @@ public class ImportUtils {
 							}
 							else {
 								h = "ct" + h.replaceAll("pl", "");
-								hql = "select id from City where lower(country.code) like '" + cn + "' and lower(label) like '" + ct.replaceAll("'", "''") + "'";
+								sql = "SELECT T.id from \"City\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id WHERE lower(CN.code) = '" + cn + "' AND lower(T.label) ~ E'" + ct.replaceAll("'", "''") + "'";
 							}
 						}
 					}
 					else if (h.matches("rk\\d")) {
 						if (n == null) {
-							List<Integer> lNumber = (List<Integer>) DatabaseHelper.execute("select type.number from Event ev where ev.id = " + hId.get(hId.containsKey("se2") ? "se2" : (hId.containsKey("se") ? "se" : "ev")));
-							if (lNumber != null && lNumber.size() > 0)
-								n = lNumber.get(0);
-							else if (tp != null)
+							if (tp != null)
 								n = (tp.equalsIgnoreCase("country") ? 99 : (tp.equalsIgnoreCase("team") ? 50 : 1));
+							else {
+								List<Integer> lNumber = (List<Integer>) DatabaseHelper.execute("select type.number from Event ev where ev.id = " + hId.get(hId.containsKey("se2") ? "se2" : (hId.containsKey("se") ? "se" : "ev")));
+								if (lNumber != null && lNumber.size() > 0)
+									n = lNumber.get(0);
+							}
 						}
 						if (n != null) {
 							if (n < 10) { // Athlete
 								if (!s_.matches(StringUtils.PATTERN_ATHLETE)) {
 									isError = true;
-									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 								}
 								else {
 									boolean isCountryTeam = s_.matches(".*\\([a-z]{3}\\,\\s.+\\)$");
 									boolean isCountry = s_.matches(".*\\([a-z]{3}\\)$");
 									boolean isTeam = (!isCountry && s_.matches(".*\\([^\\,\\(\\)]+\\)$")); 
-									hql = "select id from Athlete where sport.id=" + hId.get("sp") + " and lower(last_name) || ', ' || lower(first_name) " + (isCountryTeam ? " || ' (' || lower(country.code) " + " || ', ' || lower(team.label) || ')'" : (isCountry ? " || ' (' || lower(country.code) || ')'" : (isTeam ? " || ' (' || lower(team.label) || ')'" : ""))) + " like '" + s_ + "'";
+									sql = "SELECT T.id FROM \"Athlete\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id LEFT JOIN \"Team\" TM ON T.id_team=TM.id WHERE T.id_sport=" + hId.get("sp") + " AND lower(last_name) || ', ' || lower(first_name) " + (isCountryTeam ? " || ' (' || lower(CN.code) " + " || ', ' || lower(TM.label) || ')'" : (isCountry ? " || ' (' || lower(CN.code) || ')'" : (isTeam ? " || ' (' || lower(TM.label) || ')'" : ""))) + " ~ E'" + regexp + "'";
 								}
 							}
 							else if (n == 50) { // Team
 								if (!s_.matches(StringUtils.PATTERN_TEAM)) {
 									isError = true;
-									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 								}
 								else
-									hql = "select id from Team where sport.id=" + hId.get("sp") + " and lower(label) like '" + (s_.indexOf(" (") > -1 ? s_.substring(0, s_.indexOf(" (")) : s_) + "' and (link is null or link = 0)";
+									sql = "SELECT T.id from \"Team\" T where T.id_sport=" + hId.get("sp") + " AND lower(T.label) ~ E'" + regexp + "' and (link is null or link = 0)";
 							}
 							else if (n == 99) { // Country
 								if (!s_.matches(StringUtils.PATTERN_COUNTRY)) {
 									isError = true;
-									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 								}
 								else
-									hql = "select id from Country where lower(code) like '" + s_ + "'";
+									sql = "SELECT T.id FROM \"Country\" T WHERE lower(code) ~ E'" + s_ + "'";
 							}
 						}
 					}
 				}
-				if (hql != null || h.matches("sp|cp|ev")) {
-//					Logger.getLogger("sh").info(hql);
-					lId = (hql != null ? (List<Integer>) DatabaseHelper.execute(hql) : null);
+				if (sql != null || h.matches("sp|cp|ev")) {
+//					Logger.getLogger("sh").fatal(sql);
+					lId = (sql != null ? DatabaseHelper.executeNative(sql) : null);
 					if (lId != null && lId.size() > 0) {
-						hId.put(h, lId.get(0));
+						hId.put(h, Integer.parseInt(String.valueOf(lId.get(0))));
 						vLine.set(i, (!isUpdate ? "<span class='green'>" : "") + s + " [#" + lId.get(0) + "]" + (!isUpdate ? "</span>" : ""));
 					}
 					else {
@@ -272,7 +198,7 @@ public class ImportUtils {
 							writeError(vLine, ResourceUtils.getText("err.invalid.event", lang));
 						}
 						else if (h.matches("ev|se|se2"))
-							writeError(vLine, ResourceUtils.getText("warning.event.notexist", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+							writeError(vLine, ResourceUtils.getText("warning.event.notexist", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 						else if (h.equalsIgnoreCase(Year.alias)) {
 							isError = true;
 							writeError(vLine, ResourceUtils.getText("err.invalid.year", lang));
@@ -282,29 +208,29 @@ public class ImportUtils {
 							Matcher matcher = pattern.matcher(s);
 							if (!matcher.find() || !lCountries.contains(new Country(matcher.group(0)))) {
 								isError = true;
-								writeError(vLine, ResourceUtils.getText("err.invalid.country", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+								writeError(vLine, ResourceUtils.getText("err.invalid.country", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 							}
 						}
 						else if (h.matches("rk\\d")) {
 							if (n == 99) {
 								isError = true;
-								writeError(vLine, ResourceUtils.getText("err.invalid.country", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+								writeError(vLine, ResourceUtils.getText("err.invalid.country", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 							}
 							else if (n == 50)
-								writeError(vLine, ResourceUtils.getText("warning.team.notexist", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+								writeError(vLine, ResourceUtils.getText("warning.team.notexist", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 							else {
 								Pattern pattern = Pattern.compile("[A-Z]{3}");
 								Matcher matcher = pattern.matcher(s);
 								if (!matcher.find() || !lCountries.contains(new Country(matcher.group(0)))) {
 									isError = true;
-									writeError(vLine, ResourceUtils.getText("err.invalid.country", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+									writeError(vLine, ResourceUtils.getText("err.invalid.country", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 								}
 								boolean isCountryTeam = s.toLowerCase().matches(".*\\([a-z]{3}\\,\\s.+\\)$");
 								if (isCountryTeam) {
-									String tm = s.substring(s.lastIndexOf(", ") + 2);
-									List l = DatabaseHelper.execute("from Team where lower(label)='" + tm.toLowerCase().replaceAll("\\)$", "") + "'");
+									String tm = StringUtils.toPatternString(s.substring(s.lastIndexOf(", ") + 2).toLowerCase().replaceAll("\\)$", ""));
+									List l = DatabaseHelper.executeNative("SELECT T.id FROM \"Team\" T WHERE lower(T.label) ~ E'" + tm + "'");
 									if (l == null || l.isEmpty())
-										writeError(vLine, ResourceUtils.getText("warning.team.notexist", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+										writeError(vLine, ResourceUtils.getText("warning.team.notexist", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 								}
 							}
 						}
@@ -314,11 +240,11 @@ public class ImportUtils {
 				else {
 					if (h.matches("dt\\d") && StringUtils.notEmpty(s) && !s.matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d")) {
 						isError = true;
-						writeError(vLine, ResourceUtils.getText("err.invalid.date", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+						writeError(vLine, ResourceUtils.getText("err.invalid.date", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 					}
 					else if (h.matches("rs\\d") && StringUtils.notEmpty(s) && s.length() > (h.equalsIgnoreCase("rs1") ? 40 : 20)) {
 						isError = true;
-						writeError(vLine, ResourceUtils.getText("err.value.toolong", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+						writeError(vLine, ResourceUtils.getText("err.value.toolong", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 					}
 				}
 			}
@@ -517,7 +443,7 @@ public class ImportUtils {
 							if (n < 10) { // Athlete
 								if (!s_.matches(StringUtils.PATTERN_ATHLETE)) {
 									isError = true;
-									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 								}
 								else {
 									boolean isCountryTeam = s_.matches(".*\\([a-z]{3}\\,\\s.+\\)$");
@@ -529,7 +455,7 @@ public class ImportUtils {
 							else if (n == 50) { // Team
 								if (!s_.matches(StringUtils.PATTERN_TEAM)) {
 									isError = true;
-									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 								}
 								else
 									hql = "select id from Team where sport.id=" + hId.get("sp") + " and lower(label) like '" + (s_.indexOf(" (") > -1 ? s_.substring(0, s_.indexOf(" (")) : s_) + "' and (link is null or link = 0)";
@@ -537,7 +463,7 @@ public class ImportUtils {
 							else if (n == 99) { // Country
 								if (!s_.matches(StringUtils.PATTERN_COUNTRY)) {
 									isError = true;
-									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 								}
 								else
 									hql = "select id from Country where lower(code) like '" + s_ + "'";
@@ -571,7 +497,7 @@ public class ImportUtils {
 						}
 						else if (n == 99 && h.matches("(qf|sf|thd)\\d*(w|r)")) {
 							isError = true;
-							writeError(vLine, ResourceUtils.getText("err.invalid.country", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+							writeError(vLine, ResourceUtils.getText("err.invalid.country", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 						}
 						vLine.set(i, s);
 					}
@@ -579,7 +505,7 @@ public class ImportUtils {
 				else {
 					if (h.matches(".*s$") && StringUtils.notEmpty(s) && s.length() > 40) {
 						isError = true;
-						writeError(vLine, ResourceUtils.getText("err.value.toolong", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+						writeError(vLine, ResourceUtils.getText("err.value.toolong", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 					}
 				}
 			}
@@ -831,7 +757,7 @@ public class ImportUtils {
 								n = 1;
 								if (!s_.matches(StringUtils.PATTERN_ATHLETE)) {
 									isError = true;
-									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 								}
 								else {
 									boolean isCountryTeam = s_.matches(".*\\([a-z]{3}\\,\\s.+\\)$");
@@ -844,7 +770,7 @@ public class ImportUtils {
 								n = 50;
 								if (!s_.matches(StringUtils.PATTERN_TEAM)) {
 									isError = true;
-									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 								}
 								else {
 									// Get record year
@@ -859,7 +785,7 @@ public class ImportUtils {
 							else if (n == 99) { // Country
 								if (!s_.matches(StringUtils.PATTERN_COUNTRY)) {
 									isError = true;
-									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 								}
 								else
 									hql = "select id from Country where lower(code) like '" + s_ + "'";
@@ -893,7 +819,7 @@ public class ImportUtils {
 				else {
 					if (h.matches("rc\\d") && StringUtils.notEmpty(s) && s.length() > 15) {
 						isError = true;
-						writeError(vLine, ResourceUtils.getText("error.value.toolong", lang) + " (" + ResourceUtils.getText("column", lang) + " " + h.toUpperCase() + ")");
+						writeError(vLine, ResourceUtils.getText("error.value.toolong", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 					}
 				}
 			}
@@ -1048,7 +974,7 @@ public class ImportUtils {
 	}
 	
 	private static void writeError(Vector<String> vLine, String msg) {
-		if (vLine != null && (!StringUtils.notEmpty(vLine.get(0)) || vLine.get(0).equals("-")))
+		if (vLine != null && !vLine.get(0).contains("'red'") && (!StringUtils.notEmpty(vLine.get(0)) || vLine.get(0).equals("-") || vLine.get(0).contains("'orange'")))
 			vLine.set(0, "<span class='" + (msg.startsWith("ERR") ? "red" : "orange") + "'>" + msg + "</span>");
 	}
 	
@@ -1100,6 +1026,66 @@ public class ImportUtils {
 			list.add(list_);
 		}
 		return list;
+	}
+	
+	private static final String getColumnTitle(String s, String lang) {
+		HashMap<String, String> hTitle = new HashMap<String, String>();
+		hTitle.put("msg", ResourceUtils.getText("message", lang));
+		hTitle.put("sp", ResourceUtils.getText("entity.SP.1", lang));
+		hTitle.put("cp", ResourceUtils.getText("entity.CP.1", lang));
+		hTitle.put("ev", ResourceUtils.getText("entity.EV.1", lang) + " #1");
+		hTitle.put("se", ResourceUtils.getText("entity.EV.1", lang) + " #2");
+		hTitle.put("se2", ResourceUtils.getText("entity.EV.1", lang) + " #3");
+		hTitle.put("yr", ResourceUtils.getText("entity.YR.1", lang));
+		hTitle.put("rk1", ResourceUtils.getText("rank.1", lang)); hTitle.put("rk2", ResourceUtils.getText("rank.2", lang)); hTitle.put("rk3", ResourceUtils.getText("rank.3", lang)); hTitle.put("rk4", ResourceUtils.getText("rank.4", lang)); hTitle.put("rk5", ResourceUtils.getText("rank.5", lang)); hTitle.put("rk6", ResourceUtils.getText("rank.6", lang)); hTitle.put("rk7", ResourceUtils.getText("rank.7", lang)); hTitle.put("rk8", ResourceUtils.getText("rank.8", lang)); hTitle.put("rk9", ResourceUtils.getText("rank.9", lang));
+		hTitle.put("rs1", ResourceUtils.getText("entity.RS.1", lang) + " #1");
+		hTitle.put("rs2", ResourceUtils.getText("entity.RS.1", lang) + " #2");
+		hTitle.put("rs3", ResourceUtils.getText("entity.RS.1", lang) + " #3");
+		hTitle.put("rs4", ResourceUtils.getText("entity.RS.1", lang) + " #4");
+		hTitle.put("rs5", ResourceUtils.getText("entity.RS.1", lang) + " #5");
+		hTitle.put("dt1", ResourceUtils.getText("date", lang) + " #1");
+		hTitle.put("dt2", ResourceUtils.getText("date", lang) + " #2");
+		hTitle.put("pl1", ResourceUtils.getText("place", lang) + " #1");
+		hTitle.put("pl2", ResourceUtils.getText("place", lang) + " #2");
+		hTitle.put("exa", ResourceUtils.getText("tie", lang));
+		hTitle.put("cmt", ResourceUtils.getText("comment", lang));
+		hTitle.put("exl", ResourceUtils.getText("ext.links", lang));
+		hTitle.put("qf1w", ResourceUtils.getText("quarterfinal", lang) + " #1 - W");
+		hTitle.put("qf1r", ResourceUtils.getText("quarterfinal", lang) + " #1 - L");
+		hTitle.put("qf1s", ResourceUtils.getText("quarterfinal", lang) + " #1 - Score");
+		hTitle.put("qf2w", ResourceUtils.getText("quarterfinal", lang) + " #2 - W");
+		hTitle.put("qf2r", ResourceUtils.getText("quarterfinal", lang) + " #2 - L");
+		hTitle.put("qf2s", ResourceUtils.getText("quarterfinal", lang) + " #2 - Score");
+		hTitle.put("qf3w", ResourceUtils.getText("quarterfinal", lang) + " #3 - W");
+		hTitle.put("qf3r", ResourceUtils.getText("quarterfinal", lang) + " #3 - L");
+		hTitle.put("qf3s", ResourceUtils.getText("quarterfinal", lang) + " #3 - Score");
+		hTitle.put("qf4w", ResourceUtils.getText("quarterfinal", lang) + " #4 - W");
+		hTitle.put("qf4r", ResourceUtils.getText("quarterfinal", lang) + " #4 - L");
+		hTitle.put("qf4s", ResourceUtils.getText("quarterfinal", lang) + " #4 - Score");
+		hTitle.put("sf1w", ResourceUtils.getText("semifinal", lang) + " #1 - W");
+		hTitle.put("sf1r", ResourceUtils.getText("semifinal", lang) + " #1 - L");
+		hTitle.put("sf1s", ResourceUtils.getText("semifinal", lang) + " #1 - Score");
+		hTitle.put("sf2w", ResourceUtils.getText("semifinal", lang) + " #2 - W");
+		hTitle.put("sf2r", ResourceUtils.getText("semifinal", lang) + " #2 - L");
+		hTitle.put("sf2s", ResourceUtils.getText("semifinal", lang) + " #2 - Score");
+		hTitle.put("thdw", ResourceUtils.getText("third.place", lang) + " - W");
+		hTitle.put("thdr", ResourceUtils.getText("third.place", lang) + " - L");
+		hTitle.put("thds", ResourceUtils.getText("third.place", lang) + " - Score");
+		hTitle.put("tp1", ResourceUtils.getText("type", lang) + " #1");
+		hTitle.put("tp2", ResourceUtils.getText("type", lang) + " #2");
+		hTitle.put("label", ResourceUtils.getText("name", lang));
+		hTitle.put("rc1", ResourceUtils.getText("record2", lang));
+		hTitle.put("dt1", ResourceUtils.getText("date", lang));
+		hTitle.put("rc2", ResourceUtils.getText("record2", lang));
+		hTitle.put("dt2", ResourceUtils.getText("date", lang));
+		hTitle.put("rc3", ResourceUtils.getText("record2", lang));
+		hTitle.put("dt3", ResourceUtils.getText("date", lang));
+		hTitle.put("rc4", ResourceUtils.getText("record2", lang));
+		hTitle.put("dt4", ResourceUtils.getText("date", lang));
+		hTitle.put("rc5", ResourceUtils.getText("record2", lang));
+		hTitle.put("dt5", ResourceUtils.getText("date", lang));
+		hTitle.put("idx", "Index");
+		return (hTitle.containsKey(s) ? hTitle.get(s) : s);
 	}
 
 }

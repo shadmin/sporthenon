@@ -8,4 +8,5 @@
 	<entry key="img.url">//img.sporthenon.com/</entry>
 	<entry key="img.folder">/usr/share/glassfish3/glassfish/domains/domain1/docroot/img/</entry>
 	<entry key="font.folder">/usr/share/fonts/</entry>
+	<entry key="temp.folder">/var/tmp/</entry>
 </properties>

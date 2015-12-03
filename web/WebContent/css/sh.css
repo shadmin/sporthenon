@@ -2,7 +2,7 @@
   ========== COMMON ========== 
   ============================*/
 body{
-	background: #F5F5F5 url(../img/header/bg2.png?6) 0 0 repeat-y;
+	background: #FFF url(../img/header/bg2.png?6) 0 0 repeat-y;
 	margin: 0;
 	padding: 0;
 }
@@ -1412,7 +1412,7 @@ li{
 	background-color: #FFF;
 	white-space: nowrap;
 	margin: 0px;
-	margin-top: 25px;
+	margin-top: 45px;
 }
 #update-results #tree{
 	overflow: auto;
@@ -1428,6 +1428,26 @@ li{
 	margin-top: 0px;
 }
 #update-results #tree td{
+	padding: 0px;
+}
+#update-results #shortcutdiv{
+	position: absolute;
+	z-index: 2;
+	right: 24px;
+	background-color: #FFF;
+	white-space: nowrap;
+	margin: 0px;
+	margin-top: 30px;
+}
+#update-results #shortcutdiv a{
+	font-weight: bold;
+}
+#update-results #shortcutdiv .toolbar td{
+	padding: 0px;
+}
+#update-results #shortcutdiv .toolbar input.button{
+	background-position: center center;
+	width: 25px;
 	padding: 0px;
 }
 /*---------- DATA ----------*/
@@ -1570,12 +1590,6 @@ li{
 }
 #update-import #report td{
 	background-color: #FFF;
-}
-#update-import #ureport{
-	border: 1px solid #DDD;
-	font-style: italic;
-	margin-top: 10px;
-	padding: 10px;
 }
 #update-import #progressbar{
 	width: 200px;

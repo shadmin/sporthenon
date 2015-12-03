@@ -114,6 +114,7 @@
 	var TX_DELFAV = "<%=StringUtils.text("delete.favorites", session)%>";
 	var TX_NOFAV = "<%=StringUtils.text("no.favorite", session)%>";
 	var TX_ERROR = "<%=StringUtils.text("error", session)%>";
+	var TX_IMPORT_COMPLETE = "<%=StringUtils.text("import.complete", session)%>";
 --></script>
 
 <div id="headertop">

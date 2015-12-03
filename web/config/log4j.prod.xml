@@ -4,6 +4,7 @@
 	<appender name="default" class="org.apache.log4j.RollingFileAppender"> 
 		<param name="File" value="/usr/share/glassfish3/glassfish/domains/domain1/logs/sh.log"/>
 		<param name="Append" value="true"/>
+		<param name="Encoding" value="UTF-8"/>
 		<param name="MaxFileSize" value="10240KB"/>
 		<param name="MaxBackupIndex" value="20"/>
 		<layout class="org.apache.log4j.PatternLayout"> 
@@ -13,6 +14,7 @@
 	<appender name="sh" class="org.apache.log4j.RollingFileAppender">
 		<param name="File" value="/usr/share/glassfish3/glassfish/domains/domain1/logs/sh.log"/>
 		<param name="Append" value="true"/>
+		<param name="Encoding" value="UTF-8"/>
 		<param name="MaxFileSize" value="10240KB"/>
 		<param name="MaxBackupIndex" value="20"/>
 		<layout class="org.apache.log4j.PatternLayout"> 

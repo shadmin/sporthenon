@@ -1,6 +1,8 @@
 package com.sporthenon.web.servlet;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -63,6 +65,7 @@ import com.sporthenon.db.entity.meta.PersonList;
 import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.db.entity.meta.Translation;
 import com.sporthenon.db.entity.meta.TreeItem;
+import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.ImportUtils;
@@ -73,7 +76,7 @@ public class UpdateServlet extends AbstractServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static final int MAX_RANKS = 20;
-	private static final int MAX_AUTOCOMPLETE_RESULTS = 100;
+	private static final int MAX_AUTOCOMPLETE_RESULTS = 50;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -184,47 +187,67 @@ public class UpdateServlet extends AbstractServlet {
 		hTable.put("ts", "TeamStadium");
 		hTable.put("wl", "WinLoss");
 		String alias = (String) Class.forName("com.sporthenon.db.entity." + hTable.get(field)).getField("alias").get(null);
-		String labelHQL = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !field.matches("lg|tm|yr|league|team|year") ? "_" + lang : "");
+		String labelHQL = "T.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !field.matches("lg|tm|yr|league|team|year") ? "_" + lang : "");
 		String l_ = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
 		String whereHQL = "";
+		String joins = "";
 		if (field.matches(Athlete.alias.toLowerCase() + "|athlete|person")) {
-			labelHQL = "last_name || ', ' || first_name || ' (' || country.code || ')'"; // TODO gestion joins
-			whereHQL += (sport != null ? " and id_sport=" + sport : "");
-			whereHQL += (cb != null && !cb.isAdmin() ? " and id_sport in (" + cb.getSports() + ")" : "");
+			labelHQL = "last_name || ', ' || first_name || ' (' || CN.code || ')'";
+			whereHQL += (sport != null ? " and T.id_sport=" + sport : "");
+			whereHQL += (cb != null && !cb.isAdmin() ? " and T.id_sport in (" + cb.getSports() + ")" : "");
+			joins += " LEFT JOIN \"Country\" CN ON T.id_country=CN.id";
 		}
 		else if (field.matches(Team.alias.toLowerCase() + "|team")) {
-			whereHQL += (sport != null ? " and id_sport=" + sport : "");
-			whereHQL += (cb != null && !cb.isAdmin() ? " and id_sport in (" + cb.getSports() + ")" : "");
+			whereHQL += (sport != null ? " and T.id_sport=" + sport : "");
+			whereHQL += (cb != null && !cb.isAdmin() ? " and T.id_sport in (" + cb.getSports() + ")" : "");
 		}
 		else if (field.equalsIgnoreCase(Sport.alias) && cb != null && StringUtils.notEmpty(cb.getSports()))
-			whereHQL += (" and id in (" + cb.getSports() + ")");
+			whereHQL += (" and T.id in (" + cb.getSports() + ")");
 		else if (field.equalsIgnoreCase(Contributor.alias))
 			labelHQL = "login";
-		else if (field.matches("pl\\d|complex"))
-			labelHQL = "concat(" + l_ + ", ', ', city." + l_ + ", ', ', city.country.code)";
+		else if (field.matches("pl\\d|complex")) {
+			labelHQL = "T." + l_ + " || ', ' || CT." + l_ + " || ', ' || CN.code";
+			joins += " LEFT JOIN \"City\" CT ON T.id_city=CT.id";
+			joins += " LEFT JOIN \"Country\" CN ON CT.id_country=CN.id";
+		}
 		else if (field.equalsIgnoreCase(Result.alias)) {
 			value = "%" + value;
 			// TODO coalesce(subevent." + l + ", ''), coalesce(subevent2." + l + ", '')
-			labelHQL = "concat(sport." + l_ + ", ' - ', championship." + l_ + ", ' - ', event." + l_ + ", ' - ', year.label)";
+			labelHQL = "SP." + l_ + " || ' - ' || CP." + l_ + " || ' - ' || EV." + l_ + " || ' - ' || YR.label";
+			joins += " LEFT JOIN \"Sport\" SP ON T.id_sport=SP.id";
+			joins += " LEFT JOIN \"Championship\" CP ON T.id_championship=CP.id";
+			joins += " LEFT JOIN \"Event\" EV ON T.id_event=EV.id";
+			joins += " LEFT JOIN \"Year\" YR ON T.id_year=YR.id";
 		}
-		else if (field.equalsIgnoreCase(HallOfFame.alias))
-			labelHQL = "concat(league.label, ' - ', year.label)";
+		else if (field.equalsIgnoreCase(HallOfFame.alias)) {
+			labelHQL = "LG.label || ' - ' || YR.label";
+			joins += " LEFT JOIN \"League\" LG ON T.id_league=LG.id";
+			joins += " LEFT JOIN \"Year\" YR ON T.id_year=YR.id";
+		}
 		else if (field.equalsIgnoreCase(Record.alias)) {
 			value = "%" + value;
-			labelHQL = "concat(sport." + l_ + ", ' - ', championship." + l_ + ", ' - ', event." + l_ + ", ' - ', type1, ' - ', type2, ' - ', label)";
+			labelHQL = "SP." + l_ + " || ' - ' || CP." + l_ + " || ' - ' || EV." + l_ + " || ' - ' || type1 || ' - ' || type2 || ' - ' || label";
+			joins += " LEFT JOIN \"Sport\" SP ON T.id_sport=SP.id";
+			joins += " LEFT JOIN \"Championship\" CP ON T.id_championship=CP.id";
+			joins += " LEFT JOIN \"Event\" EV ON T.id_event=EV.id";
 		}
-		else if (field.toUpperCase().matches(RetiredNumber.alias + "|" + TeamStadium.alias + "|" + WinLoss.alias))
-			labelHQL = "concat(league.label, ' - ', team.label)";
+		else if (field.toUpperCase().matches(RetiredNumber.alias + "|" + TeamStadium.alias + "|" + WinLoss.alias)) {
+			labelHQL = "LG.label || ' - ' || TM.label";
+			joins += " LEFT JOIN \"League\" LG ON T.id_league=LG.id";
+			joins += " LEFT JOIN \"Team\" TM ON T.id_team=TM.id";
+		}
 		if (StringUtils.notEmpty(currentId))
-			whereHQL += " and id <> " + currentId;
+			whereHQL += " and T.id <> " + currentId;
 		// Execute query
-		List<Object[]> l = DatabaseHelper.executeNative("SELECT id, " + labelHQL + ", CAST('" + alias + "' AS VARCHAR) FROM \"" + hTable.get(field) + "\" WHERE (" + (isId ? "id=" + value.substring(1).replaceFirst("\\%", "") : "lower(" + labelHQL + ") ~ \"~PatternString\"('" + value + "')") + ")" + whereHQL + " ORDER BY " + (field.equalsIgnoreCase(Result.alias) ? "id_year desc" : labelHQL));
+		String regexp = StringUtils.toPatternString(value);
+		List<Object[]> l = DatabaseHelper.executeNative("SELECT T.id, " + labelHQL + ", CAST('" + alias + "' AS VARCHAR) FROM \"" + hTable.get(field) + "\" T" + joins + " WHERE (" + (isId ? "T.id=" + value.substring(1).replaceFirst("\\%", "") : "lower(" + labelHQL + ") ~ E'" + regexp) + "')" + whereHQL + " ORDER BY " + (field.equalsIgnoreCase(Result.alias) ? "id_year desc" : labelHQL) + " LIMIT " + MAX_AUTOCOMPLETE_RESULTS);
 		if (field.matches(Athlete.alias.toLowerCase() + "|athlete|person")) {
-			String labelHQL_ = "last_name || ', ' || first_name || ' (' || country.code || ', ' || team.label || ')'";
-			l.addAll(DatabaseHelper.executeNative("SELECT id, " + labelHQL_ + ", CAST('" + Athlete.alias + "' AS VARCHAR) FROM \"Athlete\" WHERE lower(" + labelHQL_ + ") ~ \"~PatternString\"('" + value.toLowerCase() + "')" + whereHQL + " ORDER BY " + (field.equalsIgnoreCase(Result.alias) ? "id_year desc" : labelHQL_)));
+			String labelHQL_ = "last_name || ', ' || first_name || ' (' || CN.code || ', ' || TM.label || ')'";
+			joins += " LEFT JOIN \"Team\" TM ON T.id_team=TM.id";
+			l.addAll(DatabaseHelper.executeNative("SELECT T.id, " + labelHQL_ + ", CAST('" + Athlete.alias + "' AS VARCHAR) FROM \"Athlete\" T" + joins + " WHERE lower(" + labelHQL_ + ") ~ E'" + regexp + "'" + whereHQL + " ORDER BY " + (field.equalsIgnoreCase(Result.alias) ? "id_year desc" : labelHQL_) + " LIMIT " + MAX_AUTOCOMPLETE_RESULTS));
 		}
 		else if (field.matches("pl\\d|complex"))
-			l.addAll(DatabaseHelper.executeNative("SELECT id, " + labelHQL + ", CAST('" + City.alias + "' AS VARCHAR) FROM \"City\" where concat(lower(" + l_ + "), ', ', lower(country.code)) ~ \"~PatternString\"('" + value.toLowerCase() + "') ORDER BY " + l_));
+			l.addAll(DatabaseHelper.executeNative("SELECT T.id, T." + l_ + ", CAST('" + City.alias + "' AS VARCHAR) FROM \"City\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id WHERE lower(T." + l_ + ") || ', ' || lower(CN.code) ~ E'" + regexp + "' ORDER BY T." + l_ + " LIMIT " + MAX_AUTOCOMPLETE_RESULTS));
 		StringBuffer html = new StringBuffer("<ul>");
 		int n = 0;
 		ArrayList<String> list = new ArrayList<String>();
@@ -375,6 +398,8 @@ public class UpdateServlet extends AbstractServlet {
 				}
 				tp = result.getSubevent().getType().getNumber();
 			}
+			else
+				result.setSubevent(null);
 			// Event #3
 			if (StringUtils.notEmpty(hParams.get("se2")) || StringUtils.notEmpty(hParams.get("se2-l"))) {
 				result.setSubevent2((Event)DatabaseHelper.loadEntity(Event.class, hParams.get("se2")));
@@ -396,6 +421,8 @@ public class UpdateServlet extends AbstractServlet {
 				}
 				tp = result.getSubevent2().getType().getNumber();
 			}
+			else
+				result.setSubevent2(null);
 			// Year
 			result.setYear((Year)DatabaseHelper.loadEntity(Year.class, hParams.get("yr")));
 			if (result.getYear() == null) {
@@ -409,10 +436,7 @@ public class UpdateServlet extends AbstractServlet {
 				if (StringUtils.notEmpty(hParams.get("pl" + i + "-l"))) {
 					String[] t = String.valueOf(hParams.get("pl" + i + "-l")).toLowerCase().split("\\,\\s");
 					boolean isComplex = false;
-					String st = null;
-					if (t.length > 2 && t[t.length - 2].length() == 2)
-						st = t[t.length - 2];
-					if (t.length > (st != null ? 3 : 2))
+					if (t.length > 2)
 						isComplex = true;
 					int id = 0;
 					if (StringUtils.notEmpty(hParams.get("pl" + i)))
@@ -438,6 +462,16 @@ public class UpdateServlet extends AbstractServlet {
 							result.setCity2((City)DatabaseHelper.loadEntity(City.class, id));
 							result.setComplex2(null);
 						}
+					}
+				}
+				else {
+					if (i == 1) {
+						result.setCity1(null);
+						result.setComplex1(null);
+					}
+					else {
+						result.setCity2(null);
+						result.setComplex2(null);
 					}
 				}
 			}
@@ -482,8 +516,7 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			result = (Result) DatabaseHelper.saveEntity(result, cb);
 			// External links
-			if (StringUtils.notEmpty(hParams.get("exl-l")))
-				DatabaseHelper.saveExternalLinks(Result.alias, result.getId(), String.valueOf(hParams.get("exl-l")));
+			DatabaseHelper.saveExternalLinks(Result.alias, result.getId(), String.valueOf(hParams.get("exl-l")));
 			// Person List
 			if (hParams.containsKey("rk1list")) {
 				int i = 1;
@@ -491,7 +524,7 @@ public class UpdateServlet extends AbstractServlet {
 				while (hParams.containsKey("rk" + i + "list")) {
 					String[] t = String.valueOf(hParams.get("rk" + i + "list")).split("\\|", 0);
 					for (String value : t) {
-						String[] t_ = value.split("\\-");
+						String[] t_ = value.split("\\-", -1);
 						String idp = t_[0];
 						if (StringUtils.notEmpty(idp) && !idp.equals("null") && !idp.startsWith("Name #")) {
 							String index = t_[1];
@@ -1533,30 +1566,50 @@ public class UpdateServlet extends AbstractServlet {
 	}
 	
 	private static void executeImport(HttpServletRequest request, HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
-		HttpSession session = request.getSession();
-		session.setAttribute("progress", 0);
-		InputStream input = null;
-		FileItemFactory factory = new DiskFileItemFactory();
-		ServletFileUpload upload = new ServletFileUpload(factory);
-		Collection<FileItem> items = upload.parseRequest(request);
-		for (FileItem fitem : items)
-			input = fitem.getInputStream();
-		Vector v = new Vector<Vector<String>>();
-		BufferedReader bf = new BufferedReader(new InputStreamReader(input, "UTF8"));
-		String s = null;
-		while ((s = bf.readLine()) != null) {
-			if (StringUtils.notEmpty(s)) {
-				Vector v_ = new Vector<String>();
-				for (String s_ : s.split(";", -1))
-					v_.add(s_.trim());
-				v.add(v_);
-			}
+		Object file = hParams.get("file");
+		if (StringUtils.notEmpty(file)) {
+			FileInputStream fis = new FileInputStream(ConfigUtils.getProperty("temp.folder") + file);
+			byte[] b = IOUtils.toByteArray(fis);
+			response.setHeader("Content-Disposition", "attachment;filename=" + file);
+			response.setContentType("text/html");
+			response.getWriter().write(new String(b));
+			response.flushBuffer();
+			fis.close();
 		}
-		String type = String.valueOf(hParams.get("type"));
-		String update = String.valueOf(hParams.get("update"));
-		String result = ImportUtils.processAll(session,  v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Draw.alias), type.equalsIgnoreCase(Record.alias), cb, lang);
-		session.setAttribute("progress", 100);
-		ServletHelper.writeText(response, result);
+		else {
+			HttpSession session = request.getSession();
+			session.setAttribute("progress", 0);
+			InputStream input = null;
+			FileItemFactory factory = new DiskFileItemFactory();
+			ServletFileUpload upload = new ServletFileUpload(factory);
+			Collection<FileItem> items = upload.parseRequest(request);
+			for (FileItem fitem : items)
+				input = fitem.getInputStream();
+			Vector v = new Vector<Vector<String>>();
+			BufferedReader bf = new BufferedReader(new InputStreamReader(input, "UTF8"));
+			String s = null;
+			while ((s = bf.readLine()) != null) {
+				if (StringUtils.notEmpty(s)) {
+					Vector v_ = new Vector<String>();
+					for (String s_ : s.split(";", -1))
+						v_.add(s_.trim());
+					v.add(v_);
+				}
+			}
+			String type = String.valueOf(hParams.get("type"));
+			String update = String.valueOf(hParams.get("update"));
+			String result = ImportUtils.processAll(session,  v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Draw.alias), type.equalsIgnoreCase(Record.alias), cb, lang);
+			session.setAttribute("progress", 100);
+			if (update.equals("1")) {
+				String f = "import" + System.currentTimeMillis() + ".html";
+				String css = "<style>table{border-collapse: collapse;}th,td{white-space: nowrap;border: 1px solid gray;padding: 2px;}div{margin-top: 10px;font-style: italic;}</style>";
+				FileOutputStream fos = new FileOutputStream(ConfigUtils.getProperty("temp.folder") + f);
+				fos.write((css + result).getBytes());
+				fos.close();
+				result = f;
+			}
+			ServletHelper.writeText(response, result);
+		}
 	}
 	
 	private static void loadTemplate(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {

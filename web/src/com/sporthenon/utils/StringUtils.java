@@ -22,13 +22,14 @@ import org.apache.commons.codec.binary.Base32;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 
+import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.utils.res.ResourceUtils;
 
 public class StringUtils {
 
 	public static final String EMPTY = "-";
 	public static final String PATTERN_PLACE = "^([^\\,\\(\\)]+\\,\\s|)[^\\,\\(\\)]+(\\,\\s[a-z]{2}|)\\,\\s[a-z]{3}$";
-	public static final String PATTERN_ATHLETE = "^[^\\,\\(\\)]+\\,\\s[^\\,\\(\\)]*([^\\s]|\\(([^\\,\\(\\)]+|[a-z]{3}\\,\\s[^\\,\\(\\)]+)\\))$";
+	public static final String PATTERN_ATHLETE = "^[^\\,\\(\\)]+\\,\\s{1}[^\\s][^\\,\\(\\)]*\\s{1}\\([a-z]{3}(|\\,\\s{1}[^\\s][^\\,\\(\\)]+)\\)$";
 	public static final String PATTERN_TEAM = "^[^\\,\\(\\)]+([^\\s]|\\s\\([a-z]{3}\\))$";
 	public static final String PATTERN_COUNTRY = "^[a-z]{3}$";
 	public static final String PATTERN_REVERT_NAME = "CHN|KOR|PRK|TPE|MAS|VIE";
@@ -68,7 +69,7 @@ public class StringUtils {
 	public static Integer toInt(Object o) {
 		return (o != null && o instanceof Integer ? (Integer) o : (notEmpty(o) ? new Integer(String.valueOf(o)) : 0));
 	}
-
+	
 	public static String toMD5(String s) {
 		try {
 			MessageDigest m = MessageDigest.getInstance("MD5");
@@ -79,6 +80,14 @@ public class StringUtils {
 			Logger.getLogger("sh").error(e.getMessage(), e);
 		}
 		return s;
+	}
+	
+	public static String toPatternString(String s) throws Exception {
+		String regexp = s.replaceAll("\\_", ".");
+		regexp = regexp.replaceAll("\\,", "\\\\\\\\\\\\\\\\,");
+		regexp = regexp.replaceAll("\\(", "\\\\\\\\\\\\\\\\(");
+		regexp = regexp.replaceAll("\\)", "\\\\\\\\\\\\\\\\)");
+		return String.valueOf(DatabaseHelper.executeNative("SELECT \"~PatternString\"(E'" + regexp + "')").get(0));
 	}
 
 	public static List<Integer> tieList(String s) {

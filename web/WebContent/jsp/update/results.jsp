@@ -37,7 +37,25 @@ var treeItems = null;
 				<td>ID:</td><td><input id="id" type="text" disabled="disabled" style="width:50px;"/></td>
 				</tr></table>
 			</div>
-			<div class="treediv"><div id="treeview">
+			<div id="shortcutdiv"><a href="javascript:displayShortcuts();">[+]&nbsp;<%=StringUtils.text("actions.bar", session) %></a>
+				<table id="shortcuts1" class="toolbar" style="display:none;position:relative;top:0;right:0;float:right;margin-top:0px;">
+					<tr>
+						<td><input id="upd-add" type="button" class="button upd-add" onclick="addResult();"/></td>
+						<td><input id="upd-modify" type="button" class="button upd-modify" onclick="saveResult();"/></td>
+						<td><input id="upd-delete" type="button" class="button upd-delete" onclick="deleteResult();"/></td>
+					</tr>
+				</table>
+				<table id="shortcuts2" class="toolbar" style="display:none;position:relative;top:0;right:0;clear:right;float:right;margin-top:0px;">
+					<tr>
+						<td><input id="upd-first" type="button" class="button upd-first" onclick="loadResult('first');"/></td>
+						<td><input id="upd-previous" type="button" class="button upd-previous" onclick="loadResult('prev');"/></td>
+						<td><input id="upd-find" type="button" class="button upd-find" onclick="findEntity(0);"/></td>
+						<td><input id="upd-next" type="button" class="button upd-next" onclick="loadResult('next');"/></td>
+						<td><input id="upd-last" type="button" class="button upd-last" onclick="loadResult('last');"/></td>
+					</tr>
+				</table>
+			</div>
+			<div id="treediv" class="treediv"><div id="treeview">
 				<table cellpadding="0" cellspacing="0">
 				<thead><tr><th style="text-align:right;"><img alt="" src="/img/render/expand.gif" class="toggleimg" onclick="toggleContent(this);"/><span class="toggletext" onclick="toggleContent(this);"><%=StringUtils.text("tree", session)%></span></th></tr></thead>
 				<tbody class="tby"><tr style="display:none;"><td id="tree">

@@ -467,6 +467,8 @@ public class DatabaseHelper {
 		try {
 			String[] t = s.split("\\|");
 			Object o_ = loadEntityFromQuery("from Type tp where lower(tp.label) = '" + t[1].toLowerCase() + "'");
+			if (o_ == null)
+				o_ = loadEntityFromQuery("from Type tp where lower(tp.label) = 'single'");
 			Event ev = new Event();
 			ev.setLabel(t[0]);
 			ev.setLabelFr(t[0]);
@@ -508,8 +510,9 @@ public class DatabaseHelper {
 				boolean isCountry = s.toLowerCase().matches(".*\\([a-z]{3}\\)$");
 				boolean isTeam = (!isCountry && s.toLowerCase().matches(".*\\([^\\,\\(\\)]+\\)$")); 
 				// Check if exists
-				String hql = "select id from Athlete where sport.id=" + spid + " and lower(last_name) || ', ' || lower(first_name) " + (isCountryTeam ? " || ' (' || lower(country.code) " + " || ', ' || lower(team.label) || ')'" : (isCountry ? " || ' (' || lower(country.code) || ')'" : (isTeam ? " || ' (' || lower(team.label) || ')'" : ""))) + " like '" + s.toLowerCase() + "'";
-				List<Integer> lId = (List<Integer>) DatabaseHelper.execute(hql);
+				String regexp = StringUtils.toPatternString(s);
+				String sql = "SELECT T.id FROM \"Athlete\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id LEFT JOIN \"Team\" TM ON T.id_team=TM.id WHERE T.id_sport=" + spid + " and lower(last_name) || ', ' || lower(first_name) " + (isCountryTeam ? " || ' (' || lower(CN.code) " + " || ', ' || lower(TM.label) || ')'" : (isCountry ? " || ' (' || lower(CN.code) || ')'" : (isTeam ? " || ' (' || lower(TM.label) || ')'" : ""))) + " ~ '" + regexp + "'";
+				List<Integer> lId = (List<Integer>) DatabaseHelper.executeNative(sql);
 				if (lId != null && lId.size() > 0)
 					return lId.get(0);
 				if (isCountry || isCountryTeam) { // Country set
@@ -611,8 +614,10 @@ public class DatabaseHelper {
 			}
 			if (cx != null) {
 				// Check if exists
-				String hql = "select id from Complex where lower(city.country.code) like '" + cn.toLowerCase() + "' and lower(city.label) like '" + ct.replaceAll("'", "''").toLowerCase() + "' and lower(label) like '" + cx.replaceAll("'", "''").toLowerCase() + "'";
-				List<Integer> lId = (List<Integer>) DatabaseHelper.execute(hql);
+				String regexp1 = StringUtils.toPatternString(ct);
+				String regexp2 = StringUtils.toPatternString(cx);
+				String sql = "SELECT T.id FROM \"Complex\" T LEFT JOIN \"City\" CT ON T.id_city=CT.id LEFT JOIN \"Country\" CN ON CT.id_country=CN.id WHERE lower(CN.code) like '" + cn.toLowerCase() + "' and lower(CT.label) ~ '" + regexp1.replaceAll("'", "''") + "' and lower(T.label) ~ '" + regexp2.replaceAll("'", "''") + "'";
+				List<Integer> lId = (List<Integer>) DatabaseHelper.executeNative(sql);
 				if (lId != null && lId.size() > 0)
 					return lId.get(0);
 				
@@ -626,8 +631,9 @@ public class DatabaseHelper {
 			}
 			else if (ct != null) {
 				// Check if exists
-				String hql = "select id from City where lower(country.code) like '" + cn.toLowerCase() + "' and lower(label) like '" + ct.replaceAll("'", "''").toLowerCase() + "'";
-				List<Integer> lId = (List<Integer>) DatabaseHelper.execute(hql);
+				String regexp = StringUtils.toPatternString(ct);
+				String sql = "SELECT T.id FROM \"City\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id WHERE lower(CN.code) like '" + cn.toLowerCase() + "' and lower(T.label) ~ '" + regexp.replaceAll("'", "''") + "'";
+				List<Integer> lId = (List<Integer>) DatabaseHelper.executeNative(sql);
 				if (lId != null && lId.size() > 0)
 					return lId.get(0);
 				
@@ -657,28 +663,30 @@ public class DatabaseHelper {
 	public static void saveExternalLinks(String alias, Integer id, String s) {
 		try {
 			executeUpdate("DELETE FROM \"~ExternalLink\" WHERE ENTITY='" + alias + "' AND ID_ITEM=" + id);
-			for (String s_ : s.split("\\s")) {
-				if (StringUtils.notEmpty(s_)) {
-					ExternalLink link = new ExternalLink();
-					link.setEntity(alias);
-					link.setIdItem(id);
-					if (s_.indexOf("wikipedia.org") > -1)
-						link.setType("wiki");
-					else if (s_.indexOf("www.sports-reference.com/olympics") > -1)
-						link.setType("oly-ref");
-					else if (s_.indexOf("www.basketball-reference.com") > -1)
-						link.setType("bkt-ref");
-					else if (s_.indexOf("www.baseball-reference.com") > -1)
-						link.setType("bb-ref");
-					else if (s_.indexOf("www.pro-football-reference.com") > -1)
-						link.setType("ft-ref");
-					else if (s_.indexOf("www.hockey-reference.com") > -1)
-						link.setType("hk-ref");
-					else
-						link.setType("others");
-					link.setChecked(false);
-					link.setUrl(s_);
-					saveEntity(link, null);
+			if (StringUtils.notEmpty(s) && !s.equals("null")) {
+				for (String s_ : s.split("\\s")) {
+					if (StringUtils.notEmpty(s_)) {
+						ExternalLink link = new ExternalLink();
+						link.setEntity(alias);
+						link.setIdItem(id);
+						if (s_.indexOf("wikipedia.org") > -1)
+							link.setType("wiki");
+						else if (s_.indexOf("www.sports-reference.com/olympics") > -1)
+							link.setType("oly-ref");
+						else if (s_.indexOf("www.basketball-reference.com") > -1)
+							link.setType("bkt-ref");
+						else if (s_.indexOf("www.baseball-reference.com") > -1)
+							link.setType("bb-ref");
+						else if (s_.indexOf("www.pro-football-reference.com") > -1)
+							link.setType("ft-ref");
+						else if (s_.indexOf("www.hockey-reference.com") > -1)
+							link.setType("hk-ref");
+						else
+							link.setType("others");
+						link.setChecked(false);
+						link.setUrl(s_);
+						saveEntity(link, null);
+					}
 				}
 			}
 		}
