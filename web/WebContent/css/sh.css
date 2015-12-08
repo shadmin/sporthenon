@@ -1450,6 +1450,11 @@ li{
 	width: 25px;
 	padding: 0px;
 }
+#update-results #rounds{
+	width: 855px;
+	height: 280px;
+	overflow: auto;
+}
 /*---------- DATA ----------*/
 #update-data .fstitle{
 	background-image: url(../img/update/data.png?6);

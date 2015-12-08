@@ -29,7 +29,7 @@ public class ServletHelper {
 		return hParams;
 	}
 	
-	public static void writePicklist(HttpServletResponse res, Collection<PicklistBean> picklist, String plId) throws Exception {
+	public static void writePicklist(HttpServletResponse response, Collection<PicklistBean> picklist, String plId) throws Exception {
         Document doc = DocumentFactory.getInstance().createDocument();
         Element root = doc.addElement("picklist");
         root.addAttribute("id", plId);
@@ -41,21 +41,21 @@ public class ServletHelper {
         		if (plb.getParam() != null)
         			item.addAttribute("param", String.valueOf(plb.getParam()));
         	}
-        res.setContentType("text/xml");
-        res.setCharacterEncoding("utf-8");
-        XMLWriter writer = new XMLWriter(res.getOutputStream(), OutputFormat.createPrettyPrint());
+        response.setContentType("text/xml");
+        response.setCharacterEncoding("utf-8");
+        XMLWriter writer = new XMLWriter(response.getOutputStream(), OutputFormat.createPrettyPrint());
         writer.write(doc);
         writer.flush();
-        res.flushBuffer();
+        response.flushBuffer();
 	}
 	
-	public static void writeTabHtml(HttpServletRequest req, HttpServletResponse res, StringBuffer sb, String lang) throws IOException {
+	public static void writeTabHtml(HttpServletRequest request, HttpServletResponse response, StringBuffer sb, String lang) throws IOException {
 		boolean isMoreItems = sb.toString().startsWith("<tr");
 		if (!isMoreItems)
-			sb.append("<p id=\"errorlink\"><a href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", req.getSession()) + "</p></span>");
+			sb.append("<p id=\"errorlink\"><a href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", request.getSession()) + "</p></span>");
 		String s = sb.toString();
-		res.setContentType("text/html");
-        res.setCharacterEncoding("utf-8");
+		response.setContentType("text/html");
+		response.setCharacterEncoding("utf-8");
         if (s.matches(".*\\#INFO\\#.*")) {
         	StringBuffer sbInfo = new StringBuffer();
         	sbInfo.append(StringUtils.getSizeBytes(s));
@@ -65,13 +65,13 @@ public class ServletHelper {
         }
         if (!isMoreItems)
         	s = s.replaceAll("\\shref\\=", " target='_blank' href=");
-        PrintWriter writer = res.getWriter();
+        PrintWriter writer = response.getWriter();
         writer.write(s);
-        res.flushBuffer();
+        response.flushBuffer();
 	}
 	
-	public static void writePageHtml(HttpServletRequest req, HttpServletResponse res, StringBuffer sb, boolean isPrint) throws ServletException, IOException {
-		String s = sb.append("<p id=\"errorlink\"><a href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", req.getSession()) + "</a></p>").toString();
+	public static void writePageHtml(HttpServletRequest request, HttpServletResponse response, StringBuffer sb, boolean isPrint) throws ServletException, IOException {
+		String s = sb.append("<p id=\"errorlink\"><a href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", request.getSession()) + "</a></p>").toString();
 		if (s.matches(".*\\#INFO\\#.*")) {
 			StringBuffer sbInfo = new StringBuffer();
 			sbInfo.append(StringUtils.getSizeBytes(s));
@@ -79,18 +79,18 @@ public class ServletHelper {
 			sbInfo.append("|" + StringUtils.countIn(s, "<img"));
 			s = s.replaceAll("\\#INFO\\#", sbInfo.toString());
 		}
-		req.setAttribute("version", "v=" + ConfigUtils.getProperty("version"));
-		req.setAttribute("html", s);
-		req.setAttribute("t2", System.currentTimeMillis());
-		req.getRequestDispatcher("/jsp/db/" + (isPrint ? "print" : "default") + ".jsp").forward(req, res);
+		request.setAttribute("version", "v=" + ConfigUtils.getProperty("version"));
+		request.setAttribute("html", s);
+		request.setAttribute("t2", System.currentTimeMillis());
+		request.getRequestDispatcher("/jsp/db/" + (isPrint ? "print" : "default") + ".jsp").forward(request, response);
 	}
 	
-	public static void writeText(HttpServletResponse res, String s) throws IOException {
-		res.setContentType("text/plain");
-        res.setCharacterEncoding("utf-8");
-        PrintWriter writer = res.getWriter();
+	public static void writeText(HttpServletResponse response, String s) throws IOException {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("utf-8");
+        PrintWriter writer = response.getWriter();
         writer.write(s);
-        res.flushBuffer();
+        response.flushBuffer();
 	}
 	
 }

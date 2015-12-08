@@ -15,7 +15,6 @@ import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.meta.FolderHistory;
-import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
@@ -67,7 +66,7 @@ public class ResultServlet extends AbstractServlet {
 					FolderHistory fh = (FolderHistory) DatabaseHelper.loadEntityFromQuery("from FolderHistory where previous_params='" + lFuncParams.get(0) + "-" + lFuncParams.get(1) + "-" + lFuncParams.get(2) + (!lFuncParams.get(3).equals(0) ? "-" + lFuncParams.get(3) : "") + (!lFuncParams.get(4).equals(0) ? "-" + lFuncParams.get(4) : "") + "' order by id");
 					if (fh != null) {
 						isRedirect = true;
-						response.sendRedirect(ConfigUtils.getProperty("url") + "results/" + StringUtils.urlEscape(fh.getCurrentPath()) + "/" + StringUtils.encode(fh.getCurrentParams()));
+						redirect(request, response, "/results/" + StringUtils.urlEscape(fh.getCurrentPath()) + "/" + StringUtils.encode(fh.getCurrentParams()));
 					}
 				}
 				if (!isRedirect) {

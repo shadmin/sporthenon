@@ -19,27 +19,35 @@ public abstract class AbstractServlet extends HttpServlet {
 	protected static Logger logger = Logger.getLogger("sh");
 	
 	@Override
-	protected abstract void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException;
+	protected abstract void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
 	@Override
-	protected abstract void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException;
+	protected abstract void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 	
-	protected void init(HttpServletRequest req) {
-		req.setAttribute("t1", System.currentTimeMillis());
+	protected void init(HttpServletRequest request) {
+		request.setAttribute("t1", System.currentTimeMillis());
 	}
 
-	protected String getLocale(HttpServletRequest req) {
-		ResourceUtils.setLocale(req);
-		return String.valueOf(req.getSession().getAttribute("locale"));
+	protected String getLocale(HttpServletRequest request) {
+		ResourceUtils.setLocale(request);
+		return String.valueOf(request.getSession().getAttribute("locale"));
 	}
 	
-	protected Contributor getUser(HttpServletRequest req) {
-		return (req.getSession().getAttribute("user") != null ? (Contributor) req.getSession().getAttribute("user") : null);
+	protected Contributor getUser(HttpServletRequest request) {
+		return (request.getSession().getAttribute("user") != null ? (Contributor) request.getSession().getAttribute("user") : null);
 	}
 	
-	protected void handleException(HttpServletRequest req, HttpServletResponse res, Throwable e) throws ServletException, IOException {
+	protected void handleException(HttpServletRequest request, HttpServletResponse response, Throwable e) throws ServletException, IOException {
 		logger.error(e.getMessage(), e);
-		req.getRequestDispatcher("/jsp/error.jsp").forward(req, res);
+		request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+	}
+	
+	protected void redirect(HttpServletRequest request, HttpServletResponse response, String path) throws ServletException, IOException {
+		String url = request.getRequestURL().toString();
+		String protocol = url.replaceFirst("\\:.*", "");
+		url = url.replaceFirst(protocol + "\\:\\/\\/", "").replaceAll("\\/.*", "");
+		url = protocol + "://" + url + path;
+		response.sendRedirect(url);
 	}
 	
 }

@@ -93,7 +93,7 @@ public class HtmlUtils {
 			html.append(">" + (!text1.startsWith("<") ? text1.replaceAll("\\s", "&nbsp;")/*.replaceAll("\\-", "&#8209;")*/ : text1) + "</a>");
 		}
 		else
-			html.append(ConfigUtils.getProperty("url") + url.toString().substring(1));
+			html.append("/" + url.toString().substring(1));
 		return html.toString();
 	}
 	
@@ -286,13 +286,13 @@ public class HtmlUtils {
 		return (sbHtml.toString().length() > 0 ? "<table>" + sbHtml.append("</table>").toString() : "");
 	}
 	
-	public static void setHeadInfo(HttpServletRequest req, String header) throws Exception {
+	public static void setHeadInfo(HttpServletRequest request, String header) throws Exception {
 		Document d = Jsoup.parse(header);
 		Elements e = d.getElementsByTag("span");
 		String title = e.get(0).text();
 		String desc = e.get(1).text();
-		req.setAttribute("title", StringUtils.getTitle(title));
-		req.setAttribute("desc", desc);
+		request.setAttribute("title", StringUtils.getTitle(title));
+		request.setAttribute("desc", desc);
 	}
 	
 }

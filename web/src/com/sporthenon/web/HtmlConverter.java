@@ -193,7 +193,7 @@ public class HtmlConverter {
 		return p;
 	}
 	
-	public static StringBuffer getHeader(HttpServletRequest req, short type, Collection<Object> params, Contributor cb, String lang) throws Exception {
+	public static StringBuffer getHeader(HttpServletRequest request, short type, Collection<Object> params, Contributor cb, String lang) throws Exception {
 		ArrayList<Object> lstParams = new ArrayList<Object>(params);
 		HashMap<String, String> hHeader = new HashMap<String, String>();
 		hHeader.put("info", "#INFO#");
@@ -337,7 +337,7 @@ public class HtmlConverter {
 		}
 		// Reported errors
 		try {
-			List<ErrorReport> list = (List<ErrorReport>) DatabaseHelper.execute("from ErrorReport where url='" + String.valueOf(req.getAttribute("url")).replaceAll("\\'", "''") + "' order by id");
+			List<ErrorReport> list = (List<ErrorReport>) DatabaseHelper.execute("from ErrorReport where url='" + String.valueOf(request.getAttribute("url")).replaceAll("\\'", "''") + "' order by id");
 			if (list != null && list.size() > 0) {
 				StringBuffer sb = new StringBuffer();
 				sb.append("<a class='ertip' href='#ereport'>" + list.size() + " " + ResourceUtils.getText("error" + (list.size() > 1 ? "s" : ""), lang) + " " + ResourceUtils.getText("on.this.page", lang) + "</a>");
@@ -352,7 +352,7 @@ public class HtmlConverter {
 			Logger.getLogger("sh").error(e.getMessage(), e);
 		}
 		finally {
-			req.removeAttribute("url");
+			request.removeAttribute("url");
 		}
 		return HtmlUtils.writeHeader(hHeader, spid, cb, lang);
 	}

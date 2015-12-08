@@ -141,24 +141,9 @@ var treeItems = null;
 			</fieldset>
 			</ul>
 			<ul>
-			<!-- DRAW -->
+			<!-- ROUNDS -->
 			<li>
-			<fieldset><legend><table><tr><td><input type="checkbox" id="cbdraw" onclick="toggleDraw();"/></td><td><label for="cbdraw"><%=StringUtils.text("add.draw", session)%></label></td></tr></table></legend>
-				<table id="draw" style="display:none;">
-					<tr><td><input type="text" id="qf1w" tabindex="1000" name="<%=StringUtils.text("quarterfinal", session)%> #1 - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('qf1w');">[X]</a></td></tr>
-					<tr><td><input type="text" id="qf1l" tabindex="1001" name="<%=StringUtils.text("quarterfinal", session)%> #1 - <%=StringUtils.text("loser", session)%>"/><a href="javascript:clearValue('qf1l');">[X]</a></td></tr>
-					<tr><td style="text-align:center;">&nbsp;<input type="text" id="qf1rs" tabindex="1002" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td></tr>
-					<tr><td><input type="text" id="qf2w" tabindex="1003" name="<%=StringUtils.text("quarterfinal", session)%> #2 - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('qf2w');">[X]</a></td><td style="padding-left:50px;"><input type="text" id="sf1w" tabindex="1012" name="<%=StringUtils.text("semifinal", session)%> #1 - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('sf1w');">[X]</a></td></tr>
-					<tr><td><input type="text" id="qf2l" tabindex="1004" name="<%=StringUtils.text("quarterfinal", session)%> #2 - <%=StringUtils.text("loser", session)%>"/><a href="javascript:clearValue('qf2l');">[X]</a></td><td style="padding-left:50px;"><input type="text" id="sf1l" tabindex="1013" name="<%=StringUtils.text("semifinal", session)%> #1 - <%=StringUtils.text("loser", session)%>"/><a href="javascript:clearValue('sf1l');">[X]</a></td></tr>
-					<tr><td style="text-align:center;">&nbsp;<input type="text" id="qf2rs" tabindex="1005" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td><td style="padding-left:50px;text-align:center;">&nbsp;<input type="text" id="sf1rs" tabindex="1014" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td></tr>
-					<tr><td><input type="text" id="qf3w" tabindex="1006" name="<%=StringUtils.text("quarterfinal", session)%> #3 - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('qf3w');">[X]</a></td><td style="padding-left:50px;"><input type="text" id="sf2w" tabindex="1015" name="<%=StringUtils.text("semifinal", session)%> #2 - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('sf2w');">[X]</a></td></tr>
-					<tr><td><input type="text" id="qf3l" tabindex="1007" name="<%=StringUtils.text("quarterfinal", session)%> #3 - <%=StringUtils.text("loser", session)%>"/><a href="javascript:clearValue('qf3l');">[X]</a></td><td style="padding-left:50px;"><input type="text" id="sf2l" tabindex="1016" name="<%=StringUtils.text("semifinal", session)%> #2 - <%=StringUtils.text("loser", session)%>"/><a href="javascript:clearValue('sf2l');">[X]</a></td></tr>
-					<tr><td style="text-align:center;">&nbsp;<input type="text" id="qf3rs" tabindex="1008" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td><td style="padding-left:50px;text-align:center;">&nbsp;<input type="text" id="sf2rs" tabindex="1017" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td></tr>
-					<tr><td><input type="text" id="qf4w" tabindex="1009" name="<%=StringUtils.text("quarterfinal", session)%> #4 - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('qf4w');">[X]</a></td><td style="padding-left:50px;"><input type="text" id="thdw" tabindex="1018" name="<%=StringUtils.text("third.place", session)%> - <%=StringUtils.text("winner", session)%>"/><a href="javascript:clearValue('thdw');">[X]</a></td></tr>
-					<tr><td><input type="text" id="qf4l" tabindex="1010" name="<%=StringUtils.text("quarterfinal", session)%> #4 - <%=StringUtils.text("loser", session)%>"/><a href="javascript:clearValue('qf4l');">[X]</a></td><td style="padding-left:50px;"><input type="text" id="thdl" tabindex="1019" name="<%=StringUtils.text("third.place", session)%> - <%=StringUtils.text("loser", session)%>"/><a href="javascript:clearValue('thdl');">[X]</a></td></tr>
-					<tr><td style="text-align:center;">&nbsp;<input type="text" id="qf4rs" tabindex="1011" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td><td style="padding-left:50px;text-align:center;">&nbsp;<input type="text" id="thdrs" tabindex="1020" name="<%=StringUtils.text("score", session)%>" style="width:150px;"/></td></tr>
-				</table>
-			</fieldset>
+			<fieldset><legend>Matches/Rounds/Days</legend><div id="rounds"><table style="margin-top:0px;"></table><a href="javascript:addRounds();">[+10]</a></div></fieldset>
 			</li>
 			</ul>
 			<!-- BUTTON PANEL -->

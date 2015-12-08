@@ -1485,6 +1485,7 @@ function initUpdateResults(value) {
 		$$('#imgzone p')[0].remove();
 		showWarning();
 	});
+	addRounds();
 	loadResValues(value);
 	currentAlias = 'RS';
 	$('fresults').style.width = '700px';
@@ -1499,6 +1500,7 @@ function loadResValues(value) {
 		if (t[7] != '') {tValues['se'] = t[7]; $('se').value = t[8]; updateType('se', t[9]); $('se').addClassName('completed');} else {$('se').value = $('se').name; $('se').removeClassName('completed');}
 		if (t[10] != '') {tValues['se2'] = t[10]; $('se2').value = t[11]; updateType('se2', t[12]); $('se2').addClassName('completed');} else {$('se2').value = $('se2').name; $('se2').removeClassName('completed');}
 		tValues['yr'] = t[13]; $('yr').value = t[14]; $('yr').addClassName('completed');
+		addRounds();
 		if (t.length > 16) {
 			tValues['id'] = t[15];
 			$('id').value = tValues['id'];
@@ -1577,7 +1579,7 @@ function loadResValues(value) {
 				rkList = null;
 			}
 			// Draws
-			var k = j;
+			/*var k = j;
 			tValues['drid'] = t[++k];
 			$('cbdraw').checked = (tValues['drid'] != '');
 			if (tValues['drid'] != '') {
@@ -1601,7 +1603,7 @@ function loadResValues(value) {
 					$(el).removeClassName('completed').removeClassName('completed2');
 				});
 				$('draw').hide();
-			}
+			}*/
 		}
 	}
 }
@@ -1635,7 +1637,7 @@ function updateType(s, tp) {
 	if ((tValues['se2'] != null && s == 'se2') || (tValues['se'] != null && tValues['se2'] == null && s == 'se') || (tValues['ev'] != null && tValues['se'] == null && tValues['se2'] == null && s == 'ev')) {
 		currentTp = parseInt(tp);
 	}
-	['rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'rk6', 'rk7', 'rk8', 'rk9', 'rk10', 'rk11', 'rk12', 'rk13', 'rk14', 'rk15', 'rk16', 'rk17', 'rk18', 'rk19', 'rk20', 'qf1w', 'qf1l', 'qf2w', 'qf2l', 'qf3w', 'qf3l', 'qf4w', 'qf4l', 'sf1w', 'sf1l', 'sf2w', 'sf2l', 'thdw', 'thdl'].each(function(s){
+	['rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'rk6', 'rk7', 'rk8', 'rk9', 'rk10', 'rk11', 'rk12', 'rk13', 'rk14', 'rk15', 'rk16', 'rk17', 'rk18', 'rk19', 'rk20'].each(function(s){
 		Event.stopObserving($(s), 'blur');
 		Event.stopObserving($(s), 'keydown');
 		new Ajax.Autocompleter(
@@ -1681,7 +1683,7 @@ function addResult() {
 function saveResult() {
 	$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
 	var h = $H({sp: tValues['sp']});
-	var t = ['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'source', 'cmt', 'img', 'exl', 'drid', 'qf1w', 'qf1l', 'qf1rs', 'qf2w', 'qf2l', 'qf2rs', 'qf3w', 'qf3l', 'qf3rs', 'qf4w', 'qf4l', 'qf4rs', 'sf1w', 'sf1l', 'sf2w', 'sf1rs', 'sf2l', 'sf2rs', 'thdw', 'thdl', 'thdrs'];
+	var t = ['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'source', 'cmt', 'img', 'exl'];
 	for (var i = 1 ; i <= 20 ; i++) {
 		t.push('rk' + i);
 		t.push('rs' + i);
@@ -1735,14 +1737,6 @@ function deleteResult() {
 		dQuestion.close();
 	});
 }
-function toggleDraw() {
-	if ($('cbdraw').checked == true) {
-		$('draw').show();
-	}
-	else {
-		$('draw').hide();
-	}
-}
 function loadDataTip(type) {
 	$('datatip').show();
 	$('datatip').update('<img src="/img/db/loading.gif?6"/>');
@@ -1751,17 +1745,17 @@ function loadDataTip(type) {
 var rkList = null;
 var pListIndex = null;
 var pListCount = 20;
-function setPLInput(id) {
+function setAjaxInput(id) {
 	Event.stopObserving($(id), 'blur');
 	Event.stopObserving($(id), 'keydown');
 	new Ajax.Autocompleter(
 		id,
-		'ajaxsearch2',
+		'ajaxsearch' + (id.indexOf('pl') == 0 ? '2' : ''),
 		'/update/ajax/pr' + (tValues['sp'] != null ? '-' + tValues['sp'] : ''),
 		{ paramName: 'value', minChars: 2, frequency: 0.05, afterUpdateElement: setValue}
 	);
 	if ($(id).value == '') {
-		$(id).value = $(id).name;	
+		$(id).value = $(id).name;
 	}
 	$(id).addClassName('default');
 	Event.observe($(id), 'focus', function(){
@@ -1802,7 +1796,7 @@ function initPersonList(index) {
 	}
 	$('plist').update('<table>' + html.join('') + '</table>');
 	$$('#plist input').each(function(id){
-		setPLInput(id);
+		setAjaxInput(id);
 	});
 	pListIndex = index;
 	dPersonList.open();
@@ -1826,7 +1820,7 @@ function addPersonList() {
 	try {
 		for (var i = pListCount + 1 ; i <= pListCount + 10 ; i++) {
 			$$('#plist table')[0].insert('<tr><td><input type="text" id="plist' + i + '-index" tabindex="' + (100000 + i) + '" name="Index" style="width:50px;"/></td><td><input type="text" id="plist' + i + '" tabindex="' + (100001 + i) + '" name="Name #' + i + '"/><a href="javascript:clearValue(\'plist' + i + '\');">[X]</a></td></tr>');
-			setPLInput('plist' + i);
+			setAjaxInput('plist' + i);
 		}
 	}
 	catch(err){}
@@ -1837,6 +1831,36 @@ function displayShortcuts() {
 	$('shortcuts1').show();
 	$('shortcuts2').show();
 	$('treediv').style.marginTop = '80px';
+}
+var rdCount = 0;
+function addRounds() {
+	try {
+		var rtable = $$('#rounds table')[0];
+		rtable.update();
+		var html = null;
+		for (var i = rdCount + 1 ; i <= rdCount + 10 ; i++) {
+			html = ['<tr>'];
+			html.push('<td><input type="text" id="rd' + i + 'type" tabindex="' + (1000 + i) + '" name="Type" value="Type" class="default" style="width:120px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk1" tabindex="' + (1001 + i) + '" name="Rank #1" style="width:150px;"/><a href="javascript:clearValue(\'rd' + i + 'rk1\');">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rs1" tabindex="' + (1002 + i) + '" name="Result/Score" value="Result/Score" class="default" style="width:100px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk2" tabindex="' + (1003 + i) + '" name="Rank #2" style="width:150px;"/><a href="javascript:clearValue(\'rd' + i + 'rk2\');">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rs2" tabindex="' + (1004 + i) + '" name="Result" style="width:100px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk3" tabindex="' + (1005 + i) + '" name="Rank #3" style="width:150px;"/><a href="javascript:clearValue(\'rd' + i + 'rk3\');">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rs3" tabindex="' + (1006 + i) + '" name="Result" style="width:100px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'dt" tabindex="' + (1007 + i) + '" name="Date" style="width:70px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'pl" tabindex="' + (1008 + i) + '" name="Place" style="width:150px;"/><a href="javascript:clearValue(\'rd' + i + 'pl\');">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'exa" tabindex="' + (1009 + i) + '" name="Tie" style="width:50px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'cmt" tabindex="' + (1010 + i) + '" name="Comment" style="width:150px;"/></td>');
+			html.push('</tr>');
+			rtable.insert(html.join(''));
+			setAjaxInput('rd' + i + 'rk1');
+			setAjaxInput('rd' + i + 'rk2');
+			setAjaxInput('rd' + i + 'rk3');
+			setAjaxInput('rd' + i + 'pl');
+		}
+	}
+	catch(err){}
+	rdCount += 10;
 }
 /*========== DATA ==========*/
 var isMerge = null;

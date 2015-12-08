@@ -45,7 +45,7 @@ public class InfoRefServlet extends AbstractServlet {
 				}
 				else
 					p = params[1] + "-" + params[2] + "-" + params[3] + "-" + (params.length > 4 ? params[4] : "") + "-" + (params.length > 5 ? params[5] : "") + "-0";
-				response.sendRedirect("/results/" + StringUtils.encode(p));
+				redirect(request, response, "/results/" + StringUtils.encode(p));
 			}
 			else {
 				int id = (params.length > 1 ? new Integer(params[1]) : 0);

@@ -39,7 +39,7 @@ public class SearchServlet extends AbstractServlet {
 				String[] t = StringUtils.decode(String.valueOf(hParams.get("p"))).split("\\-");
 				Integer id = Integer.parseInt(t[1]);
 				String url = HtmlUtils.writeLink(t[0], id, null, DatabaseHelper.getEntityName(t[0], id));
-				response.sendRedirect(url);
+				redirect(request, response, url);
 			}
 			else if (hParams.containsKey("p2") && hParams.get("p2").equals("ajax")) { // Ajax autocompletion
 				final int LIMIT = 10;

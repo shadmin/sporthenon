@@ -154,10 +154,10 @@ public class NavigationServlet extends AbstractServlet {
 		    	dispatcher.forward(request, response);
 		}
 		catch (OldPatternException e) {
-			response.sendRedirect(url.replaceAll("\\/athletes", "/athlete").replaceAll("\\/championships", "/championship").replaceAll("\\/cities", "/city").replaceAll("\\/complexes", "/complex").replaceAll("\\/countries", "/country").replaceAll("\\/events", "/event").replaceAll("\\/sports", "/sport").replaceAll("\\/usstates", "/usstate").replaceAll("\\/teams", "/team").replaceAll("\\/years", "/year"));
+			redirect(request, response, url.replaceAll("\\/athletes", "/athlete").replaceAll("\\/championships", "/championship").replaceAll("\\/cities", "/city").replaceAll("\\/complexes", "/complex").replaceAll("\\/countries", "/country").replaceAll("\\/events", "/event").replaceAll("\\/sports", "/sport").replaceAll("\\/usstates", "/usstate").replaceAll("\\/teams", "/team").replaceAll("\\/years", "/year"));
 		}
 		catch (NotLoggedInException e) {
-			response.sendRedirect("/login");
+			redirect(request, response, "/login");
 		}
 		catch (Exception e) {
 			handleException(request, response, e);

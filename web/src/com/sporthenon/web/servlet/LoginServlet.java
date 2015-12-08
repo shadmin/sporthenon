@@ -38,7 +38,7 @@ public class LoginServlet extends AbstractServlet {
 					Contributor m = lstContributor.get(0);
 					if (m.getActive() != null && m.getActive()) {
 						request.getSession().setAttribute("user", m);
-						response.sendRedirect("/update/overview");
+						redirect(request, response, "/update/overview");
 						isMsg = false;
 					}
 					else
@@ -75,7 +75,7 @@ public class LoginServlet extends AbstractServlet {
 				request.getSession().removeAttribute("user");
 				msg = ResourceUtils.getText("msg.logout", getLocale(request));
 				isMsg = false;
-				response.sendRedirect(ConfigUtils.getProperty("url"));
+				redirect(request, response, "/");
 			}
 			if (isMsg) {
 				request.setAttribute("msg", msg);
