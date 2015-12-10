@@ -260,48 +260,6 @@ public class StringUtils {
 		return (hm.containsKey(pos) ? hm.get(pos) : pos);
 	}
 	
-	public static HashMap<String, String> getDrawLabels(int sp, int cp, int ev, String lang) {
-		HashMap<String, String> h = new HashMap<String, String>();
-		if (sp == 23 && cp == 51 && ev == 455) { // NFL
-			h.put("Qf1", "NFC Divisional");
-			h.put("Qf2", "NFC Divisional");
-			h.put("Qf3", "AFC Divisional");
-			h.put("Qf4", "AFC Divisional");
-			h.put("Sf1", "NFC Championship");
-			h.put("Sf2", "AFC Championship");
-			h.put("F", "Super Bowl");
-		}
-		else if ((sp == 24 || sp == 25) && (cp == 54 || cp == 55) &&  ev == 455) { // NBA,NHL
-			h.put("Qf1", ResourceUtils.getText("eastern.conf", lang) + " – " + ResourceUtils.getText("semifinal", lang));
-			h.put("Qf2", ResourceUtils.getText("eastern.conf", lang) + " – " + ResourceUtils.getText("semifinal", lang));
-			h.put("Qf3", ResourceUtils.getText("western.conf", lang) + " – " + ResourceUtils.getText("semifinal", lang));
-			h.put("Qf4", ResourceUtils.getText("western.conf", lang) + " – " + ResourceUtils.getText("semifinal", lang));
-			h.put("Sf1", ResourceUtils.getText("eastern.conf", lang) + " – " + ResourceUtils.getText("final", lang));
-			h.put("Sf2", ResourceUtils.getText("western.conf", lang) + " – " + ResourceUtils.getText("final", lang));
-			h.put("F", sp == 24 ? ResourceUtils.getText("nba.finals", lang) : ResourceUtils.getText("nhl.finals", lang));
-		}
-		else if (sp == 26 && cp == 56 &&  ev == 455) { // MLB
-			h.put("Qf1", "NLDS");
-			h.put("Qf2", "NLDS");
-			h.put("Qf3", "ALDS");
-			h.put("Qf4", "ALDS");
-			h.put("Sf1", "NLCS");
-			h.put("Sf2", "ALCS");
-			h.put("F", "World Series");
-		}
-		else {
-			h.put("Qf1", ResourceUtils.getText("quarterfinal", lang) + " #1");
-			h.put("Qf2", ResourceUtils.getText("quarterfinal", lang) + " #2");
-			h.put("Qf3", ResourceUtils.getText("quarterfinal", lang) + " #3");
-			h.put("Qf4", ResourceUtils.getText("quarterfinal", lang) + " #4");
-			h.put("Sf1", ResourceUtils.getText("semifinal", lang) + " #1");
-			h.put("Sf2", ResourceUtils.getText("semifinal", lang) + " #2");
-			h.put("F", ResourceUtils.getText("final", lang).toUpperCase());
-			h.put("Thd", ResourceUtils.getText("third.place", lang));
-		}
-		return h;
-	}
-
 	public static final String getShortName(String name) {
 		if (notEmpty(name) && name.matches(PATTERN_ATHLETE)) {
 			String[] t = name.replaceAll("\\s\\(.*", "").split("\\,\\s", -1);

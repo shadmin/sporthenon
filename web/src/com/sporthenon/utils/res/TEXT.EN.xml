@@ -50,13 +50,13 @@
 	<entry key="entity.CT">Cities</entry>
 	<entry key="entity.CX">Complexes</entry>
 	<entry key="entity.CN">Countries</entry>
-	<entry key="entity.DR">Draws</entry>
 	<entry key="entity.EV">Events</entry>
 	<entry key="entity.HF">Hall of Fame</entry>
 	<entry key="entity.OL">Olympic Games</entry>
 	<entry key="entity.OR">Olympic Medals</entry>
 	<entry key="entity.PR">Athletes</entry>
 	<entry key="entity.RC">Records</entry>
+	<entry key="entity.RD">Rounds</entry>
 	<entry key="entity.RS">Results</entry>
 	<entry key="entity.RN">Retired Numbers</entry>
 	<entry key="entity.SP">Sports</entry>
@@ -72,13 +72,13 @@
 	<entry key="entity.CT.1">City</entry>
 	<entry key="entity.CX.1">Complex</entry>
 	<entry key="entity.CN.1">Country</entry>
-	<entry key="entity.DR.1">Draw</entry>
 	<entry key="entity.EV.1">Event</entry>
 	<entry key="entity.HF.1">Hall of Fame</entry>
 	<entry key="entity.OL.1">Olympic Games</entry>
 	<entry key="entity.OR.1">Olympic Medals</entry>
 	<entry key="entity.PR.1">Athlete</entry>
 	<entry key="entity.RC.1">Record</entry>
+	<entry key="entity.RD.1">Round</entry>
 	<entry key="entity.RS.1">Result</entry>
 	<entry key="entity.RN.1">Retired Number</entry>
 	<entry key="entity.SP.1">Sport</entry>
@@ -514,7 +514,6 @@
 	<entry key="template.place1">Place #1 (Complex Name or City)</entry>
 	<entry key="template.place2">Place #2 (Complex Name or City)</entry>
 	<entry key="template.record.label">Record Label</entry>
-	<entry key="add.draw">Add draw</entry>
 	<entry key="renamed">Same stadium renamed?</entry>
 	<entry key="counting">Counting</entry>
 	<entry key="win">Wins</entry>

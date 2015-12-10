@@ -30,8 +30,9 @@ public class Round {
 	@Column(name = "id_result_type")
 	private Integer idResultType;
 	
-	@Column(name = "id_round_type")
-	private Integer idRoundType;
+	@ManyToOne
+	@JoinColumn(name = "id_round_type")
+	private RoundType roundType;
 	
 	@Column(name = "id_rank1")
 	private Integer idRank1;
@@ -81,10 +82,6 @@ public class Round {
 
 	public Integer getIdResultType() {
 		return idResultType;
-	}
-
-	public Integer getIdRoundType() {
-		return idRoundType;
 	}
 
 	public Integer getIdRank1() {
@@ -147,10 +144,6 @@ public class Round {
 		this.idResultType = idResultType;
 	}
 
-	public void setIdRoundType(Integer idRoundType) {
-		this.idRoundType = idRoundType;
-	}
-
 	public void setIdRank1(Integer idRank1) {
 		this.idRank1 = idRank1;
 	}
@@ -197,6 +190,25 @@ public class Round {
 
 	public void setMetadata(Metadata metadata) {
 		this.metadata = metadata;
+	}
+
+	public RoundType getRoundType() {
+		return roundType;
+	}
+
+	public void setRoundType(RoundType roundType) {
+		this.roundType = roundType;
+	}
+
+	@Override
+	public String toString() {
+		return "Round [id=" + id + ", idResult=" + idResult + ", idResultType="
+				+ idResultType + ", idRoundType=" + roundType + ", idRank1="
+				+ idRank1 + ", result1=" + result1 + ", idRank2=" + idRank2
+				+ ", result2=" + result2 + ", idRank3=" + idRank3
+				+ ", result3=" + result3 + ", city=" + city + ", complex="
+				+ complex + ", date=" + date + ", exa=" + exa + ", comment="
+				+ comment + ", metadata=" + metadata + "]";
 	}
 	
 }

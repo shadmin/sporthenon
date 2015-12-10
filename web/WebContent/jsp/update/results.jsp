@@ -78,7 +78,7 @@ var treeItems = null;
 			</li>
 			<!-- DATES -->
 			<li>
-			<fieldset style="height:140px;width:307px;"><legend><%=StringUtils.text("dates", session)%></legend>
+			<fieldset style="height:140px;width:329px;"><legend><%=StringUtils.text("dates", session)%></legend>
 				<table>
 					<tr><td><input type="text" id="yr" tabindex="6" name="<%=StringUtils.text("entity.YR.1", session)%>"/><a href="javascript:clearValue('yr');">[X]</a></td>
 					<td><input id="prevbtn" type="button" class="button" onclick="loadResult('prev');" value=""/></td>
@@ -110,7 +110,7 @@ var treeItems = null;
 			</li>
 			<!-- OTHER -->
 			<li>
-			<fieldset style="height:145px;width:545px;"><legend><%=StringUtils.text("other.info", session)%></legend>
+			<fieldset style="height:145px;width:567px;"><legend><%=StringUtils.text("other.info", session)%></legend>
 				<table>
 					<tr><td style="width:200px;"><input type="text" id="exa" tabindex="11" name="<%=StringUtils.text("tie", session)%>" style="width:150px;"/></td>
 						<td style="width:20px;"><input id="inact" type="checkbox" onclick="showWarning();"/></td>
@@ -125,7 +125,7 @@ var treeItems = null;
 			<ul>
 			<!-- RANKINGS -->
 			<li>
-			<fieldset><legend><%=StringUtils.text("rankings", session)%></legend>
+			<fieldset style="width:877px;"><legend><%=StringUtils.text("rankings", session)%></legend>
 				<table style="margin-top:0px;">
 					<tr><td><input type="text" id="rk1" tabindex="100" name="<%=StringUtils.text("rank.1", session)%>"/><a href="javascript:clearValue('rk1');">[X]</a></td><td><a href="javascript:initPersonList(1);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs1" tabindex="101" name="<%=StringUtils.text("result.score", session)%>" style="width:120px;"/></td><td><input type="text" id="rk11" tabindex="120" name="<%=StringUtils.text("rank.11", session)%>"/><a href="javascript:clearValue('rk11');">[X]</a></td><td><a href="javascript:initPersonList(11);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs11" tabindex="121" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
 					<tr><td><input type="text" id="rk2" tabindex="102" name="<%=StringUtils.text("rank.2", session)%>"/><a href="javascript:clearValue('rk2');">[X]</a></td><td><a href="javascript:initPersonList(2);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs2" tabindex="103" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td><td><input type="text" id="rk12" tabindex="122" name="<%=StringUtils.text("rank.12", session)%>"/><a href="javascript:clearValue('rk12');">[X]</a></td><td><a href="javascript:initPersonList(12);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs12" tabindex="123" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>

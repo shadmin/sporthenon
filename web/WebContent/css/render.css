@@ -216,6 +216,7 @@
 	margin-bottom: 0px;
 }
 .tc .celldraw{
+	width: 850px;
 	background-color: #F8F8F8;
 	padding-left: 15px;
 }
@@ -262,28 +263,28 @@
 	padding: 0px;
 	padding-right: 3px;
 }
-.tc .qf2, .tc .qf4{
+.tc .box2, .tc .box4{
 	margin-left: 400px;
 }
-.tc .thd{
+.tc .box7{
 	margin-left: 520px;
 }
-.tc .qf3, .tc .qf4{
+.tc .box3, .tc .box4{
 	margin-top: 440px;
 }
-.tc .sf1, .tc .sf2, .tc .f{
+.tc .box5, .tc .box6, .tc .box8{
 	margin-left: 200px;
 }
-.tc .f, .tc .thd{
+.tc .box8, .tc .box7{
 	margin-top: 220px;
 }
-.tc .sf1{
+.tc .box5{
 	margin-top: 110px;
 }
-.tc .sf2{
+.tc .box6{
 	margin-top: 330px;
 }
-.tc .f table{
+.tc .box8 table{
 	border: 2px solid #333;
 }
 .tc .tsort{

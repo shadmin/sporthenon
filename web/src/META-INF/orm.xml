@@ -14,14 +14,6 @@
 	</named-native-query>
 	
 	<!--
-		GetDraw(integer, varchar)
-	-->
-	<named-native-query name="GetDraw" result-class="com.sporthenon.db.function.DrawBean">  
-		<query>{? = CALL "GetDraw"(?, ?)}</query>
-		<hint name="org.hibernate.callable" value="true" />
-	</named-native-query>
-	
-	<!--
 		GetHallOfFame(integer, text, varchar)
 	-->
 	<named-native-query name="GetHallOfFame" result-class="com.sporthenon.db.function.HallOfFameBean">  
@@ -82,6 +74,14 @@
 	-->
 	<named-native-query name="GetRetiredNumbers" result-class="com.sporthenon.db.function.RetiredNumberBean">  
 		<query>{? = CALL "GetRetiredNumbers"(?, ?, ?)}</query>
+		<hint name="org.hibernate.callable" value="true" />
+	</named-native-query>
+	
+	<!--
+		GetRounds(integer, varchar)
+	-->
+	<named-native-query name="GetRounds" result-class="com.sporthenon.db.function.RoundsBean">  
+		<query>{? = CALL "GetRounds"(?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 	

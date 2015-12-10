@@ -45,7 +45,6 @@ import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.PicklistBean;
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Country;
-import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Team;
@@ -463,9 +462,9 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					for (int i = 0 ; i < 10 ; i++)
 						rd.getExaCheckbox()[i].setSelected(lTie.contains(i + 1));
 					type = (rs.getSubevent2() != null ? rs.getSubevent2().getType().getNumber() : (rs.getSubevent() != null ? rs.getSubevent().getType().getNumber() : rs.getEvent().getType().getNumber()));
-					Draw dr = (Draw) DatabaseHelper.loadEntityFromQuery("from Draw where idResult = " + resultId);
-					if (dr != null)
-						drawId = dr.getId();
+//					Draw dr = (Draw) DatabaseHelper.loadEntityFromQuery("from Draw where idResult = " + resultId);
+//					if (dr != null)
+//						drawId = dr.getId();
 				}
 				JEntityPicklist[] ranks = rd.getRanks();
 				JTextField[] res = rd.getRes();

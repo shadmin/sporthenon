@@ -50,13 +50,13 @@
 	<entry key="entity.CT">Villes</entry>
 	<entry key="entity.CX">Complexes</entry>
 	<entry key="entity.CN">Pays</entry>
-	<entry key="entity.DR">Tableaux</entry>
 	<entry key="entity.EV">Epreuves</entry>
 	<entry key="entity.HF">Hall of Fame</entry>
 	<entry key="entity.OL">Jeux Olympiques</entry>
 	<entry key="entity.OR">Médailles olympiques</entry>
 	<entry key="entity.PR">Athlètes</entry>
 	<entry key="entity.RC">Records</entry>
+	<entry key="entity.RD">Tours</entry>
 	<entry key="entity.RS">Résultats</entry>
 	<entry key="entity.RN">Numéros retirés</entry>
 	<entry key="entity.SP">Sports</entry>
@@ -79,6 +79,7 @@
 	<entry key="entity.OR.1">Médailles olympiques</entry>
 	<entry key="entity.PR.1">Athlète</entry>
 	<entry key="entity.RC.1">Record</entry>
+	<entry key="entity.RD.1">Tour</entry>
 	<entry key="entity.RS.1">Résultat</entry>
 	<entry key="entity.RN.1">Numéro retiré</entry>
 	<entry key="entity.SP.1">Sport</entry>
@@ -512,7 +513,6 @@
 	<entry key="template.place1">Lieu #1 (Complexe ou Ville)</entry>
 	<entry key="template.place2">Lieu #2 (Complexe ou Ville)</entry>
 	<entry key="template.record.label">Libellé du record</entry>
-	<entry key="add.draw">Ajouter tableau</entry>
 	<entry key="renamed">Même stade renommé ?</entry>
 	<entry key="counting">En cours</entry>
 	<entry key="win">Victoires</entry>

@@ -3,7 +3,6 @@ package com.sporthenon.web;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.reflect.Method;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,7 +42,6 @@ import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.ErrorReport;
 import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.db.entity.meta.TreeItem;
-import com.sporthenon.db.function.DrawBean;
 import com.sporthenon.db.function.HallOfFameBean;
 import com.sporthenon.db.function.LastUpdateBean;
 import com.sporthenon.db.function.OlympicMedalsBean;
@@ -51,6 +49,7 @@ import com.sporthenon.db.function.OlympicRankingsBean;
 import com.sporthenon.db.function.PersonListBean;
 import com.sporthenon.db.function.ResultsBean;
 import com.sporthenon.db.function.RetiredNumberBean;
+import com.sporthenon.db.function.RoundsBean;
 import com.sporthenon.db.function.TeamStadiumBean;
 import com.sporthenon.db.function.USChampionshipsBean;
 import com.sporthenon.db.function.USRecordsBean;
@@ -857,54 +856,30 @@ public class HtmlConverter {
 					html.append(ImageUtils.getPhotoFieldset(img, r.getPhotoSource(), lang));
 				html.append("</ul>");
 			}
-			// Draw
+			// Rounds
 			lFuncParams = new ArrayList<Object>();
 			lFuncParams.add(id);
 			lFuncParams.add("_" + lang);
-			List<DrawBean> lDraw = (List<DrawBean>) DatabaseHelper.call("GetDraw", lFuncParams);
-			if (lDraw != null && !lDraw.isEmpty()) {
-				DrawBean bean = (DrawBean) lDraw.get(0);
-				html.append("<table style='width:100%;margin-bottom:0px;'><thead><tr><th>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity.DR.1", lang).toUpperCase(), false) + "</th></tr></thead><tbody class='tby'>");
-				html.append("<tr><td class='celldraw'><div class='draw'>");
-				String[] tLevel = {"Qf1", "Qf2", "Qf3", "Qf4", "Sf1", "Sf2", "F", "Thd"};
-				HashMap<String, String> hLvlLabel = StringUtils.getDrawLabels(r.getSport().getId(), r.getChampionship().getId(), r.getEvent().getId(), lang);
-				for (String level : tLevel) {
-					Method m1 = DrawBean.class.getMethod("getEn1" + level + "Str1");
-					Method m2 = DrawBean.class.getMethod("getEn1" + level + "Str2");
-					Method m2_ = DrawBean.class.getMethod("getEn1" + level + "Str3");
-					Method m3 = DrawBean.class.getMethod("getEn2" + level + "Str1");
-					Method m4 = DrawBean.class.getMethod("getEn2" + level + "Str2");
-					Method m4_ = DrawBean.class.getMethod("getEn2" + level + "Str3");
-					Method m5 = DrawBean.class.getMethod("getEn1" + level + "Id");
-					Method m6 = DrawBean.class.getMethod("getEn2" + level + "Id");
-					Method mRel1 = DrawBean.class.getMethod("getEn1" + level + "Rel1Id");
-					Method mRel2 = DrawBean.class.getMethod("getEn1" + level + "Rel1Code");
-					Method mRel3 = DrawBean.class.getMethod("getEn1" + level + "Rel1Label");
-//					Method mRel3_ = DrawBean.class.getMethod("getEn1" + level + "Rel1LabelEN");
-					Method mRel4 = DrawBean.class.getMethod("getEn1" + level + "Rel2Id");
-					Method mRel5 = DrawBean.class.getMethod("getEn1" + level + "Rel2Code");
-					Method mRel6 = DrawBean.class.getMethod("getEn1" + level + "Rel2Label");
-					Method mRel6_ = DrawBean.class.getMethod("getEn1" + level + "Rel2LabelEN");
-					Method mRel7 = DrawBean.class.getMethod("getEn2" + level + "Rel1Id");
-					Method mRel8 = DrawBean.class.getMethod("getEn2" + level + "Rel1Code");
-					Method mRel9 = DrawBean.class.getMethod("getEn2" + level + "Rel1Label");
-//					Method mRel9_ = DrawBean.class.getMethod("getEn2" + level + "Rel1LabelEN");
-					Method mRel10 = DrawBean.class.getMethod("getEn2" + level + "Rel2Id");
-					Method mRel11 = DrawBean.class.getMethod("getEn2" + level + "Rel2Code");
-					Method mRel12 = DrawBean.class.getMethod("getEn2" + level + "Rel2Label");
-					Method mRel12_ = DrawBean.class.getMethod("getEn2" + level + "Rel2LabelEN");
-					String e = getResultsEntity(bean.getDrType(), StringUtils.toInt(m5.invoke(bean)), String.valueOf(m1.invoke(bean)), String.valueOf(m2.invoke(bean)), String.valueOf(m2_.invoke(bean)), String.valueOf(mRel5.invoke(bean)), bean.getYrLabel(), null);
+			List<RoundsBean> lRounds = (List<RoundsBean>) DatabaseHelper.call("GetRounds", lFuncParams);
+			if (lRounds != null && !lRounds.isEmpty()) {
+				// TODO requete insert pour finales
+				StringBuffer drawHtml = new StringBuffer();
+				for (RoundsBean rb : lRounds) {
+					String e = getResultsEntity(rb.getRdResultType(), rb.getRk1Id(), rb.getRk1Str1(), rb.getRk1Str2(), rb.getRk1Str3(), rb.getRk1Rel2Code(), r.getYear().getLabel(), null);
 					if (e != null) {
-						html.append("<div class='box " + level.toLowerCase() + "'><table><tr><th colspan='" + (bean.getDrType() < 10 ? 3 : 2) + "'>" + hLvlLabel.get(level) + "</th></tr>");
-						String r_ = getResultsEntityRel(StringUtils.toInt(mRel1.invoke(bean)), String.valueOf(mRel2.invoke(bean)), String.valueOf(mRel3.invoke(bean)), StringUtils.toInt(mRel4.invoke(bean)), String.valueOf(mRel5.invoke(bean)), String.valueOf(mRel6.invoke(bean)), String.valueOf(mRel6_.invoke(bean)), false, false, bean.getYrLabel());
-						html.append("<tr><td style='font-weight:bold;'>" + e + "</td>" + (r_ != null ? r_ : ""));
-						html.append("<td rowspan='2' style='width:33%;'>" + StringUtils.formatResult(DrawBean.class.getMethod("get" + (level.equalsIgnoreCase("F") ? "Rs" : "Dr") + "Result" + level).invoke(bean), lang) + "</td></tr>");
-						e = getResultsEntity(bean.getDrType(), StringUtils.toInt(m6.invoke(bean)), String.valueOf(m3.invoke(bean)), String.valueOf(m4.invoke(bean)), String.valueOf(m4_.invoke(bean)), String.valueOf(mRel11.invoke(bean)), bean.getYrLabel(), null);
-						r_ = getResultsEntityRel(StringUtils.toInt(mRel7.invoke(bean)), String.valueOf(mRel8.invoke(bean)), String.valueOf(mRel9.invoke(bean)), StringUtils.toInt(mRel10.invoke(bean)), String.valueOf(mRel11.invoke(bean)), String.valueOf(mRel12.invoke(bean)), String.valueOf(mRel12_.invoke(bean)), false, false, bean.getYrLabel());
-						html.append("<tr><td>" + e + "</td>" + (r_ != null ? r_ : "") + "</tr>");
-						html.append("</table></div>");
+						drawHtml.append("<div class='box box" + rb.getRtIndex() + "'><table><tr><th colspan='" + (rb.getRdResultType() < 10 ? 3 : 2) + "'>" + rb.getRtLabel() + "</th></tr>");
+						String r_ = getResultsEntityRel(rb.getRk1Rel1Id(), rb.getRk1Rel1Code(), rb.getRk1Rel1Label(), rb.getRk1Rel2Id(), rb.getRk1Rel2Code(), rb.getRk1Rel2Label(), rb.getRk1Rel2LabelEN(), false, false, r.getYear().getLabel());
+						drawHtml.append("<tr><td style='font-weight:bold;'>" + e + "</td>" + (r_ != null ? r_ : ""));
+						drawHtml.append("<td rowspan='2' style='width:33%;'>" + rb.getRdResult1() + "</td></tr>");
+						e = getResultsEntity(rb.getRdResultType(), rb.getRk2Id(), rb.getRk2Str1(), rb.getRk2Str2(), rb.getRk2Str3(), rb.getRk2Rel2Code(), r.getYear().getLabel(), null);
+						r_ = getResultsEntityRel(rb.getRk2Rel1Id(), rb.getRk2Rel1Code(), rb.getRk2Rel1Label(), rb.getRk2Rel2Id(), rb.getRk2Rel2Code(), rb.getRk2Rel2Label(), rb.getRk2Rel2LabelEN(), false, false, r.getYear().getLabel());
+						drawHtml.append("<tr><td>" + e + "</td>" + (r_ != null ? r_ : "") + "</tr>");
+						drawHtml.append("</table></div>");
 					}
 				}
+				html.append("<table style='margin-bottom:0px;'><thead><tr><th>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity.DR.1", lang).toUpperCase(), false) + "</th></tr></thead><tbody class='tby'>");
+				html.append("<tr><td class='celldraw'><div class='draw'>");
+				html.append(drawHtml);
 				html.append("</div></td></tr></tbody></table>");
 			}
 			return html;

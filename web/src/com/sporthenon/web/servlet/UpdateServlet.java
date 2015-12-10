@@ -40,7 +40,6 @@ import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
 import com.sporthenon.db.entity.Country;
-import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.HallOfFame;
 import com.sporthenon.db.entity.League;
@@ -48,6 +47,8 @@ import com.sporthenon.db.entity.Olympics;
 import com.sporthenon.db.entity.Record;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.RetiredNumber;
+import com.sporthenon.db.entity.Round;
+import com.sporthenon.db.entity.RoundType;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
@@ -181,6 +182,7 @@ public class UpdateServlet extends AbstractServlet {
 		hTable.put("cb", "Contributor"); hTable.put("contributor", "Contributor");
 		hTable.put("lg", "League"); hTable.put("league", "League");
 		hTable.put("rs", "Result"); hTable.put("result", "Result");
+		hTable.put("rt", "RoundType");
 		hTable.put("hf", "HallOfFame");
 		hTable.put("rc", "Record");
 		hTable.put("rn", "RetiredNumber");
@@ -542,37 +544,62 @@ public class UpdateServlet extends AbstractServlet {
 					i++;
 				}
 			}
-			// Draws
-			if (StringUtils.notEmpty(hParams.get("qf1w-l"))) {
-				Integer idDR = (StringUtils.notEmpty(hParams.get("drid")) ? Integer.valueOf(String.valueOf(hParams.get("drid"))) : null);
-				Draw draw = (idDR != null ? (Draw)DatabaseHelper.loadEntity(Draw.class, idDR) : new Draw());
-				for (String s : new String[]{"qf1", "qf2", "qf3", "qf4", "sf1", "sf2", "thd"}) {
-					Integer id1 = (StringUtils.notEmpty(hParams.get(s + "w")) ? new Integer(String.valueOf(hParams.get(s + "w"))) : 0);
-					Integer id2 = (StringUtils.notEmpty(hParams.get(s + "l")) ? new Integer(String.valueOf(hParams.get(s + "l"))) : 0);
-					Object ow = hParams.get(s + "w-l");
-					Object ol = hParams.get(s + "l-l");
-					if (id1 == 0 && StringUtils.notEmpty(ow)) {
-						if (hInserted.keySet().contains(ow))
-							id1 = hInserted.get(ow);
-						else {
-							id1 = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(ow), null, cb, null, lang);
-							hInserted.put(ow, id1);
-						}
+			// Rounds
+			if (hParams.containsKey("rdlist")) {
+				String[] t = String.valueOf(hParams.get("rdlist")).split("\\|", 0);
+				for (String value : t) {
+					String[] t_ = value.split("\\~", -1);
+					String idr = t_[0];
+					RoundType rdRt = null;
+					if (StringUtils.notEmpty(t_[1]))
+						rdRt = (RoundType) DatabaseHelper.loadEntity(RoundType.class, t_[1]);
+					else {
+						RoundType rdt = new RoundType();
+						rdt.setLabel(t_[2]);
+						rdt.setLabelFr(t_[2]);
+						rdt.setIndex(100);
+						rdRt = (RoundType) DatabaseHelper.saveEntity(rdt, cb);
 					}
-					if (id2 == 0 && StringUtils.notEmpty(ol)) {
-						if (hInserted.keySet().contains(ol))
-							id2 = hInserted.get(ol);
-						else {
-							id2 = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(ol), null, cb, null, lang);
-							hInserted.put(ol, id2);
-						}
+					Integer rdRk1 = (StringUtils.notEmpty(t_[3]) ? Integer.parseInt(t_[3]) : (StringUtils.notEmpty(t_[4]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[4], null, cb, null, lang) : 0));
+					String rdRs1 = (StringUtils.notEmpty(t_[5]) ? t_[5] : null);
+					Integer rdRk2 = (StringUtils.notEmpty(t_[6]) ? Integer.parseInt(t_[6]) : (StringUtils.notEmpty(t_[7]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[7], null, cb, null, lang) : 0));
+					String rdRs2 = (StringUtils.notEmpty(t_[8]) ? t_[8] : null);
+					Integer rdRk3 = (StringUtils.notEmpty(t_[9]) ? Integer.parseInt(t_[9]) : (StringUtils.notEmpty(t_[10]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[10], null, cb, null, lang) : 0));
+					String rdRs3 = (StringUtils.notEmpty(t_[11]) ? t_[11] : null);
+					String rdDt = (StringUtils.notEmpty(t_[12]) ? t_[12] : null);
+					Complex rdCx = null;
+					City rdCt = null;
+					if (StringUtils.notEmpty(t_[13]) && StringUtils.notEmpty(t_[14])) {
+						String[] tpl = t_[14].toLowerCase().split("\\,\\s");
+						int id = 0;
+						if (StringUtils.notEmpty(t_[13]))
+							id = new Integer(String.valueOf(t_[13]));
+						else
+							id = DatabaseHelper.insertPlace(0, String.valueOf(t_[14]), cb, null, lang);
+						if (tpl.length > 2)
+							rdCx = (Complex) DatabaseHelper.loadEntity(Complex.class, id);
+						else
+							rdCt = (City) DatabaseHelper.loadEntity(City.class, id);
 					}
-					Draw.class.getMethod("setId1" + String.valueOf(s.charAt(0)).toUpperCase() + s.substring(1), Integer.class).invoke(draw, id1 > 0 ? id1 : null);
-					Draw.class.getMethod("setId2" + String.valueOf(s.charAt(0)).toUpperCase() + s.substring(1), Integer.class).invoke(draw, id2 > 0 ? id2 : null);
-					Draw.class.getMethod("setResult_" + s, String.class).invoke(draw, StringUtils.notEmpty(hParams.get(s + "rs-l")) ? hParams.get(s + "rs-l") : null);
+					String rdExa = (StringUtils.notEmpty(t_[15]) ? t_[15] : null);
+					String rdCmt = (StringUtils.notEmpty(t_[16]) ? t_[16] : null);
+					Round rd = (StringUtils.notEmpty(idr) ? (Round) DatabaseHelper.loadEntity(Round.class, idr) : new Round());
+					rd.setIdResult(result.getId());
+					rd.setIdResultType(tp);
+					rd.setRoundType(rdRt);
+					rd.setIdRank1(rdRk1 > 0 ? rdRk1 : null);
+					rd.setResult1(rdRs1);
+					rd.setIdRank2(rdRk2 > 0 ? rdRk2 : null);
+					rd.setResult2(rdRs2);
+					rd.setIdRank3(rdRk3 > 0 ? rdRk3 : null);
+					rd.setResult3(rdRs3);
+					rd.setComplex(rdCx);
+					rd.setCity(rdCt);
+					rd.setDate(rdDt);
+					rd.setExa(rdExa);
+					rd.setComment(rdCmt);
+					DatabaseHelper.saveEntity(rd, cb);
 				}
-				draw.setIdResult(result.getId());
-				draw = (Draw) DatabaseHelper.saveEntity(draw, cb);
 			}
 			sbMsg.append(result.getId() + "#" + ResourceUtils.getText("result." + (idRS != null ? "modified" : "created"), lang));
 		}
@@ -962,39 +989,60 @@ public class UpdateServlet extends AbstractServlet {
 					}
 					sb.append("rkl-" + StringUtils.implode(l, "#")).append("~");
 				}
-				// Draws
-				List lDraw = DatabaseHelper.execute("from Draw where idResult=" + rs.getId());
-				if (lDraw != null && lDraw.size() > 0) {
-					Draw dr = (Draw) lDraw.get(0);
-					sb.append(dr.getId()).append("~");
-					for (String s : new String[]{"qf1", "qf2", "qf3", "qf4", "sf1", "sf2", "thd"}) {
-						Integer id1 = null;
-						Integer id2 = null;
-						Method m = Draw.class.getMethod("getId1" + String.valueOf(s.charAt(0)).toUpperCase() + s.substring(1));
-						Object o = m.invoke(dr);
-						if (o != null)
-							id1 = (Integer) o;
-						m = Draw.class.getMethod("getId2" + String.valueOf(s.charAt(0)).toUpperCase() + s.substring(1));
-						o = m.invoke(dr);
-						if (o != null)
-							id2 = (Integer) o;
-						
-						String label1 = null;
-						String label2 = null;
-						if (id1 != null && id1 > 0)
-							label1 = getEntityLabel(n, id1, lang);
-						if (id2 != null && id2 > 0)
-							label2 = getEntityLabel(n, id2, lang);
-						
-						String result = null;
-						m = Draw.class.getMethod("getResult_" + s);
-						o = m.invoke(dr);
-						if (o != null)
-							result = String.valueOf(o);								
-						
-						sb.append(id1 != null ? id1 : "").append("~").append(label1 != null ? label1 : "").append("~");
-						sb.append(id2 != null ? id2 : "").append("~").append(label2 != null ? label2 : "").append("~");
-						sb.append(result != null ? result : "").append("~");
+				// Rounds
+				List lRounds = DatabaseHelper.execute("from Round where idResult=" + rs.getId() + " order by roundType.index");
+				if (lRounds != null && lRounds.size() > 0) {
+					for (Round rd : (List<Round>) lRounds) {
+						List<String> l = new ArrayList<String>();
+						l.add(String.valueOf(rd.getId()));
+						l.add(String.valueOf(rd.getRoundType().getId()));
+						l.add(rd.getRoundType().getLabel(lang));
+						if (rd.getIdRank1() != null) {
+							l.add(String.valueOf(rd.getIdRank1()));
+							l.add(getEntityLabel(rd.getIdResultType(), rd.getIdRank1(), lang));
+							l.add(StringUtils.notEmpty(rd.getResult1()) ? rd.getResult1() : "");
+						}
+						else {
+							l.add("");
+							l.add("");
+							l.add("");
+						}
+						if (rd.getIdRank2() != null) {
+							l.add(String.valueOf(rd.getIdRank2()));
+							l.add(getEntityLabel(rd.getIdResultType(), rd.getIdRank2(), lang));
+							l.add(StringUtils.notEmpty(rd.getResult2()) ? rd.getResult2() : "");
+						}
+						else {
+							l.add("");
+							l.add("");
+							l.add("");
+						}
+						if (rd.getIdRank3() != null) {
+							l.add(String.valueOf(rd.getIdRank3()));
+							l.add(getEntityLabel(rd.getIdResultType(), rd.getIdRank3(), lang));
+							l.add(StringUtils.notEmpty(rd.getResult3()) ? rd.getResult3() : "");
+						}
+						else {
+							l.add("");
+							l.add("");
+							l.add("");
+						}
+						l.add(StringUtils.notEmpty(rd.getDate()) ? rd.getDate() : "");
+						if (rd.getComplex() != null) {
+							l.add(String.valueOf(rd.getComplex().getId()));
+							l.add(rd.getComplex().toString2(lang));
+						}
+						else if (rd.getCity() != null) {
+							l.add(String.valueOf(rd.getCity().getId()));
+							l.add(rd.getCity().toString2(lang));
+						}
+						else {
+							l.add("");
+							l.add("");
+						}
+						l.add(StringUtils.notEmpty(rd.getExa()) ? rd.getExa() : "");
+						l.add(StringUtils.notEmpty(rd.getComment()) ? rd.getComment() : "");
+						sb.append("rd-" + StringUtils.implode(l, "|")).append("~");
 					}
 				}
 			}
@@ -1003,7 +1051,7 @@ public class UpdateServlet extends AbstractServlet {
 				ServletHelper.writeText(response, result);
 			else {
 				request.setAttribute("value", result);
-				request.getRequestDispatcher("/jsp/update/results.jsp").forward(request, response);					
+				request.getRequestDispatcher("/jsp/update/results.jsp").forward(request, response);			
 			}
 		}
 		else
@@ -1598,7 +1646,7 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			String type = String.valueOf(hParams.get("type"));
 			String update = String.valueOf(hParams.get("update"));
-			String result = ImportUtils.processAll(session,  v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Draw.alias), type.equalsIgnoreCase(Record.alias), cb, lang);
+			String result = ImportUtils.processAll(session,  v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Round.alias), type.equalsIgnoreCase(Record.alias), cb, lang);
 			session.setAttribute("progress", 100);
 			if (update.equals("1")) {
 				String f = "import" + System.currentTimeMillis() + ".html";

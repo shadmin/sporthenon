@@ -899,9 +899,6 @@ public class ResultsBean {
 	@Column(name = "en20_rel2_label_en")
 	private String en20Rel2LabelEN;
 	
-	@Column(name = "dr_id")
-	private Integer drId;
-	
 	public int getRsId() {
 		return rsId;
 	}
@@ -1848,14 +1845,6 @@ public class ResultsBean {
 
 	public void setEn10Rel2Label(String en10Rel2Label) {
 		this.en10Rel2Label = en10Rel2Label;
-	}
-
-	public Integer getDrId() {
-		return drId;
-	}
-
-	public void setDrId(Integer drId) {
-		this.drId = drId;
 	}
 
 	public Integer getCx1Id() {

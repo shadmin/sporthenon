@@ -1419,7 +1419,7 @@ li{
 	border: 1px solid #DDD;
 	border-top: none;
 	width: 300px;
-	height: 550px;
+	height: 800px;
 	padding: 3px;
 	margin: 0px;
 	padding-right: 30px;
@@ -1451,7 +1451,7 @@ li{
 	padding: 0px;
 }
 #update-results #rounds{
-	width: 855px;
+	width: 877px;
 	height: 280px;
 	overflow: auto;
 }

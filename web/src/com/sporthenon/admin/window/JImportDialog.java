@@ -401,8 +401,8 @@ public class JImportDialog extends JDialog implements ActionListener {
 					v.set(0, "");
 				if (jTypeRS.isSelected())
 					isError |= ImportUtils.processLineRS(i, vHeader, v, isUpdate, null, null, null);
-				else if (jTypeDR.isSelected())
-					isError |= ImportUtils.processLineDR(i, vHeader, v, isUpdate, null, null, null);
+//				else if (jTypeDR.isSelected())
+//					isError |= ImportUtils.processLineDR(i, vHeader, v, isUpdate, null, null, null);
 				else if (jTypeRC.isSelected())
 					isError |= ImportUtils.processLineRC(i, vHeader, v, isUpdate, null, null, null);
 				if (i * 100 / vFile.size() > pg) {

@@ -34,7 +34,6 @@ import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
-import com.sporthenon.db.entity.Draw;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Sport;
@@ -62,11 +61,9 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private JEntityPicklist[] jRanks = new JEntityPicklist[10];
 	private JTextField[] jRes = new JTextField[10];
 	private JCommentDialog jCommentDialog = null;
-	private JEditDrawDialog jEditDrawDialog = null;
 	
 	private JResultsPanel parent;
 	private Integer id;
-	private Integer drawId;
 	private short mode;
 	private int entityType;
 	private boolean draw;
@@ -96,7 +93,6 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jContentPane.add(getStandingsPanel(), BorderLayout.CENTER);
 		
 		jCommentDialog = new JCommentDialog(this);
-		jEditDrawDialog = new JEditDrawDialog(this);
 		
 		this.setSize(new Dimension(685, 425));
         this.setContentPane(jContentPane);
@@ -228,39 +224,39 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			}
 			return;
 		}
-		else if (cmd.equals("draw")) {
-			jEditDrawDialog.clear();
-			try {
-				if (drawId != null) {
-					Draw dr = (Draw) DatabaseHelper.loadEntity(Draw.class, drawId);
-					SwingUtils.selectValue(jEditDrawDialog.getEntity()[0], dr.getId1Qf1());
-					SwingUtils.selectValue(jEditDrawDialog.getEntity()[1], dr.getId2Qf1());
-					SwingUtils.selectValue(jEditDrawDialog.getEntity()[2], dr.getId1Qf2());
-					SwingUtils.selectValue(jEditDrawDialog.getEntity()[3], dr.getId2Qf2());
-					SwingUtils.selectValue(jEditDrawDialog.getEntity()[4], dr.getId1Qf3());
-					SwingUtils.selectValue(jEditDrawDialog.getEntity()[5], dr.getId2Qf3());
-					SwingUtils.selectValue(jEditDrawDialog.getEntity()[6], dr.getId1Qf4());
-					SwingUtils.selectValue(jEditDrawDialog.getEntity()[7], dr.getId2Qf4());
-					SwingUtils.selectValue(jEditDrawDialog.getEntity()[8], dr.getId1Sf1());
-					SwingUtils.selectValue(jEditDrawDialog.getEntity()[9], dr.getId2Sf1());
-					SwingUtils.selectValue(jEditDrawDialog.getEntity()[10], dr.getId1Sf2());
-					SwingUtils.selectValue(jEditDrawDialog.getEntity()[11], dr.getId2Sf2());
-					SwingUtils.selectValue(jEditDrawDialog.getEntity()[12], dr.getId1Thd());
-					SwingUtils.selectValue(jEditDrawDialog.getEntity()[13], dr.getId2Thd());
-					jEditDrawDialog.getRes()[0].setText(dr.getResult_qf1());
-					jEditDrawDialog.getRes()[1].setText(dr.getResult_qf2());
-					jEditDrawDialog.getRes()[2].setText(dr.getResult_qf3());
-					jEditDrawDialog.getRes()[3].setText(dr.getResult_qf4());
-					jEditDrawDialog.getRes()[4].setText(dr.getResult_sf1());
-					jEditDrawDialog.getRes()[5].setText(dr.getResult_sf2());
-					jEditDrawDialog.getRes()[6].setText(dr.getResult_thd());
-				}
-			}
-			catch (Exception e_) {
-				Logger.getLogger("sh").error(e_.getMessage(), e_);
-			}
-			jEditDrawDialog.open();
-		}
+//		else if (cmd.equals("draw")) {
+//			jEditDrawDialog.clear();
+//			try {
+//				if (drawId != null) {
+//					Draw dr = (Draw) DatabaseHelper.loadEntity(Draw.class, drawId);
+//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[0], dr.getId1Qf1());
+//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[1], dr.getId2Qf1());
+//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[2], dr.getId1Qf2());
+//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[3], dr.getId2Qf2());
+//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[4], dr.getId1Qf3());
+//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[5], dr.getId2Qf3());
+//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[6], dr.getId1Qf4());
+//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[7], dr.getId2Qf4());
+//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[8], dr.getId1Sf1());
+//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[9], dr.getId2Sf1());
+//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[10], dr.getId1Sf2());
+//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[11], dr.getId2Sf2());
+//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[12], dr.getId1Thd());
+//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[13], dr.getId2Thd());
+//					jEditDrawDialog.getRes()[0].setText(dr.getResult_qf1());
+//					jEditDrawDialog.getRes()[1].setText(dr.getResult_qf2());
+//					jEditDrawDialog.getRes()[2].setText(dr.getResult_qf3());
+//					jEditDrawDialog.getRes()[3].setText(dr.getResult_qf4());
+//					jEditDrawDialog.getRes()[4].setText(dr.getResult_sf1());
+//					jEditDrawDialog.getRes()[5].setText(dr.getResult_sf2());
+//					jEditDrawDialog.getRes()[6].setText(dr.getResult_thd());
+//				}
+//			}
+//			catch (Exception e_) {
+//				Logger.getLogger("sh").error(e_.getMessage(), e_);
+//			}
+//			jEditDrawDialog.open();
+//		}
 		else if (cmd.equals("today")) {
 			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 			jDate2.setText(df.format(Calendar.getInstance().getTime()));
@@ -306,7 +302,6 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		}
 		else if (cmd.equals("ok")) {
 			Result rs = null;
-			Draw dr = null;
 			String msg = null;
 			boolean err = false;
 			try {
@@ -331,24 +326,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 					Result.class.getMethod("setResult" + (i + 1), String.class).invoke(rs, StringUtils.notEmpty(jRes[i].getText()) ? jRes[i].getText() : null);
 				}
 				rs = (Result) DatabaseHelper.saveEntity(rs, JMainFrame.getContributor());
-				if (isDraw()) {
-					dr = (Draw)(drawId != null && drawId > 0 ? DatabaseHelper.loadEntity(Draw.class, drawId) : new Draw());
-					dr.setIdResult(rs.getId());
-					int i = 0;
-					for (String m : new String[]{"Id1Qf1", "Id2Qf1", "Id1Qf2", "Id2Qf2", "Id1Qf3", "Id2Qf3", "Id1Qf4", "Id2Qf4", "Id1Sf1", "Id2Sf1", "Id1Sf2", "Id2Sf2", "Id1Thd", "Id2Thd"}) {
-						Integer value = SwingUtils.getValue(jEditDrawDialog.getEntity()[i++]);
-						Draw.class.getMethod("set" + m, Integer.class).invoke(dr, value > 0 ? value : null);
-					}
-					dr.setResult_qf1(jEditDrawDialog.getRes()[0].getText());
-					dr.setResult_qf2(jEditDrawDialog.getRes()[1].getText());
-					dr.setResult_qf3(jEditDrawDialog.getRes()[2].getText());
-					dr.setResult_qf4(jEditDrawDialog.getRes()[3].getText());
-					dr.setResult_sf1(jEditDrawDialog.getRes()[4].getText());
-					dr.setResult_sf2(jEditDrawDialog.getRes()[5].getText());
-					dr.setResult_thd(jEditDrawDialog.getRes()[6].getText());
-					dr = (Draw) DatabaseHelper.saveEntity(dr, JMainFrame.getContributor());
-				}
-				msg = "Result #" + rs.getId() + (isDraw() ? "/Draw #" + dr.getId() : "") + " has been successfully " + (mode == EDIT ? "updated" : "created") + ".";
+				msg = "Result #" + rs.getId() + (isDraw() ? "/Draw #" /*+dr.getId()*/ : "") + " has been successfully " + (mode == EDIT ? "updated" : "created") + ".";
 			}
 			catch (Exception e_) {
 				err = true;
@@ -393,7 +371,6 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	public void open(JResultsPanel parent, Integer id, Integer drawId, short mode, int entityType) {
 		this.parent = parent;
 		this.id = id;
-		this.drawId = drawId;
 		this.mode = mode;
 		this.entityType = entityType;
 		this.setTitle(mode == NEW || mode == COPY ? "New Result" : "Edit Result #" + id);
@@ -453,10 +430,6 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 
 	public JTextField[] getRes() {
 		return jRes;
-	}
-
-	public void setDrawId(Integer drawId) {
-		this.drawId = drawId;
 	}
 
 	public boolean isDraw() {

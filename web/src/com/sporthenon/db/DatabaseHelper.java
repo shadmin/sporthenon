@@ -32,6 +32,8 @@ import com.sporthenon.db.entity.Olympics;
 import com.sporthenon.db.entity.Record;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.RetiredNumber;
+import com.sporthenon.db.entity.Round;
+import com.sporthenon.db.entity.RoundType;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
@@ -451,13 +453,15 @@ public class DatabaseHelper {
 			   (alias.equalsIgnoreCase(Record.alias) ? Record.class : 
 			   (alias.equalsIgnoreCase(Result.alias) ? Result.class :
 			   (alias.equalsIgnoreCase(RetiredNumber.alias) ? RetiredNumber.class :
+			   (alias.equalsIgnoreCase(Round.alias) ? Round.class :
+			   (alias.equalsIgnoreCase(RoundType.alias) ? RoundType.class :
 			   (alias.equalsIgnoreCase(Sport.alias) ? Sport.class :
 			   (alias.equalsIgnoreCase(State.alias) ? State.class :
 			   (alias.equalsIgnoreCase(Team.alias) ? Team.class : 
 			   (alias.equalsIgnoreCase(TeamStadium.alias) ? TeamStadium.class : 
 			   (alias.equalsIgnoreCase(Type.alias) ? Type.class : 
 			   (alias.equalsIgnoreCase(WinLoss.alias) ? WinLoss.class : 
-			   (alias.equalsIgnoreCase(Year.alias) ? Year.class : null))))))))))))))))))))));
+			   (alias.equalsIgnoreCase(Year.alias) ? Year.class : null))))))))))))))))))))))));
 	}
 	
 	public static Integer insertEvent(int row, String s, Contributor cb, StringBuffer sb, String lang) throws Exception {
