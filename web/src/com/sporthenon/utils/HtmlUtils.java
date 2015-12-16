@@ -189,8 +189,8 @@ public class HtmlUtils {
 		if (h.containsKey("titlename"))
 			html.append("<tr><th>" + h.get("titlename") + "</th></tr>");
 		for (String key : h.keySet()) {
-			if (!key.matches("(tab|^)title|titleEN|imgurl|source|url|info|\\_sport\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
-				html.append("<tr>" + (h.containsKey("_sport_") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
+			if (!key.matches("(tab|^)title|titleEN|imgurl|source|url|info|\\_sport\\_|\\_year\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
+				html.append("<tr>" + (h.containsKey("_sport_") || h.containsKey("_year_") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
 				html.append("<td" + (key.matches("logo|logosport|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + ">" + h.get(key) + "</td></tr>");
 			}
 		}

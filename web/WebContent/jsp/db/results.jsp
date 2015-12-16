@@ -16,7 +16,7 @@ var treeItems = null;
 	ArrayList<Object> params = new ArrayList<Object>();
 	params.add("");
 	params.add("_" + lang.toLowerCase());
-	HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", params), out, false);
+	HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", params), out, false, lang);
 %>
 --></script>
 <div id="tree" class="fieldset">

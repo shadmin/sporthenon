@@ -56,7 +56,7 @@
 	<entry key="entity.OR">Olympic Medals</entry>
 	<entry key="entity.PR">Athletes</entry>
 	<entry key="entity.RC">Records</entry>
-	<entry key="entity.RD">Rounds</entry>
+	<entry key="entity.RD">Rounds/Matches</entry>
 	<entry key="entity.RS">Results</entry>
 	<entry key="entity.RN">Retired Numbers</entry>
 	<entry key="entity.SP">Sports</entry>
@@ -78,7 +78,7 @@
 	<entry key="entity.OR.1">Olympic Medals</entry>
 	<entry key="entity.PR.1">Athlete</entry>
 	<entry key="entity.RC.1">Record</entry>
-	<entry key="entity.RD.1">Round</entry>
+	<entry key="entity.RD.1">Round/Match</entry>
 	<entry key="entity.RS.1">Result</entry>
 	<entry key="entity.RN.1">Retired Number</entry>
 	<entry key="entity.SP.1">Sport</entry>
@@ -285,6 +285,7 @@
 	<entry key="add.favorites">Add to favorites</entry>
 	<entry key="delete.favorites">Delete from favorites</entry>
 	<entry key="no.favorite">No favorite saved.</entry>
+	<entry key="description">Description</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>
@@ -329,6 +330,8 @@
 	<entry key="date.from">From</entry>
 	<entry key="date.to">To</entry>
 	<entry key="define.span">Define a span</entry>
+	<entry key="not.dated">not dated</entry>
+	<entry key="this.month">This month</entry>
 <!-- US LEAGUES -->
 	<entry key="league">League</entry>
 	<entry key="championships">Championships</entry>

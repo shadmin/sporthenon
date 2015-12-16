@@ -40,6 +40,7 @@ public class OlympicsServlet extends AbstractServlet {
 		try {
 			init(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
+			String lang = getLocale(request);
 			if (hParams.containsKey("run")) { // View results
 				boolean isLink = false;
 				if (hParams.containsKey("p")) {
@@ -97,11 +98,10 @@ public class OlympicsServlet extends AbstractServlet {
 				lFuncParams.add("WHERE CP.id=1 AND SP.type=" + (type.equals(TYPE_SUMMER) ? 1 : 0) + (!ol.equals("0") ? " AND OL.id IN (" + ol + ")" : ""));
 				lFuncParams.add("_" + getLocale(request));
 				response.setCharacterEncoding("utf-8");
-				HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", lFuncParams), response.getWriter(), false);
+				HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", lFuncParams), response.getWriter(), false, lang);
 				response.flushBuffer();
 			}
 			else { // Picklists
-				String lang = getLocale(request);
 				String ol = String.valueOf(hParams.get("ol"));				
 				String type = String.valueOf(hParams.get("type"));
 				Collection<PicklistBean> cPicklist = new ArrayList<PicklistBean>();

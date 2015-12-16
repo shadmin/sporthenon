@@ -38,11 +38,13 @@ private static final long serialVersionUID = 1L;
 					String[] t = p.split("\\-");
 					hParams.put("dt1", t[0]);
 					hParams.put("dt2", t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1] : t[0]);
+					hParams.put("sp", t.length > 2 ? t[2] : "");
 					isLink = true;
 				}
 				ArrayList<Object> lFuncParams = new ArrayList<Object>();
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("dt1")) ? String.valueOf(hParams.get("dt1")) : "18500101");
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("dt2")) ? String.valueOf(hParams.get("dt2")) : "21001231");
+				lFuncParams.add(StringUtils.notEmpty(hParams.get("sp")) ? StringUtils.toInt(hParams.get("sp")) : 0);
 				lFuncParams.add("_" + getLocale(request));
 				Collection c = DatabaseHelper.call("GetCalendarResults", lFuncParams);
 				StringBuffer html = new StringBuffer();

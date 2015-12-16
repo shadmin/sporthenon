@@ -431,7 +431,6 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				boolean isCopy = e.getActionCommand().matches("copy.*");
 				Result rs = null;
 				String resultId = null;
-				Integer drawId = null;
 				int type = 0;
 				HashMap<String, ArrayList<PicklistBean>> pl = JMainFrame.getPicklists();
 				JEditResultDialog rd = JMainFrame.getResultDialog();
@@ -462,9 +461,6 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					for (int i = 0 ; i < 10 ; i++)
 						rd.getExaCheckbox()[i].setSelected(lTie.contains(i + 1));
 					type = (rs.getSubevent2() != null ? rs.getSubevent2().getType().getNumber() : (rs.getSubevent() != null ? rs.getSubevent().getType().getNumber() : rs.getEvent().getType().getNumber()));
-//					Draw dr = (Draw) DatabaseHelper.loadEntityFromQuery("from Draw where idResult = " + resultId);
-//					if (dr != null)
-//						drawId = dr.getId();
 				}
 				JEntityPicklist[] ranks = rd.getRanks();
 				JTextField[] res = rd.getRes();
@@ -479,7 +475,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 						res[i].setText(StringUtils.notEmpty(res_) ? String.valueOf(res_) : null);
 					}
 				}
-				rd.open(this, resultId != null ? new Integer(resultId) : null, drawId, isAdd ? JEditResultDialog.NEW : (isCopy ? JEditResultDialog.COPY : JEditResultDialog.EDIT), type);
+				rd.open(this, resultId != null ? new Integer(resultId) : null, null, isAdd ? JEditResultDialog.NEW : (isCopy ? JEditResultDialog.COPY : JEditResultDialog.EDIT), type);
 			}
 			else if (e.getActionCommand().equals("addmultiple-result"))
 				JMainFrame.getAddMultipleDialog().open(this);

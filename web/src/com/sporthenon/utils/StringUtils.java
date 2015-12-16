@@ -122,9 +122,12 @@ public class StringUtils {
 		Locale l = (lang != null && lang.equalsIgnoreCase("fr") ? Locale.FRENCH : Locale.ENGLISH);
 		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		SimpleDateFormat dftxt = new SimpleDateFormat(notEmpty(format) ? format : "dd MMM", l);
-		if (!dt.matches(".*\\d\\d\\:\\d\\d$"))
-			dt += " 00:00";
-		return dftxt.format(df.parse(dt)).replaceAll("\\s", "&nbsp;");
+		if (dt != null) {
+			if (!dt.matches(".*\\d\\d\\:\\d\\d$"))
+				dt += " 00:00";
+			dt = dftxt.format(df.parse(dt)).replaceAll("\\s", "&nbsp;");	
+		}
+		return dt;
 	}
 	
 	public static String toTextDate(Timestamp dt, String lang, String format) throws ParseException {

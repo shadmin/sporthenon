@@ -878,6 +878,9 @@ function treeLeafClick(anchor, value) {
 		info(value.substring(5));
 		return;
 	}
+	else if (value.indexOf('calendar-') == 0) {
+		location.href = '/calendar/' + value.substring(9);
+	}
 	var t = value.split('_');
 	if (location.href.indexOf('/update/results') != -1) {
 		tValues['sp'] = t[0];

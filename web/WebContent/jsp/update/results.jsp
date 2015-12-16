@@ -22,7 +22,7 @@ var treeItems = null;
 	ArrayList<Object> params = new ArrayList<Object>();
 	params.add(cb != null && !cb.isAdmin() ? " where SP.id in (" + cb.getSports() + ")" : "");
 	params.add("_" + lang.toLowerCase());
-	HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", params), out, false);
+	HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", params), out, false, lang);
 %>
 --></script>
 <script type="text/javascript" src="/js/dropzone.js"></script>

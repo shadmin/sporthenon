@@ -33,13 +33,13 @@ public class RoundsBean {
 	private String rdResult3;
 	
 	@Column(name = "rd_date")
-	private String rsDate;
+	private String rdDate;
 	
 	@Column(name = "rd_exa")
-	private String rsExa;
+	private String rdExa;
 	
 	@Column(name = "rd_comment")
-	private String rsComment;
+	private String rdComment;
 	
 	@Column(name = "cx_id")
 	private Integer cxId;
@@ -236,16 +236,16 @@ public class RoundsBean {
 		return rdResult3;
 	}
 
-	public String getRsDate() {
-		return rsDate;
+	public String getRdDate() {
+		return rdDate;
 	}
 
-	public String getRsExa() {
-		return rsExa;
+	public String getRdExa() {
+		return rdExa;
 	}
 
-	public String getRsComment() {
-		return rsComment;
+	public String getRdComment() {
+		return rdComment;
 	}
 
 	public Integer getCxId() {
@@ -500,16 +500,16 @@ public class RoundsBean {
 		this.rdResult3 = rdResult3;
 	}
 
-	public void setRsDate(String rsDate) {
-		this.rsDate = rsDate;
+	public void setRdDate(String rdDate) {
+		this.rdDate = rdDate;
 	}
 
-	public void setRsExa(String rsExa) {
-		this.rsExa = rsExa;
+	public void setRdExa(String rdExa) {
+		this.rdExa = rdExa;
 	}
 
-	public void setRsComment(String rsComment) {
-		this.rsComment = rsComment;
+	public void setRdComment(String rdComment) {
+		this.rdComment = rdComment;
 	}
 
 	public void setCxId(Integer cxId) {

@@ -56,7 +56,7 @@
 	<entry key="entity.OR">Médailles olympiques</entry>
 	<entry key="entity.PR">Athlètes</entry>
 	<entry key="entity.RC">Records</entry>
-	<entry key="entity.RD">Tours</entry>
+	<entry key="entity.RD">Tours/Matches</entry>
 	<entry key="entity.RS">Résultats</entry>
 	<entry key="entity.RN">Numéros retirés</entry>
 	<entry key="entity.SP">Sports</entry>
@@ -79,7 +79,7 @@
 	<entry key="entity.OR.1">Médailles olympiques</entry>
 	<entry key="entity.PR.1">Athlète</entry>
 	<entry key="entity.RC.1">Record</entry>
-	<entry key="entity.RD.1">Tour</entry>
+	<entry key="entity.RD.1">Tour/Match</entry>
 	<entry key="entity.RS.1">Résultat</entry>
 	<entry key="entity.RN.1">Numéro retiré</entry>
 	<entry key="entity.SP.1">Sport</entry>
@@ -286,6 +286,7 @@
 	<entry key="add.favorites">Ajouter aux favoris</entry>
 	<entry key="delete.favorites">Supprimer des favoris</entry>
 	<entry key="no.favorite">Aucun favori enregistré.</entry>
+	<entry key="description">Description</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
@@ -329,6 +330,8 @@
 	<entry key="date.from">Du</entry>
 	<entry key="date.to">Au</entry>
 	<entry key="define.span">Définir une période</entry>
+	<entry key="not.dated">non daté</entry>
+	<entry key="this.month">Ce mois-ci</entry>
 <!-- US LEAGUES -->
 	<entry key="league">Ligue</entry>
 	<entry key="championships">Championnats</entry>

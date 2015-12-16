@@ -60,9 +60,6 @@
 .tc td th img{
 	vertical-align: top;
 }
-.tc .centered{
-	text-align: center;
-}
 .tc .bold{
 	font-weight: bold;
 	padding-left: 3px;
@@ -229,39 +226,51 @@
 	position: absolute;
 	z-index: 0;
 }
-.tc .draw .box table, .tc .info .result table{
+.tc .draw .box table, .tc .info .result table, .tc .rounds table{
 	border-collapse: collapse;
 	background-color: #FFF;
 	width: 300px;
 }
-.tc .draw .box td table, .tc .info .result td table{
+.tc .draw .box td table, .tc .info .result td table, .tc .rounds td table{
 	width: auto;
 	border: none;
 }
-.tc .draw .box td, .draw .box th, .tc .info .result td, .tc .info .result th{
+.tc .draw .box td, .draw .box th, .tc .info .result td, .tc .info .result th, .tc .rounds td, .tc .rounds th{
 	font-size: 12px;
-	border: 1px solid #666;
+	border: 1px solid #CCC;
 	text-align: left;
 	padding: 2px 2px;
 }
-.tc .info .result td, .tc .info .result th{
+.tc .draw .box td, .draw .box th{
+	border: 1px solid #666;
+}
+.tc .info .result td, .tc .info .result th, .tc .rounds td, .tc .rounds th{
 	padding: 3px 3px;
 }
-.tc .draw .box th, .tc .info .result th{
+.tc .draw .box th, .tc .info .result th, .tc .rounds th{
 	font-size: 11px;
 	text-align: left;
 	font-weight: bold;
 	background-color: #EEE;
 }
-.tc .draw .box td table td, .tc .info .result td table td{
+.tc .draw .box td table td, .tc .info .result td table td, .tc .rounds td table td{
 	border: none;
 	padding: 0px;
 }
-.tc .draw .box td table th, .tc .info .result td table th{
+.tc .draw .box td table th, .tc .info .result td table th, .tc .rounds td table th{
 	border: none;
-	background-color: #FFF;
+	background-color: transparent;
 	padding: 0px;
 	padding-right: 3px;
+}
+.tc .rounds td{
+	white-space: nowrap;
+}
+.tc .rounds td table{
+	background-color: transparent;
+}
+.tc .rounds tr:hover td{
+	background-color: #CFE0FF;
 }
 .tc .box2, .tc .box4{
 	margin-left: 400px;
@@ -285,7 +294,7 @@
 	margin-top: 330px;
 }
 .tc .box8 table{
-	border: 2px solid #333;
+	border: 2px solid #555;
 }
 .tc .tsort{
 	clear: right;
@@ -347,6 +356,17 @@
 	background: url(../img/menu/dbsearch.png) left 0px no-repeat;
 	padding-left: 20px;
 	height: 20px;
+}
+.tc td.centered{
+	text-align: center;
+}
+.tc #calmonth{
+	margin-left: 16px;
+}
+.tc #calmonth li{
+	vertical-align: middle;
+	display: list-item;
+	list-style-image: url(../img/bullet.gif?6);
 }
 tr.rsort th{
 	cursor: pointer;
@@ -423,9 +443,6 @@ th.desc{
 }
 .highlight td{
 	font-weight: bold;
-}
-.coloredcell{
-	background-color: yellow;
 }
 .refscore{
 	float: right;

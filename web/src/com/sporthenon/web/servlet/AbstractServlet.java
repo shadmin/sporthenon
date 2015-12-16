@@ -44,6 +44,7 @@ public abstract class AbstractServlet extends HttpServlet {
 	
 	protected void redirect(HttpServletRequest request, HttpServletResponse response, String path) throws ServletException, IOException {
 		String url = request.getRequestURL().toString();
+		logger.fatal("checkurl-redirect:"+url);
 		String protocol = url.replaceFirst("\\:.*", "");
 		url = url.replaceFirst(protocol + "\\:\\/\\/", "").replaceAll("\\/.*", "");
 		url = protocol + "://" + url + path;
