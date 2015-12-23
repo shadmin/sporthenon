@@ -1,4 +1,4 @@
-package com.sporthenon.web.servlet;
+package com.sporthenon.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -91,6 +91,10 @@ public class ServletHelper {
         PrintWriter writer = response.getWriter();
         writer.write(s);
         response.flushBuffer();
+	}
+	
+	public static String getURL(HttpServletRequest request) {
+		return request.getScheme() + "://" + request.getServerName() + (request.getServerPort() > 80 ? ":" + request.getServerPort() : "") + request.getRequestURI() + (StringUtils.notEmpty(request.getQueryString()) ? "?" + request.getQueryString() : "");
 	}
 	
 }

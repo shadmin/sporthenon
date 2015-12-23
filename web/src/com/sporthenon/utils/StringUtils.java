@@ -83,7 +83,7 @@ public class StringUtils {
 	}
 	
 	public static String toPatternString(String s) throws Exception {
-		String regexp = s.replaceAll("\\_", ".");
+		String regexp = s.replaceAll("\\_", ".").replaceAll("'", "''");
 		regexp = regexp.replaceAll("\\,", "\\\\\\\\\\\\\\\\,");
 		regexp = regexp.replaceAll("\\(", "\\\\\\\\\\\\\\\\(");
 		regexp = regexp.replaceAll("\\)", "\\\\\\\\\\\\\\\\)");
@@ -119,13 +119,15 @@ public class StringUtils {
 	}
 
 	public static String toTextDate(String dt, String lang, String format) throws ParseException {
-		Locale l = (lang != null && lang.equalsIgnoreCase("fr") ? Locale.FRENCH : Locale.ENGLISH);
-		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		SimpleDateFormat dftxt = new SimpleDateFormat(notEmpty(format) ? format : "dd MMM", l);
 		if (dt != null) {
-			if (!dt.matches(".*\\d\\d\\:\\d\\d$"))
-				dt += " 00:00";
-			dt = dftxt.format(df.parse(dt)).replaceAll("\\s", "&nbsp;");	
+			Locale l = (lang != null && lang.equalsIgnoreCase("fr") ? Locale.FRENCH : Locale.ENGLISH);
+			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			SimpleDateFormat dftxt = new SimpleDateFormat(notEmpty(format) ? format : "dd MMM", l);
+			if (dt != null) {
+				if (!dt.matches(".*\\d\\d\\:\\d\\d$"))
+					dt += " 00:00";
+				dt = dftxt.format(df.parse(dt)).replaceAll("\\s", "&nbsp;");	
+			}
 		}
 		return dt;
 	}

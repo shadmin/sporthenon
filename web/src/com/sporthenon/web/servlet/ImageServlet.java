@@ -28,6 +28,7 @@ import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
+import com.sporthenon.web.ServletHelper;
 
 public class ImageServlet extends AbstractServlet {
 

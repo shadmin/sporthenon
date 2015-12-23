@@ -15,6 +15,7 @@ import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.web.HtmlConverter;
+import com.sporthenon.web.ServletHelper;
 
 public class InfoRefServlet extends AbstractServlet {
 
@@ -45,7 +46,7 @@ public class InfoRefServlet extends AbstractServlet {
 				}
 				else
 					p = params[1] + "-" + params[2] + "-" + params[3] + "-" + (params.length > 4 ? params[4] : "") + "-" + (params.length > 5 ? params[5] : "") + "-0";
-				redirect(request, response, "/results/" + StringUtils.encode(p));
+				redirect(request, response, "/results/" + StringUtils.encode(p), false);
 			}
 			else {
 				int id = (params.length > 1 ? new Integer(params[1]) : 0);

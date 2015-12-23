@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
+import com.sporthenon.web.ServletHelper;
 
 public class NavigationServlet extends AbstractServlet {
 
@@ -91,7 +92,7 @@ public class NavigationServlet extends AbstractServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url = request.getRequestURL().toString();
+		String url = ServletHelper.getURL(request);
 		try {
 			if (url.matches(".*\\/(athletes|championships|cities|complexes|countries|events|sports|usstates|teams|years)\\/.*"))
 				throw new OldPatternException();
@@ -154,10 +155,10 @@ public class NavigationServlet extends AbstractServlet {
 		    	dispatcher.forward(request, response);
 		}
 		catch (OldPatternException e) {
-			redirect(request, response, url.replaceAll("\\/athletes", "/athlete").replaceAll("\\/championships", "/championship").replaceAll("\\/cities", "/city").replaceAll("\\/complexes", "/complex").replaceAll("\\/countries", "/country").replaceAll("\\/events", "/event").replaceAll("\\/sports", "/sport").replaceAll("\\/usstates", "/usstate").replaceAll("\\/teams", "/team").replaceAll("\\/years", "/year"));
+			redirect(request, response, url.replaceAll("\\/athletes", "/athlete").replaceAll("\\/championships", "/championship").replaceAll("\\/cities", "/city").replaceAll("\\/complexes", "/complex").replaceAll("\\/countries", "/country").replaceAll("\\/events", "/event").replaceAll("\\/sports", "/sport").replaceAll("\\/usstates", "/usstate").replaceAll("\\/teams", "/team").replaceAll("\\/years", "/year"), false);
 		}
 		catch (NotLoggedInException e) {
-			redirect(request, response, "/login");
+			redirect(request, response, "/login", true);
 		}
 		catch (Exception e) {
 			handleException(request, response, e);

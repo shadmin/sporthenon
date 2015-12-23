@@ -19,6 +19,7 @@ import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 import com.sporthenon.web.HtmlConverter;
+import com.sporthenon.web.ServletHelper;
 
 public class SearchServlet extends AbstractServlet {
 
@@ -39,7 +40,7 @@ public class SearchServlet extends AbstractServlet {
 				String[] t = StringUtils.decode(String.valueOf(hParams.get("p"))).split("\\-");
 				Integer id = Integer.parseInt(t[1]);
 				String url = HtmlUtils.writeLink(t[0], id, null, DatabaseHelper.getEntityName(t[0], id));
-				redirect(request, response, url);
+				redirect(request, response, url, false);
 			}
 			else if (hParams.containsKey("p2") && hParams.get("p2").equals("ajax")) { // Ajax autocompletion
 				final int LIMIT = 10;

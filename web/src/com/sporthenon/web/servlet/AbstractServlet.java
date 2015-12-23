@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.utils.res.ResourceUtils;
+import com.sporthenon.web.ServletHelper;
 
 public abstract class AbstractServlet extends HttpServlet {
 
@@ -42,12 +43,11 @@ public abstract class AbstractServlet extends HttpServlet {
 		request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
 	}
 	
-	protected void redirect(HttpServletRequest request, HttpServletResponse response, String path) throws ServletException, IOException {
-		String url = request.getRequestURL().toString();
-		logger.fatal("checkurl-redirect:"+url);
+	protected void redirect(HttpServletRequest request, HttpServletResponse response, String path, boolean ssl) throws ServletException, IOException {
+		String url = ServletHelper.getURL(request);
 		String protocol = url.replaceFirst("\\:.*", "");
 		url = url.replaceFirst(protocol + "\\:\\/\\/", "").replaceAll("\\/.*", "");
-		url = protocol + "://" + url + path;
+		url = (ssl ? "https" : protocol) + "://" + url + path;
 		response.sendRedirect(url);
 	}
 	

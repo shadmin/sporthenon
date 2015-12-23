@@ -20,6 +20,7 @@ import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 import com.sporthenon.web.HtmlConverter;
+import com.sporthenon.web.ServletHelper;
 
 public class ResultServlet extends AbstractServlet {
 
@@ -66,7 +67,7 @@ public class ResultServlet extends AbstractServlet {
 					FolderHistory fh = (FolderHistory) DatabaseHelper.loadEntityFromQuery("from FolderHistory where previous_params='" + lFuncParams.get(0) + "-" + lFuncParams.get(1) + "-" + lFuncParams.get(2) + (!lFuncParams.get(3).equals(0) ? "-" + lFuncParams.get(3) : "") + (!lFuncParams.get(4).equals(0) ? "-" + lFuncParams.get(4) : "") + "' order by id");
 					if (fh != null) {
 						isRedirect = true;
-						redirect(request, response, "/results/" + StringUtils.urlEscape(fh.getCurrentPath()) + "/" + StringUtils.encode(fh.getCurrentParams()));
+						redirect(request, response, "/results/" + StringUtils.urlEscape(fh.getCurrentPath()) + "/" + StringUtils.encode(fh.getCurrentParams()), false);
 					}
 				}
 				if (!isRedirect) {

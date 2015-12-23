@@ -1,9 +1,9 @@
-<%@page import="org.hibernate.exception.Configurable"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page import="com.sporthenon.db.entity.meta.Contributor" %>
 <%@ page import="com.sporthenon.utils.ConfigUtils" %>
 <%@ page import="com.sporthenon.utils.StringUtils" %>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils" %>
-<%@ page import="com.sporthenon.db.entity.meta.Contributor" %>
+<%@ page import="com.sporthenon.web.ServletHelper"%>
 <%
 	Object o = session.getAttribute("user");
 	Contributor m = null;
@@ -28,7 +28,7 @@
 	<meta property="og:title" content="<%=title%>"/>
 	<meta property="og:type" content="website"/>
 	<meta property="og:image" content="<%=url%>img/icon-notext-shadow.png?1"/>
-	<% if (request.isSecure() || !ConfigUtils.getProperty("env").equals("prod") || !request.getRequestURL().toString().contains("sporthenon.com")) { %>
+	<% if (request.isSecure() || !ConfigUtils.getProperty("env").equals("prod") || !ServletHelper.getURL(request).contains("sporthenon.com")) { %>
 	<meta name="robots" content="noindex, nofollow"/>
 	<% } %>
 	<link rel="stylesheet" type="text/css" href="/css/sh.css?v=<%=version%>"/>	

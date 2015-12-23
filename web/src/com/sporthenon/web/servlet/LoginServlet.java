@@ -15,6 +15,7 @@ import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
+import com.sporthenon.web.ServletHelper;
 
 public class LoginServlet extends AbstractServlet {
 
@@ -38,7 +39,7 @@ public class LoginServlet extends AbstractServlet {
 					Contributor m = lstContributor.get(0);
 					if (m.getActive() != null && m.getActive()) {
 						request.getSession().setAttribute("user", m);
-						redirect(request, response, "/update/overview");
+						redirect(request, response, "/update/overview", true);
 						isMsg = false;
 					}
 					else
@@ -75,7 +76,7 @@ public class LoginServlet extends AbstractServlet {
 				request.getSession().removeAttribute("user");
 				msg = ResourceUtils.getText("msg.logout", getLocale(request));
 				isMsg = false;
-				redirect(request, response, "/");
+				redirect(request, response, "/", true);
 			}
 			if (isMsg) {
 				request.setAttribute("msg", msg);

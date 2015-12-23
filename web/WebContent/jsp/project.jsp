@@ -25,6 +25,8 @@
 					<tr><td style="text-align:center;"><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/CHANGELOG.txt">https://raw.githubusercontent.com/shadmin/sporthenon/master/CHANGELOG.txt</a></td></tr>
 					<tr><th style="padding:0px;"><table><tr><td><img alt="" src="/img/project/reportbug.png"/></td><td style="padding-bottom:1px;"><%=StringUtils.text("report.bug", session)%></td></tr></table></th></tr>
 					<tr><td style="text-align:center;"><a target="_blank" href="http://github.com/shadmin/sporthenon/issues">http://github.com/shadmin/sporthenon/issues</a></td></tr>
+					<tr><th style="padding:0px;"><table><tr><td><img alt="" src="/img/project/wiki.png"/></td><td style="padding-bottom:1px;">Wiki</td></tr></table></th></tr>
+					<tr><td style="text-align:center;"><a target="_blank" href="http://github.com/shadmin/sporthenon/wiki">http://github.com/shadmin/sporthenon/wiki</a></td></tr>
 				</table>
 			</div>
 		</div>

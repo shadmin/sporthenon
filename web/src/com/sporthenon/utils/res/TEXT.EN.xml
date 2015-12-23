@@ -383,7 +383,7 @@
 	<entry key="download.previous">Previous versions</entry>
 	<entry key="step">STEP</entry>
 	<entry key="step1.desc"><![CDATA[Create an account on <a href="/login">this page</a>.<br/><br/>Fill the mandatory fields (marked with <span class="mandatory">*</span>) and click on "Create Account".]]></entry>
-	<entry key="step2.desc"><![CDATA[Go to page "Connexion" and authenticate using credentials created in step 1.]]></entry>
+	<entry key="step2.desc"><![CDATA[Go to page "Login" and authenticate using credentials created in step 1.]]></entry>
 	<entry key="step3.desc"><![CDATA[Add and update results with buttons <img alt="add" src="/img/component/button/add.png"/> and <img alt="add" src="/img/component/button/modify.png"/>]]></entry>
 	<entry key="contributions">Contributions</entry>
 	<entry key="download.admin">Administration Program</entry>

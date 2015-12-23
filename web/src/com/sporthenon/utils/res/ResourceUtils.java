@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 
 import org.apache.log4j.Logger;
 
+import com.sporthenon.web.ServletHelper;
+
 public class ResourceUtils {
 
 	private static HashMap<String, Properties> HP = null;
@@ -49,7 +51,7 @@ public class ResourceUtils {
 		if (session.getAttribute("locale") == null) {
 			String lang = LGDEFAULT;
 			try {
-				String url = request.getRequestURL().toString();
+				String url = ServletHelper.getURL(request);
 				if (url.matches(".*\\/\\/[a-z]{2}\\..*"))
 					lang = url.substring(url.indexOf("//") + 2).substring(0, 2);
 				else {

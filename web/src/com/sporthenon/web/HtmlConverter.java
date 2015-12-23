@@ -77,6 +77,8 @@ public class HtmlConverter {
 	public static final short HEADER_US_LEAGUES_RECORD = 8;
 	public static final short HEADER_SEARCH = 9;
 	public static final short HEADER_REF = 10;
+	
+	private static final String HIGHLIGHT_COLOR = "#DFDFDF";
 
 	public static String getResultsEntity(int type, Integer rank, String str1, String str2, String str3, String country, String year, String plist) {
 		String s = null;
@@ -1132,34 +1134,36 @@ public class HtmlConverter {
 		final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_ref_limit"));
 		String limit = (params.size() > 3 ? String.valueOf(params.get(3)) : String.valueOf(ITEM_LIMIT));
 		Integer offset = (params.size() > 4 ? new Integer(String.valueOf(params.get(4))) : 0);
+		boolean isPRTMCN = etype.matches(Athlete.alias + "|" + Team.alias + "|" + Country.alias);
 		StringBuffer html = new StringBuffer();
 		if (isAllRef)
 			html.append("<table class='tsort'>");
-		
+
 		// Get linked entities
 		ArrayList<Integer> eList = new ArrayList<Integer>();
 		if (etype.matches(Athlete.alias + "|" + Team.alias)) {
-			Integer itemLink = 0;
+			Integer itemLink = -1;
 			if (etype.equals(Athlete.alias)) {
 				Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, itemId);
-				itemLink = (a.getLink() != null ? a.getLink() : 0);
+				itemLink = (a.getLink() != null ? a.getLink() : -1);
 			}
 			else if (etype.equals(Team.alias)) {
 				Team t = (Team) DatabaseHelper.loadEntity(Team.class, itemId);
-				itemLink = (t.getLink() != null ? t.getLink() : 0);
+				itemLink = (t.getLink() != null ? t.getLink() : -1);
 			}
 			for (Integer id_ : (List<Integer>) DatabaseHelper.executeNative("SELECT id FROM \"" + (etype.equals(Athlete.alias) ? "Athlete" : "Team") + "\" WHERE id IN (" + itemId + ", " + itemLink + ") OR link IN (" + itemId + ", " + itemLink + ")"))
 				eList.add(id_);
 		}
 		else
 			eList.add(itemId);
-
+		
 		// Write items
 		String currentEntity = "";
 		int colspan = 0;
 		int count = 0;
 		final String MORE_ITEMS = "<tr class='moreitems'#STYLE#><td colspan='#COLSPAN#'><div class='sfdiv1' onclick='moreItems(this, \"#P1#\");'>&nbsp;(+" + ITEM_LIMIT + ")&nbsp;</div><div class='sfdiv2' onclick='moreItems(this, \"#P2#\");'>&nbsp;(+100)&nbsp;</div><div class='sfdiv3' onclick='moreItems(this, \"#P3#\");'>&nbsp;(" + ResourceUtils.getText("all", lang) + ")&nbsp;</div></td></tr>";
 		String c0 = null, c1 = null, c2 = null, c3 = null, c4 = null, c5 = null, c6 = null, c7 = null;
+		String score = null;
 		for (Object obj : coll) {
 			RefItem item = (RefItem) obj;
 			String en = item.getEntity();
@@ -1183,7 +1187,7 @@ public class HtmlConverter {
 				else if (en.equals(Record.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("category", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("scope", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("record2", lang) + "</th>");				
 				else if (en.equals(Result.alias))
-					cols.append("<th/><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("year", lang)  + "</th>" + (etype.matches(Athlete.alias + "|" + Team.alias + "|" + Country.alias) ? "<th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("rank", lang) + "</th>" : "") + "<th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("rank.1", lang) + "</th><th onclick='sort(\"" + id + "\", this, 5);'>" + ResourceUtils.getText("rank.2", lang) + "</th><th onclick='sort(\"" + id + "\", this, 6);'>" + ResourceUtils.getText("rank.3", lang) + "</th>");
+					cols.append("<th/><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("year", lang)  + "</th>" + (isPRTMCN ? "<th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("rank", lang) + "</th>" : "") + "<th colspan='2' onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("rank.1", lang) + "</th><th onclick='sort(\"" + id + "\", this, 5);'>" + ResourceUtils.getText("rank.2", lang) + "</th><th onclick='sort(\"" + id + "\", this, 6);'>" + ResourceUtils.getText("rank.3", lang) + "</th>");
 				else if (en.equals(RetiredNumber.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("league", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("name", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("number", lang) + "</th>");
 				else if (en.equals(Round.alias))
@@ -1196,7 +1200,7 @@ public class HtmlConverter {
 					String p = params.get(0) + "-" + params.get(1) + "-" + currentEntity + "-#LIMIT#-" + (offset + (!limit.equalsIgnoreCase("all") ? Integer.parseInt(limit) : 0));
 					html.append(MORE_ITEMS.replaceAll("#STYLE#", currentEntity.equals(Event.alias) ? " style='display:none;'" : "").replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", String.valueOf(ITEM_LIMIT)))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
 				}
-				colspan = StringUtils.countIn(cols.toString(), "<th");
+				colspan = StringUtils.countIn(cols.toString(), "<th") + (en.equals(Result.alias) ? 1 : 0);
 				html.append(StringUtils.notEmpty(currentEntity) ? "</tbody></table><table class='tsort'>" : "");
 				count = 0;
 				if (isAllRef) {
@@ -1213,6 +1217,7 @@ public class HtmlConverter {
 			c5 = null;
 			c6 = null;
 			c7 = null;
+			score = null;
 			if (en.equals(Athlete.alias)) {
 				c1 = HtmlUtils.writeLink(Athlete.alias, item.getIdItem(), item.getLabel(), item.getLabelEN());
 				c2 = (item.getIdRel1() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, item.getIdRel1(), item.getLabelRel1(), item.getLabelRel3())) : StringUtils.EMPTY);
@@ -1333,8 +1338,9 @@ public class HtmlConverter {
 					}
 					tEntity = StringUtils.removeNulls(tEntity);
 				}
-				boolean isScore = (tEntity[0] != null && tEntity[1] != null && StringUtils.notEmpty(item.getTxt1()) && !StringUtils.notEmpty(item.getTxt2()));
-				c5 = tEntity[0] + (isScore ? "<div class='refscore'>" + StringUtils.formatResult(item.getTxt1(), lang) + "</div>" : "");
+				if (tEntity[0] != null && tEntity[1] != null && StringUtils.notEmpty(item.getTxt1()) && !StringUtils.notEmpty(item.getTxt2()))
+					score = StringUtils.formatResult(item.getTxt1(), lang);
+				c5 = tEntity[0];
 				c6 = (StringUtils.notEmpty(tEntity[1]) ? tEntity[1] : "");
 				c7 = (StringUtils.notEmpty(tEntity[2]) ? tEntity[2] : "");
 				if (isMedal) {
@@ -1342,13 +1348,13 @@ public class HtmlConverter {
 					c6 = "<div class='medal silver'>" + c6 + "</div>";
 					c7 = "<div class='medal bronze'>" + c7 + "</div>";
 				}
-				if (etype.matches(Athlete.alias + "|" + Team.alias + "|" + Country.alias) && item.getCount1() != null) {
+				if (isPRTMCN && item.getCount1() != null) {
 					if (isMedal && item.getCount1() <= 3)
 						c4 = "<div class='medal " + (item.getCount1() == 1 ? "gold" : (item.getCount1() == 2 ? "silver" : "bronze")) + "'>" + item.getCount1() + "</div>";
 					else
 						c4 = String.valueOf(item.getCount1());						
 				}
-				if (!etype.matches(Athlete.alias + "|" + Team.alias + "|" + Country.alias)) {
+				if (!isPRTMCN) {
 					c4 = c5;
 					c5 = null;
 				}
@@ -1405,9 +1411,12 @@ public class HtmlConverter {
 			}
 			if (isExport || !isAllRef || count < ITEM_LIMIT) {
 				html.append("<tr" + (en.equals(Event.alias) && isAllRef ? " style='display:none;'" : "") + ">" + (c0 != null ? "<td>" + c0 + "</td>" : "") + (c1 != null ? "<td class='srt'>" + c1 + "</td>" : "") + (c2 != null ? "<td class='srt'>" + c2 + "</td>" : ""));
-				html.append((c3 != null ? "<td class='srt'>" + c3 + "</td>" : "") + (c4 != null ? "<td class='srt'" + (c4.contains("'highlight'") ? " style='background-color:yellow;'" : "") + ">" + c4 + "</td>" : ""));
-				html.append((c5 != null ? "<td class='srt'" + (c5.contains("'highlight'") ? " style='background-color:yellow;'" : "") + ">" + c5 + "</td>" : "") + (c6 != null ? "<td class='srt'" + (c4.contains("'highlight'") ? " style='background-color:yellow;'" : "") + ">" + c6 + "</td>" : ""));
-				html.append((c7 != null ? "<td class='srt'" + (c7.contains("'highlight'") ? " style='background-color:yellow;'" : "") + ">" + c7 + "</td>" : "") + "</tr>");
+				html.append(c3 != null ? "<td class='srt'>" + c3 + "</td>" : "");
+				html.append((c4 != null ? "<td class='srt'" + (c4.contains("'highlight'") ? " style='background-color:" + HIGHLIGHT_COLOR + ";'" : "") + (en.equals(Result.alias) && score == null && !isPRTMCN ? " colspan='2'" : "") + ">" + c4 + "</td>" : ""));
+				html.append(c5 != null ? "<td class='srt'" + (c5.contains("'highlight'") ? " style='background-color:" + HIGHLIGHT_COLOR + ";'" : "") + (en.equals(Result.alias) && score == null && isPRTMCN ? " colspan='2'" : "") + ">" + c5 + "</td>" : "");
+				html.append(score != null ? "<td class='centered'>" + score + "</td>" : "");
+				html.append(c6 != null ? "<td class='srt'" + (c6.contains("'highlight'") ? " style='background-color:" + HIGHLIGHT_COLOR + ";'" : "") + ">" + c6 + "</td>" : "");
+				html.append((c7 != null ? "<td class='srt'" + (c7.contains("'highlight'") ? " style='background-color:" + HIGHLIGHT_COLOR + ";'" : "") + ">" + c7 + "</td>" : "") + "</tr>");
 			}
 			count++;
 		}
@@ -1617,7 +1626,7 @@ public class HtmlConverter {
 				long id = System.currentTimeMillis();
 				html.append("<table class='tsort'><thead><tr class='rsort'>");
 				if (item.getEntity().equals(Result.alias))
-					html.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("year", lang)  + "</th>" + "<th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("rank.1", lang) + "</th><th onclick='sort(\"" + id + "\", this, 5);'>" + ResourceUtils.getText("rank.2", lang) + "</th><th onclick='sort(\"" + id + "\", this, 6);'>" + ResourceUtils.getText("rank.3", lang) + "</th><th onclick='sort(\"" + id + "\", this, 7);'>" + ResourceUtils.getText("date", lang) + "</th>");
+					html.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("year", lang)  + "</th>" + "<th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("rank.1", lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("rank.2", lang) + "</th><th onclick='sort(\"" + id + "\", this, 5);'>" + ResourceUtils.getText("rank.3", lang) + "</th><th onclick='sort(\"" + id + "\", this, 6);'>" + ResourceUtils.getText("date", lang) + "</th>");
 				else
 					html.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("dates", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("place", lang) + "</th>");
 				html.append("</tr></thead><tbody class='tby' id='tb-" + id + "'>");
@@ -1664,16 +1673,16 @@ public class HtmlConverter {
 					}
 					tEntity = StringUtils.removeNulls(tEntity);
 				}
-				StringBuffer result = new StringBuffer("<td style='font-weight:bold;'>" + tEntity[0] + "</td>");
-				result.append("<td>" + (StringUtils.notEmpty(tEntity[1]) ? tEntity[1] : "") + "</td>");
-				result.append("<td>" + (StringUtils.notEmpty(tEntity[2]) ? tEntity[2] : "") + "</td>");
+				StringBuffer result = new StringBuffer("<td class='srt' style='font-weight:bold;'>" + tEntity[0] + "</td>");
+				result.append("<td class='srt'>" + (StringUtils.notEmpty(tEntity[1]) ? tEntity[1] : "") + "</td>");
+				result.append("<td class='srt'>" + (StringUtils.notEmpty(tEntity[2]) ? tEntity[2] : "") + "</td>");
 				html.append("<tr><td class='srt'>" + sport + "</td><td class='srt'>" + event + "</td>");
-				html.append("<td class='srt'>" + year + "</td>" + result.toString() + "<td>" + dates + "</td></tr>");
+				html.append("<td class='srt'>" + year + "</td>" + result.toString() + "<td class='srt'>" + dates + "</td></tr>");
 			}
 			else { // Future events
-				String place = (item.getIdRel6() != null ? HtmlUtils.writeLink(Complex.alias, item.getIdRel6(), item.getLabelRel6() + ", " + item.getLabelRel7(), item.getLabelRel9()) : HtmlUtils.writeLink(City.alias, item.getIdRel8(), item.getLabelRel8(), item.getLabelRel11()));
+				String place = (item.getIdRel6() != null ? HtmlUtils.writeLink(Complex.alias, item.getIdRel6(), item.getLabelRel6() + ", " + item.getLabelRel7(), item.getLabelRel9()) : (item.getIdRel8() != null ? HtmlUtils.writeLink(City.alias, item.getIdRel8(), item.getLabelRel8(), item.getLabelRel11()) : ""));
 				html.append("<tr><td class='srt'>" + sport + "</td><td class='srt'>" + event + "</td>");
-				html.append("<td>" + dates + "</td><td>" + place + "</td></tr>");
+				html.append("<td class='srt'>" + dates + "</td><td class='srt'>" + place + "</td></tr>");
 			}
 		}
 		html.append("</tbody></table>");

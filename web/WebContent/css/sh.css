@@ -59,7 +59,8 @@ li{
 .fieldset .fstitle{
 	font-weight: bold;
 	border-bottom: 1px solid gray;
-	background-color: #FFC;
+	/*background-color: #FFC;*/
+	background-color: #CEF;
 	padding: 4px;
 	padding-left: 23px;
 	background-position: 3px center;
@@ -346,7 +347,8 @@ li{
 	text-align: center;
 }
 #dupdates tr:hover td{
-	background-color: #CFE0FF;
+	/*background-color: #CFE0FF;*/
+	background-color: #FFA;
 }
 #dupdates td{
 	background-color: #FFF;
@@ -388,7 +390,8 @@ li{
 	background: transparent url(../img/render/more4.gif) 0 0 no-repeat;
 }
 #dupdates .moreitems div:hover{
-	background-color: #BEE0FF;
+	/*background-color: #BEE0FF;*/
+	background-color: #FFA;
 }
 #footer{
 	height: 50px;
@@ -655,7 +658,8 @@ li{
 .homecontent .fieldset .fstitle{
 	font-weight: bold;
 	border-bottom: 1px solid gray;
-	background-color: #FFC;
+	/*background-color: #FFC;*/
+	background-color: #CEF;
 	padding: 5px;
 	padding-left: 23px;
 	padding-bottom: 4px;
@@ -757,7 +761,7 @@ li{
 }
 .homecontent #sports div.sport:hover{
 	border: 1px solid #000;
-	background-color: #FFD;
+	background-color: #FFA;
 }
 .homecontent #sports div.sport a{
 	display: block;

@@ -20,6 +20,7 @@ import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 import com.sporthenon.web.HtmlConverter;
+import com.sporthenon.web.ServletHelper;
 
 public class IndexServlet extends AbstractServlet {
 
