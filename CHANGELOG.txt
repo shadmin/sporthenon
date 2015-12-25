@@ -1,75 +1,95 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.12.2  |
+| Last Version: 0.12.3  |
 +-----------------------+
+
++--------+
+| 0.12.3 |
++--------+
+[25 Dec 2015]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.3
+- New feature: <Rounds> (=> details of rounds/matches for each result -> replaces "draws")
+- Added calendar info in header (sports/years)
+- Current event is highlighted in treeview (update/results)
+- Filtered list to prevent current ID from being defined as link (update/data)
+- Replaced creation date by event date in home/last updates
+- Added more integrity controls in CSV import process
+- Added XML requests for Android (Olympics, US leagues)
+- Import logs available as text file instead of screen display
+- Accents ignored in ajax autocompletion to prevent duplicate records
+- Bugfix: redirections don't work properly with HTTPS requests
+- Bugfix: other flags/logos are not displayed anymore
+- Bugfix: linked entities not highlighted in results references 
+- Bugfix: events can not be deleted (update/results)
+- Bugfix: invalid URLs are crawled by search engines
+- Bugfix: "update" button must be disabled if errors occur after processing (import)
+- Bugfix: error occurs when saving person lists
+- Upgraded database version (8.4.2 => 9.4.5)
 
 +--------+
 | 0.12.2 |
 +--------+
 [03 Nov 2015]
 Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.2
-o Website
-	- New feature: <Favorites> (=> favorite pages can be stored using cookies)
-	- New feature: <Update/Errors> (=> overview of reported errors)
-	- Redirection to contributor area instead of home after login
-	- US leagues: wins/losses replaced by stats leaders
-	- Added calendar and US leagues data (hall of fame, retired numbers..) in update/data
-	- Added "urlrewrite" filter to redirect not-sporthenon.com hosts
-	- Added checkbox for inactive events (update/results)
-	- Added "index" field for athlete lists (player number/position or free text)
-	- Added first/last buttons in update/results + direct access to specific year
-	- Multiple external links can be added for a same record (update/ext.links)
-	- Added automatic update feature (update/ext.links)
-	- Import: create event automatically if not existing (with warning msg)
-	- Filtered access by sport in contributor area
-	- All rankings from 1st to 20th are managed (including ties)
-	- Default photo width can be set in update/admin
-	- Bugfix: comment tooltip not hidden by default
-	- Bugfix: error occurs when saving countries (update/data)
-	- Bugfix: autocompletion does not work with full athlete/complex pattern
+- New feature: <Favorites> (=> favorite pages can be stored using cookies)
+- New feature: <Update/Errors> (=> overview of reported errors)
+- Redirection to contributor area instead of home after login
+- US leagues: wins/losses replaced by stats leaders
+- Added calendar and US leagues data (hall of fame, retired numbers..) in update/data
+- Added "urlrewrite" filter to redirect not-sporthenon.com hosts
+- Added checkbox for inactive events (update/results)
+- Added "index" field for athlete lists (player number/position or free text)
+- Added first/last buttons in update/results + direct access to specific year
+- Multiple external links can be added for a same record (update/ext.links)
+- Added automatic update feature (update/ext.links)
+- Import: create event automatically if not existing (with warning msg)
+- Filtered access by sport in contributor area
+- All rankings from 1st to 20th are managed (including ties)
+- Default photo width can be set in update/admin
+- Bugfix: comment tooltip not hidden by default
+- Bugfix: error occurs when saving countries (update/data)
+- Bugfix: autocompletion does not work with full athlete/complex pattern
 
 +--------+
 | 0.12.1 |
 +--------+
 [12 Oct 2015]
 Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.1
-o Website
-	- New feature: <Update/Folders> (=> move list of folders to another location)
-	- New feature: <Update/External Links> (=> review/modify/check external links)
-	- New feature: <Update/Translations> (=> review translations of values in database)
-	- Made all dates clickable (link to calendar search)
-	- Added "Note" column in results + separate column for details icon
-	- Added "teams" in Update/overview picklist
-	- Added new query: Duplicate cities
-	- Added warning on non-existing team in Update/import
-	- Added "Modify" button for contributors in results details
-	- Photos: "copyright" mention replaced by "source/credits"
-	- Separate columns (1st/2nd/3rd) for rankings in results references
-	- Bufgix: creation of duplicate records in Update/results (value ID is cleared)
-	- Bugfix: error occurs on pattern search
+- New feature: <Update/Folders> (=> move list of folders to another location)
+- New feature: <Update/External Links> (=> review/modify/check external links)
+- New feature: <Update/Translations> (=> review translations of values in database)
+- Made all dates clickable (link to calendar search)
+- Added "Note" column in results + separate column for details icon
+- Added "teams" in Update/overview picklist
+- Added new query: Duplicate cities
+- Added warning on non-existing team in Update/import
+- Added "Modify" button for contributors in results details
+- Photos: "copyright" mention replaced by "source/credits"
+- Separate columns (1st/2nd/3rd) for rankings in results references
+- Bufgix: creation of duplicate records in Update/results (value ID is cleared)
+- Bugfix: error occurs on pattern search
 
 +--------+
 | 0.12.0 |
 +--------+
 [22 Sept 2015]
 Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.0
-o Website
-	- New module: <Calendar> (==> search events by year/month/date)
-	- New feature: <Update/Pictures> (==> upload/download pictures/logos)
-	- New feature: <Update/Import> (==> mass import of CSV files)
-	- Added "remove" button for results and data
-	- Added tree view of events in update/results
-	- Added warning message when data is modified and not saved
-	- Added picklist to select category in update/overview
-	- Added custom SQL query in update/tools
-	- Added full available standings (1-20) in result details
-	- Show all sports ordered by index (slides on home page)
-	- Display random event on home page
-	- Redirection for obsolete URL patterns
-	- Copyright mention on photos
-	- Indexed photo file names (new version)
-	- Bugfix: consecutive merges cause mixed requests
-	- Bugfix: error occurs when saving draws
+- New module: <Calendar> (==> search events by year/month/date)
+- New feature: <Update/Pictures> (==> upload/download pictures/logos)
+- New feature: <Update/Import> (==> mass import of CSV files)
+- Added "remove" button for results and data
+- Added tree view of events in update/results
+- Added warning message when data is modified and not saved
+- Added picklist to select category in update/overview
+- Added custom SQL query in update/tools
+- Added full available standings (1-20) in result details
+- Show all sports ordered by index (slides on home page)
+- Display random event on home page
+- Redirection for obsolete URL patterns
+- Copyright mention on photos
+- Indexed photo file names (new version)
+- Bugfix: consecutive merges cause mixed requests
+- Bugfix: error occurs when saving draws
 
 +--------+
 | 0.11.0 |
