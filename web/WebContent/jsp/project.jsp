@@ -49,7 +49,7 @@
 				<tr><th colspan="4" style="text-align:center;"><%=StringUtils.text("db.hosting", session)%></th></tr>
 				<tr><td>CentOS</td><td>5.6</td><td>Linux server</td><td><a href="http://www.centos.org/" target="_blank">http://www.centos.org</a></td></tr>
 				<tr><td>Glassfish</td><td>3.1.2</td><td>Java application server</td><td><a href="http://glassfish.java.net/" target="_blank">http://glassfish.java.net</a></td></tr>
-				<tr><td>PostgreSQL</td><td>8.4.2.1</td><td>Database server</td><td><a href="http://www.postgresql.org/" target="_blank">http://www.postgresql.org</a></td></tr>
+				<tr><td>PostgreSQL</td><td>9.4.5</td><td>Database server</td><td><a href="http://www.postgresql.org/" target="_blank">http://www.postgresql.org</a></td></tr>
 			</table>
 		</div>
 		</div>

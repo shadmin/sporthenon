@@ -24,6 +24,7 @@
 	<meta name="Description" content="<%=desc%>"/>
 	<meta name="keywords" content="<%=StringUtils.text("keywords", session)%>"/>
 	<link rel="alternate" hreflang="x-default" href="http://www.sporthenon.com/"/>
+	<link rel="alternate" hreflang="en" href="http://en.sporthenon.com/"/>
 	<link rel="alternate" hreflang="fr" href="http://fr.sporthenon.com/"/>
 	<meta property="og:title" content="<%=title%>"/>
 	<meta property="og:type" content="website"/>
