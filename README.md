@@ -1,8 +1,8 @@
 ## Sporthenon – The temple of sports results
 ### About Sporthenon
 <ul>
-<li>Current Version: 0.12.2</li>
-<li>Released: 3 Nov 2015</li>
+<li>Current Version: 0.12.3</li>
+<li>Released: 25 Dec 2015</li>
 <li>First Website Release: August 2013</li>
 <li>First Android Release: June 2015</li>
 <li>Website: <a href="http://www.sporthenon.com/">http://www.sporthenon.com</a></li>
@@ -13,7 +13,7 @@
 ### Technical Information
 <ul>
 <li>Language: Java (JDK 1.7.0_79)</li>
-<li>Database: PostgreSQL 8.4.2.1</li>
+<li>Database: PostgreSQL 9.4.5</li>
 <li>Application Server: GlassFish 3.1.2</li>
 <li>Server OS: CentOS 5.6</li>
 </ul>
