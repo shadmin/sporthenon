@@ -97,20 +97,20 @@ Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.0
 [1 Sept 2015]
 Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.11.0
 o Website
-	- New feature: <Update/Overview> (==> global report to check if DB records are properly completed)
-	- New feature: <Update/Data> (==> add/update/remove/copy/merge/find records)
-	- New feature: <Update/Admin> (==> users management and dynamic configuration)
-	- Current athlete/team/country yellow-highlighted in referenced results
-	- Added "dropzone" component to upload pictures (data + results)
-	- Added <meta> description in all pages
-	- Added league in US team header
-	- Improved performance significantly on athlete pages (medal counts)
-	- Added list of contained events in championship/event details
-	- Renamed DB tables (not only upper case format)
-	- Bugfix: tab title NULL in advanced search page
+- New feature: <Update/Overview> (==> global report to check if DB records are properly completed)
+- New feature: <Update/Data> (==> add/update/remove/copy/merge/find records)
+- New feature: <Update/Admin> (==> users management and dynamic configuration)
+- Current athlete/team/country yellow-highlighted in referenced results
+- Added "dropzone" component to upload pictures (data + results)
+- Added <meta> description in all pages
+- Added league in US team header
+- Improved performance significantly on athlete pages (medal counts)
+- Added list of contained events in championship/event details
+- Renamed DB tables (not only upper case format)
+- Bugfix: tab title NULL in advanced search page
 o Android
-	- Added splash screen with logo
-	- Enhanced UI in results details (especially for ties)
+- Added splash screen with logo
+- Enhanced UI in results details (especially for ties)
 
 +--------+
 | 0.10.2 |
@@ -118,24 +118,24 @@ o Android
 [4 Aug 2015]
 Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.10.2
 o Website
-	- New feature: <Photos> (==> edit/display photos for athletes, complexes and results)
-	- Added column with event result in athlete/team/country references
-	- Added help dialog in update page (initialized with fields format)
-	- Added sports list to contributor profile
-	- Value ID automatically cleared when typing new value (update result)
-	- Moved retired numbers/team stadiums/hall of fame/wins losses to team header
-	- Added message in header if errors reported on current page
-	- Replaced floating divs with inline-block <li> in fieldsets (prevent wrapping if horizontal overflow)
-	- Bugfix: some characters not properly encoded in URLs
-	- Bugfix: special characters not displayed in PDF exported files (added fonts with UTF8)
-	- Bugfix: no data returned when typing full name with country (update result)
+- New feature: <Photos> (==> edit/display photos for athletes, complexes and results)
+- Added column with event result in athlete/team/country references
+- Added help dialog in update page (initialized with fields format)
+- Added sports list to contributor profile
+- Value ID automatically cleared when typing new value (update result)
+- Moved retired numbers/team stadiums/hall of fame/wins losses to team header
+- Added message in header if errors reported on current page
+- Replaced floating divs with inline-block <li> in fieldsets (prevent wrapping if horizontal overflow)
+- Bugfix: some characters not properly encoded in URLs
+- Bugfix: special characters not displayed in PDF exported files (added fonts with UTF8)
+- Bugfix: no data returned when typing full name with country (update result)
 o Android
-	- New logo and enhanced UI
-	- Results displayed directly if event has no subevents
+- New logo and enhanced UI
+- Results displayed directly if event has no subevents
 o Admin (Swing app)
-	- New feature: <External Links> (==> specific module to manage ext. links)
-	- New feature: <Users> (==> specific module to manage contributors profiles)
-	- Bugfix: no check if country exists before processing import
+- New feature: <External Links> (==> specific module to manage ext. links)
+- New feature: <Users> (==> specific module to manage contributors profiles)
+- Bugfix: no check if country exists before processing import
 
 +--------+
 | 0.10.1 |
@@ -143,28 +143,28 @@ o Admin (Swing app)
 [15 Jul 2015]
 Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.10.1
 o Website
-	- New feature: <Error Report> (==> Link in all pages to report an error in contents)
-	- New feature: <Folder History> (==> Keep history of moved folders for URL redirection)
-	- New export formats: CSV/PDF
-	- Improved contributors info (new table to store separately adds/updates)
-	- Added meta tag <link> with hreflang for localized indexation
-	- Added "linked to" field for cities/complexes
-	- Added entity type and ref. count in search autocompletion results
-	- New stat report: request count per sport (pie chart)
-	- Picklists preloaded in US leagues page (instead of ajax requests)
-	- Automatic sorting of inactive items in treeview (displayed at end of folder)
-	- Bugfix: wrong display of special characters (UTF8) in exports
-	- Bugfix: ref. count is NULL on some olympic games (results not counted)
-	- Bugfix: tied entities (and doubles) not displayed in last updates
-	- Bugfix: entities counted twice in ref. count (when linked to another record)
-	- Bugfix: invididual olympic medals not counted in coutry stats
+- New feature: <Error Report> (==> Link in all pages to report an error in contents)
+- New feature: <Folder History> (==> Keep history of moved folders for URL redirection)
+- New export formats: CSV/PDF
+- Improved contributors info (new table to store separately adds/updates)
+- Added meta tag <link> with hreflang for localized indexation
+- Added "linked to" field for cities/complexes
+- Added entity type and ref. count in search autocompletion results
+- New stat report: request count per sport (pie chart)
+- Picklists preloaded in US leagues page (instead of ajax requests)
+- Automatic sorting of inactive items in treeview (displayed at end of folder)
+- Bugfix: wrong display of special characters (UTF8) in exports
+- Bugfix: ref. count is NULL on some olympic games (results not counted)
+- Bugfix: tied entities (and doubles) not displayed in last updates
+- Bugfix: entities counted twice in ref. count (when linked to another record)
+- Bugfix: invididual olympic medals not counted in coutry stats
 o Android
-	[none]
+[none]
 o Admin (Swing app)
-	- Added checkboxes to clear subevents in folder edition
-	- New query: untranslated items
-	- New query: incomplete event results
-	- New query: athletes/teams without country
+- Added checkboxes to clear subevents in folder edition
+- New query: untranslated items
+- New query: incomplete event results
+- New query: athletes/teams without country
 	
 +--------+
 | 0.10.0 |
@@ -172,20 +172,20 @@ o Admin (Swing app)
 [22 Jun 2015]
 Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.10.0
 o Website
-	- New feature: <Statistics> (==> Database stats & charts on home page)
-	- New feature: <Athlete List> (==> Details of athletes for countries/teams in results)
-	- Logos can be managed by sport+championship or sport+event
-	- Added GitHub block in project page + reorganized page
-	- Athletes/teams can be linked with different sports
-	- Optimized display with large tables (horizontal scrollbar)
+- New feature: <Statistics> (==> Database stats & charts on home page)
+- New feature: <Athlete List> (==> Details of athletes for countries/teams in results)
+- Logos can be managed by sport+championship or sport+event
+- Added GitHub block in project page + reorganized page
+- Athletes/teams can be linked with different sports
+- Optimized display with large tables (horizontal scrollbar)
 o Android
-	- Load small pictures instead of large for teams
-	- Manage doubles and tied results
-	- Added win records in path
+- Load small pictures instead of large for teams
+- Manage doubles and tied results
+- Added win records in path
 o Admin (Swing app)
-	- Filter query for year events (remove inactive events and olympics on non-olympic years)
-	- Bugfix: mutiple fixes in folders editing
-	- DB: removed news
+- Filter query for year events (remove inactive events and olympics on non-olympic years)
+- Bugfix: mutiple fixes in folders editing
+- DB: removed news
 
 +-------+
 | 0.9.3 |
@@ -193,22 +193,22 @@ o Admin (Swing app)
 [3 Jun 2015]
 Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.9.3
 o Website
-	- New feature: <Result Page> (==> Details for single result, external links, draws)
-	- New feature: <Share> (==> Share current URL on main social networks)
-	- Added inputs for draws in update page
-	- Links to all available years in single result page
-	- Page footer: last update + request time in seconds
-	- Search autocompletion: items sorted by relevance
-	- Bugfix: infinite loop in record info causes 100% CPU usage
-	- Bugfix: invalid offset in "next items" links (wrong pagination)
+- New feature: <Result Page> (==> Details for single result, external links, draws)
+- New feature: <Share> (==> Share current URL on main social networks)
+- Added inputs for draws in update page
+- Links to all available years in single result page
+- Page footer: last update + request time in seconds
+- Search autocompletion: items sorted by relevance
+- Bugfix: infinite loop in record info causes 100% CPU usage
+- Bugfix: invalid offset in "next items" links (wrong pagination)
 o Android
-	- First release on Play store
-	- Added screen to set default language
-	- Items sorted by index, then alphabetical
+- First release on Play store
+- Added screen to set default language
+- Items sorted by index, then alphabetical
 o Admin (Swing app)
-	- New feature: <External Links>
-	- New feature: <Sitemap Generator> (==> only for results pages)
-	- DB: external links managed in separate table
+- New feature: <External Links>
+- New feature: <Sitemap Generator> (==> only for results pages)
+- DB: external links managed in separate table
 
 +-------+
 | 0.9.2 |
@@ -216,16 +216,16 @@ o Admin (Swing app)
 [23 Apr 2015]
 Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.9.2
 o Website
-	- New feature: <Contributors> (==> Details of added results for each contributor)
-	- Added autocompletion on global search
-	- Added servlet for Android requests (XML output)
-	- Improved global performance by removing DB requests
-	- Optimized buffer flushing on servlet response
-	- Bugfix: invalid URL link for records
+- New feature: <Contributors> (==> Details of added results for each contributor)
+- Added autocompletion on global search
+- Added servlet for Android requests (XML output)
+- Improved global performance by removing DB requests
+- Optimized buffer flushing on servlet response
+- Bugfix: invalid URL link for records
 o Android
-	- Initialized Android app
+- Initialized Android app
 o Admin (Swing app)
-	- New feature: <Folders Mass Update> (==> Move multiple folders to specified target)
+- New feature: <Folders Mass Update> (==> Move multiple folders to specified target)
 
 +-------+
 | 0.9.1 |
@@ -233,212 +233,212 @@ o Admin (Swing app)
 [3 Apr 2015]
 Milestone: http://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.9.1
 o Website
-	- New feature: <Login> (==> Login page for contributors)
-	- New feature: <Update> (==> Results can be added/modified online by logged contributors)
-	- Added slider for sports list on home page
-	- Added main relevant info on page URLs
-	- Use of Base32 instead of Base64 for encoding of URL parameters
-	- Improved display of US leagues records
+- New feature: <Login> (==> Login page for contributors)
+- New feature: <Update> (==> Results can be added/modified online by logged contributors)
+- Added slider for sports list on home page
+- Added main relevant info on page URLs
+- Use of Base32 instead of Base64 for encoding of URL parameters
+- Improved display of US leagues records
 o Admin (Swing app)
-	[No change]
+[No change]
 	
 +-------+
 | 0.9.0 |
 +-------+
 [14 Feb 2015]
 o Website
-	- Improved site layout (bigger font, clearer UI, direct search always visible..)
-	- New home page: access by sport portals, better display of last updates
-	- Use of encoded URLs instead of full with visible parameters
-	- Improved dispay of record references with paginable view (use of LIMIT/OFFSET)
-	- Changed default sorting of results (most recent first)
-	- Added search filter "Postseason" for US leagues records
-	- Added Quarterfinal/Semifinal in referenced results
-	- Moved tab buttons on result page
-	- Countries: 3 other flags are displayed by default (+ link "More")
-	- Bugfix: medal counts did not include linked entities
-	- Bugfix: draws did not display properly
-	- Bugfix: draws references where not calculated in ref. counts
-	- Bugfix: removed usage of session for page titles (request attr. only)
-	- Bugfix: multiple issues fixed in HTML/XLS/TXT exports
+- Improved site layout (bigger font, clearer UI, direct search always visible..)
+- New home page: access by sport portals, better display of last updates
+- Use of encoded URLs instead of full with visible parameters
+- Improved dispay of record references with paginable view (use of LIMIT/OFFSET)
+- Changed default sorting of results (most recent first)
+- Added search filter "Postseason" for US leagues records
+- Added Quarterfinal/Semifinal in referenced results
+- Moved tab buttons on result page
+- Countries: 3 other flags are displayed by default (+ link "More")
+- Bugfix: medal counts did not include linked entities
+- Bugfix: draws did not display properly
+- Bugfix: draws references where not calculated in ref. counts
+- Bugfix: removed usage of session for page titles (request attr. only)
+- Bugfix: multiple issues fixed in HTML/XLS/TXT exports
 o Admin (Swing app)
-	[No change]
+[No change]
 
 +-------+
 | 0.8.2 |
 +-------+
 [26 Dec 2014]
 o Website
-	- Added defaut picture file "Image not available" for record info
-	- Improved database references (automatic update with triggers)
-	- New layout for "US leagues" page
+- Added defaut picture file "Image not available" for record info
+- Improved database references (automatic update with triggers)
+- New layout for "US leagues" page
 o Admin (Swing app)
-	- Team pictures can be filtered by sport
-	- Compliant with x64 architecture
-	- Fixed minor issues with URL updates
-	- DB structure: +[CP/CT/CX/CN/EV/OL/PR/SP/ST/TM/YR].first_update
+- Team pictures can be filtered by sport
+- Compliant with x64 architecture
+- Fixed minor issues with URL updates
+- DB structure: +[CP/CT/CX/CN/EV/OL/PR/SP/ST/TM/YR].first_update
 
 +-------+
 | 0.8.1 |
 +-------+
 [10 Sep 2014]
 o Website
-	- Added header title <th> on logos/flags records
-	- Added US leagues championships on "medal counts" function
-	- Bugfix: removed border on team logos
-	- Bugfix: logos/years did not work on US leagues searches
+- Added header title <th> on logos/flags records
+- Added US leagues championships on "medal counts" function
+- Bugfix: removed border on team logos
+- Bugfix: logos/years did not work on US leagues searches
 o Admin (Swing app)
-	- Improved news management (existing news can be selected/modified/removed)
-	- Added customized logo using ResourceHacker
-	- Larger list for remote pictures (last item selected by default)
-	- DB structure: -CP.comment / -EV.comment
+- Improved news management (existing news can be selected/modified/removed)
+- Added customized logo using ResourceHacker
+- Larger list for remote pictures (last item selected by default)
+- DB structure: -CP.comment / -EV.comment
 
 +-------+
 | 0.8.0 |
 +-------+
 [15 Aug 2014]
 o Website
-	- New feature: <Localization> (==> site and database available in EN/FR)
-	- New feature: <Previous flags> (==> display previous versions of countries flags)
-	- New feature: <Previous logos> (==> display previous versions of teams logos)
-	- New tab opens automatically on entity details and draws
-	- Added 1 new sub-level for events organization
-	- Added automatic loading of picklists when running a search using the treeview
-	- Added external links for US leagues (sports-reference.com)
-	- Handle inactive events based on sport+championship
-	- Changed the date pattern to DD/MM/YYYY
-	- Setup files for SH Update can be downloaded directly on website (removed from GDrive)
-	- Improved layout of pages: Home, Results, Olympics, Project
+- New feature: <Localization> (==> site and database available in EN/FR)
+- New feature: <Previous flags> (==> display previous versions of countries flags)
+- New feature: <Previous logos> (==> display previous versions of teams logos)
+- New tab opens automatically on entity details and draws
+- Added 1 new sub-level for events organization
+- Added automatic loading of picklists when running a search using the treeview
+- Added external links for US leagues (sports-reference.com)
+- Handle inactive events based on sport+championship
+- Changed the date pattern to DD/MM/YYYY
+- Setup files for SH Update can be downloaded directly on website (removed from GDrive)
+- Improved layout of pages: Home, Results, Olympics, Project
 o Admin (Swing app)
-	- Added list of remote files for pictures management
-	- Remote picture files can be downloaded
-	- Added proxy address/port in options (for URL updates)
-	- Fixed bug: pictures uploaded with "*null-null.png" file name
-	- DB structure: +RS.id_subevent2
+- Added list of remote files for pictures management
+- Remote picture files can be downloaded
+- Added proxy address/port in options (for URL updates)
+- Fixed bug: pictures uploaded with "*null-null.png" file name
+- DB structure: +RS.id_subevent2
 
 +-------+
 | 0.7.0 |
 +-------+
 [2 May 2014]
 o Website
-	- New feature: <Entity Statistics> (==> medals/titles records for athletes/countries/teams)
-	- New feature: <External Links> (==> display URLs to external sites, i.e. wikipedia)
-	- Added year filter availability for country/team pictures
-	- Added tooltips on country codes
-	- Added "complex" column in Olympics results
-	- Current menu made visible in <TITLE> tag
-	- Fixed display bug on tied entities (1st + 2nd)
-	- Fixed bug on linked athletes with different names (only 1 name was displayed)
+- New feature: <Entity Statistics> (==> medals/titles records for athletes/countries/teams)
+- New feature: <External Links> (==> display URLs to external sites, i.e. wikipedia)
+- Added year filter availability for country/team pictures
+- Added tooltips on country codes
+- Added "complex" column in Olympics results
+- Current menu made visible in <TITLE> tag
+- Fixed display bug on tied entities (1st + 2nd)
+- Fixed bug on linked athletes with different names (only 1 name was displayed)
 o Admin (Swing app)
-	- New feature: <Quick Connect> (==> picklist loading can be disabled)
-	- New feature: <News Menu>
-	- Added draws/records in import tool
-	- DB structure: +RS.id_city1 / +RS.id_city2 / +RS.id_complex1 / +RS.id_complex2
+- New feature: <Quick Connect> (==> picklist loading can be disabled)
+- New feature: <News Menu>
+- Added draws/records in import tool
+- DB structure: +RS.id_city1 / +RS.id_city2 / +RS.id_complex1 / +RS.id_complex2
 
 +-------+
 | 0.6.0 |
 +-------+
 [19 Feb 2014]
 o Website
-	- New feature: <Back to top>
-	- New feature: <Share> (=> added "share" buttons for social networks (Facebook, Twitter, Google+))
-	- Improved loading of picklists on "Results" page (use of tree)
-	- Improved tabs management (removed auto-opening tab for each request)
-	- Changed logo: 2 icons updated + lighter background
-	- Changed UI design/colors for brighter display
-	- Improved search criteria layout for "Olympics" page
-	- Added link to all event results for selected row in "Results" references
-	- Merged "Championship" and "Event" entities at display
-	- Position of comments moved to the right of 'Year' column
-	- Fixed bug: search failed with "last name + first name" in that order
-	- Fixed bug: result with ties in entity references not displayed properly
+- New feature: <Back to top>
+- New feature: <Share> (=> added "share" buttons for social networks (Facebook, Twitter, Google+))
+- Improved loading of picklists on "Results" page (use of tree)
+- Improved tabs management (removed auto-opening tab for each request)
+- Changed logo: 2 icons updated + lighter background
+- Changed UI design/colors for brighter display
+- Improved search criteria layout for "Olympics" page
+- Added link to all event results for selected row in "Results" references
+- Merged "Championship" and "Event" entities at display
+- Position of comments moved to the right of 'Year' column
+- Fixed bug: search failed with "last name + first name" in that order
+- Fixed bug: result with ties in entity references not displayed properly
 o Admin (Swing app)
-	- New feature: <Merge> (=> selected record is removed and merged with another record)
-	- New feature: <Templates> (=> xls/csv templates for import tool)
-	- Changed buttons: label replaced by tooltip
-	- Removal available for remote picture
-	- Fixed bug: folder edit not available for 'subevent' level
-	- Fixed bug with use of quote ' in CSV import
-	- Add query for events not set on current year
-	- DB structure: +[all].first_update
+- New feature: <Merge> (=> selected record is removed and merged with another record)
+- New feature: <Templates> (=> xls/csv templates for import tool)
+- Changed buttons: label replaced by tooltip
+- Removal available for remote picture
+- Fixed bug: folder edit not available for 'subevent' level
+- Fixed bug with use of quote ' in CSV import
+- Add query for events not set on current year
+- DB structure: +[all].first_update
 
 +-------+
 | 0.5.1 |
 +-------+
 [02 Jan 2014]
 o Website
-	- Added display of country flag in entity references (column 'Result')
-	- Fixed bug: use of special characters in search patterns
-	- Fixed bug: ties on record not displayed properly
+- Added display of country flag in entity references (column 'Result')
+- Fixed bug: use of special characters in search patterns
+- Fixed bug: ties on record not displayed properly
 o Admin (Swing app)
-	- Fixed bug with use of quote ' in CSV import
-	- Add query for events not set on current year
-	- DB structure: +[all].first_update
+- Fixed bug with use of quote ' in CSV import
+- Add query for events not set on current year
+- DB structure: +[all].first_update
 
 +-------+
 | 0.5.0 |
 +-------+
 [29 Nov 2013]
 o Website
-	- New feature: <Last Updates> (=> display of last DB updates with custom count)
-	- New feature: <Statistics>
-	- Added header table to export formats txt and xls
-	- Added multi-table + merged cells management on exports
-	- Added "position" filter on US leagues "hall of fame" search
-	- Added "period" filter on US leagues "records" search (season, career, game...)
-	- Improved display on "Team" references with links
-	- Fixed results references with tied entities
+- New feature: <Last Updates> (=> display of last DB updates with custom count)
+- New feature: <Statistics>
+- Added header table to export formats txt and xls
+- Added multi-table + merged cells management on exports
+- Added "position" filter on US leagues "hall of fame" search
+- Added "period" filter on US leagues "records" search (season, career, game...)
+- Improved display on "Team" references with links
+- Fixed results references with tied entities
 o Admin (Swing app)
-	- Keyboard shortcuts for "data" panel actions
-	- Automatic set to "0" for links on referenced entity
-	- Added display of referenced entity label when saving entity with link
+- Keyboard shortcuts for "data" panel actions
+- Automatic set to "0" for links on referenced entity
+- Added display of referenced entity label when saving entity with link
 
 +-------+
 | 0.4.0 |
 +-------+
 [8 Nov 2013]
 o Website
-	- Pictures management improved significantly (better caching performance)
-	- Some comments can be displayed as a colored cell
-	- More readable display of olympics tables
-	- Fixed bug on US records for "Both" selection (individual/team)
-	- Added sitemap.xml
+- Pictures management improved significantly (better caching performance)
+- Some comments can be displayed as a colored cell
+- More readable display of olympics tables
+- Fixed bug on US records for "Both" selection (individual/team)
+- Added sitemap.xml
 o Admin (Swing app)
-	- Comments management improved with specific column for ties
-	- Add queries for unused events + fixed missing pictures with remote call
-	- DB structure: -TM.code / -HF.deceased / +HF.position / +TM.link / +TM.inactive / +RN.year
+- Comments management improved with specific column for ties
+- Add queries for unused events + fixed missing pictures with remote call
+- DB structure: -TM.code / -HF.deceased / +HF.position / +TM.link / +TM.inactive / +RN.year
 
 +-------+
 | 0.3.0 |
 +-------+
 [29 Oct 2013]
 o Website
-	- New feature: <Export> (=> export page to HTML/XLS/TXT format)
-	- New feature: <Info> (=> display metadata & statistics on current tab)
-	- New feature: <Inactive Events> (=> events not held anymore marked with specific symbol)
-	- Comments can be displayed either directly or with a tooltip icon
-	- Bugs fixed, mainly on "US leagues" page
+- New feature: <Export> (=> export page to HTML/XLS/TXT format)
+- New feature: <Info> (=> display metadata & statistics on current tab)
+- New feature: <Inactive Events> (=> events not held anymore marked with specific symbol)
+- Comments can be displayed either directly or with a tooltip icon
+- Bugs fixed, mainly on "US leagues" page
 o Admin (Swing app)
-	- New feature: <Query> (=> execute custom queries on database)
-	- Add missing tables in data panel (US leagues, Olympics, Records)
+- New feature: <Query> (=> execute custom queries on database)
+- Add missing tables in data panel (US leagues, Olympics, Records)
 
 +-------+
 | 0.2.0 |
 +-------+
 [13 Sep 2013]
 o Website
-	- New feature: <Print> (=> send current search tab to default printer)
-	- New feature: <Link> (=> display URL to open directly a specific page)
-	- New feature: <Sortable Columns> (=> all displayed tables can be dynamically sorted)
-	- More detailed results in record references
-	- Results tree can be extended for better view
-	- Comments appear as a yellow tip on results rows
-	- New UI for action buttons
-	- Extension of some columns size in database
-	- Fixed bug: an error occured on some olympics views with empty subevent
+- New feature: <Print> (=> send current search tab to default printer)
+- New feature: <Link> (=> display URL to open directly a specific page)
+- New feature: <Sortable Columns> (=> all displayed tables can be dynamically sorted)
+- More detailed results in record references
+- Results tree can be extended for better view
+- Comments appear as a yellow tip on results rows
+- New UI for action buttons
+- Extension of some columns size in database
+- Fixed bug: an error occured on some olympics views with empty subevent
 o Admin (Swing app)
-	- New feature: <Import CSV> (==> a mass update of data can done with CSV files)
-	- New feature: <Pictures Menu>
-	- New feature: <Refresh Tree>
-	- Draws insert/update for each result
-	- Comments textarea improved with scrollpane
+- New feature: <Import CSV> (==> a mass update of data can done with CSV files)
+- New feature: <Pictures Menu>
+- New feature: <Refresh Tree>
+- Draws insert/update for each result
+- Comments textarea improved with scrollpane
