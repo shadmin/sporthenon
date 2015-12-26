@@ -2,7 +2,10 @@
 
 -- DROP FUNCTION "GetTeamStadiums"(integer, text, character varying);
 
-CREATE OR REPLACE FUNCTION "GetTeamStadiums"(_id_league integer, _teams text, _lang character varying)
+CREATE OR REPLACE FUNCTION "GetTeamStadiums"(
+    _id_league integer,
+    _teams text,
+    _lang character varying)
   RETURNS refcursor AS
 $BODY$
 declare

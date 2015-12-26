@@ -2,7 +2,10 @@
 
 -- DROP FUNCTION "GetUSChampionships"(integer, text, character varying);
 
-CREATE OR REPLACE FUNCTION "GetUSChampionships"(_id_championship integer, _years text, _lang character varying)
+CREATE OR REPLACE FUNCTION "GetUSChampionships"(
+    _id_championship integer,
+    _years text,
+    _lang character varying)
   RETURNS refcursor AS
 $BODY$
 declare

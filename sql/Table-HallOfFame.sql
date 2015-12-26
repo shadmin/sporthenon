@@ -39,4 +39,3 @@ CREATE TRIGGER "TriggerHF"
   ON "HallOfFame"
   FOR EACH ROW
   EXECUTE PROCEDURE "UpdateRef"('HF');
-

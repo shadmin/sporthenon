@@ -15,7 +15,7 @@ CREATE TABLE "Athlete"
   link integer,
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
-  photo_copyright character varying(100),
+  photo_source character varying(100),
   CONSTRAINT "PERSON_pkey" PRIMARY KEY (id),
   CONSTRAINT "PERSON_id_country_fkey" FOREIGN KEY (id_country)
       REFERENCES "Country" (id) MATCH SIMPLE
@@ -42,7 +42,7 @@ WITH (
 CREATE INDEX "PR_LAST_NAME_INDEX"
   ON "Athlete"
   USING btree
-  (lower(last_name::text));
+  (lower(last_name::text) COLLATE pg_catalog."default");
 
 
 -- Trigger: TriggerPR on "Athlete"
@@ -54,4 +54,3 @@ CREATE TRIGGER "TriggerPR"
   ON "Athlete"
   FOR EACH ROW
   EXECUTE PROCEDURE "UpdateRef"('PR');
-

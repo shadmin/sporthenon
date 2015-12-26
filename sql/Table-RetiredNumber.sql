@@ -40,4 +40,3 @@ CREATE TRIGGER "TriggerRN"
   ON "RetiredNumber"
   FOR EACH ROW
   EXECUTE PROCEDURE "UpdateRef"('RN');
-

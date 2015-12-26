@@ -10,7 +10,7 @@ CREATE TABLE "TeamStadium"
   id_complex integer NOT NULL,
   date1 smallint NOT NULL,
   date2 smallint NOT NULL,
-  "comment" character varying(500) DEFAULT NULL::character varying,
+  comment character varying(500) DEFAULT NULL::character varying,
   id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   renamed boolean,
@@ -42,4 +42,3 @@ CREATE TRIGGER "TriggerTS"
   ON "TeamStadium"
   FOR EACH ROW
   EXECUTE PROCEDURE "UpdateRef"('TS');
-

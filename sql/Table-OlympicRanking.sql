@@ -37,4 +37,3 @@ CREATE TRIGGER "TriggerOR"
   ON "OlympicRanking"
   FOR EACH ROW
   EXECUTE PROCEDURE "UpdateRef"('OR');
-

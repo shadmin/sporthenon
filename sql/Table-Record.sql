@@ -25,10 +25,10 @@ CREATE TABLE "Record"
   date3 character varying(30) DEFAULT NULL::character varying,
   date4 character varying(30) DEFAULT NULL::character varying,
   date5 character varying(30) DEFAULT NULL::character varying,
-  "index" numeric(10,0) DEFAULT NULL::numeric,
+  index numeric(10,0) DEFAULT NULL::numeric,
   type1 character varying(10) DEFAULT NULL::character varying,
   type2 character varying(15) DEFAULT NULL::character varying,
-  "comment" character varying(500) DEFAULT NULL::character varying,
+  comment character varying(500) DEFAULT NULL::character varying,
   label character varying(70) NOT NULL,
   id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
@@ -68,4 +68,3 @@ CREATE TRIGGER "TriggerRC"
   ON "Record"
   FOR EACH ROW
   EXECUTE PROCEDURE "UpdateRef"('RC');
-

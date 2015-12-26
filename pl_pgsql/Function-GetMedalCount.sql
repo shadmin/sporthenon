@@ -2,7 +2,10 @@
 
 -- DROP FUNCTION "GetMedalCount"(character varying, integer, character varying);
 
-CREATE OR REPLACE FUNCTION "GetMedalCount"(_entity character varying, _id_sport integer, _idlist character varying)
+CREATE OR REPLACE FUNCTION "GetMedalCount"(
+    _entity character varying,
+    _id_sport integer,
+    _idlist character varying)
   RETURNS SETOF "~RefItem" AS
 $BODY$
 declare

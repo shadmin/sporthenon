@@ -2,7 +2,11 @@
 
 -- DROP FUNCTION "Search"(character varying, character varying, smallint, character varying);
 
-CREATE OR REPLACE FUNCTION "Search"(_pattern character varying, _scope character varying, _limit smallint, _lang character varying)
+CREATE OR REPLACE FUNCTION "Search"(
+    _pattern character varying,
+    _scope character varying,
+    _limit smallint,
+    _lang character varying)
   RETURNS SETOF "~RefItem" AS
 $BODY$
 declare
@@ -39,26 +43,9 @@ begin
 	
 	_i := 1;
 	_index := 1;
-	__pattern := lower(_pattern);
-	__pattern := replace(__pattern, 'a', '(a|á|Á|à|ä|Ä|ă|ā|ã|å|Å|â)');
-	__pattern := replace(__pattern, 'ae', '(ae|æ)');
-	__pattern := replace(__pattern, 'c', '(c|ć|č|ç|Č)');
-	__pattern := replace(__pattern, 'dj', '(dj|Đ|đ)');
-	__pattern := replace(__pattern, 'e', '(e|ė|é|É|è|ê|ë|ě|ę|ē)');
-	__pattern := replace(__pattern, 'g', '(g|ğ)');
-	__pattern := replace(__pattern, 'i', '(i|ı|í|ï)');
-	__pattern := replace(__pattern, 'l', '(l|ł)');
-	__pattern := replace(__pattern, 'n', '(n|ń|ñ)');
-	__pattern := replace(__pattern, 'o', '(o|ó|ò|ö|Ö|ō|ø|Ø)');
-	__pattern := replace(__pattern, 'r', '(r|ř)');
-	__pattern := replace(__pattern, 's', '(s|ś|š|Š|ş|Ş)');
-	__pattern := replace(__pattern, 'ss', '(ss|ß)');
-	__pattern := replace(__pattern, 't', '(t|ţ)');
-	__pattern := replace(__pattern, 'u', '(u|ū|ú|ü)');
-	__pattern := replace(__pattern, 'y', '(y|ý)');
-	__pattern := replace(__pattern, 'z', '(z|ż|ź|ž|Ž)');
-	_scopes = '{PR,CT,CX,CN,CP,EV,SP,TM,ST,YR}';
-	_tables = '{Athlete,City,Complex,Country,Championship,Event,Sport,Team,State,Year}';
+	__pattern := "~PatternString"(_pattern);
+	_scopes := '{PR,CT,CX,CN,CP,EV,SP,TM,ST,YR}';
+	_tables := '{Athlete,City,Complex,Country,Championship,Event,Sport,Team,State,Year}';
 	FOR _s IN SELECT UNNEST(_scopes) LOOP
 		IF _scope ~ ('(^|,)' || _s || '($|,)') OR _scope = '.' THEN
 			_rel_cols := '';
@@ -112,10 +99,10 @@ begin
 				_label := 'label' || _lang;
 			END IF;
 			_query := 'SELECT ' || _s || '.id, ' || _s || '.' || _label || ',' || _s || '.' || _label_en || ',' || _s || '.ref' || _rel_cols || ' FROM "' || _tables[_i] || '" ' || _s;
-			_query := _query || _rel_joins || ' WHERE ' || (CASE _s WHEN 'CT' THEN '(CT.link = 0 OR CT.link IS NULL) AND ' WHEN 'CX' THEN '(CX.link = 0 OR CX.link IS NULL) AND ' WHEN 'TM' THEN '(TM.link = 0 OR TM.link IS NULL OR (TM.year1 IS NOT NULL AND TM.year1 <> '''')) AND ' ELSE '' END) || _s || '.' || _label || ' ~* ''' || __pattern || '''' || (CASE _limit WHEN 0 THEN ' ORDER BY ' || _s || '.' || _label ELSE '' END);
+			_query := _query || _rel_joins || ' WHERE ' || (CASE _s WHEN 'CT' THEN '(CT.link = 0 OR CT.link IS NULL) AND ' WHEN 'CX' THEN '(CX.link = 0 OR CX.link IS NULL) AND ' WHEN 'TM' THEN '(TM.link = 0 OR TM.link IS NULL OR (TM.year1 IS NOT NULL AND TM.year1 <> '''')) AND ' ELSE '' END) || 'lower(' || _s || '.' || _label || ') ~ ''' || __pattern || '''' || (CASE _limit WHEN 0 THEN ' ORDER BY ' || _s || '.' || _label ELSE '' END);
 			IF _s = 'PR' THEN
 				_query := 'SELECT PR.id, PR.last_name || (CASE WHEN length(PR.first_name) > 0 THEN '', '' || PR.first_name ELSE '''' END), (CASE WHEN length(PR.first_name) > 0 THEN PR.first_name || '' '' ELSE '''' END) || PR.last_name, PR.ref' || _rel_cols || ' FROM "Athlete" PR' || _rel_joins;
-				_query := _query || ' WHERE (PR.link = 0 OR PR.link IS NULL) AND (PR.last_name || '' '' || PR.first_name ~* ''' || __pattern || ''' OR PR.first_name || '' '' || PR.last_name ~* ''' || __pattern || ''' OR PR.last_name ~* ''' || __pattern || ''' OR PR.first_name ~* ''' || __pattern || ''')';
+				_query := _query || ' WHERE (PR.link = 0 OR PR.link IS NULL) AND (lower(PR.last_name || '' '' || PR.first_name) ~ ''' || __pattern || ''' OR lower(PR.first_name || '' '' || PR.last_name) ~ ''' || __pattern || ''' OR lower(PR.last_name) ~ ''' || __pattern || ''' OR lower(PR.first_name) ~ ''' || __pattern || ''')';
 				_query := _query || (CASE _limit WHEN 0 THEN ' ORDER BY PR.last_name, PR.first_name' ELSE '' END);
 			END IF;
 			OPEN _c FOR EXECUTE _query;

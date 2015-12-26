@@ -1,8 +1,12 @@
--- Function: "GetCalendarResults"(character varying, character varying, character varying)
+-- Function: "GetCalendarResults"(character varying, character varying, integer, character varying)
 
--- DROP FUNCTION "GetCalendarResults"(character varying, character varying, character varying);
+-- DROP FUNCTION "GetCalendarResults"(character varying, character varying, integer, character varying);
 
-CREATE OR REPLACE FUNCTION "GetCalendarResults"(_date1 character varying, _date2 character varying, _lang character varying)
+CREATE OR REPLACE FUNCTION "GetCalendarResults"(
+    _date1 character varying,
+    _date2 character varying,
+    _sp integer,
+    _lang character varying)
   RETURNS SETOF "~RefItem" AS
 $BODY$
 declare
@@ -10,6 +14,7 @@ declare
 	_c refcursor;
 	__c refcursor;
 	_query text;
+	_where text;
 	_index integer;
 	_type1 smallint;
 	_type2 smallint;
@@ -21,20 +26,23 @@ declare
 	_cn1 varchar(5);_cn2 varchar(5);_cn3 varchar(5);_cn4 varchar(5);_cn5 varchar(5);_cn6 varchar(5);
 	_tm1 varchar(60);_tm2 varchar(60);_tm3 varchar(60);_tm4 varchar(60);_tm5 varchar(60);_tm6 varchar(60);
 begin
-	_query = 'SELECT RS.id, YR.id, YR.label, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, RS.id_rank1, RS.id_rank2, RS.id_rank3, RS.id_rank4, RS.id_rank5, RS.id_rank6, RS.id_rank7, RS.id_rank8, RS.id_rank9, RS.id_rank10, TP1.number, TP2.number, TP3.number, RS.date1, RS.date2';
-	_query = _query || ' FROM "Result" RS';
-	_query = _query || ' LEFT JOIN "Year" YR ON RS.id_year = YR.id';
-	_query = _query || ' LEFT JOIN "Sport" SP ON RS.id_sport = SP.id';
-	_query = _query || ' LEFT JOIN "Championship" CP ON RS.id_championship = CP.id';
-	_query = _query || ' LEFT JOIN "Event" EV ON RS.id_event = EV.id';
-	_query = _query || ' LEFT JOIN "Event" SE ON RS.id_subevent = SE.id';
-	_query = _query || ' LEFT JOIN "Event" SE2 ON RS.id_subevent2 = SE2.id';
-	_query = _query || ' LEFT JOIN "Type" TP1 ON EV.id_type = TP1.id';
-	_query = _query || ' LEFT JOIN "Type" TP2 ON SE.id_type = TP2.id';
-	_query = _query || ' LEFT JOIN "Type" TP3 ON SE2.id_type = TP3.id';
-	_query = _query || ' WHERE 1=1';
-	_query = _query || ' AND to_date(RS.date2, ''DD/MM/YYYY'') >= to_date(''' || _date1 || ''', ''YYYYMMDD'')';
-	_query = _query || ' AND to_date(RS.date2, ''DD/MM/YYYY'') <= to_date(''' || _date2 || ''', ''YYYYMMDD'')';
+	_where := ' WHERE to_date(date2, ''DD/MM/YYYY'') >= to_date(''' || _date1 || ''', ''YYYYMMDD'') AND to_date(date2, ''DD/MM/YYYY'') <= to_date(''' || _date2 || ''', ''YYYYMMDD'')';
+	IF (_sp > 0) THEN
+		_where := _where || ' AND SP.id = ' || _sp;
+	END IF;
+
+	-- Past events
+	_query := 'SELECT RS.id, YR.id, YR.label, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, RS.id_rank1, RS.id_rank2, RS.id_rank3, RS.id_rank4, RS.id_rank5, RS.id_rank6, RS.id_rank7, RS.id_rank8, RS.id_rank9, RS.id_rank10, TP1.number, TP2.number, TP3.number, RS.date1, RS.date2';
+	_query := _query || ' FROM "Result" RS';
+	_query := _query || ' LEFT JOIN "Year" YR ON RS.id_year = YR.id';
+	_query := _query || ' LEFT JOIN "Sport" SP ON RS.id_sport = SP.id';
+	_query := _query || ' LEFT JOIN "Championship" CP ON RS.id_championship = CP.id';
+	_query := _query || ' LEFT JOIN "Event" EV ON RS.id_event = EV.id';
+	_query := _query || ' LEFT JOIN "Event" SE ON RS.id_subevent = SE.id';
+	_query := _query || ' LEFT JOIN "Event" SE2 ON RS.id_subevent2 = SE2.id';
+	_query := _query || ' LEFT JOIN "Type" TP1 ON EV.id_type = TP1.id';
+	_query := _query || ' LEFT JOIN "Type" TP2 ON SE.id_type = TP2.id';
+	_query := _query || ' LEFT JOIN "Type" TP3 ON SE2.id_type = TP3.id' || _where;
 	_index := 1;
 	OPEN _c FOR EXECUTE _query;
 	LOOP
@@ -89,7 +97,40 @@ begin
 		IF _date2 IS NOT NULL AND _date2 <> '' THEN
 			_item.date2 := to_date(_date2, 'DD/MM/YYYY');
 		END IF;
-		_item.id = _index;
+		_item.id := _index;
+		_item.entity := 'RS';
+		RETURN NEXT _item;
+		_index = _index + 1;
+	END LOOP;
+	CLOSE _c;
+
+	-- Future events
+	_query := 'SELECT CL.id, NULL, NULL, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, CX.id, CX.label' || _lang || ', CX.label, CT1.id, CT1.label' || _lang || ' || '', '' || CN1.code, CT1.label, CT2.id, CT2.label' || _lang || ' || '', '' || CN2.code, CT2.label, CL.date1, CL.date2';
+	_query := _query || ' FROM "Calendar" CL';
+	_query := _query || ' LEFT JOIN "Sport" SP ON CL.id_sport = SP.id';
+	_query := _query || ' LEFT JOIN "Championship" CP ON CL.id_championship = CP.id';
+	_query := _query || ' LEFT JOIN "Event" EV ON CL.id_event = EV.id';
+	_query := _query || ' LEFT JOIN "Event" SE ON CL.id_subevent = SE.id';
+	_query := _query || ' LEFT JOIN "Event" SE2 ON CL.id_subevent2 = SE2.id';
+	_query := _query || ' LEFT JOIN "Complex" CX ON CL.id_complex = CX.id';
+	_query := _query || ' LEFT JOIN "City" CT1 ON CX.id_city = CT1.id';
+	_query := _query || ' LEFT JOIN "State" ST1 ON CT1.id_state = ST1.id';
+	_query := _query || ' LEFT JOIN "Country" CN1 ON CT1.id_country = CN1.id';
+	_query := _query || ' LEFT JOIN "City" CT2 ON CL.id_city = CT2.id';
+	_query := _query || ' LEFT JOIN "State" ST2 ON CT2.id_state = ST2.id';
+	_query := _query || ' LEFT JOIN "Country" CN2 ON CT2.id_country = CN2.id' || _where;
+	OPEN _c FOR EXECUTE _query;
+	LOOP
+		FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _item.id_rel6, _item.label_rel6, _item.label_rel9, _item.id_rel7, _item.label_rel7, _item.label_rel10, _item.id_rel8, _item.label_rel8, _item.label_rel11, _date1, _date2;
+		EXIT WHEN NOT FOUND;
+		IF _date1 IS NOT NULL AND _date1 <> '' THEN
+			_item.date1 := to_date(_date1, 'DD/MM/YYYY');
+		END IF;
+		IF _date2 IS NOT NULL AND _date2 <> '' THEN
+			_item.date2 := to_date(_date2, 'DD/MM/YYYY');
+		END IF;
+		_item.id := _index;
+		_item.entity := 'CL';
 		RETURN NEXT _item;
 		_index = _index + 1;
 	END LOOP;

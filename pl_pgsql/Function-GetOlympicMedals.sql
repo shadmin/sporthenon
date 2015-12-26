@@ -2,7 +2,13 @@
 
 -- DROP FUNCTION "GetOlympicMedals"(text, integer, text, text, text, character varying);
 
-CREATE OR REPLACE FUNCTION "GetOlympicMedals"(_olympics text, _id_sport integer, _events text, _subevents text, _subevents2 text, _lang character varying)
+CREATE OR REPLACE FUNCTION "GetOlympicMedals"(
+    _olympics text,
+    _id_sport integer,
+    _events text,
+    _subevents text,
+    _subevents2 text,
+    _lang character varying)
   RETURNS refcursor AS
 $BODY$
 declare

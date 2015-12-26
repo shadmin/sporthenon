@@ -2,7 +2,10 @@
 
 -- DROP FUNCTION "GetOlympicRankings"(text, text, character varying);
 
-CREATE OR REPLACE FUNCTION "GetOlympicRankings"(_olympics text, _countries text, _lang character varying)
+CREATE OR REPLACE FUNCTION "GetOlympicRankings"(
+    _olympics text,
+    _countries text,
+    _lang character varying)
   RETURNS refcursor AS
 $BODY$
 declare

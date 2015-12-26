@@ -27,63 +27,6 @@ BEGIN
 		UPDATE "Country" SET REF="CountRef"('CN', _row.id_country) WHERE id=_row.id_country;
 	ELSIF _entity = 'CX' THEN
 		UPDATE "City" SET REF="CountRef"('CT', _row.id_city) WHERE id=_row.id_city;
-	ELSIF _entity = 'DR' THEN
-		SELECT RS.id_event, RS.id_subevent, RS.id_subevent2 INTO _id_event, _id_subevent, _id_subevent2 FROM "Result" RS WHERE RS.id = _row.id_result;
-
-		IF _id_subevent2 IS NOT NULL AND _id_subevent2 <> 0 THEN
-			SELECT TP.number INTO _type FROM "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id WHERE EV.id = _id_subevent2;
-		ELSIF _id_subevent IS NOT NULL AND _id_subevent <> 0 THEN
-			SELECT TP.number INTO _type FROM "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id WHERE EV.id = _id_subevent;
-		ELSE
-			SELECT TP.number INTO _type FROM "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id WHERE EV.id = _id_event;
-		END IF;
-
-		IF _type < 10 THEN
-			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id1_qf1) WHERE id=_row.id1_qf1;
-			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id2_qf1) WHERE id=_row.id2_qf1;
-			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id1_qf2) WHERE id=_row.id1_qf2;
-			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id2_qf2) WHERE id=_row.id2_qf2;
-			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id1_qf3) WHERE id=_row.id1_qf3;
-			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id2_qf3) WHERE id=_row.id2_qf3;
-			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id1_qf4) WHERE id=_row.id1_qf4;
-			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id2_qf4) WHERE id=_row.id2_qf4;
-			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id1_sf1) WHERE id=_row.id1_sf1;
-			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id2_sf1) WHERE id=_row.id2_sf1;
-			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id1_sf2) WHERE id=_row.id1_sf2;
-			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id2_sf2) WHERE id=_row.id2_sf2;
-			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id1_thd) WHERE id=_row.id1_thd;
-			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id2_thd) WHERE id=_row.id2_thd;
-		ELSIF _type = 50 THEN
-			UPDATE "Team" SET REF="CountRef"('TM', _row.id1_qf1) WHERE id=_row.id1_qf1;
-			UPDATE "Team" SET REF="CountRef"('TM', _row.id2_qf1) WHERE id=_row.id2_qf1;
-			UPDATE "Team" SET REF="CountRef"('TM', _row.id1_qf2) WHERE id=_row.id1_qf2;
-			UPDATE "Team" SET REF="CountRef"('TM', _row.id2_qf2) WHERE id=_row.id2_qf2;
-			UPDATE "Team" SET REF="CountRef"('TM', _row.id1_qf3) WHERE id=_row.id1_qf3;
-			UPDATE "Team" SET REF="CountRef"('TM', _row.id2_qf3) WHERE id=_row.id2_qf3;
-			UPDATE "Team" SET REF="CountRef"('TM', _row.id1_qf4) WHERE id=_row.id1_qf4;
-			UPDATE "Team" SET REF="CountRef"('TM', _row.id2_qf4) WHERE id=_row.id2_qf4;
-			UPDATE "Team" SET REF="CountRef"('TM', _row.id1_sf1) WHERE id=_row.id1_sf1;
-			UPDATE "Team" SET REF="CountRef"('TM', _row.id2_sf1) WHERE id=_row.id2_sf1;
-			UPDATE "Team" SET REF="CountRef"('TM', _row.id1_sf2) WHERE id=_row.id1_sf2;
-			UPDATE "Team" SET REF="CountRef"('TM', _row.id2_sf2) WHERE id=_row.id2_sf2;
-			UPDATE "Team" SET REF="CountRef"('TM', _row.id1_thd) WHERE id=_row.id1_thd;
-			UPDATE "Team" SET REF="CountRef"('TM', _row.id2_thd) WHERE id=_row.id2_thd;
-		ELSIF _type = 99 THEN
-			UPDATE "Country" SET REF="CountRef"('CN', _row.id1_qf1) WHERE id=_row.id1_qf1;
-			UPDATE "Country" SET REF="CountRef"('CN', _row.id2_qf1) WHERE id=_row.id2_qf1;
-			UPDATE "Country" SET REF="CountRef"('CN', _row.id1_qf2) WHERE id=_row.id1_qf2;
-			UPDATE "Country" SET REF="CountRef"('CN', _row.id2_qf2) WHERE id=_row.id2_qf2;
-			UPDATE "Country" SET REF="CountRef"('CN', _row.id1_qf3) WHERE id=_row.id1_qf3;
-			UPDATE "Country" SET REF="CountRef"('CN', _row.id2_qf3) WHERE id=_row.id2_qf3;
-			UPDATE "Country" SET REF="CountRef"('CN', _row.id1_qf4) WHERE id=_row.id1_qf4;
-			UPDATE "Country" SET REF="CountRef"('CN', _row.id2_qf4) WHERE id=_row.id2_qf4;
-			UPDATE "Country" SET REF="CountRef"('CN', _row.id1_sf1) WHERE id=_row.id1_sf1;
-			UPDATE "Country" SET REF="CountRef"('CN', _row.id2_sf1) WHERE id=_row.id2_sf1;
-			UPDATE "Country" SET REF="CountRef"('CN', _row.id1_sf2) WHERE id=_row.id1_sf2;
-			UPDATE "Country" SET REF="CountRef"('CN', _row.id2_sf2) WHERE id=_row.id2_sf2;
-			UPDATE "Country" SET REF="CountRef"('CN', _row.id1_thd) WHERE id=_row.id1_thd;
-			UPDATE "Country" SET REF="CountRef"('CN', _row.id2_thd) WHERE id=_row.id2_thd;
-		END IF;
 	ELSIF _entity = 'HF' THEN
 		UPDATE "Year" SET REF="CountRef"('YR', _row.id_year) WHERE id=_row.id_year;
 		UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_person) WHERE id=_row.id_person;
@@ -188,6 +131,22 @@ BEGIN
 			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank8) WHERE id=_row.id_rank8;
 			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank9) WHERE id=_row.id_rank9;
 			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank10) WHERE id=_row.id_rank10;
+		END IF;
+	ELSIF _entity = 'RD' THEN
+		UPDATE "Complex" SET REF="CountRef"('CX', _row.id_complex) WHERE id=_row.id_complex;
+		UPDATE "City" SET REF="CountRef"('CT', _row.id_city) WHERE id=_row.id_city;
+		IF _row.id_result_type < 10 THEN
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank1) WHERE id=_row.id_rank1;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank2) WHERE id=_row.id_rank2;
+			UPDATE "Athlete" SET REF="CountRef"('PR', _row.id_rank3) WHERE id=_row.id_rank3;
+		ELSIF _type = 50 THEN
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank1) WHERE id=_row.id_rank1;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank2) WHERE id=_row.id_rank2;
+			UPDATE "Team" SET REF="CountRef"('TM', _row.id_rank3) WHERE id=_row.id_rank3;
+		ELSIF _type = 99 THEN
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank1) WHERE id=_row.id_rank1;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank2) WHERE id=_row.id_rank2;
+			UPDATE "Country" SET REF="CountRef"('CN', _row.id_rank3) WHERE id=_row.id_rank3;
 		END IF;
 	ELSIF _entity = 'RN' THEN
 		UPDATE "Team" SET REF="CountRef"('TM', _row.id_team) WHERE id=_row.id_team;

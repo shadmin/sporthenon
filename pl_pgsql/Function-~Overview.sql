@@ -2,7 +2,12 @@
 
 -- DROP FUNCTION "~Overview"(character varying, integer, integer, character varying, character varying);
 
-CREATE OR REPLACE FUNCTION "~Overview"(_entity character varying, _id_sport integer, _count integer, _pattern character varying, _lang character varying)
+CREATE OR REPLACE FUNCTION "~Overview"(
+    _entity character varying,
+    _id_sport integer,
+    _count integer,
+    _pattern character varying,
+    _lang character varying)
   RETURNS SETOF "~RefItem" AS
 $BODY$
 declare
@@ -17,7 +22,7 @@ begin
 	IF (_entity = 'RS' OR _entity = '') THEN
 		_query = 'SELECT RS.id, YR.label, SP.label' || _lang || ', CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', SE2.label' || _lang || ', COALESCE(id_rank1 || ''|'', '''') || COALESCE(id_rank2 || ''|'', '''') || COALESCE(id_rank3 || ''|'', '''') || COALESCE(id_rank4 || ''|'', '''') || COALESCE(id_rank5 || ''|'', '''') || COALESCE(id_rank6 || ''|'', '''') || COALESCE(id_rank7 || ''|'', '''') || COALESCE(id_rank8 || ''|'', '''') || COALESCE(id_rank9 || ''|'', '''') || COALESCE(id_rank10 || ''|'', '''') || COALESCE(id_rank11 || ''|'', '''') || COALESCE(id_rank12 || ''|'', '''') || COALESCE(id_rank13 || ''|'', '''') || COALESCE(id_rank14 || ''|'', '''') || COALESCE(id_rank15 || ''|'', '''') || COALESCE(id_rank16 || ''|'', '''') || COALESCE(id_rank17 || ''|'', '''') || COALESCE(id_rank18 || ''|'', '''') || COALESCE(id_rank19 || ''|'', '''') || COALESCE(id_rank20 || ''|'', ''''),';
 		_query = _query || ' COALESCE(result1 || ''|'', '''') || COALESCE(result2 || ''|'', '''') || COALESCE(result3 || ''|'', '''') || COALESCE(result4 || ''|'', '''') || COALESCE(result5 || ''|'', '''') || COALESCE(result6 || ''|'', '''') || COALESCE(result7 || ''|'', '''') || COALESCE(result8 || ''|'', '''') || COALESCE(result9 || ''|'', '''') || COALESCE(result10 || ''|'', '''') || COALESCE(result11 || ''|'', '''') || COALESCE(result12 || ''|'', '''') || COALESCE(result13 || ''|'', '''') || COALESCE(result14 || ''|'', '''') || COALESCE(result15 || ''|'', '''') || COALESCE(result16 || ''|'', '''') || COALESCE(result17 || ''|'', '''') || COALESCE(result18 || ''|'', '''') || COALESCE(result19 || ''|'', '''') || COALESCE(result20 || ''|'', ''''),';
-		_query = _query || ' COALESCE(id_complex1, ''0'') || ''|'' || COALESCE(id_complex2, ''0'') || ''|'' || COALESCE(id_city1, ''0'') || ''|'' || COALESCE(id_city2, ''0''), COALESCE(date1, ''0'') || ''|'' || COALESCE(date2, ''0''), TP1.number, TP2.number, TP3.number, DR.id, (SELECT COUNT(*) AS el_count FROM "~ExternalLink" EL WHERE EL.entity=''RS'' AND EL.id_item=RS.id)';
+		_query = _query || ' COALESCE(id_complex1, ''0'') || ''|'' || COALESCE(id_complex2, ''0'') || ''|'' || COALESCE(id_city1, ''0'') || ''|'' || COALESCE(id_city2, ''0''), COALESCE(date1, ''0'') || ''|'' || COALESCE(date2, ''0''), TP1.number, TP2.number, TP3.number, NULL, (SELECT COUNT(*) AS el_count FROM "~ExternalLink" EL WHERE EL.entity=''RS'' AND EL.id_item=RS.id)';
 		_query = _query || ' FROM "Result" RS';
 		_query = _query || ' LEFT JOIN "Year" YR ON RS.id_year = YR.id';
 		_query = _query || ' LEFT JOIN "Sport" SP ON RS.id_sport = SP.id';
@@ -28,7 +33,6 @@ begin
 		_query = _query || ' LEFT JOIN "Type" TP1 ON EV.id_type = TP1.id';
 		_query = _query || ' LEFT JOIN "Type" TP2 ON SE.id_type = TP2.id';
 		_query = _query || ' LEFT JOIN "Type" TP3 ON SE2.id_type = TP3.id';
-		_query = _query || ' LEFT JOIN "Draw" DR ON RS.id = DR.id_result';
 		_query = _query || ' WHERE 0=1';
 		IF (_pattern IS NOT NULL AND _pattern <> '') THEN
 			_query = _query || ' OR lower(SP.label' || _lang || ') like ''' || lower(_pattern) || '%'' OR lower(EV.label' || _lang || ') like ''' || lower(_pattern) || '%'' OR lower(EV.label' || _lang || ') like ''' || lower(_pattern) || '%'' OR lower(YR.label) = ''' || _pattern || '''';

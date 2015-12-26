@@ -2,7 +2,10 @@
 
 -- DROP FUNCTION "GetHallOfFame"(integer, text, character varying);
 
-CREATE OR REPLACE FUNCTION "GetHallOfFame"(_id_league integer, _years text, _position character varying)
+CREATE OR REPLACE FUNCTION "GetHallOfFame"(
+    _id_league integer,
+    _years text,
+    _position character varying)
   RETURNS refcursor AS
 $BODY$
 declare

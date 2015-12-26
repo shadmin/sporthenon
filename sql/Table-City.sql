@@ -14,7 +14,7 @@ CREATE TABLE "City"
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
   link integer,
-  photo_copyright character varying(100),
+  photo_source character varying(100),
   CONSTRAINT "CITY_pkey" PRIMARY KEY (id),
   CONSTRAINT "CITY_id_member_fkey" FOREIGN KEY (id_contributor)
       REFERENCES "~Contributor" (id) MATCH SIMPLE
@@ -32,7 +32,7 @@ WITH (
 CREATE INDEX "CT_LABEL_FR_INDEX"
   ON "City"
   USING btree
-  (lower(label_fr::text));
+  (lower(label_fr::text) COLLATE pg_catalog."default");
 
 -- Index: "CT_LABEL_INDEX"
 
@@ -41,7 +41,7 @@ CREATE INDEX "CT_LABEL_FR_INDEX"
 CREATE INDEX "CT_LABEL_INDEX"
   ON "City"
   USING btree
-  (lower(label::text));
+  (lower(label::text) COLLATE pg_catalog."default");
 
 
 -- Trigger: TriggerCT on "City"
@@ -53,4 +53,3 @@ CREATE TRIGGER "TriggerCT"
   ON "City"
   FOR EACH ROW
   EXECUTE PROCEDURE "UpdateRef"('CT');
-

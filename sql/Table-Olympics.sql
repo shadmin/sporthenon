@@ -13,7 +13,7 @@ CREATE TABLE "Olympics"
   count_event smallint NOT NULL,
   date1 character varying(10) NOT NULL,
   date2 character varying(10) NOT NULL,
-  "type" smallint NOT NULL,
+  type smallint NOT NULL,
   id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   first_update timestamp without time zone NOT NULL DEFAULT now(),
@@ -43,4 +43,3 @@ CREATE TRIGGER "TriggerOL"
   ON "Olympics"
   FOR EACH ROW
   EXECUTE PROCEDURE "UpdateRef"('OL');
-

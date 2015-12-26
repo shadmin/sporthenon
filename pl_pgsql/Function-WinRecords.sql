@@ -2,7 +2,9 @@
 
 -- DROP FUNCTION "WinRecords"(text, character varying);
 
-CREATE OR REPLACE FUNCTION "WinRecords"(_results text, _lang character varying)
+CREATE OR REPLACE FUNCTION "WinRecords"(
+    _results text,
+    _lang character varying)
   RETURNS SETOF "~RefItem" AS
 $BODY$
 declare

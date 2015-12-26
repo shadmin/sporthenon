@@ -7,7 +7,7 @@ CREATE TABLE "WinLoss"
   id integer NOT NULL,
   id_league integer NOT NULL,
   id_team integer NOT NULL,
-  "type" character varying(35) NOT NULL,
+  type character varying(35) NOT NULL,
   count_win smallint NOT NULL,
   count_loss smallint NOT NULL,
   count_tie smallint,
@@ -39,4 +39,3 @@ CREATE TRIGGER "TriggerWL"
   ON "WinLoss"
   FOR EACH ROW
   EXECUTE PROCEDURE "UpdateRef"('WL');
-

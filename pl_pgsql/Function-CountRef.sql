@@ -2,7 +2,9 @@
 
 -- DROP FUNCTION "CountRef"(character varying, integer);
 
-CREATE OR REPLACE FUNCTION "CountRef"(_entity character varying, _id integer)
+CREATE OR REPLACE FUNCTION "CountRef"(
+    _entity character varying,
+    _id integer)
   RETURNS integer AS
 $BODY$
 declare
@@ -26,24 +28,6 @@ begin
 	-- Count '_id' referenced in: Complexes
 	IF _entity = 'CT' THEN -- City
 		SELECT COUNT(*) INTO _n FROM "Complex" CX WHERE CX.id_city = _id; _count := _count + _n;
-	END IF;
-
-	-- Count '_id' referenced in: Draws
-	IF _entity ~ 'CN|PR|TM' THEN
-		IF _entity = 'CN' THEN _type1 = 99;_type2 = 99;
-		ELSIF _entity = 'PR' THEN _type1 = 1;_type2 = 10;
-		ELSIF _entity = 'TM' THEN _type1 = 50;_type2 = 50; END IF;
-		SELECT COUNT(*) INTO _n FROM "Draw" DR
-			LEFT JOIN "Result" RS ON DR.id_result = RS.id
-			LEFT JOIN "Event" EV ON RS.id_event = EV.id
-			LEFT JOIN "Event" SE ON RS.id_subevent = SE.id
-			LEFT JOIN "Event" SE2 ON RS.id_subevent2 = SE2.id
-			LEFT JOIN "Type" TP1 ON EV.id_type = TP1.id
-			LEFT JOIN "Type" TP2 ON SE.id_type = TP2.id
-			LEFT JOIN "Type" TP3 ON SE2.id_type = TP3.id
-		WHERE (DR.id1_qf1 = _id OR DR.id2_qf1 = _id OR DR.id1_qf2 = _id OR DR.id2_qf2 = _id OR DR.id1_qf3 = _id OR DR.id2_qf3 = _id OR DR.id1_qf4 = _id OR DR.id2_qf4 = _id OR DR.id1_sf1 = _id OR DR.id2_sf1 = _id OR DR.id1_sf2 = _id OR DR.id2_sf2 = _id OR DR.id1_thd = _id OR DR.id2_thd = _id)
-			AND ((TP1.number BETWEEN _type1 AND _type2 AND TP2.number IS NULL) OR (TP2.number BETWEEN _type1 AND _type2 AND TP3.number IS NULL) OR TP3.number BETWEEN _type1 AND _type2);
-		_count := _count + _n;
 	END IF;
 
 	-- Count '_id' referenced in: Hall of Fame
@@ -138,6 +122,20 @@ begin
 		SELECT COUNT(*) INTO _n FROM "RetiredNumber" RN WHERE RN.id_team = _id; _count := _count + _n;
 	ELSIF _entity = 'PR' THEN -- Person
 		SELECT COUNT(*) INTO _n FROM "RetiredNumber" RN WHERE RN.id_person = _id; _count := _count + _n;
+	END IF;
+
+	-- Count '_id' referenced in: Rounds
+	IF _entity ~ 'CN|PR|TM' THEN -- Country/Person/Team
+		IF _entity = 'CN' THEN _type1 = 99;
+		ELSIF _entity = 'PR' THEN _type1 = 1;
+		ELSIF _entity = 'TM' THEN _type1 = 50; END IF;
+		SELECT COUNT(*) INTO _n FROM "Round" RD
+		WHERE RD.id_result_type = _type1 AND RD.id_rank1 = _id OR RD.id_rank2 = _id OR RD.id_rank3 = _id;
+		_count := _count + _n;
+	ELSIF _entity = 'CT' THEN -- City
+		SELECT COUNT(*) INTO _n FROM "Round" RD WHERE RD.id_city = _id; _count := _count + _n;
+	ELSIF _entity = 'CX' THEN -- Complex
+		SELECT COUNT(*) INTO _n FROM "Round" RD WHERE RD.id_complex = _id; _count := _count + _n;
 	END IF;
 
 	-- Count '_id' referenced in: Teams

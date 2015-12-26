@@ -1,8 +1,8 @@
--- Sequence: "SeqDraw"
+-- Sequence: "SeqRound"
 
--- DROP SEQUENCE "SeqDraw";
+-- DROP SEQUENCE "SeqRound";
 
-CREATE SEQUENCE "SeqDraw"
+CREATE SEQUENCE "SeqRound"
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807

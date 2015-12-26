@@ -2,7 +2,10 @@
 
 -- DROP FUNCTION "GetRetiredNumbers"(integer, text, smallint);
 
-CREATE OR REPLACE FUNCTION "GetRetiredNumbers"(_id_league integer, _teams text, _number smallint)
+CREATE OR REPLACE FUNCTION "GetRetiredNumbers"(
+    _id_league integer,
+    _teams text,
+    _number smallint)
   RETURNS refcursor AS
 $BODY$
 declare

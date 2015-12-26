@@ -10,7 +10,7 @@ CREATE TABLE "Event"
   id_type integer NOT NULL,
   id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
-  "index" integer,
+  index integer,
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
   CONSTRAINT "EVENT_pkey" PRIMARY KEY (id),

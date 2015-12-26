@@ -12,7 +12,7 @@ CREATE TABLE "Team"
   id_country integer,
   conference character varying(10) DEFAULT NULL::character varying,
   division character varying(10) DEFAULT NULL::character varying,
-  "comment" character varying(500) DEFAULT NULL::character varying,
+  comment character varying(500) DEFAULT NULL::character varying,
   id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   link integer,
@@ -43,7 +43,7 @@ WITH (
 CREATE INDEX "TM_LABEL_INDEX"
   ON "Team"
   USING btree
-  (lower(label::text));
+  (lower(label::text) COLLATE pg_catalog."default");
 
 
 -- Trigger: TriggerTM on "Team"
@@ -55,4 +55,3 @@ CREATE TRIGGER "TriggerTM"
   ON "Team"
   FOR EACH ROW
   EXECUTE PROCEDURE "UpdateRef"('TM');
-

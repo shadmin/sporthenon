@@ -17,7 +17,7 @@ CREATE TABLE "~RefItem"
   label_rel3 character varying(50),
   id_rel4 integer,
   label_rel4 character varying(50),
-  "comment" character varying(20),
+  comment character varying(20),
   txt1 character varying(40),
   txt2 character varying(40),
   id_rel5 integer,

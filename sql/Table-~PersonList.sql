@@ -7,7 +7,8 @@ CREATE TABLE "~PersonList"
   id integer NOT NULL,
   id_result integer NOT NULL,
   rank integer NOT NULL,
-  id_person integer NOT NULL
+  id_person integer NOT NULL,
+  index character varying(20)
 )
 WITH (
   OIDS=FALSE
@@ -22,4 +23,3 @@ CREATE TRIGGER "TriggerPL"
   ON "~PersonList"
   FOR EACH ROW
   EXECUTE PROCEDURE "UpdateRef"('PL');
-

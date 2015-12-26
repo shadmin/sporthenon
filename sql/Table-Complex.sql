@@ -13,7 +13,7 @@ CREATE TABLE "Complex"
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
   link integer,
-  photo_copyright character varying(100),
+  photo_source character varying(100),
   CONSTRAINT "COMPLEX_pkey" PRIMARY KEY (id),
   CONSTRAINT "COMPLEX_id_city_fkey" FOREIGN KEY (id_city)
       REFERENCES "City" (id) MATCH SIMPLE
@@ -35,4 +35,3 @@ CREATE TRIGGER "TriggerCX"
   ON "Complex"
   FOR EACH ROW
   EXECUTE PROCEDURE "UpdateRef"('CX');
-

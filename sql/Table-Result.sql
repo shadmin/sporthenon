@@ -29,7 +29,7 @@ CREATE TABLE "Result"
   result3 character varying(20) DEFAULT NULL::character varying,
   result4 character varying(20) DEFAULT NULL::character varying,
   result5 character varying(20) DEFAULT NULL::character varying,
-  "comment" character varying(500) DEFAULT NULL::character varying,
+  comment character varying(500) DEFAULT NULL::character varying,
   id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   exa character varying(15),
@@ -62,7 +62,7 @@ CREATE TABLE "Result"
   result19 character varying(20),
   id_rank20 integer,
   result20 character varying(20),
-  photo_copyright character varying(100),
+  photo_source character varying(100),
   CONSTRAINT "RESULT_pkey" PRIMARY KEY (id),
   CONSTRAINT "RESULT_id_championship_fkey" FOREIGN KEY (id_championship)
       REFERENCES "Championship" (id) MATCH SIMPLE
@@ -102,4 +102,3 @@ CREATE TRIGGER "TriggerRS"
   ON "Result"
   FOR EACH ROW
   EXECUTE PROCEDURE "UpdateRef"('RS');
-
