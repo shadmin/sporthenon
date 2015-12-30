@@ -8,8 +8,6 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.log4j.Logger;
 
 import com.sporthenon.db.DatabaseHelper;
@@ -31,7 +29,15 @@ public class ImportUtils {
 	
 	private static final String scPattern = "[^a-zA-Z0-9\\|\\,\\s\\(\\)_]";
 
-	public static String processAll(HttpSession session, Vector<Vector<String>> vFile, boolean isUpdate, boolean isRS, boolean isDR, boolean isRC, Contributor cb, String lang) {
+	public static class Progress {
+		public int value;
+		
+		public Progress() {
+			value = 0;
+		}
+	};
+	
+	public static String processAll(Progress progress, Vector<Vector<String>> vFile, boolean isUpdate, boolean isRS, boolean isDR, boolean isRC, Contributor cb, String lang) {
 		StringBuffer html = new StringBuffer("<table>");
 		StringBuffer report = new StringBuffer();
 		try {
@@ -59,7 +65,7 @@ public class ImportUtils {
 				html.append("<tr><td>").append(StringUtils.implode(v, "</td><td>")).append("</td></tr>");
 				if (i * 100 / vFile.size() > pg) {
 					pg = i * 100 / vFile.size();
-					session.setAttribute("progress", pg);
+					progress.value = pg;
 				}
 				i++;
 			}
@@ -122,7 +128,7 @@ public class ImportUtils {
 								ct = StringUtils.toPatternString(t[0]);
 							if (cx != null) {
 								h = "cx" + h.replaceAll("pl", "");
-								sql = "SELECT T.id from \"Complex\" T LEFT JOIN \"City\" CT ON T.id_city=CT.id LEFT JOIN \"Country\" CN ON CT.id_country=CN.id WHERE lower(CN.code) = '" + cn + "' AND lower(CT.label) ~ E'" + ct.replaceAll("'", "''") + "' AND lower(T.label) ~ E'" + cx.replaceAll("'", "''") + "'";
+								sql = "SELECT T.id from \"Complex\" T LEFT JOIN \"City\" CT ON T.id_city=CT.id LEFT JOIN \"Country\" CN ON CT.id_country=CN.id WHERE lower(CN.code) = '" + cn + "' AND lower(CT.label) ~ E'" + ct + "' AND lower(T.label) ~ E'" + cx + "'";
 								if (h.equals("cx1"))
 									isComplex1 = true;
 								else
@@ -130,7 +136,7 @@ public class ImportUtils {
 							}
 							else {
 								h = "ct" + h.replaceAll("pl", "");
-								sql = "SELECT T.id from \"City\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id WHERE lower(CN.code) = '" + cn + "' AND lower(T.label) ~ E'" + ct.replaceAll("'", "''") + "'";
+								sql = "SELECT T.id from \"City\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id WHERE lower(CN.code) = '" + cn + "' AND lower(T.label) ~ E'" + ct + "'";
 							}
 						}
 					}
@@ -162,8 +168,16 @@ public class ImportUtils {
 									isError = true;
 									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 								}
-								else
-									sql = "SELECT T.id from \"Team\" T where T.id_sport=" + hId.get("sp") + " AND lower(T.label) ~ E'" + regexp + "' and (link is null or link = 0)";
+								else {
+									if (s_.matches(".*\\([a-z]{3}\\)$")) {
+										int p = s.indexOf(" (") + 2;
+										String tmLabel = s.substring(0, p - 2).toLowerCase();
+										String cnCode = s.substring(p, p + 3).toLowerCase();
+										sql = "SELECT T.id from \"Team\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id where T.id_sport=" + hId.get("sp") + " AND lower(T.label) ~ E'" + StringUtils.toPatternString(tmLabel) + "' AND lower(CN.code) = '" + cnCode + "' and (link is null or link = 0)";
+									}
+									else
+										sql = "SELECT T.id from \"Team\" T where T.id_sport=" + hId.get("sp") + " AND lower(T.label) ~ E'" + regexp + "' and (link is null or link = 0)";
+								}
 							}
 							else if (n == 99) { // Country
 								if (!s_.matches(StringUtils.PATTERN_COUNTRY)) {

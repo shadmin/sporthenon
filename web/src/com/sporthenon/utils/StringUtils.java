@@ -87,7 +87,7 @@ public class StringUtils {
 		regexp = regexp.replaceAll("\\,", "\\\\\\\\\\\\\\\\,");
 		regexp = regexp.replaceAll("\\(", "\\\\\\\\\\\\\\\\(");
 		regexp = regexp.replaceAll("\\)", "\\\\\\\\\\\\\\\\)");
-		return String.valueOf(DatabaseHelper.executeNative("SELECT \"~PatternString\"(E'" + regexp + "')").get(0));
+		return String.valueOf(DatabaseHelper.executeNative("SELECT \"~PatternString\"(E'" + regexp + "')").get(0)).replaceAll("'", "''");
 	}
 
 	public static List<Integer> tieList(String s) {

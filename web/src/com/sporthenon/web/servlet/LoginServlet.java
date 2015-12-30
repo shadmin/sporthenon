@@ -39,7 +39,7 @@ public class LoginServlet extends AbstractServlet {
 					Contributor m = lstContributor.get(0);
 					if (m.getActive() != null && m.getActive()) {
 						request.getSession().setAttribute("user", m);
-						redirect(request, response, "/update/overview", true);
+						redirect(request, response, "/update/overview", ConfigUtils.getProperty("env").matches("test|prod"));
 						isMsg = false;
 					}
 					else

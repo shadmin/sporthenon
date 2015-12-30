@@ -116,6 +116,16 @@
 	var TX_NOFAV = "<%=StringUtils.text("no.favorite", session)%>";
 	var TX_ERROR = "<%=StringUtils.text("error", session)%>";
 	var TX_IMPORT_COMPLETE = "<%=StringUtils.text("import.complete", session)%>";
+	var TX_TYPE = "<%=StringUtils.text("type", session)%>";
+	var TX_RANK1 = "<%=StringUtils.text("rank.1", session)%>";
+	var TX_RESULT_SCORE = "<%=StringUtils.text("result.score", session)%>";
+	var TX_RANK2 = "<%=StringUtils.text("rank.2", session)%>";
+	var TX_RESULT = "<%=StringUtils.text("entity.RS.1", session)%>";
+	var TX_RANK3 = "<%=StringUtils.text("rank.3", session)%>";
+	var TX_DATE = "<%=StringUtils.text("date", session)%>";
+	var TX_PLACE = "<%=StringUtils.text("place", session)%>";
+	var TX_TIE = "<%=StringUtils.text("tie", session)%>";
+	var TX_COMMENT = "<%=StringUtils.text("comment", session)%>";
 --></script>
 
 <div id="headertop">

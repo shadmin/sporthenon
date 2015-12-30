@@ -470,7 +470,9 @@ public class DatabaseHelper {
 		String msg = null;
 		try {
 			String[] t = s.split("\\|");
-			Object o_ = loadEntityFromQuery("from Type tp where lower(tp.label) = '" + t[1].toLowerCase() + "'");
+			Object o_ = null;
+			if (t.length > 1)
+				o_ = loadEntityFromQuery("from Type tp where lower(tp.label) = '" + t[1].toLowerCase() + "'");
 			if (o_ == null)
 				o_ = loadEntityFromQuery("from Type tp where lower(tp.label) = 'single'");
 			Event ev = new Event();
@@ -548,8 +550,9 @@ public class DatabaseHelper {
 				if (!s.toLowerCase().matches(StringUtils.PATTERN_TEAM))
 					throw new Exception(ResourceUtils.getText("err.invalid.team", lang).replaceAll("#S#", s));
 				// Check if exists
-				String hql = "select id from Team where sport.id=" + spid + " and lower(label) like '" + (s.indexOf(" (") > -1 ? s.substring(0, s.indexOf(" (")).toLowerCase() : s.toLowerCase()) + "' and (link is null or link = 0)";
-				List<Integer> lId = (List<Integer>) DatabaseHelper.execute(hql);
+				String regexp = StringUtils.toPatternString(s.indexOf(" (") > -1 ? s.substring(0, s.indexOf(" (")).toLowerCase() : s.toLowerCase());
+				String sql = "SELECT T.id from \"Team\" T WHERE T.id_sport=" + spid + " AND lower(label) ~ '" + regexp + "' AND (link IS NULL OR link = 0)";
+				List<Integer> lId = (List<Integer>) DatabaseHelper.executeNative(sql);
 				if (lId != null && lId.size() > 0)
 					return lId.get(0);
 				Team t = new Team();

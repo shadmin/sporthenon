@@ -125,8 +125,9 @@ var treeItems = null;
 			<ul>
 			<!-- RANKINGS -->
 			<li>
-			<fieldset style="width:877px;"><legend><%=StringUtils.text("rankings", session)%></legend>
-				<table style="margin-top:0px;">
+			<fieldset>
+				<legend><a href="javascript:toggle('rankings');"><img id="img-rankings" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("rankings", session)%></a></legend>
+				<table id="rankings" style="margin-top:0px;width:877px;">
 					<tr><td><input type="text" id="rk1" tabindex="100" name="<%=StringUtils.text("rank.1", session)%>"/><a href="javascript:clearValue('rk1');">[X]</a></td><td><a href="javascript:initPersonList(1);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs1" tabindex="101" name="<%=StringUtils.text("result.score", session)%>" style="width:120px;"/></td><td><input type="text" id="rk11" tabindex="120" name="<%=StringUtils.text("rank.11", session)%>"/><a href="javascript:clearValue('rk11');">[X]</a></td><td><a href="javascript:initPersonList(11);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs11" tabindex="121" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
 					<tr><td><input type="text" id="rk2" tabindex="102" name="<%=StringUtils.text("rank.2", session)%>"/><a href="javascript:clearValue('rk2');">[X]</a></td><td><a href="javascript:initPersonList(2);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs2" tabindex="103" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td><td><input type="text" id="rk12" tabindex="122" name="<%=StringUtils.text("rank.12", session)%>"/><a href="javascript:clearValue('rk12');">[X]</a></td><td><a href="javascript:initPersonList(12);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs12" tabindex="123" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
 					<tr><td><input type="text" id="rk3" tabindex="104" name="<%=StringUtils.text("rank.3", session)%>"/><a href="javascript:clearValue('rk3');">[X]</a></td><td><a href="javascript:initPersonList(3);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs3" tabindex="105" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td><td><input type="text" id="rk13" tabindex="124" name="<%=StringUtils.text("rank.13", session)%>"/><a href="javascript:clearValue('rk13');">[X]</a></td><td><a href="javascript:initPersonList(13);"><img src="/img/update/personlist.png"/></a></td><td>&nbsp;<input type="text" id="rs13" tabindex="125" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
@@ -143,7 +144,10 @@ var treeItems = null;
 			<ul>
 			<!-- ROUNDS -->
 			<li>
-			<fieldset><legend>Matches/Rounds/Days</legend><div id="rounds"><table style="margin-top:0px;"></table><a href="javascript:addRounds();">[+10]</a></div></fieldset>
+			<fieldset>
+				<legend><a href="javascript:toggle('rounds');"><img id="img-rounds" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("matches.rounds", session)%></a></legend>
+				<div id="rounds"><table style="margin-top:0px;"></table><a href="javascript:addRounds();">[+10]</a></div>
+			</fieldset>
 			</li>
 			</ul>
 			<!-- BUTTON PANEL -->

@@ -347,6 +347,17 @@ function isFavorite(url) {
 	}
 	return fav;
 }
+function toggle(id) {
+	var img = $('img-' + id);
+	if ($(id).style.display == 'none') {
+		$(id).show();
+		img.src = img.src.replace('expand', 'collapse');
+	}
+	else {
+		$(id).hide();
+		img.src = img.src.replace('collapse', 'expand');
+	}
+}
 /*============================
   ========== UTILS ========== 
   ============================*/
@@ -1865,17 +1876,17 @@ function addRounds(clear) {
 		for (var i = rdCount + 1 ; i <= rdCount + 10 ; i++) {
 			html = ['<tr>'];
 			html.push('<td><input type="hidden" id="rd' + i + 'id"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rt" tabindex="' + (1000 + (11*(i-1))) + '" name="Type" style="width:150px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rk1" tabindex="' + (1001 + (11*(i-1))) + '" name="Rank #1" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk1\');">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rs1" tabindex="' + (1002 + (11*(i-1))) + '" name="Result/Score" style="width:90px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rk2" tabindex="' + (1003 + (11*(i-1))) + '" name="Rank #2" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk2\');">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rs2" tabindex="' + (1004 + (11*(i-1))) + '" name="Result" style="width:90px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rk3" tabindex="' + (1005 + (11*(i-1))) + '" name="Rank #3" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk3\');">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rs3" tabindex="' + (1006 + (11*(i-1))) + '" name="Result" style="width:90px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'dt" tabindex="' + (1007 + (11*(i-1))) + '" name="Date" style="width:80px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'pl" tabindex="' + (1008 + (11*(i-1))) + '" name="Place" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl\');">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'exa" tabindex="' + (1009 + (11*(i-1))) + '" name="Tie" style="width:50px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'cmt" tabindex="' + (1010 + (11*(i-1))) + '" name="Comment" style="width:150px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rt" tabindex="' + (1000 + (11*(i-1))) + '" name="' + TX_TYPE + '" style="width:150px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk1" tabindex="' + (1001 + (11*(i-1))) + '" name="' + TX_RANK1 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk1\');">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rs1" tabindex="' + (1002 + (11*(i-1))) + '" name="' + TX_RESULT_SCORE + '" style="width:90px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk2" tabindex="' + (1003 + (11*(i-1))) + '" name="' + TX_RANK2 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk2\');">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rs2" tabindex="' + (1004 + (11*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk3" tabindex="' + (1005 + (11*(i-1))) + '" name="' + TX_RANK3 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk3\');">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rs3" tabindex="' + (1006 + (11*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'dt" tabindex="' + (1007 + (11*(i-1))) + '" name="' + TX_DATE + '" style="width:80px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'pl" tabindex="' + (1008 + (11*(i-1))) + '" name="' + TX_PLACE + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl\');">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'exa" tabindex="' + (1009 + (11*(i-1))) + '" name="' + TX_TIE + '" style="width:50px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'cmt" tabindex="' + (1010 + (11*(i-1))) + '" name="' + TX_COMMENT + '" style="width:150px;"/></td>');
 			html.push('</tr>');
 			rtable.insert(html.join(''));
 		}

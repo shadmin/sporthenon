@@ -1423,7 +1423,7 @@ li{
 	border: 1px solid #DDD;
 	border-top: none;
 	width: 300px;
-	height: 800px;
+	height: 780px;
 	padding: 3px;
 	margin: 0px;
 	padding-right: 30px;
@@ -1458,6 +1458,10 @@ li{
 	width: 877px;
 	height: 280px;
 	overflow: auto;
+}
+#update-results fieldset legend a{
+	font-size: 12px;
+	color: #000;
 }
 /*---------- DATA ----------*/
 #update-data .fstitle{

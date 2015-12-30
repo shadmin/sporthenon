@@ -107,7 +107,7 @@ public class ImageUtils {
 		String p = "photo" + StringUtils.encode(entity + "-" + id);
 		LinkedList<String> list = new LinkedList<String>();
 		for (String s : ImageUtils.getImgFiles())
-			if (s.startsWith(p))
+			if (s.matches("^" + p + "\\d*\\.\\S+$"))
 				list.add(s);
 		Collections.sort(list);
 		return (!list.isEmpty() ? list.getLast() : "");

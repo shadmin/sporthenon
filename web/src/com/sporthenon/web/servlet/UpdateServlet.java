@@ -25,7 +25,6 @@ import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -79,6 +78,7 @@ public class UpdateServlet extends AbstractServlet {
 	private static final long serialVersionUID = 1L;
 	private static final int MAX_RANKS = 20;
 	private static final int MAX_AUTOCOMPLETE_RESULTS = 50;
+	private static ImportUtils.Progress IMPORT_PROGESS;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -114,7 +114,7 @@ public class UpdateServlet extends AbstractServlet {
 			else if (hParams.containsKey("p") && hParams.get("p").equals("execute-import"))
 				executeImport(request, response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("check-progress-import"))
-				ServletHelper.writeText(response, String.valueOf(request.getSession().getAttribute("progress")));
+				ServletHelper.writeText(response, String.valueOf(IMPORT_PROGESS.value));
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-template"))
 				loadTemplate(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-extlinks"))
@@ -147,7 +147,7 @@ public class UpdateServlet extends AbstractServlet {
 		String currentId = null;
 		String field_ = field;
 		boolean isId = String.valueOf(hParams.get("value")).matches("^\\#\\d+");
-		String value = "^" + (hParams.get("value") + "%").replaceAll("\\*", "%").replaceAll("'", "''");
+		String value = "^" + (hParams.get("value") + "%").replaceAll("\\*", "%");
 		String sport = null;
 		boolean isData = field.matches(".*\\-l$");
 		if (isData) {
@@ -550,56 +550,58 @@ public class UpdateServlet extends AbstractServlet {
 				String[] t = String.valueOf(hParams.get("rdlist")).split("\\|", 0);
 				for (String value : t) {
 					String[] t_ = value.split("\\~", -1);
-					String idr = t_[0];
-					RoundType rdRt = null;
-					if (StringUtils.notEmpty(t_[1]))
-						rdRt = (RoundType) DatabaseHelper.loadEntity(RoundType.class, t_[1]);
-					else {
-						RoundType rdt = new RoundType();
-						rdt.setLabel(t_[2]);
-						rdt.setLabelFr(t_[2]);
-						rdt.setIndex(100);
-						rdRt = (RoundType) DatabaseHelper.saveEntity(rdt, cb);
+					if (t_.length > 1) {
+						String idr = t_[0];
+						RoundType rdRt = null;
+						if (StringUtils.notEmpty(t_[1]))
+							rdRt = (RoundType) DatabaseHelper.loadEntity(RoundType.class, t_[1]);
+						else {
+							RoundType rdt = new RoundType();
+							rdt.setLabel(t_[2]);
+							rdt.setLabelFr(t_[2]);
+							rdt.setIndex(100);
+							rdRt = (RoundType) DatabaseHelper.saveEntity(rdt, cb);
+						}
+						Integer rdRk1 = (StringUtils.notEmpty(t_[3]) ? Integer.parseInt(t_[3]) : (StringUtils.notEmpty(t_[4]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[4], null, cb, null, lang) : 0));
+						String rdRs1 = (StringUtils.notEmpty(t_[5]) ? t_[5] : null);
+						Integer rdRk2 = (StringUtils.notEmpty(t_[6]) ? Integer.parseInt(t_[6]) : (StringUtils.notEmpty(t_[7]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[7], null, cb, null, lang) : 0));
+						String rdRs2 = (StringUtils.notEmpty(t_[8]) ? t_[8] : null);
+						Integer rdRk3 = (StringUtils.notEmpty(t_[9]) ? Integer.parseInt(t_[9]) : (StringUtils.notEmpty(t_[10]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[10], null, cb, null, lang) : 0));
+						String rdRs3 = (StringUtils.notEmpty(t_[11]) ? t_[11] : null);
+						String rdDt = (StringUtils.notEmpty(t_[12]) ? t_[12] : null);
+						Complex rdCx = null;
+						City rdCt = null;
+						if (StringUtils.notEmpty(t_[13]) && StringUtils.notEmpty(t_[14])) {
+							String[] tpl = t_[14].toLowerCase().split("\\,\\s");
+							int id = 0;
+							if (StringUtils.notEmpty(t_[13]))
+								id = new Integer(String.valueOf(t_[13]));
+							else
+								id = DatabaseHelper.insertPlace(0, String.valueOf(t_[14]), cb, null, lang);
+							if (tpl.length > 2)
+								rdCx = (Complex) DatabaseHelper.loadEntity(Complex.class, id);
+							else
+								rdCt = (City) DatabaseHelper.loadEntity(City.class, id);
+						}
+						String rdExa = (StringUtils.notEmpty(t_[15]) ? t_[15] : null);
+						String rdCmt = (StringUtils.notEmpty(t_[16]) ? t_[16] : null);
+						Round rd = (StringUtils.notEmpty(idr) ? (Round) DatabaseHelper.loadEntity(Round.class, idr) : new Round());
+						rd.setIdResult(result.getId());
+						rd.setIdResultType(tp);
+						rd.setRoundType(rdRt);
+						rd.setIdRank1(rdRk1 > 0 ? rdRk1 : null);
+						rd.setResult1(rdRs1);
+						rd.setIdRank2(rdRk2 > 0 ? rdRk2 : null);
+						rd.setResult2(rdRs2);
+						rd.setIdRank3(rdRk3 > 0 ? rdRk3 : null);
+						rd.setResult3(rdRs3);
+						rd.setComplex(rdCx);
+						rd.setCity(rdCt);
+						rd.setDate(rdDt);
+						rd.setExa(rdExa);
+						rd.setComment(rdCmt);
+						DatabaseHelper.saveEntity(rd, cb);
 					}
-					Integer rdRk1 = (StringUtils.notEmpty(t_[3]) ? Integer.parseInt(t_[3]) : (StringUtils.notEmpty(t_[4]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[4], null, cb, null, lang) : 0));
-					String rdRs1 = (StringUtils.notEmpty(t_[5]) ? t_[5] : null);
-					Integer rdRk2 = (StringUtils.notEmpty(t_[6]) ? Integer.parseInt(t_[6]) : (StringUtils.notEmpty(t_[7]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[7], null, cb, null, lang) : 0));
-					String rdRs2 = (StringUtils.notEmpty(t_[8]) ? t_[8] : null);
-					Integer rdRk3 = (StringUtils.notEmpty(t_[9]) ? Integer.parseInt(t_[9]) : (StringUtils.notEmpty(t_[10]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[10], null, cb, null, lang) : 0));
-					String rdRs3 = (StringUtils.notEmpty(t_[11]) ? t_[11] : null);
-					String rdDt = (StringUtils.notEmpty(t_[12]) ? t_[12] : null);
-					Complex rdCx = null;
-					City rdCt = null;
-					if (StringUtils.notEmpty(t_[13]) && StringUtils.notEmpty(t_[14])) {
-						String[] tpl = t_[14].toLowerCase().split("\\,\\s");
-						int id = 0;
-						if (StringUtils.notEmpty(t_[13]))
-							id = new Integer(String.valueOf(t_[13]));
-						else
-							id = DatabaseHelper.insertPlace(0, String.valueOf(t_[14]), cb, null, lang);
-						if (tpl.length > 2)
-							rdCx = (Complex) DatabaseHelper.loadEntity(Complex.class, id);
-						else
-							rdCt = (City) DatabaseHelper.loadEntity(City.class, id);
-					}
-					String rdExa = (StringUtils.notEmpty(t_[15]) ? t_[15] : null);
-					String rdCmt = (StringUtils.notEmpty(t_[16]) ? t_[16] : null);
-					Round rd = (StringUtils.notEmpty(idr) ? (Round) DatabaseHelper.loadEntity(Round.class, idr) : new Round());
-					rd.setIdResult(result.getId());
-					rd.setIdResultType(tp);
-					rd.setRoundType(rdRt);
-					rd.setIdRank1(rdRk1 > 0 ? rdRk1 : null);
-					rd.setResult1(rdRs1);
-					rd.setIdRank2(rdRk2 > 0 ? rdRk2 : null);
-					rd.setResult2(rdRs2);
-					rd.setIdRank3(rdRk3 > 0 ? rdRk3 : null);
-					rd.setResult3(rdRs3);
-					rd.setComplex(rdCx);
-					rd.setCity(rdCt);
-					rd.setDate(rdDt);
-					rd.setExa(rdExa);
-					rd.setComment(rdCmt);
-					DatabaseHelper.saveEntity(rd, cb);
 				}
 			}
 			sbMsg.append(result.getId() + "#" + ResourceUtils.getText("result." + (idRS != null ? "modified" : "created"), lang));
@@ -1626,8 +1628,7 @@ public class UpdateServlet extends AbstractServlet {
 			fis.close();
 		}
 		else {
-			HttpSession session = request.getSession();
-			session.setAttribute("progress", 0);
+			IMPORT_PROGESS = new ImportUtils.Progress();
 			InputStream input = null;
 			FileItemFactory factory = new DiskFileItemFactory();
 			ServletFileUpload upload = new ServletFileUpload(factory);
@@ -1647,8 +1648,8 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			String type = String.valueOf(hParams.get("type"));
 			String update = String.valueOf(hParams.get("update"));
-			String result = ImportUtils.processAll(session,  v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Round.alias), type.equalsIgnoreCase(Record.alias), cb, lang);
-			session.setAttribute("progress", 100);
+			String result = ImportUtils.processAll(IMPORT_PROGESS,  v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Round.alias), type.equalsIgnoreCase(Record.alias), cb, lang);
+			IMPORT_PROGESS.value = 100;
 			if (update.equals("1")) {
 				String f = "import" + System.currentTimeMillis() + ".html";
 				String css = "<style>table{border-collapse: collapse;}th,td{white-space: nowrap;border: 1px solid gray;padding: 2px;}div{margin-top: 10px;font-style: italic;}</style>";
