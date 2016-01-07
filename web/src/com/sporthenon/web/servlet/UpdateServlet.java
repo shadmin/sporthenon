@@ -66,6 +66,7 @@ import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.db.entity.meta.Translation;
 import com.sporthenon.db.entity.meta.TreeItem;
 import com.sporthenon.utils.ConfigUtils;
+import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.ImportUtils;
@@ -664,7 +665,7 @@ public class UpdateServlet extends AbstractServlet {
 					html.append("</tbody></table>");
 				html.append("<table><thead><tr>");
 				if (item.getEntity().equals(Result.alias))
-					html.append("<th colspan='11' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><th>" + ResourceUtils.getText("entity.EV.1", lang) + "</th><th>" + ResourceUtils.getText("podium", lang) + "</th><th>" + ResourceUtils.getText("entity.RS", lang) + "</th><th>" + ResourceUtils.getText("final", lang) + "+" + ResourceUtils.getText("score", lang) + "</th><th>" + ResourceUtils.getText("entity.CX.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CT.1", lang) + "</th><th>" + ResourceUtils.getText("date", lang) + "</th><th>" + ResourceUtils.getText("entity.DR.1", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photo", lang) + "</th>");
+					html.append("<th colspan='11' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><th>" + ResourceUtils.getText("entity.EV.1", lang) + "</th><th>" + ResourceUtils.getText("podium", lang) + "</th><th>" + ResourceUtils.getText("entity.RS", lang) + "</th><th>" + ResourceUtils.getText("final", lang) + "+" + ResourceUtils.getText("score", lang) + "</th><th>" + ResourceUtils.getText("entity.CX.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CT.1", lang) + "</th><th>" + ResourceUtils.getText("date", lang) + "</th><th>" + ResourceUtils.getText("draw", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photo", lang) + "</th>");
 				else if (item.getEntity().equals(Athlete.alias))
 					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("entity.TM.1", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photo", lang) + "</th>");
 				else if (item.getEntity().equals(Team.alias))
@@ -1665,19 +1666,39 @@ public class UpdateServlet extends AbstractServlet {
 	private static void loadTemplate(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		try {
 			String type = String.valueOf(hParams.get("type"));
+			String ext = String.valueOf(hParams.get("ext"));
 			List<ArrayList<String>> list = ImportUtils.getTemplate(type, lang);
+			List lTh = new ArrayList<ArrayList<String>>();
+			List lTd = new ArrayList<ArrayList<String>>();
 			StringBuffer sb = new StringBuffer();
 			for (ArrayList<String> list_ : list) {
 				int i = 0;
-				for (String s : list_)
-					sb.append(i++ > 0 ? ";" : "").append(s);
+				ArrayList<String> lTh_ = new ArrayList<String>();
+				ArrayList<String> lTd_ = new ArrayList<String>();
+				for (String s : list_) {
+					lTh_.add(s);
+					lTd_.add(s);
+					sb.append(i++ > 0 ? ";" : "").append(s.replaceAll("^\\#.*\\#", ""));
+				}
+				if (lTh.isEmpty()) {
+					lTd_ = new ArrayList<String>();
+					lTd_.add("--NEW--");
+					lTh.add(lTh_);
+				}
+				lTd.add(lTd_);
 				sb.append("\r\n");
 			}
 			response.setCharacterEncoding("utf-8");
-			response.setHeader("Content-Disposition", "attachment;filename=" + ResourceUtils.getText("entity." + type, ResourceUtils.LGDEFAULT) + ".csv");
-			response.setContentType("text/plain");
-			response.getWriter().write(sb.toString());
-			response.flushBuffer();
+			response.setHeader("Content-Disposition", "attachment;filename=" + ResourceUtils.getText("entity." + type, ResourceUtils.LGDEFAULT) + "." + ext);
+			if (ext.equalsIgnoreCase("xls")) {
+				response.setContentType("application/vnd.ms-excel");
+				ExportUtils.buildXLS(response.getOutputStream(), null, lTh, lTd, null, new boolean[]{false});
+			}
+			else {
+				response.setContentType("text/plain");
+				response.getWriter().write(sb.toString());
+				response.flushBuffer();
+			}
 		}
 		catch (Exception e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);

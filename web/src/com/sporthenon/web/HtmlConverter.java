@@ -514,8 +514,8 @@ public class HtmlConverter {
 			Championship e = (Championship) DatabaseHelper.loadEntity(Championship.class, id);
 			hInfo.put("title", e.getLabel(lang));
 			hInfo.put("titleEN", e.getLabel());
+			hInfo.put("titlename", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
 			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, e.getId(), ImageUtils.SIZE_LARGE, null, null));
-			hInfo.put("name", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
 			hInfo.put("extlinks", HtmlUtils.writeExternalLinks(type, id, lang));
 			ref = e.getRef();
 			lastUpdate = e.getMetadata().getLastUpdate();
@@ -666,7 +666,7 @@ public class HtmlConverter {
 			Collection<String> lAllLogos = ImageUtils.getImageList(ImageUtils.INDEX_COUNTRY, e.getId(), ImageUtils.SIZE_LARGE);
 			hInfo.put("title", e.getLabel(lang));
 			hInfo.put("titleEN", e.getLabel());
-			hInfo.put("name", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
+			hInfo.put("titlename", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
 			hInfo.put("code", e.getCode());
 			hInfo.put("flag", currentLogo);
 			StringBuffer sbOtherFlags = new StringBuffer();
@@ -703,8 +703,8 @@ public class HtmlConverter {
 			Event e = (Event) DatabaseHelper.loadEntity(Event.class, id);
 			hInfo.put("title", e.getLabel(lang));
 			hInfo.put("titleEN", e.getLabel());
+			hInfo.put("titlename", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
 			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_EVENT, e.getId(), ImageUtils.SIZE_LARGE, null, null));
-			hInfo.put("name", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
 			hInfo.put("extlinks", HtmlUtils.writeExternalLinks(type, id, lang));
 			ref = e.getRef();
 			lastUpdate = e.getMetadata().getLastUpdate();
@@ -723,10 +723,10 @@ public class HtmlConverter {
 			}
 			hInfo.put("title", e.getCity().getLabel(lang) + "&nbsp;" + e.getYear().getLabel());
 			hInfo.put("titleEN", e.getCity().getLabel() + "&nbsp;" + e.getYear().getLabel());
-			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_OLYMPICS, e.getId(), ImageUtils.SIZE_LARGE, null, null));
 			hInfo.put("year", HtmlUtils.writeLink(Year.alias, e.getYear().getId(), e.getYear().getLabel(), null));
 			hInfo.put("city", HtmlUtils.writeLink(City.alias, e.getCity().getId(), e.getCity().getLabel(lang), e.getCity().getLabel()));
 			hInfo.put("country", (cn != null ? cn : StringUtils.EMPTY));
+			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_OLYMPICS, e.getId(), ImageUtils.SIZE_LARGE, null, null));
 			hInfo.put("start.date", e.getDate1());
 			hInfo.put("end.date", e.getDate2());
 			hInfo.put("sports", String.valueOf(e.getCountSport()));
@@ -909,7 +909,7 @@ public class HtmlConverter {
 					html.append(rdlistHtml).append("</table></td></tr></tbody></table>");
 				}
 				if (lRounds.size() >= 7 && drawHtml.length() > 0) {
-					html.append("<table style='margin-bottom:0px;'><thead><tr><th>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity.DR.1", lang).toUpperCase(), false) + "</th></tr></thead><tbody class='tby'>");
+					html.append("<table style='margin-bottom:0px;'><thead><tr><th>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("draw", lang).toUpperCase(), false) + "</th></tr></thead><tbody class='tby'>");
 					html.append("<tr><td class='celldraw'><div class='draw'>").append(drawHtml).append("</div></td></tr></tbody></table>");
 				}
 			}

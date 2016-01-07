@@ -29,7 +29,7 @@ var treeItems = null;
 <div id="update-results" class="update">
 	<jsp:include page="/jsp/update/toolbar.jsp" />
 	<div class="fieldset">
-		<div class="fstitle"><%=StringUtils.text("update.results", session).toUpperCase()%></div>
+		<div class="fstitle"><%=StringUtils.text("update.results", session).toUpperCase()%><div id="msg2"></div></div>
 		<div class="fscontent" style="height:auto;">
 			<!-- ID -->
 			<div style="float:right;">
@@ -62,7 +62,7 @@ var treeItems = null;
 				<script type="text/javascript">new Tree(treeItems, treeTemplate);</script>
 				</td></tr></tbody></table>
 			</div></div>
-			<div id="currentimg" style="margin-top:70px;"></div>
+			<div id="currentimg" style="margin-top:90px;"></div>
 			<ul>
 			<!-- EVENT -->
 			<li>

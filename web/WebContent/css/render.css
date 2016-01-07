@@ -12,8 +12,7 @@
 }
 .tc th{
 	font-weight: bold;
-	/*background-color: #FFC;*/
-	background-color: #CEF;
+	background-color: #fad8ff; /* _theme_ */
 	text-align: center;
 	padding: 3px 10px;
 }
@@ -152,7 +151,7 @@
 	display: block;
 }
 .tc .photo img{
-	/*border: 1px solid #AAA;*/
+	border: 1px solid #DDD;
 }
 .tc .source{
 	font-size: 9px;

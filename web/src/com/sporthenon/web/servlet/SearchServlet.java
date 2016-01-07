@@ -62,7 +62,7 @@ public class SearchServlet extends AbstractServlet {
 						String cn = (StringUtils.notEmpty(item.getLabelRel1()) ? item.getLabelRel1().substring(item.getLabelRel1().lastIndexOf("(") + 1, item.getLabelRel1().length() - 1) : null);
 						label = StringUtils.toFullName(t[0], t.length > 1 && StringUtils.notEmpty(t[1]) ? " " + t[1] : "", cn, false) + (StringUtils.notEmpty(cn) ? " (" + cn + ")" : "");
 					}
-					String details = "<div class='ajxdetails'>" + ResourceUtils.getText("entity." + item.getEntity() + ".1", getLocale(request)) + "&nbsp;(" + item.getCountRef() + "&nbsp;ref.)</div>";
+					String details = "<div class='ajxdetails'>" + ResourceUtils.getText("entity." + item.getEntity() + ".1", getLocale(request)) + (StringUtils.notEmpty(item.getLabelRel2()) ? "/" + item.getLabelRel2() : "") + "&nbsp;(" + (item.getCountRef() != null ? item.getCountRef() : 0) + "&nbsp;ref.)</div>";
 					html.append("<li id='" + StringUtils.encode(item.getEntity() + "-" + item.getIdItem()) + "'>" + label + details + "</li>");
 				}
 //				if (!list.isEmpty())

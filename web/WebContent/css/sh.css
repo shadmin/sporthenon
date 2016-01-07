@@ -59,8 +59,7 @@ li{
 .fieldset .fstitle{
 	font-weight: bold;
 	border-bottom: 1px solid gray;
-	/*background-color: #FFC;*/
-	background-color: #CEF;
+	background-color: #fad8ff; /* _theme_ */
 	padding: 4px;
 	padding-left: 23px;
 	background-position: 3px center;
@@ -658,8 +657,7 @@ li{
 .homecontent .fieldset .fstitle{
 	font-weight: bold;
 	border-bottom: 1px solid gray;
-	/*background-color: #FFC;*/
-	background-color: #CEF;
+	background-color: #fad8ff; /* _theme_ */
 	padding: 5px;
 	padding-left: 23px;
 	padding-bottom: 4px;
@@ -1316,6 +1314,15 @@ li{
 	position: absolute;
 	left: 5px;
 	bottom: 20px;
+}
+.fstitle #msg2{
+	position: absolute;
+	right: 25px;
+}
+.fstitle #msg2 div{
+	position: relative;
+	text-align: right;
+	bottom: 15px;
 }
 .warning{
 	background: url(../img/update/warning.gif?6) left center no-repeat;
@@ -2015,8 +2022,10 @@ li{
 }
 .ajaxsearch ul .ajxdetails {
 	float: right;
+	text-align: right;
 	font-size: 10px;
 	color: #888;
+	padding-top: 1px;
 }
 /*==========================
   ========== MISC ========== 

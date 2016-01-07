@@ -687,23 +687,25 @@ public class ImportUtils {
 	}
 	
 	public static List getTemplate(String type, String lang) {
+		String COLOR1 = "#color-blue#";
+		String COLOR2 = "#color-green#";
+		String COLOR3 = "#color-orange#";
 		ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
 		if (type.equalsIgnoreCase(Result.alias)) {
 			ArrayList<String> list_ = new ArrayList<String>();
-			for (String s : new String[] {ResourceUtils.getText("sport", lang), ResourceUtils.getText("event", lang) + " 1", ResourceUtils.getText("event", lang) + " 2", ResourceUtils.getText("event", lang) + " 3", ResourceUtils.getText("event", lang) + " 4", ResourceUtils.getText("year", lang), ResourceUtils.getText("template.rs.winner", lang), ResourceUtils.getText("template.rs.score", lang), ResourceUtils.getText("template.rs.second", lang), ResourceUtils.getText("template.rs.result", lang) + " (" + ResourceUtils.getText("rank.2", lang) + ")", ResourceUtils.getText("template.rs.third", lang), ResourceUtils.getText("template.rs.result", lang) + " (" + ResourceUtils.getText("rank.3", lang) + ")", ResourceUtils.getText("rank.4", lang), ResourceUtils.getText("rank.5", lang), ResourceUtils.getText("rank.6", lang), ResourceUtils.getText("rank.7", lang), ResourceUtils.getText("rank.8", lang), ResourceUtils.getText("rank.9", lang), ResourceUtils.getText("template.date1", lang), ResourceUtils.getText("template.date2", lang), ResourceUtils.getText("template.place1", lang), ResourceUtils.getText("template.place2", lang), ResourceUtils.getText("tie", lang), ResourceUtils.getText("comment", lang), ResourceUtils.getText("extlinks", lang)})
-				list_.add(s);
-			list.add(list_);
-			list.add(new ArrayList<String>());
-			list_ = new ArrayList<String>();
-			for (String s : new String[] {"Athletics", "Olympic Games", "Men", "100 M", "", "1936", "Owens, Jessie (USA)", "10.30", "Metcalfe, Ralf (USA)", "10.40", "Osendarp, Tinus (NED)", "10.50", "", "", "", "", "", "", "", "08/03/1936", "", "Olympiastadion, Berlin, GER", "", "", ""})
+			for (String s : new String[] {COLOR1 + ResourceUtils.getText("sport", lang), COLOR1 + ResourceUtils.getText("event", lang) + " 1", COLOR1 + ResourceUtils.getText("event", lang) + " 2", COLOR1 + ResourceUtils.getText("event", lang) + " 3", COLOR1 + ResourceUtils.getText("event", lang) + " 4", COLOR1 + ResourceUtils.getText("year", lang), COLOR2 + ResourceUtils.getText("template.rs.winner", lang), COLOR2 + ResourceUtils.getText("template.rs.score", lang), COLOR2 + ResourceUtils.getText("template.rs.second", lang), COLOR2 + ResourceUtils.getText("template.rs.result", lang) + " (" + ResourceUtils.getText("rank.2", lang) + ")", COLOR2 + ResourceUtils.getText("template.rs.third", lang), COLOR2 + ResourceUtils.getText("template.rs.result", lang) + " (" + ResourceUtils.getText("rank.3", lang) + ")", COLOR2 + ResourceUtils.getText("rank.4", lang), COLOR2 + ResourceUtils.getText("rank.5", lang), COLOR2 + ResourceUtils.getText("rank.6", lang), COLOR2 + ResourceUtils.getText("rank.7", lang), COLOR2 + ResourceUtils.getText("rank.8", lang), COLOR2 + ResourceUtils.getText("rank.9", lang), COLOR3 + ResourceUtils.getText("template.date1", lang), COLOR3 + ResourceUtils.getText("template.date2", lang), COLOR3 + ResourceUtils.getText("template.place1", lang), COLOR3 + ResourceUtils.getText("template.place2", lang), COLOR3 + ResourceUtils.getText("tie", lang), COLOR3 + ResourceUtils.getText("comment", lang), COLOR3 + ResourceUtils.getText("extlinks", lang)})
 				list_.add(s);
 			list.add(list_);
 			list_ = new ArrayList<String>();
-			for (String s : new String[] {"Tennis", "Grand Slam", "Men", "French Open", "", "2005", "Nadal, Rafael (ESP)", "6/7 6/3 6/1 7/5", "Puerta, Mariano (ARG)", "", "", "", "", "", "", "", "", "", "", "06/05/2005", "", "Roland Garros, Paris, FRA", "", "", ""})
+			for (String s : new String[] {COLOR1 + "Athletics", COLOR1 + "Olympic Games", COLOR1 + "Men", COLOR1 + "100 M", COLOR1 + "", COLOR1 + "1936", COLOR2 + "Owens, Jessie (USA)", COLOR2 + "10.30", COLOR2 + "Metcalfe, Ralf (USA)", COLOR2 + "10.40", COLOR2 + "Osendarp, Tinus (NED)", COLOR2 + "10.50", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR3 + "", COLOR3 + "08/03/1936", COLOR3 + "", COLOR3 + "Olympiastadion, Berlin, GER", COLOR3 + "", COLOR3 + "", COLOR3 + "https://en.wikipedia.org/wiki/Athletics_at_the_1936_Summer_Olympics_%E2%80%93_Men%27s_100_metres"})
 				list_.add(s);
 			list.add(list_);
 			list_ = new ArrayList<String>();
-			for (String s : new String[] {"Road Cycling", "UCI World Tour", "Milan-San Remo", "", "", "2004", "Cancellara, Fabian (SUI)", "", "Contador, Albero (ESP)", "Rodriguez, Joaquin (ESP)", "", "", "", "", "", "", "", "", "", "06/03/2004", "Milan, ITA", "San Remo, ITA", "", "", ""})
+			for (String s : new String[] {COLOR1 + "Tennis", COLOR1 + "Grand Slam", COLOR1 + "Men", COLOR1 + "French Open", COLOR1 + "", COLOR1 + "2005", COLOR2 + "Nadal, Rafael (ESP)", COLOR2 + "6/7 6/3 6/1 7/5", COLOR2 + "Puerta, Mariano (ARG)", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR3 + "07/06/2005", COLOR3 + "07/06/2005", COLOR3 + "", COLOR3 + "Roland Garros, Paris, FRA", COLOR3 + "", COLOR3 + "", COLOR3 + ""})
+				list_.add(s);
+			list.add(list_);
+			list_ = new ArrayList<String>();
+			for (String s : new String[] {COLOR1 + "Road Cycling", COLOR1 + "UCI World Tour", COLOR1 + "Milan-San Remo", COLOR1 + "", COLOR1 + "", COLOR1 + "2004", COLOR2 + "Cancellara, Fabian (SUI)", COLOR2 + "", COLOR2 + "Contador, Albero (ESP)", COLOR2 + "Rodriguez, Joaquin (ESP)", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR3 + "", COLOR3 + "06/03/2004", COLOR3 + "Milan, ITA", COLOR3 + "San Remo, ITA", COLOR3 + "", COLOR3 + "", COLOR3 + ""})
 				list_.add(s);
 			list.add(list_);
 		}
@@ -714,7 +716,7 @@ public class ImportUtils {
 			list.add(list_);
 			list.add(new ArrayList<String>());
 			list_ = new ArrayList<String>();
-			for (String s : new String[] {"Basketball", "NBA", "Rebounds", "", "Individual", "Game", "Most rebounds", "Chamberlain, Wilt (Philadelphia Warriors)", "55", "10/23/1962", "Russell, Bill (Boston Celtics)", "52", "04/02/1965", "Rodman, Dennis (Chicago Bulls)", "41", "10/10/1998", "", "", "", "", "", "", "1.0", "", ""})
+			for (String s : new String[] {COLOR1 + "Basketball", COLOR1 + "NBA", COLOR1 + "Rebounds", COLOR1 + "", COLOR1 + "Individual", COLOR1 + "Game", COLOR1 + "Most rebounds", COLOR2 + "Chamberlain, Wilt (Philadelphia Warriors)", COLOR2 + "55", COLOR2 + "10/23/1962", COLOR2 + "Russell, Bill (Boston Celtics)", COLOR2 + "52", COLOR2 + "04/02/1965", COLOR2 + "Rodman, Dennis (Chicago Bulls)", COLOR2 + "41", COLOR2 + "10/10/1998", COLOR2 + "", COLOR2 + "", "", COLOR2 + "", COLOR2 + "", COLOR3 + "", COLOR3 + "1.0", COLOR3 + "", COLOR3 + ""})
 				list_.add(s);
 			list.add(list_);
 		}

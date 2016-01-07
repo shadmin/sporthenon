@@ -286,6 +286,7 @@
 	<entry key="delete.favorites">Delete from favorites</entry>
 	<entry key="no.favorite">No favorite saved.</entry>
 	<entry key="description">Description</entry>
+	<entry key="change">Change</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>

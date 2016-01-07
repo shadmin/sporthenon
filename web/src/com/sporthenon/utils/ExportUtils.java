@@ -87,19 +87,6 @@ public class ExportUtils {
 		sheet = hwb.createSheet(title != null ? title.replaceAll("\\[", "(").replaceAll("\\]", ")") : "Untitled");
 		short rowIndex = 0;
 		// Styles
-		HSSFCellStyle headerStyle = hwb.createCellStyle();
-		Font boldFont = hwb.createFont();
-		boldFont.setFontName("Verdana");
-		boldFont.setFontHeightInPoints((short)10);
-		boldFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
-		headerStyle.setFont(boldFont);
-		headerStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-		headerStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-		headerStyle.setFillForegroundColor(new HSSFColor.LIGHT_YELLOW().getIndex());
-		headerStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-		headerStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-		headerStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-		headerStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
 		HSSFCellStyle normalStyle = hwb.createCellStyle();
 		Font defaultFont = hwb.createFont();
 		defaultFont.setFontName("Verdana");
@@ -112,14 +99,37 @@ public class ExportUtils {
 		normalStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
 		normalStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
 		normalStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("text"));
+		
+		HSSFCellStyle headerStyle = hwb.createCellStyle();
+		headerStyle.cloneStyleFrom(normalStyle);
+		Font boldFont = hwb.createFont();
+		boldFont.setFontName("Verdana");
+		boldFont.setFontHeightInPoints((short)10);
+		boldFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		headerStyle.setFont(boldFont);
+		headerStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		headerStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		headerStyle.setFillForegroundColor(new HSSFColor.LIGHT_YELLOW().getIndex());
+		
 		HSSFCellStyle boldStyle = hwb.createCellStyle();
+		boldStyle.cloneStyleFrom(normalStyle);
 		boldStyle.setFont(boldFont);
-		boldStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-		boldStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-		boldStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-		boldStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-		boldStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-		boldStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("text"));
+		
+		HSSFCellStyle blueStyle = hwb.createCellStyle();
+		blueStyle.cloneStyleFrom(normalStyle);
+		blueStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		blueStyle.setFillForegroundColor(HSSFColor.LIGHT_BLUE.index);
+		
+		HSSFCellStyle greenStyle = hwb.createCellStyle();
+		greenStyle.cloneStyleFrom(normalStyle);
+		greenStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		greenStyle.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
+		
+		HSSFCellStyle orangeStyle = hwb.createCellStyle();
+		orangeStyle.cloneStyleFrom(normalStyle);
+		orangeStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		orangeStyle.setFillForegroundColor(HSSFColor.LIGHT_ORANGE.index);
+		
 		// Content
 		ArrayList<Short> lBlankRow = new ArrayList<Short>();
 		int cols = 0;
@@ -154,6 +164,10 @@ public class ExportUtils {
 					boolean isAlignRight = (s != null && s.matches(".*\\#ALIGN_RIGHT\\#.*"));
 					(cell = row.createCell(i++)).setCellValue(s.replaceAll("^\\#.*\\#", ""));
 					HSSFCellStyle st = (l.size() == 1 ? headerStyle : (tBold != null && tBold.length > i - 1 && tBold[i - 1] ? boldStyle : normalStyle));
+					if (s.matches(".*\\#color\\-.+\\#.*")) {
+						String color = s.substring(1).split("\\#")[0].replaceFirst("color\\-", "");
+						st = (color.equalsIgnoreCase("blue") ? blueStyle : (color.equalsIgnoreCase("green") ? greenStyle : orangeStyle));
+					}
 					if (isAlignLeft)
 						st.setAlignment(HSSFCellStyle.ALIGN_LEFT);
 					else if (isAlignCenter)

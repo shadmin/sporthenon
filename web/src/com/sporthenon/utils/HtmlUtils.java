@@ -187,7 +187,7 @@ public class HtmlUtils {
 		html.append("<ul class='uinfo'><li>");
 		html.append("<table class='info'" + (width != null && width > 0 ? " style='width:" + width + "px;'" : "") + ">");
 		if (h.containsKey("titlename"))
-			html.append("<tr><th>" + h.get("titlename") + "</th></tr>");
+			html.append("<tr><th" + (!h.containsKey("_sport_") && !h.containsKey("_year_") ? " colspan='2'" : "") + ">" + h.get("titlename") + "</th></tr>");
 		for (String key : h.keySet()) {
 			if (!key.matches("(tab|^)title|titleEN|imgurl|source|url|info|\\_sport\\_|\\_year\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
 				html.append("<tr>" + (h.containsKey("_sport_") || h.containsKey("_year_") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));

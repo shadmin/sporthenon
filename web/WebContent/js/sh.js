@@ -1441,12 +1441,25 @@ function removePhoto(name) {
 		}
 	});
 }
+function showLoading() {
+	$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
+	if ($('msg2')) {
+		$('msg2').update('<div><img src="/img/db/loading2.gif?6"/></div>');
+	}
+}
 function showMessage(text) {
 	$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
 	$('msg').update('<div>' + text.replace(/ERR\:/i, '') + '</div>');
+	if ($('msg2')) {
+		$('msg2').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
+		$('msg2').update('<div>' + text.replace(/ERR\:/i, '') + '</div>');
+	}
 }
 function showWarning() {
 	$('msg').update('<div class="warning">' + TX_MODIF_WARNING + '</div>');
+	if ($('msg2')) {
+		$('msg2').update('<div class="warning">' + TX_MODIF_WARNING + '</div>');
+	}
 }
 /*========== RESULTS ==========*/
 var tValues = [];
@@ -1506,6 +1519,9 @@ function initUpdateResults(value) {
 }
 function loadResValues(value) {
 	$('msg').update('');
+	if ($('msg2')) {
+		$('msg2').update();
+	}
 	var t = value.split('~');
 	if (t != null && t.length > 1) {
 		tValues['sp'] = t[0]; $('sp').value = t[1]; $('sp').addClassName('completed');
@@ -1700,7 +1716,7 @@ function addResult() {
 	saveResult();
 }
 function saveResult() {
-	$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
+	showLoading();
 	var h = $H({sp: tValues['sp']});
 	var t = ['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'source', 'cmt', 'img', 'exl'];
 	for (var i = 1 ; i <= 20 ; i++) {
@@ -1744,7 +1760,7 @@ function deleteResult() {
 	$('confirmtxt').update(TX_CONFIRM + ' ?');
 	Event.stopObserving($('confirmbtn'), 'click');
 	Event.observe($('confirmbtn'), 'click', function(){
-		$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
+		showLoading();
 		var h = $H({id: tValues['id']});
 		new Ajax.Request('/update/delete', {
 			onSuccess: function(response){
@@ -2022,6 +2038,9 @@ function loadEntity(action_, id_) {
 		parameters: h
 	});
 	$('msg').update();
+	if ($('msg2')) {
+		$('msg2').update();
+	}
 }
 function setEntityValues(text) {
 	var t = text.split('~');
@@ -2296,7 +2315,7 @@ function newEntity() {
 	t[1].focus();
 }
 function saveEntity() {
-	$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
+	showLoading();
 	var h = $H({alias: currentAlias, id: currentId});
 	$$('#table-' + currentAlias + ' input').each(function(el){
 		if ($(el).id.lastIndexOf('-l') < $(el).id.length - 2) {
@@ -2326,7 +2345,7 @@ function deleteEntity() {
 	$('confirmtxt').update(TX_CONFIRM + ' ?');
 	Event.stopObserving($('confirmbtn'), 'click');
 	Event.observe($('confirmbtn'), 'click', function(){
-		$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
+		showLoading();
 		var h = $H({alias: currentAlias, id: currentId});
 		new Ajax.Request('/update/delete-entity', {
 			onSuccess: function(response){
@@ -2352,7 +2371,7 @@ function mergeEntity(id1_, id2_) {
 	new Ajax.Updater($('confirmtxt'), '/update/merge?confirm=1&id1=' + id1_ + '&id2=' + id2_ + '&alias=' + currentAlias);
 	Event.stopObserving($('confirmbtn'), 'click');
 	Event.observe($('confirmbtn'), 'click', function(){
-		$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
+		showLoading();
 		var h = $H({alias: currentAlias, id1: id1_, id2: id2_});
 		new Ajax.Request('/update/merge', {
 			onSuccess: function(response){
@@ -2567,8 +2586,8 @@ function checkImportProgress() {
 		}
 	});
 }
-function loadTemplate() {
-	location.href = '/update/load-template?type=' + $F('type');
+function loadTemplate(ext) {
+	location.href = '/update/load-template?type=' + $F('type') + '&ext=' + ext;
 }
 /*========== QUERY ==========*/
 function executeQuery(index) {
@@ -2603,6 +2622,9 @@ function loadExtLinks() {
 	});
 	currentExtLinkEntity = $F('elentity');
 	$('msg').update();
+	if ($('msg2')) {
+		$('msg2').update();
+	}
 }
 function checkAllLinks() {
 	$$('#elcontent input').each(function(el){
@@ -2709,6 +2731,15 @@ function saveTranslations() {
 /*========== FOLDERS ==========*/
 function loadFolders() {
 	new Ajax.Updater($('list1'), '/update/load-folders');
+	$('list2').update();
+	$('sp').value = '';
+	$('cp').value = '';
+	$('ev1').value = '';
+	$('ev2').value = '';
+	$('ev3').value = '';
+	$('cb1').checked = false;
+	$('cb2').checked = false;
+	$('cb3').checked = false;
 }
 function moveFolder(list1, list2) {
 	var opt = null;
