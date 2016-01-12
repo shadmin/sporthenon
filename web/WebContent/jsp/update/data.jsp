@@ -56,6 +56,7 @@
 				<tr><th><%=StringUtils.text("entity.EV.1", session)%>&nbsp;3</th><td><input type="hidden" id="cl-subevent2"/><input type="text" id="cl-subevent2-l"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.CX.1", session)%></th><td><input type="hidden" id="cl-complex"/><input type="text" id="cl-complex-l"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.CT.1", session)%></th><td><input type="hidden" id="cl-city"/><input type="text" id="cl-city-l"/></td></tr>
+				<tr><th><%=StringUtils.text("entity.CN.1", session)%></th><td><input type="hidden" id="cl-country"/><input type="text" id="cl-country-l"/></td></tr>
 				<tr><th><%=StringUtils.text("date", session)%>&nbsp;1</th><td><input type="text" id="cl-date1"/></td></tr>
 				<tr><th><%=StringUtils.text("date", session)%>&nbsp;2</th><td><input type="text" id="cl-date2"/></td></tr>
 			</table>

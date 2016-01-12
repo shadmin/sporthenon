@@ -1475,7 +1475,7 @@ function initUpdateResults(value) {
 		);
 	});
 	$$('#update-results input', '#update-results textarea').each(function(el){
-		if ($(el).type == 'button' || $(el).id == 'yrfind') {
+		if ($(el).type == 'button' || $(el).type == 'radio' || $(el).id == 'yrfind') {
 			return;
 		}
 		$(el).value = $(el).name;
@@ -1524,6 +1524,8 @@ function loadResValues(value) {
 	}
 	var t = value.split('~');
 	if (t != null && t.length > 1) {
+		$('modifmode1').checked = true;
+		$('modifmode2').checked = true;
 		tValues['sp'] = t[0]; $('sp').value = t[1]; $('sp').addClassName('completed');
 		tValues['cp'] = t[2]; $('cp').value = t[3]; $('cp').addClassName('completed');
 		tValues['ev'] = t[4]; $('ev').value = t[5]; updateType('ev', t[6]); $('ev').addClassName('completed');
@@ -1710,13 +1712,12 @@ function loadResult(type) {
 	});
 	$('yrfind').value = '';
 }
-function addResult() {
-	tValues['id'] = null;
-	$('id').value = '';
-	saveResult();
-}
 function saveResult() {
 	showLoading();
+	if ($('addmode1').checked == true) {
+		tValues['id'] = null;
+		$('id').value = '';
+	}
 	var h = $H({sp: tValues['sp']});
 	var t = ['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'source', 'cmt', 'img', 'exl'];
 	for (var i = 1 ; i <= 20 ; i++) {
@@ -2083,6 +2084,8 @@ function setEntityValues(text) {
 		$('cl-complex-l').value = t[i++];
 		$('cl-city').value = t[i++];
 		$('cl-city-l').value = t[i++];
+		$('cl-country').value = t[i++];
+		$('cl-country-l').value = t[i++];
 		$('cl-date1').value = t[i++];
 		$('cl-date2').value = t[i++];
 	}

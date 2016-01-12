@@ -287,6 +287,7 @@
 	<entry key="no.favorite">Aucun favori enregistré.</entry>
 	<entry key="description">Description</entry>
 	<entry key="change">Changer</entry>
+	<entry key="header">En-tête</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
@@ -526,4 +527,6 @@
 	<entry key="import.complete"><![CDATA[Import terminé.&nbsp;<a href='{1}'>Télécharger le rapport</a>]]></entry>
 	<entry key="actions.bar">Barre d'actions</entry>
 	<entry key="matches.rounds">Matches/Tours/Journées</entry>
+	<entry key="mode">Mode</entry>
+	<entry key="update.mode">Update mode</entry>
 </properties>

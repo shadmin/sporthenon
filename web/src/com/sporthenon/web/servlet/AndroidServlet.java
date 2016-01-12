@@ -23,6 +23,7 @@ import org.jsoup.select.Elements;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.PicklistBean;
+import com.sporthenon.db.entity.Calendar;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
@@ -76,13 +77,15 @@ public class AndroidServlet extends AbstractServlet {
 	        Element root = doc.addElement("picklist");
 	        root.addAttribute("id", p2);
 	        
-			if (p2.equalsIgnoreCase("RS")) // RESULTS
+			if (p2.equalsIgnoreCase(Result.alias)) // RESULTS
 				processResults(doc, root, p.split("\\-"), lang);
-			else if (p2.equalsIgnoreCase("OL")) // OLYMPICS
+			else if (p2.equalsIgnoreCase(Calendar.alias)) // CALENDAR
+				processCalendar(doc, root, p.split("\\-"), lang);
+			else if (p2.equalsIgnoreCase(Olympics.alias)) // OLYMPICS
 				processOlympics(doc, root, p.split("\\-"), lang);
 			else if (p2.equalsIgnoreCase("US")) // US LEAGUES
 				processUSLeagues(doc, root, p.split("\\-"), lang);
-	        
+			
 	        response.setContentType("text/xml");
 	        response.setCharacterEncoding("utf-8");
 	        XMLWriter writer = new XMLWriter(response.getOutputStream(), OutputFormat.createPrettyPrint());
@@ -316,6 +319,37 @@ public class AndroidServlet extends AbstractServlet {
 				}
 			}
         }
+	}
+	
+	private void processCalendar(Document doc, Element root, String[] t, String lang) throws Exception {
+		String code = t[0];
+//		String label = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "");
+
+		if (code.equalsIgnoreCase(Year.alias)) {
+			String hql = "select yr.id, yr.label from Year yr order by yr.id desc";
+        	addItems(doc, root, (short)-1, DatabaseHelper.getPicklistFromQuery(hql, false), null, null, null, null);
+		}
+		else if (code.equalsIgnoreCase("MT")) {
+			ArrayList<PicklistBean> picklist = new ArrayList<PicklistBean>();
+			for (int i = 1 ; i <= 12 ; i++)
+				picklist.add(new PicklistBean(i, ResourceUtils.getText("month." + i, lang)));
+        	addItems(doc, root, (short)-1, picklist, null, null, null, null);
+		}
+		else if (code.equalsIgnoreCase(Calendar.alias)) {
+			ArrayList<Object> lFuncParams = new ArrayList<Object>();
+			lFuncParams.add(t[1]);
+			lFuncParams.add(t[2]);
+			lFuncParams.add(0);
+			lFuncParams.add("_" + lang);
+			Collection<RefItem> c = DatabaseHelper.call("GetCalendarResults", lFuncParams);
+			for (RefItem item : c) {
+				Element item_ = root.addElement("item");
+				item_.addAttribute("id", String.valueOf(item.getIdItem()));
+				item_.addAttribute("sport", item.getLabelRel2());
+				item_.addAttribute("event", item.getLabelRel3() + (StringUtils.notEmpty(item.getLabelRel4()) ? "|" + item.getLabelRel4() : "") + (StringUtils.notEmpty(item.getLabelRel5()) ? "|" + item.getLabelRel5() : "") + (StringUtils.notEmpty(item.getLabelRel18()) ? "|" + item.getLabelRel18() : ""));
+				item_.addAttribute("dates", ((StringUtils.notEmpty(item.getDate1()) ? StringUtils.toTextDate(item.getDate1(), lang, "d MMM yyyy") + "-" : "") + (StringUtils.notEmpty(item.getDate2()) ? StringUtils.toTextDate(item.getDate2(), lang, "d MMM yyyy") : "")).replaceAll("\\&nbsp\\;", " "));
+			}
+		}
 	}
 	
 	private void processOlympics(Document doc, Element root, String[] t, String lang) throws Exception {

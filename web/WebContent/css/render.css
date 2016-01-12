@@ -12,7 +12,7 @@
 }
 .tc th{
 	font-weight: bold;
-	background-color: #fad8ff; /* _theme_ */
+	background-color: #fce2c0; /* _theme_ */
 	text-align: center;
 	padding: 3px 10px;
 }
@@ -460,4 +460,12 @@ th.desc{
 }
 .bronze{
 	background-image: url(../img/render/bronze.png);
+}
+#summary{
+	position: absolute;
+	left: 260px;
+	top: 105px;
+	background-color: #FFF;
+	border: 1px solid #AAA;
+	padding: 5px;
 }

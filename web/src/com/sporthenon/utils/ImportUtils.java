@@ -99,17 +99,17 @@ public class ImportUtils {
 					String s_ = s.replaceAll(scPattern, "_").toLowerCase();
 					String regexp = StringUtils.toPatternString(s_);
 					if (h.equalsIgnoreCase(Sport.alias))
-						sql = "SELECT T.id FROM \"Sport\" T WHERE lower(T.label) ~ E'" + regexp + "'";
+						sql = "SELECT T.id FROM \"Sport\" T WHERE lower(T.label) ~ E'^" + regexp + "$'";
 					else if (h.equalsIgnoreCase(Championship.alias))
-						sql = "SELECT T.id FROM \"Championship\" T WHERE lower(T.label) ~ E'" + regexp + "'";
+						sql = "SELECT T.id FROM \"Championship\" T WHERE lower(T.label) ~ E'^" + regexp + "$'";
 					else if (h.matches("ev|se|se2")) {
 						String[] tEv = s_.split("\\|");
-						sql = "SELECT T.id from \"Event\" T LEFT JOIN \"Type\" TP ON T.id_type=TP.id WHERE lower(T.label) ~ E'" + tEv[0] + "'" + (tEv.length > 1 ? " AND lower(TP.label) ~ E'" + tEv[1] + "'" : "") + " ORDER BY T.id";
+						sql = "SELECT T.id from \"Event\" T LEFT JOIN \"Type\" TP ON T.id_type=TP.id WHERE lower(T.label) ~ E'^" + tEv[0] + "$'" + (tEv.length > 1 ? " AND lower(TP.label) ~ E'^" + tEv[1] + "$'" : "") + " ORDER BY T.id";
 						if (tEv.length > 1)
 							tp = tEv[1];
 					}
 					else if (h.equalsIgnoreCase(Year.alias))
-						sql = "SELECT T.id FROM \"Year\" T WHERE lower(T.label) ~ E'" + regexp + "'";
+						sql = "SELECT T.id FROM \"Year\" T WHERE lower(T.label) ~ E'^" + regexp + "$'";
 					else if (h.matches("pl\\d")) {
 						String[] t = s.toLowerCase().split("\\,\\s");
 						if (t.length < 2 || t.length > 4) {
@@ -128,7 +128,7 @@ public class ImportUtils {
 								ct = StringUtils.toPatternString(t[0]);
 							if (cx != null) {
 								h = "cx" + h.replaceAll("pl", "");
-								sql = "SELECT T.id from \"Complex\" T LEFT JOIN \"City\" CT ON T.id_city=CT.id LEFT JOIN \"Country\" CN ON CT.id_country=CN.id WHERE lower(CN.code) = '" + cn + "' AND lower(CT.label) ~ E'" + ct + "' AND lower(T.label) ~ E'" + cx + "'";
+								sql = "SELECT T.id from \"Complex\" T LEFT JOIN \"City\" CT ON T.id_city=CT.id LEFT JOIN \"Country\" CN ON CT.id_country=CN.id WHERE lower(CN.code) = '" + cn + "' AND lower(CT.label) ~ E'^" + ct + "$' AND lower(T.label) ~ E'^" + cx + "$'";
 								if (h.equals("cx1"))
 									isComplex1 = true;
 								else
@@ -136,7 +136,7 @@ public class ImportUtils {
 							}
 							else {
 								h = "ct" + h.replaceAll("pl", "");
-								sql = "SELECT T.id from \"City\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id WHERE lower(CN.code) = '" + cn + "' AND lower(T.label) ~ E'" + ct + "'";
+								sql = "SELECT T.id from \"City\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id WHERE lower(CN.code) = '" + cn + "' AND lower(T.label) ~ E'^" + ct + "$'";
 							}
 						}
 					}
@@ -160,7 +160,7 @@ public class ImportUtils {
 									boolean isCountryTeam = s_.matches(".*\\([a-z]{3}\\,\\s.+\\)$");
 									boolean isCountry = s_.matches(".*\\([a-z]{3}\\)$");
 									boolean isTeam = (!isCountry && s_.matches(".*\\([^\\,\\(\\)]+\\)$")); 
-									sql = "SELECT T.id FROM \"Athlete\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id LEFT JOIN \"Team\" TM ON T.id_team=TM.id WHERE T.id_sport=" + hId.get("sp") + " AND lower(last_name) || ', ' || lower(first_name) " + (isCountryTeam ? " || ' (' || lower(CN.code) " + " || ', ' || lower(TM.label) || ')'" : (isCountry ? " || ' (' || lower(CN.code) || ')'" : (isTeam ? " || ' (' || lower(TM.label) || ')'" : ""))) + " ~ E'" + regexp + "'";
+									sql = "SELECT T.id FROM \"Athlete\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id LEFT JOIN \"Team\" TM ON T.id_team=TM.id WHERE T.id_sport=" + hId.get("sp") + " AND lower(last_name) || ', ' || lower(first_name) " + (isCountryTeam ? " || ' (' || lower(CN.code) " + " || ', ' || lower(TM.label) || ')'" : (isCountry ? " || ' (' || lower(CN.code) || ')'" : (isTeam ? " || ' (' || lower(TM.label) || ')'" : ""))) + " ~ E'^" + regexp + "$'";
 								}
 							}
 							else if (n == 50) { // Team
@@ -173,10 +173,10 @@ public class ImportUtils {
 										int p = s.indexOf(" (") + 2;
 										String tmLabel = s.substring(0, p - 2).toLowerCase();
 										String cnCode = s.substring(p, p + 3).toLowerCase();
-										sql = "SELECT T.id from \"Team\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id where T.id_sport=" + hId.get("sp") + " AND lower(T.label) ~ E'" + StringUtils.toPatternString(tmLabel) + "' AND lower(CN.code) = '" + cnCode + "' and (link is null or link = 0)";
+										sql = "SELECT T.id from \"Team\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id where T.id_sport=" + hId.get("sp") + " AND lower(T.label) ~ E'^" + StringUtils.toPatternString(tmLabel) + "$' AND lower(CN.code) = '" + cnCode + "' and (link is null or link = 0)";
 									}
 									else
-										sql = "SELECT T.id from \"Team\" T where T.id_sport=" + hId.get("sp") + " AND lower(T.label) ~ E'" + regexp + "' and (link is null or link = 0)";
+										sql = "SELECT T.id from \"Team\" T where T.id_sport=" + hId.get("sp") + " AND lower(T.label) ~ E'^" + regexp + "$' and (link is null or link = 0)";
 								}
 							}
 							else if (n == 99) { // Country
@@ -185,7 +185,7 @@ public class ImportUtils {
 									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 								}
 								else
-									sql = "SELECT T.id FROM \"Country\" T WHERE lower(code) ~ E'" + s_ + "'";
+									sql = "SELECT T.id FROM \"Country\" T WHERE lower(code) ~ E'^" + s_ + "$'";
 							}
 						}
 					}
@@ -241,7 +241,7 @@ public class ImportUtils {
 								boolean isCountryTeam = s.toLowerCase().matches(".*\\([a-z]{3}\\,\\s.+\\)$");
 								if (isCountryTeam) {
 									String tm = StringUtils.toPatternString(s.substring(s.lastIndexOf(", ") + 2).toLowerCase().replaceAll("\\)$", ""));
-									List l = DatabaseHelper.executeNative("SELECT T.id FROM \"Team\" T WHERE lower(T.label) ~ E'" + tm + "'");
+									List l = DatabaseHelper.executeNative("SELECT T.id FROM \"Team\" T WHERE lower(T.label) ~ E'^" + tm + "$'");
 									if (l == null || l.isEmpty())
 										writeError(vLine, ResourceUtils.getText("warning.team.notexist", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 								}

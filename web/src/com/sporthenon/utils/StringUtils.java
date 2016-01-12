@@ -28,11 +28,13 @@ import com.sporthenon.utils.res.ResourceUtils;
 public class StringUtils {
 
 	public static final String EMPTY = "-";
+	public static final String SEP1 = "&ndash;";
+	public static final String RARROW = "&nbsp;" + SEP1 + "&nbsp;";
 	public static final String PATTERN_PLACE = "^([^\\,\\(\\)]+\\,\\s|)[^\\,\\(\\)]+(\\,\\s[a-z]{2}|)\\,\\s[a-z]{3}$";
 	public static final String PATTERN_ATHLETE = "^[^\\,\\(\\)]+\\,\\s{1}[^\\s][^\\,\\(\\)]*\\s{1}\\([a-z]{3}(|\\,\\s{1}[^\\s][^\\,\\(\\)]+)\\)$";
 	public static final String PATTERN_TEAM = "^[^\\,\\(\\)]+([^\\s]|\\s\\([a-z]{3}\\))$";
 	public static final String PATTERN_COUNTRY = "^[a-z]{3}$";
-	public static final String PATTERN_REVERT_NAME = "CHN|KOR|PRK|TPE|MAS|VIE";
+	public static final String PATTERN_REVERT_NAME = "CHN|KOR|PRK|TPE|VIE";
 	
 	public static boolean notEmpty(Object obj) throws ClassCastException {
 		return (obj != null && String.valueOf(obj).trim().length() > 0);
@@ -126,7 +128,7 @@ public class StringUtils {
 			if (dt != null) {
 				if (!dt.matches(".*\\d\\d\\:\\d\\d$"))
 					dt += " 00:00";
-				dt = dftxt.format(df.parse(dt)).replaceAll("\\s", "&nbsp;");	
+				dt = dftxt.format(df.parse(dt)).replaceAll("\\s", "&nbsp;");
 			}
 		}
 		return dt;
@@ -153,7 +155,7 @@ public class StringUtils {
 	}
 	
 	public static String formatResult(Object s, String lang) {
-		return formatNumber(s, lang).replaceAll("\\-|\\/", "–").replaceAll("\\s", "&nbsp;");
+		return formatNumber(s, lang).replaceAll("\\-|\\/", StringUtils.SEP1).replaceAll("\\s", "&nbsp;");
 	}
 
 	public static Integer extractId(Object o) {
@@ -266,7 +268,7 @@ public class StringUtils {
 	}
 	
 	public static final String getShortName(String name) {
-		if (notEmpty(name) && name.matches(PATTERN_ATHLETE)) {
+		if (notEmpty(name) && name.toLowerCase().matches(PATTERN_ATHLETE)) {
 			String[] t = name.replaceAll("\\s\\(.*", "").split("\\,\\s", -1);
 			String suffix = (name.matches(".*\\s\\(.*") ? name.substring(name.indexOf(" (")) : "");
 			if (name.matches(".*\\((" + PATTERN_REVERT_NAME + ")\\)"))
@@ -279,11 +281,15 @@ public class StringUtils {
 	
 	public static final String toFullName(String ln, String fn, String country, boolean uc) {
 		String result = "";
-		if (notEmpty(country) && country.matches(PATTERN_REVERT_NAME))
+		if (isRevertName(country, ln + " " + fn))
 			result = (ln != null ? (uc ? ln.toUpperCase()  : ln) : "") + (StringUtils.notEmpty(fn) ? " " + fn : "");
 		else
 			result = (StringUtils.notEmpty(fn) ? fn + " " : "") + (ln != null ? (uc ? ln.toUpperCase()  : ln) : "");
 		return result;
+	}
+	
+	public static boolean isRevertName(String country, String name) {
+		return (notEmpty(country) && (country.matches(PATTERN_REVERT_NAME) || (country.equalsIgnoreCase("MAS") && name.split("\\s").length > 2)));
 	}
 	
 	public static final String urlEscape(String s) {
@@ -301,7 +307,7 @@ public class StringUtils {
 	}
 	
 	public static String getTitle(String s) {
-		return s.replaceAll("\\-", "–") + (s.toLowerCase().startsWith("sporthenon") ? "" : " | Sporthenon");
+		return s.replaceAll("\\-", StringUtils.SEP1) + (s.toLowerCase().startsWith("sporthenon") ? "" : " | Sporthenon");
 	}
 	
 }

@@ -299,6 +299,30 @@ public class ResultsBean {
 	@Column(name = "cn4_label_en")
 	private String cn4LabelEN;
 	
+	@Column(name = "cn5_id")
+	private Integer cn5Id;
+	
+	@Column(name = "cn5_code")
+	private String cn5Code;
+
+	@Column(name = "cn5_label")
+	private String cn5Label;
+	
+	@Column(name = "cn5_label_en")
+	private String cn5LabelEN;
+
+	@Column(name = "cn6_id")
+	private Integer cn6Id;
+	
+	@Column(name = "cn6_code")
+	private String cn6Code;
+
+	@Column(name = "cn6_label")
+	private String cn6Label;
+	
+	@Column(name = "cn6_label_en")
+	private String cn6LabelEN;
+	
 	@Column(name = "en1_str1")
 	private String en1Str1;
 	
@@ -3277,6 +3301,70 @@ public class ResultsBean {
 
 	public void setEn20Rel2LabelEN(String en20Rel2LabelEN) {
 		this.en20Rel2LabelEN = en20Rel2LabelEN;
+	}
+
+	public Integer getCn5Id() {
+		return cn5Id;
+	}
+
+	public String getCn5Code() {
+		return cn5Code;
+	}
+
+	public String getCn5Label() {
+		return cn5Label;
+	}
+
+	public String getCn5LabelEN() {
+		return cn5LabelEN;
+	}
+
+	public Integer getCn6Id() {
+		return cn6Id;
+	}
+
+	public String getCn6Code() {
+		return cn6Code;
+	}
+
+	public String getCn6Label() {
+		return cn6Label;
+	}
+
+	public String getCn6LabelEN() {
+		return cn6LabelEN;
+	}
+
+	public void setCn5Id(Integer cn5Id) {
+		this.cn5Id = cn5Id;
+	}
+
+	public void setCn5Code(String cn5Code) {
+		this.cn5Code = cn5Code;
+	}
+
+	public void setCn5Label(String cn5Label) {
+		this.cn5Label = cn5Label;
+	}
+
+	public void setCn5LabelEN(String cn5LabelEN) {
+		this.cn5LabelEN = cn5LabelEN;
+	}
+
+	public void setCn6Id(Integer cn6Id) {
+		this.cn6Id = cn6Id;
+	}
+
+	public void setCn6Code(String cn6Code) {
+		this.cn6Code = cn6Code;
+	}
+
+	public void setCn6Label(String cn6Label) {
+		this.cn6Label = cn6Label;
+	}
+
+	public void setCn6LabelEN(String cn6LabelEN) {
+		this.cn6LabelEN = cn6LabelEN;
 	}
 
 }

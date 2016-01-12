@@ -52,6 +52,10 @@ public class Calendar {
 	@JoinColumn(name = "id_city")
 	private City city;
 	
+	@ManyToOne
+	@JoinColumn(name = "id_country")
+	private Country country;
+	
 	@Column(name = "date1", length = 10)
 	private String date1;
 	
@@ -147,6 +151,14 @@ public class Calendar {
 
 	public void setDate2(String date2) {
 		this.date2 = date2;
+	}
+
+	public Country getCountry() {
+		return country;
+	}
+
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 
 	public String toString2(String lang) {

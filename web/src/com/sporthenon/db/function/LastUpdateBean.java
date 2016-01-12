@@ -97,6 +97,9 @@ public class LastUpdateBean {
 	@Column(name = "pr1_last_name")
 	private String pr1LastName;
 	
+	@Column(name = "pr1_team")
+	private Integer pr1Team;
+	
 	@Column(name = "pr1_country")
 	private Integer pr1Country;
 	
@@ -129,6 +132,9 @@ public class LastUpdateBean {
 	
 	@Column(name = "pr2_last_name")
 	private String pr2LastName;
+	
+	@Column(name = "pr2_team")
+	private Integer pr2Team;
 	
 	@Column(name = "pr2_country")
 	private Integer pr2Country;
@@ -163,6 +169,9 @@ public class LastUpdateBean {
 	@Column(name = "pr3_last_name")
 	private String pr3LastName;
 	
+	@Column(name = "pr3_team")
+	private Integer pr3Team;
+	
 	@Column(name = "pr3_country")
 	private Integer pr3Country;
 	
@@ -195,6 +204,9 @@ public class LastUpdateBean {
 	
 	@Column(name = "pr4_last_name")
 	private String pr4LastName;
+	
+	@Column(name = "pr4_team")
+	private Integer pr4Team;
 	
 	@Column(name = "pr4_country")
 	private Integer pr4Country;
@@ -770,6 +782,38 @@ public class LastUpdateBean {
 
 	public void setPr4CountryCode(String pr4CountryCode) {
 		this.pr4CountryCode = pr4CountryCode;
+	}
+
+	public Integer getPr1Team() {
+		return pr1Team;
+	}
+
+	public Integer getPr2Team() {
+		return pr2Team;
+	}
+
+	public Integer getPr3Team() {
+		return pr3Team;
+	}
+
+	public Integer getPr4Team() {
+		return pr4Team;
+	}
+
+	public void setPr1Team(Integer pr1Team) {
+		this.pr1Team = pr1Team;
+	}
+
+	public void setPr2Team(Integer pr2Team) {
+		this.pr2Team = pr2Team;
+	}
+
+	public void setPr3Team(Integer pr3Team) {
+		this.pr3Team = pr3Team;
+	}
+
+	public void setPr4Team(Integer pr4Team) {
+		this.pr4Team = pr4Team;
 	}
 
 	public Integer getYrId() {

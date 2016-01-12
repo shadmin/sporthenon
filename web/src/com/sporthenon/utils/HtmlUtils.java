@@ -26,7 +26,7 @@ import com.sporthenon.utils.res.ResourceUtils;
 
 public class HtmlUtils {
 
-	public final static String RARROW = "&nbsp;&#10137;&nbsp;";
+	
 	
 	public static String writeNoResult(String lang) {
 		return "<div class='noresult'>" + ResourceUtils.getText("no.result", lang) + "</div>";
@@ -145,7 +145,7 @@ public class HtmlUtils {
 			url = h.get("url").substring(1);
 			html.append("<span class='url'>" + ConfigUtils.getProperty("url") + url + "</span>");
 		}
-		html.append("<div class='header'><table><tr>");
+		html.append("<div id='Header' class='header'><table><tr>");
 		html.append(h.containsKey("item0") ? "<td style='font-weight:bold;'>" + h.get("item0") + "</td>" : "");
 		html.append(h.containsKey("item1") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item1") + "</td>" : "");
 		html.append(h.containsKey("item2") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item2") + "</td>" : "");

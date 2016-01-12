@@ -517,7 +517,7 @@ public class DatabaseHelper {
 				boolean isTeam = (!isCountry && s.toLowerCase().matches(".*\\([^\\,\\(\\)]+\\)$")); 
 				// Check if exists
 				String regexp = StringUtils.toPatternString(s);
-				String sql = "SELECT T.id FROM \"Athlete\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id LEFT JOIN \"Team\" TM ON T.id_team=TM.id WHERE T.id_sport=" + spid + " and lower(last_name) || ', ' || lower(first_name) " + (isCountryTeam ? " || ' (' || lower(CN.code) " + " || ', ' || lower(TM.label) || ')'" : (isCountry ? " || ' (' || lower(CN.code) || ')'" : (isTeam ? " || ' (' || lower(TM.label) || ')'" : ""))) + " ~ '" + regexp + "'";
+				String sql = "SELECT T.id FROM \"Athlete\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id LEFT JOIN \"Team\" TM ON T.id_team=TM.id WHERE T.id_sport=" + spid + " and lower(last_name) || ', ' || lower(first_name) " + (isCountryTeam ? " || ' (' || lower(CN.code) " + " || ', ' || lower(TM.label) || ')'" : (isCountry ? " || ' (' || lower(CN.code) || ')'" : (isTeam ? " || ' (' || lower(TM.label) || ')'" : ""))) + " ~ '^" + regexp + "$'";
 				List<Integer> lId = (List<Integer>) DatabaseHelper.executeNative(sql);
 				if (lId != null && lId.size() > 0)
 					return lId.get(0);
@@ -551,7 +551,7 @@ public class DatabaseHelper {
 					throw new Exception(ResourceUtils.getText("err.invalid.team", lang).replaceAll("#S#", s));
 				// Check if exists
 				String regexp = StringUtils.toPatternString(s.indexOf(" (") > -1 ? s.substring(0, s.indexOf(" (")).toLowerCase() : s.toLowerCase());
-				String sql = "SELECT T.id from \"Team\" T WHERE T.id_sport=" + spid + " AND lower(label) ~ '" + regexp + "' AND (link IS NULL OR link = 0)";
+				String sql = "SELECT T.id from \"Team\" T WHERE T.id_sport=" + spid + " AND lower(label) ~ '^" + regexp + "$' AND (link IS NULL OR link = 0)";
 				List<Integer> lId = (List<Integer>) DatabaseHelper.executeNative(sql);
 				if (lId != null && lId.size() > 0)
 					return lId.get(0);
@@ -623,7 +623,7 @@ public class DatabaseHelper {
 				// Check if exists
 				String regexp1 = StringUtils.toPatternString(ct);
 				String regexp2 = StringUtils.toPatternString(cx);
-				String sql = "SELECT T.id FROM \"Complex\" T LEFT JOIN \"City\" CT ON T.id_city=CT.id LEFT JOIN \"Country\" CN ON CT.id_country=CN.id WHERE lower(CN.code) like '" + cn.toLowerCase() + "' and lower(CT.label) ~ '" + regexp1.replaceAll("'", "''") + "' and lower(T.label) ~ '" + regexp2.replaceAll("'", "''") + "'";
+				String sql = "SELECT T.id FROM \"Complex\" T LEFT JOIN \"City\" CT ON T.id_city=CT.id LEFT JOIN \"Country\" CN ON CT.id_country=CN.id WHERE lower(CN.code) like '" + cn.toLowerCase() + "' and lower(CT.label) ~ '^" + regexp1.replaceAll("'", "''") + "$' and lower(T.label) ~ '^" + regexp2.replaceAll("'", "''") + "$'";
 				List<Integer> lId = (List<Integer>) DatabaseHelper.executeNative(sql);
 				if (lId != null && lId.size() > 0)
 					return lId.get(0);
@@ -639,7 +639,7 @@ public class DatabaseHelper {
 			else if (ct != null) {
 				// Check if exists
 				String regexp = StringUtils.toPatternString(ct);
-				String sql = "SELECT T.id FROM \"City\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id WHERE lower(CN.code) like '" + cn.toLowerCase() + "' and lower(T.label) ~ '" + regexp.replaceAll("'", "''") + "'";
+				String sql = "SELECT T.id FROM \"City\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id WHERE lower(CN.code) like '" + cn.toLowerCase() + "' and lower(T.label) ~ '^" + regexp.replaceAll("'", "''") + "$'";
 				List<Integer> lId = (List<Integer>) DatabaseHelper.executeNative(sql);
 				if (lId != null && lId.size() > 0)
 					return lId.get(0);

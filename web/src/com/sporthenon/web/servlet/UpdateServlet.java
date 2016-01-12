@@ -250,8 +250,10 @@ public class UpdateServlet extends AbstractServlet {
 			joins += " LEFT JOIN \"Team\" TM ON T.id_team=TM.id";
 			l.addAll(DatabaseHelper.executeNative("SELECT T.id, " + labelHQL_ + ", CAST('" + Athlete.alias + "' AS VARCHAR) FROM \"Athlete\" T" + joins + " WHERE lower(" + labelHQL_ + ") ~ E'" + regexp + "'" + whereHQL + " ORDER BY " + (field.equalsIgnoreCase(Result.alias) ? "id_year desc" : labelHQL_) + " LIMIT " + MAX_AUTOCOMPLETE_RESULTS));
 		}
-		else if (field.matches("pl\\d|complex"))
+		else if (field.matches("pl\\d|complex")) {
 			l.addAll(DatabaseHelper.executeNative("SELECT T.id, T." + l_ + ", CAST('" + City.alias + "' AS VARCHAR) FROM \"City\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id WHERE lower(T." + l_ + ") || ', ' || lower(CN.code) ~ E'" + regexp + "' ORDER BY T." + l_ + " LIMIT " + MAX_AUTOCOMPLETE_RESULTS));
+			l.addAll(DatabaseHelper.executeNative("SELECT T.id, T." + l_ + ", CAST('" + Country.alias + "' AS VARCHAR) FROM \"Country\" T WHERE lower(T." + l_ + ") ~ E'" + regexp + "' ORDER BY T." + l_ + " LIMIT " + MAX_AUTOCOMPLETE_RESULTS));
+		}
 		StringBuffer html = new StringBuffer("<ul>");
 		int n = 0;
 		ArrayList<String> list = new ArrayList<String>();
@@ -440,8 +442,11 @@ public class UpdateServlet extends AbstractServlet {
 				if (StringUtils.notEmpty(hParams.get("pl" + i + "-l"))) {
 					String[] t = String.valueOf(hParams.get("pl" + i + "-l")).toLowerCase().split("\\,\\s");
 					boolean isComplex = false;
+					boolean isCity = false;
 					if (t.length > 2)
 						isComplex = true;
+					else if (t.length > 1)
+						isCity = true;
 					int id = 0;
 					if (StringUtils.notEmpty(hParams.get("pl" + i)))
 						id = new Integer(String.valueOf(hParams.get("pl" + i)));
@@ -451,19 +456,35 @@ public class UpdateServlet extends AbstractServlet {
 						if (i == 1) {
 							result.setComplex1((Complex)DatabaseHelper.loadEntity(Complex.class, id));
 							result.setCity1(null);
+							result.setCountry1(null);
 						}
 						else {
 							result.setComplex2((Complex)DatabaseHelper.loadEntity(Complex.class, id));
 							result.setCity2(null);
+							result.setCountry2(null);
+						}
+					}
+					else if (isCity){
+						if (i == 1) {
+							result.setCity1((City)DatabaseHelper.loadEntity(City.class, id));
+							result.setComplex1(null);
+							result.setCountry1(null);
+						}
+						else {
+							result.setCity2((City)DatabaseHelper.loadEntity(City.class, id));
+							result.setComplex2(null);
+							result.setCountry2(null);
 						}
 					}
 					else {
 						if (i == 1) {
-							result.setCity1((City)DatabaseHelper.loadEntity(City.class, id));
+							result.setCountry1((Country)DatabaseHelper.loadEntity(Country.class, id));
+							result.setCity1(null);
 							result.setComplex1(null);
 						}
 						else {
-							result.setCity2((City)DatabaseHelper.loadEntity(City.class, id));
+							result.setCountry2((Country)DatabaseHelper.loadEntity(Country.class, id));
+							result.setCity2(null);
 							result.setComplex2(null);
 						}
 					}
@@ -933,10 +954,10 @@ public class UpdateServlet extends AbstractServlet {
 				// Result Info
 				sb.append(rs.getId()).append("~");
 				sb.append(rs.getDate1()).append("~").append(rs.getDate2()).append("~");
-				sb.append(rs.getComplex1() != null ? rs.getComplex1().getId() : (rs.getCity1() != null ? rs.getCity1().getId() : "")).append("~");
-				sb.append(rs.getComplex1() != null ? rs.getComplex1().toString2(lang) : (rs.getCity1() != null ? rs.getCity1().toString2(lang) : "")).append("~");
-				sb.append(rs.getComplex2() != null ? rs.getComplex2().getId() : (rs.getCity2() != null ? rs.getCity2().getId() : "")).append("~");
-				sb.append(rs.getComplex2() != null ? rs.getComplex2().toString2(lang) : (rs.getCity2() != null ? rs.getCity2().toString2(lang) : "")).append("~");
+				sb.append(rs.getComplex1() != null ? rs.getComplex1().getId() : (rs.getCity1() != null ? rs.getCity1().getId() : (rs.getCountry1() != null ? rs.getCountry1().getId() : ""))).append("~");
+				sb.append(rs.getComplex1() != null ? rs.getComplex1().toString2(lang) : (rs.getCity1() != null ? rs.getCity1().toString2(lang) : (rs.getCountry1() != null ? rs.getCountry1().toString2(lang) : ""))).append("~");
+				sb.append(rs.getComplex2() != null ? rs.getComplex2().getId() : (rs.getCity2() != null ? rs.getCity2().getId() : (rs.getCountry2() != null ? rs.getCountry2().getId() : ""))).append("~");
+				sb.append(rs.getComplex2() != null ? rs.getComplex2().toString2(lang) : (rs.getCity2() != null ? rs.getCity2().toString2(lang) : (rs.getCountry2() != null ? rs.getCountry2().toString2(lang) : ""))).append("~");
 				sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~").append(ImageUtils.getPhotoFile(Result.alias, rs.getId())).append("~").append(rs.getPhotoSource()).append("~");
 				// Inactive item?
 				String hql = "from InactiveItem where id_sport=" + rs.getSport().getId() + " and id_championship=" + rs.getChampionship().getId() + " and id_event=" + rs.getEvent().getId();
@@ -1121,6 +1142,8 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(cl.getComplex() != null ? cl.getComplex().getLabel(lang) : "").append("~");
 				sb.append(cl.getCity() != null ? cl.getCity().getId() : 0).append("~");
 				sb.append(cl.getCity() != null ? cl.getCity().getLabel(lang) : "").append("~");
+				sb.append(cl.getCountry() != null ? cl.getCountry().getId() : 0).append("~");
+				sb.append(cl.getCountry() != null ? cl.getCountry().getLabel(lang) : "").append("~");
 				sb.append(cl.getDate1() != null ? cl.getDate1() : "").append("~");
 				sb.append(cl.getDate2() != null ? cl.getDate2() : "").append("~");
 			}	
@@ -1395,6 +1418,7 @@ public class UpdateServlet extends AbstractServlet {
 				en.setSubevent2((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("cl-subevent2"))));
 				en.setComplex((Complex)DatabaseHelper.loadEntity(Complex.class, StringUtils.toInt(hParams.get("cl-complex"))));
 				en.setCity((City)DatabaseHelper.loadEntity(City.class, StringUtils.toInt(hParams.get("cl-city"))));
+				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("cl-country"))));
 				en.setDate1(StringUtils.notEmpty(hParams.get("cl-date1")) ? String.valueOf(hParams.get("cl-date1")) : null);
 				en.setDate2(StringUtils.notEmpty(hParams.get("cl-date2")) ? String.valueOf(hParams.get("cl-date2")) : null);
 			}
@@ -1588,7 +1612,7 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			o = DatabaseHelper.saveEntity(o, cb);
 			String id_ = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
-			msg = ResourceUtils.getText("update.ok", lang) + "&nbsp;–&nbsp;" + ResourceUtils.getText("entity." + alias + ".1", lang) + " #" + id_;
+			msg = ResourceUtils.getText("update.ok", lang) + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + ResourceUtils.getText("entity." + alias + ".1", lang) + " #" + id_;
 		}
 		catch (Exception e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);
@@ -1606,7 +1630,7 @@ public class UpdateServlet extends AbstractServlet {
 			String alias = String.valueOf(hParams.get("alias"));
 			Class c = DatabaseHelper.getClassFromAlias(alias);
 			DatabaseHelper.removeEntity(DatabaseHelper.loadEntity(c, StringUtils.toInt(id)));
-			sbMsg.append(ResourceUtils.getText("delete.ok", lang) + "&nbsp;–&nbsp;" + ResourceUtils.getText("entity." + alias + ".1", lang) + " #" + id);
+			sbMsg.append(ResourceUtils.getText("delete.ok", lang) + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + ResourceUtils.getText("entity." + alias + ".1", lang) + " #" + id);
 		}
 		catch (Exception e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);

@@ -61,6 +61,14 @@ public class Result {
 	private Complex complex2;
 	
 	@ManyToOne
+	@JoinColumn(name = "id_country1")
+	private Country country1;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_country2")
+	private Country country2;
+	
+	@ManyToOne
 	@JoinColumn(name = "id_year", nullable = false)
 	private Year year;
 	
@@ -656,6 +664,22 @@ public class Result {
 
 	public void setPhotoSource(String photoSource) {
 		this.photoSource = photoSource;
+	}
+
+	public Country getCountry1() {
+		return country1;
+	}
+
+	public Country getCountry2() {
+		return country2;
+	}
+
+	public void setCountry1(Country country1) {
+		this.country1 = country1;
+	}
+
+	public void setCountry2(Country country2) {
+		this.country2 = country2;
 	}
 
 	@Override

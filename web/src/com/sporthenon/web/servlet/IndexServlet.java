@@ -127,7 +127,7 @@ private static final long serialVersionUID = 1L;
 			Result rs = (Result) DatabaseHelper.loadEntity(Result.class, id);
 			if (rs != null) {
 				s = HtmlUtils.writeURL("/results", rs.getSport().getId() + "-" + rs.getChampionship().getId() + "-" + rs.getEvent().getId() + (rs.getSubevent() != null ? "-" + rs.getSubevent().getId() : "") + (rs.getSubevent2() != null ? "-" + rs.getSubevent2().getId() : ""), rs.getSport().getLabel() + "/" + rs.getChampionship().getLabel() + (rs.getEvent() != null ? "/" + rs.getEvent().getLabel() + (rs.getSubevent() != null ? "/" + rs.getSubevent().getLabel() : "") + (rs.getSubevent2() != null ? "/" + rs.getSubevent2().getLabel() : "") : ""));
-				s = "<a href='" + s + "'>" + rs.getSport().getLabel(lang) + "&nbsp;–&nbsp;" + rs.getChampionship().getLabel(lang) + "&nbsp;–&nbsp;" + rs.getEvent().getLabel(lang) + (rs.getSubevent() != null ? "&nbsp;–&nbsp;" + rs.getSubevent().getLabel(lang) : "") + (rs.getSubevent2() != null ? "&nbsp;–&nbsp;" + rs.getSubevent2().getLabel(lang) : "") + "</a>";
+				s = "<a href='" + s + "'>" + rs.getSport().getLabel(lang) + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + rs.getChampionship().getLabel(lang) + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + rs.getEvent().getLabel(lang) + (rs.getSubevent() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + rs.getSubevent().getLabel(lang) : "") + (rs.getSubevent2() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + rs.getSubevent2().getLabel(lang) : "") + "</a>";
 			}
 		}
 		catch (Exception e) {

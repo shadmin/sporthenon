@@ -59,7 +59,7 @@ li{
 .fieldset .fstitle{
 	font-weight: bold;
 	border-bottom: 1px solid gray;
-	background-color: #fad8ff; /* _theme_ */
+	background-color: #fce2c0; /* _theme_ */
 	padding: 4px;
 	padding-left: 23px;
 	background-position: 3px center;
@@ -657,7 +657,7 @@ li{
 .homecontent .fieldset .fstitle{
 	font-weight: bold;
 	border-bottom: 1px solid gray;
-	background-color: #fad8ff; /* _theme_ */
+	background-color: #fce2c0; /* _theme_ */
 	padding: 5px;
 	padding-left: 23px;
 	padding-bottom: 4px;
@@ -956,7 +956,7 @@ li{
 }
 #olympics #oltype div:hover{
 	border: 1px solid #000;
-	background-color: #FFC;
+	background-color: #FFA;
 }
 #olympics .fieldset{
 	display: inline-block;
@@ -1039,7 +1039,7 @@ li{
 }
 #usleagues #usltype div:hover, #usleagues #usltype .selected{
 	border: 1px solid #000;
-	background-color: #FFC;
+	background-color: #FFA;
 }
 #usleagues #usstype{
 	margin: 10px;
@@ -1054,7 +1054,7 @@ li{
 }
 #usleagues #usstype td:hover, #usleagues #usstype .selected{
 	border: 1px solid #000;
-	background-color: #FFC;
+	background-color: #FFA;
 }
 #ustopics{
 	text-align: left;

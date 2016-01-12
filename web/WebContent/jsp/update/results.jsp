@@ -40,8 +40,8 @@ var treeItems = null;
 			<div id="shortcutdiv"><a href="javascript:displayShortcuts();">[+]&nbsp;<%=StringUtils.text("actions.bar", session) %></a>
 				<table id="shortcuts1" class="toolbar" style="display:none;position:relative;top:0;right:0;float:right;margin-top:0px;">
 					<tr>
-						<td><input id="upd-add" type="button" class="button upd-add" onclick="addResult();"/></td>
-						<td><input id="upd-modify" type="button" class="button upd-modify" onclick="saveResult();"/></td>
+						<td style="padding:0px;"><table style="border:1px solid #AAA;margin:0px;"><tr><td>&nbsp;<%=StringUtils.text("mode", session) %>:</td><td><input id="addmode1" type="radio" name="mode1" checked="checked" onclick="$('addmode2').checked = true;"/></td><td><label for="addmode1" style="color:green;"><b><%=StringUtils.text("button.add", session)%></b></label></td><td><input id="modifmode1" type="radio" name="mode1" onclick="$('modifmode2').checked = true;"/></td><td><label for="modifmode1" style="color:orange;"><b><%=StringUtils.text("button.modify", session)%></b></label>&nbsp;</td></tr></table></td>
+						<td><input id="upd-save" type="button" class="button upd-save" onclick="saveResult();"/></td>
 						<td><input id="upd-delete" type="button" class="button upd-delete" onclick="deleteResult();"/></td>
 					</tr>
 				</table>
@@ -153,8 +153,8 @@ var treeItems = null;
 			<!-- BUTTON PANEL -->
 			<table class="toolbar" style="position:relative;top:0;right:0;float:right;margin-top:15px;">
 				<tr>
-					<td><input id="upd-add" type="button" class="button upd-add" onclick="addResult();" value="<%=StringUtils.text("button.add", session)%>"/></td>
-					<td><input id="upd-modify" type="button" class="button upd-modify" onclick="saveResult();" value="<%=StringUtils.text("button.modify", session)%>"/></td>
+					<td style="padding:0px;"><table style="border:1px solid #AAA;margin:0px;"><tr><td>&nbsp;<%=StringUtils.text("update.mode", session) %>:</td><td><input id="addmode2" type="radio" name="mode2" checked="checked" onclick="$('addmode1').checked = true;"/></td><td><label for="addmode2" style="color:green;"><b><%=StringUtils.text("button.add", session)%></b></label></td><td><input id="modifmode2" type="radio" name="mode2" onclick="$('modifmode1').checked = true;"/></td><td><label for="modifmode2" style="color:orange;"><b><%=StringUtils.text("button.modify", session)%></b></label>&nbsp;</td></tr></table></td>
+					<td><input id="upd-save" type="button" class="button upd-save" onclick="saveResult();" value="<%=StringUtils.text("save", session)%>"/></td>
 					<td><input id="upd-delete" type="button" class="button upd-delete" onclick="deleteResult();" value="<%=StringUtils.text("button.delete", session)%>"/></td>
 				</tr>
 			</table><br/>

@@ -14,7 +14,7 @@
 	}
 	for (int i = 1 ; i <= 12 ; i++) {
 		String s = (i < 10 ? "0" : "") + i;
-		sbM.append("<option value='" + s + "'" + (i == m ? " selected='selected'" : "") + ">" + s + " – " + StringUtils.text("month." + i, session) + "</option>");
+		sbM.append("<option value='" + s + "'" + (i == m ? " selected='selected'" : "") + ">" + s + " " + StringUtils.SEP1 + " " + StringUtils.text("month." + i, session) + "</option>");
 	}
 	for (int i = 1 ; i <= 31 ; i++) {
 		sbD.append("<option value='" + i + "'" + (i == d ? " selected='selected'" : "") + ">" + i + "</option>");
