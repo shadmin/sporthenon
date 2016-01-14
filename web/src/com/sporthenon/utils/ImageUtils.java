@@ -113,15 +113,14 @@ public class ImageUtils {
 		return (!list.isEmpty() ? list.getLast() : "");
 	}
 	
-	public static StringBuffer getPhotoFieldset(String url, String source, String lang) {
-		final int MAX_WIDTH = Integer.parseInt(ConfigUtils.getValue("max_photo_width"));
+	public static StringBuffer getPhotoImg(String url, String source, String lang) {
+//		final int MAX_WIDTH = Integer.parseInt(ConfigUtils.getValue("max_photo_width"));
+		final int MAX_HEIGHT = Integer.parseInt(ConfigUtils.getValue("max_photo_height"));
 		StringBuffer html = new StringBuffer();
 		url = ConfigUtils.getProperty("img.url") + url;
-		html.append("<li style='text-align:right;'><fieldset class='photo'>");
-		html.append("<a href='" + url + "' target='_blank' title=\"" + ResourceUtils.getText("enlarge", lang) + "\"><img alt='Photo' style='max-width:" + MAX_WIDTH + "px;' src='" + url + "'/></a></fieldset>");
+		html.append("<a href='" + url + "' target='_blank' title=\"" + ResourceUtils.getText("enlarge", lang) + "\"><img alt='Photo' style='max-height:" + MAX_HEIGHT + "px;' src='" + url + "'/></a>");
 		if (StringUtils.notEmpty(source))
-			html.append("<span class='source'>(" + source + ")</span>");
-		html.append("</li>");
+			html.append("<br/><span class='source'>(" + source + ")</span>");
 		return html;
 	}
 

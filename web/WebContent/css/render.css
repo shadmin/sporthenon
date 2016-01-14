@@ -139,27 +139,20 @@
 	vertical-align: top;
 	display: inline-block;
 }
-.tc .photo{
-	margin: 0px;
-	margin-top: 0px;
-	margin-left: 8px;
-	padding: 0px;
-	border: none;
-	margin-bottom: -3px;
+.tc .info td.photo{
+	text-align: center;
 }
-.tc .photo a{
-	display: block;
-}
-.tc .photo img{
+.tc .info td.photo img{
 	border: 1px solid #DDD;
 }
 .tc .source{
+	display: none;
 	font-size: 9px;
 	color: #777;
 }
 .tc .info{
 	margin: 0px;
-	border: 2px solid #000;
+	border: 2px solid #555;
 }
 .tc .info td{
 	padding: 5px 5px;
@@ -246,6 +239,10 @@
 }
 .tc .info .result td, .tc .info .result th, .tc .rounds td, .tc .rounds th{
 	padding: 3px 3px;
+}
+.tc .info #titlename{
+	border-bottom: 2px solid #555;
+	/*padding: 4px 4px;*/
 }
 .tc .draw .box th, .tc .info .result th, .tc .rounds th{
 	font-size: 11px;

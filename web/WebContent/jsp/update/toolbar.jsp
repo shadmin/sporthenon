@@ -15,7 +15,16 @@
 		<td><input id="upd-pictures" type="button" class="button upd-pictures" onclick="location.href='/update/pictures';" value="<%=StringUtils.text("update.pictures", session)%>"/></td>
 		<td><input id="upd-folders" type="button" class="button upd-folders" onclick="location.href='/update/folders';" value="<%=StringUtils.text("update.folders", session)%>"/></td>
 		<td><input id="upd-import" type="button" class="button upd-import" onclick="location.href='/update/import';" value="<%=StringUtils.text("update.import", session)%>"/></td>
-		<td onmouseover="$('toolsopt').show();" onmouseout="$('toolsopt').hide();"><input id="upd-tools" type="button" class="button upd-tools" value="<%=StringUtils.text("update.tools", session)%>"/><div id="toolsopt" class="baroptions" style="display:none;"><table><tr><td onclick="location.href='/update/extlinks';" class="extlinks"><%=StringUtils.text("update.extlinks", session)%></td></tr><tr><td onclick="location.href='/update/translations';" class="translations"><%=StringUtils.text("update.translations", session)%></td></tr><tr><td onclick="location.href='/update/query';" class="query"><%=StringUtils.text("update.query", session)%></td></tr><tr><td onclick="location.href='/update/errors';" class="errors"><%=StringUtils.text("update.errors", session)%></td></tr><%if (m != null && m.isAdmin()) { %><tr><td onclick="location.href='/update/admin';" class="admin">Admin</td></tr><%}%></table></div></td>
-		<td><input id="upd-help" type="button" class="button upd-help" onclick="$('header').setStyle({ opacity: 0.4 });$('content').setStyle({ opacity: 0.4 });dHelp.open();" value="<%=StringUtils.text("update.help", session)%>"/></td>
+		<td onmouseover="$('toolsopt').show();" onmouseout="$('toolsopt').hide();"><input id="upd-tools" type="button" class="button upd-tools" value="<%=StringUtils.text("update.tools", session)%>"/>
+			<div id="toolsopt" class="baroptions" style="display:none;"><table>
+				<tr><td onclick="location.href='/update/extlinks';" class="extlinks"><%=StringUtils.text("update.extlinks", session)%></td></tr>
+				<tr><td onclick="location.href='/update/translations';" class="translations"><%=StringUtils.text("update.translations", session)%></td></tr>
+				<tr><td onclick="location.href='/update/query';" class="query"><%=StringUtils.text("update.query", session)%></td></tr>
+				<tr><td onclick="location.href='/update/errors';" class="errors"><%=StringUtils.text("update.errors", session)%></td></tr>
+				<tr><td onclick="location.href='/update/redirections';" class="redirections"><%=StringUtils.text("update.redirections", session)%></td></tr>
+				<%if (m != null && m.isAdmin()) { %><tr><td onclick="location.href='/update/admin';" class="admin">Admin</td></tr><%}%>
+				<tr><td onclick="$('header').setStyle({ opacity: 0.4 });$('content').setStyle({ opacity: 0.4 });dHelp.open();" class="help"><%=StringUtils.text("update.help", session)%></td></tr>
+			</table></div>
+		</td>
 	</tr>
 </table>

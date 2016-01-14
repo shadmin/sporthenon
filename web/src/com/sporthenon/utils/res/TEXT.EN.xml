@@ -430,6 +430,7 @@
 	<entry key="update.errors">Errors</entry>
 	<entry key="update.users">Users</entry>
 	<entry key="update.config">Configuration</entry>
+	<entry key="update.redirections">Redirections</entry>
 	<entry key="update.help">Help</entry>
 	<entry key="err.invalid.athlete"><![CDATA[Invalid format [#S#]: should be "Lastname, FirstName (CountryCode, TeamName)"]]></entry>
 	<entry key="err.invalid.team"><![CDATA[Invalid format [#S#]: should be "TeamName (CountryCode)"]]></entry>

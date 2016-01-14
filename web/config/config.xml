@@ -4,7 +4,7 @@
 	<entry key="env">local</entry><!-- Environment (standalone|local|test|prod) -->
 	<entry key="version">0.12.4</entry>
 	<entry key="date">01/12/2015</entry>
-	<entry key="url">http://localhost:8080/</entry>
+	<entry key="url">http://localhost/</entry>
 	<entry key="img.url">http://localhost:8181/</entry>
 	<entry key="img.folder">c:/glassfish4/glassfish/domains/domain1/docroot/img/</entry>
 	<entry key="font.folder">c:/windows/fonts/</entry>

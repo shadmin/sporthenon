@@ -8,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sporthenon.db.DatabaseHelper;
+import com.sporthenon.db.entity.meta.Redirection;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
@@ -42,6 +44,7 @@ public class NavigationServlet extends AbstractServlet {
 		hPages.put("update-translations", "update/translations.jsp");
 		hPages.put("update-query", "update/query.jsp");
 		hPages.put("update-errors", "update/errors.jsp");
+		hPages.put("update-redirections", "update/redirections.jsp");
 		hPages.put("update-admin", "update/admin.jsp");
 		hServlet = new HashMap<String, String>();
 		hServlet.put("results", "/ResultServlet");
@@ -62,6 +65,7 @@ public class NavigationServlet extends AbstractServlet {
 		hServlet.put("update-translations", "/UpdateServlet");
 		hServlet.put("update-query", "/UpdateServlet");
 		hServlet.put("update-errors", "/UpdateServlet");
+		hServlet.put("update-redirections", "/UpdateServlet");
 		hServlet.put("update-admin", "/UpdateServlet");
 		hServlet.put("android", "/AndroidServlet");
 		hTitle = new HashMap<String, String>();
@@ -84,6 +88,7 @@ public class NavigationServlet extends AbstractServlet {
 		hTitle.put("update-translations", "update.translations");
 		hTitle.put("update-query", "update.query");
 		hTitle.put("update-errors", "update.errors");
+		hTitle.put("update-redirections", "update.redirections");
 		hTitle.put("update-admin", "Admin");
 	}
 
@@ -93,10 +98,19 @@ public class NavigationServlet extends AbstractServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = ServletHelper.getURL(request);
+		String newURI = null;
 		try {
+			boolean isTestProd = ConfigUtils.getProperty("env").matches("test|prod");
+			boolean isUserSession = (request.getSession() != null && request.getSession().getAttribute("user") != null);
 			if (url.matches(".*\\/(athletes|championships|cities|complexes|countries|events|sports|usstates|teams|years)\\/.*"))
 				throw new OldPatternException();
-logger.fatal(request.isSecure() + "-" + request.getAttribute("javax.servlet.http.sslsessionid") + "-" + request.getAttribute("javax.servlet.request.key_size") + "-" + request.getAttribute("javax.servlet.request.X509Certificate"));
+			Redirection re = (Redirection) DatabaseHelper.loadEntityFromQuery("from Redirection where previousPath='" + request.getRequestURI().replaceAll("'", "''") + "' order by id desc");
+			if (re != null) {
+				newURI = re.getCurrentPath();
+				throw new ObsoleteURLException();
+			}
+			if (isUserSession && isTestProd && request.getHeader("Referer") == null)
+				throw new HttpsException();
 			if (!url.contains("/ajax") && !url.contains("/load") && !url.contains("/check-progress-import"))
 				logger.fatal("URL: " + url);
 			String[] tURI = request.getRequestURI().substring(1).split("\\/", 0);
@@ -105,12 +119,12 @@ logger.fatal(request.isSecure() + "-" + request.getAttribute("javax.servlet.http
 				key = "index";
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			request.setAttribute("url", url);
-			request.setAttribute("urlLogin", ConfigUtils.getProperty("env").matches("test|prod") ? "https://" + url.replaceFirst("http(|s)\\:\\/\\/", "").replaceAll("\\/.*", "") + "/login" : "http://localhost:8080/login");
+			request.setAttribute("urlLogin", isTestProd ? "https://" + url.replaceFirst("http(|s)\\:\\/\\/", "").replaceAll("\\/.*", "") + "/login" : "http://localhost/login");
 			request.setAttribute("urlEN", url.replaceFirst(".+\\.sporthenon\\.com", "//en.sporthenon.com"));
 			request.setAttribute("urlFR", url.replaceFirst(".+\\.sporthenon\\.com", "//fr.sporthenon.com"));
 			RequestDispatcher dispatcher = null;
-			if (ConfigUtils.getProperty("env").matches("test|prod"))
-				if (key != null && key.equals("update") && (request.getSession() == null || request.getSession().getAttribute("user") == null))
+			if (isTestProd)
+				if (key != null && key.equals("update") && isUserSession)
 					throw new NotLoggedInException();
 			if (hParams.containsKey("lang"))
 				request.getSession().setAttribute("locale", String.valueOf(hParams.get("lang")));
@@ -161,6 +175,12 @@ logger.fatal(request.isSecure() + "-" + request.getAttribute("javax.servlet.http
 		catch (NotLoggedInException e) {
 			redirect(request, response, "/login", true);
 		}
+		catch (HttpsException e) {
+			redirect(request, response, request.getRequestURI(), true);
+		}
+		catch (ObsoleteURLException e) {
+			redirect(request, response, newURI, false);
+		}
 		catch (Exception e) {
 			handleException(request, response, e);
 		}
@@ -170,6 +190,12 @@ logger.fatal(request.isSecure() + "-" + request.getAttribute("javax.servlet.http
 		private static final long serialVersionUID = 1L;
 	}
 	class NotLoggedInException extends Exception{
+		private static final long serialVersionUID = 1L;
+	}
+	class HttpsException extends Exception{
+		private static final long serialVersionUID = 1L;
+	}
+	class ObsoleteURLException extends Exception{
 		private static final long serialVersionUID = 1L;
 	}
 

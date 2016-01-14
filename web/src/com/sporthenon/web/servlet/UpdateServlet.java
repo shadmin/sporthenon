@@ -62,6 +62,7 @@ import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.FolderHistory;
 import com.sporthenon.db.entity.meta.InactiveItem;
 import com.sporthenon.db.entity.meta.PersonList;
+import com.sporthenon.db.entity.meta.Redirection;
 import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.db.entity.meta.Translation;
 import com.sporthenon.db.entity.meta.TreeItem;
@@ -134,6 +135,10 @@ public class UpdateServlet extends AbstractServlet {
 				saveFolders(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-errors"))
 				loadErrors(response, hParams, lang, cb);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("load-redirections"))
+				loadRedirections(response, hParams, lang, cb);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("save-redirections"))
+				saveRedirections(response, hParams, lang, cb);
 			else
 				loadResult(request, response, hParams, lang, cb);
 		}
@@ -1093,6 +1098,8 @@ public class UpdateServlet extends AbstractServlet {
 		String id = String.valueOf(hParams.get("id"));
 		String alias = String.valueOf(hParams.get("alias"));
 		String filter = (alias.matches(Athlete.alias + "|" + Team.alias + "|" + Sport.alias) ? (cb != null && !cb.isAdmin() ? (alias.equalsIgnoreCase(Sport.alias) ? "" : "sport.") + "id in (" + cb.getSports() + ")" : null) : null);
+		if (StringUtils.notEmpty(hParams.get("sp")))
+			filter = (filter != null ? filter + " and " : "") + "sport.id=" + hParams.get("sp");
 		Class c = DatabaseHelper.getClassFromAlias(alias);
 		Object o = (action.equals("direct") ? DatabaseHelper.loadEntity(c, id) : DatabaseHelper.move(c, id, hLocs.get(action), filter));
 		StringBuffer sb = new StringBuffer();
@@ -1902,13 +1909,16 @@ public class UpdateServlet extends AbstractServlet {
 			
 			String[] tIds = range.split("\\-");
 			StringBuffer hql = new StringBuffer("from Translation where entity='" + entity + "'");
-			if (tIds.length > 1)
+			if (tIds.length > 1 && pattern.length() == 0)
 				hql.append(" and idItem between " + tIds[0] + " and " + tIds[1]);				
-			if (StringUtils.notEmpty(pattern))
-				hql.append(" and (0=1" + (pattern.matches("\\d+") ? " or idItem=" + pattern : "") + ")");
 			hql.append(" order by idItem");
 
-			List<Object[]> items = DatabaseHelper.execute("select id, label, labelFR from " + DatabaseHelper.getClassFromAlias(entity).getName() + (tIds.length > 1 ? " where id between " + tIds[0] + " and " + tIds[1] : "") + " order by id");
+			String labels = "label, labelFR";
+			if (entity.equalsIgnoreCase(City.alias))
+				labels = "label || '<i> - ' || country.code || '</i>', labelFR";
+			else if (entity.equalsIgnoreCase(Complex.alias))
+				labels = "label || '<i> - ' || city.label || '</i>', labelFR";
+			List<Object[]> items = DatabaseHelper.execute("select id, " + labels + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + " where 1=1" + (tIds.length > 1 ? " and id between " + tIds[0] + " and " + tIds[1] : "") + (StringUtils.notEmpty(pattern) ? " and (lower(label) like '" + pattern + "%' or lower(labelFR) like '" + pattern + "%')" : "") + " order by id");
 			List<Translation> translations = DatabaseHelper.execute(hql.toString());
 			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + " (EN)</th><th>" + ResourceUtils.getText("label", lang) + " (FR)</th><th>" + ResourceUtils.getText("checked", lang) + "&nbsp;<input type='checkbox' onclick='checkAllTranslations();'/></th></thead><tbody>");
 			for (Object[] t : items) {
@@ -2126,6 +2136,46 @@ public class UpdateServlet extends AbstractServlet {
 		}
 		catch (Exception e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);
+		}
+	}
+	
+	private static void loadRedirections(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
+		try {
+			StringBuffer html = new StringBuffer("<table>");
+			html.append("<thead><th>Previous path</th><th>Current path</th></thead><tbody>");
+			for (Redirection re : (List<Redirection>) DatabaseHelper.execute("from Redirection order by id")) {
+				html.append("<tr id='re-" + re.getId() + "'><td style='display:none;'>" + re.getId() + "</td>");
+				html.append("<td><input type='text' value='" + re.getPreviousPath() + "' style='width:450px;'/></td>");
+				html.append("<td><input type='text' value='" + re.getCurrentPath() + "' style='width:450px;'/></td>");
+				html.append("<td><a href='javascript:addRedirection(" + re.getId() + ");'><img alt='' src='/img/component/button/add.png'/></a></td></tr>");
+			}
+			ServletHelper.writeText(response, html.append("</tbody></table>").toString());
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+		}
+	}
+	
+	private static void saveRedirections(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
+		StringBuffer sbMsg = new StringBuffer();
+		try {
+			String value = String.valueOf(hParams.get("value"));
+			for (String s : value.split("\\|")) {
+				String[] t = s.split("\\~");
+				String id = t[0];
+				Redirection re = (id.equals("0") ? new Redirection() : (Redirection) DatabaseHelper.loadEntity(Redirection.class, id));
+				re.setPreviousPath(t[1]);
+				re.setCurrentPath(t[2]);
+				DatabaseHelper.saveEntity(re, cb);
+			}
+			sbMsg.append(ResourceUtils.getText("update.ok", lang));
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+			sbMsg.append("ERR:" + e.getMessage());
+		}
+		finally {
+			ServletHelper.writeText(response, sbMsg.toString());
 		}
 	}
 	

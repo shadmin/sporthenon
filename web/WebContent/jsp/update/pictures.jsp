@@ -13,6 +13,38 @@
 	<div class="fieldset">
 		<div class="fstitle users"><%=StringUtils.text("update.pictures", session).toUpperCase()%></div>
 		<div class="fscontent">
+			<div style="width:100%;margin-bottom:10px;">
+			<table class="toolbar" style="margin-top:0px;position:relative;float:left;top:0;">
+				<tr>
+					<td><%=StringUtils.text("type", session)%>&nbsp;:</td>
+					<td><select id="type" onchange="changePictureType();"><option value="CP"><%=StringUtils.text("entity.CP", session)%></option>
+					<option value="CN"><%=StringUtils.text("entity.CN", session)%></option>
+					<option value="EV"><%=StringUtils.text("entity.EV", session)%></option>
+					<option value="OL"><%=StringUtils.text("entity.OL", session)%></option>
+					<option value="SP"><%=StringUtils.text("entity.SP", session)%></option>
+					<option value="ST"><%=StringUtils.text("entity.ST", session)%></option>
+					<option value="TM"><%=StringUtils.text("entity.TM", session)%></option></select></td>
+					<td id="spcell1"><%=StringUtils.text("entity.SP.1", session)%>&nbsp;:</td>
+					<td id="spcell2"><select id="sport" onchange="loadPictures('direct');"><option value=""></option>
+					<%
+						Contributor cb = (Contributor) session.getAttribute("user");
+						String lang = String.valueOf(session.getAttribute("locale"));
+						for (Sport sp : (List<Sport>) DatabaseHelper.execute("from Sport" + (cb != null && !cb.isAdmin() ? " where id in (" + cb.getSports() + ")" : "") + " order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "")))
+							out.print("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
+					%>
+					</select></td>
+					<td><%=StringUtils.text("entity.YR", session)%>&nbsp;:</td>
+					<td><input id="year1" type="text" style="width:35px;"/></td>
+					<td>-</td>
+					<td><input id="year2" type="text" style="width:35px;"/></td>
+					<td><input id="upd-first" type="button" class="button upd-first" onclick="loadPictures('first');" value="<%=StringUtils.text("first", session)%>"/></td>
+					<td><input id="upd-previous" type="button" class="button upd-previous" onclick="loadPictures('previous');" value="<%=StringUtils.text("previous", session)%>"/></td>
+					<td><input id="upd-find" type="button" class="button upd-find" onclick="findEntity(0);" value="<%=StringUtils.text("find", session)%>"/></td>
+					<td><input id="upd-next" type="button" class="button upd-next" onclick="loadPictures('next');" value="<%=StringUtils.text("next", session)%>"/></td>
+					<td><input id="upd-last" type="button" class="button upd-last" onclick="loadPictures('last');" value="<%=StringUtils.text("last", session)%>"/></td>
+				</tr>
+			</table>
+			</div>
 			<div>
 			<fieldset><legend><%=StringUtils.text("local", session)%></legend>
 			<table><tr><th style="width:80px;"><%=StringUtils.text("picture", session)%></th><td><div id="dz-file"></div><div id="remove-local" style="display:none;"><a href="javascript:removeLocalPicture();"><%=StringUtils.text("button.delete", session)%></a></div></td></tr>
@@ -36,41 +68,6 @@
 			</table>
 			</fieldset>
 			</div>
-			<table class="toolbar">
-				<tr>
-					<td><%=StringUtils.text("type", session)%>&nbsp;:</td>
-					<td><select id="type" onchange="changePictureType();"><option value="CP"><%=StringUtils.text("entity.CP", session)%></option>
-					<option value="CN"><%=StringUtils.text("entity.CN", session)%></option>
-					<option value="EV"><%=StringUtils.text("entity.EV", session)%></option>
-					<option value="OL"><%=StringUtils.text("entity.OL", session)%></option>
-					<option value="SP"><%=StringUtils.text("entity.SP", session)%></option>
-					<option value="ST"><%=StringUtils.text("entity.ST", session)%></option>
-					<option value="TM"><%=StringUtils.text("entity.TM", session)%></option></select></td>
-					<td id="spcell1"><%=StringUtils.text("entity.SP.1", session)%>&nbsp;:</td>
-					<td id="spcell2"><select id="sport" onchange="loadPictures('direct');"><option value=""></option>
-					<%
-						Contributor cb = (Contributor) session.getAttribute("user");
-						String lang = String.valueOf(session.getAttribute("locale"));
-						for (Sport sp : (List<Sport>) DatabaseHelper.execute("from Sport" + (cb != null && !cb.isAdmin() ? " where id in (" + cb.getSports() + ")" : "") + " order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "")))
-							out.print("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
-					%>
-					</select></td>
-					<td><%=StringUtils.text("entity.YR", session)%>&nbsp;:</td>
-					<td><input id="year1" type="text" style="width:35px;"/></td>
-					<td>-</td>
-					<td><input id="year2" type="text" style="width:35px;"/></td>
-				</tr>
-			</table>
-			<table class="toolbar" style="margin-top:5px;">
-				<tr>
-					<td><input id="upd-first" type="button" class="button upd-first" onclick="loadPictures('first');" value="<%=StringUtils.text("first", session)%>"/></td>
-					<td><input id="upd-previous" type="button" class="button upd-previous" onclick="loadPictures('previous');" value="<%=StringUtils.text("previous", session)%>"/></td>
-					<td><input id="upd-find" type="button" class="button upd-find" onclick="findEntity(0);" value="<%=StringUtils.text("find", session)%>"/></td>
-					<td><input id="upd-next" type="button" class="button upd-next" onclick="loadPictures('next');" value="<%=StringUtils.text("next", session)%>"/></td>
-					<td><input id="upd-last" type="button" class="button upd-last" onclick="loadPictures('last');" value="<%=StringUtils.text("last", session)%>"/></td>
-				</tr>
-			</table>
-			<div id="msg" style="float:left;"></div>
 		</div>
 	</div>
 </div>

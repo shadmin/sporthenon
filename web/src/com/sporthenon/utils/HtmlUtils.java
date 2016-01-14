@@ -186,8 +186,12 @@ public class HtmlUtils {
 		// Info
 		html.append("<ul class='uinfo'><li>");
 		html.append("<table class='info'" + (width != null && width > 0 ? " style='width:" + width + "px;'" : "") + ">");
-		if (h.containsKey("titlename"))
-			html.append("<tr><th" + (!h.containsKey("_sport_") && !h.containsKey("_year_") ? " colspan='2'" : "") + ">" + h.get("titlename") + "</th></tr>");
+		if (h.containsKey("titlename")) {
+			html.append("<tr><th id='titlename'" + (!h.containsKey("_sport_") && !h.containsKey("_year_") ? " colspan='2'" : "") + ">" + h.get("titlename") + "</th></tr>");
+			// Photo
+			if (h.containsKey("imgurl"))
+				html.append("<tr><td colspan='2' class='photo'>" + ImageUtils.getPhotoImg(h.get("imgurl"), h.get("source"), lang) + "</td></tr>");
+		}
 		for (String key : h.keySet()) {
 			if (!key.matches("(tab|^)title|titleEN|imgurl|source|url|info|\\_sport\\_|\\_year\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
 				html.append("<tr>" + (h.containsKey("_sport_") || h.containsKey("_year_") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
@@ -195,9 +199,6 @@ public class HtmlUtils {
 			}
 		}
 		html.append("</table></li>");
-		// Photo
-		if (h.containsKey("imgurl"))
-			html.append(ImageUtils.getPhotoFieldset(h.get("imgurl"), h.get("source"), lang));
 		return html.append("</ul>");
 	}
 

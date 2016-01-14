@@ -2507,7 +2507,7 @@ function loadPicture() {
 	$('img-remote').update('<img alt="-" src="' + ($F('list-remote') != null ? IMG_URL + $F('list-remote') : '/img/noimage.png') + '"/>');
 }
 function loadPictures(action_, id_) {
-	var h = $H({action: action_, alias: currentAlias, id: (id_ ? id_ : currentId)});
+	var h = $H({action: action_, alias: currentAlias, id: (id_ ? id_ : currentId), sp: $F('sport')});
 	new Ajax.Request('/update/load-entity?t=' + currentTime(), {
 		onSuccess: function(response){
 			var t = response.responseText.split('~');
@@ -2788,6 +2788,39 @@ function saveFolders() {
 function loadErrors() {
 	$('ercontent').update('<img src="/img/db/loading.gif?6"/>');
 	new Ajax.Updater($('ercontent'), '/update/load-errors');
+}
+/*========== REDIRECTIONS ==========*/
+function loadRedirections() {
+	$('recontent').update('<img src="/img/db/loading.gif?6"/>');
+	new Ajax.Updater($('recontent'), '/update/load-redirections');
+}
+function saveRedirections() {
+	var t = [];
+	$$('#recontent tbody tr').each(function(el){
+		var t_ = $(el).getElementsByTagName('input');
+		var t__ = $(el).getElementsByTagName('td');
+		var idredirect = t__[0].innerHTML;
+		t.push(idredirect + '~' + t_[0].value + '~' + t_[1].value);
+	});
+	new Ajax.Request('/update/save-redirections', {
+		onSuccess: function(response){
+			var text = response.responseText;
+			$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
+			$('msg').update('<div>' + text.replace(/^ERR\:/i, '') + '</div>');
+			loadRedirections();
+		},
+		parameters: $H({value: t.join('|')})
+	});
+}
+function addRedirection(id) {
+	var t = [];
+	var t_ = $$('#re-' + id + ' td');
+	t.push('<tr><td style="display:none;">0</td>');
+	t.push('<td><input type="text" style="width:450px;"/></td>');
+	t.push('<td><input type="text" style="width:450px;"/></td></tr>');
+	$('re-' + id).insert({
+		after: t.join('')
+	});
 }
 /*========== ADMIN ==========*/
 function saveConfig() {

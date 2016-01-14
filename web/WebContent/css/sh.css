@@ -346,7 +346,6 @@ li{
 	text-align: center;
 }
 #dupdates tr:hover td{
-	/*background-color: #CFE0FF;*/
 	background-color: #FFA;
 }
 #dupdates td{
@@ -1378,6 +1377,9 @@ li{
 	background: url(../img/update/missing.png?6) 2px center no-repeat;
 	padding-left: 20px;
 }
+#update-overview #ovcontent tr:hover td{
+	background-color: #FFA;
+}
 /*---------- RESULTS ----------*/
 #update-results .fstitle{
 	background-image: url(../img/update/results.png?6);
@@ -1501,7 +1503,7 @@ li{
 	background-image: url(../img/update/pictures.png?6);
 }
 #update-pictures .fscontent{
-	height: 280px;
+	height: 250px;
 	padding-bottom: 70px;
 }
 #update-pictures .fscontent div{
@@ -1611,6 +1613,9 @@ li{
 #update-import #report td{
 	background-color: #FFF;
 }
+#update-import #report tr:hover td{
+	background-color: #FFA;
+}
 #update-import #progressbar{
 	width: 200px;
 	border: 1px solid #888;
@@ -1624,7 +1629,10 @@ li{
 #update-translations .fscontent table{
 	margin-bottom: 10px;
 }
-#update-translations #elcontent input{
+#update-translations #trcontent tr:hover td{
+	background-color: #FFA;
+}
+#update-translations #trcontent input{
 	margin: 1px;
 }
 #update-translations .fscontent .toolbar td{
@@ -1640,6 +1648,9 @@ li{
 #update-extlinks .fscontent table{
 	margin-bottom: 10px;
 }
+#update-extlinks #elcontent tr:hover td{
+	background-color: #FFA;
+}
 #update-extlinks #elcontent input{
 	margin: 1px;
 }
@@ -1652,10 +1663,30 @@ li{
 	bottom: 0px;
 	padding-right: 10px;
 }
+/*---------- REDIRECTIONS ----------*/
+#update-redirections .fscontent table{
+	margin-bottom: 10px;
+}
+#update-redirections #recontent tr:hover td{
+	background-color: #FFA;
+}
+#update-redirections #recontent input{
+	margin: 1px;
+}
+#update-redirections .fscontent .toolbar td{
+	padding: 2px;
+	border: none;
+}
+#update-redirections #msg div{
+	position: relative;
+	bottom: 0px;
+	padding-left: 10px;
+}
 /*---------- TOOLS ----------*/
 #toolsopt{
-	right: 60px;
-	z-index: 100;
+	position: absolute;
+	right: 3px;
+	z-index: 10;
 }
 #toolsopt table{
 	border-spacing: 0px;
@@ -1676,6 +1707,12 @@ li{
 #toolsopt td.errors{
 	background-image:url(../img/project/error.png?6);
 }
+#toolsopt td.redirections{
+	background-image:url(../img/update/redirections.png?6);
+}
+#toolsopt td.help{
+	background-image:url(../img/update/help.png?6);
+}
 #toolsopt td.admin{
 	background-image: url('../img/update/admin.png?6');
 }
@@ -1685,8 +1722,14 @@ li{
 #update-translations .fstitle{
 	background-image: url(../img/update/translations.png?6);
 }
+#update-redirections .fstitle{
+	background-image: url(../img/update/redirections.png?6);
+}
 #update-query .fstitle{
 	background-image: url(../img/update/query.png?6);
+}
+#update-query #qresults tr:hover td{
+	background-color: #FFA;
 }
 #update-query #qresults{
 	margin-top: 10px;
