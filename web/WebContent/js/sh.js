@@ -2154,6 +2154,16 @@ function setEntityValues(text) {
 		$('ol-countries').value = t[i++];
 		$('ol-persons').value = t[i++];
 	}
+	else if (currentAlias == 'OR') {
+		$('or-id').value = currentId;
+		$('or-olympics').value = t[i++];
+		$('or-olympics-l').value = t[i++];
+		$('or-country').value = t[i++];
+		$('or-country-l').value = t[i++];
+		$('or-gold').value = t[i++];
+		$('or-silver').value = t[i++];
+		$('or-bronze').value = t[i++];
+	}
 	else if (currentAlias == 'SP') {
 		$('sp-id').value = currentId;
 		$('sp-label').value = t[i++];

@@ -109,8 +109,8 @@ public class NavigationServlet extends AbstractServlet {
 				newURI = re.getCurrentPath();
 				throw new ObsoleteURLException();
 			}
-			if (isUserSession && isTestProd && request.getHeader("Referer") == null)
-				throw new HttpsException();
+//			if (isUserSession && isTestProd && request.getHeader("Referer") == null)
+//				throw new HttpsException();
 			if (!url.contains("/ajax") && !url.contains("/load") && !url.contains("/check-progress-import"))
 				logger.fatal("URL: " + url);
 			String[] tURI = request.getRequestURI().substring(1).split("\\/", 0);
@@ -124,7 +124,7 @@ public class NavigationServlet extends AbstractServlet {
 			request.setAttribute("urlFR", url.replaceFirst(".+\\.sporthenon\\.com", "//fr.sporthenon.com"));
 			RequestDispatcher dispatcher = null;
 			if (isTestProd)
-				if (key != null && key.equals("update") && isUserSession)
+				if (key != null && key.equals("update") && !isUserSession)
 					throw new NotLoggedInException();
 			if (hParams.containsKey("lang"))
 				request.getSession().setAttribute("locale", String.valueOf(hParams.get("lang")));
@@ -176,6 +176,7 @@ public class NavigationServlet extends AbstractServlet {
 			redirect(request, response, "/login", true);
 		}
 		catch (HttpsException e) {
+			response.addHeader("Referer", "no-https");
 			redirect(request, response, request.getRequestURI(), true);
 		}
 		catch (ObsoleteURLException e) {

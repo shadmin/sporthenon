@@ -572,7 +572,7 @@ public class HtmlConverter {
 
 			hInfo.put("title", e.getLabel(lang));
 			hInfo.put("titleEN", e.getLabel());
-			hInfo.put("name", "<b>" + sbNm.toString() + "</b>");
+			hInfo.put("titlename", sbNm.toString());
 			if (StringUtils.notEmpty(st))
 				hInfo.put("state", st);
 			if (StringUtils.notEmpty(cn))
@@ -638,7 +638,7 @@ public class HtmlConverter {
 			
 			hInfo.put("title", e.getLabel(lang));
 			hInfo.put("titleEN", e.getLabel());
-			hInfo.put("name", "<b>" + sbNm.toString() + "</b>");
+			hInfo.put("titlename", sbNm.toString());
 			if (StringUtils.notEmpty(ct))
 				hInfo.put("city", ct);
 			if (StringUtils.notEmpty(st))
@@ -724,10 +724,9 @@ public class HtmlConverter {
 			}
 			hInfo.put("title", e.getCity().getLabel(lang) + "&nbsp;" + e.getYear().getLabel());
 			hInfo.put("titleEN", e.getCity().getLabel() + "&nbsp;" + e.getYear().getLabel());
-			hInfo.put("year", HtmlUtils.writeLink(Year.alias, e.getYear().getId(), e.getYear().getLabel(), null));
-			hInfo.put("city", HtmlUtils.writeLink(City.alias, e.getCity().getId(), e.getCity().getLabel(lang), e.getCity().getLabel()));
-			hInfo.put("country", (cn != null ? cn : StringUtils.EMPTY));
+			hInfo.put("titlename", HtmlUtils.writeLink(City.alias, e.getCity().getId(), e.getCity().getLabel(lang).toUpperCase(), e.getCity().getLabel()) + " " + HtmlUtils.writeLink(Year.alias, e.getYear().getId(), e.getYear().getLabel(), null));
 			hInfo.put("logo", HtmlUtils.writeImage(ImageUtils.INDEX_OLYMPICS, e.getId(), ImageUtils.SIZE_LARGE, null, null));
+			hInfo.put("country", (cn != null ? cn : StringUtils.EMPTY));
 			hInfo.put("start.date", e.getDate1());
 			hInfo.put("end.date", e.getDate2());
 			hInfo.put("sports", String.valueOf(e.getCountSport()));
@@ -1243,9 +1242,13 @@ public class HtmlConverter {
 			c7 = null;
 			result1 = null;
 			if (en.equals(Athlete.alias)) {
-				System.out.println(item.getLabel()+" = "+item.getTxt3());//TODO
 				c1 = HtmlUtils.writeLink(Athlete.alias, item.getIdItem(), item.getLabel(), item.getLabelEN());
 				c2 = (item.getIdRel1() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, item.getIdRel1(), item.getLabelRel1(), item.getLabelRel3())) : StringUtils.EMPTY);
+				if (StringUtils.notEmpty(item.getTxt3()))
+					for (String s : item.getTxt3().split("\\|")) {
+						String[] t = s.split("\\,", -1);
+						c2 += (item.getIdRel1() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, Integer.parseInt(t[0]), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, Integer.parseInt(t[0]), lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? t[1] : t[2], t[1])) : StringUtils.EMPTY);
+					}
 				c3 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, item.getIdRel2(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2(), item.getLabelRel4()));
 			}
 			else if (en.equals(City.alias)) {

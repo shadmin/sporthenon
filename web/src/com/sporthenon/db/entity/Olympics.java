@@ -164,4 +164,8 @@ public class Olympics {
 				+ ", type=" + type + "]";
 	}
 	
+	public String toString2(String lang) {
+		return getYear().getLabel() + " " + getCity().getLabel(lang);
+	}
+	
 }

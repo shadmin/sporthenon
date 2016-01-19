@@ -42,6 +42,7 @@ import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.HallOfFame;
 import com.sporthenon.db.entity.League;
+import com.sporthenon.db.entity.OlympicRanking;
 import com.sporthenon.db.entity.Olympics;
 import com.sporthenon.db.entity.Record;
 import com.sporthenon.db.entity.Result;
@@ -189,6 +190,7 @@ public class UpdateServlet extends AbstractServlet {
 		hTable.put("cb", "Contributor"); hTable.put("contributor", "Contributor");
 		hTable.put("lg", "League"); hTable.put("league", "League");
 		hTable.put("rs", "Result"); hTable.put("result", "Result");
+		hTable.put("ol", "Olympics"); hTable.put("olympics", "Olympics");
 		hTable.put("rt", "RoundType");
 		hTable.put("hf", "HallOfFame");
 		hTable.put("rc", "Record");
@@ -218,6 +220,11 @@ public class UpdateServlet extends AbstractServlet {
 			labelHQL = "T." + l_ + " || ', ' || CT." + l_ + " || ', ' || CN.code";
 			joins += " LEFT JOIN \"City\" CT ON T.id_city=CT.id";
 			joins += " LEFT JOIN \"Country\" CN ON CT.id_country=CN.id";
+		}
+		else if (field.matches(Olympics.alias.toLowerCase() + "|olympics")) {
+			labelHQL = "YR.label || ' ' || CT." + l_;
+			joins += " LEFT JOIN \"City\" CT ON T.id_city=CT.id";
+			joins += " LEFT JOIN \"Year\" YR ON T.id_year=YR.id";
 		}
 		else if (field.equalsIgnoreCase(Result.alias)) {
 			value = "%" + value;
@@ -271,7 +278,7 @@ public class UpdateServlet extends AbstractServlet {
 			if (list.contains(id))
 				continue;
 			Object o = DatabaseHelper.loadEntity(DatabaseHelper.getClassFromAlias(alias_), id);
-			if (!(o instanceof Athlete) && !(o instanceof League) && !(o instanceof Team) && !(o instanceof Result) && !(o instanceof Contributor) && !(o instanceof HallOfFame) && !(o instanceof Record) && !(o instanceof RetiredNumber) && !(o instanceof TeamStadium) && !(o instanceof WinLoss)) {
+			if (!(o instanceof Athlete) && !(o instanceof League) && !(o instanceof Team) && !(o instanceof Result) && !(o instanceof Contributor) && !(o instanceof HallOfFame) && !(o instanceof Olympics) && !(o instanceof Record) && !(o instanceof RetiredNumber) && !(o instanceof TeamStadium) && !(o instanceof WinLoss)) {
 				Method m2 = o.getClass().getMethod("getLabel", String.class);
 				text = String.valueOf(m2.invoke(o, lang));
 			}
@@ -306,6 +313,10 @@ public class UpdateServlet extends AbstractServlet {
 			else if (o instanceof League) {
 				League l__ = (League) o;
 				text = l__.getLabel();
+			}
+			else if (o instanceof Olympics) {
+				Olympics o_ = (Olympics) o;
+				text = o_.toString2(lang);
 			}
 			else if (o instanceof Result) {
 				Result r = (Result) o;
@@ -691,7 +702,7 @@ public class UpdateServlet extends AbstractServlet {
 					html.append("</tbody></table>");
 				html.append("<table><thead><tr>");
 				if (item.getEntity().equals(Result.alias))
-					html.append("<th colspan='11' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><th>" + ResourceUtils.getText("entity.EV.1", lang) + "</th><th>" + ResourceUtils.getText("podium", lang) + "</th><th>" + ResourceUtils.getText("entity.RS", lang) + "</th><th>" + ResourceUtils.getText("final", lang) + "+" + ResourceUtils.getText("score", lang) + "</th><th>" + ResourceUtils.getText("entity.CX.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CT.1", lang) + "</th><th>" + ResourceUtils.getText("date", lang) + "</th><th>" + ResourceUtils.getText("draw", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photo", lang) + "</th>");
+					html.append("<th colspan='11' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><th>" + ResourceUtils.getText("entity.EV.1", lang) + "</th><th>" + ResourceUtils.getText("podium", lang) + "</th><th>" + ResourceUtils.getText("entity.RS", lang) + "</th><th>" + ResourceUtils.getText("final", lang) + "+" + ResourceUtils.getText("score", lang) + "</th><th>" + ResourceUtils.getText("entity.CX.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CT.1", lang) + "</th><th>" + ResourceUtils.getText("date", lang) + "</th><th>" + ResourceUtils.getText("entity.RD", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photo", lang) + "</th>");
 				else if (item.getEntity().equals(Athlete.alias))
 					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("entity.TM.1", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photo", lang) + "</th>");
 				else if (item.getEntity().equals(Team.alias))
@@ -716,13 +727,13 @@ public class UpdateServlet extends AbstractServlet {
 			html.append("<tr>");
 			//html.append("<td>" + item.getIdItem() + "</td>");
 			if (item.getEntity().equals(Result.alias)) {
-				int rkcount = (item.getTxt3() != null ? item.getTxt3().split("\\|").length : 0);
-				int rscount = (item.getTxt4() != null ? item.getTxt4().split("\\|").length : 0);
+				int rkcount = (item.getTxt3() != null ? item.getTxt3().split("\\,").length : 0);
+				int rscount = (item.getTxt4() != null ? item.getTxt4().split("\\,").length : 0);
 				boolean isScore = (rkcount >= 2 && rscount == 1);
-				String[] tplace = item.getTxt1().split("\\|", -1);
+				String[] tplace = item.getTxt1().split("\\,", -1);
 				int cxcount = (StringUtils.notEmpty(tplace[0]) && !tplace[0].equals("0") ? 1 : 0) + (StringUtils.notEmpty(tplace[1]) && !tplace[1].equals("0") ? 1 : 0);
 				int ctcount = (StringUtils.notEmpty(tplace[2]) && !tplace[2].equals("0") ? 1 : 0) + (StringUtils.notEmpty(tplace[3]) && !tplace[3].equals("0") ? 1 : 0);
-				String[] tdate = item.getTxt2().split("\\|", -1);
+				String[] tdate = item.getTxt2().split("\\,", -1);
 				int dtcount = (StringUtils.notEmpty(tdate[0]) && !tdate[0].equals("0") ? 1 : 0) + (StringUtils.notEmpty(tdate[1]) && !tdate[1].equals("0") ? 1 : 0);
 				html.append("<td>" + item.getLabelRel1() + "</td>");
 				html.append("<td><a href='/update/results/" + StringUtils.encode(Result.alias + "-" + item.getIdItem()) + "' target='_blank'>" + item.getLabelRel2() + " - " + item.getLabelRel3() + (StringUtils.notEmpty(item.getLabelRel4()) ? " - " + item.getLabelRel4() : "") + (StringUtils.notEmpty(item.getLabelRel5()) ? " - " + item.getLabelRel5() : "") + (StringUtils.notEmpty(item.getLabelRel6()) ? " - " + item.getLabelRel6() : "") + "</a></td>");
@@ -732,7 +743,7 @@ public class UpdateServlet extends AbstractServlet {
 				html.append("<td" + (cxcount > 0 ? " class='tick'>(" + cxcount + ")" : ">") + "</td>");
 				html.append("<td" + (ctcount > 0 ? " class='tick'>(" + ctcount + ")" : ">") + "</td>");
 				html.append("<td" + (dtcount > 0 ? " class='tick'>(" + dtcount + ")" : " class='missing'>") + "</td>");
-				html.append("<td" + (item.getIdRel4() != null ? " class='tick'" : "") + "></td>");
+				html.append(StringUtils.notEmpty(item.getLabelEN()) ? "<td class='tick'>" + item.getLabelEN().split("\\,").length + "</td>" : "<td></td>");
 			}
 			else if (item.getEntity().equals(Athlete.alias)) {
 				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + ",&nbsp;" + item.getLabelRel2() + "</a></td>");
@@ -770,7 +781,7 @@ public class UpdateServlet extends AbstractServlet {
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel2()) ? ">" + item.getLabelRel2() + ", " + item.getLabelRel3() : " class='missing'>") + "</td>");
 				html.append("<td>" + item.getCount2() + "</td>");
 			}
-			html.append("<td" + (item.getCount1() > 0 ? " class='tick'>(" + item.getCount1() + ")" : " class='missing'>") + "</td>");
+			html.append(StringUtils.notEmpty(item.getLabel()) ? "<td class='tick'>" + item.getLabel().split("\\,").length + "</td>" : "<td></td>");
 			if (item.getEntity().matches(Athlete.alias + "|" + Result.alias))
 				html.append("<td" + (isPhoto ? " class='tick'" : " class='missing'") + "></td>");
 			else
@@ -1245,6 +1256,16 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(ol.getCountCountry()).append("~");
 				sb.append(ol.getCountPerson()).append("~");
 			}
+			else if (o instanceof OlympicRanking) {
+				OlympicRanking or = (OlympicRanking) o;
+				sb.append(or.getOlympics() != null ? or.getOlympics().getId() : 0).append("~");
+				sb.append(or.getOlympics() != null ? or.getOlympics().toString2(lang) : "").append("~");
+				sb.append(or.getCountry() != null ? or.getCountry().getId() : 0).append("~");
+				sb.append(or.getCountry() != null ? or.getCountry().getLabel(lang) : "").append("~");
+				sb.append(or.getCountGold()).append("~");
+				sb.append(or.getCountSilver()).append("~");
+				sb.append(or.getCountBronze()).append("~");
+			}
 			else if (o instanceof Sport) {
 				Sport sp = (Sport) o;
 				sb.append(sp.getLabel()).append("~");
@@ -1509,6 +1530,14 @@ public class UpdateServlet extends AbstractServlet {
 				en.setCountEvent(StringUtils.notEmpty(hParams.get("ol-events")) ? StringUtils.toInt(hParams.get("ol-events")) : 0);
 				en.setCountCountry(StringUtils.notEmpty(hParams.get("ol-countries")) ? StringUtils.toInt(hParams.get("ol-countries")) : 0);
 				en.setCountPerson(StringUtils.notEmpty(hParams.get("ol-persons")) ? StringUtils.toInt(hParams.get("ol-persons")) : 0);
+			}
+			else if (alias.equalsIgnoreCase(OlympicRanking.alias)) {
+				OlympicRanking en = (OlympicRanking) o;
+				en.setOlympics((Olympics)DatabaseHelper.loadEntity(Olympics.class, StringUtils.toInt(hParams.get("or-olympics"))));
+				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("or-country"))));
+				en.setCountGold(StringUtils.notEmpty(hParams.get("or-gold")) ? StringUtils.toInt(hParams.get("or-gold")) : 0);
+				en.setCountSilver(StringUtils.notEmpty(hParams.get("or-silver")) ? StringUtils.toInt(hParams.get("or-silver")) : 0);
+				en.setCountBronze(StringUtils.notEmpty(hParams.get("or-bronze")) ? StringUtils.toInt(hParams.get("or-bronze")) : 0);
 			}
 			else if (alias.equalsIgnoreCase(Sport.alias)) {
 				Sport en = (Sport) o;

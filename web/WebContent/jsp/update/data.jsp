@@ -17,6 +17,7 @@
 			<a id="link-CN" href="javascript:showPanel('CN');"><%=StringUtils.text("entity.CN", session)%></a>&nbsp;|&nbsp;
 			<a id="link-EV" href="javascript:showPanel('EV');"><%=StringUtils.text("entity.EV", session)%></a>&nbsp;|&nbsp;
 			<a id="link-OL" href="javascript:showPanel('OL');"><%=StringUtils.text("entity.OL", session)%></a>&nbsp;|&nbsp;
+			<a id="link-OR" href="javascript:showPanel('OR');"><%=StringUtils.text("entity.OR", session)%></a>&nbsp;|&nbsp;
 			<a id="link-SP" href="javascript:showPanel('SP');"><%=StringUtils.text("entity.SP", session)%></a>&nbsp;|&nbsp;
 			<a id="link-ST" href="javascript:showPanel('ST');"><%=StringUtils.text("entity.ST", session)%></a>&nbsp;|&nbsp;
 			<a id="link-TM" href="javascript:showPanel('TM');"><%=StringUtils.text("entity.TM", session)%></a>&nbsp;|&nbsp;
@@ -113,6 +114,15 @@
 				<tr><th><%=StringUtils.text("entity.EV", session)%></th><td><input type="text" id="ol-events"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.CN", session)%></th><td><input type="text" id="ol-countries"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.PR", session)%></th><td><input type="text" id="ol-persons"/></td></tr>
+			</table>
+			<!-- OLYMPIC MEDALS -->
+			<table id="table-OR" style="display:none;">
+				<tr><th>ID</th><td><input type="text" disabled="disabled" id="or-id" class="id"/></td></tr>
+				<tr><th><%=StringUtils.text("entity.OL.1", session)%></th><td><input type="hidden" id="or-olympics"/><input type="text" id="or-olympics-l"/></td></tr>
+				<tr><th><%=StringUtils.text("entity.CN.1", session)%></th><td><input type="hidden" id="or-country"/><input type="text" id="or-country-l"/></td></tr>
+				<tr><th><%=StringUtils.text("gold", session)%></th><td><input type="text" id="or-gold"/></td></tr>
+				<tr><th><%=StringUtils.text("silver", session)%></th><td><input type="text" id="or-silver"/></td></tr>
+				<tr><th><%=StringUtils.text("bronze", session)%></th><td><input type="text" id="or-bronze"/></td></tr>
 			</table>
 			<!-- SPORT -->
 			<table id="table-SP" style="display:none;">
