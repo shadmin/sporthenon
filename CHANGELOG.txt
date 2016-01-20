@@ -1,7 +1,29 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.12.3  |
+| Last Version: 0.12.4  |
 +-----------------------+
+
++--------+
+| 0.12.4 |
++--------+
+[20 Jan 2016]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.4
+- New feature: <Redirections> (=> new table to manage redirection of obsolete pages)
+- Automatic reset of fields after save (update/folders)
+- Moved photos below title in header table
+- Added XML requests for Android (calendar)
+- Added Excel format (XLS) for import templates (with colored zones)
+- Added summary with quick access links
+- Added sport name in autocompletion results
+- New field "country" for results and calendars (when multiple cities)
+- Info message duplicated in top of page (update/results)
+- Team logo instead of flag for athletes displayed in "last updates"
+- Check HTTPS protocol when user is logged in
+- Improved significantly response time in update/overview
+- Fixed missing primary keys in some tables
+- Changed calculation of olympic medals (sums grouped by country)
+- Added radio buttons to better distinguish creation/modification (update/results)
+- Bugfix: wrong use of patterns in import (i.e. "Men's singles" instead of "Men")
 
 +--------+
 | 0.12.3 |
