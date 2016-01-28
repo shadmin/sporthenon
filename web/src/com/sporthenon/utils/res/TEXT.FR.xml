@@ -59,6 +59,7 @@
 	<entry key="entity.RD">Tours/Matches</entry>
 	<entry key="entity.RS">Résultats</entry>
 	<entry key="entity.RN">Numéros retirés</entry>
+	<entry key="entity.RT">Types de match</entry>
 	<entry key="entity.SP">Sports</entry>
 	<entry key="entity.ST">Etats US</entry>
 	<entry key="entity.TM">Equipes</entry>
@@ -81,6 +82,7 @@
 	<entry key="entity.RD.1">Tour/Match</entry>
 	<entry key="entity.RS.1">Résultat</entry>
 	<entry key="entity.RN.1">Numéro retiré</entry>
+	<entry key="entity.RT.1">Type de match</entry>
 	<entry key="entity.SP.1">Sport</entry>
 	<entry key="entity.ST.1">Etat US</entry>
 	<entry key="entity.TM.1">Equipe</entry>
@@ -391,7 +393,7 @@
 	<entry key="report.bug">Rapporter un bug</entry>
 	<entry key="github.desc">Le projet et ses codes source sont hébergés sur GitHub</entry>
 	<entry key="programming">Programmation</entry>
-	<entry key="db.hosting">Base de données &amp; Hébergement</entry>
+	<entry key="db.hosting"><![CDATA[Base de données &amp; Hébergement]]></entry>
 <!-- LOGIN -->
 	<entry key="msg.login.err1">La connexion a échoué. Cet utilisateur n'est pas actif.</entry>
 	<entry key="msg.login.err2">La connexion a échoué. Merci de vérifier votre identifiant/mot de passe.</entry>

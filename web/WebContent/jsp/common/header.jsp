@@ -60,7 +60,7 @@
 		</table>
 	</div>
 	<div id="android">
-		<a href="https://play.google.com/store/apps/details?id=com.sporthenon.android" target="_blank"><img alt="Android app on Google Play" src="https://developer.android.com/images/brand/<%=lang%>_app_rgb_wo_45.png" /></a>
+		<a href="https://play.google.com/store/apps/details?id=com.sporthenon.android" target="_blank"><img alt="Android app on Google Play" src="/img/header/android<%=lang%>.png" /></a>
 	</div>
 </div>
 

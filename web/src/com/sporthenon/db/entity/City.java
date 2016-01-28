@@ -132,7 +132,7 @@ public class City {
 	}
 	
 	public String toString2(String lang) {
-		return getLabel(lang) + (state != null ? ", " + state.getCode() : "") + (country != null ? ", " + country.getCode() : "");
+		return getLabel(lang) + (country != null ? ", " + country.getCode() : "");
 	}
 
 }

@@ -6,7 +6,7 @@
 	background-color: #FFF;
 }
 .tc th, .tc td{
-	border: 1px solid #666;
+	border: 1px solid #777;
 	padding: 3px;
 	vertical-align: middle;
 }
@@ -30,6 +30,9 @@
 .tc a:hover{
 	color: #00C;
 	text-decoration: underline;
+}
+.tc th a, .tc th a:visited, .tc th a:hover{
+	color: #000;
 }
 .tc td table, .tc th table{
 	margin: 0;
@@ -67,10 +70,6 @@
 .tc .bold a{
 	font-weight: bold;
 }
-/*
-.tc .bold td{
-	font-weight: bold;
-}*/
 .tc .bordered{
 	background-color: #FFF;
 }
@@ -269,7 +268,7 @@
 }
 .tc .rounds tr:hover td{
 	/*background-color: #CFE0FF;*/
-	background-color: #FFA;
+	background-color: #FF9; /* _theme_ */
 }
 .tc .box2, .tc .box4{
 	margin-left: 400px;
@@ -300,7 +299,7 @@
 }
 .tc .tsort tr:hover{
 	/*background-color: #BEE0FF;*/
-	background-color: #FFA;
+	background-color: #FF9; /* _theme_ */
 }
 .tc .tsort table tr:hover, .tc .tsort .moreitems:hover, #dupdates .tsort .moreitems:hover{
 	background-color: transparent;
@@ -403,8 +402,7 @@ th.desc{
 	background: transparent url(../img/render/more3.gif) 0 0 no-repeat;
 }
 .moreitems div:hover{
-	/*background-color: #BEE0FF;*/
-	background-color: #FFA;
+	background-color: #FF9; /* _theme_ */
 }
 .moreitems .sfdiv1{
 	background: transparent url(../img/render/more.gif) left 2px no-repeat;

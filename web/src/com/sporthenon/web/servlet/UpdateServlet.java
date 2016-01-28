@@ -609,17 +609,19 @@ public class UpdateServlet extends AbstractServlet {
 						String rdDt = (StringUtils.notEmpty(t_[12]) ? t_[12] : null);
 						Complex rdCx = null;
 						City rdCt = null;
-						if (StringUtils.notEmpty(t_[13]) && StringUtils.notEmpty(t_[14])) {
+						if (StringUtils.notEmpty(t_[13]) || StringUtils.notEmpty(t_[14])) {
 							String[] tpl = t_[14].toLowerCase().split("\\,\\s");
-							int id = 0;
-							if (StringUtils.notEmpty(t_[13]))
-								id = new Integer(String.valueOf(t_[13]));
-							else
-								id = DatabaseHelper.insertPlace(0, String.valueOf(t_[14]), cb, null, lang);
-							if (tpl.length > 2)
-								rdCx = (Complex) DatabaseHelper.loadEntity(Complex.class, id);
-							else
-								rdCt = (City) DatabaseHelper.loadEntity(City.class, id);
+							if (tpl.length > 1) {
+								int id = 0;
+								if (StringUtils.notEmpty(t_[13]))
+									id = new Integer(String.valueOf(t_[13]));
+								else
+									id = DatabaseHelper.insertPlace(0, String.valueOf(t_[14]), cb, null, lang);
+								if (tpl.length > 2)
+									rdCx = (Complex) DatabaseHelper.loadEntity(Complex.class, id);
+								else
+									rdCt = (City) DatabaseHelper.loadEntity(City.class, id);
+							}
 						}
 						String rdExa = (StringUtils.notEmpty(t_[15]) ? t_[15] : null);
 						String rdCmt = (StringUtils.notEmpty(t_[16]) ? t_[16] : null);
@@ -1266,6 +1268,12 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(or.getCountSilver()).append("~");
 				sb.append(or.getCountBronze()).append("~");
 			}
+			else if (o instanceof RoundType) {
+				RoundType rt = (RoundType) o;
+				sb.append(rt.getLabel()).append("~");
+				sb.append(rt.getLabelFr()).append("~");
+				sb.append(rt.getIndex() != null ? rt.getIndex() : "").append("~");
+			}
 			else if (o instanceof Sport) {
 				Sport sp = (Sport) o;
 				sb.append(sp.getLabel()).append("~");
@@ -1538,6 +1546,12 @@ public class UpdateServlet extends AbstractServlet {
 				en.setCountGold(StringUtils.notEmpty(hParams.get("or-gold")) ? StringUtils.toInt(hParams.get("or-gold")) : 0);
 				en.setCountSilver(StringUtils.notEmpty(hParams.get("or-silver")) ? StringUtils.toInt(hParams.get("or-silver")) : 0);
 				en.setCountBronze(StringUtils.notEmpty(hParams.get("or-bronze")) ? StringUtils.toInt(hParams.get("or-bronze")) : 0);
+			}
+			else if (alias.equalsIgnoreCase(RoundType.alias)) {
+				RoundType en = (RoundType) o;
+				en.setLabel(String.valueOf(hParams.get("rt-label")));
+				en.setLabelFr(String.valueOf(hParams.get("rt-labelfr")));
+				en.setIndex(StringUtils.notEmpty(hParams.get("rt-index")) ? StringUtils.toInt(hParams.get("rt-index")) : Integer.MAX_VALUE);
 			}
 			else if (alias.equalsIgnoreCase(Sport.alias)) {
 				Sport en = (Sport) o;

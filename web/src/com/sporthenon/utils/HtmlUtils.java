@@ -26,8 +26,6 @@ import com.sporthenon.utils.res.ResourceUtils;
 
 public class HtmlUtils {
 
-	
-	
 	public static String writeNoResult(String lang) {
 		return "<div class='noresult'>" + ResourceUtils.getText("no.result", lang) + "</div>";
 	}

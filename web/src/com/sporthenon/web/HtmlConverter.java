@@ -493,7 +493,7 @@ public class HtmlConverter {
 				hInfo.put("title", e.getLastName() + (StringUtils.notEmpty(e.getFirstName()) ? " " + e.getFirstName() : ""));
 			else
 				hInfo.put("title", (StringUtils.notEmpty(e.getFirstName()) ? e.getFirstName() + " " : "") + e.getLastName());
-			hInfo.put("titlename", sbNm.toString());
+			hInfo.put("titlename", sbNm.toString().toUpperCase());
 			if (StringUtils.notEmpty(cn))
 				hInfo.put(vCn.size() > 1 ? "countries" : "country", cn);
 			if (StringUtils.notEmpty(sp))
@@ -1271,8 +1271,11 @@ public class HtmlConverter {
 				c5 = StringUtils.toTextDate(item.getDate1(), lang, "d MMMM yyyy HH:mm");
 			}
 			else if (en.equals(Event.alias)) {
+				boolean inactive = (item.getIdRel2().equals(item.getIdRel6()) && item.getIdRel3().equals(item.getIdRel7()) && (item.getIdRel4() == null || item.getIdRel4().equals(item.getIdRel8())) && (item.getIdRel5() == null || item.getIdRel5().equals(item.getIdRel9())));
 				String path1 = item.getLabelRel1() + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel3() + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel5() + (item.getIdRel4() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel7() : "") + (item.getIdRel5() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel9() : "");
 				String path2 = item.getLabelRel2() + "/" + item.getLabelRel4() + "/" + item.getLabelRel6() + (item.getIdRel4() != null ? "/" + item.getLabelRel8() : "") + (item.getIdRel5() != null ? "/" + item.getLabelRel10() : "");
+				if (inactive)
+					path1 = "<font color=\"#666\">&dagger;&nbsp;<i>" + path1 + "</i></font>";
 				c1 = "<a href='" + HtmlUtils.writeURL("/results", item.getIdRel1() + "-" + item.getIdRel2() + "-" + item.getIdRel3() + (item.getIdRel4() != null ? "-" + item.getIdRel4() : "") + (item.getIdRel5() != null ? "-" + item.getIdRel5() : ""), path2) + "'>" + path1 + "</a>";
 			}
 			else if (en.equals(HallOfFame.alias)) {
@@ -1997,15 +2000,16 @@ public class HtmlConverter {
 			if (bean.getCxId() != null) {
 				tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, null, null);				
 				venue = HtmlUtils.writeLink(Complex.alias, bean.getCxId(), bean.getCxLabel(), bean.getCxLabelEN());
-				venue += ",&nbsp;" + HtmlUtils.writeLink(City.alias, bean.getCt1Id(), bean.getCt1Label(), bean.getCt1LabelEN());
-				if (bean.getSt1Id() != null)
-					venue += ",&nbsp;" + HtmlUtils.writeLink(State.alias, bean.getSt1Id(), bean.getSt1Code(), bean.getSt1LabelEN());
-				venue += ",&nbsp;" + HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Code_(), bean.getCn1LabelEN_()); 
+//				venue += ",&nbsp;" + HtmlUtils.writeLink(City.alias, bean.getCt1Id(), bean.getCt1Label(), bean.getCt1LabelEN());
+//				if (bean.getSt1Id() != null)
+//					venue += ",&nbsp;" + HtmlUtils.writeLink(State.alias, bean.getSt1Id(), bean.getSt1Code(), bean.getSt1LabelEN());
+//				venue += ",&nbsp;" + HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Code_(), bean.getCn1LabelEN_()); 
 				venue = HtmlUtils.writeImgTable(tmpImg, venue);
 			}
-
+			String event = bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? " " + StringUtils.SEP1 + " " + bean.getSeLabel() : "");
+			
 			// Write line
-			html.append("<tr><td class='srt'>" + olympics + "</td><td class='srt'>" + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + bean.getSeLabel() : "") + "</td>");
+			html.append("<tr><td class='srt'>" + olympics + "</td><td class='srt'><span class='nowrap'>" + event + "</span></td>");
 			html.append(entity1 != null ? "<td class='srt'" + (!isIndividual_ && isIndividual ? " colspan='2'" : "") + " style='font-weight:bold;'>" + entity1 + "</td>" + (entityCn1 != null ? entityCn1 : "") + (isResult ? "<td>" + (bean.getRsResult1() != null ? StringUtils.formatResult(bean.getRsResult1(), lang) : "") + "</td>" : "") : "<td colspan='" + colspan + "'>" + StringUtils.EMPTY + "</td>");
 			html.append(entity2 != null ? "<td class='srt'" + (!isIndividual_ && isIndividual ? " colspan='2'" : "") + ">" + entity2 + "</td>" + (entityCn2 != null ? entityCn2 : "") + (isResult ? "<td>" + (bean.getRsResult2() != null ? StringUtils.formatResult(bean.getRsResult2(), lang) : "") + "</td>" : "") : "<td colspan='" + colspan + "'>" + StringUtils.EMPTY + "</td>");
 			html.append(entity3 != null ? "<td class='srt'" + (!isIndividual_ && isIndividual ? " colspan='2'" : "") + ">" + entity3 + "</td>" + (entityCn3 != null ? entityCn3 : "") + (isResult ? "<td>" + (bean.getRsResult3() != null ? StringUtils.formatResult(bean.getRsResult3(), lang) : "") + "</td>" : "") : "<td colspan='" + colspan + "'>" + StringUtils.EMPTY + "</td>");

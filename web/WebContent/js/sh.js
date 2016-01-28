@@ -1815,9 +1815,10 @@ function setInput(id) {
 	Event.observe($(id), 'blur', function(){
 		if ($(this).value == '') {
 			$(this).value = $(this).name;
+			$(this).removeClassName('completed').removeClassName('completed2');
 		}
 		else if ($(this).value != $(this).name && !$(this).hasClassName('completed')) {
-			$(this).addClassName('completed' + (isAjax ? '' : '2'));
+			$(this).addClassName('completed2');
 		}
 	});
 }
@@ -1918,12 +1919,14 @@ function saveRounds() {
 	var t = [];
 	var t_ = [];
 	var rt = null;
+	var rtl = null;
 	for (var i = 1 ; i <= rdCount ; i++) {
 		rt = tValues['rd' + i + 'rt'];
-		if (rt && rt != '') {
+		rtl = $('rd' + i + 'rt');
+		if (rtl && (rtl.hasClassName('completed') || rtl.hasClassName('completed2'))) {
 			t_ = [$('rd' + i + 'id').value];
 			t_.push(rt);
-			t_.push($('rd' + i + 'rt').hasClassName('completed2') ? $('rd' + i + 'rt').value : '');
+			t_.push(rtl.value);
 			t_.push(tValues['rd' + i + 'rk1']);
 			t_.push($('rd' + i + 'rk1').hasClassName('completed2') ? $('rd' + i + 'rk1').value : '');
 			t_.push($('rd' + i + 'rs1').hasClassName('completed2') ? $('rd' + i + 'rs1').value : '');
@@ -2163,6 +2166,12 @@ function setEntityValues(text) {
 		$('or-gold').value = t[i++];
 		$('or-silver').value = t[i++];
 		$('or-bronze').value = t[i++];
+	}
+	else if (currentAlias == 'RT') {
+		$('rt-id').value = currentId;
+		$('rt-label').value = t[i++];
+		$('rt-labelfr').value = t[i++];
+		$('rt-index').value = t[i++];
 	}
 	else if (currentAlias == 'SP') {
 		$('sp-id').value = currentId;

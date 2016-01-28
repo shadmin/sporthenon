@@ -59,6 +59,7 @@
 	<entry key="entity.RD">Rounds/Matches</entry>
 	<entry key="entity.RS">Results</entry>
 	<entry key="entity.RN">Retired Numbers</entry>
+	<entry key="entity.RT">Round types</entry>
 	<entry key="entity.SP">Sports</entry>
 	<entry key="entity.ST">US States</entry>
 	<entry key="entity.TM">Teams</entry>
@@ -81,6 +82,7 @@
 	<entry key="entity.RD.1">Round/Match</entry>
 	<entry key="entity.RS.1">Result</entry>
 	<entry key="entity.RN.1">Retired Number</entry>
+	<entry key="entity.RT.1">Round type</entry>
 	<entry key="entity.SP.1">Sport</entry>
 	<entry key="entity.ST.1">US State</entry>
 	<entry key="entity.TM.1">Team</entry>
@@ -393,7 +395,7 @@
 	<entry key="report.bug">Report a bug</entry>
 	<entry key="github.desc">The project and its source code are hosted on GitHub</entry>
 	<entry key="programming">Programming</entry>
-	<entry key="db.hosting">Database &amp; Hosting</entry>
+	<entry key="db.hosting"><![CDATA[Database &amp; Hosting]]></entry>
 <!-- LOGIN -->
 	<entry key="msg.login.err1">Login failed. The user is not active.</entry>
 	<entry key="msg.login.err2">Login failed. Please check your login and password.</entry>

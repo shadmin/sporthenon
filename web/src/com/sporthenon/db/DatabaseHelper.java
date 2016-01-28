@@ -416,7 +416,7 @@ public class DatabaseHelper {
 			tr = getTransaction();
 			if (tr != null) tr.begin();
 			em = getEntityManager();
-			String hql = "select " + (alias.equals(Athlete.alias) ? "firstName || ' ' || lastName" : (alias.equals(Contributor.alias) ? "login" : "label"));
+			String hql = "select " + (alias.equals(Athlete.alias) ? "firstName || ' ' || lastName" : (alias.equals(Contributor.alias) ? "login" : (alias.equals(Olympics.alias) ? "city.label || ' ' || year.label" : "label")));
 			hql += " from " + getClassFromAlias(alias).getName() + " where id=" + id;
 			Query query = em.createQuery(hql);
 			s = String.valueOf(query.getSingleResult()).trim();

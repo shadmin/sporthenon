@@ -18,6 +18,7 @@
 			<a id="link-EV" href="javascript:showPanel('EV');"><%=StringUtils.text("entity.EV", session)%></a>&nbsp;|&nbsp;
 			<a id="link-OL" href="javascript:showPanel('OL');"><%=StringUtils.text("entity.OL", session)%></a>&nbsp;|&nbsp;
 			<a id="link-OR" href="javascript:showPanel('OR');"><%=StringUtils.text("entity.OR", session)%></a>&nbsp;|&nbsp;
+			<a id="link-RT" href="javascript:showPanel('RT');"><%=StringUtils.text("entity.RT", session)%></a>&nbsp;|&nbsp;
 			<a id="link-SP" href="javascript:showPanel('SP');"><%=StringUtils.text("entity.SP", session)%></a>&nbsp;|&nbsp;
 			<a id="link-ST" href="javascript:showPanel('ST');"><%=StringUtils.text("entity.ST", session)%></a>&nbsp;|&nbsp;
 			<a id="link-TM" href="javascript:showPanel('TM');"><%=StringUtils.text("entity.TM", session)%></a>&nbsp;|&nbsp;
@@ -123,6 +124,13 @@
 				<tr><th><%=StringUtils.text("gold", session)%></th><td><input type="text" id="or-gold"/></td></tr>
 				<tr><th><%=StringUtils.text("silver", session)%></th><td><input type="text" id="or-silver"/></td></tr>
 				<tr><th><%=StringUtils.text("bronze", session)%></th><td><input type="text" id="or-bronze"/></td></tr>
+			</table>
+			<!-- ROUND TYPES -->
+			<table id="table-RT" style="display:none;">
+				<tr><th>ID</th><td><input type="text" disabled="disabled" id="rt-id" class="id"/></td></tr>
+				<tr><th><%=StringUtils.text("label", session)%> (EN)</th><td><input type="text" id="rt-label"/></td></tr>
+				<tr><th><%=StringUtils.text("label", session)%> (FR)</th><td><input type="text" id="rt-labelfr"/></td></tr>
+				<tr><th><%=StringUtils.text("index", session)%></th><td><input type="text" id="rt-index"/></td></tr>
 			</table>
 			<!-- SPORT -->
 			<table id="table-SP" style="display:none;">

@@ -52,6 +52,7 @@ public class ResourceUtils {
 			String lang = LGDEFAULT;
 			try {
 				String url = ServletHelper.getURL(request);
+				Logger.getLogger("sh").fatal(url);
 				if (url.matches(".*\\/\\/[a-z]{2}\\..*"))
 					lang = url.substring(url.indexOf("//") + 2).substring(0, 2);
 				else {
@@ -62,6 +63,7 @@ public class ResourceUtils {
 				}
 			}
 			catch (Exception e) {
+				Logger.getLogger("sh").fatal(e.getMessage(), e);
 				lang = LGDEFAULT;
 			}
 			finally {

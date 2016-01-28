@@ -4,19 +4,8 @@
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="project">
 	<div class="right">
-		<!-- CONTRIBUTORS -->
-		<div class="fieldset" style="height:300px;margin-top:0px;">
-		<div class="fstitle contributors"><%=StringUtils.text("contributors", session)%></div>
-		<div class="fscontent">
-			<div style="height:260px;overflow:auto;">
-			<table><tr><th>ID</th><th><%=StringUtils.text("name", session)%></th><th><%=StringUtils.text("entity.SP", session)%></th><th><%=StringUtils.text("contributions", session)%></th></tr><%=request.getAttribute("contributors")%></table>
-			</div>
-		</div>
-		</div>
-	</div>
-	<div class="left">
 		<!-- GITHUB -->
-		<div class="fieldset" style="height:300px;overflow-y:auto;">
+		<div class="fieldset" style="height:300px;overflow-y:auto;margin-top:0px;">
 			<div class="fstitle github">GITHUB</div>
 			<div class="fscontent">
 				<%=StringUtils.text("github.desc", session)%>&nbsp;:<br/><a target="_blank" href="https://github.com/shadmin/sporthenon">https://github.com/shadmin/sporthenon</a>
@@ -29,6 +18,17 @@
 					<tr><td style="text-align:center;"><a target="_blank" href="http://github.com/shadmin/sporthenon/wiki">http://github.com/shadmin/sporthenon/wiki</a></td></tr>
 				</table>
 			</div>
+		</div>
+	</div>
+	<div class="left">
+		<!-- CONTRIBUTORS -->
+		<div class="fieldset" style="height:300px;">
+		<div class="fstitle contributors"><%=StringUtils.text("contributors", session)%></div>
+		<div class="fscontent">
+			<div style="height:260px;overflow:auto;">
+			<table><tr><th>ID</th><th><%=StringUtils.text("name", session)%></th><th><%=StringUtils.text("entity.SP", session)%></th><th><%=StringUtils.text("contributions", session)%></th></tr><%=request.getAttribute("contributors")%></table>
+			</div>
+		</div>
 		</div>
 	</div>
 	<div>
