@@ -1962,6 +1962,7 @@ li{
 #shareopt, #exportopt, #toolsopt{
 	position: absolute;
 	text-align: right;
+	margin-top: -1px;
 	margin-left: 2px;
 	width: 200px;
 	border: 1px solid #000;

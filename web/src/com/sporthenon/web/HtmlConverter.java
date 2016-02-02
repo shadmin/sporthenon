@@ -78,7 +78,7 @@ public class HtmlConverter {
 	public static final short HEADER_SEARCH = 9;
 	public static final short HEADER_REF = 10;
 	
-	private static final String HIGHLIGHT_COLOR = "#DFFFDF";
+	private static final String HIGHLIGHT_COLOR = "transparent";
 
 	public static String getResultsEntity(int type, Integer rank, String str1, String str2, String str3, String country, String year, String plist) {
 		String s = null;
