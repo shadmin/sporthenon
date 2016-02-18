@@ -308,7 +308,7 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			else if (o instanceof Team) {
 				Team t_ = (Team) o;
-				text = t_.toString2() + (isData ? (StringUtils.notEmpty(t_.getYear1()) ? " [" + t_.getYear1() + "]" : "") + (StringUtils.notEmpty(t_.getYear2()) ? " [" + t_.getYear2() + "]" : "") : "");;
+				text = t_.toString2() + (StringUtils.notEmpty(t_.getYear1()) ? " [" + t_.getYear1() + "-" + (StringUtils.notEmpty(t_.getYear2()) ? t_.getYear2() : "") + "]" : "");
 			}
 			else if (o instanceof League) {
 				League l__ = (League) o;

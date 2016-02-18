@@ -1538,7 +1538,6 @@ function loadResValues(value) {
 			$('id').value = tValues['id'];
 			if (dzr != null) {
 				$('dz-file').update('<p>' + TX_CLICK_DRAGDROP + '</p>');
-				dzr.options.url = '/ImageServlet?upload-photo&entity=RS&id=' + tValues['id'];
 			}
 			// Result Info
 			tValues['dt1'] = t[16]; if (t[16] != '') {$('dt1').value = t[16]; $('dt1').addClassName('completed2');} else {$('dt1').value = $('dt1').name; $('dt1').removeClassName('completed2');}
@@ -1615,6 +1614,15 @@ function loadResValues(value) {
 			var k = j;
 			var rdindex = 1;
 			var trd = [];
+			while (tValues['rd' + rdindex + 'rt']) {
+				tValues['rd' + rdindex + 'rt'] = null;
+				tValues['rd' + rdindex + 'rk1'] = null;
+				tValues['rd' + rdindex + 'rk2'] = null;
+				tValues['rd' + rdindex + 'rk3'] = null;
+				tValues['rd' + rdindex + 'pl'] = null;
+				rdindex++;
+			}
+			rdindex = 1;
 			while (t[k]) {
 				if (t[k].indexOf('rd-') == 0) {
 					var t_ = t[k].substring(3).split('|');
@@ -1636,8 +1644,8 @@ function loadResValues(value) {
 					if (t_[15] != '') {$('rd' + rdindex + 'exa').value = t_[15]; $('rd' + rdindex + 'exa').addClassName('completed2');} else {$('rd' + rdindex + 'exa').value = $('rd' + rdindex + 'exa').name; $('rd' + rdindex + 'exa').removeClassName('completed2');}
 					if (t_[16] != '') {$('rd' + rdindex + 'cmt').value = t_[16]; $('rd' + rdindex + 'cmt').addClassName('completed2');} else {$('rd' + rdindex + 'cmt').value = $('rd' + rdindex + 'cmt').name; $('rd' + rdindex + 'cmt').removeClassName('completed2');}
 					trd.push(replaceAll(t[k].substring(3), '|', '~'));
-					rdindex++;
 				}
+				rdindex++;
 				k++;
 			}
 			tValues['rdlist'] = trd.join('|');
@@ -1742,6 +1750,10 @@ function saveResult() {
 			if (text.indexOf('ERR:') == -1) {
 				tValues['id'] = text.split('#')[0];
 				$('id').value = tValues['id'];
+				if (fr != null) {
+					dzr.options.url = '/ImageServlet?upload-photo&entity=RS&id=' + tValues['id'];
+					dzr.processFile(fr);
+				}
 				showMessage(text.split('#')[1]);
 			}
 			else {
@@ -1750,9 +1762,6 @@ function saveResult() {
 		},
 		parameters: h
 	});
-	if (fr != null) {
-		dzr.processFile(fr);	
-	}
 }
 function deleteResult() {
 	$('header').setStyle({ opacity: 0.4 });
