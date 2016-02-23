@@ -59,7 +59,7 @@ li{
 .fieldset .fstitle{
 	font-weight: bold;
 	border-bottom: 1px solid gray;
-	background-color: #fce2c0; /* _theme_ */
+	background-color: #c0e2fc; /* _theme_ */
 	padding: 4px;
 	padding-left: 23px;
 	background-position: 3px center;
@@ -656,7 +656,7 @@ li{
 .homecontent .fieldset .fstitle{
 	font-weight: bold;
 	border-bottom: 1px solid gray;
-	background-color: #fce2c0; /* _theme_ */
+	background-color: #c0e2fc; /* _theme_ */
 	padding: 5px;
 	padding-left: 23px;
 	padding-bottom: 4px;

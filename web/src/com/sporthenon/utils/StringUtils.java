@@ -86,7 +86,7 @@ public class StringUtils {
 	
 	public static String toPatternString(String s) throws Exception {
 		String regexp = s.replaceAll("\\_", ".").replaceAll("'", "''");
-		regexp = regexp.replaceAll("\\,", "\\\\\\\\\\\\\\\\,");
+		regexp = regexp.replaceAll("\\,", "\\\\\\\\,");
 		regexp = regexp.replaceAll("\\(", "\\\\\\\\\\\\\\\\(");
 		regexp = regexp.replaceAll("\\)", "\\\\\\\\\\\\\\\\)");
 		return String.valueOf(DatabaseHelper.executeNative("SELECT \"~PatternString\"(E'" + regexp + "')").get(0)).replaceAll("'", "''");

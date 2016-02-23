@@ -548,7 +548,7 @@ public class UpdateServlet extends AbstractServlet {
 					if (hInserted.keySet().contains(o))
 						id = hInserted.get(o);
 					else {
-						id = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(o), null, cb, null, lang);
+						id = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(o), result.getYear().getLabel(), cb, null, lang);
 						hInserted.put(o, id);
 					}
 				}
@@ -575,7 +575,7 @@ public class UpdateServlet extends AbstractServlet {
 							if (idp.matches("\\d+"))
 								plist.setIdPerson(Integer.parseInt(idp));
 							else
-								plist.setIdPerson(DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, idp, null, cb, null, lang));
+								plist.setIdPerson(DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, idp, result.getYear().getLabel(), cb, null, lang));
 							plist.setIndex(StringUtils.notEmpty(index) && !index.equals("null") ? index : null);
 							DatabaseHelper.saveEntity(plist, cb);
 						}
@@ -600,11 +600,11 @@ public class UpdateServlet extends AbstractServlet {
 							rdt.setIndex(100);
 							rdRt = (RoundType) DatabaseHelper.saveEntity(rdt, cb);
 						}
-						Integer rdRk1 = (StringUtils.notEmpty(t_[3]) ? Integer.parseInt(t_[3]) : (StringUtils.notEmpty(t_[4]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[4], null, cb, null, lang) : 0));
+						Integer rdRk1 = (StringUtils.notEmpty(t_[3]) ? Integer.parseInt(t_[3]) : (StringUtils.notEmpty(t_[4]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[4], result.getYear().getLabel(), cb, null, lang) : 0));
 						String rdRs1 = (StringUtils.notEmpty(t_[5]) ? t_[5] : null);
-						Integer rdRk2 = (StringUtils.notEmpty(t_[6]) ? Integer.parseInt(t_[6]) : (StringUtils.notEmpty(t_[7]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[7], null, cb, null, lang) : 0));
+						Integer rdRk2 = (StringUtils.notEmpty(t_[6]) ? Integer.parseInt(t_[6]) : (StringUtils.notEmpty(t_[7]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[7], result.getYear().getLabel(), cb, null, lang) : 0));
 						String rdRs2 = (StringUtils.notEmpty(t_[8]) ? t_[8] : null);
-						Integer rdRk3 = (StringUtils.notEmpty(t_[9]) ? Integer.parseInt(t_[9]) : (StringUtils.notEmpty(t_[10]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[10], null, cb, null, lang) : 0));
+						Integer rdRk3 = (StringUtils.notEmpty(t_[9]) ? Integer.parseInt(t_[9]) : (StringUtils.notEmpty(t_[10]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[10], result.getYear().getLabel(), cb, null, lang) : 0));
 						String rdRs3 = (StringUtils.notEmpty(t_[11]) ? t_[11] : null);
 						String rdDt = (StringUtils.notEmpty(t_[12]) ? t_[12] : null);
 						Complex rdCx = null;

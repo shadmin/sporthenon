@@ -12,7 +12,7 @@
 }
 .tc th{
 	font-weight: bold;
-	background-color: #fce2c0; /* _theme_ */
+	background-color: #c0e2fc; /* _theme_ */
 	text-align: center;
 	padding: 3px 10px;
 }
@@ -142,7 +142,7 @@
 	text-align: center;
 }
 .tc .info td.photo img{
-	border: 1px solid #DDD;
+	/*border: 1px solid #DDD;*/
 }
 .tc .source{
 	display: none;
@@ -168,6 +168,9 @@
 	text-align: center;
 	padding-bottom: 60px;
 	background: #FFF url(../img/column.png?5) center 105px no-repeat;
+}
+.tc .info .logoteam{
+	text-align: center;
 }
 .tc .info .flag img, .tc .info .otherflags img{
 	border: 1px solid #666;
@@ -457,11 +460,26 @@ th.desc{
 .bronze{
 	background-image: url(../img/render/bronze.png);
 }
-#summary{
+#summary, #summary2{
 	position: absolute;
-	left: 260px;
 	top: 105px;
 	background-color: #FFF;
 	border: 1px solid #AAA;
 	padding: 5px;
+}
+#summary{
+	left: 260px;
+}
+#summary2{
+	right: 15px;
+	text-align: center;
+}
+#summary2 span{
+	font-weight: bold;
+	font-size: 13px;
+}	
+#summary2 hr{
+	border: 0;
+	border-top: 1px solid #AAA;
+	margin: 5px 0px;
 }

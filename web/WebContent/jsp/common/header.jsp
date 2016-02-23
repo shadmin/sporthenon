@@ -23,9 +23,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta name="Description" content="<%=desc%>"/>
 	<meta name="keywords" content="<%=StringUtils.text("keywords", session)%>"/>
-	<link rel="alternate" hreflang="x-default" href="http://www.sporthenon.com/"/>
-	<link rel="alternate" hreflang="en" href="http://en.sporthenon.com/"/>
-	<link rel="alternate" hreflang="fr" href="http://fr.sporthenon.com/"/>
+	<link rel="alternate" hreflang="x-default" href="<%=request.getAttribute("urlEN")%>"/>
+	<link rel="alternate" hreflang="en" href="<%=request.getAttribute("urlEN")%>"/>
+	<link rel="alternate" hreflang="fr" href="<%=request.getAttribute("urlFR")%>"/>
 	<meta property="og:title" content="<%=title%>"/>
 	<meta property="og:type" content="website"/>
 	<meta property="og:image" content="<%=url%>img/icon-notext-shadow.png?1"/>

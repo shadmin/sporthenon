@@ -855,8 +855,27 @@ public class HtmlConverter {
 				html.append("</tbody></table></li>");
 				html.append("</ul>");
 			}
+			// Other events
+			String sql = "SELECT RS.id, RS." + (r.getSubevent2() != null ? "id_subevent2" : (r.getSubevent() != null ? "id_subevent" : "id_event")) + ", EV.label, EV.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "") + ", EV.index, II.id FROM \"Result\" RS";
+			sql += " LEFT JOIN \"Event\" EV ON RS." + (r.getSubevent2() != null ? "id_subevent2" : (r.getSubevent() != null ? "id_subevent" : "id_event")) + "=EV.id LEFT JOIN \"~InactiveItem\" II ON (RS.id_sport = II.id_sport AND RS.id_championship = II.id_championship AND RS.id_event = II.id_event AND (RS.id_subevent = II.id_subevent OR RS.id_subevent IS NULL) AND (RS.id_subevent2 = II.id_subevent2 OR RS.id_subevent2 IS NULL))";
+			sql += " WHERE RS.id_year=" + r.getYear().getId() + " AND RS.id_sport=" + r.getSport().getId() + " AND RS.id_championship=" + r.getChampionship().getId() + (r.getSubevent2() != null ? " and RS.id_subevent=" + r.getSubevent().getId() : (r.getSubevent() != null ? " and RS.id_event=" + r.getEvent().getId() : "")) + " ORDER BY II.id DESC, EV.index, EV.label";
+			StringBuffer sbOtherEvents = new StringBuffer();
+			List<Object[]> l = DatabaseHelper.executeNative(sql);
+			if (l != null && l.size() > 1) {
+				sbOtherEvents.append("<span>" + r.getYear().getLabel() + "</span><hr/>");
+				for (Object[] t : l) {
+					Integer id_ = (Integer) t[0];
+					String path = r.getYear().getLabel() + "/" + r.getSport().getLabel() + "/" + r.getChampionship().getLabel() + (r.getSubevent() != null ? "/" + r.getEvent().getLabel() : "") + (r.getSubevent2() != null ? "/" + r.getSubevent().getLabel() : "");
+					path += "/" + t[3];
+					if (!r.getId().equals(id_))
+						sbOtherEvents.append(HtmlUtils.writeLink(Result.alias, id_, String.valueOf(t[2]), path)).append("<br/>");
+						
+					else
+						sbOtherEvents.append("<b>" + t[2] + "</b><br/>");
+				}
+			}
 			// Other years
-			List<Object[]> l = DatabaseHelper.execute("select id, year.label from Result where sport.id=" + r.getSport().getId() + " and championship.id=" + r.getChampionship().getId() + " and event.id=" + r.getEvent().getId() + (r.getSubevent() != null ? " and subevent.id=" + r.getSubevent().getId() : "") + (r.getSubevent2() != null ? " and subevent2.id=" + r.getSubevent2().getId() : "") + " order by year.id");
+			l = DatabaseHelper.execute("select id, year.label from Result where sport.id=" + r.getSport().getId() + " and championship.id=" + r.getChampionship().getId() + " and event.id=" + r.getEvent().getId() + (r.getSubevent() != null ? " and subevent.id=" + r.getSubevent().getId() : "") + (r.getSubevent2() != null ? " and subevent2.id=" + r.getSubevent2().getId() : "") + " order by year.id");
 			if (l != null && l.size() > 1) {
 				String path = r.getSport().getLabel() + "/" + r.getChampionship().getLabel() + "/" + r.getEvent().getLabel() + (r.getSubevent() != null ? "/" + r.getSubevent().getLabel() : "") + (r.getSubevent2() != null ? "/" + r.getSubevent2().getLabel() : "");
 				StringBuffer sbOtherYears = new StringBuffer();
@@ -931,6 +950,8 @@ public class HtmlConverter {
 			}
 			if (summary.length() > 0)
 				html.append("<div id='summary'><a href='#Header'>1.&nbsp;" + ResourceUtils.getText("header", lang) + "</a><br/>" + summary.toString() + "</div>");
+			if (sbOtherEvents.length() > 0)
+				html.append("<div id='summary2'>" + sbOtherEvents.toString() + "</div>");
 			return html;
 		}
 		else if (type.equals(Sport.alias)) {
@@ -1037,7 +1058,7 @@ public class HtmlConverter {
 			String sp = sbSp.toString();
 			hInfo.put("title", e.getLabel());
 			hInfo.put("titlename" + (vNm.size() > 1 && !StringUtils.notEmpty(e.getYear1()) ? "s" : ""), "<b>" + (StringUtils.notEmpty(e.getYear1()) ? e.getLabel().toUpperCase() : sbTm.toString()) + "</b>");
-			hInfo.put("logo", currentLogo);
+			hInfo.put("logoteam", currentLogo);
 			StringBuffer sbOtherLogos = new StringBuffer();
 			if (lAllLogos != null && lAllLogos.size() > 1) {
 				int nol = 0;
@@ -1517,7 +1538,7 @@ public class HtmlConverter {
 			tIsResult[4] |= (StringUtils.notEmpty(bean.getRsResult5()));
 			isDates |= StringUtils.notEmpty(bean.getRsDate2());
 			isPlace |= (bean.getCx1Id() != null || bean.getCx2Id() != null || bean.getCt2Id() != null || bean.getCt4Id() != null);
-			isComment |= (StringUtils.notEmpty(bean.getRsComment()) && !bean.getRsComment().matches("\\#(DOUBLE|TRIPLE)\\#"));
+			isComment |= (StringUtils.notEmpty(bean.getRsComment()) && !bean.getRsComment().matches("\\#(DOUBLE|TRIPLE)\\#") && bean.getRsRank1() != null);
 		}
 		entityCount = (entityCount > MAX_RANKS ? MAX_RANKS : entityCount);
 		tColspan[0] += (tIsEntityRel1[0] ? 1 : 0) + (tIsEntityRel2[0] ? 1 : 0);
@@ -1531,6 +1552,7 @@ public class HtmlConverter {
 		tColspan[8] += (tIsEntityRel1[8] ? 1 : 0) + (tIsEntityRel2[8] ? 1 : 0);
 		boolean isScore = (entityCount > 1 && tIsResult[0] && !tIsResult[1] && !tIsResult[2] && !tIsResult[3] && !tIsResult[4]);
 		tColspan[0] -= (isScore ? 1 : 0);
+		boolean isScore_ = isScore;
 		String path = rs.getSport().getLabel() + "/" + rs.getChampionship().getLabel() + "/" + rs.getEvent().getLabel() + (rs.getSubevent() != null ? "/" + rs.getSubevent().getLabel() : "") + (rs.getSubevent2() != null ? "/" + rs.getSubevent2().getLabel() : "");
 
 		long id = System.currentTimeMillis();
@@ -1641,7 +1663,7 @@ public class HtmlConverter {
 			html.append(isComment ? "<td" + (StringUtils.notEmpty(commentColor) ? " style='width:15px;white-space:nowrap;background-color:" + commentColor + ";'" : "") + ">" + (StringUtils.notEmpty(comment) && !isResultEmpty ? HtmlUtils.writeComment(bean.getRsId(), comment) : "") + "</td>" : "");
 			html.append("<td class='srt'>" + year + "</td>");
 			if (isResultEmpty && StringUtils.notEmpty(bean.getRsComment()))
-				html.append("<td colspan='" + (tColspan[0] + (entityCount > 1 ? tColspan[1] : 0) + (entityCount > 2 ? tColspan[2] : 0) + (isDates ? 1 : 0) + (isPlace ? 1 : 0) + (isScore ? 1 : 0)) + "'>" + bean.getRsComment().replaceAll("\r\n|\\|", "<br/>") + "</td>");
+				html.append("<td colspan='" + (tColspan[0] + (entityCount > 1 ? tColspan[1] : 0) + (entityCount > 2 ? tColspan[2] : 0) + (isDates ? 1 : 0) + (isPlace ? 1 : 0) + (isScore_ ? 1 : 0)) + "'>" + bean.getRsComment().replaceAll("\r\n|\\|", "<br/>") + "</td>");
 			else {
 				for (int i = 0 ; i < 9 ; i++)
 					html.append(tEntityHtml[i] != null ? tEntityHtml[i] : (entityCount > i ? "<td class='srt'" + (tColspan[i] > 1 ? " colspan='" + tColspan[i] + "'" : "") + ">" + StringUtils.EMPTY + "</td>" + (isScore && i == 0 ? "<td class='srt'>" + StringUtils.EMPTY + "</td>" : "") : ""));
