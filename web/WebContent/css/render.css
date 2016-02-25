@@ -162,15 +162,13 @@
 	/*margin: auto;*/
 }
 .tc .info .logo, .tc .info .flag{
+	text-align: center;
 	padding: 5px 5px;
 }
 .tc .info .logosport{
 	text-align: center;
 	padding-bottom: 60px;
 	background: #FFF url(../img/column.png?5) center 105px no-repeat;
-}
-.tc .info .logoteam{
-	text-align: center;
 }
 .tc .info .flag img, .tc .info .otherflags img{
 	border: 1px solid #666;
@@ -270,7 +268,6 @@
 	background-color: transparent;
 }
 .tc .rounds tr:hover td{
-	/*background-color: #CFE0FF;*/
 	background-color: #FF9; /* _theme_ */
 }
 .tc .box2, .tc .box4{
@@ -301,7 +298,6 @@
 	clear: right;
 }
 .tc .tsort tr:hover{
-	/*background-color: #BEE0FF;*/
 	background-color: #FF9; /* _theme_ */
 }
 .tc .tsort table tr:hover, .tc .tsort .moreitems:hover, #dupdates .tsort .moreitems:hover{

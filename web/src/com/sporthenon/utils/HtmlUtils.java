@@ -192,8 +192,8 @@ public class HtmlUtils {
 		}
 		for (String key : h.keySet()) {
 			if (!key.matches("(tab|^)title|titleEN|imgurl|source|url|info|\\_sport\\_|\\_year\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
-				html.append("<tr>" + (h.containsKey("_sport_") || h.containsKey("_team_") || key.equals("logoteam") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
-				html.append("<td" + (key.matches("logo|logosport|logoteam|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + (key.equals("logoteam") ? " colspan='2'" : "") + ">" + h.get(key) + "</td></tr>");
+				html.append("<tr>" + (h.containsKey("_sport_") || h.containsKey("_team_") || key.matches("flag|logo") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
+				html.append("<td" + (key.matches("logo|logosport|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + (key.matches("flag|logo") ? " colspan='2'" : "") + ">" + h.get(key) + "</td></tr>");
 			}
 		}
 		html.append("</table></li>");

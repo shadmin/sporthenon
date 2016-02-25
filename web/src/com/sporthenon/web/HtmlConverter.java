@@ -668,8 +668,8 @@ public class HtmlConverter {
 			hInfo.put("title", e.getLabel(lang));
 			hInfo.put("titleEN", e.getLabel());
 			hInfo.put("titlename", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
-			hInfo.put("code", e.getCode());
 			hInfo.put("flag", currentLogo);
+			hInfo.put("code", e.getCode());
 			StringBuffer sbOtherFlags = new StringBuffer();
 			if (lAllLogos != null && lAllLogos.size() > 1) {
 				int nof = 0;
@@ -1058,7 +1058,7 @@ public class HtmlConverter {
 			String sp = sbSp.toString();
 			hInfo.put("title", e.getLabel());
 			hInfo.put("titlename" + (vNm.size() > 1 && !StringUtils.notEmpty(e.getYear1()) ? "s" : ""), "<b>" + (StringUtils.notEmpty(e.getYear1()) ? e.getLabel().toUpperCase() : sbTm.toString()) + "</b>");
-			hInfo.put("logoteam", currentLogo);
+			hInfo.put("logo", currentLogo);
 			StringBuffer sbOtherLogos = new StringBuffer();
 			if (lAllLogos != null && lAllLogos.size() > 1) {
 				int nol = 0;
@@ -1572,7 +1572,14 @@ public class HtmlConverter {
 			// Evaluate bean
 			String details = HtmlUtils.writeLink(Result.alias, bean.getRsId(), "<img alt='details' title='" + ResourceUtils.getText("details", lang) + " (" + bean.getYrLabel() + ")' src='/img/render/details.png'/>", bean.getYrLabel() + "/" + path) + (m != null && m.isSport(rs.getSport().getId()) ? "&nbsp;<a href='" + HtmlUtils.writeURL("/update/results", "RS-" + bean.getRsId(), null) + "'><img alt='modify' title='" + ResourceUtils.getText("button.modify", lang) + "' src='/img/component/button/modify.png'/></a>" : "");
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
-			String dates = (StringUtils.notEmpty(bean.getRsDate1()) ? HtmlUtils.writeDateLink(bean.getRsDate1(), StringUtils.toTextDate(bean.getRsDate1(), lang, "d MMM")) + StringUtils.RARROW : "") + (StringUtils.notEmpty(bean.getRsDate2()) ? HtmlUtils.writeDateLink(bean.getRsDate2(), StringUtils.toTextDate(bean.getRsDate2(), lang, "d MMM")) : "");
+			String d1 = bean.getRsDate1();
+			String d2 = bean.getRsDate2();
+			String dates = "";
+			if (StringUtils.notEmpty(d1) && StringUtils.notEmpty(d2) && d1.substring(3).equals(d2.substring(3)))
+				dates = HtmlUtils.writeDateLink(d2, d1.substring(0, 2).replaceFirst("^0", "") + StringUtils.SEP1 + StringUtils.toTextDate(d2, lang, "d MMM"));
+			else
+				dates = (StringUtils.notEmpty(d1) ? HtmlUtils.writeDateLink(d1, StringUtils.toTextDate(d1, lang, "d MMM")) + StringUtils.SEP1 : "") + (StringUtils.notEmpty(d2) ? HtmlUtils.writeDateLink(d2, StringUtils.toTextDate(d2, lang, "d MMM")) : "");
+			d2 = (StringUtils.notEmpty(d2) ? StringUtils.toTextDate(d2.replaceFirst("\\d\\d\\d\\d$", "1900"), lang, "yyyyMMdd") : "");
 			String place1 = null, place2 = null;
 			String comment = (StringUtils.notEmpty(bean.getRsComment()) && !bean.getRsComment().matches("\\#(DOUBLE|TRIPLE)\\#") ? bean.getRsComment().replaceAll("\r\n|\\|", "<br/>") : null);
 			boolean isResultEmpty = (bean.getRsRank1() == null && bean.getRsRank2() == null && bean.getRsRank3() == null && bean.getRsRank4() == null && bean.getRsRank5() == null);
@@ -1667,7 +1674,7 @@ public class HtmlConverter {
 			else {
 				for (int i = 0 ; i < 9 ; i++)
 					html.append(tEntityHtml[i] != null ? tEntityHtml[i] : (entityCount > i ? "<td class='srt'" + (tColspan[i] > 1 ? " colspan='" + tColspan[i] + "'" : "") + ">" + StringUtils.EMPTY + "</td>" + (isScore && i == 0 ? "<td class='srt'>" + StringUtils.EMPTY + "</td>" : "") : ""));
-				html.append(isDates ? "<td class='srt'>" + (StringUtils.notEmpty(dates) ? dates : "") + "</td>" : "");
+				html.append(isDates ? "<td id='dt-" + d2 + "-" + bean.getRsId() + "' class='srt nowrap'>" + (StringUtils.notEmpty(dates) ? dates : "") + "</td>" : "");
 				html.append((isPlace ? "<td class='srt'>" + (StringUtils.notEmpty(place1) ? place1 : "") + (StringUtils.notEmpty(place2) ? place2 : "") + "</td>" : "") + "</tr>");				
 			}
 		}

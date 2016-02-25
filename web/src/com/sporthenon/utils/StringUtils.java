@@ -29,7 +29,7 @@ public class StringUtils {
 
 	public static final String EMPTY = "-";
 	public static final String SEP1 = "&ndash;";
-	public static final String RARROW = "&nbsp;" + SEP1 + "&nbsp;";
+	public static final String RARROW = "&#8209;";
 	public static final String PATTERN_PLACE = "^([^\\,\\(\\)]+\\,\\s|)[^\\,\\(\\)]+(\\,\\s[a-z]{2}|)\\,\\s[a-z]{3}$";
 	public static final String PATTERN_ATHLETE = "^[^\\,\\(\\)]+\\,\\s{1}[^\\s][^\\,\\(\\)]*\\s{1}\\([a-z]{3}(|\\,\\s{1}[^\\s][^\\,\\(\\)]+)\\)$";
 	public static final String PATTERN_TEAM = "^[^\\,\\(\\)]+([^\\s]|\\s\\([a-z]{3}\\))$";
