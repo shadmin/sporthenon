@@ -102,8 +102,14 @@ public class HtmlUtils {
 		String s2 = "";
 		if (value != null) {
 			if (value instanceof String) {
-				SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-				value = new Timestamp(df.parse(String.valueOf(value)).getTime());
+				if (String.valueOf(value).length() > 4) {
+					SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+					value = new Timestamp(df.parse(String.valueOf(value)).getTime());	
+				}
+				else {
+					s1 = String.valueOf(value);
+					s2 = s1 + "-0-0";
+				}
 			}
 			if (value instanceof Timestamp) {
 				s1 = StringUtils.toTextDate((Timestamp) value, ResourceUtils.LGDEFAULT, "yyyy-MM-dd");
@@ -192,7 +198,7 @@ public class HtmlUtils {
 		}
 		for (String key : h.keySet()) {
 			if (!key.matches("(tab|^)title|titleEN|imgurl|source|url|info|\\_sport\\_|\\_year\\_|width|titlename") && StringUtils.notEmpty(h.get(key))) {
-				html.append("<tr>" + (h.containsKey("_sport_") || h.containsKey("_team_") || key.matches("flag|logo") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
+				html.append("<tr>" + (h.containsKey("_sport_") || h.containsKey("_team_") || h.containsKey("_year_") || key.matches("flag|logo") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
 				html.append("<td" + (key.matches("logo|logosport|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + (key.matches("flag|logo") ? " colspan='2'" : "") + ">" + h.get(key) + "</td></tr>");
 			}
 		}

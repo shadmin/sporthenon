@@ -479,3 +479,7 @@ th.desc{
 	border-top: 1px solid #AAA;
 	margin: 5px 0px;
 }
+.bullet{
+	color: #666;
+	padding: 0px 2px;
+}

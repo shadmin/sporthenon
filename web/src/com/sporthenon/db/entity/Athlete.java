@@ -12,6 +12,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sporthenon.db.entity.meta.Metadata;
+import com.sporthenon.utils.StringUtils;
 
 @Entity
 @Table(name = "\"Athlete\"")
@@ -140,7 +141,7 @@ public class Athlete {
 	}
 	
 	public String toString2() {
-		return lastName + ", " + firstName + (country != null ? " (" + country.getCode() + (team != null ? ", " + team.getLabel() : "") + ")" : "");
+		return lastName + (StringUtils.notEmpty(firstName) ? ", " + firstName : "") + (country != null ? " (" + country.getCode() + (team != null ? ", " + team.getLabel() : "") + ")" : "");
 	}
 	
 }

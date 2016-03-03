@@ -723,7 +723,7 @@ var cindex = 0;
 var cmax = 2;
 var cdata = [];
 var clabel = [];
-var ccolor = [['Gradient(#94cff5:#179ef5)'], ['Gradient(#f8cb98:#f88f18)'], ['Gradient(#94cff5:#179ef5)', 'Gradient(#f8cb98:#f88f18)', 'red', 'blue']];
+var ccolor = [['Gradient(#f8cb98:#f88f18)'], ['Gradient(#f8cb98:#f88f18)'], ['Gradient(#94cff5:#179ef5)', 'Gradient(#f8cb98:#f88f18)', 'red', 'blue']];
 function loadReport(cdata_, clabel_, ccolor_) {
 	$('chart').update('<canvas id="cvs" width="720" height="400"></canvas>');
 	if (cindex == 0 || cindex == 1) {

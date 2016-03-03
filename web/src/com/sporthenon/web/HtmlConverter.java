@@ -225,17 +225,28 @@ public class HtmlConverter {
 			spid = sp.getId();
 		}
 		else if (type == HEADER_CALENDAR) {
-			SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-			Timestamp dt1 = new Timestamp(df.parse(String.valueOf(lstParams.get(0))).getTime());
-			Timestamp dt2 = new Timestamp(df.parse(String.valueOf(lstParams.get(1))).getTime());
-			String s1 = StringUtils.toTextDate(dt1, lang, "d MMMM yyyy");
-			String s2 = StringUtils.toTextDate(dt2, lang, "d MMMM yyyy");
-			boolean is1Date = s1.equals(s2);
-			hHeader.put("title", s1 + (!is1Date ? " " + StringUtils.SEP1 + " " + s2 : ""));
+			Sport sp = (Sport) DatabaseHelper.loadEntity(Sport.class, lstParams.get(2));
+			if (String.valueOf(lstParams.get(0)).length() > 4) {
+				SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+				Timestamp dt1 = new Timestamp(df.parse(String.valueOf(lstParams.get(0))).getTime());
+				Timestamp dt2 = new Timestamp(df.parse(String.valueOf(lstParams.get(1))).getTime());
+				String s1 = StringUtils.toTextDate(dt1, lang, "d MMMM yyyy");
+				String s2 = StringUtils.toTextDate(dt2, lang, "d MMMM yyyy");
+				boolean is1Date = s1.equals(s2);
+				hHeader.put("title", s1 + (!is1Date ? " " + StringUtils.SEP1 + " " + s2 : ""));
+				hHeader.put("url", HtmlUtils.writeURL("/calendar", lstParams.toString(), StringUtils.toTextDate(dt1, lang, "yyyy-MM-dd") + (!is1Date ? "/" + StringUtils.toTextDate(dt2, lang, "yyyy-MM-dd") : "")));
+				hHeader.put("item1", HtmlUtils.writeDateLink(dt1, s1) + (!is1Date ? " " + StringUtils.SEP1 + " " + HtmlUtils.writeDateLink(dt2, s2) : ""));
+			}
+			else {
+				String yr = String.valueOf(lstParams.get(0));
+				hHeader.put("title", yr);
+				hHeader.put("url", HtmlUtils.writeURL("/calendar", lstParams.toString(), yr));
+				hHeader.put("item1", HtmlUtils.writeDateLink(yr, yr));
+			}
 			hHeader.put("desc", ResourceUtils.getText("desc.calendar.page", lang));
-			hHeader.put("url", HtmlUtils.writeURL("/calendar", lstParams.toString(), StringUtils.toTextDate(dt1, lang, "yyyy-MM-dd") + (!is1Date ? "/" + StringUtils.toTextDate(dt2, lang, "yyyy-MM-dd") : "")));
 			hHeader.put("item0", "<table><tr><td><img alt='Calendar' src='/img/menu/dbcalendar.png'/></td><td>&nbsp;<a href='/calendar'>" + ResourceUtils.getText("menu.calendar", lang) + "</a></td></tr></table>");
-			hHeader.put("item1", HtmlUtils.writeDateLink(dt1, s1) + (!is1Date ? StringUtils.RARROW + HtmlUtils.writeDateLink(dt2, s2) : ""));
+			if (sp != null)
+				hHeader.put("item2", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_SMALL, null, sp.getLabel(lang)), HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel(lang), sp.getLabel())));
 		}
 		else if (type == HEADER_OLYMPICS_INDIVIDUAL) {
 			String olId = String.valueOf(lstParams.get(0));
@@ -879,6 +890,7 @@ public class HtmlConverter {
 			if (l != null && l.size() > 1) {
 				String path = r.getSport().getLabel() + "/" + r.getChampionship().getLabel() + "/" + r.getEvent().getLabel() + (r.getSubevent() != null ? "/" + r.getSubevent().getLabel() : "") + (r.getSubevent2() != null ? "/" + r.getSubevent2().getLabel() : "");
 				StringBuffer sbOtherYears = new StringBuffer();
+				int n = 0;
 				for (Object[] t : l) {
 					Integer id_ = (Integer) t[0];
 					String label = String.valueOf(t[1]);
@@ -886,12 +898,16 @@ public class HtmlConverter {
 						sbOtherYears.append(HtmlUtils.writeLink(Result.alias, id_, label, label + "/" + path));
 					else
 						sbOtherYears.append("<b>" + label + "</b>");
-					sbOtherYears.append(" ");
+					if (++n != l.size()) {
+						sbOtherYears.append("<span class='bullet'>&#8226;</span>");
+						if (n % 10 == 0)
+							sbOtherYears.append("<br/>");
+					}
 				}
 				String anchor = ResourceUtils.getText("entity.YR", lang).replaceAll("\\s|\\/", "_");
 				summary.append("<a href='#" + anchor + "'>" + ++ns + ".&nbsp;" + ResourceUtils.getText("entity.YR", lang) + "</a><br/>");
 				html.append("<table id='" + anchor + "' style='margin-bottom:0px;'><thead><tr><th>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity.YR", lang).toUpperCase(), false) + "</th></tr></thead><tbody class='tby'>");
-				html.append("<tr><td style='width:400px;white-space:normal;'>").append(sbOtherYears.toString()).append("</td></tr></tbody></table>");
+				html.append("<tr><td style='width:435px;'>").append(sbOtherYears.toString()).append("</td></tr></tbody></table>");
 			}
 			// Rounds
 			lFuncParams = new ArrayList<Object>();
@@ -1780,22 +1796,30 @@ public class HtmlConverter {
 		String calLink = null;
 		for (i = 0 ; i < lst.size() ; i++) {
 			TreeItem item = (TreeItem) lst.get(i);
-			isMonths = (item.getLabel().matches("nodate|\\d{2}\\/\\d{4}"));
+			isMonths = (item.getLabel().matches("\\d{4}|\\d{2}\\/\\d{4}"));
 			if (isMonths) {
-				yr = item.getLabel().substring(3);
-				mh = (item.getIdItem() < 10 ? "0" : "") + item.getIdItem();
-				if (item.getIdItem() > 0)
-					item.setLabel(ResourceUtils.getText("month." + item.getIdItem(), lang) + " " + yr);	
-				else
+				if (item.getIdItem() > 0) {
+					yr = item.getLabel().substring(3);
+					mh = (item.getIdItem() < 10 ? "0" : "") + item.getIdItem();
+					item.setLabel(ResourceUtils.getText("month." + item.getIdItem(), lang) + " " + yr);
+				}
+				else {
+					yr = item.getLabel();
+					mh = null;
 					item.setLabel("(" + ResourceUtils.getText("not.dated", lang) + ")");
+				}
 			}
 			writer.write(i > 0 ? "," : "");
 			writer.write("['" + StringUtils.toTree(item.getLabel()) + "','" + item.getIdItem() + "',");
 			for (j = i + 1 ; j < lst.size() ; j++) {
 				TreeItem item2 = (TreeItem) lst.get(j);
 				if (item2.getLevel() < 2) {j--; break;}
-				if (isMonths)
-					calLink = StringUtils.urlEscape(item2.getLabelEN()) + "/" + yr + "-" + mh + "-01/" + yr + "-" + mh + "-" + tm[item.getIdItem()] + "/" + StringUtils.encode(yr + mh + "01-" + yr + mh + tm[item.getIdItem()] + "-" + item2.getIdItem());
+				if (isMonths) {
+					if (mh != null)
+						calLink = StringUtils.urlEscape(item2.getLabelEN()) + "/" + yr + "-" + mh + "-01/" + yr + "-" + mh + "-" + tm[item.getIdItem()] + "/" + StringUtils.encode(yr + mh + "01-" + yr + mh + tm[item.getIdItem()] + "-" + item2.getIdItem());
+					else
+						calLink = StringUtils.urlEscape(item2.getLabelEN()) + "/" + yr + "/" + StringUtils.encode(yr + "-0-" + item2.getIdItem());
+				}
 				writer.write(j > i + 1 ? "," : "");
 				writer.write("['" + StringUtils.toTree(item2.getLabel()) + "','" + (isMonths ? "calendar-" + calLink : (encode ? "link-" + StringUtils.urlEscape(item.getLabelEN() + "/" + item2.getLabelEN()) + "/" + StringUtils.encode(item.getIdItem() + "-" + item2.getIdItem()) : item.getIdItem() + "_" + item2.getIdItem())) + "',");
 				for (k = j + 1 ; k < lst.size() ; k++) {
