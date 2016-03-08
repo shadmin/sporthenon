@@ -20,6 +20,13 @@ body.print{
 .separator{
 	margin: 6px 0px;
 }
+hr {
+  height: 1px;
+  margin: 6px 0px;
+  padding: 0px;
+  border: 0px;
+  background-color: gray;
+}
 a{
 	color: #00C;
 	text-decoration: none;
@@ -127,6 +134,9 @@ li{
 }
 .criteria{
 	background-image: url(../img/db/criteria.png?6);
+}
+.help{
+	background-image:url(../img/update/help.png?6);
 }
 .toggleimg{
 	cursor: pointer;
@@ -666,13 +676,6 @@ li{
 .homecontent .fieldset .fscontent{
 	padding: 10px;
 }
-.homecontent hr {
-  height: 1px;
-  margin: 6px 0px;
-  padding: 0px;
-  border: 0px;
-  background-color: gray;
-}
 .homecontent #topics table{
 	width: auto;
 	margin-top: 6px;
@@ -1175,6 +1178,16 @@ li{
 #contribute .info{
 	background-image: url(../img/info.png?6);
 }
+#contribute li{
+	height: 20px;
+}
+#contribute span{
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	padding-left: 18px;
+	display: inline-block;
+	height: 18px;
+}
 /*===========================
   ========== LOGIN ========== 
   ===========================*/
@@ -1223,15 +1236,15 @@ li{
 	width: 250px;
  	height: 180px;
  	overflow: auto;
- 	border: 1px solid #EEE;
+ 	border: 1px solid #CCC;
 }
 .loginsports li{
 	height: 32px;
 	cursor: pointer;
-	border-bottom: 1px solid #F0F0F0;
+	border-bottom: 1px solid #EEE;
 }
 .loginsports li:hover{
-	background-color: #BEE0FF;
+	background-color: #FF9; /* _theme_ */
 }
 .loginsports div.left{
 	clear: both;
@@ -1793,6 +1806,9 @@ li{
 }
 #d-info .fstitle{
 	background-image: url(../img/component/button/info.png?6);
+}
+#d-plist .fstitle{
+	background-image: url(../img/update/personlist.png?6);
 }
 #d-find .fstitle{
 	background-image: url(../img/update/find.png?6);

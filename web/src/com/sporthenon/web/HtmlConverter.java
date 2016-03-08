@@ -102,25 +102,25 @@ public class HtmlConverter {
 		return s;
 	}
 
-	public static String getResultsEntityRel(Integer rel1Id, String rel1Code, String rel1Label, Integer rel2Id, String rel2Code, String rel2Label, String rel2LabelEN, boolean isRel1, boolean isRel2, String year) {
+	public static String getResultsEntityRel(Integer relTMId, String relTMCode, String relTMLabel, Integer relCNId, String relCNCode, String relCNLabel, String relCNLabelEN, boolean isRelTM, boolean isRelCN, String year) {
 		StringBuffer html = new StringBuffer();
 		String tmpImg = null;
-		if (rel2Id != null && rel2Id > 0) {
-			tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, rel2Id, ImageUtils.SIZE_SMALL, year, null);
-			String s = HtmlUtils.writeLink(Country.alias, rel2Id, rel2Code, rel2LabelEN);
+		if (isRelCN && relCNId != null && relCNId > 0) {
+			tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, relCNId, ImageUtils.SIZE_SMALL, year, null);
+			String s = HtmlUtils.writeLink(Country.alias, relCNId, relCNCode, relCNLabelEN);
 			html.append("<td>").append(HtmlUtils.writeImgTable(tmpImg, s)).append("</td>");
 		}
-		else if (isRel2)
+		else if (isRelCN)
 			html.append("<td>" + StringUtils.EMPTY + "</td>");
-		if (rel1Id != null && rel1Id > 0) {
-			tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, rel1Id, ImageUtils.SIZE_SMALL, year, null);
-			String s = HtmlUtils.writeLink(Team.alias, rel1Id, rel1Label, null);
+		if (isRelTM && relTMId != null && relTMId > 0) {
+			tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, relTMId, ImageUtils.SIZE_SMALL, year, null);
+			String s = HtmlUtils.writeLink(Team.alias, relTMId, relTMLabel, null);
 			String s_ = HtmlUtils.writeImgTable(tmpImg, s);
 			if (s_.indexOf("<img") == -1)
 				s_ = "<table><tr><td>" + s_ + "</td></tr></table>";
 			html.append("<td>").append(s_).append("</td>");
 		}
-		else if (isRel1)
+		else if (isRelTM)
 			html.append("<td>" + StringUtils.EMPTY + "</td>");
 		return html.toString();
 	}
@@ -839,7 +839,7 @@ public class HtmlConverter {
 						String rel2LabelEN = (String) ResultsBean.class.getMethod("getEn" + i + "Rel2LabelEN").invoke(bean);
 						String rel2Code = (String) ResultsBean.class.getMethod("getEn" + i + "Rel2Code").invoke(bean);
 						tEntity[i - 1] = getResultsEntity(type_, idRank, str1, str2, str3, rel2Code, bean.getYrLabel(), plist != null && plist.size() > 0 ? "plist-" + id + "-" + (i - 1) : null);
-						tEntityRel[i - 1] = getResultsEntityRel(rel1Id, rel1Label, rel1Label, rel2Id, rel2Label, rel2Label, rel2LabelEN, false, false, bean.getYrLabel());
+						tEntityRel[i - 1] = getResultsEntityRel(rel1Id, rel1Label, rel1Label, rel2Id, rel2Label, rel2Label, rel2LabelEN, true, true, bean.getYrLabel());
 						tResult[i - 1] = StringUtils.formatResult(result, lang);
 					}	
 				}
@@ -1515,6 +1515,7 @@ public class HtmlConverter {
 		int type = ev.getType().getNumber();
 		boolean isDouble = (type == 4);
 		boolean isMedal = String.valueOf(cp.getId()).matches("1|3|4");
+		boolean isUSLeague = String.valueOf(cp.getId()).matches(USLeaguesServlet.CHAMPIONSHIP_NFL + "|" + USLeaguesServlet.CHAMPIONSHIP_NBA + "|" + USLeaguesServlet.CHAMPIONSHIP_NHL + "|" + USLeaguesServlet.CHAMPIONSHIP_MLB);
 		ArrayList<String> lIds = new ArrayList<String>();
 		Result rs = null;
 		// Evaluate columns
@@ -1538,15 +1539,15 @@ public class HtmlConverter {
 			tColspan[2] = (tColspan[2] < 2 && StringUtils.notEmpty(bean.getRsResult3()) ? 2 : tColspan[2]);
 			tColspan[3] = (tColspan[3] < 2 && StringUtils.notEmpty(bean.getRsResult4()) ? 2 : tColspan[3]);
 			tColspan[4] = (tColspan[4] < 2 && StringUtils.notEmpty(bean.getRsResult5()) ? 2 : tColspan[4]);
-			tIsEntityRel1[0] |= (bean.getEn1Rel1Id() != null);tIsEntityRel2[0] |= (bean.getEn1Rel2Id() != null);
-			tIsEntityRel1[1] |= (bean.getEn2Rel1Id() != null);tIsEntityRel2[1] |= (bean.getEn2Rel2Id() != null);
-			tIsEntityRel1[2] |= (bean.getEn3Rel1Id() != null);tIsEntityRel2[2] |= (bean.getEn3Rel2Id() != null);
-			tIsEntityRel1[3] |= (bean.getEn4Rel1Id() != null);tIsEntityRel2[3] |= (bean.getEn4Rel2Id() != null);
-			tIsEntityRel1[4] |= (bean.getEn5Rel1Id() != null);tIsEntityRel2[4] |= (bean.getEn5Rel2Id() != null);
-			tIsEntityRel1[5] |= (bean.getEn6Rel1Id() != null);tIsEntityRel2[5] |= (bean.getEn6Rel2Id() != null);
-			tIsEntityRel1[6] |= (bean.getEn7Rel1Id() != null);tIsEntityRel2[6] |= (bean.getEn7Rel2Id() != null);
-			tIsEntityRel1[7] |= (bean.getEn8Rel1Id() != null);tIsEntityRel2[7] |= (bean.getEn8Rel2Id() != null);
-			tIsEntityRel1[8] |= (bean.getEn9Rel1Id() != null);tIsEntityRel2[8] |= (bean.getEn9Rel2Id() != null);
+			tIsEntityRel1[0] |= (bean.getEn1Rel1Id() != null);tIsEntityRel2[0] |= (bean.getEn1Rel2Id() != null && !isUSLeague);
+			tIsEntityRel1[1] |= (bean.getEn2Rel1Id() != null);tIsEntityRel2[1] |= (bean.getEn2Rel2Id() != null && !isUSLeague);
+			tIsEntityRel1[2] |= (bean.getEn3Rel1Id() != null);tIsEntityRel2[2] |= (bean.getEn3Rel2Id() != null && !isUSLeague);
+			tIsEntityRel1[3] |= (bean.getEn4Rel1Id() != null);tIsEntityRel2[3] |= (bean.getEn4Rel2Id() != null && !isUSLeague);
+			tIsEntityRel1[4] |= (bean.getEn5Rel1Id() != null);tIsEntityRel2[4] |= (bean.getEn5Rel2Id() != null && !isUSLeague);
+			tIsEntityRel1[5] |= (bean.getEn6Rel1Id() != null);tIsEntityRel2[5] |= (bean.getEn6Rel2Id() != null && !isUSLeague);
+			tIsEntityRel1[6] |= (bean.getEn7Rel1Id() != null);tIsEntityRel2[6] |= (bean.getEn7Rel2Id() != null && !isUSLeague);
+			tIsEntityRel1[7] |= (bean.getEn8Rel1Id() != null);tIsEntityRel2[7] |= (bean.getEn8Rel2Id() != null && !isUSLeague);
+			tIsEntityRel1[8] |= (bean.getEn9Rel1Id() != null);tIsEntityRel2[8] |= (bean.getEn9Rel2Id() != null && !isUSLeague);
 			tIsResult[0] |= (StringUtils.notEmpty(bean.getRsResult1()));
 			tIsResult[1] |= (StringUtils.notEmpty(bean.getRsResult2()));
 			tIsResult[2] |= (StringUtils.notEmpty(bean.getRsResult3()));
@@ -2029,7 +2030,7 @@ public class HtmlConverter {
 			if (bean.getRsRank1() != null) {
 				if (isIndividual_) {
 					entity1 = HtmlUtils.writeLink(Athlete.alias, bean.getRsRank1(), StringUtils.toFullName(bean.getPr1LastName(), bean.getPr1FirstName(), bean.getPr1CnCode(), true), bean.getPr1FirstName() + " " + bean.getPr1LastName());
-					entityCn1 = getResultsEntityRel(null, null, null, bean.getPr1CnId(), bean.getPr1CnCode(), bean.getPr1CnLabel(), bean.getPr1CnLabelEN(), false, false, bean.getYrLabel());
+					entityCn1 = getResultsEntityRel(null, null, null, bean.getPr1CnId(), bean.getPr1CnCode(), bean.getPr1CnLabel(), bean.getPr1CnLabelEN(), false, true, bean.getYrLabel());
 				}
 				else
 					entity1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank1(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null), HtmlUtils.writeLink(Country.alias, bean.getRsRank1(), bean.getCn1Code(), bean.getCn1LabelEN()));
@@ -2037,7 +2038,7 @@ public class HtmlConverter {
 			if (bean.getRsRank2() != null) {
 				if (isIndividual_) {
 					entity2 = HtmlUtils.writeLink(Athlete.alias, bean.getRsRank2(), StringUtils.toFullName(bean.getPr2LastName(), bean.getPr2FirstName(), bean.getPr2CnCode(), true), bean.getPr2FirstName() + " " + bean.getPr2LastName());
-					entityCn2 = getResultsEntityRel(null, null, null, bean.getPr2CnId(), bean.getPr2CnCode(), bean.getPr2CnLabel(), bean.getPr2CnLabelEN(), false, false, bean.getYrLabel());
+					entityCn2 = getResultsEntityRel(null, null, null, bean.getPr2CnId(), bean.getPr2CnCode(), bean.getPr2CnLabel(), bean.getPr2CnLabelEN(), false, true, bean.getYrLabel());
 				}
 				else
 					entity2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank2(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null), HtmlUtils.writeLink(Country.alias, bean.getRsRank2(), bean.getCn2Code(), bean.getCn2LabelEN()));
@@ -2045,7 +2046,7 @@ public class HtmlConverter {
 			if (bean.getRsRank3() != null) {
 				if (isIndividual_) {
 					entity3 = HtmlUtils.writeLink(Athlete.alias, bean.getRsRank3(), StringUtils.toFullName(bean.getPr3LastName(), bean.getPr3FirstName(), bean.getPr3CnCode(), true), bean.getPr3FirstName() + " " + bean.getPr3LastName());
-					entityCn3 = getResultsEntityRel(null, null, null, bean.getPr3CnId(), bean.getPr3CnCode(), bean.getPr3CnLabel(), bean.getPr3CnLabelEN(), false, false, bean.getYrLabel());
+					entityCn3 = getResultsEntityRel(null, null, null, bean.getPr3CnId(), bean.getPr3CnCode(), bean.getPr3CnLabel(), bean.getPr3CnLabelEN(), false, true, bean.getYrLabel());
 				}
 				else
 					entity3 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getRsRank3(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null), HtmlUtils.writeLink(Country.alias, bean.getRsRank3(), bean.getCn3Code(), bean.getCn3LabelEN()));

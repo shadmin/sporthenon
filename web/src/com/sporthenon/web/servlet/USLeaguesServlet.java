@@ -23,10 +23,10 @@ public class USLeaguesServlet extends AbstractServlet {
 	private static final short LEAGUE_NBA = 2;
 	private static final short LEAGUE_NHL = 3;
 	private static final short LEAGUE_MLB = 4;
-	private static final short CHAMPIONSHIP_NFL = 51;
-	private static final short CHAMPIONSHIP_NBA = 54;
-	private static final short CHAMPIONSHIP_NHL = 55;
-	private static final short CHAMPIONSHIP_MLB = 56;
+	public static final short CHAMPIONSHIP_NFL = 51;
+	public static final short CHAMPIONSHIP_NBA = 54;
+	public static final short CHAMPIONSHIP_NHL = 55;
+	public static final short CHAMPIONSHIP_MLB = 56;
 	public static HashMap<Short, Short> HLEAGUES = new HashMap<Short, Short>();
 	public static HashMap<String, String> HTYPE1 = new HashMap<String, String>();
 	public static HashMap<String, String> HTYPE2 = new HashMap<String, String>();

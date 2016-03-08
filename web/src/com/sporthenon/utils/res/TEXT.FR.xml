@@ -415,7 +415,7 @@
 	<entry key="mandatory.email">Le champ 'Addresse E-mail' est obligatoire.</entry>
 	<entry key="mandatory.sports">Vous devez sélectionner au moins 1 sport.</entry>
 	<entry key="pwd.nomatch">Les mots de passe saisis ne correspondent pas.</entry>
-	<entry key="select.sports.contributor">Sélectionnez les sports sur lesquels vous souhaitez contribuer</entry>
+	<entry key="select.sports.contributor">Sélectionnez les sports sur lesquels vous souhaitez contribuer (max. 5)</entry>
 <!-- UPDATE -->
 	<entry key="update.overview">Rapport global</entry>
 	<entry key="update.results">Ajouter/modifier un résultat</entry>
@@ -531,5 +531,5 @@
 	<entry key="actions.bar">Barre d'actions</entry>
 	<entry key="matches.rounds">Matches/Tours/Journées</entry>
 	<entry key="mode">Mode</entry>
-	<entry key="update.mode">Update mode</entry>
+	<entry key="update.mode">Mode de mise à jour</entry>
 </properties>

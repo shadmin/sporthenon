@@ -1796,13 +1796,14 @@ function setInput(id) {
 	Event.stopObserving($(id), 'blur');
 	Event.stopObserving($(id), 'keydown');
 	var isAjax = /(plist.*|.*(rt|rk\d+|pl)$)/.match(id);
+	isAjax &= (id.indexOf('plist') == -1 || id.indexOf('-index') == -1);
 	if (isAjax) {
 		var url = null;
 		if (/.*(rt|pl)$/.match(id)) {
 			url = '/update/ajax/' + (/.*rt$/.match(id) ? 'rt' : 'pl1');	
 		}
 		else {
-			url = '/update/ajax/' + (currentTp < 10 ? 'pr' : (currentTp == 50 ? 'tm' : 'cn')) + (tValues['sp'] != null ? '-' + tValues['sp'] : '');
+			url = '/update/ajax/' + (currentTp < 10 || id.indexOf('plist') == 0 ? 'pr' : (currentTp == 50 ? 'tm' : 'cn')) + (tValues['sp'] != null ? '-' + tValues['sp'] : '');
 		}
 		new Ajax.Autocompleter(
 			id,
@@ -1854,8 +1855,8 @@ function initPersonList(index) {
 		html.push('<tr><td><input type="text" id="plist' + i + '-index" tabindex="' + (100000 + i) + '" name="Index" style="width:50px;" class="' + (pindex != null && pindex != '' ? 'completed2' : '') + '" value="' + pindex + '"/></td><td><input type="text" id="plist' + i + '" tabindex="' + (100001 + i) + '" name="Name #' + i + '" class="' + (pid != null ? 'completed' : '') + '" value="' + ptxt + '"/><a href="javascript:clearValue(\'plist' + i + '\');">[X]</a></td></tr>');	
 	}
 	$('plist').update('<table>' + html.join('') + '</table>');
-	$$('#plist input').each(function(id){
-		setInput(id);
+	$$('#plist input').each(function(el){
+		setInput(el.id);
 	});
 	pListIndex = index;
 	dPersonList.open();

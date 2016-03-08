@@ -209,7 +209,7 @@ public class HtmlUtils {
 	public static String writeTip(String t, Object o) {
 		StringBuffer html = new StringBuffer();
 		long time = System.currentTimeMillis();
-		html.append("<a style='cursor:help;' href='#" + t + "-" + time + "'><img src='" + ImageUtils.getRenderUrl() + "note.png'/></a>" + (o instanceof Collection ? "&nbsp;" + ((Collection)o).size() : ""));
+		html.append("<a style='cursor:help;' href='#" + t + "-" + time + "'><img alt='note' src='" + ImageUtils.getRenderUrl() + "note.png'/></a>" + (o instanceof Collection ? "&nbsp;" + ((Collection)o).size() : ""));
 		html.append("<div id='" + t + "-" + time + "' class='rendertip' style='display:none;'>" + (o instanceof String ? o : StringUtils.implode((Collection<String>) o, "<br/>")) + "</div>");
 		return html.toString();
 	}

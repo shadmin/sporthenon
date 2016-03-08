@@ -155,7 +155,7 @@ public class StringUtils {
 	}
 	
 	public static String formatResult(Object s, String lang) {
-		return formatNumber(s, lang).replaceAll("\\-|\\/", StringUtils.SEP1).replaceAll("\\s", "&nbsp;");
+		return formatNumber(s, lang).replaceAll("\\-", StringUtils.SEP1).replaceAll("\\s", "&nbsp;");
 	}
 
 	public static Integer extractId(Object o) {

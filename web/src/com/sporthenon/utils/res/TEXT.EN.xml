@@ -417,7 +417,7 @@
 	<entry key="mandatory.email">Field 'E-Mail Address' is mandatory.</entry>
 	<entry key="mandatory.sports">You must select at least 1 sport.</entry>
 	<entry key="pwd.nomatch">The entered passwords do not match.</entry>
-	<entry key="select.sports.contributor">Select the sports you want to contribute to</entry>
+	<entry key="select.sports.contributor">Select the sports you want to contribute to (max. 5)</entry>
 <!-- UPDATE -->
 	<entry key="update.overview">Overview</entry>
 	<entry key="update.results">Add/modify a result</entry>

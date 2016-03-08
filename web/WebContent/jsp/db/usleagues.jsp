@@ -4,6 +4,7 @@
 <%@ page import="com.sporthenon.db.entity.*"%>
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
 <%@ page import="com.sporthenon.db.PicklistBean"%>
+<%@ page import="com.sporthenon.utils.ConfigUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <%@ page import="com.sporthenon.web.servlet.USLeaguesServlet"%>
@@ -99,6 +100,7 @@ var tChampYr = [];
 var tTm = [];
 var tRcCt = [];
 <%
+String uslStatEvLabel = ConfigUtils.getValue("USL_STATS_EVENT_LABEL");
 for (short i : new short[]{1, 2, 3, 4}) {
 	// Hof (year)
 	Collection<PicklistBean> c = DatabaseHelper.getPicklist(HallOfFame.class, "year", "league.id=" + i, null, (short)1, "en");
@@ -125,13 +127,13 @@ for (short i : new short[]{1, 2, 3, 4}) {
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
 	out.print("tRcCt[" + i + "] = '<option value=\"0\">---&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;---</option>" + sb.toString() + "';\r\n");
 	// Yearly stats (year)
-	c = DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and event.label like '%Season Leaders%'", null, (short)1, "en");
+	c = DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and event.label like '%" + uslStatEvLabel + "%'", null, (short)1, "en");
 	sb = new StringBuffer();
 	for (PicklistBean plb : c)
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
 	out.print("tStatsYr[" + i + "] = '<option value=\"0\">---&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;---</option>" + sb.toString() + "';\r\n");
 	// Yearly stats (category)
-	c = DatabaseHelper.getPicklist(Result.class, "subevent2", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and event.label like '%Season Leaders%'", null, "x.subevent2.index, x.subevent2.label", "en");
+	c = DatabaseHelper.getPicklist(Result.class, "subevent2", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and event.label like '%" + uslStatEvLabel + "%'", null, "x.subevent2.index, x.subevent2.label", "en");
 	sb = new StringBuffer();
 	for (PicklistBean plb : c)
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
