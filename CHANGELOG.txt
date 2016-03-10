@@ -1,7 +1,23 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.12.4  |
+| Last Version: 0.12.5  |
 +-----------------------+
+
++--------+
+| 0.12.5 |
++--------+
+[10 Mar 2016]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.5
+- Added new panel with links to other events for current year (results/details)
+- Added bullets to separate years in results details
+- Span date text compressed if same month (ex. "1-7 Jan")
+- Centered large-size logos, removed caption
+- Added olympic games in search bar
+- New athletes are linked automatically with existing value (update/results)
+- Bugfix: links don't work in years tree in "no date" folder
+- Bugfix: uploaded photo saved on current result instead of new result when created
+- Bugfix: hreflang tags not properly set (Google notification)
+- Bugfix: non-existing round type not added automatically
 
 +--------+
 | 0.12.4 |
