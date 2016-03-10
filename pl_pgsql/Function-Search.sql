@@ -44,8 +44,8 @@ begin
 	_i := 1;
 	_index := 1;
 	__pattern := "~PatternString"(_pattern);
-	_scopes := '{PR,CT,CX,CN,CP,EV,SP,TM,ST,YR}';
-	_tables := '{Athlete,City,Complex,Country,Championship,Event,Sport,Team,State,Year}';
+	_scopes := '{PR,CT,CX,CN,CP,EV,OL,SP,TM,ST,YR}';
+	_tables := '{Athlete,City,Complex,Country,Championship,Event,Olympics,Sport,Team,State,Year}';
 	FOR _s IN SELECT UNNEST(_scopes) LOOP
 		IF _scope ~ ('(^|,)' || _s || '($|,)') OR _scope = '.' THEN
 			_rel_cols := '';
@@ -85,6 +85,14 @@ begin
 				_rel_joins := _rel_joins || ' LEFT JOIN "Country" CN ON ' || _s || '.id_country = CN.id';
 				_rel_count := _rel_count + 3;
 			END IF;
+			IF (_s = 'OL') THEN -- Relation: City/Year
+				_rel_cols := _rel_cols || ', NULL, NULL, NULL';
+				_rel_cols := _rel_cols || ', CT.id, CT.label' || _lang || ', CT.label';
+				_rel_cols := _rel_cols || ', YR.id, YR.label, YR.label';
+				_rel_joins := _rel_joins || ' LEFT JOIN "City" CT ON ' || _s || '.id_city = CT.id';
+				_rel_joins := _rel_joins || ' LEFT JOIN "Year" YR ON ' || _s || '.id_year = YR.id';
+				_rel_count := _rel_count + 3;
+			END IF;
 			FOR _j IN (_rel_count + 1)..3 LOOP
 				_rel_cols := _rel_cols || ', NULL, NULL, NULL';
 			END LOOP;
@@ -95,7 +103,7 @@ begin
 			-- Execute query
 			_label := 'label';
 			_label_en := 'label';
-			IF (_s <> 'TM' AND _s <> 'YR') THEN
+			IF (_s <> 'TM' AND _s <> 'YR' AND _s <> 'OL') THEN
 				_label := 'label' || _lang;
 			END IF;
 			_query := 'SELECT ' || _s || '.id, ' || _s || '.' || _label || ',' || _s || '.' || _label_en || ',' || _s || '.ref' || _rel_cols || ' FROM "' || _tables[_i] || '" ' || _s;
@@ -104,6 +112,9 @@ begin
 				_query := 'SELECT PR.id, PR.last_name || (CASE WHEN length(PR.first_name) > 0 THEN '', '' || PR.first_name ELSE '''' END), (CASE WHEN length(PR.first_name) > 0 THEN PR.first_name || '' '' ELSE '''' END) || PR.last_name, PR.ref' || _rel_cols || ' FROM "Athlete" PR' || _rel_joins;
 				_query := _query || ' WHERE (PR.link = 0 OR PR.link IS NULL) AND (lower(PR.last_name || '' '' || PR.first_name) ~ ''' || __pattern || ''' OR lower(PR.first_name || '' '' || PR.last_name) ~ ''' || __pattern || ''' OR lower(PR.last_name) ~ ''' || __pattern || ''' OR lower(PR.first_name) ~ ''' || __pattern || ''')';
 				_query := _query || (CASE _limit WHEN 0 THEN ' ORDER BY PR.last_name, PR.first_name' ELSE '' END);
+			ELSIF (_s = 'OL') THEN
+				_query := 'SELECT OL.id, CT.label' || _lang || ' || '' '' || YR.label, CT.label || '' '' || YR.label, OL.ref' || _rel_cols || ' FROM "Olympics" OL' || _rel_joins;
+				_query := _query || ' WHERE YR.label ~ ''' || __pattern || ''' OR lower(CT.label' || _lang || ') ~ ''' || __pattern || '''';
 			END IF;
 			OPEN _c FOR EXECUTE _query;
 			LOOP
@@ -127,13 +138,13 @@ begin
 				END IF;
 				_item.entity = _s;
 				_item.label_rel1 = _current_label_rel1;
+				_item.label_rel2 = _current_label_rel2;
 				_item.label_rel3 = _current_label_rel3;
 				IF _limit = 0 THEN
 					_item.label_en = _current_label_en;
 					_item.id_rel1 = _current_id_rel1;
 					_item.id_rel2 = _current_id_rel2;
 					_item.id_rel3 = _current_id_rel3;
-					_item.label_rel2 = _current_label_rel2;
 					_item.label_rel4 = _current_label_rel4;
 					_item.label_rel5 = _current_label_rel5;
 					_item.label_rel6 = _current_label_rel6;

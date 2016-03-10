@@ -26,7 +26,11 @@ declare
 	_cn1 varchar(5);_cn2 varchar(5);_cn3 varchar(5);_cn4 varchar(5);_cn5 varchar(5);_cn6 varchar(5);
 	_tm1 varchar(60);_tm2 varchar(60);_tm3 varchar(60);_tm4 varchar(60);_tm5 varchar(60);_tm6 varchar(60);
 begin
-	_where := ' WHERE to_date(date2, ''DD/MM/YYYY'') >= to_date(''' || _date1 || ''', ''YYYYMMDD'') AND to_date(date2, ''DD/MM/YYYY'') <= to_date(''' || _date2 || ''', ''YYYYMMDD'')';
+	IF length(_date1) = 4 THEN
+		_where := ' WHERE YR.label=''' || _date1 || ''' AND (date1 IS NULL OR date1='''') AND (date2 IS NULL OR date2='''')';
+	ELSE
+		_where := ' WHERE to_date(date2, ''DD/MM/YYYY'') >= to_date(''' || _date1 || ''', ''YYYYMMDD'') AND to_date(date2, ''DD/MM/YYYY'') <= to_date(''' || _date2 || ''', ''YYYYMMDD'')';
+	END IF;
 	IF (_sp > 0) THEN
 		_where := _where || ' AND SP.id = ' || _sp;
 	END IF;
@@ -105,36 +109,39 @@ begin
 	CLOSE _c;
 
 	-- Future events
-	_query := 'SELECT CL.id, NULL, NULL, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, CX.id, CX.label' || _lang || ', CX.label, CT1.id, CT1.label' || _lang || ' || '', '' || CN1.code, CT1.label, CT2.id, CT2.label' || _lang || ' || '', '' || CN2.code, CT2.label, CL.date1, CL.date2';
-	_query := _query || ' FROM "Calendar" CL';
-	_query := _query || ' LEFT JOIN "Sport" SP ON CL.id_sport = SP.id';
-	_query := _query || ' LEFT JOIN "Championship" CP ON CL.id_championship = CP.id';
-	_query := _query || ' LEFT JOIN "Event" EV ON CL.id_event = EV.id';
-	_query := _query || ' LEFT JOIN "Event" SE ON CL.id_subevent = SE.id';
-	_query := _query || ' LEFT JOIN "Event" SE2 ON CL.id_subevent2 = SE2.id';
-	_query := _query || ' LEFT JOIN "Complex" CX ON CL.id_complex = CX.id';
-	_query := _query || ' LEFT JOIN "City" CT1 ON CX.id_city = CT1.id';
-	_query := _query || ' LEFT JOIN "State" ST1 ON CT1.id_state = ST1.id';
-	_query := _query || ' LEFT JOIN "Country" CN1 ON CT1.id_country = CN1.id';
-	_query := _query || ' LEFT JOIN "City" CT2 ON CL.id_city = CT2.id';
-	_query := _query || ' LEFT JOIN "State" ST2 ON CT2.id_state = ST2.id';
-	_query := _query || ' LEFT JOIN "Country" CN2 ON CT2.id_country = CN2.id' || _where;
-	OPEN _c FOR EXECUTE _query;
-	LOOP
-		FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _item.id_rel6, _item.label_rel6, _item.label_rel9, _item.id_rel7, _item.label_rel7, _item.label_rel10, _item.id_rel8, _item.label_rel8, _item.label_rel11, _date1, _date2;
-		EXIT WHEN NOT FOUND;
-		IF _date1 IS NOT NULL AND _date1 <> '' THEN
-			_item.date1 := to_date(_date1, 'DD/MM/YYYY');
-		END IF;
-		IF _date2 IS NOT NULL AND _date2 <> '' THEN
-			_item.date2 := to_date(_date2, 'DD/MM/YYYY');
-		END IF;
-		_item.id := _index;
-		_item.entity := 'CL';
-		RETURN NEXT _item;
-		_index = _index + 1;
-	END LOOP;
-	CLOSE _c;
+	IF length(_date1) > 4 THEN
+		_query := 'SELECT CL.id, NULL, NULL, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, CX.id, CX.label' || _lang || ', CX.label, CT1.id, CT1.label' || _lang || ' || '', '' || CN1.code, CT1.label, CT2.id, CT2.label' || _lang || ' || '', '' || CN2.code, CT2.label, CN1.id, CN2.id, CN3.id, CN3.label' || _lang || ', CN3.label, CL.date1, CL.date2';
+		_query := _query || ' FROM "Calendar" CL';
+		_query := _query || ' LEFT JOIN "Sport" SP ON CL.id_sport = SP.id';
+		_query := _query || ' LEFT JOIN "Championship" CP ON CL.id_championship = CP.id';
+		_query := _query || ' LEFT JOIN "Event" EV ON CL.id_event = EV.id';
+		_query := _query || ' LEFT JOIN "Event" SE ON CL.id_subevent = SE.id';
+		_query := _query || ' LEFT JOIN "Event" SE2 ON CL.id_subevent2 = SE2.id';
+		_query := _query || ' LEFT JOIN "Complex" CX ON CL.id_complex = CX.id';
+		_query := _query || ' LEFT JOIN "City" CT1 ON CX.id_city = CT1.id';
+		_query := _query || ' LEFT JOIN "State" ST1 ON CT1.id_state = ST1.id';
+		_query := _query || ' LEFT JOIN "Country" CN1 ON CT1.id_country = CN1.id';
+		_query := _query || ' LEFT JOIN "City" CT2 ON CL.id_city = CT2.id';
+		_query := _query || ' LEFT JOIN "State" ST2 ON CT2.id_state = ST2.id';
+		_query := _query || ' LEFT JOIN "Country" CN2 ON CT2.id_country = CN2.id';
+		_query := _query || ' LEFT JOIN "Country" CN3 ON CL.id_country = CN3.id' || _where;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _item.id_rel6, _item.label_rel6, _item.label_rel9, _item.id_rel7, _item.label_rel7, _item.label_rel10, _item.id_rel8, _item.label_rel8, _item.label_rel11, _item.id_rel10, _item.id_rel11, _item.id_rel9, _item.label_rel19, _item.label_rel20, _date1, _date2;
+			EXIT WHEN NOT FOUND;
+			IF _date1 IS NOT NULL AND _date1 <> '' THEN
+				_item.date1 := to_date(_date1, 'DD/MM/YYYY');
+			END IF;
+			IF _date2 IS NOT NULL AND _date2 <> '' THEN
+				_item.date2 := to_date(_date2, 'DD/MM/YYYY');
+			END IF;
+			_item.id := _index;
+			_item.entity := 'CL';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
 
 	RETURN;
 end;

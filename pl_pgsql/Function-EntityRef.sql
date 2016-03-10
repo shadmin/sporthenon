@@ -147,7 +147,7 @@ begin
 		_query = _query || ' ORDER BY SP.label' || _lang || ', CP.index, o_ii_ev, EV.index, o_ii_se, SE.index, o_ii_se2, SE2.index, CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', SE2.label' || _lang || ' LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_rel1, _item.label_rel1, _item.label_rel2, _item.id_rel2, _item.label_rel3, _item.label_rel4, _item.id_rel3, _item.label_rel5, _item.label_rel6, _item.id_rel4, _item.label_rel7, _item.label_rel8, _item.id_rel5, _item.label_rel9, _item.label_rel10;
+			FETCH _c INTO _item.id_rel1, _item.label_rel1, _item.label_rel2, _item.id_rel2, _item.label_rel3, _item.label_rel4, _item.id_rel3, _item.label_rel5, _item.label_rel6, _item.id_rel4, _item.label_rel7, _item.label_rel8, _item.id_rel5, _item.label_rel9, _item.label_rel10, _item.id_rel6, _item.id_rel7, _item.id_rel8, _item.id_rel9;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'EV';
@@ -362,24 +362,27 @@ begin
 	
 	-- References in: [Athletes]
 	IF (_entity ~ 'CN|SP|TM' AND (_entity_ref = 'PR' OR _entity_ref = '')) THEN
-		_query = 'SELECT DISTINCT ON (PR.last_name COLLATE "en_EN", PR.first_name COLLATE "en_EN", CN.id, SP.id) PR.id, PR.last_name || (CASE WHEN length(PR.first_name) > 0 THEN '', '' || PR.first_name ELSE '''' END), (CASE WHEN length(PR.first_name) > 0 THEN PR.first_name || '' '' ELSE '''' END) || PR.last_name, CN.id, CN.label' || _lang || ', SP.id, SP.label' || _lang || ', CN.label, SP.label FROM "Athlete" PR';
+		_query = 'SELECT DISTINCT ON (PR.last_name COLLATE "en_EN", PR.first_name COLLATE "en_EN", CN.id, SP.id) PR.id, PR.last_name || (CASE WHEN length(PR.first_name) > 0 THEN '', '' || PR.first_name ELSE '''' END), (CASE WHEN length(PR.first_name) > 0 THEN PR.first_name || '' '' ELSE '''' END) || PR.last_name, CN.id, CN.label' || _lang || ', SP.id, SP.label' || _lang || ', CN.label, SP.label, PR.link FROM "Athlete" PR';
 		_query = _query || ' LEFT JOIN "Country" CN ON PR.id_country = CN.id';
 		_query = _query || ' LEFT JOIN "Sport" SP ON PR.id_sport = SP.id';
-		_query = _query || ' LEFT JOIN "Team" TM ON PR.id_team = TM.id';
 		IF _entity = 'CN' THEN
 			_query = _query || ' WHERE PR.id_country = ' || _id;
 		ELSIF _entity = 'SP' THEN
-			_query = _query || ' WHERE PR.id_sport = ' || _id;
+			_query = _query || ' WHERE PR.id_sport = ' || _id || ' AND (PR.link = 0 OR PR.link IS NULL)';
 		ELSIF _entity = 'TM' THEN
 			_query = _query || ' WHERE PR.id_team IN (' || _tm_list || ')';
 		END IF;
 		_query = _query || ' ORDER BY PR.last_name COLLATE "en_EN", PR.first_name COLLATE "en_EN", SP.id LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label, _item.label_en, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.label_rel3, _item.label_rel4;
+			FETCH _c INTO _item.id_item, _item.label, _item.label_en, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.id_rel11;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'PR';
+			_item.txt3 := '';
+			IF (_entity = 'SP' AND _item.id_rel11 = 0) THEN
+				SELECT string_agg(CN.id || ',' || CN.label || ',' || CN.label_fr, '|') INTO _item.txt3 FROM "Athlete" PR LEFT JOIN "Country" CN ON PR.id_country=CN.id WHERE PR.link=_item.id_item;
+			END IF;
 			RETURN NEXT _item;
 			_index = _index + 1;
 		END LOOP;

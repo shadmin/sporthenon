@@ -20,8 +20,11 @@ declare
     _year_condition text;
     _category_condition text;
     _type_condition text;
+    _usl_stat_event_label varchar(100);
 begin
 	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'ST-' || _id_championship, current_date);
+
+	SELECT value INTO _usl_stat_event_label FROM "~Config" WHERE key = 'USL_STATS_EVENT_LABEL';
 
 	-- Set year condition ('All teams' = Empty condition)
 	_year_condition := '';
@@ -59,7 +62,7 @@ begin
 		LEFT JOIN "Event" SE ON RS.id_subevent = SE.id
 		LEFT JOIN "Event" SE2 ON RS.id_subevent2 = SE2.id' || _joins || '
 	WHERE
-		EV.label like ''%Season Leaders%'' AND RS.id_championship = ' || _id_championship || _year_condition || _category_condition || _type_condition || '
+		EV.label like ''%' || _usl_stat_event_label || '%'' AND RS.id_championship = ' || _id_championship || _year_condition || _category_condition || _type_condition || '
 	ORDER BY
 		YR.label DESC, SE.label, SE2.index, SE2.label' || _lang;
 	

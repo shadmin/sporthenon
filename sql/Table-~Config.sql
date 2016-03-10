@@ -6,6 +6,7 @@ CREATE TABLE "~Config"
 (
   key character varying(50) NOT NULL,
   value character varying(100),
+  value_html text,
   CONSTRAINT "~Config_pkey" PRIMARY KEY (key)
 )
 WITH (

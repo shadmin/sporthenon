@@ -23,7 +23,7 @@ begin
 	_current_month := '';
 	_current_sp := 0;
 	OPEN _c FOR EXECUTE
-	'SELECT (CASE WHEN RS.date2 IS NOT NULL AND RS.date2<>'''' THEN substring(RS.date2, 4) ELSE ''nodate'' END) AS M, SP.id, SP.label, SP.label' || _lang || ', COUNT(*)
+	'SELECT (CASE WHEN RS.date2 IS NOT NULL AND RS.date2<>'''' THEN substring(RS.date2, 4) ELSE YR.label END) AS M, SP.id, SP.label, SP.label' || _lang || ', COUNT(*)
 		FROM "Result" RS LEFT JOIN "Sport" SP ON RS.id_sport = SP.id
 		LEFT JOIN "Year" YR ON RS.id_year = YR.id
 		WHERE ' || _filter || '
@@ -35,7 +35,7 @@ begin
 		
 		IF _month_label <> _current_month THEN
 			_item.id = _index;
-			_item.id_item = (CASE WHEN _month_label = 'nodate' THEN 0 ELSE substring(_month_label, 0, 3)::integer END);
+			_item.id_item = (CASE WHEN length(_month_label) = 4 THEN 0 ELSE substring(_month_label, 0, 3)::integer END);
 			_item.label = _month_label;
 			_item.level = 1;
 			RETURN NEXT _item;
