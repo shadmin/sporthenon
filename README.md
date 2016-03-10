@@ -1,8 +1,8 @@
 ## Sporthenon – The temple of sports results
 ### About Sporthenon
 <ul>
-<li>Current Version: 0.12.4</li>
-<li>Released: 20 Jan 2016</li>
+<li>Current Version: 0.12.5</li>
+<li>Released: 10 Mar 2016</li>
 <li>First Website Release: August 2013</li>
 <li>First Android Release: June 2015</li>
 <li>Website: <a href="http://www.sporthenon.com/">http://www.sporthenon.com</a></li>
@@ -17,6 +17,8 @@
 <li>Application Server: GlassFish 3.1.2</li>
 <li>Server OS: CentOS 5.6</li>
 </ul>
+### Wiki
+<a href="https://github.com/shadmin/sporthenon/wiki">https://github.com/shadmin/sporthenon/wiki</a>
 ### Screenshots
 ![Screenshot #1](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/sc3_0-12-3.png)
 ![Screenshot #2](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/sc4_0-12-3.png)
