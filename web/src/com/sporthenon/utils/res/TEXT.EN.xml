@@ -396,6 +396,8 @@
 	<entry key="github.desc">The project and its source code are hosted on GitHub</entry>
 	<entry key="programming">Programming</entry>
 	<entry key="db.hosting"><![CDATA[Database &amp; Hosting]]></entry>
+	<entry key="about.contribution">ABOUT CONTRIBUTION</entry>
+	<entry key="howto.contribute">HOW TO CONTRIBUTE ?</entry>
 <!-- LOGIN -->
 	<entry key="msg.login.err1">Login failed. The user is not active.</entry>
 	<entry key="msg.login.err2">Login failed. Please check your login and password.</entry>

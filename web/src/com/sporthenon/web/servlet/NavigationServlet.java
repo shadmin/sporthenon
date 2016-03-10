@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseHelper;
+import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.Redirection;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
@@ -117,15 +118,20 @@ public class NavigationServlet extends AbstractServlet {
 			String key = tURI[0];
 			if (key.isEmpty())
 				key = "index";
+			if (isTestProd)
+				if (key != null && key.equals("update") && !isUserSession)
+					throw new NotLoggedInException();
+			if (key != null && key.equals("update") && url.matches(".*\\/admin$") && isUserSession) {
+				Contributor cb = (Contributor) request.getSession().getAttribute("user");
+				if (!cb.isAdmin())
+					throw new NotAdminException();
+			}
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			request.setAttribute("url", url);
 			request.setAttribute("urlLogin", isTestProd ? "https://" + url.replaceFirst("http(|s)\\:\\/\\/", "").replaceAll("\\/.*", "") + "/login" : "http://localhost/login");
 			request.setAttribute("urlEN", url.replaceFirst(".+\\.sporthenon\\.com", "//en.sporthenon.com"));
 			request.setAttribute("urlFR", url.replaceFirst(".+\\.sporthenon\\.com", "//fr.sporthenon.com"));
 			RequestDispatcher dispatcher = null;
-			if (isTestProd)
-				if (key != null && key.equals("update") && !isUserSession)
-					throw new NotLoggedInException();
 			if (hParams.containsKey("lang"))
 				request.getSession().setAttribute("locale", String.valueOf(hParams.get("lang")));
 			if (key != null && key.equals("project"))
@@ -175,6 +181,9 @@ public class NavigationServlet extends AbstractServlet {
 		catch (NotLoggedInException e) {
 			redirect(request, response, "/login", true);
 		}
+		catch (NotAdminException e) {
+			redirect(request, response, "/update/overview", true);
+		}
 		catch (HttpsException e) {
 			response.addHeader("Referer", "no-https");
 			redirect(request, response, request.getRequestURI(), true);
@@ -191,6 +200,9 @@ public class NavigationServlet extends AbstractServlet {
 		private static final long serialVersionUID = 1L;
 	}
 	class NotLoggedInException extends Exception{
+		private static final long serialVersionUID = 1L;
+	}
+	class NotAdminException extends Exception{
 		private static final long serialVersionUID = 1L;
 	}
 	class HttpsException extends Exception{

@@ -1608,10 +1608,9 @@ function loadResValues(value) {
 			}
 			else {
 				rkList = null;
-				j++;
 			}
 			// Rounds
-			var k = j;
+			var k = j + 1;
 			var rdindex = 1;
 			var trd = [];
 			while (tValues['rd' + rdindex + 'rt']) {
@@ -1873,7 +1872,9 @@ function savePersonList() {
 		}
 	}
 	tValues['rk' + pListIndex + 'list'] = t.join('|');
-	rkList = t_.join('|');
+	var t__ = rkList.split('#');
+	t__[pListIndex - 1] = t_.join('|');
+	rkList = t__.join('#');
 	dPersonList.close();
 }
 function addPersonList() {
@@ -2855,7 +2856,7 @@ function addRedirection(id) {
 function saveConfig() {
 	$('msg2').update('<div><img src="/img/db/loading.gif?6"/></div>');
 	var h = $H();
-	$$('#tconfig input').each(function(el){
+	$$('#tconfig input, #tconfig textarea').each(function(el){
 		h.set('p_' + $(el).id, $(el).value);
 	});
 	new Ajax.Request('/update/save-config', {

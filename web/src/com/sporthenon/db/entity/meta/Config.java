@@ -14,6 +14,9 @@ public class Config {
 
 	@Column(name = "value")
 	private String value;
+	
+	@Column(name = "value_html")
+	private String valueHtml;
 
 	public String getKey() {
 		return key;
@@ -29,6 +32,14 @@ public class Config {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public String getValueHtml() {
+		return valueHtml;
+	}
+
+	public void setValueHtml(String valueHtml) {
+		this.valueHtml = valueHtml;
 	}
 	
 }

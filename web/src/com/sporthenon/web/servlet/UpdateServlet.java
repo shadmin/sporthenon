@@ -801,7 +801,14 @@ public class UpdateServlet extends AbstractServlet {
 				if (p.startsWith("p_")) {
 					Config c = (Config) DatabaseHelper.loadEntity(Config.class, p.substring(2));
 					if (c != null) {
-						c.setValue(String.valueOf(hParams.get(p)));
+						if (c.getKey().startsWith("html")) {
+							c.setValue(null);
+							c.setValueHtml(String.valueOf(hParams.get(p)));
+						}
+						else {
+							c.setValue(String.valueOf(hParams.get(p)));
+							c.setValueHtml(null);
+						}
 						DatabaseHelper.saveEntity(c, null);
 					}
 				}

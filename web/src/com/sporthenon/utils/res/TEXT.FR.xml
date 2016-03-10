@@ -394,6 +394,8 @@
 	<entry key="github.desc">Le projet et ses codes source sont hébergés sur GitHub</entry>
 	<entry key="programming">Programmation</entry>
 	<entry key="db.hosting"><![CDATA[Base de données &amp; Hébergement]]></entry>
+	<entry key="about.contribution">À PROPOS DE LA CONTRIBUTION</entry>
+	<entry key="howto.contribute">COMMENT CONTRIBUER ?</entry>
 <!-- LOGIN -->
 	<entry key="msg.login.err1">La connexion a échoué. Cet utilisateur n'est pas actif.</entry>
 	<entry key="msg.login.err2">La connexion a échoué. Merci de vérifier votre identifiant/mot de passe.</entry>

@@ -1,7 +1,7 @@
-<%@page import="java.util.List"%>
-<%@page import="com.sporthenon.db.DatabaseHelper"%>
-<%@page import="com.sporthenon.db.entity.meta.Config"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.sporthenon.db.DatabaseHelper"%>
+<%@ page import="com.sporthenon.db.entity.meta.Config"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="update-admin" class="update">
@@ -42,7 +42,10 @@
 		<%
 			for (Config c : (List<Config>) DatabaseHelper.execute("from Config order by key")) {
 				out.print("<tr><td><b>" + c.getKey() + "</b></td>");
-				out.print("<td><input id='" + c.getKey() + "' type='text' value='" + c.getValue() + "'/></td></tr>");
+				if (c.getKey().startsWith("html"))
+					out.print("<td><textarea id='" + c.getKey() + "' rows='8' cols='150'>" + c.getValueHtml() + "</textarea></td></tr>");
+				else
+					out.print("<td><input id='" + c.getKey() + "' type='text' value='" + c.getValue() + "'/></td></tr>");
 			}
 		%>
 		</table>

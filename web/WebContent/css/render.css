@@ -270,6 +270,9 @@
 .tc .rounds tr:hover td{
 	background-color: #FF9; /* _theme_ */
 }
+.tc .box:hover tr{
+	background-color: #FF9; /* _theme_ */	
+}
 .tc .box2, .tc .box4{
 	margin-left: 400px;
 }
@@ -474,11 +477,11 @@ th.desc{
 	font-weight: bold;
 	font-size: 13px;
 }	
-#summary2 hr{
+/*#summary2 hr{
 	border: 0;
 	border-top: 1px solid #AAA;
 	margin: 5px 0px;
-}
+}*/
 .bullet{
 	color: #666;
 	padding: 0px 2px;

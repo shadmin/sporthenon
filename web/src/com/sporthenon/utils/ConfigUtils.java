@@ -34,7 +34,7 @@ public class ConfigUtils {
 		try {
 			Config c = (Config) DatabaseHelper.loadEntity(Config.class, key);
 			if (c != null)
-				return c.getValue();
+				return (c.getKey().startsWith("html") ? c.getValueHtml() : c.getValue());
 		}
 		catch (Exception e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);

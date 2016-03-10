@@ -1189,4 +1189,14 @@ $BODY$
   
   
   
+  alter table "~Config" add value_html text;
+
+insert into  "~Config" values ('html_contribution1_en', NULL, '.');
+insert into  "~Config" values ('html_contribution1_fr', NULL, '.');
+insert into  "~Config" values ('html_contribution2_en', NULL, '.');
+insert into  "~Config" values ('html_contribution2_fr', NULL, '.');
+
+
+  
+  
   

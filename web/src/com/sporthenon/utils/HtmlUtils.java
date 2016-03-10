@@ -124,7 +124,7 @@ public class HtmlUtils {
 	public static String writeImgTable(String img, String text) {
 		StringBuffer html = new StringBuffer();
 		if (StringUtils.notEmpty(img)) {
-			html.append("<table><tr><th>" + img + "</th>");
+			html.append("<table><tr><th" + (img.indexOf("expand") != -1 ? " class='nowrap'" : "") + ">" + img + "</th>");
 			html.append("<td>" + text + "</td></tr></table>");
 		}
 		else

@@ -1788,6 +1788,11 @@ li{
 #update-admin .fscontent .toolbar td{
 	border: none;
 }
+#update-admin textarea{
+	font-family: "Courier";
+	width: 600px;
+	white-space: nowrap;
+}
 /*=============================
   ========== DIALOGS ========== 
   =============================*/

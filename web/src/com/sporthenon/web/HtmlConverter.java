@@ -85,7 +85,7 @@ public class HtmlConverter {
 		if (rank != null && rank > 0) {
 			String expand = "";
 			if (type > 10 && plist != null)
-				expand = "<img alt='+' src='/img/render/expand.gif' style='cursor:pointer;padding:3px 1px;' onclick=\"togglePlist(this, '" + plist + "');\"/>&nbsp;";
+				expand = "<img alt='+' src='/img/render/expand.gif' style='cursor:pointer;padding:3px 1px;" + (type == 50 ? "margin-top:6px;" : "") + "' onclick=\"togglePlist(this, '" + plist + "');\"/>&nbsp;";
 			if (type < 10)
 				s = HtmlUtils.writeLink(Athlete.alias, rank, StringUtils.toFullName(str1, str2, country, true), StringUtils.isRevertName(country, str1 + " " + str2) ? (StringUtils.notEmpty(str1) ? str1 + " " : "") + str2 : (StringUtils.notEmpty(str2) ? str2 + " " : "") + str1);
 			else if (type == 50) {
@@ -753,6 +753,7 @@ public class HtmlConverter {
 			Map<Integer, List<StringBuffer>> mpl = getPersonLists(String.valueOf(id));
 			List<StringBuffer> plist = mpl.get(id);
 			int ns = 1;
+			boolean isUSLeague = String.valueOf(r.getChampionship().getId()).matches(USLeaguesServlet.CHAMPIONSHIP_NFL + "|" + USLeaguesServlet.CHAMPIONSHIP_NBA + "|" + USLeaguesServlet.CHAMPIONSHIP_NHL + "|" + USLeaguesServlet.CHAMPIONSHIP_MLB);
 			StringBuffer summary = new StringBuffer();
 			// Info
 			Integer eventId = (r.getSubevent2() != null ? r.getSubevent2().getId() : (r.getSubevent() != null ? r.getSubevent().getId() : r.getEvent().getId()));
@@ -839,9 +840,9 @@ public class HtmlConverter {
 						String rel2LabelEN = (String) ResultsBean.class.getMethod("getEn" + i + "Rel2LabelEN").invoke(bean);
 						String rel2Code = (String) ResultsBean.class.getMethod("getEn" + i + "Rel2Code").invoke(bean);
 						tEntity[i - 1] = getResultsEntity(type_, idRank, str1, str2, str3, rel2Code, bean.getYrLabel(), plist != null && plist.size() > 0 ? "plist-" + id + "-" + (i - 1) : null);
-						tEntityRel[i - 1] = getResultsEntityRel(rel1Id, rel1Label, rel1Label, rel2Id, rel2Label, rel2Label, rel2LabelEN, true, true, bean.getYrLabel());
+						tEntityRel[i - 1] = getResultsEntityRel(rel1Id, rel1Label, rel1Label, rel2Id, rel2Label, rel2Label, rel2LabelEN, type_ < 10, type_ <= 50 && !isUSLeague, bean.getYrLabel());
 						tResult[i - 1] = StringUtils.formatResult(result, lang);
-					}	
+					}
 				}
 				boolean isDouble = (type_ == 4 || (bean.getRsComment() != null && bean.getRsComment().equals("#DOUBLE#")));
 				boolean isTriple = (type_ == 5 || (bean.getRsComment() != null && bean.getRsComment().equals("#TRIPLE#")));
@@ -933,6 +934,8 @@ public class HtmlConverter {
 						pl = getPlace(rb.getCxId(), rb.getCt1Id(), rb.getSt1Id(), rb.getCn1Id(), rb.getCxLabel(), rb.getCt1Label(), rb.getSt1Code(), rb.getCn1Code(), rb.getCxLabelEN(), rb.getCt1LabelEN(), rb.getSt1LabelEN(), rb.getCn1LabelEN(), r.getYear().getLabel());
 					else if (rb.getCt2Id() != null)
 						pl = getPlace(null, rb.getCt2Id(), rb.getSt2Id(), rb.getCn2Id(), null, rb.getCt2Label(), rb.getSt2Code(), rb.getCn2Code(), null, rb.getCt2LabelEN(), rb.getSt2LabelEN(), rb.getCn2LabelEN(), r.getYear().getLabel());
+					else
+						pl = null;
 					rdlistHtml.append("<tr><td>" + rb.getRtLabel() + "</td>");
 					rdlistHtml.append("<td>" + rk1 + "</td>" + (rel1 != null ? rel1 : ""));
 					rdlistHtml.append("<td class='centered'>" + rb.getRdResult1() + "</td>");
