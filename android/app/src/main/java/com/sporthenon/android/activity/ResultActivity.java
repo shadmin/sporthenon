@@ -5,22 +5,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.sporthenon.android.R;
-import com.sporthenon.android.adapter.ItemListAdapter;
-import com.sporthenon.android.adapter.ResultListAdapter;
 import com.sporthenon.android.async.AsyncResults;
-import com.sporthenon.android.data.DataItem;
 import com.sporthenon.android.data.ResultItem;
 import com.sporthenon.android.utils.AndroidUtils;
-
-import java.util.ArrayList;
 
 public class ResultActivity extends AbstractActivity implements AdapterView.OnItemClickListener {
 
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
-        title.setText(R.string.results);
+        //title.setText(R.string.results);
         Bundle b = getIntent().getExtras();
         setPath(b.getString("spname") + "\r\n" + b.getString("cpname") + (AndroidUtils.notEmpty(b.getString("ev1name")) ? "\r\n" + b.getString("ev1name") : "") + (AndroidUtils.notEmpty(b.getString("ev2name")) ? "\r\n" + b.getString("ev2name") : "") + (AndroidUtils.notEmpty(b.getString("ev3name")) ? "\r\n" + b.getString("ev3name") : ""));
         AsyncResults task = new AsyncResults();
@@ -29,7 +23,7 @@ public class ResultActivity extends AbstractActivity implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-        ResultItem rs = (ResultItem) list.getItemAtPosition(position);
+        ResultItem rs = (ResultItem) getList().getItemAtPosition(position);
         Intent i = new Intent(this, Result1Activity.class);
         Bundle b = new Bundle();
         b.putInt("rsid", rs.getId());

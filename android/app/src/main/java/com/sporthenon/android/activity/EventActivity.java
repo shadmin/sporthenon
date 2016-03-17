@@ -2,22 +2,18 @@ package com.sporthenon.android.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.sporthenon.android.R;
 import com.sporthenon.android.async.AsyncEvents;
 import com.sporthenon.android.data.DataItem;
-
-import java.util.ArrayList;
 
 public class EventActivity extends AbstractActivity implements AdapterView.OnItemClickListener {
 
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
-        title.setText(R.string.event);
+        //title.setText(R.string.event);
         Bundle b = getIntent().getExtras();
         setSportId(b.getInt("spid"));
         setSportName(b.getString("spname"));
@@ -36,7 +32,7 @@ public class EventActivity extends AbstractActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-        DataItem ev = (DataItem) list.getItemAtPosition(position);
+        DataItem ev = (DataItem) getList().getItemAtPosition(position);
         boolean isResults = false;
         Bundle b = new Bundle();
         b.putInt("spid", getSportId());

@@ -23,5 +23,16 @@
     <string name="date">Date</string>
     <string name="place">Place</string>
     <string name="result">Result</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="title_results">Results</string>
+    <string name="title_calendar">Calendar</string>
+    <string name="title_olympics">Olympics</string>
+    <string name="title_us_leagues">US leagues</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 
 </resources>
