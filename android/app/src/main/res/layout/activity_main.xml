@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="#EEE"
-    tools:context="com.sporthenon.android.activity.AbstractActivity$PlaceholderFragment">
+    tools:context="com.sporthenon.android.fragment.ListFragment">
 
     <EditText
         android:id="@+id/search"
@@ -26,7 +26,8 @@
         />
 
     <TextView
-        android:id="@+id/path"
+        android:id="@+id/path1"
+        style="@style/CustomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -39,7 +40,7 @@
     <ListView
         android:id="@+id/list"
         android:layout_below="@+id/search"
-        android:layout_above="@+id/path"
+        android:layout_above="@+id/path1"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:choiceMode="singleChoice"

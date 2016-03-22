@@ -8,12 +8,11 @@ import android.widget.AdapterView;
 import com.sporthenon.android.async.AsyncEvents;
 import com.sporthenon.android.data.DataItem;
 
-public class EventActivity extends AbstractActivity implements AdapterView.OnItemClickListener {
+public class EventActivity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
-        //title.setText(R.string.event);
         Bundle b = getIntent().getExtras();
         setSportId(b.getInt("spid"));
         setSportName(b.getString("spname"));
@@ -25,9 +24,9 @@ public class EventActivity extends AbstractActivity implements AdapterView.OnIte
         setEvent2Name(b.getString("ev2name"));
         setEvent3Id(b.getInt("ev3id"));
         setEvent3Name(b.getString("ev3name"));
-        AsyncEvents task = new AsyncEvents();
+        String path = getSportName() + "\r\n" + getChampionshipName() + (getEvent1Name() != null ? "\r\n" + getEvent1Name() : "") + (getEvent2Name() != null ? "\r\n" + getEvent2Name() : "");
+        AsyncEvents task = new AsyncEvents(path);
         task.execute(this, b.getInt("spid"), b.getInt("cpid"), b.getInt("ev1id"), b.getInt("ev2id"), b.getInt("ev3id"));
-        setPath(getSportName() + "\r\n" + getChampionshipName() + (getEvent1Name() != null ? "\r\n" + getEvent1Name() : "") + (getEvent2Name() != null ? "\r\n" + getEvent2Name() : ""));
     }
 
     @Override

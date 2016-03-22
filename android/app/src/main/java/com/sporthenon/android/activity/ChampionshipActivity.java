@@ -8,18 +8,17 @@ import android.widget.AdapterView;
 import com.sporthenon.android.async.AsyncChampionships;
 import com.sporthenon.android.data.DataItem;
 
-public class ChampionshipActivity extends AbstractActivity implements AdapterView.OnItemClickListener {
+public class ChampionshipActivity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
-        //title.setText(R.string.championship);
         Bundle b = getIntent().getExtras();
         setSportId(b.getInt("spid"));
         setSportName(b.getString("spname"));
-        AsyncChampionships task = new AsyncChampionships();
+        String path = getSportName();
+        AsyncChampionships task = new AsyncChampionships(path);
         task.execute(getSportId(), this);
-        setPath(getSportName());
     }
 
     @Override

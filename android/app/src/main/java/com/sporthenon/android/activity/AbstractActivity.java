@@ -1,39 +1,34 @@
 package com.sporthenon.android.activity;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sporthenon.android.R;
+import com.sporthenon.android.fragment.DrawerFragment;
+import com.sporthenon.android.fragment.ListFragment;
+import com.sporthenon.android.fragment.Result1Fragment;
 import com.sporthenon.android.utils.AndroidUtils;
-import com.sporthenon.android.utils.DrawerFragment;
 
 import java.util.ArrayList;
 
 @SuppressWarnings("deprecated")
 public abstract class AbstractActivity extends ActionBarActivity implements DrawerFragment.NavigationDrawerCallbacks, AdapterView.OnItemClickListener {
 
-    private DrawerFragment mDrawerFragment;
-    private CharSequence mTitle;
+    private DrawerFragment drawerFragment;
+    private CharSequence title;
 
+    protected String lang;
     protected Integer sportId;
     protected Integer championshipId;
     protected Integer event1Id;
@@ -46,28 +41,33 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
     protected String event3Name;
 
     public ListView getList() {
-        return PlaceholderFragment.getList();
-    }
-
-    public String getLang() {
-        return PlaceholderFragment.getLang();
+        return ListFragment.getList();
     }
 
     public ArrayList<Object> getItemList() {
-        return PlaceholderFragment.getItemList();
+        return ListFragment.getItemList();
     }
 
     public TextView getPath() {
-        return PlaceholderFragment.getPath();
+        return ListFragment.getPath();
     }
 
     public void setPath(String s) {
-        if (s != null)
+        if (s != null) {
             getPath().setText((AndroidUtils.notEmpty(getPath().getText().toString()) ? getPath().getText() + "\r\n" : "") + s.replaceAll("\\r\\n\\+", "\\\r\\\n"));
+            getPath().setVisibility(View.VISIBLE);
+        }
     }
 
     public void hideProgress() {
-        PlaceholderFragment.hideProgress();
+        if (this instanceof Result1Activity)
+            Result1Fragment.hideProgress();
+        else
+            ListFragment.hideProgress();
+    }
+
+    public String getLang() {
+        return lang;
     }
 
     public Integer getSportId() {
@@ -100,10 +100,6 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
 
     public void setEvent2Id(Integer event2Id) {
         this.event2Id = event2Id;
-    }
-
-    public Integer getEvent3Id() {
-        return event3Id;
     }
 
     public void setEvent3Id(Integer event3Id) {
@@ -142,12 +138,60 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
         this.event2Name = event2Name;
     }
 
-    public String getEvent3Name() {
-        return event3Name;
-    }
-
     public void setEvent3Name(String event3Name) {
         this.event3Name = event3Name;
+    }
+
+    public TextView getLabelResult() {
+        return Result1Fragment.getLabelResult();
+    }
+
+    public ListView getRankList() {
+        return Result1Fragment.getRankList();
+    }
+
+    public TextView getYear() {
+        return Result1Fragment.getYear();
+    }
+
+    public TextView getSport() {
+        return Result1Fragment.getSport();
+    }
+
+    public TextView getChampionship() {
+        return Result1Fragment.getChampionship();
+    }
+
+    public TextView getEvent() {
+        return Result1Fragment.getEvent();
+    }
+
+    public TextView getSubevent() {
+        return Result1Fragment.getSubevent();
+    }
+
+    public TextView getSubevent2() {
+        return Result1Fragment.getSubevent2();
+    }
+
+    public TextView getDate() {
+        return Result1Fragment.getDate();
+    }
+
+    public TextView getPlace1() {
+        return Result1Fragment.getPlace1();
+    }
+
+    public TextView getPlace2() {
+        return Result1Fragment.getPlace2();
+    }
+
+    public TextView getLabelDate() {
+        return Result1Fragment.getLabelDate();
+    }
+
+    public TextView getLabelPlace() {
+        return Result1Fragment.getLabelPlace();
     }
 
     @Override
@@ -155,84 +199,64 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
         super.onCreate(state);
         setContentView(R.layout.activity_navigation);
 
-        mDrawerFragment = (DrawerFragment)  getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
-        mDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-        /*
-        super.onCreate(state);
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-        setContentView(R.layout.activity_main);
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
-
-        title = (TextView) findViewById(R.id.title);
-        progress = (ProgressBar) findViewById(R.id.progress);
-        list = (ListView) findViewById(R.id.list);
-        list.setOnItemClickListener(this);
-
-        search = (EditText) findViewById(R.id.search);
-        search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {filter();}
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
-            @Override
-            public void afterTextChanged(Editable arg0) { }
-        });
-        search.setVisibility(View.GONE);
+        drawerFragment = (DrawerFragment)  getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+        title = getTitle();
+        drawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         lang = prefs.getString("lang", null);
-         */
     }
 
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance(position + 1)).commit();
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerFragment.getDrawerToggle().syncState();
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
+    @Override
+    public void onNavigationDrawerItemSelected(int n) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (n == 0)
+            fragmentManager.beginTransaction().replace(R.id.container, ListFragment.newInstance(n + 1, this)).commit();
+    }
+
+    public void onSectionAttached(int n) {
+        switch (n) {
             case 1:
-                mTitle = getString(R.string.title_results);
+                title = getString(R.string.title_results);
                 break;
             case 2:
-                mTitle = getString(R.string.title_calendar);
+                title = getString(R.string.title_calendar);
                 break;
             case 3:
-                mTitle = getString(R.string.title_olympics);
+                title = getString(R.string.title_olympics);
                 break;
             case 4:
-                mTitle = getString(R.string.title_us_leagues);
+                title = getString(R.string.title_us_leagues);
                 break;
         }
     }
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+        if (actionBar != null) {
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle(title);
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (item.getItemId() == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mDrawerFragment.isDrawerOpen()) {
+        if (!drawerFragment.isDrawerOpen()) {
             getMenuInflater().inflate(R.menu.navigation, menu);
             restoreActionBar();
             return true;
@@ -240,138 +264,7 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
         return super.onCreateOptionsMenu(menu);
     }
 
-    public static class PlaceholderFragment extends Fragment {
-
-        private static final String ARG_SECTION_NUMBER = "section_number";
-        protected static ProgressBar progress;
-        protected static ListView list;
-        protected static String lang;
-        protected static EditText search;
-        protected static TextView path;
-        private static ArrayList<Object> itemList;
-
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        public static ListView getList() {
-            return list;
-        }
-
-        public static void setList(ListView list_) {
-            list = list_;
-        }
-
-        public static ArrayList<Object> getItemList() {
-            if (itemList == null)
-                itemList = new ArrayList<>();
-            return itemList;
-        }
-
-        public static String getLang() {
-            return lang;
-        }
-
-        public static void setLang(String lang_) {
-            lang = lang_;
-        }
-
-        public static TextView getPath() {
-            return path;
-        }
-
-        public static void setPath(TextView path) {
-            PlaceholderFragment.path = path;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.activity_main, container, false);
-            //super.onCreate(state);
-            //requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-            //setContentView(R.layout.activity_main);
-            //getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
-
-            progress = (ProgressBar) view.findViewById(R.id.progress);
-            list = (ListView) view.findViewById(R.id.list);
-            list.setOnItemClickListener((AbstractActivity) this.getActivity());
-            path = (TextView) view.findViewById(R.id.path);
-
-            System.out.println(list+" = "+path);
-
-            search = (EditText) view.findViewById(R.id.search);
-            search.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {filter();}
-                @Override
-                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
-                @Override
-                public void afterTextChanged(Editable arg0) { }
-            });
-            search.setVisibility(View.GONE);
-
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-            lang = prefs.getString("lang", null);
-            return view;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((AbstractActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-
-        public void filter() {
-           /* String text = search.getText().toString().toLowerCase();
-            list.setAdapter(null);
-            if (this instanceof ResultActivity) {
-                ArrayList<ResultItem> list_ = new ArrayList<>();
-                for (Object o : itemList) {
-                    ResultItem item = (ResultItem) o;
-                    if (text.length() == 0 || item.getTxt1().toLowerCase().matches(".*" + text + ".*"))
-                        list_.add(item);
-                }
-                list.setAdapter(new ResultListAdapter(getApplicationContext(), list_));
-            }
-            else {
-                ArrayList<DataItem> list_ = new ArrayList<>();
-                for (Object o : itemList) {
-                    DataItem item = (DataItem) o;
-                    if (text.length() == 0 || item.getName().toLowerCase().matches(".*" + text + ".*"))
-                        list_.add(item);
-                }
-                list.setAdapter(new ItemListAdapter(getApplicationContext(), list_));
-            }*/
-        }
-
-        public void onSearchClick(View v) {
-            search.setVisibility(search.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-            if (search.getVisibility() == View.VISIBLE)
-                search.requestFocus();
-        }
-
-        public static void hideProgress() {
-            progress.setVisibility(View.GONE);
-        }
-    }
-
     @Override
     public abstract void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3);
-
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
-
-    public void onBackClick(View v) {
-        finish();
-    }
 
 }

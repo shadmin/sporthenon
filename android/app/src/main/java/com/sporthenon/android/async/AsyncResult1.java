@@ -4,21 +4,16 @@ import android.os.AsyncTask;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.activity.Result1Activity;
-import com.sporthenon.android.activity.ResultActivity;
-import com.sporthenon.android.adapter.ItemListAdapter;
 import com.sporthenon.android.adapter.RankListAdapter;
-import com.sporthenon.android.data.DataItem;
 import com.sporthenon.android.data.RankItem;
 import com.sporthenon.android.data.Result1Item;
 import com.sporthenon.android.utils.AndroidUtils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -42,7 +37,7 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
         result1 = new Result1Item(rsid, rsyr);
         ranks = new ArrayList<RankItem>();
         try {
-            StringBuffer url = new StringBuffer(activity.getString(R.string.url) + "/android/R1/");
+            StringBuffer url = new StringBuffer(activity.getString(R.string.url) + "/android/RS/R1-");
             url.append(rsid).append("?lang=").append(activity.getLang());
             HttpURLConnection connection = (HttpURLConnection)new URL(url.toString()).openConnection();
             connection.connect();
@@ -166,6 +161,7 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
                 activity.getPlace2().setVisibility(View.GONE);
             if (!AndroidUtils.notEmpty(result1.getPlace1()) && !AndroidUtils.notEmpty(result1.getPlace2()))
                 activity.getLabelPlace().setVisibility(View.GONE);
+            // Result Rankings
             activity.getRankList().setAdapter(new RankListAdapter(activity.getApplicationContext(), ranks));
         }
         catch(Exception e) {

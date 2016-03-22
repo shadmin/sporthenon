@@ -2,7 +2,7 @@ package com.sporthenon.android.async;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.View;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.activity.SportActivity;
@@ -29,11 +29,12 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
     private ArrayList<DataItem> sports;
 
     @Override
-    protected String doInBackground(Object... params) {
+     protected String doInBackground(Object... params) {
         activity = (SportActivity) params[0];
         sports = new ArrayList<DataItem>();
         try {
-            String url = activity.getString(R.string.url) + "/android/SP/0?lang=" + activity.getLang();
+            String url = activity.getString(R.string.url) + "/android/RS/SP-0?lang=" + activity.getLang();
+            System.out.println("url - "+url);
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
@@ -41,6 +42,7 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(input);
             NodeList list = doc.getElementsByTagName("item");
+            System.out.println("list - " + list.getLength());
             for (int i = 0 ; i < list.getLength() ; i++) {
                 Node n = list.item(i);
                 if (n.getNodeType() == Node.ELEMENT_NODE) {
@@ -60,10 +62,11 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
     }
 
     @Override
-    protected void onPostExecute(String response) {
+     protected void onPostExecute(String response) {
         try {
             activity.getItemList().addAll(sports);
             activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), sports));
+            activity.getPath().setVisibility(View.GONE);
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);
@@ -76,7 +79,7 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
 
     @Override
     protected void onPreExecute() {
-       super.onPreExecute();
+        super.onPreExecute();
     }
 
 }

@@ -2,7 +2,6 @@ package com.sporthenon.android.async;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.activity.ResultActivity;
@@ -28,6 +27,11 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
     private ResultActivity activity;
     private ArrayList<ResultItem> results;
     private String winrec;
+    private String path;
+
+    public AsyncResults(String path) {
+        this.path = path;
+    }
 
     @Override
     protected String doInBackground(Object... params) {
@@ -39,8 +43,8 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
         Integer ev3id = (params.length > 5 ? (Integer) params[5] : 0);
         results = new ArrayList<ResultItem>();
         try {
-            StringBuffer url = new StringBuffer(activity.getString(R.string.url) + "/android/RS");
-            url.append("/" + spid + "-" + cpid);
+            StringBuffer url = new StringBuffer(activity.getString(R.string.url) + "/android/RS/RS");
+            url.append("-" + spid + "-" + cpid);
             url.append(ev1id > 0 ? "-" + ev1id : "");
             url.append(ev2id > 0 ? "-" + ev2id : "");
             url.append(ev3id > 0 ? "-" + ev3id : "");
@@ -97,8 +101,7 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
         try {
             activity.getItemList().addAll(results);
             activity.getList().setAdapter(new ResultListAdapter(activity.getApplicationContext(), results));
-            TextView path = (TextView) activity.findViewById(R.id.path);
-            path.setText(path.getText() + "\r\n" + activity.getResources().getString(R.string.winrec) + " : " + winrec);
+            activity.setPath(path + "\r\n" + activity.getResources().getString(R.string.winrec) + " : " + winrec);
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);

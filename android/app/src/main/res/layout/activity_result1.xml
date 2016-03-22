@@ -5,7 +5,8 @@
     android:layout_height="fill_parent"
     android:layout_gravity="center_horizontal"
     android:orientation="vertical"
-    android:background="#EEE">
+    android:background="#EEE"
+    tools:context="com.sporthenon.android.fragment.Result1Fragment">
 
     <ProgressBar
         android:id="@+id/progress"
@@ -18,6 +19,7 @@
 
     <TextView
         android:id="@+id/rs_year"
+        style="@style/CustomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -29,6 +31,7 @@
 
     <TextView
         android:id="@+id/rs_sport"
+        style="@style/CustomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -39,6 +42,7 @@
 
     <TextView
         android:id="@+id/rs_championship"
+        style="@style/CustomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -49,6 +53,7 @@
 
     <TextView
         android:id="@+id/rs_event"
+        style="@style/CustomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -59,6 +64,7 @@
 
     <TextView
         android:id="@+id/rs_subevent"
+        style="@style/CustomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -69,6 +75,7 @@
 
     <TextView
         android:id="@+id/rs_subevent2"
+        style="@style/CustomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -79,6 +86,7 @@
 
     <TextView
         android:id="@+id/rs_label_date"
+        style="@style/CustomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -91,6 +99,7 @@
 
     <TextView
         android:id="@+id/rs_date"
+        style="@style/CustomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -101,6 +110,7 @@
 
     <TextView
         android:id="@+id/rs_label_place"
+        style="@style/CustomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -113,6 +123,7 @@
 
     <TextView
         android:id="@+id/rs_place1"
+        style="@style/CustomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -123,6 +134,7 @@
 
     <TextView
         android:id="@+id/rs_place2"
+        style="@style/CustomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -133,6 +145,7 @@
 
     <TextView
         android:id="@+id/rs_label_result"
+        style="@style/CustomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -145,8 +158,6 @@
 
     <ListView
         android:id="@+id/rank_list"
-        android:layout_below="@+id/search"
-        android:layout_above="@+id/path"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:choiceMode="singleChoice"

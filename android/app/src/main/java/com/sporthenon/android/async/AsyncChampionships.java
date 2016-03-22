@@ -26,6 +26,11 @@ public class AsyncChampionships extends AsyncTask<Object, Boolean, String> {
 
     private ChampionshipActivity activity;
     private ArrayList<DataItem> championships;
+    private String path;
+
+    public AsyncChampionships(String path) {
+        this.path = path;
+    }
 
     @Override
     protected String doInBackground(Object... params) {
@@ -33,7 +38,7 @@ public class AsyncChampionships extends AsyncTask<Object, Boolean, String> {
         activity = (ChampionshipActivity) params[1];
         championships = new ArrayList<DataItem>();
         try {
-            String url = activity.getString(R.string.url) + "/android/CP/" + spid + "?lang=" + activity.getLang();
+            String url = activity.getString(R.string.url) + "/android/RS/CP-" + spid + "?lang=" + activity.getLang();
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
@@ -64,6 +69,7 @@ public class AsyncChampionships extends AsyncTask<Object, Boolean, String> {
         try {
             activity.getItemList().addAll(championships);
             activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), championships));
+            activity.setPath(path);
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);

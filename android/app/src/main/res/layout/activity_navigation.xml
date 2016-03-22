@@ -13,10 +13,10 @@
 
     <fragment
         android:id="@+id/navigation_drawer"
-        android:layout_width="200dip"
+        android:layout_width="150dip"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:name="com.sporthenon.android.utils.DrawerFragment"
+        android:name="com.sporthenon.android.fragment.DrawerFragment"
         tools:layout="@layout/item_navigation"
         />
 

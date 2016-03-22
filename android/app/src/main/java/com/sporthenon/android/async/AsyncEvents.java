@@ -26,6 +26,11 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
 
     private EventActivity activity;
     private ArrayList<DataItem> events;
+    private String path;
+
+    public AsyncEvents(String path) {
+        this.path = path;
+    }
 
     @Override
     protected String doInBackground(Object... params) {
@@ -36,9 +41,9 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
         Integer ev2id = (params.length > 4 ? (Integer) params[4] : 0);
         events = new ArrayList<DataItem>();
         try {
-            StringBuffer url = new StringBuffer(activity.getString(R.string.url) + "/android/");
+            StringBuffer url = new StringBuffer(activity.getString(R.string.url) + "/android/RS/");
             url.append(ev2id > 0 ? "SE2" : (ev1id > 0 ? "SE" : "EV"));
-            url.append("/" + spid + "-" + cpid);
+            url.append("-" + spid + "-" + cpid);
             url.append(ev1id > 0 ? "-" + ev1id : "");
             url.append(ev2id > 0 ? "-" + ev2id : "");
             url.append("?lang=" + activity.getLang());
@@ -73,6 +78,7 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
         try {
             activity.getItemList().addAll(events);
             activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), events));
+            activity.setPath(path);
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);
