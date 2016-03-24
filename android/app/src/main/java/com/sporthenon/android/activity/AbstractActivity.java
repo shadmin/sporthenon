@@ -1,5 +1,6 @@
 package com.sporthenon.android.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -26,8 +27,14 @@ import java.util.ArrayList;
 public abstract class AbstractActivity extends ActionBarActivity implements DrawerFragment.NavigationDrawerCallbacks, AdapterView.OnItemClickListener {
 
     private DrawerFragment drawerFragment;
-    private CharSequence title;
 
+    protected static final int INDEX_RESULTS = 0;
+    protected static final int INDEX_CALENDAR = 1;
+    protected static final int INDEX_OLYMPICS = 2;
+    protected static final int INDEX_USLEAGUES = 3;
+    protected static final int INDEX_SETTINGS = 4;
+
+    protected Integer index;
     protected String lang;
     protected Integer sportId;
     protected Integer championshipId;
@@ -200,8 +207,11 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
         setContentView(R.layout.activity_navigation);
 
         drawerFragment = (DrawerFragment)  getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        title = getTitle();
         drawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+        drawerFragment.selectItem(index, false);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.container, ListFragment.newInstance(index + 1, this)).commit();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         lang = prefs.getString("lang", null);
@@ -215,12 +225,18 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
 
     @Override
     public void onNavigationDrawerItemSelected(int n) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if (n == 0)
-            fragmentManager.beginTransaction().replace(R.id.container, ListFragment.newInstance(n + 1, this)).commit();
+        Class c = null;
+        if (n == INDEX_RESULTS)
+            c = SportActivity.class;
+        else if (n == INDEX_CALENDAR)
+            c = YearActivity.class;
+        Intent i = new Intent(this, c);
+        startActivity(i);
+        finish();
     }
 
     public void onSectionAttached(int n) {
+        String title = null;
         switch (n) {
             case 1:
                 title = getString(R.string.title_results);
@@ -234,7 +250,11 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
             case 4:
                 title = getString(R.string.title_us_leagues);
                 break;
+            case 5:
+                title = getString(R.string.title_settings);
+                break;
         }
+        setTitle(title);
     }
 
     public void restoreActionBar() {
@@ -242,7 +262,7 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
         if (actionBar != null) {
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
             actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setTitle(title);
+            actionBar.setTitle(getTitle());
         }
     }
 

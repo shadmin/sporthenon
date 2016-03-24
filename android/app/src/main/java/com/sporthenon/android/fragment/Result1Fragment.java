@@ -114,8 +114,6 @@ public class Result1Fragment extends Fragment {
         labelResult = (TextView) view.findViewById(R.id.rs_label_result);
         rankList = (ListView) view.findViewById(R.id.rank_list);
 
-        System.out.println("year - "+year);
-
         labelDate.setText(R.string.date);
         labelPlace.setText(R.string.place);
         labelResult.setText(R.string.result);

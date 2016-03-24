@@ -5,10 +5,9 @@ import android.util.Log;
 import android.view.View;
 
 import com.sporthenon.android.R;
-import com.sporthenon.android.activity.SportActivity;
+import com.sporthenon.android.activity.YearActivity;
 import com.sporthenon.android.adapter.ItemListAdapter;
 import com.sporthenon.android.data.DataItem;
-import com.sporthenon.android.utils.AndroidUtils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -23,17 +22,17 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-public class AsyncSports extends AsyncTask<Object, Boolean, String> {
+public class AsyncYears extends AsyncTask<Object, Boolean, String> {
 
-    private SportActivity activity;
-    private ArrayList<DataItem> sports;
+    private YearActivity activity;
+    private ArrayList<DataItem> years;
 
     @Override
      protected String doInBackground(Object... params) {
-        activity = (SportActivity) params[0];
-        sports = new ArrayList<DataItem>();
+        activity = (YearActivity) params[0];
+        years = new ArrayList<DataItem>();
         try {
-            String url = activity.getString(R.string.url) + "/android/RS/SP-0?lang=" + activity.getLang();
+            String url = activity.getString(R.string.url) + "/android/CL/YR";
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
@@ -47,8 +46,7 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
                     Element e = (Element) n;
                     Integer id = Integer.parseInt(e.getAttribute("value"));
                     String name = e.getAttribute("text");
-                    String img = e.getAttribute("img");
-                    sports.add(new DataItem(id, name.toUpperCase(), AndroidUtils.getImage(activity, img)));
+                    years.add(new DataItem(id, name.toUpperCase(), null));
                 }
             }
             connection.disconnect();
@@ -62,8 +60,8 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
     @Override
      protected void onPostExecute(String response) {
         try {
-            activity.getItemList().addAll(sports);
-            activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), sports));
+            activity.getItemList().addAll(years);
+            activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), years));
             activity.getPath().setVisibility(View.GONE);
         }
         catch(Exception e) {

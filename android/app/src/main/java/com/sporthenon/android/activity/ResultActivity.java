@@ -13,6 +13,7 @@ public class ResultActivity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle state) {
+        index = INDEX_RESULTS;
         super.onCreate(state);
         Bundle b = getIntent().getExtras();
         String path = b.getString("spname") + "\r\n" + b.getString("cpname") + (AndroidUtils.notEmpty(b.getString("ev1name")) ? "\r\n" + b.getString("ev1name") : "") + (AndroidUtils.notEmpty(b.getString("ev2name")) ? "\r\n" + b.getString("ev2name") : "") + (AndroidUtils.notEmpty(b.getString("ev3name")) ? "\r\n" + b.getString("ev3name") : "");

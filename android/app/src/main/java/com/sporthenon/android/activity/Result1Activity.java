@@ -11,9 +11,10 @@ import com.sporthenon.android.fragment.Result1Fragment;
 public class Result1Activity extends AbstractActivity {
 
     protected void onCreate(Bundle state) {
+        index = INDEX_RESULTS;
         super.onCreate(state);
         Bundle b = getIntent().getExtras();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, Result1Fragment.newInstance(99, this)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, Result1Fragment.newInstance(index + 1, this)).commit();
         AsyncResult1 task = new AsyncResult1();
         task.execute(this, b.getInt("rsid"), b.getString("rsyr"));
     }

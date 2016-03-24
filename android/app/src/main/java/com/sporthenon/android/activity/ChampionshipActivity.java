@@ -12,6 +12,7 @@ public class ChampionshipActivity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle state) {
+        index = INDEX_RESULTS;
         super.onCreate(state);
         Bundle b = getIntent().getExtras();
         setSportId(b.getInt("spid"));
