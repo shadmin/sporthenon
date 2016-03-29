@@ -15,4 +15,25 @@
     <string name="date">Date</string>
     <string name="place">Lieu</string>
     <string name="result">Résultat</string>
+    <string name="month.1">Janvier</string>
+    <string name="month.2">Février</string>
+    <string name="month.3">Mars</string>
+    <string name="month.4">Avril</string>
+    <string name="month.5">Mai</string>
+    <string name="month.6">Juin</string>
+    <string name="month.7">Juillet</string>
+    <string name="month.8">Août</string>
+    <string name="month.9">Septembre</string>
+    <string name="month.10">Octobre</string>
+    <string name="month.11">Novembre</string>
+    <string name="month.12">Décembre</string>
+    <string name="navigation_drawer_close">Fermer</string>
+    <string name="navigation_drawer_open">Ouvrir</string>
+    <string name="title_calendar">Calendrier</string>
+    <string name="title_olympics">Olympique</string>
+    <string name="title_results">Résultats</string>
+    <string name="title_settings">Paramètres</string>
+    <string name="title_us_leagues">Ligues US</string>
+    <string name="ol.summer">Jeux Olympiques d\'été</string>
+    <string name="ol.winter">Jeux Olympiques d\'hiver</string>
 </resources>

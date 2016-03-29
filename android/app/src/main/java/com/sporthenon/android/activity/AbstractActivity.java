@@ -36,6 +36,7 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
 
     protected Integer index;
     protected String lang;
+    // Results
     protected Integer sportId;
     protected Integer championshipId;
     protected Integer event1Id;
@@ -46,6 +47,13 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
     protected String event1Name;
     protected String event2Name;
     protected String event3Name;
+    // Calendar
+    protected Integer clYear;
+    protected Integer clMonth;
+    // Olympics
+    protected static final int OLTYPE_WINTER = 0;
+    protected static final int OLTYPE_SUMMER = 1;
+    protected Integer olType;
 
     public ListView getList() {
         return ListFragment.getList();
@@ -201,6 +209,30 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
         return Result1Fragment.getLabelPlace();
     }
 
+    public Integer getClYear() {
+        return clYear;
+    }
+
+    public void setClYear(Integer clYear) {
+        this.clYear = clYear;
+    }
+
+    public Integer getClMonth() {
+        return clMonth;
+    }
+
+    public void setClMonth(Integer clMonth) {
+        this.clMonth = clMonth;
+    }
+
+    public Integer getOlType() {
+        return olType;
+    }
+
+    public void setOlType(Integer olType) {
+        this.olType = olType;
+    }
+
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
@@ -230,6 +262,10 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
             c = SportActivity.class;
         else if (n == INDEX_CALENDAR)
             c = YearActivity.class;
+        else if (n == INDEX_OLYMPICS)
+            c = OlympicsTypeActivity.class;
+        else if (n == INDEX_USLEAGUES)
+            c = LeagueActivity.class;
         Intent i = new Intent(this, c);
         startActivity(i);
         finish();
@@ -239,20 +275,15 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
         String title = null;
         switch (n) {
             case 1:
-                title = getString(R.string.title_results);
-                break;
+                title = getString(R.string.title_results); break;
             case 2:
-                title = getString(R.string.title_calendar);
-                break;
+                title = getString(R.string.title_calendar); break;
             case 3:
-                title = getString(R.string.title_olympics);
-                break;
+                title = getString(R.string.title_olympics); break;
             case 4:
-                title = getString(R.string.title_us_leagues);
-                break;
+                title = getString(R.string.title_us_leagues); break;
             case 5:
-                title = getString(R.string.title_settings);
-                break;
+                title = getString(R.string.title_settings); break;
         }
         setTitle(title);
     }
@@ -268,9 +299,9 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_settings) {
+        /*if (item.getItemId() == R.id.action_settings) {
             return true;
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 

@@ -9,7 +9,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -108,7 +107,7 @@ public class DrawerFragment extends Fragment {
     public void setUp(int id, DrawerLayout drawerLayout) {
         fragmentContainerView = getActivity().findViewById(id);
         this.drawerLayout = drawerLayout;
-        this.drawerLayout.setDrawerShadow(R.drawable.shadow, GravityCompat.START);
+        //this.drawerLayout.setDrawerShadow(R.drawable.shadow, GravityCompat.START);
 
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

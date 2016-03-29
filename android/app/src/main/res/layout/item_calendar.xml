@@ -6,86 +6,28 @@
     android:background="@drawable/selector">
 
     <TextView
-        android:id="@+id/year"
+        android:id="@+id/cl_dates"
         style="@style/CustomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_centerVertical="false"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:padding="7dip"
         android:textStyle="bold"
-    />
+        />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/cl_sport_event"
+        style="@style/CustomTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/year"
-        android:layout_toEndOf="@+id/year"
         android:layout_centerVertical="true"
-        android:orientation="vertical">
-        <LinearLayout
-            android:id="@+id/line1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-            <ImageView
-                android:id="@+id/img1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-            />
-            <TextView
-                android:id="@+id/txt1"
-                style="@style/CustomTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingLeft="7dip"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/line2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-            <ImageView
-                android:id="@+id/img2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                />
-            <TextView
-                android:id="@+id/txt2"
-                style="@style/CustomTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingLeft="7dip"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/line3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-            <ImageView
-                android:id="@+id/img3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                />
-            <TextView
-                android:id="@+id/txt3"
-                style="@style/CustomTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingLeft="7dip"
-                />
-        </LinearLayout>
-    </LinearLayout>
+        android:gravity="right"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:padding="7dip"
+        android:textSize="15sp"
+        />
 
 </RelativeLayout>

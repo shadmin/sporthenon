@@ -28,6 +28,7 @@ public class ResultActivity extends AbstractActivity {
         Bundle b = new Bundle();
         b.putInt("rsid", rs.getId());
         b.putString("rsyr", rs.getYear());
+        b.putBoolean("cl", false);
         i.putExtras(b);
         startActivity(i);
     }

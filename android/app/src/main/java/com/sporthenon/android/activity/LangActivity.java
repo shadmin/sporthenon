@@ -7,9 +7,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.view.Window;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import com.sporthenon.android.R;
 
@@ -33,13 +31,13 @@ public class LangActivity extends Activity implements View.OnClickListener {
             nextActivity();
         }
         else {
-            requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+            //requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
             setContentView(R.layout.activity_lang);
-            getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
+            //getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
 
-            ((TextView) findViewById(R.id.title)).setText(R.string.select_language);
-            findViewById(R.id.back_icon).setVisibility(View.GONE);
-            findViewById(R.id.search_icon).setVisibility(View.GONE);
+            //((TextView) findViewById(R.id.title)).setText(R.string.select_language);
+            //findViewById(R.id.back_icon).setVisibility(View.GONE);
+            //findViewById(R.id.search_icon).setVisibility(View.GONE);
             langEN = (RadioButton) findViewById(R.id.langEN);
             langFR = (RadioButton) findViewById(R.id.langFR);
             findViewById(R.id.ok).setOnClickListener(this);

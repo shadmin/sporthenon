@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.data.RankItem;
-import com.sporthenon.android.data.ResultItem;
 import com.sporthenon.android.utils.AndroidUtils;
 
 import java.util.List;
@@ -64,11 +63,12 @@ public class RankListAdapter extends BaseAdapter {
 		}
         else
 			holder = (ViewHolder) convertView.getTag();
-		holder.rank.setText(list.get(position).getRank());
-		holder.text.setText(list.get(position).getText());
-		holder.result.setText(list.get(position).getResult());
-		Drawable img = list.get(position).getImg();
-		String imgURL = list.get(position).getImgURL();
+		RankItem ri = list.get(position);
+		holder.rank.setText(ri.getRank());
+		holder.text.setText(ri.getText());
+		holder.result.setText(ri.getResult());
+		Drawable img = ri.getImg();
+		String imgURL = ri.getImgURL();
 		if (img != null) {
 			holder.img.setImageDrawable(img);
 			holder.img.setLayoutParams(AndroidUtils.getImageSize(convertView.getContext(), imgURL));

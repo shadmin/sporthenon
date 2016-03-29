@@ -9,6 +9,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.LinearLayout;
 
+import com.sporthenon.android.R;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -61,6 +63,24 @@ public class AndroidUtils {
         int n2 = Math.round(30 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         int n3 = Math.round(20 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         return (notEmpty(url) && url.contains("/5-") ? new LinearLayout.LayoutParams(n1, n1) : new LinearLayout.LayoutParams(n2, n3));
+    }
+
+    public static int getMonthRes(int m) {
+        switch (m) {
+            case 1 : return R.string.month_1;
+            case 2 : return R.string.month_2;
+            case 3 : return R.string.month_3;
+            case 4 : return R.string.month_4;
+            case 5 : return R.string.month_5;
+            case 6 : return R.string.month_6;
+            case 7 : return R.string.month_7;
+            case 8 : return R.string.month_8;
+            case 9 : return R.string.month_9;
+            case 10 : return R.string.month_10;
+            case 11 : return R.string.month_11;
+            case 12 : return R.string.month_12;
+        }
+        return 0;
     }
 
 }

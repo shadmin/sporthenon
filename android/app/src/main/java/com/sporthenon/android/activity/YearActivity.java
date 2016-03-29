@@ -20,11 +20,10 @@ public class YearActivity extends AbstractActivity {
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-        DataItem sp = (DataItem) getList().getItemAtPosition(position);
+        DataItem yr = (DataItem) getList().getItemAtPosition(position);
         Intent i = new Intent(this, MonthActivity.class);
         Bundle b = new Bundle();
-        b.putInt("yrid", sp.getId());
-        b.putString("yrname", sp.getName());
+        b.putInt("year", Integer.parseInt(yr.getName()));
         i.putExtras(b);
         startActivity(i);
     }

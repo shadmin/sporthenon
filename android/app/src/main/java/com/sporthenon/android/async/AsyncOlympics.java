@@ -4,9 +4,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.sporthenon.android.R;
-import com.sporthenon.android.activity.MonthActivity;
+import com.sporthenon.android.activity.OlympicsActivity;
 import com.sporthenon.android.adapter.ItemListAdapter;
 import com.sporthenon.android.data.DataItem;
+import com.sporthenon.android.utils.AndroidUtils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,22 +22,23 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-public class AsyncMonths extends AsyncTask<Object, Boolean, String> {
+public class AsyncOlympics extends AsyncTask<Object, Boolean, String> {
 
-    private MonthActivity activity;
-    private ArrayList<DataItem> months;
+    private OlympicsActivity activity;
+    private ArrayList<DataItem> olympics;
     private String path;
 
-    public AsyncMonths(String path) {
+    public AsyncOlympics(String path) {
         this.path = path;
     }
 
     @Override
      protected String doInBackground(Object... params) {
-        activity = (MonthActivity) params[0];
-        months = new ArrayList<DataItem>();
+        activity = (OlympicsActivity) params[0];
+        Integer oltype = (Integer) params[1];
+        olympics = new ArrayList<DataItem>();
         try {
-            String url = activity.getString(R.string.url) + "/android/CL/MT?lang=" + activity.getLang();
+            String url = activity.getString(R.string.url) + "/android/OL/OL-" + oltype + "?lang=" + activity.getLang();
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
@@ -50,7 +52,8 @@ public class AsyncMonths extends AsyncTask<Object, Boolean, String> {
                     Element e = (Element) n;
                     Integer id = Integer.parseInt(e.getAttribute("value"));
                     String name = e.getAttribute("text");
-                    months.add(new DataItem(id, name.toUpperCase(), null));
+                    String img = e.getAttribute("img");
+                    olympics.add(new DataItem(id, name.toUpperCase(), AndroidUtils.getImage(activity, img)));
                 }
             }
             connection.disconnect();
@@ -64,8 +67,8 @@ public class AsyncMonths extends AsyncTask<Object, Boolean, String> {
     @Override
      protected void onPostExecute(String response) {
         try {
-            activity.getItemList().addAll(months);
-            activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), months));
+            activity.getItemList().addAll(olympics);
+            activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), olympics));
             activity.setPath(path);
         }
         catch(Exception e) {

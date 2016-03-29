@@ -15,12 +15,5 @@
         <item name="android:textSize">18sp</item>
         <item name="android:layout_centerVertical">true</item>
     </style>
-    <style name="CustomTheme" parent="android:Theme">
-        <item name="android:textColor">#000</item>
-        <item name="android:radioButtonStyle">@style/CustomRadio</item>
-        <item name="android:textViewStyle">@style/CustomTextView</item>
-        <item name="android:windowTitleSize">50dip</item>
-        <item name="android:windowTitleBackgroundStyle">@style/CustomTitle</item>
-    </style>
 
 </resources>

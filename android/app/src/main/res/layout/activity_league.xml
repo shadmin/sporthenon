@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#EEE"
+    tools:context="com.sporthenon.android.fragment.LeagueFragment">
+
+    <Button
+        android:id="@+id/ol_winter"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:fontFamily="Verdana"
+        android:textSize="18sp"
+        android:text="NFL"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:background="#FFF"
+        android:drawableTop="@drawable/nfl"
+        android:drawablePadding="10dp"
+        />
+
+</RelativeLayout>

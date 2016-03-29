@@ -1,20 +1,16 @@
 package com.sporthenon.android.data;
 
-import android.graphics.drawable.Drawable;
-
 public class CalendarItem {
 
 	private int id;
     private String sport;
-    private Drawable sportImg;
     private String event;
     private String dates;
 
-	public CalendarItem(int id, String sport, Drawable sportImg, String event, String dates) {
+	public CalendarItem(int id, String sport, String event, String dates) {
 		super();
 		this.id = id;
 		this.sport = sport;
-        this.sportImg = sportImg;
 		this.event = event;
         this.dates = dates;
 	}
@@ -33,14 +29,6 @@ public class CalendarItem {
 
     public void setSport(String sport) {
         this.sport = sport;
-    }
-
-    public Drawable getSportImg() {
-        return sportImg;
-    }
-
-    public void setSportImg(Drawable sportImg) {
-        this.sportImg = sportImg;
     }
 
     public String getEvent() {
