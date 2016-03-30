@@ -685,8 +685,8 @@ public class HtmlConverter {
 			if (lAllLogos != null && lAllLogos.size() > 1) {
 				int nof = 0;
 				for (String s : lAllLogos)
-					if (s.matches(".*\\d{4}\\-\\d{4}\\.png$")) {
-						String s_ = s.substring(s.indexOf("_") + 1, s.lastIndexOf("."));
+					if (s.matches(".*\\d{4}\\-\\d{4}(\\_\\d+|)\\.png$")) {
+						String s_ = s.substring(s.indexOf("_") + 1, s.lastIndexOf(".")).replaceAll("\\_\\d+$", "");
 						if (s_.substring(0, 4).equals(s_.substring(5)))
 							s_ = s_.substring(5);
 						sbOtherFlags.append("<div class='of-" + id + "' style='" + (++nof > 3 ? "display:none;" : "") + "float:left;margin:5px;text-align:center;'><img alt='' src='" + ImageUtils.getUrl() + s + "'/>");
@@ -807,6 +807,7 @@ public class HtmlConverter {
 			if (StringUtils.notEmpty(r.getComment()) && !r.getComment().startsWith("##") && !r.getComment().matches("\\#(DOUBLE|TRIPLE)\\#"))
 				html.append("<tr><th class='caption'>" + ResourceUtils.getText("comment", lang) + "</th><td>" + r.getComment().replaceAll("\r\n|\\|", "<br/>") + "</td></tr>");
 			// Result
+			int type_ = -1;
 			final int MAX_RANKS = 20;
 			ArrayList<Object> lFuncParams = new ArrayList<Object>();
 			lFuncParams.add(r.getSport().getId());
@@ -824,7 +825,7 @@ public class HtmlConverter {
 				String[] tEntityHtml = new String[MAX_RANKS];
 				String[] tResult = new String[MAX_RANKS];
 				Event ev_ = (Event) DatabaseHelper.loadEntity(Event.class, (r.getSubevent2() != null ? r.getSubevent2().getId() : (r.getSubevent() != null ? r.getSubevent().getId() : r.getEvent().getId())));
-				int type_ = ev_.getType().getNumber();
+				type_ = ev_.getType().getNumber();
 				boolean isScore = (bean.getRsRank1() != null && bean.getRsRank2() != null && StringUtils.notEmpty(bean.getRsResult1()) && !StringUtils.notEmpty(bean.getRsResult2()) && !StringUtils.notEmpty(bean.getRsResult3()));
 				for (int i = 1 ; i <= MAX_RANKS ; i++) {
 					Integer idRank = StringUtils.toInt(ResultsBean.class.getMethod("getRsRank" + i).invoke(bean));
@@ -927,9 +928,9 @@ public class HtmlConverter {
 					rk1 = getResultsEntity(rb.getRdResultType(), rb.getRk1Id(), rb.getRk1Str1(), rb.getRk1Str2(), rb.getRk1Str3(), rb.getRk1Rel2Code(), r.getYear().getLabel(), null);
 					rk2 = getResultsEntity(rb.getRdResultType(), rb.getRk2Id(), rb.getRk2Str1(), rb.getRk2Str2(), rb.getRk2Str3(), rb.getRk2Rel2Code(), r.getYear().getLabel(), null);
 					rk3 = getResultsEntity(rb.getRdResultType(), rb.getRk3Id(), rb.getRk3Str1(), rb.getRk3Str2(), rb.getRk3Str3(), rb.getRk3Rel2Code(), r.getYear().getLabel(), null);
-					rel1 = getResultsEntityRel(rb.getRk1Rel1Id(), rb.getRk1Rel1Code(), rb.getRk1Rel1Label(), rb.getRk1Rel2Id(), rb.getRk1Rel2Code(), rb.getRk1Rel2Label(), rb.getRk1Rel2LabelEN(), false, false, r.getYear().getLabel());
-					rel2 = getResultsEntityRel(rb.getRk2Rel1Id(), rb.getRk2Rel1Code(), rb.getRk2Rel1Label(), rb.getRk2Rel2Id(), rb.getRk2Rel2Code(), rb.getRk2Rel2Label(), rb.getRk2Rel2LabelEN(), false, false, r.getYear().getLabel());
-					rel3 = getResultsEntityRel(rb.getRk3Rel1Id(), rb.getRk3Rel1Code(), rb.getRk3Rel1Label(), rb.getRk3Rel2Id(), rb.getRk3Rel2Code(), rb.getRk3Rel2Label(), rb.getRk3Rel2LabelEN(), false, false, r.getYear().getLabel());
+					rel1 = getResultsEntityRel(rb.getRk1Rel1Id(), rb.getRk1Rel1Code(), rb.getRk1Rel1Label(), rb.getRk1Rel2Id(), rb.getRk1Rel2Code(), rb.getRk1Rel2Label(), rb.getRk1Rel2LabelEN(), type_ < 10 && rb.getRk1Rel1Id() != null, type_ <= 50, r.getYear().getLabel());
+					rel2 = getResultsEntityRel(rb.getRk2Rel1Id(), rb.getRk2Rel1Code(), rb.getRk2Rel1Label(), rb.getRk2Rel2Id(), rb.getRk2Rel2Code(), rb.getRk2Rel2Label(), rb.getRk2Rel2LabelEN(), type_ < 10 && rb.getRk2Rel1Id() != null, type_ <= 50, r.getYear().getLabel());
+					rel3 = getResultsEntityRel(rb.getRk3Rel1Id(), rb.getRk3Rel1Code(), rb.getRk3Rel1Label(), rb.getRk3Rel2Id(), rb.getRk3Rel2Code(), rb.getRk3Rel2Label(), rb.getRk3Rel2LabelEN(), type_ < 10 && rb.getRk3Rel1Id() != null, type_ <= 50, r.getYear().getLabel());
 					if (rb.getCxId() != null)
 						pl = getPlace(rb.getCxId(), rb.getCt1Id(), rb.getSt1Id(), rb.getCn1Id(), rb.getCxLabel(), rb.getCt1Label(), rb.getSt1Code(), rb.getCn1Code(), rb.getCxLabelEN(), rb.getCt1LabelEN(), rb.getSt1LabelEN(), rb.getCn1LabelEN(), r.getYear().getLabel());
 					else if (rb.getCt2Id() != null)
@@ -938,7 +939,7 @@ public class HtmlConverter {
 						pl = null;
 					rdlistHtml.append("<tr><td>" + rb.getRtLabel() + "</td>");
 					rdlistHtml.append("<td>" + rk1 + "</td>" + (rel1 != null ? rel1 : ""));
-					rdlistHtml.append("<td class='centered'>" + rb.getRdResult1() + "</td>");
+					rdlistHtml.append("<td class='centered'>" + StringUtils.formatResult(rb.getRdResult1(), lang) + "</td>");
 					rdlistHtml.append("<td>" + rk2 + "</td>" + (rel2 != null ? rel2 : ""));
 					if (rk3 != null)
 						rdlistHtml.append("<td>" + rk3 + "</td>" + (rel3 != null ? rel3 : ""));
@@ -947,7 +948,7 @@ public class HtmlConverter {
 					if (rk1 != null && rb.getRtIndex() <= 8) {
 						drawHtml.append("<div class='box box" + rb.getRtIndex() + "'><table><tr><th colspan='" + (rb.getRdResultType() < 10 ? 3 : 2) + "'>" + rb.getRtLabel() + "</th></tr>");
 						drawHtml.append("<tr><td style='font-weight:bold;'>" + rk1 + "</td>" + (rel1 != null ? rel1 : ""));
-						drawHtml.append("<td rowspan='2' style='width:33%;'>" + rb.getRdResult1() + "</td></tr>");
+						drawHtml.append("<td rowspan='2' style='width:33%;'>" + StringUtils.formatResult(rb.getRdResult1(), lang).replaceAll("\\&nbsp\\;", " ") + "</td></tr>");
 						drawHtml.append("<tr><td>" + rk2 + "</td>" + (rel2 != null ? rel2 : "") + "</tr>");
 						drawHtml.append("</table></div>");
 					}
@@ -1082,8 +1083,8 @@ public class HtmlConverter {
 			if (lAllLogos != null && lAllLogos.size() > 1) {
 				int nol = 0;
 				for (String s : lAllLogos)
-					if (s.matches(".*\\d{4}\\-\\d{4}\\.png$")) {
-						String s_ = s.substring(s.indexOf("_") + 1, s.lastIndexOf("."));
+					if (s.matches(".*\\d{4}\\-\\d{4}(\\_\\d+|)\\.png$")) {
+						String s_ = s.substring(s.indexOf("_") + 1, s.lastIndexOf(".")).replaceAll("\\_\\d+$", "");
 						if (s_.substring(0, 4).equals(s_.substring(5)))
 							s_ = s_.substring(5);
 						sbOtherLogos.append("<div class='ol-" + id + "' style='" + (++nol > 3 ? "display:none;" : "") + "float:left;margin:5px;text-align:center;'><img alt='' src='" + ImageUtils.getUrl() + s + "'/>");

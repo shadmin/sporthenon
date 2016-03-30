@@ -19,6 +19,10 @@ public class ResourceUtils {
 	public static final String LGDEFAULT = "en";
 	
 	static {
+		init();
+	}
+	
+	private static void init() {
 		try {
 			HP = new HashMap<String, Properties>();
 			for (String s : new String[] {"en", "fr"}) {
@@ -58,7 +62,7 @@ public class ResourceUtils {
 					if (request.getLocale() != null)
 						lang = request.getLocale().toString().substring(0, 2);
 					if (!HP.containsKey(lang.toLowerCase()))
-						throw new Exception();
+						init();
 				}
 			}
 			catch (Exception e) {

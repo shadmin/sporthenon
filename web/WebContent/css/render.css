@@ -172,9 +172,16 @@
 }
 .tc .info .flag img, .tc .info .otherflags img{
 	border: 1px solid #666;
+	vertical-align: middle;
+}
+.tc .info .logo img, .tc .info .otherlogos img{
+	vertical-align: middle;
 }
 .tc .info .otherflags, .tc .info .otherlogos{
 	padding: 0px;
+}
+.tc .info .otherflags img, .tc .info .otherlogos img{
+	margin-bottom: 2px;
 }
 .tc .info .caption{
 	padding-left: 20px;

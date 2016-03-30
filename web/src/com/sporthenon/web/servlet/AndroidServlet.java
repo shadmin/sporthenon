@@ -105,7 +105,7 @@ public class AndroidServlet extends AbstractServlet {
         //Inactive Events
 		List<String> lInactive = new ArrayList<String>();
 		if (code.matches("(?i:" + Event.alias + "|SE|SE2)")) {
-			for (InactiveItem item : (List<InactiveItem>) DatabaseHelper.execute("from InactiveItem where idSport=" + t[0]))
+			for (InactiveItem item : (List<InactiveItem>) DatabaseHelper.execute("from InactiveItem where idSport=" + t[1]))
 				lInactive.add(item.getIdChampionship() + "-" + item.getIdEvent() + (item.getIdSubevent() != null ? "-" + item.getIdSubevent() : "") + (item.getIdSubevent2() != null ? "-" + item.getIdSubevent2() : ""));
 		}
 		

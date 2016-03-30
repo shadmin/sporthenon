@@ -1,5 +1,6 @@
 package com.sporthenon.utils;
 
+import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -281,12 +282,13 @@ public class HtmlUtils {
 			}
 			currentType = link.getType();
 			// Link
+			String formattedURL = URLDecoder.decode(link.getUrl(), "UTF-8");
 			if (link.getType().equals("wiki"))
-				sbHtml.append("<tr><td><table><tr><td style='width:16px;'><img alt='Wiki' src='/img/render/link-wiki.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "' target='_blank'>" + link.getUrl() + "</a></td></tr></table></td></tr>");
+				sbHtml.append("<tr><td><table><tr><td style='width:16px;'><img alt='Wiki' src='/img/render/link-wiki.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "' target='_blank'>" + formattedURL + "</a></td></tr></table></td></tr>");
 			else if (link.getType().matches(".*\\-ref$"))
-				sbHtml.append("<td><table><tr><td style='width:16px;'><img alt='spref' src='/img/render/link-" + link.getType().replaceAll("\\-ref", "") + "ref.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "' target='_blank'>" + link.getUrl() + "</a></td></tr></table></td></tr>");
+				sbHtml.append("<td><table><tr><td style='width:16px;'><img alt='spref' src='/img/render/link-" + link.getType().replaceAll("\\-ref", "") + "ref.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "' target='_blank'>" + formattedURL + "</a></td></tr></table></td></tr>");
 			else
-				sbHtml.append("<tr><td><table><tr><td style='width:16px;'><img alt='spref' src='/img/render/website.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "' target='_blank'>" + link.getUrl() + "</a></td></tr></table></td></tr>");
+				sbHtml.append("<tr><td><table><tr><td style='width:16px;'><img alt='spref' src='/img/render/website.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "' target='_blank'>" + formattedURL + "</a></td></tr></table></td></tr>");
 		}
 		return (sbHtml.toString().length() > 0 ? "<table>" + sbHtml.append("</table>").toString() : "");
 	}
