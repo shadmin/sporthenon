@@ -1591,7 +1591,7 @@ public class HtmlConverter {
 			ResultsBean bean = (ResultsBean) obj;
 
 			// Evaluate bean
-			String details = HtmlUtils.writeLink(Result.alias, bean.getRsId(), "<img alt='details' title='" + ResourceUtils.getText("details", lang) + " (" + bean.getYrLabel() + ")' src='/img/render/details.png'/>", bean.getYrLabel() + "/" + path) + (m != null && m.isSport(rs.getSport().getId()) ? "&nbsp;<a href='" + HtmlUtils.writeURL("/update/results", "RS-" + bean.getRsId(), null) + "'><img alt='modify' title='" + ResourceUtils.getText("button.modify", lang) + "' src='/img/component/button/modify.png'/></a>" : "");
+			String details = HtmlUtils.writeLink(Result.alias, bean.getRsId(), "<img alt='details' title='" + ResourceUtils.getText("details", lang) + " (" + bean.getYrLabel() + ")' src='/img/render/details.png'/> Details", bean.getYrLabel() + "/" + path) + (m != null && m.isSport(rs.getSport().getId()) ? "&nbsp;<a href='" + HtmlUtils.writeURL("/update/results", "RS-" + bean.getRsId(), null) + "'><img alt='modify' title='" + ResourceUtils.getText("button.modify", lang) + "' src='/img/component/button/modify.png'/></a>" : "");
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
 			String d1 = bean.getRsDate1();
 			String d2 = bean.getRsDate2();
@@ -1687,7 +1687,7 @@ public class HtmlConverter {
 			}
 			
 			// Write line
-			html.append("<tr><td>" + details + "</td>");
+			html.append("<tr><td class='nowrap'>" + details + "</td>");
 			html.append(isComment ? "<td" + (StringUtils.notEmpty(commentColor) ? " style='width:15px;white-space:nowrap;background-color:" + commentColor + ";'" : "") + ">" + (StringUtils.notEmpty(comment) && !isResultEmpty ? HtmlUtils.writeComment(bean.getRsId(), comment) : "") + "</td>" : "");
 			html.append("<td class='srt'>" + year + "</td>");
 			if (isResultEmpty && StringUtils.notEmpty(bean.getRsComment()))

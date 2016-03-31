@@ -12,6 +12,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -516,8 +518,32 @@ public class UpdateServlet extends AbstractServlet {
 					}
 				}
 			}
-			result.setDate1(StringUtils.notEmpty(hParams.get("dt1-l")) ? String.valueOf(hParams.get("dt1-l")) : null);
-			result.setDate2(StringUtils.notEmpty(hParams.get("dt2-l")) ? String.valueOf(hParams.get("dt2-l")) : null);
+			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			df.setLenient(false);
+			if (StringUtils.notEmpty(hParams.get("dt1-l"))) {
+				String dt = String.valueOf(hParams.get("dt1-l"));
+				try {
+					df.parse(dt);
+				}
+				catch (ParseException e) {
+					throw new Exception(ResourceUtils.getText("err.invalid.date", lang).replaceAll("#S#", dt));
+				}
+				result.setDate1(dt);
+			}
+			else
+				result.setDate1(null);
+			if (StringUtils.notEmpty(hParams.get("dt2-l"))) {
+				String dt = String.valueOf(hParams.get("dt2-l"));
+				try {
+					df.parse(dt);
+				}
+				catch (ParseException e) {
+					throw new Exception(ResourceUtils.getText("err.invalid.date", lang).replaceAll("#S#", dt));
+				}
+				result.setDate2(dt);
+			}
+			else
+				result.setDate2(null);
 			result.setComment(StringUtils.notEmpty(hParams.get("cmt-l")) ? String.valueOf(hParams.get("cmt-l")) : null);
 			result.setExa(StringUtils.notEmpty(hParams.get("exa-l")) ? String.valueOf(hParams.get("exa-l")) : null);
 			result.setPhotoSource(StringUtils.notEmpty(hParams.get("source-l")) ? String.valueOf(hParams.get("source-l")) : null);
@@ -1797,18 +1823,16 @@ public class UpdateServlet extends AbstractServlet {
 			String[] tIds = range.split("\\-");
 			StringBuffer hql = new StringBuffer("from ExternalLink where entity='" + entity + "'");
 			if (tIds.length > 1)
-				hql.append(" and idItem between " + tIds[0] + " and " + tIds[1]);				
-			if (StringUtils.notEmpty(pattern)) {
-				hql.append(" and (0=1" + (pattern.matches("\\d+") ? " or idItem=" + pattern : ""));
-				hql.append(" or lower(url) like '%" + pattern.toLowerCase() + "%'");
-				hql.append(")");
-			}
+				hql.append(" and idItem between " + tIds[0] + " and " + tIds[1]);
 			hql.append(" order by idItem, type");
-			
-			String where = " where 1=1";
-			where += (tIds.length > 1 ? " and id between " + tIds[0] + " and " + tIds[1] : "");
-			where += (entity.matches(Athlete.alias + "|" + Team.alias + "|" + Sport.alias) ? (cb != null && !cb.isAdmin() ? " and " + (entity.equalsIgnoreCase(Sport.alias) ? "" : "sport.") + "id in (" + cb.getSports() + ")" : "") : "");
-			List<Object[]> items = DatabaseHelper.execute("select id, " + (entity.equals(Athlete.alias) ? "lastName || ', ' || firstName || ' - ' || sport.label" : (entity.equals(Team.alias) ? "label || ' - ' || sport.label" : "label")) + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + where + " order by id");
+
+			StringBuffer where = new StringBuffer(" where 1=1");
+			where.append(tIds.length > 1 ? " and id between " + tIds[0] + " and " + tIds[1] : "");
+			where.append(entity.matches(Athlete.alias + "|" + Team.alias + "|" + Sport.alias) ? (cb != null && !cb.isAdmin() ? " and " + (entity.equalsIgnoreCase(Sport.alias) ? "" : "sport.") + "id in (" + cb.getSports() + ")" : "") : "");
+			String label_ = (entity.equals(Athlete.alias) ? "lastName || ', ' || firstName || ' - ' || sport.label" : (entity.equals(Team.alias) ? "label || ' - ' || sport.label" : (entity.equals(Olympics.alias) ? "city.label || ' ' || year.label" : "label")));
+			if (StringUtils.notEmpty(pattern))
+				where.append(" and lower(" + label_ + ") like '%" + pattern.toLowerCase() + "%'");
+			List<Object[]> items = DatabaseHelper.execute("select id, " + label_ + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + where.toString() + " order by id");
 			List<ExternalLink> links = DatabaseHelper.execute(hql.toString());
 			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + "</th><th>" + ResourceUtils.getText("type", lang) + "</th><th>URL</th><th>" + ResourceUtils.getText("checked", lang) + "&nbsp;<input type='checkbox' onclick='checkAllLinks();'/></th></thead><tbody>");
 			for (Object[] t : items) {

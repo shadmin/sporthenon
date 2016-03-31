@@ -1,5 +1,7 @@
 package com.sporthenon.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -251,9 +253,16 @@ public class ImportUtils {
 					}
 				}
 				else {
-					if (h.matches("dt\\d") && StringUtils.notEmpty(s) && !s.matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d")) {
-						isError = true;
-						writeError(vLine, ResourceUtils.getText("err.invalid.date", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
+					if (h.matches("dt\\d") && StringUtils.notEmpty(s)) {
+						SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+						df.setLenient(false);
+						try {
+							df.parse(s);
+						}
+						catch (ParseException e) {
+							isError = true;
+							writeError(vLine, ResourceUtils.getText("err.invalid.date", lang).replaceAll("#S#", s) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
+						}
 					}
 					else if (h.matches("rs\\d") && StringUtils.notEmpty(s) && s.length() > (h.equalsIgnoreCase("rs1") ? 40 : 20)) {
 						isError = true;

@@ -439,6 +439,7 @@
 	<entry key="err.invalid.athlete"><![CDATA[Invalid format [#S#]: should be "Lastname, FirstName (CountryCode, TeamName)"]]></entry>
 	<entry key="err.invalid.team"><![CDATA[Invalid format [#S#]: should be "TeamName (CountryCode)"]]></entry>
 	<entry key="err.invalid.place"><![CDATA[Invalid format [#S#]: should be "ComplexName, City, CountryCode"]]></entry>
+	<entry key="err.invalid.date"><![CDATA[Invalid format [#S#]: should be "DD/MM/YYYY"]]></entry>
 	<entry key="date.pattern">DD/MM/YYYY</entry>
 	<entry key="venue.city">Venue/City</entry>
 	<entry key="tie">Tie</entry>
@@ -490,7 +491,6 @@
 	<entry key="err.invalid.event">ERROR: Invalid event</entry>
 	<entry key="err.invalid.year">ERROR: Invalid year</entry>
 	<entry key="err.invalid.country">ERROR: Invalid country</entry>
-	<entry key="err.invalid.date">ERROR: Invalid date</entry>
 	<entry key="err.value.toolong">ERROR: Too long value</entry>
 	<entry key="err.result.notexist">ERROR: Result does not exist</entry>
 	<entry key="warning.team.notexist">WARNING: Team does not exist</entry>

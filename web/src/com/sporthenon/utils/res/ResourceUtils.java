@@ -61,13 +61,15 @@ public class ResourceUtils {
 				else {
 					if (request.getLocale() != null)
 						lang = request.getLocale().toString().substring(0, 2);
-					if (!HP.containsKey(lang.toLowerCase()))
+					if (!HP.containsKey(lang.toLowerCase())) {
 						init();
+						lang = LGDEFAULT;
+					}
 				}
 			}
 			catch (Exception e) {
 				Logger.getLogger("sh").fatal(e.getMessage(), e);
-				lang = LGDEFAULT;
+				
 			}
 			finally {
 				session.setAttribute("locale", lang);

@@ -437,6 +437,7 @@
 	<entry key="err.invalid.athlete"><![CDATA[Format incorrect [#S#]: doit être "Nom, Prénom (CodePays, NomEquipe)"]]></entry>
 	<entry key="err.invalid.team"><![CDATA[Format incorrect [#S#]: doit être "NomEquipe (CodePays)"]]></entry>
 	<entry key="err.invalid.place"><![CDATA[Format incorrect [#S#]: doit être "NomComplexe, Ville, CodePays"]]></entry>
+	<entry key="err.invalid.date"><![CDATA[Format incorrect [#S#]: doit être "JJ/MM/AAAA"]]></entry>
 	<entry key="date.pattern">JJ/MM/AAAA</entry>
 	<entry key="venue.city">Lieu/Ville</entry>
 	<entry key="tie">Ex-aequo</entry>
@@ -488,7 +489,6 @@
 	<entry key="err.invalid.event">ERREUR: Epreuve invalide</entry>
 	<entry key="err.invalid.year">ERREUR: Année invalide</entry>
 	<entry key="err.invalid.country">ERREUR: Pays invalide</entry>
-	<entry key="err.invalid.date">ERREUR: Date invalide</entry>
 	<entry key="err.value.toolong">ERREUR: Valeur trop longue</entry>
 	<entry key="err.result.notexist">ERREUR: Résultat inexistant</entry>
 	<entry key="warning.team.notexist">AVERTISSEMENT: Equipe inexistante</entry>
