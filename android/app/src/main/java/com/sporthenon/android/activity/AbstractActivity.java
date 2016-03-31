@@ -4,7 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -22,11 +26,14 @@ import com.sporthenon.android.fragment.Result1Fragment;
 import com.sporthenon.android.utils.AndroidUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("deprecated")
 public abstract class AbstractActivity extends ActionBarActivity implements DrawerFragment.NavigationDrawerCallbacks, AdapterView.OnItemClickListener {
 
     private DrawerFragment drawerFragment;
+    private ViewPager pager;
+    private PagerAdapter pagerAdapter;
 
     protected static final int INDEX_RESULTS = 0;
     protected static final int INDEX_CALENDAR = 1;
@@ -245,8 +252,30 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.container, ListFragment.newInstance(index + 1, this)).commit();
 
+        List<Fragment> fList = new ArrayList<Fragment>();
+        //fList.add(ListFragment.newInstance("Fragment 1"));
+        pager = (ViewPager) findViewById(R.id.view_pager);
+        pagerAdapter = new MyPageAdapter(getSupportFragmentManager(), fList);
+        pager.setAdapter(pagerAdapter);
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         lang = prefs.getString("lang", null);
+    }
+
+    private class MyPageAdapter extends FragmentStatePagerAdapter {
+        private List<Fragment> fragments;
+        public MyPageAdapter(FragmentManager fm, List<Fragment> fragments) {
+            super(fm);
+            this.fragments = fragments;
+        }
+        @Override
+        public Fragment getItem(int position) {
+            return this.fragments.get(position);
+        }
+        @Override
+        public int getCount() {
+            return this.fragments.size();
+        }
     }
 
     @Override

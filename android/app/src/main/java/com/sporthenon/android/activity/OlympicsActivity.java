@@ -24,11 +24,11 @@ public class OlympicsActivity extends AbstractActivity {
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-        DataItem sp = (DataItem) getList().getItemAtPosition(position);
+        DataItem ol = (DataItem) getList().getItemAtPosition(position);
         Intent i = new Intent(this, ChampionshipActivity.class);
         Bundle b = new Bundle();
-        b.putInt("spid", sp.getId());
-        b.putString("spname", sp.getName());
+        b.putInt("olid", ol.getId());
+        b.putString("olname", ol.getName());
         i.putExtras(b);
         startActivity(i);
     }
