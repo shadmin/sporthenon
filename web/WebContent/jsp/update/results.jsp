@@ -34,6 +34,7 @@ var treeItems = null;
 			<!-- ID -->
 			<div style="float:right;">
 				<table style="margin-top:0px;"><tr>
+				<td style="padding-right:10px;"><a id="pagelink" target="_blank" href="#" style="display:none;font-size:12px;"><%=StringUtils.text("page", session) %></a></td>
 				<td>ID:</td><td><input id="id" type="text" disabled="disabled" style="width:50px;"/></td>
 				</tr></table>
 			</div>

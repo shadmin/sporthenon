@@ -290,6 +290,7 @@
 	<entry key="description">Description</entry>
 	<entry key="change">Change</entry>
 	<entry key="header">Header</entry>
+	<entry key="page">Page</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>
@@ -477,6 +478,7 @@
 	<entry key="modif.warning">Modifications have been made. Click on Add/Save.</entry>
 	<entry key="upload">Upload</entry>
 	<entry key="download">Download</entry>
+	<entry key="show.img">Show pictures</entry>
 	<entry key="include.checked.links">Include checked links</entry>
 	<entry key="include.checked.translations">Include checked translations</entry>
 	<entry key="podium">Podium</entry>

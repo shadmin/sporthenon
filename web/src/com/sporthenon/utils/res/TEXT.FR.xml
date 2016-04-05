@@ -290,6 +290,7 @@
 	<entry key="description">Description</entry>
 	<entry key="change">Changer</entry>
 	<entry key="header">En-tête</entry>
+	<entry key="page">Page</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
@@ -475,6 +476,7 @@
 	<entry key="modif.warning">Des modifications ont été effectuées. Cliquez sur Ajouter/Modifier.</entry>
 	<entry key="upload">Envoyer</entry>
 	<entry key="download">Télécharger</entry>
+	<entry key="show.img">Afficher les images</entry>
 	<entry key="include.checked.links">Inclure liens vérifiés</entry>
 	<entry key="include.checked.translations">Inclure traductions vérifiées</entry>
 	<entry key="podium">Podium</entry>

@@ -1077,7 +1077,7 @@ public class HtmlConverter {
 			}
 			String sp = sbSp.toString();
 			hInfo.put("title", e.getLabel());
-			hInfo.put("titlename" + (vNm.size() > 1 && !StringUtils.notEmpty(e.getYear1()) ? "s" : ""), "<b>" + (StringUtils.notEmpty(e.getYear1()) ? e.getLabel().toUpperCase() : sbTm.toString()) + "</b>");
+			hInfo.put("titlename", "<b>" + (StringUtils.notEmpty(e.getYear1()) ? e.getLabel().toUpperCase() : sbTm.toString()) + "</b>");
 			hInfo.put("logo", currentLogo);
 			StringBuffer sbOtherLogos = new StringBuffer();
 			if (lAllLogos != null && lAllLogos.size() > 1) {
@@ -1618,6 +1618,11 @@ public class HtmlConverter {
 				place2 = getPlace(null, bean.getCt4Id(), bean.getSt4Id(), bean.getCn4Id(), null, bean.getCt4Label(), bean.getSt4Code(), bean.getCn4Code(), null, bean.getCt4LabelEN(), bean.getSt4LabelEN(), bean.getCn4LabelEN(), bean.getYrLabel());				
 			else if (bean.getCn6Id() != null)
 				place2 = getPlace(null, null, null, bean.getCn6Id(), null, null, null, bean.getCn6Label(), null, null, null, bean.getCn6LabelEN(), bean.getYrLabel());
+			String places = null;
+			if (place1 != null)
+				places = "<table><tr><td>" + place1 + "</td><td>&nbsp;" + StringUtils.SEP1 + "&nbsp;</td><td>" + place1 + "</td></tr></table>";
+			else if (place2 != null)
+				places = place2;
 			boolean isTriple = (bean.getRsComment() != null && bean.getRsComment().equals("#TRIPLE#") ? true : (type == 5));
 			isDouble = (bean.getRsComment() != null && bean.getRsComment().equals("#DOUBLE#") ? true : (type == 4));
 			List<Integer> tieList = getTieList(isDouble, isTriple, bean.getRsExa());
@@ -1696,7 +1701,7 @@ public class HtmlConverter {
 				for (int i = 0 ; i < 9 ; i++)
 					html.append(tEntityHtml[i] != null ? tEntityHtml[i] : (entityCount > i ? "<td class='srt'" + (tColspan[i] > 1 ? " colspan='" + tColspan[i] + "'" : "") + ">" + StringUtils.EMPTY + "</td>" + (isScore && i == 0 ? "<td class='srt'>" + StringUtils.EMPTY + "</td>" : "") : ""));
 				html.append(isDates ? "<td id='dt-" + d2 + "-" + bean.getRsId() + "' class='srt nowrap'>" + (StringUtils.notEmpty(dates) ? dates : "") + "</td>" : "");
-				html.append((isPlace ? "<td class='srt'>" + (StringUtils.notEmpty(place1) ? place1 : "") + (StringUtils.notEmpty(place2) ? place2 : "") + "</td>" : "") + "</tr>");				
+				html.append((isPlace ? "<td class='srt'>" + (StringUtils.notEmpty(places) ? places : "") + "</td>" : "") + "</tr>");				
 			}
 		}
 		html.append("</tbody></table>");

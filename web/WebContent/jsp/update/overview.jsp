@@ -41,6 +41,8 @@
 				<option value="CX"><%=StringUtils.text("entity.CX", session)%></option>
 				<option value="">[<%=StringUtils.text("all", session)%>]</option>
 				</select></td>
+				<td><input id="showimg" type="checkbox"/></td>
+				<td><label for="showimg"><%=StringUtils.text("show.img", session)%></label>&nbsp;</td>
 				<td><input type="button" value="OK" onclick="loadOverview();"/></td>
 			</tr></table>
 			<div id="ovcontent"></div>

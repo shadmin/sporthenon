@@ -1522,6 +1522,7 @@ function loadResValues(value) {
 	if ($('msg2')) {
 		$('msg2').update();
 	}
+	$('pagelink').hide();
 	var t = value.split('~');
 	if (t != null && t.length > 1) {
 		$('modifmode1').checked = true;
@@ -1621,6 +1622,7 @@ function loadResValues(value) {
 				tValues['rd' + rdindex + 'pl'] = null;
 				rdindex++;
 			}
+			tValues['rddel'] = '';
 			rdindex = 1;
 			while (t[k]) {
 				if (t[k].indexOf('rd-') == 0) {
@@ -1648,6 +1650,10 @@ function loadResValues(value) {
 				k++;
 			}
 			tValues['rdlist'] = trd.join('|');
+			if (t[k - 1] != '') {
+				$('pagelink').href = '/results/' + t[k - 1];
+				$('pagelink').show();	
+			}
 		}
 	}
 }
@@ -1736,6 +1742,7 @@ function saveResult() {
 	}
 	saveRounds();
 	t.push('rdlist');
+	t.push('rddel');
 	t.each(function(s){
 		h.set(s, tValues[s]);
 		if ($(s) && ($(s).hasClassName('completed') || $(s).hasClassName('completed2'))) {
@@ -1903,7 +1910,8 @@ function addRounds(clear) {
 		}
 		var html = null;
 		for (var i = rdCount + 1 ; i <= rdCount + 10 ; i++) {
-			html = ['<tr>'];
+			html = ['<tr id="rdrow' + i + '">'];
+			html.push('<td><a href="javascript:deleteRound(' + i + ');"><img title="' + TX_REMOVE + '" src="/img/delete.gif"/></a></td>');
 			html.push('<td><input type="hidden" id="rd' + i + 'id"/></td>');
 			html.push('<td><input type="text" id="rd' + i + 'rt" tabindex="' + (1000 + (11*(i-1))) + '" name="' + TX_TYPE + '" style="width:150px;"/></td>');
 			html.push('<td><input type="text" id="rd' + i + 'rk1" tabindex="' + (1001 + (11*(i-1))) + '" name="' + TX_RANK1 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk1\');">[X]</a></td>');
@@ -1925,6 +1933,10 @@ function addRounds(clear) {
 	}
 	catch(err){}
 	rdCount += 10;
+}
+function deleteRound(index) {
+	tValues['rddel'] = (tValues['rddel'] ? tValues['rddel'] + '|' : '') + $('rd' + index + 'id').value;
+	$('rdrow' + index).remove();
 }
 function saveRounds() {
 	var t = [];
@@ -2462,7 +2474,7 @@ function searchEntity() {
 }
 /*========== OVERVIEW ==========*/
 function loadOverview() {
-	var h = $H({entity: $F('oventity'), sport: $F('ovsport'), count: $F('ovcount'), pattern: $F('ovpattern')});
+	var h = $H({entity: $F('oventity'), sport: $F('ovsport'), count: $F('ovcount'), pattern: $F('ovpattern'), showimg: ($('showimg').checked ? '1' : '0')});
 	$('ovcontent').update('<img src="/img/db/loading.gif?6"/>');
 	new Ajax.Updater($('ovcontent'), '/update/load-overview', {
 		parameters: h
