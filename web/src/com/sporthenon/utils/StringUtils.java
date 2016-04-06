@@ -178,6 +178,17 @@ public class StringUtils {
 	    return s;
 	}
 	
+	public static final String getComment(String s, String lang) {
+		String result = null;
+		if (StringUtils.notEmpty(s) && !s.matches("\\#(DOUBLE|TRIPLE)\\#")) {
+			String[] t = s.split("·", -1);
+			result = t[t.length > 1 && lang.equalsIgnoreCase("fr") ? 1 : 0];
+			result = result.replaceAll("\r\n|\\|", "<br/>");
+			result = result.replaceFirst("^(FR|EN)\\:", "");
+		}
+		return result;
+	}
+	
 	public static final String getCommentColor(String s) {
 		String color = "#FFF";
 		if (s.matches("^clay.*"))

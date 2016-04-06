@@ -805,7 +805,7 @@ public class HtmlConverter {
 			if (StringUtils.notEmpty(extlinks))
 				html.append("<tr><th class='caption'>" + ResourceUtils.getText("extlinks", lang) + "</th><td class='extlinks'>" + extlinks + "</td></tr>");
 			if (StringUtils.notEmpty(r.getComment()) && !r.getComment().startsWith("##") && !r.getComment().matches("\\#(DOUBLE|TRIPLE)\\#"))
-				html.append("<tr><th class='caption'>" + ResourceUtils.getText("comment", lang) + "</th><td>" + r.getComment().replaceAll("\r\n|\\|", "<br/>") + "</td></tr>");
+				html.append("<tr><th class='caption'>" + ResourceUtils.getText("comment", lang) + "</th><td>" + StringUtils.getComment(r.getComment(), lang) + "</td></tr>");
 			// Result
 			int type_ = -1;
 			final int MAX_RANKS = 20;
@@ -1602,7 +1602,7 @@ public class HtmlConverter {
 				dates = (StringUtils.notEmpty(d1) ? HtmlUtils.writeDateLink(d1, StringUtils.toTextDate(d1, lang, "d MMM")) + StringUtils.SEP1 : "") + (StringUtils.notEmpty(d2) ? HtmlUtils.writeDateLink(d2, StringUtils.toTextDate(d2, lang, "d MMM")) : "");
 			d2 = (StringUtils.notEmpty(d2) ? StringUtils.toTextDate(d2.replaceFirst("\\d\\d\\d\\d$", "1900"), lang, "yyyyMMdd") : "");
 			String place1 = null, place2 = null;
-			String comment = (StringUtils.notEmpty(bean.getRsComment()) && !bean.getRsComment().matches("\\#(DOUBLE|TRIPLE)\\#") ? bean.getRsComment().replaceAll("\r\n|\\|", "<br/>") : null);
+			String comment = StringUtils.getComment(bean.getRsComment(), lang);
 			boolean isResultEmpty = (bean.getRsRank1() == null && bean.getRsRank2() == null && bean.getRsRank3() == null && bean.getRsRank4() == null && bean.getRsRank5() == null);
 			isScore = (entityCount > 1 && StringUtils.notEmpty(bean.getRsResult1()) && !StringUtils.notEmpty(bean.getRsResult2()) && !StringUtils.notEmpty(bean.getRsResult3()) && !StringUtils.notEmpty(bean.getRsResult4()) && !StringUtils.notEmpty(bean.getRsResult5()));
 			List<StringBuffer> plist = mpl.get(bean.getRsId());

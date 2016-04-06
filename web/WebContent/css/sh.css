@@ -1343,17 +1343,17 @@ li{
 	padding-left: 18px;
 	color: #F80;
 }
-.update input[type=text], .update textarea, #d-plist input[type=text]{
+.update input[type=text], .update textarea, #d-plist input[type=text], #d-comment textarea{
 	font: 12px Verdana;
 	width: 250px;
 	border: 1px solid #AAA;
 	padding: 2px;
 }
-.update input[type=text].default, .update textarea.default, #d-plist input[type=text].default{
+.update input[type=text].default, .update textarea.default, #d-plist input[type=text].default, #d-comment textarea.default{
 	border: 1px solid #AAA;
 	color: #888;
 }
-.update input[type=text]:focus, .update textarea:focus, #d-plist input[type=text]:focus, .update input[type=text].default:focus, .update textarea.default:focus, #d-plist input[type=text].default:focus{
+.update input[type=text]:focus, .update textarea:focus, #d-plist input[type=text]:focus, .update input[type=text].default:focus, .update textarea.default:focus, #d-plist input[type=text].default:focus, #d-comment textarea:focus{
 	border: 1px solid #D00;
 	color: #000;
 }
@@ -1416,7 +1416,7 @@ li{
 #update-results a, #d-plist a{
 	font-size: 11px;
 }
-#update-results textarea{
+#update-results textarea, #d-comment textarea{
 	outline: none;
 	white-space: nowrap;
 }
@@ -1505,6 +1505,17 @@ li{
 }
 #update-data .fscontent .toolbar td{
 	border: none;
+}
+#update-data fieldset{
+	border: 1px solid #AAA;
+}
+#update-data .fieldset table{
+	width: auto;
+	margin-top: 10px;
+}
+#update-data fieldset legend a{
+	font-size: 12px;
+	color: #000;
 }
 #update-data input[type=text]{
 	width: 500px;
@@ -1886,6 +1897,9 @@ li{
 #d-question #confirmtxt{
 	width: 600px;
 	height: 100px;
+}
+#d-comment td{
+	border: none;
 }
 /*=============================
   ========== TOOLBAR ========== 

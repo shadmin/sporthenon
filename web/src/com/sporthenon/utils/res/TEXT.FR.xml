@@ -536,4 +536,6 @@
 	<entry key="matches.rounds">Matches/Tours/Journées</entry>
 	<entry key="mode">Mode</entry>
 	<entry key="update.mode">Mode de mise à jour</entry>
+	<entry key="show.tooltip">Afficher comme info-bulle</entry>
+	<entry key="show.normally">Afficher normalement</entry>
 </properties>

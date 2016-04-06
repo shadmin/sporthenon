@@ -538,4 +538,6 @@
 	<entry key="matches.rounds">Matches/Rounds/Days</entry>
 	<entry key="mode">Mode</entry>
 	<entry key="update.mode">Update mode</entry>
+	<entry key="show.tooltip">Show as tooltip</entry>
+	<entry key="show.normally">Show normally</entry>
 </properties>

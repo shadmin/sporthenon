@@ -149,19 +149,26 @@
 				<tr><th><%=StringUtils.text("capital", session)%></th><td><input type="text" id="st-capital"/></td></tr>
 			</table>
 			<!-- TEAM -->
-			<table id="table-TM" style="display:none;">
+			<div id="table-TM" style="display:none;">
+			<table>
 				<tr><th>ID</th><td><input type="text" disabled="disabled" id="tm-id" class="id"/></td></tr>
 				<tr><th><%=StringUtils.text("label", session)%></th><td><input type="text" id="tm-label"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.SP.1", session)%></th><td><input type="hidden" id="tm-sport"/><input type="text" id="tm-sport-l"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.CN.1", session)%></th><td><input type="hidden" id="tm-country"/><input type="text" id="tm-country-l"/></td></tr>
+				<tr><th><%=StringUtils.text("linked.to", session)%></th><td><input type="hidden" id="tm-link"/><input type="text" id="tm-link-l"/></td></tr>
+			</table>
+			<fieldset style="width:600px;margin:10px auto;">
+				<legend><a href="javascript:toggle('tmusleagues');"><img id="img-tmusleagues" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("menu.usleagues.2", session)%></a></legend>
+				<table id="tmusleagues" style="margin-top:0px;padding:5px;width:auto;">
 				<tr><th><%=StringUtils.text("league", session)%></th><td><input type="hidden" id="tm-league"/><input type="text" id="tm-league-l"/></td></tr>
 				<tr><th><%=StringUtils.text("conference", session)%></th><td><input type="text" id="tm-conference"/></td></tr>
 				<tr><th><%=StringUtils.text("division", session)%></th><td><input type="text" id="tm-division"/></td></tr>
 				<tr><th><%=StringUtils.text("comment", session)%></th><td><input type="text" id="tm-comment"/></td></tr>
 				<tr><th><%=StringUtils.text("start.date", session)%></th><td><input type="text" id="tm-year1"/></td></tr>
 				<tr><th><%=StringUtils.text("end.date", session)%></th><td><input type="text" id="tm-year2"/></td></tr>
-				<tr><th><%=StringUtils.text("linked.to", session)%></th><td><input type="hidden" id="tm-link"/><input type="text" id="tm-link-l"/></td></tr>
-			</table>
+				</table>	
+			</fieldset>
+			</div>
 			<!-- YEAR -->
 			<table id="table-YR" style="display:none;">
 				<tr><th>ID</th><td><input type="text" disabled="disabled" id="yr-id" class="id"/></td></tr>

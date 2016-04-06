@@ -465,6 +465,7 @@ var dInfo = null;
 var dPersonList = null;
 var dFind = null;
 var dQuestion = null;
+var dComment = null;
 var dHelp = null;
 function share(type) {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
@@ -1968,6 +1969,40 @@ function saveRounds() {
 		}
 	}
 	tValues['rdlist'] = t.join('|');
+}
+function openCommentDialog() {
+	if ($('cmt').hasClassName('completed2')) {
+		var t = $('cmt').value.replace(/\|/g, '\r\n').split('·');
+		var tooltip = (t[0].indexOf('##') == -1);
+		$('cmt-en').value = t[0].replace('##', '').substring(3);
+		$('cmt-fr').value = t[1].replace('##', '').substring(3);
+		$('cmtmode1').checked = (tooltip ? true : false);
+		$('cmtmode2').checked = (tooltip ? false : true);
+	}
+	else {
+		$('cmt-en').value = '';
+		$('cmt-fr').value = '';
+		$('cmtmode1').checked = true;
+		$('cmtmode2').checked = false;
+	}
+	$('header').setStyle({ opacity: 0.4 });
+	$('content').setStyle({ opacity: 0.4 });
+	dComment.open();
+}
+function saveComment() {
+	var prefix = ($('cmtmode1').checked ? '' : '##');
+	var cmt = ($('cmt-en').value != '' ? 'EN:' + prefix + $('cmt-en').value : '');
+	cmt += (cmt != '' ? '·' : '') + ($('cmt-fr').value != '' ? 'FR:' + prefix + $('cmt-fr').value : '');
+	cmt = cmt.replace(/[\n\r]/g, '|');
+	if (cmt != '') {
+		$('cmt').value = cmt;
+		$('cmt').addClassName('completed2');
+	}
+	else {
+		$('cmt').value = $('cmt').name;
+		$('cmt').removeClassName('completed2');
+	}
+	closeDialog(dComment);
 }
 /*========== DATA ==========*/
 var isMerge = null;

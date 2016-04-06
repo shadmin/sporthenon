@@ -52,6 +52,20 @@
 	<div class="dlgbuttons"><input type="button" class="button cancel" value="<%=StringUtils.text("no", session)%>" onclick="closeDialog(dQuestion);"/><input id="confirmbtn" type="button" class="button ok" value="<%=StringUtils.text("yes", session)%>"/></div>
 </div>
 </div>
+<!-- Comment -->
+<div id="d-comment" class="dialog" style="display:none;">
+<div class="fieldset">
+	<div class="fstitle"><%=StringUtils.text("comment", session).toUpperCase()%></div>
+	<div class="fscontent"><table>
+		<tr><td><img src="/img/header/lang-en.png"/>&nbsp;<%=StringUtils.text("comment", session)%> (EN)</td></tr>
+		<tr><td><textarea id="cmt-en" cols="100" rows="6" style="width:750px;"></textarea></td></tr>
+		<tr><td><img src="/img/header/lang-fr.png"/>&nbsp;<%=StringUtils.text("comment", session)%> (FR)</td></tr>
+		<tr><td><textarea id="cmt-fr" cols="100" rows="6" style="width:750px;"></textarea></td></tr>
+		<tr><td><table style="width:auto;"><tr><td style="padding:1px;"><input type="radio" name="cmtmode" id="cmtmode1" checked="checked"/></td><td style="padding:1px;"><label for="cmtmode1"><%=StringUtils.text("show.tooltip", session)%></label></td><td style="padding:1px;"><img src="/img/render/note.png"/></td><td style="padding:1px;"><input type="radio" name="cmtmode" id="cmtmode2"/></td><td style="padding:1px;"><label for="cmtmode2"><%=StringUtils.text("show.normally", session)%></label></td></tr></table></td></tr>
+	</table></div>
+	<div class="dlgbuttons"><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dComment);"/><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="saveComment();"/></div>
+</div>
+</div>
 <!-- Help -->
 <div id="d-help" class="dialog" style="display:none;">
 <div class="fieldset">
@@ -75,5 +89,6 @@ dInfo = new Control.Modal($('d-info'),{ closeOnClick: false, fade: false });
 dPersonList = new Control.Modal($('d-plist'),{ closeOnClick: false, fade: false });
 dFind = new Control.Modal($('d-find'),{ closeOnClick: false, fade: false });
 dQuestion = new Control.Modal($('d-question'),{ closeOnClick: false, fade: false });
+dComment = new Control.Modal($('d-comment'),{ closeOnClick: false, fade: false });
 dHelp = new Control.Modal($('d-help'),{ closeOnClick: false, fade: false });
 --></script>
