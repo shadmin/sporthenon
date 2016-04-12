@@ -47,6 +47,8 @@ public class LoginServlet extends AbstractServlet {
 				}
 				else
 					msg = ResourceUtils.getText("msg.login.err2", getLocale(request));
+				if (isMsg)
+					request.setAttribute("title", ResourceUtils.getText("login.error", getLocale(request)) + " | Sporthenon");
 			}
 			else if (hParams.containsKey("create")) {
 				final int MAX_SPORTS = Integer.parseInt(ConfigUtils.getValue("max_contributor_sports"));

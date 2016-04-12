@@ -419,6 +419,7 @@
 	<entry key="mandatory.sports">Vous devez sélectionner au moins 1 sport.</entry>
 	<entry key="pwd.nomatch">Les mots de passe saisis ne correspondent pas.</entry>
 	<entry key="select.sports.contributor">Sélectionnez les sports sur lesquels vous souhaitez contribuer (max. 5)</entry>
+	<entry key="login.error">Erreur de connexion</entry>
 <!-- UPDATE -->
 	<entry key="update.overview">Rapport global</entry>
 	<entry key="update.results">Ajouter/modifier un résultat</entry>
@@ -457,6 +458,7 @@
 	<entry key="new">Nouveau</entry>
 	<entry key="save">Enregistrer</entry>
 	<entry key="copy">Copier</entry>
+	<entry key="copy.to">Copier vers</entry>
 	<entry key="first">Premier</entry>
 	<entry key="previous">Précédent</entry>
 	<entry key="find">Chercher</entry>

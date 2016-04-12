@@ -40,6 +40,7 @@
 					<td><input id="upd-first" type="button" class="button upd-first" onclick="loadPictures('first');" value="<%=StringUtils.text("first", session)%>"/></td>
 					<td><input id="upd-previous" type="button" class="button upd-previous" onclick="loadPictures('previous');" value="<%=StringUtils.text("previous", session)%>"/></td>
 					<td><input id="upd-find" type="button" class="button upd-find" onclick="findEntity(0);" value="<%=StringUtils.text("find", session)%>"/></td>
+					<td><input id="upd-copy" type="button" class="button upd-copy" onclick="findEntity(2);" value="<%=StringUtils.text("copy.to", session)%>"/></td>
 					<td><input id="upd-next" type="button" class="button upd-next" onclick="loadPictures('next');" value="<%=StringUtils.text("next", session)%>"/></td>
 					<td><input id="upd-last" type="button" class="button upd-last" onclick="loadPictures('last');" value="<%=StringUtils.text("last", session)%>"/></td>
 				</tr>

@@ -6,9 +6,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FileUtils;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.PicklistBean;
@@ -122,6 +125,25 @@ public class ImageServlet extends AbstractServlet {
 					ImageUtils.getImgFiles().remove(f.getName());
 					Collections.sort(ImageUtils.getImgFiles());
 				}
+			}
+			else if (hParams.containsKey("copy")) {
+				String id1 = String.valueOf(hParams.get("id1"));
+				String id2 = String.valueOf(hParams.get("id2"));
+				boolean found = false;
+				List<String> lAdded = new ArrayList<String>();
+				for (String s : ImageUtils.getImgFiles()) {
+					if (s.indexOf(ImageUtils.getIndex(entity) + "-" + id1 + "-") == 0) {
+						File f1 = new File(ConfigUtils.getProperty("img.folder") + s);
+						File f2 = new File(ConfigUtils.getProperty("img.folder") + s.replaceFirst("\\-" + id1 + "\\-", "-" + id2 + "-"));
+						FileUtils.copyFile(f1, f2);
+						lAdded.add(f2.getName());
+						found = true;
+					}
+					else if (found)
+						break;
+				}
+				ImageUtils.getImgFiles().addAll(lAdded);
+				Collections.sort(ImageUtils.getImgFiles());
 			}
 			else if (hParams.containsKey("url")) {
 				String id = String.valueOf(hParams.get("id"));

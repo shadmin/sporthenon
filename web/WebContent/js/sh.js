@@ -1647,13 +1647,30 @@ function loadResValues(value) {
 					if (t_[16] != '') {$('rd' + rdindex + 'cmt').value = t_[16]; $('rd' + rdindex + 'cmt').addClassName('completed2');} else {$('rd' + rdindex + 'cmt').value = $('rd' + rdindex + 'cmt').name; $('rd' + rdindex + 'cmt').removeClassName('completed2');}
 					trd.push(replaceAll(t[k].substring(3), '|', '~'));
 				}
+				else {
+					break;
+				}
 				rdindex++;
 				k++;
 			}
+			// Other info
+			var l = k;
 			tValues['rdlist'] = trd.join('|');
-			if (t[k - 1] != '') {
-				$('pagelink').href = '/results/' + t[k - 1];
+			if (t[l] != '') {
+				$('pagelink').href = '/results/' + t[l];
 				$('pagelink').show();	
+			}
+			l++;
+			$('otherids').update();
+			if (t[l] != '') {
+				var t_ = t[l].split(',');
+				if (t_.length > 1) {
+					var toid = [];
+					for (var i = 0 ; i < t_.length ; i++) {
+						toid.push('<a href="javascript:tValues[\'id\']=' + t_[i] + ';loadResult(\'direct\');"' + (tValues['id'] == t_[i] ? ' style="font-weight:bold;"' : '') + '>(' + (i + 1) + ')</a>');
+					}
+					$('otherids').update(toid.join('&nbsp;'));	
+				}
 			}
 		}
 	}
@@ -2006,6 +2023,7 @@ function saveComment() {
 }
 /*========== DATA ==========*/
 var isMerge = null;
+var isCopyPic = null;
 var dzd = null;
 var fd = null;
 function initUpdateData() {
@@ -2466,6 +2484,7 @@ function mergeEntity(id1_, id2_) {
 }
 function findEntity(m) {
 	isMerge = (m == 1);
+	isCopyPic = (m == 2);
 	$('header').setStyle({ opacity: 0.4 });
 	$('content').setStyle({ opacity: 0.4 });
 	dFind.open();
@@ -2492,11 +2511,14 @@ function searchEntity() {
 						tValues['id'] = id;
 						loadResult('direct');
 					}
-					else if ($('update-pictures')) {
-						loadPictures('direct', id);
-					}
 					else if (isMerge) {
 						mergeEntity(currentId, id);
+					}
+					else if (isCopyPic) {
+						copyPicture(currentId, id);
+					}
+					else if ($('update-pictures')) {
+						loadPictures('direct', id);
 					}
 					else {
 						loadEntity('direct', id);
@@ -2614,6 +2636,15 @@ function loadPictures(action_, id_) {
 				},
 				parameters: h_
 			});
+		},
+		parameters: h
+	});
+}
+function copyPicture(id1_, id2_) {
+	var h = $H({entity: currentAlias, id1: id1_, id2: id2_});
+	new Ajax.Request('/ImageServlet?copy=1', {
+		onSuccess: function(response){
+			loadPictures('direct', id2_);
 		},
 		parameters: h
 	});

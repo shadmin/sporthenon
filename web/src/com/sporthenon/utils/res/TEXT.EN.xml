@@ -421,6 +421,7 @@
 	<entry key="mandatory.sports">You must select at least 1 sport.</entry>
 	<entry key="pwd.nomatch">The entered passwords do not match.</entry>
 	<entry key="select.sports.contributor">Select the sports you want to contribute to (max. 5)</entry>
+	<entry key="login.error">Login error</entry>
 <!-- UPDATE -->
 	<entry key="update.overview">Overview</entry>
 	<entry key="update.results">Add/modify a result</entry>
@@ -459,6 +460,7 @@
 	<entry key="new">New</entry>
 	<entry key="save">Save</entry>
 	<entry key="copy">Copy</entry>
+	<entry key="copy.to">Copy to</entry>
 	<entry key="first">First</entry>
 	<entry key="previous">Previous</entry>
 	<entry key="find">Find</entry>

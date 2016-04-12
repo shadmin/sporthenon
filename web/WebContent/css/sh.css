@@ -1188,6 +1188,10 @@ li{
 	display: inline-block;
 	height: 18px;
 }
+#contribute span.nopadding{
+	padding-left: 0px;
+	height: auto;
+}
 /*===========================
   ========== LOGIN ========== 
   ===========================*/

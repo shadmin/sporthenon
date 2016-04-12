@@ -84,7 +84,8 @@ var treeItems = null;
 					<tr><td><input type="text" id="yr" tabindex="6" name="<%=StringUtils.text("entity.YR.1", session)%>"/><a href="javascript:clearValue('yr');">[X]</a></td>
 					<td><input id="prevbtn" type="button" class="button" onclick="loadResult('prev');" value=""/></td>
 					<td><input id="yrfind" type="text" style="font-size:11px;width:35px;" onblur="tValues['yrfind']=this.value;loadResult('year');" onkeydown="if (event.keyCode == 13){this.blur();}"/></td>
-					<td><input id="nextbtn" type="button" class="button" onclick="loadResult('next');" value=""/></td></tr>
+					<td><input id="nextbtn" type="button" class="button" onclick="loadResult('next');" value=""/></td>
+					<td id="otherids"></td></tr>
 				</table>
 				<table>
 					<tr><td><input type="text" id="dt1" tabindex="7" name="<%=StringUtils.text("date", session)%> #1"/><a href="javascript:clearValue('dt1');">[X]</a><br/><a href="javascript:$('dt1').value='<%=today%>';$('dt1').addClassName('completed2');"><%=StringUtils.text("today", session)%></a>&nbsp;<a href="javascript:$('dt1').value='<%=yesterday%>';$('dt1').addClassName('completed2');"><%=StringUtils.text("yesterday", session)%></a></td>

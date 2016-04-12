@@ -508,6 +508,8 @@ public class DatabaseHelper {
 					throw new Exception(ResourceUtils.getText("err.invalid.athlete", lang).replaceAll("#S#", s));
 				int p = s.indexOf(", ");
 				int p_ = (s.indexOf(" (") > -1  ? s.indexOf(" (") : s.length());
+				if (p > s.indexOf(" ("))
+					p = -1;
 				Athlete a = new Athlete();
 				a.setSport((Sport)loadEntity(Sport.class, spid));
 				a.setLastName(s.substring(0, p > -1 ? p : p_));

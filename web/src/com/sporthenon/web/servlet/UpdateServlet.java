@@ -958,6 +958,7 @@ public class UpdateServlet extends AbstractServlet {
 		Object[] t = p.split("\\-");
 		Result rs = null;
 		Year yr = null;
+		List<Result> lResult = null;
 
 		if (tp != null) {
 			String where = null;
@@ -969,8 +970,11 @@ public class UpdateServlet extends AbstractServlet {
 				where = "sport.id=" + hParams.get("sp") + " and championship.id=" + hParams.get("cp") + " and event.id=" + hParams.get("ev") + (StringUtils.notEmpty(hParams.get("se")) ? " and subevent.id=" + hParams.get("se") : "") + (StringUtils.notEmpty(hParams.get("se2")) ? " and subevent2.id=" + hParams.get("se2") : "") + " order by year.id " + (tp.equals("first") ? "asc" : "desc");			
 			else if (StringUtils.notEmpty(hParams.get("yr")))
 				where = "year.id " + (tp.equals("next") ? ">" : "<") + " " + hParams.get("yr") + " and sport.id=" + hParams.get("sp") + " and championship.id=" + hParams.get("cp") + " and event.id=" + hParams.get("ev") + (StringUtils.notEmpty(hParams.get("se")) ? " and subevent.id=" + hParams.get("se") : "") + (StringUtils.notEmpty(hParams.get("se2")) ? " and subevent2.id=" + hParams.get("se2") : "") + " order by year.id " + (tp.equals("next") ? "asc" : "desc");
-			if (where != null)
-				rs = (Result) DatabaseHelper.loadEntityFromQuery("from Result where " + where);
+			if (where != null) {
+				lResult = DatabaseHelper.execute("from Result where " + where);
+				if (lResult != null && !lResult.isEmpty())
+					rs = lResult.get(0);
+			}
 			if (rs != null) {
 				yr = rs.getYear();
 				t = new Object[3 + (rs.getSubevent() != null ? 1 : 0) + (rs.getSubevent2() != null ? 1 : 0)];
@@ -1138,8 +1142,16 @@ public class UpdateServlet extends AbstractServlet {
 						sb.append("rd-" + StringUtils.implode(l, "|")).append("~");
 					}
 				}
-				if (path != null)
-					sb.append(StringUtils.encode(path)).append("~");
+				sb.append(path != null ? StringUtils.encode(path) : "").append("~");
+				if (lResult != null && lResult.size() > 1) {
+					StringBuffer sb_ = new StringBuffer();
+					for (Result rs_ : lResult)
+						if (rs != null && rs.getYear().getId().equals(rs_.getYear().getId()))
+							sb_.append(sb_.length() > 0 ?  "," : "").append(rs_.getId());
+					sb.append(sb_).append("~");
+				}
+				else
+					sb.append("~");
 			}
 			String result = sb.toString().replaceAll("~null~", "~~").replaceAll("~null~", "~~").replaceAll("\"", "\\\\\"");
 			if (tp != null)
