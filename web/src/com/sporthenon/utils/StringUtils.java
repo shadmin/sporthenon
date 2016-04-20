@@ -180,7 +180,7 @@ public class StringUtils {
 	
 	public static final String getComment(String s, String lang) {
 		String result = null;
-		if (StringUtils.notEmpty(s) && !s.matches("\\#(DOUBLE|TRIPLE)\\#")) {
+		if (StringUtils.notEmpty(s) && !s.matches("\\#(SINGLE|DOUBLE|TRIPLE)\\#")) {
 			String[] t = s.split("·", -1);
 			result = t[t.length > 1 && lang.equalsIgnoreCase("fr") ? 1 : 0];
 			result = result.replaceAll("\r\n|\\|", "<br/>");
