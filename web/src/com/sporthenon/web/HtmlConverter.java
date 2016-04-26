@@ -1013,7 +1013,7 @@ public class HtmlConverter {
 			lFuncParams.add("WHERE SP.id=" + id);
 			lFuncParams.add("_" + lang);
 			HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", lFuncParams), sw, true, lang);
-			hInfo.put("tree", "<div class='treediv'><div id='treeview' class='collapsed'><table cellpadding='0' cellspacing='0'><tr><td><script type='text/javascript'>var " + sw.toString() + "new Tree(treeItems, treeTemplate);</script></td></tr></table></div></div>");
+			hInfo.put("tree", "<div class='treediv'><div id='treeview' class='collapsed'><table cellpadding='0' cellspacing='0'><tr><td>\r\n<script type='text/javascript'><!--\r\nvar " + sw.toString() + "new Tree(treeItems, treeTemplate);\r\n--></script>\r\n</td></tr></table></div></div>");
 		}
 		else if (type.equals(State.alias)) {
 			State e = (State) DatabaseHelper.loadEntity(State.class, id);
@@ -1172,7 +1172,7 @@ public class HtmlConverter {
 			HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeMonths", lFuncParams), sw, false, lang);
 			hInfo.put("tree", "<div class='treediv'><div id='treeview' class='collapsed'><table cellpadding='0' cellspacing='0'><tr><td><script type='text/javascript'>var " + sw.toString() + "new Tree(treeItems, treeTemplate);</script></td></tr></table></div></div>");
 		}
-		hInfo.put("url", HtmlUtils.writeLink(type, id, null, hInfo.containsKey("titleEN") ? hInfo.get("titleEN") : hInfo.get("title")));
+		hInfo.put("url", "http://" + request.getServerName() + HtmlUtils.writeLink(type, id, null, hInfo.containsKey("titleEN") ? hInfo.get("titleEN") : hInfo.get("title")));
 		if (!type.matches(Contributor.alias + "|" + Sport.alias + "|" + Year.alias)) {
 			hInfo.put("references", String.valueOf(ref));
 			hInfo.put("extlinks", HtmlUtils.writeExternalLinks(type, id, lang));
@@ -1270,7 +1270,9 @@ public class HtmlConverter {
 				if (isAllRef) {
 					html.append("<table id='" + tableName.replaceAll("\\s|\\/", "_") + "' class='tsort'>");
 					html.append("<thead><tr><th colspan='" + colspan + "'>" + HtmlUtils.writeToggleTitle(tableName.toUpperCase(), en.equals(Event.alias)) + "</th></tr>");
-					html.append("<tr class='rsort'>" + cols.toString() + "</tr></thead><tbody class='tby' id='tb-" + id + "'>");	
+					if (cols.length() > 0)
+						html.append("<tr class='rsort'>" + cols.toString() + "</tr>");
+					html.append("</thead><tbody class='tby' id='tb-" + id + "'>");	
 				}
 				currentEntity = en;
 			}
@@ -1318,7 +1320,7 @@ public class HtmlConverter {
 				String path1 = item.getLabelRel1() + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel3() + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel5() + (item.getIdRel4() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel7() : "") + (item.getIdRel5() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel9() : "");
 				String path2 = item.getLabelRel2() + "/" + item.getLabelRel4() + "/" + item.getLabelRel6() + (item.getIdRel4() != null ? "/" + item.getLabelRel8() : "") + (item.getIdRel5() != null ? "/" + item.getLabelRel10() : "");
 				if (inactive)
-					path1 = "<font color=\"#666\">&dagger;&nbsp;<i>" + path1 + "</i></font>";
+					path1 = "<span style=\"color:#666;\">&dagger;&nbsp;<i>" + path1 + "</i></span>";
 				c1 = "<a href='" + HtmlUtils.writeURL("/results", item.getIdRel1() + "-" + item.getIdRel2() + "-" + item.getIdRel3() + (item.getIdRel4() != null ? "-" + item.getIdRel4() : "") + (item.getIdRel5() != null ? "-" + item.getIdRel5() : ""), path2) + "'>" + path1 + "</a>";
 			}
 			else if (en.equals(HallOfFame.alias)) {

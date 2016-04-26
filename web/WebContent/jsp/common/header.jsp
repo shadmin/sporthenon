@@ -14,7 +14,7 @@
 	Object desc = request.getAttribute("desc");
 	String version = ConfigUtils.getProperty("version");
 	String lang = String.valueOf(session.getAttribute("locale"));
-	String url = ConfigUtils.getProperty("url");
+	String url = "http://" + request.getServerName();
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-2.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="<%=lang%>" xml:lang="<%=lang%>">
@@ -28,7 +28,7 @@
 	<link rel="alternate" hreflang="fr" href="<%=request.getAttribute("urlFR")%>"/>
 	<meta property="og:title" content="<%=title%>"/>
 	<meta property="og:type" content="website"/>
-	<meta property="og:image" content="<%=url%>img/icon-notext-shadow.png?1"/>
+	<meta property="og:image" content="<%=url%>img/icon-notext.png?1"/>
 	<% if (request.isSecure() || !ConfigUtils.getProperty("env").equals("prod") || !ServletHelper.getURL(request).contains("sporthenon.com")) { %>
 	<meta name="robots" content="noindex, nofollow"/>
 	<% } %>
@@ -54,9 +54,9 @@
 	<div id="sharesite">
 		<table>
 			<tr><td style="padding-bottom:3px;"><%=StringUtils.text("share", session)%>:</td>
-			<td><a href="https://www.facebook.com/sharer/sharer.php?u=<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F") + lang%>" target="_blank"><img alt="facebook" title="<%=StringUtils.text("share.on", session)%> Facebook" src="/img/header/facebook.png"/></a></td>
-			<td><a href="https://twitter.com/share?text=<%=StringUtils.text("title", session).replaceAll("\\s", "%20")%>&amp;url=<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F") + lang%>" target="_blank"><img alt="twitter" title="<%=StringUtils.text("share.on", session)%> Twitter" src="/img/header/twitter.png"/></a></td>
-			<td><a href="https://plus.google.com/share?url<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F") + lang%>" target="_blank"><img alt="gplus" title="<%=StringUtils.text("share.on", session)%> Google+" src="/img/header/gplus.png"/></a></td></tr>
+			<td><a href="https://www.facebook.com/sharer/sharer.php?u=<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="facebook" title="<%=StringUtils.text("share.on", session)%> Facebook" src="/img/header/facebook.png"/></a></td>
+			<td><a href="https://twitter.com/share?text=<%=StringUtils.text("title", session).replaceAll("\\s", "%20")%>&amp;url=<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="twitter" title="<%=StringUtils.text("share.on", session)%> Twitter" src="/img/header/twitter.png"/></a></td>
+			<td><a href="https://plus.google.com/share?url<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="gplus" title="<%=StringUtils.text("share.on", session)%> Google+" src="/img/header/gplus.png"/></a></td></tr>
 		</table>
 	</div>
 	<div id="android">

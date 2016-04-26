@@ -112,14 +112,14 @@ public class OlympicsServlet extends AbstractServlet {
 					sql += " LEFT JOIN \"Country\" CN ON OR_.id_country = CN.id";
 					sql += (!ol.equals("0") ? " WHERE OR_.id_olympics IN (" + ol + ")" : "");
 					sql += " ORDER BY CN.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
-					cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.countries", getLocale(request)) + "&nbsp;---"));
+					cPicklist.add(new PicklistBean(0, "––&nbsp;" + ResourceUtils.getText("all.countries", getLocale(request)) + "&nbsp;––"));
 					cPicklist.addAll(DatabaseHelper.getPicklistFromQuery(sql, true));
 					plId = type + "-" + PICKLIST_ID_COUNTRY;
 				}
 				else {
 					String hql = "select ol.id, concat(concat(ol.year.label, ' - '), ol.city.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "") + ") ";
 					hql += " from Olympics ol where ol.type = " + (type.equals(TYPE_SUMMER) ? 1 : 0) + " order by ol.year.id desc";
-					cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.olympic.games", getLocale(request)) + "&nbsp;---"));
+					cPicklist.add(new PicklistBean(0, "––&nbsp;" + ResourceUtils.getText("all.olympic.games", getLocale(request)) + "&nbsp;––"));
 					cPicklist.addAll(DatabaseHelper.getPicklistFromQuery(hql, false));
 					plId = type + "-" + PICKLIST_ID_OLYMPICS;
 				}

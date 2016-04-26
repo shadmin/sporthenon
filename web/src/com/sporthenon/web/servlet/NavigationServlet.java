@@ -98,6 +98,8 @@ public class NavigationServlet extends AbstractServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//
+		
 		String url = ServletHelper.getURL(request);
 		String newURI = null;
 		try {
@@ -113,11 +115,13 @@ public class NavigationServlet extends AbstractServlet {
 //			if (isUserSession && isTestProd && request.getHeader("Referer") == null)
 //				throw new HttpsException();
 			if (!url.contains("/ajax") && !url.contains("/load") && !url.contains("/check-progress-import"))
-				logger.fatal("URL: " + url);
+				logger.fatal("[" + request.getHeader("user-agent") + "] " + url);
 			String[] tURI = request.getRequestURI().substring(1).split("\\/", 0);
 			String key = tURI[0];
 			if (key.isEmpty())
 				key = "index";
+			if (!isBot(request) && !key.matches("project|contribute|update"))
+				DatabaseHelper.executeUpdate("INSERT INTO \"~Request\" VALUES (NEXTVAL('\"~SeqRequest\"'), '/" + key + "', " + (tURI.length > 1 ? "'" + StringUtils.decode(tURI[tURI.length - 1]) + "'" : "NULL") + ", current_timestamp);");
 			if (isTestProd)
 				if (key != null && key.equals("update") && !isUserSession)
 					throw new NotLoggedInException();

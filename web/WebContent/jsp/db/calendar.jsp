@@ -24,7 +24,7 @@
 	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
 	<ul>
 	<!-- DATE 1 -->
-	<li class="dateimg"><div id="label1" class="label" style="display:none;"><%=StringUtils.text("date.from", session).toUpperCase()%></div><div><div id="day1" class="day"></div><div id="month1" class="month"></div><div id="year1" class="year"></div></li>
+	<li class="dateimg"><div id="label1" class="label" style="display:none;"><%=StringUtils.text("date.from", session).toUpperCase()%></div><div id="day1" class="day"></div><div id="month1" class="month"></div><div id="year1" class="year"></div></li>
 	<li style="display:inline-block;">
 		<table style="padding-right:0px;">
 			<tr><td><%=StringUtils.text("year", session)%>&nbsp;:</td><td><select id="yr1" onchange="refreshDate(1);"><%=sbY.toString()%></select></td></tr>

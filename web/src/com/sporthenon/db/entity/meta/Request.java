@@ -19,21 +19,21 @@ public class Request {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_request")
 	private Integer id;
 	
-	@Column(name = "\"type\"")
-	private String type;
+	@Column(name = "path", length = 20)
+	private String path;
 	
-	@Column(name = "params", length = 50)
+	@Column(name = "params", length = 30)
 	private String params;
 	
-	@Column(name = "date", length = 20)
+	@Column(name = "date")
 	private Timestamp date;
 
 	public Integer getId() {
 		return id;
 	}
 
-	public String getType() {
-		return type;
+	public String getPath() {
+		return path;
 	}
 
 	public String getParams() {
@@ -48,8 +48,8 @@ public class Request {
 		this.id = id;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	public void setParams(String params) {

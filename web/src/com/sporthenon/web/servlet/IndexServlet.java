@@ -26,9 +26,10 @@ public class IndexServlet extends AbstractServlet {
 
 private static final long serialVersionUID = 1L;
 
-	public static final String REPORT_QUERY1 = "SELECT SP.label#LANG#, COUNT(*) FROM \"Result\" RS LEFT JOIN \"Sport\" SP ON RS.id_sport=SP.id GROUP BY SP.label#LANG# ORDER BY 2 DESC LIMIT 15";
-	public static final String REPORT_QUERY2 = "SELECT CN.label#LANG#, COUNT(*) FROM \"Country\" CN LEFT JOIN \"Athlete\" PR ON PR.id_country=CN.id GROUP BY CN.label#LANG# ORDER BY 2 DESC LIMIT 15";
-	public static final String REPORT_QUERY3 = "SELECT SP.label#LANG#, COUNT(*) FROM \"~Request\" RQ LEFT JOIN \"Sport\" SP ON SP.ID=CAST(SUBSTRING(params, 0, POSITION('-' IN params)) AS INTEGER) WHERE RQ.type='RS' GROUP BY SP.id, SP.label#LANG# ORDER BY 2 DESC LIMIT 10";
+	public static final String REPORT_QUERY1 = "SELECT SP.label#LANG#, COUNT(*) FROM \"Result\" RS LEFT JOIN \"Sport\" SP ON RS.id_sport=SP.id GROUP BY SP.label#LANG# ORDER BY 2 DESC LIMIT 10";
+	public static final String REPORT_QUERY2 = "SELECT CN.label#LANG#, COUNT(*) FROM \"Country\" CN LEFT JOIN \"Athlete\" PR ON PR.id_country=CN.id GROUP BY CN.label#LANG# ORDER BY 2 DESC LIMIT 10";
+	public static final String REPORT_QUERY3 = "SELECT SP.label#LANG#, COUNT(*) FROM \"~Request\" RQ LEFT JOIN \"Sport\" SP ON (SP.ID || '')=regexp_replace(replace(params || '', 'SP-', ''), '-.*', '') WHERE RQ.path IN ('/results', '/sport') AND LABEL IS NOT NULL GROUP BY SP.id, SP.label#LANG# ORDER BY 2 DESC LIMIT 8";
+	public static final String REPORT_QUERY4 = "SELECT to_char(R.date, 'YYYY-MM') AS M, COUNT(id) FROM \"~Request\" R GROUP BY to_char(R.date, 'YYYY-MM') ORDER BY M DESC LIMIT 12";
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -73,12 +74,18 @@ private static final long serialVersionUID = 1L;
 				lReport.add(REPORT_QUERY1);
 				lReport.add(REPORT_QUERY2);
 				lReport.add(REPORT_QUERY3);
+				lReport.add(REPORT_QUERY4);
 				int index = Integer.parseInt(String.valueOf(hParams.get("report")));
 				String lang_ = (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");				
 				List<Object[]> list = DatabaseHelper.executeNative(lReport.get(index).replaceAll("#LANG#", lang_));
 				StringBuffer sb1 = new StringBuffer();
 				StringBuffer sb2 = new StringBuffer();
 				for (Object[] t : list) {
+					if (index == 3) {
+						String s = String.valueOf(t[0]);
+						s = ResourceUtils.getText("month." + Integer.parseInt(s.substring(5)), lang).substring(0, 3) + " " + s.substring(2, 4);
+						t[0] = s;
+					}
 					sb1.append(sb1.toString().length() > 0 ? "|" : "").append(t[0]);
 					sb2.append(sb2.toString().length() > 0 ? "|" : "").append(t[1]);
 				}

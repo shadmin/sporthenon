@@ -107,37 +107,37 @@ for (short i : new short[]{1, 2, 3, 4}) {
 	StringBuffer sb = new StringBuffer();
 	for (PicklistBean plb : c)
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
-	out.print("tHofYr[" + i + "] = '<option value=\"0\">---&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;---</option>" + sb.toString() + "';\r\n");
+	out.print("tHofYr[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
 	// Championships (year)
 	c = DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i), null, (short)1, "en");
 	sb = new StringBuffer();
 	for (PicklistBean plb : c)
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
-	out.print("tChampYr[" + i + "] = '<option value=\"0\">---&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;---</option>" + sb.toString() + "';\r\n");
+	out.print("tChampYr[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
 	// Retnum + Stadiums
 	c = DatabaseHelper.getPicklist(RetiredNumber.class, "team", "league.id=" + i, "x.team.inactive || '-'", "x.team.inactive, x.team.label", "en");
 	sb = new StringBuffer();
 	for (PicklistBean plb : c)
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText().replaceAll("^true\\-", "&dagger;").replaceAll("^false\\-", "") + "</option>");
-	out.print("tTm[" + i + "] = '<option value=\"0\">---&nbsp;" + ResourceUtils.getText("all.teams", "en") + "&nbsp;---</option>" + sb.toString() + "';\r\n");
+	out.print("tTm[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.teams", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
 	// Record (Subevent)
 	c = DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and x.type1='Individual'", null, "x.subevent.index, x.subevent.label", "en");
 	sb = new StringBuffer();
 	for (PicklistBean plb : c)
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
-	out.print("tRcCt[" + i + "] = '<option value=\"0\">---&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;---</option>" + sb.toString() + "';\r\n");
+	out.print("tRcCt[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
 	// Yearly stats (year)
 	c = DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and event.label like '%" + uslStatEvLabel + "%'", null, (short)1, "en");
 	sb = new StringBuffer();
 	for (PicklistBean plb : c)
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
-	out.print("tStatsYr[" + i + "] = '<option value=\"0\">---&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;---</option>" + sb.toString() + "';\r\n");
+	out.print("tStatsYr[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
 	// Yearly stats (category)
 	c = DatabaseHelper.getPicklist(Result.class, "subevent2", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and event.label like '%" + uslStatEvLabel + "%'", null, "x.subevent2.index, x.subevent2.label", "en");
 	sb = new StringBuffer();
 	for (PicklistBean plb : c)
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
-	out.print("tStatsCt[" + i + "] = '<option value=\"0\">---&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;---</option>" + sb.toString() + "';\r\n");
+	out.print("tStatsCt[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
 }
 %>
 var tPos = new Array();

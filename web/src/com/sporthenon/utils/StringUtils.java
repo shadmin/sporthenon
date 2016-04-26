@@ -163,7 +163,7 @@ public class StringUtils {
 	}
 
 	public static final String toTree(String s) {
-		return (s.matches("^\\+.*") ? "<font color=\"#666\">&dagger;&nbsp;<i>" + s.substring(1) + "</i></font>" : s);
+		return (s.matches("^\\+.*") ? "<span style=\"color:#666;\">&dagger;&nbsp;<i>" + s.substring(1) + "</i></span>" : s);
 	}
 	
 	public static final String getSizeBytes(String s) {

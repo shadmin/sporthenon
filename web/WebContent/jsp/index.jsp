@@ -35,7 +35,7 @@
 				<td class="usleagues" onclick="location.href='/usleagues';" onmouseover='overTopic(TX_DESC_USLEAGUES);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.usleagues", session)%></td>
 				<td id="details" style="display:none;"></td></tr></table></div>
 			<hr/><img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("random.event", session)%></b><br/><table id="randomevent"><tr><td id="randomeventvalue"><%=IndexServlet.getRandomEvent(lang)%></td><td><a href="javascript:getRandomEvent();"><img alt="Change" title="<%=StringUtils.text("change", session)%>" src="/img/db/refresh.png"/></a></td></tr></table>
-			<hr/><img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("access.sport", session)%></b><select style="margin-left:10px;" onchange="location.href=this.value;"><option value="">--- <%=StringUtils.text("select.sport", session)%> ---</option>
+			<hr/><img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("access.sport", session)%></b><select style="margin-left:10px;" onchange="location.href=this.value;"><option value="">–– <%=StringUtils.text("select.sport", session)%> ––</option>
 			<%
 				for (Sport sp : (List<Sport>) DatabaseHelper.execute("from Sport order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "")))
 					out.print("<option value=\"" + StringUtils.urlEscape("/sport/" + sp.getLabel() + "/" + StringUtils.encode("SP-" + sp.getId())) + "\">" + sp.getLabel(lang) + "</option>");
@@ -94,7 +94,7 @@
 				<tr><th><%=StringUtils.text("entity.CX", session)%></th><td class="stat"><%=StringUtils.formatNumber(stb.getCountComplex(), lang)%></td></tr>
 			</table></li>
 			<li><table>
-				<tr><th style="text-align:center;"><div style="float:left;margin-left:2px;font-weight:normal;"><a href="javascript:changeReport(-1);">&lt;&nbsp;<%=StringUtils.text("previous", session)%></a></div><div style="float:right;margin-right:2px;font-weight:normal;"><a href="javascript:changeReport(1);"><%=StringUtils.text("next", session)%>&nbsp;&gt;</a></div><span id="ctitle"><%=StringUtils.text("report.1", session)%></span></th></tr>
+				<tr><th style="text-align:center;"><div style="float:left;margin-left:2px;font-weight:normal;"><a href="javascript:changeReport(-1);">&lt;&nbsp;<%=StringUtils.text("previous", session)%></a></div><div style="float:right;margin-right:2px;font-weight:normal;"><a href="javascript:changeReport(1);"><%=StringUtils.text("next", session)%>&nbsp;&gt;</a></div><span id="ctitle">.</span></th></tr>
 				<tr><td id="chart"></td></tr>
 			</table></li>
 			</ul>
@@ -105,23 +105,16 @@
 </div>
 <script type="text/javascript" src="js/RGraph.common.core.js"></script>
 <script type="text/javascript" src="js/RGraph.hbar.js"></script>
+<script type="text/javascript" src="js/RGraph.line.js"></script>
 <script type="text/javascript" src="js/RGraph.pie.js"></script>
 <script type="text/javascript"><!--
-var ctitle = ['<%=StringUtils.text("report.1", session)%>', '<%=StringUtils.text("report.2", session)%>', '<%=StringUtils.text("report.3", session)%>'];
-<%
-String lang_ = (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
-List<Object[]> cSportStats = DatabaseHelper.executeNative(IndexServlet.REPORT_QUERY1.replaceAll("#LANG#", lang_));
-for (Object[] t : cSportStats) {
-	out.print("clabel.push('" + String.valueOf(t[0]) + "');");
-	out.print("cdata.push(" + t[1] + ");");
-}
-%>
+var ctitle = ['<%=StringUtils.text("report.1", session)%>', '<%=StringUtils.text("report.2", session)%>', '<%=StringUtils.text("report.3", session)%>', '<%=StringUtils.text("report.4", session)%>'];
 window.onload = function() {
 	tCurrentSortedCol['tlast'] = $('tlast-dtcol');
 	initSliderHome("<%=IndexServlet.getSportDivs(lang)%>");
 	t2 = <%=System.currentTimeMillis()%>;
 	handleRender();
-	loadReport(cdata, clabel, ccolor[0]);
+	changeReport(0);
 }
 --></script>
 <jsp:include page="/jsp/common/footer.jsp" />

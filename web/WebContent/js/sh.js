@@ -469,21 +469,20 @@ var dComment = null;
 var dHelp = null;
 function share(type) {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
-	var langParam = '?lang=' + lang;
 	if (type == 'fb') {
-		url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url + langParam);
+		url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
 	}
 	else if (type == 'tw') {
-		url = 'https://twitter.com/share?url=' + encodeURIComponent(url + langParam);
+		url = 'https://twitter.com/share?url=' + encodeURIComponent(url);
 	}
 	else if (type == 'gp') {
-		url = 'https://plus.google.com/share?url=' + encodeURIComponent(url + langParam);
+		url = 'https://plus.google.com/share?url=' + encodeURIComponent(url);
 	}
 	else if (type == 'bg') {
-		url = 'https://www.blogger.com/blog-this.g?u=' + encodeURIComponent(url + langParam) + '&n=' + escape(document.title);
+		url = 'https://www.blogger.com/blog-this.g?u=' + encodeURIComponent(url) + '&n=' + escape(document.title);
 	}
 	else if (type == 'tm') {
-		url = 'http://tumblr.com/share?&u=' + encodeURIComponent(url + langParam);
+		url = 'http://tumblr.com/share?&u=' + encodeURIComponent(url);
 	}
 	$('shareopt').hide();
 	window.open(url, '_blank');
@@ -720,8 +719,8 @@ function moreLastUpdates(row, p) {
 function getRandomEvent() {
 	new Ajax.Updater($('randomeventvalue'), '/IndexServlet?randomevent&t=' + currentTime());
 }
-var cindex = 0;
-var cmax = 2;
+var cindex = 3;
+var cmax = 3;
 var cdata = [];
 var clabel = [];
 var ccolor = [['Gradient(#f8cb98:#f88f18)'], ['Gradient(#f8cb98:#f88f18)'], ['Gradient(#94cff5:#179ef5)', 'Gradient(#f8cb98:#f88f18)', 'red', 'blue']];
@@ -735,7 +734,7 @@ function loadReport(cdata_, clabel_, ccolor_) {
 		.Set('colors', ccolor_)
 		.Set('text.font', 'Verdana')
 		.Set('text.size', 8)
-		.Set('vmargin', 5)
+		.Set('vmargin', 8)
 		.Draw();
 	}
 	else if (cindex == 2) {
@@ -748,6 +747,23 @@ function loadReport(cdata_, clabel_, ccolor_) {
 		.Set('vmargin', 5)
 		.Set('exploded', 8)
 		.Set('strokestyle', '#666')
+		.Draw();
+	}
+	else if (cindex == 3) {
+		var line = new RGraph.Line('cvs', cdata_)
+		.Set('labels', clabel_)
+		.Set('text.font', 'Verdana')
+		.Set('text.size', 8)
+		.Set('gutter.top', 15)
+		.Set('gutter.bottom', 30)
+		.Set('gutter.left', 50)
+		.Set('vmargin', 5)
+		.Set('linewidth', 2)
+		.Set('shadow', true)
+		.Set('numxticks', 11)
+		.Set('numyticks', 5)
+		.Set('strokestyle', '#666')
+		.Set('background.grid.autofit.align', true)
 		.Draw();
 	}
 }
@@ -1115,7 +1131,7 @@ function updateSliderOl(code) {
 	var n = -1;
 	var currentOl = $F(code + '-pl-ol');
 	$$('#' + code + '-pl-ol option').each(function(el) {
-		if (el.text.indexOf('---') != 0 && el.text.indexOf('[') != 0) {
+		if (el.text.indexOf('––') != 0 && el.text.indexOf('[') != 0) {
 			var pattern = new RegExp('(^|.*,)' + el.value + '(,.*|$)');
 			var text = null;
 			if (currentOl == '0' || pattern.match(currentOl)) {

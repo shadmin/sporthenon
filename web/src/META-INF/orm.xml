@@ -185,12 +185,4 @@
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 	
-	<!--
-		~StatRequest(smallint)
-	-->
-	<named-native-query name="StatRequest" result-class="com.sporthenon.db.function.StatRequestBean">  
-		<query>{? = CALL "~StatRequest"(?)}</query>
-		<hint name="org.hibernate.callable" value="true" />
-	</named-native-query>
-
 </entity-mappings>

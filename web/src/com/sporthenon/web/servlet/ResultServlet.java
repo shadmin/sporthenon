@@ -107,7 +107,7 @@ public class ResultServlet extends AbstractServlet {
 							filter += " and subevent.id=" + hParams.get("se");
 						if (isSe2)
 							filter += " and subevent2.id=" + hParams.get("se2");
-						cPicklist.add(new PicklistBean(0, "---&nbsp;" + ResourceUtils.getText("all.years", getLocale(request)) + "&nbsp;---"));
+						cPicklist.add(new PicklistBean(0, "––&nbsp;" + ResourceUtils.getText("all.years", getLocale(request)) + "&nbsp;––"));
 						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "year", filter, null, (short) 1, getLocale(request)));
 					}
 					plId = PICKLIST_ID_YEAR;

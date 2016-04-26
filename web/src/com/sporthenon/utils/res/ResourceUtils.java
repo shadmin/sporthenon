@@ -61,7 +61,7 @@ public class ResourceUtils {
 				else {
 					if (request.getLocale() != null)
 						lang = request.getLocale().toString().substring(0, 2);
-					if (!HP.containsKey(lang.toLowerCase())) {
+					if (HP == null || !HP.containsKey(lang.toLowerCase())) {
 						init();
 						lang = LGDEFAULT;
 					}
