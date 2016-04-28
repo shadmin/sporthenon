@@ -461,7 +461,7 @@ public class ImportUtils {
 						type2 = s;
 					else if (h.matches("label")) {
 						label = s;
-						hql = "select id from Record where lower(label)='" + s_.replaceAll("'", "''") + "'" + (type1 != null ? " and lower(type1)='" + type1.toLowerCase() + "'" : "") + (type2 != null ? " and lower(type2)='" + type2.toLowerCase() + "'" : "") + " and sport.id=" + hId.get("sp") + " and championship.id=" + hId.get("cp") + " and event.id=" + hId.get("ev") + (hId.containsKey("se") ? " and subevent.id=" + hId.get("se") : "");
+						hql = "select id from Record where lower(label) like '" + s_.replaceAll("'", "''") + "'" + (type1 != null ? " and lower(type1)='" + type1.toLowerCase() + "'" : "") + (type2 != null ? " and lower(type2)='" + type2.toLowerCase() + "'" : "") + " and sport.id=" + hId.get("sp") + " and championship.id=" + hId.get("cp") + " and event.id=" + hId.get("ev") + (hId.containsKey("se") ? " and subevent.id=" + hId.get("se") : "");
 					}
 					else if (h.matches("rk\\d")) {
 						if (n == null) {
@@ -496,7 +496,7 @@ public class ImportUtils {
 										rcy = vLine.get(i + 2);
 										rcy = (StringUtils.notEmpty(rcy) && rcy.matches(".*\\d{4}$") ? rcy.substring(rcy.length() - 4) : null);
 									}
-									hql = "select id from Team where sport.id=" + hId.get("sp") + " and lower(label) like '" + (s_.indexOf(" (") > -1 ? s_.substring(0, s_.indexOf(" (")) : s_) + "'" + (rcy != null ? " and '" + rcy + "' between year1 and (case year2 when null then '9999' when '' then '9999' else year2 end)" : "");
+									hql = "select id from Team where sport.id=" + hId.get("sp") + " and lower(label) like '" + (s_.indexOf(" (") > -1 ? s_.substring(0, s_.indexOf(" (")) : s_) + "'" + (rcy != null ? " and '" + rcy + "' between (case when year1 is null or year1='' then '0000' else year1 end) and (case when year2 is null or year2='' then '9999' else year2 end)" : "");
 								}
 							}
 							else if (n == 99) { // Country
@@ -529,6 +529,10 @@ public class ImportUtils {
 						else if (h.matches("ev|se")) {
 							isError = true;
 							writeError(vLine, ResourceUtils.getText("err.invalid.event", lang));
+						}
+						else if (h.matches("rk\\d")) {
+							if (n == 50)
+								writeError(vLine, ResourceUtils.getText("warning.team.notexist", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 						}
 						vLine.set(i, s);
 					}

@@ -125,7 +125,8 @@ public class HtmlConverter {
 		return html.toString();
 	}
 	
-	public static void setTies(List<Integer> tieList, int type, String[] tEntity, String[] tEntityRel) {
+	public static int setTies(List<Integer> tieList, int type, String[] tEntity, String[] tEntityRel, String[] tTies) {
+		int ties = 0;
 		if (tieList != null && !tieList.isEmpty()) {
 			Integer idx = tieList.get(0) - 1;
 			for (int i = 1 ; i < tieList.size() ; i++) {
@@ -136,11 +137,16 @@ public class HtmlConverter {
 						idx = null;
 					if (idx != null) {
 						if (tEntity[idx] != null && tEntity[tieList.get(i) - 1] != null) {
-							tEntity[idx] = tEntity[idx].concat((type < 10 ? "<br/>" : "") + tEntity[tieList.get(i) - 1].replaceAll("<table>", "<table class='margintop'>"));
+							//tEntity[idx] = tEntity[idx].concat((type < 10 ? "<br/>" : "") + .replaceAll("<table>", "<table class='margintop'>"));
+							if (tTies != null)
+								tTies[idx] = (StringUtils.notEmpty(tTies[idx]) ? tTies[idx] : "") + tEntity[tieList.get(i) - 1];
+							ties++;
 							tEntity[tieList.get(i) - 1] = null;
 						}
 						if (tEntityRel != null && tEntityRel[idx] != null && tEntityRel[tieList.get(i) - 1] != null) {
-							tEntityRel[idx] = tEntityRel[idx].concat(tEntityRel[tieList.get(i) - 1]).replaceAll("\\<\\/td\\>\\<td\\>\\<table\\>", "<table class='margintop'>");
+							//tEntityRel[idx] = tEntityRel[idx].concat(tEntityRel[tieList.get(i) - 1]).replaceAll("\\<\\/td\\>\\<td\\>\\<table\\>", "<table class='margintop'>");
+							if (tTies != null)
+								tTies[idx] = (StringUtils.notEmpty(tTies[idx]) ? tTies[idx] : "") + tEntityRel[tieList.get(i) - 1];
 							tEntityRel[tieList.get(i) - 1] = null;
 							if (tEntityRel[idx].matches(".*\\/4\\-\\d+\\-.*") && tEntityRel[idx].matches(".*\\/5\\-\\d+\\-.*")) {
 								String[] t = tEntityRel[idx].split("</table>");
@@ -152,13 +158,14 @@ public class HtmlConverter {
 									if (s.matches(".*\\/5\\-\\d+\\-.*"))
 										sbTM.append(s.replaceAll("^\\<td\\>|\\<\\/td\\>$|\\<\\/td\\>\\<td\\>| class='margintop'", "").replaceAll("\\<table\\>", "<table class='marginbottom'>")).append("</table>");
 								}
-								tEntityRel[idx] = "<td>" + sbCN.toString() + "</td><td>" + sbTM.toString() + "</td>";
+								//tEntityRel[idx] = "<td>" + sbCN.toString() + "</td><td>" + sbTM.toString() + "</td>";
 							}
 						}
 					}
 				}
 			}
 		}
+		return ties;
 	}
 	
 	public static List<Integer> getTieList(boolean isDouble, boolean isTriple, String tie) {
@@ -848,7 +855,7 @@ public class HtmlConverter {
 				boolean isSingle = (bean.getRsComment() != null && bean.getRsComment().equals("#SINGLE#"));
 				boolean isDouble = ((type_ == 4 && !isSingle) || (bean.getRsComment() != null && bean.getRsComment().equals("#DOUBLE#")));
 				boolean isTriple = ((type_ == 5 && !isSingle) || (bean.getRsComment() != null && bean.getRsComment().equals("#TRIPLE#")));
-				setTies(getTieList(isDouble, isTriple, bean.getRsExa()), type_, tEntity, tEntityRel);
+				setTies(getTieList(isDouble, isTriple, bean.getRsExa()), type_, tEntity, tEntityRel, null);
 				if (isTriple || isDouble) {
 					tEntity = StringUtils.removeNulls(tEntity);
 					tEntityRel = StringUtils.removeNulls(tEntityRel);
@@ -1637,6 +1644,7 @@ public class HtmlConverter {
 			String[] tEntityRel = {null, null, null, null, null, null, null, null, null};
 			String[] tEntityHtml = {null, null, null, null, null, null, null, null, null};
 			String[] tResult = {null, null, null, null, null, null, null, null, null};
+			String[] tTies = {null, null, null, null, null, null, null, null, null};
 			String[] tLN = {null, null, null};
 			if (bean.getRsRank1() != null) {
 				tEntity[0] = getResultsEntity(type, bean.getRsRank1(), bean.getEn1Str1(), bean.getEn1Str2(), bean.getEn1Str3(), bean.getEn1Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 0 ? "plist-" + bean.getRsId() + "-0" : null);
@@ -1682,15 +1690,17 @@ public class HtmlConverter {
 				tEntity[8] = getResultsEntity(type, bean.getRsRank9(), bean.getEn9Str1(), bean.getEn9Str2(), bean.getEn9Str3(), bean.getEn9Rel2Code(), bean.getYrLabel(), plist != null && plist.size() > 8 ? "plist-" + bean.getRsId() + "-8" : null);
 				tEntityRel[8] = getResultsEntityRel(bean.getEn9Rel1Id(), bean.getEn9Rel1Code(), bean.getEn9Rel1Label(), bean.getEn9Rel2Id(), bean.getEn9Rel2Code(), bean.getEn9Rel2Label(), bean.getEn9Rel2LabelEN(), tIsEntityRel1[8], tIsEntityRel2[8], bean.getYrLabel());
 			}
-			setTies(tieList, type, tEntity, tEntityRel);
+			int ties = setTies(tieList, type, tEntity, tEntityRel, tTies);
+			String rspan = (ties > 0 ? " rowspan='" + ties + "'" : "");
 			if (isTriple || isDouble) {
 				tEntity = StringUtils.removeNulls(tEntity);
-				tEntityRel = StringUtils.removeNulls(tEntityRel);					
+				tEntityRel = StringUtils.removeNulls(tEntityRel);
 			}
 			for (int i = 0 ; i < MAX_RANKS ; i++)
-				if (tEntity[i] != null)
-					tEntityHtml[i] = ("<td" + (i < 3 && StringUtils.notEmpty(tLN[i]) ? " id=\"" + tLN[i].replaceAll("\\s", "-") + "\"" : "") + " class='srt'" + (i == 0 ? " style='font-weight:bold;'" : "") + ">" + tEntity[i] + (plist != null && plist.size() > i ? "<table id='plist-" + bean.getRsId() + "-" + i + "' class='plist' style='display:none;'>" + plist.get(i).toString() + "</table>" : "")  + "</td>" + (StringUtils.notEmpty(tEntityRel[i]) ?  tEntityRel[i] : (tIsEntityRel1[i] ? "<td></td>" : "") + (tIsEntityRel2[i] ? "<td></td>" : ""))) + (StringUtils.notEmpty(tResult[i]) ? "<td" + (isScore && i == 0 ? " class='centered nowrap'" : "") + ">" + tResult[i] + "</td>" : (tIsResult[i] ? "<td></td>" : ""));
-				
+				if (tEntity[i] != null) {
+					String rspan_ = (tTies[i] == null ? rspan : "");
+					tEntityHtml[i] = ("<td" + rspan_ + (i < 3 && StringUtils.notEmpty(tLN[i]) ? " id=\"" + tLN[i].replaceAll("\\s", "-") + "\"" : "") + " class='srt'" + (i == 0 ? " style='font-weight:bold;'" : "") + ">" + tEntity[i] + (plist != null && plist.size() > i ? "<table id='plist-" + bean.getRsId() + "-" + i + "' class='plist' style='display:none;'>" + plist.get(i).toString() + "</table>" : "")  + "</td>" + (StringUtils.notEmpty(tEntityRel[i]) ?  tEntityRel[i] : (tIsEntityRel1[i] ? "<td" + rspan_ + "></td>" : "") + (tIsEntityRel2[i] ? "<td" + rspan_ + "></td>" : ""))) + (StringUtils.notEmpty(tResult[i]) ? "<td" + rspan + (isScore && i == 0 ? " class='centered nowrap'" : "") + ">" + tResult[i] + "</td>" : (tIsResult[i] ? "<td" + rspan_ + "></td>" : ""));
+				}
 			String commentColor = null;
 			if (comment != null && comment.matches("^\\#\\#(Clay|Decoturf|Grass|Gravel|Hard|Rebound|Snow|Tarmac).*")) {
 				String cmt = comment.substring(2).replaceAll("\\s", "").toLowerCase();
@@ -1699,16 +1709,23 @@ public class HtmlConverter {
 			}
 			
 			// Write line
-			html.append("<tr><td class='nowrap'>" + details + "</td>");
-			html.append(isComment ? "<td" + (StringUtils.notEmpty(commentColor) ? " style='width:15px;white-space:nowrap;background-color:" + commentColor + ";'" : "") + ">" + (StringUtils.notEmpty(comment) && !isResultEmpty ? HtmlUtils.writeComment(bean.getRsId(), comment) : "") + "</td>" : "");
-			html.append("<td class='srt'>" + year + "</td>");
+			html.append("<tr><td" + rspan + " class='nowrap'>" + details + "</td>");
+			html.append(isComment ? "<td" + rspan + (StringUtils.notEmpty(commentColor) ? " style='width:15px;white-space:nowrap;background-color:" + commentColor + ";'" : "") + ">" + (StringUtils.notEmpty(comment) && !isResultEmpty ? HtmlUtils.writeComment(bean.getRsId(), comment) : "") + "</td>" : "");
+			html.append("<td" + rspan + " class='srt'>" + year + "</td>");
 			if (isResultEmpty && StringUtils.notEmpty(bean.getRsComment()))
-				html.append("<td colspan='" + (tColspan[0] + (entityCount > 1 ? tColspan[1] : 0) + (entityCount > 2 ? tColspan[2] : 0) + (isDates ? 1 : 0) + (isPlace ? 1 : 0) + (isScore_ ? 1 : 0)) + "'>" + bean.getRsComment().replaceAll("\r\n|\\|", "<br/>") + "</td>");
+				html.append("<td" + rspan + " colspan='" + (tColspan[0] + (entityCount > 1 ? tColspan[1] : 0) + (entityCount > 2 ? tColspan[2] : 0) + (isDates ? 1 : 0) + (isPlace ? 1 : 0) + (isScore_ ? 1 : 0)) + "'>" + bean.getRsComment().replaceAll("\r\n|\\|", "<br/>") + "</td></tr>");
 			else {
 				for (int i = 0 ; i < 9 ; i++)
-					html.append(tEntityHtml[i] != null ? tEntityHtml[i] : (entityCount > i ? "<td class='srt'" + (tColspan[i] > 1 ? " colspan='" + tColspan[i] + "'" : "") + ">" + StringUtils.EMPTY + "</td>" + (isScore && i == 0 ? "<td class='srt'>" + StringUtils.EMPTY + "</td>" : "") : ""));
-				html.append(isDates ? "<td id='dt-" + d2 + "-" + bean.getRsId() + "' class='srt nowrap'>" + (StringUtils.notEmpty(dates) ? dates : "") + "</td>" : "");
-				html.append((isPlace ? "<td class='srt'>" + (StringUtils.notEmpty(places) ? places : "") + "</td>" : "") + "</tr>");				
+					html.append(tEntityHtml[i] != null ? tEntityHtml[i] : (entityCount > i ? "<td" + rspan + " class='srt'" + (tColspan[i] > 1 ? " colspan='" + tColspan[i] + "'" : "") + ">" + StringUtils.EMPTY + "</td>" + (isScore && i == 0 ? "<td" + rspan + " class='srt'>" + StringUtils.EMPTY + "</td>" : "") : ""));
+				html.append(isDates ? "<td" + rspan + " id='dt-" + d2 + "-" + bean.getRsId() + "' class='srt nowrap'>" + (StringUtils.notEmpty(dates) ? dates : "") + "</td>" : "");
+				html.append((isPlace ? "<td" + rspan + " class='srt'>" + (StringUtils.notEmpty(places) ? places : "") + "</td>" : "") + "</tr>");				
+			}
+			if (ties > 0) {
+				html.append("<tr>");
+				for (int i = 0 ; i < 9 ; i++)
+					if (StringUtils.notEmpty(tTies[i]))
+						html.append("<td>" + tTies[i] + "</td>");
+				html.append("</tr>");
 			}
 		}
 		html.append("</tbody></table>");
@@ -2335,7 +2352,7 @@ public class HtmlConverter {
 			tRank[5] = (tRank[5] != null && isIndividual && bean.getRsIdPrTeam6() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsIdPrTeam6(), ImageUtils.SIZE_SMALL, null, bean.getRsPrTeam6()), tRank[5]) : (tRank[5] != null && !isIndividual ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsRank6(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null), tRank[5]) : tRank[5]));
 			tRank[6] = (tRank[6] != null && isIndividual && bean.getRsIdPrTeam7() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsIdPrTeam7(), ImageUtils.SIZE_SMALL, null, bean.getRsPrTeam7()), tRank[6]) : (tRank[6] != null && !isIndividual ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsRank7(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null), tRank[6]) : tRank[6]));
 			tRank[7] = (tRank[7] != null && isIndividual && bean.getRsIdPrTeam8() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsIdPrTeam8(), ImageUtils.SIZE_SMALL, null, bean.getRsPrTeam8()), tRank[7]) : (tRank[7] != null && !isIndividual ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsRank8(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null), tRank[7]) : tRank[7]));
-			setTies(getTieList(false, false, bean.getRsExa()), 11, tRank, null);
+			setTies(getTieList(false, false, bean.getRsExa()), 11, tRank, null, null);
 
 			// Write line
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
