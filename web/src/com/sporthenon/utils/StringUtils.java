@@ -57,10 +57,10 @@ public class StringUtils {
 		return new String(b32.decode(s));
 	}
 
-	public static String implode(Iterable<String> tValues, String sSeparator) {
+	public static String join(Iterable<String> tValues, String sSeparator) {
 		StringBuffer sb = new StringBuffer();
 		for (String s : tValues)
-			sb.append((sb.toString().length() > 0 ? sSeparator : "") + s);
+			sb.append(sb.length() > 0 ? sSeparator : "").append(s);
 		return sb.toString();
 	}
 

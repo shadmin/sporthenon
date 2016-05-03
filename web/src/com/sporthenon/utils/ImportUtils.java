@@ -64,7 +64,7 @@ public class ImportUtils {
 //					processLineDR(i, vHeader, v, isUpdate, report, cb, lang);
 				else if (isRC)
 					processLineRC(i, vHeader, v, isUpdate, report, cb, lang);
-				html.append("<tr><td>").append(StringUtils.implode(v, "</td><td>")).append("</td></tr>");
+				html.append("<tr><td>").append(StringUtils.join(v, "</td><td>")).append("</td></tr>");
 				if (i * 100 / vFile.size() > pg) {
 					pg = i * 100 / vFile.size();
 					progress.value = pg;

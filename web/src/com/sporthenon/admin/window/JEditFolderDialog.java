@@ -288,7 +288,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 						}
 					}
 					FolderHistory fh = new FolderHistory();
-					fh.setPreviousParams(StringUtils.implode(Arrays.asList(t),"-"));
+					fh.setPreviousParams(StringUtils.join(Arrays.asList(t),"-"));
 					fh.setCurrentParams(currentParams);
 					fh.setCurrentPath(currentPath);
 					fh.setDate(new Timestamp(System.currentTimeMillis()));

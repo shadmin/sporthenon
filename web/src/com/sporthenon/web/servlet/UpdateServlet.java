@@ -1084,7 +1084,7 @@ public class UpdateServlet extends AbstractServlet {
 						Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, pl.getIdPerson());
 						l.set(rk - 1, (StringUtils.notEmpty(l.get(rk - 1)) ? l.get(rk - 1) + "|" : "") + pl.getIdPerson() + ":" + a.toString2() + ":" + (StringUtils.notEmpty(pl.getIndex()) ? pl.getIndex() : ""));
 					}
-					sb.append("rkl-" + StringUtils.implode(l, "#")).append("~");
+					sb.append("rkl-" + StringUtils.join(l, "#")).append("~");
 				}
 				// Rounds
 				List lRounds = DatabaseHelper.execute("from Round where idResult=" + rs.getId() + " order by roundType.index");
@@ -1139,7 +1139,7 @@ public class UpdateServlet extends AbstractServlet {
 						}
 						l.add(StringUtils.notEmpty(rd.getExa()) ? rd.getExa() : "");
 						l.add(StringUtils.notEmpty(rd.getComment()) ? rd.getComment() : "");
-						sb.append("rd-" + StringUtils.implode(l, "|")).append("~");
+						sb.append("rd-" + StringUtils.join(l, "|")).append("~");
 					}
 				}
 				sb.append(path != null ? StringUtils.encode(path) : "").append("~");
@@ -2208,7 +2208,7 @@ public class UpdateServlet extends AbstractServlet {
 					}
 				}
 				FolderHistory fh = new FolderHistory();
-				fh.setPreviousParams(StringUtils.implode(Arrays.asList(t),"-"));
+				fh.setPreviousParams(StringUtils.join(Arrays.asList(t),"-"));
 				fh.setCurrentParams(currentParams);
 				fh.setCurrentPath(currentPath);
 				fh.setDate(new Timestamp(System.currentTimeMillis()));

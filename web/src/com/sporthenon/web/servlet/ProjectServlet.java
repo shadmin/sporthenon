@@ -37,7 +37,7 @@ private static final long serialVersionUID = 1L;
 				if (StringUtils.notEmpty(bean.getSports())) {
 					List<String> l = Arrays.asList((getLocale(request).equalsIgnoreCase("fr") ? bean.getSportsFR() : bean.getSports()).split("\\|"));
 					Collections.sort(l);
-					sports = StringUtils.implode(l, "<br/>");
+					sports = StringUtils.join(l, "<br/>");
 				}
 				html.append("<tr><td><a href='" + HtmlUtils.writeLink(Contributor.alias, bean.getId(), null, bean.getLogin()) + "'>" + bean.getLogin() + "</a></td>");
 				html.append("<td>" + (StringUtils.notEmpty(bean.getName()) ? bean.getName() : "-") + "</td>");
