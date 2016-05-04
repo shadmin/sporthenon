@@ -135,8 +135,11 @@ public class StringUtils {
 	}
 	
 	public static String toTextDate(Timestamp dt, String lang, String format) throws ParseException {
-		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		return toTextDate(df.format(dt), lang, format);
+		if (dt != null) {
+			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			return toTextDate(df.format(dt), lang, format);
+		}
+		return null;
 	}
 
 	public static String formatNumber(Object n, String lang) {

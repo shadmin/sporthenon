@@ -3,6 +3,7 @@ package com.sporthenon.web.servlet;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -80,6 +81,8 @@ private static final long serialVersionUID = 1L;
 				List<Object[]> list = DatabaseHelper.executeNative(lReport.get(index).replaceAll("#LANG#", lang_));
 				StringBuffer sb1 = new StringBuffer();
 				StringBuffer sb2 = new StringBuffer();
+				if (index == 3)
+					Collections.reverse(list);
 				for (Object[] t : list) {
 					if (index == 3) {
 						String s = String.valueOf(t[0]);

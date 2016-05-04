@@ -5,8 +5,8 @@
 		<param name="File" value="/usr/share/glassfish3/glassfish/domains/domain1/logs/shtest.log"/>
 		<param name="Append" value="true"/>
 		<param name="Encoding" value="UTF-8"/>
-		<param name="MaxFileSize" value="10240KB"/>
-		<param name="MaxBackupIndex" value="20"/>
+		<param name="MaxFileSize" value="5000KB"/>
+		<param name="MaxBackupIndex" value="10"/>
 		<layout class="org.apache.log4j.PatternLayout"> 
 			<param name="ConversionPattern" value="%d %5p - %m%n"/>
 		</layout> 
@@ -15,8 +15,8 @@
 		<param name="File" value="/usr/share/glassfish3/glassfish/domains/domain1/logs/shtest.log"/>
 		<param name="Append" value="true"/>
 		<param name="Encoding" value="UTF-8"/>
-		<param name="MaxFileSize" value="10240KB"/>
-		<param name="MaxBackupIndex" value="20"/>
+		<param name="MaxFileSize" value="5000KB"/>
+		<param name="MaxBackupIndex" value="10"/>
 		<layout class="org.apache.log4j.PatternLayout"> 
 			<param name="ConversionPattern" value="%d %5p - %m%n"/> 
 		</layout> 
