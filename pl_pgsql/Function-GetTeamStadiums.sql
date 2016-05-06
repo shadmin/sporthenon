@@ -12,8 +12,6 @@ declare
     _c refcursor;
     _team_condition text;
 begin
-	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'TS-' || _id_league, current_date);
-	
 	-- Set team condition ('All teams' = Empty condition)
 	_team_condition := '';
 	IF _teams <> '0' THEN

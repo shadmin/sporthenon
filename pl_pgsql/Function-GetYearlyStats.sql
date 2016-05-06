@@ -22,8 +22,6 @@ declare
     _type_condition text;
     _usl_stat_event_label varchar(100);
 begin
-	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'ST-' || _id_championship, current_date);
-
 	SELECT value INTO _usl_stat_event_label FROM "~Config" WHERE key = 'USL_STATS_EVENT_LABEL';
 
 	-- Set year condition ('All teams' = Empty condition)

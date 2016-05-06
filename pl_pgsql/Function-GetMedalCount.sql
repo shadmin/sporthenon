@@ -15,11 +15,11 @@ declare
 	_type2 integer;
 	_sport_txt varchar(3);
 	_index smallint;
-	_nfl_cp1 smallint;
-	_nfl_cp2 smallint;
-	_nba_cp smallint;
-	_nhl_cp smallint;
-	_mlb_cp smallint;
+	_nfl_ev1 smallint;
+	_nfl_ev2 smallint;
+	_nba_ev smallint;
+	_nhl_ev smallint;
+	_mlb_ev smallint;
 	_count1 integer;
 	_count2 integer;
 	_count3 integer;
@@ -36,22 +36,22 @@ declare
 	_label_cycling_tour3 varchar(45);
 begin
 	_ids := regexp_split_to_array(_idlist, E'\\-');	
-	_label_tennis_slam1 := 'Australian Open';
-	_label_tennis_slam2 := 'French Open';
-	_label_tennis_slam3 := 'Wimbledon';
-	_label_tennis_slam4 := 'US Open';
-	_label_golf_slam1 := 'Masters';
-	_label_golf_slam2 := 'US Open';
-	_label_golf_slam3 := 'Open Championship';
-	_label_golf_slam4 := 'PGA Championship';
-	_label_cycling_tour1 := 'Giro d''Italia';
-	_label_cycling_tour2 := 'Tour de France';
-	_label_cycling_tour3 := 'Vuelta a España';
-	_nfl_cp1 := 454;
-	_nfl_cp2 := 453;
-	_nba_cp := 530;
-	_nhl_cp := 573;
-	_mlb_cp := 624;
+	_label_tennis_slam1 := 'australian open';
+	_label_tennis_slam2 := 'french open';
+	_label_tennis_slam3 := 'wimbledon';
+	_label_tennis_slam4 := 'us open';
+	_label_golf_slam1 := 'masters';
+	_label_golf_slam2 := 'us open';
+	_label_golf_slam3 := 'open championship';
+	_label_golf_slam4 := 'pga championship';
+	_label_cycling_tour1 := 'giro d''italia';
+	_label_cycling_tour2 := 'tour de france';
+	_label_cycling_tour3 := 'vuelta a españa';
+	_nfl_ev1 := 454;
+	_nfl_ev2 := 453;
+	_nba_ev := 909;
+	_nhl_ev := 573;
+	_mlb_ev := 624;
 	_index := 1;
 	_sport_txt := CAST(_id_sport AS varchar);
 	IF (_entity = 'PR') THEN
@@ -144,10 +144,10 @@ begin
 		_item.txt2 := 'RG';
 		_item.txt3 := 'Wim';
 		_item.txt4 := 'US';
-		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=22 AND (SE.label=_label_tennis_slam1 OR SE2.label=_label_tennis_slam1) AND id_rank1 = ANY(_ids);
-		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=22 AND (SE.label=_label_tennis_slam2 OR SE2.label=_label_tennis_slam2) AND id_rank1 = ANY(_ids);
-		SELECT COUNT(*) INTO _item.count3 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=22 AND (SE.label=_label_tennis_slam3 OR SE2.label=_label_tennis_slam3) AND id_rank1 = ANY(_ids);
-		SELECT COUNT(*) INTO _item.count4 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=22 AND (SE.label=_label_tennis_slam4 OR SE2.label=_label_tennis_slam4) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=22 AND (lower(EV.label)=_label_tennis_slam1 OR lower(SE.label)=_label_tennis_slam1 OR lower(SE2.label)=_label_tennis_slam1) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=22 AND (lower(EV.label)=_label_tennis_slam2 OR lower(SE.label)=_label_tennis_slam2 OR lower(SE2.label)=_label_tennis_slam2) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count3 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=22 AND (lower(EV.label)=_label_tennis_slam3 OR lower(SE.label)=_label_tennis_slam3 OR lower(SE2.label)=_label_tennis_slam3) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count4 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=22 AND (lower(EV.label)=_label_tennis_slam4 OR lower(SE.label)=_label_tennis_slam4 OR lower(SE2.label)=_label_tennis_slam4) AND id_rank1 = ANY(_ids);
 		RETURN NEXT _item;
 		_index := _index + 1;
 	END IF;
@@ -159,10 +159,10 @@ begin
 		_item.txt2 := 'US';
 		_item.txt3 := 'Brit';
 		_item.txt4 := 'PGA';
-		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=20 AND (SE.label=_label_golf_slam1 OR SE2.label=_label_golf_slam1) AND id_rank1 = ANY(_ids);
-		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=20 AND (SE.label=_label_golf_slam2 OR SE2.label=_label_golf_slam2) AND id_rank1 = ANY(_ids);
-		SELECT COUNT(*) INTO _item.count3 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=20 AND (SE.label=_label_golf_slam3 OR SE2.label=_label_golf_slam3) AND id_rank1 = ANY(_ids);
-		SELECT COUNT(*) INTO _item.count4 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=20 AND (SE.label=_label_golf_slam4 OR SE2.label=_label_golf_slam4) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=20 AND (lower(EV.label)=_label_golf_slam1 OR lower(SE.label)=_label_golf_slam1 OR lower(SE2.label)=_label_golf_slam1) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=20 AND (lower(EV.label)=_label_golf_slam2 OR lower(SE.label)=_label_golf_slam2 OR lower(SE2.label)=_label_golf_slam2) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count3 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=20 AND (lower(EV.label)=_label_golf_slam3 OR lower(SE.label)=_label_golf_slam3 OR lower(SE2.label)=_label_golf_slam3) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count4 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=20 AND (lower(EV.label)=_label_golf_slam4 OR lower(SE.label)=_label_golf_slam4 OR lower(SE2.label)=_label_golf_slam4) AND id_rank1 = ANY(_ids);
 		RETURN NEXT _item;
 		_index := _index + 1;
 	END IF;
@@ -173,9 +173,9 @@ begin
 		_item.txt1 := 'Gir';
 		_item.txt2 := 'Tour';
 		_item.txt3 := 'Vuel';
-		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=19 AND (EV.label=_label_cycling_tour1 OR SE.label=_label_cycling_tour1 OR SE2.label=_label_cycling_tour1) AND id_rank1 = ANY(_ids);
-		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=19 AND (EV.label=_label_cycling_tour2 OR SE.label=_label_cycling_tour2 OR SE2.label=_label_cycling_tour2) AND id_rank1 = ANY(_ids);
-		SELECT COUNT(*) INTO _item.count3 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=19 AND (EV.label=_label_cycling_tour3 OR SE.label=_label_cycling_tour3 OR SE2.label=_label_cycling_tour3) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=19 AND (lower(EV.label)=_label_cycling_tour1 OR lower(SE.label)=_label_cycling_tour1 OR lower(SE2.label)=_label_cycling_tour1) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=19 AND (lower(EV.label)=_label_cycling_tour2 OR lower(SE.label)=_label_cycling_tour2 OR lower(SE2.label)=_label_cycling_tour2) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count3 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_sport=19 AND (lower(EV.label)=_label_cycling_tour3 OR lower(SE.label)=_label_cycling_tour3 OR lower(SE2.label)=_label_cycling_tour3) AND id_rank1 = ANY(_ids);
 		RETURN NEXT _item;
 		_index := _index + 1;
 	END IF;
@@ -186,8 +186,8 @@ begin
 		_item.label := 'NFLCP1';
 		_item.txt1 := 'Wins';
 		_item.txt2 := 'Finals';
-		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS WHERE ((id_subevent=_nfl_cp1 AND id_subevent2 IS NULL) OR id_subevent2=_nfl_cp1) AND id_rank1 = ANY(_ids);
-		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS WHERE ((id_subevent=_nfl_cp1 AND id_subevent2 IS NULL) OR id_subevent2=_nfl_cp1) AND id_rank2 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS WHERE ((id_event=_nfl_ev1 AND id_subevent IS NULL) OR id_subevent=_nfl_ev1) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS WHERE ((id_event=_nfl_ev1 AND id_subevent IS NULL) OR id_subevent=_nfl_ev1) AND id_rank2 = ANY(_ids);
 		IF (_item.count1 > 0 OR _item.count2 > 0) THEN
 			RETURN NEXT _item;
 			_index := _index + 1;
@@ -197,8 +197,8 @@ begin
 		_item.label := 'NFLCP2';
 		_item.txt1 := 'Wins';
 		_item.txt2 := 'Finals';
-		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS WHERE ((id_subevent=_nfl_cp2 AND id_subevent2 IS NULL) OR id_subevent2=_nfl_cp2) AND id_rank1 = ANY(_ids);
-		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS WHERE ((id_subevent=_nfl_cp2 AND id_subevent2 IS NULL) OR id_subevent2=_nfl_cp2) AND id_rank2 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS WHERE ((id_event=_nfl_ev2 AND id_subevent IS NULL) OR id_subevent=_nfl_ev2) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS WHERE ((id_event=_nfl_ev2 AND id_subevent IS NULL) OR id_subevent=_nfl_ev2) AND id_rank2 = ANY(_ids);
 		IF (_item.count1 > 0 OR _item.count2 > 0) THEN
 			RETURN NEXT _item;
 			_index := _index + 1;
@@ -210,8 +210,8 @@ begin
 		_item.label := 'NBACP';
 		_item.txt1 := 'Wins';
 		_item.txt2 := 'Finals';
-		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS WHERE ((id_subevent=_nba_cp AND id_subevent2 IS NULL) OR id_subevent2=_nba_cp) AND id_rank1 = ANY(_ids);
-		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS WHERE ((id_subevent=_nba_cp AND id_subevent2 IS NULL) OR id_subevent2=_nba_cp) AND id_rank2 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS WHERE ((id_event=_nba_ev AND id_subevent IS NULL) OR id_subevent=_nba_ev) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS WHERE ((id_event=_nba_ev AND id_subevent IS NULL) OR id_subevent=_nba_ev) AND id_rank2 = ANY(_ids);
 		IF (_item.count1 > 0 OR _item.count2 > 0) THEN
 			RETURN NEXT _item;
 			_index := _index + 1;
@@ -223,8 +223,8 @@ begin
 		_item.label := 'NHLCP';
 		_item.txt1 := 'Wins';
 		_item.txt2 := 'Finals';
-		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS WHERE ((id_subevent=_nhl_cp AND id_subevent2 IS NULL) OR id_subevent2=_nhl_cp) AND id_rank1 = ANY(_ids);
-		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS WHERE ((id_subevent=_nhl_cp AND id_subevent2 IS NULL) OR id_subevent2=_nhl_cp) AND id_rank2 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS WHERE ((id_event=_nhl_ev AND id_subevent IS NULL) OR id_subevent=_nhl_ev) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS WHERE ((id_event=_nhl_ev AND id_subevent IS NULL) OR id_subevent=_nhl_ev) AND id_rank2 = ANY(_ids);
 		IF (_item.count1 > 0 OR _item.count2 > 0) THEN
 			RETURN NEXT _item;
 			_index := _index + 1;
@@ -236,8 +236,8 @@ begin
 		_item.label := 'MLBCP';
 		_item.txt1 := 'Wins';
 		_item.txt2 := 'Finals';
-		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS WHERE ((id_subevent=_mlb_cp AND id_subevent2 IS NULL) OR id_subevent2=_mlb_cp) AND id_rank1 = ANY(_ids);
-		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS WHERE ((id_subevent=_mlb_cp AND id_subevent2 IS NULL) OR id_subevent2=_mlb_cp) AND id_rank2 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS WHERE ((id_event=_mlb_ev AND id_subevent IS NULL) OR id_subevent=_mlb_ev) AND id_rank1 = ANY(_ids);
+		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS WHERE ((id_event=_mlb_ev AND id_subevent IS NULL) OR id_subevent=_mlb_ev) AND id_rank2 = ANY(_ids);
 		IF (_item.count1 > 0 OR _item.count2 > 0) THEN
 			RETURN NEXT _item;
 			_index := _index + 1;

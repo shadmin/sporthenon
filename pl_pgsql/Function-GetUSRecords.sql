@@ -22,8 +22,6 @@ declare
     _type1_condition text;
     _type2_condition text;
 begin
-	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'RC-' || _id_championship, current_date);
-
 	_event_condition := CASE WHEN _events <> '0' THEN ' AND RC.id_event IN (' || _events || ')' ELSE '' END;
 	_subevent_condition := CASE WHEN _subevents <> '0' THEN ' AND RC.id_subevent IN (' || _subevents || ')' ELSE '' END;
 	_type1_condition := CASE WHEN _types1 <> '0' THEN ' AND RC.type1 IN (' || _types1 || ')' ELSE '' END;

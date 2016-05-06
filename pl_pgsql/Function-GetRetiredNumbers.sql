@@ -13,8 +13,6 @@ declare
     _team_condition text;
     _number_condition text;
 begin
-	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'RN-' || _id_league, current_date);
-
 	-- Set team condition ('All teams' = Empty condition)
 	_team_condition := '';
 	IF _teams <> '0' THEN

@@ -24,8 +24,6 @@ declare
     _subevent_condition text;
     _subevent2_condition text;
 begin
-	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'OL', 'IN-' || _id_sport, current_date);
-
 	-- Build entity columns/joins
 	_columns := '';
 	_joins := '';

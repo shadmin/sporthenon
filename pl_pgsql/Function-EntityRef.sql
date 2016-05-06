@@ -42,8 +42,6 @@ begin
 		_entity := 'DT';
 	END IF;
 
-	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'IF', _entity || '-' || _id, current_date);
-	
 	_index := 1;
 
 	IF _entity ~ 'CT' THEN
@@ -127,7 +125,7 @@ begin
 			_tm_list = cast(_id AS varchar);
 		END IF;
 	END IF;
-
+	
 	-- References in: [Events]
 	IF (_entity ~ 'CP|EV|SP' AND (_entity_ref = 'EV' OR _entity_ref = '')) THEN
 		_query = 'SELECT DISTINCT SP.id, SP.label' || _lang || ', SP.label, CP.id, CP.label' || _lang || ', CP.label, EV.id, EV.label' || _lang || ', EV.label, SE.id, SE.label' || _lang || ', SE.label, SE2.id, SE2.label' || _lang || ', SE2.label, II.id_championship, II.id_event, II.id_subevent, II.id_subevent2, CP.index, EV.index, SE.index, SE2.index, (CASE WHEN II.id_event IS NOT NULL AND II.id_subevent IS NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_ev, (CASE WHEN II.id_subevent IS NOT NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_se, (CASE WHEN II.id_subevent2 IS NOT NULL THEN 1 ELSE 0 END) AS o_ii_se2';
@@ -211,7 +209,7 @@ begin
 		ELSIF _entity = 'YR' THEN
 			_query = _query || ' AND RS.id_year = ' || _id;
 		END IF;
-		_query = _query || ' ORDER BY YR.id DESC, SP.label' || _lang || ', CP.index, EV.index, SE.index, CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ' LIMIT ' || _limit || ' OFFSET ' || _offset;
+		_query = _query || ' ORDER BY YR.id DESC, (CASE WHEN RS.date2 IS NOT NULL AND RS.date2<>'''' THEN to_date(RS.date2, ''dd/MM/yyyy'') ELSE RS.first_update END) DESC LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
 			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _id1, _id2, _id3, _id4, _id5, _id6, _id7, _id8, _id9, _id10, _type1, _type2, _type3, _date1, _date2, _item.count1;
@@ -262,10 +260,8 @@ begin
 				_item.comment = 'CN';
 				_array_id = ARRAY[_id];
 			END IF;
-			IF _entity = 'DT' THEN
-				_item.date1 := to_date(_date1, 'DD/MM/YYYY');
-				_item.date2 := to_date(_date2, 'DD/MM/YYYY');
-			END IF;
+			_item.date1 := to_date(_date1, 'DD/MM/YYYY');
+			_item.date2 := to_date(_date2, 'DD/MM/YYYY');
 			SELECT * INTO _rs FROM "Result" RS WHERE RS.id = _item.id_item;
 			SELECT "GetRank"(_rs, _type1, _array_id) INTO _item.count1;
 			_item.id = _index;
@@ -517,8 +513,7 @@ begin
 		_query = _query || ' LEFT JOIN "Championship" CP ON RC.id_championship = CP.id';
 		_query = _query || ' LEFT JOIN "Event" EV ON RC.id_event = EV.id';
 		_query = _query || ' LEFT JOIN "Event" SE ON RC.id_subevent = SE.id';
-		_query = _query || ' LEFT JOIN "Type" TP ON EV.id_type = TP.id';
-		_query = _query || ' WHERE TP.number BETWEEN ' || _type1 || ' AND ' || _type2;
+		_query = _query || ' WHERE lower(RC.type1) = ''' || (CASE WHEN _type1 = 50 THEN 'team' ELSE 'individual' END) || '''';
 		IF _entity = 'CN' THEN
 			_query = _query || ' AND (RC.id_rank1 = ' || _id || ' OR RC.id_rank2 = ' || _id || ' OR RC.id_rank3 = ' || _id || ' OR RC.id_rank4 = ' || _id || ' OR RC.id_rank5 = ' || _id || ')';
 		ELSIF _entity = 'PR' THEN

@@ -29,7 +29,7 @@ CREATE TABLE "Record"
   type1 character varying(10) DEFAULT NULL::character varying,
   type2 character varying(15) DEFAULT NULL::character varying,
   comment character varying(500) DEFAULT NULL::character varying,
-  label character varying(70) NOT NULL,
+  label character varying(100) NOT NULL,
   id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   counting boolean,

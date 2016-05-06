@@ -39,8 +39,6 @@ declare
 	_rel_count smallint;
 	__pattern text;
 begin
-	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'SC', _pattern, current_date);
-	
 	_i := 1;
 	_index := 1;
 	__pattern := "~PatternString"(_pattern);
@@ -133,9 +131,8 @@ begin
 					ELSIF _s = 'TM' THEN
 						SELECT SUM(ref) INTO _item.count_ref FROM "Team" WHERE id=_current_id OR link=_current_id;
 					END IF;
-				ELSE
-					_item.count_ref = (CASE WHEN _current_ref IS NOT NULL THEN _current_ref ELSE 0 END);
 				END IF;
+				_item.count_ref = (CASE WHEN _current_ref IS NOT NULL THEN _current_ref ELSE 0 END);
 				_item.entity = _s;
 				_item.label_rel1 = _current_label_rel1;
 				_item.label_rel2 = _current_label_rel2;

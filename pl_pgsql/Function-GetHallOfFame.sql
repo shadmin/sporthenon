@@ -13,8 +13,6 @@ declare
     _year_condition text;
     _position_condition text;
 begin
-	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'HF-' || _id_league, current_date);
-
 	-- Set year condition ('All years' = Empty condition)
 	_year_condition := '';
 	IF _years <> '0' THEN

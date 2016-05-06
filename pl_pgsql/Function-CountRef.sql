@@ -73,8 +73,7 @@ begin
 		SELECT COUNT(*) INTO _n FROM "Record" RC
 			LEFT JOIN "Event" EV ON RC.id_event = EV.id
 			LEFT JOIN "Type" TP ON EV.id_type = TP.id
-		WHERE (RC.ID_RANK1 = _id OR RC.ID_RANK2 = _id OR RC.ID_RANK3 = _id OR RC.ID_RANK4 = _id OR RC.ID_RANK5 = _id)
-			AND TP.number BETWEEN _type1 AND _type2;
+		WHERE (RC.ID_RANK1 = _id OR RC.ID_RANK2 = _id OR RC.ID_RANK3 = _id OR RC.ID_RANK4 = _id OR RC.ID_RANK5 = _id) AND lower(RC.type1) = (CASE WHEN _type1 = 50 THEN 'team' ELSE 'individual' END);
 		_count := _count + _n;
 	ELSIF _entity = 'SP' THEN -- Sport
 		SELECT COUNT(*) INTO _n FROM "Record" RC WHERE RC.id_sport = _id; _count := _count + _n;

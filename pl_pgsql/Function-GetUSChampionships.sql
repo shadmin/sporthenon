@@ -12,8 +12,6 @@ declare
     _c refcursor;
     _year_condition text;
 begin
-	INSERT INTO "~Request" VALUES (NEXTVAL('"~SeqRequest"'), 'US', 'CP-' || _id_championship, current_date);
-
 	_year_condition := CASE WHEN _years <> '0' THEN ' AND YR.id IN (' || _years || ')' ELSE '' END;
 	
 	-- Open cursor
