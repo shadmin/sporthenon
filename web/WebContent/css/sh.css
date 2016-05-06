@@ -400,6 +400,12 @@ li{
 #dupdates .moreitems div:hover{
 	background-color: #FF9; /* _theme_ */
 }
+#dupdates .details{
+	float: right;
+	margin-top: 5px;
+	line-height: 30px;
+	vertical-align: middle;
+}
 #footer{
 	height: 50px;
 	padding: 5px;

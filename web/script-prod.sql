@@ -3939,9 +3939,13 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
   
-  
-  
-  
+
+
+ALTER TABLE "Record"
+   ALTER COLUMN label TYPE character varying(100); 
+   
+   
+   
   
   
   

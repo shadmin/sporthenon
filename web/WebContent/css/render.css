@@ -229,8 +229,11 @@
 }
 .tc .draw .box table, .tc .info .result table, .tc .rounds table{
 	border-collapse: collapse;
-	background-color: #FFF;
+	background-color: transparent;
 	width: 300px;
+}
+.tc .draw .box table{
+	background-color: #FFF;
 }
 .tc .draw .box td table, .tc .info .result td table, .tc .rounds td table{
 	width: auto;

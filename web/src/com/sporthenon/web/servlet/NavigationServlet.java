@@ -1,6 +1,7 @@
 package com.sporthenon.web.servlet;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
@@ -116,6 +117,13 @@ public class NavigationServlet extends AbstractServlet {
 //				throw new HttpsException();
 			if (!url.contains("/ajax") && !url.contains("/load") && !url.contains("/check-progress-import"))
 				logger.fatal("[" + request.getHeader("user-agent") + "] " + url);
+			if (ConfigUtils.getProperty("env").matches("local|test")) {
+				Enumeration hn = request.getHeaderNames();
+				while (hn.hasMoreElements()) {
+					String hn_ = (String) hn.nextElement();
+					logger.fatal(hn_+ ": " + request.getHeader(hn_));
+				}
+			}
 			String[] tURI = request.getRequestURI().substring(1).split("\\/", 0);
 			String key = tURI[0];
 			if (key.isEmpty())

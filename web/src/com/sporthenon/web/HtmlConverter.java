@@ -2487,7 +2487,7 @@ public class HtmlConverter {
 			html.append("<tr><td class='srt'>" + year + "</td><td class='srt'>" + sport + "</td>");
 			html.append("<td class='srt'>" + event + "</td>");
 			if (pos1 != null)
-				html.append("<td class='srt'><table><tr>" + pos1_ + (isScore ? "<td style='padding-left:2px;padding-right:3px;padding-top:3px;'>" + StringUtils.formatResult(bean.getRsText1(), lang) + "</td>" : "") + (pos2_ != null ? pos2_ : "") + (pos3_ != null ? pos3_ : "") + "<td style='padding-left:2px;padding-top:4px;'>" + HtmlUtils.writeLink(Result.alias, bean.getRsId(), "<img alt='details' title='" +  ResourceUtils.getText("details", lang) + "' src='/img/render/details.png'/>", path) + "</td></tr></table></td>");
+				html.append("<td class='srt' style='line-height:30px;vertical-align:middle;'><span class='details'>" + HtmlUtils.writeLink(Result.alias, bean.getRsId(), "<img alt='details' title='" +  ResourceUtils.getText("details", lang) + "' src='/img/render/details.png'/>", path) + "</span><table style='margin-right:15px;'><tr>" + pos1_ + (isScore ? "<td style='padding-left:2px;padding-right:3px;padding-top:3px;'>" + StringUtils.formatResult(bean.getRsText1(), lang) + "</td>" : "") + (pos2_ != null ? pos2_ : "") + (pos3_ != null ? pos3_ : "") + "</tr></table></td>");
 			else
 				html.append("<td class='srt'>-</td>");
 			html.append("<td id='dt-" + date_ + "-" + i + "' class='srt'>" + date + "</td></tr>");

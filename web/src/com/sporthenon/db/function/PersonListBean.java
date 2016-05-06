@@ -18,7 +18,7 @@ public class PersonListBean {
 	private Integer plRank;
 	
 	@Column(name = "pl_index")
-	private Integer plIndex;
+	private String plIndex;
 	
 	@Column(name = "pr_id")
 	private Integer prId;
@@ -99,11 +99,11 @@ public class PersonListBean {
 		this.rsId = rsId;
 	}
 
-	public Integer getPlIndex() {
+	public String getPlIndex() {
 		return plIndex;
 	}
 
-	public void setPlIndex(Integer plIndex) {
+	public void setPlIndex(String plIndex) {
 		this.plIndex = plIndex;
 	}
 	

@@ -57,7 +57,7 @@ public class OlympicsServlet extends AbstractServlet {
 						hParams.put("se2", t.length > 5 ? t[5] : "0");
 					}
 					else
-						hParams.put("cn", t[2]);
+						hParams.put("cn", t.length > 2 ? t[2] : "0");
 					isLink = true;
 				}
 				ArrayList<Object> lFuncParams = new ArrayList<Object>();

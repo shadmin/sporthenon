@@ -2007,8 +2007,12 @@ function openCommentDialog() {
 	if ($('cmt').hasClassName('completed2')) {
 		var t = $('cmt').value.replace(/\|/g, '\r\n').split('·');
 		var tooltip = (t[0].indexOf('##') == -1);
-		$('cmt-en').value = t[0].replace('##', '').substring(3);
-		$('cmt-fr').value = t[1].replace('##', '').substring(3);
+		$('cmt-en').value = t[0].replace('##', '');
+		$('cmt-fr').value = (t.length > 1 ? t[1].replace('##', '') : '');
+		if (/^EN\:/.match($('cmt-en').value)) {
+			$('cmt-en').value = $('cmt-en').value.substring(3);
+			$('cmt-fr').value = $('cmt-fr').value.substring(3);
+		}
 		$('cmtmode1').checked = (tooltip ? true : false);
 		$('cmtmode2').checked = (tooltip ? false : true);
 	}
