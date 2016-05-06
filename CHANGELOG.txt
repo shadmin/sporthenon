@@ -1,7 +1,33 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.12.5  |
+| Last Version: 0.12.6  |
 +-----------------------+
+
++--------+
+| 0.12.6 |
++--------+
+[6 May 2016]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.6
+- New feature: <Copy pictures> (=> copy current pictures S/L to another entity)
+- New stat: Requests per month
+- Improved display of ties with spanned rows
+- Improved significantly input of results comments with dialog window (FR/EN)
+- Results sorted by date (most recent first) in references
+- New comment #SINGLE# to force event type on doubles/triples events
+- External links URLs formatted (handling special characters)
+- Separate fieldset for US teams specific fields (update/data)
+- Added buttons to access different results for the same year (update/results)
+- Added button to delete rounds (update/results)
+- Added link to execute request directly from update/results page
+- New column with entity pictures (update/overview)
+- Bugfix: error occurs when loading olympics in update/ext.links
+- Bugfix: null displayed instead of 0 when no references (ajax search)
+- Bugfix: wrong medal records values
+- Bugfix: field "link" is not saved (update/data, teams)
+- Bugfix: alternate flag not displayed if only 1 file with _N.png as suffix
+- Bugfix: countries flags not displayed in draws
+- Bugfix: error occurs when loading olympic years (1968, 1972...)
+- Bugfix: count of external links doesn't work (update/overview)
 
 +--------+
 | 0.12.5 |
