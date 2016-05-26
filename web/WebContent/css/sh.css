@@ -1539,7 +1539,7 @@ li{
 	background-image: url(../img/update/pictures.png?6);
 }
 #update-pictures .fscontent{
-	height: 250px;
+	height: 270px;
 	padding-bottom: 70px;
 }
 #update-pictures .fscontent div{
@@ -1586,12 +1586,12 @@ li{
 	padding: 2px;
 	border: none;
 }
-#update-pictures .fscontent #tsize{
+#update-pictures .fscontent #tsize, #update-pictures .fscontent #ttrtest{
 	width: auto;
 	padding: 0px;
 	margin: 0px;
 }
-#update-pictures .fscontent #tsize td{
+#update-pictures .fscontent #tsize td, #update-pictures .fscontent #ttrtest td{
 	border: none;
 	padding: 0px;
 }

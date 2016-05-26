@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.sporthenon.db.entity.meta.Contributor;
+import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 import com.sporthenon.web.ServletHelper;
@@ -54,7 +55,7 @@ public abstract class AbstractServlet extends HttpServlet {
 	
 	protected boolean isBot(HttpServletRequest request) {
 		String ua = request.getHeader("user-agent");
-		return (StringUtils.notEmpty(ua) && ua.toLowerCase().contains(".*(googlebot|gigabot|exabot|slurp).*"));
+		return (StringUtils.notEmpty(ua) && ua.toLowerCase().contains(".*(" + ConfigUtils.getValue("robot_pattern") + ").*"));
 	}
 	
 }

@@ -541,4 +541,8 @@
 	<entry key="update.mode">Mode de mise à jour</entry>
 	<entry key="show.tooltip">Afficher comme info-bulle</entry>
 	<entry key="show.normally">Afficher normalement</entry>
+	<entry key="img.large">Grande</entry>
+	<entry key="img.small">Petite</entry>
+	<entry key="test.transparency">Tester la transparence</entry>
+	<entry key="missing.pictures">Images manquantes</entry>
 </properties>

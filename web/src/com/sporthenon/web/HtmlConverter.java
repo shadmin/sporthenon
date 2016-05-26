@@ -1642,7 +1642,7 @@ public class HtmlConverter {
 				place2 = getPlace(null, null, null, bean.getCn6Id(), null, null, null, bean.getCn6Label(), null, null, null, bean.getCn6LabelEN(), bean.getYrLabel());
 			String places = null;
 			if (place1 != null)
-				places = "<table><tr><td>" + place1 + "</td><td>&nbsp;" + StringUtils.SEP1 + "&nbsp;</td><td>" + place1 + "</td></tr></table>";
+				places = "<table><tr><td>" + place1 + "</td><td>&nbsp;-&nbsp;</td><td>" + place2 + "</td></tr></table>";
 			else if (place2 != null)
 				places = place2;
 			boolean isSingle = (bean.getRsComment() != null && bean.getRsComment().equals("#SINGLE#"));

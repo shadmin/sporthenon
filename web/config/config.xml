@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<entry key="env">local</entry><!-- Environment (standalone|local|test|prod) -->
-	<entry key="version">0.12.6</entry>
+	<entry key="version">0.12.7</entry>
 	<entry key="date">01/12/2015</entry>
 	<entry key="url">http://localhost/</entry>
 	<entry key="img.url">http://localhost:8181/</entry>

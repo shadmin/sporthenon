@@ -1541,7 +1541,7 @@ function loadResValues(value) {
 	}
 	$('pagelink').hide();
 	var t = value.split('~');
-	if (t != null && t.length > 1) {
+	if (t != null && t	.length > 1) {
 		$('modifmode1').checked = true;
 		$('modifmode2').checked = true;
 		tValues['sp'] = t[0]; $('sp').value = t[1]; $('sp').addClassName('completed');
@@ -2630,7 +2630,7 @@ function loadPictures(action_, id_) {
 	new Ajax.Request('/update/load-entity?t=' + currentTime(), {
 		onSuccess: function(response){
 			var t = response.responseText.split('~');
-			$('label-remote').update(t[1]);
+			$('label-remote').update(t[1] + (currentAlias == 'TM' ? '<span style="font-weight:normal;font-style:italic;">&nbsp;-&nbsp;' + t[3] + '</span>' : ''));
 			currentId = t[0];
 			var sp = $F('sport');
 			var alias_ = currentAlias;

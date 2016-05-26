@@ -118,8 +118,10 @@ public class UpdateServlet extends AbstractServlet {
 				mergeEntity(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("execute-import"))
 				executeImport(request, response, hParams, lang, cb);
-			else if (hParams.containsKey("p") && hParams.get("p").equals("check-progress-import"))
-				ServletHelper.writeText(response, String.valueOf(IMPORT_PROGESS.value));
+			else if (hParams.containsKey("p") && hParams.get("p").equals("check-progress-import")) {
+				if (IMPORT_PROGESS != null)
+					ServletHelper.writeText(response, String.valueOf(IMPORT_PROGESS.value));
+			}
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-template"))
 				loadTemplate(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-extlinks"))
@@ -310,7 +312,7 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			else if (o instanceof Team) {
 				Team t_ = (Team) o;
-				text = t_.toString2() + (StringUtils.notEmpty(t_.getYear1()) ? " [" + t_.getYear1() + "-" + (StringUtils.notEmpty(t_.getYear2()) ? t_.getYear2() : "") + "]" : "");
+				text = t_.toString2() + (isData ? ", " + t_.getSport().getLabel(lang) : "") + (StringUtils.notEmpty(t_.getYear1()) ? " [" + t_.getYear1() + "-" + (StringUtils.notEmpty(t_.getYear2()) ? t_.getYear2() : "") + "]" : "");
 			}
 			else if (o instanceof League) {
 				League l__ = (League) o;
@@ -724,10 +726,20 @@ public class UpdateServlet extends AbstractServlet {
 	private static void loadOverview(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		StringBuffer html = new StringBuffer();
 		ArrayList<Object> lFuncParams = new ArrayList<Object>();
+		Object pattern = hParams.get("pattern");
 		lFuncParams.add(hParams.get("entity"));
 		lFuncParams.add(StringUtils.toInt(hParams.get("sport")));
 		lFuncParams.add(StringUtils.toInt(hParams.get("count")));
-		lFuncParams.add(hParams.get("pattern"));
+		lFuncParams.add(pattern);
+		if (pattern != null && String.valueOf(pattern).matches("\\d+\\-\\d+")) {
+			String[] t = String.valueOf(pattern).split("\\-");
+			lFuncParams.add(Integer.parseInt(t[0]));
+			lFuncParams.add(Integer.parseInt(t[1]));
+		}
+		else {
+			lFuncParams.add(0);
+			lFuncParams.add(0);
+		}
 		lFuncParams.add("_" + lang);
 		String currentEntity = null;
 		for (RefItem item : (List<RefItem>) DatabaseHelper.call("Overview", lFuncParams)) {
@@ -738,9 +750,9 @@ public class UpdateServlet extends AbstractServlet {
 				if (item.getEntity().equals(Result.alias))
 					html.append("<th colspan='11' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><th>" + ResourceUtils.getText("entity.EV.1", lang) + "</th><th>" + ResourceUtils.getText("podium", lang) + "</th><th>" + ResourceUtils.getText("entity.RS", lang) + "</th><th>" + ResourceUtils.getText("final", lang) + "+" + ResourceUtils.getText("score", lang) + "</th><th>" + ResourceUtils.getText("entity.CX.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CT.1", lang) + "</th><th>" + ResourceUtils.getText("date", lang) + "</th><th>" + ResourceUtils.getText("entity.RD", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photo", lang) + "</th>");
 				else if (item.getEntity().equals(Athlete.alias))
-					html.append("<th colspan='7' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("entity.TM.1", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photo", lang) + "</th>");
+					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("entity.TM.1", lang) + "</th><th>" + ResourceUtils.getText("linked.to", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photo", lang) + "</th>");
 				else if (item.getEntity().equals(Team.alias))
-					html.append("<th colspan='7' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Team.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("league", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("logo", lang) + "</th>");
+					html.append("<th colspan='8' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Team.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("league", lang) + "</th><th>" + ResourceUtils.getText("linked.to", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("logo", lang) + "</th>");
 				else if (item.getEntity().equals(Sport.alias))
 					html.append("<th colspan='4' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Sport.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
 				else if (item.getEntity().equals(Championship.alias))
@@ -748,9 +760,9 @@ public class UpdateServlet extends AbstractServlet {
 				else if (item.getEntity().equals(Event.alias))
 					html.append("<th colspan='4' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Event.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
 				else if (item.getEntity().equals(City.alias))
-					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + City.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
+					html.append("<th colspan='6' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + City.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("linked.to", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
 				else if (item.getEntity().equals(Complex.alias))
-					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Complex.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.CT.1", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
+					html.append("<th colspan='6' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Complex.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.CT.1", lang) + "</th><th>" + ResourceUtils.getText("linked.to", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("picture", lang) + "</th>");
 				html.append("</tr></thead><tbody class='tby'>");
 				currentEntity = item.getEntity();
 			}
@@ -784,6 +796,7 @@ public class UpdateServlet extends AbstractServlet {
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel5()) ? ">" + item.getLabelRel5() : " class='missing'>") + "</td>");
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel3()) ? ">" + item.getLabelRel3() : " class='missing'>") + "</td>");
 				html.append("<td>" + (StringUtils.notEmpty(item.getLabelRel4()) ? item.getLabelRel4() : "-") + "</td>");
+				html.append("<td>" + (StringUtils.notEmpty(item.getLabelEN()) ? item.getLabelEN() : "-") + "</td>");
 				html.append("<td>" + item.getCount2() + "</td>");
 			}
 			else if (item.getEntity().equals(Team.alias)) {
@@ -791,6 +804,7 @@ public class UpdateServlet extends AbstractServlet {
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel2()) ? ">" + item.getLabelRel2() : " class='missing'>") + "</td>");
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel3()) ? ">" + item.getLabelRel3() : " class='missing'>") + "</td>");
 				html.append("<td>" + (StringUtils.notEmpty(item.getLabelRel4()) ? item.getLabelRel4() : "-") + "</td>");
+				html.append("<td>" + (StringUtils.notEmpty(item.getLabelEN()) ? item.getLabelEN() : "-") + "</td>");
 				html.append("<td>" + item.getCount2() + "</td>");
 			}
 			else if (item.getEntity().equals(Sport.alias)) {
@@ -808,11 +822,13 @@ public class UpdateServlet extends AbstractServlet {
 			else if (item.getEntity().equals(City.alias)) {
 				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel2()) ? ">" + item.getLabelRel2() : " class='missing'>") + "</td>");
+				html.append("<td>" + (StringUtils.notEmpty(item.getLabelEN()) ? item.getLabelEN() : "-") + "</td>");
 				html.append("<td>" + item.getCount2() + "</td>");
 			}
 			else if (item.getEntity().equals(Complex.alias)) {
 				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel2()) ? ">" + item.getLabelRel2() + ", " + item.getLabelRel3() : " class='missing'>") + "</td>");
+				html.append("<td>" + (StringUtils.notEmpty(item.getLabelEN()) ? item.getLabelEN() : "-") + "</td>");
 				html.append("<td>" + item.getCount2() + "</td>");
 			}
 			html.append(StringUtils.notEmpty(item.getLabel()) ? "<td class='tick'>" + item.getLabel().split("\\,").length + "</td>" : "<td></td>");
@@ -1190,7 +1206,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(at.getSport() != null ? at.getSport().getId() : 0).append("~");
 				sb.append(at.getSport() != null ? at.getSport().getLabel(lang) : "").append("~");
 				sb.append(at.getTeam() != null ? at.getTeam().getId() : 0).append("~");
-				sb.append(at.getTeam() != null ? at.getTeam().getLabel() : "").append("~");
+				sb.append(at.getTeam() != null ? at.getTeam().getLabel() + ", " + at.getTeam().getSport().getLabel(lang) : "").append("~");
 				sb.append(at.getCountry() != null ? at.getCountry().getId() : 0).append("~");
 				sb.append(at.getCountry() != null ? at.getCountry().getLabel(lang) : "").append("~");
 				sb.append(StringUtils.notEmpty(at.getPhotoSource()) ? at.getPhotoSource() : "").append("~");

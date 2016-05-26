@@ -175,11 +175,12 @@ public class ImageServlet extends AbstractServlet {
 //							continue;
 						Collection list = ImageUtils.getImageList(ImageUtils.getIndex(entity_.toUpperCase()), o.getValue(), ImageUtils.SIZE_LARGE);
 						if (list == null || list.isEmpty())
-							sbResult.append(entity_).append(";").append(++n).append(";").append(o.getValue()).append(";").append(o.getText()).append("|");						
+							sbResult.append(entity_).append(";").append(++n).append(";").append(o.getValue()).append(";").append(o.getText()).append("\r\n");						
 					}
 				}
 				response.setContentType("text/plain");
 				response.setCharacterEncoding("utf-8");
+				response.setHeader("Content-Disposition", "attachment;filename=Sporthenon_missing_pics.csv");
 				response.getWriter().write(sbResult.toString());
 				response.flushBuffer();
 			}

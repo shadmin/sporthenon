@@ -543,4 +543,8 @@
 	<entry key="update.mode">Update mode</entry>
 	<entry key="show.tooltip">Show as tooltip</entry>
 	<entry key="show.normally">Show normally</entry>
+	<entry key="img.large">Large</entry>
+	<entry key="img.small">Small</entry>
+	<entry key="test.transparency">Test transparency</entry>
+	<entry key="missing.pictures">Missing pictures</entry>
 </properties>

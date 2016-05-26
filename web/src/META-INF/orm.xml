@@ -170,10 +170,10 @@
 	</named-native-query>
 
 	<!--
-		~Overview(varchar, integer, integer, varchar, varchar)
+		~Overview(varchar, integer, integer, varchar, integer, integer, varchar)
 	-->
 	<named-native-query name="Overview" result-class="com.sporthenon.db.entity.meta.RefItem">  
-		<query>SELECT * FROM "~Overview"(?, ?, ?, ?, ?) ORDER BY id</query>
+		<query>SELECT * FROM "~Overview"(?, ?, ?, ?, ?, ?, ?) ORDER BY id</query>
 		<hint name="org.hibernate.callable" value="false" />
 	</named-native-query>
 

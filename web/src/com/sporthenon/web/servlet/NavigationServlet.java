@@ -99,13 +99,13 @@ public class NavigationServlet extends AbstractServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//
-		
 		String url = ServletHelper.getURL(request);
 		String newURI = null;
 		try {
 			boolean isTestProd = ConfigUtils.getProperty("env").matches("test|prod");
 			boolean isUserSession = (request.getSession() != null && request.getSession().getAttribute("user") != null);
+			if (url.matches(".*(\\/null)$"))
+				throw new NullParameterException();
 			if (url.matches(".*\\/(athletes|championships|cities|complexes|countries|events|sports|usstates|teams|years)\\/.*"))
 				throw new OldPatternException();
 			Redirection re = (Redirection) DatabaseHelper.loadEntityFromQuery("from Redirection where previousPath='" + request.getRequestURI().replaceAll("'", "''") + "' order by id desc");
@@ -115,7 +115,7 @@ public class NavigationServlet extends AbstractServlet {
 			}
 //			if (isUserSession && isTestProd && request.getHeader("Referer") == null)
 //				throw new HttpsException();
-			if (!url.contains("/ajax") && !url.contains("/load") && !url.contains("/check-progress-import"))
+			if (!isBot(request) && !url.contains("/ajax") && !url.contains("/load") && !url.contains("/check-progress-import"))
 				logger.fatal("[" + request.getHeader("user-agent") + "] " + url);
 			if (ConfigUtils.getProperty("env").matches("local|test")) {
 				Enumeration hn = request.getHeaderNames();
@@ -203,6 +203,9 @@ public class NavigationServlet extends AbstractServlet {
 		catch (ObsoleteURLException e) {
 			redirect(request, response, newURI, false);
 		}
+		catch (NullParameterException e) {
+			response.sendRedirect("/error");
+		}
 		catch (Exception e) {
 			handleException(request, response, e);
 		}
@@ -221,6 +224,9 @@ public class NavigationServlet extends AbstractServlet {
 		private static final long serialVersionUID = 1L;
 	}
 	class ObsoleteURLException extends Exception{
+		private static final long serialVersionUID = 1L;
+	}
+	class NullParameterException extends Exception{
 		private static final long serialVersionUID = 1L;
 	}
 
