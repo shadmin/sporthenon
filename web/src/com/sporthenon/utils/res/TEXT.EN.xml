@@ -547,4 +547,6 @@
 	<entry key="img.small">Small</entry>
 	<entry key="test.transparency">Test transparency</entry>
 	<entry key="missing.pictures">Missing pictures</entry>
+	<entry key="warning.team.created">warning: team {1} dit not exist and has been created</entry>
+	<entry key="draft">Draft</entry>
 </properties>

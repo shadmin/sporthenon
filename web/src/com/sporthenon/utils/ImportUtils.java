@@ -407,6 +407,7 @@ public class ImportUtils {
 				rs.setDate2(StringUtils.notEmpty(dt2) ? dt2 : null);
 				rs.setExa(StringUtils.notEmpty(exa) ? exa : null);
 				rs.setComment(StringUtils.notEmpty(cmt) ? cmt : null);
+				rs.setDraft(false);
 				rs.setIdRank1(idRk1);
 				rs.setIdRank2(idRk2);
 				rs.setIdRank3(idRk3);

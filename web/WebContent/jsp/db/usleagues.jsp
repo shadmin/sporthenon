@@ -53,7 +53,7 @@
 					<tr><td><img src="/img/component/treeview/join.gif" alt="L"/></td>
 					<td><select id="pl-records-tp2" name="pl-records-tp2" style="width:130px;"><option/></select></td>
 				</tr></table>
-				<table><tr><td><input type="checkbox" name="records-pf" id="records-pf"/></td><td><label for="records-pf">Include Postseason/Super Bowl</label></td></tr></table>
+				<table><tr><td><input type="checkbox" name="records-pf" id="records-pf"/></td><td><label id="lrecords-pf" for="records-pf">Include postseason/Super Bowl</label></td></tr></table>
 			</div>
 			<!-- HALL OF FAME -->
 			<div id="f-hof" style="display:none;">

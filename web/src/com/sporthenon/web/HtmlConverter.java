@@ -445,6 +445,7 @@ public class HtmlConverter {
 			}
 			else
 				lAthlete.add(e);
+			String titlename = "";
 			Vector<String> vNm = new Vector<String>();
 			Vector<Integer> vTm = new Vector<Integer>();
 			Vector<Integer> vCn = new Vector<Integer>();
@@ -463,8 +464,10 @@ public class HtmlConverter {
 						fullName = a.getLastName().toUpperCase() + (StringUtils.notEmpty(a.getFirstName()) ? " " + a.getFirstName() : "");
 					else
 						fullName = (StringUtils.notEmpty(a.getFirstName()) ? a.getFirstName() + " " : "") + a.getLastName().toUpperCase();
-					if (!vNm.contains(fullName)) {
-						sbNm.append(sbNm.toString().length() > 0 ? "<br/>" : "").append(fullName);
+					if (a.getId() == id)
+						titlename = fullName;
+					else if (!vNm.contains(fullName) && !fullName.equalsIgnoreCase(titlename)) {
+						sbNm.append(sbNm.toString().length() > 0 ? ", " : "").append(fullName);
 						vNm.add(fullName);
 					}
 				}
@@ -507,7 +510,9 @@ public class HtmlConverter {
 				hInfo.put("title", e.getLastName() + (StringUtils.notEmpty(e.getFirstName()) ? " " + e.getFirstName() : ""));
 			else
 				hInfo.put("title", (StringUtils.notEmpty(e.getFirstName()) ? e.getFirstName() + " " : "") + e.getLastName());
-			hInfo.put("titlename", sbNm.toString().toUpperCase());
+			hInfo.put("titlename", titlename.toUpperCase());
+			if (StringUtils.notEmpty(sbNm.toString()))
+				hInfo.put("titlename2", sbNm.toString());
 			if (StringUtils.notEmpty(cn))
 				hInfo.put(vCn.size() > 1 ? "countries" : "country", cn);
 			if (StringUtils.notEmpty(sp))
@@ -546,6 +551,7 @@ public class HtmlConverter {
 			}
 			else
 				lCity.add(e);
+			String titlename = "";
 			Vector<String> vNm = new Vector<String>();
 			Vector<Integer> vSt = new Vector<Integer>();
 			Vector<Integer> vCn = new Vector<Integer>();
@@ -556,7 +562,9 @@ public class HtmlConverter {
 			for (City c : lCity) {
 				lId.add(c.getId());
 				ref += (c.getRef() != null ? c.getRef() : 0);
-				if (!vNm.contains(c.getLabel(lang))) {
+				if (c.getId() == id)
+					titlename = c.getLabel(lang);
+				else if (!vNm.contains(c.getLabel(lang))) {
 					sbNm.append(sbNm.toString().length() > 0 ? "<br/>" : "").append(c.getLabel(lang).toUpperCase());
 					vNm.add(c.getLabel(lang));
 				}
@@ -586,7 +594,9 @@ public class HtmlConverter {
 
 			hInfo.put("title", e.getLabel(lang));
 			hInfo.put("titleEN", e.getLabel());
-			hInfo.put("titlename", sbNm.toString());
+			hInfo.put("titlename", titlename.toUpperCase());
+			if (StringUtils.notEmpty(sbNm.toString()))
+				hInfo.put("titlename2", sbNm.toString());
 			if (StringUtils.notEmpty(st))
 				hInfo.put("state", st);
 			if (StringUtils.notEmpty(cn))
@@ -605,6 +615,7 @@ public class HtmlConverter {
 			}
 			else
 				lComplex.add(e);
+			String titlename = "";
 			Vector<String> vNm = new Vector<String>();
 			Vector<String> vCt = new Vector<String>();
 			Vector<Integer> vSt = new Vector<Integer>();
@@ -617,7 +628,9 @@ public class HtmlConverter {
 			for (Complex c : lComplex) {
 				lId.add(c.getId());
 				ref += (c.getRef() != null ? c.getRef() : 0);
-				if (!vNm.contains(c.getLabel(lang))) {
+				if (c.getId() == id)
+					titlename = c.getLabel(lang);
+				else if (!vNm.contains(c.getLabel(lang))) {
 					sbNm.append(sbNm.toString().length() > 0 ? "<br/>" : "").append(c.getLabel(lang).toUpperCase());
 					vNm.add(c.getLabel(lang));
 				}
@@ -652,7 +665,9 @@ public class HtmlConverter {
 			
 			hInfo.put("title", e.getLabel(lang));
 			hInfo.put("titleEN", e.getLabel());
-			hInfo.put("titlename", sbNm.toString());
+			hInfo.put("titlename", titlename.toUpperCase());
+			if (StringUtils.notEmpty(sbNm.toString()))
+				hInfo.put("titlename2", sbNm.toString());
 			if (StringUtils.notEmpty(ct))
 				hInfo.put("city", ct);
 			if (StringUtils.notEmpty(st))
@@ -945,9 +960,9 @@ public class HtmlConverter {
 					rk1 = getResultsEntity(rb.getRdResultType(), rb.getRk1Id(), rb.getRk1Str1(), rb.getRk1Str2(), rb.getRk1Str3(), rb.getRk1Rel2Code(), r.getYear().getLabel(), null);
 					rk2 = getResultsEntity(rb.getRdResultType(), rb.getRk2Id(), rb.getRk2Str1(), rb.getRk2Str2(), rb.getRk2Str3(), rb.getRk2Rel2Code(), r.getYear().getLabel(), null);
 					rk3 = getResultsEntity(rb.getRdResultType(), rb.getRk3Id(), rb.getRk3Str1(), rb.getRk3Str2(), rb.getRk3Str3(), rb.getRk3Rel2Code(), r.getYear().getLabel(), null);
-					rel1 = getResultsEntityRel(rb.getRk1Rel1Id(), rb.getRk1Rel1Code(), rb.getRk1Rel1Label(), rb.getRk1Rel2Id(), rb.getRk1Rel2Code(), rb.getRk1Rel2Label(), rb.getRk1Rel2LabelEN(), type_ < 10 && rb.getRk1Rel1Id() != null, type_ <= 50, r.getYear().getLabel());
-					rel2 = getResultsEntityRel(rb.getRk2Rel1Id(), rb.getRk2Rel1Code(), rb.getRk2Rel1Label(), rb.getRk2Rel2Id(), rb.getRk2Rel2Code(), rb.getRk2Rel2Label(), rb.getRk2Rel2LabelEN(), type_ < 10 && rb.getRk2Rel1Id() != null, type_ <= 50, r.getYear().getLabel());
-					rel3 = getResultsEntityRel(rb.getRk3Rel1Id(), rb.getRk3Rel1Code(), rb.getRk3Rel1Label(), rb.getRk3Rel2Id(), rb.getRk3Rel2Code(), rb.getRk3Rel2Label(), rb.getRk3Rel2LabelEN(), type_ < 10 && rb.getRk3Rel1Id() != null, type_ <= 50, r.getYear().getLabel());
+					rel1 = getResultsEntityRel(rb.getRk1Rel1Id(), rb.getRk1Rel1Code(), rb.getRk1Rel1Label(), rb.getRk1Rel2Id(), rb.getRk1Rel2Code(), rb.getRk1Rel2Label(), rb.getRk1Rel2LabelEN(), type_ < 10 && rb.getRk1Rel1Id() != null, type_ <= 50 && !isUSLeague, r.getYear().getLabel());
+					rel2 = getResultsEntityRel(rb.getRk2Rel1Id(), rb.getRk2Rel1Code(), rb.getRk2Rel1Label(), rb.getRk2Rel2Id(), rb.getRk2Rel2Code(), rb.getRk2Rel2Label(), rb.getRk2Rel2LabelEN(), type_ < 10 && rb.getRk2Rel1Id() != null, type_ <= 50 && !isUSLeague, r.getYear().getLabel());
+					rel3 = getResultsEntityRel(rb.getRk3Rel1Id(), rb.getRk3Rel1Code(), rb.getRk3Rel1Label(), rb.getRk3Rel2Id(), rb.getRk3Rel2Code(), rb.getRk3Rel2Label(), rb.getRk3Rel2LabelEN(), type_ < 10 && rb.getRk3Rel1Id() != null, type_ <= 50 && !isUSLeague, r.getYear().getLabel());
 					if (rb.getCxId() != null)
 						pl = getPlace(rb.getCxId(), rb.getCt1Id(), rb.getSt1Id(), rb.getCn1Id(), rb.getCxLabel(), rb.getCt1Label(), rb.getSt1Code(), rb.getCn1Code(), rb.getCxLabelEN(), rb.getCt1LabelEN(), rb.getSt1LabelEN(), rb.getCn1LabelEN(), r.getYear().getLabel());
 					else if (rb.getCt2Id() != null)
@@ -963,13 +978,13 @@ public class HtmlConverter {
 					rdlistHtml.append("<td>" + (rb.getRdDate() != null ? StringUtils.toTextDate(rb.getRdDate(), lang, "d MMMM") : "") + "</td>");
 					rdlistHtml.append("<td>" + (pl != null ? pl : "") + "</td></tr>");
 					if (rk1 != null && rb.getRtIndex() <= 8) {
-						drawHtml.append("<div class='box box" + rb.getRtIndex() + "'><table><tr><th colspan='" + (rb.getRdResultType() < 10 ? 3 : 2) + "'>" + rb.getRtLabel() + "</th></tr>");
+						drawHtml.append("<div class='box box" + rb.getRtIndex() + "'><table><tr><th colspan='" + (rb.getRdResultType() < 10 || (rb.getRdResultType() == 50 && !isUSLeague) ? 3 : 2) + "'>" + rb.getRtLabel() + "</th></tr>");
 						drawHtml.append("<tr><td style='font-weight:bold;'>" + rk1 + "</td>" + (rel1 != null ? rel1 : ""));
 						drawHtml.append("<td rowspan='2' style='width:33%;'>" + StringUtils.formatResult(rb.getRdResult1(), lang).replaceAll("\\&nbsp\\;", " ") + "</td></tr>");
 						drawHtml.append("<tr><td>" + rk2 + "</td>" + (rel2 != null ? rel2 : "") + "</tr>");
 						drawHtml.append("</table></div>");
 					}
-					colspan = (rb.getRdResultType() < 10 ? 2 : colspan);
+					colspan = (rb.getRdResultType() < 10 || (rb.getRdResultType() == 50 && !isUSLeague) ? 2 : colspan);
 				}
 				if (rdlistHtml.length() > 0) {
 					String anchor = ResourceUtils.getText("entity.RD", lang).replaceAll("\\s|\\/", "_");
@@ -1054,6 +1069,7 @@ public class HtmlConverter {
 			}
 			else
 				lTeam.add(e);
+			String titlename = "";
 			String currentLogo = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, e.getId(), ImageUtils.SIZE_LARGE, null, null);
 			Collection<String> lAllLogos = ImageUtils.getImageList(ImageUtils.INDEX_TEAM, e.getId(), ImageUtils.SIZE_LARGE);
 			ArrayList<Integer> lId = new ArrayList<Integer>();
@@ -1066,7 +1082,9 @@ public class HtmlConverter {
 			for (Team t : lTeam) {
 				lId.add(t.getId());
 				ref += (t.getRef() != null && (t.getId().equals(currentId) || !StringUtils.notEmpty(t.getYear1())) ? t.getRef() : 0);
-				if (!vNm.contains(t.getLabel())) {
+				if (t.getId() == id)
+					titlename = t.getLabel();
+				else if (!vNm.contains(t.getLabel())) {
 					if (n == 5)
 						sbTm.append("<br id='onbr'/><a id='onlink' href='javascript:$(\"onbr\").hide();$(\"onlink\").hide();$(\"othernames\").show();'>[...]</a><br/><span id='othernames' style='display:none;'>");
 					sbTm.append(sbTm.toString().length() > 0 && n != 5 ? "<br/>" : "").append(t.getLabel().toUpperCase());
@@ -1094,7 +1112,9 @@ public class HtmlConverter {
 			}
 			String sp = sbSp.toString();
 			hInfo.put("title", e.getLabel());
-			hInfo.put("titlename", "<b>" + (StringUtils.notEmpty(e.getYear1()) ? e.getLabel().toUpperCase() : sbTm.toString()) + "</b>");
+			hInfo.put("titlename", "<b>" + (StringUtils.notEmpty(e.getYear1()) ? e.getLabel().toUpperCase() : titlename.toUpperCase()) + "</b>");
+			if (StringUtils.notEmpty(sbTm.toString()) && !StringUtils.notEmpty(e.getYear1()))
+				hInfo.put("titlename2", sbTm.toString());
 			hInfo.put("logo", currentLogo);
 			StringBuffer sbOtherLogos = new StringBuffer();
 			if (lAllLogos != null && lAllLogos.size() > 1) {
@@ -2335,21 +2355,27 @@ public class HtmlConverter {
 			tDate[2] = (tDate[2] != null && tDate[2].matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d") ? HtmlUtils.writeDateLink(tDate[2], StringUtils.toTextDate(tDate[2], lang, "MMM dd, yyyy")) : tDate[2].replaceAll("\\-", StringUtils.SEP1));
 			tDate[3] = (tDate[3] != null && tDate[3].matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d") ? HtmlUtils.writeDateLink(tDate[3], StringUtils.toTextDate(tDate[3], lang, "MMM dd, yyyy")) : tDate[3].replaceAll("\\-", StringUtils.SEP1));
 			tDate[4] = (tDate[4] != null && tDate[4].matches("\\d\\d\\/\\d\\d\\/\\d\\d\\d\\d") ? HtmlUtils.writeDateLink(tDate[4], StringUtils.toTextDate(tDate[4], lang, "MMM dd, yyyy")) : tDate[4].replaceAll("\\-", StringUtils.SEP1));
+			int ties = 1;
+			StringBuffer sbTies = new StringBuffer();
 			if (StringUtils.notEmpty(bean.getRcExa())) {
 				List<Integer> lTie = StringUtils.tieList(bean.getRcExa());
 				for (int i = 2 ; i <= 5 ; i++) {
 					if (lTie.contains(i)) {
-						tRank[0] += (!tRank[0].matches(".*\\<table\\>.*") ? "<br/>" : "") + tRank[i - 1];
-						tDate[0] += (StringUtils.notEmpty(tDate[i - 1]) ? "<br/>" + tDate[i - 1] : "");
+						ties++;
+						sbTies.append("<tr><td>" + tRank[i - 1] + "</td>");
+						sbTies.append("<td>" + tDate[i - 1] + "</td></tr>");
 					}
 				}
 			}
 
 			// Write line
-			html.append("<tr><td class='srt'>" + bean.getSeLabel() + "</td><td class='srt'>" + bean.getEvLabel() + "</td><td class='srt'>" + bean.getRcType1() + "</td><td class='srt'>" + bean.getRcType2() + "</td><td class='srt'>" + bean.getRcLabel() + "</td>");
-			html.append("<td class='srt'><b>" + tRecord[0] + "</b></td><td class='srt'>" + tRank[0] + "</td>");
+			String rspan = (ties > 1 ? " rowspan='" + ties + "'" : "");
+			html.append("<tr><td" + rspan + " class='srt'>" + bean.getSeLabel() + "</td><td" + rspan + " class='srt'>" + bean.getEvLabel() + "</td>");
+			html.append("<td" + rspan + " class='srt'>" + bean.getRcType1() + "</td><td" + rspan + " class='srt'>" + bean.getRcType2() + "</td><td" + rspan + " class='srt'>" + bean.getRcLabel() + "</td>");
+			html.append("<td" + rspan + " class='srt'><b>" + tRecord[0] + "</b></td><td class='srt'>" + tRank[0] + "</td>");
 			html.append("<td class='srt'>" + tDate[0] + "</td>");
-			html.append("</tr>");
+			html.append("</tr>").append(sbTies);
+			
 		}
 		html.append("</tbody></table>");
 		return html;

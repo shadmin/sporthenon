@@ -545,4 +545,6 @@
 	<entry key="img.small">Petite</entry>
 	<entry key="test.transparency">Tester la transparence</entry>
 	<entry key="missing.pictures">Images manquantes</entry>
+	<entry key="warning.team.created">avertissement: l'équipe {1} n'existait pas et a été créée</entry>
+	<entry key="draft">Brouillon</entry>
 </properties>

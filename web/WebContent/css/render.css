@@ -255,6 +255,10 @@
 	border-bottom: 2px solid #555;
 	/*padding: 4px 4px;*/
 }
+.tc .info #titlename2{
+	font-style: italic;
+	text-align: center;
+}
 .tc .draw .box th, .tc .info .result th, .tc .rounds th{
 	font-size: 11px;
 	text-align: left;

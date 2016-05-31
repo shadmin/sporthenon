@@ -162,11 +162,17 @@ public class UpdateServlet extends AbstractServlet {
 		String sport = null;
 		boolean isData = field.matches(".*\\-l$");
 		if (isData) {
-			field = field.substring(3).replaceAll("\\-l$", "");
-			field_ = field_.replaceFirst("\\-l$", "");
-			if (field.equals("link")) {
-				field = (field_.startsWith("pr") ? "pr" : (field_.startsWith("cx") ? "cx" : (field_.startsWith("ct") ? "ct" : (field_.startsWith("tm") ? "tm" : ""))));
-				currentId = (p.contains("~") ? p.split("\\~")[1] : null);
+			if (field.contains("rc-rank")) {
+				field_ = field.replaceAll("^..\\-|\\-l$", "");
+				field = field.substring(0, 2);
+			}
+			else {
+				field = field.substring(3).replaceAll("\\-l$", "");
+				field_ = field_.replaceFirst("\\-l$", "");
+				if (field.equals("link")) {
+					field = (field_.startsWith("pr") ? "pr" : (field_.startsWith("cx") ? "cx" : (field_.startsWith("ct") ? "ct" : (field_.startsWith("tm") ? "tm" : ""))));
+					currentId = (p.contains("~") ? p.split("\\~")[1] : null);
+				}	
 			}
 		}
 		else if (field.matches("(pr|tm|cn)\\-.*")) {
@@ -246,7 +252,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 		else if (field.equalsIgnoreCase(Record.alias)) {
 			value = "%" + value;
-			labelHQL = "SP." + l_ + " || ' - ' || CP." + l_ + " || ' - ' || EV." + l_ + " || ' - ' || type1 || ' - ' || type2 || ' - ' || label";
+			labelHQL = "SP." + l_ + " || ' - ' || CP." + l_ + " || ' - ' || EV." + l_ + " || ' - ' || type1 || ' - ' || type2 || ' - ' || T.label";
 			joins += " LEFT JOIN \"Sport\" SP ON T.id_sport=SP.id";
 			joins += " LEFT JOIN \"Championship\" CP ON T.id_championship=CP.id";
 			joins += " LEFT JOIN \"Event\" EV ON T.id_event=EV.id";
@@ -356,6 +362,7 @@ public class UpdateServlet extends AbstractServlet {
 	private static void saveResult(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		HashMap<Object, Integer> hInserted = new HashMap<Object, Integer>();
 		StringBuffer sbMsg = new StringBuffer();
+		StringBuffer sbMsgW = new StringBuffer();
 		try {
 			int tp = 0;
 			HashMap<String, Type> hType = new HashMap<String, Type>();
@@ -549,6 +556,7 @@ public class UpdateServlet extends AbstractServlet {
 			result.setComment(StringUtils.notEmpty(hParams.get("cmt-l")) ? String.valueOf(hParams.get("cmt-l")) : null);
 			result.setExa(StringUtils.notEmpty(hParams.get("exa-l")) ? String.valueOf(hParams.get("exa-l")) : null);
 			result.setPhotoSource(StringUtils.notEmpty(hParams.get("source-l")) ? String.valueOf(hParams.get("source-l")) : null);
+			result.setDraft(String.valueOf(hParams.get("draft")).equals("1"));
 			// Inactive item
 			String hql = "from InactiveItem where id_sport=" + result.getSport().getId() + " and id_championship=" + result.getChampionship().getId() + " and id_event=" + result.getEvent().getId();
 			hql += (result.getSubevent() != null ? " and id_subevent=" + result.getSubevent().getId() : "");
@@ -576,8 +584,11 @@ public class UpdateServlet extends AbstractServlet {
 					if (hInserted.keySet().contains(o))
 						id = hInserted.get(o);
 					else {
-						id = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(o), result.getYear().getLabel(), cb, null, lang);
+						StringBuffer sb = new StringBuffer();
+						id = DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(o), result.getYear().getLabel(), cb, sb, lang);
 						hInserted.put(o, id);
+						if (sb != null && sb.toString().contains("New Team"))
+							sbMsgW.append("<span style='color:orange;'>(" + ResourceUtils.getText("warning.team.created", lang).replaceAll("\\{1\\}", "\"" + sb.toString().replaceAll("\\,.*", "").split("\\|")[1].trim() + "\"") + ")</span>");
 					}
 				}
 				Result.class.getMethod("setIdRank" + i, Integer.class).invoke(result, id > 0 ? id : null);
@@ -679,6 +690,8 @@ public class UpdateServlet extends AbstractServlet {
 						DatabaseHelper.removeEntity(DatabaseHelper.loadEntity(Round.class, Integer.parseInt(value)));
 			}
 			sbMsg.append(result.getId() + "#" + ResourceUtils.getText("result." + (idRS != null ? "modified" : "created"), lang));
+			if (sbMsgW.length() > 0)
+				sbMsg.append(" ").append(sbMsgW);
 		}
 		catch (Exception e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);
@@ -1053,6 +1066,8 @@ public class UpdateServlet extends AbstractServlet {
 				hql += (rs.getSubevent2() != null ? " and id_subevent2=" + rs.getSubevent2().getId() : "");
 				Object inact = DatabaseHelper.loadEntityFromQuery(hql);
 				sb.append(inact != null ? "1" : "0").append("~");
+				// Draft
+				sb.append(rs.getDraft() != null && rs.getDraft() ? "1" : "0").append("~");
 				// External links
 				StringBuffer sbLinks = new StringBuffer();
 				try {
@@ -1877,6 +1892,10 @@ public class UpdateServlet extends AbstractServlet {
 			where.append(tIds.length > 1 ? " and id between " + tIds[0] + " and " + tIds[1] : "");
 			where.append(entity.matches(Athlete.alias + "|" + Team.alias + "|" + Sport.alias) ? (cb != null && !cb.isAdmin() ? " and " + (entity.equalsIgnoreCase(Sport.alias) ? "" : "sport.") + "id in (" + cb.getSports() + ")" : "") : "");
 			String label_ = (entity.equals(Athlete.alias) ? "lastName || ', ' || firstName || ' - ' || sport.label" : (entity.equals(Team.alias) ? "label || ' - ' || sport.label" : (entity.equals(Olympics.alias) ? "city.label || ' ' || year.label" : "label")));
+			if (entity.equalsIgnoreCase(City.alias))
+				label_ = "label || '<i> - ' || country.code || '</i>', labelFR";
+			else if (entity.equalsIgnoreCase(Complex.alias))
+				label_ = "label || '<i> - ' || city.label || ', ' || city.country.code || '</i>', labelFR";
 			if (StringUtils.notEmpty(pattern))
 				where.append(" and lower(" + label_ + ") like '%" + pattern.toLowerCase() + "%'");
 			List<Object[]> items = DatabaseHelper.execute("select id, " + label_ + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + where.toString() + " order by id");
@@ -2038,7 +2057,7 @@ public class UpdateServlet extends AbstractServlet {
 			if (entity.equalsIgnoreCase(City.alias))
 				labels = "label || '<i> - ' || country.code || '</i>', labelFR";
 			else if (entity.equalsIgnoreCase(Complex.alias))
-				labels = "label || '<i> - ' || city.label || '</i>', labelFR";
+				labels = "label || '<i> - ' || city.label || ', ' || city.country.code || '</i>', labelFR";
 			List<Object[]> items = DatabaseHelper.execute("select id, " + labels + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + " where 1=1" + (tIds.length > 1 ? " and id between " + tIds[0] + " and " + tIds[1] : "") + (StringUtils.notEmpty(pattern) ? " and (lower(label) like '" + pattern + "%' or lower(labelFR) like '" + pattern + "%')" : "") + " order by id");
 			List<Translation> translations = DatabaseHelper.execute(hql.toString());
 			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + " (EN)</th><th>" + ResourceUtils.getText("label", lang) + " (FR)</th><th>" + ResourceUtils.getText("checked", lang) + "&nbsp;<input type='checkbox' onclick='checkAllTranslations();'/></th></thead><tbody>");

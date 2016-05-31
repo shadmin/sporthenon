@@ -207,6 +207,9 @@ public class Result {
 	@Column(name = "photo_source")
 	private String photoSource;
 	
+	@Column(name = "draft")
+	private Boolean draft;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -680,6 +683,14 @@ public class Result {
 
 	public void setCountry2(Country country2) {
 		this.country2 = country2;
+	}
+
+	public Boolean getDraft() {
+		return draft;
+	}
+
+	public void setDraft(Boolean draft) {
+		this.draft = draft;
 	}
 
 	@Override

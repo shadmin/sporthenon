@@ -1256,6 +1256,7 @@ function changeLeague(id, srcsl) {
 		}
 		tType2.push('<option value="-">[All]</option>');
 		$('pl-records-tp2').update(tType2.join(''));
+		$('lrecords-pf').update(id == 'nfl' ? 'Include postseason/Super Bowl' : 'Include playoffs');
 	}
 }
 function changeModeUS(id) {
@@ -1572,9 +1573,10 @@ function loadResValues(value) {
 			}
 			tValues['source'] = t[25]; if (t[25] != '') {$('source').value = t[25]; $('source').addClassName('completed2');} else {$('source').value = $('source').name; $('source').removeClassName('completed2');}
 			tValues['inact'] = t[26]; $('inact').checked = (t[26] == '1');
-			tValues['exl'] = t[27]; if (t[27] != '') {$('exl').value = t[27].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
+			tValues['draft'] = t[27]; $('draft').checked = (t[27] == '1');
+			tValues['exl'] = t[28]; if (t[28] != '') {$('exl').value = t[28].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
 			// Rankings
-			var j = 27;
+			var j = 28;
 			for (var i = 1 ; i <= 20 ; i++) {
 				tValues['rk' + i] = t[++j];
 				// Name
@@ -1694,6 +1696,10 @@ function loadResValues(value) {
 function clearValue(s) {
 	tValues[s] = '';
 	$(s).value = '';
+	if ($(s + '-l')) {
+		s = s + '-l';
+		$(s).value = '';	
+	}
 	$(s).removeClassName('completed').removeClassName('completed2');
 	$(s).focus();
 	showWarning();
@@ -1784,6 +1790,7 @@ function saveResult() {
 		}
 	});
 	h.set('inact', $('inact').checked ? '1' : '0');
+	h.set('draft', $('draft').checked ? '1' : '0');
 	new Ajax.Request('/update/save', {
 		onSuccess: function(response){
 			var text = response.responseText;
@@ -2106,15 +2113,15 @@ function updateRecordType(tp) {
 		new Ajax.Autocompleter(
 			s,
 			'ajaxsearch',
-			'/update/ajax/' + (tp.toLowerCase() == 'individual' ? 'pr' : 'tm'),
+			'/update/ajax/' + (tp.toLowerCase() == 'individual' ? 'pr' : 'tm') + '-' + s,
 			{ paramName: 'value', minChars: 2, frequency: 0.05, afterUpdateElement: setValue}
 		);
 		Event.observe($(s), 'blur', function(){
 			if ($(this).value == '') {
 				$(this).value = $(this).name;
 			}
-			else if ($(this).value != $(this).name && !$(this).hasClassName('completed')) {
-				$(this).addClassName('completed2');
+			else {
+				$(this).addClassName('completed');
 			}
 		});
 	});
