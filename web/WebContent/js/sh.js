@@ -1668,6 +1668,9 @@ function loadResValues(value) {
 				else {
 					break;
 				}
+				if (rdindex % 10 == 0) {
+					addRounds();
+				}
 				rdindex++;
 				k++;
 			}

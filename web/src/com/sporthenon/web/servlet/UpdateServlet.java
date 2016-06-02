@@ -636,7 +636,7 @@ public class UpdateServlet extends AbstractServlet {
 							RoundType rdt = new RoundType();
 							rdt.setLabel(t_[2]);
 							rdt.setLabelFr(t_[2]);
-							rdt.setIndex(100);
+							rdt.setIndex(0);
 							rdRt = (RoundType) DatabaseHelper.saveEntity(rdt, cb);
 						}
 						Integer rdRk1 = (StringUtils.notEmpty(t_[3]) ? Integer.parseInt(t_[3]) : (StringUtils.notEmpty(t_[4]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[4], result.getYear().getLabel(), cb, null, lang) : 0));

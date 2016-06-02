@@ -90,6 +90,7 @@ public class ImportUtils {
 		boolean isComplex1 = false;
 		boolean isComplex2 = false;
 		String tp = null;
+		String yr = null;
 		for (int i = 0 ; i < vLine.size() ; i++) {
 			try {
 				String h = vHeader.get(i).replaceAll(scPattern, "").toLowerCase();
@@ -110,8 +111,10 @@ public class ImportUtils {
 						if (tEv.length > 1)
 							tp = tEv[1];
 					}
-					else if (h.equalsIgnoreCase(Year.alias))
+					else if (h.equalsIgnoreCase(Year.alias)) {
 						sql = "SELECT T.id FROM \"Year\" T WHERE lower(T.label) ~ E'^" + regexp + "$'";
+						yr = s;
+					}
 					else if (h.matches("pl\\d")) {
 						String[] t = s.toLowerCase().split("\\,\\s");
 						if (t.length < 2 || t.length > 4) {
@@ -171,14 +174,15 @@ public class ImportUtils {
 									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang) + "</b>)");
 								}
 								else {
+									String whereCond = (yr != null ? " and '" + yr + "' between year1 and (case year2 when null then '9999' when '' then '9999' else year2 end)" : "");
 									if (s_.matches(".*\\([a-z]{3}\\)$")) {
 										int p = s.indexOf(" (") + 2;
 										String tmLabel = s.substring(0, p - 2).toLowerCase();
 										String cnCode = s.substring(p, p + 3).toLowerCase();
-										sql = "SELECT T.id from \"Team\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id where T.id_sport=" + hId.get("sp") + " AND lower(T.label) ~ E'^" + StringUtils.toPatternString(tmLabel) + "$' AND lower(CN.code) = '" + cnCode + "' and (link is null or link = 0)";
+										sql = "SELECT T.id from \"Team\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id where T.id_sport=" + hId.get("sp") + " AND lower(T.label) ~ E'^" + StringUtils.toPatternString(tmLabel) + "$' AND lower(CN.code) = '" + cnCode + "'" + whereCond;
 									}
 									else
-										sql = "SELECT T.id from \"Team\" T where T.id_sport=" + hId.get("sp") + " AND lower(T.label) ~ E'^" + regexp + "$' and (link is null or link = 0)";
+										sql = "SELECT T.id from \"Team\" T where T.id_sport=" + hId.get("sp") + " AND lower(T.label) ~ E'^" + regexp + "$'" + whereCond;
 								}
 							}
 							else if (n == 99) { // Country
