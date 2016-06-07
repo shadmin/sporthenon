@@ -1,12 +1,14 @@
--- Function: "~Overview"(character varying, integer, integer, character varying, character varying)
+-- Function: "~Overview"(character varying, integer, integer, character varying, integer, integer, character varying)
 
--- DROP FUNCTION "~Overview"(character varying, integer, integer, character varying, character varying);
+-- DROP FUNCTION "~Overview"(character varying, integer, integer, character varying, integer, integer, character varying);
 
 CREATE OR REPLACE FUNCTION "~Overview"(
     _entity character varying,
     _id_sport integer,
     _count integer,
     _pattern character varying,
+    _id1 integer,
+    _id2 integer,
     _lang character varying)
   RETURNS SETOF "~RefItem" AS
 $BODY$
@@ -16,7 +18,6 @@ declare
 	_index integer;
 	_query text;
 begin
-	--RAISE NOTICE '%', '--'||_query;
 	_index := 1;
 	-- Results
 	IF (_entity = 'RS' OR _entity = '') THEN
@@ -42,7 +43,9 @@ begin
 		ELSE
 			_query = _query || ' OR 1=1';
 		END IF;
-		IF (_pattern IS NOT NULL AND _pattern <> '') THEN
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND RS.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
 			_query = _query || ' AND (lower(SP.label' || _lang || ') like ''' || lower(_pattern) || '%'' OR lower(EV.label' || _lang || ') like ''' || lower(_pattern) || '%'' OR lower(EV.label' || _lang || ') like ''' || lower(_pattern) || '%'' OR lower(YR.label) = ''' || _pattern || ''')';
 		END IF;
 		_query = _query || ' GROUP BY RS.id, YR.id, YR.label, SP.label' || _lang || ', CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', SE2.label' || _lang || ', ranks, results, places, dates, TP1.number, TP2.number, TP3.number, CP.index, EV.index, SE.index';
@@ -62,11 +65,13 @@ begin
 
 	-- Athletes
 	IF (_entity = 'PR' OR _entity = '') THEN
-		_query = 'SELECT PR.id, PR.last_name, PR.first_name, CN.code, TM.label, SP.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), PR.ref';
+		_query = 'SELECT PR.id, PR.last_name, PR.first_name, CN.code, TM.label, SP.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), PR2.last_name || '', '' || PR2.first_name || '', '' || TM2.label, PR.ref';
 		_query = _query || ' FROM "Athlete" PR';
 		_query = _query || ' LEFT JOIN "Country" CN ON PR.id_country = CN.id';
 		_query = _query || ' LEFT JOIN "Team" TM ON PR.id_team = TM.id';
 		_query = _query || ' LEFT JOIN "Sport" SP ON PR.id_sport = SP.id';
+		_query = _query || ' LEFT JOIN "Athlete" PR2 ON PR.link = PR2.id';
+		_query = _query || ' LEFT JOIN "Team" TM2 ON PR2.id_team = TM2.id';
 		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = PR.id AND EL.entity=''PR'')';
 		_query = _query || ' WHERE 0=1';
 		IF _id_sport > 0 THEN
@@ -74,14 +79,16 @@ begin
 		ELSE
 			_query = _query || ' OR 1=1';
 		END IF;
-		IF (_pattern IS NOT NULL AND _pattern <> '') THEN
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND PR.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
 			_query = _query || ' AND lower(PR.last_name) like ''' || lower(_pattern) || '%''';
-		END IF;	
-		_query = _query || ' GROUP BY PR.id, PR.last_name, PR.first_name, CN.code, TM.label, SP.label' || _lang || ', PR.ref';
+		END IF;
+		_query = _query || ' GROUP BY PR.id, PR.last_name, PR.first_name, CN.code, TM.label, SP.label' || _lang || ', PR2.last_name || '', '' || PR2.first_name || '', '' || TM2.label, PR.ref';
 		_query = _query || ' ORDER BY PR.last_name, PR.first_name LIMIT ' || _count;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.label_rel5, _item.label, _item.count2;
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.label_rel5, _item.label, _item.label_en, _item.count2;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'PR';
@@ -93,11 +100,12 @@ begin
 
 	-- Teams
 	IF (_entity = 'TM' OR _entity = '') THEN
-		_query = 'SELECT TM.id, TM.label, SP.label' || _lang || ', CN.code, LG.label, string_agg(CAST (EL.id AS VARCHAR), '',''), TM.ref';
+		_query = 'SELECT TM.id, TM.label, SP.label' || _lang || ', CN.code, LG.label, string_agg(CAST (EL.id AS VARCHAR), '',''), TM2.label, TM.ref';
 		_query = _query || ' FROM "Team" TM';
 		_query = _query || ' LEFT JOIN "Country" CN ON TM.id_country = CN.id';
 		_query = _query || ' LEFT JOIN "Sport" SP ON TM.id_sport = SP.id';
 		_query = _query || ' LEFT JOIN "League" LG ON TM.id_league = LG.id';
+		_query = _query || ' LEFT JOIN "Team" TM2 ON TM.link = TM2.id';
 		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = TM.id AND EL.entity=''TM'')';
 		_query = _query || ' WHERE 0=1';
 		IF _id_sport > 0 THEN
@@ -105,14 +113,16 @@ begin
 		ELSE
 			_query = _query || ' OR 1=1';
 		END IF;
-		IF (_pattern IS NOT NULL AND _pattern <> '') THEN
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND TM.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
 			_query = _query || ' AND lower(TM.label) like ''' || lower(_pattern) || '%''';
 		END IF;
-		_query = _query || ' GROUP BY TM.id, TM.label, CN.code, SP.label' || _lang || ', LG.label, TM.ref';
+		_query = _query || ' GROUP BY TM.id, TM.label, CN.code, SP.label' || _lang || ', LG.label, TM2.label, TM.ref';
 		_query = _query || ' ORDER BY TM.label LIMIT ' || _count;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.label, _item.count2;
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.label, _item.label_en, _item.count2;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'TM';
@@ -133,9 +143,11 @@ begin
 		ELSE
 			_query = _query || ' OR 1=1';
 		END IF;
-		IF (_pattern IS NOT NULL AND _pattern <> '') THEN
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND SP.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
 			_query = _query || ' AND lower(SP.label' || _lang || ') like ''' || lower(_pattern) || '%''';
-		END IF;	
+		END IF;
 		_query = _query || ' GROUP BY SP.id, SP.label' || _lang || ', SP.ref';
 		_query = _query || ' ORDER BY SP.label' || _lang || ' LIMIT ' || _count;
 		OPEN _c FOR EXECUTE _query;
@@ -161,7 +173,9 @@ begin
 		ELSE
 			_query = _query || ' OR 1=1';
 		END IF;
-		IF (_pattern IS NOT NULL AND _pattern <> '') THEN
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND CP.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
 			_query = _query || ' AND lower(CP.label' || _lang || ') like ''' || lower(_pattern) || '%''';
 		END IF;
 		_query = _query || ' GROUP BY CP.id, CP.label' || _lang || ', CP.ref';
@@ -189,9 +203,11 @@ begin
 		ELSE
 			_query = _query || ' OR 1=1';
 		END IF;
-		IF (_pattern IS NOT NULL AND _pattern <> '') THEN
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND EV.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
 			_query = _query || ' AND lower(EV.label' || _lang || ') like ''' || lower(_pattern) || '%''';
-		END IF;	
+		END IF;
 		_query = _query || ' GROUP BY EV.id, EV.label' || _lang || ', EV.ref';
 		_query = _query || ' ORDER BY EV.label' || _lang || ' LIMIT ' || _count;
 		OPEN _c FOR EXECUTE _query;
@@ -208,9 +224,11 @@ begin
 
 	-- Cities
 	IF (_entity = 'CT' OR _entity = '') THEN
-		_query = 'SELECT CT.id, CT.label' || _lang || ', CN.code, string_agg(CAST (EL.id AS VARCHAR), '',''), CT.ref';
+		_query = 'SELECT CT.id, CT.label' || _lang || ', CN.code, string_agg(CAST (EL.id AS VARCHAR), '',''), CT2.label || '', '' || CN2.code, CT.ref';
 		_query = _query || ' FROM "City" CT';
 		_query = _query || ' LEFT JOIN "Country" CN ON CT.id_country = CN.id';
+		_query = _query || ' LEFT JOIN "City" CT2 ON CT.link = CT2.id';
+		_query = _query || ' LEFT JOIN "Country" CN2 ON CT2.id_country = CN2.id';
 		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = CT.id AND EL.entity=''CT'')';
 		_query = _query || ' WHERE 0=1';
 		IF _id_sport > 0 THEN
@@ -218,14 +236,16 @@ begin
 		ELSE
 			_query = _query || ' OR 1=1';
 		END IF;
-		IF (_pattern IS NOT NULL AND _pattern <> '') THEN
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND CT.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
 			_query = _query || ' AND lower(CT.label' || _lang || ') like ''' || lower(_pattern) || '%''';
 		END IF;
-		_query = _query || ' GROUP BY CT.id, CT.label' || _lang || ', CN.code, CT.ref';
+		_query = _query || ' GROUP BY CT.id, CT.label' || _lang || ', CN.code, CT2.label || '', '' || CN2.code, CT.ref';
 		_query = _query || ' ORDER BY CT.label' || _lang || ' LIMIT ' || _count;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label, _item.count2;
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label, _item.label_en, _item.count2;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'CT';
@@ -237,10 +257,11 @@ begin
 
 	-- Complexes
 	IF (_entity = 'CX' OR _entity = '') THEN
-		_query = 'SELECT CX.id, CX.label' || _lang || ', CT.label' || _lang || ', CN.code, string_agg(CAST (EL.id AS VARCHAR), '',''), CX.ref';
+		_query = 'SELECT CX.id, CX.label' || _lang || ', CT.label' || _lang || ', CN.code, string_agg(CAST (EL.id AS VARCHAR), '',''), CX2.label, CX.ref';
 		_query = _query || ' FROM "Complex" CX';
 		_query = _query || ' LEFT JOIN "City" CT ON CX.id_city = CT.id';
 		_query = _query || ' LEFT JOIN "Country" CN ON CT.id_country = CN.id';
+		_query = _query || ' LEFT JOIN "Complex" CX2 ON CX.link = CX2.id';
 		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = CX.id AND EL.entity=''CX'')';
 		_query = _query || ' WHERE 0=1';
 		IF _id_sport > 0 THEN
@@ -248,14 +269,16 @@ begin
 		ELSE
 			_query = _query || ' OR 1=1';
 		END IF;
-		IF (_pattern IS NOT NULL AND _pattern <> '') THEN
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND CX.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
 			_query = _query || ' AND lower(CX.label' || _lang || ') like ''' || lower(_pattern) || '%''';
 		END IF;
-		_query = _query || ' GROUP BY CX.id, CX.label' || _lang || ', CT.label' || _lang || ', CN.code, CX.ref';
+		_query = _query || ' GROUP BY CX.id, CX.label' || _lang || ', CT.label' || _lang || ', CN.code, CX2.label, CX.ref';
 		_query = _query || ' ORDER BY CX.label' || _lang || ' LIMIT ' || _count;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label, _item.count2;
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label, _item.label_en, _item.count2;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'CX';

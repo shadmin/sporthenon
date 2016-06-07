@@ -5,8 +5,8 @@
 CREATE TABLE "City"
 (
   id integer NOT NULL,
-  label character varying(25) NOT NULL,
-  label_fr character varying(25) NOT NULL,
+  label character varying(30) NOT NULL,
+  label_fr character varying(30) NOT NULL,
   id_country integer NOT NULL,
   id_state integer,
   id_contributor integer NOT NULL,

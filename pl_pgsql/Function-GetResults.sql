@@ -137,7 +137,7 @@ begin
 		LEFT JOIN "Country" CN6 ON RS.id_country2 = CN6.id' ||
 		_joins || '
 	WHERE
-		RS.id_sport = ' || _id_sport || ' AND
+		RS.draft = false AND RS.id_sport = ' || _id_sport || ' AND
 		RS.id_championship = ' || _id_championship ||
 		_event_condition || _year_condition || '
 	ORDER BY RS.id_year DESC';

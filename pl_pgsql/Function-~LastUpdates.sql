@@ -43,6 +43,7 @@ begin
 		LEFT JOIN "Country" CN2 ON RS.id_rank2=CN2.id
 		LEFT JOIN "Country" CN3 ON RS.id_rank3=CN3.id
 		LEFT JOIN "Country" CN4 ON RS.id_rank4=CN4.id
+	WHERE RS.draft = false
 	ORDER BY YR.id DESC, rs_date DESC, RS.id DESC LIMIT ' || _count || ' OFFSET ' || _offset;
 	RETURN  _c;
 end;
