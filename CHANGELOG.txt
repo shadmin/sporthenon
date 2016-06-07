@@ -1,7 +1,23 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.12.6  |
+| Last Version: 0.12.7  |
 +-----------------------+
+
++--------+
+| 0.12.7 |
++--------+
+[7 Jun 2016]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.7
+- New feature: <Missing pictures> (=> extract list of missing pictures to CSV file)
+- New feature: <Draft> (=> results can be edited as drafts and published later)
+- Added warning when creating athlete with unknown team
+- Improved bot detection for request statistics (admin parameter)
+- URLs /null automatically redirected to /error (HTTP 404)
+- Added transparency test for remote pictures (update/pictures)
+- Added column with linked entities (update/overview)
+- Bugfix: same value for places #1 and #2 in results
+- Bugfix: rounds after 10th not displayed (update/results)
+- Bugfix: fields with picklist can not be cleared (update/data)
 
 +--------+
 | 0.12.6 |
