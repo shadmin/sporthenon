@@ -1,8 +1,8 @@
 ## Sporthenon – The temple of sports results
 ### About Sporthenon
 <ul>
-<li>Current Version: 0.12.6</li>
-<li>Released: 6 May 2016</li>
+<li>Current Version: 0.12.7</li>
+<li>Released: 7 Jun 2016</li>
 <li>First Website Release: August 2013</li>
 <li>First Android Release: June 2015</li>
 <li>Website: <a href="http://www.sporthenon.com/">http://www.sporthenon.com</a></li>
