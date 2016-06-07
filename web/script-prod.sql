@@ -1764,4 +1764,12 @@ $BODY$
   
   
   
+  ALTER TABLE "Result" DISABLE TRIGGER "TriggerRS";
+
+update "Result" set date1=NULL where date1='';
+update "Result" set date2=NULL where date2='';
+
+ALTER TABLE "Result" ENABLE TRIGGER "TriggerRS";
+
+
   
