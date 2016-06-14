@@ -41,6 +41,7 @@ public abstract class AbstractServlet extends HttpServlet {
 	}
 	
 	protected void handleException(HttpServletRequest request, HttpServletResponse response, Throwable e) throws ServletException, IOException {
+		logger.fatal("[" + request.getHeader("user-agent") + "] " + request.getRequestURL());
 		logger.error(e.getMessage(), e);
 		request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
 	}
@@ -55,7 +56,7 @@ public abstract class AbstractServlet extends HttpServlet {
 	
 	protected boolean isBot(HttpServletRequest request) {
 		String ua = request.getHeader("user-agent");
-		return (StringUtils.notEmpty(ua) && ua.toLowerCase().contains(".*(" + ConfigUtils.getValue("robot_pattern") + ").*"));
+		return (StringUtils.notEmpty(ua) && ua.toLowerCase().matches(".*(" + ConfigUtils.getValue("robot_pattern") + ").*"));
 	}
 	
 }
