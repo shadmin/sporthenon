@@ -40,6 +40,9 @@ public class Event {
 	@Column(name = "ref")
 	private Integer ref;
 	
+	@Column(name = "no_pic")
+	private Boolean nopic;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -101,6 +104,14 @@ public class Event {
 
 	public void setRef(Integer ref) {
 		this.ref = ref;
+	}
+	
+	public Boolean getNopic() {
+		return nopic;
+	}
+
+	public void setNopic(Boolean nopic) {
+		this.nopic = nopic;
 	}
 
 	@Override

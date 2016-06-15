@@ -152,7 +152,7 @@ public class DatabaseHelper {
 			Collection<Object[]> cResult = query.getResultList();
 			for (Object[] tObj : cResult)
 				if (tObj[0] != null)
-					lPicklist.add(new PicklistBean(new Integer(tObj[0].toString()), tObj[1].toString(), tObj.length > 2 ? tObj[2].toString() : null));
+					lPicklist.add(new PicklistBean(new Integer(tObj[0].toString()), tObj[1].toString(), tObj.length > 2 && tObj[2] != null ? tObj[2].toString() : null));
 			if (tr != null) tr.commit();
 			return lPicklist;
 		}
@@ -640,7 +640,6 @@ public class DatabaseHelper {
 				
 				Complex c = new Complex();
 				c.setLabel(cx);
-				c.setLabelFr(cx);
 				c.setCity(ct_);
 				o = c;
 				o = saveEntity(c, cb);

@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -159,6 +160,14 @@ public class ImageServlet extends AbstractServlet {
 					sb.append(s).append(",");
 				ServletHelper.writeText(response, sb.toString());
 			}
+			else if (hParams.containsKey("nopic")) {
+				String id = String.valueOf(hParams.get("id"));
+				String value = String.valueOf(hParams.get("value"));
+				Object o = DatabaseHelper.loadEntity(DatabaseHelper.getClassFromAlias(entity), id);
+				Method m = o.getClass().getMethod("setNopic", Boolean.class);
+				m.invoke(o, value.equals("1"));
+				DatabaseHelper.saveEntity(o, null);
+			}
 			else if (hParams.containsKey("data")) {} // OBSOLETE
 			else if (hParams.containsKey("missing")) {
 				StringBuffer sbResult = new StringBuffer();
@@ -168,11 +177,11 @@ public class ImageServlet extends AbstractServlet {
 						label = "concat(concat(year.label, ' - '), city.label)";
 					else if (entity_.equals(Team.alias))
 						label = "concat(concat(label, ' - '), sport.label)";
-					Collection<PicklistBean> lst = DatabaseHelper.getEntityPicklist(DatabaseHelper.getClassFromAlias(entity_), label, null, ResourceUtils.LGDEFAULT);
+					Collection<PicklistBean> lst = DatabaseHelper.getEntityPicklist(DatabaseHelper.getClassFromAlias(entity_), label, "nopic", ResourceUtils.LGDEFAULT);
 					int n = 0;
 					for (PicklistBean o : lst) {
-//						if (entity_.equals(Team.alias) && o.getText().contains("Sailing"))
-//							continue;
+						if (o.getParam() != null && o.getParam().equals("true"))
+							continue;
 						Collection list = ImageUtils.getImageList(ImageUtils.getIndex(entity_.toUpperCase()), o.getValue(), ImageUtils.SIZE_LARGE);
 						if (list == null || list.isEmpty())
 							sbResult.append(entity_).append(";").append(++n).append(";").append(o.getValue()).append(";").append(o.getText()).append("\r\n");						

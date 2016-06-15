@@ -28,6 +28,9 @@ public class Request {
 	@Column(name = "date")
 	private Timestamp date;
 
+	@Column(name = "user_agent", length = 250)
+	private String userAgent;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -58,6 +61,14 @@ public class Request {
 
 	public void setDate(Timestamp date) {
 		this.date = date;
+	}
+
+	public String getUserAgent() {
+		return userAgent;
+	}
+
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
 	}
 	
 }

@@ -543,8 +543,10 @@
 	<entry key="show.normally">Afficher normalement</entry>
 	<entry key="img.large">Grande</entry>
 	<entry key="img.small">Petite</entry>
+	<entry key="no.picture">Pas d'image</entry>
 	<entry key="test.transparency">Tester la transparence</entry>
 	<entry key="missing.pictures">Images manquantes</entry>
 	<entry key="warning.team.created">avertissement: l'équipe {1} n'existait pas et a été créée</entry>
 	<entry key="draft">Brouillon</entry>
+	<entry key="metadata">Création : {1} / Dernière modification : {2} par {3}</entry>
 </properties>

@@ -37,6 +37,9 @@ public class State {
 	@Column(name = "ref")
 	private Integer ref;
 	
+	@Column(name = "no_pic")
+	private Boolean nopic;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -94,6 +97,14 @@ public class State {
 	
 	public Integer getRef() {
 		return ref;
+	}
+	
+	public Boolean getNopic() {
+		return nopic;
+	}
+
+	public void setNopic(Boolean nopic) {
+		this.nopic = nopic;
 	}
 
 	public void setRef(Integer ref) {

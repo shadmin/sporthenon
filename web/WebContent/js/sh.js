@@ -1572,11 +1572,12 @@ function loadResValues(value) {
 				$('currentimg').hide();
 			}
 			tValues['source'] = t[25]; if (t[25] != '') {$('source').value = t[25]; $('source').addClassName('completed2');} else {$('source').value = $('source').name; $('source').removeClassName('completed2');}
-			tValues['inact'] = t[26]; $('inact').checked = (t[26] == '1');
-			tValues['draft'] = t[27]; $('draft').checked = (t[27] == '1');
-			tValues['exl'] = t[28]; if (t[28] != '') {$('exl').value = t[28].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
+			$('metadata').update(t[26]);
+			tValues['inact'] = t[27]; $('inact').checked = (t[27] == '1');
+			tValues['draft'] = t[28]; $('draft').checked = (t[28] == '1');
+			tValues['exl'] = t[29]; if (t[29] != '') {$('exl').value = t[29].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
 			// Rankings
-			var j = 28;
+			var j = 29;
 			for (var i = 1 ; i <= 20 ; i++) {
 				tValues['rk' + i] = t[++j];
 				// Name
@@ -2219,7 +2220,6 @@ function setEntityValues(text) {
 	else if (currentAlias == 'CX') {
 		$('cx-id').value = currentId;
 		$('cx-label').value = t[i++];
-		$('cx-labelfr').value = t[i++];
 		$('cx-city').value = t[i++];
 		$('cx-city-l').value = t[i++];
 		$('cx-source').value = t[i++];
@@ -2549,6 +2549,7 @@ function searchEntity() {
 					}
 					else if ($('update-pictures')) {
 						loadPictures('direct', id);
+						$('sport').selectedIndex = 0;
 					}
 					else {
 						loadEntity('direct', id);
@@ -2641,6 +2642,7 @@ function loadPictures(action_, id_) {
 		onSuccess: function(response){
 			var t = response.responseText.split('~');
 			$('label-remote').update(t[1] + (currentAlias == 'TM' ? '<span style="font-weight:normal;font-style:italic;">&nbsp;-&nbsp;' + t[3] + '</span>' : ''));
+			$('nopic').checked = (t[t.length - 1] == '1');
 			currentId = t[0];
 			var sp = $F('sport');
 			var alias_ = currentAlias;
@@ -2676,6 +2678,13 @@ function copyPicture(id1_, id2_) {
 		onSuccess: function(response){
 			loadPictures('direct', id2_);
 		},
+		parameters: h
+	});
+}
+function setNopic() {
+	var h = $H({entity: currentAlias, id: currentId, value: ($('nopic').checked ? '1' : '0')});
+	new Ajax.Request('/ImageServlet?nopic=1', {
+		onSuccess: function(response){},
 		parameters: h
 	});
 }

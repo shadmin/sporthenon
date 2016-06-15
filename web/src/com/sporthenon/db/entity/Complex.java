@@ -27,9 +27,6 @@ public class Complex {
 	@Column(name = "label", length = 40, nullable = false)
 	private String label;
 	
-	@Column(name = "label_fr", length = 40, nullable = false)
-	private String labelFR;
-	
 	@ManyToOne
 	@JoinColumn(name = "id_city", nullable = false)
 	private City city;
@@ -70,14 +67,6 @@ public class Complex {
 		this.label = label;
 	}
 
-	public String getLabelFr() {
-		return labelFR;
-	}
-
-	public void setLabelFr(String labelFr) {
-		this.labelFR = labelFr;
-	}
-
 	public City getCity() {
 		return city;
 	}
@@ -86,10 +75,6 @@ public class Complex {
 		this.city = city;
 	}
 
-	public String getLabel(String lang) {
-		return (lang != null && lang.equalsIgnoreCase("fr") ? labelFR : label);
-	}
-	
 	public Integer getLink() {
 		return link;
 	}
@@ -120,7 +105,7 @@ public class Complex {
 	}
 	
 	public String toString2(String lang) {
-		return getLabel(lang) + (city != null ? ", " + city.toString2(lang) : "");
+		return getLabel() + (city != null ? ", " + city.toString2(lang) : "");
 	}
 	
 }

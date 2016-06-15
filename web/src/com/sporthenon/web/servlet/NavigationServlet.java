@@ -1,6 +1,7 @@
 package com.sporthenon.web.servlet;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Enumeration;
 import java.util.HashMap;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.Redirection;
+import com.sporthenon.db.entity.meta.Request;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
@@ -102,6 +104,7 @@ public class NavigationServlet extends AbstractServlet {
 		String url = ServletHelper.getURL(request);
 		String newURI = null;
 		try {
+			String ua = request.getHeader("user-agent");
 			boolean isTestProd = ConfigUtils.getProperty("env").matches("test|prod");
 			boolean isUserSession = (request.getSession() != null && request.getSession().getAttribute("user") != null);
 			if (url.matches(".*(\\/null)$"))
@@ -116,7 +119,7 @@ public class NavigationServlet extends AbstractServlet {
 //			if (isUserSession && isTestProd && request.getHeader("Referer") == null)
 //				throw new HttpsException();
 			if (!isBot(request) && !url.contains("/ajax") && !url.contains("/load") && !url.contains("/check-progress-import"))
-				logger.fatal("[" + request.getHeader("user-agent") + "] " + url);
+				logger.fatal("[" + ua + "] " + url);
 			if (ConfigUtils.getProperty("env").matches("local|test")) {
 				Enumeration hn = request.getHeaderNames();
 				while (hn.hasMoreElements()) {
@@ -128,8 +131,14 @@ public class NavigationServlet extends AbstractServlet {
 			String key = tURI[0];
 			if (key.isEmpty())
 				key = "index";
-			if (!isBot(request) && !key.matches("project|contribute|update"))
-				DatabaseHelper.executeUpdate("INSERT INTO \"~Request\" VALUES (NEXTVAL('\"~SeqRequest\"'), '/" + key + "', " + (tURI.length > 1 ? "'" + StringUtils.decode(tURI[tURI.length - 1]) + "'" : "NULL") + ", current_timestamp);");
+			if (!isBot(request) && !key.matches("project|contribute|update")) {
+				Request rq = new Request();
+				rq.setPath("/" + key);
+				rq.setParams(tURI.length > 1 ? StringUtils.decode(tURI[tURI.length - 1]) : null);
+				rq.setDate(new Timestamp(System.currentTimeMillis()));
+				rq.setUserAgent(ua);
+				DatabaseHelper.saveEntity(rq, null);
+			}
 			if (isTestProd)
 				if (key != null && key.equals("update") && !isUserSession)
 					throw new NotLoggedInException();

@@ -1497,6 +1497,9 @@ li{
 	font-size: 12px;
 	color: #000;
 }
+#update-results #metadata{
+	font-size: 11px;
+}
 /*---------- DATA ----------*/
 #update-data .fstitle{
 	background-image: url(../img/update/data.png?6);

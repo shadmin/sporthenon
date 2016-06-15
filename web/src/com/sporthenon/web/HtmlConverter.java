@@ -629,14 +629,14 @@ public class HtmlConverter {
 				lId.add(c.getId());
 				ref += (c.getRef() != null ? c.getRef() : 0);
 				if (c.getId() == id)
-					titlename = c.getLabel(lang);
-				else if (!vNm.contains(c.getLabel(lang))) {
-					sbNm.append(sbNm.toString().length() > 0 ? "<br/>" : "").append(c.getLabel(lang).toUpperCase());
-					vNm.add(c.getLabel(lang));
+					titlename = c.getLabel();
+				else if (!vNm.contains(c.getLabel())) {
+					sbNm.append(sbNm.toString().length() > 0 ? "<br/>" : "").append(c.getLabel().toUpperCase());
+					vNm.add(c.getLabel());
 				}
 				if (!vCt.contains(c.getCity().getLabel(lang))) {
 					sbCt.append(sbCt.toString().length() > 0 ? "<br/>" : "").append(c.getCity().getLabel(lang));
-					vCt.add(c.getLabel(lang));
+					vCt.add(c.getLabel());
 				}
 				if (c.getCity().getState() != null) {
 					if (!vSt.contains(c.getCity().getState().getId())) {
@@ -663,7 +663,7 @@ public class HtmlConverter {
 			String st = sbSt.toString();
 			String cn = sbCn.toString();
 			
-			hInfo.put("title", e.getLabel(lang));
+			hInfo.put("title", e.getLabel());
 			hInfo.put("titleEN", e.getLabel());
 			hInfo.put("titlename", titlename.toUpperCase());
 			if (StringUtils.notEmpty(sbNm.toString()))
@@ -795,7 +795,7 @@ public class HtmlConverter {
 				String p2 = null;
 				if (r.getComplex1() != null) {
 					Complex cx = r.getComplex1();
-					p1 = getPlace(cx.getId(), cx.getCity().getId(), cx.getCity().getState() != null ? cx.getCity().getState().getId() : null, cx.getCity().getCountry().getId(), cx.getLabel(lang), cx.getCity().getLabel(lang), cx.getCity().getState() != null ? cx.getCity().getState().getCode() : null, cx.getCity().getCountry().getLabel(lang), cx.getLabel(), cx.getCity().getLabel(), cx.getCity().getState() != null ? cx.getCity().getState().getLabel() : null, cx.getCity().getCountry().getLabel(), r.getYear().getLabel());
+					p1 = getPlace(cx.getId(), cx.getCity().getId(), cx.getCity().getState() != null ? cx.getCity().getState().getId() : null, cx.getCity().getCountry().getId(), cx.getLabel(), cx.getCity().getLabel(lang), cx.getCity().getState() != null ? cx.getCity().getState().getCode() : null, cx.getCity().getCountry().getLabel(lang), cx.getLabel(), cx.getCity().getLabel(), cx.getCity().getState() != null ? cx.getCity().getState().getLabel() : null, cx.getCity().getCountry().getLabel(), r.getYear().getLabel());
 				}
 				else if (r.getCity1() != null) {
 					City ct = r.getCity1();
@@ -807,7 +807,7 @@ public class HtmlConverter {
 				}
 				if (r.getComplex2() != null) {
 					Complex cx = r.getComplex2();
-					p2 = getPlace(cx.getId(), cx.getCity().getId(), cx.getCity().getState() != null ? cx.getCity().getState().getId() : null, cx.getCity().getCountry().getId(), cx.getLabel(lang), cx.getCity().getLabel(lang), cx.getCity().getState() != null ? cx.getCity().getState().getCode() : null, cx.getCity().getCountry().getLabel(lang), cx.getLabel(), cx.getCity().getLabel(), cx.getCity().getState() != null ? cx.getCity().getState().getLabel() : null, cx.getCity().getCountry().getLabel(), r.getYear().getLabel());
+					p2 = getPlace(cx.getId(), cx.getCity().getId(), cx.getCity().getState() != null ? cx.getCity().getState().getId() : null, cx.getCity().getCountry().getId(), cx.getLabel(), cx.getCity().getLabel(lang), cx.getCity().getState() != null ? cx.getCity().getState().getCode() : null, cx.getCity().getCountry().getLabel(lang), cx.getLabel(), cx.getCity().getLabel(), cx.getCity().getState() != null ? cx.getCity().getState().getLabel() : null, cx.getCity().getCountry().getLabel(), r.getYear().getLabel());
 				}
 				else if (r.getCity2() != null) {
 					City ct = r.getCity2();
@@ -1114,9 +1114,9 @@ public class HtmlConverter {
 			String sp = sbSp.toString();
 			hInfo.put("title", e.getLabel());
 			hInfo.put("titlename", "<b>" + (StringUtils.notEmpty(e.getYear1()) ? e.getLabel().toUpperCase() : titlename.toUpperCase()) + "</b>");
+			hInfo.put("logo", currentLogo);
 			if (StringUtils.notEmpty(sbTm.toString()) && !StringUtils.notEmpty(e.getYear1()))
 				hInfo.put("titlename2", sbTm.toString());
-			hInfo.put("logo", currentLogo);
 			StringBuffer sbOtherLogos = new StringBuffer();
 			if (lAllLogos != null && lAllLogos.size() > 1) {
 				int nol = 0;
@@ -2374,7 +2374,7 @@ public class HtmlConverter {
 			// Write line
 			String rspan = (ties > 1 ? " rowspan='" + ties + "'" : "");
 			html.append("<tr><td" + rspan + " class='srt'>" + bean.getSeLabel() + "</td><td" + rspan + " class='srt'>" + bean.getEvLabel() + "</td>");
-			html.append("<td" + rspan + " class='srt'>" + bean.getRcType1() + "</td><td" + rspan + " class='srt'>" + bean.getRcType2() + "</td><td" + rspan + " class='srt'>" + bean.getRcLabel() + "</td>");
+			html.append("<td" + rspan + " class='srt'>" + bean.getRcType1() + "</td><td" + rspan + " class='srt'>" + (isAlltime ? (isIndividual ? "Career" : "All-time") : bean.getRcType2()) + "</td><td" + rspan + " class='srt'>" + bean.getRcLabel() + "</td>");
 			html.append("<td" + rspan + " class='srt'><b>" + tRecord[0] + "</b></td><td class='srt'>" + tRank[0] + "</td>");
 			html.append("<td class='srt'>" + tDate[0] + "</td>");
 			html.append("</tr>").append(sbTies);

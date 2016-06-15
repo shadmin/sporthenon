@@ -288,7 +288,7 @@ public class UpdateServlet extends AbstractServlet {
 			if (list.contains(id))
 				continue;
 			Object o = DatabaseHelper.loadEntity(DatabaseHelper.getClassFromAlias(alias_), id);
-			if (!(o instanceof Athlete) && !(o instanceof League) && !(o instanceof Team) && !(o instanceof Result) && !(o instanceof Contributor) && !(o instanceof HallOfFame) && !(o instanceof Olympics) && !(o instanceof Record) && !(o instanceof RetiredNumber) && !(o instanceof TeamStadium) && !(o instanceof WinLoss)) {
+			if (!(o instanceof Athlete) && !(o instanceof Complex) && !(o instanceof League) && !(o instanceof Team) && !(o instanceof Result) && !(o instanceof Contributor) && !(o instanceof HallOfFame) && !(o instanceof Olympics) && !(o instanceof Record) && !(o instanceof RetiredNumber) && !(o instanceof TeamStadium) && !(o instanceof WinLoss)) {
 				Method m2 = o.getClass().getMethod("getLabel", String.class);
 				text = String.valueOf(m2.invoke(o, lang));
 			}
@@ -298,7 +298,7 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			else if (o instanceof Complex) {
 				Complex c = (Complex) o;
-				text += ", " + c.getCity().getLabel(lang) + ", " + c.getCity().getCountry().getCode();
+				text = c.getLabel() + ", " + c.getCity().getLabel(lang) + ", " + c.getCity().getCountry().getCode();
 			}
 			else if (o instanceof City) {
 				City c = (City) o;
@@ -780,6 +780,7 @@ public class UpdateServlet extends AbstractServlet {
 				currentEntity = item.getEntity();
 			}
 			boolean isPhoto = StringUtils.notEmpty(ImageUtils.getPhotoFile(item.getEntity(), item.getIdItem()));
+			boolean isNopic = (item.getCount3() != null && item.getCount3() == 1);
 			int picsL = ImageUtils.getImageList(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_LARGE).size();
 			int picsS = ImageUtils.getImageList(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_SMALL).size();
 			String href = "#";
@@ -848,7 +849,7 @@ public class UpdateServlet extends AbstractServlet {
 			if (item.getEntity().matches(Athlete.alias + "|" + Result.alias))
 				html.append("<td" + (isPhoto ? " class='tick'" : " class='missing'") + "></td>");
 			else
-				html.append("<td" + (picsL > 0 && picsS > 0 ? " class='tick'>(" + picsL + "L+" + picsS + "S)" : " class='missing'>") + "</td>");
+				html.append("<td" + (picsL > 0 && picsS > 0 ? " class='tick'>(" + picsL + "L+" + picsS + "S)" : (isNopic ? ">-" : " class='missing'>")) + "</td>");
 			if (hParams.get("showimg").equals("1")) {
 				short index = ImageUtils.getIndex(item.getEntity());
 				if (index != -1) {
@@ -1060,6 +1061,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(rs.getComplex2() != null ? rs.getComplex2().getId() : (rs.getCity2() != null ? rs.getCity2().getId() : (rs.getCountry2() != null ? rs.getCountry2().getId() : ""))).append("~");
 				sb.append(rs.getComplex2() != null ? rs.getComplex2().toString2(lang) : (rs.getCity2() != null ? rs.getCity2().toString2(lang) : (rs.getCountry2() != null ? rs.getCountry2().toString2(lang) : ""))).append("~");
 				sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~").append(ImageUtils.getPhotoFile(Result.alias, rs.getId())).append("~").append(rs.getPhotoSource()).append("~");
+				sb.append(ResourceUtils.getText("metadata", lang).replaceFirst("\\{1\\}", StringUtils.toTextDate(rs.getMetadata().getFirstUpdate(), lang, "dd/MM/yyyy HH:mm")).replaceFirst("\\{2\\}", StringUtils.toTextDate(rs.getMetadata().getLastUpdate(), lang, "dd/MM/yyyy HH:mm")).replaceFirst("\\{3\\}", "<a target='_blank' href='" + HtmlUtils.writeLink(Contributor.alias, rs.getMetadata().getContributor().getId(), null, rs.getMetadata().getContributor().getLogin()) + "'>" + rs.getMetadata().getContributor().getLogin() + "</a>")).append("~");
 				// Inactive item?
 				String hql = "from InactiveItem where id_sport=" + rs.getSport().getId() + " and id_championship=" + rs.getChampionship().getId() + " and id_event=" + rs.getEvent().getId();
 				hql += (rs.getSubevent() != null ? " and id_subevent=" + rs.getSubevent().getId() : "");
@@ -1118,7 +1120,7 @@ public class UpdateServlet extends AbstractServlet {
 					sb.append("rkl-" + StringUtils.join(l, "#")).append("~");
 				}
 				// Rounds
-				List lRounds = DatabaseHelper.execute("from Round where idResult=" + rs.getId() + " order by roundType.index");
+				List lRounds = DatabaseHelper.execute("from Round round where idResult=" + rs.getId() + " order by roundType.index, roundType.label, round.id");
 				if (lRounds != null && lRounds.size() > 0) {
 					for (Round rd : (List<Round>) lRounds) {
 						List<String> l = new ArrayList<String>();
@@ -1254,7 +1256,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(cl.getSubevent2() != null ? cl.getSubevent2().getId() : 0).append("~");
 				sb.append(cl.getSubevent2() != null ? cl.getSubevent2().getLabel(lang) : "").append("~");
 				sb.append(cl.getComplex() != null ? cl.getComplex().getId() : 0).append("~");
-				sb.append(cl.getComplex() != null ? cl.getComplex().getLabel(lang) : "").append("~");
+				sb.append(cl.getComplex() != null ? cl.getComplex().getLabel() : "").append("~");
 				sb.append(cl.getCity() != null ? cl.getCity().getId() : 0).append("~");
 				sb.append(cl.getCity() != null ? cl.getCity().getLabel(lang) : "").append("~");
 				sb.append(cl.getCountry() != null ? cl.getCountry().getId() : 0).append("~");
@@ -1267,6 +1269,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(cp.getLabel()).append("~");
 				sb.append(cp.getLabelFr()).append("~");
 				sb.append(cp.getIndex() != null ? cp.getIndex() : "").append("~");
+				sb.append(cp.getNopic() != null && cp.getNopic() ? "1" : "0");
 			}
 			else if (o instanceof City) {
 				City ct = (City) o;
@@ -1296,7 +1299,6 @@ public class UpdateServlet extends AbstractServlet {
 			else if (o instanceof Complex) {
 				Complex cx = (Complex) o;
 				sb.append(cx.getLabel()).append("~");
-				sb.append(cx.getLabelFr()).append("~");
 				sb.append(cx.getCity() != null ? cx.getCity().getId() : 0).append("~");
 				sb.append(cx.getCity() != null ? cx.getCity().toString2(lang) : "").append("~");
 				sb.append(StringUtils.notEmpty(cx.getPhotoSource()) ? cx.getPhotoSource() : "").append("~");
@@ -1330,6 +1332,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(cn.getLabel()).append("~");
 				sb.append(cn.getLabelFr()).append("~");
 				sb.append(cn.getCode()).append("~");
+				sb.append(cn.getNopic() != null && cn.getNopic() ? "1" : "0");
 			}
 			else if (o instanceof Event) {
 				Event ev = (Event) o;
@@ -1338,6 +1341,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(ev.getType() != null ? ev.getType().getId() : 0).append("~");
 				sb.append(ev.getType() != null ? ev.getType().getLabel(lang) : "").append("~");
 				sb.append(ev.getIndex() != null ? ev.getIndex() : "").append("~");
+				sb.append(ev.getNopic() != null && ev.getNopic() ? "1" : "0");
 			}
 			else if (o instanceof Olympics) {
 				Olympics ol = (Olympics) o;
@@ -1352,6 +1356,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(ol.getCountEvent()).append("~");
 				sb.append(ol.getCountCountry()).append("~");
 				sb.append(ol.getCountPerson()).append("~");
+				sb.append(ol.getNopic() != null && ol.getNopic() ? "1" : "0");
 			}
 			else if (o instanceof OlympicRanking) {
 				OlympicRanking or = (OlympicRanking) o;
@@ -1375,6 +1380,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(sp.getLabelFr()).append("~");
 				sb.append(sp.getType() != null ? sp.getType() : "").append("~");
 				sb.append(sp.getIndex() != null ? sp.getIndex() : "").append("~");
+				sb.append(sp.getNopic() != null && sp.getNopic() ? "1" : "0");
 			}
 			else if (o instanceof State) {
 				State st = (State) o;
@@ -1382,6 +1388,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(st.getLabelFr()).append("~");
 				sb.append(st.getCode()).append("~");
 				sb.append(st.getCapital()).append("~");
+				sb.append(st.getNopic() != null && st.getNopic() ? "1" : "0");
 			}
 			else if (o instanceof Team) {
 				Team tm = (Team) o;
@@ -1411,6 +1418,7 @@ public class UpdateServlet extends AbstractServlet {
 					sb.append("0~[root]~");
 				else
 					sb.append("~~");
+				sb.append(tm.getNopic() != null && tm.getNopic() ? "1" : "0");
 			}
 			else if (o instanceof Year) {
 				Year yr = (Year) o;
@@ -1583,7 +1591,6 @@ public class UpdateServlet extends AbstractServlet {
 			else if (alias.equalsIgnoreCase(Complex.alias)) {
 				Complex en = (Complex) o;
 				en.setLabel(String.valueOf(hParams.get("cx-label")));
-				en.setLabelFr(String.valueOf(hParams.get("cx-labelfr")));
 				en.setCity((City)DatabaseHelper.loadEntity(City.class, StringUtils.toInt(hParams.get("cx-city"))));
 				en.setPhotoSource(String.valueOf(hParams.get("cx-source")));
 				en.setLink(StringUtils.notEmpty(hParams.get("cx-link")) ? new Integer(String.valueOf(hParams.get("cx-link"))) : null);
@@ -1895,7 +1902,7 @@ public class UpdateServlet extends AbstractServlet {
 			if (entity.equalsIgnoreCase(City.alias))
 				label_ = "label || '<i> - ' || country.code || '</i>', labelFR";
 			else if (entity.equalsIgnoreCase(Complex.alias))
-				label_ = "label || '<i> - ' || city.label || ', ' || city.country.code || '</i>', labelFR";
+				label_ = "label || '<i> - ' || city.label || ', ' || city.country.code || '</i>'";
 			if (StringUtils.notEmpty(pattern))
 				where.append(" and lower(" + label_ + ") like '%" + pattern.toLowerCase() + "%'");
 			List<Object[]> items = DatabaseHelper.execute("select id, " + label_ + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + where.toString() + " order by id");
@@ -2057,7 +2064,7 @@ public class UpdateServlet extends AbstractServlet {
 			if (entity.equalsIgnoreCase(City.alias))
 				labels = "label || '<i> - ' || country.code || '</i>', labelFR";
 			else if (entity.equalsIgnoreCase(Complex.alias))
-				labels = "label || '<i> - ' || city.label || ', ' || city.country.code || '</i>', labelFR";
+				labels = "label || '<i> - ' || city.label || ', ' || city.country.code || '</i>'";
 			List<Object[]> items = DatabaseHelper.execute("select id, " + labels + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + " where 1=1" + (tIds.length > 1 ? " and id between " + tIds[0] + " and " + tIds[1] : "") + (StringUtils.notEmpty(pattern) ? " and (lower(label) like '" + pattern + "%' or lower(labelFR) like '" + pattern + "%')" : "") + " order by id");
 			List<Translation> translations = DatabaseHelper.execute(hql.toString());
 			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + " (EN)</th><th>" + ResourceUtils.getText("label", lang) + " (FR)</th><th>" + ResourceUtils.getText("checked", lang) + "&nbsp;<input type='checkbox' onclick='checkAllTranslations();'/></th></thead><tbody>");

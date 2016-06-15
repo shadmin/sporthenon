@@ -22,10 +22,10 @@ public class RoundType {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_round_type")
 	private Integer id;
 	
-	@Column(name = "label", length = 25, nullable = false)
+	@Column(name = "label", length = 50, nullable = false)
 	private String label;
 	
-	@Column(name = "label_fr", length = 25, nullable = false)
+	@Column(name = "label_fr", length = 50, nullable = false)
 	private String labelFR;
 	
 	@Column(name = "\"index\"", nullable = false)

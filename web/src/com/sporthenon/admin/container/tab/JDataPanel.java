@@ -407,7 +407,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			Complex cx = (Complex) o;
 			JComplexPanel p = (JComplexPanel) panel;
 			p.setLabel(cx.getLabel());
-			p.setLabelFR(cx.getLabelFr());
 			p.setCity(cx.getCity() != null ? cx.getCity().getId() : null);
 			p.setLink(cx.getLink() != null ? String.valueOf(cx.getLink()) : null);
 			p.setLinkLabel(" Linked to:");

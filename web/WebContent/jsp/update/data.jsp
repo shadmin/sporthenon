@@ -82,8 +82,7 @@
 			<!-- COMPLEX -->
 			<table id="table-CX" style="display:none;">
 				<tr><th>ID</th><td><input type="text" disabled="disabled" id="cx-id" class="id"/></td></tr>
-				<tr><th><%=StringUtils.text("label", session)%> (EN)</th><td><input type="text" id="cx-label"/></td></tr>
-				<tr><th><%=StringUtils.text("label", session)%> (FR)</th><td><input type="text" id="cx-labelfr"/></td></tr>
+				<tr><th><%=StringUtils.text("label", session)%></th><td><input type="text" id="cx-label"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.CT.1", session)%></th><td><input type="hidden" id="cx-city"/><input type="text" id="cx-city-l"/><a href="javascript:clearValue('cx-city');">[X]</a></td></tr>
 				<tr><th><%=StringUtils.text("photo.source", session)%></th><td><input type="text" id="cx-source"/></td></tr>
 				<tr><th><%=StringUtils.text("linked.to", session)%></th><td><input type="hidden" id="cx-link"/><input type="text" id="cx-link-l"/><a href="javascript:clearValue('cx-link');">[X]</a></td></tr>

@@ -152,6 +152,7 @@ var treeItems = null;
 				<legend><a href="javascript:toggle('rounds');"><img id="img-rounds" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("matches.rounds", session)%></a></legend>
 				<div id="rounds"><table style="margin-top:0px;"></table><a href="javascript:addRounds();">[+10]</a></div>
 			</fieldset>
+			<br/><span id="metadata"></span>
 			</li>
 			</ul>
 			<!-- BUTTON PANEL -->

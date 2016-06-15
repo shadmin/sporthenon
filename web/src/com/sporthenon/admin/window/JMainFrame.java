@@ -371,7 +371,6 @@ public class JMainFrame extends JFrame {
 			JComplexPanel p = (JComplexPanel) jEntityPanels.get(alias);
 			Complex en = (Complex) o;
 			en.setLabel(p.getLabel().getText());
-			en.setLabelFr(p.getLabelFR().getText());
 			en.setCity((City)DatabaseHelper.loadEntity(City.class, SwingUtils.getValue(p.getCity())));
 			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? new Integer(p.getLink().getText()) : null);
 			plb.setText(en.getLabel() + " [" + en.getCity().getLabel() + ", " + en.getCity().getCountry().getCode() + "]");

@@ -193,8 +193,6 @@ public class HtmlUtils {
 		html.append("<table class='info'" + (width != null && width > 0 ? " style='width:" + width + "px;'" : "") + ">");
 		if (h.containsKey("titlename")) {
 			html.append("<tr><th id='titlename'" + (!h.containsKey("_sport_") && !h.containsKey("_year_") ? " colspan='2'" : "") + ">" + h.get("titlename") + "</th></tr>");
-			if (h.containsKey("titlename2"))
-				html.append("<tr><td id='titlename2' colspan='2'>" + h.get("titlename2") + "</th></tr>");	
 			// Photo
 			if (h.containsKey("imgurl"))
 				html.append("<tr><td colspan='2' class='photo'>" + ImageUtils.getPhotoImg(h.get("imgurl"), h.get("source"), lang) + "</td></tr>");
@@ -204,6 +202,8 @@ public class HtmlUtils {
 				html.append("<tr>" + (h.containsKey("_sport_") || h.containsKey("_team_") || h.containsKey("_year_") || key.matches("flag|logo") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
 				html.append("<td" + (key.matches("logo|logosport|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + (key.matches("flag|logo") ? " colspan='2'" : "") + ">" + h.get(key) + "</td></tr>");
 			}
+			else if (key.equals("titlename2"))
+				html.append("<tr><td id='titlename2' colspan='2'>" + h.get("titlename2") + "</th></tr>");
 		}
 		html.append("</table></li>");
 		return html.append("</ul>");

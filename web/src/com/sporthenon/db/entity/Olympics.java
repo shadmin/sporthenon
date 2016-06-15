@@ -56,6 +56,9 @@ public class Olympics {
 	@Column(name = "ref")
 	private Integer ref;
 	
+	@Column(name = "no_pic")
+	private Boolean nopic;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -155,6 +158,14 @@ public class Olympics {
 		this.ref = ref;
 	}
 
+	public Boolean getNopic() {
+		return nopic;
+	}
+
+	public void setNopic(Boolean nopic) {
+		this.nopic = nopic;
+	}
+	
 	@Override
 	public String toString() {
 		return "Olympics [id=" + id + ", year=" + year + ", city=" + city

@@ -21,7 +21,6 @@
 				<td><select id="trentity">
 				<option value="CP"><%=StringUtils.text("entity.CP", session)%></option>
 				<option value="CT"><%=StringUtils.text("entity.CT", session)%></option>
-				<option value="CX"><%=StringUtils.text("entity.CX", session)%></option>
 				<option value="CN"><%=StringUtils.text("entity.CN", session)%></option>
 				<option value="EV"><%=StringUtils.text("entity.EV", session)%></option>
 				<option value="SP"><%=StringUtils.text("entity.SP", session)%></option>
