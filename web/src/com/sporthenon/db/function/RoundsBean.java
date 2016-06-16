@@ -47,9 +47,6 @@ public class RoundsBean {
 	@Column(name = "cx_label")
 	private String cxLabel;
 	
-	@Column(name = "cx_label_en")
-	private String cxLabelEN;
-	
 	@Column(name = "ct1_id")
 	private Integer ct1Id;
 
@@ -254,10 +251,6 @@ public class RoundsBean {
 
 	public String getCxLabel() {
 		return cxLabel;
-	}
-
-	public String getCxLabelEN() {
-		return cxLabelEN;
 	}
 
 	public Integer getCt1Id() {
@@ -518,10 +511,6 @@ public class RoundsBean {
 
 	public void setCxLabel(String cxLabel) {
 		this.cxLabel = cxLabel;
-	}
-
-	public void setCxLabelEN(String cxLabelEN) {
-		this.cxLabelEN = cxLabelEN;
 	}
 
 	public void setCt1Id(Integer ct1Id) {

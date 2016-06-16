@@ -44,9 +44,6 @@ public class USChampionshipsBean {
 	@Column(name = "cx_label")
 	private String cxLabel;
 	
-	@Column(name = "cx_label_en")
-	private String cxLabelEN;
-	
 	@Column(name = "ct_id")
 	private Integer ctId;
 
@@ -262,10 +259,6 @@ public class USChampionshipsBean {
 		this.rsTeam2 = rsTeam2;
 	}
 
-	public String getCxLabelEN() {
-		return cxLabelEN;
-	}
-
 	public String getCtLabelEN() {
 		return ctLabelEN;
 	}
@@ -276,10 +269,6 @@ public class USChampionshipsBean {
 
 	public String getCnLabelEN() {
 		return cnLabelEN;
-	}
-
-	public void setCxLabelEN(String cxLabelEN) {
-		this.cxLabelEN = cxLabelEN;
 	}
 
 	public void setCtLabelEN(String ctLabelEN) {

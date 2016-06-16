@@ -29,9 +29,6 @@ public class TeamStadiumBean {
 	@Column(name = "cx_label")
 	private String cxLabel;
 	
-	@Column(name = "cx_label_en")
-	private String cxLabelEN;
-	
 	@Column(name = "ct_id")
 	private Integer ctId;
 
@@ -207,10 +204,6 @@ public class TeamStadiumBean {
 		this.tsDate2 = tsDate2;
 	}
 
-	public String getCxLabelEN() {
-		return cxLabelEN;
-	}
-
 	public String getCtLabelEN() {
 		return ctLabelEN;
 	}
@@ -221,10 +214,6 @@ public class TeamStadiumBean {
 
 	public String getCnLabelEN() {
 		return cnLabelEN;
-	}
-
-	public void setCxLabelEN(String cxLabelEN) {
-		this.cxLabelEN = cxLabelEN;
 	}
 
 	public void setCtLabelEN(String ctLabelEN) {

@@ -95,9 +95,6 @@ public class OlympicMedalsBean {
 	@Column(name = "cx_label")
 	private String cxLabel;
 	
-	@Column(name = "cx_label_en")
-	private String cxLabelEN;
-	
 	@Column(name = "ct1_id")
 	private Integer ct1Id;
 
@@ -1003,10 +1000,6 @@ public class OlympicMedalsBean {
 		this.cn5LabelEN = cn5LabelEN;
 	}
 
-	public String getCxLabelEN() {
-		return cxLabelEN;
-	}
-
 	public String getCt1LabelEN() {
 		return ct1LabelEN;
 	}
@@ -1017,10 +1010,6 @@ public class OlympicMedalsBean {
 
 	public String getCn1LabelEN_() {
 		return cn1LabelEN_;
-	}
-
-	public void setCxLabelEN(String cxLabelEN) {
-		this.cxLabelEN = cxLabelEN;
 	}
 
 	public void setCt1LabelEN(String ct1LabelEN) {

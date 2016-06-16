@@ -28,7 +28,7 @@ public class Request {
 	@Column(name = "date")
 	private Timestamp date;
 
-	@Column(name = "user_agent", length = 250)
+	@Column(name = "user_agent", length = 200)
 	private String userAgent;
 	
 	public Integer getId() {

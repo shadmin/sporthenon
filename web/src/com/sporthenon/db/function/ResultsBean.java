@@ -155,17 +155,11 @@ public class ResultsBean {
 	@Column(name = "cx1_label")
 	private String cx1Label;
 	
-	@Column(name = "cx1_label_en")
-	private String cx1LabelEN;
-
 	@Column(name = "cx2_id")
 	private Integer cx2Id;
 
 	@Column(name = "cx2_label")
 	private String cx2Label;
-	
-	@Column(name = "cx2_label_en")
-	private String cx2LabelEN;
 	
 	@Column(name = "ct1_id")
 	private Integer ct1Id;
@@ -2031,14 +2025,6 @@ public class ResultsBean {
 		this.cn4Label = cn4Label;
 	}
 
-	public String getCx1LabelEN() {
-		return cx1LabelEN;
-	}
-
-	public String getCx2LabelEN() {
-		return cx2LabelEN;
-	}
-
 	public String getCt1LabelEN() {
 		return ct1LabelEN;
 	}
@@ -2085,14 +2071,6 @@ public class ResultsBean {
 
 	public String getCn4LabelEN() {
 		return cn4LabelEN;
-	}
-
-	public void setCx1LabelEN(String cx1LabelEN) {
-		this.cx1LabelEN = cx1LabelEN;
-	}
-
-	public void setCx2LabelEN(String cx2LabelEN) {
-		this.cx2LabelEN = cx2LabelEN;
 	}
 
 	public void setCt1LabelEN(String ct1LabelEN) {
