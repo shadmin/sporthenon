@@ -100,7 +100,7 @@ begin
 
 	-- Teams
 	IF (_entity = 'TM' OR _entity = '') THEN
-		_query = 'SELECT TM.id, TM.label, SP.label' || _lang || ', CN.code, LG.label, string_agg(CAST (EL.id AS VARCHAR), '',''), TM2.label, TM.ref';
+		_query = 'SELECT TM.id, TM.label, SP.label' || _lang || ', CN.code, LG.label, string_agg(CAST (EL.id AS VARCHAR), '',''), TM2.label, TM.ref, (CASE WHEN TM.no_pic=true THEN 1 ELSE 0 END)';
 		_query = _query || ' FROM "Team" TM';
 		_query = _query || ' LEFT JOIN "Country" CN ON TM.id_country = CN.id';
 		_query = _query || ' LEFT JOIN "Sport" SP ON TM.id_sport = SP.id';
@@ -122,7 +122,7 @@ begin
 		_query = _query || ' ORDER BY TM.label LIMIT ' || _count;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.label, _item.label_en, _item.count2;
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.label, _item.label_en, _item.count2, _item.count3;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'TM';
@@ -134,7 +134,7 @@ begin
 
 	-- Sports
 	IF (_entity = 'SP' OR _entity = '') THEN
-		_query = 'SELECT SP.id, SP.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), SP.ref';
+		_query = 'SELECT SP.id, SP.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), SP.ref, (CASE WHEN SP.no_pic=true THEN 1 ELSE 0 END)';
 		_query = _query || ' FROM "Sport" SP';
 		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = SP.id AND EL.entity=''SP'')';
 		_query = _query || ' WHERE 0=1';
@@ -152,7 +152,7 @@ begin
 		_query = _query || ' ORDER BY SP.label' || _lang || ' LIMIT ' || _count;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label, _item.count2;
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label, _item.count2, _item.count3;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'SP';
@@ -164,7 +164,7 @@ begin
 
 	-- Championships
 	IF (_entity = 'CP' OR _entity = '') THEN
-		_query = 'SELECT CP.id, CP.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), CP.ref';
+		_query = 'SELECT CP.id, CP.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), CP.ref, (CASE WHEN CP.no_pic=true THEN 1 ELSE 0 END)';
 		_query = _query || ' FROM "Championship" CP';
 		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = CP.id AND EL.entity=''CP'')';
 		_query = _query || ' WHERE 0=1';
@@ -182,7 +182,7 @@ begin
 		_query = _query || ' ORDER BY CP.label' || _lang || ' LIMIT ' || _count;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label, _item.count2;
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label, _item.count2, _item.count3;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'CP';
@@ -194,7 +194,7 @@ begin
 
 	-- Events
 	IF (_entity = 'EV' OR _entity = '') THEN
-		_query = 'SELECT EV.id, EV.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), EV.ref';
+		_query = 'SELECT EV.id, EV.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), EV.ref, (CASE WHEN EV.no_pic=true THEN 1 ELSE 0 END)';
 		_query = _query || ' FROM "Event" EV';
 		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = EV.id AND EL.entity=''EV'')';
 		_query = _query || ' WHERE 0=1';
@@ -212,7 +212,7 @@ begin
 		_query = _query || ' ORDER BY EV.label' || _lang || ' LIMIT ' || _count;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label, _item.count2;
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label, _item.count2, _item.count3;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'EV';
@@ -257,7 +257,7 @@ begin
 
 	-- Complexes
 	IF (_entity = 'CX' OR _entity = '') THEN
-		_query = 'SELECT CX.id, CX.label' || _lang || ', CT.label' || _lang || ', CN.code, string_agg(CAST (EL.id AS VARCHAR), '',''), CX2.label, CX.ref';
+		_query = 'SELECT CX.id, CX.label, CT.label' || _lang || ', CN.code, string_agg(CAST (EL.id AS VARCHAR), '',''), CX2.label, CX.ref';
 		_query = _query || ' FROM "Complex" CX';
 		_query = _query || ' LEFT JOIN "City" CT ON CX.id_city = CT.id';
 		_query = _query || ' LEFT JOIN "Country" CN ON CT.id_country = CN.id';
@@ -272,10 +272,10 @@ begin
 		IF (_id1 > 0 AND _id2 > 0) THEN
 			_query = _query || ' AND CX.id BETWEEN ' || _id1 || ' AND ' || _id2;
 		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
-			_query = _query || ' AND lower(CX.label' || _lang || ') like ''' || lower(_pattern) || '%''';
+			_query = _query || ' AND lower(CX.label) like ''' || lower(_pattern) || '%''';
 		END IF;
-		_query = _query || ' GROUP BY CX.id, CX.label' || _lang || ', CT.label' || _lang || ', CN.code, CX2.label, CX.ref';
-		_query = _query || ' ORDER BY CX.label' || _lang || ' LIMIT ' || _count;
+		_query = _query || ' GROUP BY CX.id, CX.label, CT.label' || _lang || ', CN.code, CX2.label, CX.ref';
+		_query = _query || ' ORDER BY CX.label LIMIT ' || _count;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
 			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label, _item.label_en, _item.count2;

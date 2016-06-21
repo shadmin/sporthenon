@@ -51,7 +51,7 @@ begin
 	OPEN _c FOR EXECUTE
 	'SELECT
 		RD.id AS rd_id, RD.id_result_type AS rd_result_type, RT.id AS rt_id, RT.label' || _lang || ' AS rt_label, RT.index AS rt_index, RD.result1 AS rd_result1, RD.result2 AS rd_result2, RD.result3 AS rd_result3, RD.date AS rd_date, RD.exa AS rd_exa, RD.comment AS rd_comment,
-		CX.id AS cx_id, CX.label' || _lang || ' AS cx_label, CX.label AS cx_label_en, CT1.id AS ct1_id, CT1.label' || _lang || ' AS ct1_label, CT1.label AS ct1_label_en, ST1.id AS st1_id, ST1.code AS st1_code, ST1.label AS st1_label_en, CN1.id AS cn1_id, CN1.code AS cn1_code, CN1.label AS cn1_label_en,
+		CX.id AS cx_id, CX.label AS cx_label, CT1.id AS ct1_id, CT1.label' || _lang || ' AS ct1_label, CT1.label AS ct1_label_en, ST1.id AS st1_id, ST1.code AS st1_code, ST1.label AS st1_label_en, CN1.id AS cn1_id, CN1.code AS cn1_code, CN1.label AS cn1_label_en,
 		CT2.id AS ct2_id, CT2.label' || _lang || ' AS ct2_label, CT2.label AS ct2_label_en, ST2.id AS st2_id, ST2.code AS st2_code, ST2.label AS st2_label_en, CN2.id AS cn2_id, CN2.code AS cn2_code, CN2.label AS cn2_label_en' ||
 		_columns || '
 	FROM
@@ -69,7 +69,7 @@ begin
 	WHERE
 		RD.id_result = ' || _id_result || '
 	ORDER BY
-		RT.index, RD.id';
+		RT.index, RT.label, RD.id';
 	RETURN  _c;
 end;
 $BODY$

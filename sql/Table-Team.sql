@@ -20,6 +20,7 @@ CREATE TABLE "Team"
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
   id_league integer,
+  no_pic boolean,
   CONSTRAINT "TEAM_pkey" PRIMARY KEY (id),
   CONSTRAINT "TEAM_id_country_fkey" FOREIGN KEY (id_country)
       REFERENCES "Country" (id) MATCH SIMPLE
@@ -44,7 +45,6 @@ CREATE INDEX "TM_LABEL_INDEX"
   ON "Team"
   USING btree
   (lower(label::text) COLLATE pg_catalog."default");
-
 
 -- Trigger: TriggerTM on "Team"
 

@@ -123,13 +123,13 @@ begin
 				_item.label = _current_label;
 				IF _current_link IS NOT NULL THEN
 					IF _s = 'CT' THEN
-						SELECT SUM(ref) INTO _item.count_ref FROM "City" WHERE id=_current_id OR link=_current_id;
+						SELECT SUM(ref) INTO _current_ref FROM "City" WHERE id=_current_id OR link=_current_id;
 					ELSIF _s = 'CX' THEN
-						SELECT SUM(ref) INTO _item.count_ref FROM "Complex" WHERE id=_current_id OR link=_current_id;
+						SELECT SUM(ref) INTO _current_ref FROM "Complex" WHERE id=_current_id OR link=_current_id;
 					ELSIF _s = 'PR' THEN
-						SELECT SUM(ref) INTO _item.count_ref FROM "Athlete" WHERE id=_current_id OR link=_current_id;
+						SELECT SUM(ref) INTO _current_ref FROM "Athlete" WHERE id=_current_id OR link=_current_id;
 					ELSIF _s = 'TM' THEN
-						SELECT SUM(ref) INTO _item.count_ref FROM "Team" WHERE id=_current_id OR link=_current_id;
+						SELECT SUM(ref) INTO _current_ref FROM "Team" WHERE id=_current_id OR link=_current_id;
 					END IF;
 				END IF;
 				_item.count_ref = (CASE WHEN _current_ref IS NOT NULL THEN _current_ref ELSE 0 END);

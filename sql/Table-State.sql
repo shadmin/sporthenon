@@ -13,6 +13,7 @@ CREATE TABLE "State"
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
+  no_pic boolean,
   CONSTRAINT "STATE_pkey" PRIMARY KEY (id),
   CONSTRAINT "STATE_id_member_fkey" FOREIGN KEY (id_contributor)
       REFERENCES "~Contributor" (id) MATCH SIMPLE

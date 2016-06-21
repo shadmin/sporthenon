@@ -13,6 +13,7 @@ CREATE TABLE "Event"
   index integer,
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
+  no_pic boolean,
   CONSTRAINT "EVENT_pkey" PRIMARY KEY (id),
   CONSTRAINT "EVENT_id_member_fkey" FOREIGN KEY (id_contributor)
       REFERENCES "~Contributor" (id) MATCH SIMPLE

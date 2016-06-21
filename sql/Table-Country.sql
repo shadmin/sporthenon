@@ -12,6 +12,7 @@ CREATE TABLE "Country"
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
+  no_pic boolean,
   CONSTRAINT "COUNTRY_pkey" PRIMARY KEY (id),
   CONSTRAINT "COUNTRY_id_member_fkey" FOREIGN KEY (id_contributor)
       REFERENCES "~Contributor" (id) MATCH SIMPLE

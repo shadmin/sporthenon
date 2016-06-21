@@ -18,6 +18,7 @@ CREATE TABLE "Olympics"
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
+  no_pic boolean,
   CONSTRAINT "OLYMPICS_pkey" PRIMARY KEY (id),
   CONSTRAINT "OLYMPICS_id_city_fkey" FOREIGN KEY (id_city)
       REFERENCES "City" (id) MATCH SIMPLE

@@ -12,6 +12,7 @@ CREATE TABLE "Championship"
   index integer,
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
+  no_pic boolean,
   CONSTRAINT "CHAMPIONSHIP_pkey" PRIMARY KEY (id),
   CONSTRAINT "CHAMPIONSHIP_id_member_fkey" FOREIGN KEY (id_contributor)
       REFERENCES "~Contributor" (id) MATCH SIMPLE

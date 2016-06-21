@@ -13,6 +13,7 @@ CREATE TABLE "Sport"
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
   index double precision,
+  no_pic boolean,
   CONSTRAINT "SPORT_pkey" PRIMARY KEY (id),
   CONSTRAINT "SPORT_id_member_fkey" FOREIGN KEY (id_contributor)
       REFERENCES "~Contributor" (id) MATCH SIMPLE

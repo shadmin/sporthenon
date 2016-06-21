@@ -6,7 +6,6 @@ CREATE TABLE "Complex"
 (
   id integer NOT NULL,
   label character varying(80) NOT NULL,
-  label_fr character varying(80) NOT NULL,
   id_city integer NOT NULL,
   id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),

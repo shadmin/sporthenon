@@ -433,7 +433,7 @@ begin
 
 	-- References in: [Complexes]
 	IF (_entity = 'CT' AND (_entity_ref = 'CX' OR _entity_ref = '')) THEN
-		_query = 'SELECT CX.id, CX.label' || _lang || ', CX.label, CT.id, CT.label' || _lang || ', CN.id, CN.label' || _lang || ', CT.label, CN.label FROM "Complex" CX';
+		_query = 'SELECT CX.id, CX.label, CX.label, CT.id, CT.label' || _lang || ', CN.id, CN.label' || _lang || ', CT.label, CN.label FROM "Complex" CX';
 		_query = _query || ' LEFT JOIN "City" CT ON CX.id_city = CT.id';
 		_query = _query || ' LEFT JOIN "State" ST ON CT.id_state = ST.id';
 		_query = _query || ' LEFT JOIN "Country" CN ON CT.id_country = CN.id';
