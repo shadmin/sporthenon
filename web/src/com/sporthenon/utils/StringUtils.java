@@ -124,7 +124,7 @@ public class StringUtils {
 		if (dt != null) {
 			Locale l = (lang != null && lang.equalsIgnoreCase("fr") ? Locale.FRENCH : Locale.ENGLISH);
 			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-			SimpleDateFormat dftxt = new SimpleDateFormat(notEmpty(format) ? format : "dd MMM", l);
+			SimpleDateFormat dftxt = new SimpleDateFormat(notEmpty(format) ? format : "d MMM", l);
 			if (dt != null) {
 				if (!dt.matches(".*\\d\\d\\:\\d\\d$"))
 					dt += " 00:00";

@@ -60,7 +60,7 @@ public class ImageServlet extends AbstractServlet {
 				}
 				Object id = hParams.get("id");
 				String ext = "." + name.substring(name.lastIndexOf(".") + 1).toLowerCase();
-				String fileName = "photo" + StringUtils.encode(entity + "-" + id);
+				String fileName = "P" + StringUtils.encode(entity + "-" + id);
 				File f = new File(ConfigUtils.getProperty("img.folder") + fileName + ext);
 				if (f.exists()) {
 					int i = 1;

@@ -107,7 +107,7 @@ public class ImportUtils {
 						sql = "SELECT T.id FROM \"Championship\" T WHERE lower(T.label) ~ E'^" + regexp + "$'";
 					else if (h.matches("ev|se|se2")) {
 						String[] tEv = s_.split("\\|");
-						sql = "SELECT T.id from \"Event\" T LEFT JOIN \"Type\" TP ON T.id_type=TP.id WHERE lower(T.label) ~ E'^" + tEv[0] + "$'" + (tEv.length > 1 ? " AND lower(TP.label) ~ E'^" + tEv[1] + "$'" : "") + " ORDER BY T.id";
+						sql = "SELECT T.id from \"Event\" T LEFT JOIN \"Type\" TP ON T.id_type=TP.id WHERE lower(T.label) ~ E'^" + StringUtils.toPatternString(tEv[0]) + "$'" + (tEv.length > 1 ? " AND lower(TP.label) ~ E'^" + tEv[1] + "$'" : "") + " ORDER BY T.id";
 						if (tEv.length > 1)
 							tp = tEv[1];
 					}

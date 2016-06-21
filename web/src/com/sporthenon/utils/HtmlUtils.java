@@ -96,28 +96,49 @@ public class HtmlUtils {
 		return html.toString();
 	}
 	
-	public static String writeDateLink(Object value, String text) throws Exception {
+	public static String writeDateLink(Object value1, Object value2, String text) throws Exception {
 		StringBuffer html = new StringBuffer();
 		StringBuffer url = new StringBuffer("/calendar");
+		// Date 1
 		String s1 = "";
 		String s2 = "";
-		if (value != null) {
-			if (value instanceof String) {
-				if (String.valueOf(value).length() > 4) {
+		if (value1 != null) {
+			if (value1 instanceof String) {
+				if (String.valueOf(value1).length() > 4) {
 					SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-					value = new Timestamp(df.parse(String.valueOf(value)).getTime());	
+					value1 = new Timestamp(df.parse(String.valueOf(value1)).getTime());	
 				}
 				else {
-					s1 = String.valueOf(value);
+					s1 = String.valueOf(value1);
 					s2 = s1 + "-0-0";
 				}
 			}
-			if (value instanceof Timestamp) {
-				s1 = StringUtils.toTextDate((Timestamp) value, ResourceUtils.LGDEFAULT, "yyyy-MM-dd");
-				s2 = StringUtils.toTextDate((Timestamp) value, ResourceUtils.LGDEFAULT, "yyyyMMdd");
+			if (value1 instanceof Timestamp) {
+				s1 = StringUtils.toTextDate((Timestamp) value1, ResourceUtils.LGDEFAULT, "yyyy-MM-dd");
+				s2 = StringUtils.toTextDate((Timestamp) value1, ResourceUtils.LGDEFAULT, "yyyyMMdd");
 			}
 		}
-		url.append("/" + s1).append("/" + StringUtils.encode(s2));
+		// Date 2
+		String s1_ = "";
+		String s2_ = "";
+		if (value2 != null) {
+			if (value2 instanceof String) {
+				if (String.valueOf(value2).length() > 4) {
+					SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+					value2 = new Timestamp(df.parse(String.valueOf(value2)).getTime());	
+				}
+				else {
+					s1_ = String.valueOf(value2);
+					s2_ = s1_ + "-0-0";
+				}
+			}
+			if (value2 instanceof Timestamp) {
+				s1_ = StringUtils.toTextDate((Timestamp) value2, ResourceUtils.LGDEFAULT, "yyyy-MM-dd");
+				s2_ = StringUtils.toTextDate((Timestamp) value2, ResourceUtils.LGDEFAULT, "yyyyMMdd");
+			}
+		}
+		url.append(value1 != null ? "/" + s1 : "").append("/" + s1_);
+		url.append("/" + StringUtils.encode((value1 != null ? s2 + "-" : "") + s2_));
 		html.append("<a href='").append(url).append("'>").append(text).append("</a>");
 		return html.toString();
 	}

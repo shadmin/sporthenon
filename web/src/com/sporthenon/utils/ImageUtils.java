@@ -104,7 +104,7 @@ public class ImageUtils {
 	}
 
 	public static String getPhotoFile(String entity, Object id) {
-		String p = "photo" + StringUtils.encode(entity + "-" + id);
+		String p = "P" + StringUtils.encode(entity + "-" + id);
 		LinkedList<String> list = new LinkedList<String>();
 		for (String s : ImageUtils.getImgFiles())
 			if (s.matches("^" + p + "\\d*\\.\\S+$"))
