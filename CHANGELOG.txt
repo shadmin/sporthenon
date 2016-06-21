@@ -1,7 +1,20 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.12.7  |
+| Last Version: 0.12.8  |
 +-----------------------+
+
++--------+
+| 0.12.8 |
++--------+
+[21 Jun 2016]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.8
+- New checkbox to disable pictures on entities (disappear from missing pics report)
+- Sorted rounds by index, round type (label), round ID
+- Added last modification date/user (update/results)
+- New field in database to store "user-agent" header
+- Removed field for FR translations in complex table
+- Bugfix: URL not displayed in logs when exception is thrown
+- Bugfix: invalid ref. count on linked entities (global search)
 
 +--------+
 | 0.12.7 |
