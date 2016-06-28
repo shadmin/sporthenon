@@ -789,7 +789,7 @@ public class HtmlConverter {
 			evlink = "<a href='" + HtmlUtils.writeURL("/results", r.getSport().getId() + "-" + r.getChampionship().getId() + "-" + r.getEvent().getId() + (r.getSubevent() != null ? "-" + r.getSubevent().getId() : "") + (r.getSubevent2() != null ? "-" + r.getSubevent2().getId() : ""), evlink) + "'>" + (r.getEvent().getLabel(lang) + (r.getSubevent() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + r.getSubevent().getLabel(lang) : "") + (r.getSubevent2() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + r.getSubevent2().getLabel(lang) : "")) + "</a>";			
 			html.append("<tr><th class='caption'>" + ResourceUtils.getText("entity.EV.1", lang) + "</th><td>" + HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + eventId, ImageUtils.SIZE_SMALL, null, null), evlink) + "</td></tr>");
 			if (StringUtils.notEmpty(r.getDate2()))
-				html.append("<tr><th class='caption'>" + ResourceUtils.getText(StringUtils.notEmpty(r.getDate1()) ? "dates" : "date", lang) + "</th><td>" + (StringUtils.notEmpty(r.getDate1()) ? HtmlUtils.writeDateLink(null, r.getDate1(), StringUtils.toTextDate(r.getDate1(), lang, "d MMMM yyyy")) + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" : "") + HtmlUtils.writeDateLink(null, r.getDate2(), StringUtils.toTextDate(r.getDate2(), lang, "d MMMM yyyy")) + "</td></tr>");
+				html.append("<tr><th class='caption'>" + ResourceUtils.getText(StringUtils.notEmpty(r.getDate1()) ? "dates" : "date", lang) + "</th><td>" + (StringUtils.notEmpty(r.getDate1()) ? HtmlUtils.writeDateLink(null, r.getDate1(), StringUtils.toTextDate(r.getDate1(), lang, "EEEE d MMMM yyyy")) + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" : "") + HtmlUtils.writeDateLink(null, r.getDate2(), StringUtils.toTextDate(r.getDate2(), lang, "EEEE d MMMM yyyy")) + "</td></tr>");
 			if (StringUtils.notEmpty(r.getComplex2()) || StringUtils.notEmpty(r.getCity2()) || StringUtils.notEmpty(r.getCountry2())) {
 				String p1 = null;
 				String p2 = null;
@@ -1265,9 +1265,8 @@ public class HtmlConverter {
 			summary.append("<a href='#Header'>1.&nbsp;" + ResourceUtils.getText("header", lang) + "</a><br/>");
 		int ns = 1;
 		final String MORE_ITEMS = "<tr class='moreitems'#STYLE#><td colspan='#COLSPAN#'><div class='sfdiv1' onclick='moreItems(this, \"#P1#\");'>&nbsp;(+" + ITEM_LIMIT + ")&nbsp;</div><div class='sfdiv2' onclick='moreItems(this, \"#P2#\");'>&nbsp;(+100)&nbsp;</div><div class='sfdiv3' onclick='moreItems(this, \"#P3#\");'>&nbsp;(" + ResourceUtils.getText("all", lang) + ")&nbsp;</div></td></tr>";
-		String c0 = null, c1 = null, c2 = null, c3 = null, c4 = null, c5 = null, c6 = null, c7 = null, c8 = null;
-		String c8_id = null;
-		String result1 = null;
+		String c0 = null, c1 = null, c2 = null, c3 = null, c4 = null, c5 = null, c6 = null, c7 = null;
+		String c6_id = null;
 		for (Object obj : coll) {
 			RefItem item = (RefItem) obj;
 			String en = item.getEntity();
@@ -1291,7 +1290,7 @@ public class HtmlConverter {
 				else if (en.equals(Record.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("category", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("scope", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("record2", lang) + "</th>");				
 				else if (en.equals(Result.alias))
-					cols.append("<th/><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("year", lang)  + "</th>" + (isPRTMCN ? "<th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("rank", lang) + "</th>" : "") + "<th colspan='2' onclick='sort(\"" + id + "\", this, " + (isPRTMCN ? 4 : 3) + ");'>" + ResourceUtils.getText("rank.1", lang) + "</th><th onclick='sort(\"" + id + "\", this, " + (isPRTMCN ? 5 : 4) + ");'>" + ResourceUtils.getText("rank.2", lang) + "</th><th onclick='sort(\"" + id + "\", this, " + (isPRTMCN ? 6 : 5) + ");'>" + ResourceUtils.getText("rank.3", lang) + "</th><th onclick='sort(\"" + id + "\", this, " + (isPRTMCN ? 7 : 6) + ");'>" + ResourceUtils.getText("date", lang) + "</th>");
+					cols.append("<th/><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("year", lang)  + "</th>" + (isPRTMCN ? "<th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("rank", lang) + "</th>" : "") + "<th onclick='sort(\"" + id + "\", this, " + (isPRTMCN ? 4 : 3) + ");'>" + ResourceUtils.getText("entity.RS.1", lang) + "</th><th onclick='sort(\"" + id + "\", this, " + (isPRTMCN ? 5 : 4) + ");'>" + ResourceUtils.getText("date", lang) + "</th>");
 				else if (en.equals(RetiredNumber.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("league", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("name", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("number", lang) + "</th>");
 				else if (en.equals(Round.alias))
@@ -1326,8 +1325,6 @@ public class HtmlConverter {
 			c5 = null;
 			c6 = null;
 			c7 = null;
-			c8 = null;
-			result1 = null;
 			if (en.equals(Athlete.alias)) {
 				c1 = HtmlUtils.writeLink(Athlete.alias, item.getIdItem(), item.getLabel(), item.getLabelEN());
 				c2 = (item.getIdRel1() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, item.getIdRel1(), item.getLabelRel1(), item.getLabelRel3())) : StringUtils.EMPTY);
@@ -1457,15 +1454,19 @@ public class HtmlConverter {
 					}
 					tEntity = StringUtils.removeNulls(tEntity);
 				}
-				if (StringUtils.notEmpty(item.getTxt1()))
-					result1 = StringUtils.formatResult(item.getTxt1(), lang);
-				c5 = tEntity[0];
-				c6 = (StringUtils.notEmpty(tEntity[1]) ? tEntity[1] : "");
-				c7 = (StringUtils.notEmpty(tEntity[2]) ? tEntity[2] : "");
+				boolean isScore = (StringUtils.notEmpty(tEntity[0]) && StringUtils.notEmpty(tEntity[1]) && StringUtils.notEmpty(item.getTxt1()) && !StringUtils.notEmpty(item.getTxt2()));
+				String p1 = "<td>1.&nbsp;</td>";
+				String p2 = "<td>&nbsp;&nbsp;2.&nbsp;</td>";
+				String p3 = "<td>&nbsp;&nbsp;3.&nbsp;</td>";
 				if (isMedal) {
-					c5 = "<div class='medal gold'>" + c5 + "</div>";
-					c6 = "<div class='medal silver'>" + c6 + "</div>";
-					c7 = "<div class='medal bronze'>" + c7 + "</div>";
+					p1 = "<td>" + ImageUtils.getGoldMedImg(lang) + "</td>";
+					p2 = "<td>&nbsp;" + ImageUtils.getSilverMedImg(lang) + "</td>";
+					p3 = "<td>&nbsp;" + ImageUtils.getBronzeMedImg(lang) + "</td>";
+				}
+				if (isScore) {
+					p1 = "";
+					p2 = "";
+					p3 = "";
 				}
 				if (isPRTMCN && item.getCount1() != null) {
 					if (isMedal && item.getCount1() <= 3)
@@ -1479,8 +1480,9 @@ public class HtmlConverter {
 				}
 				c0 = "<ul class='vcenter'><li>" + HtmlUtils.writeLink(Result.alias, idResult, "<img alt='details' title='" +  ResourceUtils.getText("details", lang) + "' src='/img/render/details.png' style='padding-top:1px;padding-left:2px;'/>", path) + "</li><li>" + (m != null && m.isSport(item.getIdRel2()) ? "&nbsp;<a href='" + HtmlUtils.writeURL("/update/results", "RS-" + idResult, null) + "'><img alt='modify' title='" + ResourceUtils.getText("button.modify", lang) + "' src='/img/component/button/modify.png'/></a>" : "") + "</li></ul>";
 				c3 = HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1(), null);
-				c8 = (StringUtils.notEmpty(item.getDate2()) ? HtmlUtils.writeDateLink(null, item.getDate2(), StringUtils.toTextDate(item.getDate2(), lang, "d MMM yyyy")) : "");
-				c8_id = (StringUtils.notEmpty(item.getDate2()) ? "dt-" + new SimpleDateFormat("yyyyMMdd").format(item.getDate2()) + "-" + item.getIdItem() : null);
+				c5 = "<table><tr>" + p1 + "<td>" + tEntity[0] + "</td>" + (isScore ? "<td>&nbsp;&nbsp;" + StringUtils.formatResult(item.getTxt1(), lang) + "&nbsp;&nbsp;</td>" : "") + (StringUtils.notEmpty(tEntity[1]) ? p2 + "<td>" + tEntity[1] + "</td>" : "") + (StringUtils.notEmpty(tEntity[2]) && !isScore ? p3 + "<td>" + tEntity[2] + "</td>" : "") + "</tr></table>";
+				c6 = (StringUtils.notEmpty(item.getDate2()) ? HtmlUtils.writeDateLink(null, item.getDate2(), StringUtils.toTextDate(item.getDate2(), lang, "d MMM yyyy")) : "");
+				c6_id = (StringUtils.notEmpty(item.getDate2()) ? "dt-" + new SimpleDateFormat("yyyyMMdd").format(item.getDate2()) + "-" + item.getIdItem() : null);
 			}
 			else if (en.equals(RetiredNumber.alias)) {
 				Short cp = USLeaguesServlet.HLEAGUES.get(Short.valueOf(item.getIdRel3().toString()));
@@ -1513,7 +1515,7 @@ public class HtmlConverter {
 				c5 = tEntity[0];
 				c6 = StringUtils.formatResult(item.getTxt1(), lang);
 				c7 = (StringUtils.notEmpty(tEntity[1]) ? tEntity[1] : "");
-				c8 = (StringUtils.notEmpty(tEntity[2]) ? tEntity[2] : "");
+//				c8 = (StringUtils.notEmpty(tEntity[2]) ? tEntity[2] : "");
 			}
 			else if (en.equals(Team.alias)) {
 				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, item.getIdItem(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, item.getIdItem(), item.getLabel(), null));
@@ -1533,12 +1535,11 @@ public class HtmlConverter {
 			if (isExport || !isAllRef || count < ITEM_LIMIT) {
 				html.append("<tr" + (en.equals(Event.alias) && isAllRef ? " style='display:none;'" : "") + ">" + (c0 != null ? "<td>" + c0 + "</td>" : "") + (c1 != null ? "<td class='srt'>" + c1 + "</td>" : "") + (c2 != null ? "<td class='srt'>" + c2 + "</td>" : ""));
 				html.append(c3 != null ? "<td class='srt'>" + c3 + "</td>" : "");
-				html.append((c4 != null ? "<td class='srt'" + (c4.contains("'highlight'") ? " style='background-color:" + HIGHLIGHT_COLOR + ";'" : "") + (en.equals(Result.alias) && result1 == null && !isPRTMCN ? " colspan='2'" : "") + ">" + c4 + "</td>" : ""));
-				html.append(c5 != null ? "<td class='srt'" + (c5.contains("'highlight'") ? " style='background-color:" + HIGHLIGHT_COLOR + ";'" : "") + (en.equals(Result.alias) && result1 == null && isPRTMCN ? " colspan='2'" : "") + ">" + c5 + "</td>" : "");
-				html.append(result1 != null ? "<td class='centered'>" + result1 + "</td>" : "");
-				html.append(c6 != null ? "<td class='srt'" + (c6.contains("'highlight'") ? " style='background-color:" + HIGHLIGHT_COLOR + ";'" : "") + ">" + c6 + "</td>" : "");
+				html.append((c4 != null ? "<td class='srt'" + (c4.contains("'highlight'") ? " style='background-color:" + HIGHLIGHT_COLOR + ";'" : "") + ">" + c4 + "</td>" : ""));
+				html.append(c5 != null ? "<td class='srt'" + (c5.contains("'highlight'") ? " style='background-color:" + HIGHLIGHT_COLOR + ";'" : "") + ">" + c5 + "</td>" : "");
+				html.append(c6 != null ? "<td" + (c6_id != null ? " id='" + c6_id + "'" : "") + " class='srt'" + (c6.contains("'highlight'") ? " style='background-color:" + HIGHLIGHT_COLOR + ";'" : "") + ">" + c6 + "</td>" : "");
 				html.append(c7 != null ? "<td class='srt'" + (c7.contains("'highlight'") ? " style='background-color:" + HIGHLIGHT_COLOR + ";'" : "") + ">" + c7 + "</td>" : "");
-				html.append(c8 != null ? "<td" + (c8_id != null ? " id='" + c8_id + "'" : "") + " class='srt'>" + c8 + "</td>" : "").append("</tr>");
+				html.append("</tr>");
 			}
 			count++;
 		}

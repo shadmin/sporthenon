@@ -208,7 +208,7 @@ public class UpdateServlet extends AbstractServlet {
 		hTable.put("ts", "TeamStadium");
 		hTable.put("wl", "WinLoss");
 		String alias = (String) Class.forName("com.sporthenon.db.entity." + hTable.get(field)).getField("alias").get(null);
-		String labelHQL = "T.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !field.matches("lg|tm|yr|league|team|year") ? "_" + lang : "");
+		String labelHQL = "T.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !field.matches("cx|pl1|pl2|lg|tm|yr|complex|league|team|year") ? "_" + lang : "");
 		String l_ = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
 		String whereHQL = "";
 		String joins = "";
@@ -227,7 +227,7 @@ public class UpdateServlet extends AbstractServlet {
 		else if (field.equalsIgnoreCase(Contributor.alias))
 			labelHQL = "login";
 		else if (field.matches("pl\\d|complex")) {
-			labelHQL = "T." + l_ + " || ', ' || CT." + l_ + " || ', ' || CN.code";
+			labelHQL = "T.label || ', ' || CT." + l_ + " || ', ' || CN.code";
 			joins += " LEFT JOIN \"City\" CT ON T.id_city=CT.id";
 			joins += " LEFT JOIN \"Country\" CN ON CT.id_country=CN.id";
 		}

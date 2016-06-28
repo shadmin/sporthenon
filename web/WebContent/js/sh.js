@@ -1924,8 +1924,11 @@ function savePersonList() {
 		}
 	}
 	tValues['rk' + pListIndex + 'list'] = t.join('|');
-	var t__ = rkList.split('#');
-	t__[pListIndex - 1] = t_.join('|');
+	var t__ = [];
+	if (rkList != null) {
+		t__ = rkList.split('#');
+		t__[pListIndex - 1] = t_.join('|');
+	}
 	rkList = t__.join('#');
 	dPersonList.close();
 }
