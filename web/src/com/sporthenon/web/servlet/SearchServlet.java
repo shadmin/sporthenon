@@ -13,6 +13,7 @@ import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
+import com.sporthenon.db.entity.Olympics;
 import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
@@ -62,7 +63,7 @@ public class SearchServlet extends AbstractServlet {
 						String cn = (StringUtils.notEmpty(item.getLabelRel1()) ? item.getLabelRel1().substring(item.getLabelRel1().lastIndexOf("(") + 1, item.getLabelRel1().length() - 1) : null);
 						label = StringUtils.toFullName(t[0], t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1] : "", cn, false) + (StringUtils.notEmpty(cn) ? " (" + cn + ")" : "");
 					}
-					String details = "<div class='ajxdetails'>" + ResourceUtils.getText("entity." + item.getEntity() + ".1", getLocale(request)) + (StringUtils.notEmpty(item.getLabelRel2()) ? "/" + item.getLabelRel2() : "") + "&nbsp;(" + (item.getCountRef() != null ? item.getCountRef() : 0) + "&nbsp;ref.)</div>";
+					String details = "<div class='ajxdetails'>" + ResourceUtils.getText("entity." + item.getEntity() + ".1", getLocale(request)) + (StringUtils.notEmpty(item.getLabelRel2()) ? "/" + (item.getEntity().equals(Olympics.alias) ? ResourceUtils.getText(item.getLabelRel2().equals("1") ? "summer" : "winter", getLocale(request)) : item.getLabelRel2()) : "") + "&nbsp;(" + (item.getCountRef() != null ? item.getCountRef() : 0) + "&nbsp;ref.)</div>";
 					html.append("<li id='" + StringUtils.encode(item.getEntity() + "-" + item.getIdItem()) + "'>" + label + details + "</li>");
 				}
 //				if (!list.isEmpty())

@@ -242,7 +242,17 @@ public class HtmlUtils {
 		StringBuffer html = new StringBuffer();
 		if (StringUtils.notEmpty(s)) {
 			s = s.replaceAll("\r|\n", "<br/>");
-			html.append(s.matches("^\\#\\#.*") ? s.substring(2).replaceAll("\\s", "&nbsp;") : writeTip("cmt-" + id, s));
+			// Normal display
+			if (s.matches("^\\#\\#.*")) {
+				s = s.substring(2).replaceAll("\\s", "&nbsp;");
+				html.append(s.replaceAll("\\{\\{.*", ""));
+				// Forced tooltip
+				if (s.contains("{{"))
+					html.append("&nbsp;").append(writeTip("cmt-" + id, s.replaceAll(".*\\{\\{|\\}\\}", "")));
+			}
+			// Tooltip
+			else
+				html.append(writeTip("cmt-" + id, s));
 		}
 		return html.toString();
 	}

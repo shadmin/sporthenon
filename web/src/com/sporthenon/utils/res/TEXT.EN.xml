@@ -52,7 +52,7 @@
 	<entry key="entity.CN">Countries</entry>
 	<entry key="entity.EV">Events</entry>
 	<entry key="entity.HF">Hall of fame</entry>
-	<entry key="entity.OL">Olympic games</entry>
+	<entry key="entity.OL">Olympic Games</entry>
 	<entry key="entity.OR">Olympic medals</entry>
 	<entry key="entity.PR">Athletes</entry>
 	<entry key="entity.RC">Records</entry>
@@ -75,7 +75,7 @@
 	<entry key="entity.CN.1">Country</entry>
 	<entry key="entity.EV.1">Event</entry>
 	<entry key="entity.HF.1">Hall of fame</entry>
-	<entry key="entity.OL.1">Olympic games</entry>
+	<entry key="entity.OL.1">Olympic Games</entry>
 	<entry key="entity.OR.1">Olympic medals</entry>
 	<entry key="entity.PR.1">Athlete</entry>
 	<entry key="entity.RC.1">Record</entry>
@@ -131,7 +131,7 @@
 	<entry key="names">Names</entry>
 	<entry key="record">Record</entry>
 	<entry key="record2">Record</entry>
-	<entry key="rec.OLYMP">Olympic games</entry>
+	<entry key="rec.OLYMP">Olympic Games</entry>
 	<entry key="rec.WORLDCP">World championships</entry>
 	<entry key="rec.EURCP">European championships</entry>
 	<entry key="rec.GSLAM">Grand Slam</entry>
@@ -168,14 +168,14 @@
 	<entry key="all.events">All events</entry>
 	<entry key="all.countries">All countries</entry>
 	<entry key="all.categories">All categories</entry>
-	<entry key="all.olympic.games">All olympic games</entry>
+	<entry key="all.olympic.games">All Olympic Games</entry>
 	<entry key="all.scopes">All scopes</entry>
 	<entry key="x.years">Years</entry>
 	<entry key="x.teams">Teams</entry>
 	<entry key="x.events">Events</entry>
 	<entry key="x.countries">Countries</entry>
 	<entry key="x.categories">Categories</entry>
-	<entry key="x.olympic.games">Olympic games</entry>
+	<entry key="x.olympic.games">Olympic Games</entry>
 	<entry key="x.scopes">Scopes</entry>
 	<entry key="no.result">Your search returned no results.</entry>
 	<entry key="win.records">WIN RECORDS</entry>
@@ -324,12 +324,12 @@
 	<entry key="collapse">Collapse</entry>
 	<entry key="tree">TREE VIEW</entry>
 <!-- OLYMPICS -->
-	<entry key="summer.games">Summer olympic games</entry>
-	<entry key="winter.games">Winter olympic games</entry>
+	<entry key="summer.games">Summer Olympic Games</entry>
+	<entry key="winter.games">Winter Olympic Games</entry>
 	<entry key="event.results">Event results</entry>
 	<entry key="medals.tables">Medals tables</entry>
 	<entry key="country">Country</entry>
-	<entry key="olympic.games">Olympic games</entry>
+	<entry key="olympic.games">Olympic Games</entry>
 	<entry key="events">Events</entry>
 	<entry key="countries">Countries</entry>
 <!-- CALENDAR -->
@@ -551,4 +551,5 @@
 	<entry key="warning.team.created">warning: team {1} dit not exist and has been created</entry>
 	<entry key="draft">Draft</entry>
 	<entry key="metadata">Creation: {1} / Last modification: {2} by {3}</entry>
+	<entry key="force.tooltip">Use {{}} to force tooltip</entry>
 </properties>

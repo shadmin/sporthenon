@@ -825,7 +825,7 @@ public class HtmlConverter {
 			if (StringUtils.notEmpty(extlinks))
 				html.append("<tr><th class='caption'>" + ResourceUtils.getText("extlinks", lang) + "</th><td class='extlinks'>" + extlinks + "</td></tr>");
 			if (StringUtils.notEmpty(r.getComment()) && !r.getComment().startsWith("##") && !r.getComment().matches("\\#(DOUBLE|TRIPLE)\\#"))
-				html.append("<tr><th class='caption'>" + ResourceUtils.getText("comment", lang) + "</th><td>" + StringUtils.getComment(r.getComment(), lang) + "</td></tr>");
+				html.append("<tr><th class='caption'>" + ResourceUtils.getText("comment", lang) + "</th><td>" + StringUtils.getComment(r.getComment(), lang).replaceAll("^\\#\\#|\\}\\}", "").replaceAll("\\{\\{", "<br/>") + "</td></tr>");
 			// Result
 			int type_ = -1;
 			final int MAX_RANKS = 20;
@@ -2437,7 +2437,6 @@ public class HtmlConverter {
 		int i = 0;
 		for (Object obj : coll) {
 			LastUpdateBean bean = (LastUpdateBean) obj;
-
 			String pos1 = null;
 			String pos2 = null;
 			String pos3 = null;
@@ -2496,9 +2495,10 @@ public class HtmlConverter {
 			String date = HtmlUtils.writeDateLink(null, bean.getRsDate(), StringUtils.toTextDate(bean.getRsDate(), lang, "d MMM yyyy"));
 			String date_ = new SimpleDateFormat("yyyyMMddHHmm").format(bean.getRsDate());
 			String path = bean.getYrLabel() + "/" + bean.getSpLabelEN() + "/" + bean.getCpLabelEN() + "/" + bean.getEvLabelEN() + (bean.getSeId() != null ? "/" + bean.getSeLabelEN() : "") + (bean.getSe2Id() != null ? "/" + bean.getSe2LabelEN() : "");
+			String tie = bean.getRsText3();
 			boolean isScore = (pos1 != null && pos2 != null && StringUtils.notEmpty(bean.getRsText1()) && !StringUtils.notEmpty(bean.getRsText2()));
-			boolean isDouble = (pos1 != null && pos2 != null && (number == 4 || (bean.getRsText4() != null && bean.getRsText4().equals("#DOUBLE#")) || (bean.getRsText3() != null && bean.getRsText3().equals("1-2"))));
-			boolean isTriple = (pos1 != null && pos2 != null && pos3 != null && (number == 5 || (bean.getRsText4() != null && bean.getRsText4().equals("#TRIPLE#")) || (bean.getRsText3() != null && bean.getRsText3().matches("^1\\-(3|4|5|6|7|8).*"))));
+			boolean isDouble = (pos1 != null && pos2 != null && (number == 4 || (bean.getRsText4() != null && bean.getRsText4().equals("#DOUBLE#")) || (tie != null && tie.equals("1-2"))));
+			boolean isTriple = (pos1 != null && pos2 != null && pos3 != null && (number == 5 || (bean.getRsText4() != null && bean.getRsText4().equals("#TRIPLE#")) || (tie != null && tie.matches("^1\\-(3|4|5|6|7|8|9).*"))));
 			String link = "/results/" + StringUtils.urlEscape(bean.getSpLabelEN() + "/" + bean.getCpLabelEN() + "/" + bean.getEvLabelEN() + (bean.getSeId() != null ? "/" + bean.getSeLabelEN() : "") + (bean.getSe2Id() != null ? "/" + bean.getSe2LabelEN() : "")) + "/" + StringUtils.encode(bean.getSpId() + "-" + bean.getCpId() + "-" + bean.getEvId() + "-" + (bean.getSeId() != null ? bean.getSeId() : 0) + "-" + (bean.getSe2Id() != null ? bean.getSe2Id() : 0) + "-0");
 			String event = "<a href='" + link + "'>" + bean.getCpLabel() + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + bean.getSeLabel() : "") + (StringUtils.notEmpty(bean.getSe2Label()) ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + bean.getSe2Label() : "") + "</a>";
 			String eventImg = null;
@@ -2514,14 +2514,27 @@ public class HtmlConverter {
 				event = HtmlUtils.writeImgTable(eventImg, event);
 
 			// Write line
-			String pos1_ = "<td style='padding-right:3px;'>" + pos1 + ((isDouble || isTriple) && pos2 != null ? pos2 : "") + (isTriple && pos3 != null ? pos3 : "") + "</td>";
-			String pos2_ = (isTriple ? null : (isDouble && pos3 != null ? "<td style='padding-right:3px;'>" + pos3 + (pos4 != null ? pos4 : "") + "</td>" : (!isDouble && pos2 != null ? "<td style='padding-right:3px;'>" + pos2 + "</td>" : null)));
+			if (isDouble || isTriple) {
+				if (pos2 != null)
+					pos1 = "<td>" + pos1 + "</td><td>&nbsp;/&nbsp;</td><td>" + pos2 + "</td>" + (isTriple && pos3 != null ? "<td>&nbsp;/&nbsp;</td><td>" + pos3 + "</td>" + (tie != null && tie.matches("^1\\-(4|5|6|7|8|9).*") ? "<td>&nbsp;/&nbsp;...</td>" : "") : "");
+				pos1 = "<table class='nopadding'><tr>" + pos1 + "</tr></table>";
+				if (isDouble && pos3 != null)
+					pos2 = "<table class='nopadding'><tr><td>" + pos3 + "</td>" + (pos4 != null ? "<td>&nbsp;/&nbsp;</td><td>" + pos4 + "</td>" : "") + "</tr></table>";
+				else if (isDouble || pos2 == null)
+					pos2 = null;
+			}
+			else if (tie != null && tie.matches("^2\\-(3|4|5|6|7|8|9).*") && pos2 != null) {
+				pos2 = "<table class='nopadding'><tr><td>" + pos2 + "</td>" + (pos3 != null ? "<td>&nbsp;/&nbsp;</td><td>" + pos3 + "</td>" : "") + "</tr></table>";
+				pos3 = null;
+			}
+			String pos1_ = "<td style='padding-right:3px;font-weight:bold;'>" + pos1 + "</td>";
+			String pos2_ = (isTriple ? null : (pos2 != null ? "<td style='padding-right:3px;'>" + pos2 + "</td>" : null));
 			String pos3_ = (isDouble || isTriple || isScore ? null : (pos3 != null ? "<td style='padding-right:3px;'>" + pos3 + "</td>" : null));
 			
 			html.append("<tr><td class='srt'>" + year + "</td><td class='srt'>" + sport + "</td>");
 			html.append("<td class='srt'>" + event + "</td>");
 			if (pos1 != null)
-				html.append("<td class='srt' style='line-height:30px;vertical-align:middle;'><span class='details'>" + HtmlUtils.writeLink(Result.alias, bean.getRsId(), "<img alt='details' title='" +  ResourceUtils.getText("details", lang) + "' src='/img/render/details.png'/>", path) + "</span><table style='margin-right:15px;'><tr>" + pos1_ + (isScore ? "<td style='padding-left:2px;padding-right:3px;padding-top:3px;'>" + StringUtils.formatResult(bean.getRsText1(), lang) + "</td>" : "") + (pos2_ != null ? pos2_ : "") + (pos3_ != null ? pos3_ : "") + "</tr></table></td>");
+				html.append("<td class='srt' style='line-height:30px;vertical-align:middle;'><span class='details'>" + HtmlUtils.writeLink(Result.alias, bean.getRsId(), "<img alt='details' title='" +  ResourceUtils.getText("details", lang) + "' src='/img/render/details.png'/>", path) + "</span><table style='margin-right:15px;'><tr>" + pos1_ + (isScore ? "<td style='line-height:15px;padding-left:2px;padding-right:3px;padding-top:3px;'>" + StringUtils.formatResult(bean.getRsText1(), lang) + "</td>" : "") + (pos2_ != null ? pos2_ : "") + (pos3_ != null ? pos3_ : "") + "</tr></table></td>");
 			else
 				html.append("<td class='srt'>-</td>");
 			html.append("<td id='dt-" + date_ + "-" + i + "' class='srt'>" + date + "</td></tr>");

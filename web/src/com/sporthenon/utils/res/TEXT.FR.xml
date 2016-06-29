@@ -549,4 +549,5 @@
 	<entry key="warning.team.created">avertissement: l'équipe {1} n'existait pas et a été créée</entry>
 	<entry key="draft">Brouillon</entry>
 	<entry key="metadata">Création : {1} / Dernière modification : {2} par {3}</entry>
+	<entry key="force.tooltip">Utiliser {{}} pour forcer l'info-bulle</entry>
 </properties>

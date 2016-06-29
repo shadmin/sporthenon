@@ -500,3 +500,9 @@ th.desc{
 	color: #666;
 	padding: 0px 2px;
 }
+.nopadding{
+	padding: 0px 0px;
+}
+.nopadding td{
+	padding: 0px 0px;
+}

@@ -41,7 +41,7 @@ public abstract class AbstractServlet extends HttpServlet {
 	}
 	
 	protected void handleException(HttpServletRequest request, HttpServletResponse response, Throwable e) throws ServletException, IOException {
-		logger.fatal("[" + request.getHeader("user-agent") + "] " + request.getRequestURL());
+		logger.fatal("[" + request.getHeader("user-agent") + "] " + request.getAttribute("url"));
 		logger.error(e.getMessage(), e);
 		request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
 	}

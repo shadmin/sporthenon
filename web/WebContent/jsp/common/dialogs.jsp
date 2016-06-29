@@ -61,7 +61,7 @@
 		<tr><td><textarea id="cmt-en" cols="100" rows="6" style="width:750px;"></textarea></td></tr>
 		<tr><td><img alt="FR" src="/img/header/lang-fr.png"/>&nbsp;<%=StringUtils.text("comment", session)%> (FR)</td></tr>
 		<tr><td><textarea id="cmt-fr" cols="100" rows="6" style="width:750px;"></textarea></td></tr>
-		<tr><td><table style="width:auto;"><tr><td style="padding:1px;"><input type="radio" name="cmtmode" id="cmtmode1" checked="checked"/></td><td style="padding:1px;"><label for="cmtmode1"><%=StringUtils.text("show.tooltip", session)%></label></td><td style="padding:1px;"><img alt="" src="/img/render/note.png"/></td><td style="padding:1px;"><input type="radio" name="cmtmode" id="cmtmode2"/></td><td style="padding:1px;"><label for="cmtmode2"><%=StringUtils.text("show.normally", session)%></label></td></tr></table></td></tr>
+		<tr><td><table style="width:auto;"><tr><td style="padding:1px;"><input type="radio" name="cmtmode" id="cmtmode1" checked="checked"/></td><td style="padding:1px;"><label for="cmtmode1"><%=StringUtils.text("show.tooltip", session)%></label></td><td style="padding:1px;"><img alt="" src="/img/render/note.png"/></td><td style="padding:1px;"><input type="radio" name="cmtmode" id="cmtmode2"/></td><td style="padding:1px;"><label for="cmtmode2"><%=StringUtils.text("show.normally", session)%></label>&nbsp;/&nbsp;<%=StringUtils.text("force.tooltip", session)%></td></tr></table></td></tr>
 	</table></div>
 	<div class="dlgbuttons"><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dComment);"/><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="saveComment();"/></div>
 </div>

@@ -45,7 +45,7 @@ public class ImportUtils {
 		try {
 			Vector<String> vHeader = null;
 			if (isRS)
-				vHeader = new Vector(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rk5", "rk6", "rk7", "rk8", "rk9", "dt1", "dt2", "pl1", "pl2", "exa", "cmt", "exl"}));
+				vHeader = new Vector(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rk5", "rk6", "rk7", "rk8", "rk9", "dt1", "dt2", "pl1", "pl2", "exa", "cmt", "exl1", "exl2", "exl3"}));
 			else if (isDR)
 				vHeader = new Vector(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "qf1w", "qf1r", "qf1s", "qf2w", "qf2r", "qf2s", "qf3w", "qf3r", "qf3s", "qf4w", "qf4r", "qf4s", "sf1w", "sf1r", "sf1s", "sf2w", "sf2r", "sf2s", "thdw", "thdr", "thds"}));
 			else if (isRC)
@@ -301,10 +301,10 @@ public class ImportUtils {
 			Integer idRk7 = hId.get("rk7");
 			Integer idRk8 = hId.get("rk8");
 			Integer idRk9 = hId.get("rk9");
-			String rs1 = null;String rs2 = null;String rs3 = null;String rs4 = null;String rs5 = null;
-			String dt1 = null;String dt2 = null;
+			String rs1 = null; String rs2 = null; String rs3 = null; String rs4 = null; String rs5 = null;
+			String dt1 = null; String dt2 = null;
 			String cmt = null;
-			String exl = null;
+			String exl1 = null; String exl2 = null; String exl3 = null;
 			String exa = null;
 			String err = null;
 			try {
@@ -384,8 +384,12 @@ public class ImportUtils {
 							exa = s;
 						else if (h.equalsIgnoreCase("cmt"))
 							cmt = s;
-						else if (h.equalsIgnoreCase("exl"))
-							exl = s;
+						else if (h.equalsIgnoreCase("exl1"))
+							exl1 = s;
+						else if (h.equalsIgnoreCase("exl2"))
+							exl2 = s;
+						else if (h.equalsIgnoreCase("exl3"))
+							exl3 = s;
 					}
 				}
 			}
@@ -427,8 +431,8 @@ public class ImportUtils {
 				rs.setResult4(rs4);
 				rs.setResult5(rs5);
 				rs = (Result) DatabaseHelper.saveEntity(rs, cb);
-				if (StringUtils.notEmpty(exl))
-					DatabaseHelper.saveExternalLinks(Result.alias, rs.getId(), exl);
+				if (StringUtils.notEmpty(exl1))
+					DatabaseHelper.saveExternalLinks(Result.alias, rs.getId(), exl1 + (StringUtils.notEmpty(exl2) ? " " + exl2 : "") + (StringUtils.notEmpty(exl3) ? " " + exl3 : ""));
 				sb.append("Row " + (row + 1) + ": New Result | " + rs).append("<br/>");
 			}
 		}
@@ -762,7 +766,9 @@ public class ImportUtils {
 		hTitle.put("pl2", ResourceUtils.getText("place", lang) + " #2");
 		hTitle.put("exa", ResourceUtils.getText("tie", lang));
 		hTitle.put("cmt", ResourceUtils.getText("comment", lang));
-		hTitle.put("exl", ResourceUtils.getText("ext.links", lang));
+		hTitle.put("exl1", ResourceUtils.getText("ext.links", lang) + " #1");
+		hTitle.put("exl2", ResourceUtils.getText("ext.links", lang) + " #2");
+		hTitle.put("exl3", ResourceUtils.getText("ext.links", lang) + " #3");
 		hTitle.put("qf1w", ResourceUtils.getText("quarterfinal", lang) + " #1 - W");
 		hTitle.put("qf1r", ResourceUtils.getText("quarterfinal", lang) + " #1 - L");
 		hTitle.put("qf1s", ResourceUtils.getText("quarterfinal", lang) + " #1 - Score");
