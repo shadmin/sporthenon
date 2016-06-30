@@ -89,14 +89,18 @@ public class ImageServlet extends AbstractServlet {
 				String y2 = String.valueOf(hParams.get("y2"));
 				String ext = ".png";
 				String fileName = ImageUtils.getIndex(entity.toUpperCase()) + "-" + id + "-" + hParams.get("size") + (StringUtils.notEmpty(y1) && !y1.equals("null") ? "_" + y1 + "-" + y2 : "");
-				File f = new File(ConfigUtils.getProperty("img.folder") + fileName + ext);
-				if (f.exists()) {
-					int i = 1;
-					while (f.exists()) {
-						f = new File(ConfigUtils.getProperty("img.folder") + fileName + "_" + i + ext);
-						i++;
+				int index = -1;
+				Collection<String> lExisting = ImageUtils.getImageList(ImageUtils.getIndex(entity.toUpperCase()), id, String.valueOf(hParams.get("size")).charAt(0));
+				for (String s : lExisting) {
+					if (s.indexOf(fileName) == 0) {
+						index = 0;
+						if (s.matches(".*\\_\\d+\\.png$"))
+							index = Integer.parseInt(s.replaceAll(".*\\_|\\.png$", ""));
+						index++;
+						break;
 					}
 				}
+				File f = new File(ConfigUtils.getProperty("img.folder") + fileName + (index > -1 ? "_" + index : "") + ext);
 				FileOutputStream fos = new FileOutputStream(f);
 				fos.write(b);
 				fos.close();

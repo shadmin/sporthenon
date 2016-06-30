@@ -2514,23 +2514,21 @@ public class HtmlConverter {
 				event = HtmlUtils.writeImgTable(eventImg, event);
 
 			// Write line
-			if (isDouble || isTriple) {
-				if (pos2 != null)
-					pos1 = "<td>" + pos1 + "</td><td>&nbsp;/&nbsp;</td><td>" + pos2 + "</td>" + (isTriple && pos3 != null ? "<td>&nbsp;/&nbsp;</td><td>" + pos3 + "</td>" + (tie != null && tie.matches("^1\\-(4|5|6|7|8|9).*") ? "<td>&nbsp;/&nbsp;...</td>" : "") : "");
-				pos1 = "<table class='nopadding'><tr>" + pos1 + "</tr></table>";
-				if (isDouble && pos3 != null)
-					pos2 = "<table class='nopadding'><tr><td>" + pos3 + "</td>" + (pos4 != null ? "<td>&nbsp;/&nbsp;</td><td>" + pos4 + "</td>" : "") + "</tr></table>";
-				else if (isDouble || pos2 == null)
-					pos2 = null;
-			}
-			else if (tie != null && tie.matches("^2\\-(3|4|5|6|7|8|9).*") && pos2 != null) {
-				pos2 = "<table class='nopadding'><tr><td>" + pos2 + "</td>" + (pos3 != null ? "<td>&nbsp;/&nbsp;</td><td>" + pos3 + "</td>" : "") + "</tr></table>";
-				pos3 = null;
-			}
 			String pos1_ = "<td style='padding-right:3px;font-weight:bold;'>" + pos1 + "</td>";
 			String pos2_ = (isTriple ? null : (pos2 != null ? "<td style='padding-right:3px;'>" + pos2 + "</td>" : null));
 			String pos3_ = (isDouble || isTriple || isScore ? null : (pos3 != null ? "<td style='padding-right:3px;'>" + pos3 + "</td>" : null));
-			
+			if (isDouble || isTriple) {
+				if (pos2 != null)
+					pos1_ = "<td style='font-weight:bold;'>" + pos1 + "</td><td style='font-weight:bold;'>&nbsp;/&nbsp;</td><td style='padding-right:3px;font-weight:bold;'>" + pos2 + "</td>" + (isTriple && pos3 != null ? "<td style='font-weight:bold;'>&nbsp;/&nbsp;</td><td style='font-weight:bold;'>" + pos3 + "</td>" + (tie != null && tie.matches("^1\\-(4|5|6|7|8|9).*") ? "<td style='font-weight:bold;'>&nbsp;/&nbsp;...</td>" : "") : "");
+				if (isDouble && pos3 != null)
+					pos2_ = "<td>" + pos3 + "</td>" + (pos4 != null ? "<td>&nbsp;/&nbsp;</td><td>" + pos4 + "</td>" : "");
+				else if (isDouble || pos2 == null)
+					pos2_ = null;
+			}
+			else if (tie != null && tie.matches("^2\\-(3|4|5|6|7|8|9).*") && pos2 != null) {
+				pos2_ = "<td>" + pos2 + "</td>" + (pos3 != null ? "<td>&nbsp;/&nbsp;</td><td>" + pos3 + "</td>" : "");
+				pos3_ = null;
+			}
 			html.append("<tr><td class='srt'>" + year + "</td><td class='srt'>" + sport + "</td>");
 			html.append("<td class='srt'>" + event + "</td>");
 			if (pos1 != null)
