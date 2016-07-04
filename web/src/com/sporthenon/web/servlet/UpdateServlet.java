@@ -1215,6 +1215,13 @@ public class UpdateServlet extends AbstractServlet {
 		StringBuffer sb = new StringBuffer();
 		if (o != null) {
 			id = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
+			String exl = null;
+			if (alias.matches(Athlete.alias + "|" + Championship.alias + "|" + City.alias + "|" + Complex.alias + "|" + Country.alias + "|" + Event.alias + "|" + Olympics.alias + "|" + Sport.alias + "|" + State.alias + "|" + Team.alias)) {
+				StringBuffer sbexl = new StringBuffer();
+				for (ExternalLink exl_ : (Collection<ExternalLink>) DatabaseHelper.execute("from ExternalLink where entity='" + alias + "' and idItem=" + id + " order by id"))
+					sbexl.append(exl_.getUrl()).append("\r\n");
+				exl = sbexl.toString();
+			}
 			sb.append(id).append("~");
 			if (o instanceof Athlete) {
 				Athlete at = (Athlete) o;
@@ -1241,6 +1248,7 @@ public class UpdateServlet extends AbstractServlet {
 					sb.append("0~[root]~");
 				else
 					sb.append("~~");
+				sb.append(exl).append("~");
 				sb.append(ImageUtils.getPhotoFile(Athlete.alias, id)).append("~");
 			}
 			else if (o instanceof com.sporthenon.db.entity.Calendar) {
@@ -1269,6 +1277,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(cp.getLabel()).append("~");
 				sb.append(cp.getLabelFr()).append("~");
 				sb.append(cp.getIndex() != null ? cp.getIndex() : "").append("~");
+				sb.append(exl).append("~");
 				sb.append(cp.getNopic() != null && cp.getNopic() ? "1" : "0");
 			}
 			else if (o instanceof City) {
@@ -1294,6 +1303,7 @@ public class UpdateServlet extends AbstractServlet {
 					sb.append("0~[root]~");
 				else
 					sb.append("~~");
+				sb.append(exl).append("~");
 				sb.append(ImageUtils.getPhotoFile(City.alias, id)).append("~");
 			}
 			else if (o instanceof Complex) {
@@ -1316,6 +1326,7 @@ public class UpdateServlet extends AbstractServlet {
 					sb.append("0~[root]~");
 				else
 					sb.append("~~");
+				sb.append(exl).append("~");
 				sb.append(ImageUtils.getPhotoFile(Complex.alias, id)).append("~");
 			}
 			else if (o instanceof Contributor) {
@@ -1332,6 +1343,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(cn.getLabel()).append("~");
 				sb.append(cn.getLabelFr()).append("~");
 				sb.append(cn.getCode()).append("~");
+				sb.append(exl).append("~");
 				sb.append(cn.getNopic() != null && cn.getNopic() ? "1" : "0");
 			}
 			else if (o instanceof Event) {
@@ -1341,6 +1353,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(ev.getType() != null ? ev.getType().getId() : 0).append("~");
 				sb.append(ev.getType() != null ? ev.getType().getLabel(lang) : "").append("~");
 				sb.append(ev.getIndex() != null ? ev.getIndex() : "").append("~");
+				sb.append(exl).append("~");
 				sb.append(ev.getNopic() != null && ev.getNopic() ? "1" : "0");
 			}
 			else if (o instanceof Olympics) {
@@ -1356,6 +1369,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(ol.getCountEvent()).append("~");
 				sb.append(ol.getCountCountry()).append("~");
 				sb.append(ol.getCountPerson()).append("~");
+				sb.append(exl).append("~");
 				sb.append(ol.getNopic() != null && ol.getNopic() ? "1" : "0");
 			}
 			else if (o instanceof OlympicRanking) {
@@ -1380,6 +1394,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(sp.getLabelFr()).append("~");
 				sb.append(sp.getType() != null ? sp.getType() : "").append("~");
 				sb.append(sp.getIndex() != null ? sp.getIndex() : "").append("~");
+				sb.append(exl).append("~");
 				sb.append(sp.getNopic() != null && sp.getNopic() ? "1" : "0");
 			}
 			else if (o instanceof State) {
@@ -1388,6 +1403,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(st.getLabelFr()).append("~");
 				sb.append(st.getCode()).append("~");
 				sb.append(st.getCapital()).append("~");
+				sb.append(exl).append("~");
 				sb.append(st.getNopic() != null && st.getNopic() ? "1" : "0");
 			}
 			else if (o instanceof Team) {
@@ -1418,6 +1434,7 @@ public class UpdateServlet extends AbstractServlet {
 					sb.append("0~[root]~");
 				else
 					sb.append("~~");
+				sb.append(exl).append("~");
 				sb.append(tm.getNopic() != null && tm.getNopic() ? "1" : "0");
 			}
 			else if (o instanceof Year) {
@@ -1763,6 +1780,8 @@ public class UpdateServlet extends AbstractServlet {
 				en.setCountOtloss(StringUtils.notEmpty(hParams.get("wl-otloss")) ? new Integer(String.valueOf(hParams.get("wl-otloss"))) : null);
 			}
 			o = DatabaseHelper.saveEntity(o, cb);
+			if (alias.matches(Athlete.alias + "|" + Championship.alias + "|" + City.alias + "|" + Complex.alias + "|" + Country.alias + "|" + Event.alias + "|" + Olympics.alias + "|" + Sport.alias + "|" + State.alias + "|" + Team.alias))
+				DatabaseHelper.saveExternalLinks(alias, Integer.parseInt(id), String.valueOf(hParams.get("exl")));
 			String id_ = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
 			msg = ResourceUtils.getText("update.ok", lang) + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + ResourceUtils.getText("entity." + alias + ".1", lang) + " #" + id_;
 		}

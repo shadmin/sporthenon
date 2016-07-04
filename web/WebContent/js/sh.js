@@ -2167,6 +2167,7 @@ function setEntityValues(text) {
 		$('dz-file').update('<p>' + TX_CLICK_DRAGDROP + '</p>');
 		dzd.options.url = '/ImageServlet?upload-photo&entity=' + currentAlias + '&id=' + currentId;
 	}
+	$('table-exl').hide();
 	if (currentAlias == 'PR') {
 		$('pr-id').value = currentId;
 		$('pr-lastname').value = t[i++];
@@ -2180,6 +2181,8 @@ function setEntityValues(text) {
 		$('pr-source').value = t[i++];
 		$('pr-link').value = t[i++];
 		$('pr-link-l').value = t[i++];
+		$('exl').value = t[i++];
+		$('table-exl').show();
 	}
 	else if (currentAlias == 'CL') {
 		$('cl-id').value = currentId;
@@ -2207,6 +2210,8 @@ function setEntityValues(text) {
 		$('cp-label').value = t[i++];
 		$('cp-labelfr').value = t[i++];
 		$('cp-index').value = t[i++];
+		$('exl').value = t[i++];
+		$('table-exl').show();
 	}
 	else if (currentAlias == 'CT') {
 		$('ct-id').value = currentId;
@@ -2219,6 +2224,8 @@ function setEntityValues(text) {
 		$('ct-source').value = t[i++];
 		$('ct-link').value = t[i++];
 		$('ct-link-l').value = t[i++];
+		$('exl').value = t[i++];
+		$('table-exl').show();
 	}
 	else if (currentAlias == 'CX') {
 		$('cx-id').value = currentId;
@@ -2228,6 +2235,8 @@ function setEntityValues(text) {
 		$('cx-source').value = t[i++];
 		$('cx-link').value = t[i++];
 		$('cx-link-l').value = t[i++];
+		$('exl').value = t[i++];
+		$('table-exl').show();
 	}
 	else if (currentAlias == 'CB') {
 		$('cb-id').value = currentId;
@@ -2243,6 +2252,8 @@ function setEntityValues(text) {
 		$('cn-label').value = t[i++];
 		$('cn-labelfr').value = t[i++];
 		$('cn-code').value = t[i++];
+		$('exl').value = t[i++];
+		$('table-exl').show();
 	}
 	else if (currentAlias == 'EV') {
 		$('ev-id').value = currentId;
@@ -2251,6 +2262,8 @@ function setEntityValues(text) {
 		$('ev-type').value = t[i++];
 		$('ev-type-l').value = t[i++];
 		$('ev-index').value = t[i++];
+		$('exl').value = t[i++];
+		$('table-exl').show();
 	}
 	else if (currentAlias == 'OL') {
 		$('ol-id').value = currentId;
@@ -2265,6 +2278,8 @@ function setEntityValues(text) {
 		$('ol-events').svalue = t[i++];
 		$('ol-countries').value = t[i++];
 		$('ol-persons').value = t[i++];
+		$('exl').value = t[i++];
+		$('table-exl').show();
 	}
 	else if (currentAlias == 'OR') {
 		$('or-id').value = currentId;
@@ -2288,6 +2303,8 @@ function setEntityValues(text) {
 		$('sp-labelfr').value = t[i++];
 		$('sp-type').value = t[i++];
 		$('sp-index').value = t[i++];
+		$('exl').value = t[i++];
+		$('table-exl').show();
 	}
 	else if (currentAlias == 'ST') {
 		$('st-id').value = currentId;
@@ -2295,6 +2312,8 @@ function setEntityValues(text) {
 		$('st-labelfr').value = t[i++];
 		$('st-code').value = t[i++];
 		$('st-capital').value = t[i++];
+		$('exl').value = t[i++];
+		$('table-exl').show();
 	}
 	else if (currentAlias == 'TM') {
 		$('tm-id').value = currentId;
@@ -2312,6 +2331,8 @@ function setEntityValues(text) {
 		$('tm-year2').value = t[i++];
 		$('tm-link').value = t[i++];
 		$('tm-link-l').value = t[i++];
+		$('exl').value = t[i++];
+		$('table-exl').show();
 	}
 	else if (currentAlias == 'YR') {
 		$('yr-id').value = currentId;
@@ -2453,6 +2474,7 @@ function saveEntity() {
 			h.set($(el).id, ($(el).type == 'checkbox' ? $(el).checked : $(el).value));
 		}
 	});
+	h.set('exl', $('exl').value);
 	new Ajax.Request('/update/save-entity', {
 		onSuccess: function(response){
 			var text = response.responseText;

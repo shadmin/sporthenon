@@ -697,6 +697,8 @@ public class DatabaseHelper {
 							link.setType("ft-ref");
 						else if (s_.indexOf("www.hockey-reference.com") > -1)
 							link.setType("hk-ref");
+						else if (s_.indexOf("lequipe.fr") > -1)
+							link.setType("lequipe");
 						else
 							link.setType("others");
 						link.setChecked(false);

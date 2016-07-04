@@ -401,10 +401,8 @@ li{
 	background-color: #FF9; /* _theme_ */
 }
 #dupdates .details{
-	float: right;
-	margin-top: 5px;
 	line-height: 30px;
-	vertical-align: middle;
+	margin-top: 5px;
 }
 #footer{
 	height: 50px;
@@ -1307,7 +1305,7 @@ li{
 	border: 1px dashed #CCC;
 }
 #imgzone #dz-file:hover{
-	background-color: #FFD;
+	background-color: #FF9; /* _theme_ */
 }
 #imgzone #dz-file p{
 	white-space: normal;
@@ -1500,6 +1498,10 @@ li{
 #update-results #metadata{
 	font-size: 11px;
 }
+#update-results .helptip img{
+	cursor: help;
+	padding-top: 1px;
+}
 /*---------- DATA ----------*/
 #update-data .fstitle{
 	background-image: url(../img/update/data.png?6);
@@ -1568,7 +1570,7 @@ li{
 	height: 100px;
 }
 #update-pictures #dz-file:hover{
-	background-color: #FFD;
+	background-color: #FF9; /* _theme_ */
 }
 #update-pictures #remove-local{
 	float: left;
@@ -1629,7 +1631,7 @@ li{
 	border: 1px dashed #CCC;
 }
 #update-import #dz-file:hover{
-	background-color: #FFD;
+	background-color: #FF9; /* _theme_ */
 }
 #update-import #dz-file p{
 	margin: 3px;
@@ -1905,7 +1907,7 @@ li{
 	border-bottom: 1px solid #CCC;
 }
 #d-find li:hover{
-	background-color: #FFD;
+	background-color: #FF9; /* _theme_ */
 }
 #d-question #confirmtxt{
 	width: 600px;

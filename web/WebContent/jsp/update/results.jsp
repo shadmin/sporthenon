@@ -27,6 +27,10 @@ var treeItems = null;
 --></script>
 <script type="text/javascript" src="/js/dropzone.js"></script>
 <div id="update-results" class="update">
+	<!-- Help tips -->
+	<div id="help-event" class="rendertip" style="display:none;">help-event....</div>
+	<div id="help-dates" class="rendertip" style="display:none;">help-dates....</div>
+	<div id="help-places" class="rendertip" style="display:none;">help-places....</div>
 	<jsp:include page="/jsp/update/toolbar.jsp" />
 	<div class="fieldset">
 		<div class="fstitle"><%=StringUtils.text("update.results", session).toUpperCase()%><div id="msg2"></div></div>
@@ -67,8 +71,8 @@ var treeItems = null;
 			<ul>
 			<!-- EVENT -->
 			<li>
-			<fieldset style="height:140px;"><legend><%=StringUtils.text("entity.EV.1", session)%></legend>
-				<table>
+			<fieldset style="height:140px;"><legend><table><tr><td><%=StringUtils.text("entity.EV.1", session)%></td><td><a class="helptip" href="#help-event"><img alt="help" src="/img/update/help.png"/></a></td></tr></table></legend>
+				<table style="margin-top:3px;">
 					<tr><td colspan="5"><input type="text" id="sp" tabindex="1" name="<%=StringUtils.text("entity.SP.1", session)%>"/><a href="javascript:clearValue('sp');">[X]</a></td></tr>
 					<tr><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="4"><input type="text" id="cp" tabindex="2" name="<%=StringUtils.text("entity.CP.1", session)%>"/><a href="javascript:clearValue('cp');">[X]</a></td></tr>
 					<tr><td><img alt="" src="/img/component/treeview/empty.gif"/></td><td><img alt="" src="/img/component/treeview/join.gif"/></td><td colspan="3"><input type="text" id="ev" tabindex="3" name="<%=StringUtils.text("entity.EV.1", session)%> #1"/><a href="javascript:clearValue('ev');">[X]</a></td></tr>
@@ -79,8 +83,8 @@ var treeItems = null;
 			</li>
 			<!-- DATES -->
 			<li>
-			<fieldset style="height:140px;width:329px;"><legend><%=StringUtils.text("dates", session)%></legend>
-				<table>
+			<fieldset style="height:140px;width:329px;"><legend><table><tr><td><%=StringUtils.text("dates", session)%></td><td><a class="helptip" href="#help-dates"><img alt="help" src="/img/update/help.png"/></a></td></tr></table></legend>
+				<table style="margin-top:3px;">
 					<tr><td><input type="text" id="yr" tabindex="6" name="<%=StringUtils.text("entity.YR.1", session)%>"/><a href="javascript:clearValue('yr');">[X]</a></td>
 					<td><input id="prevbtn" type="button" class="button" onclick="loadResult('prev');" value=""/></td>
 					<td><input id="yrfind" type="text" style="font-size:11px;width:35px;" onblur="tValues['yrfind']=this.value;loadResult('year');" onkeydown="if (event.keyCode == 13){this.blur();}"/></td>
@@ -95,7 +99,7 @@ var treeItems = null;
 			</li>
 			<!-- PHOTO -->
 			<li id="imgzone">
-				<fieldset style="height:140px;"><legend><%=StringUtils.text("photo", session)%></legend>
+				<fieldset style="height:140px;"><legend><table><tr><td><%=StringUtils.text("photo", session)%></td><td><a class="helptip" href="#help-photo"><img alt="help" src="/img/update/help.png"/></a></td></tr></table></legend>
 					<div id="dz-file"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>
 				</fieldset>
 			</li>
@@ -103,8 +107,8 @@ var treeItems = null;
 			<ul>
 			<!-- PLACES/VENUES -->
 			<li>
-			<fieldset style="height:145px;"><legend><%=StringUtils.text("places", session)%></legend>
-				<table>
+			<fieldset style="height:145px;"><legend><table><tr><td><%=StringUtils.text("places", session)%></td><td><a class="helptip" href="#help-places"><img alt="help" src="/img/update/help.png"/></a></td></tr></table></legend>
+				<table style="margin-top:3px;">
 					<tr><td><input type="text" id="pl1" tabindex="9" name="<%=StringUtils.text("venue.city", session)%> #1"/><a href="javascript:clearValue('pl1');">[X]</a></td></tr>
 					<tr><td style="padding-top:10px;"><input type="text" id="pl2" tabindex="10" name="<%=StringUtils.text("venue.city", session)%> #2"/><a href="javascript:clearValue('pl2');">[X]</a></td></tr>
 				</table>
@@ -112,8 +116,8 @@ var treeItems = null;
 			</li>
 			<!-- OTHER -->
 			<li>
-			<fieldset style="height:145px;width:567px;"><legend><%=StringUtils.text("other.info", session)%></legend>
-				<table>
+			<fieldset style="height:145px;width:567px;"><legend><table><tr><td><%=StringUtils.text("other.info", session)%></td><td><a class="helptip" href="#help-other"><img alt="help" src="/img/update/help.png"/></a></td></tr></table></legend>
+				<table style="margin-top:3px;">
 					<tr><td style="width:200px;"><input type="text" id="exa" tabindex="11" name="<%=StringUtils.text("tie", session)%>" style="width:150px;"/></td>
 						<td style="width:20px;"><input id="inact" type="checkbox" onclick="showWarning();"/></td>
 						<td><label for="inact"><%=StringUtils.text("event.notheld", session)%></label></td>
@@ -181,6 +185,13 @@ var treeItems = null;
 <script type="text/javascript"><!--
 window.onload = function() {
 	initUpdateResults("<%=request.getAttribute("value")%>");
+	
+	
+	$$('#update-results .rendertip').each(function(el) {
+		new Control.Window($(document.body).down('[href=#' + el.id + ']'),{
+			position: 'relative', hover: true, offsetLeft: 20, offsetTop: 28, className: 'tip'
+		});
+	});
 }
 --></script>
 <jsp:include page="/jsp/common/footer.jsp" />

@@ -282,13 +282,12 @@ public class StringUtils {
 	}
 	
 	public static final String getShortName(String name) {
-		if (notEmpty(name) && name.toLowerCase().matches(PATTERN_ATHLETE)) {
-			String[] t = name.replaceAll("\\s\\(.*", "").split("\\,\\s", -1);
-			String suffix = (name.matches(".*\\s\\(.*") ? name.substring(name.indexOf(" (")) : "");
+		if (notEmpty(name) && name.toLowerCase().matches(".+\\,\\s.+\\|.+")) {
+			String[] t = name.replaceAll("\\|.*", "").split("\\,\\s", -1);
 			if (name.matches(".*\\((" + PATTERN_REVERT_NAME + ")\\)"))
-				name = t[0] + (t.length > 1 && StringUtils.notEmpty(t[1]) ? "&nbsp;" + t[1].charAt(0) + "." : "") + suffix;
+				name = t[0] + (t.length > 1 && StringUtils.notEmpty(t[1]) ? "&nbsp;" + t[1].charAt(0) + "." : "");
 			else
-				name = (t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1].charAt(0) + ".&nbsp;" : "") + t[0] + suffix;
+				name = (t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1].charAt(0) + ".&nbsp;" : "") + t[0];
 		}
 		return name;
 	}

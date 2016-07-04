@@ -491,11 +491,6 @@ th.desc{
 	font-weight: bold;
 	font-size: 13px;
 }	
-/*#summary2 hr{
-	border: 0;
-	border-top: 1px solid #AAA;
-	margin: 5px 0px;
-}*/
 .bullet{
 	color: #666;
 	padding: 0px 2px;
@@ -505,4 +500,9 @@ th.desc{
 }
 .nopadding td{
 	padding: 0px 0px;
+}
+.details{
+	float: right;
+	vertical-align: middle;
+	margin-top: 1px;
 }

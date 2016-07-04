@@ -242,6 +242,11 @@
 				<tr><th><%=StringUtils.text("tie", session)%></th><td><input type="text" id="wl-tie"/></td></tr>
 				<tr><th><%=StringUtils.text("ot.loss", session)%></th><td><input type="text" id="wl-otloss"/></td></tr>
 			</table>
+			<!-- Ext.links -->
+			<table id="table-exl" style="display:none;">
+				<tr><th><%=StringUtils.text("ext.links", session)%></th></tr>
+				<tr><td><textarea id="exl" tabindex="14" cols="100" rows="4" style="width:600px;"></textarea></td></tr>
+			</table>
 			<!-- BUTTON PANEL -->
 			<table class="toolbar" style="position:relative;top:0;right:0;float:right;margin-top:15px;">
 				<tr>

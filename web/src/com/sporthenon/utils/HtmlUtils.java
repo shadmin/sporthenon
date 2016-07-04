@@ -297,10 +297,14 @@ public class HtmlUtils {
 		String currentType = null;
 		List<ExternalLink> list = DatabaseHelper.execute("from ExternalLink where entity='" + alias + "' and idItem=" + id + " order by id");
 		for (ExternalLink link : list) {
+			if (link.getType().equals("lequipe") && !lang.equalsIgnoreCase("fr"))
+				continue;
 			// Title
 			if (currentType == null || !currentType.equalsIgnoreCase(link.getType())) {
 				if (link.getType().equals("wiki"))
 					sbHtml.append("<tr><th>" + ResourceUtils.getText("wikipedia", lang) + "</th></tr>");
+				else if (link.getType().equals("lequipe"))
+					sbHtml.append("<tr><th>L&#039;ÉQUIPE.fr</th></tr>");
 				else if (link.getType().matches(".*\\-ref$")) {
 					HashMap<String, String> h = new HashMap<String, String>();
 					h.put("oly-ref", "Olympics");
@@ -323,6 +327,8 @@ public class HtmlUtils {
 			}
 			if (link.getType().equals("wiki"))
 				sbHtml.append("<tr><td><table><tr><td style='width:16px;'><img alt='Wiki' src='/img/render/link-wiki.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "'" + title + " target='_blank'>" + formattedURL + "</a></td></tr></table></td></tr>");
+			else if (link.getType().equals("lequipe"))
+				sbHtml.append("<tr><td><table><tr><td style='width:16px;'><img alt='Lequipe' src='/img/render/link-lequipe.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "'" + title + " target='_blank'>" + formattedURL + "</a></td></tr></table></td></tr>");
 			else if (link.getType().matches(".*\\-ref$"))
 				sbHtml.append("<td><table><tr><td style='width:16px;'><img alt='spref' src='/img/render/link-" + link.getType().replaceAll("\\-ref", "") + "ref.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "'" + title + " target='_blank'>" + formattedURL + "</a></td></tr></table></td></tr>");
 			else
