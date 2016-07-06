@@ -1639,7 +1639,8 @@ function loadResValues(value) {
 				tValues['rd' + rdindex + 'rk1'] = null;
 				tValues['rd' + rdindex + 'rk2'] = null;
 				tValues['rd' + rdindex + 'rk3'] = null;
-				tValues['rd' + rdindex + 'pl'] = null;
+				tValues['rd' + rdindex + 'pl1'] = null;
+				tValues['rd' + rdindex + 'pl2'] = null;
 				rdindex++;
 			}
 			tValues['rddel'] = '';
@@ -1660,10 +1661,12 @@ function loadResValues(value) {
 					if (t_[10] != '') {$('rd' + rdindex + 'rk3').value = t_[10]; $('rd' + rdindex + 'rk3').addClassName('completed');} else {$('rd' + rdindex + 'rk3').value = $('rd' + rdindex + 'rk3').name; $('rd' + rdindex + 'rk3').removeClassName('completed').removeClassName('completed2');}
 					if (t_[11] != '') {$('rd' + rdindex + 'rs3').value = t_[11]; $('rd' + rdindex + 'rs3').addClassName('completed2');} else {$('rd' + rdindex + 'rs3').value = $('rd' + rdindex + 'rs3').name; $('rd' + rdindex + 'rs3').removeClassName('completed2');}
 					if (t_[12] != '') {$('rd' + rdindex + 'dt').value = t_[12]; $('rd' + rdindex + 'dt').addClassName('completed2');} else {$('rd' + rdindex + 'dt').value = $('rd' + rdindex + 'dt').name; $('rd' + rdindex + 'dt').removeClassName('completed2');}
-					tValues['rd' + rdindex + 'pl'] = t_[13];
-					if (t_[14] != '') {$('rd' + rdindex + 'pl').value = t_[14]; $('rd' + rdindex + 'pl').addClassName('completed');} else {$('rd' + rdindex + 'pl').value = $('rd' + rdindex + 'pl').name; $('rd' + rdindex + 'pl').removeClassName('completed').removeClassName('completed2');}
-					if (t_[15] != '') {$('rd' + rdindex + 'exa').value = t_[15]; $('rd' + rdindex + 'exa').addClassName('completed2');} else {$('rd' + rdindex + 'exa').value = $('rd' + rdindex + 'exa').name; $('rd' + rdindex + 'exa').removeClassName('completed2');}
-					if (t_[16] != '') {$('rd' + rdindex + 'cmt').value = t_[16]; $('rd' + rdindex + 'cmt').addClassName('completed2');} else {$('rd' + rdindex + 'cmt').value = $('rd' + rdindex + 'cmt').name; $('rd' + rdindex + 'cmt').removeClassName('completed2');}
+					tValues['rd' + rdindex + 'pl1'] = t_[13];
+					if (t_[14] != '') {$('rd' + rdindex + 'pl1').value = t_[14]; $('rd' + rdindex + 'pl1').addClassName('completed');} else {$('rd' + rdindex + 'pl1').value = $('rd' + rdindex + 'pl1').name; $('rd' + rdindex + 'pl1').removeClassName('completed').removeClassName('completed2');}
+					tValues['rd' + rdindex + 'pl2'] = t_[15];
+					if (t_[16] != '') {$('rd' + rdindex + 'pl2').value = t_[16]; $('rd' + rdindex + 'pl2').addClassName('completed');} else {$('rd' + rdindex + 'pl2').value = $('rd' + rdindex + 'pl2').name; $('rd' + rdindex + 'pl2').removeClassName('completed').removeClassName('completed2');}
+					if (t_[17] != '') {$('rd' + rdindex + 'exa').value = t_[17]; $('rd' + rdindex + 'exa').addClassName('completed2');} else {$('rd' + rdindex + 'exa').value = $('rd' + rdindex + 'exa').name; $('rd' + rdindex + 'exa').removeClassName('completed2');}
+					if (t_[18] != '') {$('rd' + rdindex + 'cmt').value = t_[18]; $('rd' + rdindex + 'cmt').addClassName('completed2');} else {$('rd' + rdindex + 'cmt').value = $('rd' + rdindex + 'cmt').name; $('rd' + rdindex + 'cmt').removeClassName('completed2');}
 					trd.push(replaceAll(t[k].substring(3), '|', '~'));
 				}
 				else {
@@ -1846,11 +1849,11 @@ var pListCount = 20;
 function setInput(id) {
 	Event.stopObserving($(id), 'blur');
 	Event.stopObserving($(id), 'keydown');
-	var isAjax = /(plist.*|.*(rt|rk\d+|pl)$)/.match(id);
+	var isAjax = /(plist.*|.*(rt|rk\d+|pl|pl1|pl2)$)/.match(id);
 	isAjax &= (id.indexOf('plist') == -1 || id.indexOf('-index') == -1);
 	if (isAjax) {
 		var url = null;
-		if (/.*(rt|pl)$/.match(id)) {
+		if (/.*(rt|pl|pl1|pl2)$/.match(id)) {
 			url = '/update/ajax/' + (/.*rt$/.match(id) ? 'rt' : 'pl1');	
 		}
 		else {
@@ -1861,7 +1864,7 @@ function setInput(id) {
 			'ajaxsearch' + (id.indexOf('plist') == 0 ? '2' : ''),
 			url,
 			{ paramName: 'value', minChars: 2, frequency: 0.05, afterUpdateElement: setValue}
-		);	
+		);
 	}
 	if ($(id).value == '') {
 		$(id).value = $(id).name;
@@ -1969,9 +1972,10 @@ function addRounds(clear) {
 			html.push('<td><input type="text" id="rd' + i + 'rk3" tabindex="' + (1005 + (11*(i-1))) + '" name="' + TX_RANK3 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk3\');">[X]</a></td>');
 			html.push('<td><input type="text" id="rd' + i + 'rs3" tabindex="' + (1006 + (11*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
 			html.push('<td><input type="text" id="rd' + i + 'dt" tabindex="' + (1007 + (11*(i-1))) + '" name="' + TX_DATE + '" style="width:80px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'pl" tabindex="' + (1008 + (11*(i-1))) + '" name="' + TX_PLACE + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl\');">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'exa" tabindex="' + (1009 + (11*(i-1))) + '" name="' + TX_TIE + '" style="width:50px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'cmt" tabindex="' + (1010 + (11*(i-1))) + '" name="' + TX_COMMENT + '" style="width:150px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'pl1" tabindex="' + (1008 + (11*(i-1))) + '" name="' + TX_PLACE + ' #1" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl1\');">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'pl2" tabindex="' + (1009 + (11*(i-1))) + '" name="' + TX_PLACE + ' #2" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl2\');">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'exa" tabindex="' + (1010 + (11*(i-1))) + '" name="' + TX_TIE + '" style="width:50px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'cmt" tabindex="' + (1011 + (11*(i-1))) + '" name="' + TX_COMMENT + '" style="width:150px;"/></td>');
 			html.push('</tr>');
 			rtable.insert(html.join(''));
 		}
@@ -2008,8 +2012,10 @@ function saveRounds() {
 			t_.push($('rd' + i + 'rk3').hasClassName('completed2') ? $('rd' + i + 'rk3').value : '');
 			t_.push($('rd' + i + 'rs3').hasClassName('completed2') ? $('rd' + i + 'rs3').value : '');
 			t_.push($('rd' + i + 'dt').hasClassName('completed2') ? $('rd' + i + 'dt').value : '');
-			t_.push(tValues['rd' + i + 'pl']);
-			t_.push($('rd' + i + 'pl').value);
+			t_.push(tValues['rd' + i + 'pl1']);
+			t_.push($('rd' + i + 'pl1').value);
+			t_.push(tValues['rd' + i + 'pl2']);
+			t_.push($('rd' + i + 'pl2').value);
 			t_.push($('rd' + i + 'exa').hasClassName('completed2') ? $('rd' + i + 'exa').value : '');
 			t_.push($('rd' + i + 'cmt').hasClassName('completed2') ? $('rd' + i + 'cmt').value : '');
 			t.push(t_.join('~'));

@@ -41,11 +41,11 @@ public class RoundsBean {
 	@Column(name = "rd_comment")
 	private String rdComment;
 	
-	@Column(name = "cx_id")
-	private Integer cxId;
+	@Column(name = "cx1_id")
+	private Integer cx1Id;
 
-	@Column(name = "cx_label")
-	private String cxLabel;
+	@Column(name = "cx1_label")
+	private String cx1Label;
 	
 	@Column(name = "ct1_id")
 	private Integer ct1Id;
@@ -100,6 +100,66 @@ public class RoundsBean {
 
 	@Column(name = "cn2_label_en")
 	private String cn2LabelEN;
+	
+	@Column(name = "cx2_id")
+	private Integer cx2Id;
+
+	@Column(name = "cx2_label")
+	private String cx2Label;
+	
+	@Column(name = "ct3_id")
+	private Integer ct3Id;
+
+	@Column(name = "ct3_label")
+	private String ct3Label;
+	
+	@Column(name = "ct3_label_en")
+	private String ct3LabelEN;
+	
+	@Column(name = "st3_id")
+	private Integer st3Id;
+	
+	@Column(name = "st3_code")
+	private String st3Code;
+
+	@Column(name = "st3_label_en")
+	private String st3LabelEN;
+	
+	@Column(name = "cn3_id")
+	private Integer cn3Id;
+	
+	@Column(name = "cn3_code")
+	private String cn3Code;
+
+	@Column(name = "cn3_label_en")
+	private String cn3LabelEN;
+	
+	@Column(name = "ct4_id")
+	private Integer ct4Id;
+
+	@Column(name = "ct4_label")
+	private String ct4Label;
+
+	@Column(name = "ct4_label_en")
+	private String ct4LabelEN;
+	
+	@Column(name = "st4_id")
+	private Integer st4Id;
+	
+	@Column(name = "st4_code")
+	private String st4Code;
+
+	@Column(name = "st4_label_en")
+	private String st4LabelEN;
+	
+	@Column(name = "cn4_id")
+	private Integer cn4Id;
+	
+	@Column(name = "cn4_code")
+	private String cn4Code;
+
+	@Column(name = "cn4_label_en")
+	private String cn4LabelEN;
 	
 	@Column(name = "rk1_id")
 	private Integer rk1Id;
@@ -243,14 +303,6 @@ public class RoundsBean {
 
 	public String getRdComment() {
 		return rdComment;
-	}
-
-	public Integer getCxId() {
-		return cxId;
-	}
-
-	public String getCxLabel() {
-		return cxLabel;
 	}
 
 	public Integer getCt1Id() {
@@ -505,14 +557,6 @@ public class RoundsBean {
 		this.rdComment = rdComment;
 	}
 
-	public void setCxId(Integer cxId) {
-		this.cxId = cxId;
-	}
-
-	public void setCxLabel(String cxLabel) {
-		this.cxLabel = cxLabel;
-	}
-
 	public void setCt1Id(Integer ct1Id) {
 		this.ct1Id = ct1Id;
 	}
@@ -743,6 +787,182 @@ public class RoundsBean {
 
 	public void setRtIndex(Integer rtIndex) {
 		this.rtIndex = rtIndex;
+	}
+
+	public Integer getCx1Id() {
+		return cx1Id;
+	}
+
+	public String getCx1Label() {
+		return cx1Label;
+	}
+
+	public Integer getCx2Id() {
+		return cx2Id;
+	}
+
+	public String getCx2Label() {
+		return cx2Label;
+	}
+
+	public Integer getCt3Id() {
+		return ct3Id;
+	}
+
+	public String getCt3Label() {
+		return ct3Label;
+	}
+
+	public String getCt3LabelEN() {
+		return ct3LabelEN;
+	}
+
+	public Integer getSt3Id() {
+		return st3Id;
+	}
+
+	public String getSt3Code() {
+		return st3Code;
+	}
+
+	public String getSt3LabelEN() {
+		return st3LabelEN;
+	}
+
+	public Integer getCn3Id() {
+		return cn3Id;
+	}
+
+	public String getCn3Code() {
+		return cn3Code;
+	}
+
+	public String getCn3LabelEN() {
+		return cn3LabelEN;
+	}
+
+	public Integer getCt4Id() {
+		return ct4Id;
+	}
+
+	public String getCt4Label() {
+		return ct4Label;
+	}
+
+	public String getCt4LabelEN() {
+		return ct4LabelEN;
+	}
+
+	public Integer getSt4Id() {
+		return st4Id;
+	}
+
+	public String getSt4Code() {
+		return st4Code;
+	}
+
+	public String getSt4LabelEN() {
+		return st4LabelEN;
+	}
+
+	public Integer getCn4Id() {
+		return cn4Id;
+	}
+
+	public String getCn4Code() {
+		return cn4Code;
+	}
+
+	public String getCn4LabelEN() {
+		return cn4LabelEN;
+	}
+
+	public void setCx1Id(Integer cx1Id) {
+		this.cx1Id = cx1Id;
+	}
+
+	public void setCx1Label(String cx1Label) {
+		this.cx1Label = cx1Label;
+	}
+
+	public void setCx2Id(Integer cx2Id) {
+		this.cx2Id = cx2Id;
+	}
+
+	public void setCx2Label(String cx2Label) {
+		this.cx2Label = cx2Label;
+	}
+
+	public void setCt3Id(Integer ct3Id) {
+		this.ct3Id = ct3Id;
+	}
+
+	public void setCt3Label(String ct3Label) {
+		this.ct3Label = ct3Label;
+	}
+
+	public void setCt3LabelEN(String ct3LabelEN) {
+		this.ct3LabelEN = ct3LabelEN;
+	}
+
+	public void setSt3Id(Integer st3Id) {
+		this.st3Id = st3Id;
+	}
+
+	public void setSt3Code(String st3Code) {
+		this.st3Code = st3Code;
+	}
+
+	public void setSt3LabelEN(String st3LabelEN) {
+		this.st3LabelEN = st3LabelEN;
+	}
+
+	public void setCn3Id(Integer cn3Id) {
+		this.cn3Id = cn3Id;
+	}
+
+	public void setCn3Code(String cn3Code) {
+		this.cn3Code = cn3Code;
+	}
+
+	public void setCn3LabelEN(String cn3LabelEN) {
+		this.cn3LabelEN = cn3LabelEN;
+	}
+
+	public void setCt4Id(Integer ct4Id) {
+		this.ct4Id = ct4Id;
+	}
+
+	public void setCt4Label(String ct4Label) {
+		this.ct4Label = ct4Label;
+	}
+
+	public void setCt4LabelEN(String ct4LabelEN) {
+		this.ct4LabelEN = ct4LabelEN;
+	}
+
+	public void setSt4Id(Integer st4Id) {
+		this.st4Id = st4Id;
+	}
+
+	public void setSt4Code(String st4Code) {
+		this.st4Code = st4Code;
+	}
+
+	public void setSt4LabelEN(String st4LabelEN) {
+		this.st4LabelEN = st4LabelEN;
+	}
+
+	public void setCn4Id(Integer cn4Id) {
+		this.cn4Id = cn4Id;
+	}
+
+	public void setCn4Code(String cn4Code) {
+		this.cn4Code = cn4Code;
+	}
+
+	public void setCn4LabelEN(String cn4LabelEN) {
+		this.cn4LabelEN = cn4LabelEN;
 	}
 	
 }

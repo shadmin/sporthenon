@@ -646,8 +646,8 @@ public class UpdateServlet extends AbstractServlet {
 						Integer rdRk3 = (StringUtils.notEmpty(t_[9]) ? Integer.parseInt(t_[9]) : (StringUtils.notEmpty(t_[10]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[10], result.getYear().getLabel(), cb, null, lang) : 0));
 						String rdRs3 = (StringUtils.notEmpty(t_[11]) ? t_[11] : null);
 						String rdDt = (StringUtils.notEmpty(t_[12]) ? t_[12] : null);
-						Complex rdCx = null;
-						City rdCt = null;
+						Complex rdCx1 = null; Complex rdCx2 = null;
+						City rdCt1 = null; City rdCt2 = null;
 						if (StringUtils.notEmpty(t_[13]) || StringUtils.notEmpty(t_[14])) {
 							String[] tpl = t_[14].toLowerCase().split("\\,\\s");
 							if (tpl.length > 1) {
@@ -657,13 +657,27 @@ public class UpdateServlet extends AbstractServlet {
 								else
 									id = DatabaseHelper.insertPlace(0, String.valueOf(t_[14]), cb, null, lang);
 								if (tpl.length > 2)
-									rdCx = (Complex) DatabaseHelper.loadEntity(Complex.class, id);
+									rdCx1 = (Complex) DatabaseHelper.loadEntity(Complex.class, id);
 								else
-									rdCt = (City) DatabaseHelper.loadEntity(City.class, id);
+									rdCt1 = (City) DatabaseHelper.loadEntity(City.class, id);
 							}
 						}
-						String rdExa = (StringUtils.notEmpty(t_[15]) ? t_[15] : null);
-						String rdCmt = (StringUtils.notEmpty(t_[16]) ? t_[16] : null);
+						if (StringUtils.notEmpty(t_[15]) || StringUtils.notEmpty(t_[16])) {
+							String[] tpl = t_[16].toLowerCase().split("\\,\\s");
+							if (tpl.length > 1) {
+								int id = 0;
+								if (StringUtils.notEmpty(t_[15]))
+									id = new Integer(String.valueOf(t_[15]));
+								else
+									id = DatabaseHelper.insertPlace(0, String.valueOf(t_[16]), cb, null, lang);
+								if (tpl.length > 2)
+									rdCx2 = (Complex) DatabaseHelper.loadEntity(Complex.class, id);
+								else
+									rdCt2 = (City) DatabaseHelper.loadEntity(City.class, id);
+							}
+						}
+						String rdExa = (StringUtils.notEmpty(t_[17]) ? t_[17] : null);
+						String rdCmt = (StringUtils.notEmpty(t_[18]) ? t_[18] : null);
 						Round rd = (StringUtils.notEmpty(idr) ? (Round) DatabaseHelper.loadEntity(Round.class, idr) : new Round());
 						rd.setIdResult(result.getId());
 						rd.setIdResultType(tp);
@@ -674,8 +688,10 @@ public class UpdateServlet extends AbstractServlet {
 						rd.setResult2(rdRs2);
 						rd.setIdRank3(rdRk3 > 0 ? rdRk3 : null);
 						rd.setResult3(rdRs3);
-						rd.setComplex(rdCx);
-						rd.setCity(rdCt);
+						rd.setComplex1(rdCx1);
+						rd.setCity1(rdCt1);
+						rd.setComplex2(rdCx2);
+						rd.setCity2(rdCt2);
 						rd.setDate(rdDt);
 						rd.setExa(rdExa);
 						rd.setComment(rdCmt);
@@ -1158,13 +1174,25 @@ public class UpdateServlet extends AbstractServlet {
 							l.add("");
 						}
 						l.add(StringUtils.notEmpty(rd.getDate()) ? rd.getDate() : "");
-						if (rd.getComplex() != null) {
-							l.add(String.valueOf(rd.getComplex().getId()));
-							l.add(rd.getComplex().toString2(lang));
+						if (rd.getComplex1() != null) {
+							l.add(String.valueOf(rd.getComplex1().getId()));
+							l.add(rd.getComplex1().toString2(lang));
 						}
-						else if (rd.getCity() != null) {
-							l.add(String.valueOf(rd.getCity().getId()));
-							l.add(rd.getCity().toString2(lang));
+						else if (rd.getCity1() != null) {
+							l.add(String.valueOf(rd.getCity1().getId()));
+							l.add(rd.getCity1().toString2(lang));
+						}
+						else {
+							l.add("");
+							l.add("");
+						}
+						if (rd.getComplex2() != null) {
+							l.add(String.valueOf(rd.getComplex2().getId()));
+							l.add(rd.getComplex2().toString2(lang));
+						}
+						else if (rd.getCity2() != null) {
+							l.add(String.valueOf(rd.getCity2().getId()));
+							l.add(rd.getCity2().toString2(lang));
 						}
 						else {
 							l.add("");

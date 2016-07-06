@@ -53,12 +53,20 @@ public class Round {
 	private String result3;
 	
 	@ManyToOne
+	@JoinColumn(name = "id_city1")
+	private City city1;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_complex1")
+	private Complex complex1;
+	
+	@ManyToOne
 	@JoinColumn(name = "id_city")
-	private City city;
+	private City city2;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_complex")
-	private Complex complex;
+	private Complex complex2;
 	
 	@Column(name = "date", length = 10)
 	private String date;
@@ -106,14 +114,6 @@ public class Round {
 
 	public String getResult3() {
 		return result3;
-	}
-
-	public City getCity() {
-		return city;
-	}
-
-	public Complex getComplex() {
-		return complex;
 	}
 
 	public String getDate() {
@@ -168,14 +168,6 @@ public class Round {
 		this.result3 = result3;
 	}
 
-	public void setCity(City city) {
-		this.city = city;
-	}
-
-	public void setComplex(Complex complex) {
-		this.complex = complex;
-	}
-
 	public void setDate(String date) {
 		this.date = date;
 	}
@@ -200,15 +192,48 @@ public class Round {
 		this.roundType = roundType;
 	}
 
+	public City getCity1() {
+		return city1;
+	}
+
+	public Complex getComplex1() {
+		return complex1;
+	}
+
+	public City getCity2() {
+		return city2;
+	}
+
+	public Complex getComplex2() {
+		return complex2;
+	}
+
+	public void setCity1(City city1) {
+		this.city1 = city1;
+	}
+
+	public void setComplex1(Complex complex1) {
+		this.complex1 = complex1;
+	}
+
+	public void setCity2(City city2) {
+		this.city2 = city2;
+	}
+
+	public void setComplex2(Complex complex2) {
+		this.complex2 = complex2;
+	}
+
 	@Override
 	public String toString() {
 		return "Round [id=" + id + ", idResult=" + idResult + ", idResultType="
-				+ idResultType + ", idRoundType=" + roundType + ", idRank1="
+				+ idResultType + ", roundType=" + roundType + ", idRank1="
 				+ idRank1 + ", result1=" + result1 + ", idRank2=" + idRank2
 				+ ", result2=" + result2 + ", idRank3=" + idRank3
-				+ ", result3=" + result3 + ", city=" + city + ", complex="
-				+ complex + ", date=" + date + ", exa=" + exa + ", comment="
-				+ comment + ", metadata=" + metadata + "]";
+				+ ", result3=" + result3 + ", city1=" + city1 + ", complex1="
+				+ complex1 + ", city2=" + city2 + ", complex2=" + complex2
+				+ ", date=" + date + ", exa=" + exa + ", comment=" + comment
+				+ ", metadata=" + metadata + "]";
 	}
-	
+
 }
