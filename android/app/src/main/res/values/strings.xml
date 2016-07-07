@@ -25,6 +25,8 @@
     <string name="result">Result</string>
     <string name="ol.winter">Winter Olympic Games</string>
     <string name="ol.summer">Summer Olympic Games</string>
+    <string name="ol.podium">Event results</string>
+    <string name="ol.medals">Medals table</string>
 
     <string name="title_results">Results</string>
     <string name="title_calendar">Calendar</string>

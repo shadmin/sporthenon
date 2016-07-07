@@ -13,8 +13,8 @@
         android:layout_alignParentTop="true"
         android:fontFamily="Verdana"
         android:textSize="18sp"
-        android:hint="@string/search">
-    </EditText>
+        android:hint="@string/search"
+        />
 
     <ProgressBar
         android:id="@+id/progress"

@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -22,12 +20,10 @@ import android.widget.TextView;
 import com.sporthenon.android.R;
 import com.sporthenon.android.fragment.DrawerFragment;
 import com.sporthenon.android.fragment.ListFragment;
-import com.sporthenon.android.fragment.PagerFragment;
 import com.sporthenon.android.fragment.Result1Fragment;
 import com.sporthenon.android.utils.AndroidUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @SuppressWarnings("deprecated")
 public abstract class AbstractActivity extends ActionBarActivity implements DrawerFragment.NavigationDrawerCallbacks, AdapterView.OnItemClickListener {
@@ -61,6 +57,8 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
     // Olympics
     protected static final int OLTYPE_WINTER = 0;
     protected static final int OLTYPE_SUMMER = 1;
+    protected static final int OLMODE_PODIUM = 0;
+    protected static final int OLMODE_MEDALS = 1;
     protected Integer olType;
 
     public ListView getList() {
@@ -251,33 +249,17 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
         drawerFragment.selectItem(index, false);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        //fragmentManager.beginTransaction().replace(R.id.container, ListFragment.newInstance(index + 1, this)).commit();
-        fragmentManager.beginTransaction().replace(R.id.container, PagerFragment.newInstance(index + 1, this)).commit();
+        fragmentManager.beginTransaction().replace(R.id.container, ListFragment.newInstance(index + 1, this)).commit();
+        //fragmentManager.beginTransaction().replace(R.id.container, PagerFragment.newInstance(index + 1, this)).commit();
 
         /*List<Fragment> fList = new ArrayList<Fragment>();
-        //fList.add(ListFragment.newInstance("Fragment 1"));
+       // fList.add(ListFragment.newInstance("Fragment 1"));
         pager = (ViewPager) findViewById(R.id.view_pager);
         pagerAdapter = new MyPageAdapter(getSupportFragmentManager(), fList);
         pager.setAdapter(pagerAdapter);*/
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         lang = prefs.getString("lang", null);
-    }
-
-    private class MyPageAdapter extends FragmentStatePagerAdapter {
-        private List<Fragment> fragments;
-        public MyPageAdapter(FragmentManager fm, List<Fragment> fragments) {
-            super(fm);
-            this.fragments = fragments;
-        }
-        @Override
-        public Fragment getItem(int position) {
-            return this.fragments.get(position);
-        }
-        @Override
-        public int getCount() {
-            return this.fragments.size();
-        }
     }
 
     @Override

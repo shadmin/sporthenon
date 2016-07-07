@@ -25,7 +25,7 @@ public class OlympicsActivity extends AbstractActivity {
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
         DataItem ol = (DataItem) getList().getItemAtPosition(position);
-        Intent i = new Intent(this, ChampionshipActivity.class);
+        Intent i = new Intent(this, OlympicsModeActivity.class);
         Bundle b = new Bundle();
         b.putInt("olid", ol.getId());
         b.putString("olname", ol.getName());

@@ -90,26 +90,26 @@ public class ListFragment extends Fragment {
     }
 
     public void filter() {
-           /* String text = search.getText().toString().toLowerCase();
-            list.setAdapter(null);
-            if (this instanceof ResultActivity) {
-                ArrayList<ResultItem> list_ = new ArrayList<>();
-                for (Object o : itemList) {
-                    ResultItem item = (ResultItem) o;
-                    if (text.length() == 0 || item.getTxt1().toLowerCase().matches(".*" + text + ".*"))
-                        list_.add(item);
-                }
-                list.setAdapter(new ResultListAdapter(getApplicationContext(), list_));
+       /* String text = search.getText().toString().toLowerCase();
+        list.setAdapter(null);
+        if (this instanceof ResultActivity) {
+            ArrayList<ResultItem> list_ = new ArrayList<>();
+            for (Object o : itemList) {
+                ResultItem item = (ResultItem) o;
+                if (text.length() == 0 || item.getTxt1().toLowerCase().matches(".*" + text + ".*"))
+                    list_.add(item);
             }
-            else {
-                ArrayList<DataItem> list_ = new ArrayList<>();
-                for (Object o : itemList) {
-                    DataItem item = (DataItem) o;
-                    if (text.length() == 0 || item.getName().toLowerCase().matches(".*" + text + ".*"))
-                        list_.add(item);
-                }
-                list.setAdapter(new ItemListAdapter(getApplicationContext(), list_));
-            }*/
+            list.setAdapter(new ResultListAdapter(getApplicationContext(), list_));
+        }
+        else {
+            ArrayList<DataItem> list_ = new ArrayList<>();
+            for (Object o : itemList) {
+                DataItem item = (DataItem) o;
+                if (text.length() == 0 || item.getName().toLowerCase().matches(".*" + text + ".*"))
+                    list_.add(item);
+            }
+            list.setAdapter(new ItemListAdapter(getApplicationContext(), list_));
+        }*/
     }
 
     public void onSearchClick(View v) {

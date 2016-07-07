@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#EEE"
+    tools:context="com.sporthenon.android.fragment.OlympicsTypeFragment">
+
+    <Button
+        android:id="@+id/ol_podium"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
+        android:layout_alignParentTop="true"
+        android:fontFamily="Verdana"
+        android:textSize="18sp"
+        android:text="@string/ol.podium"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:background="#FFF"
+        android:drawableTop="@drawable/podium"
+        android:drawablePadding="5dp"
+        android:onClick="onPodiumClick"
+        />
+
+    <Button
+        android:id="@+id/ol_medals"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
+        android:fontFamily="Verdana"
+        android:textSize="18sp"
+        android:text="@string/ol.medals"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:background="#FFF"
+        android:drawableTop="@drawable/medals"
+        android:drawablePadding="5dp"
+        android:layout_below="@+id/ol_podium"
+        android:onClick="onMedalsClick"
+        />
+
+</RelativeLayout>

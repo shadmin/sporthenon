@@ -36,4 +36,6 @@
     <string name="title_us_leagues">Ligues US</string>
     <string name="ol.summer">Jeux Olympiques d\'été</string>
     <string name="ol.winter">Jeux Olympiques d\'hiver</string>
+    <string name="ol.podium">Résultats des épreuves</string>
+    <string name="ol.medals">Tableau des médailles</string>
 </resources>
