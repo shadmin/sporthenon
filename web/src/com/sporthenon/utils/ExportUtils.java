@@ -204,6 +204,7 @@ public class ExportUtils {
 	}
 	
 	private static void buildCSV(PrintWriter pw, List<ArrayList<String>> lTh, List<ArrayList<String>> lTd) throws Exception {
+		final String SEPARATOR = ";";
 		StringBuffer sbCSV = new StringBuffer();
 		int n = 0;
 		for (List<String> l : lTd) {
@@ -212,7 +213,7 @@ public class ExportUtils {
 				ArrayList<String> lTh_ = lTh.get(n++);
 				for (int i = 0 ; i < lTh_.size() ; i++) {
 					String s = lTh_.get(i);
-					sbCSV.append(i > 0 ? "," : "").append(s.replaceAll("^\\#.*\\#", ""));
+					sbCSV.append(i > 0 ? SEPARATOR : "").append(s.replaceAll("^\\#.*\\#", ""));
 				}
 				sbCSV.append("\r\n");
 			}
@@ -220,14 +221,14 @@ public class ExportUtils {
 			else if (l != null && !l.isEmpty() && l.get(0).matches("^\\#CAPTION\\#.*")) {
 				String s1 = l.get(0).replaceAll("^\\#.*\\#", "");
 				String s2 = l.get(1).replaceAll("^\\#.*\\#", "");
-				sbCSV.append(s1).append(",").append(s2).append("\r\n");
+				sbCSV.append(s1).append(SEPARATOR).append(s2).append("\r\n");
 			}
 			// TABLE
 			else {
 				for (int i = 0 ; i < l.size() ; i++) {
 					if (l.get(i) != null) {
 						String s = l.get(i).replaceAll("^\\#.*\\#", "");
-						sbCSV.append(i > 0 ? "," : "").append(s.contains(",") ? "\"" + s + "\"" : s);
+						sbCSV.append(i > 0 ? SEPARATOR : "").append(s.contains(SEPARATOR) ? "\"" + s + "\"" : s);
 					}
 				}
 				sbCSV.append("\r\n");
@@ -311,6 +312,11 @@ public class ExportUtils {
 		html = html.replaceAll("/img/", ConfigUtils.getProperty("url") + "img/");
 		html = html.replaceAll("\\</?a.*?>|\\sclass=\"srt\"|onclick\\=\".*?\"", "");
 		html = html.replaceAll("class\\=\"toolbar\"", "class=\"toolbar\" style=\"display:none;\"");
+		html = html.replaceAll("alt\\=\"fav\"", "alt=\"fav\" style=\"display:none;\"");
+		html = html.replaceAll("alt\\=\"details\"", "alt=\"details\" style=\"display:none;\"");
+		html = html.replaceAll("alt\\=\"note\"", "alt=\"note\" style=\"display:none;\"");
+		html = html.replaceAll("alt\\=\"toggle\"", "alt=\"toggle\" style=\"display:none;\"");
+		html = html.replaceAll("class=\"rendertip\" style=\"display:none;\"", "class=\"rendertip\"");
 		return html;
 	}
 	
@@ -409,7 +415,7 @@ public class ExportUtils {
 					PdfPTable table_ = null;
 					if (s.matches("^\\#.+\\.png\\#.+")) {
 						String src = s.substring(1, s.lastIndexOf("#"));
-						if (!src.contains("details.png")) {
+						if (!src.contains("details.png") && !src.contains("note.png")) {
 							Image img = Image.getInstance(src);
 							PdfPCell cell_ = new PdfPCell(img);
 							cell_.setPadding(padding);
@@ -531,6 +537,7 @@ public class ExportUtils {
 	public static void export(HttpServletResponse response, StringBuffer html, String format, String lang) throws Exception {
 		try {
 			String html_ = html.toString();
+			html_ = html_.replaceAll("\\&ndash\\;", "-").replaceAll("\\>" + ResourceUtils.getText("details", lang) + "\\<", "><");
 			if (format.matches("csv|xls|txt"))
 				html_ = html_.replaceAll("&nbsp;", " ").replaceAll("<br/>", "&nbsp;/&nbsp;");
 			Document doc = Jsoup.parse(html_);
@@ -540,7 +547,7 @@ public class ExportUtils {
 			List lTd = new ArrayList<ArrayList<String>>();
 			List lMerge = new ArrayList<MergedCell>();
 			response.setCharacterEncoding("UTF-8");
-			response.setHeader("Content-Disposition", "attachment;filename=" + title + " [Sporthenon]." + format);
+			response.setHeader("Content-Disposition", "attachment;filename=" + title + "[Sporthenon]." + format);
 			if (format.equalsIgnoreCase("html")) {
 				response.setContentType("text/html");
 				response.getWriter().write(buildHTML(doc));

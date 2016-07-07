@@ -1931,6 +1931,7 @@ public class UpdateServlet extends AbstractServlet {
 	private static void loadExternalLinks(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		try {
 			StringBuffer html = new StringBuffer("<table>");
+			String sport = String.valueOf(hParams.get("sport"));
 			String range = String.valueOf(hParams.get("range"));
 			String pattern = String.valueOf(hParams.get("pattern"));
 			String entity = String.valueOf(hParams.get("entity"));
@@ -1952,6 +1953,8 @@ public class UpdateServlet extends AbstractServlet {
 				label_ = "label || '<i> - ' || city.label || ', ' || city.country.code || '</i>'";
 			if (StringUtils.notEmpty(pattern))
 				where.append(" and lower(" + label_ + ") like '%" + pattern.toLowerCase() + "%'");
+			if (entity.matches(Athlete.alias + "|" + Team.alias) && !sport.equals("0"))
+				where.append(" and sport.id=" + sport);
 			List<Object[]> items = DatabaseHelper.execute("select id, " + label_ + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + where.toString() + " order by id");
 			List<ExternalLink> links = DatabaseHelper.execute(hql.toString());
 			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + "</th><th>" + ResourceUtils.getText("type", lang) + "</th><th>URL</th><th>" + ResourceUtils.getText("checked", lang) + "&nbsp;<input type='checkbox' onclick='checkAllLinks();'/></th></thead><tbody>");
@@ -2104,7 +2107,7 @@ public class UpdateServlet extends AbstractServlet {
 			String[] tIds = range.split("\\-");
 			StringBuffer hql = new StringBuffer("from Translation where entity='" + entity + "'");
 			if (tIds.length > 1 && pattern.length() == 0)
-				hql.append(" and idItem between " + tIds[0] + " and " + tIds[1]);				
+				hql.append(" and idItem between " + tIds[0] + " and " + tIds[1]);		
 			hql.append(" order by idItem");
 
 			String labels = "label, labelFR";

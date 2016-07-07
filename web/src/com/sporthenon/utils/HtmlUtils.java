@@ -156,7 +156,7 @@ public class HtmlUtils {
 
 	public static String writeToggleTitle(String s, boolean collapsed) {
 		StringBuffer html = new StringBuffer();
-		html.append("<img alt='' src='" + ImageUtils.getRenderUrl() + (collapsed ? "expand" : "collapse") + ".gif' class='toggleimg' onclick='toggleContent(this)'/>");
+		html.append("<img alt='toggle' src='" + ImageUtils.getRenderUrl() + (collapsed ? "expand" : "collapse") + ".gif' class='toggleimg' onclick='toggleContent(this)'/>");
 		html.append("<span class='toggletext' onclick='toggleContent(this)'>" + s + "</span>");
 		return html.toString();
 	}

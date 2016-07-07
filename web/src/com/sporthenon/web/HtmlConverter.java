@@ -1347,11 +1347,17 @@ public class HtmlConverter {
 			if (en.equals(Athlete.alias)) {
 				c1 = HtmlUtils.writeLink(Athlete.alias, item.getIdItem(), item.getLabel(), item.getLabelEN());
 				c2 = (item.getIdRel1() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, item.getIdRel1(), item.getLabelRel1(), item.getLabelRel3())) : StringUtils.EMPTY);
-				if (StringUtils.notEmpty(item.getTxt3()))
+				if (StringUtils.notEmpty(item.getTxt3())) {
+					List<Integer> lId = new ArrayList<Integer>();
+					lId.add(item.getIdRel1());
 					for (String s : item.getTxt3().split("\\|")) {
 						String[] t = s.split("\\,", -1);
-						c2 += (item.getIdRel1() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, Integer.parseInt(t[0]), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, Integer.parseInt(t[0]), lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? t[1] : t[2], t[1])) : StringUtils.EMPTY);
+						if (!lId.contains(Integer.parseInt(t[0]))) {
+							c2 += (item.getIdRel1() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, Integer.parseInt(t[0]), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, Integer.parseInt(t[0]), lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? t[1] : t[2], t[1])) : StringUtils.EMPTY);
+							lId.add(Integer.parseInt(t[0]));
+						}
 					}
+				}
 				c3 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, item.getIdRel2(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2(), item.getLabelRel4()));
 			}
 			else if (en.equals(City.alias)) {

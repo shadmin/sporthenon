@@ -5,8 +5,8 @@
 <%@ page import="com.sporthenon.db.entity.Sport"%>
 <%@ page import="com.sporthenon.db.entity.meta.Contributor"%>
 <%@ page import="com.sporthenon.utils.ConfigUtils"%>
-<%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
+<%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="update-overview" class="update">
 	<jsp:include page="/jsp/update/toolbar.jsp" />

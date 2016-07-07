@@ -2796,7 +2796,7 @@ function executeQuery(index) {
 /*========== EXT.LINKS ==========*/
 var currentExtLinkEntity = null;
 function loadExtLinks() {
-	var h = $H({range: $F('elrange'), pattern: $F('elpattern'), entity: $F('elentity'), includechecked: ($('elincludechecked').checked ? '1' : '0')});
+	var h = $H({sport: $F('elsport'), range: $F('elrange'), pattern: $F('elpattern'), entity: $F('elentity'), includechecked: ($('elincludechecked').checked ? '1' : '0')});
 	$('elcontent').update('<img src="/img/db/loading.gif?6"/>');
 	new Ajax.Updater($('elcontent'), '/update/load-extlinks', {
 		parameters: h

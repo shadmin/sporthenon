@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.sporthenon.db.DatabaseHelper"%>
+<%@ page import="com.sporthenon.db.entity.Sport"%>
+<%@ page import="com.sporthenon.db.entity.meta.Contributor"%>
+<%@ page import="com.sporthenon.utils.ConfigUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
+<%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <jsp:include page="/jsp/common/header.jsp" />
 <div id="update-extlinks" class="update">
 	<jsp:include page="/jsp/update/toolbar.jsp" />
@@ -13,6 +19,17 @@
 				</tr>
 			</table>
 			<table id="options"><tr>
+				<td><%=StringUtils.text("sport", session)%>&nbsp;:</td>
+				<td><select id="elsport">
+				<%
+					Contributor cb = (Contributor) session.getAttribute("user");
+					String lang = String.valueOf(session.getAttribute("locale"));
+					for (Sport sp : (List<Sport>) DatabaseHelper.execute("from Sport" + (cb != null && !cb.isAdmin() ? " where id in (" + cb.getSports() + ")" : "") + " order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "")))
+						out.print("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
+					if (cb != null && cb.isAdmin())
+						out.print("<option value='0'>[" + StringUtils.text("all", session) + "]</option>");
+				%>
+				</select></td>
 				<td>IDs&nbsp;:</td>
 				<td><input id="elrange" type="text" value="1-50" style="width:90px;"/>
 				<td><%=StringUtils.text("find", session)%>&nbsp;:</td>
