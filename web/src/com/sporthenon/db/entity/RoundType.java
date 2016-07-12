@@ -29,7 +29,7 @@ public class RoundType {
 	private String labelFR;
 	
 	@Column(name = "\"index\"", nullable = false)
-	private Integer index;
+	private Float index;
 	
 	@Embedded
 	private Metadata metadata;
@@ -66,11 +66,11 @@ public class RoundType {
 		this.labelFR = labelFr;
 	}
 
-	public Integer getIndex() {
+	public Float getIndex() {
 		return index;
 	}
 
-	public void setIndex(Integer index) {
+	public void setIndex(Float index) {
 		this.index = index;
 	}
 

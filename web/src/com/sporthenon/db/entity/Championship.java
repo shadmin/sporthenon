@@ -28,8 +28,8 @@ public class Championship {
 	@Column(name = "label_fr", length = 40, nullable = false)
 	private String labelFR;
 
-	@Column(name = "index")
-	private Integer index;
+	@Column(name = "\"index\"")
+	private Float index;
 	
 	@Column(name = "ref")
 	private Integer ref;
@@ -73,14 +73,6 @@ public class Championship {
 		this.metadata = metadata;
 	}
 
-	public Integer getIndex() {
-		return index;
-	}
-
-	public void setIndex(Integer index) {
-		this.index = index;
-	}
-
 	public String getLabel(String lang) {
 		return (lang != null && lang.equalsIgnoreCase("fr") ? labelFR : label);
 	}
@@ -99,6 +91,14 @@ public class Championship {
 
 	public void setNopic(Boolean nopic) {
 		this.nopic = nopic;
+	}
+
+	public Float getIndex() {
+		return index;
+	}
+
+	public void setIndex(Float index) {
+		this.index = index;
 	}
 
 	@Override

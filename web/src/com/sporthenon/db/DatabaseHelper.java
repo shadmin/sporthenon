@@ -478,7 +478,7 @@ public class DatabaseHelper {
 			Event ev = new Event();
 			ev.setLabel(t[0]);
 			ev.setLabelFr(t[0]);
-			ev.setIndex(Integer.MAX_VALUE);
+			ev.setIndex(Float.MAX_VALUE);
 			ev.setType((Type)o_);
 			o = saveEntity(ev, cb);
 			msg = "New Event";

@@ -109,7 +109,7 @@ public class ExportUtils {
 		headerStyle.setFont(boldFont);
 		headerStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		headerStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-		headerStyle.setFillForegroundColor(new HSSFColor.LIGHT_YELLOW().getIndex());
+		headerStyle.setFillForegroundColor(new HSSFColor.GREY_25_PERCENT().getIndex());
 		
 		HSSFCellStyle boldStyle = hwb.createCellStyle();
 		boldStyle.cloneStyleFrom(normalStyle);
@@ -136,8 +136,25 @@ public class ExportUtils {
 		int n = 0;
 		for (List<String> l : lTd) {
 			int i = 0;
+			// HEADER (ref)
+			if (l != null && l.size() > 1 && l.get(0).equalsIgnoreCase("--INFO--")) {
+				for (int j = 1 ; j < l.size() ; j++) {
+					if (l.get(j).startsWith("#TITLENAME#")) {
+						row = sheet.createRow(rowIndex++);
+						(cell = row.createCell(0)).setCellValue(l.get(j).replaceAll("^\\#.*\\#", ""));
+						cell.setCellStyle(headerStyle);
+						lMerge.add(new MergedCell(0, 0, 2));
+					}
+					else {
+						if (j % 2 == 0)
+							row = sheet.createRow(rowIndex++);
+						(cell = row.createCell(j % 2)).setCellValue(l.get(j).replaceAll("^\\#.*\\#", ""));
+						cell.setCellStyle(j % 2 == 0 ? headerStyle : normalStyle);
+					}
+				}
+			}
 			// TH
-			if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
+			else if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
 				if (rowIndex > 0) {
 					lBlankRow.add(rowIndex);
 					row = sheet.createRow(rowIndex++);
@@ -208,8 +225,21 @@ public class ExportUtils {
 		StringBuffer sbCSV = new StringBuffer();
 		int n = 0;
 		for (List<String> l : lTd) {
+			// HEADER (ref)
+			if (l != null && l.size() > 1 && l.get(0).equalsIgnoreCase("--INFO--")) {
+				for (int j = 1 ; j < l.size() ; j++) {
+					if (l.get(j).startsWith("#TITLENAME#"))
+						sbCSV.append(l.get(j).replaceAll("^\\#.*\\#", ""));
+					else {
+						if (j % 2 == 0)
+							sbCSV.append("\r\n");
+						sbCSV.append(j % 2 == 1 ? SEPARATOR : "").append(l.get(j).replaceAll("^\\#.*\\#", ""));
+					}
+				}
+				sbCSV.append("\r\n");
+			}
 			// HEADER
-			if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
+			else if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
 				ArrayList<String> lTh_ = lTh.get(n++);
 				for (int i = 0 ; i < lTh_.size() ; i++) {
 					String s = lTh_.get(i);
@@ -243,10 +273,27 @@ public class ExportUtils {
 		int[] tMaxLength = null;
 		StringBuffer sbSep = null;
 		for (List<String> l : lTd) {
-			// HEADER
+			// HEADER (ref)
 			if (l != null && l.size() > 1 && l.get(0).equalsIgnoreCase("--INFO--")) {
-				
+				for (int j = 1 ; j < l.size() ; j++) {
+					if (l.get(j).startsWith("#TITLENAME#"))
+						sbText.append(l.get(j).replaceAll("^\\#.*\\#", ""));
+					else {
+						if (j % 2 == 0)
+							sbText.append("\r\n");
+						sbText.append(j % 2 == 1 ? ": " : "").append(l.get(j).replaceAll("^\\#.*\\#", ""));
+					}
+				}
+				sbText.append("\r\n\r\n");
 			}
+			/**
++----------------------+
+| ROGER FEDERER        |
+| Country: Switzerland |
+| Sport: Tennis        |
+| References: 116      |
++----------------------+
+			 */
 			else if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
 				if (sbSep != null)
 					sbText.append("\r\n").append(sbSep).append("\r\n\r\n");
@@ -331,7 +378,7 @@ public class ExportUtils {
 		com.itextpdf.text.Font font = new com.itextpdf.text.Font(bf, 9);
 		com.itextpdf.text.Font fontBold = new com.itextpdf.text.Font(bf, 9);
 		fontBold.setStyle(com.itextpdf.text.Font.BOLD);
-		BaseColor thcolor = new BaseColor(255, 255, 220);
+		BaseColor thcolor = new BaseColor(220, 255, 255);
 		Float padding = 5.0f;
 		PdfPTable t = new PdfPTable(new float[] { 1.0f });
 		t.setWidthPercentage(100.0f);
@@ -443,7 +490,6 @@ public class ExportUtils {
 	}
 
 	public static void parseHTML(Document doc, List lTh, List lTd, List lMerge) throws Exception {
-//		Element title = doc.getElementsByAttributeValue("class", "title").first();
 		int row = 0;
 		
 		// INFO
@@ -452,6 +498,9 @@ public class ExportUtils {
 			ArrayList<String> lTd_ = new ArrayList<String>();
 			lTd_.add("--INFO--");
 			Element info = tinfo.get(0);
+			Element titleName = info.getElementById("titlename");
+			if (titleName != null)
+				lTd_.add("#TITLENAME#" + titleName.text());
 			for (Element tr : info.getElementsByTag("tr")) {
 				List<Element> lCaption = tr.getElementsByClass("caption");
 				if (lCaption != null && !lCaption.isEmpty()) {

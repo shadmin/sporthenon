@@ -1675,10 +1675,14 @@ public class HtmlConverter {
 			String d1 = bean.getRsDate1();
 			String d2 = bean.getRsDate2();
 			String dates = "";
-			if (StringUtils.notEmpty(d1) && StringUtils.notEmpty(d2) && d1.substring(3).equals(d2.substring(3)))
-				dates = HtmlUtils.writeDateLink(d1, d2, d1.substring(0, 2).replaceFirst("^0", "") + StringUtils.SEP1 + StringUtils.toTextDate(d2, lang, "d MMM"));
-			else
-				dates = (StringUtils.notEmpty(d1) ? HtmlUtils.writeDateLink(d1, d2, StringUtils.toTextDate(d1, lang, "d MMM") + StringUtils.SEP1 + StringUtils.toTextDate(d2, lang, "d MMM")) : "");
+			if (StringUtils.notEmpty(d1) && StringUtils.notEmpty(d2)) {
+				if (d1.substring(3).equals(d2.substring(3)))
+					dates = HtmlUtils.writeDateLink(d1, d2, d1.substring(0, 2).replaceFirst("^0", "") + StringUtils.SEP1 + StringUtils.toTextDate(d2, lang, "d MMM"));
+				else
+					dates = HtmlUtils.writeDateLink(d1, d2, StringUtils.toTextDate(d1, lang, "d MMM") + StringUtils.SEP1 + StringUtils.toTextDate(d2, lang, "d MMM"));
+			}
+			else if (StringUtils.notEmpty(d2))
+				dates = HtmlUtils.writeDateLink(null, d2, StringUtils.toTextDate(d2, lang, "d MMM"));
 			d2 = (StringUtils.notEmpty(d2) ? StringUtils.toTextDate(d2.replaceFirst("\\d\\d\\d\\d$", "1900"), lang, "yyyyMMdd") : "");
 			String place1 = null, place2 = null;
 			String comment = StringUtils.getComment(bean.getRsComment(), lang);
@@ -1838,10 +1842,14 @@ public class HtmlConverter {
 			String d1 = StringUtils.toTextDate(item.getDate1(), lang, "dd/MM/yyyy");
 			String d2 = StringUtils.toTextDate(item.getDate2(), lang, "dd/MM/yyyy");
 			String dates = "";
-			if (StringUtils.notEmpty(d1) && StringUtils.notEmpty(d2) && d1.substring(3).equals(d2.substring(3)))
-				dates = HtmlUtils.writeDateLink(d1, d2, d1.substring(0, 2).replaceFirst("^0", "") + StringUtils.SEP1 + StringUtils.toTextDate(d2, lang, "d MMMM"));
-			else
-				dates = (StringUtils.notEmpty(d1) ? HtmlUtils.writeDateLink(d1, d2, StringUtils.toTextDate(d1, lang, "d MMMM") + StringUtils.SEP1 + StringUtils.toTextDate(d2, lang, "d MMMM")) : "");
+			if (StringUtils.notEmpty(d1) && StringUtils.notEmpty(d2)) {
+				if (d1.substring(3).equals(d2.substring(3)))
+					dates = HtmlUtils.writeDateLink(d1, d2, d1.substring(0, 2).replaceFirst("^0", "") + StringUtils.SEP1 + StringUtils.toTextDate(d2, lang, "d MMMM"));
+				else
+					dates = HtmlUtils.writeDateLink(d1, d2, StringUtils.toTextDate(d1, lang, "d MMMM") + StringUtils.SEP1 + StringUtils.toTextDate(d2, lang, "d MMMM"));
+			}
+			else if (StringUtils.notEmpty(d2))
+				dates = HtmlUtils.writeDateLink(null, d2, StringUtils.toTextDate(d2, lang, "d MMMM"));
 			String alias = item.getComment();
 			if (item.getEntity().equals(Result.alias)) { // Past events
 				String year = HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1(), null);

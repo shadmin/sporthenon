@@ -30,8 +30,8 @@ public class Event {
 	@Column(name = "label_fr", length = 50, nullable = false)
 	private String labelFR;
 	
-	@Column(name = "index")
-	private Integer index;
+	@Column(name = "\"index\"")
+	private Float index;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_type", nullable = false)
@@ -86,14 +86,6 @@ public class Event {
 		this.type = type;
 	}
 
-	public Integer getIndex() {
-		return index;
-	}
-
-	public void setIndex(Integer index) {
-		this.index = index;
-	}
-
 	public String getLabel(String lang) {
 		return (lang != null && lang.equalsIgnoreCase("fr") ? labelFR : label);
 	}
@@ -112,6 +104,14 @@ public class Event {
 
 	public void setNopic(Boolean nopic) {
 		this.nopic = nopic;
+	}
+
+	public Float getIndex() {
+		return index;
+	}
+
+	public void setIndex(Float index) {
+		this.index = index;
 	}
 
 	@Override

@@ -387,7 +387,7 @@ public class UpdateServlet extends AbstractServlet {
 				Championship c = new Championship();
 				c.setLabel(String.valueOf(hParams.get("cp-l")));
 				c.setLabelFr(c.getLabel());
-				c.setIndex(Integer.MAX_VALUE);
+				c.setIndex(Float.MAX_VALUE);
 				c = (Championship) DatabaseHelper.saveEntity(c, cb);
 				result.setChampionship(c);
 			}
@@ -405,7 +405,7 @@ public class UpdateServlet extends AbstractServlet {
 				e.setLabel(label_);
 				e.setLabelFr(label_);
 				e.setType(type_);
-				e.setIndex(Integer.MAX_VALUE);
+				e.setIndex(Float.MAX_VALUE);
 				e = (Event) DatabaseHelper.saveEntity(e, cb);
 				result.setEvent(e);
 			}
@@ -425,7 +425,7 @@ public class UpdateServlet extends AbstractServlet {
 					e.setLabel(label_);
 					e.setLabelFr(label_);
 					e.setType(type_);
-					e.setIndex(Integer.MAX_VALUE);
+					e.setIndex(Float.MAX_VALUE);
 					e = (Event) DatabaseHelper.saveEntity(e, cb);
 					result.setSubevent(e);
 				}
@@ -448,7 +448,7 @@ public class UpdateServlet extends AbstractServlet {
 					e.setLabel(label_);
 					e.setLabelFr(label_);
 					e.setType(type_);
-					e.setIndex(Integer.MAX_VALUE);
+					e.setIndex(Float.MAX_VALUE);
 					e = (Event) DatabaseHelper.saveEntity(e, cb);
 					result.setSubevent2(e);
 				}
@@ -628,7 +628,7 @@ public class UpdateServlet extends AbstractServlet {
 				for (String value : t) {
 					String[] t_ = value.split("\\~", -1);
 					if (t_.length > 1) {
-						String idr = t_[0];
+						String idr = (idRS != null ? t_[0] : null);
 						RoundType rdRt = null;
 						if (StringUtils.notEmpty(t_[1]))
 							rdRt = (RoundType) DatabaseHelper.loadEntity(RoundType.class, t_[1]);
@@ -636,7 +636,7 @@ public class UpdateServlet extends AbstractServlet {
 							RoundType rdt = new RoundType();
 							rdt.setLabel(t_[2]);
 							rdt.setLabelFr(t_[2]);
-							rdt.setIndex(0);
+							rdt.setIndex(0.0f);
 							rdRt = (RoundType) DatabaseHelper.saveEntity(rdt, cb);
 						}
 						Integer rdRk1 = (StringUtils.notEmpty(t_[3]) ? Integer.parseInt(t_[3]) : (StringUtils.notEmpty(t_[4]) ? DatabaseHelper.insertEntity(0, tp, (result.getSport() != null ? result.getSport().getId() : 0), t_[4], result.getYear().getLabel(), cb, null, lang) : 0));
@@ -699,7 +699,7 @@ public class UpdateServlet extends AbstractServlet {
 					}
 				}
 			}
-			if (hParams.containsKey("rddel")) {
+			if (hParams.containsKey("rddel") && idRS != null) {
 				String[] t = String.valueOf(hParams.get("rddel")).split("\\|", 0);
 				for (String value : t)
 					if (StringUtils.notEmpty(value))
@@ -1610,7 +1610,7 @@ public class UpdateServlet extends AbstractServlet {
 				Championship en = (Championship) o;
 				en.setLabel(String.valueOf(hParams.get("cp-label")));
 				en.setLabelFr(String.valueOf(hParams.get("cp-labelfr")));
-				en.setIndex(StringUtils.notEmpty(hParams.get("cp-index")) ? StringUtils.toInt(hParams.get("cp-index")) : Integer.MAX_VALUE);
+				en.setIndex(StringUtils.notEmpty(hParams.get("cp-index")) ? Float.valueOf(String.valueOf(hParams.get("cp-index"))) : Float.MAX_VALUE);
 			}
 			else if (alias.equalsIgnoreCase(City.alias)) {
 				City en = (City) o;
@@ -1672,7 +1672,7 @@ public class UpdateServlet extends AbstractServlet {
 				en.setLabel(String.valueOf(hParams.get("ev-label")));
 				en.setLabelFr(String.valueOf(hParams.get("ev-labelfr")));
 				en.setType((Type)DatabaseHelper.loadEntity(Type.class, StringUtils.toInt(hParams.get("ev-type"))));
-				en.setIndex(StringUtils.notEmpty(hParams.get("ev-index")) ? StringUtils.toInt(hParams.get("ev-index")) : Integer.MAX_VALUE);
+				en.setIndex(StringUtils.notEmpty(hParams.get("ev-index")) ? Float.valueOf(String.valueOf(hParams.get("ev-index"))) : Float.MAX_VALUE);
 			}
 			else if (alias.equalsIgnoreCase(Olympics.alias)) {
 				Olympics en = (Olympics) o;
@@ -1698,7 +1698,7 @@ public class UpdateServlet extends AbstractServlet {
 				RoundType en = (RoundType) o;
 				en.setLabel(String.valueOf(hParams.get("rt-label")));
 				en.setLabelFr(String.valueOf(hParams.get("rt-labelfr")));
-				en.setIndex(StringUtils.notEmpty(hParams.get("rt-index")) ? StringUtils.toInt(hParams.get("rt-index")) : Integer.MAX_VALUE);
+				en.setIndex(StringUtils.notEmpty(hParams.get("rt-index")) ? Float.valueOf(String.valueOf(hParams.get("rt-index"))) : Float.MAX_VALUE);
 			}
 			else if (alias.equalsIgnoreCase(Sport.alias)) {
 				Sport en = (Sport) o;

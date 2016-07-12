@@ -341,7 +341,7 @@ public class JMainFrame extends JFrame {
 			Championship en = (Championship) o;
 			en.setLabel(p.getLabel().getText());
 			en.setLabelFr(p.getLabelFR().getText());
-			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Integer.parseInt(p.getIndex().getText()) : Integer.MAX_VALUE);
+			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Float.parseFloat(p.getIndex().getText()) : Integer.MAX_VALUE);
 			plb.setText(en.getLabel());
 		}
 		else if (alias.equalsIgnoreCase(City.alias)) {
@@ -402,7 +402,7 @@ public class JMainFrame extends JFrame {
 			en.setLabel(p.getLabel().getText());
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setType((com.sporthenon.db.entity.Type)DatabaseHelper.loadEntity(com.sporthenon.db.entity.Type.class, SwingUtils.getValue(p.getType())));
-			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Integer.parseInt(p.getIndex().getText()) : Integer.MAX_VALUE);
+			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Float.parseFloat(p.getIndex().getText()) : Integer.MAX_VALUE);
 			plb.setText(en.getLabel());
 		}
 		else if (alias.equalsIgnoreCase(Olympics.alias)) {
