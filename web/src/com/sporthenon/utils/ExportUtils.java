@@ -275,25 +275,42 @@ public class ExportUtils {
 		for (List<String> l : lTd) {
 			// HEADER (ref)
 			if (l != null && l.size() > 1 && l.get(0).equalsIgnoreCase("--INFO--")) {
+				String titleName = null;
+				List<String> l1 = new ArrayList<String>();
+				List<String> l2 = new ArrayList<String>();
 				for (int j = 1 ; j < l.size() ; j++) {
+					String s = l.get(j).replaceAll("^\\#.*\\#", "");
 					if (l.get(j).startsWith("#TITLENAME#"))
-						sbText.append(l.get(j).replaceAll("^\\#.*\\#", ""));
-					else {
-						if (j % 2 == 0)
-							sbText.append("\r\n");
-						sbText.append(j % 2 == 1 ? ": " : "").append(l.get(j).replaceAll("^\\#.*\\#", ""));
-					}
+						titleName = s;
+					else if (j % 2 == 0)
+						l1.add(s);
+					else
+						l2.add(s);
 				}
-				sbText.append("\r\n\r\n");
+				int maxlength = (titleName != null ? titleName.length() : 0);
+				for (int i = 0 ; i < l1.size() ; i++) {
+					int n_ = l1.get(i).length() + l2.get(i).length() + 2;
+					if (n_ > maxlength)
+						maxlength = n_;
+				}
+				sbSep = new StringBuffer("+");
+				for (int i = 0 ; i < maxlength + 2 ; i++)
+					sbSep.append("-");
+				sbSep.append("+").append("\r\n");
+				sbText.append(sbSep).append("| ").append(titleName);
+				for (int i = titleName.length() + 1 ; i < maxlength + 2 ; i++)
+					sbText.append(" ");
+				sbText.append("|").append("\r\n").append(sbSep);
+				for (int i = 0 ; i < l1.size() ; i++) {
+					int n_ = l1.get(i).length() + l2.get(i).length() + 2;
+					sbText.append("| ").append(l1.get(i)).append(": ").append(l2.get(i));
+					for (int j = n_ + 1 ; j < maxlength + 2 ; j++)
+						sbText.append(" ");
+					sbText.append("|").append("\r\n");
+				}
+				sbText.append(sbSep).append("\r\n");
+				sbSep = null;
 			}
-			/**
-+----------------------+
-| ROGER FEDERER        |
-| Country: Switzerland |
-| Sport: Tennis        |
-| References: 116      |
-+----------------------+
-			 */
 			else if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
 				if (sbSep != null)
 					sbText.append("\r\n").append(sbSep).append("\r\n\r\n");
