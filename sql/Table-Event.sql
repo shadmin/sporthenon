@@ -10,7 +10,7 @@ CREATE TABLE "Event"
   id_type integer NOT NULL,
   id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
-  index integer,
+  index double precision,
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
   no_pic boolean,

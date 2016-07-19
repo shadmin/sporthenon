@@ -22,6 +22,8 @@ CREATE TABLE "Round"
   id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
   first_update timestamp without time zone NOT NULL DEFAULT now(),
+  id_city1 integer,
+  id_complex1 integer,
   CONSTRAINT "Round_pkey" PRIMARY KEY (id),
   CONSTRAINT "Round_id_city_fkey" FOREIGN KEY (id_city)
       REFERENCES "City" (id) MATCH SIMPLE

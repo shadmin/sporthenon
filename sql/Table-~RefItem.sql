@@ -6,15 +6,15 @@ CREATE TABLE "~RefItem"
 (
   id integer NOT NULL,
   id_item integer NOT NULL,
-  label character varying(70) NOT NULL,
+  label character varying(500) NOT NULL,
   entity character varying(2) NOT NULL,
   count_ref smallint NOT NULL,
   id_rel1 integer,
   id_rel2 integer,
   id_rel3 integer,
-  label_rel1 character varying(50),
-  label_rel2 character varying(50),
-  label_rel3 character varying(50),
+  label_rel1 character varying(200),
+  label_rel2 character varying(200),
+  label_rel3 character varying(200),
   id_rel4 integer,
   label_rel4 character varying(50),
   comment character varying(20),
@@ -52,7 +52,7 @@ CREATE TABLE "~RefItem"
   id_rel18 integer,
   label_rel18 character varying(50),
   date1 timestamp without time zone,
-  label_en character varying(70),
+  label_en character varying(500),
   label_rel13 character varying(50),
   label_rel14 character varying(50),
   label_rel15 character varying(50),
@@ -65,7 +65,9 @@ CREATE TABLE "~RefItem"
   label_rel23 character varying(50),
   label_rel24 character varying(50),
   label_rel25 character varying(50),
-  date2 timestamp without time zone
+  date2 timestamp without time zone,
+  txt5 character varying(40),
+  CONSTRAINT "~RefItem_pkey" PRIMARY KEY (id)
 )
 WITH (
   OIDS=FALSE

@@ -9,7 +9,7 @@ CREATE TABLE "Championship"
   label_fr character varying(40) NOT NULL,
   id_contributor integer NOT NULL,
   last_update timestamp without time zone NOT NULL DEFAULT now(),
-  index integer,
+  index double precision,
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
   no_pic boolean,

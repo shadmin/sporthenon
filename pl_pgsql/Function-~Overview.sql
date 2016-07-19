@@ -24,7 +24,7 @@ begin
 		_query = 'SELECT RS.id, YR.label, SP.label' || _lang || ', CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', SE2.label' || _lang || ',';
 		_query = _query || 'concat_ws('','', RS.id_rank1, RS.id_rank2, RS.id_rank3, RS.id_rank4, RS.id_rank5, RS.id_rank6, RS.id_rank7, RS.id_rank8, RS.id_rank9, RS.id_rank10, RS.id_rank11, RS.id_rank12, RS.id_rank13, RS.id_rank14, RS.id_rank15, RS.id_rank16, RS.id_rank17, RS.id_rank18, RS.id_rank19, RS.id_rank20) AS ranks,';
 		_query = _query || 'concat_ws('','', RS.result1, RS.result2, RS.result3, RS.result4, RS.result5, RS.result6, RS.result7, RS.result8, RS.result9, RS.result10, RS.result11, RS.result12, RS.result13, RS.result14, RS.result15, RS.result16, RS.result17, RS.result18, RS.result19, RS.result20) AS results,';
-		_query = _query || 'concat_ws('','', coalesce(id_complex1, ''0''), coalesce(id_complex2, ''0''), coalesce(id_city1, ''0''), coalesce(id_city2, ''0'')) AS places, concat_ws('','', coalesce(date1, ''0''), coalesce(date2, ''0'')) AS dates, TP1.number, TP2.number, TP3.number, string_agg(CAST (EL.id AS VARCHAR), '',''), string_agg(CAST (RD.id AS VARCHAR), '','')';	
+		_query = _query || 'concat_ws('','', coalesce(RS.id_complex1, ''0''), coalesce(RS.id_complex2, ''0''), coalesce(RS.id_city1, ''0''), coalesce(RS.id_city2, ''0'')) AS places, concat_ws('','', coalesce(date1, ''0''), coalesce(date2, ''0'')) AS dates, TP1.number, TP2.number, TP3.number, string_agg(CAST (EL.id AS VARCHAR), '',''), string_agg(CAST (RD.id AS VARCHAR), '','')';	
 		_query = _query || ' FROM "Result" RS';
 		_query = _query || ' LEFT JOIN "Year" YR ON RS.id_year = YR.id';
 		_query = _query || ' LEFT JOIN "Sport" SP ON RS.id_sport = SP.id';
@@ -232,7 +232,7 @@ begin
 		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = CT.id AND EL.entity=''CT'')';
 		_query = _query || ' WHERE 0=1';
 		IF _id_sport > 0 THEN
-			_query = _query || ' OR CT.id IN (SELECT id_city1 FROM "Result" WHERE id_sport=' || _id_sport || ' UNION SELECT id_city2 FROM "Result" WHERE id_sport=' || _id_sport || ')';
+			_query = _query || ' OR CT.id IN (SELECT RS.id_city1 FROM "Result" WHERE id_sport=' || _id_sport || ' UNION SELECT RS.id_city2 FROM "Result" WHERE id_sport=' || _id_sport || ')';
 		ELSE
 			_query = _query || ' OR 1=1';
 		END IF;
@@ -265,7 +265,7 @@ begin
 		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = CX.id AND EL.entity=''CX'')';
 		_query = _query || ' WHERE 0=1';
 		IF _id_sport > 0 THEN
-			_query = _query || ' OR CX.id IN (SELECT id_complex1 FROM "Result" WHERE id_sport=' || _id_sport || ' UNION SELECT id_complex2 FROM "Result" WHERE id_sport=' || _id_sport || ')';
+			_query = _query || ' OR CX.id IN (SELECT RS.id_complex1 FROM "Result" WHERE id_sport=' || _id_sport || ' UNION SELECT RS.id_complex2 FROM "Result" WHERE id_sport=' || _id_sport || ')';
 		ELSE
 			_query = _query || ' OR 1=1';
 		END IF;

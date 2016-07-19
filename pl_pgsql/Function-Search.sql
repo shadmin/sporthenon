@@ -85,7 +85,7 @@ begin
 			END IF;
 			IF (_s = 'OL') THEN -- Relation: City/Year
 				_rel_cols := _rel_cols || ', NULL, NULL, NULL';
-				_rel_cols := _rel_cols || ', CT.id, CT.label' || _lang || ', CT.label';
+				_rel_cols := _rel_cols || ', OL.type, OL.type, OL.type';
 				_rel_cols := _rel_cols || ', YR.id, YR.label, YR.label';
 				_rel_joins := _rel_joins || ' LEFT JOIN "City" CT ON ' || _s || '.id_city = CT.id';
 				_rel_joins := _rel_joins || ' LEFT JOIN "Year" YR ON ' || _s || '.id_year = YR.id';
