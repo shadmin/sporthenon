@@ -1,7 +1,22 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.12.8  |
+| Last Version: 0.12.9  |
 +-----------------------+
+
++--------+
+| 0.12.9 |
++--------+
+[19 Jul 2016]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.9
+- Set result in 1 cell instead of 3 (results/rounds references)
+- Display ties on 1 line (separated by /) in last updates
+- Added 2 fields for additional ext.links (update/import)
+- Added olympics type (summer/winter) in ajax search results
+- Added field for place #2 in rounds
+- Tooltips with dynamic content in update/results
+- Bugfix: multiple comments (tooltip and normal) not displayed properly
+- Bugfix: error occurs when ajax-searching for complex in FR
+- Bugfix: error occurs when index is a float value (update/data)
 
 +--------+
 | 0.12.8 |
