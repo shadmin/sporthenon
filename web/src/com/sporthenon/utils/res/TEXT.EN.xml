@@ -470,7 +470,7 @@
 	<entry key="last">Last</entry>
 	<entry key="update.ok">Update OK</entry>
 	<entry key="delete.ok">Delete OK</entry>
-	<entry key="click.drag.drop">Click or drag/drop</entry>
+	<entry key="click.drag.drop"><![CDATA[Click or<br/>drag/drop]]></entry>
 	<entry key="remove">Remove</entry>
 	<entry key="active">Active</entry>
 	<entry key="data">Data</entry>

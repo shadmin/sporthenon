@@ -117,7 +117,7 @@ public class ImportUtils {
 					}
 					else if (h.matches("pl\\d")) {
 						String[] t = s.toLowerCase().split("\\,\\s");
-						if (t.length < 2 || t.length > 4) {
+						if (t.length < 2 || t.length > 4 || !s.toLowerCase().matches(StringUtils.PATTERN_PLACE)) {
 							isError = true;
 							writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang)+ ")");
 						}
@@ -794,15 +794,10 @@ public class ImportUtils {
 		hTitle.put("tp2", ResourceUtils.getText("type", lang) + " #2");
 		hTitle.put("label", ResourceUtils.getText("name", lang));
 		hTitle.put("rc1", ResourceUtils.getText("record2", lang));
-		hTitle.put("dt1", ResourceUtils.getText("date", lang));
 		hTitle.put("rc2", ResourceUtils.getText("record2", lang));
-		hTitle.put("dt2", ResourceUtils.getText("date", lang));
 		hTitle.put("rc3", ResourceUtils.getText("record2", lang));
-		hTitle.put("dt3", ResourceUtils.getText("date", lang));
 		hTitle.put("rc4", ResourceUtils.getText("record2", lang));
-		hTitle.put("dt4", ResourceUtils.getText("date", lang));
 		hTitle.put("rc5", ResourceUtils.getText("record2", lang));
-		hTitle.put("dt5", ResourceUtils.getText("date", lang));
 		hTitle.put("idx", "Index");
 		return (hTitle.containsKey(s) ? hTitle.get(s) : s);
 	}

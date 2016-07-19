@@ -1485,9 +1485,9 @@ public class HtmlConverter {
 					}
 					tEntity = StringUtils.removeNulls(tEntity);
 				}
-				boolean isScore = (StringUtils.notEmpty(tEntity[0]) && StringUtils.notEmpty(tEntity[1]) && StringUtils.notEmpty(item.getTxt1()) && !StringUtils.notEmpty(item.getTxt2()));
+				boolean isScore = (!isMedal && StringUtils.notEmpty(tEntity[0]) && StringUtils.notEmpty(tEntity[1]) && StringUtils.notEmpty(item.getTxt1()) && !StringUtils.notEmpty(item.getTxt2()) && !StringUtils.notEmpty(item.getTxt5()));
 				String p1 = (StringUtils.notEmpty(tEntity[1]) ? "<td>1.&nbsp;</td>" : "");
-				String p2 = "<td>&nbsp;&nbsp;2.&nbsp;</td>";
+				String p2 = "<td>&nbsp;&nbsp;" + (item.getTxt4() != null && item.getTxt4().startsWith("1") ? "3" : "2") + ".&nbsp;</td>";
 				String p3 = "<td>&nbsp;&nbsp;3.&nbsp;</td>";
 				if (isMedal) {
 					p1 = "<td>" + ImageUtils.getGoldMedImg(lang) + "</td>";
@@ -1500,10 +1500,13 @@ public class HtmlConverter {
 					p3 = "";
 				}
 				if (isPRTMCN && item.getCount1() != null) {
+					String rk = String.valueOf(item.getCount1());
+					if (item.getCount1() == 1)
+						rk = "<b>" + rk + "</b>";
 					if (isMedal && item.getCount1() <= 3)
-						c4 = "<div class='medal " + (item.getCount1() == 1 ? "gold" : (item.getCount1() == 2 ? "silver" : "bronze")) + "'>" + item.getCount1() + "</div>";
+						c4 = "<div class='medal " + (item.getCount1() == 1 ? "gold" : (item.getCount1() == 2 ? "silver" : "bronze")) + "'>" + rk + "</div>";
 					else
-						c4 = String.valueOf(item.getCount1());						
+						c4 = rk;			
 				}
 				if (!isPRTMCN) {
 					c4 = c5;

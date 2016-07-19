@@ -367,7 +367,7 @@ function elapsedTime(t1_, t2_) {
 	return ((t2_ - t1_) / 1000);
 }
 function backTop() {
-	window.scrollTo(0, 0);
+	Effect.ScrollTo('header');
 }
 function setCookie(name, value) {
     var d = new Date();
@@ -1619,7 +1619,7 @@ function loadResValues(value) {
 					for (var i_ = 0 ; i_ < t__.length ; i_++) {
 						idp = t__[i_].split(':')[0];
 						indexp = t__[i_].split(':')[2];
-						t___.push(idp + '-' + indexp);
+						t___.push(idp + ':' + indexp);
 					}
 					while (t__.length > pListCount) {
 						addPersonList();
@@ -1921,7 +1921,7 @@ function savePersonList() {
 	var val = null;
 	for (var i = 1 ; i <= pListCount ; i++) {
 		val = tValues['plist' + i];
-		t.push(val && val != '' ? val + '-' + $('plist' + i + '-index').value.replace('Index', '') : $('plist' + i).value);
+		t.push((val && val != '' ? val : $('plist' + i).value) + ':' + $('plist' + i + '-index').value.replace('Index', ''));
 		if (val && val != '' && val.indexOf('Name #') == -1) {
 			t_.push(val + ':' + $('plist' + i).value + ':' + $('plist' + i + '-index').value.replace('Index', ''));	
 		}

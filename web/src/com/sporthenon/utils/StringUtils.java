@@ -282,12 +282,15 @@ public class StringUtils {
 	}
 	
 	public static final String getShortName(String name) {
-		if (notEmpty(name) && name.toLowerCase().matches(".+\\,\\s.+\\|.+")) {
-			String[] t = name.replaceAll("\\|.*", "").split("\\,\\s", -1);
-			if (name.matches(".*\\((" + PATTERN_REVERT_NAME + ")\\)"))
-				name = t[0] + (t.length > 1 && StringUtils.notEmpty(t[1]) ? "&nbsp;" + t[1].charAt(0) + "." : "");
-			else
-				name = (t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1].charAt(0) + ".&nbsp;" : "") + t[0];
+		if (notEmpty(name)) {
+			if (name.toLowerCase().matches(".+\\,\\s.+\\|.+")) {
+				String[] t = name.split("\\,\\s", -1);
+				if (name.matches(".*\\((" + PATTERN_REVERT_NAME + ")\\)"))
+					name = t[0] + (t.length > 1 && StringUtils.notEmpty(t[1]) ? "&nbsp;" + t[1].charAt(0) + "." : "");
+				else
+					name = (t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1].charAt(0) + ".&nbsp;" : "") + t[0];
+			}
+			name = name.replaceAll("\\|.*", "");
 		}
 		return name;
 	}

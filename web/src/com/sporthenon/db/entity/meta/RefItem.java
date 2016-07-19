@@ -170,8 +170,11 @@ public class RefItem  {
 	@Column(name = "txt3", length = 500)
 	private String txt3;
 	
-	@Column(name = "txt4", length = 40)
+	@Column(name = "txt4", length = 500)
 	private String txt4;
+	
+	@Column(name = "txt5", length = 40)
+	private String txt5;
 	
 	@Column(name = "count1")
 	private Integer count1;
@@ -693,6 +696,14 @@ public class RefItem  {
 		this.date2 = date2;
 	}
 
+	public String getTxt5() {
+		return txt5;
+	}
+
+	public void setTxt5(String txt5) {
+		this.txt5 = txt5;
+	}
+
 	@Override
 	public String toString() {
 		return "RefItem [id=" + id + ", idItem=" + idItem + ", label=" + label
@@ -719,9 +730,10 @@ public class RefItem  {
 				+ labelRel22 + ", labelRel23=" + labelRel23 + ", labelRel24="
 				+ labelRel24 + ", labelRel25=" + labelRel25 + ", txt1=" + txt1
 				+ ", txt2=" + txt2 + ", txt3=" + txt3 + ", txt4=" + txt4
-				+ ", count1=" + count1 + ", count2=" + count2 + ", count3="
-				+ count3 + ", count4=" + count4 + ", count5=" + count5
-				+ ", date1=" + date1 + ", comment=" + comment + "]";
+				+ ", txt5=" + txt5 + ", count1=" + count1 + ", count2="
+				+ count2 + ", count3=" + count3 + ", count4=" + count4
+				+ ", count5=" + count5 + ", date1=" + date1 + ", date2="
+				+ date2 + ", comment=" + comment + "]";
 	}
 
 }

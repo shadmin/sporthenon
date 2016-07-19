@@ -604,17 +604,17 @@ public class UpdateServlet extends AbstractServlet {
 				while (hParams.containsKey("rk" + i + "list")) {
 					String[] t = String.valueOf(hParams.get("rk" + i + "list")).split("\\|", 0);
 					for (String value : t) {
-						String[] t_ = value.split("\\-", -1);
+						String[] t_ = value.split("\\:", -1);
 						String idp = t_[0];
 						if (StringUtils.notEmpty(idp) && !idp.equals("null") && !idp.startsWith("Name #")) {
-							String index = t_[1];
+							String index = (t_.length > 1 ? t_[1] : null);
 							PersonList plist = new PersonList();
 							plist.setIdResult(result.getId());
 							plist.setRank(i);
 							if (idp.matches("\\d+"))
 								plist.setIdPerson(Integer.parseInt(idp));
 							else
-								plist.setIdPerson(DatabaseHelper.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, idp, result.getYear().getLabel(), cb, null, lang));
+								plist.setIdPerson(DatabaseHelper.insertEntity(0, 1, result.getSport() != null ? result.getSport().getId() : 0, idp, result.getYear().getLabel(), cb, null, lang));
 							plist.setIndex(StringUtils.notEmpty(index) && !index.equals("null") ? index : null);
 							DatabaseHelper.saveEntity(plist, cb);
 						}
@@ -1122,7 +1122,7 @@ public class UpdateServlet extends AbstractServlet {
 					sb.append(rank != null ? rank : "").append("~");
 					sb.append(result != null ? result : "").append("~");
 				}
-				// PersonList
+				// Person List
 				List lPList = DatabaseHelper.execute("from PersonList where idResult=" + rs.getId() + " order by id");
 				if (lPList != null && lPList.size() > 0) {
 					List<String> l = new ArrayList<String>();
@@ -1808,9 +1808,9 @@ public class UpdateServlet extends AbstractServlet {
 				en.setCountOtloss(StringUtils.notEmpty(hParams.get("wl-otloss")) ? new Integer(String.valueOf(hParams.get("wl-otloss"))) : null);
 			}
 			o = DatabaseHelper.saveEntity(o, cb);
-			if (alias.matches(Athlete.alias + "|" + Championship.alias + "|" + City.alias + "|" + Complex.alias + "|" + Country.alias + "|" + Event.alias + "|" + Olympics.alias + "|" + Sport.alias + "|" + State.alias + "|" + Team.alias))
-				DatabaseHelper.saveExternalLinks(alias, Integer.parseInt(id), String.valueOf(hParams.get("exl")));
 			String id_ = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
+			if (alias.matches(Athlete.alias + "|" + Championship.alias + "|" + City.alias + "|" + Complex.alias + "|" + Country.alias + "|" + Event.alias + "|" + Olympics.alias + "|" + Sport.alias + "|" + State.alias + "|" + Team.alias))
+				DatabaseHelper.saveExternalLinks(alias, Integer.parseInt(id_), String.valueOf(hParams.get("exl")));
 			msg = ResourceUtils.getText("update.ok", lang) + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + ResourceUtils.getText("entity." + alias + ".1", lang) + " #" + id_;
 		}
 		catch (Exception e) {
