@@ -59,6 +59,8 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
     protected static final int OLTYPE_SUMMER = 1;
     protected static final int OLMODE_PODIUM = 0;
     protected static final int OLMODE_MEDALS = 1;
+    protected Integer olId;
+    protected String olName;
     protected Integer olType;
 
     public ListView getList() {
@@ -237,6 +239,22 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
 
     public void setOlType(Integer olType) {
         this.olType = olType;
+    }
+
+    public Integer getOlId() {
+        return olId;
+    }
+
+    public void setOlId(Integer olId) {
+        this.olId = olId;
+    }
+
+    public String getOlName() {
+        return olName;
+    }
+
+    public void setOlName(String olName) {
+        this.olName = olName;
     }
 
     @Override

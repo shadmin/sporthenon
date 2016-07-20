@@ -12,8 +12,6 @@
         android:id="@+id/nav_item_draft"
         android:icon="@drawable/draft"/>
 
-
-
     <item android:title="Others">
         <menu>
             <item
@@ -26,7 +24,6 @@
     </item>
 
     <group android:id="@+id/group_settings_id">
-
         <item android:title="Settings"
             android:icon="@drawable/settings"/>
         <item android:title="Help"

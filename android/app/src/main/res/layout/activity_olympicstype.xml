@@ -18,8 +18,9 @@
         android:textStyle="bold"
         android:textColor="#000"
         android:background="#FFF"
+        android:paddingTop="8dp"
         android:drawableTop="@drawable/winter"
-        android:drawablePadding="5dp"
+        android:drawablePadding="3dp"
         android:onClick="onWinterClick"
         />
 
@@ -34,8 +35,9 @@
         android:textStyle="bold"
         android:textColor="#000"
         android:background="#FFF"
+        android:paddingTop="8dp"
         android:drawableTop="@drawable/summer"
-        android:drawablePadding="5dp"
+        android:drawablePadding="3dp"
         android:layout_below="@+id/ol_winter"
         android:onClick="onSummerClick"
         />

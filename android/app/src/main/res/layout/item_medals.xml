@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#FFF">
+
+    <LinearLayout
+        android:id="@+id/medal_thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:padding="2dip"
+        android:paddingLeft="5dip">
+        <ImageView
+            android:id="@+id/medal_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/medal_text"
+        style="@style/CustomTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/medal_thumbnail"
+        android:layout_toEndOf="@+id/medal_thumbnail"
+        android:paddingLeft="5dip"
+        android:padding="7dip"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/medal_bronze"
+        style="@style/CustomTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:paddingRight="5dip"
+        android:drawableLeft="@drawable/bronze"
+        />
+    <TextView
+        android:id="@+id/medal_silver"
+        style="@style/CustomTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:paddingRight="45dip"
+        android:drawableLeft="@drawable/silver"
+        />
+    <TextView
+        android:id="@+id/medal_gold"
+        style="@style/CustomTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:paddingRight="85dip"
+        android:drawableLeft="@drawable/gold"
+        />
+
+</RelativeLayout>

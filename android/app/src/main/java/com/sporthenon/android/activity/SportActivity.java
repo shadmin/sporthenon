@@ -13,9 +13,19 @@ public class SportActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle state) {
         index = INDEX_RESULTS;
+
+        int olid = -1;
+        int oltype = -1;
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            index = INDEX_OLYMPICS;
+            olid = b.getInt("olid");
+            oltype = b.getInt("oltype");
+        }
+
         super.onCreate(state);
         AsyncSports task = new AsyncSports();
-        task.execute(this);
+        task.execute(this, olid, oltype);
     }
 
     @Override

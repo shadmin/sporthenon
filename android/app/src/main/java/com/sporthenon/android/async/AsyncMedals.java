@@ -2,13 +2,11 @@ package com.sporthenon.android.async;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 
 import com.sporthenon.android.R;
-import com.sporthenon.android.activity.SportActivity;
-import com.sporthenon.android.adapter.ItemListAdapter;
-import com.sporthenon.android.data.DataItem;
-import com.sporthenon.android.utils.AndroidUtils;
+import com.sporthenon.android.activity.OlympicsMedalsActivity;
+import com.sporthenon.android.adapter.MedalListAdapter;
+import com.sporthenon.android.data.MedalItem;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -23,21 +21,23 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-public class AsyncSports extends AsyncTask<Object, Boolean, String> {
+public class AsyncMedals extends AsyncTask<Object, Boolean, String> {
 
-    private SportActivity activity;
-    private ArrayList<DataItem> sports;
+    private OlympicsMedalsActivity activity;
+    private ArrayList<MedalItem> medals;
+    private String path;
+
+    public AsyncMedals(String path) {
+        this.path = path;
+    }
 
     @Override
      protected String doInBackground(Object... params) {
-        activity = (SportActivity) params[0];
-        int olid = (int) params[1];
-        int oltype = (int) params[2];
-        sports = new ArrayList<DataItem>();
+        activity = (OlympicsMedalsActivity) params[0];
+        Integer olid = (Integer) params[1];
+        medals = new ArrayList<MedalItem>();
         try {
-            String url = activity.getString(R.string.url) + "/android/RS/SP-0?lang=" + activity.getLang();
-            if (oltype > -1)
-                url = activity.getString(R.string.url) + "/android/OL/SP-" + oltype + "-" + olid + "?lang=" + activity.getLang();
+            String url = activity.getString(R.string.url) + "/android/OL/OR-0-" + olid + "?lang=" + activity.getLang();
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
@@ -49,10 +49,12 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
                 Node n = list.item(i);
                 if (n.getNodeType() == Node.ELEMENT_NODE) {
                     Element e = (Element) n;
-                    Integer id = Integer.parseInt(e.getAttribute("value"));
-                    String name = e.getAttribute("text").replaceAll("\\&nbsp\\;", " ");
-                    String img = e.getAttribute("img");
-                    sports.add(new DataItem(id, name.toUpperCase(), AndroidUtils.getImage(activity, img)));
+                    //Integer id = Integer.parseInt(e.getAttribute("value"));
+                    String country = e.getAttribute("country");
+                    String gold = e.getAttribute("gold");
+                    String silver = e.getAttribute("silver");
+                    String bronze = e.getAttribute("bronze");
+                    medals.add(new MedalItem(country, Integer.parseInt(gold), Integer.parseInt(silver), Integer.parseInt(bronze)));
                 }
             }
             connection.disconnect();
@@ -66,9 +68,9 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
     @Override
      protected void onPostExecute(String response) {
         try {
-            activity.getItemList().addAll(sports);
-            activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), sports));
-            activity.getPath().setVisibility(View.GONE);
+            activity.getItemList().addAll(medals);
+            activity.getList().setAdapter(new MedalListAdapter(activity.getApplicationContext(), medals));
+            activity.setPath(path);
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.sporthenon.android">
 <!--
-http://localhost/android/OL/SP-1-1 sptype-OL.id
-http://localhost/android/OL/SP-1-1-1-1
 http://localhost/android/OL/EV-1-1-1
 http://localhost/android/OL/SE-1-1-1-188
 http://localhost/android/OL/RS-1-1-1-188
-http://localhost/android/OL/OR-0-1 0-OL.id
 http://localhost/android/US/TM-1
 http://localhost/android/US/TM
 -->
@@ -37,8 +34,10 @@ http://localhost/android/US/TM
         <activity android:name=".activity.MonthActivity" />
         <activity android:name=".activity.CalendarActivity" />
         <!--OLYMPICS-->
-        <activity android:name=".activity.OlympicsTypeActivity" />
         <activity android:name=".activity.OlympicsActivity" />
+        <activity android:name=".activity.OlympicsMedalsActivity" />
+        <activity android:name=".activity.OlympicsModeActivity" />
+        <activity android:name=".activity.OlympicsTypeActivity" />
         <!--US LEAGUES-->
         <activity android:name=".activity.LeagueActivity" />
     </application>

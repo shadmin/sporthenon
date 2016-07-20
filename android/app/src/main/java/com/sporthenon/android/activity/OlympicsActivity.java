@@ -29,6 +29,7 @@ public class OlympicsActivity extends AbstractActivity {
         Bundle b = new Bundle();
         b.putInt("olid", ol.getId());
         b.putString("olname", ol.getName());
+        b.putInt("oltype", getOlType());
         i.putExtras(b);
         startActivity(i);
     }

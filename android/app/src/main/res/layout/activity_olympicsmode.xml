@@ -18,8 +18,9 @@
         android:textStyle="bold"
         android:textColor="#000"
         android:background="#FFF"
+        android:paddingTop="8dp"
         android:drawableTop="@drawable/podium"
-        android:drawablePadding="5dp"
+        android:drawablePadding="3dp"
         android:onClick="onPodiumClick"
         />
 
@@ -34,8 +35,9 @@
         android:textStyle="bold"
         android:textColor="#000"
         android:background="#FFF"
+        android:paddingTop="8dp"
         android:drawableTop="@drawable/medals"
-        android:drawablePadding="5dp"
+        android:drawablePadding="3dp"
         android:layout_below="@+id/ol_podium"
         android:onClick="onMedalsClick"
         />
