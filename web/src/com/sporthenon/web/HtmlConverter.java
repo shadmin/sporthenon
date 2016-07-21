@@ -925,16 +925,18 @@ public class HtmlConverter {
 				}
 			}
 			// Other years
-			l = DatabaseHelper.execute("select id, year.label from Result where sport.id=" + r.getSport().getId() + " and championship.id=" + r.getChampionship().getId() + " and event.id=" + r.getEvent().getId() + (r.getSubevent() != null ? " and subevent.id=" + r.getSubevent().getId() : "") + (r.getSubevent2() != null ? " and subevent2.id=" + r.getSubevent2().getId() : "") + " order by year.id");
+			l = DatabaseHelper.execute("select id, year.label, comment from Result where sport.id=" + r.getSport().getId() + " and championship.id=" + r.getChampionship().getId() + " and event.id=" + r.getEvent().getId() + (r.getSubevent() != null ? " and subevent.id=" + r.getSubevent().getId() : "") + (r.getSubevent2() != null ? " and subevent2.id=" + r.getSubevent2().getId() : "") + " order by year.id");
 			if (l != null && l.size() > 1) {
 				String path = r.getSport().getLabel() + "/" + r.getChampionship().getLabel() + "/" + r.getEvent().getLabel() + (r.getSubevent() != null ? "/" + r.getSubevent().getLabel() : "") + (r.getSubevent2() != null ? "/" + r.getSubevent2().getLabel() : "");
 				StringBuffer sbOtherYears = new StringBuffer();
 				int n = 0;
+				ArrayList<String> ly = new ArrayList<String>();
 				for (Object[] t : l) {
 					Integer id_ = (Integer) t[0];
 					String label = String.valueOf(t[1]);
+					String comment = String.valueOf(t[2]);
 					if (!id_.equals(r.getId()))
-						sbOtherYears.append(HtmlUtils.writeLink(Result.alias, id_, label, label + "/" + path));
+						sbOtherYears.append(HtmlUtils.writeLink(Result.alias, id_, label + (ly.contains(label) ? " (" + comment.replaceAll("\\{\\{.*\\}\\}", "") + ")" : ""), label + "/" + path));
 					else
 						sbOtherYears.append("<b>" + label + "</b>");
 					if (++n != l.size()) {
@@ -942,6 +944,7 @@ public class HtmlConverter {
 						if (n % 10 == 0)
 							sbOtherYears.append("<br/>");
 					}
+					ly.add(label);
 				}
 				String anchor = ResourceUtils.getText("entity.YR", lang).replaceAll("\\s|\\/", "_");
 				summary.append("<a href='#" + anchor + "'>" + ++ns + ".&nbsp;" + ResourceUtils.getText("entity.YR", lang) + "</a><br/>");
