@@ -36,7 +36,7 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
     protected static final int INDEX_CALENDAR = 1;
     protected static final int INDEX_OLYMPICS = 2;
     protected static final int INDEX_USLEAGUES = 3;
-    protected static final int INDEX_SETTINGS = 4;
+    //protected static final int INDEX_SETTINGS = 4;
 
     protected Integer index;
     protected String lang;
@@ -62,6 +62,17 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
     protected Integer olId;
     protected String olName;
     protected Integer olType;
+    // US Leagues
+    protected static final int USLEAGUE_NFL = 1;
+    protected static final int USLEAGUE_NBA = 2;
+    protected static final int USLEAGUE_NHL = 3;
+    protected static final int USLEAGUE_MLB = 4;
+    protected static final int USTYPE_CHAMPIONSHIPS = 0;
+    protected static final int USTYPE_RECORDS = 1;
+    protected static final int USTYPE_STATS = 2;
+    protected static final int USTYPE_HOF = 3;
+    protected static final int USTYPE_RETIRED_NUM = 4;
+    protected static final int USTYPE_TEAM_STADIUMS = 5;
 
     public ListView getList() {
         return ListFragment.getList();
@@ -77,7 +88,8 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
 
     public void setPath(String s) {
         if (s != null) {
-            getPath().setText((AndroidUtils.notEmpty(getPath().getText().toString()) ? getPath().getText() + "\r\n" : "") + s.replaceAll("\\r\\n\\+", "\\\r\\\n"));
+            s = (AndroidUtils.notEmpty(getPath().getText().toString()) ? getPath().getText() + "\r\n" : "") + s.replaceAll("\\r\\n\\+", "\\\r\\\n");
+            getPath().setText(s);
             getPath().setVisibility(View.VISIBLE);
         }
     }
@@ -125,6 +137,9 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
         this.event2Id = event2Id;
     }
 
+    public Integer getEvent3Id() {
+        return event3Id;
+    }
     public void setEvent3Id(Integer event3Id) {
         this.event3Id = event3Id;
     }
@@ -163,10 +178,6 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
 
     public void setEvent3Name(String event3Name) {
         this.event3Name = event3Name;
-    }
-
-    public TextView getLabelResult() {
-        return Result1Fragment.getLabelResult();
     }
 
     public ListView getRankList() {
@@ -223,10 +234,6 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
 
     public void setClYear(Integer clYear) {
         this.clYear = clYear;
-    }
-
-    public Integer getClMonth() {
-        return clMonth;
     }
 
     public void setClMonth(Integer clMonth) {

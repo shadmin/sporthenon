@@ -35,11 +35,11 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
         Integer rsid = (Integer) params[1];
         String rsyr = (String) params[2];
         result1 = new Result1Item(rsid, rsyr);
-        ranks = new ArrayList<RankItem>();
+        ranks = new ArrayList<>();
         try {
-            StringBuffer url = new StringBuffer(activity.getString(R.string.url) + "/android/RS/R1-");
-            url.append(rsid).append("?lang=").append(activity.getLang());
-            HttpURLConnection connection = (HttpURLConnection)new URL(url.toString()).openConnection();
+            String url = activity.getString(R.string.url) + "/android/RS/R1-";
+            url += rsid + "?lang=" + activity.getLang();
+            HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -79,7 +79,7 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
                 result1.setPlace2Img(AndroidUtils.getImage(activity, place2.getAttribute("img")));
             }
             // Rankings
-            RankItem item = null;
+            RankItem item;
             Element rank1 = (Element) doc.getElementsByTagName("rank1").item(0);
             Element rank2 = (Element) doc.getElementsByTagName("rank2").item(0);
             Element rank3 = (Element) doc.getElementsByTagName("rank3").item(0);

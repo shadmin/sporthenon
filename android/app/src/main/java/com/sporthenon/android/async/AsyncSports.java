@@ -33,7 +33,7 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
         activity = (SportActivity) params[0];
         int olid = (int) params[1];
         int oltype = (int) params[2];
-        sports = new ArrayList<DataItem>();
+        sports = new ArrayList<>();
         try {
             String url = activity.getString(R.string.url) + "/android/RS/SP-0?lang=" + activity.getLang();
             if (oltype > -1)
@@ -50,7 +50,7 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
                 if (n.getNodeType() == Node.ELEMENT_NODE) {
                     Element e = (Element) n;
                     Integer id = Integer.parseInt(e.getAttribute("value"));
-                    String name = e.getAttribute("text").replaceAll("\\&nbsp\\;", " ");
+                    String name = e.getAttribute("text").replaceAll("\\&nbsp;", " ");
                     String img = e.getAttribute("img");
                     sports.add(new DataItem(id, name.toUpperCase(), AndroidUtils.getImage(activity, img)));
                 }

@@ -1,5 +1,6 @@
 package com.sporthenon.android.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,15 +17,31 @@ public class LeagueActivity extends AbstractActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, LeagueFragment.newInstance(index + 1, this)).commit();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-        /*DataItem sp = (DataItem) getList().getItemAtPosition(position);
-        Intent i = new Intent(this, ChampionshipActivity.class);
+    public void onUSLeague1Click(View v) {
+        nextActivity(USLEAGUE_NFL);
+    }
+
+    public void onUSLeague2Click(View v) {
+        nextActivity(USLEAGUE_NBA);
+    }
+
+    public void onUSLeague3Click(View v) {
+        nextActivity(USLEAGUE_NHL);
+    }
+
+    public void onUSLeague4Click(View v) {
+        nextActivity(USLEAGUE_MLB);
+    }
+
+    public void nextActivity(Integer n) {
+        Intent i = new Intent(this, USLeaguesTypeActivity.class);
         Bundle b = new Bundle();
-        b.putInt("spid", sp.getId());
-        b.putString("spname", sp.getName());
+        b.putInt("lgid", n);
         i.putExtras(b);
-        startActivity(i);*/
+        startActivity(i);
+    }
+
+    public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
     }
 
 }

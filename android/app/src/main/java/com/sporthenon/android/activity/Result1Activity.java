@@ -12,7 +12,8 @@ public class Result1Activity extends AbstractActivity {
 
     protected void onCreate(Bundle state) {
         Bundle b = getIntent().getExtras();
-        index = (b.getBoolean("cl") ? INDEX_CALENDAR : INDEX_RESULTS);
+        setOlId(b.getInt("olid"));
+        index = (b.getBoolean("cl") ? INDEX_CALENDAR : (getOlId() != null ? INDEX_OLYMPICS : INDEX_RESULTS));
         super.onCreate(state);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, Result1Fragment.newInstance(index + 1, this)).commit();
         AsyncResult1 task = new AsyncResult1();

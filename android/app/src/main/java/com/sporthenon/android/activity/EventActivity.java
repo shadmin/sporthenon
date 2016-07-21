@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.sporthenon.android.R;
 import com.sporthenon.android.async.AsyncEvents;
 import com.sporthenon.android.data.DataItem;
 
@@ -13,7 +14,6 @@ public class EventActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle state) {
         index = INDEX_RESULTS;
-        super.onCreate(state);
         Bundle b = getIntent().getExtras();
         setSportId(b.getInt("spid"));
         setSportName(b.getString("spname"));
@@ -25,9 +25,16 @@ public class EventActivity extends AbstractActivity {
         setEvent2Name(b.getString("ev2name"));
         setEvent3Id(b.getInt("ev3id"));
         setEvent3Name(b.getString("ev3name"));
+        setOlId(b.getInt("olid"));
+        if (getOlId() != null) {
+            index = INDEX_OLYMPICS;
+            setChampionshipId(1);
+            setChampionshipName(getString(R.string.olympic_games));
+        }
+        super.onCreate(state);
         String path = getSportName() + "\r\n" + getChampionshipName() + (getEvent1Name() != null ? "\r\n" + getEvent1Name() : "") + (getEvent2Name() != null ? "\r\n" + getEvent2Name() : "");
         AsyncEvents task = new AsyncEvents(path);
-        task.execute(this, b.getInt("spid"), b.getInt("cpid"), b.getInt("ev1id"), b.getInt("ev2id"), b.getInt("ev3id"));
+        task.execute(this, getSportId(), getChampionshipId(), getEvent1Id(), getEvent2Id(), getEvent3Id());
     }
 
     @Override
@@ -39,6 +46,7 @@ public class EventActivity extends AbstractActivity {
         b.putString("spname", getSportName());
         b.putInt("cpid", getChampionshipId());
         b.putString("cpname", getChampionshipName());
+        b.putInt("olid", getOlId());
         if (getEvent1Id() != null && getEvent1Id() > 0) {
             b.putInt("ev1id", getEvent1Id());
             b.putString("ev1name", getEvent1Name());

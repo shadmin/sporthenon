@@ -21,6 +21,7 @@ public class SportActivity extends AbstractActivity {
             index = INDEX_OLYMPICS;
             olid = b.getInt("olid");
             oltype = b.getInt("oltype");
+            setOlId(olid);
         }
 
         super.onCreate(state);
@@ -31,12 +32,20 @@ public class SportActivity extends AbstractActivity {
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
         DataItem sp = (DataItem) getList().getItemAtPosition(position);
-        Intent i = new Intent(this, ChampionshipActivity.class);
         Bundle b = new Bundle();
         b.putInt("spid", sp.getId());
         b.putString("spname", sp.getName());
-        i.putExtras(b);
-        startActivity(i);
+        if (getOlId() != null) {
+            Intent i = new Intent(this, EventActivity.class);
+            b.putInt("olid", getOlId());
+            i.putExtras(b);
+            startActivity(i);
+        }
+        else {
+            Intent i = new Intent(this, ChampionshipActivity.class);
+            i.putExtras(b);
+            startActivity(i);
+        }
     }
 
 }

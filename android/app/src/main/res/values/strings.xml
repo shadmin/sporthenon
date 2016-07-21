@@ -23,10 +23,17 @@
     <string name="date">Date</string>
     <string name="place">Place</string>
     <string name="result">Result</string>
+    <string name="olympic.games">Olympic Games</string>
     <string name="ol.winter">Winter Olympic Games</string>
     <string name="ol.summer">Summer Olympic Games</string>
     <string name="ol.podium">Event results</string>
     <string name="ol.medals">Medals table</string>
+    <string name="us.type1">CHAMPIONSHIPS</string>
+    <string name="us.type2">RECORDS</string>
+    <string name="us.type3">STATS LEADERS</string>
+    <string name="us.type4">HALL OF FAME</string>
+    <string name="us.type5">RETIRED NUMBERS</string>
+    <string name="us.type6">TEAM STADIUMS</string>
 
     <string name="title_results">Results</string>
     <string name="title_calendar">Calendar</string>
