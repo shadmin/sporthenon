@@ -570,67 +570,67 @@ public class YearlyStatsBean {
 	}
 
 	public String getRsPerson1LastName() {
-		return (rsPerson1.indexOf(",") != -1 ? rsPerson1.split("\\,\\s")[0] : rsPerson1);
+		return (rsPerson1 != null && rsPerson1.indexOf(",") != -1 ? rsPerson1.split("\\,\\s")[0] : rsPerson1);
 	}
 
 	public String getRsPerson1FirstName() {
-		return (rsPerson1.indexOf(",") != -1 ? rsPerson1.split("\\,\\s")[1] : null);
+		return (rsPerson1 != null && rsPerson1.indexOf(",") != -1 ? rsPerson1.split("\\,\\s")[1] : null);
 	}
 	
 	public String getRsPerson2LastName() {
-		return (rsPerson2.indexOf(",") != -1 ? rsPerson2.split("\\,\\s")[0] : rsPerson2);
+		return (rsPerson2 != null && rsPerson2.indexOf(",") != -1 ? rsPerson2.split("\\,\\s")[0] : rsPerson2);
 	}
 
 	public String getRsPerson2FirstName() {
-		return (rsPerson2.indexOf(",") != -1 ? rsPerson2.split("\\,\\s")[1] : null);
+		return (rsPerson2 != null && rsPerson2.indexOf(",") != -1 ? rsPerson2.split("\\,\\s")[1] : null);
 	}
 	
 	public String getRsPerson3LastName() {
-		return (rsPerson3.indexOf(",") != -1 ? rsPerson3.split("\\,\\s")[0] : rsPerson3);
+		return (rsPerson3 != null && rsPerson3.indexOf(",") != -1 ? rsPerson3.split("\\,\\s")[0] : rsPerson3);
 	}
 
 	public String getRsPerson3FirstName() {
-		return (rsPerson3.indexOf(",") != -1 ? rsPerson3.split("\\,\\s")[1] : null);
+		return (rsPerson3 != null && rsPerson3.indexOf(",") != -1 ? rsPerson3.split("\\,\\s")[1] : null);
 	}
 	
 	public String getRsPerson4LastName() {
-		return (rsPerson4.indexOf(",") != -1 ? rsPerson4.split("\\,\\s")[0] : rsPerson4);
+		return (rsPerson4 != null && rsPerson4.indexOf(",") != -1 ? rsPerson4.split("\\,\\s")[0] : rsPerson4);
 	}
 
 	public String getRsPerson4FirstName() {
-		return (rsPerson4.indexOf(",") != -1 ? rsPerson4.split("\\,\\s")[1] : null);
+		return (rsPerson4 != null && rsPerson4.indexOf(",") != -1 ? rsPerson4.split("\\,\\s")[1] : null);
 	}
 	
 	public String getRsPerson5LastName() {
-		return (rsPerson5.indexOf(",") != -1 ? rsPerson5.split("\\,\\s")[0] : rsPerson5);
+		return (rsPerson5 != null && rsPerson5.indexOf(",") != -1 ? rsPerson5.split("\\,\\s")[0] : rsPerson5);
 	}
 
 	public String getRsPerson5FirstName() {
-		return (rsPerson5.indexOf(",") != -1 ? rsPerson5.split("\\,\\s")[1] : null);
+		return (rsPerson5 != null && rsPerson5.indexOf(",") != -1 ? rsPerson5.split("\\,\\s")[1] : null);
 	}
 	
 	public String getRsPerson6LastName() {
-		return (rsPerson6.indexOf(",") != -1 ? rsPerson6.split("\\,\\s")[0] : rsPerson6);
+		return (rsPerson6 != null && rsPerson6.indexOf(",") != -1 ? rsPerson6.split("\\,\\s")[0] : rsPerson6);
 	}
 
 	public String getRsPerson6FirstName() {
-		return (rsPerson6.indexOf(",") != -1 ? rsPerson6.split("\\,\\s")[1] : null);
+		return (rsPerson6 != null && rsPerson6.indexOf(",") != -1 ? rsPerson6.split("\\,\\s")[1] : null);
 	}
 	
 	public String getRsPerson7LastName() {
-		return (rsPerson7.indexOf(",") != -1 ? rsPerson7.split("\\,\\s")[0] : rsPerson7);
+		return (rsPerson7 != null && rsPerson7.indexOf(",") != -1 ? rsPerson7.split("\\,\\s")[0] : rsPerson7);
 	}
 
 	public String getRsPerson7FirstName() {
-		return (rsPerson7.indexOf(",") != -1 ? rsPerson7.split("\\,\\s")[1] : null);
+		return (rsPerson7 != null && rsPerson7.indexOf(",") != -1 ? rsPerson7.split("\\,\\s")[1] : null);
 	}
 	
 	public String getRsPerson8LastName() {
-		return (rsPerson8.indexOf(",") != -1 ? rsPerson8.split("\\,\\s")[0] : rsPerson8);
+		return (rsPerson8 != null && rsPerson8.indexOf(",") != -1 ? rsPerson8.split("\\,\\s")[0] : rsPerson8);
 	}
 
 	public String getRsPerson8FirstName() {
-		return (rsPerson8.indexOf(",") != -1 ? rsPerson8.split("\\,\\s")[1] : null);
+		return (rsPerson8 != null && rsPerson8.indexOf(",") != -1 ? rsPerson8.split("\\,\\s")[1] : null);
 	}
 	
 }

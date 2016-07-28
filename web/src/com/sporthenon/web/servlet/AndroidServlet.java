@@ -461,7 +461,7 @@ public class AndroidServlet extends AbstractServlet {
 			lFuncParams.add(t.length > 4 && String.valueOf(t[4]).equals("1") ? true : false);
 			lFuncParams.add(t.length > 5 && String.valueOf(t[5]).equals("1") ? true : false);
 			lFuncParams.add("_en");
-			for (YearlyStatsBean bean : (Collection<YearlyStatsBean>) DatabaseHelper.call("YearlyStatsBean", lFuncParams)) {
+			for (YearlyStatsBean bean : (Collection<YearlyStatsBean>) DatabaseHelper.call("GetYearlyStats", lFuncParams)) {
 				Element item = root.addElement("item");
 				if (bean.getTpLabel().equalsIgnoreCase("individual")) {
 					item.addAttribute("individual", "1");
@@ -481,6 +481,9 @@ public class AndroidServlet extends AbstractServlet {
 					item.addAttribute("rank5", bean.getRsTeam5());
 					item.addAttribute("rank6", bean.getRsTeam6());
 				}
+				item.addAttribute("result1", bean.getResult1());
+				item.addAttribute("result2", bean.getResult2());
+				item.addAttribute("result3", bean.getResult3());
 				item.addAttribute("type", bean.getTpLabel());
 				item.addAttribute("year", bean.getYrLabel());
 				item.addAttribute("city", bean.getCtLabel());
@@ -501,7 +504,7 @@ public class AndroidServlet extends AbstractServlet {
 		}
 		else if (code.equalsIgnoreCase(USLeaguesServlet.TYPE_CHAMPIONSHIP)) {
 			ArrayList<Object> lFuncParams = new ArrayList<Object>();
-			lFuncParams.add(league);
+			lFuncParams.add(USLeaguesServlet.HLEAGUES.get(league));
 			lFuncParams.add(t[2]);
 			lFuncParams.add("_en");
 			for (USChampionshipsBean bean : (Collection<USChampionshipsBean>) DatabaseHelper.call("GetUSChampionships", lFuncParams)) {
@@ -522,8 +525,8 @@ public class AndroidServlet extends AbstractServlet {
 			lFuncParams.add(StringUtils.notEmpty(t[4]) ? t[4] : "i");
 			lFuncParams.add(StringUtils.notEmpty(t[5]) ? t[5] : "-");
 			lFuncParams.add("_en");
-			lFuncParams.set(4, USLeaguesServlet.HTYPE1.get(lFuncParams.get(4)));
-			lFuncParams.set(5, USLeaguesServlet.HTYPE2.get(lFuncParams.get(5)));
+			lFuncParams.set(3, USLeaguesServlet.HTYPE1.get(lFuncParams.get(3)));
+			lFuncParams.set(4, USLeaguesServlet.HTYPE2.get(lFuncParams.get(4)));
 			if (String.valueOf(lFuncParams.get(3)).matches(".*Team.*") && !String.valueOf(lFuncParams.get(2)).equals("0")) {
 				String hql = "select id from Event where type.number<=50 and label in (select label from Event where id in (" + String.valueOf(t[3]) + "))";
 				ArrayList<String> lstSe = new ArrayList<String>();
@@ -534,6 +537,9 @@ public class AndroidServlet extends AbstractServlet {
 			for (USRecordsBean bean : (Collection<USRecordsBean>) DatabaseHelper.call("GetUSRecords", lFuncParams)) {
 				Element item = root.addElement("item");
 				boolean isIndividual = bean.getRcType1().equalsIgnoreCase("individual");
+				item.addAttribute("label", bean.getRcLabel());
+				item.addAttribute("type1", bean.getRcType1());
+				item.addAttribute("type2", bean.getRcType2());
 				if (isIndividual) {
 					item.addAttribute("individual", "1");
 					item.addAttribute("rank1", StringUtils.toFullName(bean.getRcPerson1LastName(), bean.getRcPerson1FirstName(), null, true) + (bean.getRcIdPrTeam1() != null ? " (" + bean.getRcPrTeam1() + ")" : ""));
@@ -551,10 +557,10 @@ public class AndroidServlet extends AbstractServlet {
 					item.addAttribute("rank5", bean.getRcTeam5());
 				}
 				item.addAttribute("date1", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate1() != null ? bean.getRcDate1() : StringUtils.EMPTY));
-				item.addAttribute("date2", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate1() != null ? bean.getRcDate1() : StringUtils.EMPTY));
-				item.addAttribute("date3", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate1() != null ? bean.getRcDate1() : StringUtils.EMPTY));
-				item.addAttribute("date4", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate1() != null ? bean.getRcDate1() : StringUtils.EMPTY));
-				item.addAttribute("date5", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate1() != null ? bean.getRcDate1() : StringUtils.EMPTY));
+				item.addAttribute("date2", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate2() != null ? bean.getRcDate2() : StringUtils.EMPTY));
+				item.addAttribute("date3", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate3() != null ? bean.getRcDate3() : StringUtils.EMPTY));
+				item.addAttribute("date4", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate4() != null ? bean.getRcDate4() : StringUtils.EMPTY));
+				item.addAttribute("date5", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate5() != null ? bean.getRcDate5() : StringUtils.EMPTY));
 			}
 		}
 	}
