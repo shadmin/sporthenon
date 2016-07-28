@@ -5,9 +5,9 @@ import android.util.Log;
 import android.view.View;
 
 import com.sporthenon.android.R;
-import com.sporthenon.android.activity.YearActivity;
-import com.sporthenon.android.adapter.ItemListAdapter;
-import com.sporthenon.android.data.DataItem;
+import com.sporthenon.android.activity.USLeaguesRequestActivity;
+import com.sporthenon.android.adapter.RankListAdapter;
+import com.sporthenon.android.data.RankItem;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,18 +22,19 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-public class AsyncYears extends AsyncTask<Object, Boolean, String> {
+public class AsyncHallOfFame extends AsyncTask<Object, Boolean, String> {
 
-    private YearActivity activity;
-    private ArrayList<DataItem> years;
+    private USLeaguesRequestActivity activity;
+    private ArrayList<RankItem> hofs;
 
     @Override
-     protected String doInBackground(Object... params) {
-        activity = (YearActivity) params[0];
-        Integer lgid = (Integer) params[1];
-        years = new ArrayList<DataItem>();
+    protected String doInBackground(Object... params) {
+        activity = (USLeaguesRequestActivity) params[0];
+        int lgid = (int) params[1];
+        int yrid = (int) params[2];
+        hofs = new ArrayList<>();
         try {
-            String url = (lgid != null && lgid > 0 ? activity.getString(R.string.url) + "/android/US/YR-" + lgid + "-hof" : activity.getString(R.string.url) + "/android/CL/YR");
+            String url = activity.getString(R.string.url) + "/android/US/hof-" + lgid + "-" + yrid;
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
@@ -45,9 +46,13 @@ public class AsyncYears extends AsyncTask<Object, Boolean, String> {
                 Node n = list.item(i);
                 if (n.getNodeType() == Node.ELEMENT_NODE) {
                     Element e = (Element) n;
-                    Integer id = Integer.parseInt(e.getAttribute("value"));
-                    String name = e.getAttribute("text");
-                    years.add(new DataItem(id, name.toUpperCase(), null));
+                    // <item year="2000" name="Howie LONG" pos="DE"/>
+                    String year = e.getAttribute("year");
+                    String name = e.getAttribute("name");
+                    String pos = e.getAttribute("pos");
+                    RankItem rkitem = new RankItem(name);
+                    rkitem.setResult(pos);
+                    hofs.add(rkitem);
                 }
             }
             connection.disconnect();
@@ -59,10 +64,10 @@ public class AsyncYears extends AsyncTask<Object, Boolean, String> {
     }
 
     @Override
-     protected void onPostExecute(String response) {
+    protected void onPostExecute(String response) {
         try {
-            activity.getItemList().addAll(years);
-            activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), years));
+            activity.getItemList().addAll(hofs);
+            activity.getList().setAdapter(new RankListAdapter(activity.getApplicationContext(), hofs));
             activity.getPath().setVisibility(View.GONE);
         }
         catch(Exception e) {

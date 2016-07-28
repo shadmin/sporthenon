@@ -73,6 +73,8 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
     protected static final int USTYPE_HOF = 3;
     protected static final int USTYPE_RETIRED_NUM = 4;
     protected static final int USTYPE_TEAM_STADIUMS = 5;
+    protected Integer leagueId;
+    protected Integer usltype;
 
     public ListView getList() {
         return ListFragment.getList();
@@ -254,6 +256,22 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
 
     public void setOlId(Integer olId) {
         this.olId = olId;
+    }
+
+    public Integer getLeagueId() {
+        return leagueId;
+    }
+
+    public void setLeagueId(Integer leagueId) {
+        this.leagueId = leagueId;
+    }
+
+    public Integer getUsltype() {
+        return usltype;
+    }
+
+    public void setUsltype(Integer usltype) {
+        this.usltype = usltype;
     }
 
     public String getOlName() {

@@ -26,10 +26,16 @@ public class EventActivity extends AbstractActivity {
         setEvent3Id(b.getInt("ev3id"));
         setEvent3Name(b.getString("ev3name"));
         setOlId(b.getInt("olid"));
-        if (getOlId() != null) {
+        if (getOlId() != null && getOlId() > 0) {
             index = INDEX_OLYMPICS;
             setChampionshipId(1);
             setChampionshipName(getString(R.string.olympic_games));
+        }
+        else {
+            setLeagueId(b.getInt("lgid"));
+            setUsltype(b.getInt("usltype"));
+            if (getUsltype() != null && (getUsltype() == USTYPE_RECORDS || getUsltype() == USTYPE_STATS))
+                index = INDEX_USLEAGUES;
         }
         super.onCreate(state);
         String path = getSportName() + "\r\n" + getChampionshipName() + (getEvent1Name() != null ? "\r\n" + getEvent1Name() : "") + (getEvent2Name() != null ? "\r\n" + getEvent2Name() : "");

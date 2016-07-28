@@ -1,7 +1,6 @@
 package com.sporthenon.android.fragment;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -78,15 +77,15 @@ public class DrawerFragment extends Fragment {
                 selectItem(position, true);
             }
         });
-        String[] t = new String[]{getString(R.string.title_results), getString(R.string.title_calendar), getString(R.string.title_olympics), getString(R.string.title_us_leagues), getString(R.string.title_settings)};
+        String[] t = new String[]{getString(R.string.title_results), getString(R.string.title_calendar), getString(R.string.title_olympics), getString(R.string.title_us_leagues)};
         ArrayAdapter adapter = new ArrayAdapter<Object>(getActionBar().getThemedContext(), R.layout.item_menu, R.id.menu_item_title, t){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View view = inflater.inflate(R.layout.item_menu, parent, false);
 
-                int[] tImg = new int[]{R.drawable.results, R.drawable.calendar, R.drawable.olympics, R.drawable.usleagues, R.drawable.settings};
-                int[] tTitle = new int[]{R.string.title_results, R.string.title_calendar, R.string.title_olympics, R.string.title_us_leagues, R.string.title_settings};
+                int[] tImg = new int[]{R.drawable.results, R.drawable.calendar, R.drawable.olympics, R.drawable.usleagues};
+                int[] tTitle = new int[]{R.string.title_results, R.string.title_calendar, R.string.title_olympics, R.string.title_us_leagues};
 
                 ImageView img = (ImageView) view.findViewById(R.id.menu_item_icon);
                 TextView title = (TextView) view.findViewById(R.id.menu_item_title);

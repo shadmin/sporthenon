@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.sporthenon.android">
-<!--
-http://localhost/android/OL/EV-1-1-1
-http://localhost/android/OL/SE-1-1-1-188
-http://localhost/android/OL/RS-1-1-1-188
-http://localhost/android/US/TM-1
-http://localhost/android/US/TM
--->
+    <!--
+http://localhost/android/US/stats-1-0(years)-471(category)-1(indiv)-0(team)
+<item individual="1" rank1="Andrew LUCK (Indianapolis Colts)" rank2="Peyton MANNING (Denver Broncos)" rank3="Aaron RODGERS (Green Bay Packers)" rank4="" rank5="" rank6="" result1="40" result2="39" result3="38" type="Individual" year="2014" city="Passing TD"/>
+http://localhost/android/US/records-1-0-470-i-0
+<item label="Most seasons leading league, Passer rating" type1="Individual" type2="Alltime/Career" individual="1" rank1="Sammy BAUGH (Washington Redskins)" rank2="Steve YOUNG (San Francisco 49ers)" rank3="" rank4="" rank5="" date1="1937-1949" date2="1991-1997" date3="-" date4="-" date5="-"/>
+    -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -40,7 +39,9 @@ http://localhost/android/US/TM
         <activity android:name=".activity.OlympicsTypeActivity" />
         <!--US LEAGUES-->
         <activity android:name=".activity.LeagueActivity" />
+        <activity android:name=".activity.TeamActivity" />
         <activity android:name=".activity.USLeaguesTypeActivity" />
+        <activity android:name=".activity.USLeaguesRequestActivity" />
     </application>
 
 </manifest>

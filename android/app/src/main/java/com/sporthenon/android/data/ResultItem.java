@@ -15,6 +15,9 @@ public class ResultItem {
     private Drawable img3;
     private String imgURL3;
     private String txt3;
+    private String result1;
+    private String result2;
+    private String result3;
 
 	public ResultItem(int id, String year, String imgURL1, Drawable img1, String txt1) {
 		super();
@@ -111,6 +114,30 @@ public class ResultItem {
 
     public void setTxt3(String txt3) {
         this.txt3 = txt3;
+    }
+
+    public String getResult1() {
+        return result1;
+    }
+
+    public void setResult1(String result1) {
+        this.result1 = result1;
+    }
+
+    public String getResult3() {
+        return result3;
+    }
+
+    public void setResult3(String result3) {
+        this.result3 = result3;
+    }
+
+    public String getResult2() {
+        return result2;
+    }
+
+    public void setResult2(String result2) {
+        this.result2 = result2;
     }
 
 }

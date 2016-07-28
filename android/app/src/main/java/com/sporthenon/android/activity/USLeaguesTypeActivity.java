@@ -14,6 +14,8 @@ public class USLeaguesTypeActivity extends AbstractActivity {
     protected void onCreate(Bundle state) {
         index = INDEX_USLEAGUES;
         super.onCreate(state);
+        Bundle b = getIntent().getExtras();
+        setLeagueId(b.getInt("lgid"));
         getSupportFragmentManager().beginTransaction().replace(R.id.container, USLeaguesTypeFragment.newInstance(index + 1, this)).commit();
     }
 
@@ -42,22 +44,20 @@ public class USLeaguesTypeActivity extends AbstractActivity {
     }
 
     public void nextActivity(Integer n) {
-        if (n == USTYPE_CHAMPIONSHIPS) {
-            Intent i = new Intent(this, YearActivity.class);
-            Bundle b = new Bundle();
-            //b.putInt("lgid", getOlId());
-            //b.putInt("oltype", getOlType());
-            i.putExtras(b);
-            startActivity(i);
-        }
-        /*else if (n == OLMODE_MEDALS) {
-            Intent i = new Intent(this, OlympicsMedalsActivity.class);
-            Bundle b = new Bundle();
-            b.putInt("olid", getOlId());
-            b.putString("olname", getOlName());
-            i.putExtras(b);
-            startActivity(i);
-        }*/
+        Bundle b = new Bundle();
+        b.putInt("lgid", getLeagueId());
+        b.putInt("usltype", n);
+        Intent i = null;
+        if (n == USTYPE_HOF)
+            i = new Intent(this, YearActivity.class);
+        else if (n == USTYPE_RECORDS || n == USTYPE_STATS)
+            i = new Intent(this, EventActivity.class);
+        else if (n == USTYPE_CHAMPIONSHIPS)
+            i = new Intent(this, USLeaguesRequestActivity.class);
+        else
+            i = new Intent(this, TeamActivity.class);
+        i.putExtras(b);
+        startActivity(i);
     }
 
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
