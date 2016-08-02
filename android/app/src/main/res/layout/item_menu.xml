@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="40dip"
     android:listSelector="#FFFDFDFD"
-    android:background="#FFFFFFFF">
+    android:background="@drawable/selector"
+    >
 
     <ImageView
         android:id="@+id/menu_item_icon"

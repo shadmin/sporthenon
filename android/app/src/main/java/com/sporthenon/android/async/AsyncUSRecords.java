@@ -5,9 +5,8 @@ import android.util.Log;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.activity.USLeaguesRequestActivity;
-import com.sporthenon.android.adapter.ScoreListAdapter;
-import com.sporthenon.android.data.ResultItem;
-import com.sporthenon.android.utils.AndroidUtils;
+import com.sporthenon.android.adapter.RecordListAdapter;
+import com.sporthenon.android.data.RecordItem;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,18 +21,19 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-public class AsyncUSChampionships extends AsyncTask<Object, Boolean, String> {
+public class AsyncUSRecords extends AsyncTask<Object, Boolean, String> {
 
     private USLeaguesRequestActivity activity;
-    private ArrayList<ResultItem> results;
+    private ArrayList<RecordItem> records;
 
     @Override
     protected String doInBackground(Object... params) {
         activity = (USLeaguesRequestActivity) params[0];
         int lgid = (int) params[1];
-        results = new ArrayList<ResultItem>();
-        String url = activity.getString(R.string.url) + "/android/US/championships-" + lgid + "-0";
+        int evid = (int) params[2];
+        records = new ArrayList<>();
         try {
+            String url = activity.getString(R.string.url) + "/android/US/records-" + lgid + "-0-" + evid + "-it-0";
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
@@ -45,14 +45,18 @@ public class AsyncUSChampionships extends AsyncTask<Object, Boolean, String> {
                 Node n = list.item(i);
                 if (n.getNodeType() == Node.ELEMENT_NODE) {
                     Element e = (Element) n;
-                    String rank1 = e.getAttribute("rank1");
-                    String rank2 = e.getAttribute("rank2");
-                    ResultItem rsitem = new ResultItem(0, e.getAttribute("year"), e.getAttribute("img1"), AndroidUtils.getImage(activity, e.getAttribute("img1")), rank1);
-                    rsitem.setTxt2(rank2);
-                    rsitem.setImg2(AndroidUtils.getImage(activity, e.getAttribute("img2")));
-                    rsitem.setImgURL2(e.getAttribute("img2"));
-                    rsitem.setResult1(e.getAttribute("result"));
-                    results.add(rsitem);
+                    RecordItem ritem = new RecordItem(e.getAttribute("label"), e.getAttribute("type1"), e.getAttribute("type2"), e.getAttribute("record"));
+                    ritem.setRank1(e.getAttribute("rank1"));
+                    ritem.setRank2(e.getAttribute("rank2"));
+                    ritem.setRank3(e.getAttribute("rank3"));
+                    ritem.setRank4(e.getAttribute("rank4"));
+                    ritem.setRank5(e.getAttribute("rank5"));
+                    ritem.setDate1(e.getAttribute("date1"));
+                    ritem.setDate2(e.getAttribute("date2"));
+                    ritem.setDate3(e.getAttribute("date3"));
+                    ritem.setDate4(e.getAttribute("date4"));
+                    ritem.setDate5(e.getAttribute("date5"));
+                    records.add(ritem);
                 }
             }
             connection.disconnect();
@@ -66,8 +70,8 @@ public class AsyncUSChampionships extends AsyncTask<Object, Boolean, String> {
     @Override
     protected void onPostExecute(String response) {
         try {
-            activity.getItemList().addAll(results);
-            activity.getList().setAdapter(new ScoreListAdapter(activity.getApplicationContext(), results));
+            activity.getItemList().addAll(records);
+            activity.getList().setAdapter(new RecordListAdapter(activity.getApplicationContext(), records));
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);
@@ -80,7 +84,7 @@ public class AsyncUSChampionships extends AsyncTask<Object, Boolean, String> {
 
     @Override
     protected void onPreExecute() {
-       super.onPreExecute();
+        super.onPreExecute();
     }
 
 }

@@ -14,8 +14,10 @@ public class YearActivity extends AbstractActivity {
     protected void onCreate(Bundle state) {
         index = INDEX_CALENDAR;
         Bundle b = getIntent().getExtras();
-        setLeagueId(b.getInt("lgid"));
-        setUsltype(b.getInt("usltype"));
+        if (b != null) {
+            setLeagueId(b.getInt("lgid"));
+            setUsltype(b.getInt("usltype"));
+        }
         if (getUsltype() != null && getUsltype() == USTYPE_HOF)
             index = INDEX_USLEAGUES;
         super.onCreate(state);

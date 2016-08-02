@@ -2,8 +2,9 @@ package com.sporthenon.android.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.*;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -43,9 +44,9 @@ public class PagerFragment extends Fragment {
         pager = (ViewPager) view.findViewById(R.id.view_pager);
         pager.setAdapter(new MyAdapter(getChildFragmentManager()));
 
-        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        /*TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);*/
         /*
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
             actionBar.setHomeButtonEnabled(true);

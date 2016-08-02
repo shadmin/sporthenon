@@ -76,8 +76,13 @@ public class EventActivity extends AbstractActivity {
             if (ev.getParam() != null && ev.getParam() == 0)
                 isResults = true;
         }
-        Intent i = null;
-        if (isResults)
+        Intent i;
+        if (getLeagueId() != null && getLeagueId() > 0) {
+            b.putInt("lgid", getLeagueId());
+            b.putInt("usltype", getUsltype());
+            i = new Intent(this, USLeaguesRequestActivity.class);
+        }
+        else if (isResults)
             i = new Intent(this, ResultActivity.class);
         else
             i = new Intent(this, EventActivity.class);

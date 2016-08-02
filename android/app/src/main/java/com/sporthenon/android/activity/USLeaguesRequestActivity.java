@@ -6,8 +6,10 @@ import android.widget.AdapterView;
 
 import com.sporthenon.android.async.AsyncHallOfFame;
 import com.sporthenon.android.async.AsyncRetiredNumbers;
+import com.sporthenon.android.async.AsyncStatsLeaders;
 import com.sporthenon.android.async.AsyncTeamStadiums;
 import com.sporthenon.android.async.AsyncUSChampionships;
+import com.sporthenon.android.async.AsyncUSRecords;
 
 public class USLeaguesRequestActivity extends AbstractActivity {
 
@@ -23,6 +25,14 @@ public class USLeaguesRequestActivity extends AbstractActivity {
         else if (getUsltype() == USTYPE_HOF) {
             Integer yrid = b.getInt("year");
             new AsyncHallOfFame().execute(this, getLeagueId(), yrid);
+        }
+        else if (getUsltype() == USTYPE_STATS) {
+            Integer evid = b.getInt("ev1id");
+            new AsyncStatsLeaders().execute(this, getLeagueId(), evid);
+        }
+        else if (getUsltype() == USTYPE_RECORDS) {
+            Integer evid = b.getInt("ev1id");
+            new AsyncUSRecords().execute(this, getLeagueId(), evid);
         }
         else if (getUsltype() == USTYPE_RETIRED_NUM) {
             Integer tmid = b.getInt("tmid");
