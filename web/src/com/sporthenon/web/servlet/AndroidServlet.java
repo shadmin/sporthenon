@@ -511,7 +511,9 @@ public class AndroidServlet extends AbstractServlet {
 				Element item = root.addElement("item");
 				item.addAttribute("year", bean.getYrLabel());
 				item.addAttribute("rank1", bean.getRsTeam1());
+				item.addAttribute("img1", getImage(ImageUtils.INDEX_TEAM, bean.getRsRank1(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null));	
 				item.addAttribute("rank2", bean.getRsTeam2());
+				item.addAttribute("img2", getImage(ImageUtils.INDEX_TEAM, bean.getRsRank2(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null));
 				item.addAttribute("result", bean.getRsResult());
 				item.addAttribute("date1", StringUtils.toTextDate(bean.getRsDate1(), lang, null));
 				item.addAttribute("date2", StringUtils.toTextDate(bean.getRsDate2(), lang, null));
@@ -540,6 +542,7 @@ public class AndroidServlet extends AbstractServlet {
 				item.addAttribute("label", bean.getRcLabel());
 				item.addAttribute("type1", bean.getRcType1());
 				item.addAttribute("type2", bean.getRcType2());
+				item.addAttribute("record", bean.getRcRecord1());
 				if (isIndividual) {
 					item.addAttribute("individual", "1");
 					item.addAttribute("rank1", StringUtils.toFullName(bean.getRcPerson1LastName(), bean.getRcPerson1FirstName(), null, true) + (bean.getRcIdPrTeam1() != null ? " (" + bean.getRcPrTeam1() + ")" : ""));

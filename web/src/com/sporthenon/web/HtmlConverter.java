@@ -85,7 +85,7 @@ public class HtmlConverter {
 		if (rank != null && rank > 0) {
 			String expand = "";
 			if (type > 10 && plist != null)
-				expand = "<img alt='+' src='/img/render/expand.gif' style='cursor:pointer;padding:3px 1px;" + (type == 50 ? "margin-top:6px;" : "") + "' onclick=\"togglePlist(this, '" + plist + "');\"/>&nbsp;";
+				expand = "<img alt='+' src='/img/render/expand.gif?v=" + ConfigUtils.getProperty("version") + "' style='cursor:pointer;padding:3px 1px;" + (type == 50 ? "margin-top:6px;" : "") + "' onclick=\"togglePlist(this, '" + plist + "');\"/>&nbsp;";
 			if (type < 10)
 				s = HtmlUtils.writeLink(Athlete.alias, rank, StringUtils.toFullName(str1, str2, country, true), StringUtils.isRevertName(country, str1 + " " + str2) ? (StringUtils.notEmpty(str1) ? str1 + " " : "") + str2 : (StringUtils.notEmpty(str2) ? str2 + " " : "") + str1);
 			else if (type == 50) {
@@ -817,9 +817,12 @@ public class HtmlConverter {
 					Country cn = r.getCountry2();
 					p2 = getPlace(null, null, null, cn.getId(), null, cn.getLabel(lang), null, cn.getLabel(lang), null, null, null, cn.getLabel(), r.getYear().getLabel());
 				}
-				if (StringUtils.notEmpty(p1))
-					p2 = p2.replaceAll("^\\<table\\>", "<table class='margintop'>");
-				html.append("<tr><th class='caption'>" + ResourceUtils.getText(StringUtils.notEmpty(p1) ? "places" : "place", lang) + "</th><td>" + (StringUtils.notEmpty(p1) ? p1 : "") + p2 + "</td></tr>");
+				String places = null;
+				if (p1 != null)
+					places = "<table><tr><td>" + p1 + "</td><td>&nbsp;" + StringUtils.SEP1 + "&nbsp;</td><td>" + p2 + "</td></tr></table>";
+				else if (p2 != null)
+					places = p2;
+				html.append("<tr><th class='caption'>" + ResourceUtils.getText(StringUtils.notEmpty(p1) ? "places" : "place", lang) + "</th><td>" + places + "</td></tr>");
 			}
 			String extlinks = HtmlUtils.writeExternalLinks(type, id, lang);
 			if (StringUtils.notEmpty(extlinks))
@@ -1643,7 +1646,7 @@ public class HtmlConverter {
 			tIsResult[3] |= (StringUtils.notEmpty(bean.getRsResult4()));
 			tIsResult[4] |= (StringUtils.notEmpty(bean.getRsResult5()));
 			isDates |= StringUtils.notEmpty(bean.getRsDate2());
-			isPlace |= (bean.getCx1Id() != null || bean.getCx2Id() != null || bean.getCt2Id() != null || bean.getCt4Id() != null);
+			isPlace |= (bean.getCx1Id() != null || bean.getCx2Id() != null || bean.getCt2Id() != null || bean.getCt4Id() != null || bean.getCn5Id() != null || bean.getCn6Id() != null);
 			isComment |= (StringUtils.notEmpty(bean.getRsComment()) && !bean.getRsComment().matches("\\#(SINGLE|DOUBLE|TRIPLE)\\#") && bean.getRsRank1() != null);
 		}
 		entityCount = (entityCount > MAX_RANKS ? MAX_RANKS : entityCount);

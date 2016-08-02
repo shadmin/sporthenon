@@ -50,6 +50,8 @@ public class InfoRefServlet extends AbstractServlet {
 			}
 			else {
 				int id = (params.length > 1 ? new Integer(params[1]) : 0);
+				if (id == 0)
+					throw new EmptyIdException();
 				ArrayList<Object> lFuncParams = new ArrayList<Object>();
 				lFuncParams.add(params[0]);
 				lFuncParams.add(id);
@@ -86,9 +88,16 @@ public class InfoRefServlet extends AbstractServlet {
 					ServletHelper.writeTabHtml(request, response, html, getLocale(request));				
 			}
 		}
+		catch (EmptyIdException e) {
+			response.sendRedirect("/error");
+		}
 		catch (Exception e) {
 			handleException(request, response, e);
 		}
+	}
+	
+	class EmptyIdException extends Exception{
+		private static final long serialVersionUID = 1L;
 	}
 
 }

@@ -168,7 +168,7 @@ function toggleContent(el) {
 	else {
 		table.down('tr').show();
 	}
-	el.src = '/img/render/' + (isDisplayed ? 'expand.gif' : 'collapse.gif');
+	el.src = '/img/render/' + (isDisplayed ? 'expand.gif' : 'collapse.gif') + '?v=' + VERSION;
 }
 function info(s) {
 	t1 = currentTime();
@@ -207,11 +207,11 @@ function moreItems(row, p) {
 function togglePlist(img, id) {
 	if ($(id).style.display == 'none') {
 		$(id).show();
-		img.src = '/img/render/collapse.gif';
+		img.src = '/img/render/collapse.gif?v=' + VERSION;
 	}
 	else {
 		$(id).hide();
-		img.src = '/img/render/expand.gif';
+		img.src = '/img/render/expand.gif?v=' + VERSION;
 	}
 }
 function winrecMore(row) {
@@ -278,13 +278,13 @@ function toggleTreeExpand() {
 	var img = $('treeiconimg');
 	if (!treeExpanded) {
 		$('treeview').removeClassName('collapsed').addClassName('expanded');
-		img.src = img.src.replace('expand', 'collapse');
+		img.src = img.src.replace('expand', 'collapse') + '?v=' + VERSION;
 		img.alt = '[-]&nbsp;' + TX_COLLAPSE;
 		$('treeview').style.border = '1px solid #000';
 	}
 	else {
 		$('treeview').removeClassName('expanded').addClassName('collapsed');
-		img.src = img.src.replace('collapse', 'expand');
+		img.src = img.src.replace('collapse', 'expand') + '?v=' + VERSION;
 		img.alt = '[+]&nbsp;' + TX_EXPAND;
 		$('treeview').style.border = '1px solid #DDD';
 	}
@@ -351,11 +351,11 @@ function toggle(id) {
 	var img = $('img-' + id);
 	if ($(id).style.display == 'none') {
 		$(id).show();
-		img.src = img.src.replace('expand', 'collapse');
+		img.src = img.src.replace('expand', 'collapse') + '?v=' + VERSION;
 	}
 	else {
 		$(id).hide();
-		img.src = img.src.replace('collapse', 'expand');
+		img.src = img.src.replace('collapse', 'expand') + '?v=' + VERSION;
 	}
 }
 /*============================
@@ -1540,7 +1540,8 @@ function loadResValues(value) {
 	if ($('msg2')) {
 		$('msg2').update();
 	}
-	$('pagelink').hide();
+	$('pagelink1').hide();
+	$('pagelink2').hide();
 	var t = value.split('~');
 	if (t != null && t	.length > 1) {
 		$('modifmode1').checked = true;
@@ -1682,8 +1683,11 @@ function loadResValues(value) {
 			var l = k;
 			tValues['rdlist'] = trd.join('|');
 			if (t[l] != '') {
-				$('pagelink').href = '/results/' + t[l];
-				$('pagelink').show();	
+				$('pagelink1').href = '/results/' + t[l];
+				$('pagelink1').show();
+				l++;
+				$('pagelink2').href = '/result/' + t[l];
+				$('pagelink2').show();
 			}
 			l++;
 			$('otherids').update();
@@ -1913,7 +1917,10 @@ function initPersonList(index) {
 		setInput(el.id);
 	});
 	pListIndex = index;
+	$('plist-title').update('[' + index + ']');
 	dPersonList.open();
+	$('header').setStyle({ opacity: 0.4 });
+	$('content').setStyle({ opacity: 0.4 });
 }
 function savePersonList() {
 	var t = [];
@@ -1934,6 +1941,8 @@ function savePersonList() {
 	}
 	rkList = t__.join('#');
 	dPersonList.close();
+	$('header').setStyle({ opacity: 1.0 });
+	$('content').setStyle({ opacity: 1.0 });
 }
 function addPersonList() {
 	try {

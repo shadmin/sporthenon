@@ -65,6 +65,7 @@
 </div>
 
 <script type="text/javascript"><!--
+	var VERSION = "<%=version%>";
 	var IMG_URL = "<%=ConfigUtils.getProperty("img.url")%>";
 	var TX_OK = "<%=StringUtils.text("ok", session)%>";
 	var TX_CANCEL = "<%=StringUtils.text("cancel", session)%>";

@@ -1203,7 +1203,8 @@ public class UpdateServlet extends AbstractServlet {
 						sb.append("rd-" + StringUtils.join(l, "|")).append("~");
 					}
 				}
-				sb.append(path != null ? StringUtils.encode(path) : "").append("~");
+				sb.append(path != null ? StringUtils.encode(path) : "").append("~"); // Link to results
+				sb.append(StringUtils.encode("RS-" + rs.getId() + "-1")).append("~"); // Link to single result
 				if (lResult != null && lResult.size() > 1) {
 					StringBuffer sb_ = new StringBuffer();
 					for (Result rs_ : lResult)

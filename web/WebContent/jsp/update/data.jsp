@@ -157,8 +157,8 @@
 				<tr><th><%=StringUtils.text("linked.to", session)%></th><td><input type="hidden" id="tm-link"/><input type="text" id="tm-link-l"/><a href="javascript:clearValue('tm-link');">[X]</a></td></tr>
 			</table>
 			<fieldset style="width:600px;margin:10px auto;">
-				<legend><a href="javascript:toggle('tmusleagues');"><img id="img-tmusleagues" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("menu.usleagues.2", session)%></a></legend>
-				<table id="tmusleagues" style="margin-top:0px;padding:5px;width:auto;">
+				<legend><a href="javascript:toggle('tmusleagues');"><img id="img-tmusleagues" alt="" src="/img/render/expand.gif?v=2" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("menu.usleagues.2", session)%></a></legend>
+				<table id="tmusleagues" style="margin-top:0px;padding:5px;width:auto;display:none;">
 				<tr><th><%=StringUtils.text("league", session)%></th><td><input type="hidden" id="tm-league"/><input type="text" id="tm-league-l"/><a href="javascript:clearValue('tm-league');">[X]</a></td></tr>
 				<tr><th><%=StringUtils.text("conference", session)%></th><td><input type="text" id="tm-conference"/></td></tr>
 				<tr><th><%=StringUtils.text("division", session)%></th><td><input type="text" id="tm-division"/></td></tr>

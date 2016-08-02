@@ -26,6 +26,9 @@ public class StatisticsBean {
 	@Column(name = "count_result")
 	private Integer countResult;
 	
+	@Column(name = "count_round")
+	private Integer countRound;
+	
 	@Column(name = "count_sport")
 	private Integer countSport;
 	
@@ -94,6 +97,14 @@ public class StatisticsBean {
 
 	public void setCountTeam(Integer countTeam) {
 		this.countTeam = countTeam;
+	}
+
+	public Integer getCountRound() {
+		return countRound;
+	}
+
+	public void setCountRound(Integer countRound) {
+		this.countRound = countRound;
 	}
 	
 }

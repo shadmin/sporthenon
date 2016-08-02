@@ -42,14 +42,13 @@ var treeItems = null;
 			<!-- ID -->
 			<div style="float:right;">
 				<table style="margin-top:0px;"><tr>
-				<td style="padding-right:10px;"><a id="pagelink" target="_blank" href="#" style="display:none;font-size:12px;"><%=StringUtils.text("page", session) %></a></td>
 				<td>ID:</td><td><input id="id" type="text" disabled="disabled" style="width:50px;"/></td>
 				</tr></table>
 			</div>
-			<div id="shortcutdiv"><a href="javascript:displayShortcuts();">[+]&nbsp;<%=StringUtils.text("actions.bar", session) %></a>
+			<div id="shortcutdiv"><a href="javascript:displayShortcuts();">[+]&nbsp;<%=StringUtils.text("actions.bar", session)%></a>
 				<table id="shortcuts1" class="toolbar" style="display:none;position:relative;top:0;right:0;float:right;margin-top:0px;">
 					<tr>
-						<td style="padding:0px;"><table style="border:1px solid #AAA;margin:0px;"><tr><td>&nbsp;<%=StringUtils.text("mode", session) %>:</td><td><input id="addmode1" type="radio" name="mode1" checked="checked" onclick="$('addmode2').checked = true;"/></td><td><label for="addmode1" style="color:green;"><b><%=StringUtils.text("button.add", session)%></b></label></td><td><input id="modifmode1" type="radio" name="mode1" onclick="$('modifmode2').checked = true;"/></td><td><label for="modifmode1" style="color:orange;"><b><%=StringUtils.text("button.modify", session)%></b></label>&nbsp;</td></tr></table></td>
+						<td style="padding:0px;"><table style="border:1px solid #AAA;margin:0px;"><tr><td>&nbsp;<%=StringUtils.text("mode", session)%>:</td><td><input id="addmode1" type="radio" name="mode1" checked="checked" onclick="$('addmode2').checked = true;"/></td><td><label for="addmode1" style="color:green;"><b><%=StringUtils.text("button.add", session)%></b></label></td><td><input id="modifmode1" type="radio" name="mode1" onclick="$('modifmode2').checked = true;"/></td><td><label for="modifmode1" style="color:orange;"><b><%=StringUtils.text("button.modify", session)%></b></label>&nbsp;</td></tr></table></td>
 						<td><input id="upd-save" type="button" class="button upd-save" onclick="saveResult();"/></td>
 						<td><input id="upd-delete" type="button" class="button upd-delete" onclick="deleteResult();"/></td>
 					</tr>
@@ -66,7 +65,7 @@ var treeItems = null;
 			</div>
 			<div id="treediv" class="treediv"><div id="treeview">
 				<table cellpadding="0" cellspacing="0">
-				<thead><tr><th style="text-align:right;"><img alt="" src="/img/render/expand.gif" class="toggleimg" onclick="toggleContent(this);"/><span class="toggletext" onclick="toggleContent(this);"><%=StringUtils.text("tree", session)%></span></th></tr></thead>
+				<thead><tr><th style="text-align:right;"><img alt="" src="/img/render/expand.gif?v=2" class="toggleimg" onclick="toggleContent(this);"/><span class="toggletext" onclick="toggleContent(this);"><%=StringUtils.text("tree", session)%></span></th></tr></thead>
 				<tbody class="tby"><tr style="display:none;"><td id="tree">
 				<script type="text/javascript">new Tree(treeItems, treeTemplate);</script>
 				</td></tr></tbody></table>
@@ -160,13 +159,15 @@ var treeItems = null;
 				<legend><table><tr><td><a href="javascript:toggle('rounds');"><img id="img-rounds" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("matches.rounds", session)%></a></td><td><a class="helptip" href="#help-rounds"><img alt="help" src="/img/update/help.png"/></a></td></tr></table></legend>
 				<div id="rounds"><table style="margin-top:0px;"></table><a href="javascript:addRounds();">[+10]</a></div>
 			</fieldset>
-			<br/><span id="metadata"></span>
+			<br/><span id="metadata"></span><br/><br/>
+			<a id="pagelink1" target="_blank" href="#" style="display:none;font-size:12px;"><%=StringUtils.text("test.page", session)%>&nbsp;(1)</a>&nbsp;
+			<a id="pagelink2" target="_blank" href="#" style="display:none;font-size:12px;"><%=StringUtils.text("test.page", session)%>&nbsp;(2)</a>
 			</li>
 			</ul>
 			<!-- BUTTON PANEL -->
 			<table class="toolbar" style="position:relative;top:0;right:0;float:right;margin-top:15px;">
 				<tr>
-					<td style="padding:0px;"><table style="border:1px solid #AAA;margin:0px;"><tr><td>&nbsp;<%=StringUtils.text("update.mode", session) %>:</td><td><input id="addmode2" type="radio" name="mode2" checked="checked" onclick="$('addmode1').checked = true;"/></td><td><label for="addmode2" style="color:green;"><b><%=StringUtils.text("button.add", session)%></b></label></td><td><input id="modifmode2" type="radio" name="mode2" onclick="$('modifmode1').checked = true;"/></td><td><label for="modifmode2" style="color:orange;"><b><%=StringUtils.text("button.modify", session)%></b></label>&nbsp;</td></tr></table></td>
+					<td style="padding:0px;"><table style="border:1px solid #AAA;margin:0px;"><tr><td>&nbsp;<%=StringUtils.text("update.mode", session)%>:</td><td><input id="addmode2" type="radio" name="mode2" checked="checked" onclick="$('addmode1').checked = true;"/></td><td><label for="addmode2" style="color:green;"><b><%=StringUtils.text("button.add", session)%></b></label></td><td><input id="modifmode2" type="radio" name="mode2" onclick="$('modifmode1').checked = true;"/></td><td><label for="modifmode2" style="color:orange;"><b><%=StringUtils.text("button.modify", session)%></b></label>&nbsp;</td></tr></table></td>
 					<td><input id="upd-save" type="button" class="button upd-save" onclick="saveResult();" value="<%=StringUtils.text("save", session)%>"/></td>
 					<td><input id="upd-delete" type="button" class="button upd-delete" onclick="deleteResult();" value="<%=StringUtils.text("button.delete", session)%>"/></td>
 				</tr>

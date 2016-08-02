@@ -86,6 +86,7 @@
 				<tr><th><%=StringUtils.text("entity.SP", session)%></th><td class="stat"><%=StringUtils.formatNumber(stb.getCountSport(), lang)%></td></tr>
 				<tr><th><%=StringUtils.text("entity.EV", session)%></th><td class="stat"><%=StringUtils.formatNumber(stb.getCountEvent(), lang)%></td></tr>
 				<tr><th><%=StringUtils.text("entity.RS", session)%></th><td class="stat"><%=StringUtils.formatNumber(stb.getCountResult(), lang)%></td></tr>
+				<tr><th><%=StringUtils.text("entity.RD", session)%></th><td class="stat"><%=StringUtils.formatNumber(stb.getCountRound(), lang)%></td></tr>
 			</table><table style="margin-top:10px;">
 				<tr><th><%=StringUtils.text("entity.PR", session)%></th><td class="stat"><%=StringUtils.formatNumber(stb.getCountPerson(), lang)%></td></tr>
 				<tr><th><%=StringUtils.text("entity.TM", session)%></th><td class="stat"><%=StringUtils.formatNumber(stb.getCountTeam(), lang)%></td></tr>
