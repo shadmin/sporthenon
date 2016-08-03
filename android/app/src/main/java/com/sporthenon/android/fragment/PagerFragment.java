@@ -74,9 +74,7 @@ public class PagerFragment extends Fragment {
 
         @Override
         public int getCount() {
-
             return 3;
-
         }
 
         @Override

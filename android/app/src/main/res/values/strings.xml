@@ -3,8 +3,8 @@
 
     <string name="app_name" translatable="false">Sporthenon</string>
     <string name="env" translatable="false">local</string>
-    <!--<string name="url" translatable="false">http://10.0.2.2</string>-->
-    <string name="url" translatable="false">http://test.sporthenon.com</string>
+    <string name="url" translatable="false">http://10.0.2.2</string>
+    <!--<string name="url" translatable="false">http://test.sporthenon.com</string>-->
     <!--<string name="url" translatable="false">http://www.sporthenon.com</string>-->
     <string name="select.language">Select Language</string>
     <string name="english" translatable="false">English</string>
@@ -28,12 +28,12 @@
     <string name="ol.summer">Summer Olympic Games</string>
     <string name="ol.podium">Event results</string>
     <string name="ol.medals">Medals table</string>
-    <string name="us.type1">CHAMPIONSHIPS</string>
-    <string name="us.type2">RECORDS</string>
-    <string name="us.type3">STATS LEADERS</string>
-    <string name="us.type4">HALL OF FAME</string>
-    <string name="us.type5">RETIRED NUMBERS</string>
-    <string name="us.type6">TEAM STADIUMS</string>
+    <string name="us.type1" translatable="false">CHAMPIONSHIPS</string>
+    <string name="us.type2" translatable="false">RECORDS</string>
+    <string name="us.type3" translatable="false">STATS LEADERS</string>
+    <string name="us.type4" translatable="false">HALL OF FAME</string>
+    <string name="us.type5" translatable="false">RETIRED NUMBERS</string>
+    <string name="us.type6" translatable="false">TEAM STADIUMS</string>
 
     <string name="title_results">Results</string>
     <string name="title_calendar">Calendar</string>

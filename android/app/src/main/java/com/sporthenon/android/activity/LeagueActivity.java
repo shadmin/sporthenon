@@ -18,25 +18,26 @@ public class LeagueActivity extends AbstractActivity {
     }
 
     public void onUSLeague1Click(View v) {
-        nextActivity(USLEAGUE_NFL);
+        nextActivity(USLEAGUE_NFL, "NFL");
     }
 
     public void onUSLeague2Click(View v) {
-        nextActivity(USLEAGUE_NBA);
+        nextActivity(USLEAGUE_NBA, "NBA");
     }
 
     public void onUSLeague3Click(View v) {
-        nextActivity(USLEAGUE_NHL);
+        nextActivity(USLEAGUE_NHL, "NHL");
     }
 
     public void onUSLeague4Click(View v) {
-        nextActivity(USLEAGUE_MLB);
+        nextActivity(USLEAGUE_MLB, "MLB");
     }
 
-    public void nextActivity(Integer n) {
+    public void nextActivity(Integer n, String s) {
         Intent i = new Intent(this, USLeaguesTypeActivity.class);
         Bundle b = new Bundle();
         b.putInt("lgid", n);
+        b.putString("lgname", s);
         i.putExtras(b);
         startActivity(i);
     }

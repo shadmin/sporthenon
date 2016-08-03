@@ -4,11 +4,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="#FFF">
+    android:background="#EAEAEA">
+
+    <TextView
+        android:id="@+id/lang_msg"
+        style="@style/CustomTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="10dip"
+        android:layout_marginLeft="5dip"
+        android:text="Select a language:"
+        />
 
     <RadioGroup
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/lang_msg"
         android:orientation="vertical"
         android:paddingLeft="5dip">
         <RadioButton
@@ -43,7 +55,9 @@
         android:layout_height="50dip"
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal|center_vertical"
+        android:background="@drawable/selector2"
         android:textSize="18sp"
+        android:textColor="#000"
         android:text="@string/ok">
     </Button>
 

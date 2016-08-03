@@ -16,6 +16,7 @@ public class USLeaguesTypeActivity extends AbstractActivity {
         super.onCreate(state);
         Bundle b = getIntent().getExtras();
         setLeagueId(b.getInt("lgid"));
+        setPath(b.getString("lgname"));
         getSupportFragmentManager().beginTransaction().replace(R.id.container, USLeaguesTypeFragment.newInstance(index + 1, this)).commit();
     }
 

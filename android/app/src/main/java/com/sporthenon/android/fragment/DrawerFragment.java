@@ -84,6 +84,7 @@ public class DrawerFragment extends Fragment {
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View view = inflater.inflate(R.layout.item_menu, parent, false);
 
+                int[] tBgd = new int[]{R.drawable.selector_rs, R.drawable.selector_cl, R.drawable.selector_ol, R.drawable.selector_us};
                 int[] tImg = new int[]{R.drawable.results, R.drawable.calendar, R.drawable.olympics, R.drawable.usleagues};
                 int[] tTitle = new int[]{R.string.title_results, R.string.title_calendar, R.string.title_olympics, R.string.title_us_leagues};
 
@@ -91,6 +92,7 @@ public class DrawerFragment extends Fragment {
                 TextView title = (TextView) view.findViewById(R.id.menu_item_title);
                 img.setImageResource(tImg[position]);
                 title.setText(getString(tTitle[position]).toUpperCase());
+                view.setBackgroundResource(tBgd[position]);
 
                 return view;
             }
@@ -136,34 +138,25 @@ public class DrawerFragment extends Fragment {
                 getActivity().supportInvalidateOptionsMenu();
             }
         };
-
-
+/*
         // Specify that tabs should be displayed in the action bar.
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
         // Create a tab listener that is called when the user changes tabs.
         ActionBar.TabListener tabListener = new ActionBar.TabListener() {
             public void onTabSelected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
                 // show the given tab
             }
-
             public void onTabUnselected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
                 // hide the given tab
             }
-
             public void onTabReselected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
                 // probably ignore this event
             }
         };
-
         // Add 3 tabs, specifying the tab's text and TabListener
         for (int i = 0; i < 3; i++) {
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText("Tab " + (i + 1))
-                            .setTabListener(tabListener));
-        }
-
+            actionBar.addTab(actionBar.newTab().setText("Tab " + (i + 1)).setTabListener(tabListener));
+        }*/
         if (!userLearnedDrawer && !fromSavedInstanceState)
             this.drawerLayout.openDrawer(fragmentContainerView);
 

@@ -19,6 +19,7 @@ public class OlympicsModeActivity extends AbstractActivity {
         setOlName(b.getString("olname"));
         setOlType(b.getInt("oltype"));
         getSupportFragmentManager().beginTransaction().replace(R.id.container, OlympicsModeFragment.newInstance(index + 1, this)).commit();
+        setPath(getOlName());
     }
 
     public void onPodiumClick(View v) {
