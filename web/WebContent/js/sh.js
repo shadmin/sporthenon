@@ -463,6 +463,7 @@ var dError = null;
 var dLink = null;
 var dInfo = null;
 var dPersonList = null;
+var dRound = null;
 var dFind = null;
 var dQuestion = null;
 var dComment = null;
@@ -1661,13 +1662,14 @@ function loadResValues(value) {
 					tValues['rd' + rdindex + 'rk3'] = t_[9];
 					if (t_[10] != '') {$('rd' + rdindex + 'rk3').value = t_[10]; $('rd' + rdindex + 'rk3').addClassName('completed');} else {$('rd' + rdindex + 'rk3').value = $('rd' + rdindex + 'rk3').name; $('rd' + rdindex + 'rk3').removeClassName('completed').removeClassName('completed2');}
 					if (t_[11] != '') {$('rd' + rdindex + 'rs3').value = t_[11]; $('rd' + rdindex + 'rs3').addClassName('completed2');} else {$('rd' + rdindex + 'rs3').value = $('rd' + rdindex + 'rs3').name; $('rd' + rdindex + 'rs3').removeClassName('completed2');}
-					if (t_[12] != '') {$('rd' + rdindex + 'dt').value = t_[12]; $('rd' + rdindex + 'dt').addClassName('completed2');} else {$('rd' + rdindex + 'dt').value = $('rd' + rdindex + 'dt').name; $('rd' + rdindex + 'dt').removeClassName('completed2');}
-					tValues['rd' + rdindex + 'pl1'] = t_[13];
-					if (t_[14] != '') {$('rd' + rdindex + 'pl1').value = t_[14]; $('rd' + rdindex + 'pl1').addClassName('completed');} else {$('rd' + rdindex + 'pl1').value = $('rd' + rdindex + 'pl1').name; $('rd' + rdindex + 'pl1').removeClassName('completed').removeClassName('completed2');}
-					tValues['rd' + rdindex + 'pl2'] = t_[15];
-					if (t_[16] != '') {$('rd' + rdindex + 'pl2').value = t_[16]; $('rd' + rdindex + 'pl2').addClassName('completed');} else {$('rd' + rdindex + 'pl2').value = $('rd' + rdindex + 'pl2').name; $('rd' + rdindex + 'pl2').removeClassName('completed').removeClassName('completed2');}
-					if (t_[17] != '') {$('rd' + rdindex + 'exa').value = t_[17]; $('rd' + rdindex + 'exa').addClassName('completed2');} else {$('rd' + rdindex + 'exa').value = $('rd' + rdindex + 'exa').name; $('rd' + rdindex + 'exa').removeClassName('completed2');}
-					if (t_[18] != '') {$('rd' + rdindex + 'cmt').value = t_[18]; $('rd' + rdindex + 'cmt').addClassName('completed2');} else {$('rd' + rdindex + 'cmt').value = $('rd' + rdindex + 'cmt').name; $('rd' + rdindex + 'cmt').removeClassName('completed2');}
+					if (t_[12] != '') {$('rd' + rdindex + 'dt1').value = t_[12]; $('rd' + rdindex + 'dt1').addClassName('completed2');} else {$('rd' + rdindex + 'dt1').value = $('rd' + rdindex + 'dt1').name; $('rd' + rdindex + 'dt1').removeClassName('completed2');}
+					if (t_[13] != '') {$('rd' + rdindex + 'dt2').value = t_[13]; $('rd' + rdindex + 'dt2').addClassName('completed2');} else {$('rd' + rdindex + 'dt2').value = $('rd' + rdindex + 'dt2').name; $('rd' + rdindex + 'dt2').removeClassName('completed2');}
+					tValues['rd' + rdindex + 'pl1'] = t_[14];
+					if (t_[15] != '') {$('rd' + rdindex + 'pl1').value = t_[15]; $('rd' + rdindex + 'pl1').addClassName('completed');} else {$('rd' + rdindex + 'pl1').value = $('rd' + rdindex + 'pl1').name; $('rd' + rdindex + 'pl1').removeClassName('completed').removeClassName('completed2');}
+					tValues['rd' + rdindex + 'pl2'] = t_[16];
+					if (t_[17] != '') {$('rd' + rdindex + 'pl2').value = t_[17]; $('rd' + rdindex + 'pl2').addClassName('completed');} else {$('rd' + rdindex + 'pl2').value = $('rd' + rdindex + 'pl2').name; $('rd' + rdindex + 'pl2').removeClassName('completed').removeClassName('completed2');}
+					if (t_[18] != '') {$('rd' + rdindex + 'exa').value = t_[18]; $('rd' + rdindex + 'exa').addClassName('completed2');} else {$('rd' + rdindex + 'exa').value = $('rd' + rdindex + 'exa').name; $('rd' + rdindex + 'exa').removeClassName('completed2');}
+					if (t_[19] != '') {$('rd' + rdindex + 'cmt').value = t_[19]; $('rd' + rdindex + 'cmt').addClassName('completed2');} else {$('rd' + rdindex + 'cmt').value = $('rd' + rdindex + 'cmt').name; $('rd' + rdindex + 'cmt').removeClassName('completed2');}
 					trd.push(replaceAll(t[k].substring(3), '|', '~'));
 				}
 				else {
@@ -1865,7 +1867,7 @@ function setInput(id) {
 		}
 		new Ajax.Autocompleter(
 			id,
-			'ajaxsearch' + (id.indexOf('plist') == 0 ? '2' : ''),
+			'ajaxsearch' + (id.indexOf('plist') == 0 ? '2' : (id.indexOf('rddlg') == 0 ? '3' : '')),
 			url,
 			{ paramName: 'value', minChars: 2, frequency: 0.05, afterUpdateElement: setValue}
 		);
@@ -1961,6 +1963,7 @@ function displayShortcuts() {
 	$('treediv').style.marginTop = '80px';
 }
 var rdCount = 0;
+var rdDlgCurrent = 0;
 function addRounds(clear) {
 	try {
 		var rtable = $$('#rounds table')[0];
@@ -1972,6 +1975,7 @@ function addRounds(clear) {
 		for (var i = rdCount + 1 ; i <= rdCount + 10 ; i++) {
 			html = ['<tr id="rdrow' + i + '">'];
 			html.push('<td><a href="javascript:deleteRound(' + i + ');"><img title="' + TX_REMOVE + '" src="/img/delete.gif"/></a></td>');
+			html.push('<td>&nbsp;<a href="javascript:openRoundDialog(' + i + ');"><img title="' + TX_OPEN_DIALOG + '" src="/img/update/dialog.png"/></a></td>');
 			html.push('<td><input type="hidden" id="rd' + i + 'id"/></td>');
 			html.push('<td><input type="text" id="rd' + i + 'rt" tabindex="' + (1000 + (11*(i-1))) + '" name="' + TX_TYPE + '" style="width:150px;"/></td>');
 			html.push('<td><input type="text" id="rd' + i + 'rk1" tabindex="' + (1001 + (11*(i-1))) + '" name="' + TX_RANK1 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk1\');">[X]</a></td>');
@@ -1980,11 +1984,12 @@ function addRounds(clear) {
 			html.push('<td><input type="text" id="rd' + i + 'rs2" tabindex="' + (1004 + (11*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
 			html.push('<td><input type="text" id="rd' + i + 'rk3" tabindex="' + (1005 + (11*(i-1))) + '" name="' + TX_RANK3 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk3\');">[X]</a></td>');
 			html.push('<td><input type="text" id="rd' + i + 'rs3" tabindex="' + (1006 + (11*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'dt" tabindex="' + (1007 + (11*(i-1))) + '" name="' + TX_DATE + '" style="width:80px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'pl1" tabindex="' + (1008 + (11*(i-1))) + '" name="' + TX_PLACE + ' #1" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl1\');">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'pl2" tabindex="' + (1009 + (11*(i-1))) + '" name="' + TX_PLACE + ' #2" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl2\');">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'exa" tabindex="' + (1010 + (11*(i-1))) + '" name="' + TX_TIE + '" style="width:50px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'cmt" tabindex="' + (1011 + (11*(i-1))) + '" name="' + TX_COMMENT + '" style="width:150px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'dt1" tabindex="' + (1007 + (11*(i-1))) + '" name="' + TX_DATE + ' #1" style="width:80px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'dt2" tabindex="' + (1008 + (11*(i-1))) + '" name="' + TX_DATE + ' #2" style="width:80px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'pl1" tabindex="' + (1009 + (11*(i-1))) + '" name="' + TX_PLACE + ' #1" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl1\');">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'pl2" tabindex="' + (1010 + (11*(i-1))) + '" name="' + TX_PLACE + ' #2" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl2\');">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'exa" tabindex="' + (1011 + (11*(i-1))) + '" name="' + TX_TIE + '" style="width:50px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'cmt" tabindex="' + (1012 + (11*(i-1))) + '" name="' + TX_COMMENT + '" style="width:150px;"/></td>');
 			html.push('</tr>');
 			rtable.insert(html.join(''));
 		}
@@ -2020,7 +2025,8 @@ function saveRounds() {
 			t_.push(tValues['rd' + i + 'rk3']);
 			t_.push($('rd' + i + 'rk3').hasClassName('completed2') ? $('rd' + i + 'rk3').value : '');
 			t_.push($('rd' + i + 'rs3').hasClassName('completed2') ? $('rd' + i + 'rs3').value : '');
-			t_.push($('rd' + i + 'dt').hasClassName('completed2') ? $('rd' + i + 'dt').value : '');
+			t_.push($('rd' + i + 'dt1').hasClassName('completed2') ? $('rd' + i + 'dt1').value : '');
+			t_.push($('rd' + i + 'dt2').hasClassName('completed2') ? $('rd' + i + 'dt2').value : '');
 			t_.push(tValues['rd' + i + 'pl1']);
 			t_.push($('rd' + i + 'pl1').value);
 			t_.push(tValues['rd' + i + 'pl2']);
@@ -2031,6 +2037,72 @@ function saveRounds() {
 		}
 	}
 	tValues['rdlist'] = t.join('|');
+}
+function openRoundDialog(index, opened) {
+	rdDlgCurrent = index;
+	$$('#dlg-round input').each(function(el){
+		setInput($(el).id);
+	});
+	index = 'rd' + index;
+	$('rddlg-id').value = $(index + 'id').value;
+	['rt', 'rk1', 'rk2', 'rk3', 'pl1', 'pl2', 'rs1', 'rs2', 'rs3', 'dt1', 'dt2', 'exa', 'cmt'].each(function(s){
+		if (/(rt|rk|pl).*$/.match(s)) {
+			tValues['rddlg-' + s] = tValues[index + s];
+			if (tValues['rddlg-' + s] && tValues['rddlg-' + s] != '') {
+				$('rddlg-' + s).addClassName('completed');
+			}
+			else {
+				$('rddlg-' + s).removeClassName('completed').removeClassName('completed2');
+			}
+		}
+		$('rddlg-' + s).value = $(index + s).value;
+		if (!$('rddlg-' + s).hasClassName('completed')) {
+			if ($('rddlg-' + s).value != '' && $(index + s).value != $(index + s).name) {
+				$('rddlg-' + s).addClassName('completed2');
+			}
+			else {
+				$('rddlg-' + s).removeClassName('completed').removeClassName('completed2');
+			}
+		}
+	});
+	$('round-title').update('[' + rdDlgCurrent + ']');
+	if (!opened) {
+		$('header').setStyle({ opacity: 0.4 });
+		$('content').setStyle({ opacity: 0.4 });
+		dRound.open();
+	}
+}
+function moveRound(index) {
+	if (rdDlgCurrent + index < 1) {
+		index = 0;
+	}
+	openRoundDialog(rdDlgCurrent + index, 1);
+}
+function setRoundValues() {
+	var index = 'rd' + rdDlgCurrent;
+	['rt', 'rk1', 'rk2', 'rk3', 'pl1', 'pl2', 'rs1', 'rs2', 'rs3', 'dt1', 'dt2', 'exa', 'cmt'].each(function(s){
+		if (/(rt|rk|pl).*$/.match(s)) {
+			tValues[index + s] = tValues['rddlg-' + s];
+			if (tValues[index + s] && tValues[index + s] != '') {
+				$(index + s).addClassName('completed');
+			}
+			else {
+				$(index + s).removeClassName('completed').removeClassName('completed2');
+			}
+		}
+		$(index + s).value = $('rddlg-' + s).value;
+		if (!$(index + s).hasClassName('completed')) {
+			if ($(index + s).value != '' && $('rddlg-' + s).value != $('rddlg-' + s).name) {
+				$(index + s).addClassName('completed2');
+			}
+			else {
+				$(index + s).removeClassName('completed').removeClassName('completed2');
+			}
+		}
+	});
+	$('header').setStyle({ opacity: 1.0 });
+	$('content').setStyle({ opacity: 1.0 });
+	dRound.close();
 }
 function openCommentDialog() {
 	if ($('cmt').hasClassName('completed2')) {

@@ -36,6 +36,42 @@
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="savePersonList();"/><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dPersonList);"/></div>
 </div>
 </div>
+<!-- Round -->
+<div id="d-round" class="dialog" style="display:none;">
+<div class="fieldset">
+	<div class="fstitle">Edit Round&nbsp;<span id="round-title"></span></div>
+	<div class="fscontent" style="width:680px;height:240px;overflow:auto;">
+		<div id="ajaxsearch3" class="ajaxsearch"></div>
+		<div style="float:right;">
+		<table class="toolbar" style="top:0;right:0;clear:right;float:right;margin-top:0px;">
+			<tr>
+				<td><input id="upd-previous" type="button" class="button upd-previous" onclick="moveRound(-1);" value="<%=StringUtils.text("previous", session)%>"/></td>
+				<td><input id="upd-next" type="button" class="button upd-next" onclick="moveRound(1);" value="<%=StringUtils.text("next", session)%>"/></td>
+			</tr>
+		</table>
+		</div>
+		<table style="width:100px;">
+			<tr><td>ID:</td><td><input id="rddlg-id" type="text" disabled="disabled" style="width:50px;"/></td></tr>
+		</table>
+		<table id="dlg-round">
+			<tr><td><input type="text" id="rddlg-rt" name="<%=StringUtils.text("type", session)%>" style="width:250px;"/></td></tr>
+			<tr><td><input type="text" id="rddlg-rk1" name="<%=StringUtils.text("rank.1", session)%>" style="width:300px;"/><a href="javascript:clearValue('rddlg-rk1');">[X]</a></td>
+			<td><input type="text" id="rddlg-rs1" name="<%=StringUtils.text("result.score", session)%>" style="width:120px;"/></td></tr>
+			<tr><td><input type="text" id="rddlg-rk2" name="<%=StringUtils.text("rank.2", session)%>" style="width:300px;"/><a href="javascript:clearValue('rddlg-rk2');">[X]</a></td>
+			<td><input type="text" id="rddlg-rs2" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
+			<tr><td><input type="text" id="rddlg-rk3" name="<%=StringUtils.text("rank.3", session)%>" style="width:300px;"/><a href="javascript:clearValue('rddlg-rk3');">[X]</a></td>
+			<td><input type="text" id="rddlg-rs3" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
+			<tr><td><input type="text" id="rddlg-dt1" name="<%=StringUtils.text("date", session)%> #1" style="width:80px;"/></td>
+			<td><input type="text" id="rddlg-dt2" name="<%=StringUtils.text("date", session)%> #2" style="width:80px;"/></td></tr>
+			<tr><td><input type="text" id="rddlg-pl1" name="<%=StringUtils.text("place", session)%> #1" style="width:300px;"/></td>
+			<td><input type="text" id="rddlg-pl2" name="<%=StringUtils.text("place", session)%> #2" style="width:300px;"/></td></tr>
+			<tr><td colspan="2"><input type="text" id="rddlg-exa" name="<%=StringUtils.text("tie", session)%>" style="width:50px;"/></td></tr>
+			<tr><td colspan="2"><textarea id="rddlg-cmt" tabindex="14" name="<%=StringUtils.text("comment", session)%>" cols="100" rows="3" style="width:500px;"></textarea></td></tr>
+		</table>
+	</div>
+	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="setRoundValues();"/><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dRound);"/></div>
+</div>
+</div>
 <!-- Find -->
 <div id="d-find" class="dialog" style="display:none;">
 <div class="fieldset">
@@ -87,6 +123,7 @@ dError = new Control.Modal($('d-error'),{ closeOnClick: false, fade: false });
 dLink = new Control.Modal($('d-link'),{ closeOnClick: false, fade: false });
 dInfo = new Control.Modal($('d-info'),{ closeOnClick: false, fade: false });
 dPersonList = new Control.Modal($('d-plist'),{ closeOnClick: false, fade: false });
+dRound = new Control.Modal($('d-round'),{ closeOnClick: false, fade: false });
 dFind = new Control.Modal($('d-find'),{ closeOnClick: false, fade: false });
 dQuestion = new Control.Modal($('d-question'),{ closeOnClick: false, fade: false });
 dComment = new Control.Modal($('d-comment'),{ closeOnClick: false, fade: false });

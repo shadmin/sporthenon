@@ -68,8 +68,11 @@ public class Round {
 	@JoinColumn(name = "id_complex")
 	private Complex complex2;
 	
+	@Column(name = "date1", length = 10)
+	private String date1;
+	
 	@Column(name = "date", length = 10)
-	private String date;
+	private String date2;
 	
 	@Column(name = "exa", length = 15)
 	private String exa;
@@ -114,10 +117,6 @@ public class Round {
 
 	public String getResult3() {
 		return result3;
-	}
-
-	public String getDate() {
-		return date;
 	}
 
 	public String getExa() {
@@ -166,10 +165,6 @@ public class Round {
 
 	public void setResult3(String result3) {
 		this.result3 = result3;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
 	}
 
 	public void setExa(String exa) {
@@ -224,6 +219,22 @@ public class Round {
 		this.complex2 = complex2;
 	}
 
+	public String getDate1() {
+		return date1;
+	}
+
+	public String getDate2() {
+		return date2;
+	}
+
+	public void setDate1(String date1) {
+		this.date1 = date1;
+	}
+
+	public void setDate2(String date2) {
+		this.date2 = date2;
+	}
+
 	@Override
 	public String toString() {
 		return "Round [id=" + id + ", idResult=" + idResult + ", idResultType="
@@ -232,8 +243,8 @@ public class Round {
 				+ ", result2=" + result2 + ", idRank3=" + idRank3
 				+ ", result3=" + result3 + ", city1=" + city1 + ", complex1="
 				+ complex1 + ", city2=" + city2 + ", complex2=" + complex2
-				+ ", date=" + date + ", exa=" + exa + ", comment=" + comment
-				+ ", metadata=" + metadata + "]";
+				+ ", date1=" + date1 + ", date2=" + date2 + ", exa=" + exa
+				+ ", comment=" + comment + ", metadata=" + metadata + "]";
 	}
 
 }
