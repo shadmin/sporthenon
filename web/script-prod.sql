@@ -612,4 +612,713 @@ $BODY$
   
   
   
+  ALTER TABLE "Round" ADD date1 character varying(10);
+
+
+CREATE OR REPLACE FUNCTION "~Overview"(
+    _entity character varying,
+    _id_sport integer,
+    _count integer,
+    _pattern character varying,
+    _id1 integer,
+    _id2 integer,
+    _lang character varying)
+  RETURNS SETOF "~RefItem" AS
+$BODY$
+declare
+	_item "~RefItem"%rowtype;
+	_c refcursor;
+	_index integer;
+	_query text;
+begin
+	_index := 1;
+	-- Results
+	IF (_entity = 'RS' OR _entity = '') THEN
+		_query = 'SELECT RS.id, YR.label, SP.label' || _lang || ', CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', SE2.label' || _lang || ',';
+		_query = _query || 'concat_ws('','', RS.id_rank1, RS.id_rank2, RS.id_rank3, RS.id_rank4, RS.id_rank5, RS.id_rank6, RS.id_rank7, RS.id_rank8, RS.id_rank9, RS.id_rank10, RS.id_rank11, RS.id_rank12, RS.id_rank13, RS.id_rank14, RS.id_rank15, RS.id_rank16, RS.id_rank17, RS.id_rank18, RS.id_rank19, RS.id_rank20) AS ranks,';
+		_query = _query || 'concat_ws('','', RS.result1, RS.result2, RS.result3, RS.result4, RS.result5, RS.result6, RS.result7, RS.result8, RS.result9, RS.result10, RS.result11, RS.result12, RS.result13, RS.result14, RS.result15, RS.result16, RS.result17, RS.result18, RS.result19, RS.result20) AS results,';
+		_query = _query || 'concat_ws('','', coalesce(RS.id_complex1, ''0''), coalesce(RS.id_complex2, ''0''), coalesce(RS.id_city1, ''0''), coalesce(RS.id_city2, ''0'')) AS places, concat_ws('','', coalesce(RS.date1, ''0''), coalesce(RS.date2, ''0'')) AS dates, TP1.number, TP2.number, TP3.number, string_agg(DISTINCT(CAST (EL.id AS VARCHAR)), '',''), string_agg(DISTINCT(CAST (RD.id AS VARCHAR)), '','')';	
+		_query = _query || ' FROM "Result" RS';
+		_query = _query || ' LEFT JOIN "Year" YR ON RS.id_year = YR.id';
+		_query = _query || ' LEFT JOIN "Sport" SP ON RS.id_sport = SP.id';
+		_query = _query || ' LEFT JOIN "Championship" CP ON RS.id_championship = CP.id';
+		_query = _query || ' LEFT JOIN "Event" EV ON RS.id_event = EV.id';
+		_query = _query || ' LEFT JOIN "Event" SE ON RS.id_subevent = SE.id';
+		_query = _query || ' LEFT JOIN "Event" SE2 ON RS.id_subevent2 = SE2.id';
+		_query = _query || ' LEFT JOIN "Type" TP1 ON EV.id_type = TP1.id';
+		_query = _query || ' LEFT JOIN "Type" TP2 ON SE.id_type = TP2.id';
+		_query = _query || ' LEFT JOIN "Type" TP3 ON SE2.id_type = TP3.id';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = RS.id AND EL.entity=''RS'')';
+		_query = _query || ' LEFT JOIN "Round" RD ON RD.id_result = RS.id';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR SP.id = ' || _id_sport;
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND RS.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND (lower(SP.label' || _lang || ') like ''' || lower(_pattern) || '%'' OR lower(EV.label' || _lang || ') like ''' || lower(_pattern) || '%'' OR lower(EV.label' || _lang || ') like ''' || lower(_pattern) || '%'' OR lower(YR.label) = ''' || _pattern || ''')';
+		END IF;
+		_query = _query || ' GROUP BY RS.id, YR.id, YR.label, SP.label' || _lang || ', CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', SE2.label' || _lang || ', ranks, results, places, dates, TP1.number, TP2.number, TP3.number, CP.index, EV.index, SE.index';
+		_query = _query || ' ORDER BY YR.id DESC, RS.first_update DESC, SP.label' || _lang || ', CP.index, EV.index, SE.index, CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ' LIMIT ' || _count;
+
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.label_rel5, _item.label_rel6, _item.txt3, _item.txt4, _item.txt1, _item.txt2, _item.id_rel1, _item.id_rel2, _item.id_rel3, _item.label, _item.label_en;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'RS';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- Athletes
+	IF (_entity = 'PR' OR _entity = '') THEN
+		_query = 'SELECT PR.id, PR.last_name, PR.first_name, CN.code, TM.label, SP.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), PR2.last_name || '', '' || PR2.first_name || '', '' || TM2.label, PR.ref';
+		_query = _query || ' FROM "Athlete" PR';
+		_query = _query || ' LEFT JOIN "Country" CN ON PR.id_country = CN.id';
+		_query = _query || ' LEFT JOIN "Team" TM ON PR.id_team = TM.id';
+		_query = _query || ' LEFT JOIN "Sport" SP ON PR.id_sport = SP.id';
+		_query = _query || ' LEFT JOIN "Athlete" PR2 ON PR.link = PR2.id';
+		_query = _query || ' LEFT JOIN "Team" TM2 ON PR2.id_team = TM2.id';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = PR.id AND EL.entity=''PR'')';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR PR.id_sport = ' || _id_sport;
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND PR.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND lower(PR.last_name) like ''' || lower(_pattern) || '%''';
+		END IF;
+		_query = _query || ' GROUP BY PR.id, PR.last_name, PR.first_name, CN.code, TM.label, SP.label' || _lang || ', PR2.last_name || '', '' || PR2.first_name || '', '' || TM2.label, PR.ref';
+		_query = _query || ' ORDER BY PR.last_name, PR.first_name LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.label_rel5, _item.label, _item.label_en, _item.count2;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'PR';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- Teams
+	IF (_entity = 'TM' OR _entity = '') THEN
+		_query = 'SELECT TM.id, TM.label, SP.label' || _lang || ', CN.code, LG.label, string_agg(CAST (EL.id AS VARCHAR), '',''), TM2.label, TM.ref, (CASE WHEN TM.no_pic=true THEN 1 ELSE 0 END)';
+		_query = _query || ' FROM "Team" TM';
+		_query = _query || ' LEFT JOIN "Country" CN ON TM.id_country = CN.id';
+		_query = _query || ' LEFT JOIN "Sport" SP ON TM.id_sport = SP.id';
+		_query = _query || ' LEFT JOIN "League" LG ON TM.id_league = LG.id';
+		_query = _query || ' LEFT JOIN "Team" TM2 ON TM.link = TM2.id';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = TM.id AND EL.entity=''TM'')';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR SP.id = ' || _id_sport;
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND TM.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND lower(TM.label) like ''' || lower(_pattern) || '%''';
+		END IF;
+		_query = _query || ' GROUP BY TM.id, TM.label, CN.code, SP.label' || _lang || ', LG.label, TM2.label, TM.ref';
+		_query = _query || ' ORDER BY TM.label LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.label, _item.label_en, _item.count2, _item.count3;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'TM';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- Sports
+	IF (_entity = 'SP' OR _entity = '') THEN
+		_query = 'SELECT SP.id, SP.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), SP.ref, (CASE WHEN SP.no_pic=true THEN 1 ELSE 0 END)';
+		_query = _query || ' FROM "Sport" SP';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = SP.id AND EL.entity=''SP'')';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR SP.id = ' || _id_sport;
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND SP.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND lower(SP.label' || _lang || ') like ''' || lower(_pattern) || '%''';
+		END IF;
+		_query = _query || ' GROUP BY SP.id, SP.label' || _lang || ', SP.ref';
+		_query = _query || ' ORDER BY SP.label' || _lang || ' LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label, _item.count2, _item.count3;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'SP';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- Championships
+	IF (_entity = 'CP' OR _entity = '') THEN
+		_query = 'SELECT CP.id, CP.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), CP.ref, (CASE WHEN CP.no_pic=true THEN 1 ELSE 0 END)';
+		_query = _query || ' FROM "Championship" CP';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = CP.id AND EL.entity=''CP'')';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR CP.id IN (SELECT id_championship FROM "Result" WHERE id_sport=' || _id_sport || ')';
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND CP.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND lower(CP.label' || _lang || ') like ''' || lower(_pattern) || '%''';
+		END IF;
+		_query = _query || ' GROUP BY CP.id, CP.label' || _lang || ', CP.ref';
+		_query = _query || ' ORDER BY CP.label' || _lang || ' LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label, _item.count2, _item.count3;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'CP';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- Events
+	IF (_entity = 'EV' OR _entity = '') THEN
+		_query = 'SELECT EV.id, EV.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), EV.ref, (CASE WHEN EV.no_pic=true THEN 1 ELSE 0 END)';
+		_query = _query || ' FROM "Event" EV';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = EV.id AND EL.entity=''EV'')';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR EV.id IN (SELECT id_event FROM "Result" WHERE id_sport=' || _id_sport || ' UNION SELECT id_subevent FROM "Result" WHERE id_sport=' || _id_sport || ' UNION SELECT id_subevent2 FROM "Result" WHERE id_sport=' || _id_sport || ')';
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND EV.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND lower(EV.label' || _lang || ') like ''' || lower(_pattern) || '%''';
+		END IF;
+		_query = _query || ' GROUP BY EV.id, EV.label' || _lang || ', EV.ref';
+		_query = _query || ' ORDER BY EV.label' || _lang || ' LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label, _item.count2, _item.count3;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'EV';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- Cities
+	IF (_entity = 'CT' OR _entity = '') THEN
+		_query = 'SELECT CT.id, CT.label' || _lang || ', CN.code, string_agg(CAST (EL.id AS VARCHAR), '',''), CT2.label || '', '' || CN2.code, CT.ref';
+		_query = _query || ' FROM "City" CT';
+		_query = _query || ' LEFT JOIN "Country" CN ON CT.id_country = CN.id';
+		_query = _query || ' LEFT JOIN "City" CT2 ON CT.link = CT2.id';
+		_query = _query || ' LEFT JOIN "Country" CN2 ON CT2.id_country = CN2.id';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = CT.id AND EL.entity=''CT'')';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR CT.id IN (SELECT RS.id_city1 FROM "Result" WHERE id_sport=' || _id_sport || ' UNION SELECT RS.id_city2 FROM "Result" WHERE id_sport=' || _id_sport || ')';
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND CT.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND lower(CT.label' || _lang || ') like ''' || lower(_pattern) || '%''';
+		END IF;
+		_query = _query || ' GROUP BY CT.id, CT.label' || _lang || ', CN.code, CT2.label || '', '' || CN2.code, CT.ref';
+		_query = _query || ' ORDER BY CT.label' || _lang || ' LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label, _item.label_en, _item.count2;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'CT';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- Complexes
+	IF (_entity = 'CX' OR _entity = '') THEN
+		_query = 'SELECT CX.id, CX.label, CT.label' || _lang || ', CN.code, string_agg(CAST (EL.id AS VARCHAR), '',''), CX2.label, CX.ref';
+		_query = _query || ' FROM "Complex" CX';
+		_query = _query || ' LEFT JOIN "City" CT ON CX.id_city = CT.id';
+		_query = _query || ' LEFT JOIN "Country" CN ON CT.id_country = CN.id';
+		_query = _query || ' LEFT JOIN "Complex" CX2 ON CX.link = CX2.id';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = CX.id AND EL.entity=''CX'')';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR CX.id IN (SELECT RS.id_complex1 FROM "Result" WHERE id_sport=' || _id_sport || ' UNION SELECT RS.id_complex2 FROM "Result" WHERE id_sport=' || _id_sport || ')';
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND CX.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND lower(CX.label) like ''' || lower(_pattern) || '%''';
+		END IF;
+		_query = _query || ' GROUP BY CX.id, CX.label, CT.label' || _lang || ', CN.code, CX2.label, CX.ref';
+		_query = _query || ' ORDER BY CX.label LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label, _item.label_en, _item.count2;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'CX';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	RETURN;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+  
+  
+  
+  ALTER TABLE "~RefItem" add txt6 text;
+  
+  
+  
+  CREATE OR REPLACE FUNCTION "~Overview"(
+    _entity character varying,
+    _id_sport integer,
+    _count integer,
+    _pattern character varying,
+    _id1 integer,
+    _id2 integer,
+    _lang character varying)
+  RETURNS SETOF "~RefItem" AS
+$BODY$
+declare
+	_item "~RefItem"%rowtype;
+	_c refcursor;
+	_index integer;
+	_query text;
+begin
+	_index := 1;
+	-- Results
+	IF (_entity = 'RS' OR _entity = '') THEN
+		_query = 'SELECT RS.id, YR.label, SP.label' || _lang || ', CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', SE2.label' || _lang || ',';
+		_query = _query || 'concat_ws('','', RS.id_rank1, RS.id_rank2, RS.id_rank3, RS.id_rank4, RS.id_rank5, RS.id_rank6, RS.id_rank7, RS.id_rank8, RS.id_rank9, RS.id_rank10, RS.id_rank11, RS.id_rank12, RS.id_rank13, RS.id_rank14, RS.id_rank15, RS.id_rank16, RS.id_rank17, RS.id_rank18, RS.id_rank19, RS.id_rank20) AS ranks,';
+		_query = _query || 'concat_ws('','', RS.result1, RS.result2, RS.result3, RS.result4, RS.result5, RS.result6, RS.result7, RS.result8, RS.result9, RS.result10, RS.result11, RS.result12, RS.result13, RS.result14, RS.result15, RS.result16, RS.result17, RS.result18, RS.result19, RS.result20) AS results,';
+		_query = _query || 'concat_ws('','', coalesce(RS.id_complex1, ''0''), coalesce(RS.id_complex2, ''0''), coalesce(RS.id_city1, ''0''), coalesce(RS.id_city2, ''0'')) AS places, concat_ws('','', coalesce(RS.date1, ''0''), coalesce(RS.date2, ''0'')) AS dates, TP1.number, TP2.number, TP3.number, string_agg(DISTINCT(CAST (EL.id AS VARCHAR)), '',''), string_agg(DISTINCT(CAST (RD.id AS VARCHAR)), '','')';	
+		_query = _query || ' FROM "Result" RS';
+		_query = _query || ' LEFT JOIN "Year" YR ON RS.id_year = YR.id';
+		_query = _query || ' LEFT JOIN "Sport" SP ON RS.id_sport = SP.id';
+		_query = _query || ' LEFT JOIN "Championship" CP ON RS.id_championship = CP.id';
+		_query = _query || ' LEFT JOIN "Event" EV ON RS.id_event = EV.id';
+		_query = _query || ' LEFT JOIN "Event" SE ON RS.id_subevent = SE.id';
+		_query = _query || ' LEFT JOIN "Event" SE2 ON RS.id_subevent2 = SE2.id';
+		_query = _query || ' LEFT JOIN "Type" TP1 ON EV.id_type = TP1.id';
+		_query = _query || ' LEFT JOIN "Type" TP2 ON SE.id_type = TP2.id';
+		_query = _query || ' LEFT JOIN "Type" TP3 ON SE2.id_type = TP3.id';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = RS.id AND EL.entity=''RS'')';
+		_query = _query || ' LEFT JOIN "Round" RD ON RD.id_result = RS.id';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR SP.id = ' || _id_sport;
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND RS.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND (lower(SP.label' || _lang || ') like ''' || lower(_pattern) || '%'' OR lower(EV.label' || _lang || ') like ''' || lower(_pattern) || '%'' OR lower(EV.label' || _lang || ') like ''' || lower(_pattern) || '%'' OR lower(YR.label) = ''' || _pattern || ''')';
+		END IF;
+		_query = _query || ' GROUP BY RS.id, YR.id, YR.label, SP.label' || _lang || ', CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', SE2.label' || _lang || ', ranks, results, places, dates, TP1.number, TP2.number, TP3.number, CP.index, EV.index, SE.index';
+		_query = _query || ' ORDER BY YR.id DESC, RS.first_update DESC, SP.label' || _lang || ', CP.index, EV.index, SE.index, CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ' LIMIT ' || _count;
+
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.label_rel5, _item.label_rel6, _item.txt3, _item.txt4, _item.txt1, _item.txt2, _item.id_rel1, _item.id_rel2, _item.id_rel3, _item.label, _item.txt6;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'RS';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- Athletes
+	IF (_entity = 'PR' OR _entity = '') THEN
+		_query = 'SELECT PR.id, PR.last_name, PR.first_name, CN.code, TM.label, SP.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), PR2.last_name || '', '' || PR2.first_name || '', '' || TM2.label, PR.ref';
+		_query = _query || ' FROM "Athlete" PR';
+		_query = _query || ' LEFT JOIN "Country" CN ON PR.id_country = CN.id';
+		_query = _query || ' LEFT JOIN "Team" TM ON PR.id_team = TM.id';
+		_query = _query || ' LEFT JOIN "Sport" SP ON PR.id_sport = SP.id';
+		_query = _query || ' LEFT JOIN "Athlete" PR2 ON PR.link = PR2.id';
+		_query = _query || ' LEFT JOIN "Team" TM2 ON PR2.id_team = TM2.id';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = PR.id AND EL.entity=''PR'')';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR PR.id_sport = ' || _id_sport;
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND PR.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND lower(PR.last_name) like ''' || lower(_pattern) || '%''';
+		END IF;
+		_query = _query || ' GROUP BY PR.id, PR.last_name, PR.first_name, CN.code, TM.label, SP.label' || _lang || ', PR2.last_name || '', '' || PR2.first_name || '', '' || TM2.label, PR.ref';
+		_query = _query || ' ORDER BY PR.last_name, PR.first_name LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.label_rel5, _item.label, _item.label_en, _item.count2;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'PR';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- Teams
+	IF (_entity = 'TM' OR _entity = '') THEN
+		_query = 'SELECT TM.id, TM.label, SP.label' || _lang || ', CN.code, LG.label, string_agg(CAST (EL.id AS VARCHAR), '',''), TM2.label, TM.ref, (CASE WHEN TM.no_pic=true THEN 1 ELSE 0 END)';
+		_query = _query || ' FROM "Team" TM';
+		_query = _query || ' LEFT JOIN "Country" CN ON TM.id_country = CN.id';
+		_query = _query || ' LEFT JOIN "Sport" SP ON TM.id_sport = SP.id';
+		_query = _query || ' LEFT JOIN "League" LG ON TM.id_league = LG.id';
+		_query = _query || ' LEFT JOIN "Team" TM2 ON TM.link = TM2.id';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = TM.id AND EL.entity=''TM'')';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR SP.id = ' || _id_sport;
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND TM.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND lower(TM.label) like ''' || lower(_pattern) || '%''';
+		END IF;
+		_query = _query || ' GROUP BY TM.id, TM.label, CN.code, SP.label' || _lang || ', LG.label, TM2.label, TM.ref';
+		_query = _query || ' ORDER BY TM.label LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.label, _item.label_en, _item.count2, _item.count3;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'TM';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- Sports
+	IF (_entity = 'SP' OR _entity = '') THEN
+		_query = 'SELECT SP.id, SP.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), SP.ref, (CASE WHEN SP.no_pic=true THEN 1 ELSE 0 END)';
+		_query = _query || ' FROM "Sport" SP';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = SP.id AND EL.entity=''SP'')';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR SP.id = ' || _id_sport;
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND SP.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND lower(SP.label' || _lang || ') like ''' || lower(_pattern) || '%''';
+		END IF;
+		_query = _query || ' GROUP BY SP.id, SP.label' || _lang || ', SP.ref';
+		_query = _query || ' ORDER BY SP.label' || _lang || ' LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label, _item.count2, _item.count3;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'SP';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- Championships
+	IF (_entity = 'CP' OR _entity = '') THEN
+		_query = 'SELECT CP.id, CP.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), CP.ref, (CASE WHEN CP.no_pic=true THEN 1 ELSE 0 END)';
+		_query = _query || ' FROM "Championship" CP';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = CP.id AND EL.entity=''CP'')';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR CP.id IN (SELECT id_championship FROM "Result" WHERE id_sport=' || _id_sport || ')';
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND CP.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND lower(CP.label' || _lang || ') like ''' || lower(_pattern) || '%''';
+		END IF;
+		_query = _query || ' GROUP BY CP.id, CP.label' || _lang || ', CP.ref';
+		_query = _query || ' ORDER BY CP.label' || _lang || ' LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label, _item.count2, _item.count3;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'CP';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- Events
+	IF (_entity = 'EV' OR _entity = '') THEN
+		_query = 'SELECT EV.id, EV.label' || _lang || ', string_agg(CAST (EL.id AS VARCHAR), '',''), EV.ref, (CASE WHEN EV.no_pic=true THEN 1 ELSE 0 END)';
+		_query = _query || ' FROM "Event" EV';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = EV.id AND EL.entity=''EV'')';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR EV.id IN (SELECT id_event FROM "Result" WHERE id_sport=' || _id_sport || ' UNION SELECT id_subevent FROM "Result" WHERE id_sport=' || _id_sport || ' UNION SELECT id_subevent2 FROM "Result" WHERE id_sport=' || _id_sport || ')';
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND EV.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND lower(EV.label' || _lang || ') like ''' || lower(_pattern) || '%''';
+		END IF;
+		_query = _query || ' GROUP BY EV.id, EV.label' || _lang || ', EV.ref';
+		_query = _query || ' ORDER BY EV.label' || _lang || ' LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label, _item.count2, _item.count3;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'EV';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- Cities
+	IF (_entity = 'CT' OR _entity = '') THEN
+		_query = 'SELECT CT.id, CT.label' || _lang || ', CN.code, string_agg(CAST (EL.id AS VARCHAR), '',''), CT2.label || '', '' || CN2.code, CT.ref';
+		_query = _query || ' FROM "City" CT';
+		_query = _query || ' LEFT JOIN "Country" CN ON CT.id_country = CN.id';
+		_query = _query || ' LEFT JOIN "City" CT2 ON CT.link = CT2.id';
+		_query = _query || ' LEFT JOIN "Country" CN2 ON CT2.id_country = CN2.id';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = CT.id AND EL.entity=''CT'')';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR CT.id IN (SELECT RS.id_city1 FROM "Result" WHERE id_sport=' || _id_sport || ' UNION SELECT RS.id_city2 FROM "Result" WHERE id_sport=' || _id_sport || ')';
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND CT.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND lower(CT.label' || _lang || ') like ''' || lower(_pattern) || '%''';
+		END IF;
+		_query = _query || ' GROUP BY CT.id, CT.label' || _lang || ', CN.code, CT2.label || '', '' || CN2.code, CT.ref';
+		_query = _query || ' ORDER BY CT.label' || _lang || ' LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label, _item.label_en, _item.count2;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'CT';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- Complexes
+	IF (_entity = 'CX' OR _entity = '') THEN
+		_query = 'SELECT CX.id, CX.label, CT.label' || _lang || ', CN.code, string_agg(CAST (EL.id AS VARCHAR), '',''), CX2.label, CX.ref';
+		_query = _query || ' FROM "Complex" CX';
+		_query = _query || ' LEFT JOIN "City" CT ON CX.id_city = CT.id';
+		_query = _query || ' LEFT JOIN "Country" CN ON CT.id_country = CN.id';
+		_query = _query || ' LEFT JOIN "Complex" CX2 ON CX.link = CX2.id';
+		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = CX.id AND EL.entity=''CX'')';
+		_query = _query || ' WHERE 0=1';
+		IF _id_sport > 0 THEN
+			_query = _query || ' OR CX.id IN (SELECT RS.id_complex1 FROM "Result" WHERE id_sport=' || _id_sport || ' UNION SELECT RS.id_complex2 FROM "Result" WHERE id_sport=' || _id_sport || ')';
+		ELSE
+			_query = _query || ' OR 1=1';
+		END IF;
+		IF (_id1 > 0 AND _id2 > 0) THEN
+			_query = _query || ' AND CX.id BETWEEN ' || _id1 || ' AND ' || _id2;
+		ELSIF (_pattern IS NOT NULL AND _pattern <> '') THEN
+			_query = _query || ' AND lower(CX.label) like ''' || lower(_pattern) || '%''';
+		END IF;
+		_query = _query || ' GROUP BY CX.id, CX.label, CT.label' || _lang || ', CN.code, CX2.label, CX.ref';
+		_query = _query || ' ORDER BY CX.label LIMIT ' || _count;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label, _item.label_en, _item.count2;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'CX';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	RETURN;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+  
+  
+  
+  
+  insert into  "~Config" values ('extlink_boxrec', 'boxrec.com|BoxRec|http://static.boxrec.com/assets/favicons/favicon-16x16.png', NULL);
+
+insert into  "~Config" values ('extlink_lequipe', 'lequipe.fr|L''ÉQUIPE.fr|http://www.lequipe.fr/v6/img/favicons/favicon-16x16.png', NULL);
+
+
+insert into  "~Config" values ('extlink_olyref', 'www.sports-reference.com/olympics|Olympics-Reference|http://d2ft4b0ve1aur1.cloudfront.net/images-475/favicon_oly.ico', NULL);
+insert into  "~Config" values ('extlink_bktref', 'www.basketball-reference.com|Basketball-Reference|http://d2p3bygnnzw9w3.cloudfront.net/req/201607201/favicons/bbr/favicon-32.png', NULL);
+insert into  "~Config" values ('extlink_bbref', 'www.baseball-reference.com|Baseball-Reference|http://d2p3bygnnzw9w3.cloudfront.net/req/201607201/favicons/br/favicon-32.png', NULL);
+insert into  "~Config" values ('extlink_ftref', 'www.pro-football-reference.com|Pro-Football-Reference|http://d2p3bygnnzw9w3.cloudfront.net/req/201607201/favicons/pfr/favicon-32.png', NULL);
+insert into  "~Config" values ('extlink_hkref', 'www.hockey-reference.com/olympics|Hockey-Reference|http://d2p3bygnnzw9w3.cloudfront.net/req/201607201/favicons/hr/favicon-32.png', NULL);
+
+
+ALTER TABLE "~ExternalLink" add flag char;
+
+update "~ExternalLink" set flag='F' where type='federation';
+update "~ExternalLink" set flag='O' where type='official';
+
+
+ALTER TABLE "~ExternalLink" drop type;
+
+
+CREATE OR REPLACE FUNCTION "GetRounds"(
+    _id_result integer,
+    _lang character varying)
+  RETURNS refcursor AS
+$BODY$
+declare
+    _c refcursor;
+    _id_sport integer;
+    _id_championship integer;
+    _id_event integer;
+    _id_subevent integer;
+    _id_subevent2 integer;
+    _type integer;
+    _columns text;
+    _joins text;
+begin
+	SELECT RS.id_sport, RS.id_championship, RS.id_event, RS.id_subevent, RS.id_subevent2 INTO _id_sport, _id_championship, _id_event, _id_subevent, _id_subevent2 FROM "Result" RS WHERE RS.id = _id_result;
+
+	SELECT id_result_type INTO _type FROM "Round" WHERE id_result = _id_result;
+
+	-- Build entity-specific columns/joins
+	_columns := '';
+	_joins := '';
+	FOR i IN 1..3 LOOP
+		IF _type < 10 THEN -- Athlete
+			_columns := _columns || ', PR' || i || '.id AS rk' || i || '_id, PR' || i || '.last_name AS rk' || i || '_str1, PR' || i || '.first_name AS rk' || i || '_str2, NULL AS rk' || i || '_str3';
+			_columns := _columns || ', PRTM' || i || '.id AS rk' || i || '_rel1_id, NULL AS rk' || i || '_rel1_code, PRTM' || i || '.label AS rk' || i || '_rel1_label, NULL AS rk' || i || '_rel1_label_en';
+			_columns := _columns || ', PRCN' || i || '.id AS rk' || i || '_rel2_id, PRCN' || i || '.code AS rk' || i || '_rel2_code, PRCN' || i || '.label' || _lang || ' AS rk' || i || '_rel2_label, PRCN' || i || '.label AS rk' || i || '_rel2_label_en';
+			_joins := _joins || ' LEFT JOIN "Athlete" PR' || i || ' ON RD.id_rank' || i || ' = PR' || i || '.id';
+			_joins := _joins || ' LEFT JOIN "Team" PRTM' || i || ' ON PR' || i || '.id_team = PRTM' || i || '.id';
+			_joins := _joins || ' LEFT JOIN "Country" PRCN' || i || ' ON PR' || i || '.id_country = PRCN' || i || '.id';
+		ELSIF _type = 50 THEN -- Team
+			_columns := _columns || ', TM' || i || '.id AS rk' || i || '_id, NULL AS rk' || i || '_str1, TM' || i || '.label AS rk' || i || '_str2, NULL AS rk' || i || '_str3';
+			_columns := _columns || ', NULL AS rk' || i || '_rel1_id, NULL AS rk' || i || '_rel1_code, NULL AS rk' || i || '_rel1_label, NULL AS rk' || i || '_rel1_label_en';
+			_columns := _columns || ', TMCN' || i || '.id AS rk' || i || '_rel2_id, TMCN' || i || '.code AS rk' || i || '_rel2_code, TMCN' || i || '.label' || _lang || ' AS rk' || i || '_rel2_label, TMCN' || i || '.label AS rk' || i || '_rel2_label_en';
+			_joins := _joins || ' LEFT JOIN "Team" TM' || i || ' ON RD.id_rank' || i || ' = TM' || i || '.id';
+			_joins := _joins || ' LEFT JOIN "Country" TMCN' || i || ' ON TM' || i || '.id_country = TMCN' || i || '.id';
+		ELSIF _type = 99 THEN -- Country
+			_columns := _columns || ', ENCN' || i || '.id AS rk' || i || '_id, ENCN' || i || '.code AS rk' || i || '_str1, ENCN' || i || '.label' || _lang || ' AS rk' || i || '_str2, ENCN' || i || '.label AS rk' || i || '_str3';
+			_columns := _columns || ', NULL AS rk' || i || '_rel1_id, NULL AS rk' || i || '_rel1_code, NULL AS rk' || i || '_rel1_label, NULL AS rk' || i || '_rel1_label_en';
+			_columns := _columns || ', NULL AS rk' || i || '_rel2_id, NULL AS rk' || i || '_rel2_code, NULL AS rk' || i || '_rel2_label, NULL AS rk' || i || '_rel2_label_en';
+			_joins := _joins || ' LEFT JOIN "Country" ENCN' || i || ' ON RD.id_rank' || i || ' = ENCN' || i || '.id';
+		END IF;
+	END LOOP;
+
+	-- Open cursor
+	OPEN _c FOR EXECUTE
+	'SELECT
+		RD.id AS rd_id, RD.id_result_type AS rd_result_type, RT.id AS rt_id, RT.label' || _lang || ' AS rt_label, RT.index AS rt_index, RD.result1 AS rd_result1, RD.result2 AS rd_result2, RD.result3 AS rd_result3, RD.date1 AS rd_date1, RD.date AS rd_date2, RD.exa AS rd_exa, RD.comment AS rd_comment,
+		CX1.id AS cx1_id, CX1.label AS cx1_label, CX2.id AS cx2_id, CX2.label AS cx2_label,
+		CT1.id AS ct1_id, CT1.label' || _lang || ' AS ct1_label, CT1.label AS ct1_label_en, ST1.id AS st1_id, ST1.code AS st1_code, ST1.label AS st1_label_en, CN1.id AS cn1_id, CN1.code AS cn1_code, CN1.label AS cn1_label_en,
+		CT2.id AS ct2_id, CT2.label' || _lang || ' AS ct2_label, CT2.label AS ct2_label_en, ST2.id AS st2_id, ST2.code AS st2_code, ST2.label AS st2_label_en, CN2.id AS cn2_id, CN2.code AS cn2_code, CN2.label AS cn2_label_en,
+		CT3.id AS ct3_id, CT3.label' || _lang || ' AS ct3_label, CT3.label AS ct3_label_en, ST3.id AS st3_id, ST3.code AS st3_code, ST3.label AS st3_label_en, CN3.id AS cn3_id, CN3.code AS cn3_code, CN3.label AS cn3_label_en,
+		CT4.id AS ct4_id, CT4.label' || _lang || ' AS ct4_label, CT4.label AS ct4_label_en, ST4.id AS st4_id, ST4.code AS st4_code, ST4.label AS st4_label_en, CN4.id AS cn4_id, CN4.code AS cn4_code, CN4.label AS cn4_label_en' ||
+		_columns || '
+	FROM
+		"Round" RD
+		LEFT JOIN "RoundType" RT ON RD.id_round_type = RT.id
+		LEFT JOIN "Complex" CX1 ON RD.id_complex1 = CX1.id
+		LEFT JOIN "City" CT1 ON CX1.id_city = CT1.id
+		LEFT JOIN "State" ST1 ON CT1.id_state = ST1.id
+		LEFT JOIN "Country" CN1 ON CT1.id_country = CN1.id
+		LEFT JOIN "City" CT2 ON RD.id_city1 = CT2.id
+		LEFT JOIN "State" ST2 ON CT2.id_state = ST2.id
+		LEFT JOIN "Country" CN2 ON CT2.id_country = CN2.id
+		LEFT JOIN "Complex" CX2 ON RD.id_complex = CX2.id
+		LEFT JOIN "City" CT3 ON CX2.id_city = CT3.id
+		LEFT JOIN "State" ST3 ON CT3.id_state = ST3.id
+		LEFT JOIN "Country" CN3 ON CT3.id_country = CN3.id
+		LEFT JOIN "City" CT4 ON RD.id_city = CT4.id
+		LEFT JOIN "State" ST4 ON CT4.id_state = ST4.id
+		LEFT JOIN "Country" CN4 ON CT4.id_country = CN4.id
+		LEFT JOIN "Result" RS ON RD.id_result = RS.id' ||
+		_joins || '
+	WHERE
+		RD.id_result = ' || _id_result || '
+	ORDER BY
+		RT.index, RT.label, RD.id';
+	RETURN  _c;
+end;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+  
+  
+  
+  
+  
+  
   

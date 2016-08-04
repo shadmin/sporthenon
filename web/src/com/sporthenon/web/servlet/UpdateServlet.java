@@ -821,7 +821,7 @@ public class UpdateServlet extends AbstractServlet {
 				html.append("<td" + (cxcount > 0 ? " class='tick'>(" + cxcount + ")" : ">") + "</td>");
 				html.append("<td" + (ctcount > 0 ? " class='tick'>(" + ctcount + ")" : ">") + "</td>");
 				html.append("<td" + (dtcount > 0 ? " class='tick'>(" + dtcount + ")" : " class='missing'>") + "</td>");
-				html.append(StringUtils.notEmpty(item.getLabelEN()) ? "<td class='tick'>" + item.getLabelEN().split("\\,").length + "</td>" : "<td></td>");
+				html.append(StringUtils.notEmpty(item.getTxt6()) ? "<td class='tick'>" + item.getTxt6().split("\\,").length + "</td>" : "<td></td>");
 			}
 			else if (item.getEntity().equals(Athlete.alias)) {
 				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + ",&nbsp;" + item.getLabelRel2() + "</a></td>");
@@ -898,6 +898,15 @@ public class UpdateServlet extends AbstractServlet {
 							c.setValue(String.valueOf(hParams.get(p)));
 							c.setValueHtml(null);
 						}
+						DatabaseHelper.saveEntity(c, null);
+					}
+				}
+				else if (p.equals("new") && StringUtils.notEmpty(hParams.get(p))) {
+					for (String s : String.valueOf(hParams.get(p)).split("\r\n")) {
+						String[] t = s.split("\\=", -1);
+						Config c = new Config();
+						c.setKey(t[0]);
+						c.setValue(t[1]);
 						DatabaseHelper.saveEntity(c, null);
 					}
 				}
@@ -1977,7 +1986,6 @@ public class UpdateServlet extends AbstractServlet {
 						html.append("<tr id='el-" + el.getId() + "'><td style='display:none;'>" + el.getId() + "</td>");
 						html.append("<td>" + el.getIdItem() + "</td>");
 						html.append("<td>" + label + "</td>");
-						html.append("<td>" + el.getType() + "</td>");
 						html.append("<td><a href='" + el.getUrl() + "' target='_blank'>" + el.getUrl() + "</a></td>");
 						html.append("<td><input type='checkbox'" + (el.isChecked() ? " checked='checked'" : "") + "/></td>");
 						html.append("<td><a href='javascript:addExtLink(" + el.getId() + ");'><img alt='' src='/img/component/button/add.png'/></a></td>");
@@ -2014,9 +2022,8 @@ public class UpdateServlet extends AbstractServlet {
 				if (t.length > 2) {
 					el.setEntity(entity);
 					el.setIdItem(Integer.parseInt(t[1]));
-					el.setType(t[2]);
-					el.setUrl(t[3]);
-					el.setChecked(t[4].equals("1"));
+					el.setUrl(t[2]);
+					el.setChecked(t[3].equals("1"));
 					DatabaseHelper.saveEntity(el, cb);
 				}
 				else if (t.length == 2 && el.getId() != null) {

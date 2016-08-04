@@ -20,6 +20,7 @@ import org.jsoup.select.Elements;
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Result;
+import com.sporthenon.db.entity.meta.Config;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.RefItem;
@@ -295,29 +296,37 @@ public class HtmlUtils {
 	public static String writeExternalLinks(String alias, Object id, String lang) throws Exception {
 		StringBuffer sbHtml = new StringBuffer();
 		String currentType = null;
-		List<ExternalLink> list = DatabaseHelper.execute("from ExternalLink where entity='" + alias + "' and idItem=" + id + " order by id");
+		HashMap<String, String> hPatterns = new HashMap();
+		for (Config config : (List<Config>) DatabaseHelper.execute("from Config where key like 'extlink%'")) {
+			String[] t = config.getValue().split("\\|");
+			hPatterns.put(t[0], t[1] + "|" + t[2]);
+		}
+		List<ExternalLink> list = DatabaseHelper.execute("from ExternalLink where entity='" + alias + "' and idItem=" + id + " order by flag, id");
+		String text = null;
+		String icon = null;
 		for (ExternalLink link : list) {
-			if (link.getType().equals("lequipe") && !lang.equalsIgnoreCase("fr"))
-				continue;
 			// Title
-			if (currentType == null || !currentType.equalsIgnoreCase(link.getType())) {
-				if (link.getType().equals("wiki"))
-					sbHtml.append("<tr><th>" + ResourceUtils.getText("wikipedia", lang) + "</th></tr>");
-				else if (link.getType().equals("lequipe"))
-					sbHtml.append("<tr><th>L&#039;ÉQUIPE.fr</th></tr>");
-				else if (link.getType().matches(".*\\-ref$")) {
-					HashMap<String, String> h = new HashMap<String, String>();
-					h.put("oly-ref", "Olympics");
-					h.put("bkt-ref", "Basketball");
-					h.put("bb-ref", "Baseball");
-					h.put("ft-ref", "Pro-football");
-					h.put("hk-ref", "Hockey");
-					sbHtml.append("<tr><th>" + h.get(link.getType()) + "-reference</th></tr><tr>");
-				}
-				else
-					sbHtml.append("<tr><th>" + ResourceUtils.getText("extlink." + link.getType(), lang).replaceAll("\\s", "&nbsp;") + "</th></tr>");
+			if (link.getUrl().contains("wikipedia.org")) {
+				text = ResourceUtils.getText("wikipedia", lang);
+				icon = "/img/render/link-wiki.png";
 			}
-			currentType = link.getType();
+			else {
+				String[] t = null;
+				for (String key : hPatterns.keySet())
+					if (link.getUrl().contains(key))
+						t = hPatterns.get(key).split("\\|");
+				if (t != null) {
+					text = t[0];
+					icon = t[1];
+				}
+				else {
+					text = ResourceUtils.getText("extlink." + (link.getFlag() != null && link.getFlag().equals('F') ? "federation" : (link.getFlag() != null && link.getFlag().equals('O') ? "official" : "others")), lang).replaceAll("\\s", "&nbsp;");
+					icon = "/img/render/website.png";
+				}
+			}
+			if (currentType == null || !currentType.equalsIgnoreCase(text))
+				sbHtml.append("<tr><th>" + text + "</th></tr>");	
+			currentType = text;
 			// Link
 			String formattedURL = URLDecoder.decode(link.getUrl(), "UTF-8");
 			String title = "";
@@ -325,14 +334,7 @@ public class HtmlUtils {
 				title = " title=\"" + formattedURL + "\"";
 				formattedURL = "..." + formattedURL.substring(formattedURL.lastIndexOf("/"));
 			}
-			if (link.getType().equals("wiki"))
-				sbHtml.append("<tr><td><table><tr><td style='width:16px;'><img alt='Wiki' src='/img/render/link-wiki.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "'" + title + " target='_blank'>" + formattedURL + "</a></td></tr></table></td></tr>");
-			else if (link.getType().equals("lequipe"))
-				sbHtml.append("<tr><td><table><tr><td style='width:16px;'><img alt='Lequipe' src='/img/render/link-lequipe.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "'" + title + " target='_blank'>" + formattedURL + "</a></td></tr></table></td></tr>");
-			else if (link.getType().matches(".*\\-ref$"))
-				sbHtml.append("<td><table><tr><td style='width:16px;'><img alt='spref' src='/img/render/link-" + link.getType().replaceAll("\\-ref", "") + "ref.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "'" + title + " target='_blank'>" + formattedURL + "</a></td></tr></table></td></tr>");
-			else
-				sbHtml.append("<tr><td><table><tr><td style='width:16px;'><img alt='spref' src='/img/render/website.png'/></td><td>&nbsp;<a href='" + link.getUrl() + "'" + title + " target='_blank'>" + formattedURL + "</a></td></tr></table></td></tr>");
+			sbHtml.append("<tr><td><table><tr><td style='width:16px;'><img alt='' width='16' height='16' src='" + icon + "'/></td><td>&nbsp;<a href='" + link.getUrl() + "'" + title + " target='_blank'>" + formattedURL + "</a></td></tr></table></td></tr>");
 		}
 		return (sbHtml.toString().length() > 0 ? "<table>" + sbHtml.append("</table>").toString() : "");
 	}

@@ -242,8 +242,8 @@
 	<entry key="last.update">Last update</entry>
 	<entry key="wikipedia">Wikipedia</entry>
 	<entry key="extlink.others">Others</entry>
-	<entry key="extlink.federation">International federation</entry>
-	<entry key="extlink.official">Official website</entry>
+	<entry key="extlink.federation">International Federation</entry>
+	<entry key="extlink.official">Official Website</entry>
 	<entry key="winner">Winner</entry>
 	<entry key="loser">Loser</entry>
 	<entry key="other.years">All years</entry>
@@ -293,6 +293,7 @@
 	<entry key="page">Page</entry>
 	<entry key="test.page">Test page</entry>
 	<entry key="final.results">Final results</entry>
+	<entry key="captain">Captain</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>

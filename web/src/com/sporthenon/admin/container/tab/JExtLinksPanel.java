@@ -214,7 +214,6 @@ public class JExtLinksPanel extends JSplitPane implements ActionListener, ListSe
 				v.add(String.valueOf(l.getIdItem()));
 				v.add(l.getEntity());
 				v.add(hLabel.get(l.getIdItem()));
-				v.add(l.getType());
 				v.add(l.getUrl());
 				v.add(l.getChecked() != null && l.getChecked() ? "X" : "");
 				vLinks.add(v);

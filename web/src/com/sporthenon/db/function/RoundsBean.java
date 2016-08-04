@@ -32,8 +32,11 @@ public class RoundsBean {
 	@Column(name = "rd_result3")
 	private String rdResult3;
 	
-	@Column(name = "rd_date")
-	private String rdDate;
+	@Column(name = "rd_date1")
+	private String rdDate1;
+	
+	@Column(name = "rd_date2")
+	private String rdDate2;
 	
 	@Column(name = "rd_exa")
 	private String rdExa;
@@ -293,10 +296,6 @@ public class RoundsBean {
 		return rdResult3;
 	}
 
-	public String getRdDate() {
-		return rdDate;
-	}
-
 	public String getRdExa() {
 		return rdExa;
 	}
@@ -543,10 +542,6 @@ public class RoundsBean {
 
 	public void setRdResult3(String rdResult3) {
 		this.rdResult3 = rdResult3;
-	}
-
-	public void setRdDate(String rdDate) {
-		this.rdDate = rdDate;
 	}
 
 	public void setRdExa(String rdExa) {
@@ -963,6 +958,22 @@ public class RoundsBean {
 
 	public void setCn4LabelEN(String cn4LabelEN) {
 		this.cn4LabelEN = cn4LabelEN;
+	}
+
+	public String getRdDate1() {
+		return rdDate1;
+	}
+
+	public String getRdDate2() {
+		return rdDate2;
+	}
+
+	public void setRdDate1(String rdDate1) {
+		this.rdDate1 = rdDate1;
+	}
+
+	public void setRdDate2(String rdDate2) {
+		this.rdDate2 = rdDate2;
 	}
 	
 }

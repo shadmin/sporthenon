@@ -45,9 +45,13 @@
 				if (c.getKey().startsWith("html"))
 					out.print("<td><textarea id='" + c.getKey() + "' rows='8' cols='150'>" + c.getValueHtml() + "</textarea></td></tr>");
 				else
-					out.print("<td><input id='" + c.getKey() + "' type='text' value='" + c.getValue() + "'/></td></tr>");
+					out.print("<td><input id='" + c.getKey() + "' type='text' value=\"" + c.getValue() + "\"/></td></tr>");
 			}
 		%>
+		</table><br/>
+		<table>
+			<tr><td>Add parameters (key=value):</td></tr>
+			<tr><td><textarea id="configadd" rows="5" cols="80"></textarea></td></tr>
 		</table>
 		<table class="toolbar" style="position:relative;clear:right;float:right;top:0;right:0;">
 			<tr>

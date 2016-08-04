@@ -42,7 +42,7 @@
 
 <body>
 <div id="header">
-	<div id="logo"><a href="/" title="<%=StringUtils.text("menu.home", session)%>"><img src="/img/icon.png?v=8" alt="sporthenon.com"/></a></div>
+	<div id="logo"><a href="/" title="<%=StringUtils.text("menu.home", session)%>"><img src="/img/icon.png?v=04082016" alt="sporthenon.com"/></a></div>
 	<div id="shmenu">
 		<ul>
 			<li><a id="shmenu-results" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("results") ? "class='selected'" : "")%> href="/results"><%=StringUtils.text("menu.results", session)%></a></li>
@@ -96,7 +96,7 @@
 	out.print("var TX_SELECTION=\"" + StringUtils.text("selection", session) + "\";");
 	out.print("var TX_LOADING=\"" + StringUtils.text("loading", session) + "\";");
 	out.print("var TX_SEARCH=\"" + StringUtils.text("search.for", session) + "\";");
-	out.print("var TX_SEARCH2=\"" + StringUtils.text("search.in", session) + "\";");
+	out.print("var TX_SEARCH2=\"" + StringUtils.text("search.in", session) + " Sporthenon\";");
 	out.print("var TX_DESC_RESULTS=\"" + StringUtils.text("desc.results", session) + "\";");
 	out.print("var TX_DESC_CALENDAR=\"" + StringUtils.text("desc.calendar", session) + "\";");
 	out.print("var TX_DESC_OLYMPICS=\"" + StringUtils.text("desc.olympics", session) + "\";");

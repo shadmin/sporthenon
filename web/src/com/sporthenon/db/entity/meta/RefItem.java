@@ -176,6 +176,9 @@ public class RefItem  {
 	@Column(name = "txt5", length = 40)
 	private String txt5;
 	
+	@Column(name = "txt6")
+	private String txt6;
+	
 	@Column(name = "count1")
 	private Integer count1;
 	
@@ -702,6 +705,14 @@ public class RefItem  {
 
 	public void setTxt5(String txt5) {
 		this.txt5 = txt5;
+	}
+
+	public String getTxt6() {
+		return txt6;
+	}
+
+	public void setTxt6(String txt6) {
+		this.txt6 = txt6;
 	}
 
 	@Override

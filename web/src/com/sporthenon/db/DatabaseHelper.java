@@ -685,22 +685,6 @@ public class DatabaseHelper {
 						ExternalLink link = new ExternalLink();
 						link.setEntity(alias);
 						link.setIdItem(id);
-						if (s_.indexOf("wikipedia.org") > -1)
-							link.setType("wiki");
-						else if (s_.indexOf("www.sports-reference.com/olympics") > -1)
-							link.setType("oly-ref");
-						else if (s_.indexOf("www.basketball-reference.com") > -1)
-							link.setType("bkt-ref");
-						else if (s_.indexOf("www.baseball-reference.com") > -1)
-							link.setType("bb-ref");
-						else if (s_.indexOf("www.pro-football-reference.com") > -1)
-							link.setType("ft-ref");
-						else if (s_.indexOf("www.hockey-reference.com") > -1)
-							link.setType("hk-ref");
-						else if (s_.indexOf("lequipe.fr") > -1)
-							link.setType("lequipe");
-						else
-							link.setType("others");
 						link.setChecked(false);
 						link.setUrl(s_);
 						saveEntity(link, null);

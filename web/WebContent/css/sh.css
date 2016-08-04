@@ -829,7 +829,7 @@ li{
 	padding-left: 3px;
 	padding-right: 5px;
 	margin: 3px;
-	background: #FFF url(../img/column.png?6) 37px 152px no-repeat;
+	background: #FFF url(../img/column.png?v=04082016) 37px 152px no-repeat;
 }
 #results .spcpdiv table{
 	width: 100%;
@@ -1008,8 +1008,7 @@ li{
 	margin-bottom: 0px;
 	margin-left: 10px;
 	margin-right: 10px;
-	background: #FFF url(../img/column.png?6) 28px 146px no-repeat;
-	/*overflow: auto;*/
+	background: #FFF url(../img/column.png?v=04082016) 28px 146px no-repeat;
 }
 #usleagues .league{
 	display: inline-block;
@@ -1351,17 +1350,17 @@ li{
 	padding-left: 18px;
 	color: #F80;
 }
-.update input[type=text], .update textarea, #d-plist input[type=text], #d-round input[type=text], #d-comment textarea{
+.update input[type=text], .update textarea, #d-plist input[type=text], #d-round input[type=text], #d-comment textarea, #d-round textarea{
 	font: 12px Verdana;
 	width: 250px;
 	border: 1px solid #AAA;
 	padding: 2px;
 }
-.update input[type=text].default, .update textarea.default, #d-plist input[type=text].default, #d-round input[type=text].default, #d-comment textarea.default{
+.update input[type=text].default, .update textarea.default, #d-plist input[type=text].default, #d-round input[type=text].default, #d-comment textarea.default, #d-round textarea.default{
 	border: 1px solid #AAA;
 	color: #888;
 }
-.update input[type=text]:focus, .update textarea:focus, #d-plist input[type=text]:focus, #d-round input[type=text]:focus, .update input[type=text].default:focus, .update textarea.default:focus, #d-plist input[type=text].default:focus, #d-round input[type=text].default:focus, #d-comment textarea:focus{
+.update input[type=text]:focus, .update textarea:focus, #d-plist input[type=text]:focus, #d-round input[type=text]:focus, .update input[type=text].default:focus, .update textarea.default:focus, #d-plist input[type=text].default:focus, #d-round input[type=text].default:focus, #d-comment textarea:focus, #d-round textarea:focus{
 	border: 1px solid #D00;
 	color: #000;
 }
@@ -1369,7 +1368,7 @@ li{
 	border: 1px solid #080;
 	color: #000;
 }
-.update input[type=text].completed2, .update textarea.completed2, #d-plist input[type=text].completed2, #d-round input[type=text].completed2{
+.update input[type=text].completed2, .update textarea.completed2, #d-plist input[type=text].completed2, #d-round input[type=text].completed2, #d-round textarea.completed2{
 	border: 1px solid #000;
 	color: #000;
 }
@@ -1424,7 +1423,7 @@ li{
 #update-results a, #d-plist a, #d-round a{
 	font-size: 11px;
 }
-#update-results textarea, #d-comment textarea{
+#update-results textarea, #d-comment textarea, #d-round textarea{
 	outline: none;
 	white-space: nowrap;
 }
@@ -1813,6 +1812,9 @@ li{
 }
 #update-admin .fscontent .toolbar td{
 	border: none;
+}
+#update-admin input[type=text]{
+	width: 500px;
 }
 #update-admin textarea{
 	font-family: "Courier";

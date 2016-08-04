@@ -2040,10 +2040,11 @@ function saveRounds() {
 }
 function openRoundDialog(index, opened) {
 	rdDlgCurrent = index;
-	$$('#dlg-round input').each(function(el){
+	$$('#dlg-round input', '#dlg-round textarea').each(function(el){
 		setInput($(el).id);
 	});
 	index = 'rd' + index;
+	var text = null;
 	$('rddlg-id').value = $(index + 'id').value;
 	['rt', 'rk1', 'rk2', 'rk3', 'pl1', 'pl2', 'rs1', 'rs2', 'rs3', 'dt1', 'dt2', 'exa', 'cmt'].each(function(s){
 		if (/(rt|rk|pl).*$/.match(s)) {
@@ -2055,9 +2056,13 @@ function openRoundDialog(index, opened) {
 				$('rddlg-' + s).removeClassName('completed').removeClassName('completed2');
 			}
 		}
-		$('rddlg-' + s).value = $(index + s).value;
+		text = $(index + s).value;
+		if (s == 'cmt') {
+			text = text.replace(/\¨/g, '\r\n');
+		}
+		$('rddlg-' + s).value = text;
 		if (!$('rddlg-' + s).hasClassName('completed')) {
-			if ($('rddlg-' + s).value != '' && $(index + s).value != $(index + s).name) {
+			if ($('rddlg-' + s).value != '' && text != $(index + s).name) {
 				$('rddlg-' + s).addClassName('completed2');
 			}
 			else {
@@ -2080,6 +2085,7 @@ function moveRound(index) {
 }
 function setRoundValues() {
 	var index = 'rd' + rdDlgCurrent;
+	var text = null;
 	['rt', 'rk1', 'rk2', 'rk3', 'pl1', 'pl2', 'rs1', 'rs2', 'rs3', 'dt1', 'dt2', 'exa', 'cmt'].each(function(s){
 		if (/(rt|rk|pl).*$/.match(s)) {
 			tValues[index + s] = tValues['rddlg-' + s];
@@ -2090,9 +2096,13 @@ function setRoundValues() {
 				$(index + s).removeClassName('completed').removeClassName('completed2');
 			}
 		}
-		$(index + s).value = $('rddlg-' + s).value;
+		text = $('rddlg-' + s).value;
+		if (s == 'cmt') {
+			text = text.replace(/[\n\r]/g, '¨');
+		}
+		$(index + s).value = text;
 		if (!$(index + s).hasClassName('completed')) {
-			if ($(index + s).value != '' && $('rddlg-' + s).value != $('rddlg-' + s).name) {
+			if ($(index + s).value != '' && text != $('rddlg-' + s).name) {
 				$(index + s).addClassName('completed2');
 			}
 			else {
@@ -2254,7 +2264,9 @@ function setEntityValues(text) {
 		$('dz-file').update('<p>' + TX_CLICK_DRAGDROP + '</p>');
 		dzd.options.url = '/ImageServlet?upload-photo&entity=' + currentAlias + '&id=' + currentId;
 	}
-	$('table-exl').hide();
+	if ($('table-exl')) {
+		$('table-exl').hide();	
+	}
 	if (currentAlias == 'PR') {
 		$('pr-id').value = currentId;
 		$('pr-lastname').value = t[i++];
@@ -3088,6 +3100,7 @@ function saveConfig() {
 	$$('#tconfig input, #tconfig textarea').each(function(el){
 		h.set('p_' + $(el).id, $(el).value);
 	});
+	h.set('new', $('configadd').value);
 	new Ajax.Request('/update/save-config', {
 		onSuccess: function(response){
 			var text = response.responseText;

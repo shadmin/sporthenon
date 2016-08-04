@@ -242,7 +242,7 @@
 	<entry key="last.update">Dernière mise à jour</entry>
 	<entry key="wikipedia">Wikipédia</entry>
 	<entry key="extlink.others">Autres</entry>
-	<entry key="extlink.federation">Fédération internationale</entry>
+	<entry key="extlink.federation">Fédération Internationale</entry>
 	<entry key="extlink.official">Site officiel</entry>
 	<entry key="winner">Vainqueur</entry>
 	<entry key="loser">Perdant</entry>
@@ -293,6 +293,7 @@
 	<entry key="page">Page</entry>
 	<entry key="test.page">Tester la page</entry>
 	<entry key="final.results">Palmarès</entry>
+	<entry key="captain">Capitaine</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>

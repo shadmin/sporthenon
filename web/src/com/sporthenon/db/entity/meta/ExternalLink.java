@@ -23,14 +23,14 @@ public class ExternalLink {
 	@Column(name = "id_item", nullable = false)
 	private Integer idItem;
 	
-	@Column(name = "type", length = 10, nullable = false)
-	private String type;
-	
 	@Column(name = "url", length = 200, nullable = false)
 	private String url;
 	
 	@Column(name = "checked")
 	private Boolean checked;
+	
+	@Column(name = "flag")
+	private Character flag;
 
 	public Integer getId() {
 		return id;
@@ -42,10 +42,6 @@ public class ExternalLink {
 
 	public Integer getIdItem() {
 		return idItem;
-	}
-
-	public String getType() {
-		return type;
 	}
 
 	public String getUrl() {
@@ -64,10 +60,6 @@ public class ExternalLink {
 		this.idItem = idItem;
 	}
 
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	public void setUrl(String url) {
 		this.url = url;
 	}
@@ -80,6 +72,14 @@ public class ExternalLink {
 		this.checked = checked;
 	}
 	
+	public Character getFlag() {
+		return flag;
+	}
+
+	public void setFlag(Character flag) {
+		this.flag = flag;
+	}
+
 	public boolean isChecked() {
 		return (checked != null && checked);
 	}
