@@ -39,4 +39,6 @@
     <string name="ol.winter">Jeux Olympiques d\'hiver</string>
     <string name="ol.podium">Résultats des épreuves</string>
     <string name="ol.medals">Tableau des médailles</string>
+    <string name="records">Records</string>
+    <string name="stats">Statistiques</string>
 </resources>

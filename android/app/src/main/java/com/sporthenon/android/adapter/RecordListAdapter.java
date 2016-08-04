@@ -42,6 +42,7 @@ public class RecordListAdapter extends BaseAdapter {
 
 	static class ViewHolder {
 		TextView label;
+		TextView type;
 		TextView ranks;
 		TextView record;
 	}
@@ -53,6 +54,7 @@ public class RecordListAdapter extends BaseAdapter {
 			convertView = layoutInflater.inflate(R.layout.item_record, null);
 			holder = new ViewHolder();
 			holder.label = (TextView) convertView.findViewById(R.id.rclabel);
+			holder.type = (TextView) convertView.findViewById(R.id.rctype);
 			holder.ranks = (TextView) convertView.findViewById(R.id.rcranks);
 			holder.record = (TextView) convertView.findViewById(R.id.rcrecord);
 			convertView.setTag(holder);
@@ -61,6 +63,7 @@ public class RecordListAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		RecordItem ri = list.get(position);
 		holder.label.setText(ri.getLabel());
+		holder.type.setText(ri.getType1() + ", " + ri.getType2());
         holder.record.setText(ri.getRecord());
 		StringBuffer sb = new StringBuffer(ri.getRank1());
         if (AndroidUtils.notEmpty(ri.getRank2()))

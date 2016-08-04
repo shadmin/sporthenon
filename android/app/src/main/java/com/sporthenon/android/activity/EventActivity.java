@@ -26,19 +26,21 @@ public class EventActivity extends AbstractActivity {
         setEvent3Id(b.getInt("ev3id"));
         setEvent3Name(b.getString("ev3name"));
         setOlId(b.getInt("olid"));
+        setLeagueId(b.getInt("lgid"));
         if (getOlId() != null && getOlId() > 0) {
             index = INDEX_OLYMPICS;
             setChampionshipId(1);
             setChampionshipName(getString(R.string.olympic_games));
         }
-        else {
-            setLeagueId(b.getInt("lgid"));
+        String path = getSportName() + "\r\n" + getChampionshipName() + (getEvent1Name() != null ? "\r\n" + getEvent1Name() : "") + (getEvent2Name() != null ? "\r\n" + getEvent2Name() : "");
+        if (getLeagueId() != null && getLeagueId() > 0) {
+            setLeagueName(b.getString("lgname"));
             setUsltype(b.getInt("usltype"));
             if (getUsltype() != null && (getUsltype() == USTYPE_RECORDS || getUsltype() == USTYPE_STATS))
                 index = INDEX_USLEAGUES;
+            path = (getUsltype() == USTYPE_STATS ? getString(R.string.stats) : getString(R.string.records)) + " " + getLeagueName();
         }
         super.onCreate(state);
-        String path = getSportName() + "\r\n" + getChampionshipName() + (getEvent1Name() != null ? "\r\n" + getEvent1Name() : "") + (getEvent2Name() != null ? "\r\n" + getEvent2Name() : "");
         AsyncEvents task = new AsyncEvents(path);
         task.execute(this, getSportId(), getChampionshipId(), getEvent1Id(), getEvent2Id(), getEvent3Id());
     }

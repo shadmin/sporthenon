@@ -17,12 +17,23 @@
         />
 
     <TextView
-        android:id="@+id/rcranks"
+        android:id="@+id/rctype"
         style="@style/CustomTextView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/rclabel"
+        android:padding="5dip"
+        android:textStyle="italic"
+        />
+
+    <TextView
+        android:id="@+id/rcranks"
+        style="@style/CustomTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/rctype"
         android:padding="5dip"
         />
 

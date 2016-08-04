@@ -21,10 +21,10 @@
         style="@style/CustomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="20dip"
+        android:paddingLeft="15dip"
         android:layout_toRightOf="@+id/menu_item_icon"
         android:layout_toEndOf="@+id/menu_item_icon"
-        android:textSize="14dip"
+        android:textSize="18sp"
         android:textStyle="normal"
         />
 

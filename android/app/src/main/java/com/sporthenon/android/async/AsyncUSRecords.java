@@ -33,7 +33,7 @@ public class AsyncUSRecords extends AsyncTask<Object, Boolean, String> {
         int evid = (int) params[2];
         records = new ArrayList<>();
         try {
-            String url = activity.getString(R.string.url) + "/android/US/records-" + lgid + "-0-" + evid + "-it-0";
+            String url = activity.getString(R.string.url) + "/android/US/records-" + lgid + "-0-" + evid + "-it-a";
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
