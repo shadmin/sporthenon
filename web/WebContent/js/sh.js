@@ -2849,10 +2849,11 @@ function executeImport(u) {
 	}
 }
 function checkImportProgress() {
-	new Ajax.Request('check-progress-import', {
+	new Ajax.Request('check-progress-import?t=' + currentTime(), {
 		onSuccess: function(response){
-			var pg = response.responseText;
-			$('pgpercent').update(pg + '&nbsp;%');
+			var t = response.responseText.split('|');
+			var pg = t[2];
+			$('pgpercent').update(pg + '&nbsp;%&nbsp;(' + t[0] + '&nbsp;/&nbsp;' + t[1] + ')');
 			$('progress').style.width = (pg * 2) + 'px';
 			if (parseInt(pg) < 100) {
 				setTimeout(checkImportProgress, 250);

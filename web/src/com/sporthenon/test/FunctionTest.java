@@ -41,6 +41,7 @@ public class FunctionTest extends TestCase {
 		params.add(new Integer(0));
 		params.add(new String("146,154"));
 		params.add(new String(""));
+		params.add(new Integer(0));
 		Collection<Object> col = DatabaseHelper.call("GetResults", params);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);

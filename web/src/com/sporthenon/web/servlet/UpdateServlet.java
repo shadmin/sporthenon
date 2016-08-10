@@ -120,7 +120,7 @@ public class UpdateServlet extends AbstractServlet {
 				executeImport(request, response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("check-progress-import")) {
 				if (IMPORT_PROGESS != null)
-					ServletHelper.writeText(response, String.valueOf(IMPORT_PROGESS.value));
+					ServletHelper.writeText(response, String.valueOf(IMPORT_PROGESS.toString()));
 			}
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-template"))
 				loadTemplate(response, hParams, lang, cb);
@@ -1886,7 +1886,7 @@ public class UpdateServlet extends AbstractServlet {
 			String type = String.valueOf(hParams.get("type"));
 			String update = String.valueOf(hParams.get("update"));
 			String result = ImportUtils.processAll(IMPORT_PROGESS,  v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Round.alias), type.equalsIgnoreCase(Record.alias), cb, lang);
-			IMPORT_PROGESS.value = 100;
+			IMPORT_PROGESS.percent = 100;
 			if (update.equals("1")) {
 				String f = "import" + System.currentTimeMillis() + ".html";
 				String css = "<style>table{border-collapse: collapse;}th,td{white-space: nowrap;border: 1px solid gray;padding: 2px;}div{margin-top: 10px;font-style: italic;}</style>";

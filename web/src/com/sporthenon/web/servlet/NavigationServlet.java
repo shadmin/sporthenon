@@ -116,8 +116,6 @@ public class NavigationServlet extends AbstractServlet {
 				newURI = re.getCurrentPath();
 				throw new ObsoleteURLException();
 			}
-//			if (isUserSession && isTestProd && request.getHeader("Referer") == null)
-//				throw new HttpsException();
 			if (!isBot(request) && !url.contains("/ajax") && !url.contains("/load") && !url.contains("/check-progress-import"))
 				logger.fatal("[" + ua + "] " + url);
 			if (ConfigUtils.getProperty("env").matches("local|test")) {

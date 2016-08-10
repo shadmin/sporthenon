@@ -32,10 +32,19 @@ public class ImportUtils {
 	private static final String scPattern = "[^a-zA-Z0-9\\|\\,\\s\\(\\)_]";
 
 	public static class Progress {
-		public int value;
+		public int percent;
+		public int current;
+		public int total;
 		
 		public Progress() {
-			value = 0;
+			percent = 0;
+			current = 0;
+			total = 0;
+		}
+
+		@Override
+		public String toString() {
+			return current + "|" + total + "|" + percent;
 		}
 	};
 	
@@ -56,6 +65,7 @@ public class ImportUtils {
 			html.append("</tr>");
 			int i = 0;
 			int pg = 0;
+			progress.total = vFile.size();
 			for (Vector<String> v : vFile) {
 				v.insertElementAt("-", 0);
 				if (isRS)
@@ -67,8 +77,9 @@ public class ImportUtils {
 				html.append("<tr><td>").append(StringUtils.join(v, "</td><td>")).append("</td></tr>");
 				if (i * 100 / vFile.size() > pg) {
 					pg = i * 100 / vFile.size();
-					progress.value = pg;
+					progress.percent = pg;
 				}
+				progress.current = i;	
 				i++;
 			}
 		}

@@ -141,6 +141,7 @@ public class AndroidServlet extends AbstractServlet {
 			lFuncParams.add(se);
 			lFuncParams.add(se2);
 			lFuncParams.add("0");
+			lFuncParams.add(0);
 			lFuncParams.add("_" + lang);
 			Event ev_ = (Event) DatabaseHelper.loadEntity(Event.class, (se2 > 0 ? se2 : (se > 0 ? se : ev)));
 			addResultItems(doc, root, ev_, DatabaseHelper.call("GetResults", lFuncParams), lang);
@@ -221,12 +222,13 @@ public class AndroidServlet extends AbstractServlet {
 		
 			// Result
 			ArrayList<Object> lFuncParams = new ArrayList<Object>();
-			lFuncParams.add(r.getSport().getId());
-			lFuncParams.add(r.getChampionship().getId());
-			lFuncParams.add(r.getEvent().getId());
-			lFuncParams.add(r.getSubevent() != null ? r.getSubevent().getId() : 0);
-			lFuncParams.add(r.getSubevent2() != null ? r.getSubevent2().getId() : 0);
-			lFuncParams.add(String.valueOf(r.getYear().getId()));
+			lFuncParams.add(0);
+			lFuncParams.add(0);
+			lFuncParams.add(0);
+			lFuncParams.add(0);
+			lFuncParams.add(0);
+			lFuncParams.add("0");
+			lFuncParams.add(r.getId());
 			lFuncParams.add("_" + lang);
 			List<ResultsBean> list = (List<ResultsBean>) DatabaseHelper.call("GetResults", lFuncParams);
 			if (list != null && !list.isEmpty()) {
@@ -358,7 +360,7 @@ public class AndroidServlet extends AbstractServlet {
 		String label = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "");
 
 		if (code.equalsIgnoreCase(Olympics.alias)) {
-			String hql = "select ol.id, concat(concat(ol.year.label, ' - '), ol.city." + label + ") ";
+			String hql = "select ol.id, concat(concat(ol.city." + label + ", ' '), ol.year.label) ";
 			hql += " from Olympics ol where ol.type = " + t[1] + " order by ol.year.id desc";
         	addItems(doc, root, ImageUtils.INDEX_OLYMPICS, DatabaseHelper.getPicklistFromQuery(hql, false), null, null, null, null);
         }
@@ -525,7 +527,7 @@ public class AndroidServlet extends AbstractServlet {
 			lFuncParams.add(String.valueOf(t[2]).equals("1") ? "0" : "495");
 			lFuncParams.add(StringUtils.notEmpty(t[3]) ? t[3] : "0");
 			lFuncParams.add(StringUtils.notEmpty(t[4]) ? t[4] : "i");
-			lFuncParams.add(StringUtils.notEmpty(t[5]) ? t[5] : "-");
+			lFuncParams.add(StringUtils.notEmpty(t[5]) && !t[5].equals("a") ? t[5] : "-");
 			lFuncParams.add("_en");
 			lFuncParams.set(3, USLeaguesServlet.HTYPE1.get(lFuncParams.get(3)));
 			lFuncParams.set(4, USLeaguesServlet.HTYPE2.get(lFuncParams.get(4)));

@@ -60,6 +60,7 @@ public class ResultServlet extends AbstractServlet {
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("se")) ? new Integer(String.valueOf(hParams.get("se"))) : 0);
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("se2")) ? new Integer(String.valueOf(hParams.get("se2"))) : 0);
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("yr")) ? String.valueOf(hParams.get("yr")) : "0");
+				lFuncParams.add(0);
 				lFuncParams.add("_" + getLocale(request));
 				Collection c = DatabaseHelper.call("GetResults", lFuncParams);
 				boolean isRedirect = false;

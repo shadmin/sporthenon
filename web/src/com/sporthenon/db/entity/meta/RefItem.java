@@ -173,7 +173,7 @@ public class RefItem  {
 	@Column(name = "txt4", length = 500)
 	private String txt4;
 	
-	@Column(name = "txt5", length = 40)
+	@Column(name = "txt5", length = 50)
 	private String txt5;
 	
 	@Column(name = "txt6")
