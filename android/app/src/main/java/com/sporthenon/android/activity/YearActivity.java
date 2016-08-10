@@ -16,6 +16,7 @@ public class YearActivity extends AbstractActivity {
         Bundle b = getIntent().getExtras();
         if (b != null) {
             setLeagueId(b.getInt("lgid"));
+            setLeagueName(b.getString("lgname"));
             setUsltype(b.getInt("usltype"));
         }
         if (getUsltype() != null && getUsltype() == USTYPE_HOF)
@@ -32,8 +33,10 @@ public class YearActivity extends AbstractActivity {
         Bundle b = new Bundle();
         if (getUsltype() != null && getUsltype() == USTYPE_HOF) {
             i = new Intent(this, USLeaguesRequestActivity.class);
-            b.putInt("year", yr.getId());
+            b.putInt("yrid", yr.getId());
+            b.putString("yrname", yr.getName());
             b.putInt("lgid", getLeagueId());
+            b.putString("lgname", getLeagueName());
             b.putInt("usltype", getUsltype());
         }
         else {

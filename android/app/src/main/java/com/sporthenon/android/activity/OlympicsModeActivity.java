@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.sporthenon.android.R;
-import com.sporthenon.android.fragment.OlympicsModeFragment;
 
 public class OlympicsModeActivity extends AbstractActivity {
 
@@ -18,8 +17,12 @@ public class OlympicsModeActivity extends AbstractActivity {
         setOlId(b.getInt("olid"));
         setOlName(b.getString("olname"));
         setOlType(b.getInt("oltype"));
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, OlympicsModeFragment.newInstance(index + 1, this)).commit();
-        setPath(getOlName());
+    }
+
+    @Override
+    protected void onPostCreate(Bundle state) {
+        super.onPostCreate(state);
+        setPath(getString(getOlType() == 0 ? R.string.ol_winter : R.string.ol_summer) + "\r\n" + getOlName());
     }
 
     public void onPodiumClick(View v) {
@@ -44,6 +47,7 @@ public class OlympicsModeActivity extends AbstractActivity {
             Bundle b = new Bundle();
             b.putInt("olid", getOlId());
             b.putString("olname", getOlName());
+            b.putInt("oltype", getOlType());
             i.putExtras(b);
             startActivity(i);
         }

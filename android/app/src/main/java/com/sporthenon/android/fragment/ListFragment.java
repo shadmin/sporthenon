@@ -39,11 +39,11 @@ public class ListFragment extends Fragment {
     public ListFragment() {
     }
 
-    public static ListView getList() {
+    public ListView getList() {
         return list;
     }
 
-    public static void setList(ListView list_) {
+    public void setList(ListView list_) {
         list = list_;
     }
 
@@ -79,7 +79,6 @@ public class ListFragment extends Fragment {
             }
         });
         search.setVisibility(View.GONE);
-
         return view;
     }
 

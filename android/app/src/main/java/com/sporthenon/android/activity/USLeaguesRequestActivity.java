@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.sporthenon.android.R;
 import com.sporthenon.android.async.AsyncHallOfFame;
 import com.sporthenon.android.async.AsyncRetiredNumbers;
 import com.sporthenon.android.async.AsyncStatsLeaders;
@@ -19,28 +20,30 @@ public class USLeaguesRequestActivity extends AbstractActivity {
         super.onCreate(state);
         Bundle b = getIntent().getExtras();
         setLeagueId(b.getInt("lgid"));
+        setLeagueName(b.getString("lgname"));
         setUsltype(b.getInt("usltype"));
+        String path = getLeagueName() + "\r\n";
         if (getUsltype() == USTYPE_CHAMPIONSHIPS)
-            new AsyncUSChampionships().execute(this, getLeagueId());
-        else if (getUsltype() == USTYPE_HOF) {
-            Integer yrid = b.getInt("year");
-            new AsyncHallOfFame().execute(this, getLeagueId(), yrid);
+            new AsyncUSChampionships(path + getString(R.string.us_type1)).execute(this, getLeagueId());
+        else if (getUsltype() == USTYPE_RECORDS) {
+            Integer evid = b.getInt("ev1id");
+            new AsyncUSRecords(path + getString(R.string.us_type2) + "\r\n" + b.getString("ev1name")).execute(this, getLeagueId(), evid);
         }
         else if (getUsltype() == USTYPE_STATS) {
             Integer evid = b.getInt("ev1id");
-            new AsyncStatsLeaders().execute(this, getLeagueId(), evid);
+            new AsyncStatsLeaders(path + getString(R.string.us_type3) + "\r\n" + b.getString("ev1name")).execute(this, getLeagueId(), evid);
         }
-        else if (getUsltype() == USTYPE_RECORDS) {
-            Integer evid = b.getInt("ev1id");
-            new AsyncUSRecords().execute(this, getLeagueId(), evid);
+        else if (getUsltype() == USTYPE_HOF) {
+            Integer yrid = b.getInt("yrid");
+            new AsyncHallOfFame(path + getString(R.string.us_type4) + "\r\n" + b.getString("yrname")).execute(this, getLeagueId(), yrid);
         }
         else if (getUsltype() == USTYPE_RETIRED_NUM) {
             Integer tmid = b.getInt("tmid");
-            new AsyncRetiredNumbers().execute(this, getLeagueId(), tmid);
+            new AsyncRetiredNumbers(path + getString(R.string.us_type5) + "\r\n" + b.getString("tmname")).execute(this, getLeagueId(), tmid);
         }
         else if (getUsltype() == USTYPE_TEAM_STADIUMS) {
             Integer tmid = b.getInt("tmid");
-            new AsyncTeamStadiums().execute(this, getLeagueId(), tmid);
+            new AsyncTeamStadiums(path + getString(R.string.us_type6) + "\r\n" + b.getString("tmname")).execute(this, getLeagueId(), tmid);
         }
     }
 

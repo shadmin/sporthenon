@@ -81,6 +81,7 @@ public class EventActivity extends AbstractActivity {
         Intent i;
         if (getLeagueId() != null && getLeagueId() > 0) {
             b.putInt("lgid", getLeagueId());
+            b.putString("lgname", getLeagueName());
             b.putInt("usltype", getUsltype());
             i = new Intent(this, USLeaguesRequestActivity.class);
         }

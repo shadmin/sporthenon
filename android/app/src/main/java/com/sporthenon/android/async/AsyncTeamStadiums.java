@@ -2,7 +2,6 @@ package com.sporthenon.android.async;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.activity.USLeaguesRequestActivity;
@@ -26,6 +25,11 @@ public class AsyncTeamStadiums extends AsyncTask<Object, Boolean, String> {
 
     private USLeaguesRequestActivity activity;
     private ArrayList<ResultItem> stadiums;
+    private String path;
+
+    public AsyncTeamStadiums(String path) {
+        this.path = path;
+    }
 
     @Override
     protected String doInBackground(Object... params) {
@@ -64,7 +68,7 @@ public class AsyncTeamStadiums extends AsyncTask<Object, Boolean, String> {
         try {
             activity.getItemList().addAll(stadiums);
             activity.getList().setAdapter(new ResultListAdapter(activity.getApplicationContext(), stadiums));
-            activity.getPath().setVisibility(View.GONE);
+            activity.setPath(path);
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.activity.AbstractActivity;
@@ -13,6 +14,7 @@ import com.sporthenon.android.activity.AbstractActivity;
 public class OlympicsModeFragment extends Fragment {
 
     protected static Activity activity;
+    protected static TextView path;
 
     public static OlympicsModeFragment newInstance(int n, Activity activity_) {
         OlympicsModeFragment fragment = new OlympicsModeFragment();
@@ -26,9 +28,15 @@ public class OlympicsModeFragment extends Fragment {
     public OlympicsModeFragment() {
     }
 
+    public static TextView getPath() {
+        return path;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_olympicsmode, container, false);
+        path = (TextView) view.findViewById(R.id.olmode_path);
+        path.setVisibility(View.GONE);
         return view;
     }
 

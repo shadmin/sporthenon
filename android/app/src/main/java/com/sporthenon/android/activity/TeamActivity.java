@@ -16,6 +16,7 @@ public class TeamActivity extends AbstractActivity {
         super.onCreate(state);
         Bundle b = getIntent().getExtras();
         setLeagueId(b.getInt("lgid"));
+        setLeagueName(b.getString("lgname"));
         setUsltype(b.getInt("usltype"));
         AsyncTeams task = new AsyncTeams();
         task.execute(this, getLeagueId());
@@ -27,7 +28,9 @@ public class TeamActivity extends AbstractActivity {
         Intent i = new Intent(this, USLeaguesRequestActivity.class);
         Bundle b = new Bundle();
         b.putInt("lgid", getLeagueId());
+        b.putString("lgname", getLeagueName());
         b.putInt("tmid", tm.getId());
+        b.putString("tmname", tm.getName());
         b.putInt("usltype", getUsltype());
         i.putExtras(b);
         startActivity(i);

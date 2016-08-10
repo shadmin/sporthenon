@@ -53,7 +53,7 @@ public class AsyncOlympics extends AsyncTask<Object, Boolean, String> {
                     Integer id = Integer.parseInt(e.getAttribute("value"));
                     String name = e.getAttribute("text");
                     String img = e.getAttribute("img");
-                    olympics.add(new DataItem(id, name.toUpperCase(), AndroidUtils.getImage(activity, img)));
+                    olympics.add(new DataItem(id, name, AndroidUtils.getImage(activity, img)));
                 }
             }
             connection.disconnect();

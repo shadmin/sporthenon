@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.sporthenon.android.R;
 import com.sporthenon.android.async.AsyncMedals;
 
 public class OlympicsMedalsActivity extends AbstractActivity {
@@ -14,7 +15,9 @@ public class OlympicsMedalsActivity extends AbstractActivity {
         super.onCreate(state);
         Bundle b = getIntent().getExtras();
         setOlId(b.getInt("olid"));
-        AsyncMedals task = new AsyncMedals(b.getString("olname"));
+        setOlName(b.getString("olname"));
+        setOlType(b.getInt("oltype"));
+        AsyncMedals task = new AsyncMedals(getString(getOlType() == 0 ? R.string.ol_winter : R.string.ol_summer) + "\r\n" + getOlName());
         task.execute(this, getOlId());
     }
 

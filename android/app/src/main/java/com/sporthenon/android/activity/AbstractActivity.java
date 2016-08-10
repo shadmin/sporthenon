@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -20,7 +21,9 @@ import android.widget.TextView;
 import com.sporthenon.android.R;
 import com.sporthenon.android.fragment.DrawerFragment;
 import com.sporthenon.android.fragment.ListFragment;
+import com.sporthenon.android.fragment.OlympicsModeFragment;
 import com.sporthenon.android.fragment.Result1Fragment;
+import com.sporthenon.android.fragment.USLeaguesTypeFragment;
 import com.sporthenon.android.utils.AndroidUtils;
 
 import java.util.ArrayList;
@@ -28,6 +31,7 @@ import java.util.ArrayList;
 @SuppressWarnings("deprecated")
 public abstract class AbstractActivity extends ActionBarActivity implements DrawerFragment.NavigationDrawerCallbacks, AdapterView.OnItemClickListener {
 
+    private Fragment fragment;
     private DrawerFragment drawerFragment;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
@@ -78,7 +82,7 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
     protected Integer usltype;
 
     public ListView getList() {
-        return ListFragment.getList();
+        return (fragment != null && fragment instanceof ListFragment ? ((ListFragment) fragment).getList() : null);
     }
 
     public ArrayList<Object> getItemList() {
@@ -86,7 +90,12 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
     }
 
     public TextView getPath() {
-        return ListFragment.getPath();
+        if (this instanceof OlympicsModeActivity)
+            return OlympicsModeFragment.getPath();
+        else if (this instanceof USLeaguesTypeActivity)
+            return USLeaguesTypeFragment.getPath();
+        else
+            return ListFragment.getPath();
     }
 
     public void setPath(String s) {
@@ -301,8 +310,14 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
         drawerFragment.selectItem(index, false);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.container, ListFragment.newInstance(index + 1, this)).commit();
-        //fragmentManager.beginTransaction().replace(R.id.container, PagerFragment.newInstance(index + 1, this)).commit();
+
+        if (this instanceof  OlympicsModeActivity)
+            fragment = OlympicsModeFragment.newInstance(index + 1, this);
+        else if (this instanceof  USLeaguesTypeActivity)
+            fragment = USLeaguesTypeFragment.newInstance(index + 1, this);
+        else
+            fragment = ListFragment.newInstance(index + 1, this);
+        fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
 
         /*List<Fragment> fList = new ArrayList<Fragment>();
        // fList.add(ListFragment.newInstance("Fragment 1"));
@@ -382,5 +397,11 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
 
     @Override
     public abstract void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3);
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 
 }

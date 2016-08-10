@@ -25,6 +25,11 @@ public class AsyncUSRecords extends AsyncTask<Object, Boolean, String> {
 
     private USLeaguesRequestActivity activity;
     private ArrayList<RecordItem> records;
+    private String path;
+
+    public AsyncUSRecords(String path) {
+        this.path = path;
+    }
 
     @Override
     protected String doInBackground(Object... params) {
@@ -72,6 +77,7 @@ public class AsyncUSRecords extends AsyncTask<Object, Boolean, String> {
         try {
             activity.getItemList().addAll(records);
             activity.getList().setAdapter(new RecordListAdapter(activity.getApplicationContext(), records));
+            activity.setPath(path);
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);

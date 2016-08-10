@@ -42,4 +42,16 @@
         android:onClick="onMedalsClick"
         />
 
+    <TextView
+        android:id="@+id/olmode_path"
+        style="@style/CustomTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:padding="3dip"
+        android:background="@drawable/border"
+        />
+
 </RelativeLayout>

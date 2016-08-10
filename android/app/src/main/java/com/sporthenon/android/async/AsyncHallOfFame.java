@@ -2,7 +2,6 @@ package com.sporthenon.android.async;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.activity.USLeaguesRequestActivity;
@@ -26,6 +25,11 @@ public class AsyncHallOfFame extends AsyncTask<Object, Boolean, String> {
 
     private USLeaguesRequestActivity activity;
     private ArrayList<RankItem> hofs;
+    private String path;
+
+    public AsyncHallOfFame(String path) {
+        this.path = path;
+    }
 
     @Override
     protected String doInBackground(Object... params) {
@@ -68,7 +72,7 @@ public class AsyncHallOfFame extends AsyncTask<Object, Boolean, String> {
         try {
             activity.getItemList().addAll(hofs);
             activity.getList().setAdapter(new RankListAdapter(activity.getApplicationContext(), hofs));
-            activity.getPath().setVisibility(View.GONE);
+            activity.setPath(path);
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);

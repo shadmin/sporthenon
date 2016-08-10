@@ -5,9 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.sporthenon.android.R;
-import com.sporthenon.android.fragment.USLeaguesTypeFragment;
-
 public class USLeaguesTypeActivity extends AbstractActivity {
 
     @Override
@@ -17,8 +14,12 @@ public class USLeaguesTypeActivity extends AbstractActivity {
         Bundle b = getIntent().getExtras();
         setLeagueId(b.getInt("lgid"));
         setLeagueName(b.getString("lgname"));
-        setPath(b.getString("lgname"));
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, USLeaguesTypeFragment.newInstance(index + 1, this)).commit();
+    }
+
+    @Override
+    protected void onPostCreate(Bundle state) {
+        super.onPostCreate(state);
+        setPath(getLeagueName());
     }
 
     public void onUSType1Click(View v) {
