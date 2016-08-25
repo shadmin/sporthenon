@@ -1372,7 +1372,7 @@ public class HtmlConverter {
 				else if (en.equals(Olympics.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'></th><th onclick='sort(\"" + id + "\", this, 1);'>Type</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("year", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("city", lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("country", lang) + "</th>");
 				else if (en.equals(OlympicRanking.alias))
-					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("entity.OL", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("country", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ImageUtils.getGoldHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ImageUtils.getSilverHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ImageUtils.getBronzeHeader(lang) + "</th>");
+					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("entity.OL", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("country", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ImageUtils.getGoldHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ImageUtils.getSilverHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ImageUtils.getBronzeHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 5);'>" + ResourceUtils.getText("total", lang) + "</th>");
 				else if (en.equals(Record.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("category", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("scope", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("record2", lang) + "</th>");				
 				else if (en.equals(Result.alias)) {
@@ -1483,6 +1483,7 @@ public class HtmlConverter {
 				c3 = t[0];
 				c4 = t[1];
 				c5 = t[2];
+				c6 = String.valueOf(Integer.parseInt(t[0]) + Integer.parseInt(t[1]) + Integer.parseInt(t[2]));
 			}
 			else if (en.equals(Record.alias)) {
 				Integer lgId = (item.getIdRel2() != null ? (item.getIdRel2() == 51 ? 1 : (item.getIdRel2() == 54 ? 2 : (item.getIdRel2() == 55 ? 3 : 4))) : 0);
@@ -2287,7 +2288,7 @@ public class HtmlConverter {
 		long id = System.currentTimeMillis();
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("country", lang) + "</th>");
-		html.append("<th onclick='sort(\"" + id + "\", this, 1);'>" + ImageUtils.getGoldHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ImageUtils.getSilverHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ImageUtils.getBronzeHeader(lang) + "</th>");
+		html.append("<th onclick='sort(\"" + id + "\", this, 1);'>" + ImageUtils.getGoldHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ImageUtils.getSilverHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ImageUtils.getBronzeHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("total", lang) + "</th>");
 		html.append("</tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			OlympicRankingsBean bean = (OlympicRankingsBean) obj;
@@ -2301,7 +2302,8 @@ public class HtmlConverter {
 			html.append("<tr><td class='srt'>" + country + "</td>");
 			html.append("<td class='srt'>" + bean.getOrCountGold() + "</td>");
 			html.append("<td class='srt'>" + bean.getOrCountSilver() + "</td>");
-			html.append("<td class='srt'>" + bean.getOrCountBronze() + "</td></tr>");
+			html.append("<td class='srt'>" + bean.getOrCountBronze() + "</td>");
+			html.append("<td class='srt'>" + (bean.getOrCountGold() + bean.getOrCountSilver() + bean.getOrCountBronze()) + "</td></tr>");
 		}
 		html.append("</tbody></table>");
 		return html;
