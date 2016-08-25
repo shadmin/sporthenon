@@ -3,8 +3,6 @@ package com.sporthenon.android.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +18,7 @@ import java.util.ArrayList;
 
 public class ListFragment extends Fragment {
 
+    private View view;
     protected static Activity activity;
     private static ArrayList<Object> itemList;
     protected static ProgressBar progress;
@@ -59,14 +58,20 @@ public class ListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_main, container, false);
+        view = inflater.inflate(R.layout.activity_main, container, false);
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         list = (ListView) view.findViewById(R.id.list);
         list.setOnItemClickListener((AbstractActivity) this.getActivity());
         progress = (ProgressBar) view.findViewById(R.id.progress);
         path = (TextView) view.findViewById(R.id.path1);
-        path.setVisibility(View.GONE);
+        //path.setVisibility(View.GONE);
         search = (EditText) view.findViewById(R.id.search);
-        search.addTextChangedListener(new TextWatcher() {
+        /*search.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
                 filter();
@@ -77,9 +82,8 @@ public class ListFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable arg0) {
             }
-        });
+        });*/
         search.setVisibility(View.GONE);
-        return view;
     }
 
     @Override

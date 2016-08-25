@@ -75,13 +75,17 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
                     ResultItem ri = new ResultItem(id, year, tImg[0], AndroidUtils.getImage(activity, tImg[0]), str2 + (str1 != null && !str1.matches("^[A-Z]{3}$") ? " " + str1 : "") + (tCode.length <= 0 && AndroidUtils.notEmpty(tCode[0]) ? " (" + tCode[0] + ")" : ""));
                     if (isTie) {
                         if (AndroidUtils.notEmpty(str5)) {
-                            ri.setImgURL2(tImg[1]);
-                            ri.setImg2(AndroidUtils.getImage(activity, tImg[1]));
+                            if (tImg != null && tImg.length > 1) {
+                                ri.setImgURL2(tImg[1]);
+                                ri.setImg2(AndroidUtils.getImage(activity, tImg[1]));
+                            }
                             ri.setTxt2(str5 + (str4 != null && !str4.matches("^[A-Z]{3}$") ? " " + str4 : "") + (tCode.length > 1 && AndroidUtils.notEmpty(tCode[1]) ? " (" + tCode[1] + ")" : ""));
                         }
                         if (AndroidUtils.notEmpty(str8) && !type.equals("4")) {
-                            ri.setImgURL3(tImg[2]);
-                            ri.setImg3(AndroidUtils.getImage(activity, tImg[2]));
+                            if (tImg != null && tImg.length > 2) {
+                                ri.setImgURL3(tImg[2]);
+                                ri.setImg3(AndroidUtils.getImage(activity, tImg[2]));
+                            }
                             ri.setTxt3(str8 + (str7 != null && !str7.matches("^[A-Z]{3}$") ? " " + str7 : "") + (tCode.length > 2 && AndroidUtils.notEmpty(tCode[2]) ? " (" + tCode[2] + ")" : ""));
                         }
                     }
