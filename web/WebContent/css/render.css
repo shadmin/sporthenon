@@ -315,6 +315,9 @@
 .tc .tsort tr:hover{
 	background-color: #FF9; /* _theme_ */
 }
+.tc .tsort tr:hover td[rowspan] {
+	background-color: #FFF;
+}
 .tc .tsort table tr:hover, .tc .tsort .moreitems:hover, #dupdates .tsort .moreitems:hover{
 	background-color: transparent;
 }

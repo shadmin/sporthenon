@@ -166,7 +166,7 @@ public class StringUtils {
 	}
 
 	public static final String toTree(String s) {
-		return (s.matches("^\\+.*") ? "<span style=\"color:#666;\">&dagger;&nbsp;<i>" + s.substring(1) + "</i></span>" : s);
+		return (s.matches("^\\+{2}.*") ? "<span style=\"color:#666;\">&dagger;&nbsp;<i>" + s.substring(2) + "</i></span>" : s);
 	}
 	
 	public static final String getSizeBytes(String s) {

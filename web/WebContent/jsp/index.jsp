@@ -33,6 +33,7 @@
 				<td class="calendar" onclick="location.href='/calendar';" onmouseover='overTopic(TX_DESC_CALENDAR);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.calendar", session)%></td>
 				<td class="olympics" onclick="location.href='/olympics';" onmouseover='overTopic(TX_DESC_OLYMPICS);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.olympics", session)%></td>
 				<td class="usleagues" onclick="location.href='/usleagues';" onmouseover='overTopic(TX_DESC_USLEAGUES);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.usleagues", session)%></td>
+				<td class="search" onclick="location.href='/search';" onmouseover='overTopic(TX_DESC_SEARCH);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.search", session)%></td>
 				<td id="details" style="display:none;"></td></tr></table></div>
 			<hr/><img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("random.event", session)%></b><br/><table id="randomevent"><tr><td id="randomeventvalue"><%=IndexServlet.getRandomEvent(lang)%></td><td><a href="javascript:getRandomEvent();"><img alt="Change" title="<%=StringUtils.text("change", session)%>" src="/img/db/refresh.png"/></a></td></tr></table>
 			<hr/><img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("access.sport", session)%></b><select style="margin-left:10px;" onchange="location.href=this.value;"><option value="">–– <%=StringUtils.text("select.sport", session)%> ––</option>

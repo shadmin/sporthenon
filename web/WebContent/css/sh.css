@@ -225,6 +225,8 @@ li{
 	border: 1px solid #999;
 	padding: 3px;
 	width: 350px;
+	padding-left: 23px;
+	background: #FFF url(../img/header/search.png) 4px center no-repeat;
 }
 #headertop #searchpanel #dpattern.focus{
 	color: #000;
@@ -304,14 +306,20 @@ li{
 #shmenu-usleagues:hover, #shmenu-usleagues.selected{
 	background-color: #de1f26;
 }
+#shmenu-search{
+	background-image:url(../img/menu/dbsearch.png?6);
+}
+#shmenu-search:hover, #shmenu-search.selected{
+	background-color: #ddc126;
+}
 #sharesite{
 	text-align: center;
 	font: 11px Verdana;
-	margin-top: 40px;
+	margin-top: 30px;
 }
 #android{
 	text-align: center;
-	margin-top: 35px;
+	margin-top: 25px;
 }
 #sharesite table{
 	margin-left: auto;
@@ -724,6 +732,12 @@ li{
 .homecontent #topics td.usleagues:hover{
 	background-color: #de1f26;
 }
+.homecontent #topics td.search{
+	background-image:url(../img/menu/dbsearch.png?6);
+}
+.homecontent #topics td.search:hover{
+	background-color: #ddc126;
+}
 .homecontent #topics #details{
 	border: none;
 	width: auto;
@@ -829,13 +843,12 @@ li{
 	padding-left: 3px;
 	padding-right: 5px;
 	margin: 3px;
-	background: #FFF url(../img/column.png?v=04082016) 37px 152px no-repeat;
 }
 #results .spcpdiv table{
 	width: 100%;
 }
 #results .slider{
-	margin-top: 5px;
+	margin-top: 20px;
 	margin-left: 22px;
 }
 #results .slide{
@@ -1008,11 +1021,10 @@ li{
 	margin-bottom: 0px;
 	margin-left: 10px;
 	margin-right: 10px;
-	background: #FFF url(../img/column.png?v=04082016) 28px 146px no-repeat;
 }
 #usleagues .league{
 	display: inline-block;
-	margin: 18px 0px;
+	margin: 40px 0px;
 	margin-right: 5px;
 	width: 180px;
 	text-align: center;
@@ -1026,7 +1038,7 @@ li{
 	background-repeat: no-repeat;
 }
 #usleagues .league .arrow{
-	margin-top: 25px;
+	margin-top: 15px;
 }
 #usleagues #usltype{
 	display: inline-block;

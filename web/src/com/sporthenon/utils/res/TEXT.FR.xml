@@ -9,6 +9,7 @@
 	<entry key="menu.calendar">CALENDRIER</entry>
 	<entry key="menu.olympics">OLYMPIQUE</entry>
 	<entry key="menu.usleagues">LIGUES US</entry>
+	<entry key="menu.search">RECHERCHE</entry>
 	<entry key="menu.results.2">Résultats</entry>
 	<entry key="menu.calendar.2">Calendrier</entry>
 	<entry key="menu.olympics.2">Olympique</entry>
@@ -16,7 +17,6 @@
 	<entry key="menu.home">Accueil</entry>
 	<entry key="menu.project">Projet</entry>
 	<entry key="menu.contribute">Contribuer</entry>
-	<entry key="menu.search">Rechercher</entry>
 	<entry key="menu.login">Connexion</entry>
 	<entry key="menu.logout">Déconnexion</entry>
 	<entry key="menu.update">Mettre à jour</entry>

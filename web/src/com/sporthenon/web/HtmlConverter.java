@@ -1547,7 +1547,7 @@ public class HtmlConverter {
 								idx = null;
 							if (idx != null) {
 								if (idx < tEntity.length && tEntity[idx] != null && (tieList.get(i) - 1) < tEntity.length && tEntity[tieList.get(i) - 1] != null) {
-									tEntity[idx] = tEntity[idx].concat("<td>&nbsp;/&nbsp;</td>").concat("<td>" + tEntity[tieList.get(i) - 1] + "</td>");
+									tEntity[idx] = "<table><tr><td>" + tEntity[idx] + "</td><td>&nbsp;/&nbsp;</td><td>" + tEntity[tieList.get(i) - 1] + "</td></tr></table>";
 									tEntity[tieList.get(i) - 1] = null;
 								}
 							}
@@ -2617,6 +2617,8 @@ public class HtmlConverter {
 			boolean isTriple = (pos1 != null && pos2 != null && pos3 != null && (number == 5 || (bean.getRsText4() != null && bean.getRsText4().equals("#TRIPLE#")) || (tie != null && tie.matches("^1\\-(3|4|5|6|7|8|9).*"))));
 			String link = "/results/" + StringUtils.urlEscape(bean.getSpLabelEN() + "/" + bean.getCpLabelEN() + "/" + bean.getEvLabelEN() + (bean.getSeId() != null ? "/" + bean.getSeLabelEN() : "") + (bean.getSe2Id() != null ? "/" + bean.getSe2LabelEN() : "")) + "/" + StringUtils.encode(bean.getSpId() + "-" + bean.getCpId() + "-" + bean.getEvId() + "-" + (bean.getSeId() != null ? bean.getSeId() : 0) + "-" + (bean.getSe2Id() != null ? bean.getSe2Id() : 0) + "-0");
 			String event = "<a href='" + link + "'>" + bean.getCpLabel() + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + bean.getSeLabel() : "") + (StringUtils.notEmpty(bean.getSe2Label()) ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + bean.getSe2Label() : "") + "</a>";
+			if (StringUtils.notEmpty(bean.getRsText5()))
+				event += "&nbsp;[" + bean.getRsText5() + "]";
 			String eventImg = null;
 			if (!StringUtils.notEmpty(eventImg) && bean.getSe2Id() != null && !bean.getSe2LabelEN().matches("Men|Women"))
 				eventImg = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT_EVENT, bean.getSpId() + "-" + bean.getSe2Id(), ImageUtils.SIZE_SMALL, null, bean.getSe2Label());

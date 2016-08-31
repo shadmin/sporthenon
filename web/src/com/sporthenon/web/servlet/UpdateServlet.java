@@ -600,23 +600,25 @@ public class UpdateServlet extends AbstractServlet {
 			// Person List
 			if (hParams.containsKey("rk1list")) {
 				int i = 1;
-				DatabaseHelper.executeUpdate("DELETE FROM \"~PersonList\" WHERE ID_RESULT=" + result.getId());
 				while (hParams.containsKey("rk" + i + "list")) {
 					String[] t = String.valueOf(hParams.get("rk" + i + "list")).split("\\|", 0);
 					for (String value : t) {
-						String[] t_ = value.split("\\:", -1);
-						String idp = t_[0];
-						if (StringUtils.notEmpty(idp) && !idp.equals("null") && !idp.startsWith("Name #")) {
-							String index = (t_.length > 1 ? t_[1] : null);
-							PersonList plist = new PersonList();
-							plist.setIdResult(result.getId());
-							plist.setRank(i);
-							if (idp.matches("\\d+"))
-								plist.setIdPerson(Integer.parseInt(idp));
-							else
-								plist.setIdPerson(DatabaseHelper.insertEntity(0, 1, result.getSport() != null ? result.getSport().getId() : 0, idp, result.getYear().getLabel(), cb, null, lang));
-							plist.setIndex(StringUtils.notEmpty(index) && !index.equals("null") ? index : null);
-							DatabaseHelper.saveEntity(plist, cb);
+						if (StringUtils.notEmpty(value)) {
+							String[] t_ = value.split("\\:", -1);
+							String id = t_[0];
+							String idp = t_[1];
+							if (StringUtils.notEmpty(idp) && !idp.equals("null") && !idp.startsWith("Name #")) {
+								String index = (t_.length > 1 ? t_[2] : null);
+								PersonList plist = (StringUtils.notEmpty(id) && !id.equals("0") ? (PersonList) DatabaseHelper.loadEntity(PersonList.class, id) : new PersonList());
+								plist.setIdResult(result.getId());
+								plist.setRank(i);
+								if (idp.matches("\\d+"))
+									plist.setIdPerson(Integer.parseInt(idp));
+								else
+									plist.setIdPerson(DatabaseHelper.insertEntity(0, 1, result.getSport() != null ? result.getSport().getId() : 0, idp, result.getYear().getLabel(), cb, null, lang));
+								plist.setIndex(StringUtils.notEmpty(index) && !index.equals("null") ? index : null);
+								DatabaseHelper.saveEntity(plist, cb);
+							}
 						}
 					}
 					i++;
@@ -1142,7 +1144,7 @@ public class UpdateServlet extends AbstractServlet {
 						if (l.size() < rk)
 							l.add("");
 						Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, pl.getIdPerson());
-						l.set(rk - 1, (StringUtils.notEmpty(l.get(rk - 1)) ? l.get(rk - 1) + "|" : "") + pl.getIdPerson() + ":" + a.toString2() + ":" + (StringUtils.notEmpty(pl.getIndex()) ? pl.getIndex() : ""));
+						l.set(rk - 1, (StringUtils.notEmpty(l.get(rk - 1)) ? l.get(rk - 1) + "|" : "") + pl.getId() + ":" + pl.getIdPerson() + ":" + a.toString2() + ":" + (StringUtils.notEmpty(pl.getIndex()) ? pl.getIndex() : ""));
 					}
 					sb.append("rkl-" + StringUtils.join(l, "#")).append("~");
 				}

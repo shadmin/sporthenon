@@ -49,6 +49,7 @@
 			<li><a id="shmenu-calendar" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("calendar") ? "class='selected'" : "")%> href="/calendar"><%=StringUtils.text("menu.calendar", session)%></a></li>
 			<li><a id="shmenu-olympics" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("olympics") ? "class='selected'" : "")%> href="/olympics"><%=StringUtils.text("menu.olympics", session)%></a></li>
 			<li><a id="shmenu-usleagues" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("usleagues") ? "class='selected'" : "")%> href="/usleagues"><%=StringUtils.text("menu.usleagues", session)%></a></li>
+			<li><a id="shmenu-search" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("search") ? "class='selected'" : "")%> href="/search"><%=StringUtils.text("menu.search", session)%></a></li>
 		</ul>
 	</div>
 	<div id="sharesite">
@@ -101,6 +102,7 @@
 	out.print("var TX_DESC_CALENDAR=\"" + StringUtils.text("desc.calendar", session) + "\";");
 	out.print("var TX_DESC_OLYMPICS=\"" + StringUtils.text("desc.olympics", session) + "\";");
 	out.print("var TX_DESC_USLEAGUES=\"" + StringUtils.text("desc.usleagues", session) + "\";");
+	out.print("var TX_DESC_SEARCH=\"" + StringUtils.text("desc.search", session) + "\";");
 	out.print("var TX_MLOGIN=\"" + StringUtils.text("mandatory.login", session) + "\";");
 	out.print("var TX_MPASSWORD=\"" + StringUtils.text("mandatory.password", session) + "\";");
 	out.print("var TX_MCONFIRMPWD=\"" + StringUtils.text("mandatory.confirmpwd", session) + "\";");
@@ -147,8 +149,8 @@
 	</div>
 	<div id="flags"><a title="English" href="<%=request.getAttribute("urlEN")%>"><img alt="EN" src="/img/header/lang-en.png"/></a>&nbsp;<a title="Français" href="<%=request.getAttribute("urlFR")%>"><img alt="FR" src="/img/header/lang-fr.png"/></a>&nbsp;</div>
 	<div id="searchpanel">
-		<table style="border-spacing:0px;"><tr><td style="padding-top:3px;"><a title="<%=StringUtils.text("advanced.search", session)%>" href="/search"><img alt="Search" src="/img/menu/dbsearch.png"/></a></td>
-		<td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.in", session)%> Sporthenon" onfocus="dpatternFocus();" onblur="dpatternBlur();"></input></td>
+		<table style="border-spacing:0px;">
+		<tr><td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.in", session)%> Sporthenon" onfocus="dpatternFocus();" onblur="dpatternBlur();"></input></td>
 		</tr></table>
 	</div>
 </div>

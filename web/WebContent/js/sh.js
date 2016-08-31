@@ -1613,15 +1613,17 @@ function loadResValues(value) {
 				var t_ = rkList.split('#');
 				var t__ = null;
 				var t___ = null;
+				var idpl = null;
 				var idp = null;
 				var indexp = null;
 				for (var i = 0 ; i < t_.length ; i++) {
 					t__ = t_[i].split('|');
 					t___ = [];
 					for (var i_ = 0 ; i_ < t__.length ; i_++) {
-						idp = t__[i_].split(':')[0];
-						indexp = t__[i_].split(':')[2];
-						t___.push(idp + ':' + indexp);
+						idpl = t__[i_].split(':')[0];
+						idp = t__[i_].split(':')[1];
+						indexp = t__[i_].split(':')[3];
+						t___.push(idpl + ':' + idp + ':' + indexp);
 					}
 					while (t__.length > pListCount) {
 						addPersonList();
@@ -1897,20 +1899,24 @@ function initPersonList(index) {
 	var t = (rkList ? rkList.split('#') : null);
 	t = (t ? t[index - 1] : null);
 	t = (t ? t.split('|') : null);
+	var plid = null;
 	var pid = null;
 	var ptxt = null;
 	var pindex = null;
 	for (var i = 1 ; i <= pListCount ; i++) {
 		if (t && t[i - 1]) {
-			pid = t[i - 1].split(':')[0];
-			ptxt = t[i - 1].split(':')[1];
-			pindex = t[i - 1].split(':')[2];
+			plid = t[i - 1].split(':')[0];
+			pid = t[i - 1].split(':')[1];
+			ptxt = t[i - 1].split(':')[2];
+			pindex = t[i - 1].split(':')[3];
 		}
 		else {
+			plid = null;
 			pid = null;
 			ptxt = '';
 			pindex = '';
 		}
+		tValues['plist_id' + i] = (plid && plid != null ? plid : 0);
 		tValues['plist' + i] = pid;
 		html.push('<tr><td><input type="text" id="plist' + i + '-index" tabindex="' + (100000 + i) + '" name="Index" style="width:50px;" class="' + (pindex != null && pindex != '' ? 'completed2' : '') + '" value="' + pindex + '"/></td><td><input type="text" id="plist' + i + '" tabindex="' + (100001 + i) + '" name="Name #' + i + '" class="' + (pid != null ? 'completed' : '') + '" value="' + ptxt + '"/><a href="javascript:clearValue(\'plist' + i + '\');">[X]</a></td></tr>');	
 	}
@@ -1927,12 +1933,14 @@ function initPersonList(index) {
 function savePersonList() {
 	var t = [];
 	var t_ = [];
-	var val = null;
+	var val1 = null;
+	var val2 = null;
 	for (var i = 1 ; i <= pListCount ; i++) {
-		val = tValues['plist' + i];
-		t.push((val && val != '' ? val : $('plist' + i).value) + ':' + $('plist' + i + '-index').value.replace('Index', ''));
-		if (val && val != '' && val.indexOf('Name #') == -1) {
-			t_.push(val + ':' + $('plist' + i).value + ':' + $('plist' + i + '-index').value.replace('Index', ''));	
+		val1 = tValues['plist_id' + i];
+		val2 = tValues['plist' + i];
+		t.push(val1 + ':' + (val2 && val2 != '' ? val2 : $('plist' + i).value) + ':' + $('plist' + i + '-index').value.replace('Index', ''));
+		if (val2 && val2 != '' && val2.indexOf('Name #') == -1) {
+			t_.push(val1 + ':' + val2 + ':' + $('plist' + i).value + ':' + $('plist' + i + '-index').value.replace('Index', ''));	
 		}
 	}
 	tValues['rk' + pListIndex + 'list'] = t.join('|');
