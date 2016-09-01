@@ -91,7 +91,7 @@ public class DrawerFragment extends Fragment {
                 ImageView img = (ImageView) view.findViewById(R.id.menu_item_icon);
                 TextView title = (TextView) view.findViewById(R.id.menu_item_title);
                 img.setImageResource(tImg[position]);
-                title.setText(getString(tTitle[position]).toUpperCase());
+                title.setText(getString(tTitle[position]));
                 view.setBackgroundResource(tBgd[position]);
 
                 return view;

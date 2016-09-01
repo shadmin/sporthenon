@@ -2,7 +2,6 @@ package com.sporthenon.android.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -32,9 +31,10 @@ public class AndroidUtils {
                 if (file.exists())
                     bd = new BitmapDrawable(new FileInputStream(file));
                 else if (!img.contains("noimage.png")) {
-                    String env = Resources.getSystem().getString(R.string.env);
+                    /*String env = Resources.getSystem().getString(R.string.env);
                     if (env != null && env.equals("local"))
                         img = img.replaceAll("localhost", "10.0.2.2");
+                    */
                     if (!img.startsWith("http"))
                         img = "http:" + img;
                     connection = (HttpURLConnection) new URL(img) .openConnection();

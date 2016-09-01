@@ -24,7 +24,6 @@ import com.sporthenon.android.fragment.ListFragment;
 import com.sporthenon.android.fragment.OlympicsModeFragment;
 import com.sporthenon.android.fragment.Result1Fragment;
 import com.sporthenon.android.fragment.USLeaguesTypeFragment;
-import com.sporthenon.android.utils.AndroidUtils;
 
 import java.util.ArrayList;
 
@@ -98,10 +97,21 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
             return ListFragment.getPath();
     }
 
+    public TextView getNotice() {
+        return ListFragment.getNotice();
+    }
+
     public void setPath(String s) {
         if (s != null) {
-            s = (AndroidUtils.notEmpty(getPath().getText().toString()) ? getPath().getText() + "\r\n" : "") + s.replaceAll("\\r\\n\\+", "\\\r\\\n");
-            getPath().setText(s);
+            String[] t = s.split("\\|");
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0 ; i < t.length ; i++) {
+                if (i > 0)
+                    sb.append("\r\n └");
+                sb.append(t[i]);
+            }
+         //   s = (AndroidUtils.notEmpty(getPath().getText().toString()) ? getPath().getText() + "\r\n" : "") + s.replaceAll("\\r\\n\\+", "\\\r\\\n");
+            getPath().setText(sb.toString());
             getPath().setVisibility(View.VISIBLE);
         }
     }

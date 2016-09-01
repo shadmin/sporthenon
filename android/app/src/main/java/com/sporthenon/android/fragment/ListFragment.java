@@ -25,6 +25,7 @@ public class ListFragment extends Fragment {
     protected static ListView list;
     protected static EditText search;
     protected static TextView path;
+    protected static TextView notice;
 
     public static ListFragment newInstance(int n, Activity activity_) {
         ListFragment fragment = new ListFragment();
@@ -56,6 +57,10 @@ public class ListFragment extends Fragment {
         return path;
     }
 
+    public static TextView getNotice() {
+        return notice;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_main, container, false);
@@ -68,8 +73,8 @@ public class ListFragment extends Fragment {
         list = (ListView) view.findViewById(R.id.list);
         list.setOnItemClickListener((AbstractActivity) this.getActivity());
         progress = (ProgressBar) view.findViewById(R.id.progress);
-        path = (TextView) view.findViewById(R.id.path1);
-        //path.setVisibility(View.GONE);
+        path = (TextView) view.findViewById(R.id.path);
+        notice = (TextView) view.findViewById(R.id.notice);
         search = (EditText) view.findViewById(R.id.search);
         /*search.addTextChangedListener(new TextWatcher() {
             @Override

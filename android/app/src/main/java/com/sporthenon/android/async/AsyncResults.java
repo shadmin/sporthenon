@@ -2,6 +2,7 @@ package com.sporthenon.android.async;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.activity.ResultActivity;
@@ -105,7 +106,9 @@ public class AsyncResults extends AsyncTask<Object, Boolean, String> {
         try {
             activity.getItemList().addAll(results);
             activity.getList().setAdapter(new ResultListAdapter(activity.getApplicationContext(), results));
-            activity.setPath(path + "\r\n" + activity.getResources().getString(R.string.winrec) + " : " + winrec);
+            activity.setPath(path);
+            activity.getNotice().setText(activity.getResources().getString(R.string.winrec) + " : " + winrec);
+            activity.getNotice().setVisibility(View.VISIBLE);
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);

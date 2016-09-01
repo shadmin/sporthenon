@@ -32,7 +32,7 @@ public class EventActivity extends AbstractActivity {
             setChampionshipId(1);
             setChampionshipName(getString(R.string.olympic_games));
         }
-        String path = getSportName() + "\r\n" + getChampionshipName() + (getEvent1Name() != null ? "\r\n" + getEvent1Name() : "") + (getEvent2Name() != null ? "\r\n" + getEvent2Name() : "");
+        String path = getSportName() + "|" + getChampionshipName() + (getEvent1Name() != null ? "|" + getEvent1Name() : "") + (getEvent2Name() != null ? "|" + getEvent2Name() : "");
         if (getLeagueId() != null && getLeagueId() > 0) {
             setLeagueName(b.getString("lgname"));
             setUsltype(b.getInt("usltype"));

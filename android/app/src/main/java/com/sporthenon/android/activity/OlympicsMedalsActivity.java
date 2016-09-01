@@ -17,7 +17,7 @@ public class OlympicsMedalsActivity extends AbstractActivity {
         setOlId(b.getInt("olid"));
         setOlName(b.getString("olname"));
         setOlType(b.getInt("oltype"));
-        AsyncMedals task = new AsyncMedals(getString(getOlType() == 0 ? R.string.ol_winter : R.string.ol_summer) + "\r\n" + getOlName());
+        AsyncMedals task = new AsyncMedals(getString(getOlType() == 0 ? R.string.ol_winter : R.string.ol_summer) + "|" + getOlName());
         task.execute(this, getOlId());
     }
 

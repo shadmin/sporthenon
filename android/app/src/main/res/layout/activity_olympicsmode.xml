@@ -6,12 +6,23 @@
     android:background="#EEE"
     tools:context="com.sporthenon.android.fragment.OlympicsTypeFragment">
 
+    <TextView
+        android:id="@+id/olmode_path"
+        style="@style/CustomTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textSize="14sp"
+        android:padding="3dip"
+        android:background="@drawable/border"
+        />
+
     <Button
         android:id="@+id/ol_podium"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_margin="10dp"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/olmode_path"
         android:fontFamily="Verdana"
         android:textSize="18sp"
         android:text="@string/ol.podium"
@@ -40,18 +51,6 @@
         android:drawablePadding="3dp"
         android:layout_below="@+id/ol_podium"
         android:onClick="onMedalsClick"
-        />
-
-    <TextView
-        android:id="@+id/olmode_path"
-        style="@style/CustomTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:textSize="14sp"
-        android:padding="3dip"
-        android:background="@drawable/border"
         />
 
 </RelativeLayout>

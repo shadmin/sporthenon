@@ -19,7 +19,7 @@ public class ResultActivity extends AbstractActivity {
         if (getOlId() != null && getOlId() > 0)
             index = INDEX_OLYMPICS;
         super.onCreate(state);
-        String path = b.getString("spname") + "\r\n" + b.getString("cpname") + (AndroidUtils.notEmpty(b.getString("ev1name")) ? "\r\n" + b.getString("ev1name") : "") + (AndroidUtils.notEmpty(b.getString("ev2name")) ? "\r\n" + b.getString("ev2name") : "") + (AndroidUtils.notEmpty(b.getString("ev3name")) ? "\r\n" + b.getString("ev3name") : "");
+        String path = b.getString("spname") + "|" + b.getString("cpname") + (AndroidUtils.notEmpty(b.getString("ev1name")) ? "|" + b.getString("ev1name") : "") + (AndroidUtils.notEmpty(b.getString("ev2name")) ? "|" + b.getString("ev2name") : "") + (AndroidUtils.notEmpty(b.getString("ev3name")) ? "|" + b.getString("ev3name") : "");
         AsyncResults task = new AsyncResults(path);
         task.execute(this, b.getInt("spid"), b.getInt("cpid"), b.getInt("ev1id"), b.getInt("ev2id"), b.getInt("ev3id"));
     }

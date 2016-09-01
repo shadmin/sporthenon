@@ -6,6 +6,17 @@
     android:background="#EAEAEA"
     tools:context="com.sporthenon.android.fragment.ListFragment">
 
+    <TextView
+        android:id="@+id/path"
+        style="@style/CustomTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textSize="18sp"
+        android:padding="5dip"
+        android:background="@drawable/border"
+        />
+
     <EditText
         android:id="@+id/search"
         android:layout_width="match_parent"
@@ -26,21 +37,21 @@
         />
 
     <TextView
-        android:id="@+id/path1"
+        android:id="@+id/notice"
         style="@style/CustomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:textSize="14sp"
-        android:padding="3dip"
+        android:padding="4dip"
         android:background="@drawable/border"
         />
 
     <ListView
         android:id="@+id/list"
-        android:layout_below="@+id/search"
-        android:layout_above="@+id/path1"
+        android:layout_below="@+id/path"
+        android:layout_above="@+id/notice"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:choiceMode="singleChoice"
