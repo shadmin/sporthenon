@@ -2091,6 +2091,29 @@ function moveRound(index) {
 	}
 	openRoundDialog(rdDlgCurrent + index, 1);
 }
+function copyRStoRD() {
+	['rk1', 'rk2', 'rk3', 'pl2', 'rs1', 'rs2', 'rs3', 'dt2', 'exa'].each(function(s){
+		if (/(rt|rk|pl).*$/.match(s)) {
+			tValues['rddlg-' + s] = tValues[s];
+			if (tValues['rddlg-' + s] && tValues['rddlg-' + s] != '') {
+				$('rddlg-' + s).addClassName('completed');
+			}
+			else {
+				$('rddlg-' + s).removeClassName('completed').removeClassName('completed2');
+			}
+		}
+		text = $(s).value;
+		$('rddlg-' + s).value = text;
+		if (!$('rddlg-' + s).hasClassName('completed')) {
+			if ($('rddlg-' + s).value != '' && text != $(s).name) {
+				$('rddlg-' + s).addClassName('completed2');
+			}
+			else {
+				$('rddlg-' + s).removeClassName('completed').removeClassName('completed2');
+			}
+		}
+	});
+}
 function setRoundValues() {
 	var index = 'rd' + rdDlgCurrent;
 	var text = null;

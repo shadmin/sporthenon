@@ -923,9 +923,17 @@ public class HtmlConverter {
 				html.append("</ul>");
 			}
 			// Other events
-			String sql = "SELECT RS.id, RS." + (r.getSubevent2() != null ? "id_subevent2" : (r.getSubevent() != null ? "id_subevent" : "id_event")) + ", EV.label, EV.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "") + ", EV.index, II.id, RS.comment, RS.date2 FROM \"Result\" RS";
+			String l_ = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
+			String sql = "SELECT RS.id, RS." + (r.getSubevent2() != null ? "id_subevent2" : (r.getSubevent() != null ? "id_subevent" : "id_event")) + ", EV." + l_ + ", EV.label, EV.index, II.id, RS.comment, RS.date2 FROM \"Result\" RS";
 			sql += " LEFT JOIN \"Event\" EV ON RS." + (r.getSubevent2() != null ? "id_subevent2" : (r.getSubevent() != null ? "id_subevent" : "id_event")) + "=EV.id LEFT JOIN \"~InactiveItem\" II ON (RS.id_sport = II.id_sport AND RS.id_championship = II.id_championship AND RS.id_event = II.id_event AND (RS.id_subevent = II.id_subevent OR RS.id_subevent IS NULL) AND (RS.id_subevent2 = II.id_subevent2 OR RS.id_subevent2 IS NULL))";
-			sql += " WHERE RS.id_year=" + r.getYear().getId() + " AND RS.id_sport=" + r.getSport().getId() + " AND RS.id_championship=" + r.getChampionship().getId() + (r.getSubevent2() != null ? " and RS.id_subevent=" + r.getSubevent().getId() : (r.getSubevent() != null ? " and RS.id_event=" + r.getEvent().getId() : "")) + " ORDER BY II.id DESC, EV.index, EV.label, RS.id";
+			sql += " WHERE RS.id_year=" + r.getYear().getId() + " AND RS.id_sport=" + r.getSport().getId() + " AND RS.id_championship=" + r.getChampionship().getId();
+			if (r.getSubevent() == null)
+				sql += " AND RS.id_subevent IS NULL AND RS.id_subevent2 IS NULL";
+			else if (r.getSubevent2() == null)
+				sql += " AND RS.id_event=" + r.getEvent().getId() + " AND RS.id_subevent2 IS NULL";
+			else
+				sql += " AND RS.id_event=" + r.getEvent().getId() + " AND RS.id_subevent=" + r.getSubevent().getId();
+			sql += " ORDER BY EV.index, EV." + l_;
 			StringBuffer sbOtherEvents = new StringBuffer();
 			List<Object[]> l = DatabaseHelper.executeNative(sql);
 			if (l != null && l.size() > 1) {
@@ -941,7 +949,7 @@ public class HtmlConverter {
 					String date2 = String.valueOf(t[7]);
 					String s = "";
 					if (le.contains(event) || (n < l.size() - 1 && l.get(n + 1)[2].equals(event))) {
-						if (StringUtils.notEmpty(date2))
+						if (StringUtils.notEmpty(date2) && !date2.equals("null"))
 							s = StringUtils.toTextDate(date2, lang, "MMMM");
 						if (StringUtils.notEmpty(comment) && comment.startsWith("##"))
 							s += (StringUtils.notEmpty(s) ? ", " : "") + comment.replaceAll("\\{\\{.*\\}\\}|##", "");
@@ -969,7 +977,7 @@ public class HtmlConverter {
 					String date2 = String.valueOf(t[3]);
 					String s = "";
 					if (ly.contains(label) || (n < l.size() - 1 && l.get(n + 1)[1].equals(label))) {
-						if (StringUtils.notEmpty(date2))
+						if (StringUtils.notEmpty(date2) && !date2.equals("null"))
 							s = StringUtils.toTextDate(date2, lang, "MMM");
 						if (StringUtils.notEmpty(comment) && comment.startsWith("##"))
 							s += (StringUtils.notEmpty(s) ? ", " : "") + comment.replaceAll("\\{\\{.*\\}\\}|##", "");

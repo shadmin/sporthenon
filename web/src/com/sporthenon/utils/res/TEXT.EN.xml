@@ -557,4 +557,5 @@
 	<entry key="metadata">Creation: {1} / Last modification: {2} by {3}</entry>
 	<entry key="force.tooltip">Use {{}} to force tooltip</entry>
 	<entry key="open.dialog">Open in dialog</entry>
+	<entry key="copy.from.result">Copy from result</entry>
 </properties>

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ page import="com.sporthenon.utils.StringUtils" %>
+<%@ page import="com.sporthenon.utils.StringUtils"%>
 <!-- Report Error -->
 <div id="d-error" class="dialog" style="display:none;">
 <div class="fieldset">
@@ -45,6 +45,7 @@
 		<div style="float:right;">
 		<table class="toolbar" style="top:0;right:0;clear:right;float:right;margin-top:0px;">
 			<tr>
+				<td style="padding-right:20px;"><a href="javascript:copyRStoRD();"><%=StringUtils.text("copy.from.result", session)%></a></td>
 				<td><input id="upd-previous" type="button" class="button upd-previous" onclick="moveRound(-1);" value="<%=StringUtils.text("previous", session)%>"/></td>
 				<td><input id="upd-next" type="button" class="button upd-next" onclick="moveRound(1);" value="<%=StringUtils.text("next", session)%>"/></td>
 			</tr>
