@@ -74,7 +74,9 @@ public class ListFragment extends Fragment {
         list.setOnItemClickListener((AbstractActivity) this.getActivity());
         progress = (ProgressBar) view.findViewById(R.id.progress);
         path = (TextView) view.findViewById(R.id.path);
+        path.setVisibility(path.getText().length() > 0 ? View.VISIBLE : View.GONE);
         notice = (TextView) view.findViewById(R.id.notice);
+        notice.setVisibility(View.GONE);
         search = (EditText) view.findViewById(R.id.search);
         /*search.addTextChangedListener(new TextWatcher() {
             @Override

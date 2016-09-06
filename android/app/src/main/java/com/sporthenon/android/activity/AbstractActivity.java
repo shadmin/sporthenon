@@ -106,11 +106,14 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
             String[] t = s.split("\\|");
             StringBuffer sb = new StringBuffer();
             for (int i = 0 ; i < t.length ; i++) {
-                if (i > 0)
-                    sb.append("\r\n └");
+                if (i > 0) {
+                    sb.append("\r\n");
+                    for (int j = i - 1 ; j > 0 ; j--)
+                        sb.append("   ");
+                    sb.append("└ ");
+                }
                 sb.append(t[i]);
             }
-         //   s = (AndroidUtils.notEmpty(getPath().getText().toString()) ? getPath().getText() + "\r\n" : "") + s.replaceAll("\\r\\n\\+", "\\\r\\\n");
             getPath().setText(sb.toString());
             getPath().setVisibility(View.VISIBLE);
         }

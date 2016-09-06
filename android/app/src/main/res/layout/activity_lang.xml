@@ -9,12 +9,15 @@
     <TextView
         android:id="@+id/lang_msg"
         style="@style/CustomTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:padding="10dip"
-        android:layout_marginLeft="5dip"
-        android:text="Select a language:"
+        android:padding="15dip"
+        android:textColor="#FFF"
+        android:textStyle="bold"
+        android:background="#888"
+        android:layout_marginBottom="10dip"
+        android:text="Select a language"
         />
 
     <RadioGroup
@@ -22,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/lang_msg"
         android:orientation="vertical"
-        android:paddingLeft="5dip">
+        android:layout_marginLeft="15dip">
         <RadioButton
             android:id="@+id/langEN"
             style="@style/CustomRadio"
@@ -33,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dip"
             android:text="@string/english">
         </RadioButton>
 

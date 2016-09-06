@@ -22,7 +22,7 @@ public class OlympicsModeActivity extends AbstractActivity {
     @Override
     protected void onPostCreate(Bundle state) {
         super.onPostCreate(state);
-        setPath(getString(getOlType() == 0 ? R.string.ol_winter : R.string.ol_summer) + "\r\n" + getOlName());
+        setPath(getString(getOlType() == 0 ? R.string.ol_winter : R.string.ol_summer) + "|" + getOlName());
     }
 
     public void onPodiumClick(View v) {

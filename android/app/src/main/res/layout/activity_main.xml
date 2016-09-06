@@ -8,13 +8,12 @@
 
     <TextView
         android:id="@+id/path"
-        style="@style/CustomTextView"
+        style="@style/CustomPath"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:textSize="18sp"
-        android:padding="5dip"
-        android:background="@drawable/border"
+        android:padding="4dip"
+        android:background="@drawable/border1"
         />
 
     <EditText
@@ -43,9 +42,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:textSize="14sp"
+        android:textSize="15sp"
         android:padding="4dip"
-        android:background="@drawable/border"
+        android:background="@drawable/border2"
         />
 
     <ListView

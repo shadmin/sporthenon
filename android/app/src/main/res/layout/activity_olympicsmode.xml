@@ -8,13 +8,12 @@
 
     <TextView
         android:id="@+id/olmode_path"
-        style="@style/CustomTextView"
+        style="@style/CustomPath"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:textSize="14sp"
-        android:padding="3dip"
-        android:background="@drawable/border"
+        android:padding="4dip"
+        android:background="@drawable/border1"
         />
 
     <Button

@@ -1,8 +1,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="#EEE"/>
-            <stroke android:width="1dip" android:color="#222"/>
+            <solid android:color="#c0e2fc"/>
+            <stroke android:width="1dip" android:color="#000"/>
         </shape>
     </item>
     <item>
