@@ -7,9 +7,9 @@ CREATE TABLE "~ExternalLink"
   id integer NOT NULL,
   entity character varying(2),
   id_item integer,
-  type character varying(10),
   url character varying(200),
   checked boolean,
+  flag character(1),
   CONSTRAINT "~EXTERNAL_LINK_pkey" PRIMARY KEY (id)
 )
 WITH (

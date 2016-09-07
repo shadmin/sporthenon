@@ -16,6 +16,8 @@ CREATE OR REPLACE VIEW "~Statistics" AS
     ( SELECT count(*) AS count
            FROM "Result") AS count_result,
     ( SELECT count(*) AS count
+           FROM "Round") AS count_round,
+    ( SELECT count(*) AS count
            FROM "Sport") AS count_sport,
     ( SELECT count(*) AS count
            FROM "Team") AS count_team;

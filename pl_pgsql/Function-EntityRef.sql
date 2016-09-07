@@ -126,36 +126,7 @@ begin
 		END IF;
 	END IF;
 	
-	-- References in: [Events]
-	IF (_entity ~ 'CP|EV|SP' AND (_entity_ref = 'EV' OR _entity_ref = '')) THEN
-		_query = 'SELECT DISTINCT SP.id, SP.label' || _lang || ', SP.label, CP.id, CP.label' || _lang || ', CP.label, EV.id, EV.label' || _lang || ', EV.label, SE.id, SE.label' || _lang || ', SE.label, SE2.id, SE2.label' || _lang || ', SE2.label, II.id_championship, II.id_event, II.id_subevent, II.id_subevent2, CP.index, EV.index, SE.index, SE2.index, (CASE WHEN II.id_event IS NOT NULL AND II.id_subevent IS NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_ev, (CASE WHEN II.id_subevent IS NOT NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_se, (CASE WHEN II.id_subevent2 IS NOT NULL THEN 1 ELSE 0 END) AS o_ii_se2';
-		_query = _query || ' FROM "Result" RS LEFT JOIN "Sport" SP ON RS.id_sport = SP.id';
-		_query = _query || ' LEFT JOIN "Championship" CP ON RS.id_championship = CP.id';
-		_query = _query || ' LEFT JOIN "Event" EV ON RS.id_event = EV.id';
-		_query = _query || ' LEFT JOIN "Event" SE ON RS.id_subevent = SE.id';
-		_query = _query || ' LEFT JOIN "Event" SE2 ON RS.id_subevent2 = SE2.id';
-		_query = _query || ' LEFT JOIN "~InactiveItem" II ON (RS.id_sport = II.id_sport AND RS.id_championship = II.id_championship AND RS.id_event = II.id_event AND (RS.id_subevent = II.id_subevent OR RS.id_subevent IS NULL) AND (RS.id_subevent2 = II.id_subevent2 OR RS.id_subevent2 IS NULL))';
-		IF _entity = 'SP' THEN
-			_query = _query || ' WHERE RS.id_sport = ' || _id;
-		ELSIF _entity = 'CP' THEN
-			_query = _query || ' WHERE RS.id_championship = ' || _id;
-		ELSIF _entity = 'EV' THEN
-			_query = _query || ' WHERE RS.id_event = ' || _id || ' OR RS.id_subevent = ' || _id || ' OR RS.id_subevent2 = ' || _id;
-		END IF;
-		_query = _query || ' ORDER BY SP.label' || _lang || ', CP.index, o_ii_ev, EV.index, o_ii_se, SE.index, o_ii_se2, SE2.index, CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', SE2.label' || _lang || ' LIMIT ' || _limit || ' OFFSET ' || _offset;
-		OPEN _c FOR EXECUTE _query;
-		LOOP
-			FETCH _c INTO _item.id_rel1, _item.label_rel1, _item.label_rel2, _item.id_rel2, _item.label_rel3, _item.label_rel4, _item.id_rel3, _item.label_rel5, _item.label_rel6, _item.id_rel4, _item.label_rel7, _item.label_rel8, _item.id_rel5, _item.label_rel9, _item.label_rel10, _item.id_rel6, _item.id_rel7, _item.id_rel8, _item.id_rel9;
-			EXIT WHEN NOT FOUND;
-			_item.id = _index;
-			_item.entity = 'EV';
-			RETURN NEXT _item;
-			_index = _index + 1;
-		END LOOP;
-		CLOSE _c;
-	END IF;
-
-	-- References in: [Results]
+	-- References in: [Final Results]
 	IF (_entity ~ 'CN|DT|PR|TM|CP|EV|CT|SP|CX|OL|YR' AND (_entity_ref = 'RS' OR _entity_ref = '')) THEN
 		_type1 = 1;
 		_type2 = 99;
@@ -262,8 +233,10 @@ begin
 			END IF;
 			_item.date1 := to_date(_date1, 'DD/MM/YYYY');
 			_item.date2 := to_date(_date2, 'DD/MM/YYYY');
-			SELECT * INTO _rs FROM "Result" RS WHERE RS.id = _item.id_item;
-			SELECT "GetRank"(_rs, _type1, _array_id) INTO _item.count1;
+			IF ((_item.count1 IS NULL OR _item.count1 = 0) AND _entity ~ 'CN|PR|TM') THEN
+				SELECT * INTO _rs FROM "Result" RS WHERE RS.id = _item.id_item;
+				SELECT "GetRank"(_rs, _type1, _array_id) INTO _item.count1;
+			END IF;
 			_item.id = _index;
 			_item.entity = 'RS';
 			RETURN NEXT _item;
@@ -348,6 +321,35 @@ begin
 			_item.date2 := to_date(_date2, 'DD/MM/YYYY');
 			_item.id = _index;
 			_item.entity = 'RD';
+			RETURN NEXT _item;
+			_index = _index + 1;
+		END LOOP;
+		CLOSE _c;
+	END IF;
+
+	-- References in: [Events]
+	IF (_entity ~ 'CP|EV|SP' AND (_entity_ref = 'EV' OR _entity_ref = '')) THEN
+		_query = 'SELECT DISTINCT SP.id, SP.label' || _lang || ', SP.label, CP.id, CP.label' || _lang || ', CP.label, EV.id, EV.label' || _lang || ', EV.label, SE.id, SE.label' || _lang || ', SE.label, SE2.id, SE2.label' || _lang || ', SE2.label, II.id_championship, II.id_event, II.id_subevent, II.id_subevent2, CP.index, EV.index, SE.index, SE2.index, (CASE WHEN II.id_event IS NOT NULL AND II.id_subevent IS NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_ev, (CASE WHEN II.id_subevent IS NOT NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_se, (CASE WHEN II.id_subevent2 IS NOT NULL THEN 1 ELSE 0 END) AS o_ii_se2';
+		_query = _query || ' FROM "Result" RS LEFT JOIN "Sport" SP ON RS.id_sport = SP.id';
+		_query = _query || ' LEFT JOIN "Championship" CP ON RS.id_championship = CP.id';
+		_query = _query || ' LEFT JOIN "Event" EV ON RS.id_event = EV.id';
+		_query = _query || ' LEFT JOIN "Event" SE ON RS.id_subevent = SE.id';
+		_query = _query || ' LEFT JOIN "Event" SE2 ON RS.id_subevent2 = SE2.id';
+		_query = _query || ' LEFT JOIN "~InactiveItem" II ON (RS.id_sport = II.id_sport AND RS.id_championship = II.id_championship AND RS.id_event = II.id_event AND (RS.id_subevent = II.id_subevent OR RS.id_subevent IS NULL) AND (RS.id_subevent2 = II.id_subevent2 OR RS.id_subevent2 IS NULL))';
+		IF _entity = 'SP' THEN
+			_query = _query || ' WHERE RS.id_sport = ' || _id;
+		ELSIF _entity = 'CP' THEN
+			_query = _query || ' WHERE RS.id_championship = ' || _id;
+		ELSIF _entity = 'EV' THEN
+			_query = _query || ' WHERE RS.id_event = ' || _id || ' OR RS.id_subevent = ' || _id || ' OR RS.id_subevent2 = ' || _id;
+		END IF;
+		_query = _query || ' ORDER BY SP.label' || _lang || ', CP.index, o_ii_ev, EV.index, o_ii_se, SE.index, o_ii_se2, SE2.index, CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', SE2.label' || _lang || ' LIMIT ' || _limit || ' OFFSET ' || _offset;
+		OPEN _c FOR EXECUTE _query;
+		LOOP
+			FETCH _c INTO _item.id_rel1, _item.label_rel1, _item.label_rel2, _item.id_rel2, _item.label_rel3, _item.label_rel4, _item.id_rel3, _item.label_rel5, _item.label_rel6, _item.id_rel4, _item.label_rel7, _item.label_rel8, _item.id_rel5, _item.label_rel9, _item.label_rel10, _item.id_rel6, _item.id_rel7, _item.id_rel8, _item.id_rel9;
+			EXIT WHEN NOT FOUND;
+			_item.id = _index;
+			_item.entity = 'EV';
 			RETURN NEXT _item;
 			_index = _index + 1;
 		END LOOP;

@@ -72,7 +72,7 @@ begin
 			_item.label = _cp_label;
 			_item.label_en = _cp_label_en;
 			IF _ii_championship IS NOT NULL AND _ii_event IS NULL AND _ii_subevent IS NULL AND _ii_subevent2 IS NULL THEN
-				_item.label = '+' || _item.label;
+				_item.label = '++' || _item.label;
 			END IF;
 			_item.level = 2;
 			RETURN NEXT _item;
@@ -86,7 +86,7 @@ begin
 			_item.label = _ev_label;
 			_item.label_en = _ev_label_en;
 			IF _ii_event IS NOT NULL AND _ii_subevent IS NULL AND _ii_subevent2 IS NULL THEN
-				_item.label = '+' || _item.label;
+				_item.label = '++' || _item.label;
 			END IF;
 			_item.level = 3;
 			RETURN NEXT _item;
@@ -100,7 +100,7 @@ begin
 			_item.label = _se_label;
 			_item.label_en = _se_label_en;
 			IF _ii_subevent IS NOT NULL AND _ii_subevent2 IS NULL THEN
-				_item.label = '+' || _item.label;
+				_item.label = '++' || _item.label;
 			END IF;
 			_item.level = 4;
 			RETURN NEXT _item;
@@ -114,7 +114,7 @@ begin
 			_item.label = _se2_label;
 			_item.label_en = _se2_label_en;
 			IF _ii_subevent2 IS NOT NULL THEN
-				_item.label = '+' || _item.label;
+				_item.label = '++' || _item.label;
 			END IF;
 			_item.level = 5;
 			RETURN NEXT _item;

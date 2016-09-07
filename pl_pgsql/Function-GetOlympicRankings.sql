@@ -42,7 +42,7 @@ begin
 	GROUP BY
 		CN1.id
 	ORDER BY
-		or_count_gold DESC, or_count_silver DESC, or_count_bronze DESC';
+		or_count_gold DESC, or_count_silver DESC, or_count_bronze DESC, CN1.label' || _lang;
 	
 	RETURN  _c;
 end;

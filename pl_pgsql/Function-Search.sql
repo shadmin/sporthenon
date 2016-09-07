@@ -101,7 +101,7 @@ begin
 			-- Execute query
 			_label := 'label';
 			_label_en := 'label';
-			IF (_s <> 'TM' AND _s <> 'YR' AND _s <> 'OL') THEN
+			IF (_s <> 'TM' AND _s <> 'YR' AND _s <> 'OL' AND _s <> 'CX') THEN
 				_label := 'label' || _lang;
 			END IF;
 			_query := 'SELECT ' || _s || '.id, ' || _s || '.' || _label || ',' || _s || '.' || _label_en || ',' || _s || '.ref' || _rel_cols || ' FROM "' || _tables[_i] || '" ' || _s;

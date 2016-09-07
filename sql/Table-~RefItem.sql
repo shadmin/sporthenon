@@ -66,7 +66,8 @@ CREATE TABLE "~RefItem"
   label_rel24 character varying(50),
   label_rel25 character varying(50),
   date2 timestamp without time zone,
-  txt5 character varying(40),
+  txt5 character varying(50),
+  txt6 text,
   CONSTRAINT "~RefItem_pkey" PRIMARY KEY (id)
 )
 WITH (

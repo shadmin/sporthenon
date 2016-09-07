@@ -55,9 +55,10 @@ begin
 	ELSIF _alias = 'EV' THEN
 		UPDATE "Result" SET id_event = _id2 WHERE id_event = _id1;
 		UPDATE "Result" SET id_subevent = _id2 WHERE id_subevent = _id1;
+		UPDATE "Result" SET id_subevent2 = _id2 WHERE id_subevent2 = _id1;
 		UPDATE "Record" SET id_event = _id2 WHERE id_event = _id1;
 		UPDATE "Record" SET id_subevent = _id2 WHERE id_subevent = _id1;
-		DELETE FROM "Country" WHERE id = _id1;
+		DELETE FROM "Event" WHERE id = _id1;
 	ELSIF _alias = 'PR' THEN
 		UPDATE "HallOfFame" SET id_person = _id2 WHERE id_person = _id1;
 		UPDATE "Round" SET id_rank1 = _id2 WHERE id_rank1 = _id1 AND id_result_type<10;

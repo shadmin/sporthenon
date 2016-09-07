@@ -1,6 +1,6 @@
--- Function: "GetResults"(integer, integer, integer, integer, integer, text, character varying)
+-- Function: "GetResults"(integer, integer, integer, integer, integer, text, integer, character varying)
 
--- DROP FUNCTION "GetResults"(integer, integer, integer, integer, integer, text, character varying);
+-- DROP FUNCTION "GetResults"(integer, integer, integer, integer, integer, text, integer, character varying);
 
 CREATE OR REPLACE FUNCTION "GetResults"(
     _id_sport integer,
@@ -9,6 +9,7 @@ CREATE OR REPLACE FUNCTION "GetResults"(
     _id_subevent integer,
     _id_subevent2 integer,
     _years text,
+    _id_result integer,
     _lang character varying)
   RETURNS refcursor AS
 $BODY$
@@ -27,8 +28,7 @@ begin
 	    INTO
 	        _type
 	    FROM
-	        "Event" EV
-	        LEFT JOIN "Type" TP ON EV.id_type = TP.id
+	        "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id
 	    WHERE
 	        EV.id = _id_subevent2;
 	ELSIF _id_subevent <> 0 THEN
@@ -37,8 +37,7 @@ begin
 	    INTO
 	        _type
 	    FROM
-	        "Event" EV
-	        LEFT JOIN "Type" TP ON EV.id_type = TP.id
+	        "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id
 	    WHERE
 	        EV.id = _id_subevent;
 	ELSIF _id_event <> 0 THEN
@@ -47,8 +46,7 @@ begin
 	    INTO
 	        _type
 	    FROM
-	        "Event" EV
-	        LEFT JOIN "Type" TP ON EV.id_type = TP.id
+	        "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id
 	    WHERE
 	        EV.id = _id_event;	        
 	ELSE
@@ -57,11 +55,9 @@ begin
 	    INTO
 	        _type
 	    FROM
-	        "Result" RS
-	        LEFT JOIN "Event" EV ON RS.id_event = EV.id
-	        LEFT JOIN "Type" TP ON EV.id_type = TP.id
+	        "Result" RS LEFT JOIN "Event" EV ON RS.id_event = EV.id LEFT JOIN "Type" TP ON EV.id_type = TP.id
 	    WHERE
-	         RS.id_sport = _id_sport AND RS.id_championship = _id_championship;
+	         RS.id = _id_result OR (RS.id_sport = _id_sport AND RS.id_championship = _id_championship);
 	END IF;
 
 	-- Build entity-specific columns/joins
@@ -137,10 +133,10 @@ begin
 		LEFT JOIN "Country" CN6 ON RS.id_country2 = CN6.id' ||
 		_joins || '
 	WHERE
-		RS.draft = false AND RS.id_sport = ' || _id_sport || ' AND
+		RS.draft = false AND (RS.id = ' || _id_result || ' OR (RS.id_sport = ' || _id_sport || ' AND
 		RS.id_championship = ' || _id_championship ||
-		_event_condition || _year_condition || '
-	ORDER BY RS.id_year DESC, RS.id';
+		_event_condition || _year_condition || '))
+	ORDER BY RS.id_year DESC, RS.id DESC';
 	
 	RETURN  _c;
 end;

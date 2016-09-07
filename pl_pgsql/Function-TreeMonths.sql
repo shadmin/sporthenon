@@ -23,10 +23,10 @@ begin
 	_current_month := '';
 	_current_sp := 0;
 	OPEN _c FOR EXECUTE
-	'SELECT (CASE WHEN RS.date2 IS NOT NULL AND RS.date2<>'''' THEN substring(RS.date2, 4) ELSE YR.label END) AS M, SP.id, SP.label, SP.label' || _lang || ', COUNT(*)
+	'SELECT (CASE WHEN RS.date2 IS NOT NULL AND RS.date2<>'''' THEN substring(RS.date2, 4) ELSE YR.label END) AS M, SP.id, SP.label' || _lang || ', SP.label, COUNT(*)
 		FROM "Result" RS LEFT JOIN "Sport" SP ON RS.id_sport = SP.id
 		LEFT JOIN "Year" YR ON RS.id_year = YR.id
-		WHERE ' || _filter || '
+		WHERE RS.draft = false AND ' || _filter || '
 		GROUP BY M, SP.id, SP.label' || _lang || '
 		ORDER BY M, SP.label' || _lang;
 	LOOP
