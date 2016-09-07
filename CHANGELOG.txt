@@ -1,7 +1,27 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.12.9  |
+| Last Version: 0.12.10 |
 +-----------------------+
+
++---------+
+| 0.12.10 |
++---------+
+[7 Sep 2016]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.10
+- Improved management of ext.links websites (dynamic patterns in admin)
+- Enhanced edition of rounds (new dialog window)
+- Included rounds in calendar searches
+- Added rounds on home/last updates
+- Added advanced search in left menu
+- Fixed performance issue on results saving with person lists attached
+- Sort by country name in olympic medals tables (if tie)
+- Added link to test current result page (update/results)
+- Added month/comment to distinguish duplicated years in "other years"
+- Pages with truncated URLs redirected to HTTP 404
+- Bugfix: error occurs in update/overview when too many ext.links
+- Bugfix: wrong count of ext.links in update/overview
+- Bugfix: event starting with + showed as inactive (replaced prefix by ++)
+- Bugfix: comments not displayed on rounds
 
 +--------+
 | 0.12.9 |
