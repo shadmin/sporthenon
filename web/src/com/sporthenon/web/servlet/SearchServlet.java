@@ -51,6 +51,7 @@ public class SearchServlet extends AbstractServlet {
 				lFuncParams.add(value);
 				lFuncParams.add(".");
 				lFuncParams.add((short)LIMIT);
+				lFuncParams.add(false);
 				lFuncParams.add("_" + getLocale(request));
 				StringBuffer html = new StringBuffer("<ul>");
 				Collection list = DatabaseHelper.call("Search2", lFuncParams);
@@ -89,14 +90,17 @@ public class SearchServlet extends AbstractServlet {
 				}
 				String pattern = String.valueOf(hParams.get("pattern"));
 				String scope = String.valueOf(hParams.get("scope"));
-				Boolean match = (String.valueOf(hParams.get("match")).equals("on"));
-				pattern = pattern.replaceAll("'", "''").replaceAll("_", ".").replaceAll("\\*", ".*")/*.replaceAll("\\s+", "|")*/;
-				pattern = "^" + pattern + (match ? "$" : ".*");
+				Short count = Short.valueOf(String.valueOf(hParams.get("count")));
+				Boolean match = String.valueOf(hParams.get("match")).equals("on");
+				pattern = pattern.replaceAll("'", "''").replaceAll("_", ".").replaceAll("\\*", ".*");
+				pattern = "^" + pattern;
 				ArrayList<Object> lFuncParams = new ArrayList<Object>();
 				lFuncParams.add(pattern);
 				lFuncParams.add(scope);
-				lFuncParams.add((short)0);
+				lFuncParams.add(count);
+				lFuncParams.add(match);
 				lFuncParams.add("_" + getLocale(request));
+				lFuncParams.add(count);
 				StringBuffer html = null;
 				if (isLink && scope.equals(".")) {
 					html = new StringBuffer();

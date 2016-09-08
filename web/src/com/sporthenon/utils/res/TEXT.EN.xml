@@ -14,6 +14,7 @@
 	<entry key="menu.calendar.2">Calendar</entry>
 	<entry key="menu.olympics.2">Olympics</entry>
 	<entry key="menu.usleagues.2">US leagues</entry>
+	<entry key="menu.search.2">Search</entry>
 	<entry key="menu.home">Home page</entry>
 	<entry key="menu.project">Project</entry>
 	<entry key="menu.contribute">Contribute</entry>
@@ -375,7 +376,6 @@
 	<entry key="advanced.search">Advanced search</entry>
 	<entry key="search.results">Search results for</entry>
 	<entry key="advanced">Advanced</entry>
-	<entry key="case.sensitive">Case sensitive</entry>
 	<entry key="exact.match">Exact match</entry>
 	<entry key="count.references">Count references</entry>
 	<entry key="pattern.tip"><![CDATA[Use * for multiple characters and _ for a single character]]></entry>

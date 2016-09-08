@@ -80,7 +80,7 @@ public class NavigationServlet extends AbstractServlet {
 		hTitle.put("usleagues", "menu.usleagues.2");
 		hTitle.put("project", "menu.project");
 		hTitle.put("contribute", "menu.contribute");
-		hTitle.put("search", "menu.search");
+		hTitle.put("search", "menu.search.2");
 		hTitle.put("login", "menu.login");
 		hTitle.put("update-overview", "update.overview");
 		hTitle.put("update-results", "update.results");

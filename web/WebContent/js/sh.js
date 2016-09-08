@@ -1344,7 +1344,7 @@ function runSearch() {
 		});
 		var h = new Hash();
 		h.set('pattern', $F('pattern'));
-		h.set('case', $F('case'));
+		h.set('count', $F('count') != '' ? $F('count') : '0');
 		h.set('match', $F('match'));
 		h.set('scope', tScopeValue.join(','));
 		new Ajax.Updater(tab, '/SearchServlet?run', {

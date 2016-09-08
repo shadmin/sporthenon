@@ -5,14 +5,16 @@
 	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
 	<form id="search-form" action="/search" onsubmit="return false;">
 	<div class="pattern">
-		<%=StringUtils.text("search.for", session)%>:<br/><input type="text" class="text" name="pattern" id="pattern" onkeydown="if(event.keyCode == 13){runSearch();}"></input>
+		<%=StringUtils.text("search.for", session)%>:<br/><input type="text" class="text" autocomplete="off" name="pattern" id="pattern" onkeydown="if(event.keyCode == 13){runSearch();}"></input>
 		<a href="#helplink" style="cursor:help;color:#000;">[?]</a>
-		<br/><br/><table id="advtable" cellspacing="0">
-			<tr><td><input type="checkbox" name="case" id="case"></input></td><td><label for="case"><%=StringUtils.text("case.sensitive", session)%></label></td></tr>
+		<br/><br/><table cellspacing="0">
 			<tr><td><input type="checkbox" name="match" id="match"></input></td><td><label for="match"><%=StringUtils.text("exact.match", session)%></label></td></tr>
 		</table>
+		<table cellspacing="0" style="margin-top:10px;">
+			<tr><td>Max:&nbsp;</<td><input type="text" name="count" id="count" value="100" style="width:50px;"></input></td></tr>
+		</table>
 	</div>
-	<div id="helplink" class="rendertip"><%=StringUtils.text("pattern.tip", session)%></div>
+	<div id="helplink" class="rendertip" style="display:none;"><%=StringUtils.text("pattern.tip", session)%></div>
 	<fieldset class="scope">
 		<legend><%=StringUtils.text("scope", session)%></legend>
 		<table cellspacing="2">
