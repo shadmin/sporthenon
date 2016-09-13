@@ -52,6 +52,18 @@ public class Round {
 	@Column(name = "result3", length = 20)
 	private String result3;
 	
+	@Column(name = "id_rank4")
+	private Integer idRank4;
+	
+	@Column(name = "result4", length = 20)
+	private String result4;
+	
+	@Column(name = "id_rank5")
+	private Integer idRank5;
+	
+	@Column(name = "result5", length = 20)
+	private String result5;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_city1")
 	private City city1;
@@ -233,6 +245,38 @@ public class Round {
 
 	public void setDate2(String date2) {
 		this.date2 = date2;
+	}
+
+	public Integer getIdRank4() {
+		return idRank4;
+	}
+
+	public String getResult4() {
+		return result4;
+	}
+
+	public Integer getIdRank5() {
+		return idRank5;
+	}
+
+	public String getResult5() {
+		return result5;
+	}
+
+	public void setIdRank4(Integer idRank4) {
+		this.idRank4 = idRank4;
+	}
+
+	public void setResult4(String result4) {
+		this.result4 = result4;
+	}
+
+	public void setIdRank5(Integer idRank5) {
+		this.idRank5 = idRank5;
+	}
+
+	public void setResult5(String result5) {
+		this.result5 = result5;
 	}
 
 	@Override

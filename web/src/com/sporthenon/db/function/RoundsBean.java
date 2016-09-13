@@ -32,6 +32,12 @@ public class RoundsBean {
 	@Column(name = "rd_result3")
 	private String rdResult3;
 	
+	@Column(name = "rd_result4")
+	private String rdResult4;
+	
+	@Column(name = "rd_result5")
+	private String rdResult5;
+	
 	@Column(name = "rd_date1")
 	private String rdDate1;
 	
@@ -271,6 +277,78 @@ public class RoundsBean {
 	
 	@Column(name = "rk3_rel2_label_en")
 	private String rk3Rel2LabelEN;
+	
+	@Column(name = "rk4_id")
+	private Integer rk4Id;
+	
+	@Column(name = "rk4_str1")
+	private String rk4Str1;
+	
+	@Column(name = "rk4_str2")
+	private String rk4Str2;
+	
+	@Column(name = "rk4_str3")
+	private String rk4Str3;
+	
+	@Column(name = "rk4_rel1_id")
+	private Integer rk4Rel1Id;
+	
+	@Column(name = "rk4_rel1_code")
+	private String rk4Rel1Code;
+	
+	@Column(name = "rk4_rel1_label")
+	private String rk4Rel1Label;
+	
+	@Column(name = "rk4_rel1_label_en")
+	private String rk4Rel1LabelEN;
+	
+	@Column(name = "rk4_rel2_id")
+	private Integer rk4Rel2Id;
+	
+	@Column(name = "rk4_rel2_code")
+	private String rk4Rel2Code;
+	
+	@Column(name = "rk4_rel2_label")
+	private String rk4Rel2Label;
+	
+	@Column(name = "rk4_rel2_label_en")
+	private String rk4Rel2LabelEN;
+	
+	@Column(name = "rk5_id")
+	private Integer rk5Id;
+	
+	@Column(name = "rk5_str1")
+	private String rk5Str1;
+	
+	@Column(name = "rk5_str2")
+	private String rk5Str2;
+	
+	@Column(name = "rk5_str3")
+	private String rk5Str3;
+	
+	@Column(name = "rk5_rel1_id")
+	private Integer rk5Rel1Id;
+	
+	@Column(name = "rk5_rel1_code")
+	private String rk5Rel1Code;
+	
+	@Column(name = "rk5_rel1_label")
+	private String rk5Rel1Label;
+	
+	@Column(name = "rk5_rel1_label_en")
+	private String rk5Rel1LabelEN;
+	
+	@Column(name = "rk5_rel2_id")
+	private Integer rk5Rel2Id;
+	
+	@Column(name = "rk5_rel2_code")
+	private String rk5Rel2Code;
+	
+	@Column(name = "rk5_rel2_label")
+	private String rk5Rel2Label;
+	
+	@Column(name = "rk5_rel2_label_en")
+	private String rk5Rel2LabelEN;
 
 	public Integer getRdId() {
 		return rdId;
@@ -974,6 +1052,214 @@ public class RoundsBean {
 
 	public void setRdDate2(String rdDate2) {
 		this.rdDate2 = rdDate2;
+	}
+
+	public Integer getRk4Id() {
+		return rk4Id;
+	}
+
+	public String getRk4Str1() {
+		return rk4Str1;
+	}
+
+	public String getRk4Str2() {
+		return rk4Str2;
+	}
+
+	public String getRk4Str3() {
+		return rk4Str3;
+	}
+
+	public Integer getRk4Rel1Id() {
+		return rk4Rel1Id;
+	}
+
+	public String getRk4Rel1Code() {
+		return rk4Rel1Code;
+	}
+
+	public String getRk4Rel1Label() {
+		return rk4Rel1Label;
+	}
+
+	public String getRk4Rel1LabelEN() {
+		return rk4Rel1LabelEN;
+	}
+
+	public Integer getRk4Rel2Id() {
+		return rk4Rel2Id;
+	}
+
+	public String getRk4Rel2Code() {
+		return rk4Rel2Code;
+	}
+
+	public String getRk4Rel2Label() {
+		return rk4Rel2Label;
+	}
+
+	public String getRk4Rel2LabelEN() {
+		return rk4Rel2LabelEN;
+	}
+
+	public Integer getRk5Id() {
+		return rk5Id;
+	}
+
+	public String getRk5Str1() {
+		return rk5Str1;
+	}
+
+	public String getRk5Str2() {
+		return rk5Str2;
+	}
+
+	public String getRk5Str3() {
+		return rk5Str3;
+	}
+
+	public Integer getRk5Rel1Id() {
+		return rk5Rel1Id;
+	}
+
+	public String getRk5Rel1Code() {
+		return rk5Rel1Code;
+	}
+
+	public String getRk5Rel1Label() {
+		return rk5Rel1Label;
+	}
+
+	public String getRk5Rel1LabelEN() {
+		return rk5Rel1LabelEN;
+	}
+
+	public Integer getRk5Rel2Id() {
+		return rk5Rel2Id;
+	}
+
+	public String getRk5Rel2Code() {
+		return rk5Rel2Code;
+	}
+
+	public String getRk5Rel2Label() {
+		return rk5Rel2Label;
+	}
+
+	public String getRk5Rel2LabelEN() {
+		return rk5Rel2LabelEN;
+	}
+
+	public void setRk4Id(Integer rk4Id) {
+		this.rk4Id = rk4Id;
+	}
+
+	public void setRk4Str1(String rk4Str1) {
+		this.rk4Str1 = rk4Str1;
+	}
+
+	public void setRk4Str2(String rk4Str2) {
+		this.rk4Str2 = rk4Str2;
+	}
+
+	public void setRk4Str3(String rk4Str3) {
+		this.rk4Str3 = rk4Str3;
+	}
+
+	public void setRk4Rel1Id(Integer rk4Rel1Id) {
+		this.rk4Rel1Id = rk4Rel1Id;
+	}
+
+	public void setRk4Rel1Code(String rk4Rel1Code) {
+		this.rk4Rel1Code = rk4Rel1Code;
+	}
+
+	public void setRk4Rel1Label(String rk4Rel1Label) {
+		this.rk4Rel1Label = rk4Rel1Label;
+	}
+
+	public void setRk4Rel1LabelEN(String rk4Rel1LabelEN) {
+		this.rk4Rel1LabelEN = rk4Rel1LabelEN;
+	}
+
+	public void setRk4Rel2Id(Integer rk4Rel2Id) {
+		this.rk4Rel2Id = rk4Rel2Id;
+	}
+
+	public void setRk4Rel2Code(String rk4Rel2Code) {
+		this.rk4Rel2Code = rk4Rel2Code;
+	}
+
+	public void setRk4Rel2Label(String rk4Rel2Label) {
+		this.rk4Rel2Label = rk4Rel2Label;
+	}
+
+	public void setRk4Rel2LabelEN(String rk4Rel2LabelEN) {
+		this.rk4Rel2LabelEN = rk4Rel2LabelEN;
+	}
+
+	public void setRk5Id(Integer rk5Id) {
+		this.rk5Id = rk5Id;
+	}
+
+	public void setRk5Str1(String rk5Str1) {
+		this.rk5Str1 = rk5Str1;
+	}
+
+	public void setRk5Str2(String rk5Str2) {
+		this.rk5Str2 = rk5Str2;
+	}
+
+	public void setRk5Str3(String rk5Str3) {
+		this.rk5Str3 = rk5Str3;
+	}
+
+	public void setRk5Rel1Id(Integer rk5Rel1Id) {
+		this.rk5Rel1Id = rk5Rel1Id;
+	}
+
+	public void setRk5Rel1Code(String rk5Rel1Code) {
+		this.rk5Rel1Code = rk5Rel1Code;
+	}
+
+	public void setRk5Rel1Label(String rk5Rel1Label) {
+		this.rk5Rel1Label = rk5Rel1Label;
+	}
+
+	public void setRk5Rel1LabelEN(String rk5Rel1LabelEN) {
+		this.rk5Rel1LabelEN = rk5Rel1LabelEN;
+	}
+
+	public void setRk5Rel2Id(Integer rk5Rel2Id) {
+		this.rk5Rel2Id = rk5Rel2Id;
+	}
+
+	public void setRk5Rel2Code(String rk5Rel2Code) {
+		this.rk5Rel2Code = rk5Rel2Code;
+	}
+
+	public void setRk5Rel2Label(String rk5Rel2Label) {
+		this.rk5Rel2Label = rk5Rel2Label;
+	}
+
+	public void setRk5Rel2LabelEN(String rk5Rel2LabelEN) {
+		this.rk5Rel2LabelEN = rk5Rel2LabelEN;
+	}
+
+	public String getRdResult4() {
+		return rdResult4;
+	}
+
+	public String getRdResult5() {
+		return rdResult5;
+	}
+
+	public void setRdResult4(String rdResult4) {
+		this.rdResult4 = rdResult4;
+	}
+
+	public void setRdResult5(String rdResult5) {
+		this.rdResult5 = rdResult5;
 	}
 	
 }

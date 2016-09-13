@@ -126,6 +126,8 @@
 	out.print("var TX_RANK2=\"" + StringUtils.text("rank.2", session) + "\";");
 	out.print("var TX_RESULT=\"" + StringUtils.text("entity.RS.1", session) + "\";");
 	out.print("var TX_RANK3=\"" + StringUtils.text("rank.3", session) + "\";");
+	out.print("var TX_RANK4=\"" + StringUtils.text("rank.4", session) + "\";");
+	out.print("var TX_RANK5=\"" + StringUtils.text("rank.5", session) + "\";");
 	out.print("var TX_DATE=\"" + StringUtils.text("date", session) + "\";");
 	out.print("var TX_PLACE=\"" + StringUtils.text("place", session) + "\";");
 	out.print("var TX_TIE=\"" + StringUtils.text("tie", session) + "\";");

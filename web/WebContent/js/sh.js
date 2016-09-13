@@ -1,5 +1,4 @@
 /*============================
-  ========== COMMON ========== 
   ============================*/
 function fillPicklistXML(response) {
 	var xml = (response != null ? response.responseXML : pl.outerHTML);
@@ -1604,6 +1603,7 @@ function loadResValues(value) {
 				}
 			}
 			// Person List
+			tValues['pldel'] = '';
 			for (var i = 1 ; i <= pListCount ; i++) {
 				tValues['rk' + i + 'list'] = null;
 			}
@@ -1643,6 +1643,8 @@ function loadResValues(value) {
 				tValues['rd' + rdindex + 'rk1'] = null;
 				tValues['rd' + rdindex + 'rk2'] = null;
 				tValues['rd' + rdindex + 'rk3'] = null;
+				tValues['rd' + rdindex + 'rk4'] = null;
+				tValues['rd' + rdindex + 'rk5'] = null;
 				tValues['rd' + rdindex + 'pl1'] = null;
 				tValues['rd' + rdindex + 'pl2'] = null;
 				rdindex++;
@@ -1664,14 +1666,20 @@ function loadResValues(value) {
 					tValues['rd' + rdindex + 'rk3'] = t_[9];
 					if (t_[10] != '') {$('rd' + rdindex + 'rk3').value = t_[10]; $('rd' + rdindex + 'rk3').addClassName('completed');} else {$('rd' + rdindex + 'rk3').value = $('rd' + rdindex + 'rk3').name; $('rd' + rdindex + 'rk3').removeClassName('completed').removeClassName('completed2');}
 					if (t_[11] != '') {$('rd' + rdindex + 'rs3').value = t_[11]; $('rd' + rdindex + 'rs3').addClassName('completed2');} else {$('rd' + rdindex + 'rs3').value = $('rd' + rdindex + 'rs3').name; $('rd' + rdindex + 'rs3').removeClassName('completed2');}
-					if (t_[12] != '') {$('rd' + rdindex + 'dt1').value = t_[12]; $('rd' + rdindex + 'dt1').addClassName('completed2');} else {$('rd' + rdindex + 'dt1').value = $('rd' + rdindex + 'dt1').name; $('rd' + rdindex + 'dt1').removeClassName('completed2');}
-					if (t_[13] != '') {$('rd' + rdindex + 'dt2').value = t_[13]; $('rd' + rdindex + 'dt2').addClassName('completed2');} else {$('rd' + rdindex + 'dt2').value = $('rd' + rdindex + 'dt2').name; $('rd' + rdindex + 'dt2').removeClassName('completed2');}
-					tValues['rd' + rdindex + 'pl1'] = t_[14];
-					if (t_[15] != '') {$('rd' + rdindex + 'pl1').value = t_[15]; $('rd' + rdindex + 'pl1').addClassName('completed');} else {$('rd' + rdindex + 'pl1').value = $('rd' + rdindex + 'pl1').name; $('rd' + rdindex + 'pl1').removeClassName('completed').removeClassName('completed2');}
-					tValues['rd' + rdindex + 'pl2'] = t_[16];
-					if (t_[17] != '') {$('rd' + rdindex + 'pl2').value = t_[17]; $('rd' + rdindex + 'pl2').addClassName('completed');} else {$('rd' + rdindex + 'pl2').value = $('rd' + rdindex + 'pl2').name; $('rd' + rdindex + 'pl2').removeClassName('completed').removeClassName('completed2');}
-					if (t_[18] != '') {$('rd' + rdindex + 'exa').value = t_[18]; $('rd' + rdindex + 'exa').addClassName('completed2');} else {$('rd' + rdindex + 'exa').value = $('rd' + rdindex + 'exa').name; $('rd' + rdindex + 'exa').removeClassName('completed2');}
-					if (t_[19] != '') {$('rd' + rdindex + 'cmt').value = t_[19]; $('rd' + rdindex + 'cmt').addClassName('completed2');} else {$('rd' + rdindex + 'cmt').value = $('rd' + rdindex + 'cmt').name; $('rd' + rdindex + 'cmt').removeClassName('completed2');}
+					tValues['rd' + rdindex + 'rk4'] = t_[12];
+					if (t_[13] != '') {$('rd' + rdindex + 'rk4').value = t_[13]; $('rd' + rdindex + 'rk4').addClassName('completed');} else {$('rd' + rdindex + 'rk4').value = $('rd' + rdindex + 'rk4').name; $('rd' + rdindex + 'rk4').removeClassName('completed').removeClassName('completed2');}
+					if (t_[14] != '') {$('rd' + rdindex + 'rs4').value = t_[14]; $('rd' + rdindex + 'rs4').addClassName('completed2');} else {$('rd' + rdindex + 'rs4').value = $('rd' + rdindex + 'rs4').name; $('rd' + rdindex + 'rs4').removeClassName('completed2');}
+					tValues['rd' + rdindex + 'rk5'] = t_[15];
+					if (t_[16] != '') {$('rd' + rdindex + 'rk5').value = t_[16]; $('rd' + rdindex + 'rk5').addClassName('completed');} else {$('rd' + rdindex + 'rk5').value = $('rd' + rdindex + 'rk5').name; $('rd' + rdindex + 'rk5').removeClassName('completed').removeClassName('completed2');}
+					if (t_[17] != '') {$('rd' + rdindex + 'rs5').value = t_[17]; $('rd' + rdindex + 'rs5').addClassName('completed2');} else {$('rd' + rdindex + 'rs5').value = $('rd' + rdindex + 'rs5').name; $('rd' + rdindex + 'rs5').removeClassName('completed2');}
+					if (t_[18] != '') {$('rd' + rdindex + 'dt1').value = t_[18]; $('rd' + rdindex + 'dt1').addClassName('completed2');} else {$('rd' + rdindex + 'dt1').value = $('rd' + rdindex + 'dt1').name; $('rd' + rdindex + 'dt1').removeClassName('completed2');}
+					if (t_[19] != '') {$('rd' + rdindex + 'dt2').value = t_[19]; $('rd' + rdindex + 'dt2').addClassName('completed2');} else {$('rd' + rdindex + 'dt2').value = $('rd' + rdindex + 'dt2').name; $('rd' + rdindex + 'dt2').removeClassName('completed2');}
+					tValues['rd' + rdindex + 'pl1'] = t_[20];
+					if (t_[21] != '') {$('rd' + rdindex + 'pl1').value = t_[21]; $('rd' + rdindex + 'pl1').addClassName('completed');} else {$('rd' + rdindex + 'pl1').value = $('rd' + rdindex + 'pl1').name; $('rd' + rdindex + 'pl1').removeClassName('completed').removeClassName('completed2');}
+					tValues['rd' + rdindex + 'pl2'] = t_[22];
+					if (t_[23] != '') {$('rd' + rdindex + 'pl2').value = t_[23]; $('rd' + rdindex + 'pl2').addClassName('completed');} else {$('rd' + rdindex + 'pl2').value = $('rd' + rdindex + 'pl2').name; $('rd' + rdindex + 'pl2').removeClassName('completed').removeClassName('completed2');}
+					if (t_[24] != '') {$('rd' + rdindex + 'exa').value = t_[24]; $('rd' + rdindex + 'exa').addClassName('completed2');} else {$('rd' + rdindex + 'exa').value = $('rd' + rdindex + 'exa').name; $('rd' + rdindex + 'exa').removeClassName('completed2');}
+					if (t_[25] != '') {$('rd' + rdindex + 'cmt').value = t_[25]; $('rd' + rdindex + 'cmt').addClassName('completed2');} else {$('rd' + rdindex + 'cmt').value = $('rd' + rdindex + 'cmt').name; $('rd' + rdindex + 'cmt').removeClassName('completed2');}
 					trd.push(replaceAll(t[k].substring(3), '|', '~'));
 				}
 				else {
@@ -1708,16 +1716,33 @@ function loadResValues(value) {
 		}
 	}
 }
-function clearValue(s) {
-	tValues[s] = '';
-	$(s).value = '';
-	if ($(s + '-l')) {
-		s = s + '-l';
-		$(s).value = '';	
+function clearValue(s, focus) {
+	var t = s.split(',');
+	for (var i = 0 ; i < t.length ; i++) {
+		s = t[i];
+		tValues[s] = '';
+		$(s).value = '';
+		if ($(s + '-l')) {
+			s = s + '-l';
+			$(s).value = '';
+		}
+		$(s).removeClassName('completed').removeClassName('completed2');
+		$(s).value = $(s).name;
 	}
-	$(s).removeClassName('completed').removeClassName('completed2');
-	$(s).focus();
+	if (focus) {
+		$(s).focus();
+	}
 	showWarning();
+}
+function clearFieldset(s) {
+	$$('#' + s + ' input').each(function(s_){
+		clearValue(s_.id);
+	});
+	if (s == 'rounds') {
+		for (var i = 1 ; i <= rdCount ; i++) {
+			deleteRound(i);
+		}
+	}
 }
 function setValue(text, li) {
 	var t = li.id.split('|');
@@ -1798,6 +1823,7 @@ function saveResult() {
 	saveRounds();
 	t.push('rdlist');
 	t.push('rddel');
+	t.push('pldel');
 	t.each(function(s){
 		h.set(s, tValues[s]);
 		if ($(s) && ($(s).hasClassName('completed') || $(s).hasClassName('completed2'))) {
@@ -1918,7 +1944,7 @@ function initPersonList(index) {
 		}
 		tValues['plist_id' + i] = (plid && plid != null ? plid : 0);
 		tValues['plist' + i] = pid;
-		html.push('<tr><td><input type="text" id="plist' + i + '-index" tabindex="' + (100000 + i) + '" name="Index" style="width:50px;" class="' + (pindex != null && pindex != '' ? 'completed2' : '') + '" value="' + pindex + '"/></td><td><input type="text" id="plist' + i + '" tabindex="' + (100001 + i) + '" name="Name #' + i + '" class="' + (pid != null ? 'completed' : '') + '" value="' + ptxt + '"/><a href="javascript:clearValue(\'plist' + i + '\');">[X]</a></td></tr>');	
+		html.push('<tr id="plrow' + i + '"><td><a href="javascript:deletePersonList(' + i + ');"><img title="' + TX_REMOVE + '" src="/img/delete.gif"/></a></td><td><input type="text" id="plist' + i + '-index" tabindex="' + (100000 + i) + '" name="Index" style="width:50px;" class="' + (pindex != null && pindex != '' ? 'completed2' : '') + '" value="' + pindex + '"/></td><td><input type="text" id="plist' + i + '" tabindex="' + (100001 + i) + '" name="Name #' + i + '" class="' + (pid != null ? 'completed' : '') + '" value="' + ptxt + '"/><a href="javascript:clearValue(\'plist' + i + '\', true);">[X]</a></td></tr>');	
 	}
 	$('plist').update('<table>' + html.join('') + '</table>');
 	$$('#plist input').each(function(el){
@@ -1936,11 +1962,13 @@ function savePersonList() {
 	var val1 = null;
 	var val2 = null;
 	for (var i = 1 ; i <= pListCount ; i++) {
-		val1 = tValues['plist_id' + i];
-		val2 = tValues['plist' + i];
-		t.push(val1 + ':' + (val2 && val2 != '' ? val2 : $('plist' + i).value) + ':' + $('plist' + i + '-index').value.replace('Index', ''));
-		if (val2 && val2 != '' && val2.indexOf('Name #') == -1) {
-			t_.push(val1 + ':' + val2 + ':' + $('plist' + i).value + ':' + $('plist' + i + '-index').value.replace('Index', ''));	
+		if ($('plist' + i + '-index')) {
+			val1 = tValues['plist_id' + i];
+			val2 = tValues['plist' + i];
+			t.push(val1 + ':' + (val2 && val2 != '' ? val2 : $('plist' + i).value) + ':' + $('plist' + i + '-index').value.replace('Index', ''));
+			if (val2 && val2 != '' && val2.indexOf('Name #') == -1) {
+				t_.push(val1 + ':' + val2 + ':' + $('plist' + i).value + ':' + $('plist' + i + '-index').value.replace('Index', ''));	
+			}
 		}
 	}
 	tValues['rk' + pListIndex + 'list'] = t.join('|');
@@ -1957,12 +1985,18 @@ function savePersonList() {
 function addPersonList() {
 	try {
 		for (var i = pListCount + 1 ; i <= pListCount + 10 ; i++) {
-			$$('#plist table')[0].insert('<tr><td><input type="text" id="plist' + i + '-index" tabindex="' + (100000 + i) + '" name="Index" style="width:50px;"/></td><td><input type="text" id="plist' + i + '" tabindex="' + (100001 + i) + '" name="Name #' + i + '"/><a href="javascript:clearValue(\'plist' + i + '\');">[X]</a></td></tr>');
+			$$('#plist table')[0].insert('<tr id="plrow' + i + '"><td><a href="javascript:deletePersonList(' + i + ');"><img title="' + TX_REMOVE + '" src="/img/delete.gif"/></a></td><td><input type="text" id="plist' + i + '-index" tabindex="' + (100000 + i) + '" name="Index" style="width:50px;"/></td><td><input type="text" id="plist' + i + '" tabindex="' + (100001 + i) + '" name="Name #' + i + '"/><a href="javascript:clearValue(\'plist' + i + '\', true);">[X]</a></td></tr>');
 			setInput('plist' + i);
 		}
 	}
 	catch(err){}
 	pListCount += 10;
+}
+function deletePersonList(index) {
+	if (tValues['plist_id' + index] != '') {
+		tValues['pldel'] = (tValues['pldel'] ? tValues['pldel'] + '|' : '') + tValues['plist_id' + index];
+	}
+	$('plrow' + index).remove();
 }
 function displayShortcuts() {
 	$$('#shortcutdiv a')[0].remove();
@@ -1986,18 +2020,22 @@ function addRounds(clear) {
 			html.push('<td>&nbsp;<a href="javascript:openRoundDialog(' + i + ');"><img title="' + TX_OPEN_DIALOG + '" src="/img/update/dialog.png"/></a></td>');
 			html.push('<td><input type="hidden" id="rd' + i + 'id"/></td>');
 			html.push('<td><input type="text" id="rd' + i + 'rt" tabindex="' + (1000 + (11*(i-1))) + '" name="' + TX_TYPE + '" style="width:150px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rk1" tabindex="' + (1001 + (11*(i-1))) + '" name="' + TX_RANK1 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk1\');">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk1" tabindex="' + (1001 + (11*(i-1))) + '" name="' + TX_RANK1 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk1\', true);">[X]</a></td>');
 			html.push('<td><input type="text" id="rd' + i + 'rs1" tabindex="' + (1002 + (11*(i-1))) + '" name="' + TX_RESULT_SCORE + '" style="width:90px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rk2" tabindex="' + (1003 + (11*(i-1))) + '" name="' + TX_RANK2 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk2\');">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk2" tabindex="' + (1003 + (11*(i-1))) + '" name="' + TX_RANK2 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk2\', true);">[X]</a></td>');
 			html.push('<td><input type="text" id="rd' + i + 'rs2" tabindex="' + (1004 + (11*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rk3" tabindex="' + (1005 + (11*(i-1))) + '" name="' + TX_RANK3 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk3\');">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk3" tabindex="' + (1005 + (11*(i-1))) + '" name="' + TX_RANK3 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk3\', true);">[X]</a></td>');
 			html.push('<td><input type="text" id="rd' + i + 'rs3" tabindex="' + (1006 + (11*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'dt1" tabindex="' + (1007 + (11*(i-1))) + '" name="' + TX_DATE + ' #1" style="width:80px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'dt2" tabindex="' + (1008 + (11*(i-1))) + '" name="' + TX_DATE + ' #2" style="width:80px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'pl1" tabindex="' + (1009 + (11*(i-1))) + '" name="' + TX_PLACE + ' #1" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl1\');">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'pl2" tabindex="' + (1010 + (11*(i-1))) + '" name="' + TX_PLACE + ' #2" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl2\');">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'exa" tabindex="' + (1011 + (11*(i-1))) + '" name="' + TX_TIE + '" style="width:50px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'cmt" tabindex="' + (1012 + (11*(i-1))) + '" name="' + TX_COMMENT + '" style="width:150px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk4" tabindex="' + (1007 + (11*(i-1))) + '" name="' + TX_RANK4 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk4\', true);">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rs4" tabindex="' + (1008 + (11*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk5" tabindex="' + (1009 + (11*(i-1))) + '" name="' + TX_RANK5 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk5\', true);">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rs5" tabindex="' + (1010 + (11*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'dt1" tabindex="' + (1011 + (11*(i-1))) + '" name="' + TX_DATE + ' #1" style="width:80px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'dt2" tabindex="' + (1012 + (11*(i-1))) + '" name="' + TX_DATE + ' #2" style="width:80px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'pl1" tabindex="' + (1013 + (11*(i-1))) + '" name="' + TX_PLACE + ' #1" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl1\', true);">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'pl2" tabindex="' + (1014 + (11*(i-1))) + '" name="' + TX_PLACE + ' #2" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl2\', true);">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'exa" tabindex="' + (1015 + (11*(i-1))) + '" name="' + TX_TIE + '" style="width:50px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'cmt" tabindex="' + (1016 + (11*(i-1))) + '" name="' + TX_COMMENT + '" style="width:150px;"/></td>');
 			html.push('</tr>');
 			rtable.insert(html.join(''));
 		}
@@ -2009,8 +2047,10 @@ function addRounds(clear) {
 	rdCount += 10;
 }
 function deleteRound(index) {
-	tValues['rddel'] = (tValues['rddel'] ? tValues['rddel'] + '|' : '') + $('rd' + index + 'id').value;
-	$('rdrow' + index).remove();
+	if ($('rdrow' + index)) {
+		tValues['rddel'] = (tValues['rddel'] ? tValues['rddel'] + '|' : '') + $('rd' + index + 'id').value;
+		$('rdrow' + index).remove();	
+	}
 }
 function saveRounds() {
 	var t = [];
@@ -2033,6 +2073,12 @@ function saveRounds() {
 			t_.push(tValues['rd' + i + 'rk3']);
 			t_.push($('rd' + i + 'rk3').hasClassName('completed2') ? $('rd' + i + 'rk3').value : '');
 			t_.push($('rd' + i + 'rs3').hasClassName('completed2') ? $('rd' + i + 'rs3').value : '');
+			t_.push(tValues['rd' + i + 'rk4']);
+			t_.push($('rd' + i + 'rk4').hasClassName('completed2') ? $('rd' + i + 'rk4').value : '');
+			t_.push($('rd' + i + 'rs4').hasClassName('completed2') ? $('rd' + i + 'rs4').value : '');
+			t_.push(tValues['rd' + i + 'rk5']);
+			t_.push($('rd' + i + 'rk5').hasClassName('completed2') ? $('rd' + i + 'rk5').value : '');
+			t_.push($('rd' + i + 'rs5').hasClassName('completed2') ? $('rd' + i + 'rs5').value : '');
 			t_.push($('rd' + i + 'dt1').hasClassName('completed2') ? $('rd' + i + 'dt1').value : '');
 			t_.push($('rd' + i + 'dt2').hasClassName('completed2') ? $('rd' + i + 'dt2').value : '');
 			t_.push(tValues['rd' + i + 'pl1']);
@@ -2054,7 +2100,7 @@ function openRoundDialog(index, opened) {
 	index = 'rd' + index;
 	var text = null;
 	$('rddlg-id').value = $(index + 'id').value;
-	['rt', 'rk1', 'rk2', 'rk3', 'pl1', 'pl2', 'rs1', 'rs2', 'rs3', 'dt1', 'dt2', 'exa', 'cmt'].each(function(s){
+	['rt', 'rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'pl1', 'pl2', 'rs1', 'rs2', 'rs3', 'rs4', 'rs5', 'dt1', 'dt2', 'exa', 'cmt'].each(function(s){
 		if (/(rt|rk|pl).*$/.match(s)) {
 			tValues['rddlg-' + s] = tValues[index + s];
 			if (tValues['rddlg-' + s] && tValues['rddlg-' + s] != '') {
@@ -2092,7 +2138,7 @@ function moveRound(index) {
 	openRoundDialog(rdDlgCurrent + index, 1);
 }
 function copyRStoRD() {
-	['rk1', 'rk2', 'rk3', 'pl2', 'rs1', 'rs2', 'rs3', 'dt2', 'exa'].each(function(s){
+	['rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'pl2', 'rs1', 'rs2', 'rs3', 'rs4', 'rs5', 'dt2', 'exa'].each(function(s){
 		if (/(rt|rk|pl).*$/.match(s)) {
 			tValues['rddlg-' + s] = tValues[s];
 			if (tValues['rddlg-' + s] && tValues['rddlg-' + s] != '') {
@@ -2117,7 +2163,7 @@ function copyRStoRD() {
 function setRoundValues() {
 	var index = 'rd' + rdDlgCurrent;
 	var text = null;
-	['rt', 'rk1', 'rk2', 'rk3', 'pl1', 'pl2', 'rs1', 'rs2', 'rs3', 'dt1', 'dt2', 'exa', 'cmt'].each(function(s){
+	['rt', 'rk1', 'rk2', 'rk3', 'rk4', 'rk5', 'pl1', 'pl2', 'rs1', 'rs2', 'rs3', 'rs4', 'rs5', 'dt1', 'dt2', 'exa', 'cmt'].each(function(s){
 		if (/(rt|rk|pl).*$/.match(s)) {
 			tValues[index + s] = tValues['rddlg-' + s];
 			if (tValues[index + s] && tValues[index + s] != '') {

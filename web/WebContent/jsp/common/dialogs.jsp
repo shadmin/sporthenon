@@ -40,7 +40,7 @@
 <div id="d-round" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fstitle">Edit Round&nbsp;<span id="round-title"></span></div>
-	<div class="fscontent" style="width:680px;height:240px;overflow:auto;">
+	<div class="fscontent" style="width:680px;height:300px;overflow:auto;">
 		<div id="ajaxsearch3" class="ajaxsearch"></div>
 		<div style="float:right;">
 		<table class="toolbar" style="top:0;right:0;clear:right;float:right;margin-top:0px;">
@@ -62,8 +62,12 @@
 			<td><input type="text" id="rddlg-rs2" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
 			<tr><td><input type="text" id="rddlg-rk3" name="<%=StringUtils.text("rank.3", session)%>" style="width:300px;"/><a href="javascript:clearValue('rddlg-rk3');">[X]</a></td>
 			<td><input type="text" id="rddlg-rs3" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
-			<tr><td><input type="text" id="rddlg-dt1" name="<%=StringUtils.text("date", session)%> #1" style="width:80px;"/></td>
-			<td><input type="text" id="rddlg-dt2" name="<%=StringUtils.text("date", session)%> #2" style="width:80px;"/></td></tr>
+			<tr><td><input type="text" id="rddlg-rk4" name="<%=StringUtils.text("rank.4", session)%>" style="width:300px;"/><a href="javascript:clearValue('rddlg-rk4');">[X]</a></td>
+			<td><input type="text" id="rddlg-rs4" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
+			<tr><td><input type="text" id="rddlg-rk5" name="<%=StringUtils.text("rank.5", session)%>" style="width:300px;"/><a href="javascript:clearValue('rddlg-rk5');">[X]</a></td>
+			<td><input type="text" id="rddlg-rs5" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
+			<tr><td><input type="text" id="rddlg-dt1" name="<%=StringUtils.text("date", session)%> #1" style="width:120px;"/>&nbsp;<a href="javascript:$('rddlg-dt1').value=tDateValues[0];$('rddlg-dt1').addClassName('completed2');">D-2</a>/<a href="javascript:$('rddlg-dt1').value=tDateValues[1];$('rddlg-dt1').addClassName('completed2');">D-1</a>/<a href="javascript:$('rddlg-dt1').value=tDateValues[2];$('rddlg-dt1').addClassName('completed2');"> D </a>/<a href="javascript:$('rddlg-dt1').value=tDateValues[3];$('rddlg-dt1').addClassName('completed2');">D+1</a>/<a href="javascript:$('rddlg-dt1').value=tDateValues[4];$('rddlg-dt1').addClassName('completed2');">D+2</a></td>
+			<td><input type="text" id="rddlg-dt2" name="<%=StringUtils.text("date", session)%> #2" style="width:120px;"/>&nbsp;<a href="javascript:$('rddlg-dt2').value=tDateValues[0];$('rddlg-dt2').addClassName('completed2');">D-2</a>/<a href="javascript:$('rddlg-dt2').value=tDateValues[1];$('rddlg-dt2').addClassName('completed2');">D-1</a>/<a href="javascript:$('rddlg-dt2').value=tDateValues[2];$('rddlg-dt2').addClassName('completed2');"> D </a>/<a href="javascript:$('rddlg-dt2').value=tDateValues[3];$('rddlg-dt2').addClassName('completed2');">D+1</a>/<a href="javascript:$('rddlg-dt2').value=tDateValues[4];$('rddlg-dt2').addClassName('completed2');">D+2</a></td></tr>
 			<tr><td><input type="text" id="rddlg-pl1" name="<%=StringUtils.text("place", session)%> #1" style="width:300px;"/></td>
 			<td><input type="text" id="rddlg-pl2" name="<%=StringUtils.text("place", session)%> #2" style="width:300px;"/></td></tr>
 			<tr><td colspan="2"><input type="text" id="rddlg-exa" name="<%=StringUtils.text("tie", session)%>" style="width:50px;"/></td></tr>

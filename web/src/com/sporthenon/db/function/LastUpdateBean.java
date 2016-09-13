@@ -10,6 +10,9 @@ import javax.persistence.Id;
 public class LastUpdateBean {
 
 	@Id
+	@Column(name = "id")
+	private Integer id;
+	
 	@Column(name = "rs_id")
 	private Integer rsId;
 	
@@ -235,6 +238,14 @@ public class LastUpdateBean {
 	@Column(name = "cn4_label_en")
 	private String cn4LabelEN;
 	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public Integer getRsId() {
 		return rsId;
 	}

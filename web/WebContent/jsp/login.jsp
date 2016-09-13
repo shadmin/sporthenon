@@ -20,7 +20,7 @@
 	<div>
 		<table class="tlogin">
 			<tr>
-				<th><%=StringUtils.text("loginid", session)%>&nbsp;:</td><td><input type="text" id="login" name="login" size="15"/></td>
+				<th><%=StringUtils.text("loginid", session)%>&nbsp;:</td><td><input type="text" id="login" name="login" size="15" onkeydown="if(event.keyCode==13){$('flogin').submit();}"/></td>
 			</tr>
 			<tr>
 				<th><%=StringUtils.text("password", session)%>&nbsp;:</td><td><input type="password" id="password" name="password" size="15" onkeydown="if(event.keyCode==13){$('flogin').submit();}"/></td>
