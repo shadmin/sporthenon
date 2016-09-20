@@ -249,6 +249,12 @@ function sort(id, col, sortIndex) {
 			index += '-' + i++;
 			tIndex.push(index);
 			t[index] = tr.outerHTML;
+			if (cell.getAttribute('rowspan')) {
+				for (var j = 0 ; j < parseInt(cell.getAttribute('rowspan')) ; j++) {
+					tr = tr.next();
+					t[index] += tr.outerHTML;	
+				}
+			}
 		}
 		tr = tr.next();
 	}

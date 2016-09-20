@@ -64,7 +64,7 @@
         	lParams.add(new Integer(0));
         	lParams.add("_" + lang);
         	Collection coll = DatabaseHelper.call("LastUpdates", lParams);
-        	out.print(HtmlConverter.convertLastUpdates(coll, 20, 0, lang));
+        	out.print(HtmlConverter.convertLastUpdates(coll, ITEM_LIMIT, 0, lang));
         	Timestamp ts = null;
         	for (Object o : coll) {
         		LastUpdateBean bean = (LastUpdateBean) o;

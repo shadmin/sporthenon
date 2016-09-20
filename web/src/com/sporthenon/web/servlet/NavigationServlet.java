@@ -1,6 +1,7 @@
 package com.sporthenon.web.servlet;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -111,7 +112,7 @@ public class NavigationServlet extends AbstractServlet {
 				throw new NullParameterException();
 			if (url.matches(".*\\/(athletes|championships|cities|complexes|countries|events|sports|usstates|teams|years)\\/.*"))
 				throw new OldPatternException();
-			Redirection re = (Redirection) DatabaseHelper.loadEntityFromQuery("from Redirection where previousPath='" + request.getRequestURI().replaceAll("'", "''") + "' order by id desc");
+			Redirection re = (Redirection) DatabaseHelper.loadEntityFromQuery("from Redirection where previousPath='" + URLDecoder.decode(request.getRequestURI(), "UTF-8").replaceAll("'", "''") + "' order by id desc");
 			if (re != null) {
 				newURI = re.getCurrentPath();
 				throw new ObsoleteURLException();

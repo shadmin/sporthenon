@@ -2673,7 +2673,7 @@ public class HtmlConverter {
 			// Write line
 			String pos1_ = "<td style='padding-right:3px;font-weight:bold;'>" + pos1 + "</td>";
 			String pos2_ = (isTriple ? null : (pos2 != null ? "<td style='padding-right:3px;'>" + pos2 + "</td>" : null));
-			String pos3_ = (isDouble || isTriple || isScore ? null : (pos3 != null ? "<td style='padding-right:3px;'>" + pos3 + "</td>" : null));
+			String pos3_ = (isDouble || isTriple ? null : (pos3 != null ? "<td style='padding-right:3px;'>" + pos3 + "</td>" : null));
 			if (isDouble || isTriple) {
 				if (pos2 != null)
 					pos1_ = "<td style='font-weight:bold;'>" + pos1 + "</td><td style='font-weight:bold;'>&nbsp;/&nbsp;</td><td style='padding-right:3px;font-weight:bold;'>" + pos2 + "</td>" + (isTriple && pos3 != null ? "<td style='font-weight:bold;'>&nbsp;/&nbsp;</td><td style='font-weight:bold;'>" + pos3 + "</td>" + (tie != null && tie.matches("^1\\-(4|5|6|7|8|9).*") ? "<td style='font-weight:bold;'>&nbsp;/&nbsp;...</td>" : "") : "");

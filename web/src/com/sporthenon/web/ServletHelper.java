@@ -56,7 +56,7 @@ public class ServletHelper {
 		String s = sb.toString();
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
-        if (s.matches(".*\\#INFO\\#.*")) {
+        if (s.contains("#INFO#")) {
         	StringBuffer sbInfo = new StringBuffer();
         	sbInfo.append(StringUtils.getSizeBytes(s));
         	sbInfo.append("|#DTIME#");
@@ -72,7 +72,7 @@ public class ServletHelper {
 	
 	public static void writePageHtml(HttpServletRequest request, HttpServletResponse response, StringBuffer sb, boolean isPrint) throws ServletException, IOException {
 		String s = sb.append("<p id=\"errorlink\"><a href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", request.getSession()) + "</a></p>").toString();
-		if (s.matches(".*\\#INFO\\#.*")) {
+		if (s.contains("#INFO#")) {
 			StringBuffer sbInfo = new StringBuffer();
 			sbInfo.append(StringUtils.getSizeBytes(s));
 			sbInfo.append("|#DTIME#");
