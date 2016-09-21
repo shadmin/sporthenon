@@ -1159,15 +1159,28 @@ public class HtmlConverter {
 			lFuncParams.add(y + (m < 10 ? "0" : "") + m + "01");
 			lFuncParams.add(id);
 			lFuncParams.add("_" + lang);
+			int n = 0;
 			StringBuffer sb = new StringBuffer();
 			for (RefItem item : (Collection<RefItem>) DatabaseHelper.call("GetCalendarResults", lFuncParams)) {
 				String event = "<a href='" + HtmlUtils.writeURL("/results", item.getIdRel2() + "-" + item.getIdRel3() + (item.getIdRel4() != null ? "-" + item.getIdRel4() : "") + (item.getIdRel5() != null ? "-" + item.getIdRel5() : "") + (item.getIdRel18() != null ? "-" + item.getIdRel18() : ""), item.getLabelRel12() + "/" + item.getLabelRel13() + (item.getIdRel4() != null ? "/" + item.getLabelRel14() : "") + (item.getIdRel5() != null ? "/" + item.getLabelRel15() : "") + (item.getIdRel18() != null ? "/" + item.getLabelRel16() : "")) + "'>" + (item.getLabelRel3() + (item.getIdRel4() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel4() : "") + (item.getIdRel5() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel5() : "") + (item.getIdRel18() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel18() : "")) + "</a>";
-				sb.append("<li>").append((StringUtils.notEmpty(item.getDate1()) ? HtmlUtils.writeDateLink(null, item.getDate1(), StringUtils.toTextDate(item.getDate1(), lang, "dd/MM")) + "-" : "") + (StringUtils.notEmpty(item.getDate2()) ? HtmlUtils.writeDateLink(null, item.getDate2(), StringUtils.toTextDate(item.getDate2(), lang, "dd/MM")) : ""));
+				if (StringUtils.notEmpty(item.getTxt5()))
+					event += "&nbsp;[" + item.getTxt5() + "]";
+				String d1 = StringUtils.toTextDate(item.getDate1(), lang, "dd/MM/yyyy");
+				String d2 = StringUtils.toTextDate(item.getDate2(), lang, "dd/MM/yyyy");
+				String dates_ = "";
+				if (StringUtils.notEmpty(d1) && StringUtils.notEmpty(d2)) {
+					if (d1.substring(3).equals(d2.substring(3)))
+						dates_ = HtmlUtils.writeDateLink(d1, d2, d1.substring(0, 2).replaceFirst("^0", "") + StringUtils.SEP1 + StringUtils.toTextDate(d2, lang, "d MMM"));
+					else
+						dates_ = HtmlUtils.writeDateLink(d1, d2, StringUtils.toTextDate(d1, lang, "d MMM") + StringUtils.SEP1 + StringUtils.toTextDate(d2, lang, "d MMM"));
+				}
+				else if (StringUtils.notEmpty(d2))
+					dates_ = HtmlUtils.writeDateLink(null, d2, StringUtils.toTextDate(d2, lang, "d MMM"));
+				sb.append("<li" + (++n > 3 ? " style='display:none;'" : "") + ">").append(dates_);
 				sb.append("&nbsp;:&nbsp;").append(event).append("</li>");
 			}
 			if (sb.length() > 0)
-				hInfo.put("calendar", ResourceUtils.getText("this.month", lang) + ":<br/><ul id='calmonth'>" + sb.toString() + "</ul>");
-						
+				hInfo.put("calendar", ResourceUtils.getText("this.month", lang) + ":<br/><ul id='calmonth'>" + sb.toString() + "</ul>" + (sb.toString().contains("display:none") ? "<a id=\"calmore\" href='javascript:$$(\"#calmonth li\").each(function(el){$(el).show();});$(\"calmore\").hide();' class='otherimglink' style='float:right;padding-right:0px;'>" + ResourceUtils.getText("more", lang) + "</a>" : ""));
 			StringWriter sw = new StringWriter();
 			lFuncParams = new ArrayList<Object>();
 			lFuncParams.add("WHERE SP.id=" + id);

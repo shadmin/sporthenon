@@ -378,6 +378,7 @@
 }
 .tc #calmonth{
 	margin-left: 16px;
+	margin-top: 2px;
 }
 .tc #calmonth li{
 	vertical-align: middle;
