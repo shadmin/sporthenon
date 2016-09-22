@@ -19,14 +19,14 @@ declare
 	_type1 smallint;
 	_type2 smallint;
 	_type3 smallint;
-	_date1 varchar(10) := _date1;
-	_date2 varchar(10) := _date2;
+	_d1 varchar(10) := _date1;
+	_d2 varchar(10) := _date2;
 	_id1 integer;_id2 integer;_id3 integer;_id4 integer;_id5 integer;
 	_id6 integer;_id7 integer;_id8 integer;_id9 integer;_id10 integer;
 	_cn1 varchar(35);_cn2 varchar(35);_cn3 varchar(35);_cn4 varchar(35);_cn5 varchar(35);_cn6 varchar(35);
 	_tm1 varchar(60);_tm2 varchar(60);_tm3 varchar(60);_tm4 varchar(60);_tm5 varchar(60);_tm6 varchar(60);
 begin
-	_where := ' WHERE RS.draft = false';
+	_where := ' WHERE 1=1';
 	IF length(_date1) = 4 THEN
 		_where := _where || ' AND YR.label=''' || _date1 || ''' AND (RS.date1 IS NULL OR RS.date1='''') AND (RS.date2 IS NULL OR RS.date2='''')';
 	ELSE
@@ -51,7 +51,7 @@ begin
 	_index := 1;
 	OPEN _c FOR EXECUTE _query;
 	LOOP
-		FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _id1, _id2, _id3, _id4, _id5, _id6, _id7, _id8, _id9, _id10, _type1, _type2, _type3, _date1, _date2;
+		FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _id1, _id2, _id3, _id4, _id5, _id6, _id7, _id8, _id9, _id10, _type1, _type2, _type3, _d1, _d2;
 		EXIT WHEN NOT FOUND;
 		IF _type3 IS NOT NULL THEN
 			_type1 = _type3;
@@ -96,8 +96,8 @@ begin
 			CLOSE __c;
 			_item.comment = 'CN';
 		END IF;
-		_item.date1 := to_date(_date1, 'DD/MM/YYYY');
-		_item.date2 := to_date(_date2, 'DD/MM/YYYY');
+		_item.date1 := to_date(_d1, 'DD/MM/YYYY');
+		_item.date2 := to_date(_d2, 'DD/MM/YYYY');
 		_item.id := _index;
 		_item.entity := 'RS';
 		RETURN NEXT _item;
@@ -120,7 +120,7 @@ begin
 	_query := _query || ' LEFT JOIN "Type" TP3 ON SE2.id_type = TP3.id' || replace(replace(_where, 'RS.date1', 'RD.date1'), 'RS.date2', 'RD.date');
 	OPEN _c FOR EXECUTE _query;
 	LOOP
-		FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _id1, _id2, _id3, _id4, _id5, _id6, _id7, _id8, _id9, _id10, _type1, _type2, _type3, _date1, _date2, _item.txt5, _item.txt6;
+		FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _id1, _id2, _id3, _id4, _id5, _id6, _id7, _id8, _id9, _id10, _type1, _type2, _type3, _d1, _d2, _item.txt5, _item.txt6;
 		EXIT WHEN NOT FOUND;
 		IF _type3 IS NOT NULL THEN
 			_type1 = _type3;
@@ -159,8 +159,8 @@ begin
 			CLOSE __c;
 			_item.comment = 'CN';
 		END IF;
-		_item.date1 := to_date(_date1, 'DD/MM/YYYY');
-		_item.date2 := to_date(_date2, 'DD/MM/YYYY');
+		_item.date1 := to_date(_d1, 'DD/MM/YYYY');
+		_item.date2 := to_date(_d2, 'DD/MM/YYYY');
 		_item.id := _index;
 		_item.entity := 'RS';
 		RETURN NEXT _item;
@@ -184,13 +184,13 @@ begin
 		_query := _query || ' LEFT JOIN "City" CT2 ON CL.id_city = CT2.id';
 		_query := _query || ' LEFT JOIN "State" ST2 ON CT2.id_state = ST2.id';
 		_query := _query || ' LEFT JOIN "Country" CN2 ON CT2.id_country = CN2.id';
-		_query := _query || ' LEFT JOIN "Country" CN3 ON CL.id_country = CN3.id' || _where;
+		_query := _query || ' LEFT JOIN "Country" CN3 ON CL.id_country = CN3.id' || replace(replace(_where, 'RS.date1', 'CL.date1'), 'RS.date2', 'CL.date2');
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _item.id_rel6, _item.label_rel6, _item.label_rel9, _item.id_rel7, _item.label_rel7, _item.label_rel10, _item.id_rel8, _item.label_rel8, _item.label_rel11, _item.id_rel10, _item.id_rel11, _item.id_rel9, _item.label_rel19, _item.label_rel20, _date1, _date2;
+			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _item.id_rel6, _item.label_rel6, _item.label_rel9, _item.id_rel7, _item.label_rel7, _item.label_rel10, _item.id_rel8, _item.label_rel8, _item.label_rel11, _item.id_rel10, _item.id_rel11, _item.id_rel9, _item.label_rel19, _item.label_rel20, _d1, _d2;
 			EXIT WHEN NOT FOUND;
-			_item.date1 := to_date(_date1, 'DD/MM/YYYY');
-			_item.date2 := to_date(_date2, 'DD/MM/YYYY');
+			_item.date1 := to_date(_d1, 'DD/MM/YYYY');
+			_item.date2 := to_date(_d2, 'DD/MM/YYYY');
 			_item.id := _index;
 			_item.entity := 'CL';
 			RETURN NEXT _item;

@@ -25,6 +25,10 @@ CREATE TABLE "Round"
   id_city1 integer,
   id_complex1 integer,
   date1 character varying(10),
+  id_rank4 integer,
+  result4 character varying(20),
+  id_rank5 integer,
+  result5 character varying(20),
   CONSTRAINT "Round_pkey" PRIMARY KEY (id),
   CONSTRAINT "Round_id_city_fkey" FOREIGN KEY (id_city)
       REFERENCES "City" (id) MATCH SIMPLE

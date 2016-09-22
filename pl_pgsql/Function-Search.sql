@@ -1,11 +1,12 @@
--- Function: "Search"(character varying, character varying, smallint, character varying)
+-- Function: "Search"(character varying, character varying, smallint, boolean, character varying)
 
--- DROP FUNCTION "Search"(character varying, character varying, smallint, character varying);
+-- DROP FUNCTION "Search"(character varying, character varying, smallint, boolean, character varying);
 
 CREATE OR REPLACE FUNCTION "Search"(
     _pattern character varying,
     _scope character varying,
     _limit smallint,
+    _word_match boolean,
     _lang character varying)
   RETURNS SETOF "~RefItem" AS
 $BODY$
@@ -37,11 +38,16 @@ declare
 	_rel_cols text;
 	_rel_joins text;
 	_rel_count smallint;
+	_comp char;
 	__pattern text;
 begin
 	_i := 1;
 	_index := 1;
 	__pattern := "~PatternString"(_pattern);
+	IF (_word_match = TRUE) THEN
+		__pattern := __pattern || '(\s|$)';
+	END IF;
+	__pattern := __pattern || '.*';
 	_scopes := '{PR,CT,CX,CN,CP,EV,OL,SP,TM,ST,YR}';
 	_tables := '{Athlete,City,Complex,Country,Championship,Event,Olympics,Sport,Team,State,Year}';
 	FOR _s IN SELECT UNNEST(_scopes) LOOP
@@ -105,11 +111,11 @@ begin
 				_label := 'label' || _lang;
 			END IF;
 			_query := 'SELECT ' || _s || '.id, ' || _s || '.' || _label || ',' || _s || '.' || _label_en || ',' || _s || '.ref' || _rel_cols || ' FROM "' || _tables[_i] || '" ' || _s;
-			_query := _query || _rel_joins || ' WHERE ' || (CASE _s WHEN 'CT' THEN '(CT.link = 0 OR CT.link IS NULL) AND ' WHEN 'CX' THEN '(CX.link = 0 OR CX.link IS NULL) AND ' WHEN 'TM' THEN '(TM.link = 0 OR TM.link IS NULL OR (TM.year1 IS NOT NULL AND TM.year1 <> '''')) AND ' ELSE '' END) || 'lower(' || _s || '.' || _label || ') ~ ''' || __pattern || '''' || (CASE _limit WHEN 0 THEN ' ORDER BY ' || _s || '.' || _label ELSE '' END);
+			_query := _query || _rel_joins || ' WHERE ' || (CASE _s WHEN 'CT' THEN '(CT.link = 0 OR CT.link IS NULL) AND ' WHEN 'CX' THEN '(CX.link = 0 OR CX.link IS NULL) AND ' WHEN 'TM' THEN '(TM.link = 0 OR TM.link IS NULL OR (TM.year1 IS NOT NULL AND TM.year1 <> '''')) AND ' ELSE '' END) || 'lower(' || _s || '.' || _label || ') ~ ''' || __pattern || '''' || (CASE _limit WHEN 10 THEN '' ELSE ' ORDER BY ' || _s || '.' || _label END);
 			IF _s = 'PR' THEN
 				_query := 'SELECT PR.id, PR.last_name || (CASE WHEN length(PR.first_name) > 0 THEN '', '' || PR.first_name ELSE '''' END), (CASE WHEN length(PR.first_name) > 0 THEN PR.first_name || '' '' ELSE '''' END) || PR.last_name, PR.ref' || _rel_cols || ' FROM "Athlete" PR' || _rel_joins;
 				_query := _query || ' WHERE (PR.link = 0 OR PR.link IS NULL) AND (lower(PR.last_name || '' '' || PR.first_name) ~ ''' || __pattern || ''' OR lower(PR.first_name || '' '' || PR.last_name) ~ ''' || __pattern || ''' OR lower(PR.last_name) ~ ''' || __pattern || ''' OR lower(PR.first_name) ~ ''' || __pattern || ''')';
-				_query := _query || (CASE _limit WHEN 0 THEN ' ORDER BY PR.last_name, PR.first_name' ELSE '' END);
+				_query := _query || (CASE _limit WHEN 10 THEN '' ELSE ' ORDER BY PR.last_name, PR.first_name' END);
 			ELSIF (_s = 'OL') THEN
 				_query := 'SELECT OL.id, CT.label' || _lang || ' || '' '' || YR.label, CT.label || '' '' || YR.label, OL.ref' || _rel_cols || ' FROM "Olympics" OL' || _rel_joins;
 				_query := _query || ' WHERE YR.label ~ ''' || __pattern || ''' OR lower(CT.label' || _lang || ') ~ ''' || __pattern || '''';
@@ -137,7 +143,7 @@ begin
 				_item.label_rel1 = _current_label_rel1;
 				_item.label_rel2 = _current_label_rel2;
 				_item.label_rel3 = _current_label_rel3;
-				IF _limit = 0 THEN
+				IF _limit <> 10 THEN
 					_item.label_en = _current_label_en;
 					_item.id_rel1 = _current_id_rel1;
 					_item.id_rel2 = _current_id_rel2;
