@@ -1,7 +1,22 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.12.10 |
+| Last Version: 0.12.11 |
 +-----------------------+
+
++---------+
+| 0.12.11 |
++---------+
+[22 Sep 2016]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av0.12.11
+- Added field for max. count in advanced search
+- Added clear button for each block (update/results)
+- Added button to remove "person list" item (update/results)
+- Added fields for ranks #4 and #5 in rounds
+- Enhanced display of "current month" events (details/sport)
+- Shortcut links for years/dates : Y-1, Y, Y+1, D-1, D, D+1 etc.. (update/results)
+- Bugfix: display error occurs when sorting tables with rowspans
+- Bugfix: "exact match" checkbox not working in advanced search
+- Bugfix: rounds+results not sorted properly in last updates
 
 +---------+
 | 0.12.10 |
