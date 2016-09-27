@@ -449,6 +449,8 @@ public class HtmlConverter {
 		if (type.equals(Athlete.alias)) {
 			List<Athlete> lAthlete = new ArrayList<Athlete>();
 			Athlete e = (Athlete) DatabaseHelper.loadEntity(Athlete.class, id);
+			if (e == null)
+				return null;
 			if (e.getLink() != null && e.getLink() >= 0) {
 				Athlete e_ = (Athlete) DatabaseHelper.loadEntity(Athlete.class, e.getLink());
 				String wId = "(-1" + (e_ != null && e_.getId() > 0 ? "," + e_.getId() : "") + (e_ != null && e_.getLink() > 0 ? "," + e_.getLink() : "") + (e.getId() > 0 ? "," + e.getId() : "") + (e.getLink() > 0 ? "," + e.getLink() : "") + ")";
@@ -544,6 +546,8 @@ public class HtmlConverter {
 		}
 		else if (type.equals(Championship.alias)) {
 			Championship e = (Championship) DatabaseHelper.loadEntity(Championship.class, id);
+			if (e == null)
+				return null;
 			hInfo.put("title", e.getLabel(lang));
 			hInfo.put("titleEN", e.getLabel());
 			hInfo.put("titlename", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
@@ -555,6 +559,8 @@ public class HtmlConverter {
 		else if (type.equals(City.alias)) {
 			List<City> lCity = new ArrayList<City>();
 			City e = (City) DatabaseHelper.loadEntity(City.class, id);
+			if (e == null)
+				return null;
 			if (e.getLink() != null && e.getLink() >= 0) {
 				City e_ = (City) DatabaseHelper.loadEntity(City.class, e.getLink());
 				String wId = "(-1" + (e_ != null && e_.getId() > 0 ? "," + e_.getId() : "") + (e_ != null && e_.getLink() > 0 ? "," + e_.getLink() : "") + (e.getId() > 0 ? "," + e.getId() : "") + (e.getLink() > 0 ? "," + e.getLink() : "") + ")";
@@ -619,6 +625,8 @@ public class HtmlConverter {
 		else if (type.equals(Complex.alias)) {
 			List<Complex> lComplex = new ArrayList<Complex>();
 			Complex e = (Complex) DatabaseHelper.loadEntity(Complex.class, id);
+			if (e == null)
+				return null;
 			if (e.getLink() != null && e.getLink() >= 0) {
 				Complex e_ = (Complex) DatabaseHelper.loadEntity(Complex.class, e.getLink());
 				String wId = "(-1" + (e_ != null && e_.getId() > 0 ? "," + e_.getId() : "") + (e_ != null && e_.getLink() > 0 ? "," + e_.getLink() : "") + (e.getId() > 0 ? "," + e.getId() : "") + (e.getLink() > 0 ? "," + e.getLink() : "") + ")";
@@ -691,6 +699,8 @@ public class HtmlConverter {
 		}
 		else if (type.equals(Contributor.alias)) {
 			Contributor e = (Contributor) DatabaseHelper.loadEntity(Contributor.class, id);
+			if (e == null)
+				return null;
 			hInfo.put("title", e.getLogin());
 			hInfo.put("ID", "<b>" + e.getLogin().toUpperCase() + "</b>");
 			hInfo.put("name", e.getPublicName());
@@ -704,6 +714,8 @@ public class HtmlConverter {
 		}
 		else if (type.equals(Country.alias)) {
 			Country e = (Country) DatabaseHelper.loadEntity(Country.class, id);
+			if (e == null)
+				return null;
 			String currentLogo = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, e.getId(), ImageUtils.SIZE_LARGE, null, null);
 			Collection<String> lAllLogos = ImageUtils.getImageList(ImageUtils.INDEX_COUNTRY, e.getId(), ImageUtils.SIZE_LARGE);
 			hInfo.put("title", e.getLabel(lang));
@@ -743,6 +755,8 @@ public class HtmlConverter {
 		}
 		else if (type.equals(Event.alias)) {
 			Event e = (Event) DatabaseHelper.loadEntity(Event.class, id);
+			if (e == null)
+				return null;
 			hInfo.put("title", e.getLabel(lang));
 			hInfo.put("titleEN", e.getLabel());
 			hInfo.put("titlename", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
@@ -753,6 +767,8 @@ public class HtmlConverter {
 		}
 		else if (type.equals(Olympics.alias)) {
 			Olympics e = (Olympics) DatabaseHelper.loadEntity(Olympics.class, id);
+			if (e == null)
+				return null;
 			String st = null;
 			String cn = null;
 			if (e.getCity().getState() != null) {
@@ -780,6 +796,8 @@ public class HtmlConverter {
 		else if (type.equals(Result.alias)) {
 			StringBuffer html = new StringBuffer();
 			Result r = (Result) DatabaseHelper.loadEntity(Result.class, id);
+			if (r == null)
+				return null;
 			Map<Integer, List<StringBuffer>> mpl = getPersonLists(String.valueOf(id), lang);
 			List<StringBuffer> plist = mpl.get(id);
 			int ns = 1;
@@ -902,7 +920,7 @@ public class HtmlConverter {
 						tEntityHtml[i] = ("<td>" + tEntity[i] + (plist != null && plist.size() > i ? "<table id='plist-" + id + "-" + i + "' class='plist' style='display:none;'>" + plist.get(i).toString() + "</table>" : "") + "</td>" + tEntityRel[i] + (StringUtils.notEmpty(tResult[i]) && !isScore ? "<td" + rspan + ">" + tResult[i] + "</td>" : ""));
 					}
 				rspan = (!lTies.get(0).isEmpty() ? " rowspan='" + (lTies.get(0).size() + 1) + "'" : "");
-				boolean isMedal = String.valueOf(r.getChampionship().getId()).matches("1|3|4");
+				boolean isMedal = String.valueOf(r.getChampionship().getId()).matches(ConfigUtils.getValue("cp_medal_pattern"));
 				html.append("<tr><td colspan='2' class='result'>");
 				html.append("<table class='tsort'><tr style='font-weight:bold;'><th" + rspan + ">" + (isMedal ? ImageUtils.getGoldMedImg(lang) : "1.") + "</th>" + (tEntityHtml[0] != null ? tEntityHtml[0] : "<td>" + ResourceUtils.getText("none", lang) + "</td>"));
 				if (isScore)
@@ -1137,6 +1155,8 @@ public class HtmlConverter {
 		}
 		else if (type.equals(Sport.alias)) {
 			Sport e = (Sport) DatabaseHelper.loadEntity(Sport.class, id);
+			if (e == null)
+				return null;
 			hInfo.put("_sport_", "1");
 			hInfo.put("width", "280");
 			hInfo.put("title", e.getLabel(lang));
@@ -1190,6 +1210,8 @@ public class HtmlConverter {
 		}
 		else if (type.equals(State.alias)) {
 			State e = (State) DatabaseHelper.loadEntity(State.class, id);
+			if (e == null)
+				return null;
 			hInfo.put("title", e.getLabel(lang));
 			hInfo.put("titleEN", e.getLabel());
 			hInfo.put("flag", HtmlUtils.writeImage(ImageUtils.INDEX_STATE, e.getId(), ImageUtils.SIZE_LARGE, null, null));
@@ -1203,6 +1225,8 @@ public class HtmlConverter {
 			int currentId = id;
 			LinkedList<Team> lTeam = new LinkedList<Team>();
 			Team e = (Team) DatabaseHelper.loadEntity(Team.class, id);
+			if (e == null)
+				return null;
 			if (e.getLink() != null && e.getLink() >= 0) {
 				Team e_ = (Team) DatabaseHelper.loadEntity(Team.class, e.getLink());
 				String wId = "(-1" + (e_ != null && e_.getId() > 0 ? "," + e_.getId() : "") + (e_ != null && e_.getLink() > 0 ? "," + e_.getLink() : "") + (e.getId() > 0 ? "," + e.getId() : "") + (e.getLink() > 0 ? "," + e.getLink() : "") + ")";
@@ -1337,6 +1361,8 @@ public class HtmlConverter {
 		}
 		else if (type.equals(Year.alias)) {
 			Year e = (Year) DatabaseHelper.loadEntity(Year.class, id);
+			if (e == null)
+				return null;
 			hInfo.put("_year_", "1");
 			hInfo.put("width", "280");
 			hInfo.put("title", e.getLabel());
@@ -1552,7 +1578,7 @@ public class HtmlConverter {
 				c1 = HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2(), item.getLabelRel12());
 				c2 = "<a href='" + HtmlUtils.writeURL("/results", item.getIdRel2() + "-" + item.getIdRel3() + "-" + item.getIdRel4() + (item.getIdRel5() != null ? "-" + item.getIdRel5() : "") + (item.getIdRel18() != null ? "-" + item.getIdRel18() : ""), item.getLabelRel12() + "/" + item.getLabelRel13() + "/" + item.getLabelRel14() + (item.getIdRel5() != null ? "/" + item.getLabelRel15() : "") + (item.getIdRel18() != null ? "/" + item.getLabelRel16() : "")) + "'>" + (item.getLabelRel3() + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel4() + (item.getIdRel5() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel5() : "") + (item.getIdRel18() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel18() : "")) + "</a>";
 				String alias = item.getComment();
-				boolean isMedal = String.valueOf(item.getIdRel3()).matches("1|3|4");
+				boolean isMedal = String.valueOf(item.getIdRel3()).matches(ConfigUtils.getValue("cp_medal_pattern"));
 				String[] tEntity = new String[6];
 				String title1 = (item.getLabelRel6() != null ? item.getLabelRel6().replaceAll(".*\\|", "") : null);
 				String title2 = (item.getLabelRel7() != null ? item.getLabelRel7().replaceAll(".*\\|", "") : null);
@@ -1722,7 +1748,7 @@ public class HtmlConverter {
 		boolean isComment = false;
 		int type = ev.getType().getNumber();
 		boolean isDouble = (type == 4);
-		boolean isMedal = String.valueOf(cp.getId()).matches("1|3|4");
+		boolean isMedal = String.valueOf(cp.getId()).matches(ConfigUtils.getValue("cp_medal_pattern"));
 		boolean isUSLeague = String.valueOf(cp.getId()).matches(USLeaguesServlet.CHAMPIONSHIP_NFL + "|" + USLeaguesServlet.CHAMPIONSHIP_NBA + "|" + USLeaguesServlet.CHAMPIONSHIP_NHL + "|" + USLeaguesServlet.CHAMPIONSHIP_MLB);
 		ArrayList<String> lIds = new ArrayList<String>();
 		Result rs = null;

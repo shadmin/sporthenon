@@ -66,7 +66,9 @@ public class InfoRefServlet extends AbstractServlet {
 				
 				// Info
 				if (params.length == 2 || isResult1) {
-					String ri = HtmlConverter.getRecordInfo(request, params[0], id, getLocale(request)).toString();
+					StringBuffer ri = HtmlConverter.getRecordInfo(request, params[0], id, getLocale(request));
+					if (ri == null)
+						throw new RemovedEntityException("Entity removed: " + params[0] + "-" + id);
 					lFuncParams.add(ri.substring(0, ri.indexOf("</span>")).replaceFirst(".*title'\\>", ""));
 					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_REF, lFuncParams, getUser(request), getLocale(request)));
 					html.append(ri);
@@ -91,6 +93,10 @@ public class InfoRefServlet extends AbstractServlet {
 		catch (EmptyIdException e) {
 			response.sendRedirect("/error");
 		}
+		catch (RemovedEntityException e) {
+			logger.error(e.getMessage());
+			request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+		}
 		catch (Exception e) {
 			handleException(request, response, e);
 		}
@@ -98,6 +104,12 @@ public class InfoRefServlet extends AbstractServlet {
 	
 	class EmptyIdException extends Exception{
 		private static final long serialVersionUID = 1L;
+	}
+	class RemovedEntityException extends Exception{
+		private static final long serialVersionUID = 1L;
+		public RemovedEntityException(String message) {
+			super(message);
+		}
 	}
 
 }
