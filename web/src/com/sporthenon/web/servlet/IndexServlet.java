@@ -16,6 +16,7 @@ import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.meta.ErrorReport;
+import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
@@ -45,8 +46,9 @@ private static final long serialVersionUID = 1L;
 				String p = String.valueOf(hParams.get("p"));
 				p = StringUtils.decode(p);
 				String[] t = p.split("\\-");
-				hParams.put("count", t[0]);
-				hParams.put("offset", t[1]);
+				hParams.put("sport", t[0]);
+				hParams.put("count", t[1]);
+				hParams.put("offset", t[2]);
 			}
 			if (hParams.containsKey("lang")) { // Language
 		        request.getSession().setAttribute("locale", String.valueOf(hParams.get("value")));
@@ -59,13 +61,17 @@ private static final long serialVersionUID = 1L;
 				DatabaseHelper.saveEntity(er, null);
 			}
 			else if (hParams.containsKey("lastupdates")) { // Last Updates
-		        ArrayList<Object> lParams = new ArrayList<Object>();
-		        Integer count = new Integer(String.valueOf(hParams.get("count")));
-		        Integer offset = new Integer(String.valueOf(hParams.get("offset")));
-		        lParams.add(count);
-		        lParams.add(offset);
-		        lParams.add("_" + lang);
-		        ServletHelper.writeTabHtml(request, response, HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams), count, offset, getLocale(request)), getLocale(request));
+				final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_lastupdates_limit"));
+				boolean isFull = !hParams.containsKey("p");
+				Integer sport = new Integer(String.valueOf(hParams.get("sport")));
+				Integer count = (isFull ? ITEM_LIMIT : new Integer(String.valueOf(hParams.get("count"))));
+		        Integer offset = (isFull ? 0 : new Integer(String.valueOf(hParams.get("offset"))));
+		    	ArrayList<Object> lParams = new ArrayList<Object>();
+		    	lParams.add(sport);
+		    	lParams.add(count);
+		    	lParams.add(offset);
+		    	lParams.add("_" + lang);
+		    	ServletHelper.writeTabHtml(request, response, HtmlConverter.convertLastUpdates(DatabaseHelper.call("LastUpdates", lParams), sport, count, offset, getLocale(request)), getLocale(request));
 			}
 			else if (hParams.containsKey("randomevent")) { // Random Event
 				ServletHelper.writeText(response, getRandomEvent(lang));

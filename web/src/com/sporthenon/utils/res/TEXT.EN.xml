@@ -168,6 +168,7 @@
 	<entry key="all.teams">All teams</entry>
 	<entry key="all.events">All events</entry>
 	<entry key="all.countries">All countries</entry>
+	<entry key="all.sports">All sports</entry>
 	<entry key="all.categories">All categories</entry>
 	<entry key="all.olympic.games">All Olympic Games</entry>
 	<entry key="all.scopes">All scopes</entry>
@@ -319,6 +320,7 @@
 	<entry key="report.4">Requests per month</entry>
 	<entry key="random.event">Random event</entry>
 	<entry key="note">Note</entry>
+	<entry key="filter.sport">Filter by sport</entry>
 <!-- RESULTS -->
 	<entry key="sport">Sport</entry>
 	<entry key="event">Event</entry>

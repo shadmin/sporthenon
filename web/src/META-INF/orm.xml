@@ -165,7 +165,7 @@
 		~LastUpdates(integer, integer, varchar)
 	-->
 	<named-native-query name="LastUpdates" result-class="com.sporthenon.db.function.LastUpdateBean">  
-		<query>{? = CALL "~LastUpdates"(?, ?, ?)}</query>
+		<query>{? = CALL "~LastUpdates"(?, ?, ?, ?)}</query>
 		<hint name="org.hibernate.callable" value="true" />
 	</named-native-query>
 

@@ -359,7 +359,7 @@ public class HtmlConverter {
 			if (list != null && list.size() > 0) {
 				StringBuffer sb = new StringBuffer();
 				sb.append("<a class='ertip' href='#ereport'>" + list.size() + " " + ResourceUtils.getText("error" + (list.size() > 1 ? "s" : ""), lang) + " " + ResourceUtils.getText("on.this.page", lang) + "</a>");
-				sb.append("<div id='ereport' class='rendertip'>");
+				sb.append("<div id='ereport' class='rendertip' style='display:none;'>");
 				for (ErrorReport er : list)
 					sb.append("" + StringUtils.SEP1 + "&nbsp;" + er.getText().replaceAll("\r\n|\n", "<br/>")).append("<br/>");
 				sb.append("</div>");
@@ -1575,7 +1575,7 @@ public class HtmlConverter {
 			else if (en.equals(Result.alias)) {
 				Integer idResult = item.getIdItem();
 				String path = item.getLabelRel1() + "/" + item.getLabelRel12() + "/" + item.getLabelRel13() + "/" + item.getLabelRel14() + (item.getIdRel5() != null ? "/" + item.getLabelRel15() : "") + (item.getIdRel18() != null ? "/" + item.getLabelRel16() : "");
-				c1 = HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2(), item.getLabelRel12());
+				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, item.getIdRel2(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2(), item.getLabelRel12()));
 				c2 = "<a href='" + HtmlUtils.writeURL("/results", item.getIdRel2() + "-" + item.getIdRel3() + "-" + item.getIdRel4() + (item.getIdRel5() != null ? "-" + item.getIdRel5() : "") + (item.getIdRel18() != null ? "-" + item.getIdRel18() : ""), item.getLabelRel12() + "/" + item.getLabelRel13() + "/" + item.getLabelRel14() + (item.getIdRel5() != null ? "/" + item.getLabelRel15() : "") + (item.getIdRel18() != null ? "/" + item.getLabelRel16() : "")) + "'>" + (item.getLabelRel3() + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel4() + (item.getIdRel5() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel5() : "") + (item.getIdRel18() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + item.getLabelRel18() : "")) + "</a>";
 				String alias = item.getComment();
 				boolean isMedal = String.valueOf(item.getIdRel3()).matches(ConfigUtils.getValue("cp_medal_pattern"));
@@ -2625,7 +2625,7 @@ public class HtmlConverter {
 		return html;
 	}
 	
-	public static StringBuffer convertLastUpdates(Collection<Object> coll, Integer limit, Integer offset, String lang) throws Exception {
+	public static StringBuffer convertLastUpdates(Collection<Object> coll, Integer sp, Integer limit, Integer offset, String lang) throws Exception {
 		final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_lastupdates_limit"));
 		StringBuffer html = new StringBuffer();
 		int i = 0;
@@ -2734,8 +2734,8 @@ public class HtmlConverter {
 			html.append("<td id='dt-" + date_ + "-" + i + "' class='srt'>" + date + "</td></tr>");
 			i++;
 		}
-		final String MORE_ITEMS = "<tr class='moreitems'><td colspan='5'><div class='sfdiv1' onclick='moreLastUpdates(this, \"#P1#\");'>&nbsp;(+" + ITEM_LIMIT + ")&nbsp;</div><div class='sfdiv2' onclick='moreLastUpdates(this, \"#P2#\");'>&nbsp;(+50)&nbsp;</div><div class='sfdiv3' onclick='moreLastUpdates(this, \"#P3#\");'>&nbsp;(+100)&nbsp;</div></td></tr>";
-		String p ="#LIMIT#-" + (offset + limit);
+		final String MORE_ITEMS = "<tr class='moreitems'><td colspan='5'><div class='sfdiv1' onclick='getLastUpdates(this, \"#P1#\");'>&nbsp;(+" + ITEM_LIMIT + ")&nbsp;</div><div class='sfdiv2' onclick='getLastUpdates(this, \"#P2#\");'>&nbsp;(+50)&nbsp;</div><div class='sfdiv3' onclick='getLastUpdates(this, \"#P3#\");'>&nbsp;(+100)&nbsp;</div></td></tr>";
+		String p = sp + "-#LIMIT#-" + (offset + limit);
 		html.append(MORE_ITEMS.replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", String.valueOf(ITEM_LIMIT)))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "50"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))));
 		return html;
 	}

@@ -711,14 +711,29 @@ function initSliderHome(html) {
 	$$('#sports .content')[0].update(html);
 	createSlider('sports', 872, 120, true);
 }
-function moreLastUpdates(row, p) {
-	var cell = $(row).up();
-	cell.update('<img src="/img/db/loading.gif?6"/>');
-	cell.style.backgroundColor = '#FFF';
-	new Ajax.Request('/IndexServlet?p=' + p + '&lastupdates&t=' + currentTime(), {
+function getLastUpdates(row, p, sp) {
+	var thead = $('tlast').down('thead');
+	var tbody = $('tlast').down('tbody');
+	var cell = null;
+	if (row != null) {
+		cell = $(row).up();
+		cell.update('<img src="/img/db/loading.gif?6"/>');
+		cell.style.backgroundColor = '#FFF';
+	}
+	else {
+		thead.hide();
+		tbody.update('<img style="float:left;" src="/img/db/loading.gif?6"/>');
+	}
+	new Ajax.Request('/IndexServlet?' + (p != null ? 'p=' + p : '') + (sp != null ? 'sport=' + sp : '') + '&lastupdates&t=' + currentTime(), {
 		onSuccess: function(response){
-			$(cell).up('tbody').insert(response.responseText);
-			$(cell).up('tr').remove();
+			if (cell != null) {
+				$(cell).up('tbody').insert(response.responseText);
+				$(cell).up('tr').remove();
+			}
+			else {
+				thead.show();
+				tbody.update(response.responseText);
+			}
 		}
 	});
 }
@@ -1749,6 +1764,9 @@ function clearFieldset(s) {
 			deleteRound(i);
 		}
 	}
+	else if (s == 'rankings') {
+		$('rk1').focus();
+	}
 }
 function setValue(text, li) {
 	var t = li.id.split('|');
@@ -2025,23 +2043,23 @@ function addRounds(clear) {
 			html.push('<td><a href="javascript:deleteRound(' + i + ');"><img title="' + TX_REMOVE + '" src="/img/delete.gif"/></a></td>');
 			html.push('<td>&nbsp;<a href="javascript:openRoundDialog(' + i + ');"><img title="' + TX_OPEN_DIALOG + '" src="/img/update/dialog.png"/></a></td>');
 			html.push('<td><input type="hidden" id="rd' + i + 'id"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rt" tabindex="' + (1000 + (11*(i-1))) + '" name="' + TX_TYPE + '" style="width:150px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rk1" tabindex="' + (1001 + (11*(i-1))) + '" name="' + TX_RANK1 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk1\', true);">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rs1" tabindex="' + (1002 + (11*(i-1))) + '" name="' + TX_RESULT_SCORE + '" style="width:90px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rk2" tabindex="' + (1003 + (11*(i-1))) + '" name="' + TX_RANK2 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk2\', true);">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rs2" tabindex="' + (1004 + (11*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rk3" tabindex="' + (1005 + (11*(i-1))) + '" name="' + TX_RANK3 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk3\', true);">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rs3" tabindex="' + (1006 + (11*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rk4" tabindex="' + (1007 + (11*(i-1))) + '" name="' + TX_RANK4 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk4\', true);">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rs4" tabindex="' + (1008 + (11*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rk5" tabindex="' + (1009 + (11*(i-1))) + '" name="' + TX_RANK5 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk5\', true);">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'rs5" tabindex="' + (1010 + (11*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'dt1" tabindex="' + (1011 + (11*(i-1))) + '" name="' + TX_DATE + ' #1" style="width:80px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'dt2" tabindex="' + (1012 + (11*(i-1))) + '" name="' + TX_DATE + ' #2" style="width:80px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'pl1" tabindex="' + (1013 + (11*(i-1))) + '" name="' + TX_PLACE + ' #1" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl1\', true);">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'pl2" tabindex="' + (1014 + (11*(i-1))) + '" name="' + TX_PLACE + ' #2" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl2\', true);">[X]</a></td>');
-			html.push('<td><input type="text" id="rd' + i + 'exa" tabindex="' + (1015 + (11*(i-1))) + '" name="' + TX_TIE + '" style="width:50px;"/></td>');
-			html.push('<td><input type="text" id="rd' + i + 'cmt" tabindex="' + (1016 + (11*(i-1))) + '" name="' + TX_COMMENT + '" style="width:150px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rt" tabindex="' + (1000 + (16*(i-1))) + '" name="' + TX_TYPE + '" style="width:150px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk1" tabindex="' + (1001 + (16*(i-1))) + '" name="' + TX_RANK1 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk1\', true);">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rs1" tabindex="' + (1002 + (16*(i-1))) + '" name="' + TX_RESULT_SCORE + '" style="width:90px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk2" tabindex="' + (1003 + (16*(i-1))) + '" name="' + TX_RANK2 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk2\', true);">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rs2" tabindex="' + (1004 + (16*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk3" tabindex="' + (1005 + (16*(i-1))) + '" name="' + TX_RANK3 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk3\', true);">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rs3" tabindex="' + (1006 + (16*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk4" tabindex="' + (1007 + (16*(i-1))) + '" name="' + TX_RANK4 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk4\', true);">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rs4" tabindex="' + (1008 + (16*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rk5" tabindex="' + (1009 + (16*(i-1))) + '" name="' + TX_RANK5 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk5\', true);">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'rs5" tabindex="' + (1010 + (16*(i-1))) + '" name="' + TX_RESULT + '" style="width:90px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'dt1" tabindex="' + (1011 + (16*(i-1))) + '" name="' + TX_DATE + ' #1" style="width:80px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'dt2" tabindex="' + (1012 + (16*(i-1))) + '" name="' + TX_DATE + ' #2" style="width:80px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'pl1" tabindex="' + (1013 + (16*(i-1))) + '" name="' + TX_PLACE + ' #1" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl1\', true);">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'pl2" tabindex="' + (1014 + (16*(i-1))) + '" name="' + TX_PLACE + ' #2" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'pl2\', true);">[X]</a></td>');
+			html.push('<td><input type="text" id="rd' + i + 'exa" tabindex="' + (1015 + (16*(i-1))) + '" name="' + TX_TIE + '" style="width:50px;"/></td>');
+			html.push('<td><input type="text" id="rd' + i + 'cmt" tabindex="' + (1016 + (16*(i-1))) + '" name="' + TX_COMMENT + '" style="width:150px;"/></td>');
 			html.push('</tr>');
 			rtable.insert(html.join(''));
 		}

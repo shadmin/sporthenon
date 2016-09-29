@@ -412,6 +412,16 @@ li{
 	line-height: 30px;
 	margin-top: 5px;
 }
+#dupdates-opts{
+	width: auto;
+	margin-bottom: 5px;
+}
+#dupdates-opts td{
+	border: none;
+}
+#dupdates-opts tr:hover td{
+	background-color: #FFF;
+}
 #footer{
 	height: 50px;
 	padding: 5px;

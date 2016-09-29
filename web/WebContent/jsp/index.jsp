@@ -17,6 +17,12 @@
 <%
 	String lang = String.valueOf(session.getAttribute("locale"));
 	out.print("t1 = " + System.currentTimeMillis() + ";");
+	StringBuffer sbSports1 = new StringBuffer();
+	StringBuffer sbSports2 = new StringBuffer();
+	for (Sport sp : (List<Sport>) DatabaseHelper.execute("from Sport order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : ""))) {
+		sbSports1.append("<option value=\"" + StringUtils.urlEscape("/sport/" + sp.getLabel() + "/" + StringUtils.encode("SP-" + sp.getId())) + "\">" + sp.getLabel(lang) + "</option>");
+		sbSports2.append("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
+	}
 %>
 --></script>
 <div id="home">
@@ -36,12 +42,7 @@
 				<td class="search" onclick="location.href='/search';" onmouseover='overTopic(TX_DESC_SEARCH);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.search", session)%></td>
 				<td id="details" style="display:none;"></td></tr></table></div>
 			<hr/><img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("random.event", session)%></b><br/><table id="randomevent"><tr><td id="randomeventvalue"><%=IndexServlet.getRandomEvent(lang)%></td><td><a href="javascript:getRandomEvent();"><img alt="Change" title="<%=StringUtils.text("change", session)%>" src="/img/db/refresh.png"/></a></td></tr></table>
-			<hr/><img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("access.sport", session)%></b><select style="margin-left:10px;" onchange="location.href=this.value;"><option value="">–– <%=StringUtils.text("select.sport", session)%> ––</option>
-			<%
-				for (Sport sp : (List<Sport>) DatabaseHelper.execute("from Sport order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "")))
-					out.print("<option value=\"" + StringUtils.urlEscape("/sport/" + sp.getLabel() + "/" + StringUtils.encode("SP-" + sp.getId())) + "\">" + sp.getLabel(lang) + "</option>");
-			%>
-			</select><br/>
+			<hr/><img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("access.sport", session)%></b><select style="margin-left:10px;" onchange="location.href=this.value;"><option value="">–– <%=StringUtils.text("select.sport", session)%> ––</option><%=sbSports1.toString()%></select><br/>
 			<div id="sports" class="slider"><%@include file="../html/slider.html"%></div>
 		</div>
 	</div>
@@ -50,6 +51,10 @@
 		<div class="fstitle lastupdates"><%=StringUtils.text("title.last.results", session)%></div>
 		<div class="fscontent">
 		<div id="dupdates">
+		<table id="dupdates-opts">
+			<tr><td><%=StringUtils.text("filter.sport", session)%>&nbsp;:</td>
+			<td><select onchange="getLastUpdates(null, null, this.value);"><option value="0">–– <%=StringUtils.text("all.sports", session)%> ––</option><%=sbSports2.toString()%></select></td></tr>
+		</table>
 		<table id="tlast" class="tsort"><thead><tr class='rsort'>
 			<th onclick="sort('tlast', this, 0);"><%=StringUtils.text("year", session)%></th>
 			<th onclick="sort('tlast', this, 1);"><%=StringUtils.text("sport", session)%></th>
@@ -60,11 +65,12 @@
 		<%
 			final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_lastupdates_limit"));
         	ArrayList<Object> lParams = new ArrayList<Object>();
+        	lParams.add(0);
         	lParams.add(ITEM_LIMIT);
         	lParams.add(new Integer(0));
         	lParams.add("_" + lang);
         	Collection coll = DatabaseHelper.call("LastUpdates", lParams);
-        	out.print(HtmlConverter.convertLastUpdates(coll, ITEM_LIMIT, 0, lang));
+        	out.print(HtmlConverter.convertLastUpdates(coll, 0, ITEM_LIMIT, 0, lang));
         	Timestamp ts = null;
         	for (Object o : coll) {
         		LastUpdateBean bean = (LastUpdateBean) o;

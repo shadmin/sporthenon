@@ -168,6 +168,7 @@
 	<entry key="all.teams">Toutes les équipes</entry>
 	<entry key="all.events">Toutes les épreuves</entry>
 	<entry key="all.countries">Tous les pays</entry>
+	<entry key="all.sports">Tous les sports</entry>
 	<entry key="all.categories">Toutes les catégories</entry>
 	<entry key="all.olympic.games">Tous les Jeux Olympiques</entry>
 	<entry key="all.scopes">Tous les types</entry>
@@ -318,6 +319,7 @@
 	<entry key="report.3">Répartition des requêtes par sport</entry>
 	<entry key="report.4">Requêtes par mois</entry>
 	<entry key="random.event">Epreuve au hasard</entry>
+	<entry key="filter.sport">Filtrer par sport</entry>
 <!-- RESULTS -->
 	<entry key="sport">Sport</entry>
 	<entry key="event">Epreuve</entry>

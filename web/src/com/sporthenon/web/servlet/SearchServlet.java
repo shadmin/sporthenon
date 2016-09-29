@@ -90,7 +90,7 @@ public class SearchServlet extends AbstractServlet {
 				}
 				String pattern = String.valueOf(hParams.get("pattern"));
 				String scope = String.valueOf(hParams.get("scope"));
-				Short count = Short.valueOf(String.valueOf(hParams.get("count")));
+				Short count = (hParams.get("count") != null ? Short.valueOf(String.valueOf(hParams.get("count"))) : Short.MAX_VALUE);
 				Boolean match = String.valueOf(hParams.get("match")).equals("on");
 				pattern = pattern.replaceAll("'", "''").replaceAll("_", ".").replaceAll("\\*", ".*");
 				pattern = "^" + pattern;
