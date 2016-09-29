@@ -74,6 +74,7 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
     @Override
     protected void onPostExecute(String response) {
         try {
+            activity.getItemList().clear();
             activity.getItemList().addAll(events);
             activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), events));
             activity.setPath(path);

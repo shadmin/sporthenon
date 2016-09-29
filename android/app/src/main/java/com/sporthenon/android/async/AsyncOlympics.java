@@ -67,6 +67,7 @@ public class AsyncOlympics extends AsyncTask<Object, Boolean, String> {
     @Override
      protected void onPostExecute(String response) {
         try {
+            activity.getItemList().clear();
             activity.getItemList().addAll(olympics);
             activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), olympics));
             activity.setPath(path);

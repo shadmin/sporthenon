@@ -72,6 +72,7 @@ public class AsyncCalendar extends AsyncTask<Object, Boolean, String> {
     @Override
     protected void onPostExecute(String response) {
         try {
+            activity.getItemList().clear();
             activity.getItemList().addAll(dates);
             activity.getList().setAdapter(new CalendarListAdapter(activity.getApplicationContext(), dates));
             activity.setPath(path);

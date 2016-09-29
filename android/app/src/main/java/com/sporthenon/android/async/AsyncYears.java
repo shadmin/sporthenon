@@ -61,6 +61,7 @@ public class AsyncYears extends AsyncTask<Object, Boolean, String> {
     @Override
      protected void onPostExecute(String response) {
         try {
+            activity.getItemList().clear();
             activity.getItemList().addAll(years);
             activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), years));
             activity.getPath().setVisibility(View.GONE);

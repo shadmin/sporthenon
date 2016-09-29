@@ -71,6 +71,7 @@ public class AsyncUSChampionships extends AsyncTask<Object, Boolean, String> {
     @Override
     protected void onPostExecute(String response) {
         try {
+            activity.getItemList().clear();
             activity.getItemList().addAll(results);
             activity.getList().setAdapter(new ScoreListAdapter(activity.getApplicationContext(), results));
             activity.setPath(path);

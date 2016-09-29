@@ -66,6 +66,7 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
     @Override
      protected void onPostExecute(String response) {
         try {
+            activity.getItemList().clear();
             activity.getItemList().addAll(sports);
             activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), sports));
             activity.getPath().setVisibility(View.GONE);

@@ -63,6 +63,7 @@ public class AsyncTeams extends AsyncTask<Object, Boolean, String> {
     @Override
     protected void onPostExecute(String response) {
         try {
+            activity.getItemList().clear();
             activity.getItemList().addAll(teams);
             activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), teams));
             activity.getPath().setVisibility(View.GONE);

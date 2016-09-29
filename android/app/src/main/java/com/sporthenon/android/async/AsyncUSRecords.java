@@ -75,6 +75,7 @@ public class AsyncUSRecords extends AsyncTask<Object, Boolean, String> {
     @Override
     protected void onPostExecute(String response) {
         try {
+            activity.getItemList().clear();
             activity.getItemList().addAll(records);
             activity.getList().setAdapter(new RecordListAdapter(activity.getApplicationContext(), records));
             activity.setPath(path);

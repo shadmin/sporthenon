@@ -68,6 +68,7 @@ public class AsyncMedals extends AsyncTask<Object, Boolean, String> {
     @Override
      protected void onPostExecute(String response) {
         try {
+            activity.getItemList().clear();
             activity.getItemList().addAll(medals);
             activity.getList().setAdapter(new MedalListAdapter(activity.getApplicationContext(), medals));
             activity.setPath(path);

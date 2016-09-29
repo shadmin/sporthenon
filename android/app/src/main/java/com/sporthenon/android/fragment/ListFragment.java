@@ -3,6 +3,8 @@ package com.sporthenon.android.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,11 @@ import android.widget.TextView;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.activity.AbstractActivity;
+import com.sporthenon.android.activity.ResultActivity;
+import com.sporthenon.android.adapter.ItemListAdapter;
+import com.sporthenon.android.adapter.ResultListAdapter;
+import com.sporthenon.android.data.DataItem;
+import com.sporthenon.android.data.ResultItem;
 
 import java.util.ArrayList;
 
@@ -78,7 +85,7 @@ public class ListFragment extends Fragment {
         notice = (TextView) view.findViewById(R.id.notice);
         notice.setVisibility(View.GONE);
         search = (EditText) view.findViewById(R.id.search);
-        /*search.addTextChangedListener(new TextWatcher() {
+        search.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
                 filter();
@@ -89,7 +96,7 @@ public class ListFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable arg0) {
             }
-        });*/
+        });
         search.setVisibility(View.GONE);
     }
 
@@ -100,16 +107,16 @@ public class ListFragment extends Fragment {
     }
 
     public void filter() {
-       /* String text = search.getText().toString().toLowerCase();
+        String text = search.getText().toString().toLowerCase();
         list.setAdapter(null);
-        if (this instanceof ResultActivity) {
+        if (activity instanceof ResultActivity) {
             ArrayList<ResultItem> list_ = new ArrayList<>();
             for (Object o : itemList) {
                 ResultItem item = (ResultItem) o;
-                if (text.length() == 0 || item.getTxt1().toLowerCase().matches(".*" + text + ".*"))
+                if (text.length() == 0 || item.getYear().matches(".*" + text + ".*") || item.getTxt1().toLowerCase().matches(".*" + text + ".*"))
                     list_.add(item);
             }
-            list.setAdapter(new ResultListAdapter(getApplicationContext(), list_));
+            list.setAdapter(new ResultListAdapter(activity.getApplicationContext(), list_));
         }
         else {
             ArrayList<DataItem> list_ = new ArrayList<>();
@@ -118,11 +125,11 @@ public class ListFragment extends Fragment {
                 if (text.length() == 0 || item.getName().toLowerCase().matches(".*" + text + ".*"))
                     list_.add(item);
             }
-            list.setAdapter(new ItemListAdapter(getApplicationContext(), list_));
-        }*/
+            list.setAdapter(new ItemListAdapter(activity.getApplicationContext(), list_));
+        }
     }
 
-    public void onSearchClick(View v) {
+    public static void onSearchClick() {
         search.setVisibility(search.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
         if (search.getVisibility() == View.VISIBLE)
             search.requestFocus();

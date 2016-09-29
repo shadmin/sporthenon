@@ -6,23 +6,16 @@
     android:background="#EAEAEA"
     tools:context="com.sporthenon.android.fragment.ListFragment">
 
-    <TextView
-        android:id="@+id/path"
-        style="@style/CustomPath"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:padding="4dip"
-        android:background="@drawable/border1"
-        />
-
     <EditText
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:fontFamily="Verdana"
-        android:textSize="18sp"
+        android:padding="3dip"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:background="#FFF"
         android:hint="@string/search"
         />
 
@@ -33,6 +26,16 @@
         android:layout_alignParentTop="true"
         android:padding="10dip"
         android:indeterminate="true"
+        />
+
+    <TextView
+        android:id="@+id/path"
+        style="@style/CustomPath"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search"
+        android:padding="4dip"
+        android:background="@drawable/border1"
         />
 
     <TextView

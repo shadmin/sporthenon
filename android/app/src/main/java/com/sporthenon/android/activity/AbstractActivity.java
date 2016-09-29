@@ -392,10 +392,13 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /*if (item.getItemId() == R.id.action_settings) {
-            return true;
-        }*/
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.filter:
+                ListFragment.onSearchClick();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

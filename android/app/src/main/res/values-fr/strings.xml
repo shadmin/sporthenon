@@ -41,4 +41,5 @@
     <string name="ol.medals">Tableau des médailles</string>
     <string name="records">Records</string>
     <string name="stats">Statistiques</string>
+    <string name="filter">Filtrer</string>
 </resources>

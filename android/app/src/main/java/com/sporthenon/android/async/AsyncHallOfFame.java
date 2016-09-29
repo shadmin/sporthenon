@@ -70,6 +70,7 @@ public class AsyncHallOfFame extends AsyncTask<Object, Boolean, String> {
     @Override
     protected void onPostExecute(String response) {
         try {
+            activity.getItemList().clear();
             activity.getItemList().addAll(hofs);
             activity.getList().setAdapter(new RankListAdapter(activity.getApplicationContext(), hofs));
             activity.setPath(path);

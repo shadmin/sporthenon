@@ -67,6 +67,7 @@ public class AsyncChampionships extends AsyncTask<Object, Boolean, String> {
     @Override
     protected void onPostExecute(String response) {
         try {
+            activity.getItemList().clear();
             activity.getItemList().addAll(championships);
             activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), championships));
             activity.setPath(path);

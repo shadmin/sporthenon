@@ -67,6 +67,7 @@ public class AsyncRetiredNumbers extends AsyncTask<Object, Boolean, String> {
     @Override
     protected void onPostExecute(String response) {
         try {
+            activity.getItemList().clear();
             activity.getItemList().addAll(retnums);
             activity.getList().setAdapter(new ResultListAdapter(activity.getApplicationContext(), retnums));
             activity.setPath(path);

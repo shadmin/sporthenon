@@ -67,6 +67,7 @@ public class AsyncStatsLeaders extends AsyncTask<Object, Boolean, String> {
     @Override
     protected void onPostExecute(String response) {
         try {
+            activity.getItemList().clear();
             activity.getItemList().addAll(stats);
             activity.getList().setAdapter(new ResultListAdapter(activity.getApplicationContext(), stats));
             activity.setPath(path);
