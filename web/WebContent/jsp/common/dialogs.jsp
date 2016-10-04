@@ -21,9 +21,10 @@
 <div id="d-info" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fstitle"><%=StringUtils.text("dialog.info", session).toUpperCase()%></div>
-	<div class="fscontent"><%=StringUtils.text("info.statistics", session)%>:<table style="width:600px;margin-top:8px;">
-		<tr><th><%=StringUtils.text("address", session)%></th><td></td></tr><tr><th><%=StringUtils.text("size", session)%></th><td></td></tr>
+	<div class="fscontent"><%=StringUtils.text("info.statistics", session)%>:<table style="width:750px;margin-top:8px;">
+		<tr><th style="width:150px;"><%=StringUtils.text("address", session)%></th><td></td></tr><tr><th><%=StringUtils.text("size", session)%></th><td></td></tr>
 		<tr><th><%=StringUtils.text("display.time", session)%></th><td></td></tr><tr><th><%=StringUtils.text("pictures", session)%></th><td></td></tr>
+		<tr><th><%=StringUtils.text("language", session)%></th><td></td></tr><tr><th><%=StringUtils.text("last.update", session)%></th><td></td></tr>
 	</table></div>
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dInfo);"/></div>
 </div>

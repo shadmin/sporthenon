@@ -253,7 +253,7 @@
 	<entry key="report.error">Signaler une erreur sur cette page</entry>
 	<entry key="page.error">Une erreur s'est produite. La page a été déplacée ou supprimée.</entry>
 	<entry key="select.sport">Choisir un sport</entry>
-	<entry key="photo">Photo</entry>
+	<entry key="photos">Photos</entry>
 	<entry key="enlarge">Agrandir l'image</entry>
 	<entry key="page.address">Adresse de la page</entry>
 	<entry key="error.description">Description de l'erreur</entry>
@@ -297,6 +297,7 @@
 	<entry key="final.results">Palmarès</entry>
 	<entry key="captain">Capitaine</entry>
 	<entry key="total">Total</entry>
+	<entry key="language">Langue</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRÉSENTATION</entry>
 	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
@@ -505,7 +506,7 @@
 	<entry key="warning.team.notexist">AVERTISSEMENT: Equipe inexistante</entry>
 	<entry key="warning.event.notexist">AVERTISSEMENT: Epreuve inexistante</entry>
 	<entry key="checked">Vérifié</entry>
-	<entry key="photo.source">Source photo</entry>
+	<entry key="photos.source">Source photos</entry>
 	<entry key="linked.to">Lié à</entry>
 	<entry key="index">Index</entry>
 	<entry key="automatic.subevent">Sous-épreuve auto</entry>

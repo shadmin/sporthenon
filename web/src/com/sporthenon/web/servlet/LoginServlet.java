@@ -28,6 +28,7 @@ public class LoginServlet extends AbstractServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
+			String lang = getLocale(request);
 			String msg = "";
 			boolean isMsg = true;
 			if (hParams.containsKey("auth")) {
@@ -43,22 +44,22 @@ public class LoginServlet extends AbstractServlet {
 						isMsg = false;
 					}
 					else
-						msg = ResourceUtils.getText("msg.login.err1", getLocale(request));
+						msg = ResourceUtils.getText("msg.login.err1", lang);
 				}
 				else
-					msg = ResourceUtils.getText("msg.login.err2", getLocale(request));
+					msg = ResourceUtils.getText("msg.login.err2", lang);
 				if (isMsg)
-					request.setAttribute("title", ResourceUtils.getText("login.error", getLocale(request)) + " | Sporthenon");
+					request.setAttribute("title", ResourceUtils.getText("login.error", lang) + " | Sporthenon");
 			}
 			else if (hParams.containsKey("create")) {
 				final int MAX_SPORTS = Integer.parseInt(ConfigUtils.getValue("max_contributor_sports"));
 				List l = DatabaseHelper.execute("from Contributor where login='" + hParams.get("rlogin") + "'");
 				if (l != null && l.size() > 0)
-					ServletHelper.writeText(response, "ERR|" + ResourceUtils.getText("msg.login.err3", getLocale(request)));
+					ServletHelper.writeText(response, "ERR|" + ResourceUtils.getText("msg.login.err3", lang));
 				else {
 					String rsports = String.valueOf(hParams.get("rsports"));
 					if (rsports != null && rsports.split("\\,").length > MAX_SPORTS)
-						ServletHelper.writeText(response, "ERR|" + ResourceUtils.getText("msg.login.err4", getLocale(request)).replaceFirst("\\{1\\}", String.valueOf(MAX_SPORTS)));
+						ServletHelper.writeText(response, "ERR|" + ResourceUtils.getText("msg.login.err4", lang).replaceFirst("\\{1\\}", String.valueOf(MAX_SPORTS)));
 					else {
 						Contributor m = new Contributor();
 						m.setLogin(String.valueOf(hParams.get("rlogin")));
@@ -69,14 +70,14 @@ public class LoginServlet extends AbstractServlet {
 						m.setActive(true);
 						m.setAdmin(false);
 						DatabaseHelper.saveEntity(m, null);
-						ServletHelper.writeText(response, ResourceUtils.getText("msg.registered", getLocale(request)) + "&nbsp;<a href='javascript:' onclick='rauth()'>" + ResourceUtils.getText("menu.login", getLocale(request)) + "</a>");	
+						ServletHelper.writeText(response, ResourceUtils.getText("msg.registered", lang) + "&nbsp;<a href='javascript:' onclick='rauth()'>" + ResourceUtils.getText("menu.login", lang) + "</a>");	
 					}
 				}
 				isMsg = false;
 			}
 			else if (hParams.containsKey("logout")) {
 				request.getSession().removeAttribute("user");
-				msg = ResourceUtils.getText("msg.logout", getLocale(request));
+				msg = ResourceUtils.getText("msg.logout", lang);
 				isMsg = false;
 				redirect(request, response, "/", true);
 			}

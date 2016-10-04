@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.sporthenon.utils.ConfigUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
-<jsp:include page="/jsp/common/header.jsp" />
+<jsp:include page="/jsp/common/header.jsp"/>
 <div id="project">
 	<div class="right">
 		<!-- GITHUB -->
@@ -63,4 +63,4 @@ window.onload = function() {
 	handleRender();
 }
 --></script>
-<jsp:include page="/jsp/common/footer.jsp" />
+<jsp:include page="/jsp/common/footer.jsp"/>

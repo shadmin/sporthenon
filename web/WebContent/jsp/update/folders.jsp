@@ -6,7 +6,7 @@
 <%@ page import="com.sporthenon.db.PicklistBean"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
-<jsp:include page="/jsp/common/header.jsp" />
+<jsp:include page="/jsp/common/header.jsp"/>
 <%
 	Contributor cb = (Contributor) session.getAttribute("user");
 	String lang = String.valueOf(session.getAttribute("locale"));
@@ -55,4 +55,4 @@ window.onload = function() {
 	loadFolders();
 }
 --></script>
-<jsp:include page="/jsp/common/footer.jsp" />
+<jsp:include page="/jsp/common/footer.jsp"/>

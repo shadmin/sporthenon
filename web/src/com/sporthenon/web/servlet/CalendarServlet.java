@@ -31,6 +31,7 @@ private static final long serialVersionUID = 1L;
 		try {
 			init(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
+			String lang = getLocale(request);
 			if (hParams.containsKey("run")) { // View results
 				boolean isLink = false;
 				if (hParams.containsKey("p") && !hParams.containsKey("redirect")) {
@@ -46,22 +47,22 @@ private static final long serialVersionUID = 1L;
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("dt1")) ? String.valueOf(hParams.get("dt1")) : "18500101");
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("dt2")) ? String.valueOf(hParams.get("dt2")) : "21001231");
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("sp")) ? StringUtils.toInt(hParams.get("sp")) : 0);
-				lFuncParams.add("_" + getLocale(request));
+				lFuncParams.add("_" + lang);
 				Collection c = DatabaseHelper.call("GetCalendarResults", lFuncParams);
 				StringBuffer html = new StringBuffer();
-				html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_CALENDAR, lFuncParams, getUser(request), getLocale(request)));
-				html.append(HtmlConverter.convertCalendarResults(c, getUser(request), getLocale(request)));
+				html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_CALENDAR, lFuncParams, getUser(request), lang));
+				html.append(HtmlConverter.convertCalendarResults(c, getUser(request), lang));
 				if (isLink) {
 					HtmlUtils.setHeadInfo(request, html.toString());
 					if (hParams.containsKey("export"))
-						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), getLocale(request));
+						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), lang);
 					else {
 						request.setAttribute("menu", "calendar");
-						ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
+						ServletHelper.writePageHtml(request, response, html, lang, hParams.containsKey("print"));
 					}
 				}
 				else
-					ServletHelper.writeTabHtml(request, response, html.append(isLink ? "</div>" : ""), getLocale(request));
+					ServletHelper.writeTabHtml(request, response, html.append(isLink ? "</div>" : ""), lang);
 			}
 		}
 		catch (Exception e) {

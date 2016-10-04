@@ -12,7 +12,7 @@
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="com.sporthenon.web.HtmlConverter"%>
 <%@ page import="com.sporthenon.web.servlet.IndexServlet"%>
-<jsp:include page="/jsp/common/header.jsp" />
+<jsp:include page="/jsp/common/header.jsp"/>
 <script type="text/javascript"><!--
 <%
 	String lang = String.valueOf(session.getAttribute("locale"));
@@ -125,4 +125,4 @@ window.onload = function() {
 	changeReport(0);
 }
 --></script>
-<jsp:include page="/jsp/common/footer.jsp" />
+<jsp:include page="/jsp/common/footer.jsp"/>

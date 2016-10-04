@@ -1,5 +1,7 @@
 package com.sporthenon.db.function;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,6 +12,9 @@ public class ResultsBean {
 	@Id
 	@Column(name = "rs_id")
 	private Integer rsId;
+	
+	@Column(name = "rs_last_update")
+	private Timestamp rsLastUpdate;
 	
 	@Column(name = "rs_date1")
 	private String rsDate1;
@@ -3343,6 +3348,14 @@ public class ResultsBean {
 
 	public void setCn6LabelEN(String cn6LabelEN) {
 		this.cn6LabelEN = cn6LabelEN;
+	}
+
+	public Timestamp getRsLastUpdate() {
+		return rsLastUpdate;
+	}
+
+	public void setRsLastUpdate(Timestamp rsLastUpdate) {
+		this.rsLastUpdate = rsLastUpdate;
 	}
 
 }

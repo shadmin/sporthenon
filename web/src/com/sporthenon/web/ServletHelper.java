@@ -2,6 +2,7 @@ package com.sporthenon.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -49,7 +50,7 @@ public class ServletHelper {
         response.flushBuffer();
 	}
 	
-	public static void writeTabHtml(HttpServletRequest request, HttpServletResponse response, StringBuffer sb, String lang) throws IOException {
+	public static void writeTabHtml(HttpServletRequest request, HttpServletResponse response, StringBuffer sb, String lang) throws IOException, ParseException {
 		boolean isMoreItems = sb.toString().startsWith("<tr");
 		if (!isMoreItems)
 			sb.append("<p id=\"errorlink\"><a href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", request.getSession()) + "</p></span>");
@@ -61,6 +62,8 @@ public class ServletHelper {
         	sbInfo.append(StringUtils.getSizeBytes(s));
         	sbInfo.append("|#DTIME#");
         	sbInfo.append("|" + StringUtils.countIn(s, "<img"));
+        	sbInfo.append("|" + lang);
+        	sbInfo.append("|" + (StringUtils.notEmpty(request.getAttribute("lastupdate")) ? request.getAttribute("lastupdate") : ""));
         	s = s.replaceAll("\\#INFO\\#", sbInfo.toString());
         }
         if (!isMoreItems)
@@ -70,13 +73,15 @@ public class ServletHelper {
         response.flushBuffer();
 	}
 	
-	public static void writePageHtml(HttpServletRequest request, HttpServletResponse response, StringBuffer sb, boolean isPrint) throws ServletException, IOException {
+	public static void writePageHtml(HttpServletRequest request, HttpServletResponse response, StringBuffer sb, String lang, boolean isPrint) throws ServletException, IOException, ParseException {
 		String s = sb.append("<p id=\"errorlink\"><a href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", request.getSession()) + "</a></p>").toString();
 		if (s.contains("#INFO#")) {
 			StringBuffer sbInfo = new StringBuffer();
 			sbInfo.append(StringUtils.getSizeBytes(s));
 			sbInfo.append("|#DTIME#");
 			sbInfo.append("|" + StringUtils.countIn(s, "<img"));
+			sbInfo.append("|" + lang);
+			sbInfo.append("|" + (StringUtils.notEmpty(request.getAttribute("lastupdate")) ? request.getAttribute("lastupdate") : ""));
 			s = s.replaceAll("\\#INFO\\#", sbInfo.toString());
 		}
 		request.setAttribute("version", "v=" + ConfigUtils.getProperty("version"));

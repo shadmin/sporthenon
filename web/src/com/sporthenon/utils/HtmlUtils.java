@@ -76,7 +76,7 @@ public class HtmlUtils {
 	public static String writeURL(String main, String params, String text) {
 		if (params != null)
 			params = params.replaceAll("\\,\\s", "-").replaceAll("[\\[\\]]", "").replaceAll("\\-\\_(en|fr)$", "");
-		return main + (StringUtils.notEmpty(text) ? "/" + StringUtils.urlEscape(text.replaceAll("\\&nbsp;\\-\\&nbsp\\;", "/")) : "") + (StringUtils.notEmpty(params) ? "/" + StringUtils.encode(params) : "");
+		return main + (StringUtils.notEmpty(text) ? "/" + StringUtils.urlEscape(text.replaceAll("\\&nbsp;(\\-|" + StringUtils.SEP1 + ")\\&nbsp\\;", "/")) : "") + (StringUtils.notEmpty(params) ? "/" + StringUtils.encode(params) : "");
 	}
 
 	public static String writeLink(String alias, int id, String text1, String text2) {
@@ -215,12 +215,18 @@ public class HtmlUtils {
 		html.append("<table class='info'" + (width != null && width > 0 ? " style='width:" + width + "px;'" : "") + ">");
 		if (h.containsKey("titlename")) {
 			html.append("<tr><th id='titlename'" + (!h.containsKey("_sport_") && !h.containsKey("_year_") ? " colspan='2'" : "") + ">" + h.get("titlename") + "</th></tr>");
-			// Photo
-			if (h.containsKey("imgurl"))
-				html.append("<tr><td colspan='2' class='photo'>" + ImageUtils.getPhotoImg(h.get("imgurl"), h.get("source"), lang) + "</td></tr>");
+			// Photos
+			if (h.containsKey("imgurls")) {
+				String imgs = h.get("imgurls");
+				int i = 0;
+				html.append("<tr><td colspan='2' class='photo'>");
+				for (String img : imgs.split("\\,"))
+					html.append(i > 0 ? "&nbsp;&nbsp;" : "").append(ImageUtils.getPhotoImg(img, h.get("source"), lang, i++ > 0));
+				html.append("</td></tr>");
+			}
 		}
 		for (String key : h.keySet()) {
-			if (!key.matches("(tab|^)title|titleEN|imgurl|source|url|info|\\_sport\\_|\\_year\\_|width|titlename|titlename2") && StringUtils.notEmpty(h.get(key))) {
+			if (!key.matches("(tab|^)title|titleEN|imgurls|source|url|info|\\_sport\\_|\\_year\\_|width|titlename|titlename2") && StringUtils.notEmpty(h.get(key))) {
 				html.append("<tr>" + (h.containsKey("_sport_") || h.containsKey("_team_") || h.containsKey("_year_") || key.matches("flag|logo") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
 				html.append("<td" + (key.matches("logo|logosport|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + (key.matches("flag|logo") ? " colspan='2'" : "") + ">" + h.get(key) + "</td></tr>");
 			}
@@ -325,7 +331,7 @@ public class HtmlUtils {
 				}
 			}
 			if (currentType == null || !currentType.equalsIgnoreCase(text))
-				sbHtml.append("<tr><th>" + text + "</th></tr>");	
+				sbHtml.append("<tr><th>" + text + "</th></tr>");
 			currentType = text;
 			// Link
 			String formattedURL = URLDecoder.decode(link.getUrl(), "UTF-8");

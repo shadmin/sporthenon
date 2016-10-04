@@ -69,35 +69,35 @@ public class OlympicsServlet extends AbstractServlet {
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("ev")) ? String.valueOf(hParams.get("ev")) : "0");
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("se")) ? String.valueOf(hParams.get("se")) : "0");
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("se2")) ? String.valueOf(hParams.get("se2")) : "0");
-					lFuncParams.add("_" + getLocale(request));
-					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_OLYMPICS_INDIVIDUAL, lFuncParams, getUser(request), getLocale(request));
-					html.append(HtmlConverter.convertOlympicMedals(DatabaseHelper.call("GetOlympicMedals", lFuncParams), getLocale(request)));
+					lFuncParams.add("_" + lang);
+					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_OLYMPICS_INDIVIDUAL, lFuncParams, getUser(request), lang);
+					html.append(HtmlConverter.convertOlympicMedals(DatabaseHelper.call("GetOlympicMedals", lFuncParams), lang));
 				}
 				else if (type.equals(TYPE_COUNTRY)) {
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("ol")) ? String.valueOf(hParams.get("ol")) : "0");
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("cn")) ? String.valueOf(hParams.get("cn")) : "0");
-					lFuncParams.add("_" + getLocale(request));
-					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_OLYMPICS_COUNTRY, lFuncParams, getUser(request), getLocale(request));
-					html.append(HtmlConverter.convertOlympicRankings(DatabaseHelper.call("GetOlympicRankings", lFuncParams), getLocale(request)));
+					lFuncParams.add("_" + lang);
+					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_OLYMPICS_COUNTRY, lFuncParams, getUser(request), lang);
+					html.append(HtmlConverter.convertOlympicRankings(DatabaseHelper.call("GetOlympicRankings", lFuncParams), lang));
 				}
 				if (isLink) {
 					HtmlUtils.setHeadInfo(request, html.toString());
 					if (hParams.containsKey("export"))
-						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), getLocale(request));
+						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), lang);
 					else {
 						request.setAttribute("menu", "olympics");
-						ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
+						ServletHelper.writePageHtml(request, response, html, lang, hParams.containsKey("print"));
 					}
 				}
 				else
-					ServletHelper.writeTabHtml(request, response, html, getLocale(request));
+					ServletHelper.writeTabHtml(request, response, html, lang);
 			}
 			else if (hParams.containsKey("tree")) { // Tree of sports/events
 				String ol = String.valueOf(hParams.get("ol"));
 				String type = String.valueOf(hParams.get("type"));
 				ArrayList<Object> lFuncParams = new ArrayList<Object>();
 				lFuncParams.add("WHERE CP.id=1 AND SP.type=" + (type.equals(TYPE_SUMMER) ? 1 : 0) + (!ol.equals("0") ? " AND OL.id IN (" + ol + ")" : ""));
-				lFuncParams.add("_" + getLocale(request));
+				lFuncParams.add("_" + lang);
 				response.setCharacterEncoding("utf-8");
 				HtmlConverter.convertTreeArray(DatabaseHelper.call("TreeResults", lFuncParams), response.getWriter(), false, lang);
 				response.flushBuffer();
@@ -112,14 +112,14 @@ public class OlympicsServlet extends AbstractServlet {
 					sql += " LEFT JOIN \"Country\" CN ON OR_.id_country = CN.id";
 					sql += (!ol.equals("0") ? " WHERE OR_.id_olympics IN (" + ol + ")" : "");
 					sql += " ORDER BY CN.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
-					cPicklist.add(new PicklistBean(0, "––&nbsp;" + ResourceUtils.getText("all.countries", getLocale(request)) + "&nbsp;––"));
+					cPicklist.add(new PicklistBean(0, "––&nbsp;" + ResourceUtils.getText("all.countries", lang) + "&nbsp;––"));
 					cPicklist.addAll(DatabaseHelper.getPicklistFromQuery(sql, true));
 					plId = type + "-" + PICKLIST_ID_COUNTRY;
 				}
 				else {
 					String hql = "select ol.id, concat(concat(ol.year.label, ' - '), ol.city.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? lang.toUpperCase() : "") + ") ";
 					hql += " from Olympics ol where ol.type = " + (type.equals(TYPE_SUMMER) ? 1 : 0) + " order by ol.year.id desc";
-					cPicklist.add(new PicklistBean(0, "––&nbsp;" + ResourceUtils.getText("all.olympic.games", getLocale(request)) + "&nbsp;––"));
+					cPicklist.add(new PicklistBean(0, "––&nbsp;" + ResourceUtils.getText("all.olympic.games", lang) + "&nbsp;––"));
 					cPicklist.addAll(DatabaseHelper.getPicklistFromQuery(hql, false));
 					plId = type + "-" + PICKLIST_ID_OLYMPICS;
 				}

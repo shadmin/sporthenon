@@ -37,6 +37,7 @@ public class SearchServlet extends AbstractServlet {
 		try {
 			init(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
+			String lang = getLocale(request);
 			if (hParams.containsKey("entity")) { // Direct search from entity
 				String[] t = StringUtils.decode(String.valueOf(hParams.get("p"))).split("\\-");
 				Integer id = Integer.parseInt(t[1]);
@@ -52,7 +53,7 @@ public class SearchServlet extends AbstractServlet {
 				lFuncParams.add(".");
 				lFuncParams.add((short)LIMIT);
 				lFuncParams.add(false);
-				lFuncParams.add("_" + getLocale(request));
+				lFuncParams.add("_" + lang);
 				StringBuffer html = new StringBuffer("<ul>");
 				Collection list = DatabaseHelper.call("Search2", lFuncParams);
 	
@@ -64,11 +65,11 @@ public class SearchServlet extends AbstractServlet {
 						String cn = (StringUtils.notEmpty(item.getLabelRel1()) ? item.getLabelRel1().substring(item.getLabelRel1().lastIndexOf("(") + 1, item.getLabelRel1().length() - 1) : null);
 						label = StringUtils.toFullName(t[0], t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1] : "", cn, false) + (StringUtils.notEmpty(cn) ? " (" + cn + ")" : "");
 					}
-					String details = "<div class='ajxdetails'>" + ResourceUtils.getText("entity." + item.getEntity() + ".1", getLocale(request)) + (StringUtils.notEmpty(item.getLabelRel2()) ? "/" + (item.getEntity().equals(Olympics.alias) ? ResourceUtils.getText(item.getLabelRel2().equals("1") ? "summer" : "winter", getLocale(request)) : item.getLabelRel2()) : "") + "&nbsp;(" + (item.getCountRef() != null ? item.getCountRef() : 0) + "&nbsp;ref.)</div>";
+					String details = "<div class='ajxdetails'>" + ResourceUtils.getText("entity." + item.getEntity() + ".1", lang) + (StringUtils.notEmpty(item.getLabelRel2()) ? "/" + (item.getEntity().equals(Olympics.alias) ? ResourceUtils.getText(item.getLabelRel2().equals("1") ? "summer" : "winter", lang) : item.getLabelRel2()) : "") + "&nbsp;(" + (item.getCountRef() != null ? item.getCountRef() : 0) + "&nbsp;ref.)</div>";
 					html.append("<li id='" + StringUtils.encode(item.getEntity() + "-" + item.getIdItem()) + "'>" + label + details + "</li>");
 				}
 //				if (!list.isEmpty())
-				html.append("<li class='ajaxlastrow' id=\"LR\">" + ResourceUtils.getText("search.for", getLocale(request)) + "&nbsp;:&nbsp;\"" + hParams.get("value") + "\"</li>");
+				html.append("<li class='ajaxlastrow' id=\"LR\">" + ResourceUtils.getText("search.for", lang) + "&nbsp;:&nbsp;\"" + hParams.get("value") + "\"</li>");
 				ServletHelper.writeText(response, html.append("</ul>").toString());
 			}
 			else if (hParams.containsKey("run")) { // Run search
@@ -99,28 +100,28 @@ public class SearchServlet extends AbstractServlet {
 				lFuncParams.add(scope);
 				lFuncParams.add(count);
 				lFuncParams.add(match);
-				lFuncParams.add("_" + getLocale(request));
+				lFuncParams.add("_" + lang);
 				lFuncParams.add(count);
 				StringBuffer html = null;
 				if (isLink && scope.equals(".")) {
 					html = new StringBuffer();
-					html.append("<span class='title'>" + ResourceUtils.getText("search.results", getLocale(request)) + " : \"" + String.valueOf(hParams.get("pattern")) + "\"</span>");
-					html.append("<span class='desc'>" + ResourceUtils.getText("desc.search", getLocale(request)) + "</span>");
-					html.append("<div class='searchtitle'>" + ResourceUtils.getText("search.results", getLocale(request)) + "&nbsp;:&nbsp;<b>" + String.valueOf(hParams.get("pattern")) + "</b></div>");
+					html.append("<span class='title'>" + ResourceUtils.getText("search.results", lang) + " : \"" + String.valueOf(hParams.get("pattern")) + "\"</span>");
+					html.append("<span class='desc'>" + ResourceUtils.getText("desc.search", lang) + "</span>");
+					html.append("<div class='searchtitle'>" + ResourceUtils.getText("search.results", lang) + "&nbsp;:&nbsp;<b>" + String.valueOf(hParams.get("pattern")) + "</b></div>");
 				}
 				else
-					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_SEARCH, lFuncParams, getUser(request), getLocale(request));
-				html.append(HtmlConverter.convertSearch(DatabaseHelper.call("Search", lFuncParams), String.valueOf(hParams.get("pattern")), getLocale(request)));
+					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_SEARCH, lFuncParams, getUser(request), lang);
+				html.append(HtmlConverter.convertSearch(DatabaseHelper.call("Search", lFuncParams), String.valueOf(hParams.get("pattern")), lang));
 				if (isLink) {
 					HtmlUtils.setHeadInfo(request, html.toString());
 					if (hParams.containsKey("export"))
-						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), getLocale(request));
+						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), lang);
 					else
-						ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
+						ServletHelper.writePageHtml(request, response, html, lang, hParams.containsKey("print"));
 						
 				}
 				else
-					ServletHelper.writeTabHtml(request, response, html, getLocale(request));
+					ServletHelper.writeTabHtml(request, response, html, lang);
 			}
 		}
 		catch (Exception e) {

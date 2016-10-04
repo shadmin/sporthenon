@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ page import="com.sporthenon.utils.ConfigUtils" %>
-<%@ page import="com.sporthenon.utils.StringUtils" %>
+<%@ page import="com.sporthenon.utils.ConfigUtils"%>
+<%@ page import="com.sporthenon.utils.StringUtils"%>
 </div><!-- id="content" -->
-<% if (request.getParameter("print") == null) {%>
+<%if (request.getParameter("print") == null) {%>
 <jsp:include page="/jsp/common/dialogs.jsp"/>
 <div id="footer">
 	<div style="float:right;text-align:right;">
@@ -12,7 +12,7 @@
 	</div>
 	&copy;2011-16&nbsp;(sporthenon.com)<br/><br/>
 	<span style="color:#888;">
-		<%=StringUtils.text("last.update", session)%>:&nbsp;<%=StringUtils.toTextDate(String.valueOf(request.getAttribute("lastupdate") != null ? request.getAttribute("lastupdate") : ConfigUtils.getProperty("date")), String.valueOf(session.getAttribute("locale")), "dd MMM yyyy")%>
+		<%=StringUtils.text("last.update", session)%>:&nbsp;<%=(StringUtils.notEmpty(request.getAttribute("lastupdate")) ? request.getAttribute("lastupdate") : StringUtils.toTextDate(ConfigUtils.getProperty("date"), String.valueOf(session.getAttribute("locale")), "d MMM yyyy"))%>
 		<span id="loadtime" style="display:none;">&nbsp;&ndash;&nbsp;<span></span>&nbsp;<%=StringUtils.text("seconds", session)%></span>
 	</span>
 </div>

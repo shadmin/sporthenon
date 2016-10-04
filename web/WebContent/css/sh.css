@@ -1322,8 +1322,12 @@ li{
 	text-align: center;
 	cursor: pointer;
 	width: 120px;
-	height: 120px;
+	height: 80px;
 	border: 1px dashed #CCC;
+}
+#imgzone #dz-file img{
+	width: 120px;
+	height: 80px;
 }
 #imgzone #dz-file:hover{
 	background-color: #FF9; /* _theme_ */
@@ -1331,21 +1335,20 @@ li{
 #imgzone #dz-file p{
 	white-space: normal;
 	font-style: italic;
-	margin-top: 40px;
+	margin-top: 25px;
 }
 .dz-success-mark, .dz-error-mark, .dz-details{
 	display: none;
 }
-#currentimg{
-	position: absolute;
-	z-index: 0;
-	text-align: right;
-	right: 25px;
-}
-#currentimg img{
-	border: 1px solid #AAA;
+#currentphotos{
 	width: 120px;
-	height: 120px;
+	margin-top: 10px;
+	overflow: auto;
+}
+#currentphotos img{
+	border: 1px solid #AAA;
+	width: 25px;
+	height: 25px;
 }
 #msg, #msg2{
 	position: relative;
@@ -1939,6 +1942,14 @@ li{
 }
 #d-comment td{
 	border: none;
+}
+#d-info .lang-fr{
+	padding-left: 25px;
+	background: transparent url(../img/header/lang-fr.png?6) 5px center no-repeat;	
+}
+#d-info .lang-en{
+	padding-left: 25px;
+	background: transparent url(../img/header/lang-en.png?6) 5px center no-repeat;	
 }
 /*=============================
   ========== TOOLBAR ========== 

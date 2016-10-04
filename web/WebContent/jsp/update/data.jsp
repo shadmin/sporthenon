@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.sporthenon.utils.ConfigUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
-<jsp:include page="/jsp/common/header.jsp" />
+<jsp:include page="/jsp/common/header.jsp"/>
 <div id="update-data" class="update">
 	<script type="text/javascript" src="/js/dropzone.js"></script>
-	<jsp:include page="/jsp/update/toolbar.jsp" />
+	<jsp:include page="/jsp/update/toolbar.jsp"/>
 	<div class="fieldset">
 		<div class="fstitle"><%=StringUtils.text("update.data", session).toUpperCase()%></div>
 		<div class="fscontent" style="min-height:150px;height:auto;">
@@ -30,13 +30,13 @@
 			<a id="link-TS" href="javascript:showPanel('TS');"><%=StringUtils.text("entity.TS", session)%></a>&nbsp;|&nbsp;
 			<a id="link-WL" href="javascript:showPanel('WL');"><%=StringUtils.text("entity.WL", session)%></a>
 			<br/><br/>
-			<!-- PHOTO -->
+			<!-- PHOTOS -->
 			<div id="imgzone" style="position:absolute;width:130px;">
-				<fieldset><legend><%=StringUtils.text("photo", session)%></legend>
+				<fieldset style="height:140px;"><legend><%=StringUtils.text("photos", session)%></legend>
 					<div id="dz-file"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>	
+					<div id="currentphotos"></div>
 				</fieldset>
 			</div>
-			<div id="currentimg"></div>
 			<!-- ATHLETE -->
 			<table id="table-PR" style="display:none;">
 				<tr><th>ID</th><td><input type="text" disabled="disabled" id="pr-id" class="id"/></td></tr>
@@ -45,7 +45,7 @@
 				<tr><th><%=StringUtils.text("sport", session)%></th><td><input type="hidden" id="pr-sport"/><input type="text" id="pr-sport-l"/><a href="javascript:clearValue('pr-sport');">[X]</a></td></tr>
 				<tr><th><%=StringUtils.text("entity.TM.1", session)%></th><td><input type="hidden" id="pr-team"/><input type="text" id="pr-team-l"/><a href="javascript:clearValue('pr-team');">[X]</a></td></tr>
 				<tr><th><%=StringUtils.text("entity.CN.1", session)%></th><td><input type="hidden" id="pr-country"/><input type="text" id="pr-country-l"/><a href="javascript:clearValue('pr-country');">[X]</a></td></tr>
-				<tr><th><%=StringUtils.text("photo.source", session)%></th><td><input type="text" id="pr-source"/></td></tr>
+				<tr><th><%=StringUtils.text("photos.source", session)%></th><td><input type="text" id="pr-source"/></td></tr>
 				<tr><th><%=StringUtils.text("linked.to", session)%></th><td><input type="hidden" id="pr-link"/><input type="text" id="pr-link-l"/><a href="javascript:clearValue('pr-link');">[X]</a></td></tr>
 			</table>
 			<!-- CALENDAR -->
@@ -76,7 +76,7 @@
 				<tr><th><%=StringUtils.text("label", session)%> (FR)</th><td><input type="text" id="ct-labelfr"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.ST.1", session)%></th><td><input type="hidden" id="ct-state"/><input type="text" id="ct-state-l"/><a href="javascript:clearValue('ct-state');">[X]</a></td></tr>
 				<tr><th><%=StringUtils.text("entity.CN.1", session)%></th><td><input type="hidden" id="ct-country"/><input type="text" id="ct-country-l"/><a href="javascript:clearValue('ct-country');">[X]</a></td></tr>
-				<tr><th><%=StringUtils.text("photo.source", session)%></th><td><input type="text" id="ct-source"/></td></tr>
+				<tr><th><%=StringUtils.text("photos.source", session)%></th><td><input type="text" id="ct-source"/></td></tr>
 				<tr><th><%=StringUtils.text("linked.to", session)%></th><td><input type="hidden" id="ct-link"/><input type="text" id="ct-link-l"/><a href="javascript:clearValue('ct-link');">[X]</a></td></tr>
 			</table>
 			<!-- COMPLEX -->
@@ -84,7 +84,7 @@
 				<tr><th>ID</th><td><input type="text" disabled="disabled" id="cx-id" class="id"/></td></tr>
 				<tr><th><%=StringUtils.text("label", session)%></th><td><input type="text" id="cx-label"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.CT.1", session)%></th><td><input type="hidden" id="cx-city"/><input type="text" id="cx-city-l"/><a href="javascript:clearValue('cx-city');">[X]</a></td></tr>
-				<tr><th><%=StringUtils.text("photo.source", session)%></th><td><input type="text" id="cx-source"/></td></tr>
+				<tr><th><%=StringUtils.text("photos.source", session)%></th><td><input type="text" id="cx-source"/></td></tr>
 				<tr><th><%=StringUtils.text("linked.to", session)%></th><td><input type="hidden" id="cx-link"/><input type="text" id="cx-link-l"/><a href="javascript:clearValue('cx-link');">[X]</a></td></tr>
 			</table>
 			<!-- COUNTRY -->
@@ -275,4 +275,4 @@ window.onload = function() {
 	initUpdateData();
 }
 --></script>
-<jsp:include page="/jsp/common/footer.jsp" />
+<jsp:include page="/jsp/common/footer.jsp"/>

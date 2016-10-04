@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ page import="com.sporthenon.db.entity.meta.Contributor" %>
-<%@ page import="com.sporthenon.utils.ConfigUtils" %>
-<%@ page import="com.sporthenon.utils.StringUtils" %>
-<%@ page import="com.sporthenon.utils.res.ResourceUtils" %>
+<%@ page import="com.sporthenon.db.entity.meta.Contributor"%>
+<%@ page import="com.sporthenon.utils.ConfigUtils"%>
+<%@ page import="com.sporthenon.utils.StringUtils"%>
+<%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <%@ page import="com.sporthenon.web.ServletHelper"%>
 <%
 	Object o = session.getAttribute("user");
@@ -29,9 +29,9 @@
 	<meta property="og:title" content="<%=title%>"/>
 	<meta property="og:type" content="website"/>
 	<meta property="og:image" content="<%=url%>img/icon-notext.png?1"/>
-	<% if (request.isSecure() || !ConfigUtils.getProperty("env").equals("prod") || !ServletHelper.getURL(request).contains("sporthenon.com")) { %>
+	<%if (request.isSecure() || !ConfigUtils.getProperty("env").equals("prod") || !ServletHelper.getURL(request).contains("sporthenon.com")) {%>
 	<meta name="robots" content="noindex, nofollow"/>
-	<% } %>
+	<%}%>
 	<link rel="stylesheet" type="text/css" href="/css/sh.css?v=<%=version%>"/>	
 	<link rel="stylesheet" type="text/css" href="/css/render.css?v=<%=version%>"/>
 	<link rel="shortcut icon" type="image/x-icon" href="/img/iconfav.ico?v=6"/>
@@ -61,7 +61,7 @@
 		</table>
 	</div>
 	<div id="android">
-		<a href="https://play.google.com/store/apps/details?id=com.sporthenon.android" target="_blank"><img alt="Android app on Google Play" src="/img/header/android<%=lang%>.png" /></a>
+		<a href="https://play.google.com/store/apps/details?id=com.sporthenon.android" target="_blank"><img alt="Android app on Google Play" src="/img/header/android<%=lang%>.png"/></a>
 	</div>
 </div>
 
@@ -133,6 +133,7 @@
 	out.print("var TX_TIE=\"" + StringUtils.text("tie", session) + "\";");
 	out.print("var TX_COMMENT=\"" + StringUtils.text("comment", session) + "\";");
 	out.print("var TX_OPEN_DIALOG=\"" + StringUtils.text("open.dialog", session) + "\";");
+	out.print("var TX_ENLARGE=\"" + StringUtils.text("enlarge", session) + "\";");
 %>
 --></script>
 
@@ -142,12 +143,12 @@
 		<div id="mtproject"><a href="/project"><%=StringUtils.text("menu.project", session)%></a></div>
 		<div id="mtcontribute"><a href="/contribute"><%=StringUtils.text("menu.contribute", session)%></a></div>
 		<div id="mtfavorites"><a href="javascript:$('favorites').show();"><%=StringUtils.text("menu.favorites", session)%></a><div id="favorites" style="display:none;"></div></div>
-		<% if (m != null) { %>
+		<%if (m != null) {%>
 		<div id="mtcbarea"><a href="/update/overview"><%=StringUtils.text("menu.cbarea", session)%></a></div>
 		<div id="mtlogout"><a href="/LoginServlet?logout"><%=StringUtils.text("menu.logout", session)%></a>&nbsp;(<%=m.getLogin()%>)</div>
-		<% } else { %>
+		<%} else {%>
 		<div id="mtlogin"><a href="<%=request.getAttribute("urlLogin")%>"><%=StringUtils.text("menu.login", session)%></a></div>
-		<% } %>
+		<%}%>
 	</div>
 	<div id="flags"><a title="English" href="<%=request.getAttribute("urlEN")%>"><img alt="EN" src="/img/header/lang-en.png"/></a>&nbsp;<a title="Français" href="<%=request.getAttribute("urlFR")%>"><img alt="FR" src="/img/header/lang-fr.png"/></a>&nbsp;</div>
 	<div id="searchpanel">

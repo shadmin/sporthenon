@@ -6,10 +6,10 @@
 <%@ page import="com.sporthenon.db.entity.meta.Config"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
-<jsp:include page="/jsp/common/header.jsp" />
+<jsp:include page="/jsp/common/header.jsp"/>
 <div id="update-pictures" class="update">
 	<script type="text/javascript" src="/js/dropzone.js"></script>
-	<jsp:include page="/jsp/update/toolbar.jsp" />
+	<jsp:include page="/jsp/update/toolbar.jsp"/>
 	<div class="fieldset">
 		<div class="fstitle users"><%=StringUtils.text("update.pictures", session).toUpperCase()%></div>
 		<div class="fscontent">
@@ -79,4 +79,4 @@ window.onload = function() {
 	initPictures();
 }
 --></script>
-<jsp:include page="/jsp/common/footer.jsp" />
+<jsp:include page="/jsp/common/footer.jsp"/>

@@ -121,7 +121,7 @@ function handleRender() {
 	});
 	var t = elapsedTime(t1, t2);
 	if (info) {
-		info.update(info.innerHTML.replace('#DTIME#', t));	
+		info.update(info.innerHTML.replace('#DTIME#', t));
 	}
 	if ($('loadtime')) {
 		$('loadtime').down('span').update(t);
@@ -363,6 +363,21 @@ function toggle(id) {
 		img.src = img.src.replace('collapse', 'expand') + '?v=' + VERSION;
 	}
 }
+var currentExpPhoto = null;
+function thumbnailClick(id){
+	if (currentExpPhoto == null) {
+		currentExpPhoto = $$('.info img')[0].id;
+	}
+	$(id).style.width = $(currentExpPhoto).style.width;
+	$(id).style.height = $(currentExpPhoto).style.height;
+	$(id).title = TX_ENLARGE;
+	$("link-" + id).href = IMG_URL + id;
+	$(currentExpPhoto).style.width = '50px';
+	$(currentExpPhoto).style.height = '50px';
+	$(currentExpPhoto).title = '';
+	$("link-" + currentExpPhoto).href = 'javascript:thumbnailClick(\"' + currentExpPhoto + '\");';
+	currentExpPhoto = id;
+}
 /*============================
   ========== UTILS ========== 
   ============================*/
@@ -529,6 +544,9 @@ function displayInfo() {
 	t[1].update(tInfo[0] + '&nbsp;' + TX_KB);
 	t[2].update(tInfo[1] + '&nbsp;' + TX_SECONDS);
 	t[3].update(tInfo[2]);
+	t[4].update(tInfo[3] == 'fr' ? 'Français' : 'English');
+	t[4].className = ('lang-' + tInfo[3]);
+	t[5].update(tInfo[4]);
 	$('header').setStyle({ opacity: 0.4 });
 	$('content').setStyle({ opacity: 0.4 });
 	dInfo.open();
@@ -1469,14 +1487,20 @@ function moveSport(sp, list1, list2) {
 var currentInputValue = null;
 var currentAlias = null;
 var currentId = null;
-function updatePhoto(name) {
-	$('currentimg').update('<img alt="" src="' + IMG_URL + name + '"/><br/><a href="javascript:removePhoto(\'' + name + '\');">' + TX_REMOVE + '</a>');
-	$('currentimg').show();	
+function updatePhotos(names) {
+	var t = names.split(',');
+	var t_ = [];
+	for (var i = 0 ; i < t.length ; i++) {
+		t_.push('<a id="currentphoto-' + i + '" target="_blank" href="' + IMG_URL + t[i] + '" title="' + t[i] + '"><img alt="" src="' + IMG_URL + t[i] + '"/></a><a id="currentphoto-rm-' + i + '" href="javascript:removePhoto(' + i + ', \'' + t[i] + '\');">[X]</a>&nbsp;');
+	}
+	$('currentphotos').update(t_.join(''));
+	$('currentphotos').show();
 }
-function removePhoto(name) {
+function removePhoto(index, name) {
 	new Ajax.Request('/ImageServlet?remove=1&name=' + name, {
 		onSuccess: function(response){
-			$('currentimg').hide();
+			$('currentphoto-' + index).hide();
+			$('currentphoto-rm-' + index).hide();
 		}
 	});
 }
@@ -1588,10 +1612,10 @@ function loadResValues(value) {
 			tValues['exa'] = t[22]; if (t[22] != '') {$('exa').value = t[22]; $('exa').addClassName('completed2');} else {$('exa').value = $('exa').name; $('exa').removeClassName('completed2');}
 			tValues['cmt'] = t[23]; if (t[23] != '') {$('cmt').value = t[23]; $('cmt').addClassName('completed2');} else {$('cmt').value = $('cmt').name; $('cmt').removeClassName('completed2');}
 			if (t[24] != '') {
-				updatePhoto(t[24]);
+				updatePhotos(t[24]);
 			}
 			else {
-				$('currentimg').hide();
+				$('currentphotos').hide();
 			}
 			tValues['source'] = t[25]; if (t[25] != '') {$('source').value = t[25]; $('source').addClassName('completed2');} else {$('source').value = $('source').name; $('source').removeClassName('completed2');}
 			$('metadata').update(t[26]);
@@ -2627,10 +2651,10 @@ function setEntityValues(text) {
 	}
 	if (currentAlias == 'PR' || currentAlias == 'CT' || currentAlias == 'CX') {
 		if (t[i++] != '') {
-			updatePhoto(t[i - 1]);
+			updatePhotos(t[i - 1]);
 		}
 		else {
-			$('currentimg').hide();
+			$('currentphotos').hide();
 		}
 		$('imgzone').show();
 	}
@@ -2865,6 +2889,9 @@ function loadPictures(action_, id_) {
 	var h = $H({action: action_, alias: currentAlias, id: (id_ ? id_ : currentId), sp: $F('sport')});
 	new Ajax.Request('/update/load-entity?t=' + currentTime(), {
 		onSuccess: function(response){
+			if (response.responseText == '') {
+				return;
+			}
 			var t = response.responseText.split('~');
 			$('label-remote').update(t[1] + (currentAlias == 'TM' ? '<span style="font-weight:normal;font-style:italic;">&nbsp;-&nbsp;' + t[3] + '</span>' : ''));
 			$('nopic').checked = (t[t.length - 1] == '1');
@@ -3161,6 +3188,16 @@ function saveFolders() {
 function loadErrors() {
 	$('ercontent').update('<img src="/img/db/loading.gif?6"/>');
 	new Ajax.Updater($('ercontent'), '/update/load-errors');
+}
+function removeError(id) {
+	$('ercontent').update('<img src="/img/db/loading.gif?6"/>');
+	new Ajax.Request('/update/remove-error', {
+		onSuccess: function(response){
+			loadErrors();
+		},
+		parameters: $H({value: id})
+	});
+	new Ajax.Updater($('ercontent'), '/update/remove-error');
 }
 /*========== REDIRECTIONS ==========*/
 function loadRedirections() {

@@ -39,7 +39,7 @@ var treeItems = null;
 	<table>
 		<tr><td style="text-align:left;"><%=StringUtils.text("sport", session)%>:</td></tr>
 		<tr><td><select id="pl-sp" name="pl-sp"><option/></select></td></tr>
-		<tr><td><div id="slider-sp" class="slider"><%@include file="../../html/slider.html" %></div></td></tr>
+		<tr><td><div id="slider-sp" class="slider"><%@include file="../../html/slider.html"%></div></td></tr>
 	</table>
 	</li>
 	<li class="evdiv" style="padding-left:5px;">
@@ -64,15 +64,15 @@ var treeItems = null;
 			<td><select disabled="disabled" class="disabled" id="pl-se2" name="pl-se2" onchange="getPicklist('pl-yr')"><option/></select></td>
 		</tr>
 		<tr><td colspan="4" style="text-align:left;padding-top:5px;"><%=StringUtils.text("years", session)%>:</td></tr>
-		<tr><td colspan="4" style="padding:0;"><div id="sm-pl-yr" class="selmultiple"><%@include file="../../html/selectmult.html" %></div></td></tr>
+		<tr><td colspan="4" style="padding:0;"><div id="sm-pl-yr" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 		<tr><td colspan="4" style="padding-top:15px;text-align:right;">(&dagger;&nbsp;<%=StringUtils.text("event.notheld", session)%>)</td></tr>
 	</table>
 	</li>
 	</ul>
 	</form>
 </div>
-<%@include file="../../html/buttons.html" %>
-<%@include file="../../html/tabcontrol.html" %>
+<%@include file="../../html/buttons.html"%>
+<%@include file="../../html/tabcontrol.html"%>
 <%
 HashMap<String, String> hSportImg = new HashMap<String, String>();
 Collection<PicklistBean> cPicklist = DatabaseHelper.getPicklist(Result.class, "sport", null, null, (short) 2, lang);
@@ -95,4 +95,4 @@ window.onload = function() {
 	initTabControl();
 }
 --></script>
-<jsp:include page="/jsp/common/footer.jsp" />
+<jsp:include page="/jsp/common/footer.jsp"/>

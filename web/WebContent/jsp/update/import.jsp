@@ -3,10 +3,10 @@
 <%@page import="com.sporthenon.db.entity.meta.Config"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
-<jsp:include page="/jsp/common/header.jsp" />
+<jsp:include page="/jsp/common/header.jsp"/>
 <div id="update-import" class="update">
 	<script type="text/javascript" src="/js/dropzone.js"></script>
-	<jsp:include page="/jsp/update/toolbar.jsp" />
+	<jsp:include page="/jsp/update/toolbar.jsp"/>
 	<div class="fieldset">
 		<div class="fstitle users"><%=StringUtils.text("update.import", session).toUpperCase()%></div>
 		<div class="fscontent">
@@ -31,4 +31,4 @@ window.onload = function() {
 	initImport();
 }
 --></script>
-<jsp:include page="/jsp/common/footer.jsp" />
+<jsp:include page="/jsp/common/footer.jsp"/>

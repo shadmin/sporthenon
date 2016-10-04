@@ -23,7 +23,7 @@
 	Year y3_ = (Year) DatabaseHelper.loadEntityFromQuery("from Year where label='" + (y + 1) + "'");
 	Year y4_ = (Year) DatabaseHelper.loadEntityFromQuery("from Year where label='" + (y + 2) + "'");
 %>
-<jsp:include page="/jsp/common/header.jsp" />
+<jsp:include page="/jsp/common/header.jsp"/>
 <script type="text/javascript"><!--
 var tDateValues = ['<%=d1%>', '<%=d2%>', '<%=d%>', '<%=d3%>', '<%=d4%>'];
 var treeItems = null;
@@ -45,7 +45,7 @@ var treeItems = null;
 	<div id="help-other" class="rendertip" style="display:none;"><%=ConfigUtils.getValue("html_helpother_" + lang)%></div>
 	<div id="help-rankings" class="rendertip" style="display:none;"><%=ConfigUtils.getValue("html_helprankings_" + lang)%></div>
 	<div id="help-rounds" class="rendertip" style="display:none;"><%=ConfigUtils.getValue("html_helprounds_" + lang)%></div>
-	<jsp:include page="/jsp/update/toolbar.jsp" />
+	<jsp:include page="/jsp/update/toolbar.jsp"/>
 	<div class="fieldset">
 		<div class="fstitle"><%=StringUtils.text("update.results", session).toUpperCase()%><div id="msg2"></div></div>
 		<div class="fscontent" style="height:auto;">
@@ -80,7 +80,6 @@ var treeItems = null;
 				<script type="text/javascript">new Tree(treeItems, treeTemplate);</script>
 				</td></tr></tbody></table>
 			</div></div>
-			<div id="currentimg" style="margin-top:90px;"></div>
 			<ul>
 			<!-- EVENT -->
 			<li>
@@ -110,10 +109,11 @@ var treeItems = null;
 				</table>
 			</fieldset>
 			</li>
-			<!-- PHOTO -->
+			<!-- PHOTOS -->
 			<li id="imgzone">
-				<fieldset style="height:140px;"><legend><table><tr><td><%=StringUtils.text("photo", session)%></td><td><a class="helptip" href="#help-photo"><img alt="help" src="/img/update/help.png"/></a></td></tr></table></legend>
+				<fieldset style="height:140px;"><legend><table><tr><td><%=StringUtils.text("photos", session)%></td><td><a class="helptip" href="#help-photo"><img alt="help" src="/img/update/help.png"/></a></td></tr></table></legend>
 					<div id="dz-file"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>
+					<div id="currentphotos"></div>
 				</fieldset>
 			</li>
 			</ul>
@@ -137,7 +137,7 @@ var treeItems = null;
 						<td style="width:20px;padding-left:30px;"><input id="draft" type="checkbox" onclick="showWarning();"/></td>
 						<td><label for="draft"><%=StringUtils.text("draft", session)%></label></td></tr>
 					<tr><td colspan="5"><input type="text" id="cmt" tabindex="12" name="<%=StringUtils.text("comment", session)%>" style="width:500px;"/></td><td><input type="button" class="button" title="<%=StringUtils.text("manage.comment", session)%>" onclick="openCommentDialog();" value="..." style="padding-left:5px;"/></td></tr>
-					<tr><td colspan="5"><input type="text" id="source" tabindex="13" name="<%=StringUtils.text("photo.source", session)%>" style="width:500px;"/></td></tr>
+					<tr><td colspan="5"><input type="text" id="source" tabindex="13" name="<%=StringUtils.text("photos.source", session)%>" style="width:500px;"/></td></tr>
 					<tr><td colspan="5"><textarea id="exl" tabindex="14" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="3" style="width:500px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
 				</table>
 			</fieldset>
@@ -209,4 +209,4 @@ window.onload = function() {
 	});
 }
 --></script>
-<jsp:include page="/jsp/common/footer.jsp" />
+<jsp:include page="/jsp/common/footer.jsp"/>

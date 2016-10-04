@@ -8,7 +8,7 @@
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <%@ page import="com.sporthenon.web.servlet.USLeaguesServlet"%>
-<jsp:include page="/jsp/common/header.jsp" />
+<jsp:include page="/jsp/common/header.jsp"/>
 <div id="usleagues" class="fieldset">
 	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
 	<form id="usleagues-form" action="/usleagues">
@@ -165,4 +165,4 @@ window.onload = function() {
 <%}}%>
 }
 --></script>
-<jsp:include page="/jsp/common/footer.jsp" />
+<jsp:include page="/jsp/common/footer.jsp"/>

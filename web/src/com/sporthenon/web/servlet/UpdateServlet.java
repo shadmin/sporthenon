@@ -140,6 +140,8 @@ public class UpdateServlet extends AbstractServlet {
 				saveFolders(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-errors"))
 				loadErrors(response, hParams, lang, cb);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("remove-error"))
+				removeError(response, hParams);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-redirections"))
 				loadRedirections(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("save-redirections"))
@@ -813,7 +815,7 @@ public class UpdateServlet extends AbstractServlet {
 				html.append("</tr></thead><tbody class='tby'>");
 				currentEntity = item.getEntity();
 			}
-			boolean isPhoto = StringUtils.notEmpty(ImageUtils.getPhotoFile(item.getEntity(), item.getIdItem()));
+			boolean isPhoto = StringUtils.notEmpty(ImageUtils.getPhotoFiles(item.getEntity(), item.getIdItem()));
 			boolean isNopic = (item.getCount3() != null && item.getCount3() == 1);
 			int picsL = ImageUtils.getImageList(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_LARGE).size();
 			int picsS = ImageUtils.getImageList(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_SMALL).size();
@@ -1103,7 +1105,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(rs.getComplex1() != null ? rs.getComplex1().toString2(lang) : (rs.getCity1() != null ? rs.getCity1().toString2(lang) : (rs.getCountry1() != null ? rs.getCountry1().toString2(lang) : ""))).append("~");
 				sb.append(rs.getComplex2() != null ? rs.getComplex2().getId() : (rs.getCity2() != null ? rs.getCity2().getId() : (rs.getCountry2() != null ? rs.getCountry2().getId() : ""))).append("~");
 				sb.append(rs.getComplex2() != null ? rs.getComplex2().toString2(lang) : (rs.getCity2() != null ? rs.getCity2().toString2(lang) : (rs.getCountry2() != null ? rs.getCountry2().toString2(lang) : ""))).append("~");
-				sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~").append(ImageUtils.getPhotoFile(Result.alias, rs.getId())).append("~").append(rs.getPhotoSource()).append("~");
+				sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~").append(ImageUtils.getPhotoFiles(Result.alias, rs.getId())).append("~").append(rs.getPhotoSource()).append("~");
 				sb.append(ResourceUtils.getText("metadata", lang).replaceFirst("\\{1\\}", StringUtils.toTextDate(rs.getMetadata().getFirstUpdate(), lang, "dd/MM/yyyy HH:mm")).replaceFirst("\\{2\\}", StringUtils.toTextDate(rs.getMetadata().getLastUpdate(), lang, "dd/MM/yyyy HH:mm")).replaceFirst("\\{3\\}", "<a target='_blank' href='" + HtmlUtils.writeLink(Contributor.alias, rs.getMetadata().getContributor().getId(), null, rs.getMetadata().getContributor().getLogin()) + "'>" + rs.getMetadata().getContributor().getLogin() + "</a>")).append("~");
 				// Inactive item?
 				String hql = "from InactiveItem where id_sport=" + rs.getSport().getId() + " and id_championship=" + rs.getChampionship().getId() + " and id_event=" + rs.getEvent().getId();
@@ -1326,7 +1328,7 @@ public class UpdateServlet extends AbstractServlet {
 				else
 					sb.append("~~");
 				sb.append(exl).append("~");
-				sb.append(ImageUtils.getPhotoFile(Athlete.alias, id)).append("~");
+				sb.append(ImageUtils.getPhotoFiles(Athlete.alias, id)).append("~");
 			}
 			else if (o instanceof com.sporthenon.db.entity.Calendar) {
 				com.sporthenon.db.entity.Calendar cl = (com.sporthenon.db.entity.Calendar) o;
@@ -1381,7 +1383,7 @@ public class UpdateServlet extends AbstractServlet {
 				else
 					sb.append("~~");
 				sb.append(exl).append("~");
-				sb.append(ImageUtils.getPhotoFile(City.alias, id)).append("~");
+				sb.append(ImageUtils.getPhotoFiles(City.alias, id)).append("~");
 			}
 			else if (o instanceof Complex) {
 				Complex cx = (Complex) o;
@@ -1404,7 +1406,7 @@ public class UpdateServlet extends AbstractServlet {
 				else
 					sb.append("~~");
 				sb.append(exl).append("~");
-				sb.append(ImageUtils.getPhotoFile(Complex.alias, id)).append("~");
+				sb.append(ImageUtils.getPhotoFiles(Complex.alias, id)).append("~");
 			}
 			else if (o instanceof Contributor) {
 				Contributor cb_ = (Contributor) o;
@@ -1990,7 +1992,7 @@ public class UpdateServlet extends AbstractServlet {
 			StringBuffer hql = new StringBuffer("from ExternalLink where entity='" + entity + "'");
 			if (tIds.length > 1)
 				hql.append(" and idItem between " + tIds[0] + " and " + tIds[1]);
-			hql.append(" order by idItem, type");
+			hql.append(" order by idItem, flag");
 
 			StringBuffer where = new StringBuffer(" where 1=1");
 			where.append(tIds.length > 1 ? " and id between " + tIds[0] + " and " + tIds[1] : "");
@@ -2022,6 +2024,7 @@ public class UpdateServlet extends AbstractServlet {
 						html.append("<tr id='el-" + el.getId() + "'><td style='display:none;'>" + el.getId() + "</td>");
 						html.append("<td>" + el.getIdItem() + "</td>");
 						html.append("<td>" + label + "</td>");
+						html.append("<td>" + (StringUtils.notEmpty(el.getFlag()) ? el.getFlag() : "") + "</td>");
 						html.append("<td><a href='" + el.getUrl() + "' target='_blank'>" + el.getUrl() + "</a></td>");
 						html.append("<td><input type='checkbox'" + (el.isChecked() ? " checked='checked'" : "") + "/></td>");
 						html.append("<td><a href='javascript:addExtLink(" + el.getId() + ");'><img alt='' src='/img/component/button/add.png'/></a></td>");
@@ -2374,12 +2377,29 @@ public class UpdateServlet extends AbstractServlet {
 				html.append("<tr><td style='display:none;'>0</td>");
 				html.append("<td><a href='http://" + url + "' target='_blank'>" + url.substring(url.indexOf("/")) + "</a></td>");
 				html.append("<td>" + er.getText().replaceAll("\\||\r\n|\n", "<br/>") + "</td>");
-				html.append("<td>" + StringUtils.toTextDate(er.getDate(), lang, null) + "</td></tr>");
+				html.append("<td>" + StringUtils.toTextDate(er.getDate(), lang, null) + "</td>");
+				html.append("<td><a href='javascript:removeError(" + er.getId() + ");'><img alt='' src='/img/component/button/delete.png'/></a></td></tr>");
 			}
 			ServletHelper.writeText(response, html.append("</tbody></table>").toString());
 		}
 		catch (Exception e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);
+		}
+	}
+	
+	private static void removeError(HttpServletResponse response, Map hParams) throws Exception {
+		StringBuffer sbMsg = new StringBuffer();
+		try {
+			String value = String.valueOf(hParams.get("value"));
+			if (StringUtils.notEmpty(value))
+				DatabaseHelper.removeEntity(DatabaseHelper.loadEntity(ErrorReport.class, Integer.parseInt(value)));
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+			sbMsg.append("ERR:" + e.getMessage());
+		}
+		finally {
+			ServletHelper.writeText(response, sbMsg.toString());
 		}
 	}
 	

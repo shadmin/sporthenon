@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.util.Calendar"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
-<jsp:include page="/jsp/common/header.jsp" />
+<jsp:include page="/jsp/common/header.jsp"/>
 <%
 	int y = Calendar.getInstance().get(Calendar.YEAR);
 	int m = Calendar.getInstance().get(Calendar.MONTH) + 1;
@@ -48,8 +48,8 @@
 	</li>
 	</ul>
 </div>
-<%@include file="../../html/buttons.html" %>
-<%@include file="../../html/tabcontrol.html" %>
+<%@include file="../../html/buttons.html"%>
+<%@include file="../../html/tabcontrol.html"%>
 <script type="text/javascript"><!--
 var todayY = '<%=y%>';
 var todayM = '<%=(m < 10 ? "0" : "") + m%>';
@@ -59,4 +59,4 @@ window.onload = function() {
 	refreshDate(1);
 }
 --></script>
-<jsp:include page="/jsp/common/footer.jsp" />
+<jsp:include page="/jsp/common/footer.jsp"/>

@@ -28,6 +28,7 @@ private static final long serialVersionUID = 1L;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			init(request);
+			String lang = getLocale(request);
 			// Contributors
 			StringBuffer html = new StringBuffer();
 			Collection c = DatabaseHelper.call("Contributors", null);
@@ -35,14 +36,14 @@ private static final long serialVersionUID = 1L;
 				ContributorBean bean = (ContributorBean) obj;
 				String sports = null;
 				if (StringUtils.notEmpty(bean.getSports())) {
-					List<String> l = Arrays.asList((getLocale(request).equalsIgnoreCase("fr") ? bean.getSportsFR() : bean.getSports()).split("\\|"));
+					List<String> l = Arrays.asList((lang.equalsIgnoreCase("fr") ? bean.getSportsFR() : bean.getSports()).split("\\|"));
 					Collections.sort(l);
 					sports = StringUtils.join(l, "<br/>");
 				}
 				html.append("<tr><td><a href='" + HtmlUtils.writeLink(Contributor.alias, bean.getId(), null, bean.getLogin()) + "'>" + bean.getLogin() + "</a></td>");
 				html.append("<td>" + (StringUtils.notEmpty(bean.getName()) ? bean.getName() : "-") + "</td>");
 				html.append("<td>" + (StringUtils.notEmpty(sports) ? sports : "-") + "</td>");
-				html.append("<td><img style='vertical-align:middle;padding-bottom:2px;' alt='adds' title='" + ResourceUtils.getText("co.adds", getLocale(request)) + "' src='/img/project/adds.png'/>&nbsp;" + bean.getCountA() + "&nbsp;<img style='vertical-align:middle;padding-bottom:2px;' alt='updates' title='" + ResourceUtils.getText("co.updates", getLocale(request)) + "' src='/img/project/updates.png'/>&nbsp;" + bean.getCountU() + "</td></tr>");
+				html.append("<td><img style='vertical-align:middle;padding-bottom:2px;' alt='adds' title='" + ResourceUtils.getText("co.adds", lang) + "' src='/img/project/adds.png'/>&nbsp;" + bean.getCountA() + "&nbsp;<img style='vertical-align:middle;padding-bottom:2px;' alt='updates' title='" + ResourceUtils.getText("co.updates", lang) + "' src='/img/project/updates.png'/>&nbsp;" + bean.getCountU() + "</td></tr>");
 			}
 			request.setAttribute("contributors", html.toString());
 			request.setAttribute("t2", System.currentTimeMillis());

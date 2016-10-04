@@ -140,9 +140,11 @@
 }
 .tc .info td.photo{
 	text-align: center;
+	white-space: nowrap;
 }
 .tc .info td.photo img{
 	/*border: 1px solid #DDD;*/
+	vertical-align: middle;
 }
 .tc .source{
 	display: none;

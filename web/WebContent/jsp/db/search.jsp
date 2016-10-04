@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
-<jsp:include page="/jsp/common/header.jsp" />
+<jsp:include page="/jsp/common/header.jsp"/>
 <div id="search" class="fieldset">
 	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
 	<form id="search-form" action="/search" onsubmit="return false;">
@@ -39,8 +39,8 @@
 	</fieldset>
 	</form>
 </div>
-<%@include file="../../html/buttons.html" %>
-<%@include file="../../html/tabcontrol.html" %>
+<%@include file="../../html/buttons.html"%>
+<%@include file="../../html/tabcontrol.html"%>
 <script type="text/javascript"><!--
 function toggleCheck(cb) {
 	$$('#search .scope input').each(function(el){
@@ -55,4 +55,4 @@ window.onload = function() {
 	initTabControl();
 }
 --></script>
-<jsp:include page="/jsp/common/footer.jsp" />
+<jsp:include page="/jsp/common/footer.jsp"/>

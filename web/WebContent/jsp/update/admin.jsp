@@ -3,9 +3,9 @@
 <%@ page import="com.sporthenon.db.DatabaseHelper"%>
 <%@ page import="com.sporthenon.db.entity.meta.Config"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
-<jsp:include page="/jsp/common/header.jsp" />
+<jsp:include page="/jsp/common/header.jsp"/>
 <div id="update-admin" class="update">
-	<jsp:include page="/jsp/update/toolbar.jsp" />
+	<jsp:include page="/jsp/update/toolbar.jsp"/>
 	<div class="fieldset">
 		<div class="fstitle users"><%=StringUtils.text("update.users", session).toUpperCase()%></div>
 		<div class="fscontent" style="padding-bottom:60px;">
@@ -68,4 +68,4 @@ window.onload = function() {
 	loadEntity('last');
 }
 --></script>
-<jsp:include page="/jsp/common/footer.jsp" />
+<jsp:include page="/jsp/common/footer.jsp"/>

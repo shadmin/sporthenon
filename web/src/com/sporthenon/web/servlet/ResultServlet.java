@@ -39,6 +39,7 @@ public class ResultServlet extends AbstractServlet {
 		try {
 			init(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
+			String lang = getLocale(request);
 			if (hParams.containsKey("run")) { // View results
 				boolean isLink = false;
 				if (hParams.containsKey("p") && !hParams.containsKey("redirect")) {
@@ -61,7 +62,7 @@ public class ResultServlet extends AbstractServlet {
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("se2")) ? new Integer(String.valueOf(hParams.get("se2"))) : 0);
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("yr")) ? String.valueOf(hParams.get("yr")) : "0");
 				lFuncParams.add(0);
-				lFuncParams.add("_" + getLocale(request));
+				lFuncParams.add("_" + lang);
 				Collection c = DatabaseHelper.call("GetResults", lFuncParams);
 				boolean isRedirect = false;
 				if (c == null || c.isEmpty()) { // Check in folders history
@@ -75,20 +76,20 @@ public class ResultServlet extends AbstractServlet {
 					Championship oCp = (Championship) DatabaseHelper.loadEntity(Championship.class, new Integer(String.valueOf(lFuncParams.get(1))));
 					Event oEv = (Event) DatabaseHelper.loadEntity(Event.class, new Integer(!String.valueOf(lFuncParams.get(4)).equals("0") ? String.valueOf(lFuncParams.get(4)) : (!String.valueOf(lFuncParams.get(3)).equals("0") ? String.valueOf(lFuncParams.get(3)) : String.valueOf(lFuncParams.get(2)))));
 					StringBuffer html = new StringBuffer();
-					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_RESULTS, lFuncParams, getUser(request), getLocale(request)));
-					html.append(HtmlConverter.convertResults(c, oCp, oEv, getUser(request), getLocale(request)));
+					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_RESULTS, lFuncParams, getUser(request), lang));
+					html.append(HtmlConverter.convertResults(request, c, oCp, oEv, getUser(request), lang));
 
 					if (isLink) {
 						HtmlUtils.setHeadInfo(request, html.toString());
 						if (hParams.containsKey("export"))
-							ExportUtils.export(response, html, String.valueOf(hParams.get("export")), getLocale(request));
+							ExportUtils.export(response, html, String.valueOf(hParams.get("export")), lang);
 						else {
 							request.setAttribute("menu", "results");
-							ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
+							ServletHelper.writePageHtml(request, response, html, lang, hParams.containsKey("print"));
 						}
 					}
 					else
-						ServletHelper.writeTabHtml(request, response, html.append(isLink ? "</div>" : ""), getLocale(request));
+						ServletHelper.writeTabHtml(request, response, html.append(isLink ? "</div>" : ""), lang);
 				}
 			}
 			else { // Picklists
@@ -108,8 +109,8 @@ public class ResultServlet extends AbstractServlet {
 							filter += " and subevent.id=" + hParams.get("se");
 						if (isSe2)
 							filter += " and subevent2.id=" + hParams.get("se2");
-						cPicklist.add(new PicklistBean(0, "––&nbsp;" + ResourceUtils.getText("all.years", getLocale(request)) + "&nbsp;––"));
-						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "year", filter, null, (short) 1, getLocale(request)));
+						cPicklist.add(new PicklistBean(0, "––&nbsp;" + ResourceUtils.getText("all.years", lang) + "&nbsp;––"));
+						cPicklist.addAll(DatabaseHelper.getPicklist(Result.class, "year", filter, null, (short) 1, lang));
 					}
 					plId = PICKLIST_ID_YEAR;
 				}

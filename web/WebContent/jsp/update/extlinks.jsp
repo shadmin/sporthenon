@@ -6,9 +6,9 @@
 <%@ page import="com.sporthenon.utils.ConfigUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
-<jsp:include page="/jsp/common/header.jsp" />
+<jsp:include page="/jsp/common/header.jsp"/>
 <div id="update-extlinks" class="update">
-	<jsp:include page="/jsp/update/toolbar.jsp" />
+	<jsp:include page="/jsp/update/toolbar.jsp"/>
 	<div class="fieldset">
 		<div class="fstitle"><%=StringUtils.text("update.extlinks", session).toUpperCase()%></div>
 		<div class="fscontent" style="height:auto;">
@@ -62,4 +62,4 @@ window.onload = function() {
 	loadExtLinks();
 }
 --></script>
-<jsp:include page="/jsp/common/footer.jsp" />
+<jsp:include page="/jsp/common/footer.jsp"/>

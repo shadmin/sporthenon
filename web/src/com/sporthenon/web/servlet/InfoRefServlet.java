@@ -32,6 +32,7 @@ public class InfoRefServlet extends AbstractServlet {
 		try {
 			init(request);
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
+			String lang = getLocale(request);
 			String[] params = StringUtils.decode(String.valueOf(hParams.get("p"))).split("-");
 			StringBuffer html = new StringBuffer();
 			boolean isLink = (hParams.containsKey("run") && !String.valueOf(hParams.get("p2")).equals("more"));
@@ -58,7 +59,7 @@ public class InfoRefServlet extends AbstractServlet {
 				lFuncParams.add(params.length > 2 ? params[2] : "");
 				lFuncParams.add(params.length > 3 ? params[3] : ConfigUtils.getValue("default_ref_limit"));
 				lFuncParams.add(params.length > 4 ? new Integer(params[4]) : 0);
-				lFuncParams.add("_" + getLocale(request));
+				lFuncParams.add("_" + lang);
 				if (isExport) {
 					lFuncParams.set(3, "ALL");
 					lFuncParams.set(4, 0);
@@ -66,28 +67,28 @@ public class InfoRefServlet extends AbstractServlet {
 				
 				// Info
 				if (params.length == 2 || isResult1) {
-					StringBuffer ri = HtmlConverter.getRecordInfo(request, params[0], id, getLocale(request));
+					StringBuffer ri = HtmlConverter.getRecordInfo(request, params[0], id, lang);
 					if (ri == null)
 						throw new RemovedEntityException("Entity removed: " + params[0] + "-" + id);
 					lFuncParams.add(ri.substring(0, ri.indexOf("</span>")).replaceFirst(".*title'\\>", ""));
-					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_REF, lFuncParams, getUser(request), getLocale(request)));
+					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_REF, lFuncParams, getUser(request), lang));
 					html.append(ri);
 					lFuncParams.remove(6);
 				}
 
 				// References
 				if (!isResult1)
-					html.append(HtmlConverter.getRecordRef(lFuncParams, DatabaseHelper.call("EntityRef", lFuncParams), isExport, getUser(request), getLocale(request)));
+					html.append(HtmlConverter.getRecordRef(lFuncParams, DatabaseHelper.call("EntityRef", lFuncParams), isExport, getUser(request), lang));
 
 				if (isLink) {
 					HtmlUtils.setHeadInfo(request, html.toString());
 					if (isExport)
-						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), getLocale(request));
+						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), lang);
 					else
-						ServletHelper.writePageHtml(request, response, html, hParams.containsKey("print"));
+						ServletHelper.writePageHtml(request, response, html, lang, hParams.containsKey("print"));
 				}
 				else
-					ServletHelper.writeTabHtml(request, response, html, getLocale(request));				
+					ServletHelper.writeTabHtml(request, response, html, lang);				
 			}
 		}
 		catch (EmptyIdException e) {

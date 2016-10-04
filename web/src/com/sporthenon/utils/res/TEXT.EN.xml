@@ -253,7 +253,7 @@
 	<entry key="report.error">Report an error on this page</entry>
 	<entry key="page.error">An error occured. The page has been moved or deleted.</entry>
 	<entry key="select.sport">Select a sport</entry>
-	<entry key="photo">Photo</entry>
+	<entry key="photos">Photos</entry>
 	<entry key="enlarge">Enlarge image</entry>
 	<entry key="page.address">Page address</entry>
 	<entry key="error.description">Error description</entry>
@@ -297,6 +297,7 @@
 	<entry key="final.results">Final results</entry>
 	<entry key="captain">Captain</entry>
 	<entry key="total">Total</entry>
+	<entry key="language">Language</entry>
 <!-- HOME -->
 	<entry key="title.presentation">PRESENTATION</entry>
 	<entry key="title.last.results">LAST RESULTS</entry>
@@ -507,7 +508,7 @@
 	<entry key="warning.team.notexist">WARNING: Team does not exist</entry>
 	<entry key="warning.event.notexist">WARNING: Event does not exist</entry>
 	<entry key="checked">Checked</entry>
-	<entry key="photo.source">Photo source</entry>
+	<entry key="photos.source">Photo sources</entry>
 	<entry key="linked.to">Linked to</entry>
 	<entry key="index">Index</entry>
 	<entry key="automatic.subevent">Automatic subevent</entry>

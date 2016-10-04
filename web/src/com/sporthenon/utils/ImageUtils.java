@@ -103,24 +103,25 @@ public class ImageUtils {
 		return list;
 	}
 
-	public static String getPhotoFile(String entity, Object id) {
+	public static String getPhotoFiles(String entity, Object id) {
 		String p = "P" + StringUtils.encode(entity + "-" + id);
 		LinkedList<String> list = new LinkedList<String>();
 		for (String s : ImageUtils.getImgFiles())
 			if (s.matches("^" + p + "\\d*\\.\\S+$"))
 				list.add(s);
 		Collections.sort(list);
-		return (!list.isEmpty() ? list.getLast() : "");
+		return StringUtils.join(list, ",");
 	}
 	
-	public static StringBuffer getPhotoImg(String url, String source, String lang) {
+	public static StringBuffer getPhotoImg(String url, String source, String lang, boolean thumbnail) {
 //		final int MAX_WIDTH = Integer.parseInt(ConfigUtils.getValue("max_photo_width"));
 		final int MAX_HEIGHT = Integer.parseInt(ConfigUtils.getValue("max_photo_height"));
 		StringBuffer html = new StringBuffer();
 		url = ConfigUtils.getProperty("img.url") + url;
-		html.append("<a href='" + url + "' target='_blank' title=\"" + ResourceUtils.getText("enlarge", lang) + "\"><img alt='Photo' style='max-height:" + MAX_HEIGHT + "px;' src='" + url + "'/></a>");
-		if (StringUtils.notEmpty(source))
-			html.append("<br/><span class='source'>(" + source + ")</span>");
+		String id = url.substring(url.lastIndexOf("/") + 1);
+		html.append("<a id='link-" + id + "' href='" + (thumbnail ? "javascript:thumbnailClick(\"" + id + "\");" : url) + "' target='_blank'" + (!thumbnail ? " title=\"" + ResourceUtils.getText("enlarge", lang) + "\"" : "") + "><img id='" + id + "' alt='Photo' style='height:" + (thumbnail ? 50 : MAX_HEIGHT) + "px;" + (thumbnail ? "width:50px;" : "") + "' src='" + url + "'/></a>");
+//		if (StringUtils.notEmpty(source))
+//			html.append("<br/><span class='source'>(" + source + ")</span>");
 		return html;
 	}
 

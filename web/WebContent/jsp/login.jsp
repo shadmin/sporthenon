@@ -7,7 +7,7 @@
 <%@ page import="com.sporthenon.db.entity.Sport"%>
 <%@ page import="com.sporthenon.db.PicklistBean"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
-<jsp:include page="/jsp/common/header.jsp" />
+<jsp:include page="/jsp/common/header.jsp"/>
 <form id="flogin" name="flogin" action="/LoginServlet?auth" method="post">
 <div id="logindiv">
 <%
@@ -77,4 +77,4 @@
 <script type="text/javascript"><!--
 	$('login').focus();
 --></script>
-<jsp:include page="/jsp/common/footer.jsp" />
+<jsp:include page="/jsp/common/footer.jsp"/>
