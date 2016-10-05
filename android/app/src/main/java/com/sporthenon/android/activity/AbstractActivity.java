@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,7 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
     private DrawerFragment drawerFragment;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
+    private Menu menu;
 
     protected static final int INDEX_RESULTS = 0;
     protected static final int INDEX_CALENDAR = 1;
@@ -79,6 +81,10 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
     protected Integer leagueId;
     protected String leagueName;
     protected Integer usltype;
+
+    public Menu getMenu() {
+        return menu;
+    }
 
     public ListView getList() {
         return (fragment != null && fragment instanceof ListFragment ? ((ListFragment) fragment).getList() : null);
@@ -406,6 +412,9 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
         if (!drawerFragment.isDrawerOpen()) {
             getMenuInflater().inflate(R.menu.navigation, menu);
             restoreActionBar();
+            MenuItem item = menu.findItem(R.id.filter);
+            if (this instanceof OlympicsModeActivity || this instanceof OlympicsTypeActivity)
+                item.setVisible(false);
             return true;
         }
         return super.onCreateOptionsMenu(menu);

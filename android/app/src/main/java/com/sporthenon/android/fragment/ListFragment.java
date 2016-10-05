@@ -1,6 +1,7 @@
 package com.sporthenon.android.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -8,9 +9,11 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sporthenon.android.R;
@@ -131,8 +134,20 @@ public class ListFragment extends Fragment {
 
     public static void onSearchClick() {
         search.setVisibility(search.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-        if (search.getVisibility() == View.VISIBLE)
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) path.getLayoutParams();
+        if (search.getVisibility() == View.VISIBLE) {
+            params.addRule(RelativeLayout.BELOW, R.id.search);
+            params.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
             search.requestFocus();
+            imm.showSoftInput(search, InputMethodManager.SHOW_IMPLICIT);
+        }
+        else {
+            params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+            imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
+        }
+
+        path.setLayoutParams(params);
     }
 
     public static void hideProgress() {

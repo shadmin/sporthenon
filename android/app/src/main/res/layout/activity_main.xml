@@ -33,7 +33,7 @@
         style="@style/CustomPath"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/search"
+        android:layout_alignParentTop="true"
         android:padding="4dip"
         android:background="@drawable/border1"
         />
