@@ -138,9 +138,15 @@ public class NavigationServlet extends AbstractServlet {
 				rq.setUserAgent(ua);
 				DatabaseHelper.saveEntity(rq, null);
 			}
-			if (isTestProd)
+			if (isTestProd) {
 				if (key != null && key.equals("update") && !isUserSession)
 					throw new NotLoggedInException();
+				else if (isUserSession) {
+					String protocol = request.getHeader("x-forwarded-proto");
+					if (!protocol.equals("https"))
+						throw new HttpsException();
+				}
+			}
 			if (key != null && key.equals("update") && url.matches(".*\\/admin$") && isUserSession) {
 				Contributor cb = (Contributor) request.getSession().getAttribute("user");
 				if (!cb.isAdmin())
@@ -205,7 +211,6 @@ public class NavigationServlet extends AbstractServlet {
 			redirect(request, response, "/update/overview", true);
 		}
 		catch (HttpsException e) {
-			response.addHeader("Referer", "no-https");
 			redirect(request, response, request.getRequestURI(), true);
 		}
 		catch (ObsoleteURLException e) {

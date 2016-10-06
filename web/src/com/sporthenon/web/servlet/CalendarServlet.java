@@ -51,7 +51,7 @@ private static final long serialVersionUID = 1L;
 				Collection c = DatabaseHelper.call("GetCalendarResults", lFuncParams);
 				StringBuffer html = new StringBuffer();
 				html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_CALENDAR, lFuncParams, getUser(request), lang));
-				html.append(HtmlConverter.convertCalendarResults(c, getUser(request), lang));
+				html.append(HtmlConverter.convertCalendarResults(request, c, getUser(request), lang));
 				if (isLink) {
 					HtmlUtils.setHeadInfo(request, html.toString());
 					if (hParams.containsKey("export"))

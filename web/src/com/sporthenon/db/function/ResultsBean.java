@@ -3358,4 +3358,50 @@ public class ResultsBean {
 		this.rsLastUpdate = rsLastUpdate;
 	}
 
+	@Override
+	public String toString() {
+		return "ResultsBean [rsId=" + rsId + ", rsLastUpdate=" + rsLastUpdate
+				+ ", rsDate1=" + rsDate1 + ", rsDate2=" + rsDate2
+				+ ", rsRank1=" + rsRank1 + ", rsRank2=" + rsRank2
+				+ ", rsRank3=" + rsRank3 + ", rsRank4=" + rsRank4
+				+ ", rsRank5=" + rsRank5 + ", rsResult1=" + rsResult1
+				+ ", rsResult2=" + rsResult2 + ", rsResult3=" + rsResult3
+				+ ", rsResult4=" + rsResult4 + ", rsResult5=" + rsResult5
+				+ ", rsComment=" + rsComment + ", rsExa=" + rsExa + ", yrId="
+				+ yrId + ", yrLabel=" + yrLabel + ", cx1Id=" + cx1Id
+				+ ", cx1Label=" + cx1Label + ", cx2Id=" + cx2Id + ", cx2Label="
+				+ cx2Label + ", ct1Id=" + ct1Id + ", ct1Label=" + ct1Label
+				+ ", ct1LabelEN=" + ct1LabelEN + ", ct2Id=" + ct2Id
+				+ ", ct2Label=" + ct2Label + ", ct2LabelEN=" + ct2LabelEN
+				+ ", ct3Id=" + ct3Id + ", ct3Label=" + ct3Label
+				+ ", ct3LabelEN=" + ct3LabelEN + ", ct4Id=" + ct4Id
+				+ ", ct4Label=" + ct4Label + ", ct4LabelEN=" + ct4LabelEN
+				+ ", st1Id=" + st1Id + ", st1Code=" + st1Code + ", st1Label="
+				+ st1Label + ", st1LabelEN=" + st1LabelEN + ", st2Id=" + st2Id
+				+ ", st2Code=" + st2Code + ", st2LabelEN=" + st2LabelEN
+				+ ", st3Id=" + st3Id + ", st3Code=" + st3Code + ", st3Label="
+				+ st3Label + ", st3LabelEN=" + st3LabelEN + ", st4Id=" + st4Id
+				+ ", st4Code=" + st4Code + ", st4Label=" + st4Label
+				+ ", st4LabelEN=" + st4LabelEN + ", cn1Id=" + cn1Id
+				+ ", cn1Code=" + cn1Code + ", cn1Label=" + cn1Label
+				+ ", cn1LabelEN=" + cn1LabelEN + ", cn2Id=" + cn2Id
+				+ ", cn2Code=" + cn2Code + ", cn2Label=" + cn2Label
+				+ ", cn2LabelEN=" + cn2LabelEN + ", cn3Id=" + cn3Id
+				+ ", cn3Code=" + cn3Code + ", cn3Label=" + cn3Label
+				+ ", cn3LabelEN=" + cn3LabelEN + ", cn4Id=" + cn4Id
+				+ ", cn4Code=" + cn4Code + ", cn4Label=" + cn4Label
+				+ ", cn4LabelEN=" + cn4LabelEN + ", cn5Id=" + cn5Id
+				+ ", cn5Code=" + cn5Code + ", cn5Label=" + cn5Label
+				+ ", cn5LabelEN=" + cn5LabelEN + ", cn6Id=" + cn6Id
+				+ ", cn6Code=" + cn6Code + ", cn6Label=" + cn6Label
+				+ ", cn6LabelEN=" + cn6LabelEN + ", en1Str1=" + en1Str1
+				+ ", en1Str2=" + en1Str2 + ", en1Str3=" + en1Str3
+				+ ", en2Str1=" + en2Str1 + ", en2Str2=" + en2Str2
+				+ ", en2Str3=" + en2Str3 + ", en3Str1=" + en3Str1
+				+ ", en3Str2=" + en3Str2 + ", en3Str3=" + en3Str3
+				+ ", en4Str1=" + en4Str1 + ", en4Str2=" + en4Str2
+				+ ", en4Str3=" + en4Str3 + ", en5Str1=" + en5Str1
+				+ ", en5Str2=" + en5Str2 + ", en5Str3=" + en5Str3 + "]";
+	}
+
 }

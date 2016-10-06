@@ -13,6 +13,9 @@ public class LastUpdateBean {
 	@Column(name = "id")
 	private Integer id;
 	
+	@Column(name = "last_update")
+	private Timestamp lastUpdate;
+	
 	@Column(name = "rs_id")
 	private Integer rsId;
 	
@@ -844,6 +847,14 @@ public class LastUpdateBean {
 
 	public void setRsText5(String rsText5) {
 		this.rsText5 = rsText5;
+	}
+
+	public Timestamp getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(Timestamp lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 	
 }

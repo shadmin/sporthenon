@@ -200,6 +200,9 @@ public class RefItem  {
 	@Column(name = "date2")
 	private Timestamp date2;
 	
+	@Column(name = "date3")
+	private Timestamp date3;
+	
 	@Column(name = "comment", length = 20)
 	private String comment;
 	
@@ -713,6 +716,14 @@ public class RefItem  {
 
 	public void setTxt6(String txt6) {
 		this.txt6 = txt6;
+	}
+
+	public Timestamp getDate3() {
+		return date3;
+	}
+
+	public void setDate3(Timestamp date3) {
+		this.date3 = date3;
 	}
 
 	@Override

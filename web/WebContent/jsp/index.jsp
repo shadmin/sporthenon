@@ -74,10 +74,10 @@
         	Timestamp ts = null;
         	for (Object o : coll) {
         		LastUpdateBean bean = (LastUpdateBean) o;
-        		if (ts == null || bean.getRsDate().compareTo(ts) > 0)
-        			ts = bean.getRsDate();
+        		if (ts == null || bean.getLastUpdate().compareTo(ts) > 0)
+        			ts = bean.getLastUpdate();
         	}
-        	request.setAttribute("lastupdate", StringUtils.toTextDate(ts, lang, "dd/MM/yyyy"));
+        	request.setAttribute("lastupdate", StringUtils.toTextDate(ts, lang, "d MMM yyyy, HH:mm"));
 		%></tbody></table></div></div>
 	</div>
 	<!-- STATISTICS -->
