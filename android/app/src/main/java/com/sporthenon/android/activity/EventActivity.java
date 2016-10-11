@@ -36,6 +36,7 @@ public class EventActivity extends AbstractActivity {
         if (getLeagueId() != null && getLeagueId() > 0) {
             setLeagueName(b.getString("lgname"));
             setUsltype(b.getInt("usltype"));
+            setRctype(b.getString("rctype"));
             if (getUsltype() != null && (getUsltype() == USTYPE_RECORDS || getUsltype() == USTYPE_STATS))
                 index = INDEX_USLEAGUES;
             path = (getUsltype() == USTYPE_STATS ? getString(R.string.stats) : getString(R.string.records)) + " " + getLeagueName();
@@ -83,6 +84,7 @@ public class EventActivity extends AbstractActivity {
             b.putInt("lgid", getLeagueId());
             b.putString("lgname", getLeagueName());
             b.putInt("usltype", getUsltype());
+            b.putString("rctype", getRctype());
             i = new Intent(this, USLeaguesRequestActivity.class);
         }
         else if (isResults)

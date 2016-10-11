@@ -18,10 +18,19 @@ import android.widget.TextView;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.activity.AbstractActivity;
+import com.sporthenon.android.activity.CalendarActivity;
+import com.sporthenon.android.activity.OlympicsMedalsActivity;
 import com.sporthenon.android.activity.ResultActivity;
+import com.sporthenon.android.activity.USLeaguesRequestActivity;
+import com.sporthenon.android.adapter.CalendarListAdapter;
 import com.sporthenon.android.adapter.ItemListAdapter;
+import com.sporthenon.android.adapter.MedalListAdapter;
+import com.sporthenon.android.adapter.RecordListAdapter;
 import com.sporthenon.android.adapter.ResultListAdapter;
+import com.sporthenon.android.data.CalendarItem;
 import com.sporthenon.android.data.DataItem;
+import com.sporthenon.android.data.MedalItem;
+import com.sporthenon.android.data.RecordItem;
 import com.sporthenon.android.data.ResultItem;
 
 import java.util.ArrayList;
@@ -120,6 +129,33 @@ public class ListFragment extends Fragment {
                     list_.add(item);
             }
             list.setAdapter(new ResultListAdapter(activity.getApplicationContext(), list_));
+        }
+        else if (activity instanceof CalendarActivity) {
+            ArrayList<CalendarItem> list_ = new ArrayList<>();
+            for (Object o : itemList) {
+                CalendarItem item = (CalendarItem) o;
+                if (text.length() == 0 || item.getSport().toLowerCase().matches(".*" + text + ".*") || item.getEvent().toLowerCase().matches(".*" + text + ".*"))
+                    list_.add(item);
+            }
+            list.setAdapter(new CalendarListAdapter(activity.getApplicationContext(), list_));
+        }
+        else if (activity instanceof OlympicsMedalsActivity) {
+            ArrayList<MedalItem> list_ = new ArrayList<>();
+            for (Object o : itemList) {
+                MedalItem item = (MedalItem) o;
+                if (text.length() == 0 || item.getCountry().toLowerCase().matches(".*" + text + ".*"))
+                    list_.add(item);
+            }
+            list.setAdapter(new MedalListAdapter(activity.getApplicationContext(), list_));
+        }
+        else if (activity instanceof USLeaguesRequestActivity &&  ((AbstractActivity) activity).getUsltype() == AbstractActivity.USTYPE_RECORDS) {
+            ArrayList<RecordItem> list_ = new ArrayList<>();
+            for (Object o : itemList) {
+                RecordItem item = (RecordItem) o;
+                if (text.length() == 0 || item.getLabel().toLowerCase().matches(".*" + text + ".*") || item.getType1().toLowerCase().matches(".*" + text + ".*") || item.getType2().toLowerCase().matches(".*" + text + ".*"))
+                    list_.add(item);
+            }
+            list.setAdapter(new RecordListAdapter(activity.getApplicationContext(), list_));
         }
         else {
             ArrayList<DataItem> list_ = new ArrayList<>();

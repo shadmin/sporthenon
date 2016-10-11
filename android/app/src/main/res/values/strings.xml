@@ -3,7 +3,7 @@
 
     <string name="app_name" translatable="false">Sporthenon</string>
     <string name="env" translatable="false">test</string><!-- local|test|prod -->
-    <!-- <string name="url" translatable="false">http://10.0.2.2</string>-->
+    <!--<string name="url" translatable="false">http://10.0.2.2</string>-->
     <string name="url" translatable="false">http://test.sporthenon.com</string>
     <!--<string name="url" translatable="false">http://www.sporthenon.com</string>-->
     <string name="select.language">Select Language</string>
@@ -34,6 +34,9 @@
     <string name="us.type4" translatable="false">HALL OF FAME</string>
     <string name="us.type5" translatable="false">RETIRED NUMBERS</string>
     <string name="us.type6" translatable="false">TEAM STADIUMS</string>
+    <string name="rc.individual" translatable="false">Individual</string>
+    <string name="rc.team" translatable="false">Team</string>
+    <string name="rc.both" translatable="false">Both</string>
     <string name="records">Records</string>
     <string name="stats">Statistics</string>
     <string name="filter">Filter</string>

@@ -36,9 +36,10 @@ public class AsyncUSRecords extends AsyncTask<Object, Boolean, String> {
         activity = (USLeaguesRequestActivity) params[0];
         int lgid = (int) params[1];
         int evid = (int) params[2];
+        String rctype = String.valueOf(params[3]);
         records = new ArrayList<>();
         try {
-            String url = activity.getString(R.string.url) + "/android/US/records-" + lgid + "-0-" + evid + "-it-a";
+            String url = activity.getString(R.string.url) + "/android/US/records-" + lgid + "-0-" + evid + "-" + rctype + "-a";
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();

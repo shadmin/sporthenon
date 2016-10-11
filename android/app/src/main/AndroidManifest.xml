@@ -35,6 +35,7 @@
         <!--US LEAGUES-->
         <activity android:name=".activity.LeagueActivity" />
         <activity android:name=".activity.TeamActivity" />
+        <activity android:name=".activity.USLeaguesRecordTypeActivity" />
         <activity android:name=".activity.USLeaguesTypeActivity" />
         <activity android:name=".activity.USLeaguesRequestActivity" />
     </application>

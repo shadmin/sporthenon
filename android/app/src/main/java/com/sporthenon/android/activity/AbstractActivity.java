@@ -11,7 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +23,7 @@ import com.sporthenon.android.fragment.DrawerFragment;
 import com.sporthenon.android.fragment.ListFragment;
 import com.sporthenon.android.fragment.OlympicsModeFragment;
 import com.sporthenon.android.fragment.Result1Fragment;
+import com.sporthenon.android.fragment.USLeaguesRecordTypeFragment;
 import com.sporthenon.android.fragment.USLeaguesTypeFragment;
 
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
     protected static final int USLEAGUE_NHL = 3;
     protected static final int USLEAGUE_MLB = 4;
     protected static final int USTYPE_CHAMPIONSHIPS = 0;
-    protected static final int USTYPE_RECORDS = 1;
+    public static final int USTYPE_RECORDS = 1;
     protected static final int USTYPE_STATS = 2;
     protected static final int USTYPE_HOF = 3;
     protected static final int USTYPE_RETIRED_NUM = 4;
@@ -81,6 +81,7 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
     protected Integer leagueId;
     protected String leagueName;
     protected Integer usltype;
+    protected String rctype;
 
     public Menu getMenu() {
         return menu;
@@ -99,6 +100,8 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
             return OlympicsModeFragment.getPath();
         else if (this instanceof USLeaguesTypeActivity)
             return USLeaguesTypeFragment.getPath();
+        else if (this instanceof USLeaguesRecordTypeActivity)
+            return USLeaguesRecordTypeFragment.getPath();
         else
             return ListFragment.getPath();
     }
@@ -311,6 +314,14 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
         this.usltype = usltype;
     }
 
+    public String getRctype() {
+        return rctype;
+    }
+
+    public void setRctype(String rctype) {
+        this.rctype = rctype;
+    }
+
     public String getOlName() {
         return olName;
     }
@@ -334,6 +345,8 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
             fragment = OlympicsModeFragment.newInstance(index + 1, this);
         else if (this instanceof  USLeaguesTypeActivity)
             fragment = USLeaguesTypeFragment.newInstance(index + 1, this);
+        else if (this instanceof USLeaguesRecordTypeActivity)
+            fragment = USLeaguesRecordTypeFragment.newInstance(index + 1, this);
         else
             fragment = ListFragment.newInstance(index + 1, this);
         fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();

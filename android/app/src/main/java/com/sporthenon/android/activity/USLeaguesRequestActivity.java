@@ -22,12 +22,13 @@ public class USLeaguesRequestActivity extends AbstractActivity {
         setLeagueId(b.getInt("lgid"));
         setLeagueName(b.getString("lgname"));
         setUsltype(b.getInt("usltype"));
+        setRctype(b.getString("rctype"));
         String path = getLeagueName() + "|";
         if (getUsltype() == USTYPE_CHAMPIONSHIPS)
             new AsyncUSChampionships(path + getString(R.string.us_type1)).execute(this, getLeagueId());
         else if (getUsltype() == USTYPE_RECORDS) {
             Integer evid = b.getInt("ev1id");
-            new AsyncUSRecords(path + getString(R.string.us_type2) + "|" + b.getString("ev1name")).execute(this, getLeagueId(), evid);
+            new AsyncUSRecords(path + getString(R.string.us_type2) + "|" + b.getString("ev1name")).execute(this, getLeagueId(), evid, getRctype());
         }
         else if (getUsltype() == USTYPE_STATS) {
             Integer evid = b.getInt("ev1id");
