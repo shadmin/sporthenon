@@ -367,8 +367,9 @@
 .tc .info .result{
 	width: 500px;
 }
-.tc .info .result table{
+.tc .info .result table.tsort{
 	width: auto;
+	margin: auto auto;
 }
 .tc .searchtitle{
 	background: url(../img/menu/dbsearch.png) left 0px no-repeat;

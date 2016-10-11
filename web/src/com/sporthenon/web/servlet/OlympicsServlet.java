@@ -71,14 +71,14 @@ public class OlympicsServlet extends AbstractServlet {
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("se2")) ? String.valueOf(hParams.get("se2")) : "0");
 					lFuncParams.add("_" + lang);
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_OLYMPICS_INDIVIDUAL, lFuncParams, getUser(request), lang);
-					html.append(HtmlConverter.convertOlympicMedals(DatabaseHelper.call("GetOlympicMedals", lFuncParams), lang));
+					html.append(HtmlConverter.convertOlympicMedals(request, DatabaseHelper.call("GetOlympicMedals", lFuncParams), lang));
 				}
 				else if (type.equals(TYPE_COUNTRY)) {
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("ol")) ? String.valueOf(hParams.get("ol")) : "0");
 					lFuncParams.add(StringUtils.notEmpty(hParams.get("cn")) ? String.valueOf(hParams.get("cn")) : "0");
 					lFuncParams.add("_" + lang);
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_OLYMPICS_COUNTRY, lFuncParams, getUser(request), lang);
-					html.append(HtmlConverter.convertOlympicRankings(DatabaseHelper.call("GetOlympicRankings", lFuncParams), lang));
+					html.append(HtmlConverter.convertOlympicRankings(request, DatabaseHelper.call("GetOlympicRankings", lFuncParams), lang));
 				}
 				if (isLink) {
 					HtmlUtils.setHeadInfo(request, html.toString());

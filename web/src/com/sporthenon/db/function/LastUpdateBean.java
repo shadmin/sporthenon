@@ -856,5 +856,46 @@ public class LastUpdateBean {
 	public void setLastUpdate(Timestamp lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
+
+	@Override
+	public String toString() {
+		return "LastUpdateBean [id=" + id + ", lastUpdate=" + lastUpdate
+				+ ", rsId=" + rsId + ", rsText1=" + rsText1 + ", rsText2="
+				+ rsText2 + ", rsText3=" + rsText3 + ", rsText4=" + rsText4
+				+ ", rsText5=" + rsText5 + ", rsDate=" + rsDate + ", yrId="
+				+ yrId + ", yrLabel=" + yrLabel + ", spId=" + spId + ", cpId="
+				+ cpId + ", evId=" + evId + ", seId=" + seId + ", se2Id="
+				+ se2Id + ", spLabel=" + spLabel + ", cpLabel=" + cpLabel
+				+ ", evLabel=" + evLabel + ", seLabel=" + seLabel
+				+ ", se2Label=" + se2Label + ", spLabelEN=" + spLabelEN
+				+ ", cpLabelEN=" + cpLabelEN + ", evLabelEN=" + evLabelEN
+				+ ", seLabelEN=" + seLabelEN + ", se2LabelEN=" + se2LabelEN
+				+ ", tp1Number=" + tp1Number + ", tp2Number=" + tp2Number
+				+ ", tp3Number=" + tp3Number + ", pr1Id=" + pr1Id
+				+ ", pr1FirstName=" + pr1FirstName + ", pr1LastName="
+				+ pr1LastName + ", pr1Team=" + pr1Team + ", pr1Country="
+				+ pr1Country + ", pr1CountryCode=" + pr1CountryCode
+				+ ", tm1Id=" + tm1Id + ", tm1Label=" + tm1Label + ", cn1Id="
+				+ cn1Id + ", cn1Code=" + cn1Code + ", cn1Label=" + cn1Label
+				+ ", cn1LabelEN=" + cn1LabelEN + ", pr2Id=" + pr2Id
+				+ ", pr2FirstName=" + pr2FirstName + ", pr2LastName="
+				+ pr2LastName + ", pr2Team=" + pr2Team + ", pr2Country="
+				+ pr2Country + ", pr2CountryCode=" + pr2CountryCode
+				+ ", tm2Id=" + tm2Id + ", tm2Label=" + tm2Label + ", cn2Id="
+				+ cn2Id + ", cn2Code=" + cn2Code + ", cn2Label=" + cn2Label
+				+ ", cn2LabelEN=" + cn2LabelEN + ", pr3Id=" + pr3Id
+				+ ", pr3FirstName=" + pr3FirstName + ", pr3LastName="
+				+ pr3LastName + ", pr3Team=" + pr3Team + ", pr3Country="
+				+ pr3Country + ", pr3CountryCode=" + pr3CountryCode
+				+ ", tm3Id=" + tm3Id + ", tm3Label=" + tm3Label + ", cn3Id="
+				+ cn3Id + ", cn3Code=" + cn3Code + ", cn3Label=" + cn3Label
+				+ ", cn3LabelEN=" + cn3LabelEN + ", pr4Id=" + pr4Id
+				+ ", pr4FirstName=" + pr4FirstName + ", pr4LastName="
+				+ pr4LastName + ", pr4Team=" + pr4Team + ", pr4Country="
+				+ pr4Country + ", pr4CountryCode=" + pr4CountryCode
+				+ ", tm4Id=" + tm4Id + ", tm4Label=" + tm4Label + ", cn4Id="
+				+ cn4Id + ", cn4Code=" + cn4Code + ", cn4Label=" + cn4Label
+				+ ", cn4LabelEN=" + cn4LabelEN + "]";
+	}
 	
 }

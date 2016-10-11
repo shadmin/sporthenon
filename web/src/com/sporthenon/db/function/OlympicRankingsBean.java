@@ -1,5 +1,7 @@
 package com.sporthenon.db.function;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -28,6 +30,9 @@ public class OlympicRankingsBean {
 	
 	@Column(name = "or_count_bronze")
 	private Integer orCountBronze;
+	
+	@Column(name = "or_last_update")
+	private Timestamp orLastUpdate;
 
 	public Integer getCn1Id() {
 		return cn1Id;
@@ -83,6 +88,14 @@ public class OlympicRankingsBean {
 
 	public void setOrCountBronze(Integer orCountBronze) {
 		this.orCountBronze = orCountBronze;
+	}
+
+	public Timestamp getOrLastUpdate() {
+		return orLastUpdate;
+	}
+
+	public void setOrLastUpdate(Timestamp orLastUpdate) {
+		this.orLastUpdate = orLastUpdate;
 	}
 
 }

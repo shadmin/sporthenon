@@ -423,9 +423,9 @@ public class AndroidServlet extends AbstractServlet {
 		}
 		else if (code.equalsIgnoreCase(Event.alias)) {
 			if (t[2].equals(USLeaguesServlet.TYPE_RECORD))
-				addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + USLeaguesServlet.HLEAGUES.get(league) + " and x.type1='Individual'", null, "x.subevent.index, x.subevent.label", "en"), null, null, null, null);
+				addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + USLeaguesServlet.HLEAGUES.get(league) + " and x.type1='Individual'", null, "x.subevent.label", "en"), null, null, null, null);
 			else if (t[2].equals(USLeaguesServlet.TYPE_STATS))
-				addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent2", "championship.id=" + USLeaguesServlet.HLEAGUES.get(league) + " and event.label like '%" + uslStatEvLabel + "%'", null, "x.subevent2.index, x.subevent2.label", "en"), null, null, null, null);
+				addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent2", "championship.id=" + USLeaguesServlet.HLEAGUES.get(league) + " and event.label like '%" + uslStatEvLabel + "%'", null, "x.subevent2.label", "en"), null, null, null, null);
 		}
 		else if (code.equalsIgnoreCase(USLeaguesServlet.TYPE_RETNUM)) {
 			ArrayList<Object> lFuncParams = new ArrayList<Object>();

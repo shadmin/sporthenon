@@ -1,5 +1,7 @@
 package com.sporthenon.db.function;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,6 +12,9 @@ public class TeamStadiumBean {
 	@Id
 	@Column(name = "ts_id")
 	private Integer tsId;
+	
+	@Column(name = "ts_last_update")
+	private Timestamp tsLastUpdate;
 	
 	@Column(name = "tm_id")
 	private Integer tmId;
@@ -226,6 +231,14 @@ public class TeamStadiumBean {
 
 	public void setCnLabelEN(String cnLabelEN) {
 		this.cnLabelEN = cnLabelEN;
+	}
+
+	public Timestamp getTsLastUpdate() {
+		return tsLastUpdate;
+	}
+
+	public void setTsLastUpdate(Timestamp tsLastUpdate) {
+		this.tsLastUpdate = tsLastUpdate;
 	}
 
 	@Override

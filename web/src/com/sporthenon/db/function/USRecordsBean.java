@@ -1,5 +1,7 @@
 package com.sporthenon.db.function;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -34,6 +36,9 @@ public class USRecordsBean {
 	
 	@Column(name = "rc_comment")
 	private String rcComment;
+	
+	@Column(name = "rc_last_update")
+	private Timestamp rcLastUpdate;
 	
 	@Column(name = "ev_id")
 	private Integer evId;
@@ -565,6 +570,14 @@ public class USRecordsBean {
 		return (rcPerson5 != null && rcPerson5.indexOf(",") != -1 ? rcPerson5.split("\\,\\s")[1] : null);
 	}
 	
+	public Timestamp getRcLastUpdate() {
+		return rcLastUpdate;
+	}
+
+	public void setRcLastUpdate(Timestamp rcLastUpdate) {
+		this.rcLastUpdate = rcLastUpdate;
+	}
+
 	@Override
 	public String toString() {
 		return "USRecordsBean [evId=" + evId + ", evLabel=" + evLabel

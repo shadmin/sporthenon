@@ -930,10 +930,9 @@ public class HtmlConverter {
 				rspan = (!lTies.get(0).isEmpty() ? " rowspan='" + (lTies.get(0).size() + 1) + "'" : "");
 				boolean isMedal = String.valueOf(r.getChampionship().getId()).matches(ConfigUtils.getValue("cp_medal_pattern"));
 				html.append("<tr><td colspan='2' class='result'>");
-				html.append("<table class='tsort'><tr style='font-weight:bold;'><th" + rspan + ">" + (isMedal ? ImageUtils.getGoldMedImg(lang) : "1.") + "</th>" + (tEntityHtml[0] != null ? tEntityHtml[0] : "<td>" + ResourceUtils.getText("none", lang) + "</td>"));
+				html.append("<table class='tsort'><tr style='font-weight:bold;'><th" + rspan + ">" + (isMedal ? ImageUtils.getGoldMedImg(lang) : "1.") + "</th>" + (tEntityHtml[0] != null ? tEntityHtml[0] : "<td>" + ResourceUtils.getText("none", lang) + "</td>")).append("</tr>");
 				if (isScore)
-					html.append("<td rowspan='2'><b>" + tResult[0] + "</b></td>");
-				html.append("</tr>");
+					html.append("<tr><td colspan='" + (StringUtils.countIn(tEntityHtml[0], "<td")) + "' style='text-align:center;'>" + ResourceUtils.getText("score", lang) + "&nbsp;:<br/><b>" + tResult[0] + "</b></td></tr>");
 				if (!lTies.get(0).isEmpty())
 					html.append("<tr>" + StringUtils.join(lTies.get(0), "</tr><tr>") + "</tr>");
 				for (int i = 1 ; i < MAX_RANKS ; i++)
@@ -1442,6 +1441,8 @@ public class HtmlConverter {
 		Timestamp lastUpdate = null;
 		for (Object obj : coll) {
 			RefItem item = (RefItem) obj;
+			if (lastUpdate == null || item.getDate3().compareTo(lastUpdate) > 0)
+				lastUpdate = item.getDate3();
 			String en = item.getEntity();
 			if (!en.equals(currentEntity)) {
 				String id = en + "-" + System.currentTimeMillis();
@@ -1494,8 +1495,6 @@ public class HtmlConverter {
 				}
 				currentEntity = en;
 			}
-			if (lastUpdate == null || item.getDate3().compareTo(lastUpdate) > 0)
-				lastUpdate = item.getDate3();
 			c1 = null;
 			c2 = null;
 			c3 = null;
@@ -2160,11 +2159,12 @@ public class HtmlConverter {
 		writer.write((!encode ? "]" : "") + "];");
 	}
 
-	public static StringBuffer convertSearch(Collection<Object> coll, String pattern, String lang) throws Exception {
+	public static StringBuffer convertSearch(HttpServletRequest request, Collection<Object> coll, String pattern, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		String currentEntity = "";
+		Timestamp lastUpdate = null;
 		HashMap<String, Integer> hCount = new HashMap<String, Integer>();
 		// Evaluate items
 		for (Object obj : coll) {
@@ -2179,6 +2179,8 @@ public class HtmlConverter {
 		String link = null;
 		for (Object obj : coll) {
 			RefItem item = (RefItem) obj;
+			if (lastUpdate == null || item.getDate3().compareTo(lastUpdate) > 0)
+				lastUpdate = item.getDate3();
 			String en = item.getEntity();
 			en = (en.equals(Championship.alias) ? Event.alias : en);
 			if (!en.equals(currentEntity)) {
@@ -2290,10 +2292,11 @@ public class HtmlConverter {
 			html.append("</tr>");
 		}
 		html.append("</tbody></table>");
+		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
 
-	public static StringBuffer convertOlympicMedals(Collection<Object> coll, String lang) throws Exception {
+	public static StringBuffer convertOlympicMedals(HttpServletRequest request, Collection<Object> coll, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		int currentOlympics = 0;
@@ -2311,6 +2314,7 @@ public class HtmlConverter {
 		String olympics = null;
 		String tmpImg = null;
 		long id = System.currentTimeMillis();
+		Timestamp lastUpdate = null;
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("entity.OL", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th>");
 		html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, 2);'>" + ImageUtils.getGoldHeader(lang) + "</th>");
@@ -2320,6 +2324,8 @@ public class HtmlConverter {
 		html.append("</tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			OlympicMedalsBean bean = (OlympicMedalsBean) obj;
+			if (lastUpdate == null || bean.getRsLastUpdate().compareTo(lastUpdate) > 0)
+				lastUpdate = bean.getRsLastUpdate();
 			boolean isIndividual_ = ((bean.getTp2Number() != null ? bean.getTp2Number() : bean.getTp1Number()) <= 10);
 			if (!bean.getYrId().equals(currentOlympics)) {
 				tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id() != null ? bean.getCn1Id() : bean.getCn2Id(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
@@ -2377,21 +2383,25 @@ public class HtmlConverter {
 			html.append("</tr>");
 		}
 		html.append("</tbody></table>");
+		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
 
-	public static StringBuffer convertOlympicRankings(Collection<Object> coll, String lang) throws Exception {
+	public static StringBuffer convertOlympicRankings(HttpServletRequest request, Collection<Object> coll, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		String tmpImg = null;
 		long id = System.currentTimeMillis();
+		Timestamp lastUpdate = null;
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("country", lang) + "</th>");
 		html.append("<th onclick='sort(\"" + id + "\", this, 1);'>" + ImageUtils.getGoldHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ImageUtils.getSilverHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ImageUtils.getBronzeHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("total", lang) + "</th>");
 		html.append("</tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			OlympicRankingsBean bean = (OlympicRankingsBean) obj;
-
+			if (lastUpdate == null || bean.getOrLastUpdate().compareTo(lastUpdate) > 0)
+				lastUpdate = bean.getOrLastUpdate();
+			
 			// Evaluate bean
 			String country = HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Label(), bean.getCn1LabelEN());
 			tmpImg = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, null, null);
@@ -2405,18 +2415,22 @@ public class HtmlConverter {
 			html.append("<td class='srt'>" + (bean.getOrCountGold() + bean.getOrCountSilver() + bean.getOrCountBronze()) + "</td></tr>");
 		}
 		html.append("</tbody></table>");
+		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
 
-	public static StringBuffer convertHallOfFame(Collection<Object> coll, String lang) throws Exception {
+	public static StringBuffer convertHallOfFame(HttpServletRequest request, Collection<Object> coll, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		long id = System.currentTimeMillis();
+		Timestamp lastUpdate = null;
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("year", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("inductee", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("inducted.as", lang) + "</th></tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			HallOfFameBean bean = (HallOfFameBean) obj;
-
+			if (lastUpdate == null || bean.getHfLastUpdate().compareTo(lastUpdate) > 0)
+				lastUpdate = bean.getHfLastUpdate();
+			
 			// Evaluate bean
 			String ln = bean.getPrLastName();
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
@@ -2433,18 +2447,22 @@ public class HtmlConverter {
 			html.append("<tr><td class='srt'>" + year + "</td><td id='" + ln.replaceAll("\\s", "-") + "-" + bean.getHfId() + "' class='srt'><b>" + name + "</b></td><td class='srt'>" + position + "</td></tr>");
 		}
 		html.append("</tbody></table>");
+		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
 
-	public static StringBuffer convertRetiredNumber(Collection<Object> coll, String lang) throws Exception {
+	public static StringBuffer convertRetiredNumber(HttpServletRequest request, Collection<Object> coll, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		long id = System.currentTimeMillis();
+		Timestamp lastUpdate = null;
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("number", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("name", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("year", lang) + "</th></tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			RetiredNumberBean bean = (RetiredNumberBean) obj;
-
+			if (lastUpdate == null || bean.getRnLastUpdate().compareTo(lastUpdate) > 0)
+				lastUpdate = bean.getRnLastUpdate();
+			
 			// Evaluate bean
 			String teamImg = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTmId(), ImageUtils.SIZE_SMALL, null, null);
 			String team = HtmlUtils.writeLink(Team.alias, bean.getTmId(), bean.getTmLabel(), null);
@@ -2457,18 +2475,22 @@ public class HtmlConverter {
 			html.append("<tr><td class='srt'>" + team + "</td><td class='srt' width='50'>" + number + "</td><td class='srt'><b>" + name + "</b></td><td class='srt'>" + year + "</td></tr>");
 		}
 		html.append("</tbody></table>");
+		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
 
-	public static StringBuffer convertTeamStadium(Collection<Object> coll, String lang) throws Exception {
+	public static StringBuffer convertTeamStadium(HttpServletRequest request, Collection<Object> coll, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		long id = System.currentTimeMillis();
+		Timestamp lastUpdate = null;
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("complex", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("city", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("years", lang) + "</th></tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			TeamStadiumBean bean = (TeamStadiumBean) obj;
-
+			if (lastUpdate == null || bean.getTsLastUpdate().compareTo(lastUpdate) > 0)
+				lastUpdate = bean.getTsLastUpdate();
+			
 			// Evaluate bean
 			String teamImg = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTmId(), ImageUtils.SIZE_SMALL, bean.getTsDate1(), null);
 			String team = HtmlUtils.writeLink(Team.alias, bean.getTmId(), bean.getTmLabel(), null);
@@ -2486,10 +2508,11 @@ public class HtmlConverter {
 			html.append("<tr><td class='srt'>" + team + "</td><td class='srt'>" + complex + (bean.getTsRenamed() ? "<b>*</b>" : "") + "</td><td class='srt'>" + city + "</td><td class='srt'>" + years + "</td></tr>");
 		}
 		html.append("</tbody></table>");
+		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
 
-	public static StringBuffer convertUSChampionships(Collection<Object> coll, String lang) throws Exception {
+	public static StringBuffer convertUSChampionships(HttpServletRequest request, Collection<Object> coll, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
@@ -2500,14 +2523,17 @@ public class HtmlConverter {
 			USChampionshipsBean bean = (USChampionshipsBean) obj;
 			isDate |= StringUtils.notEmpty(bean.getRsDate2());
 			isPlace |= (bean.getCxId() != null);
-			isComment |= StringUtils.notEmpty(bean.getRsComment()); 
+			isComment |= StringUtils.notEmpty(bean.getRsComment());
 		}
 		long id = System.currentTimeMillis();
+		Timestamp lastUpdate = null;
 		html.append("<thead><tr class='rsort'><th" + (isComment ? " colspan='2'" : "") + " onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("year", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("champion", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("score", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("runner.up", lang) + "</th>");
 		html.append((isDate ? "<th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("date", lang) + "</th>" : "") + (isPlace ? "<th onclick='sort(\"" + id + "\", this, " + (isDate ? 5 : 4) + ");'>" + ResourceUtils.getText("place", lang) + "</th>" : "") + "</tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			USChampionshipsBean bean = (USChampionshipsBean) obj;
-
+			if (lastUpdate == null || bean.getRsLastUpdate().compareTo(lastUpdate) > 0)
+				lastUpdate = bean.getRsLastUpdate();
+			
 			// Evaluate bean
 			String champion = null;
 			String runnerup = null;
@@ -2539,18 +2565,22 @@ public class HtmlConverter {
 			html.append("<td class='srt'>" + (runnerup != null ? runnerup : StringUtils.EMPTY) + "</td>" + (isDate ? "<td class='srt'>" + date + "</td>" : "") + (isPlace ? "<td class='srt'>" + place + "</td>" : "") + "</tr>");
 		}
 		html.append("</tbody></table>");
+		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
 
-	public static StringBuffer convertUSRecords(Collection<Object> coll, String lang) throws Exception {
+	public static StringBuffer convertUSRecords(HttpServletRequest request, Collection<Object> coll, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
+		Timestamp lastUpdate = null;
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"0\", this, 0);'>" + ResourceUtils.getText("category", lang) + "</th><th onclick='sort(\"0\", this, 1);'>" + ResourceUtils.getText("scope", lang) + "</th><th onclick='sort(\"0\", this, 2);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"0\", this, 3);'>" + ResourceUtils.getText("period", lang) + "</th><th onclick='sort(\"0\", this, 4);'>" + ResourceUtils.getText("record", lang) + "</th><th colspan='2' onclick='sort(\"0\", this, 5);'>" + ResourceUtils.getText("record.holder", lang) + "</th><th onclick='sort(\"0\", this, 6);'>" + ResourceUtils.getText("date", lang) + "</th>");
 		html.append("</tr></thead><tbody class='tby' id='tb-0'>");
 		for (Object obj : coll) {
 			USRecordsBean bean = (USRecordsBean) obj;
-
+			if (lastUpdate == null || bean.getRcLastUpdate().compareTo(lastUpdate) > 0)
+				lastUpdate = bean.getRcLastUpdate();
+			
 			// Evaluate bean
 			boolean isIndividual = bean.getRcType1().equalsIgnoreCase("individual");
 			boolean isAlltime = bean.getRcType2().matches("^Alltime.*");
@@ -2601,18 +2631,22 @@ public class HtmlConverter {
 			
 		}
 		html.append("</tbody></table>");
+		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
 
-	public static StringBuffer convertYearlyStats(Collection<Object> coll, String lang) throws Exception {
+	public static StringBuffer convertYearlyStats(HttpServletRequest request, Collection<Object> coll, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
+		Timestamp lastUpdate = null;
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"0\", this, 0);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"0\", this, 1);'>" + ResourceUtils.getText("category", lang) + "</th><th onclick='sort(\"0\", this, 2);'>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><th onclick='sort(\"0\", this, 3);' colspan='2'>" + ResourceUtils.getText("rank.1", lang) + "</th><th onclick='sort(\"0\", this, 4);' colspan='2'>" + ResourceUtils.getText("rank.2", lang) + "</th><th onclick='sort(\"0\", this, 5);' colspan='2'>" + ResourceUtils.getText("rank.3", lang) + "</th>");
 		html.append("</tr></thead><tbody class='tby' id='tb-0'>");
 		for (Object obj : coll) {
 			YearlyStatsBean bean = (YearlyStatsBean) obj;
-
+			if (lastUpdate == null || bean.getRsLastUpdate().compareTo(lastUpdate) > 0)
+				lastUpdate = bean.getRsLastUpdate();
+			
 			// Evaluate bean
 			boolean isIndividual = bean.getTpLabel().equalsIgnoreCase("individual");
 			String[] tRank = new String[8];
@@ -2643,6 +2677,7 @@ public class HtmlConverter {
 			html.append("</tr>");
 		}
 		html.append("</tbody></table>");
+		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
 	
@@ -2656,7 +2691,9 @@ public class HtmlConverter {
 			String pos2 = null;
 			String pos3 = null;
 			String pos4 = null;
-			int number = (bean.getTp3Number() != null ? bean.getTp3Number() : (bean.getTp2Number() != null ? bean.getTp2Number() : bean.getTp1Number()));
+			Integer number = (bean.getTp3Number() != null ? bean.getTp3Number() : (bean.getTp2Number() != null ? bean.getTp2Number() : bean.getTp1Number()));
+			if (number == null)
+				continue;
 			if (number < 10) {
 				if (bean.getPr1LastName() != null) {
 					pos1 = (StringUtils.isRevertName(bean.getPr1CountryCode(), bean.getPr1FirstName() + " " + bean.getPr1LastName()) ? (StringUtils.notEmpty(bean.getPr1LastName()) ? bean.getPr1LastName().substring(0, 1) + "." : "") + bean.getPr1FirstName() : (StringUtils.notEmpty(bean.getPr1FirstName()) ? bean.getPr1FirstName().substring(0, 1) + "." : "") + bean.getPr1LastName());

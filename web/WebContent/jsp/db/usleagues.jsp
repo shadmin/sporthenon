@@ -41,11 +41,9 @@
 			</div>
 			<!-- RECORDS -->
 			<div id="f-records" style="display:none;">
-				&nbsp;<%=ResourceUtils.getText("category", "en")%>:<br/>
-				<div id="sm-pl-records-ct" class="selmultiple" style="margin-bottom:8px;"><%@include file="../../html/selectmult.html"%></div>
 				&nbsp;<%=ResourceUtils.getText("type", "en")%>:<br/>
-				<table><tr>
-					<td colspan="2"><select id="pl-records-tp1" name="pl-records-tp1" style="width:130px;">
+				<table style="margin-bottom:5px;"><tr>
+					<td colspan="2"><select id="pl-records-tp1" name="pl-records-tp1" style="width:130px;" onchange="changeRcType();">
 						<option value="i"><%=ResourceUtils.getText("individual", "en")%></option>
 						<option value="t"><%=ResourceUtils.getText("team", "en")%></option>
 						<option value="it">[<%=ResourceUtils.getText("all", "en")%>]</option>
@@ -53,6 +51,8 @@
 					<tr><td><img src="/img/component/treeview/join.gif" alt="L"/></td>
 					<td><select id="pl-records-tp2" name="pl-records-tp2" style="width:130px;"><option/></select></td>
 				</tr></table>
+				&nbsp;<%=ResourceUtils.getText("category", "en")%>:<br/>
+				<div id="sm-pl-records-ct" class="selmultiple" style="margin-bottom:8px;"><%@include file="../../html/selectmult.html"%></div>
 				<table><tr><td><input type="checkbox" name="records-pf" id="records-pf"/></td><td><label id="lrecords-pf" for="records-pf">Include postseason/Super Bowl</label></td></tr></table>
 			</div>
 			<!-- HALL OF FAME -->
@@ -98,7 +98,8 @@ var tStatsCt = [];
 var tHofYr = [];
 var tChampYr = [];
 var tTm = [];
-var tRcCt = [];
+var tRcCtI = [];
+var tRcCtT = [];
 <%
 String uslStatEvLabel = ConfigUtils.getValue("USL_STATS_EVENT_LABEL");
 for (short i : new short[]{1, 2, 3, 4}) {
@@ -121,11 +122,16 @@ for (short i : new short[]{1, 2, 3, 4}) {
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText().replaceAll("^true\\-", "&dagger;").replaceAll("^false\\-", "") + "</option>");
 	out.print("tTm[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.teams", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
 	// Record (Subevent)
-	c = DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and x.type1='Individual'", null, "x.subevent.index, x.subevent.label", "en");
+	c = DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and x.type1='Individual'", null, "x.subevent.label", "en");
 	sb = new StringBuffer();
 	for (PicklistBean plb : c)
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
-	out.print("tRcCt[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
+	out.print("tRcCtI[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
+	c = DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and x.type1='Team'", null, "x.subevent.label", "en");
+	sb = new StringBuffer();
+	for (PicklistBean plb : c)
+		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
+	out.print("tRcCtT[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
 	// Yearly stats (year)
 	c = DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and event.label like '%" + uslStatEvLabel + "%'", null, (short)1, "en");
 	sb = new StringBuffer();

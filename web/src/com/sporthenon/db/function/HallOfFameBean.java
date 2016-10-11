@@ -1,5 +1,7 @@
 package com.sporthenon.db.function;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,6 +12,9 @@ public class HallOfFameBean {
 	@Id
 	@Column(name = "hf_id")
 	private Integer hfId;
+	
+	@Column(name = "hf_last_update")
+	private Timestamp hfLastUpdate;
 	
 	@Column(name = "lg_id")
 	private Integer lgId;
@@ -94,6 +99,14 @@ public class HallOfFameBean {
 
 	public void setLgId(Integer lgId) {
 		this.lgId = lgId;
+	}
+
+	public Timestamp getHfLastUpdate() {
+		return hfLastUpdate;
+	}
+
+	public void setHfLastUpdate(Timestamp hfLastUpdate) {
+		this.hfLastUpdate = hfLastUpdate;
 	}
 
 	@Override

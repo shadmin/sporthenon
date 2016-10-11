@@ -2158,6 +2158,10 @@ li{
 	color: #888;
 	padding-top: 1px;
 }
+#ajaxsearch2 ul, #ajaxsearch3 ul{
+	margin: 0px;
+	padding-left: 0px;
+}
 /*==========================
   ========== MISC ========== 
   ==========================*/

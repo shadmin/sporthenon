@@ -1,5 +1,7 @@
 package com.sporthenon.db.function;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,6 +12,9 @@ public class YearlyStatsBean {
 	@Id
 	@Column(name = "rs_id")
 	private Integer rsId;
+	
+	@Column(name = "rs_last_update")
+	private Timestamp rsLastUpdate;
 	
 	@Column(name = "yr_id")
 	private Integer yrId;
@@ -631,6 +636,14 @@ public class YearlyStatsBean {
 
 	public String getRsPerson8FirstName() {
 		return (rsPerson8 != null && rsPerson8.indexOf(",") != -1 ? rsPerson8.split("\\,\\s")[1] : null);
+	}
+
+	public Timestamp getRsLastUpdate() {
+		return rsLastUpdate;
+	}
+
+	public void setRsLastUpdate(Timestamp rsLastUpdate) {
+		this.rsLastUpdate = rsLastUpdate;
 	}
 	
 }

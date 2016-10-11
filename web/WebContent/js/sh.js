@@ -1278,7 +1278,8 @@ function changeLeague(id, srcsl) {
 		$('pl-championships-yr').update(tChampYr[league]); updateTip('pl-championships-yr'); updateSelectMult('pl-championships-yr');
 		$('pl-retnum-tm').update(tTm[league]); updateTip('pl-retnum-tm'); updateSelectMult('pl-retnum-tm');
 		$('pl-teamstadiums-tm').update(tTm[league]); updateTip('pl-teamstadiums-tm'); updateSelectMult('pl-teamstadiums-tm');
-		$('pl-records-ct').update(tRcCt[league]); updateTip('pl-records-ct'); updateSelectMult('pl-records-ct');
+		$('pl-records-tp1').options.selectedIndex = 0;
+		$('pl-records-ct').update(tRcCtI[league]); updateTip('pl-records-ct'); updateSelectMult('pl-records-ct');
 		$('pl-stats-yr').update(tStatsYr[league]); updateTip('pl-stats-yr'); updateSelectMult('pl-stats-yr');
 		$('pl-stats-ct').update(tStatsCt[league]); updateTip('pl-stats-ct'); updateSelectMult('pl-stats-ct');
 		$('hof-position').value = ''; updateTip('hof-position'); updateSelectMult('hof-position');
@@ -1307,6 +1308,12 @@ function changeModeUS(id) {
 	});
 	$(id).addClassName('selected');
 	$('f-' + id).show();
+}
+function changeRcType() {
+	var league = (currentLeague == 'nfl' ? 1 : (currentLeague == 'nba' ? 2 : (currentLeague == 'nhl' ? 3 : 4)));
+	$('pl-records-ct').update($('pl-records-tp1').value == 't' ? tRcCtT[league] : tRcCtI[league]);
+	updateTip('pl-records-ct');
+	updateSelectMult('pl-records-ct');
 }
 function runUSLeagues() {
 	t1 = currentTime();
@@ -1936,7 +1943,7 @@ function setInput(id) {
 	if (isAjax) {
 		var url = null;
 		if (/.*(rt|pl|pl1|pl2)$/.match(id)) {
-			url = '/update/ajax/' + (/.*rt$/.match(id) ? 'rt' : 'pl1');	
+			url = '/update/ajax/' + (/.*rt$/.match(id) ? 'rt' : 'pl1');
 		}
 		else {
 			url = '/update/ajax/' + (currentTp < 10 || id.indexOf('plist') == 0 ? 'pr' : (currentTp == 50 ? 'tm' : 'cn')) + (tValues['sp'] != null ? '-' + tValues['sp'] : '');
@@ -2035,6 +2042,7 @@ function addPersonList() {
 		for (var i = pListCount + 1 ; i <= pListCount + 10 ; i++) {
 			$$('#plist table')[0].insert('<tr id="plrow' + i + '"><td><a href="javascript:deletePersonList(' + i + ');"><img title="' + TX_REMOVE + '" src="/img/delete.gif"/></a></td><td><input type="text" id="plist' + i + '-index" tabindex="' + (100000 + i) + '" name="Index" style="width:50px;"/></td><td><input type="text" id="plist' + i + '" tabindex="' + (100001 + i) + '" name="Name #' + i + '"/><a href="javascript:clearValue(\'plist' + i + '\', true);">[X]</a></td></tr>');
 			setInput('plist' + i);
+			setInput('plist' + i + '-index');
 		}
 	}
 	catch(err){}
