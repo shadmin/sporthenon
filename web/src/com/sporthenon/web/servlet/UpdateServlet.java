@@ -6,10 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringWriter;
 import java.lang.reflect.Method;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -1983,19 +1980,12 @@ public class UpdateServlet extends AbstractServlet {
 		try {
 			StringBuffer html = new StringBuffer("<table>");
 			String sport = String.valueOf(hParams.get("sport"));
-			String range = String.valueOf(hParams.get("range"));
+			String count = String.valueOf(hParams.get("count") != null ? hParams.get("count") : 100);
 			String pattern = String.valueOf(hParams.get("pattern"));
 			String entity = String.valueOf(hParams.get("entity"));
 			String includechecked = String.valueOf(hParams.get("includechecked"));
 			
-			String[] tIds = range.split("\\-");
-			StringBuffer hql = new StringBuffer("from ExternalLink where entity='" + entity + "'");
-			if (tIds.length > 1)
-				hql.append(" and idItem between " + tIds[0] + " and " + tIds[1]);
-			hql.append(" order by idItem, flag");
-
 			StringBuffer where = new StringBuffer(" where 1=1");
-			where.append(tIds.length > 1 ? " and id between " + tIds[0] + " and " + tIds[1] : "");
 			where.append(entity.matches(Athlete.alias + "|" + Team.alias + "|" + Sport.alias) ? (cb != null && !cb.isAdmin() ? " and " + (entity.equalsIgnoreCase(Sport.alias) ? "" : "sport.") + "id in (" + cb.getSports() + ")" : "") : "");
 			String label_ = (entity.equals(Athlete.alias) ? "lastName || ', ' || firstName || ' - ' || sport.label" : (entity.equals(Team.alias) ? "label || ' - ' || sport.label" : (entity.equals(Olympics.alias) ? "city.label || ' ' || year.label" : "label")));
 			if (entity.equalsIgnoreCase(City.alias))
@@ -2006,8 +1996,9 @@ public class UpdateServlet extends AbstractServlet {
 				where.append(" and lower(" + label_ + ") like '%" + pattern.toLowerCase() + "%'");
 			if (entity.matches(Athlete.alias + "|" + Team.alias) && !sport.equals("0"))
 				where.append(" and sport.id=" + sport);
-			List<Object[]> items = DatabaseHelper.execute("select id, " + label_ + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + where.toString() + " order by id");
-			List<ExternalLink> links = DatabaseHelper.execute(hql.toString());
+			List<Object[]> items = DatabaseHelper.executeWithLimit("select id, " + label_ + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + where.toString() + " order by id desc", Integer.parseInt(count));
+			
+			List<ExternalLink> links = DatabaseHelper.execute("from ExternalLink where entity='" + entity + "'");
 			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + "</th><th>" + ResourceUtils.getText("type", lang) + "</th><th>URL</th><th>" + ResourceUtils.getText("checked", lang) + "&nbsp;<input type='checkbox' onclick='checkAllLinks();'/></th></thead><tbody>");
 			for (Object[] t : items) {
 				Integer id = StringUtils.toInt(t[0]);
@@ -2086,51 +2077,50 @@ public class UpdateServlet extends AbstractServlet {
 		try {
 //			System.getProperties().setProperty("http.proxyHost", "globalproxy-emea.pharma.aventis.com");
 //			System.getProperties().setProperty("http.proxyPort", "3129");
-
-			String range = String.valueOf(hParams.get("range"));
+			Integer count = Integer.parseInt(String.valueOf(hParams.get("count") != null ? hParams.get("count") : 100));
+			String sport = String.valueOf(hParams.get("sport"));
 			String entity = String.valueOf(hParams.get("entity"));
 			StringBuffer sbUpdateSql = new StringBuffer();
 			List<String> lHql = new LinkedList<String>();
-			String filter = " and id between " + range.replaceAll("\\-", " and ");
 			if (entity.equalsIgnoreCase(Athlete.alias)) {
-				lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='wiki')" + filter + " order by id");
-				lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='oly-ref')" + filter + " order by id");
-				lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='bkt-ref')" + filter + " order by id");
-				lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='bb-ref')" + filter + " order by id");
-				lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='ft-ref')" + filter + " order by id");
-				lHql.add("from Athlete where id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and type='hk-ref')" + filter + " order by id");
+				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%wikipedia%') order by id desc");
+				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%reference.com/olympics%') order by id desc");
+				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%basketball-reference%') order by id desc");
+				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%pro-football-reference%') order by id desc");
+				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%hockey-reference%') order by id desc");
+				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%baseball-reference%') order by id desc");
 			}
 			if (entity.equalsIgnoreCase(Championship.alias))
-				lHql.add("from Championship where id not in (select idItem from ExternalLink where entity='" + Championship.alias + "' and type='wiki')" + filter + " order by id");
+				lHql.add("from Championship where id not in (select idItem from ExternalLink where entity='" + Championship.alias + "' and url like '%wikipedia%') order by id desc");
 			if (entity.equalsIgnoreCase(City.alias))
-				lHql.add("from City where id not in (select idItem from ExternalLink where entity='" + City.alias + "' and type='wiki')" + filter + " order by id");
+				lHql.add("from City where id not in (select idItem from ExternalLink where entity='" + City.alias + "' and url like '%wikipedia%') order by id desc");
 			if (entity.equalsIgnoreCase(Complex.alias))
-				lHql.add("from Complex where id not in (select idItem from ExternalLink where entity='" + Complex.alias + "' and type='wiki')" + filter + " order by id");
+				lHql.add("from Complex where id not in (select idItem from ExternalLink where entity='" + Complex.alias + "' and url like '%wikipedia%') order by id desc");
 			if (entity.equalsIgnoreCase(Country.alias)) {
-				lHql.add("from Country where id not in (select idItem from ExternalLink where entity='" + Country.alias + "' and type='wiki')" + filter + " order by id");
-				lHql.add("from Country where id not in (select idItem from ExternalLink where entity='" + Country.alias + "' and type='oly-ref')" + filter + " order by id");	
+				lHql.add("from Country where id not in (select idItem from ExternalLink where entity='" + Country.alias + "' and url like '%wikipedia%') order by id desc");
+				lHql.add("from Country where id not in (select idItem from ExternalLink where entity='" + Country.alias + "' and url like '%reference.com/olympics%') order by id desc");	
 			}
 			if (entity.equalsIgnoreCase(Event.alias))
-				lHql.add("from Event where id not in (select idItem from ExternalLink where entity='" + Event.alias + "' and type='wiki')" + filter + " order by id");
+				lHql.add("from Event where id not in (select idItem from ExternalLink where entity='" + Event.alias + "' and url like '%wikipedia%') order by id desc");
 			if (entity.equalsIgnoreCase(Olympics.alias)) {
-				lHql.add("from Olympics where id not in (select idItem from ExternalLink where entity='" + Olympics.alias + "' and type='wiki')" + filter + " order by id");
-				lHql.add("from Olympics where id not in (select idItem from ExternalLink where entity='" + Olympics.alias + "' and type='oly-ref')" + filter + " order by id");	
+				lHql.add("from Olympics where id not in (select idItem from ExternalLink where entity='" + Olympics.alias + "' and url like '%wikipedia%') order by id desc");
+				lHql.add("from Olympics where id not in (select idItem from ExternalLink where entity='" + Olympics.alias + "' and url like '%reference.com/olympics%') order by id desc");	
 			}
 			if (entity.equalsIgnoreCase(Sport.alias)) {
-				lHql.add("from Sport where id not in (select idItem from ExternalLink where entity='" + Sport.alias + "' and type='wiki')" + filter + " order by id");
-				lHql.add("from Sport where id not in (select idItem from ExternalLink where entity='" + Sport.alias + "' and type='oly-ref')" + filter + " order by id");	
+				lHql.add("from Sport where id not in (select idItem from ExternalLink where entity='" + Sport.alias + "' and url like '%wikipedia%') order by id desc");
+				lHql.add("from Sport where id not in (select idItem from ExternalLink where entity='" + Sport.alias + "' and url like '%reference.com/olympics%') order by id desc");	
 			}
 			if (entity.equalsIgnoreCase(State.alias))
-				lHql.add("from State where id not in (select idItem from ExternalLink where entity='" + State.alias + "' and type='wiki')" + filter + " order by id");
+				lHql.add("from State where id not in (select idItem from ExternalLink where entity='" + State.alias + "' and url like '%wikipedia%') order by id desc");
 			if (entity.equalsIgnoreCase(Team.alias)) {
-				lHql.add("from Team where id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and type='wiki')" + filter + " order by id");
-				lHql.add("from Team where id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and type='bkt-ref')" + filter + " order by id");
-				lHql.add("from Team where id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and type='bb-ref')" + filter + " order by id");
-				lHql.add("from Team where id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and type='ft-ref')" + filter + " order by id");
-				lHql.add("from Team where id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and type='hk-ref')" + filter + " order by id");	
+				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%wikipedia%') order by id desc");
+				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%basketball-reference%') order by id desc");
+				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%pro-football-reference%') order by id desc");
+				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%hockey-reference%') order by id desc");
+				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%baseball-reference%') order by id desc");	
 			}
 			for (String hql : lHql) {
-				List<Object> l = DatabaseHelper.execute(hql);
+				List<Object> l = DatabaseHelper.executeWithLimit(hql, count);
 				for (Object o : l)
 					sbUpdateSql.append(getExternalLink(o, hql));
 			}
@@ -2522,15 +2512,13 @@ public class UpdateServlet extends AbstractServlet {
 		}
 		Integer id = (Integer) o.getClass().getMethod("getId").invoke(o);
 		String url = null;
-		URL url_ = null;
-		HttpURLConnection conn = null;
 		// WIKIPEDIA
-		if (hql.matches(".*\\'wiki\\'.*")) {
+		if (hql.matches(".*wikipedia.*")) {
 			url = "https://en.wikipedia.org/wiki/" + URLEncoder.encode(str1.replaceAll("\\s", "_"), "utf-8");
-			sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'wiki', '" + url + "');\r\n");
+			sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", '" + url + "', FALSE, NULL);\r\n");
 		}
 		// OLYMPICS-REFERENCE
-		if (hql.matches(".*\\'oly-ref\\'.*")) {
+		if (hql.matches(".*\\/olympics.*")) {
 			url = null;
 			if (o instanceof Athlete) {
 				url = "http://www.sports-reference.com/olympics/athletes/" + str2.substring(0, 2).toLowerCase() + "/" + str1.replaceAll("\\s", "-").toLowerCase() + "-1.html";	
@@ -2541,89 +2529,44 @@ public class UpdateServlet extends AbstractServlet {
 			else if (o instanceof Olympics) {
 				url = "http://www.sports-reference.com/olympics/" + str2;
 			}
-			if (url != null) {
-				url_ = new URL(StringUtils.normalize(url));
-				conn = (HttpURLConnection) url_.openConnection();
-				conn.setDoOutput(true);
-				if (conn.getResponseCode() == 200) {
-					StringWriter writer = new StringWriter();
-					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
-					if (writer.toString().indexOf("File Not Found") == -1 && writer.toString().indexOf("0 hits") == -1)
-						sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'oly-ref', '" + StringUtils.normalize(url) + "');\r\n");
-				}
-			}
+			if (url != null)
+				sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", '" + StringUtils.normalize(url) + "', FALSE, NULL);\r\n");
 		}
 		// BASKETBALL-REFERENCE
-		if (hql.matches(".*\\'bkt-ref\\'.*")) {
+		if (hql.matches(".*basketball\\-reference.*")) {
 			url = null;
 			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 24) {
 				url = "http://www.basketball-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.html";	
 			}
-			if (url != null) {
-				url_ = new URL(StringUtils.normalize(url));
-				conn = (HttpURLConnection) url_.openConnection();
-				conn.setDoOutput(true);
-				if (conn.getResponseCode() == 200) {
-					StringWriter writer = new StringWriter();
-					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
-					if (writer.toString().indexOf("File Not Found") == -1)
-						sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'bkt-ref', '" + StringUtils.normalize(url) + "');\r\n");
-				}
-			}
+			if (url != null)
+				sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", '" + StringUtils.normalize(url) + "', FALSE, NULL);\r\n");
 		}
 		// BASEBALL-REFERENCE
-		if (hql.matches(".*\\'bb-ref\\'.*")) {
+		if (hql.matches(".*baseball\\-reference.*")) {
 			url = null;
 			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 26) {
 				url = "http://www.baseball-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.shtml";	
 			}
-			if (url != null) {
-				url_ = new URL(StringUtils.normalize(url));
-				conn = (HttpURLConnection) url_.openConnection();
-				conn.setDoOutput(true);
-				if (conn.getResponseCode() == 200) {
-					StringWriter writer = new StringWriter();
-					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
-					if (writer.toString().indexOf("File Not Found") == -1)
-						sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'bb-ref', '" + StringUtils.normalize(url) + "');\r\n");
-				}
-			}
+			if (url != null)
+				sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", '" + StringUtils.normalize(url) + "', FALSE, NULL);\r\n");
 		}
 		// PRO-FOOTBALL-REFERENCE
-		if (hql.matches(".*\\'ft-ref\\'.*")) {
+		if (hql.matches(".*pro\\-football\\-reference.*")) {
 			url = null;
 			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 23) {
 				url = "http://www.pro-football-reference.com/players/" + str2.substring(0, 1) + "/" + str2.substring(0, str2.length() > 4 ? 4 : str2.length()) + str1.substring(0, 2) + "00.htm";	
 			}
-			if (url != null) {
-				url_ = new URL(StringUtils.normalize(url));
-				conn = (HttpURLConnection) url_.openConnection();
-				conn.setDoOutput(true);
-				if (conn.getResponseCode() == 200) {
-					StringWriter writer = new StringWriter();
-					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
-					if (writer.toString().indexOf("File Not Found") == -1)
-						sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'ft-ref', '" + StringUtils.normalize(url) + "');\r\n");
-				}
-			}
+			if (url != null)
+				sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", '" + StringUtils.normalize(url) + "', FALSE, NULL);\r\n");
 		}
 		// HOCKEY-REFERENCE
-		if (hql.matches(".*\\'hk-ref\\'.*")) {
+		if (hql.matches(".*hockey\\-reference.*")) {
 			url = null;
 			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 25) {
 				url = "http://www.hockey-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.html";	
 			}
-			if (url != null) {
-				url_ = new URL(StringUtils.normalize(url));
-				conn = (HttpURLConnection) url_.openConnection();
-				conn.setDoOutput(true);
-				if (conn.getResponseCode() == 200) {
-					StringWriter writer = new StringWriter();
-					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
-					if (writer.toString().indexOf("File Not Found") == -1)
-						sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", 'hk-ref', '" + StringUtils.normalize(url) + "');\r\n");
-				}
-			}
+			if (url != null)
+				sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", '" + StringUtils.normalize(url) + "', FALSE, NULL);\r\n");
 		}
 		return sql.toString();
 	}

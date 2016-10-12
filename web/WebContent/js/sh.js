@@ -3026,7 +3026,7 @@ function executeQuery(index) {
 /*========== EXT.LINKS ==========*/
 var currentExtLinkEntity = null;
 function loadExtLinks() {
-	var h = $H({sport: $F('elsport'), range: $F('elrange'), pattern: $F('elpattern'), entity: $F('elentity'), includechecked: ($('elincludechecked').checked ? '1' : '0')});
+	var h = $H({sport: $F('elsport'), count: $F('elcount'), pattern: $F('elpattern'), entity: $F('elentity'), includechecked: ($('elincludechecked').checked ? '1' : '0')});
 	$('elcontent').update('<img src="/img/db/loading.gif?6"/>');
 	new Ajax.Updater($('elcontent'), '/update/load-extlinks', {
 		parameters: h
@@ -3095,7 +3095,7 @@ function updateLinksAuto() {
 		$('content').setStyle({ opacity: 1.0 });
 		dQuestion.close();
 		$('elcontent').update('<img src="/img/db/loading.gif?6"/>');
-		var h = $H({range: $F('elrange'), pattern: $F('elpattern'), entity: $F('elentity'), includechecked: ($('elincludechecked').checked ? '1' : '0')});
+		var h = $H({sport: $F('elsport'), count: $F('elcount'), pattern: $F('elpattern'), entity: $F('elentity'), includechecked: ($('elincludechecked').checked ? '1' : '0')});
 		new Ajax.Request('/update/updateauto-extlinks', {
 			onSuccess: function(response){
 				var text = response.responseText;

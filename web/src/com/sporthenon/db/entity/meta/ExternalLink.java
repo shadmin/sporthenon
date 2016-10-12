@@ -83,5 +83,12 @@ public class ExternalLink {
 	public boolean isChecked() {
 		return (checked != null && checked);
 	}
+
+	@Override
+	public String toString() {
+		return "ExternalLink [id=" + id + ", entity=" + entity + ", idItem="
+				+ idItem + ", url=" + url + ", checked=" + checked + ", flag="
+				+ flag + "]";
+	}
 	
 }

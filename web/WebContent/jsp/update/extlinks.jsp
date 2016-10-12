@@ -30,8 +30,8 @@
 						out.print("<option value='0'>[" + StringUtils.text("all", session) + "]</option>");
 				%>
 				</select></td>
-				<td>IDs&nbsp;:</td>
-				<td><input id="elrange" type="text" value="1-50" style="width:90px;"/>
+				<td><%=StringUtils.text("count", session)%>&nbsp;:</td>
+				<td><input id="elcount" type="text" value="100" style="width:90px;"/>
 				<td><%=StringUtils.text("find", session)%>&nbsp;:</td>
 				<td><input id="elpattern" type="text" style="width:100px;"/>
 				<td><%=StringUtils.text("show", session)%>&nbsp;:</td>

@@ -363,6 +363,30 @@ public class DatabaseHelper {
 		}
 	}
 	
+	public static List executeWithLimit(String s, int limit) throws Exception {
+		UserTransaction tr = null;
+		EntityManager em = null;
+		try {
+			tr = getTransaction();
+			if (tr != null) tr.begin();
+			em = getEntityManager();
+			Query q = em.createQuery(s);
+			q.setMaxResults(limit);
+			List lResult = q.getResultList();
+			if (tr != null) tr.commit();
+			return lResult;
+		}
+		catch (Exception e) {
+			if (tr != null)
+				tr.rollback();
+			throw e;
+		}
+		finally {
+			if (em != null && em.isOpen())
+				em.close();
+		}
+	}
+	
 	public static List executeNative(String s) throws Exception {
 		UserTransaction tr = null;
 		EntityManager em = null;
