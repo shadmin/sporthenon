@@ -7,6 +7,7 @@ import com.sporthenon.android.R;
 import com.sporthenon.android.activity.USLeaguesRequestActivity;
 import com.sporthenon.android.adapter.RankListAdapter;
 import com.sporthenon.android.data.RankItem;
+import com.sporthenon.android.utils.AndroidUtils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -55,7 +56,7 @@ public class AsyncHallOfFame extends AsyncTask<Object, Boolean, String> {
                     String name = e.getAttribute("name");
                     String pos = e.getAttribute("pos");
                     RankItem rkitem = new RankItem(name);
-                    rkitem.setResult(pos);
+                    rkitem.setResult(AndroidUtils.notEmpty(pos) && !pos.equals("null") ? pos : "");
                     hofs.add(rkitem);
                 }
             }

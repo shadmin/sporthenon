@@ -38,6 +38,7 @@ public class OlympicsModeActivity extends AbstractActivity {
             Intent i = new Intent(this, SportActivity.class);
             Bundle b = new Bundle();
             b.putInt("olid", getOlId());
+            b.putString("olname", getOlName());
             b.putInt("oltype", getOlType());
             i.putExtras(b);
             startActivity(i);

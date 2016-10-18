@@ -50,9 +50,9 @@ public class AsyncStatsLeaders extends AsyncTask<Object, Boolean, String> {
                 Node n = list.item(i);
                 if (n.getNodeType() == Node.ELEMENT_NODE) {
                     Element e = (Element) n;
-                    ResultItem ritem = new ResultItem(0, e.getAttribute("year"), null, null, e.getAttribute("rank1") + " - " + e.getAttribute("result1"));
-                    ritem.setTxt2(e.getAttribute("rank2") + " - " + e.getAttribute("result2"));
-                    ritem.setTxt3(e.getAttribute("rank3") + " - " + e.getAttribute("result3"));
+                    ResultItem ritem = new ResultItem(0, e.getAttribute("year"), null, null, "1. " + e.getAttribute("rank1") + " ― " + e.getAttribute("result1"));
+                    ritem.setTxt2("2. " + e.getAttribute("rank2") + " ― " + e.getAttribute("result2"));
+                    ritem.setTxt3("3. " + e.getAttribute("rank3") + " ― " + e.getAttribute("result3"));
                     stats.add(ritem);
                 }
             }

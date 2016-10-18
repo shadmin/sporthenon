@@ -20,16 +20,19 @@ import com.sporthenon.android.R;
 import com.sporthenon.android.activity.AbstractActivity;
 import com.sporthenon.android.activity.CalendarActivity;
 import com.sporthenon.android.activity.OlympicsMedalsActivity;
+import com.sporthenon.android.activity.OlympicsPodiumsActivity;
 import com.sporthenon.android.activity.ResultActivity;
 import com.sporthenon.android.activity.USLeaguesRequestActivity;
 import com.sporthenon.android.adapter.CalendarListAdapter;
 import com.sporthenon.android.adapter.ItemListAdapter;
 import com.sporthenon.android.adapter.MedalListAdapter;
+import com.sporthenon.android.adapter.PodiumListAdapter;
 import com.sporthenon.android.adapter.RecordListAdapter;
 import com.sporthenon.android.adapter.ResultListAdapter;
 import com.sporthenon.android.data.CalendarItem;
 import com.sporthenon.android.data.DataItem;
 import com.sporthenon.android.data.MedalItem;
+import com.sporthenon.android.data.PodiumItem;
 import com.sporthenon.android.data.RecordItem;
 import com.sporthenon.android.data.ResultItem;
 
@@ -147,6 +150,15 @@ public class ListFragment extends Fragment {
                     list_.add(item);
             }
             list.setAdapter(new MedalListAdapter(activity.getApplicationContext(), list_));
+        }
+        else if (activity instanceof OlympicsPodiumsActivity) {
+            ArrayList<PodiumItem> list_ = new ArrayList<>();
+            for (Object o : itemList) {
+                PodiumItem item = (PodiumItem) o;
+                if (text.length() == 0 || item.getEvent().toLowerCase().matches(".*" + text + ".*") || item.getTxt1().toLowerCase().matches(".*" + text + ".*"))
+                    list_.add(item);
+            }
+            list.setAdapter(new PodiumListAdapter(activity.getApplicationContext(), list_));
         }
         else if (activity instanceof USLeaguesRequestActivity &&  ((AbstractActivity) activity).getUsltype() == AbstractActivity.USTYPE_RECORDS) {
             ArrayList<RecordItem> list_ = new ArrayList<>();

@@ -31,6 +31,7 @@
         <activity android:name=".activity.OlympicsActivity" />
         <activity android:name=".activity.OlympicsMedalsActivity" />
         <activity android:name=".activity.OlympicsModeActivity" />
+        <activity android:name=".activity.OlympicsPodiumsActivity" />
         <activity android:name=".activity.OlympicsTypeActivity" />
         <!--US LEAGUES-->
         <activity android:name=".activity.LeagueActivity" />

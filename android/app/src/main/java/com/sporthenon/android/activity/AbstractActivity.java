@@ -119,7 +119,7 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
                     sb.append("\r\n");
                     for (int j = i - 1 ; j > 0 ; j--)
                         sb.append("   ");
-                    sb.append("└ ");
+                    sb.append(" ― ");
                 }
                 sb.append(t[i]);
             }

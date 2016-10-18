@@ -44,7 +44,7 @@ public class AsyncEvents extends AsyncTask<Object, Boolean, String> {
             String url = activity.getString(R.string.url) + "/android/RS/" + (ev2id > 0 ? "SE2" : (ev1id > 0 ? "SE" : "EV"));
             url += "-" + spid + "-" + cpid + (ev1id > 0 ? "-" + ev1id : "") + (ev2id > 0 ? "-" + ev2id : "") + "?lang=" + activity.getLang();
             if (activity.getUsltype() != null && activity.getUsltype() > 0)
-                url = activity.getString(R.string.url) + "/android/US/EV-" + activity.getLeagueId() + "-" + (activity.getUsltype() == 1 ? "records" : "stats");
+                url = activity.getString(R.string.url) + "/android/US/EV-" + activity.getLeagueId() + "-" + (activity.getUsltype() == 1 ? "records" : "stats") + "-" + activity.getRctype();
             HttpURLConnection connection = (HttpURLConnection)new URL(url.toString()).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();

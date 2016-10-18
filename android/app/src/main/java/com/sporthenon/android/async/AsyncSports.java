@@ -27,6 +27,11 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
 
     private SportActivity activity;
     private ArrayList<DataItem> sports;
+    private String path;
+
+    public AsyncSports(String path) {
+        this.path = path;
+    }
 
     @Override
      protected String doInBackground(Object... params) {
@@ -70,6 +75,8 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
             activity.getItemList().addAll(sports);
             activity.getList().setAdapter(new ItemListAdapter(activity.getApplicationContext(), sports));
             activity.getPath().setVisibility(View.GONE);
+            if (path != null)
+                activity.setPath(path);
         }
         catch(Exception e) {
             Log.e("Error", e.getMessage(), e);
