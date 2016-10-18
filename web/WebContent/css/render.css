@@ -282,10 +282,10 @@
 	background-color: transparent;
 }
 .tc .rounds tr:hover td{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 .tc .box:hover tr{
-	background-color: #FF9; /* _theme_ */	
+	background-color: #FFA; /* _theme_ */	
 }
 .tc .box2, .tc .box4{
 	margin-left: 400px;
@@ -315,7 +315,7 @@
 	clear: right;
 }
 .tc .tsort tr:hover{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 .tc .tsort tr:hover td[rowspan] {
 	background-color: #FFF;
@@ -423,7 +423,7 @@ th.desc{
 	background: transparent url(../img/render/more3.gif) 0 0 no-repeat;
 }
 .moreitems div:hover{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 .moreitems .sfdiv1{
 	background: transparent url(../img/render/more.gif) left 2px no-repeat;

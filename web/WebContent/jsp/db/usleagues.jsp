@@ -100,6 +100,7 @@ var tChampYr = [];
 var tTm = [];
 var tRcCtI = [];
 var tRcCtT = [];
+var tRcCtA = [];
 <%
 String uslStatEvLabel = ConfigUtils.getValue("USL_STATS_EVENT_LABEL");
 for (short i : new short[]{1, 2, 3, 4}) {
@@ -122,16 +123,21 @@ for (short i : new short[]{1, 2, 3, 4}) {
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText().replaceAll("^true\\-", "&dagger;").replaceAll("^false\\-", "") + "</option>");
 	out.print("tTm[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.teams", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
 	// Record (Subevent)
-	c = DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and x.type1='Individual'", null, "x.subevent.label", "en");
-	sb = new StringBuffer();
-	for (PicklistBean plb : c)
-		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
-	out.print("tRcCtI[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
-	c = DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and x.type1='Team'", null, "x.subevent.label", "en");
-	sb = new StringBuffer();
-	for (PicklistBean plb : c)
-		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
-	out.print("tRcCtT[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
+	c = DatabaseHelper.getPicklistFromQuery("select distinct x.subevent.id, x.subevent.label, x.type1 from Record x where championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " order by x.subevent.label", false);
+	StringBuffer sb1 = new StringBuffer();
+	StringBuffer sb2 = new StringBuffer();
+	StringBuffer sb3 = new StringBuffer();
+	for (PicklistBean plb : c) {
+		if (!sb1.toString().contains(">" + plb.getText() + "<"))
+			sb1.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
+		if (plb.getParam() != null && String.valueOf(plb.getParam()).equalsIgnoreCase("individual"))
+			sb2.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
+		else if (plb.getParam() != null && String.valueOf(plb.getParam()).equalsIgnoreCase("team"))
+			sb3.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
+	}
+	out.print("tRcCtA[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb1.toString() + "';\r\n");
+	out.print("tRcCtI[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb2.toString() + "';\r\n");
+	out.print("tRcCtT[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb3.toString() + "';\r\n");
 	// Yearly stats (year)
 	c = DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and event.label like '%" + uslStatEvLabel + "%'", null, (short)1, "en");
 	sb = new StringBuffer();

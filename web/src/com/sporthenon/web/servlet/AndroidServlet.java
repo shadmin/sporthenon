@@ -422,8 +422,10 @@ public class AndroidServlet extends AbstractServlet {
 				addItems(doc, root, (short)-1, DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + USLeaguesServlet.HLEAGUES.get(league) + " and event.label like '%" + uslStatEvLabel + "%'", null, (short)1, "en"), null, null, null, null);
 		}
 		else if (code.equalsIgnoreCase(Event.alias)) {
-			if (t[2].equals(USLeaguesServlet.TYPE_RECORD))
-				addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + USLeaguesServlet.HLEAGUES.get(league) + " and x.type1='Individual'", null, "x.subevent.label", "en"), null, null, null, null);
+			if (t[2].equals(USLeaguesServlet.TYPE_RECORD)) {
+				String filter = (t[3].equals("i") ? " and x.type1='Individual'" : (t[3].equals("t") ? " and x.type1='Team'" : ""));
+				addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + USLeaguesServlet.HLEAGUES.get(league) + filter, null, "x.subevent.label", "en"), null, null, null, null);
+			}
 			else if (t[2].equals(USLeaguesServlet.TYPE_STATS))
 				addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent2", "championship.id=" + USLeaguesServlet.HLEAGUES.get(league) + " and event.label like '%" + uslStatEvLabel + "%'", null, "x.subevent2.label", "en"), null, null, null, null);
 		}
@@ -682,7 +684,10 @@ public class AndroidServlet extends AbstractServlet {
 			for (OlympicMedalsBean bean : list) {
 				Element item = root.addElement("item");
 				boolean isIndividual = ((bean.getTp2Number() != null ? bean.getTp2Number() : bean.getTp1Number()) <= 10);
-				item.addAttribute("event", (StringUtils.notEmpty(bean.getSe2Id()) ? bean.getSe2Label() : (StringUtils.notEmpty(bean.getSeId()) ? bean.getSeLabel() : bean.getEvLabel())));
+				item.addAttribute("id", String.valueOf(bean.getRsId()));
+				item.addAttribute("event1", bean.getEvLabel());
+				item.addAttribute("event2", StringUtils.notEmpty(bean.getSeLabel()) ? bean.getSeLabel() : "");
+				item.addAttribute("event3", StringUtils.notEmpty(bean.getSe2Label()) ? bean.getSe2Label() : "");
 				item.addAttribute("rank1", isIndividual ? StringUtils.toFullName(bean.getPr1LastName(), bean.getPr1FirstName(), bean.getPr1CnCode(), true) : bean.getCn1Label());
 				item.addAttribute("rank2", isIndividual ? StringUtils.toFullName(bean.getPr2LastName(), bean.getPr2FirstName(), bean.getPr2CnCode(), true) : bean.getCn2Label());
 				item.addAttribute("rank3", isIndividual ? StringUtils.toFullName(bean.getPr3LastName(), bean.getPr3FirstName(), bean.getPr3CnCode(), true) : bean.getCn3Label());

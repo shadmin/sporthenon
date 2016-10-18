@@ -125,6 +125,8 @@ public class UpdateServlet extends AbstractServlet {
 				loadExternalLinks(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("save-extlinks"))
 				saveExternalLinks(response, hParams, lang, cb);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("delete-extlink"))
+				deleteExternalLink(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("updateauto-extlinks"))
 				updateAutoExternalLinks(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-translations"))
@@ -1981,11 +1983,12 @@ public class UpdateServlet extends AbstractServlet {
 			StringBuffer html = new StringBuffer("<table>");
 			String sport = String.valueOf(hParams.get("sport"));
 			String count = String.valueOf(hParams.get("count") != null ? hParams.get("count") : 100);
+			String idmax = String.valueOf(hParams.get("idmax") != null ? hParams.get("idmax") : 100000);
 			String pattern = String.valueOf(hParams.get("pattern"));
 			String entity = String.valueOf(hParams.get("entity"));
 			String includechecked = String.valueOf(hParams.get("includechecked"));
 			
-			StringBuffer where = new StringBuffer(" where 1=1");
+			StringBuffer where = new StringBuffer(" where t.id<=" + idmax);
 			where.append(entity.matches(Athlete.alias + "|" + Team.alias + "|" + Sport.alias) ? (cb != null && !cb.isAdmin() ? " and " + (entity.equalsIgnoreCase(Sport.alias) ? "" : "sport.") + "id in (" + cb.getSports() + ")" : "") : "");
 			String label_ = (entity.equals(Athlete.alias) ? "lastName || ', ' || firstName || ' - ' || sport.label" : (entity.equals(Team.alias) ? "label || ' - ' || sport.label" : (entity.equals(Olympics.alias) ? "city.label || ' ' || year.label" : "label")));
 			if (entity.equalsIgnoreCase(City.alias))
@@ -1996,9 +1999,9 @@ public class UpdateServlet extends AbstractServlet {
 				where.append(" and lower(" + label_ + ") like '%" + pattern.toLowerCase() + "%'");
 			if (entity.matches(Athlete.alias + "|" + Team.alias) && !sport.equals("0"))
 				where.append(" and sport.id=" + sport);
-			List<Object[]> items = DatabaseHelper.executeWithLimit("select id, " + label_ + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + where.toString() + " order by id desc", Integer.parseInt(count));
+			List<Object[]> items = DatabaseHelper.executeWithLimit("select id, " + label_ + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + " t " + where.toString() + " order by id desc", Integer.parseInt(count));
 			
-			List<ExternalLink> links = DatabaseHelper.execute("from ExternalLink where entity='" + entity + "'");
+			List<ExternalLink> links = DatabaseHelper.execute("from ExternalLink where entity='" + entity + "' order by entity, idItem");
 			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + "</th><th>" + ResourceUtils.getText("type", lang) + "</th><th>URL</th><th>" + ResourceUtils.getText("checked", lang) + "&nbsp;<input type='checkbox' onclick='checkAllLinks();'/></th></thead><tbody>");
 			for (Object[] t : items) {
 				Integer id = StringUtils.toInt(t[0]);
@@ -2019,7 +2022,8 @@ public class UpdateServlet extends AbstractServlet {
 						html.append("<td><a href='" + el.getUrl() + "' target='_blank'>" + el.getUrl() + "</a></td>");
 						html.append("<td><input type='checkbox'" + (el.isChecked() ? " checked='checked'" : "") + "/></td>");
 						html.append("<td><a href='javascript:addExtLink(" + el.getId() + ");'><img alt='' src='/img/component/button/add.png'/></a></td>");
-						html.append("<td><a href='javascript:modifyExtLink(" + el.getId() + ");'><img alt='' src='/img/component/button/modify.png'/></a></td></tr>");
+						html.append("<td><a href='javascript:modifyExtLink(" + el.getId() + ");'><img alt='' src='/img/component/button/modify.png'/></a></td>");
+						html.append("<td><a href='javascript:removeExtLink(" + el.getId() + ");'><img alt='' src='/img/component/button/delete.png'/></a></td></tr>");
 					}
 					else if (isLink)
 						break;
@@ -2072,52 +2076,65 @@ public class UpdateServlet extends AbstractServlet {
 		}
 	}
 	
+	private static void deleteExternalLink(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
+		try {
+			String id = String.valueOf(hParams.get("id"));
+			ExternalLink el = (ExternalLink) DatabaseHelper.loadEntity(ExternalLink.class, id);
+			if (el != null)
+				DatabaseHelper.removeEntity(el);
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+		}
+	}
+	
 	private static void updateAutoExternalLinks(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		StringBuffer sbMsg = new StringBuffer();
 		try {
 //			System.getProperties().setProperty("http.proxyHost", "globalproxy-emea.pharma.aventis.com");
 //			System.getProperties().setProperty("http.proxyPort", "3129");
 			Integer count = Integer.parseInt(String.valueOf(hParams.get("count") != null ? hParams.get("count") : 100));
+			Integer idmax = Integer.parseInt(String.valueOf(hParams.get("idmax") != null ? hParams.get("idmax") : 100000));
 			String sport = String.valueOf(hParams.get("sport"));
 			String entity = String.valueOf(hParams.get("entity"));
 			StringBuffer sbUpdateSql = new StringBuffer();
 			List<String> lHql = new LinkedList<String>();
 			if (entity.equalsIgnoreCase(Athlete.alias)) {
-				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%wikipedia%') order by id desc");
-				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%reference.com/olympics%') order by id desc");
-				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%basketball-reference%') order by id desc");
-				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%pro-football-reference%') order by id desc");
-				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%hockey-reference%') order by id desc");
-				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%baseball-reference%') order by id desc");
+				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%wikipedia%') order by id desc");
+				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%reference.com/olympics%') order by id desc");
+				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%basketball-reference%') order by id desc");
+				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%pro-football-reference%') order by id desc");
+				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%hockey-reference%') order by id desc");
+				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%baseball-reference%') order by id desc");
 			}
 			if (entity.equalsIgnoreCase(Championship.alias))
-				lHql.add("from Championship where id not in (select idItem from ExternalLink where entity='" + Championship.alias + "' and url like '%wikipedia%') order by id desc");
+				lHql.add("from Championship where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Championship.alias + "' and url like '%wikipedia%') order by id desc");
 			if (entity.equalsIgnoreCase(City.alias))
-				lHql.add("from City where id not in (select idItem from ExternalLink where entity='" + City.alias + "' and url like '%wikipedia%') order by id desc");
+				lHql.add("from City where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + City.alias + "' and url like '%wikipedia%') order by id desc");
 			if (entity.equalsIgnoreCase(Complex.alias))
-				lHql.add("from Complex where id not in (select idItem from ExternalLink where entity='" + Complex.alias + "' and url like '%wikipedia%') order by id desc");
+				lHql.add("from Complex where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Complex.alias + "' and url like '%wikipedia%') order by id desc");
 			if (entity.equalsIgnoreCase(Country.alias)) {
-				lHql.add("from Country where id not in (select idItem from ExternalLink where entity='" + Country.alias + "' and url like '%wikipedia%') order by id desc");
-				lHql.add("from Country where id not in (select idItem from ExternalLink where entity='" + Country.alias + "' and url like '%reference.com/olympics%') order by id desc");	
+				lHql.add("from Country where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Country.alias + "' and url like '%wikipedia%') order by id desc");
+				lHql.add("from Country where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Country.alias + "' and url like '%reference.com/olympics%') order by id desc");	
 			}
 			if (entity.equalsIgnoreCase(Event.alias))
-				lHql.add("from Event where id not in (select idItem from ExternalLink where entity='" + Event.alias + "' and url like '%wikipedia%') order by id desc");
+				lHql.add("from Event where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Event.alias + "' and url like '%wikipedia%') order by id desc");
 			if (entity.equalsIgnoreCase(Olympics.alias)) {
-				lHql.add("from Olympics where id not in (select idItem from ExternalLink where entity='" + Olympics.alias + "' and url like '%wikipedia%') order by id desc");
-				lHql.add("from Olympics where id not in (select idItem from ExternalLink where entity='" + Olympics.alias + "' and url like '%reference.com/olympics%') order by id desc");	
+				lHql.add("from Olympics where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Olympics.alias + "' and url like '%wikipedia%') order by id desc");
+				lHql.add("from Olympics where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Olympics.alias + "' and url like '%reference.com/olympics%') order by id desc");	
 			}
 			if (entity.equalsIgnoreCase(Sport.alias)) {
-				lHql.add("from Sport where id not in (select idItem from ExternalLink where entity='" + Sport.alias + "' and url like '%wikipedia%') order by id desc");
-				lHql.add("from Sport where id not in (select idItem from ExternalLink where entity='" + Sport.alias + "' and url like '%reference.com/olympics%') order by id desc");	
+				lHql.add("from Sport where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Sport.alias + "' and url like '%wikipedia%') order by id desc");
+				lHql.add("from Sport where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Sport.alias + "' and url like '%reference.com/olympics%') order by id desc");	
 			}
 			if (entity.equalsIgnoreCase(State.alias))
-				lHql.add("from State where id not in (select idItem from ExternalLink where entity='" + State.alias + "' and url like '%wikipedia%') order by id desc");
+				lHql.add("from State where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + State.alias + "' and url like '%wikipedia%') order by id desc");
 			if (entity.equalsIgnoreCase(Team.alias)) {
-				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%wikipedia%') order by id desc");
-				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%basketball-reference%') order by id desc");
-				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%pro-football-reference%') order by id desc");
-				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%hockey-reference%') order by id desc");
-				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%baseball-reference%') order by id desc");	
+				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%wikipedia%') order by id desc");
+				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%basketball-reference%') order by id desc");
+				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%pro-football-reference%') order by id desc");
+				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%hockey-reference%') order by id desc");
+				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%baseball-reference%') order by id desc");	
 			}
 			for (String hql : lHql) {
 				List<Object> l = DatabaseHelper.executeWithLimit(hql, count);

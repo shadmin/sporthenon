@@ -364,7 +364,7 @@ li{
 	text-align: center;
 }
 #dupdates tr:hover td{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 #dupdates td{
 	background-color: #FFF;
@@ -406,7 +406,7 @@ li{
 	background: transparent url(../img/render/more4.gif) 0 0 no-repeat;
 }
 #dupdates .moreitems div:hover{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 #dupdates .details{
 	line-height: 30px;
@@ -562,7 +562,7 @@ li{
 	background-color: #EEE;
 }
 .optcontainer .scroll tr.selected{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 .optcontainer .scroll tr.selected td{
 	font-weight: bold;
@@ -789,7 +789,7 @@ li{
 }
 .homecontent #sports div.sport:hover{
 	border: 1px solid #000;
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 .homecontent #sports div.sport a{
 	display: block;
@@ -985,7 +985,7 @@ li{
 }
 #olympics #oltype div:hover{
 	border: 1px solid #000;
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 #olympics .fieldset{
 	display: inline-block;
@@ -1066,7 +1066,7 @@ li{
 }
 #usleagues #usltype div:hover, #usleagues #usltype .selected{
 	border: 1px solid #000;
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 #usleagues #usstype{
 	margin: 10px;
@@ -1081,7 +1081,7 @@ li{
 }
 #usleagues #usstype td:hover, #usleagues #usstype .selected{
 	border: 1px solid #000;
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 #ustopics{
 	text-align: left;
@@ -1190,7 +1190,7 @@ li{
 	vertical-align: middle;
 }
 #project .left tr:hover td{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 /*================================
   ========== CONTRIBUTE ========== 
@@ -1273,7 +1273,7 @@ li{
 	border-bottom: 1px solid #EEE;
 }
 .loginsports li:hover{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 .loginsports div.left{
 	clear: both;
@@ -1330,7 +1330,7 @@ li{
 	height: 80px;
 }
 #imgzone #dz-file:hover{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 #imgzone #dz-file p{
 	white-space: normal;
@@ -1425,7 +1425,7 @@ li{
 	padding-left: 20px;
 }
 #update-overview #ovcontent tr:hover td{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 /*---------- RESULTS ----------*/
 #update-results .fstitle{
@@ -1594,7 +1594,7 @@ li{
 	height: 100px;
 }
 #update-pictures #dz-file:hover{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 #update-pictures #remove-local{
 	float: left;
@@ -1655,7 +1655,7 @@ li{
 	border: 1px dashed #CCC;
 }
 #update-import #dz-file:hover{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 #update-import #dz-file p{
 	margin: 3px;
@@ -1679,7 +1679,7 @@ li{
 	background-color: #FFF;
 }
 #update-import #report tr:hover td{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 #update-import #progressbar{
 	width: 200px;
@@ -1695,7 +1695,7 @@ li{
 	margin-bottom: 10px;
 }
 #update-translations #trcontent tr:hover td{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 #update-translations #trcontent input{
 	margin: 1px;
@@ -1714,7 +1714,7 @@ li{
 	margin-bottom: 10px;
 }
 #update-extlinks #elcontent tr:hover td{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 #update-extlinks #elcontent input{
 	margin: 1px;
@@ -1733,7 +1733,7 @@ li{
 	margin-bottom: 10px;
 }
 #update-redirections #recontent tr:hover td{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 #update-redirections #recontent input{
 	margin: 1px;
@@ -1794,7 +1794,7 @@ li{
 	background-image: url(../img/update/query.png?6);
 }
 #update-query #qresults tr:hover td{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 #update-query #qresults{
 	margin-top: 10px;
@@ -1934,7 +1934,7 @@ li{
 	border-bottom: 1px solid #CCC;
 }
 #d-find li:hover{
-	background-color: #FF9; /* _theme_ */
+	background-color: #FFA; /* _theme_ */
 }
 #d-question #confirmtxt{
 	width: 600px;
@@ -2143,7 +2143,7 @@ li{
 	color: #888;
 }
 .ajaxsearch ul li.selected {
-    background-color: #FF9; /* _theme_ */
+    background-color: #FFA; /* _theme_ */
     border: 1px solid #888;
 }
 .ajaxsearch ul li.ajaxlastrow {

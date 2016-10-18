@@ -1311,7 +1311,7 @@ function changeModeUS(id) {
 }
 function changeRcType() {
 	var league = (currentLeague == 'nfl' ? 1 : (currentLeague == 'nba' ? 2 : (currentLeague == 'nhl' ? 3 : 4)));
-	$('pl-records-ct').update($('pl-records-tp1').value == 't' ? tRcCtT[league] : tRcCtI[league]);
+	$('pl-records-ct').update($('pl-records-tp1').value == 't' ? tRcCtT[league] : ($('pl-records-tp1').value == 'i' ? tRcCtI[league] : tRcCtA[league]));
 	updateTip('pl-records-ct');
 	updateSelectMult('pl-records-ct');
 }
@@ -3026,7 +3026,7 @@ function executeQuery(index) {
 /*========== EXT.LINKS ==========*/
 var currentExtLinkEntity = null;
 function loadExtLinks() {
-	var h = $H({sport: $F('elsport'), count: $F('elcount'), pattern: $F('elpattern'), entity: $F('elentity'), includechecked: ($('elincludechecked').checked ? '1' : '0')});
+	var h = $H({sport: $F('elsport'), count: $F('elcount'), idmax: $F('elidmax'), pattern: $F('elpattern'), entity: $F('elentity'), includechecked: ($('elincludechecked').checked ? '1' : '0')});
 	$('elcontent').update('<img src="/img/db/loading.gif?6"/>');
 	new Ajax.Updater($('elcontent'), '/update/load-extlinks', {
 		parameters: h
@@ -3059,6 +3059,15 @@ function modifyExtLink(id) {
 	var t = $$('#el-' + id + ' td');
 	t[3].innerHTML = '<input type="text" value="' + t[3].innerHTML + '" style="width:60px;"/>';
 	t[4].innerHTML = '<input type="text" value="' + t[4].down('a').href + '" style="width:500px;"/>';
+}
+function removeExtLink(id) {
+	var t = $$('#el-' + id + ' td');
+	new Ajax.Request('/update/delete-extlink', {
+		onSuccess: function(response){
+			$('el-' + id).remove();
+		},
+		parameters: $H({id: t[0].innerHTML})
+	});
 }
 function saveExtLinks() {
 	var t = [];
@@ -3095,7 +3104,7 @@ function updateLinksAuto() {
 		$('content').setStyle({ opacity: 1.0 });
 		dQuestion.close();
 		$('elcontent').update('<img src="/img/db/loading.gif?6"/>');
-		var h = $H({sport: $F('elsport'), count: $F('elcount'), pattern: $F('elpattern'), entity: $F('elentity'), includechecked: ($('elincludechecked').checked ? '1' : '0')});
+		var h = $H({sport: $F('elsport'), count: $F('elcount'), idmax: $F('elidmax'), pattern: $F('elpattern'), entity: $F('elentity'), includechecked: ($('elincludechecked').checked ? '1' : '0')});
 		new Ajax.Request('/update/updateauto-extlinks', {
 			onSuccess: function(response){
 				var text = response.responseText;
