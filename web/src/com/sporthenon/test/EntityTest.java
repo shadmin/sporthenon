@@ -5,10 +5,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import junit.framework.TestCase;
 
 import com.sporthenon.db.entity.Athlete;
+import com.sporthenon.db.entity.Calendar;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
@@ -21,6 +23,8 @@ import com.sporthenon.db.entity.Olympics;
 import com.sporthenon.db.entity.Record;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.RetiredNumber;
+import com.sporthenon.db.entity.Round;
+import com.sporthenon.db.entity.RoundType;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
@@ -51,122 +55,186 @@ public class EntityTest extends TestCase {
 			emf.close();
 	}
 	
+	public void testAthlete() {
+		Query q = em.createQuery("from Athlete");
+		q.setMaxResults(10);
+		List<Athlete> lst = q.getResultList();
+		assertNotNull(lst);
+		assertTrue(lst.size() > 0 && lst.get(0) instanceof Athlete);
+	}
+	
+	public void testCalendar() {
+		Query q = em.createQuery("from Calendar");
+		q.setMaxResults(10);
+		List<Calendar> lst = q.getResultList();
+		assertNotNull(lst);
+		assertTrue(lst.size() > 0 && lst.get(0) instanceof Calendar);
+	}
+	
 	public void testChampionship() {
-		List<Championship> lst = em.createQuery("from Championship").getResultList();
+		Query q = em.createQuery("from Championship");
+		q.setMaxResults(10);
+		List<Championship> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof Championship);
 	}
 	
 	public void testCity() {
-		List<City> lst = em.createQuery("from City").getResultList();
+		Query q = em.createQuery("from City");
+		q.setMaxResults(10);
+		List<City> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof City);
 	}
 	
 	public void testComplex() {
-		List<Complex> lst = em.createQuery("from Complex").getResultList();
+		Query q = em.createQuery("from Complex");
+		q.setMaxResults(10);
+		List<Complex> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof Complex);
 	}
 	
 	public void testCountry() {
-		List<Country> lst = em.createQuery("from Country").getResultList();
+		Query q = em.createQuery("from Country");
+		q.setMaxResults(10);
+		List<Country> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof Country);
 	}
 	
 	public void testEvent() {
-		List<Event> lst = em.createQuery("from Event").getResultList();
+		Query q = em.createQuery("from Event");
+		q.setMaxResults(10);
+		List<Event> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof Event);
 	}
 	
 	public void testHallOfFame() {
-		List<HallOfFame> lst = em.createQuery("from HallOfFame").getResultList();
+		Query q = em.createQuery("from HallOfFame");
+		q.setMaxResults(10);
+		List<HallOfFame> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof HallOfFame);
 	}
 	
 	public void testLeague() {
-		List<League> lst = em.createQuery("from League").getResultList();
+		Query q = em.createQuery("from League");
+		q.setMaxResults(10);
+		List<League> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof League);
 	}
 	
 	public void testOlympicRanking() {
-		List<OlympicRanking> lst = em.createQuery("from OlympicRanking").getResultList();
+		Query q = em.createQuery("from OlympicRanking");
+		q.setMaxResults(10);
+		List<OlympicRanking> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof OlympicRanking);
 	}
 	
 	public void testOlympics() {
-		List<Olympics> lst = em.createQuery("from Olympics").getResultList();
+		Query q = em.createQuery("from Olympics");
+		q.setMaxResults(10);
+		List<Olympics> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof Olympics);
 	}
 	
-	public void testAthlete() {
-		List<Athlete> lst = em.createQuery("from Athlete").getResultList();
-		assertNotNull(lst);
-		assertTrue(lst.size() > 0 && lst.get(0) instanceof Athlete);
-	}
-	
 	public void testRecord() {
-		List<Record> lst = em.createQuery("from Record").getResultList();
+		Query q = em.createQuery("from Record");
+		q.setMaxResults(10);
+		List<Record> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof Record);
 	}
 	
 	public void testResult() {
-		List<Result> lst = em.createQuery("from Result").getResultList();
+		Query q = em.createQuery("from Result");
+		q.setMaxResults(10);
+		List<Result> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof Result);
 	}
 	
 	public void testRetiredNumber() {
-		List<RetiredNumber> lst = em.createQuery("from RetiredNumber").getResultList();
+		Query q = em.createQuery("from RetiredNumber");
+		q.setMaxResults(10);
+		List<RetiredNumber> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof RetiredNumber);
 	}
 	
+	public void testRound() {
+		Query q = em.createQuery("from Round");
+		q.setMaxResults(10);
+		List<Round> lst = q.getResultList();
+		assertNotNull(lst);
+		assertTrue(lst.size() > 0 && lst.get(0) instanceof Round);
+	}
+	
+	public void testRoundType() {
+		Query q = em.createQuery("from RoundType");
+		q.setMaxResults(10);
+		List<RoundType> lst = q.getResultList();
+		assertNotNull(lst);
+		assertTrue(lst.size() > 0 && lst.get(0) instanceof RoundType);
+	}
+	
 	public void testSport() {
-		List<Sport> lst = em.createQuery("from Sport").getResultList();
+		Query q = em.createQuery("from Sport");
+		q.setMaxResults(10);
+		List<Sport> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof Sport);
 	}
 	
 	public void testState() {
-		List<State> lst = em.createQuery("from State").getResultList();
+		Query q = em.createQuery("from State");
+		q.setMaxResults(10);
+		List<State> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof State);
 	}
 	
 	public void testTeam() {
-		List<Team> lst = em.createQuery("from Team").getResultList();
+		Query q = em.createQuery("from Team");
+		q.setMaxResults(10);
+		List<Team> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof Team);
 	}
 	
 	public void testTeamStadium() {
-		List<TeamStadium> lst = em.createQuery("from TeamStadium").getResultList();
+		Query q = em.createQuery("from TeamStadium");
+		q.setMaxResults(10);
+		List<TeamStadium> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof TeamStadium);
 	}
 	
 	public void testType() {
-		List<Type> lst = em.createQuery("from Type").getResultList();
+		Query q = em.createQuery("from Type");
+		q.setMaxResults(10);
+		List<Type> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof Type);
 	}
 	
 	public void testWinLoss() {
-		List<WinLoss> lst = em.createQuery("from WinLoss").getResultList();
+		Query q = em.createQuery("from WinLoss");
+		q.setMaxResults(10);
+		List<WinLoss> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof WinLoss);
 	}
 	
 	public void testYear() {
-		List<Year> lst = em.createQuery("from Year").getResultList();
+		Query q = em.createQuery("from Year");
+		q.setMaxResults(10);
+		List<Year> lst = q.getResultList();
 		assertNotNull(lst);
 		assertTrue(lst.size() > 0 && lst.get(0) instanceof Year);
 	}

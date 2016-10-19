@@ -540,9 +540,9 @@ public class ExportUtils {
 			lTd.add(lTd_);
 			Element thead = table.getElementsByTag("thead").get(0);
 			Element tbody = thead.nextElementSibling();
-			Elements htr = thead.getElementsByTag("tr");
-			Element th1 = htr.first().getElementsByTag("th").get(0);
-			Element th = (htr.size() > 1 ? htr.get(1) : htr.first()).getElementsByTag("th").get(0);
+			Element tr = (thead.childNodeSize() > 1 ? thead.child(1) : thead.child(0));
+			Element th1 = tr.getElementsByTag("th").get(0);
+			Element th = tr.getElementsByTag("th").get(0);
 			int cell = 0;
 			ArrayList<String> lTh_ = new ArrayList<String>();
 			while(th != null) {
@@ -563,7 +563,7 @@ public class ExportUtils {
 			}
 			row++;
 			lTh.add(lTh_);
-			Element tr = tbody.getElementsByTag("tr").get(0);
+			tr = tbody.getElementsByTag("tr").get(0);
 			while(tr != null) {
 				lTd_ = new ArrayList<String>();
 				Element td = tr.getElementsByTag("td").get(0);
@@ -613,7 +613,7 @@ public class ExportUtils {
 			List lTd = new ArrayList<ArrayList<String>>();
 			List lMerge = new ArrayList<MergedCell>();
 			response.setCharacterEncoding("UTF-8");
-			response.setHeader("Content-Disposition", "attachment;filename=" + title + "[Sporthenon]." + format);
+			response.setHeader("Content-Disposition", "attachment;filename=" + title + "_Sporthenon." + format);
 			if (format.equalsIgnoreCase("html")) {
 				response.setContentType("text/html");
 				response.getWriter().write(buildHTML(doc));

@@ -22,7 +22,7 @@ public class Request {
 	@Column(name = "path", length = 20)
 	private String path;
 	
-	@Column(name = "params", length = 30)
+	@Column(name = "params", length = 60)
 	private String params;
 	
 	@Column(name = "date")
@@ -52,11 +52,11 @@ public class Request {
 	}
 
 	public void setPath(String path) {
-		this.path = path;
+		this.path = (path != null && path.length() > 20 ? path.substring(0, 20) : path);
 	}
 
 	public void setParams(String params) {
-		this.params = params;
+		this.params = (params != null && params.length() > 60 ? params.substring(0, 60) : params);
 	}
 
 	public void setDate(Timestamp date) {

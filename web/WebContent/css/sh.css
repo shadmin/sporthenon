@@ -148,6 +148,9 @@ li{
 .toggletext:hover{
 	text-decoration: underline;
 }
+select.disabled{
+	background-color: #EEE;
+}
 /*=================================
   ========== HEADER/MENU ========== 
   =================================*/
@@ -904,7 +907,7 @@ li{
 	border: 1px solid #DDD;
 }
 #tree .treediv .expanded{
-	height: auto;
+	height: 498px;
 	border-right: 1px solid #DDD;
 }
 #tree .treediv .collapsed{
@@ -2167,7 +2170,7 @@ li{
   ==========================*/
 #linktxt{
 	width: 600px;
-	cursor: default;
+	cursor: pointer;
 }
 .otherimglink{
 	float: left;

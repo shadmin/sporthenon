@@ -2,6 +2,7 @@ package com.sporthenon.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,13 +12,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentFactory;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
+import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.PicklistBean;
+import com.sporthenon.db.entity.meta.Request;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
 
@@ -66,15 +70,29 @@ public class ServletHelper {
         	sbInfo.append("|" + (StringUtils.notEmpty(request.getAttribute("lastupdate")) ? request.getAttribute("lastupdate") : ""));
         	s = s.replaceAll("\\#INFO\\#", sbInfo.toString());
         }
-        if (!isMoreItems)
+        if (!isMoreItems) {
         	s = s.replaceAll("\\shref\\=", " target='_blank' href=");
+        	try {
+        		String url = request.getRequestURL().toString();
+        		String params = getParams(request).values().toString();
+        		Request rq = new Request();
+    			rq.setPath(url.substring(url.lastIndexOf("/")));
+    			rq.setParams(params);
+    			rq.setDate(new Timestamp(System.currentTimeMillis()));
+    			rq.setUserAgent(null);
+    			DatabaseHelper.saveEntity(rq, null);
+        	}
+			catch (Exception e) {
+				Logger.getLogger("sh").error(e.getMessage(), e);
+			}
+        }
         PrintWriter writer = response.getWriter();
         writer.write(s);
         response.flushBuffer();
 	}
 	
 	public static void writePageHtml(HttpServletRequest request, HttpServletResponse response, StringBuffer sb, String lang, boolean isPrint) throws ServletException, IOException, ParseException {
-		String s = sb.append("<p id=\"errorlink\"><a href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", request.getSession()) + "</a></p>").toString();
+		String s = sb.append(!isPrint ? "<p id=\"errorlink\"><a href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", request.getSession()) + "</a></p>" : "").toString();
 		if (s.contains("#INFO#")) {
 			StringBuffer sbInfo = new StringBuffer();
 			sbInfo.append(StringUtils.getSizeBytes(s));
