@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingLeft="7dip"
+                android:textStyle="bold"
                 />
         </LinearLayout>
         <TextView

@@ -42,4 +42,5 @@
     <string name="records">Records</string>
     <string name="stats">Statistiques</string>
     <string name="filter">Filtrer</string>
+    <string name="score">Score</string>
 </resources>

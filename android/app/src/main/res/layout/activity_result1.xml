@@ -18,7 +18,7 @@
         />
 
     <TextView
-        android:id="@+id/rs_year"
+        android:id="@+id/rs_label_event"
         style="@style/CustomTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,6 +29,19 @@
         android:textColor="#FFF"
         android:layout_margin="0dip"
         android:background="@drawable/border1"
+        android:text="@string/event"
+        />
+
+    <TextView
+        android:id="@+id/rs_year"
+        style="@style/CustomTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="2dip"
+        android:background="#FFF"
+        android:layout_margin="0dip"
+        android:textStyle="bold"
         />
 
     <TextView
@@ -40,6 +53,7 @@
         android:padding="2dip"
         android:background="#FFF"
         android:layout_margin="0dip"
+        android:textStyle="bold"
         />
 
     <TextView

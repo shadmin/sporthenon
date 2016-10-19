@@ -83,8 +83,7 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
             Element rank1 = (Element) doc.getElementsByTagName("rank1").item(0);
             Element rank2 = (Element) doc.getElementsByTagName("rank2").item(0);
             Element rank3 = (Element) doc.getElementsByTagName("rank3").item(0);
-            // TODO gerer isScore
-            //boolean isScore = (rank1 != null && rank2 != null)
+            boolean isScore = (rank1 != null && rank2 != null && AndroidUtils.notEmpty(rank1.getAttribute("result")) && !AndroidUtils.notEmpty(rank2.getAttribute("result")) && !AndroidUtils.notEmpty(rank3.getAttribute("result")));
             if (rank1 != null) {
                 String[] t1 = rank1.getTextContent().replaceAll("\\s\\(", "\\\r\\\n(").split("\\|");
                 String[] t2 = rank1.getAttribute("img").split("\\|");
@@ -93,9 +92,14 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
                     item.setText(t1[i]);
                     item.setImgURL(t2[i]);
                     item.setImg(AndroidUtils.getImage(activity, item.getImgURL()));
-                    item.setResult(rank1.getAttribute("result"));
+                    item.setResult(!isScore ? rank1.getAttribute("result") : "");
                     ranks.add(item);
                 }
+            }
+            if (isScore) {
+                item = new RankItem();
+                item.setResult(activity.getString(R.string.score) + " : " + rank1.getAttribute("result"));
+                ranks.add(item);
             }
             if (rank2 != null) {
                 String[] t1 = rank2.getTextContent().replaceAll("\\s\\(", "\\\r\\\n(").split("\\|");
@@ -105,7 +109,7 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
                     item.setText(t1[i]);
                     item.setImgURL(t2[i]);
                     item.setImg(AndroidUtils.getImage(activity, item.getImgURL()));
-                    item.setResult(rank2.getAttribute("result"));
+                    item.setResult(!isScore ? rank2.getAttribute("result") : "");
                     ranks.add(item);
                 }
             }
@@ -117,7 +121,7 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
                     item.setText(t1[i]);
                     item.setImgURL(t2[i]);
                     item.setImg(AndroidUtils.getImage(activity, item.getImgURL()));
-                    item.setResult(rank3.getAttribute("result"));
+                    item.setResult(!isScore ? rank3.getAttribute("result") : "");
                     ranks.add(item);
                 }
             }
