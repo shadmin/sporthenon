@@ -2,9 +2,10 @@
 <resources>
 
     <string name="app_name" translatable="false">Sporthenon</string>
-    <string name="env" translatable="false">local</string><!-- local|test|prod -->
-    <string name="url" translatable="false">http://10.0.2.2</string>
-    <!--<string name="url" translatable="false">http://test.sporthenon.com</string>-->
+    <string name="app_version" translatable="false">V2.1</string>
+    <string name="env" translatable="false">test</string><!-- local|test|prod -->
+    <!--<string name="url" translatable="false">http://10.0.2.2</string>-->
+    <string name="url" translatable="false">http://test.sporthenon.com</string>
     <!--<string name="url" translatable="false">http://www.sporthenon.com</string>-->
     <string name="select.language">Select Language</string>
     <string name="english" translatable="false">English</string>

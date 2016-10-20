@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.sporthenon.android.R;
 
@@ -17,6 +18,9 @@ public class SplashActivity extends Activity {
         super.onCreate(icicle);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
+
+        TextView version = (TextView) findViewById(R.id.version);
+        version.setText(getString(R.string.app_version));
 
         new Handler().postDelayed(new Runnable() {
             @Override
