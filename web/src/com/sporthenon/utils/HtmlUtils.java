@@ -90,7 +90,9 @@ public class HtmlUtils {
 			html.append("<a href='").append(url).append("'");
 			if (alias.equals(Athlete.alias) && StringUtils.notEmpty(text2) && !text1.toLowerCase().equals(text2.toLowerCase()))
 				html.append(" title=\"" + text2.replaceAll("\\\"", "'") + "\"");
-			html.append(">" + (!text1.startsWith("<") ? text1.replaceAll("\\s", "&nbsp;")/*.replaceAll("\\-", "&#8209;")*/ : text1) + "</a>");
+			if (text1.contains("-"))
+				html.append(" class='nowrap'");
+			html.append(">" + (!text1.startsWith("<") ? text1.replaceAll("\\s", "&nbsp;") : text1) + "</a>");
 		}
 		else
 			html.append("/" + url.toString().substring(1));

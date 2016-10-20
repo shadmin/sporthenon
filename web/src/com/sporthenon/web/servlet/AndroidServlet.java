@@ -151,26 +151,26 @@ public class AndroidServlet extends AbstractServlet {
         	Result r = (Result) DatabaseHelper.loadEntity(Result.class, t[1]);
         	Element sp = root.addElement("sport");
         	sp.addAttribute("id", String.valueOf(r.getSport().getId()));
-        	sp.addAttribute("img", getImage(ImageUtils.INDEX_SPORT, r.getSport().getId(), ImageUtils.SIZE_LARGE, null, null));
+        	sp.addAttribute("img", getImage(ImageUtils.INDEX_SPORT, r.getSport().getId(), ImageUtils.SIZE_SMALL, null, null));
         	sp.addText(r.getSport().getLabel(lang));
         	Element cp = root.addElement("championship");
         	cp.addAttribute("id", String.valueOf(r.getChampionship().getId()));
-        	cp.addAttribute("img", getImage(ImageUtils.INDEX_SPORT_CHAMPIONSHIP, r.getSport().getId() + "-" + r.getChampionship().getId(), ImageUtils.SIZE_LARGE, null, null));
+        	cp.addAttribute("img", getImage(ImageUtils.INDEX_SPORT_CHAMPIONSHIP, r.getSport().getId() + "-" + r.getChampionship().getId(), ImageUtils.SIZE_SMALL, null, null));
         	cp.addText(r.getChampionship().getLabel(lang));
         	Element ev = root.addElement("event");
         	ev.addAttribute("id", String.valueOf(r.getEvent().getId()));
-        	ev.addAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getEvent().getId(), ImageUtils.SIZE_LARGE, null, null));
+        	ev.addAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getEvent().getId(), ImageUtils.SIZE_SMALL, null, null));
         	ev.addText(r.getEvent().getLabel(lang));
         	if (r.getSubevent() != null) {
         		Element se = root.addElement("subevent");
         		se.addAttribute("id", String.valueOf(r.getSubevent().getId()));
-	        	se.addAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getSubevent().getId(), ImageUtils.SIZE_LARGE, null, null));
+	        	se.addAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getSubevent().getId(), ImageUtils.SIZE_SMALL, null, null));
 	        	se.addText(r.getSubevent().getLabel(lang));
         	}
         	if (r.getSubevent2() != null) {
         		Element se2 = root.addElement("subevent2");
         		se2.addAttribute("id", String.valueOf(r.getSubevent2().getId()));
-	        	se2.addAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getSubevent2().getId(), ImageUtils.SIZE_LARGE, null, null));
+	        	se2.addAttribute("img", getImage(ImageUtils.INDEX_SPORT_EVENT, r.getSport().getId() + "-" + r.getSubevent2().getId(), ImageUtils.SIZE_SMALL, null, null));
 	        	se2.addText(r.getSubevent2().getLabel(lang));
         	}
         	if (StringUtils.notEmpty(r.getDate2())) {

@@ -84,11 +84,12 @@ public class USLeaguesServlet extends AbstractServlet {
 					else if (t[0].equals(TYPE_STATS)) {
 						hParams.put("yr", t[2]);
 						hParams.put("ct", t[3]);
-						hParams.put("ind", t[4]);
-						hParams.put("tm", t[5]);
+						hParams.put("tpind", t[4]);
+						hParams.put("tptm", t[5]);
 					}
 					else if (t[0].equals(TYPE_HOF)) {
 						hParams.put("yr", t[2]);
+						hParams.put("pos", t.length > 3 ? t[3] : "");
 					}
 					else if (t[0].equals(TYPE_CHAMPIONSHIP)) {
 						hParams.put("yr", t[3]);
@@ -121,14 +122,15 @@ public class USLeaguesServlet extends AbstractServlet {
 				}
 				else if (type.equals(TYPE_STATS)) {
 					String categories = StringUtils.notEmpty(hParams.get("ct")) ? String.valueOf(hParams.get("ct")) : "0";
-					lFuncParams.add(HLEAGUES.get(Short.valueOf(league)));
 					lFuncParams.add(years);
 					lFuncParams.add(categories);
-					lFuncParams.add(String.valueOf(hParams.get("tpind")).equals("1") ? true : false);
-					lFuncParams.add(String.valueOf(hParams.get("tptm")).equals("1") ? true : false);
+					lFuncParams.add(String.valueOf(hParams.get("tpind")));
+					lFuncParams.add(String.valueOf(hParams.get("tptm")));
 					lFuncParams.add("_en");
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_US_LEAGUES_STATS, lFuncParams, getUser(request), lang);
-					lFuncParams.remove(0);
+					lFuncParams.set(0, HLEAGUES.get(Short.valueOf(league)));
+					lFuncParams.set(3, lFuncParams.get(3).equals("1") ? true : false);
+					lFuncParams.set(4, lFuncParams.get(4).equals("1") ? true : false);
 					html.append(HtmlConverter.convertYearlyStats(request, DatabaseHelper.call("GetYearlyStats", lFuncParams), "en"));
 				}
 				else if (type.equals(TYPE_HOF)) {

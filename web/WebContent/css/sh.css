@@ -1086,6 +1086,9 @@ select.disabled{
 	border: 1px solid #000;
 	background-color: #FFA; /* _theme_ */
 }
+#usleagues input[type=text]{
+	padding: 2px;
+}
 #ustopics{
 	text-align: left;
 	float: left;

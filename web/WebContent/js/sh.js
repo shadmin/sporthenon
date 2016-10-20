@@ -1242,6 +1242,8 @@ function resetOlympics() {
 	changeModeOL();
 	$('summer-pl-ol').selectedIndex = 0;
 	$('winter-pl-ol').selectedIndex = 0;
+	$('sq1').checked = true; $('sq1').onclick();
+	$('wq1').checked = true; $('wq1').onclick();
 	changeOlympics('summer-pl-ol', ind);
 	changeOlympics('winter-pl-ol', ind);
 }

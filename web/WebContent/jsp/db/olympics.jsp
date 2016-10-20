@@ -114,9 +114,9 @@ window.onload = function() {
 	for (var i = 0 ; i < t.length ; i++) {
 		c = t[i];
 		initSelectMult('sm-' + c + '-pl-ol', TX_OLYMPIC_GAMES, 430);
-		initSelectMult('sm-' + c + '-pl-ev', TX_EVENTS, 275);
-		initSelectMult('sm-' + c + '-pl-se', TX_EVENTS, 251);
-		initSelectMult('sm-' + c + '-pl-se2', TX_EVENTS, 232);
+		initSelectMult('sm-' + c + '-pl-ev', TX_EVENTS, 285);
+		initSelectMult('sm-' + c + '-pl-se', TX_EVENTS, 261);
+		initSelectMult('sm-' + c + '-pl-se2', TX_EVENTS, 242);
 		initSelectMult('sm-' + c + '-pl-cn', TX_COUNTRIES, 430);
 		$(c + '-pl-ol').onchange = function() {
 			changeOlympics(this.id);

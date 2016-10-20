@@ -145,7 +145,7 @@ for (short i : new short[]{1, 2, 3, 4}) {
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
 	out.print("tStatsYr[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
 	// Yearly stats (category)
-	c = DatabaseHelper.getPicklist(Result.class, "subevent2", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and event.label like '%" + uslStatEvLabel + "%'", null, "x.subevent2.index, x.subevent2.label", "en");
+	c = DatabaseHelper.getPicklist(Result.class, "subevent2", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and event.label like '%" + uslStatEvLabel + "%'", null, "x.subevent2.label", "en");
 	sb = new StringBuffer();
 	for (PicklistBean plb : c)
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
