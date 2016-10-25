@@ -91,34 +91,27 @@ public class SearchServlet extends AbstractServlet {
 				}
 				String pattern = String.valueOf(hParams.get("pattern"));
 				String scope = String.valueOf(hParams.get("scope"));
-				Short count = (hParams.get("count") != null ? Short.valueOf(String.valueOf(hParams.get("count"))) : Short.MAX_VALUE);
+				Short max = (hParams.get("max") != null ? Short.valueOf(String.valueOf(hParams.get("max"))) : Short.MAX_VALUE);
 				Boolean match = String.valueOf(hParams.get("match")).equals("on");
 				pattern = pattern.replaceAll("'", "''").replaceAll("_", ".").replaceAll("\\*", ".*");
 				pattern = "^" + pattern;
 				ArrayList<Object> lFuncParams = new ArrayList<Object>();
 				lFuncParams.add(pattern);
 				lFuncParams.add(scope);
-				lFuncParams.add(count);
+				lFuncParams.add(max);
 				lFuncParams.add(match);
 				lFuncParams.add("_" + lang);
-				lFuncParams.add(count);
-				StringBuffer html = null;
-				if (isLink && scope.equals(".")) {
-					html = new StringBuffer();
-					html.append("<span class='title'>" + ResourceUtils.getText("search.results", lang) + " : \"" + String.valueOf(hParams.get("pattern")) + "\"</span>");
-					html.append("<span class='desc'>" + ResourceUtils.getText("desc.search", lang) + "</span>");
-					html.append("<div class='searchtitle'>" + ResourceUtils.getText("search.results", lang) + "&nbsp;:&nbsp;<b>" + String.valueOf(hParams.get("pattern")) + "</b></div>");
-				}
-				else
-					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_SEARCH, lFuncParams, getUser(request), lang);
+				lFuncParams.add(max);
+				StringBuffer html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_SEARCH, lFuncParams, getUser(request), lang);
 				html.append(HtmlConverter.convertSearch(request, DatabaseHelper.call("Search", lFuncParams), String.valueOf(hParams.get("pattern")), lang));
 				if (isLink) {
 					HtmlUtils.setHeadInfo(request, html.toString());
 					if (hParams.containsKey("export"))
 						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), lang);
-					else
+					else {
+						request.setAttribute("menu", "search");
 						ServletHelper.writePageHtml(request, response, html, lang, hParams.containsKey("print"));
-						
+					}
 				}
 				else
 					ServletHelper.writeTabHtml(request, response, html, lang);

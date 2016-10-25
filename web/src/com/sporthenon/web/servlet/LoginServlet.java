@@ -70,7 +70,7 @@ public class LoginServlet extends AbstractServlet {
 						m.setActive(true);
 						m.setAdmin(false);
 						DatabaseHelper.saveEntity(m, null);
-						ServletHelper.writeText(response, ResourceUtils.getText("msg.registered", lang) + "&nbsp;<a href='javascript:' onclick='rauth()'>" + ResourceUtils.getText("menu.login", lang) + "</a>");	
+						ServletHelper.writeText(response, "OK");	
 					}
 				}
 				isMsg = false;

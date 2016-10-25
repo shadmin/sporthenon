@@ -708,6 +708,7 @@ select.disabled{
 }
 .homecontent #topics td{
 	width: 90px;
+	min-width: 90px;
 	font-weight: bold;
 	padding: 5px;
 	padding-left: 25px;
@@ -716,6 +717,7 @@ select.disabled{
 	background-color: #FFF;
 	background-position: 6px center;
 	background-repeat: no-repeat;
+	white-space: nowrap;
 }
 .homecontent #topics td:hover{
 	color: #FFF;
@@ -1423,11 +1425,18 @@ select.disabled{
 	margin-bottom: 10px;
 }
 #update-overview .fscontent td.tick{
+	font-size: 9px;
 	background: url(../img/update/tick.png?6) 2px center no-repeat;
 	padding-left: 20px;
 }
 #update-overview .fscontent td.missing{
+	font-size: 9px;
 	background: url(../img/update/missing.png?6) 2px center no-repeat;
+	padding-left: 20px;
+}
+#update-overview .fscontent td.warning_{
+	font-size: 9px;
+	background: url(../img/update/warning.gif?6) 2px center no-repeat;
 	padding-left: 20px;
 }
 #update-overview #ovcontent tr:hover td{
@@ -1865,6 +1874,9 @@ select.disabled{
 #d-error .fstitle{
 	background-image: url(../img/project/error.png?6);
 }
+#d-accountconf .fstitle{
+	background-image: url('../img/menu/login.png?6');
+}
 #d-link .fstitle{
 	background-image: url(../img/component/button/link.png?6);
 }
@@ -1956,6 +1968,13 @@ select.disabled{
 #d-info .lang-en{
 	padding-left: 25px;
 	background: transparent url(../img/header/lang-en.png?6) 5px center no-repeat;	
+}
+#d-accountconf .fscontent{
+	width: 300px;
+	height: 60px;
+	padding-top: 20px;
+	text-align: center;
+	font-weight: bold;
 }
 /*=============================
   ========== TOOLBAR ========== 

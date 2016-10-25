@@ -395,7 +395,7 @@ public class ExportUtils {
 		com.itextpdf.text.Font font = new com.itextpdf.text.Font(bf, 9);
 		com.itextpdf.text.Font fontBold = new com.itextpdf.text.Font(bf, 9);
 		fontBold.setStyle(com.itextpdf.text.Font.BOLD);
-		BaseColor thcolor = new BaseColor(220, 255, 255);
+		BaseColor thcolor = new BaseColor(192, 226, 252);
 		Float padding = 5.0f;
 		PdfPTable t = new PdfPTable(new float[] { 1.0f });
 		t.setWidthPercentage(100.0f);
@@ -417,12 +417,19 @@ public class ExportUtils {
 				table = new PdfPTable(2);
 				table.setWidthPercentage(50.0f);
 				for (int i = 1 ; i < l.size() ; i++) {
-					cell = new PdfPCell(new Phrase(l.get(i).replaceAll("^\\#.*\\#", ""), i % 2 == 1 ? fontBold : font));
+					boolean isTitleName = l.get(i).startsWith("#TITLENAME#");
+					boolean isCaption = l.get(i).startsWith("#CAPTION#");
+					cell = new PdfPCell(new Phrase(l.get(i).replaceAll("^\\#.*\\#", ""), isTitleName || isCaption ? fontBold : font));
 					cell.setHorizontalAlignment(com.itextpdf.text.Element.ALIGN_LEFT);
 					cell.setPadding(padding);
-					if (i % 2 == 1) {
-						cell.setBackgroundColor(new BaseColor(255, 255, 220));
+					if (isCaption) {
+						cell.setBackgroundColor(thcolor);
 						cell.setHorizontalAlignment(com.itextpdf.text.Element.ALIGN_RIGHT);
+					}
+					if (isTitleName) {
+						cell.setBackgroundColor(thcolor);
+						cell.setColspan(2);
+						cell.setHorizontalAlignment(com.itextpdf.text.Element.ALIGN_CENTER);
 					}
 					table.addCell(cell);
 				}

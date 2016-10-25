@@ -331,10 +331,10 @@ public class HtmlConverter {
 		}
 		else if (type == HEADER_SEARCH) {
 			String pattern = String.valueOf(lstParams.get(0)).replaceAll("^\\^|\\.\\*", "");
-			hHeader.put("title", ResourceUtils.getText("advanced.search", lang) + " (" + pattern + ")");
+			hHeader.put("title", ResourceUtils.getText("menu.search.2", lang) + " (" + pattern + ")");
 			hHeader.put("desc", ResourceUtils.getText("desc.search", lang));
-			hHeader.put("url", HtmlUtils.writeURL("/search", null, null));
-			hHeader.put("item0", "<table><tr><td><img alt='Advanced Search' src='/img/menu/dbsearch.png'/></td><td>&nbsp;<a href='/search'>" + ResourceUtils.getText("advanced.search", lang).toUpperCase() + "</a></td></tr></table>");
+			hHeader.put("url", HtmlUtils.writeURL("/search", null, null) + "?p=" + pattern + "&max=" + lstParams.get(2));
+			hHeader.put("item0", "<table><tr><td><img alt='Advanced Search' src='/img/menu/dbsearch.png'/></td><td>&nbsp;<a href='/search'>" + ResourceUtils.getText("menu.search", lang).toUpperCase() + "</a></td></tr></table>");
 			hHeader.put("item1", ResourceUtils.getText("search.results", lang) + "&nbsp;:&nbsp;<b>" + pattern + "</b>");
 		}
 		else if (type == HEADER_REF) {

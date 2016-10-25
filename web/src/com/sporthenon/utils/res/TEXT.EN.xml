@@ -195,6 +195,7 @@
 	<entry key="info.snow">Snow</entry>
 	<entry key="info.tarmac">Tarmac</entry>
 	<entry key="back.top">Back to top</entry>
+	<entry key="dialog.accountconf">ACCOUNT CREATED</entry>
 	<entry key="dialog.export">EXPORT</entry>
 	<entry key="dialog.link">LINK</entry>
 	<entry key="dialog.info">INFO</entry>
@@ -311,7 +312,7 @@
 	<entry key="desc.results">Complete results organized by sport / championship / event</entry>
 	<entry key="desc.calendar">Events calendar by week / month / year</entry>
 	<entry key="desc.olympics">Podiums and medals tables of winter and summer Olympic Games</entry>
-	<entry key="desc.usleagues">Specific page for the 4 major US leagues (NFL / NBA / NHL / MLB))</entry>
+	<entry key="desc.usleagues">Specific page for the 4 major US leagues (NFL / NBA / NHL / MLB)</entry>
 	<entry key="desc.search">Search in Sporthenon database</entry>
 	<entry key="desc.project">Informations on Sporthenon project and its contributors</entry>
 	<entry key="desc.contribute">Contribute to Sporthenon project</entry>
@@ -562,4 +563,5 @@
 	<entry key="force.tooltip">Use {{}} to force tooltip</entry>
 	<entry key="open.dialog">Open in dialog</entry>
 	<entry key="copy.from.result">Copy from result</entry>
+	<entry key="completion.pct">Comp. %</entry>
 </properties>

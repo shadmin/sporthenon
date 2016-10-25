@@ -61,7 +61,7 @@ public class InfoRefServlet extends AbstractServlet {
 				lFuncParams.add(params.length > 4 ? new Integer(params[4]) : 0);
 				lFuncParams.add("_" + lang);
 				if (isExport) {
-					lFuncParams.set(3, "ALL");
+					lFuncParams.set(3, "1000");
 					lFuncParams.set(4, 0);
 				}
 				

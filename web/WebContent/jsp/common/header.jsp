@@ -184,7 +184,7 @@ if (tfavHTML.length == 0) {
 	nf = 1;
 }
 tfavHTML.push('<a href="javascript:$(\'favorites\').hide();" style="padding-top:5px;float:right;">' + TX_CANCEL + '</a>');
-$('favorites').style.height = ((nf * 15) + 25) + 'px';
+$('favorites').style.height = 'auto';
 $('favorites').update(tfavHTML.join(''));
 
 var lang = '<%=lang%>';

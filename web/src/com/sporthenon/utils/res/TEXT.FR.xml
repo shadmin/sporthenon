@@ -195,6 +195,7 @@
 	<entry key="info.snow">Neige</entry>
 	<entry key="info.tarmac">Asphalte</entry>
 	<entry key="back.top">Haut de page</entry>
+	<entry key="dialog.accountconf">COMPTE CRÉÉ</entry>
 	<entry key="dialog.export">EXPORTER</entry>
 	<entry key="dialog.link">LIEN</entry>
 	<entry key="dialog.info">INFOS</entry>
@@ -311,7 +312,7 @@
 	<entry key="desc.results">Palmarès complets classés par sport / championnat / épreuve</entry>
 	<entry key="desc.calendar">Calendrier des épreuves par semaine / mois / année</entry>
 	<entry key="desc.olympics">Podiums et tableaux de médailles des Jeux Olympiques d'hiver et d'été</entry>
-	<entry key="desc.usleagues">Page spécifique aux 4 ligues majeures US (NFL / NBA / NHL / MLB))</entry>
+	<entry key="desc.usleagues">Page spécifique aux 4 ligues majeures US (NFL / NBA / NHL / MLB)</entry>
 	<entry key="desc.search">Rechercher dans la base de données Sporthenon</entry>
 	<entry key="desc.project">Informations sur le projet Sporthenon et ses contributeurs</entry>
 	<entry key="desc.contribute">Contribuer au projet Sporthenon</entry>
@@ -560,4 +561,5 @@
 	<entry key="force.tooltip">Utiliser {{}} pour forcer l'info-bulle</entry>
 	<entry key="open.dialog">Ouvrir dans un dialogue</entry>
 	<entry key="copy.from.result">Copier depuis le résultat</entry>
+	<entry key="completion.pct">% comp.</entry>
 </properties>

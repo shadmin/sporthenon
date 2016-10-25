@@ -75,6 +75,12 @@
 </div>
 </form>
 <script type="text/javascript"><!--
+window.onload = function() {
 	$('login').focus();
+	$$('#logindiv input').each(function(el){
+		$(el).writeAttribute('autocomplete', el.id != 'login' ? 'off' : 'on');	
+	});
+}
+	
 --></script>
 <jsp:include page="/jsp/common/footer.jsp"/>

@@ -5,13 +5,13 @@
 	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
 	<form id="search-form" action="/search" onsubmit="return false;">
 	<div class="pattern">
-		<%=StringUtils.text("search.for", session)%>:<br/><input type="text" class="text" autocomplete="off" name="pattern" id="pattern" onkeydown="if(event.keyCode == 13){runSearch();}"></input>
+		<%=StringUtils.text("search.for", session)%>:<br/><input type="text" class="text" name="pattern" id="pattern" onkeydown="if(event.keyCode == 13){runSearch();}"></input>
 		<a href="#helplink" style="cursor:help;color:#000;">[?]</a>
 		<br/><br/><table cellspacing="0">
 			<tr><td><input type="checkbox" name="match" id="match"></input></td><td><label for="match"><%=StringUtils.text("exact.match", session)%></label></td></tr>
 		</table>
 		<table cellspacing="0" style="margin-top:10px;">
-			<tr><td>Max:&nbsp;</<td><input type="text" name="count" id="count" value="100" style="width:50px;"></input></td></tr>
+			<tr><td>Max:&nbsp;</td><td><input type="text" name="max" id="max" value="100" style="width:50px;"></input></td></tr>
 		</table>
 	</div>
 	<div id="helplink" class="rendertip" style="display:none;"><%=StringUtils.text("pattern.tip", session)%></div>
@@ -48,6 +48,7 @@ function toggleCheck(cb) {
 	});
 }
 window.onload = function() {
+	$('pattern').writeAttribute('autocomplete', 'off');
 	$('pattern').activate();
 	new Control.Window($(document.body).down('[href=#helplink]'),{  
 		position: 'relative', hover: true, offsetLeft: 20, offsetTop: 0, className: 'tip'

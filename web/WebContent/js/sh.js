@@ -307,8 +307,10 @@ function addFavorite() {
 	var fav = getCookie('shfav');
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	url = url.replace('http://', '').replace('https://', '');
-	url = url.substring(url.indexOf('/'));
-	fav += '|' + url + ':' + document.title.replace(' | Sporthenon', '');
+	url = url.substring(url.indexOf('/')).replace('&amp;', '&');
+	var title = (tabs != null ? $('title-' + tabcurrent).innerHTML : document.title.replace(' | Sporthenon', ''));
+	title = title.replace(/\&nbsp\;/gi, ' ');
+	fav += '|' + url + ':' + title;
 	setCookie('shfav', fav);
 	if ($('favimg')) {
 		$('favimg').onclick = function(){deleteFavorite();};
@@ -342,7 +344,7 @@ function deleteFavClick(i) {
 }
 function isFavorite(url) {
 	url = url.replace('http://', '').replace('https://', '');
-	url = url.substring(url.indexOf('/'));
+	url = url.substring(url.indexOf('/')).replace('&amp;', '&');
 	var fav = false;
 	var tfav = getCookie('shfav').split('|');
 	for (var i = 0 ; i < tfav.length ; i++ && !fav) {
@@ -480,6 +482,7 @@ function closeDialog(dlg) {
 	$('content').setStyle({ opacity: 1.0 });
 }
 var dError = null;
+var dAccountConf = null;
 var dLink = null;
 var dInfo = null;
 var dPersonList = null;
@@ -530,7 +533,7 @@ function displayLink() {
 		$('header').setStyle({ opacity: 0.4 });
 		$('content').setStyle({ opacity: 0.4 });
 		dLink.open();
-		$('linktxt').value = url;
+		$('linktxt').value = url.replace('&amp;', '&');
 		$('linktxt').select();
 		$('linktxt').focus();
 	}
@@ -730,7 +733,6 @@ function initSliderHome(html) {
 	createSlider('sports', 872, 120, true);
 }
 function getLastUpdates(row, p, sp) {
-	var thead = $('tlast').down('thead');
 	var tbody = $('tlast').down('tbody');
 	var cell = null;
 	if (row != null) {
@@ -739,8 +741,7 @@ function getLastUpdates(row, p, sp) {
 		cell.style.backgroundColor = '#FFF';
 	}
 	else {
-		thead.hide();
-		tbody.update('<img style="float:left;" src="/img/db/loading.gif?6"/>');
+		$('dupdates-loading').show();
 	}
 	new Ajax.Request('/IndexServlet?' + (p != null ? 'p=' + p : '') + (sp != null ? 'sport=' + sp : '') + '&lastupdates&t=' + currentTime(), {
 		onSuccess: function(response){
@@ -749,7 +750,7 @@ function getLastUpdates(row, p, sp) {
 				$(cell).up('tr').remove();
 			}
 			else {
-				thead.show();
+				$('dupdates-loading').hide();
 				tbody.update(response.responseText);
 			}
 		}
@@ -1391,7 +1392,7 @@ function runSearch() {
 		});
 		var h = new Hash();
 		h.set('pattern', $F('pattern'));
-		h.set('count', $F('count') != '' ? $F('count') : '0');
+		h.set('max', $F('max') != '' ? $F('max') : '0');
 		h.set('match', $F('match'));
 		h.set('scope', tScopeValue.join(','));
 		new Ajax.Updater(tab, '/SearchServlet?run', {
@@ -1403,9 +1404,8 @@ function runSearch() {
 function resetSearch() {
 	closeTabs();
 	$('pattern').setValue('').activate();
-	$('case').checked = false;
 	$('match').checked = false;
-	$('ref').checked = true;
+	$('max').value = '100';
 	$$('.scope input').each(function(id) {
 		$(id).checked = true;
 	});
@@ -1464,7 +1464,7 @@ function createAccount() {
 		accountErr(TX_MSPORTS);
 		{return;}
 	}
-	$('rmsg').update('<div><img src="/img/db/loading.gif?6"/></div>').removeClassName('error').removeClassName('success').show();
+	$('rmsg').update('<div><img src="/img/db/loading.gif?6"/></div>').show();
 	var h = $H();
 	$$('.register input').each(function(el) {
 		h.set(el.id, el.value);
@@ -1473,7 +1473,10 @@ function createAccount() {
 	new Ajax.Request('/LoginServlet?create', { onSuccess: function(response) {
 		var s = response.responseText;
 		if (!/ERR\|.*/.match(s)) {
-			$('rmsg').update(s).removeClassName('error').addClassName('success').show();
+			$('rmsg').hide();
+			$('header').setStyle({ opacity: 0.4 });
+			$('content').setStyle({ opacity: 0.4 });
+			dAccountConf.open();
 		}
 		else {
 			accountErr(s.split('|')[1]);
