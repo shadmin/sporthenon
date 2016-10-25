@@ -820,7 +820,7 @@ public class UpdateServlet extends AbstractServlet {
 			int picsL = ImageUtils.getImageList(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_LARGE).size();
 			int picsS = ImageUtils.getImageList(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_SMALL).size();
 			int comp = 0, max = 1;
-			String href = "#";
+			String url = "/" + ResourceUtils.getText("entity." + item.getEntity() + ".1", ResourceUtils.LGDEFAULT).replaceAll("\\s", "").toLowerCase() + "/" + StringUtils.encode(item.getEntity() + "-" + item.getIdItem());
 			html.append("<tr>");
 //			html.append("<td>" + item.getIdItem() + "</td>");
 			if (item.getEntity().equals(Result.alias)) {
@@ -850,11 +850,12 @@ public class UpdateServlet extends AbstractServlet {
 					html.append("<td></td>");
 				html.append("<td" + (dtcount > 0 ? " class='tick'>" + dtcount : " class='warning_'>") + "</td>");
 				html.append(StringUtils.notEmpty(item.getTxt6()) ? "<td class='tick'>" + item.getTxt6().split("\\,").length + "</td>" : "<td></td>");
-				comp = 10;
-				max = 10;
+				comp = (rkcount > 0 ? 1 : 0) + (cxcount > 0 || ctcount > 0 ? 1 : 0) + (dtcount > 0 ? 1 : 0) + (StringUtils.notEmpty(item.getTxt6()) ? 1 : 0);
+				comp += (rkcount >= 3 || isScore ? 1 : 0);
+				max = 7;
 			}
 			else if (item.getEntity().equals(Athlete.alias)) {
-				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + ",&nbsp;" + item.getLabelRel2() + "</a></td>");
+				html.append("<td><a href='" + url + "' target='_blank'>" + item.getLabelRel1() + ",&nbsp;" + item.getLabelRel2() + "</a></td>");
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel5()) ? ">" + item.getLabelRel5() : " class='missing'>") + "</td>");
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel3()) ? ">" + item.getLabelRel3() : " class='missing'>") + "</td>");
 				html.append("<td>" + (StringUtils.notEmpty(item.getLabelRel4()) ? item.getLabelRel4() : "-") + "</td>");
@@ -864,36 +865,45 @@ public class UpdateServlet extends AbstractServlet {
 				max = 3;
 			}
 			else if (item.getEntity().equals(Team.alias)) {
-				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
+				html.append("<td><a href='" + url + "' target='_blank'>" + item.getLabelRel1() + "</a></td>");
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel2()) ? ">" + item.getLabelRel2() : " class='missing'>") + "</td>");
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel3()) ? ">" + item.getLabelRel3() : " class='missing'>") + "</td>");
 				html.append("<td>" + (StringUtils.notEmpty(item.getLabelRel4()) ? item.getLabelRel4() : "-") + "</td>");
 				html.append("<td>" + (StringUtils.notEmpty(item.getLabelEN()) ? item.getLabelEN() : "-") + "</td>");
 				html.append("<td>" + item.getCount2() + "</td>");
+				comp = (StringUtils.notEmpty(item.getLabelRel2()) ? 1 : 0) + (StringUtils.notEmpty(item.getLabelRel3()) ? 1 : 0);
+				max = 4;
 			}
 			else if (item.getEntity().equals(Sport.alias)) {
-				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
+				html.append("<td><a href='" + url + "' target='_blank'>" + item.getLabelRel1() + "</a></td>");
 				html.append("<td>" + item.getCount2() + "</td>");
+				max = 2;
 			}
 			else if (item.getEntity().equals(Championship.alias)) {
-				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
+				html.append("<td><a href='" + url + "' target='_blank'>" + item.getLabelRel1() + "</a></td>");
 				html.append("<td>" + item.getCount2() + "</td>");
+				max = 2;
 			}
 			else if (item.getEntity().equals(Event.alias)) {
-				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
+				html.append("<td><a href='" + url + "' target='_blank'>" + item.getLabelRel1() + "</a></td>");
 				html.append("<td>" + item.getCount2() + "</td>");
+				max = 2;
 			}
 			else if (item.getEntity().equals(City.alias)) {
-				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
+				html.append("<td><a href='" + url + "' target='_blank'>" + item.getLabelRel1() + "</a></td>");
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel2()) ? ">" + item.getLabelRel2() : " class='missing'>") + "</td>");
 				html.append("<td>" + (StringUtils.notEmpty(item.getLabelEN()) ? item.getLabelEN() : "-") + "</td>");
 				html.append("<td>" + item.getCount2() + "</td>");
+				comp = (StringUtils.notEmpty(item.getLabelRel2()) ? 1 : 0);
+				max = 3;
 			}
 			else if (item.getEntity().equals(Complex.alias)) {
-				html.append("<td><a href='" + href + "'>" + item.getLabelRel1() + "</a></td>");
+				html.append("<td><a href='" + url + "' target='_blank'>" + item.getLabelRel1() + "</a></td>");
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel2()) ? ">" + item.getLabelRel2() + ", " + item.getLabelRel3() : " class='missing'>") + "</td>");
 				html.append("<td>" + (StringUtils.notEmpty(item.getLabelEN()) ? item.getLabelEN() : "-") + "</td>");
 				html.append("<td>" + item.getCount2() + "</td>");
+				comp = (StringUtils.notEmpty(item.getLabelRel2()) ? 1 : 0);
+				max = 3;
 			}
 			html.append(StringUtils.notEmpty(item.getLabel()) ? "<td class='tick'>" + item.getLabel().split("\\,").length + "</td>" : "<td class='warning_'></td>");
 			comp += (StringUtils.notEmpty(item.getLabel()) ? 1 : 0);
