@@ -2,6 +2,7 @@ package com.sporthenon.utils;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -109,7 +110,7 @@ public class ExportUtils {
 		headerStyle.setFont(boldFont);
 		headerStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		headerStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-		headerStyle.setFillForegroundColor(new HSSFColor.GREY_25_PERCENT().getIndex());
+		headerStyle.setFillForegroundColor(new HSSFColor.AQUA().getIndex());
 		
 		HSSFCellStyle boldStyle = hwb.createCellStyle();
 		boldStyle.cloneStyleFrom(normalStyle);
@@ -269,7 +270,8 @@ public class ExportUtils {
 	
 	private static void buildText(PrintWriter pw, List<ArrayList<String>> lTh, List<ArrayList<String>> lTd) throws Exception {
 		StringBuffer sbText = new StringBuffer();
-		int n = 0;
+		int index = 0;
+		int nth = 0;
 		int[] tMaxLength = null;
 		StringBuffer sbSep = null;
 		for (List<String> l : lTd) {
@@ -314,17 +316,18 @@ public class ExportUtils {
 			else if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
 				if (sbSep != null)
 					sbText.append("\r\n").append(sbSep).append("\r\n\r\n");
-				ArrayList<String> lTh_ = lTh.get(n++);
+				ArrayList<String> lTh_ = lTh.get(nth++);
 				tMaxLength = new int[lTh_.size()];
 				for (int i = 0 ; i < lTh_.size() ; i++)
 					tMaxLength[i] = lTh_.get(i).replaceAll("^\\#.*\\#", "").length();
-				for (List<String> l_ : lTd) {
-					for (int i = 0 ; i < l_.size() ; i++) {
-						String s = l_.get(i).replaceAll("^\\#.*\\#", "");
-						if (i < tMaxLength.length && s.length() > tMaxLength[i])
-							tMaxLength[i] = s.length() + 1;
-						if (l_ != null && l_.size() == 1 && l_.get(0).equalsIgnoreCase("--NEW--"))
-							break;
+				for (int i = index + 1 ; i < lTd.size() ; i++) {
+					List<String> l_ = lTd.get(i);
+					if (l_ != null && l_.size() == 1 && l_.get(0).equalsIgnoreCase("--NEW--"))
+						break;
+					for (int j = 0 ; j < l_.size() ; j++) {
+						String s = l_.get(j).replaceAll("^\\#.*\\#", "");
+						if (j < tMaxLength.length && s.length() > tMaxLength[j])
+							tMaxLength[j] = s.length() + 1;
 					}
 				}
 				sbSep = new StringBuffer("+");
@@ -356,12 +359,14 @@ public class ExportUtils {
 					if (l.get(i) != null) {
 						String s = l.get(i).replaceAll("^\\#.*\\#", "");
 						sbText.append(s);
-						for (int j = s.length() ; j < tMaxLength[i] ; j++)
-							sbText.append(" ");
+						if (tMaxLength.length > i)
+							for (int j = s.length() ; j < tMaxLength[i] ; j++)
+								sbText.append(" ");
 						sbText.append("|");
 					}
 				}
 			}
+			index++;
 		}
 		if (sbSep != null)
 			sbText.append("\r\n").append(sbSep);
@@ -536,6 +541,15 @@ public class ExportUtils {
 						row++;
 					}
 				}
+				else if (!tr.getElementsByClass("extlinks").isEmpty()) {
+					Element td = tr.getElementsByTag("td").get(0);
+					if (td.className().equals("extlinks")) {
+						for (Element e : td.select("th,a")) {
+							lTd_.add((e.tagName().equals("th") ? "#CAPTION#" : "#ALIGN_LEFT#") + e.text());
+							row++;
+						}
+					}
+				}
 			}
 			lTd.add(lTd_);
 		}
@@ -550,6 +564,9 @@ public class ExportUtils {
 			Element tr = (thead.childNodeSize() > 1 ? thead.child(1) : thead.child(0));
 			Element th1 = tr.getElementsByTag("th").get(0);
 			Element th = tr.getElementsByTag("th").get(0);
+//			Elements ttext = thead.getElementsByClass("toggletext");
+//			if (!ttext.isEmpty())
+//				lTh.add(ttext.text());
 			int cell = 0;
 			ArrayList<String> lTh_ = new ArrayList<String>();
 			while(th != null) {
@@ -613,14 +630,15 @@ public class ExportUtils {
 			html_ = html_.replaceAll("\\&ndash\\;", "-").replaceAll("\\>" + ResourceUtils.getText("details", lang) + "\\<", "><");
 			if (format.matches("csv|xls|txt"))
 				html_ = html_.replaceAll("&nbsp;", " ").replaceAll("<br/>", "&nbsp;/&nbsp;");
-			Document doc = Jsoup.parse(html_);
+			Document doc = Jsoup.parse(html_, "utf-8");
 			Element elTitle = doc.getElementsByAttributeValue("class", "title").first();
 			String title = elTitle.text().replaceAll("\\,\\s", "_");
+			title = URLEncoder.encode(title, "UTF-8").replaceAll("\\+", " ").replaceAll("\\s\\-\\s", "-");
 			List lTh = new ArrayList<ArrayList<String>>();
 			List lTd = new ArrayList<ArrayList<String>>();
 			List lMerge = new ArrayList<MergedCell>();
 			response.setCharacterEncoding("UTF-8");
-			response.setHeader("Content-Disposition", "attachment;filename=" + title + "_Sporthenon." + format);
+			response.setHeader("Content-Disposition", "attachment;filename=" + title + " (sporthenon.com)." + format);
 			if (format.equalsIgnoreCase("html")) {
 				response.setContentType("text/html");
 				response.getWriter().write(buildHTML(doc));

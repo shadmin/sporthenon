@@ -1478,7 +1478,7 @@ public class HtmlConverter {
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("name", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("country", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("sport", lang) + "</th>");
 				else if (en.equals(TeamStadium.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("league", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("complex", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("city", lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("state", lang) + "</th><th onclick='sort(\"" + id + "\", this, 5);'>Country</th><th onclick='sort(\"" + id + "\", this, 6);'>" + ResourceUtils.getText("timespan", lang) + "</th>");
-				if (limit != null && !limit.equalsIgnoreCase("ALL") && count >= Integer.parseInt(limit)) {
+				if (!isAllRef && limit != null && !limit.equalsIgnoreCase("ALL") && count >= Integer.parseInt(limit)) {
 					String p = params.get(0) + "-" + params.get(1) + "-" + currentEntity + "-#LIMIT#-" + (offset + (!limit.equalsIgnoreCase("all") ? Integer.parseInt(limit) : 0));
 					html.append(MORE_ITEMS.replaceAll("#STYLE#", "").replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", String.valueOf(ITEM_LIMIT)))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
 				}
@@ -1491,7 +1491,7 @@ public class HtmlConverter {
 					html.append("<thead><tr><th colspan='" + colspan + "'>" + HtmlUtils.writeToggleTitle(tableName.toUpperCase(), false) + "</th></tr>");
 					if (cols.length() > 0)
 						html.append("<tr class='rsort'>" + cols.toString() + "</tr>");
-					html.append("</thead><tbody class='tby' id='tb-" + id + "'>");	
+					html.append("</thead><tbody class='tby' id='tb-" + id + "'>");
 				}
 				currentEntity = en;
 			}
@@ -1734,13 +1734,14 @@ public class HtmlConverter {
 			}
 			count++;
 		}
-		if (limit != null && !limit.equalsIgnoreCase("ALL") && count >= Integer.parseInt(limit)) {
+		if (!isAllRef && limit != null && !limit.equalsIgnoreCase("ALL") && count >= Integer.parseInt(limit)) {
 			String p = params.get(0) + "-" + params.get(1) + "-" + currentEntity + "-#LIMIT#-" + (offset + (!limit.equalsIgnoreCase("all") ? Integer.parseInt(limit) : 0));
 			html.append(MORE_ITEMS.replaceAll("#STYLE#", "").replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", String.valueOf(ITEM_LIMIT)))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
 		}
 		if (isAllRef) {
 			html.append("</tbody></table>");
-			html.append("<div id='summary'>" + summary.toString() + "</div>");	
+			if (!isExport)
+				html.append("<div id='summary'>" + summary.toString() + "</div>");	
 		}
 		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
