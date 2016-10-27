@@ -201,10 +201,10 @@
 	<entry key="dialog.info">INFOS</entry>
 	<entry key="count">Nombre</entry>
 	<entry key="select.format">Sélectionner un format</entry>
-	<entry key="web.page">HTML</entry>
-	<entry key="excel.sheet">Excel</entry>
+	<entry key="web.page">Page HTML</entry>
+	<entry key="excel.sheet">MS Excel</entry>
 	<entry key="pdf.file">PDF</entry>
-	<entry key="csv.file">CSV</entry>
+	<entry key="csv.file">Fichier CSV</entry>
 	<entry key="plain.text">Texte</entry>
 	<entry key="direct.address">Adresse directe vers cette page</entry>
 	<entry key="use.ctrl.C">Utilisez Ctrl+C ou clic droit/copier</entry>
@@ -482,7 +482,7 @@
 	<entry key="data">Données</entry>
 	<entry key="merge">Fusionner</entry>
 	<entry key="confirm">Confirmer</entry>
-	<entry key="csv.file">Fichier CSV</entry>
+	<entry key="csv.file2">Fichier CSV</entry>
 	<entry key="confirm.merge">Confirmer la fusion depuis : {1} vers : {2}</entry>
 	<entry key="merge.success">Enregistrements #{1} et #{2} fusionnés avec succès.</entry>
 	<entry key="modif.warning">Des modifications ont été effectuées. Cliquez sur Ajouter/Modifier.</entry>

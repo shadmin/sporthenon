@@ -277,7 +277,7 @@ public class ExportUtils {
 		for (List<String> l : lTd) {
 			// HEADER (ref)
 			if (l != null && l.size() > 1 && l.get(0).equalsIgnoreCase("--INFO--")) {
-				String titleName = null;
+				String titleName = "";
 				List<String> l1 = new ArrayList<String>();
 				List<String> l2 = new ArrayList<String>();
 				for (int j = 1 ; j < l.size() ; j++) {
@@ -541,7 +541,7 @@ public class ExportUtils {
 						row++;
 					}
 				}
-				else if (!tr.getElementsByClass("extlinks").isEmpty()) {
+				if (!tr.getElementsByClass("extlinks").isEmpty()) {
 					Element td = tr.getElementsByTag("td").get(0);
 					if (td.className().equals("extlinks")) {
 						for (Element e : td.select("th,a")) {
@@ -556,6 +556,8 @@ public class ExportUtils {
 		// TABLE
 		Elements tsorts = doc.getElementsByClass("tsort");
 		for (Element table : tsorts) {
+			if (table.getElementsByTag("thead").isEmpty())
+				continue;
 			ArrayList<String> lTd_ = new ArrayList<String>();
 			lTd_.add("--NEW--");
 			lTd.add(lTd_);

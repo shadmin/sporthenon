@@ -28,7 +28,7 @@
 			<li>
 				<fieldset><legend><%=StringUtils.text("output", session)%></legend>
 				<input type="radio" id="rscreen" name="output" checked="checked"/><label for="rscreen"><%=StringUtils.text("screen", session)%></label><br/>
-				<input type="radio" id="rcsv" name="output"/><label for="rcsv"><%=StringUtils.text("csv.file", session)%></label>
+				<input type="radio" id="rcsv" name="output"/><label for="rcsv"><%=StringUtils.text("csv.file2", session)%></label>
 				</fieldset>
 			</li>
 			</ul>
