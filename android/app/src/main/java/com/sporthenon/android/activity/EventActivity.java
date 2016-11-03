@@ -39,7 +39,7 @@ public class EventActivity extends AbstractActivity {
             setRctype(b.getString("rctype"));
             if (getUsltype() != null && (getUsltype() == USTYPE_RECORDS || getUsltype() == USTYPE_STATS))
                 index = INDEX_USLEAGUES;
-            path = getLeagueName() + "|" + (getUsltype() == USTYPE_STATS ? getString(R.string.stats) : getString(R.string.records));
+            path = getLeagueName() + "|" + (getUsltype() == USTYPE_STATS ? getString(R.string.stats) : getString(R.string.records)) + "|" + getString(getRctype().equals("i") ? R.string.rc_individual : (getRctype().equals("t") ? R.string.rc_team : R.string.rc_both));
         }
         super.onCreate(state);
         AsyncEvents task = new AsyncEvents(path);

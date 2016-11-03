@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.sporthenon.android.R;
@@ -37,6 +38,9 @@ public class USLeaguesRecordTypeFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_usleaguesrctype, container, false);
         path = (TextView) view.findViewById(R.id.rctype_path);
         path.setVisibility(View.GONE);
+        Button both = (Button) view.findViewById(R.id.us_both);
+        if (!((AbstractActivity) activity).getUsltype().equals(((AbstractActivity) activity).USTYPE_RECORDS))
+            both.setVisibility(View.GONE);
         return view;
     }
 

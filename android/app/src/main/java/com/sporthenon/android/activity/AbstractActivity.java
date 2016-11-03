@@ -426,7 +426,7 @@ public abstract class AbstractActivity extends ActionBarActivity implements Draw
             getMenuInflater().inflate(R.menu.navigation, menu);
             restoreActionBar();
             MenuItem item = menu.findItem(R.id.filter);
-            if (this instanceof OlympicsModeActivity || this instanceof OlympicsTypeActivity || this instanceof LeagueActivity)
+            if (this instanceof OlympicsModeActivity || this instanceof OlympicsTypeActivity || this instanceof LeagueActivity || this instanceof USLeaguesTypeActivity || this instanceof USLeaguesRecordTypeActivity)
                 item.setVisible(false);
             return true;
         }

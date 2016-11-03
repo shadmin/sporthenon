@@ -54,10 +54,8 @@ public class USLeaguesTypeActivity extends AbstractActivity {
         Intent i = null;
         if (n == USTYPE_HOF)
             i = new Intent(this, YearActivity.class);
-        else if (n == USTYPE_RECORDS)
+        else if (n == USTYPE_RECORDS || n == USTYPE_STATS)
             i = new Intent(this, USLeaguesRecordTypeActivity.class);
-        else if (n == USTYPE_STATS)
-            i = new Intent(this, EventActivity.class);
         else if (n == USTYPE_CHAMPIONSHIPS)
             i = new Intent(this, USLeaguesRequestActivity.class);
         else

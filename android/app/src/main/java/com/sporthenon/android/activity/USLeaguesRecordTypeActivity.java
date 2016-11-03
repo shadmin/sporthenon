@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.sporthenon.android.R;
+
 public class USLeaguesRecordTypeActivity extends AbstractActivity {
 
     @Override
@@ -20,7 +22,7 @@ public class USLeaguesRecordTypeActivity extends AbstractActivity {
     @Override
     protected void onPostCreate(Bundle state) {
         super.onPostCreate(state);
-        setPath(getLeagueName() + "|Records");
+        setPath(getLeagueName() + "|" + getString(getUsltype().equals(USTYPE_RECORDS) ? R.string.records : R.string.stats));
     }
 
     public void onRcType1Click(View v) {
