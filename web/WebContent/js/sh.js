@@ -1284,7 +1284,7 @@ function changeLeague(id, srcsl) {
 		$('pl-records-tp1').options.selectedIndex = 0;
 		$('pl-records-ct').update(tRcCtI[league]); updateTip('pl-records-ct'); updateSelectMult('pl-records-ct');
 		$('pl-stats-yr').update(tStatsYr[league]); updateTip('pl-stats-yr'); updateSelectMult('pl-stats-yr');
-		$('pl-stats-ct').update(tStatsCt[league]); updateTip('pl-stats-ct'); updateSelectMult('pl-stats-ct');
+		$('pl-stats-ct').update(tStatsCtI[league]); updateTip('pl-stats-ct'); updateSelectMult('pl-stats-ct');
 		$('hof-position').value = ''; updateTip('hof-position'); updateSelectMult('hof-position');
 		$('hof-postip').title = tPos[league]; updateTip('hof-postip'); updateSelectMult('hof-postip');
 		$('retnum-number').value = '';
@@ -1318,6 +1318,12 @@ function changeRcType() {
 	updateTip('pl-records-ct');
 	updateSelectMult('pl-records-ct');
 }
+function changeStType() {
+	var league = (currentLeague == 'nfl' ? 1 : (currentLeague == 'nba' ? 2 : (currentLeague == 'nhl' ? 3 : 4)));
+	$('pl-stats-ct').update($('pl-stats-type').value == 't' ? tStatsCtT[league] : tStatsCtI[league]);
+	updateTip('pl-stats-ct');
+	updateSelectMult('pl-stats-ct');
+}
 function runUSLeagues() {
 	t1 = currentTime();
 	var tab = initTab();
@@ -1330,8 +1336,8 @@ function runUSLeagues() {
 	h.set('ct', $('pl-' + currentUtype + '-ct') ? $F('pl-' + currentUtype + '-ct') : null);
 	h.set('tp1', $('pl-' + currentUtype + '-tp1') ? $F('pl-' + currentUtype + '-tp1') : null);
 	h.set('tp2', $('pl-' + currentUtype + '-tp2') ? $F('pl-' + currentUtype + '-tp2') : null);
-	h.set('tpind', $('stats-ind').checked ? '1' : '0');
-	h.set('tptm', $('stats-tm').checked ? '1' : '0');
+	h.set('tpind', $('pl-stats-type').value == 'i' ? '1' : '0');
+	h.set('tptm', $('pl-stats-type').value == 't' ? '1' : '0');
 	h.set('pf', $('records-pf').checked ? '1' : '0');
 	h.set('num', $F('retnum-number'));
 	h.set('pos', $F('hof-position'));
@@ -2048,6 +2054,7 @@ function addPersonList() {
 			$$('#plist table')[0].insert('<tr id="plrow' + i + '"><td><a href="javascript:deletePersonList(' + i + ');"><img title="' + TX_REMOVE + '" src="/img/delete.gif"/></a></td><td><input type="text" id="plist' + i + '-index" tabindex="' + (100000 + i) + '" name="Index" style="width:50px;"/></td><td><input type="text" id="plist' + i + '" tabindex="' + (100001 + i) + '" name="Name #' + i + '"/><a href="javascript:clearValue(\'plist' + i + '\', true);">[X]</a></td></tr>');
 			setInput('plist' + i);
 			setInput('plist' + i + '-index');
+			tValues['plist_id' + i] = 0;
 		}
 	}
 	catch(err){}
@@ -2296,7 +2303,7 @@ var isCopyPic = null;
 var dzd = null;
 var fd = null;
 function initUpdateData() {
-	$$('#update-data input').each(function(el){
+	$$('#update-data input', '#update-data textarea').each(function(el){
 		if ($(el).id.lastIndexOf('-l') == $(el).id.length - 2) {
 			new Ajax.Autocompleter(
 				$(el).id,
@@ -2682,6 +2689,12 @@ function setEntityValues(text) {
 			$(el).removeClassName('completed');
 		}
 	});
+	if ($('exl').value != '') {
+		$('exl').addClassName('completed2');
+	}
+	else {
+		$('exl').removeClassName('completed2');
+	}
 	['pr-link-l', 'ct-link-l', 'cx-link-l', 'tm-link-l'].each(function(el){
 		if (el.toUpperCase().indexOf(currentAlias) == 0) {
 			Event.stopObserving($(el), 'keyup');

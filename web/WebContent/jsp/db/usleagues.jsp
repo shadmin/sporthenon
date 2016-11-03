@@ -42,15 +42,15 @@
 			<!-- RECORDS -->
 			<div id="f-records" style="display:none;">
 				&nbsp;<%=ResourceUtils.getText("type", "en")%>:<br/>
-				<table style="margin-bottom:5px;"><tr>
-					<td colspan="2"><select id="pl-records-tp1" name="pl-records-tp1" style="width:130px;" onchange="changeRcType();">
+				<table style="margin-bottom:5px;">
+					<tr><td colspan="2"><select id="pl-records-tp1" name="pl-records-tp1" style="width:130px;" onchange="changeRcType();">
 						<option value="i"><%=ResourceUtils.getText("individual", "en")%></option>
 						<option value="t"><%=ResourceUtils.getText("team", "en")%></option>
 						<option value="it">[<%=ResourceUtils.getText("all", "en")%>]</option>
 					</select></td></tr>
 					<tr><td><img src="/img/component/treeview/join.gif" alt="L"/></td>
-					<td><select id="pl-records-tp2" name="pl-records-tp2" style="width:130px;"><option/></select></td>
-				</tr></table>
+					<td><select id="pl-records-tp2" name="pl-records-tp2" style="width:130px;"><option/></select></td></tr>
+				</table>
 				&nbsp;<%=ResourceUtils.getText("category", "en")%>:<br/>
 				<div id="sm-pl-records-ct" class="selmultiple" style="margin-bottom:8px;"><%@include file="../../html/selectmult.html"%></div>
 				<table><tr><td><input type="checkbox" name="records-pf" id="records-pf"/></td><td><label id="lrecords-pf" for="records-pf">Include postseason/Super Bowl</label></td></tr></table>
@@ -82,8 +82,14 @@
 				&nbsp;<%=ResourceUtils.getText("year", "en")%>:<br/>
 				<div id="sm-pl-stats-yr" class="selmultiple"><%@include file="../../html/selectmult.html"%></div>
 				<br/>&nbsp;<%=ResourceUtils.getText("category", "en")%>:<br/>
-				<div id="sm-pl-stats-ct" class="selmultiple" style="margin-bottom:8px;"><%@include file="../../html/selectmult.html"%></div>
-				<table><tr><td><input type="checkbox" id="stats-ind" checked="checked"/></td><td><label for="stats-ind">Individual</label></td><td><input type="checkbox" id="stats-tm"/></td><td><label for="stats-tm">Team</label></td></tr></table>
+				<table style="margin-bottom:5px;">
+					<tr><td colspan="2"><select id="pl-stats-type" name="pl-stats-type" style="width:130px;" onchange="changeStType();">
+						<option value="i"><%=ResourceUtils.getText("individual", "en")%></option>
+						<option value="t"><%=ResourceUtils.getText("team", "en")%></option>
+					</select></td></tr>
+					<tr><td><img src="/img/component/treeview/join.gif" alt="L"/></td>
+					<td><div id="sm-pl-stats-ct" class="selmultiple" style="margin-bottom:8px;"><%@include file="../../html/selectmult.html"%></div></td></tr>
+				</table>
 			</div>
 		</div>
 	</li>
@@ -94,7 +100,8 @@
 <%@include file="../../html/tabcontrol.html"%>
 <script type="text/javascript"><!--
 var tStatsYr = [];
-var tStatsCt = [];
+var tStatsCtI = [];
+var tStatsCtT = [];
 var tHofYr = [];
 var tChampYr = [];
 var tTm = [];
@@ -145,11 +152,17 @@ for (short i : new short[]{1, 2, 3, 4}) {
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
 	out.print("tStatsYr[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
 	// Yearly stats (category)
-	c = DatabaseHelper.getPicklist(Result.class, "subevent2", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and event.label like '%" + uslStatEvLabel + "%'", null, "x.subevent2.label", "en");
-	sb = new StringBuffer();
-	for (PicklistBean plb : c)
-		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
-	out.print("tStatsCt[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
+	c = DatabaseHelper.getPicklistFromQuery("select distinct x.subevent2.id, x.subevent2.label, x.subevent2.type.number from Result x where championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and event.label like '%" + uslStatEvLabel + "%' order by x.subevent2.label", false);
+	sb1 = new StringBuffer();
+	sb2 = new StringBuffer();
+	for (PicklistBean plb : c) {
+		if (plb.getParam() != null && String.valueOf(plb.getParam()).equalsIgnoreCase("50"))
+			sb1.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
+		else
+			sb2.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
+	}
+	out.print("tStatsCtT[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb1.toString() + "';\r\n");
+	out.print("tStatsCtI[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb2.toString() + "';\r\n");
 }
 %>
 var tPos = new Array();
@@ -160,7 +173,7 @@ window.onload = function() {
 	initSelectMult('sm-pl-teamstadiums-tm', TX_TEAMS, 200, 60);
 	initSelectMult('sm-pl-records-ct', TX_CATEGORIES, 200, 45);
 	initSelectMult('sm-pl-stats-yr', TX_YEARS, 200);
-	initSelectMult('sm-pl-stats-ct', TX_CATEGORIES, 200);
+	initSelectMult('sm-pl-stats-ct', TX_CATEGORIES, 175);
 	initSliderUS();
 	changeModeUS();
 	changeLeague('nfl');

@@ -1463,7 +1463,7 @@ select.disabled{
 #update-results a, #d-plist a, #d-round a{
 	font-size: 11px;
 }
-#update-results textarea, #d-comment textarea, #d-round textarea{
+#update-results textarea, #update-data textarea, #d-comment textarea, #d-round textarea{
 	outline: none;
 	white-space: nowrap;
 }

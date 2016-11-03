@@ -18,6 +18,8 @@ import java.util.Vector;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.entity.Athlete;
@@ -304,8 +306,10 @@ public class HtmlConverter {
 			}
 			else if (type == HEADER_US_LEAGUES_STATS) {
 				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_STATS + "-" + lstParams.toString(), hHeader.get("title")));
-				ArrayList<String> lstYears = DatabaseHelper.loadLabels(Year.class, String.valueOf(lstParams.get(2)), "en");
-				hHeader.put("item3", (lstYears.isEmpty() ? ResourceUtils.getText("all.years", "en") : (lstYears.size() == 1 ? lstYears.get(0) : HtmlUtils.writeTip(Year.alias, lstYears) + " " + ResourceUtils.getText("x.years", "en"))));
+				ArrayList<String> lstCategories = DatabaseHelper.loadLabels(Event.class, String.valueOf(lstParams.get(2)), "en");
+				ArrayList<String> lstYears = DatabaseHelper.loadLabels(Year.class, String.valueOf(lstParams.get(1)), "en");
+				hHeader.put("item3", (lstCategories.isEmpty() ? ResourceUtils.getText("all.categories", "en") : (lstCategories.size() == 1 ? lstCategories.get(0) : HtmlUtils.writeTip(Year.alias, lstCategories) + " " + ResourceUtils.getText("x.categories", "en"))));
+				hHeader.put("item4", (lstYears.isEmpty() ? ResourceUtils.getText("all.years", "en") : (lstYears.size() == 1 ? lstYears.get(0) : HtmlUtils.writeTip(Year.alias, lstYears) + " " + ResourceUtils.getText("x.years", "en"))));
 			}
 			else if (type == HEADER_US_LEAGUES_HOF) {
 				hHeader.put("url", HtmlUtils.writeURL("/usleagues", USLeaguesServlet.TYPE_HOF + "-" + lstParams.toString(), hHeader.get("title")));
@@ -2667,11 +2671,24 @@ public class HtmlConverter {
 			tRank[5] = (tRank[5] != null && isIndividual && bean.getRsIdPrTeam6() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsIdPrTeam6(), ImageUtils.SIZE_SMALL, null, bean.getRsPrTeam6()), tRank[5]) : (tRank[5] != null && !isIndividual ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsRank6(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null), tRank[5]) : tRank[5]));
 			tRank[6] = (tRank[6] != null && isIndividual && bean.getRsIdPrTeam7() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsIdPrTeam7(), ImageUtils.SIZE_SMALL, null, bean.getRsPrTeam7()), tRank[6]) : (tRank[6] != null && !isIndividual ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsRank7(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null), tRank[6]) : tRank[6]));
 			tRank[7] = (tRank[7] != null && isIndividual && bean.getRsIdPrTeam8() != null ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsIdPrTeam8(), ImageUtils.SIZE_SMALL, null, bean.getRsPrTeam8()), tRank[7]) : (tRank[7] != null && !isIndividual ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getRsRank8(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null), tRank[7]) : tRank[7]));
-			setTies(getTieList(false, false, bean.getRsExa()), 11, tRank, null, null);
+			List<List<String>> lTies = new ArrayList<List<String>>();
+			for (int i = 0 ; i < 3 ; i++)
+				lTies.add(new ArrayList<String>());
+			setTies(getTieList(false, false, bean.getRsExa()), 11, tRank, null, lTies);
+			for (int i = 0 ; i < 3 ; i++) {
+				if (!lTies.get(i).isEmpty())
+					for (String s : lTies.get(i)) {
+						Document d = Jsoup.parse(s);
+						if (!d.getElementsByTag("table").isEmpty())
+							tRank[i] += d.getElementsByTag("table").get(0).outerHtml();
+						else
+							tRank[i] += d.getElementsByTag("body").get(0).html();
+					}
+			}
 
 			// Write line
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
-			html.append("<tr><td class='srt'>" + bean.getTpLabel() + "</td><td class='srt'>" + bean.getCtLabel() + "</td><td class='srt'>" + year + "</td>");
+			html.append("<tr><td class='srt nowrap'>" + bean.getTpLabel() + "</td><td class='srt nowrap'>" + bean.getCtLabel() + "</td><td class='srt'>" + year + "</td>");
 			html.append("<td class='srt' style='font-weight:bold;'>" + tRank[0] + "</td><td><b>" + (StringUtils.notEmpty(bean.getResult1()) ? bean.getResult1() : "") + "</b></td>");
 			html.append("<td class='srt'" + (!StringUtils.notEmpty(bean.getResult2()) ? " colspan='2'" : "") + ">" + (StringUtils.notEmpty(tRank[1]) ? tRank[1] : "") + "</td>" + (StringUtils.notEmpty(bean.getResult2()) ? "<td>" + bean.getResult2() + "</td>" : ""));
 			html.append("<td class='srt'" + (!StringUtils.notEmpty(bean.getResult3()) ? " colspan='2'" : "") + ">" + (StringUtils.notEmpty(tRank[2]) ? tRank[2] : "") + "</td>" + (StringUtils.notEmpty(bean.getResult3()) ? "<td>" + bean.getResult3() + "</td>" : ""));

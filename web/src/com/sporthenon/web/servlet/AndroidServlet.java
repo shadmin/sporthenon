@@ -426,8 +426,10 @@ public class AndroidServlet extends AbstractServlet {
 				String filter = (t[3].equals("i") ? " and x.type1='Individual'" : (t[3].equals("t") ? " and x.type1='Team'" : ""));
 				addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Record.class, "subevent", "championship.id=" + USLeaguesServlet.HLEAGUES.get(league) + filter, null, "x.subevent.label", "en"), null, null, null, null);
 			}
-			else if (t[2].equals(USLeaguesServlet.TYPE_STATS))
-				addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent2", "championship.id=" + USLeaguesServlet.HLEAGUES.get(league) + " and event.label like '%" + uslStatEvLabel + "%'", null, "x.subevent2.label", "en"), null, null, null, null);
+			else if (t[2].equals(USLeaguesServlet.TYPE_STATS)) {
+				String filter = " and event.label like '%" + uslStatEvLabel + "%' and x.subevent2.type.number" + (t[3].equals("i") ? "<10" : "=50");
+				addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseHelper.getPicklist(Result.class, "subevent2", "championship.id=" + USLeaguesServlet.HLEAGUES.get(league) + filter, null, "x.subevent2.label", "en"), null, null, null, null);
+			}
 		}
 		else if (code.equalsIgnoreCase(USLeaguesServlet.TYPE_RETNUM)) {
 			ArrayList<Object> lFuncParams = new ArrayList<Object>();
