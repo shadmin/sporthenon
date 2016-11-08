@@ -1,8 +1,8 @@
 ## Sporthenon – The temple of sports results
 ### About Sporthenon
 <ul>
-<li>Current Version: 0.12.11</li>
-<li>Released: 22 Sep 2016</li>
+<li>Current Version: 1.0.0</li>
+<li>Released: 8 Nov 2016</li>
 <li>First Website Release: August 2013</li>
 <li>First Android Release: June 2015</li>
 <li>Website: <a href="http://www.sporthenon.com/">http://www.sporthenon.com</a></li>
@@ -20,5 +20,20 @@
 ### Wiki
 <a href="https://github.com/shadmin/sporthenon/wiki">https://github.com/shadmin/sporthenon/wiki</a>
 ### Screenshots
-![Screenshot #1](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/sc5_0-12-6.png)
-![Screenshot #2](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/sc6_0-12-6.png)
+#### Website
+![Screenshot #1](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/sc7_1-0-0.png)
+![Screenshot #2](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/sc8_1-0-0.png)
+#### Android app
+![](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android V2.1/Screenshot_2016-11-08-16-48-17.png)
+![](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android V2.1/Screenshot_2016-11-08-16-48-33.png)
+![](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android V2.1/Screenshot_2016-11-08-16-48-40.png)
+![](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android V2.1/Screenshot_2016-11-08-16-48-55.png)
+![](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android V2.1/Screenshot_2016-11-08-16-49-02.png)
+![](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android V2.1/Screenshot_2016-11-08-16-49-33.png)
+![](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android V2.1/Screenshot_2016-11-08-16-49-51.png)
+![](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android V2.1/Screenshot_2016-11-08-16-49-58.png)
+![](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android V2.1/Screenshot_2016-11-08-16-50-06.png)
+![](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android V2.1/Screenshot_2016-11-08-16-50-17.png)
+![](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android V2.1/Screenshot_2016-11-08-16-50-35.png)
+![](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android V2.1/Screenshot_2016-11-08-16-51-44.png)
+![](https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android V2.1/Screenshot_2016-11-08-16-51-57.png)
