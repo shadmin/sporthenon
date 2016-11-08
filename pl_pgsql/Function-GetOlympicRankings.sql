@@ -29,7 +29,7 @@ begin
 	OPEN _c FOR EXECUTE
 	'SELECT
 		CN1.id AS cn1_id, CN1.code AS cn1_code, CN1.label' || _lang || ' AS cn1_label, CN1.label AS cn1_label_en,
-		SUM(OR_.count_gold) AS or_count_gold, SUM(OR_.count_silver) AS or_count_silver, SUM(OR_.count_bronze) AS or_count_bronze
+		SUM(OR_.count_gold) AS or_count_gold, SUM(OR_.count_silver) AS or_count_silver, SUM(OR_.count_bronze) AS or_count_bronze, MAX(OR_.last_update) AS or_last_update
 	FROM "OlympicRanking" OR_
 		LEFT JOIN "Olympics" OL ON OR_.id_olympics = OL.id
 		LEFT JOIN "Country" CN1 ON OR_.id_country = CN1.id
@@ -42,7 +42,7 @@ begin
 	GROUP BY
 		CN1.id
 	ORDER BY
-		or_count_gold DESC, or_count_silver DESC, or_count_bronze DESC, CN1.label' || _lang;
+		or_count_gold DESC, or_count_silver DESC, or_count_bronze DESC, CN1.label' || _lang || ', or_last_update';
 	
 	RETURN  _c;
 end;

@@ -139,6 +139,7 @@ begin
 		ELSE
 			_query = _query || ', 0';
 		END IF;
+		_query = _query || ', RS.last_update';
 		_query = _query || ' FROM "Result" RS';
 		_query = _query || ' LEFT JOIN "Year" YR ON RS.id_year = YR.id';
 		_query = _query || ' LEFT JOIN "Sport" SP ON RS.id_sport = SP.id';
@@ -183,7 +184,7 @@ begin
 		_query = _query || ' ORDER BY YR.id DESC, (CASE WHEN RS.date2 IS NOT NULL AND RS.date2<>'''' THEN to_date(RS.date2, ''dd/MM/yyyy'') ELSE RS.first_update END) DESC LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _id1, _id2, _id3, _id4, _id5, _id6, _id7, _id8, _id9, _id10, _type1, _type2, _type3, _date1, _date2, _item.count1;
+			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _id1, _id2, _id3, _id4, _id5, _id6, _id7, _id8, _id9, _id10, _type1, _type2, _type3, _date1, _date2, _item.count1, _item.date3;
 			EXIT WHEN NOT FOUND;
 			IF _type3 IS NOT NULL THEN
 				_type1 = _type3;
@@ -252,7 +253,7 @@ begin
 		IF _entity = 'CN' THEN _type1 = 99;_type2 = 99;
 		ELSIF _entity = 'PR' THEN _type1 = 1;_type2 = 10;
 		ELSIF _entity = 'TM' THEN _type1 = 50;_type2 = 50; END IF;
-		_query = 'SELECT RD.id, RD.id_result, RD.id_result_type, RT.label' || _lang || ', YR.id, YR.label, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, RD.id_rank1, RD.id_rank2, RD.id_rank3, RD.date FROM "Round" RD';
+		_query = 'SELECT RD.id, RD.id_result, RD.id_result_type, RT.label' || _lang || ', YR.id, YR.label, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, RD.id_rank1, RD.id_rank2, RD.id_rank3, RD.date, RD.last_update FROM "Round" RD';
 		_query = _query || ' LEFT JOIN "Result" RS ON RD.id_result = RS.id';
 		_query = _query || ' LEFT JOIN "RoundType" RT ON RD.id_round_type = RT.id';
 		_query = _query || ' LEFT JOIN "Year" YR ON RS.id_year = YR.id';
@@ -286,7 +287,7 @@ begin
 		_query = _query || ' ORDER BY YR.id DESC, RD.id DESC LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.id_rel10, _type1, _item.label, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _id1, _id2, _id3, _date2;
+			FETCH _c INTO _item.id_item, _item.id_rel10, _type1, _item.label, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _id1, _id2, _id3, _date2, _item.date3;
 			EXIT WHEN NOT FOUND;
 			IF _type1 <= 10 THEN
 				SELECT id_rank1, id_rank2, id_rank3, PR1.last_name || (CASE WHEN length(PR1.first_name) > 0 THEN ', ' || PR1.first_name ELSE '' END), (CASE WHEN length(PR1.first_name) > 0 THEN PR1.first_name || ' ' ELSE '' END) || PR1.last_name, CN1.id, (CASE WHEN _lang = '_fr' THEN CN1.label_fr ELSE CN1.label END), TM1.label, PR2.last_name || (CASE WHEN length(PR2.first_name) > 0 THEN ', ' || PR2.first_name ELSE '' END), (CASE WHEN length(PR2.first_name) > 0 THEN PR2.first_name || ' ' ELSE '' END) || PR2.last_name, CN2.id, (CASE WHEN _lang = '_fr' THEN CN2.label_fr ELSE CN2.label END), TM2.label, PR3.last_name || (CASE WHEN length(PR3.first_name) > 0 THEN ', ' || PR3.first_name ELSE '' END), (CASE WHEN length(PR3.first_name) > 0 THEN PR3.first_name || ' ' ELSE '' END) || PR3.last_name, CN3.id, (CASE WHEN _lang = '_fr' THEN CN3.label_fr ELSE CN3.label END), TM3.label, RD.result1, RD.result2, RD.result3
@@ -329,7 +330,7 @@ begin
 
 	-- References in: [Events]
 	IF (_entity ~ 'CP|EV|SP' AND (_entity_ref = 'EV' OR _entity_ref = '')) THEN
-		_query = 'SELECT DISTINCT SP.id, SP.label' || _lang || ', SP.label, CP.id, CP.label' || _lang || ', CP.label, EV.id, EV.label' || _lang || ', EV.label, SE.id, SE.label' || _lang || ', SE.label, SE2.id, SE2.label' || _lang || ', SE2.label, II.id_championship, II.id_event, II.id_subevent, II.id_subevent2, CP.index, EV.index, SE.index, SE2.index, (CASE WHEN II.id_event IS NOT NULL AND II.id_subevent IS NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_ev, (CASE WHEN II.id_subevent IS NOT NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_se, (CASE WHEN II.id_subevent2 IS NOT NULL THEN 1 ELSE 0 END) AS o_ii_se2';
+		_query = 'SELECT DISTINCT SP.id, SP.label' || _lang || ', SP.label, CP.id, CP.label' || _lang || ', CP.label, EV.id, EV.label' || _lang || ', EV.label, EV.last_update, SE.id, SE.label' || _lang || ', SE.label, SE2.id, SE2.label' || _lang || ', SE2.label, II.id_championship, II.id_event, II.id_subevent, II.id_subevent2, CP.index, EV.index, SE.index, SE2.index, (CASE WHEN II.id_event IS NOT NULL AND II.id_subevent IS NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_ev, (CASE WHEN II.id_subevent IS NOT NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_se, (CASE WHEN II.id_subevent2 IS NOT NULL THEN 1 ELSE 0 END) AS o_ii_se2';
 		_query = _query || ' FROM "Result" RS LEFT JOIN "Sport" SP ON RS.id_sport = SP.id';
 		_query = _query || ' LEFT JOIN "Championship" CP ON RS.id_championship = CP.id';
 		_query = _query || ' LEFT JOIN "Event" EV ON RS.id_event = EV.id';
@@ -346,7 +347,7 @@ begin
 		_query = _query || ' ORDER BY SP.label' || _lang || ', CP.index, o_ii_ev, EV.index, o_ii_se, SE.index, o_ii_se2, SE2.index, CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', SE2.label' || _lang || ' LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_rel1, _item.label_rel1, _item.label_rel2, _item.id_rel2, _item.label_rel3, _item.label_rel4, _item.id_rel3, _item.label_rel5, _item.label_rel6, _item.id_rel4, _item.label_rel7, _item.label_rel8, _item.id_rel5, _item.label_rel9, _item.label_rel10, _item.id_rel6, _item.id_rel7, _item.id_rel8, _item.id_rel9;
+			FETCH _c INTO _item.id_rel1, _item.label_rel1, _item.label_rel2, _item.id_rel2, _item.label_rel3, _item.label_rel4, _item.id_rel3, _item.label_rel5, _item.label_rel6, _item.date3, _item.id_rel4, _item.label_rel7, _item.label_rel8, _item.id_rel5, _item.label_rel9, _item.label_rel10, _item.id_rel6, _item.id_rel7, _item.id_rel8, _item.id_rel9;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'EV';
@@ -358,7 +359,7 @@ begin
 	
 	-- References in: [Athletes]
 	IF (_entity ~ 'CN|SP|TM' AND (_entity_ref = 'PR' OR _entity_ref = '')) THEN
-		_query = 'SELECT DISTINCT ON (PR.last_name COLLATE "en_EN", PR.first_name COLLATE "en_EN", CN.id, SP.id) PR.id, PR.last_name || (CASE WHEN length(PR.first_name) > 0 THEN '', '' || PR.first_name ELSE '''' END), (CASE WHEN length(PR.first_name) > 0 THEN PR.first_name || '' '' ELSE '''' END) || PR.last_name, CN.id, CN.label' || _lang || ', SP.id, SP.label' || _lang || ', CN.label, SP.label, PR.link FROM "Athlete" PR';
+		_query = 'SELECT DISTINCT ON (PR.last_name COLLATE "en_EN", PR.first_name COLLATE "en_EN", CN.id, SP.id) PR.id, PR.last_name || (CASE WHEN length(PR.first_name) > 0 THEN '', '' || PR.first_name ELSE '''' END), (CASE WHEN length(PR.first_name) > 0 THEN PR.first_name || '' '' ELSE '''' END) || PR.last_name, CN.id, CN.label' || _lang || ', SP.id, SP.label' || _lang || ', CN.label, SP.label, PR.link, PR.last_update FROM "Athlete" PR';
 		_query = _query || ' LEFT JOIN "Country" CN ON PR.id_country = CN.id';
 		_query = _query || ' LEFT JOIN "Sport" SP ON PR.id_sport = SP.id';
 		IF _entity = 'CN' THEN
@@ -371,7 +372,7 @@ begin
 		_query = _query || ' ORDER BY PR.last_name COLLATE "en_EN", PR.first_name COLLATE "en_EN", SP.id LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label, _item.label_en, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.id_rel11;
+			FETCH _c INTO _item.id_item, _item.label, _item.label_en, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.id_rel11, _item.date3;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'PR';
@@ -387,7 +388,7 @@ begin
 
 	-- References in: [Teams]
 	IF (_entity ~ 'SP|CN' AND (_entity_ref = 'TM' OR _entity_ref = '')) THEN
-		_query = 'SELECT TM.id, TM.label, CN.id, CN.label' || _lang || ', SP.id, SP.label' || _lang || ', CN.label, SP.label FROM "Team" TM';
+		_query = 'SELECT TM.id, TM.label, CN.id, CN.label' || _lang || ', SP.id, SP.label' || _lang || ', CN.label, SP.label, TM.last_update FROM "Team" TM';
 		_query = _query || ' LEFT JOIN "Country" CN ON TM.id_country = CN.id';
 		_query = _query || ' LEFT JOIN "Sport" SP ON TM.id_sport = SP.id';
 		IF _entity = 'SP' THEN
@@ -398,7 +399,7 @@ begin
 		_query = _query || ' ORDER BY SP.label' || _lang || ', TM.label LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.label_rel3, _item.label_rel4;
+			FETCH _c INTO _item.id_item, _item.label, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.date3;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'TM';
@@ -410,7 +411,7 @@ begin
 
 	-- References in: [Cities]
 	IF (_entity ~ 'CN|ST' AND (_entity_ref = 'CT' OR _entity_ref = '')) THEN
-		_query = 'SELECT CT.id, CT.label' || _lang || ', CT.label, CN.id, CN.label' || _lang || ', CN.label FROM "City" CT';
+		_query = 'SELECT CT.id, CT.label' || _lang || ', CT.label, CN.id, CN.label' || _lang || ', CN.label, CT.last_update FROM "City" CT';
 		_query = _query || ' LEFT JOIN "State" ST ON CT.id_state = ST.id';
 		_query = _query || ' LEFT JOIN "Country" CN ON CT.id_country = CN.id';
 		IF _entity = 'CN' THEN
@@ -421,7 +422,7 @@ begin
 		_query = _query || ' ORDER BY CT.label' || _lang || ' COLLATE "en_EN" LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label, _item.label_en, _item.id_rel1, _item.label_rel1, _item.label_rel2;
+			FETCH _c INTO _item.id_item, _item.label, _item.label_en, _item.id_rel1, _item.label_rel1, _item.label_rel2, _item.date3;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'CT';
@@ -433,7 +434,7 @@ begin
 
 	-- References in: [Complexes]
 	IF (_entity = 'CT' AND (_entity_ref = 'CX' OR _entity_ref = '')) THEN
-		_query = 'SELECT CX.id, CX.label, CX.label, CT.id, CT.label' || _lang || ', CN.id, CN.label' || _lang || ', CT.label, CN.label FROM "Complex" CX';
+		_query = 'SELECT CX.id, CX.label, CX.label, CT.id, CT.label' || _lang || ', CN.id, CN.label' || _lang || ', CT.label, CN.label, CX.last_update FROM "Complex" CX';
 		_query = _query || ' LEFT JOIN "City" CT ON CX.id_city = CT.id';
 		_query = _query || ' LEFT JOIN "State" ST ON CT.id_state = ST.id';
 		_query = _query || ' LEFT JOIN "Country" CN ON CT.id_country = CN.id';
@@ -441,7 +442,7 @@ begin
 		_query = _query || ' ORDER BY CX.label COLLATE "en_EN" LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label, _item.label_en, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.label_rel3, _item.label_rel4;
+			FETCH _c INTO _item.id_item, _item.label, _item.label_en, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.date3;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'CX';
@@ -453,7 +454,7 @@ begin
 
 	-- References in: [Olympics]
 	IF (_entity ~ 'YR|CT' AND (_entity_ref = 'OL' OR _entity_ref = '')) THEN
-		_query = 'SELECT OL.id, YR.id, YR.label, CT.id, CT.label' || _lang || ', CN.id, CN.label' || _lang || ', CT.label, CN.label, OL.type FROM "Olympics" OL';
+		_query = 'SELECT OL.id, YR.id, YR.label, CT.id, CT.label' || _lang || ', CN.id, CN.label' || _lang || ', CT.label, CN.label, OL.type, OL.last_update FROM "Olympics" OL';
 		_query = _query || ' LEFT JOIN "Year" YR ON OL.id_year = YR.id';
 		_query = _query || ' LEFT JOIN "City" CT ON OL.id_city = CT.id';
 		_query = _query || ' LEFT JOIN "State" ST ON CT.id_state = ST.id';
@@ -466,7 +467,7 @@ begin
 		_query = _query || ' ORDER BY OL.type, YR.id DESC LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel4, _item.label_rel4, _item.label_rel5, _item.label_rel6, _item.comment;
+			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel4, _item.label_rel4, _item.label_rel5, _item.label_rel6, _item.comment, _item.date3;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'OL';
@@ -478,7 +479,7 @@ begin
 
 	-- References in: [Olympic Rankings]
 	IF (_entity ~ 'OL|CN' AND (_entity_ref = 'OR' OR _entity_ref = '')) THEN
-		_query = 'SELECT OR_.id, OL.id, YR.id, YR.label, CT.id, CT.label' || _lang || ', CN.id, CN.label' || _lang || ', CT.label, CN.label, OR_.count_gold || '','' || OR_.count_silver || '','' || OR_.count_bronze FROM "OlympicRanking" OR_';
+		_query = 'SELECT OR_.id, OL.id, YR.id, YR.label, CT.id, CT.label' || _lang || ', CN.id, CN.label' || _lang || ', CT.label, CN.label, OR_.count_gold || '','' || OR_.count_silver || '','' || OR_.count_bronze, OR_.last_update FROM "OlympicRanking" OR_';
 		_query = _query || ' LEFT JOIN "Olympics" OL ON OR_.id_olympics = OL.id';
 		_query = _query || ' LEFT JOIN "Year" YR ON OL.id_year = YR.id';
 		_query = _query || ' LEFT JOIN "City" CT ON OL.id_city = CT.id';
@@ -491,7 +492,7 @@ begin
 		_query = _query || ' ORDER BY YR.id DESC LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.id_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.label_rel5, _item.label_rel6, _item.comment;
+			FETCH _c INTO _item.id_item, _item.id_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.label_rel5, _item.label_rel6, _item.comment, _item.date3;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'OR';
@@ -508,7 +509,7 @@ begin
 		IF _entity = 'CN' THEN _type1 = 99;_type2 = 99;
 		ELSIF _entity = 'PR' THEN _type1 = 1;_type2 = 10;
 		ELSIF _entity = 'TM' THEN _type1 = 50;_type2 = 50; END IF;
-		_query = 'SELECT RC.id, RC.label, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, RC.type1, RC.type2, RC.record1, RC.id_rank1, RC.id_rank2, RC.id_rank3, RC.id_rank4, RC.id_rank5 FROM "Record" RC';
+		_query = 'SELECT RC.id, RC.label, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, RC.type1, RC.type2, RC.record1, RC.id_rank1, RC.id_rank2, RC.id_rank3, RC.id_rank4, RC.id_rank5, RC.last_update FROM "Record" RC';
 		_query = _query || ' LEFT JOIN "Sport" SP ON RC.id_sport = SP.id';
 		_query = _query || ' LEFT JOIN "Championship" CP ON RC.id_championship = CP.id';
 		_query = _query || ' LEFT JOIN "Event" EV ON RC.id_event = EV.id';
@@ -532,7 +533,7 @@ begin
 		_query = _query || ' ORDER BY SP.label' || _lang || ', CP.index, EV.index, SE.index, CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', RC.index LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.label_rel5, _item.label_rel6, _item.label_rel7, _item.label_rel8, _item.txt1, _item.txt2, _item.txt3, _id1, _id2, _id3, _id4, _id5;
+			FETCH _c INTO _item.id_item, _item.label, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.label_rel5, _item.label_rel6, _item.label_rel7, _item.label_rel8, _item.txt1, _item.txt2, _item.txt3, _id1, _id2, _id3, _id4, _id5, _item.date3;
 			EXIT WHEN NOT FOUND;
 			IF _entity ~ 'CN|PR|TM' THEN
 				IF _id1 = _id THEN _item.comment = '1';
@@ -551,7 +552,7 @@ begin
 
 	-- References in: [Hall of Fame]
 	IF (_entity ~ 'YR|PR' AND (_entity_ref = 'HF' OR _entity_ref = '')) THEN
-		_query = 'SELECT HF.id, YR.id, YR.label, PR.id, PR.last_name, PR.first_name, LG.id, LG.label, HF.position FROM "HallOfFame" HF';
+		_query = 'SELECT HF.id, YR.id, YR.label, PR.id, PR.last_name, PR.first_name, LG.id, LG.label, HF.position, HF.last_update FROM "HallOfFame" HF';
 		_query = _query || ' LEFT JOIN "Year" YR ON HF.id_year = YR.id';
 		_query = _query || ' LEFT JOIN "Athlete" PR ON HF.id_person = PR.id';
 		_query = _query || ' LEFT JOIN "League" LG ON HF.id_league = LG.id';
@@ -563,7 +564,7 @@ begin
 		_query = _query || ' ORDER BY YR.id DESC LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.label_rel3, _item.id_rel3, _item.comment, _item.txt1;
+			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.label_rel3, _item.id_rel3, _item.comment, _item.txt1, _item.date3;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'HF';
@@ -575,7 +576,7 @@ begin
 
 	-- References in: [Retired Numbers]
 	IF (_entity ~ 'PR' AND (_entity_ref = 'RN' OR _entity_ref = '')) THEN
-		_query = 'SELECT RN.id, TM.id, TM.label, PR.id, PR.last_name, PR.first_name, LG.id, LG.label, RN.number FROM "RetiredNumber" RN';
+		_query = 'SELECT RN.id, TM.id, TM.label, PR.id, PR.last_name, PR.first_name, LG.id, LG.label, RN.number, RN.last_update FROM "RetiredNumber" RN';
 		_query = _query || ' LEFT JOIN "Team" TM ON RN.id_team = TM.id';
 		_query = _query || ' LEFT JOIN "Athlete" PR ON RN.id_person = PR.id';
 		_query = _query || ' LEFT JOIN "League" LG ON RN.id_league = LG.id';
@@ -587,7 +588,7 @@ begin
 		_query = _query || ' ORDER BY TM.label, RN.number LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.label_rel3, _item.id_rel3, _item.comment, _item.id_rel4;
+			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.label_rel3, _item.id_rel3, _item.comment, _item.id_rel4, _item.date3;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'RN';
@@ -599,7 +600,7 @@ begin
 
 	-- References in: [Team Stadiums]
 	IF (_entity ~ 'CX' AND (_entity_ref = 'TS' OR _entity_ref = '')) THEN
-		_query = 'SELECT TS.id, TM.id, TM.label, CX.id, CX.label, CT.id, CT.label' || _lang || ', ST.id, ST.label' || _lang || ', CN.id, CN.label' || _lang || ', CX.label, CT.label, ST.label, CN.label, LG.id, LG.label, TS.date1, TS.date2 FROM "TeamStadium" TS';
+		_query = 'SELECT TS.id, TM.id, TM.label, CX.id, CX.label, CT.id, CT.label' || _lang || ', ST.id, ST.label' || _lang || ', CN.id, CN.label' || _lang || ', CX.label, CT.label, ST.label, CN.label, LG.id, LG.label, TS.date1, TS.date2, TS.last_update FROM "TeamStadium" TS';
 		_query = _query || ' LEFT JOIN "Team" TM ON TS.id_team = TM.id';
 		_query = _query || ' LEFT JOIN "Complex" CX ON TS.id_complex = CX.id';
 		_query = _query || ' LEFT JOIN "City" CT ON CX.id_city = CT.id';
@@ -614,7 +615,7 @@ begin
 		_query = _query || ' ORDER BY TM.label, TS.date1 DESC LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.label_rel6, _item.label_rel7, _item.label_rel8, _item.label_rel9, _item.id_rel6, _item.comment, _item.txt1, _item.txt2;
+			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.label_rel6, _item.label_rel7, _item.label_rel8, _item.label_rel9, _item.id_rel6, _item.comment, _item.txt1, _item.txt2, _item.date3;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'TS';
@@ -638,7 +639,7 @@ begin
 		_query = _query || ' WHERE RS.id_contributor=' || _id || ' ORDER BY CO.date DESC, YR.id DESC, SP.label' || _lang || ' LIMIT ' || _limit || ' OFFSET ' || _offset;
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel6, _item.label_rel7, _item.label_rel8, _item.label_rel9, _item.label_rel10, _item.txt1, _item.date1; 
+			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel6, _item.label_rel7, _item.label_rel8, _item.label_rel9, _item.label_rel10, _item.txt1, _item.date1;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'CO';

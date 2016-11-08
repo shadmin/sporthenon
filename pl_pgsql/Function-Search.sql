@@ -110,19 +110,19 @@ begin
 			IF (_s <> 'TM' AND _s <> 'YR' AND _s <> 'OL' AND _s <> 'CX') THEN
 				_label := 'label' || _lang;
 			END IF;
-			_query := 'SELECT ' || _s || '.id, ' || _s || '.' || _label || ',' || _s || '.' || _label_en || ',' || _s || '.ref' || _rel_cols || ' FROM "' || _tables[_i] || '" ' || _s;
+			_query := 'SELECT ' || _s || '.id, ' || _s || '.' || _label || ',' || _s || '.' || _label_en || ',' || _s || '.last_update,' || _s || '.ref' || _rel_cols || ' FROM "' || _tables[_i] || '" ' || _s;
 			_query := _query || _rel_joins || ' WHERE ' || (CASE _s WHEN 'CT' THEN '(CT.link = 0 OR CT.link IS NULL) AND ' WHEN 'CX' THEN '(CX.link = 0 OR CX.link IS NULL) AND ' WHEN 'TM' THEN '(TM.link = 0 OR TM.link IS NULL OR (TM.year1 IS NOT NULL AND TM.year1 <> '''')) AND ' ELSE '' END) || 'lower(' || _s || '.' || _label || ') ~ ''' || __pattern || '''' || (CASE _limit WHEN 10 THEN '' ELSE ' ORDER BY ' || _s || '.' || _label END);
 			IF _s = 'PR' THEN
-				_query := 'SELECT PR.id, PR.last_name || (CASE WHEN length(PR.first_name) > 0 THEN '', '' || PR.first_name ELSE '''' END), (CASE WHEN length(PR.first_name) > 0 THEN PR.first_name || '' '' ELSE '''' END) || PR.last_name, PR.ref' || _rel_cols || ' FROM "Athlete" PR' || _rel_joins;
+				_query := 'SELECT PR.id, PR.last_name || (CASE WHEN length(PR.first_name) > 0 THEN '', '' || PR.first_name ELSE '''' END), (CASE WHEN length(PR.first_name) > 0 THEN PR.first_name || '' '' ELSE '''' END) || PR.last_name, PR.last_update, PR.ref' || _rel_cols || ' FROM "Athlete" PR' || _rel_joins;
 				_query := _query || ' WHERE (PR.link = 0 OR PR.link IS NULL) AND (lower(PR.last_name || '' '' || PR.first_name) ~ ''' || __pattern || ''' OR lower(PR.first_name || '' '' || PR.last_name) ~ ''' || __pattern || ''' OR lower(PR.last_name) ~ ''' || __pattern || ''' OR lower(PR.first_name) ~ ''' || __pattern || ''')';
 				_query := _query || (CASE _limit WHEN 10 THEN '' ELSE ' ORDER BY PR.last_name, PR.first_name' END);
 			ELSIF (_s = 'OL') THEN
-				_query := 'SELECT OL.id, CT.label' || _lang || ' || '' '' || YR.label, CT.label || '' '' || YR.label, OL.ref' || _rel_cols || ' FROM "Olympics" OL' || _rel_joins;
+				_query := 'SELECT OL.id, CT.label' || _lang || ' || '' '' || YR.label, CT.label || '' '' || YR.label, OL.last_update, OL.ref' || _rel_cols || ' FROM "Olympics" OL' || _rel_joins;
 				_query := _query || ' WHERE YR.label ~ ''' || __pattern || ''' OR lower(CT.label' || _lang || ') ~ ''' || __pattern || '''';
 			END IF;
 			OPEN _c FOR EXECUTE _query;
 			LOOP
-				FETCH _c INTO _current_id, _current_label, _current_label_en, _current_ref, _current_id_rel1, _current_label_rel1, _current_label_rel4, _current_id_rel2, _current_label_rel2, _current_label_rel5, _current_id_rel3, _current_label_rel3, _current_label_rel6, _current_link;
+				FETCH _c INTO _current_id, _current_label, _current_label_en, _item.date3, _current_ref, _current_id_rel1, _current_label_rel1, _current_label_rel4, _current_id_rel2, _current_label_rel2, _current_label_rel5, _current_id_rel3, _current_label_rel3, _current_label_rel6, _current_link;
 				EXIT WHEN NOT FOUND;
 				_item.id = _index;
 				_item.id_item = _current_id;

@@ -52,7 +52,7 @@ begin
 	-- Open cursor
 	OPEN _cr FOR EXECUTE
 	'SELECT
-		RS.id AS rs_id, YR.id AS yr_id, YR.label AS yr_label, SE.id AS tp_id, SE.label' || _lang || ' AS tp_label, SE2.id AS ct_id, SE2.label' || _lang || ' AS ct_label, RS.exa AS rs_exa, result1, result2, result3' || _columns || '
+		RS.id AS rs_id, RS.last_update AS rs_last_update, YR.id AS yr_id, YR.label AS yr_label, SE.id AS tp_id, SE.label' || _lang || ' AS tp_label, SE2.id AS ct_id, SE2.label' || _lang || ' AS ct_label, RS.exa AS rs_exa, result1, result2, result3' || _columns || '
 	FROM
 		"Result" RS
 		LEFT JOIN "Year" YR ON RS.id_year = YR.id

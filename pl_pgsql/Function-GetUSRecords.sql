@@ -42,7 +42,7 @@ begin
 	-- Open cursor
 	OPEN _cr FOR EXECUTE
 	'SELECT
-		RC.id AS rc_id, RC.label AS rc_label, EV.id AS ev_id, EV.label' || _lang || ' AS ev_label, SE.id AS se_id, SE.label' || _lang || ' AS se_label,
+		RC.id AS rc_id, RC.last_update AS rc_last_update, RC.label AS rc_label, EV.id AS ev_id, EV.label' || _lang || ' AS ev_label, SE.id AS se_id, SE.label' || _lang || ' AS se_label,
 		RC.type1 AS rc_type1, RC.type2 AS rc_type2, TP1.number AS rc_number1, TP2.number AS rc_number2, RC.exa AS rc_exa, RC.comment AS rc_comment' ||
 		_columns || '
 	FROM

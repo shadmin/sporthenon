@@ -37,7 +37,7 @@ begin
 	END IF;
 
 	-- Past events (final results)
-	_query := 'SELECT RS.id, YR.id, YR.label, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, RS.id_rank1, RS.id_rank2, RS.id_rank3, RS.id_rank4, RS.id_rank5, RS.id_rank6, RS.id_rank7, RS.id_rank8, RS.id_rank9, RS.id_rank10, TP1.number, TP2.number, TP3.number, RS.date1, RS.date2';
+	_query := 'SELECT RS.id, YR.id, YR.label, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, RS.id_rank1, RS.id_rank2, RS.id_rank3, RS.id_rank4, RS.id_rank5, RS.id_rank6, RS.id_rank7, RS.id_rank8, RS.id_rank9, RS.id_rank10, TP1.number, TP2.number, TP3.number, RS.date1, RS.date2, RS.last_update';
 	_query := _query || ' FROM "Result" RS';
 	_query := _query || ' LEFT JOIN "Year" YR ON RS.id_year = YR.id';
 	_query := _query || ' LEFT JOIN "Sport" SP ON RS.id_sport = SP.id';
@@ -51,7 +51,7 @@ begin
 	_index := 1;
 	OPEN _c FOR EXECUTE _query;
 	LOOP
-		FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _id1, _id2, _id3, _id4, _id5, _id6, _id7, _id8, _id9, _id10, _type1, _type2, _type3, _d1, _d2;
+		FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _id1, _id2, _id3, _id4, _id5, _id6, _id7, _id8, _id9, _id10, _type1, _type2, _type3, _d1, _d2, _item.date3;
 		EXIT WHEN NOT FOUND;
 		IF _type3 IS NOT NULL THEN
 			_type1 = _type3;
@@ -106,7 +106,7 @@ begin
 	CLOSE _c;
 
 	-- Past events (rounds)
-	_query := 'SELECT RD.id, YR.id, YR.label, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, RD.id_rank1, RD.id_rank2, RD.id_rank3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, TP1.number, TP2.number, TP3.number, RD.date1, RD.date, RT.label' || _lang || ', RD.result1';
+	_query := 'SELECT RD.id, YR.id, YR.label, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, RD.id_rank1, RD.id_rank2, RD.id_rank3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, TP1.number, TP2.number, TP3.number, RD.date1, RD.date, RT.label' || _lang || ', RD.result1, RD.last_update';
 	_query := _query || ' FROM "Round" RD LEFT JOIN "Result" RS ON RD.id_result=RS.id';
 	_query := _query || ' LEFT JOIN "RoundType" RT ON RD.id_round_type = RT.id';
 	_query := _query || ' LEFT JOIN "Year" YR ON RS.id_year = YR.id';
@@ -120,7 +120,7 @@ begin
 	_query := _query || ' LEFT JOIN "Type" TP3 ON SE2.id_type = TP3.id' || replace(replace(_where, 'RS.date1', 'RD.date1'), 'RS.date2', 'RD.date');
 	OPEN _c FOR EXECUTE _query;
 	LOOP
-		FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _id1, _id2, _id3, _id4, _id5, _id6, _id7, _id8, _id9, _id10, _type1, _type2, _type3, _d1, _d2, _item.txt5, _item.txt6;
+		FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _id1, _id2, _id3, _id4, _id5, _id6, _id7, _id8, _id9, _id10, _type1, _type2, _type3, _d1, _d2, _item.txt5, _item.txt6, _item.date3;
 		EXIT WHEN NOT FOUND;
 		IF _type3 IS NOT NULL THEN
 			_type1 = _type3;
@@ -170,7 +170,7 @@ begin
 
 	-- Future events
 	IF length(_date1) > 4 THEN
-		_query := 'SELECT CL.id, NULL, NULL, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, CX.id, CX.label, CX.label, CT1.id, CT1.label' || _lang || ' || '', '' || CN1.code, CT1.label, CT2.id, CT2.label' || _lang || ' || '', '' || CN2.code, CT2.label, CN1.id, CN2.id, CN3.id, CN3.label' || _lang || ', CN3.label, CL.date1, CL.date2';
+		_query := 'SELECT CL.id, NULL, NULL, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, CX.id, CX.label, CX.label, CT1.id, CT1.label' || _lang || ' || '', '' || CN1.code, CT1.label, CT2.id, CT2.label' || _lang || ' || '', '' || CN2.code, CT2.label, CN1.id, CN2.id, CN3.id, CN3.label' || _lang || ', CN3.label, CL.date1, CL.date2, CL.last_update';
 		_query := _query || ' FROM "Calendar" CL';
 		_query := _query || ' LEFT JOIN "Sport" SP ON CL.id_sport = SP.id';
 		_query := _query || ' LEFT JOIN "Championship" CP ON CL.id_championship = CP.id';
@@ -187,7 +187,7 @@ begin
 		_query := _query || ' LEFT JOIN "Country" CN3 ON CL.id_country = CN3.id' || replace(replace(_where, 'RS.date1', 'CL.date1'), 'RS.date2', 'CL.date2');
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _item.id_rel6, _item.label_rel6, _item.label_rel9, _item.id_rel7, _item.label_rel7, _item.label_rel10, _item.id_rel8, _item.label_rel8, _item.label_rel11, _item.id_rel10, _item.id_rel11, _item.id_rel9, _item.label_rel19, _item.label_rel20, _d1, _d2;
+			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _item.id_rel6, _item.label_rel6, _item.label_rel9, _item.id_rel7, _item.label_rel7, _item.label_rel10, _item.id_rel8, _item.label_rel8, _item.label_rel11, _item.id_rel10, _item.id_rel11, _item.id_rel9, _item.label_rel19, _item.label_rel20, _d1, _d2, _item.date3;
 			EXIT WHEN NOT FOUND;
 			_item.date1 := to_date(_d1, 'DD/MM/YYYY');
 			_item.date2 := to_date(_d2, 'DD/MM/YYYY');

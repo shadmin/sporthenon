@@ -28,7 +28,7 @@ begin
 	-- Open cursor
 	OPEN _c FOR EXECUTE
 	'SELECT
-		HF.id AS hf_id, HF.id_league AS lg_id, YR.id AS yr_id, YR.label AS yr_label, PR.id AS pr_id, PR.last_name AS pr_last_name,
+		HF.id AS hf_id, HF.last_update AS hf_last_update, HF.id_league AS lg_id, YR.id AS yr_id, YR.label AS yr_label, PR.id AS pr_id, PR.last_name AS pr_last_name,
 		PR.first_name AS pr_first_name, HF.position AS hf_position
 	FROM
 		"HallOfFame" HF

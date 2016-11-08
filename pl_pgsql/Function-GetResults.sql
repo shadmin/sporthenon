@@ -18,48 +18,26 @@ declare
     _type integer;
     _columns text;
     _joins text;
+    _ev integer;
+    _ev1 integer := _id_event;
+    _ev2 integer := _id_subevent;
+    _ev3 integer := _id_subevent2;
     _event_condition text;
     _year_condition text;
 begin
 	-- Get entity type (person, country, team)
-	IF _id_subevent2 <> 0 THEN
-	    SELECT
-	        TP.number
-	    INTO
-	        _type
-	    FROM
-	        "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id
-	    WHERE
-	        EV.id = _id_subevent2;
-	ELSIF _id_subevent <> 0 THEN
-	    SELECT
-	        TP.number
-	    INTO
-	        _type
-	    FROM
-	        "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id
-	    WHERE
-	        EV.id = _id_subevent;
-	ELSIF _id_event <> 0 THEN
-	    SELECT
-	        TP.number
-	    INTO
-	        _type
-	    FROM
-	        "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id
-	    WHERE
-	        EV.id = _id_event;	        
-	ELSE
-	    SELECT DISTINCT
-	        TP.number
-	    INTO
-	        _type
-	    FROM
-	        "Result" RS LEFT JOIN "Event" EV ON RS.id_event = EV.id LEFT JOIN "Type" TP ON EV.id_type = TP.id
-	    WHERE
-	         RS.id = _id_result OR (RS.id_sport = _id_sport AND RS.id_championship = _id_championship);
+	IF _id_result <> 0 THEN
+	    SELECT RS.id_event, RS.id_subevent, RS.id_subevent2
+	    INTO _ev1, _ev2, _ev3
+	    FROM "Result" RS
+	    WHERE RS.id = _id_result;
+	    --WHERE RS.id = _id_result OR (RS.id_sport = _id_sport AND RS.id_championship = _id_championship);
 	END IF;
-
+	IF _ev3 IS NOT NULL AND _ev3 <> 0 THEN _ev := _ev3;
+	ELSIF _ev2 IS NOT NULL AND _ev2 <> 0 THEN _ev := _ev2;
+	ELSE _ev := _ev1; END IF;
+	SELECT TP.number INTO _type FROM "Event" EV LEFT JOIN "Type" TP ON EV.id_type = TP.id WHERE EV.id = _ev;
+	
 	-- Build entity-specific columns/joins
 	_columns := '';
 	_joins := '';
@@ -106,7 +84,7 @@ begin
 	-- Open cursor
 	OPEN _c FOR EXECUTE
 	'SELECT
-		RS.id AS rs_id, RS.date1 AS rs_date1, RS.date2 AS rs_date2, RS.id_rank1 AS rs_rank1, RS.id_rank2 AS rs_rank2, RS.id_rank3 AS rs_rank3, RS.id_rank4 AS rs_rank4, RS.id_rank5 AS rs_rank5, RS.id_rank6 AS rs_rank6, RS.id_rank7 AS rs_rank7, RS.id_rank8 AS rs_rank8, RS.id_rank9 AS rs_rank9, RS.id_rank10 AS rs_rank10, RS.id_rank11 AS rs_rank11, RS.id_rank12 AS rs_rank12, RS.id_rank13 AS rs_rank13, RS.id_rank14 AS rs_rank14, RS.id_rank15 AS rs_rank15, RS.id_rank16 AS rs_rank16, RS.id_rank17 AS rs_rank17, RS.id_rank18 AS rs_rank18, RS.id_rank19 AS rs_rank19, RS.id_rank20 AS rs_rank20,
+		RS.id AS rs_id, RS.last_update AS rs_last_update, RS.date1 AS rs_date1, RS.date2 AS rs_date2, RS.id_rank1 AS rs_rank1, RS.id_rank2 AS rs_rank2, RS.id_rank3 AS rs_rank3, RS.id_rank4 AS rs_rank4, RS.id_rank5 AS rs_rank5, RS.id_rank6 AS rs_rank6, RS.id_rank7 AS rs_rank7, RS.id_rank8 AS rs_rank8, RS.id_rank9 AS rs_rank9, RS.id_rank10 AS rs_rank10, RS.id_rank11 AS rs_rank11, RS.id_rank12 AS rs_rank12, RS.id_rank13 AS rs_rank13, RS.id_rank14 AS rs_rank14, RS.id_rank15 AS rs_rank15, RS.id_rank16 AS rs_rank16, RS.id_rank17 AS rs_rank17, RS.id_rank18 AS rs_rank18, RS.id_rank19 AS rs_rank19, RS.id_rank20 AS rs_rank20,
 		RS.result1 AS rs_result1, RS.result2 AS rs_result2, RS.result3 AS rs_result3, RS.result4 AS rs_result4, RS.result5 AS rs_result5, RS.result6 AS rs_result6, RS.result7 AS rs_result7, RS.result8 AS rs_result8, RS.result9 AS rs_result9, RS.result10 AS rs_result10, RS.result11 AS rs_result11, RS.result12 AS rs_result12, RS.result13 AS rs_result13, RS.result14 AS rs_result14, RS.result15 AS rs_result15, RS.result16 AS rs_result16, RS.result17 AS rs_result17, RS.result18 AS rs_result18, RS.result19 AS rs_result19, RS.result20 AS rs_result20,
 		RS.comment AS rs_comment, RS.exa AS rs_exa, YR.id AS yr_id, YR.label AS yr_label, CX1.id AS cx1_id, CX1.label AS cx1_label, CX2.id AS cx2_id, CX2.label AS cx2_label,
 		CT1.id AS ct1_id, CT1.label' || _lang || ' AS ct1_label, CT1.label AS ct1_label_en, CT2.id AS ct2_id, CT2.label' || _lang || ' AS ct2_label, CT2.label AS ct2_label_en, CT3.id AS ct3_id, CT3.label' || _lang || ' AS ct3_label, CT3.label AS ct3_label_en, CT4.id AS ct4_id, CT4.label' || _lang || ' AS ct4_label, CT4.label AS ct4_label_en, ST1.id AS st1_id, ST1.code AS st1_code, ST1.label' || _lang || ' AS st1_label, ST1.label AS st1_label_en, ST2.id AS st2_id, ST2.code AS st2_code,

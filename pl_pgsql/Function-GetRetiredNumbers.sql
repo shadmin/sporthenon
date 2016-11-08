@@ -27,7 +27,7 @@ begin
 	-- Open cursor
 	OPEN _c FOR EXECUTE
 	'SELECT
-		RN.id AS rn_id, TM.id AS tm_id, TM.label AS tm_label, 
+		RN.id AS rn_id, RN.last_update AS rn_last_update, TM.id AS tm_id, TM.label AS tm_label, 
 		PR.id AS pr_id, PR.last_name AS pr_last_name, PR.first_name AS pr_first_name, YR.id AS yr_id, YR.label AS yr_label, RN.number AS rn_number
 	FROM
 		"RetiredNumber" RN

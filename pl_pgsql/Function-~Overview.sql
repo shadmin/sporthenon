@@ -232,7 +232,7 @@ begin
 		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = CT.id AND EL.entity=''CT'')';
 		_query = _query || ' WHERE 0=1';
 		IF _id_sport > 0 THEN
-			_query = _query || ' OR CT.id IN (SELECT RS.id_city1 FROM "Result" WHERE id_sport=' || _id_sport || ' UNION SELECT RS.id_city2 FROM "Result" WHERE id_sport=' || _id_sport || ')';
+			_query = _query || ' OR CT.id IN (SELECT RS.id_city1 FROM "Result" RS WHERE id_sport=' || _id_sport || ' UNION SELECT RS.id_city2 FROM "Result" RS WHERE id_sport=' || _id_sport || ')';
 		ELSE
 			_query = _query || ' OR 1=1';
 		END IF;
@@ -265,7 +265,7 @@ begin
 		_query = _query || ' LEFT JOIN "~ExternalLink" EL ON (EL.id_item = CX.id AND EL.entity=''CX'')';
 		_query = _query || ' WHERE 0=1';
 		IF _id_sport > 0 THEN
-			_query = _query || ' OR CX.id IN (SELECT RS.id_complex1 FROM "Result" WHERE id_sport=' || _id_sport || ' UNION SELECT RS.id_complex2 FROM "Result" WHERE id_sport=' || _id_sport || ')';
+			_query = _query || ' OR CX.id IN (SELECT RS.id_complex1 FROM "Result" RS WHERE id_sport=' || _id_sport || ' UNION SELECT RS.id_complex2 FROM "Result" RS WHERE id_sport=' || _id_sport || ')';
 		ELSE
 			_query = _query || ' OR 1=1';
 		END IF;

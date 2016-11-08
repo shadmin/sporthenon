@@ -65,7 +65,7 @@ begin
 	-- Open cursor
 	OPEN _c FOR EXECUTE
 	'SELECT 
-		RS.id AS rs_id, EV.id AS ev_id, EV.label' || _lang || ' AS ev_label, SE.id AS se_id, SE.label' || _lang || ' AS se_label, SE2.id AS se2_id, SE2.label' || _lang || ' AS se2_label, YR.id as yr_id, YR.label as yr_label, RS.date1 AS rs_date1, RS.date2 AS rs_date2,
+		RS.id AS rs_id, RS.last_update AS rs_last_update, EV.id AS ev_id, EV.label' || _lang || ' AS ev_label, SE.id AS se_id, SE.label' || _lang || ' AS se_label, SE2.id AS se2_id, SE2.label' || _lang || ' AS se2_label, YR.id as yr_id, YR.label as yr_label, RS.date1 AS rs_date1, RS.date2 AS rs_date2,
 		CX.id AS cx_id, CX.label AS cx_label, CT1.id AS ct1_id, CT1.label' || _lang || ' AS ct1_label, CT1.label AS ct1_label_en, CT2.id AS ct2_id, CT2.label' || _lang || ' AS ct2_label, ST1.id AS st1_id, ST1.code AS st1_code, ST1.label' || _lang || ' AS st1_label, ST1.label AS st1_label_en, ST2.id AS st2_id, ST2.code AS st2_code,
 		ST2.label' || _lang || ' AS st2_label, CN1.id AS cn1_id, CN1.code AS cn1_code_, CN1.label' || _lang || ' AS cn1_label_, CN1.label AS cn1_label_en_, CN2.id AS cn2_id, CN2.code AS cn2_code_, CN2.label' || _lang || ' AS cn2_label_,
 		RS.id_rank1 AS rs_rank1, RS.id_rank2 AS rs_rank2, RS.id_rank3 AS rs_rank3, RS.id_rank4 AS rs_rank4, RS.id_rank5 AS rs_rank5,
