@@ -11,7 +11,7 @@ import com.sporthenon.android.R;
 
 public class SplashActivity extends Activity {
 
-    private final int DISPLAY_TIME = 3000;
+    private final int DISPLAY_TIME = 5000;
 
     @Override
     public void onCreate(Bundle icicle) {

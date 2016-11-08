@@ -45,7 +45,7 @@ public class ListFragment extends Fragment {
     private static ArrayList<Object> itemList;
     protected static ProgressBar progress;
     protected static ListView list;
-    protected static EditText search;
+    protected static EditText filterText;
     protected static TextView path;
     protected static TextView notice;
 
@@ -99,8 +99,8 @@ public class ListFragment extends Fragment {
         path.setVisibility(path.getText().length() > 0 ? View.VISIBLE : View.GONE);
         notice = (TextView) view.findViewById(R.id.notice);
         notice.setVisibility(View.GONE);
-        search = (EditText) view.findViewById(R.id.search);
-        search.addTextChangedListener(new TextWatcher() {
+        filterText = (EditText) view.findViewById(R.id.filter_text);
+        filterText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
                 filter();
@@ -112,7 +112,7 @@ public class ListFragment extends Fragment {
             public void afterTextChanged(Editable arg0) {
             }
         });
-        search.setVisibility(View.GONE);
+        filterText.setVisibility(View.GONE);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class ListFragment extends Fragment {
     }
 
     public void filter() {
-        String text = search.getText().toString().toLowerCase();
+        String text = filterText.getText().toString().toLowerCase();
         list.setAdapter(null);
         if (activity instanceof ResultActivity) {
             ArrayList<ResultItem> list_ = new ArrayList<>();
@@ -160,7 +160,7 @@ public class ListFragment extends Fragment {
             }
             list.setAdapter(new PodiumListAdapter(activity.getApplicationContext(), list_));
         }
-        else if (activity instanceof USLeaguesRequestActivity &&  ((AbstractActivity) activity).getUsltype() == AbstractActivity.USTYPE_RECORDS) {
+        else if (activity instanceof USLeaguesRequestActivity && ((AbstractActivity) activity).getUsltype() == AbstractActivity.USTYPE_RECORDS) {
             ArrayList<RecordItem> list_ = new ArrayList<>();
             for (Object o : itemList) {
                 RecordItem item = (RecordItem) o;
@@ -180,21 +180,21 @@ public class ListFragment extends Fragment {
         }
     }
 
-    public static void onSearchClick() {
-        search.setVisibility(search.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+    public static void filterClick() {
+        filterText.setVisibility(filterText.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) path.getLayoutParams();
-        if (search.getVisibility() == View.VISIBLE) {
-            params.addRule(RelativeLayout.BELOW, R.id.search);
+        if (filterText.getVisibility() == View.VISIBLE) {
+            params.addRule(RelativeLayout.BELOW, R.id.filter_text);
             params.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
-            search.requestFocus();
-            imm.showSoftInput(search, InputMethodManager.SHOW_IMPLICIT);
+            filterText.requestFocus();
+            imm.showSoftInput(filterText, InputMethodManager.SHOW_IMPLICIT);
         }
         else {
+            filterText.setText("");
             params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(filterText.getWindowToken(), 0);
         }
-
         path.setLayoutParams(params);
     }
 

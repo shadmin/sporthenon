@@ -29,8 +29,4 @@ public class Result1Activity extends AbstractActivity {
         finish();
     }
 
-    public void onBackClick(View v) {
-        finish();
-    }
-
 }

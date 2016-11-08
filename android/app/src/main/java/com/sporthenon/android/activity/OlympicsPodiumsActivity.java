@@ -1,11 +1,13 @@
 package com.sporthenon.android.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
 import com.sporthenon.android.R;
 import com.sporthenon.android.async.AsyncPodiums;
+import com.sporthenon.android.data.PodiumItem;
 
 public class OlympicsPodiumsActivity extends AbstractActivity {
 
@@ -24,6 +26,17 @@ public class OlympicsPodiumsActivity extends AbstractActivity {
     }
 
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+        PodiumItem pi = (PodiumItem) getList().getItemAtPosition(position);
+        Intent i = new Intent(this, Result1Activity.class);
+        Bundle b = new Bundle();
+        b.putInt("olid", getOlId());
+        b.putString("olname", getOlName());
+        b.putInt("oltype", getOlType());
+        b.putInt("rsid", pi.getId());
+        b.putString("rsyr", getOlName().replaceAll("\\D", ""));
+        b.putBoolean("cl", false);
+        i.putExtras(b);
+        startActivity(i);
     }
 
 }

@@ -77,13 +77,15 @@ public class AsyncResult1 extends AsyncTask<Object, Boolean, String> {
             if (place2 != null) {
                 result1.setPlace2(place2.getTextContent());
                 result1.setPlace2Img(AndroidUtils.getImage(activity, place2.getAttribute("img")));
+                if (place1 == null)
+                    result1.setPlace2(result1.getPlace2().replaceAll("\\,", "\r\n"));
             }
             // Rankings
             RankItem item;
             Element rank1 = (Element) doc.getElementsByTagName("rank1").item(0);
             Element rank2 = (Element) doc.getElementsByTagName("rank2").item(0);
             Element rank3 = (Element) doc.getElementsByTagName("rank3").item(0);
-            boolean isScore = (rank1 != null && rank2 != null && AndroidUtils.notEmpty(rank1.getAttribute("result")) && !AndroidUtils.notEmpty(rank2.getAttribute("result")) && !AndroidUtils.notEmpty(rank3.getAttribute("result")));
+            boolean isScore = (rank1 != null && rank2 != null && AndroidUtils.notEmpty(rank1.getAttribute("result")) && !AndroidUtils.notEmpty(rank2.getAttribute("result")) && (rank3 == null || !AndroidUtils.notEmpty(rank3.getAttribute("result"))));
             if (rank1 != null) {
                 String[] t1 = rank1.getTextContent().replaceAll("\\s\\(", "\\\r\\\n(").split("\\|");
                 String[] t2 = rank1.getAttribute("img").split("\\|");
