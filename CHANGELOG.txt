@@ -1,7 +1,29 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 0.12.11 |
+| Last Version: 1.0.0   |
 +-----------------------+
+
++-------+
+| 1.0.0 |
++-------+
+[8 Nov 2016]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av1.0.0
+- New feature: <Pictures list> (=> multiple pictures available for athletes/cities/complexes/results)
+- Automatic redirection to HTTPS if user is in session
+- Automatic redirection to /error when entity has been deleted
+- Added "Delete" button (update/ext.links)
+- Added "Delete" button (update/reported errors)
+- Enhanced display of win records: more rows displayed by default + "more" link
+- New rows in "Info" dialog: Language/Last update
+- Added team logo of athletes in addition of country flag (home/last updates)
+- Improved display of US records panel (list of categories sorted and filtered)
+- Added column "completion %" to check easily what needs to be updated (update/overview)
+- Bugfix: auto-update of external links doesn't work
+- Bugfix: prevent automatic word-wrap in cells containing character '-'
+- Bugfix: invalid tab order in the "rounds" fields (update/results)
+- Bugfix: last update time not set properly in most pages
+- Bugfix: error occurs on /search URLs with pattern
+- Bugfix: multiple bugfixes in exports (XLS, PDF, TXT)
 
 +---------+
 | 0.12.11 |
