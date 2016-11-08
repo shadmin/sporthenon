@@ -415,11 +415,11 @@ public class AndroidServlet extends AbstractServlet {
         	addItems(doc, root, ImageUtils.INDEX_TEAM, DatabaseHelper.getPicklist(RetiredNumber.class, "team", "league.id=" + league, null, "x.team.label", "en"), null, null, null, null);
 		else if (code.equalsIgnoreCase(Year.alias)) {
 			if (t[2].equals(USLeaguesServlet.TYPE_HOF))
-				addItems(doc, root, (short)-1, DatabaseHelper.getPicklist(HallOfFame.class, "year", "league.id=" + league, null, (short)1, "en"), null, null, null, null);
+				addItems(doc, root, (short)-1, DatabaseHelper.getPicklist(HallOfFame.class, "year", "league.id=" + league, null, "year.id desc", "en"), null, null, null, null);
 			else if (t[2].equals(USLeaguesServlet.TYPE_CHAMPIONSHIP))
-				addItems(doc, root, (short)-1, DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + USLeaguesServlet.HLEAGUES.get(league), null, (short)1, "en"), null, null, null, null);
+				addItems(doc, root, (short)-1, DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + USLeaguesServlet.HLEAGUES.get(league), null, "year.id desc", "en"), null, null, null, null);
 			else if (t[2].equals(USLeaguesServlet.TYPE_STATS))
-				addItems(doc, root, (short)-1, DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + USLeaguesServlet.HLEAGUES.get(league) + " and event.label like '%" + uslStatEvLabel + "%'", null, (short)1, "en"), null, null, null, null);
+				addItems(doc, root, (short)-1, DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + USLeaguesServlet.HLEAGUES.get(league) + " and event.label like '%" + uslStatEvLabel + "%'", null, "year.id desc", "en"), null, null, null, null);
 		}
 		else if (code.equalsIgnoreCase(Event.alias)) {
 			if (t[2].equals(USLeaguesServlet.TYPE_RECORD)) {

@@ -374,6 +374,9 @@
 .tc .info .result tr:hover td{
 	background-color: #FFA; /* _theme_ */
 }
+.tc .info .result tr:hover td[rowspan] {
+	background-color: #FFF;
+}
 .tc .info .result table.tsort{
 	width: auto;
 	margin: auto auto;

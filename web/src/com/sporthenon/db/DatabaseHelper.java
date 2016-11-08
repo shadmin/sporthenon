@@ -126,7 +126,7 @@ public class DatabaseHelper {
 	}
 
 	public static Collection<PicklistBean> getPicklist(Class source, String target, String filter, String concat, Object order, String lang) throws Exception {
-		String hql = "select distinct x." + target + ".id, " + (concat != null ? concat + " || " : "") + "x." + target + ".label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !target.matches("team|year") ? lang.toUpperCase() : "") + (order instanceof String ? ", " + order : "");
+		String hql = "select distinct x." + target + ".id, " + (concat != null ? concat + " || " : "") + "x." + target + ".label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !target.matches("team|year") ? lang.toUpperCase() : "") + (order != null && order instanceof String ? ", " + String.valueOf(order).replaceAll("\\s+(asc|desc)$", "") : "");
 		hql += " from " + source.getSimpleName() + " x";
 		hql += (filter != null && !filter.equals("") ? " where " + filter : "");
 		hql += " order by " + order;

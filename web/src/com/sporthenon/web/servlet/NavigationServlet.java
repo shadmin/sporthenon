@@ -153,6 +153,7 @@ public class NavigationServlet extends AbstractServlet {
 					throw new NotAdminException();
 			}
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
+			url = url.replaceAll("\\&", "&amp;");
 			request.setAttribute("url", url);
 			request.setAttribute("urlLogin", isTestProd ? "https://" + url.replaceFirst("http(|s)\\:\\/\\/", "").replaceAll("\\/.*", "") + "/login" : "http://localhost/login");
 			request.setAttribute("urlEN", url.replaceFirst(".+\\.sporthenon\\.com", "//en.sporthenon.com"));

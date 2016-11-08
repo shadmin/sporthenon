@@ -54,7 +54,7 @@
 		<table id="dupdates-opts">
 			<tr><td><%=StringUtils.text("filter.sport", session)%>&nbsp;:</td>
 			<td><select onchange="getLastUpdates(null, null, this.value);"><option value="0">–– <%=StringUtils.text("all.sports", session)%> ––</option><%=sbSports2.toString()%></select></td></tr>
-			<tr><td id="dupdates-loading" style="display:none;"><img style="float:left;" src="/img/db/loading.gif?6"/></td></tr>
+			<tr><td id="dupdates-loading" style="display:none;"><img alt="Loading..." style="float:left;" src="/img/db/loading.gif?6"/></td></tr>
 		</table>
 		<table id="tlast" class="tsort"><thead><tr class='rsort'>
 			<th onclick="sort('tlast', this, 0);"><%=StringUtils.text("year", session)%></th>

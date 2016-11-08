@@ -84,8 +84,8 @@ public class USLeaguesServlet extends AbstractServlet {
 					else if (t[0].equals(TYPE_STATS)) {
 						hParams.put("yr", t[2]);
 						hParams.put("ct", t[3]);
-						hParams.put("tpind", t[4]);
-						hParams.put("tptm", t[5]);
+						hParams.put("tpind", t.length > 4 ? t[4] : "");
+						hParams.put("tptm", t.length > 5 ? t[5] : "");
 					}
 					else if (t[0].equals(TYPE_HOF)) {
 						hParams.put("yr", t[2]);

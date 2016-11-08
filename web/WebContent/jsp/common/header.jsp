@@ -26,9 +26,9 @@
 	<link rel="alternate" hreflang="x-default" href="<%=request.getAttribute("urlEN")%>"/>
 	<link rel="alternate" hreflang="en" href="<%=request.getAttribute("urlEN")%>"/>
 	<link rel="alternate" hreflang="fr" href="<%=request.getAttribute("urlFR")%>"/>
-	<meta property="og:title" content="<%=title%>"/>
+	<meta property="og:title" content="<%=(title != null ? title.toString().replaceAll("\\s+\\|\\s+Sporthenon$", "") : title)%>"/>
 	<meta property="og:type" content="website"/>
-	<meta property="og:image" content="<%=url%>img/icon-notext.png?1"/>
+	<meta property="og:image" content="<%=url%>/img/icon-notext.png?1"/>
 	<%if (request.isSecure() || !ConfigUtils.getProperty("env").equals("prod") || !ServletHelper.getURL(request).contains("sporthenon.com")) {%>
 	<meta name="robots" content="noindex, nofollow"/>
 	<%}%>
@@ -42,7 +42,7 @@
 
 <body>
 <div id="header">
-	<div id="logo"><a href="/" title="<%=StringUtils.text("menu.home", session)%>"><img src="/img/icon.png?v=04082016" alt="sporthenon.com"/></a></div>
+	<div id="logo"><a href="/" title="<%=StringUtils.text("menu.home", session)%>"><img src="/img/icon.png?v=<%=version%>" alt="sporthenon.com"/></a></div>
 	<div id="shmenu">
 		<ul>
 			<li><a id="shmenu-results" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("results") ? "class='selected'" : "")%> href="/results"><%=StringUtils.text("menu.results", session)%></a></li>
@@ -142,7 +142,7 @@
 		<div id="mthome"><a href="/"><%=StringUtils.text("menu.home", session)%></a></div>
 		<div id="mtproject"><a href="/project"><%=StringUtils.text("menu.project", session)%></a></div>
 		<div id="mtcontribute"><a href="/contribute"><%=StringUtils.text("menu.contribute", session)%></a></div>
-		<div id="mtfavorites"><a href="javascript:$('favorites').show();"><%=StringUtils.text("menu.favorites", session)%></a><div id="favorites" style="display:none;"></div></div>
+		<div id="mtfavorites"><a href="javascript:showFavorites();"><%=StringUtils.text("menu.favorites", session)%></a><div id="favorites" style="display:none;"></div></div>
 		<%if (m != null) {%>
 		<div id="mtcbarea"><a href="/update/overview"><%=StringUtils.text("menu.cbarea", session)%></a></div>
 		<div id="mtlogout"><a href="/LoginServlet?logout"><%=StringUtils.text("menu.logout", session)%></a>&nbsp;(<%=m.getLogin()%>)</div>
@@ -183,7 +183,7 @@ if (tfavHTML.length == 0) {
 	tfavHTML.push('<li style="list-style:none;"><b>' + TX_NOFAV + '</b></li>');
 	nf = 1;
 }
-tfavHTML.push('<a href="javascript:$(\'favorites\').hide();" style="padding-top:5px;float:right;">' + TX_CANCEL + '</a>');
+tfavHTML.push('<a href="javascript:hideFavorites();" style="padding-top:5px;float:right;">' + TX_CANCEL + '</a>');
 $('favorites').style.height = 'auto';
 $('favorites').update(tfavHTML.join(''));
 

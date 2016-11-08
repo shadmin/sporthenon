@@ -380,6 +380,18 @@ function thumbnailClick(id){
 	$("link-" + currentExpPhoto).href = 'javascript:thumbnailClick(\"' + currentExpPhoto + '\");';
 	currentExpPhoto = id;
 }
+function showFavorites() {
+	$$('#content .selmultiple').each(function(el){
+		$(el).style.visibility = 'hidden';
+	});
+	$('favorites').show();
+}
+function hideFavorites() {
+	$$('#content .selmultiple').each(function(el){
+		$(el).style.visibility = 'visible';
+	});
+	$('favorites').hide();
+}
 /*============================
   ========== UTILS ========== 
   ============================*/
