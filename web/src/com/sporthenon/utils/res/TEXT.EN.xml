@@ -564,4 +564,6 @@
 	<entry key="open.dialog">Open in dialog</entry>
 	<entry key="copy.from.result">Copy from result</entry>
 	<entry key="completion.pct">Comp. %</entry>
+	<entry key="no.date">No date</entry>
+	<entry key="no.place">No place</entry>
 </properties>

@@ -210,6 +210,12 @@ public class Result {
 	@Column(name = "draft")
 	private Boolean draft;
 	
+	@Column(name = "no_place")
+	private Boolean noPlace;
+	
+	@Column(name = "no_date")
+	private Boolean noDate;
+	
 	@Embedded
 	private Metadata metadata;
 	
@@ -691,6 +697,22 @@ public class Result {
 
 	public void setDraft(Boolean draft) {
 		this.draft = draft;
+	}
+
+	public Boolean getNoPlace() {
+		return noPlace;
+	}
+
+	public Boolean getNoDate() {
+		return noDate;
+	}
+
+	public void setNoPlace(Boolean noPlace) {
+		this.noPlace = noPlace;
+	}
+
+	public void setNoDate(Boolean noDate) {
+		this.noDate = noDate;
 	}
 
 	@Override

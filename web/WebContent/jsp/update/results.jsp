@@ -107,6 +107,10 @@ var treeItems = null;
 					<tr><td><input type="text" id="dt1" tabindex="7" name="<%=StringUtils.text("date", session)%> #1"/><a href="javascript:clearValue('dt1', true);">[X]</a><br/><a href="javascript:$('dt1').value=tDateValues[0];$('dt1').addClassName('completed2');">D-2</a>/<a href="javascript:$('dt1').value=tDateValues[1];$('dt1').addClassName('completed2');">D-1</a>/<a href="javascript:$('dt1').value=tDateValues[2];$('dt1').addClassName('completed2');"> D </a>/<a href="javascript:$('dt1').value=tDateValues[3];$('dt1').addClassName('completed2');">D+1</a>/<a href="javascript:$('dt1').value=tDateValues[4];$('dt1').addClassName('completed2');">D+2</a></td>
 					<td>&nbsp;<input type="text" id="dt2" tabindex="8" name="<%=StringUtils.text("date", session)%> #2"/><a href="javascript:clearValue('dt2', true);">[X]</a><br/><a href="javascript:$('dt2').value=tDateValues[0];$('dt2').addClassName('completed2');">D-2</a>/<a href="javascript:$('dt2').value=tDateValues[1];$('dt2').addClassName('completed2');">D-1</a>/<a href="javascript:$('dt2').value=tDateValues[2];$('dt2').addClassName('completed2');"> D </a>/<a href="javascript:$('dt2').value=tDateValues[3];$('dt2').addClassName('completed2');">D+1</a>/<a href="javascript:$('dt2').value=tDateValues[4];$('dt2').addClassName('completed2');">D+2</a></td></tr>
 				</table>
+				<table>
+					<tr><td style="width:20px;"><input id="nodate" type="checkbox" onclick="showWarning();"/></td>
+					<td><label for="nodate"><%=StringUtils.text("no.date", session)%></label></td></tr>
+				</table>
 			</fieldset>
 			</li>
 			<!-- PHOTOS -->
@@ -124,6 +128,10 @@ var treeItems = null;
 				<table style="margin-top:3px;">
 					<tr><td><input type="text" id="pl1" tabindex="9" name="<%=StringUtils.text("venue.city", session)%> #1"/><a href="javascript:clearValue('pl1', true);">[X]</a></td></tr>
 					<tr><td style="padding-top:10px;"><input type="text" id="pl2" tabindex="10" name="<%=StringUtils.text("venue.city", session)%> #2"/><a href="javascript:clearValue('pl2', true);">[X]</a></td></tr>
+				</table>
+				<table>
+					<tr><td style="width:20px;"><input id="noplace" type="checkbox" onclick="showWarning();"/></td>
+					<td><label for="noplace"><%=StringUtils.text("no.place", session)%></label></td></tr>
 				</table>
 			</fieldset>
 			</li>
