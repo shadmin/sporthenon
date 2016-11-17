@@ -16,7 +16,7 @@
 			<div style="width:100%;margin-bottom:10px;">
 			<table class="toolbar" style="margin-top:0px;position:relative;float:left;top:0;">
 				<tr>
-					<td><%=StringUtils.text("type", session)%>&nbsp;:</td>
+					<td><%=StringUtils.text("type", session)%> :</td>
 					<td><select id="type" onchange="changePictureType();"><option value="CP"><%=StringUtils.text("entity.CP", session)%></option>
 					<option value="CN"><%=StringUtils.text("entity.CN", session)%></option>
 					<option value="EV"><%=StringUtils.text("entity.EV", session)%></option>
@@ -24,7 +24,7 @@
 					<option value="SP"><%=StringUtils.text("entity.SP", session)%></option>
 					<option value="ST"><%=StringUtils.text("entity.ST", session)%></option>
 					<option value="TM"><%=StringUtils.text("entity.TM", session)%></option></select></td>
-					<td id="spcell1"><%=StringUtils.text("entity.SP.1", session)%>&nbsp;:</td>
+					<td id="spcell1"><%=StringUtils.text("entity.SP.1", session)%> :</td>
 					<td id="spcell2"><select id="sport" onchange="loadPictures('direct');"><option value=""></option>
 					<%
 						Contributor cb = (Contributor) session.getAttribute("user");
@@ -33,7 +33,7 @@
 							out.print("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
 					%>
 					</select></td>
-					<td><%=StringUtils.text("entity.YR", session)%>&nbsp;:</td>
+					<td><%=StringUtils.text("entity.YR", session)%> :</td>
 					<td><input id="year1" type="text" style="width:35px;"/></td>
 					<td>-</td>
 					<td><input id="year2" type="text" style="width:35px;"/></td>

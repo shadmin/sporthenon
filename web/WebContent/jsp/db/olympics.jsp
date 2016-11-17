@@ -33,8 +33,8 @@
 			<tr><td style="padding-bottom:3px;"><div id="sm-summer-pl-ol" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 			<tr><td colspan="2" style="padding-bottom:3px;border-top:1px solid #BBB;border-bottom:1px solid #BBB;"><table cellpadding="0" cellspacing="0" style="margin-left:2px;margin-top:5px;margin-bottom:0px;width:0%;"><tr>
 				<td><input type="radio" name="summer-q" id="sq1" checked="checked" onclick="$('summer-q1').show();$('summer-q2').hide();" style="margin:0px;margin-top:3px;"/></td>
-				<td style="padding-left:2px;"><label for="sq1"><%=StringUtils.text("event.results", session)%></label>&nbsp;&nbsp;&nbsp;</td>
-				<td><input type="radio" name="summer-q" id="sq2" onclick="$('summer-q2').show();$('summer-q1').hide();" style="margin:0px;margin-top:3px;"/></td>
+				<td style="padding-left:2px;"><label for="sq1"><%=StringUtils.text("event.results", session)%></label></td>
+				<td style="padding-left:10px;"><input type="radio" name="summer-q" id="sq2" onclick="$('summer-q2').show();$('summer-q1').hide();" style="margin:0px;margin-top:3px;"/></td>
 				<td style="padding-left:2px;"><label for="sq2"><%=StringUtils.text("medals.tables", session)%></label></td>
 			</tr></table></td></tr>
 			<!-- EVENTS RESULTS -->
@@ -61,8 +61,8 @@
 			<tr><td style="padding-bottom:3px;"><div id="sm-winter-pl-ol" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 			<tr><td colspan="2" style="padding-bottom:3px;border-top:1px solid #BBB;border-bottom:1px solid #BBB;"><table cellpadding="0" cellspacing="0" style="margin-left:2px;margin-top:5px;margin-bottom:0px;width:0%;"><tr>
 				<td><input type="radio" name="winter-q" id="wq1" checked="checked" onclick="$('winter-q1').show();$('winter-q2').hide();" style="margin:0px;margin-top:3px;"/></td>
-				<td style="padding-left:2px;"><label for="wq1"><%=StringUtils.text("event.results", session)%></label>&nbsp;&nbsp;&nbsp;</td>
-				<td><input type="radio" name="winter-q" id="wq2" onclick="$('winter-q2').show();$('winter-q1').hide();" style="margin:0px;margin-top:3px;"/></td>
+				<td style="padding-left:2px;"><label for="wq1"><%=StringUtils.text("event.results", session)%></label></td>
+				<td style="padding-left:10px;"><input type="radio" name="winter-q" id="wq2" onclick="$('winter-q2').show();$('winter-q1').hide();" style="margin:0px;margin-top:3px;"/></td>
 				<td style="padding-left:2px;"><label for="wq2"><%=StringUtils.text("medals.tables", session)%></label></td>
 			</tr></table></td></tr>
 			<!-- EVENTS RESULTS -->

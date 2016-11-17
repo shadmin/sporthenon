@@ -91,7 +91,7 @@ function updateTip(pl, empty) {
 				h.set(el.value, el.text);
 			});
 			for (var i = 0 ; i < t.length && i < 10 ; i++) {
-				text += '<br/>-&nbsp;' + h.get(t[i]);
+				text += '<br/>- ' + h.get(t[i]);
 			}
 			text += (t.length > 10 ? '<br/>(+' + (t.length - 10) + ' more)' : '');
 		}
@@ -284,13 +284,13 @@ function toggleTreeExpand() {
 	if (!treeExpanded) {
 		$('treeview').removeClassName('collapsed').addClassName('expanded');
 		img.src = img.src.replace('expand', 'collapse') + '?v=' + VERSION;
-		img.alt = '[-]&nbsp;' + TX_COLLAPSE;
+		img.alt = '[-] ' + TX_COLLAPSE;
 		$('treeview').style.border = '1px solid #000';
 	}
 	else {
 		$('treeview').removeClassName('expanded').addClassName('collapsed');
 		img.src = img.src.replace('collapse', 'expand') + '?v=' + VERSION;
-		img.alt = '[+]&nbsp;' + TX_EXPAND;
+		img.alt = '[+] ' + TX_EXPAND;
 		$('treeview').style.border = '1px solid #DDD';
 	}
 	$('treeicontxt').update(img.alt);
@@ -556,8 +556,8 @@ function displayInfo() {
 	var tInfo = info.split('|');
 	var t = $$('#d-info td');
 	t[0].update('<a href="' + url + '" target="_blank">' + url + '</a>');
-	t[1].update(tInfo[0] + '&nbsp;' + TX_KB);
-	t[2].update(tInfo[1] + '&nbsp;' + TX_SECONDS);
+	t[1].update(tInfo[0] + ' ' + TX_KB);
+	t[2].update(tInfo[1] + ' ' + TX_SECONDS);
 	t[3].update(tInfo[2]);
 	t[4].update(tInfo[3] == 'fr' ? 'Français' : 'English');
 	t[4].className = ('lang-' + tInfo[3]);
@@ -1521,7 +1521,7 @@ function updatePhotos(names) {
 	var t = names.split(',');
 	var t_ = [];
 	for (var i = 0 ; i < t.length ; i++) {
-		t_.push('<a id="currentphoto-' + i + '" target="_blank" href="' + IMG_URL + t[i] + '" title="' + t[i] + '"><img alt="" src="' + IMG_URL + t[i] + '"/></a><a id="currentphoto-rm-' + i + '" href="javascript:removePhoto(' + i + ', \'' + t[i] + '\');">[X]</a>&nbsp;');
+		t_.push('<a id="currentphoto-' + i + '" target="_blank" href="' + IMG_URL + t[i] + '" title="' + t[i] + '"><img alt="" src="' + IMG_URL + t[i] + '"/></a><a id="currentphoto-rm-' + i + '" href="javascript:removePhoto(' + i + ', \'' + t[i] + '\');">[X]</a>');
 	}
 	$('currentphotos').update(t_.join(''));
 	$('currentphotos').show();
@@ -1785,7 +1785,7 @@ function loadResValues(value) {
 					for (var i = 0 ; i < t_.length ; i++) {
 						toid.push('<a href="javascript:tValues[\'id\']=' + t_[i] + ';loadResult(\'direct\');"' + (tValues['id'] == t_[i] ? ' style="font-weight:bold;"' : '') + '>(' + (i + 1) + ')</a>');
 					}
-					$('otherids').update(toid.join('&nbsp;'));	
+					$('otherids').update(toid.join(' '));	
 				}
 			}
 		}
@@ -2097,7 +2097,7 @@ function addRounds(clear) {
 		for (var i = rdCount + 1 ; i <= rdCount + 10 ; i++) {
 			html = ['<tr id="rdrow' + i + '">'];
 			html.push('<td><a href="javascript:deleteRound(' + i + ');"><img title="' + TX_REMOVE + '" src="/img/delete.gif"/></a></td>');
-			html.push('<td>&nbsp;<a href="javascript:openRoundDialog(' + i + ');"><img title="' + TX_OPEN_DIALOG + '" src="/img/update/dialog.png"/></a></td>');
+			html.push('<td><a href="javascript:openRoundDialog(' + i + ');"><img title="' + TX_OPEN_DIALOG + '" src="/img/update/dialog.png"/></a></td>');
 			html.push('<td><input type="hidden" id="rd' + i + 'id"/></td>');
 			html.push('<td><input type="text" id="rd' + i + 'rt" tabindex="' + (1000 + (16*(i-1))) + '" name="' + TX_TYPE + '" style="width:150px;"/></td>');
 			html.push('<td><input type="text" id="rd' + i + 'rk1" tabindex="' + (1001 + (16*(i-1))) + '" name="' + TX_RANK1 + '" style="width:200px;"/><a href="javascript:clearValue(\'rd' + i + 'rk1\', true);">[X]</a></td>');
@@ -2931,7 +2931,7 @@ function loadPictures(action_, id_) {
 				return;
 			}
 			var t = response.responseText.split('~');
-			$('label-remote').update(t[1] + (currentAlias == 'TM' ? '<span style="font-weight:normal;font-style:italic;">&nbsp;-&nbsp;' + t[3] + '</span>' : ''));
+			$('label-remote').update(t[1] + (currentAlias == 'TM' ? '<span style="font-weight:normal;font-style:italic;"> - ' + t[3] + '</span>' : ''));
 			$('nopic').checked = (t[t.length - 1] == '1');
 			currentId = t[0];
 			var sp = $F('sport');
@@ -3019,7 +3019,7 @@ function checkImportProgress() {
 		onSuccess: function(response){
 			var t = response.responseText.split('|');
 			var pg = t[2];
-			$('pgpercent').update(pg + '&nbsp;%&nbsp;(' + t[0] + '&nbsp;/&nbsp;' + t[1] + ')');
+			$('pgpercent').update(pg + ' % (' + t[0] + ' / ' + t[1] + ')');
 			$('progress').style.width = (pg * 2) + 'px';
 			if (parseInt(pg) < 100) {
 				setTimeout(checkImportProgress, 250);

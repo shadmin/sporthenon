@@ -19,7 +19,7 @@
 				</tr>
 			</table>
 			<table id="options"><tr>
-				<td><%=StringUtils.text("sport", session)%>&nbsp;:</td>
+				<td><%=StringUtils.text("sport", session)%> :</td>
 				<td><select id="elsport" style="width:200px;">
 				<%
 					Contributor cb = (Contributor) session.getAttribute("user");
@@ -30,16 +30,16 @@
 						out.print("<option value='0'>[" + StringUtils.text("all", session) + "]</option>");
 				%>
 				</select></td>
-				<td><%=StringUtils.text("count", session)%>&nbsp;:</td>
+				<td><%=StringUtils.text("count", session)%> :</td>
 				<td><input id="elcount" type="text" value="100" style="width:80px;"/>
-				<td>ID max.&nbsp;:</td>
+				<td>ID max. :</td>
 				<td><input id="elidmax" type="text" value="100000" style="width:80px;"/>
 				<td><input id="elincludechecked" type="checkbox"/></td>
-				<td><label for="elincludechecked"><%=StringUtils.text("include.checked.links", session)%></label>&nbsp;</td>
+				<td><label for="elincludechecked"><%=StringUtils.text("include.checked.links", session)%></label> </td>
 				<td><input type="button" value="OK" onclick="loadExtLinks();"/></td>
 				<td><input type="button" value="<%=StringUtils.text("automatic.update", session)%>" onclick="updateLinksAuto();"/></td>
 			</tr><tr>
-				<td><%=StringUtils.text("show", session)%>&nbsp;:</td>
+				<td><%=StringUtils.text("show", session)%> :</td>
 				<td><select id="elentity" style="width:200px;">
 				<option value="PR"><%=StringUtils.text("entity.PR", session)%></option>
 				<option value="CP"><%=StringUtils.text("entity.CP", session)%></option>
@@ -53,7 +53,7 @@
 				<option value="ST"><%=StringUtils.text("entity.ST", session)%></option>
 				<option value="TM"><%=StringUtils.text("entity.TM", session)%></option>
 				</select></td>
-				<td><%=StringUtils.text("find", session)%>&nbsp;:</td>
+				<td><%=StringUtils.text("find", session)%> :</td>
 				<td><input id="elpattern" type="text" style="width:100px;"/>			
 			</tr></table>
 			<div id="elcontent"></div>

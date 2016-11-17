@@ -30,6 +30,7 @@ hr {
 a{
 	color: #00C;
 	text-decoration: none;
+	white-space: nowrap;
 }
 a:visited{
 	color: #00C;
@@ -671,6 +672,7 @@ select.disabled{
 	padding-right: 5px;
 	padding-top: 1px;
 	cursor: pointer;
+	white-space: nowrap;
 }
 #treeview .over {
 	text-decoration: underline;
@@ -789,6 +791,7 @@ select.disabled{
 	text-align: center;
 	padding: 1px;
 	font-weight: bold;
+	white-space: nowrap;
 	background-position: center top;
 	background-repeat: no-repeat;
 }
@@ -1428,16 +1431,19 @@ select.disabled{
 	font-size: 9px;
 	background: url(../img/update/tick.png?6) 2px center no-repeat;
 	padding-left: 20px;
+	white-space: nowrap;
 }
 #update-overview .fscontent td.missing{
 	font-size: 9px;
 	background: url(../img/update/missing.png?6) 2px center no-repeat;
 	padding-left: 20px;
+	white-space: nowrap;
 }
 #update-overview .fscontent td.warning_{
 	font-size: 9px;
 	background: url(../img/update/warning.gif?6) 2px center no-repeat;
 	padding-left: 20px;
+	white-space: nowrap;
 }
 #update-overview #ovcontent tr:hover td{
 	background-color: #FFA; /* _theme_ */
@@ -2175,6 +2181,7 @@ select.disabled{
 	color: #555;
 	font-style: italic;
 	border-top: 1px solid #888;
+	white-space: nowrap;
 }
 .ajaxsearch ul .ajxdetails {
 	float: right;
@@ -2182,6 +2189,7 @@ select.disabled{
 	font-size: 10px;
 	color: #888;
 	padding-top: 1px;
+	white-space: nowrap;
 }
 #ajaxsearch2 ul, #ajaxsearch3 ul{
 	margin: 0px;

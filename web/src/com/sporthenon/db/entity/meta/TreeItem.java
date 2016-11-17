@@ -45,7 +45,7 @@ public class TreeItem  {
 	}
 	
 	public String getLabel() {
-		return (label != null && label.contains("'") ? label.replaceAll("'", "\\\\'") : label.replaceAll("\\s", "&nbsp;"));
+		return (label != null && label.contains("'") ? label.replaceAll("'", "\\\\'") : label);
 	}
 
 	public void setLabel(String label) {

@@ -18,6 +18,7 @@
 }
 .tc td{
 	text-align: left;
+	white-space: nowrap;
 }
 .tc a{
 	color: #00C;
@@ -456,6 +457,9 @@ th.desc{
 }
 .nowrap{
 	white-space: nowrap;
+}
+.wrap, .wrap a{
+	white-space: normal;
 }
 #errorlink{
 	margin-top: 10px;

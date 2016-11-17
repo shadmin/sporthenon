@@ -20,10 +20,10 @@
 	<div>
 		<table class="tlogin">
 			<tr>
-				<th><%=StringUtils.text("loginid", session)%>&nbsp;:</td><td><input type="text" id="login" name="login" size="15" onkeydown="if(event.keyCode==13){$('flogin').submit();}"/></td>
+				<th><%=StringUtils.text("loginid", session)%> :</td><td><input type="text" id="login" name="login" size="15" onkeydown="if(event.keyCode==13){$('flogin').submit();}"/></td>
 			</tr>
 			<tr>
-				<th><%=StringUtils.text("password", session)%>&nbsp;:</td><td><input type="password" id="password" name="password" size="15" onkeydown="if(event.keyCode==13){$('flogin').submit();}"/></td>
+				<th><%=StringUtils.text("password", session)%> :</td><td><input type="password" id="password" name="password" size="15" onkeydown="if(event.keyCode==13){$('flogin').submit();}"/></td>
 			</tr>
 			<tr>
 				<td colspan="2" style="padding-top:10px;text-align:center;"><input type="button" class="button ok" onclick="auth();" value="OK" style="padding-right:5px;"/></td>
@@ -37,23 +37,23 @@
 	<div id="rmsg" style="display:none;"></div>
 	<table style="width:auto;">
 		<tr>
-			<th><span class="mandatory">*</span><%=StringUtils.text("loginid", session)%>&nbsp;:</td><td><input type="text" id="rlogin"/></td>
+			<th><span class="mandatory">*</span><%=StringUtils.text("loginid", session)%> :</td><td><input type="text" id="rlogin"/></td>
 		</tr>
 		<tr>
-			<th><span class="mandatory">*</span><%=StringUtils.text("password", session)%>&nbsp;:</td><td><input type="password" id="rpassword"/></td>
+			<th><span class="mandatory">*</span><%=StringUtils.text("password", session)%> :</td><td><input type="password" id="rpassword"/></td>
 		</tr>
 		<tr>
-			<th><span class="mandatory">*</span><%=StringUtils.text("confirm.password", session)%>&nbsp;:</td><td><input type="password" id="rpassword2"/></td>
+			<th><span class="mandatory">*</span><%=StringUtils.text("confirm.password", session)%> :</td><td><input type="password" id="rpassword2"/></td>
 		</tr>
 		<tr>
-			<th><span class="mandatory">*</span><%=StringUtils.text("email.addr", session)%>&nbsp;:</td><td><input type="text" id="remail" size="30"/></td>
+			<th><span class="mandatory">*</span><%=StringUtils.text("email.addr", session)%> :</td><td><input type="text" id="remail" size="30"/></td>
 		</tr>
 		<tr>
-			<th><%=StringUtils.text("public.name", session)%>&nbsp;:</td><td><input type="text" id="rpublicname"/></td>
+			<th><%=StringUtils.text("public.name", session)%> :</td><td><input type="text" id="rpublicname"/></td>
 		</tr>
 	</table>
 	<table>
-		<tr><td colspan="2"><span class="mandatory">*</span><%=StringUtils.text("select.sports.contributor", session)%>&nbsp;:</td></tr>
+		<tr><td colspan="2"><span class="mandatory">*</span><%=StringUtils.text("select.sports.contributor", session)%> :</td></tr>
 		<tr>
 			<td><ul id="sp1" class="loginsports">
 			<%

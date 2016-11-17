@@ -545,7 +545,7 @@
 	<entry key="tie2">Ties</entry>
 	<entry key="ot.loss">Losses (OT)</entry>
 	<entry key="automatic.update">Automatic update</entry>
-	<entry key="import.complete"><![CDATA[Import complete.&nbsp;<a href='{1}'>Download report</a>]]></entry>
+	<entry key="import.complete"><![CDATA[Import complete. <a href='{1}'>Download report</a>]]></entry>
 	<entry key="actions.bar">Actions bar</entry>
 	<entry key="matches.rounds">Matches/Rounds/Days</entry>
 	<entry key="mode">Mode</entry>

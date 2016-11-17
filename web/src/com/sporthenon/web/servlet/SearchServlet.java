@@ -65,11 +65,11 @@ public class SearchServlet extends AbstractServlet {
 						String cn = (StringUtils.notEmpty(item.getLabelRel1()) ? item.getLabelRel1().substring(item.getLabelRel1().lastIndexOf("(") + 1, item.getLabelRel1().length() - 1) : null);
 						label = StringUtils.toFullName(t[0], t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1] : "", cn, false) + (StringUtils.notEmpty(cn) ? " (" + cn + ")" : "");
 					}
-					String details = "<div class='ajxdetails'>" + ResourceUtils.getText("entity." + item.getEntity() + ".1", lang) + (StringUtils.notEmpty(item.getLabelRel2()) ? "/" + (item.getEntity().equals(Olympics.alias) ? ResourceUtils.getText(item.getLabelRel2().equals("1") ? "summer" : "winter", lang) : item.getLabelRel2()) : "") + "&nbsp;(" + (item.getCountRef() != null ? item.getCountRef() : 0) + "&nbsp;ref.)</div>";
+					String details = "<div class='ajxdetails'>" + ResourceUtils.getText("entity." + item.getEntity() + ".1", lang) + (StringUtils.notEmpty(item.getLabelRel2()) ? "/" + (item.getEntity().equals(Olympics.alias) ? ResourceUtils.getText(item.getLabelRel2().equals("1") ? "summer" : "winter", lang) : item.getLabelRel2()) : "") + " (" + (item.getCountRef() != null ? item.getCountRef() : 0) + " ref.)</div>";
 					html.append("<li id='" + StringUtils.encode(item.getEntity() + "-" + item.getIdItem()) + "'>" + label + details + "</li>");
 				}
 //				if (!list.isEmpty())
-				html.append("<li class='ajaxlastrow' id=\"LR\">" + ResourceUtils.getText("search.for", lang) + "&nbsp;:&nbsp;\"" + hParams.get("value") + "\"</li>");
+				html.append("<li class='ajaxlastrow' id=\"LR\">" + ResourceUtils.getText("search.for", lang) + " : \"" + hParams.get("value") + "\"</li>");
 				ServletHelper.writeText(response, html.append("</ul>").toString());
 			}
 			else if (hParams.containsKey("run")) { // Run search

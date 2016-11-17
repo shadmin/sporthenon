@@ -17,20 +17,20 @@
 		<div id="slider-league-img" class="slider"><%@include file="../../html/slider.html"%></div>
 	</li>
 	<li id="usltype">
-		<div id="nfl" class="selected" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/>&nbsp;NFL &#150; National Football League</div>
-		<div id="nba" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/>&nbsp;NBA &#150; National Basketball Association</div>
-		<div id="nhl" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/>&nbsp;NHL &#150; National Hockey League</div>
-		<div id="mlb" onclick="changeLeague(this.id);" style="margin-bottom:0px;"><img alt="-" src="/img/bullet.gif"/>&nbsp;MLB &#150; Major League Baseball</div>
+		<div id="nfl" class="selected" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/> NFL &#150; National Football League</div>
+		<div id="nba" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/> NBA &#150; National Basketball Association</div>
+		<div id="nhl" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/> NHL &#150; National Hockey League</div>
+		<div id="mlb" onclick="changeLeague(this.id);" style="margin-bottom:0px;"><img alt="-" src="/img/bullet.gif"/> MLB &#150; Major League Baseball</div>
 	</li>
 	<li style="display:inline-block;width:400px;height:170px;" class="fieldset">
 		<div style="float:left;width:auto;">
 			<table id="usstype">
-				<tr><td id="championships" onclick="changeModeUS(this.id);"><img alt="-" src="/img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("championships", "en")%></td></tr>
-				<tr><td id="records" onclick="changeModeUS(this.id);"><img alt="-" src="/img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("records", "en")%></td></tr>
-				<tr><td id="stats" onclick="changeModeUS(this.id);"><img alt="-" src="/img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("yearly.stats", "en")%></td></tr>
-				<tr><td id="hof" onclick="changeModeUS(this.id);"><img alt="-" src="/img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("hall.fame", "en")%></td></tr>
-				<tr><td id="retnum" onclick="changeModeUS(this.id);"><img alt="-" src="/img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("retired.numbers", "en")%></td></tr>
-				<tr><td id="teamstadiums" onclick="changeModeUS(this.id);"><img alt="-" src="/img/bullet.gif"/>&nbsp;<%=ResourceUtils.getText("team.stadiums", "en")%></td></tr>
+				<tr><td id="championships" onclick="changeModeUS(this.id);"><img alt="-" src="/img/bullet.gif"/> <%=ResourceUtils.getText("championships", "en")%></td></tr>
+				<tr><td id="records" onclick="changeModeUS(this.id);"><img alt="-" src="/img/bullet.gif"/> <%=ResourceUtils.getText("records", "en")%></td></tr>
+				<tr><td id="stats" onclick="changeModeUS(this.id);"><img alt="-" src="/img/bullet.gif"/> <%=ResourceUtils.getText("yearly.stats", "en")%></td></tr>
+				<tr><td id="hof" onclick="changeModeUS(this.id);"><img alt="-" src="/img/bullet.gif"/> <%=ResourceUtils.getText("hall.fame", "en")%></td></tr>
+				<tr><td id="retnum" onclick="changeModeUS(this.id);"><img alt="-" src="/img/bullet.gif"/> <%=ResourceUtils.getText("retired.numbers", "en")%></td></tr>
+				<tr><td id="teamstadiums" onclick="changeModeUS(this.id);"><img alt="-" src="/img/bullet.gif"/> <%=ResourceUtils.getText("team.stadiums", "en")%></td></tr>
 			</table>
 		</div>
 		<div id="ustopics">
@@ -60,7 +60,7 @@
 				&nbsp;<%=ResourceUtils.getText("year", "en")%>:<br/>
 				<div id="sm-pl-hof-yr" class="selmultiple"><%@include file="../../html/selectmult.html"%></div>
 				<br/><table><tr>
-					<td><%=ResourceUtils.getText("position", "en")%>:</td>
+					<td>&nbsp;<%=ResourceUtils.getText("position", "en")%>:</td>
 					<td class="text"><input type="text" name="hof-position" id="hof-position" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"></input></td>
 					<td><span id="hof-postip" style="color:#666;cursor:help;font-weight:bold;">[?]</span></td>
 				</tr></table>
@@ -116,19 +116,19 @@ for (short i : new short[]{1, 2, 3, 4}) {
 	StringBuffer sb = new StringBuffer();
 	for (PicklistBean plb : c)
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
-	out.print("tHofYr[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
+	out.print("tHofYr[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.years", "en") + " ––</option>" + sb.toString() + "';\r\n");
 	// Championships (year)
 	c = DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i), null, (short)1, "en");
 	sb = new StringBuffer();
 	for (PicklistBean plb : c)
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
-	out.print("tChampYr[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
+	out.print("tChampYr[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.years", "en") + " ––</option>" + sb.toString() + "';\r\n");
 	// Retnum + Stadiums
 	c = DatabaseHelper.getPicklist(RetiredNumber.class, "team", "league.id=" + i, "x.team.inactive || '-'", "x.team.inactive, x.team.label", "en");
 	sb = new StringBuffer();
 	for (PicklistBean plb : c)
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText().replaceAll("^true\\-", "&dagger;").replaceAll("^false\\-", "") + "</option>");
-	out.print("tTm[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.teams", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
+	out.print("tTm[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.teams", "en") + " ––</option>" + sb.toString() + "';\r\n");
 	// Record (Subevent)
 	c = DatabaseHelper.getPicklistFromQuery("select distinct x.subevent.id, x.subevent.label, x.type1 from Record x where championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " order by x.subevent.label", false);
 	StringBuffer sb1 = new StringBuffer();
@@ -142,15 +142,15 @@ for (short i : new short[]{1, 2, 3, 4}) {
 		else if (plb.getParam() != null && String.valueOf(plb.getParam()).equalsIgnoreCase("team"))
 			sb3.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
 	}
-	out.print("tRcCtA[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb1.toString() + "';\r\n");
-	out.print("tRcCtI[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb2.toString() + "';\r\n");
-	out.print("tRcCtT[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb3.toString() + "';\r\n");
+	out.print("tRcCtA[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.categories", "en") + " ––</option>" + sb1.toString() + "';\r\n");
+	out.print("tRcCtI[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.categories", "en") + " ––</option>" + sb2.toString() + "';\r\n");
+	out.print("tRcCtT[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.categories", "en") + " ––</option>" + sb3.toString() + "';\r\n");
 	// Yearly stats (year)
 	c = DatabaseHelper.getPicklist(Result.class, "year", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and event.label like '%" + uslStatEvLabel + "%'", null, (short)1, "en");
 	sb = new StringBuffer();
 	for (PicklistBean plb : c)
 		sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
-	out.print("tStatsYr[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.years", "en") + "&nbsp;––</option>" + sb.toString() + "';\r\n");
+	out.print("tStatsYr[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.years", "en") + " ––</option>" + sb.toString() + "';\r\n");
 	// Yearly stats (category)
 	c = DatabaseHelper.getPicklistFromQuery("select distinct x.subevent2.id, x.subevent2.label, x.subevent2.type.number from Result x where championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and event.label like '%" + uslStatEvLabel + "%' order by x.subevent2.label", false);
 	sb1 = new StringBuffer();
@@ -161,8 +161,8 @@ for (short i : new short[]{1, 2, 3, 4}) {
 		else
 			sb2.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
 	}
-	out.print("tStatsCtT[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb1.toString() + "';\r\n");
-	out.print("tStatsCtI[" + i + "] = '<option value=\"0\">––&nbsp;" + ResourceUtils.getText("all.categories", "en") + "&nbsp;––</option>" + sb2.toString() + "';\r\n");
+	out.print("tStatsCtT[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.categories", "en") + " ––</option>" + sb1.toString() + "';\r\n");
+	out.print("tStatsCtI[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.categories", "en") + " ––</option>" + sb2.toString() + "';\r\n");
 }
 %>
 var tPos = new Array();

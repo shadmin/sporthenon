@@ -43,7 +43,7 @@ private static final long serialVersionUID = 1L;
 				html.append("<tr><td><a href='" + HtmlUtils.writeLink(Contributor.alias, bean.getId(), null, bean.getLogin()) + "'>" + bean.getLogin() + "</a></td>");
 				html.append("<td>" + (StringUtils.notEmpty(bean.getName()) ? bean.getName() : "-") + "</td>");
 				html.append("<td>" + (StringUtils.notEmpty(sports) ? sports : "-") + "</td>");
-				html.append("<td><img style='vertical-align:middle;padding-bottom:2px;' alt='adds' title='" + ResourceUtils.getText("co.adds", lang) + "' src='/img/project/adds.png'/>&nbsp;" + bean.getCountA() + "&nbsp;<img style='vertical-align:middle;padding-bottom:2px;' alt='updates' title='" + ResourceUtils.getText("co.updates", lang) + "' src='/img/project/updates.png'/>&nbsp;" + bean.getCountU() + "</td></tr>");
+				html.append("<td><img style='vertical-align:middle;padding-bottom:2px;padding-right:5px;' alt='adds' title='" + ResourceUtils.getText("co.adds", lang) + "' src='/img/project/adds.png'/>" + bean.getCountA() + " <img style='vertical-align:middle;padding-bottom:2px;padding-right:5px;' alt='updates' title='" + ResourceUtils.getText("co.updates", lang) + "' src='/img/project/updates.png'/>" + bean.getCountU() + "</td></tr>");
 			}
 			request.setAttribute("contributors", html.toString());
 			request.setAttribute("t2", System.currentTimeMillis());

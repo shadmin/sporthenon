@@ -350,7 +350,7 @@ public class AndroidServlet extends AbstractServlet {
 				item_.addAttribute("id", String.valueOf(item.getIdItem()));
 				item_.addAttribute("sport", item.getLabelRel2());
 				item_.addAttribute("event", item.getLabelRel3() + (StringUtils.notEmpty(item.getLabelRel4()) ? "|" + item.getLabelRel4() : "") + (StringUtils.notEmpty(item.getLabelRel5()) ? "|" + item.getLabelRel5() : "") + (StringUtils.notEmpty(item.getLabelRel18()) ? "|" + item.getLabelRel18() : ""));
-				item_.addAttribute("dates", ((StringUtils.notEmpty(item.getDate1()) ? StringUtils.toTextDate(item.getDate1(), lang, "d MMM yyyy") + "-" : "") + (StringUtils.notEmpty(item.getDate2()) ? StringUtils.toTextDate(item.getDate2(), lang, "d MMM yyyy") : "")).replaceAll("\\&nbsp\\;", " "));
+				item_.addAttribute("dates", ((StringUtils.notEmpty(item.getDate1()) ? StringUtils.toTextDate(item.getDate1(), lang, "d MMM yyyy") + "-" : "") + (StringUtils.notEmpty(item.getDate2()) ? StringUtils.toTextDate(item.getDate2(), lang, "d MMM yyyy") : "")));
 			}
 		}
 	}
@@ -565,11 +565,11 @@ public class AndroidServlet extends AbstractServlet {
 					item.addAttribute("rank4", bean.getRcTeam4());
 					item.addAttribute("rank5", bean.getRcTeam5());
 				}
-				item.addAttribute("date1", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate1() != null ? bean.getRcDate1() : StringUtils.EMPTY));
-				item.addAttribute("date2", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate2() != null ? bean.getRcDate2() : StringUtils.EMPTY));
-				item.addAttribute("date3", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate3() != null ? bean.getRcDate3() : StringUtils.EMPTY));
-				item.addAttribute("date4", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate4() != null ? bean.getRcDate4() : StringUtils.EMPTY));
-				item.addAttribute("date5", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + "&nbsp;" : "") + (bean.getRcDate5() != null ? bean.getRcDate5() : StringUtils.EMPTY));
+				item.addAttribute("date1", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + " " : "") + (bean.getRcDate1() != null ? bean.getRcDate1() : StringUtils.EMPTY));
+				item.addAttribute("date2", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + " " : "") + (bean.getRcDate2() != null ? bean.getRcDate2() : StringUtils.EMPTY));
+				item.addAttribute("date3", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + " " : "") + (bean.getRcDate3() != null ? bean.getRcDate3() : StringUtils.EMPTY));
+				item.addAttribute("date4", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + " " : "") + (bean.getRcDate4() != null ? bean.getRcDate4() : StringUtils.EMPTY));
+				item.addAttribute("date5", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + " " : "") + (bean.getRcDate5() != null ? bean.getRcDate5() : StringUtils.EMPTY));
 			}
 		}
 	}

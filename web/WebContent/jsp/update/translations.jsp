@@ -13,11 +13,11 @@
 				</tr>
 			</table>
 			<table id="options"><tr>
-				<td>IDs&nbsp;:</td>
+				<td>IDs :</td>
 				<td><input id="trrange" type="text" value="1-50" style="width:90px;"/>
-				<td><%=StringUtils.text("find", session)%>&nbsp;:</td>
+				<td><%=StringUtils.text("find", session)%> :</td>
 				<td><input id="trpattern" type="text" style="width:100px;"/>
-				<td><%=StringUtils.text("show", session)%>&nbsp;:</td>
+				<td><%=StringUtils.text("show", session)%> :</td>
 				<td><select id="trentity">
 				<option value="CP"><%=StringUtils.text("entity.CP", session)%></option>
 				<option value="CT"><%=StringUtils.text("entity.CT", session)%></option>
@@ -27,7 +27,7 @@
 				<option value="ST"><%=StringUtils.text("entity.ST", session)%></option>
 				</select></td>
 				<td><input id="trincludechecked" type="checkbox"/></td>
-				<td><label for="trincludechecked"><%=StringUtils.text("include.checked.translations", session)%></label>&nbsp;</td>
+				<td><label for="trincludechecked"><%=StringUtils.text("include.checked.translations", session)%></label></td>
 				<td><input type="button" value="OK" onclick="loadTranslations();"/></td>
 			</tr></table>
 			<div id="trcontent"></div>

@@ -145,12 +145,12 @@
 		<div id="mtfavorites"><a href="javascript:showFavorites();"><%=StringUtils.text("menu.favorites", session)%></a><div id="favorites" style="display:none;"></div></div>
 		<%if (m != null) {%>
 		<div id="mtcbarea"><a href="/update/overview"><%=StringUtils.text("menu.cbarea", session)%></a></div>
-		<div id="mtlogout"><a href="/LoginServlet?logout"><%=StringUtils.text("menu.logout", session)%></a>&nbsp;(<%=m.getLogin()%>)</div>
+		<div id="mtlogout"><a href="/LoginServlet?logout"><%=StringUtils.text("menu.logout", session)%></a> (<%=m.getLogin()%>)</div>
 		<%} else {%>
 		<div id="mtlogin"><a href="<%=request.getAttribute("urlLogin")%>"><%=StringUtils.text("menu.login", session)%></a></div>
 		<%}%>
 	</div>
-	<div id="flags"><a title="English" href="<%=request.getAttribute("urlEN")%>"><img alt="EN" src="/img/header/lang-en.png"/></a>&nbsp;<a title="Français" href="<%=request.getAttribute("urlFR")%>"><img alt="FR" src="/img/header/lang-fr.png"/></a>&nbsp;</div>
+	<div id="flags"><a title="English" href="<%=request.getAttribute("urlEN")%>"><img alt="EN" src="/img/header/lang-en.png"/></a> <a title="Français" href="<%=request.getAttribute("urlFR")%>"><img alt="FR" src="/img/header/lang-fr.png"/></a> </div>
 	<div id="searchpanel">
 		<table style="border-spacing:0px;">
 		<tr><td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.in", session)%> Sporthenon" onfocus="dpatternFocus();" onblur="dpatternBlur();"></input></td>
@@ -175,7 +175,7 @@ var nf = 0;
 for (var i = 0 ; i < tfav.length ; i++) {
 	var t = tfav[i].split(':');
 	if (t && t.length > 1) {
-		tfavHTML.push('<li id="fav-' + i + '"><a href="' + t[0] + '">' + t[1] + '</a>&nbsp;<img alt="del" title="' + TX_REMOVE + '" src="/img/delete.gif" style="cursor:pointer;" onclick="deleteFavClick(' + i + ');"/></li>');
+		tfavHTML.push('<li id="fav-' + i + '"><a href="' + t[0] + '">' + t[1] + '</a> <img alt="del" title="' + TX_REMOVE + '" src="/img/delete.gif" style="cursor:pointer;" onclick="deleteFavClick(' + i + ');"/></li>');
 		nf++;
 	}
 }

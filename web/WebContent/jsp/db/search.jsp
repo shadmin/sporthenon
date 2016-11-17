@@ -11,7 +11,7 @@
 			<tr><td><input type="checkbox" name="match" id="match"></input></td><td><label for="match"><%=StringUtils.text("exact.match", session)%></label></td></tr>
 		</table>
 		<table cellspacing="0" style="margin-top:10px;">
-			<tr><td>Max:&nbsp;</td><td><input type="text" name="max" id="max" value="100" style="width:50px;"></input></td></tr>
+			<tr><td>Max: </td><td><input type="text" name="max" id="max" value="100" style="width:50px;"></input></td></tr>
 		</table>
 	</div>
 	<div id="helplink" class="rendertip" style="display:none;"><%=StringUtils.text("pattern.tip", session)%></div>
@@ -23,7 +23,7 @@
 			<td><input type="checkbox" value="SP" name="scope" id="SP" checked="checked"></input></td><td><label for="SP"><%=StringUtils.text("sports", session)%></label></td>
 		</tr>
 		<tr>
-			<td><input type="checkbox" value="CN" name="scope" id="CN" checked="checked"></input></td><td><label for="CN"><%=StringUtils.text("countries", session)%></label>&nbsp;</td>
+			<td><input type="checkbox" value="CN" name="scope" id="CN" checked="checked"></input></td><td><label for="CN"><%=StringUtils.text("countries", session)%></label></td>
 			<td><input type="checkbox" value="TM" name="scope" id="TM" checked="checked"></input></td><td><label for="TM"><%=StringUtils.text("teams", session)%></label></td>
 		</tr>
 		<tr>

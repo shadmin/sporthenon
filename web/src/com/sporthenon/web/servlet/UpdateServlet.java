@@ -353,7 +353,7 @@ public class UpdateServlet extends AbstractServlet {
 				WinLoss w = (WinLoss) o;
 				text = w.toString2();
 			}
-			text += "<div class='ajaxid'>&nbsp;[#" + id + "]</div>";
+			text += "<div class='ajaxid'> [#" + id + "]</div>";
 			html.append("<li id='" + field_ + "|" + id + (o instanceof Event ? "|" + ((Event)o).getType().getNumber() : "") + "'>" + text + "</li>");
 			list.add(id);
 		}
@@ -835,7 +835,7 @@ public class UpdateServlet extends AbstractServlet {
 				html.append("<td>" + item.getLabelRel1() + "</td>");
 				html.append("<td><a href='/update/results/" + StringUtils.encode(Result.alias + "-" + item.getIdItem()) + "' target='_blank'>" + item.getLabelRel2() + " - " + item.getLabelRel3() + (StringUtils.notEmpty(item.getLabelRel4()) ? " - " + item.getLabelRel4() : "") + (StringUtils.notEmpty(item.getLabelRel5()) ? " - " + item.getLabelRel5() : "") + (StringUtils.notEmpty(item.getLabelRel6()) ? " - " + item.getLabelRel6() : "") + "</a></td>");
 				if (rkcount >= 3)
-					html.append("<td class='tick'>" + ResourceUtils.getText("podium", lang) + "&nbsp;(" + rkcount + ")</td>");
+					html.append("<td class='tick'>" + ResourceUtils.getText("podium", lang) + " (" + rkcount + ")</td>");
 				else if (isScore)
 					html.append("<td class='tick'>" + ResourceUtils.getText("final", lang) + "+" + ResourceUtils.getText("score", lang) + "</td>");
 				else if (rkcount > 0)
@@ -843,9 +843,9 @@ public class UpdateServlet extends AbstractServlet {
 				else
 					html.append("<td class='missing'></td>");
 				if (cxcount > 0)
-					html.append("<td class='tick'>" + ResourceUtils.getText("entity.CX.1", lang) + "&nbsp;(" + cxcount + ")</td>");
+					html.append("<td class='tick'>" + ResourceUtils.getText("entity.CX.1", lang) + " (" + cxcount + ")</td>");
 				else if (ctcount > 0)
-					html.append("<td class='tick'>" + ResourceUtils.getText("entity.CT.1", lang) + "&nbsp;(" + ctcount + ")</td>");
+					html.append("<td class='tick'>" + ResourceUtils.getText("entity.CT.1", lang) + " (" + ctcount + ")</td>");
 				else
 					html.append("<td></td>");
 				html.append("<td" + (dtcount > 0 ? " class='tick'>" + dtcount : " class='warning_'>") + "</td>");
@@ -855,7 +855,7 @@ public class UpdateServlet extends AbstractServlet {
 				max = 7;
 			}
 			else if (item.getEntity().equals(Athlete.alias)) {
-				html.append("<td><a href='" + url + "' target='_blank'>" + item.getLabelRel1() + ",&nbsp;" + item.getLabelRel2() + "</a></td>");
+				html.append("<td><a href='" + url + "' target='_blank'>" + item.getLabelRel1() + ", " + item.getLabelRel2() + "</a></td>");
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel5()) ? ">" + item.getLabelRel5() : " class='missing'>") + "</td>");
 				html.append("<td" + (StringUtils.notEmpty(item.getLabelRel3()) ? ">" + item.getLabelRel3() : " class='missing'>") + "</td>");
 				html.append("<td>" + (StringUtils.notEmpty(item.getLabelRel4()) ? item.getLabelRel4() : "-") + "</td>");
@@ -1893,7 +1893,7 @@ public class UpdateServlet extends AbstractServlet {
 			String id_ = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
 			if (alias.matches(Athlete.alias + "|" + Championship.alias + "|" + City.alias + "|" + Complex.alias + "|" + Country.alias + "|" + Event.alias + "|" + Olympics.alias + "|" + Sport.alias + "|" + State.alias + "|" + Team.alias))
 				DatabaseHelper.saveExternalLinks(alias, Integer.parseInt(id_), String.valueOf(hParams.get("exl")));
-			msg = ResourceUtils.getText("update.ok", lang) + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + ResourceUtils.getText("entity." + alias + ".1", lang) + " #" + id_;
+			msg = ResourceUtils.getText("update.ok", lang) + " " + StringUtils.SEP1 + " " + ResourceUtils.getText("entity." + alias + ".1", lang) + " #" + id_;
 		}
 		catch (Exception e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);
@@ -1911,7 +1911,7 @@ public class UpdateServlet extends AbstractServlet {
 			String alias = String.valueOf(hParams.get("alias"));
 			Class c = DatabaseHelper.getClassFromAlias(alias);
 			DatabaseHelper.removeEntity(DatabaseHelper.loadEntity(c, StringUtils.toInt(id)));
-			sbMsg.append(ResourceUtils.getText("delete.ok", lang) + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + ResourceUtils.getText("entity." + alias + ".1", lang) + " #" + id);
+			sbMsg.append(ResourceUtils.getText("delete.ok", lang) + " " + StringUtils.SEP1 + " " + ResourceUtils.getText("entity." + alias + ".1", lang) + " #" + id);
 		}
 		catch (Exception e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);
@@ -2034,7 +2034,7 @@ public class UpdateServlet extends AbstractServlet {
 			List<Object[]> items = DatabaseHelper.executeWithLimit("select id, " + label_ + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + " t " + where.toString() + " order by id desc", Integer.parseInt(count));
 			
 			List<ExternalLink> links = DatabaseHelper.execute("from ExternalLink where entity='" + entity + "' order by entity, idItem");
-			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + "</th><th>" + ResourceUtils.getText("type", lang) + "</th><th>URL</th><th>" + ResourceUtils.getText("checked", lang) + "&nbsp;<input type='checkbox' onclick='checkAllLinks();'/></th></thead><tbody>");
+			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + "</th><th>" + ResourceUtils.getText("type", lang) + "</th><th>URL</th><th>" + ResourceUtils.getText("checked", lang) + " <input type='checkbox' onclick='checkAllLinks();'/></th></thead><tbody>");
 			for (Object[] t : items) {
 				Integer id = StringUtils.toInt(t[0]);
 				String label = String.valueOf(t[1]);
@@ -2206,7 +2206,7 @@ public class UpdateServlet extends AbstractServlet {
 				labels = "label || '<i> - ' || city.label || ', ' || city.country.code || '</i>'";
 			List<Object[]> items = DatabaseHelper.execute("select id, " + labels + " from " + DatabaseHelper.getClassFromAlias(entity).getName() + " where 1=1" + (tIds.length > 1 ? " and id between " + tIds[0] + " and " + tIds[1] : "") + (StringUtils.notEmpty(pattern) ? " and (lower(label) like '" + pattern + "%' or lower(labelFR) like '" + pattern + "%')" : "") + " order by id");
 			List<Translation> translations = DatabaseHelper.execute(hql.toString());
-			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + " (EN)</th><th>" + ResourceUtils.getText("label", lang) + " (FR)</th><th>" + ResourceUtils.getText("checked", lang) + "&nbsp;<input type='checkbox' onclick='checkAllTranslations();'/></th></thead><tbody>");
+			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + " (EN)</th><th>" + ResourceUtils.getText("label", lang) + " (FR)</th><th>" + ResourceUtils.getText("checked", lang) + " <input type='checkbox' onclick='checkAllTranslations();'/></th></thead><tbody>");
 			for (Object[] t : items) {
 				Integer id = StringUtils.toInt(t[0]);
 				String labelEN = String.valueOf(t[1]);

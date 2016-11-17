@@ -90,9 +90,7 @@ public class HtmlUtils {
 			html.append("<a href='").append(url).append("'");
 			if (alias.equals(Athlete.alias) && StringUtils.notEmpty(text2) && !text1.toLowerCase().equals(text2.toLowerCase()))
 				html.append(" title=\"" + text2.replaceAll("\\\"", "'") + "\"");
-			if (text1.contains("-"))
-				html.append(" class='nowrap'");
-			html.append(">" + (!text1.startsWith("<") ? text1.replaceAll("\\s", "&nbsp;") : text1) + "</a>");
+				html.append(">" + text1 + "</a>");
 		}
 		else
 			html.append("/" + url.toString().substring(1));
@@ -176,11 +174,11 @@ public class HtmlUtils {
 		}
 		html.append("<div id='Header' class='header'><table><tr>");
 		html.append(h.containsKey("item0") ? "<td style='font-weight:bold;'>" + h.get("item0") + "</td>" : "");
-		html.append(h.containsKey("item1") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item1") + "</td>" : "");
-		html.append(h.containsKey("item2") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item2") + "</td>" : "");
-		html.append(h.containsKey("item3") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item3") + "</td>" : "");
-		html.append(h.containsKey("item4") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item4") + "</td>" : "");
-		html.append(h.containsKey("item5") ? "<td class='arrow'>&nbsp;</td><td>" + h.get("item5") + "</td>" : "");
+		html.append(h.containsKey("item1") ? "<td class='arrow'></td><td>" + h.get("item1") + "</td>" : "");
+		html.append(h.containsKey("item2") ? "<td class='arrow'></td><td>" + h.get("item2") + "</td>" : "");
+		html.append(h.containsKey("item3") ? "<td class='arrow'></td><td>" + h.get("item3") + "</td>" : "");
+		html.append(h.containsKey("item4") ? "<td class='arrow'></td><td>" + h.get("item4") + "</td>" : "");
+		html.append(h.containsKey("item5") ? "<td class='arrow'></td><td>" + h.get("item5") + "</td>" : "");
 		html.append("<td style='padding-left:10px;'><img id='favimg' alt='fav' src='/img/menu/favorites2.png' style='cursor:pointer;'/></td>");
 		html.append("</tr></table>");
 		html.append("</div>");
@@ -242,7 +240,7 @@ public class HtmlUtils {
 	public static String writeTip(String t, Object o) {
 		StringBuffer html = new StringBuffer();
 		long time = System.currentTimeMillis();
-		html.append("<a style='cursor:help;' href='#" + t + "-" + time + "'><img alt='note' src='" + ImageUtils.getRenderUrl() + "note.png'/></a>" + (o instanceof Collection ? "&nbsp;" + ((Collection)o).size() : ""));
+		html.append("<a style='cursor:help;' href='#" + t + "-" + time + "'><img alt='note' src='" + ImageUtils.getRenderUrl() + "note.png'/></a>" + (o instanceof Collection ? " " + ((Collection)o).size() : ""));
 		html.append("<div id='" + t + "-" + time + "' class='rendertip' style='display:none;'>" + (o instanceof String ? o : StringUtils.join((Collection<String>) o, "<br/>")) + "</div>");
 		return html.toString();
 	}
@@ -253,11 +251,11 @@ public class HtmlUtils {
 			s = s.replaceAll("\r|\n", "<br/>");
 			// Normal display
 			if (s.matches("^\\#\\#.*")) {
-				s = s.substring(2).replaceAll("\\s", "&nbsp;");
+				s = s.substring(2);
 				html.append(s.replaceAll("\\{\\{.*", ""));
 				// Forced tooltip
 				if (s.contains("{{"))
-					html.append("&nbsp;").append(writeTip("cmt-" + id, s.replaceAll(".*\\{\\{|\\}\\}", "")));
+					html.append(" ").append(writeTip("cmt-" + id, s.replaceAll(".*\\{\\{|\\}\\}", "")));
 			}
 			// Tooltip
 			else
@@ -285,7 +283,7 @@ public class HtmlUtils {
 				sbRecord.append("</tr>");
 				currentHeader = item.getTxt1() + item.getTxt2() + item.getTxt3();
 			}
-			sbRecord.append("<tr><td style='text-align:right;padding-left:10px;font-weight:normal;text-decoration:underline;'>" + ResourceUtils.getText("rec." + item.getLabel(), lang).replaceAll("\\s", "&nbsp;") + "</td>");
+			sbRecord.append("<tr><td style='text-align:right;padding-left:10px;font-weight:normal;text-decoration:underline;'>" + ResourceUtils.getText("rec." + item.getLabel(), lang) + "</td>");
 			if (StringUtils.notEmpty(item.getTxt1()))
 				sbRecord.append("<td>" + item.getCount1() + "</td>");
 			if (StringUtils.notEmpty(item.getTxt2()))
@@ -328,7 +326,7 @@ public class HtmlUtils {
 					icon = t[1];
 				}
 				else {
-					text = ResourceUtils.getText("extlink." + (link.getFlag() != null && link.getFlag().equals('F') ? "federation" : (link.getFlag() != null && link.getFlag().equals('O') ? "official" : "others")), lang).replaceAll("\\s", "&nbsp;");
+					text = ResourceUtils.getText("extlink." + (link.getFlag() != null && link.getFlag().equals('F') ? "federation" : (link.getFlag() != null && link.getFlag().equals('O') ? "official" : "others")), lang);
 					icon = "/img/render/website.png";
 				}
 			}

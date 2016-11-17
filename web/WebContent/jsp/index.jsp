@@ -32,8 +32,8 @@
 		<div class="fstitle info"><%=StringUtils.text("title.presentation", session)%></div>
 		<div class="fscontent">
 			<h3><%=StringUtils.text("sporthenon.welcome", session)%></h3><br/>
-			<img src='/img/bullet.gif' alt='-'/>&nbsp;<%=StringUtils.text("sporthenon.desc", session)%></a><br/>
-			<hr/><img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("site.topics", session)%></b><br/>
+			<img src='/img/bullet.gif' alt='-'/> <%=StringUtils.text("sporthenon.desc", session)%></a><br/>
+			<hr/><img src='/img/bullet.gif' alt='-'/> <b><%=StringUtils.text("site.topics", session)%></b><br/>
 			<div id="topics"><table><tr>
 				<td class="results" onclick="location.href='/results';" onmouseover='overTopic(TX_DESC_RESULTS);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.results", session)%></td>
 				<td class="calendar" onclick="location.href='/calendar';" onmouseover='overTopic(TX_DESC_CALENDAR);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.calendar", session)%></td>
@@ -41,8 +41,8 @@
 				<td class="usleagues" onclick="location.href='/usleagues';" onmouseover='overTopic(TX_DESC_USLEAGUES);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.usleagues", session)%></td>
 				<td class="search" onclick="location.href='/search';" onmouseover='overTopic(TX_DESC_SEARCH);' onmouseout="$('details').hide();"><%=StringUtils.text("menu.search", session)%></td>
 				<td id="details" style="display:none;"></td></tr></table></div>
-			<hr/><img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("random.event", session)%></b><br/><table id="randomevent"><tr><td id="randomeventvalue"><%=IndexServlet.getRandomEvent(lang)%></td><td><a href="javascript:getRandomEvent();"><img alt="Change" title="<%=StringUtils.text("change", session)%>" src="/img/db/refresh.png"/></a></td></tr></table>
-			<hr/><img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("access.sport", session)%></b><select style="margin-left:10px;" onchange="location.href=this.value;"><option value="">–– <%=StringUtils.text("select.sport", session)%> ––</option><%=sbSports1.toString()%></select><br/>
+			<hr/><img src='/img/bullet.gif' alt='-'/> <b><%=StringUtils.text("random.event", session)%></b><br/><table id="randomevent"><tr><td id="randomeventvalue"><%=IndexServlet.getRandomEvent(lang)%></td><td><a href="javascript:getRandomEvent();"><img alt="Change" title="<%=StringUtils.text("change", session)%>" src="/img/db/refresh.png"/></a></td></tr></table>
+			<hr/><img src='/img/bullet.gif' alt='-'/> <b><%=StringUtils.text("access.sport", session)%></b><select style="margin-left:10px;" onchange="location.href=this.value;"><option value="">–– <%=StringUtils.text("select.sport", session)%> ––</option><%=sbSports1.toString()%></select><br/>
 			<div id="sports" class="slider"><%@include file="../html/slider.html"%></div>
 		</div>
 	</div>
@@ -52,7 +52,7 @@
 		<div class="fscontent">
 		<div id="dupdates">
 		<table id="dupdates-opts">
-			<tr><td><%=StringUtils.text("filter.sport", session)%>&nbsp;:</td>
+			<tr><td><%=StringUtils.text("filter.sport", session)%> :</td>
 			<td><select onchange="getLastUpdates(null, null, this.value);"><option value="0">–– <%=StringUtils.text("all.sports", session)%> ––</option><%=sbSports2.toString()%></select></td></tr>
 			<tr><td id="dupdates-loading" style="display:none;"><img alt="Loading..." style="float:left;" src="/img/db/loading.gif?6"/></td></tr>
 		</table>
@@ -61,7 +61,7 @@
 			<th onclick="sort('tlast', this, 1);"><%=StringUtils.text("sport", session)%></th>
 			<th onclick="sort('tlast', this, 2);"><%=StringUtils.text("event", session)%></th>
 			<th onclick="sort('tlast', this, 3);"><%=StringUtils.text("entity.RS.1", session)%></th>
-			<th id="tlast-dtcol" class="sorted desc" style="width:100px;" onclick="sort('tlast', this, 4);"><%=StringUtils.text("date", session).replaceAll("\\s", "&nbsp;")%></th>
+			<th id="tlast-dtcol" class="sorted desc" style="width:100px;" onclick="sort('tlast', this, 4);"><%=StringUtils.text("date", session)%></th>
 		</tr></thead><tbody class="tby" id="tb-tlast">
 		<%
 			final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_lastupdates_limit"));
@@ -103,7 +103,7 @@
 				<tr><th><%=StringUtils.text("entity.CX", session)%></th><td class="stat"><%=StringUtils.formatNumber(stb.getCountComplex(), lang)%></td></tr>
 			</table></li>
 			<li><table>
-				<tr><th style="text-align:center;"><div style="float:left;margin-left:2px;font-weight:normal;"><a href="javascript:changeReport(-1);">&lt;&nbsp;<%=StringUtils.text("previous", session)%></a></div><div style="float:right;margin-right:2px;font-weight:normal;"><a href="javascript:changeReport(1);"><%=StringUtils.text("next", session)%>&nbsp;&gt;</a></div><span id="ctitle">.</span></th></tr>
+				<tr><th style="text-align:center;"><div style="float:left;margin-left:2px;font-weight:normal;"><a href="javascript:changeReport(-1);">&lt; <%=StringUtils.text("previous", session)%></a></div><div style="float:right;margin-right:2px;font-weight:normal;"><a href="javascript:changeReport(1);"><%=StringUtils.text("next", session)%> &gt;</a></div><span id="ctitle">.</span></th></tr>
 				<tr><td id="chart"></td></tr>
 			</table></li>
 			</ul>

@@ -115,7 +115,7 @@ private static final long serialVersionUID = 1L;
 			String img = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_LARGE, null, null);
 			String text = sp.getLabel(lang);
 			img = img.replaceAll(".*\\ssrc\\='|'/\\>", "");
-			hSports.put(sp.getId(), "<div id='sport-#INDEX#' class='sport' style=\"background-image:url('" + img + "');" + "\">" + HtmlUtils.writeLink(Sport.alias, sp.getId(), text.replaceAll("\\s", "&nbsp;"), sp.getLabel()) + "</div>");
+			hSports.put(sp.getId(), "<div id='sport-#INDEX#' class='sport' style=\"background-image:url('" + img + "');" + "\">" + HtmlUtils.writeLink(Sport.alias, sp.getId(), text, sp.getLabel()) + "</div>");
 			lId.add(sp.getId());
 		}
 		
@@ -143,7 +143,7 @@ private static final long serialVersionUID = 1L;
 			Result rs = (Result) DatabaseHelper.loadEntity(Result.class, id);
 			if (rs != null) {
 				s = HtmlUtils.writeURL("/results", rs.getSport().getId() + "-" + rs.getChampionship().getId() + "-" + rs.getEvent().getId() + (rs.getSubevent() != null ? "-" + rs.getSubevent().getId() : "") + (rs.getSubevent2() != null ? "-" + rs.getSubevent2().getId() : ""), rs.getSport().getLabel() + "/" + rs.getChampionship().getLabel() + (rs.getEvent() != null ? "/" + rs.getEvent().getLabel() + (rs.getSubevent() != null ? "/" + rs.getSubevent().getLabel() : "") + (rs.getSubevent2() != null ? "/" + rs.getSubevent2().getLabel() : "") : ""));
-				s = "<a href='" + s + "'>" + rs.getSport().getLabel(lang) + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + rs.getChampionship().getLabel(lang) + "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + rs.getEvent().getLabel(lang) + (rs.getSubevent() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + rs.getSubevent().getLabel(lang) : "") + (rs.getSubevent2() != null ? "&nbsp;" + StringUtils.SEP1 + "&nbsp;" + rs.getSubevent2().getLabel(lang) : "") + "</a>";
+				s = "<a href='" + s + "'>" + rs.getSport().getLabel(lang) + " " + StringUtils.SEP1 + " " + rs.getChampionship().getLabel(lang) + " " + StringUtils.SEP1 + " " + rs.getEvent().getLabel(lang) + (rs.getSubevent() != null ? " " + StringUtils.SEP1 + " " + rs.getSubevent().getLabel(lang) : "") + (rs.getSubevent2() != null ? " " + StringUtils.SEP1 + " " + rs.getSubevent2().getLabel(lang) : "") + "</a>";
 			}
 		}
 		catch (Exception e) {

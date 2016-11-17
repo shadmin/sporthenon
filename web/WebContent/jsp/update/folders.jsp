@@ -36,15 +36,15 @@
 				<td><input type="button" value="&gt;" onclick="moveFolder('list1', 'list2');"/><br/><input type="button" value="&lt;" onclick="moveFolder('list2', 'list1');"/></td>
 				<td><select id="list2" multiple="multiple" size="20"></select></td>
 			</tr>
-			<tr><td><%=StringUtils.text("entity.SP.1", session)%>&nbsp;:</td></tr>
+			<tr><td><%=StringUtils.text("entity.SP.1", session)%> :</td></tr>
 			<tr><td><select id="sp"><option value=""></option><%=sbSport.toString()%></select></td><td/><td><input type="checkbox" id="cb1"/><label for="cb1"><%=StringUtils.text("automatic.subevent", session)%></label></td></tr>
-			<tr><td><%=StringUtils.text("entity.CP.1", session)%>&nbsp;:</td><td/><td><input type="checkbox" id="cb2"/><label for="cb2"><%=StringUtils.text("clear.event", session)%> #2</label></td></tr>
+			<tr><td><%=StringUtils.text("entity.CP.1", session)%> :</td><td/><td><input type="checkbox" id="cb2"/><label for="cb2"><%=StringUtils.text("clear.event", session)%> #2</label></td></tr>
 			<tr><td><select id="cp"><option value=""></option><%=sbChampionship.toString()%></select></td><td/><td><input type="checkbox" id="cb3"/><label for="cb3"><%=StringUtils.text("clear.event", session)%> #3</label></td></tr>
-			<tr><td><%=StringUtils.text("entity.EV.1", session)%>&nbsp;#1&nbsp;:</td></tr>
+			<tr><td><%=StringUtils.text("entity.EV.1", session)%> #1 :</td></tr>
 			<tr><td><select id="ev1"><option value=""></option><%=sbEvent.toString()%></select></td></tr>
-			<tr><td><%=StringUtils.text("entity.EV.1", session)%>&nbsp;#2&nbsp;:</td></tr>
+			<tr><td><%=StringUtils.text("entity.EV.1", session)%> #2 :</td></tr>
 			<tr><td><select id="ev2"><option value=""></option><%=sbEvent.toString()%></select></td></tr>
-			<tr><td><%=StringUtils.text("entity.EV.1", session)%>&nbsp;#3&nbsp;:</td></tr>
+			<tr><td><%=StringUtils.text("entity.EV.1", session)%> #3 :</td></tr>
 			<tr><td><select id="ev3"><option value=""></option><%=sbEvent.toString()%></select></td></tr>
 			</table>
 		</div>

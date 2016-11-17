@@ -128,7 +128,7 @@ public class StringUtils {
 			if (dt != null) {
 				if (!dt.matches(".*\\d\\d\\:\\d\\d$"))
 					dt += " 00:00";
-				dt = dftxt.format(df.parse(dt)).replaceAll("\\s", "&nbsp;");
+				dt = dftxt.format(df.parse(dt));
 			}
 		}
 		return dt;
@@ -158,7 +158,7 @@ public class StringUtils {
 	}
 	
 	public static String formatResult(Object s, String lang) {
-		return formatNumber(s, lang).replaceAll("\\-", StringUtils.SEP1).replaceAll("\\s", "&nbsp;");
+		return formatNumber(s, lang).replaceAll("\\-", StringUtils.SEP1);
 	}
 
 	public static Integer extractId(Object o) {
@@ -166,7 +166,7 @@ public class StringUtils {
 	}
 
 	public static final String toTree(String s) {
-		return (s.matches("^\\+{2}.*") ? "<span style=\"color:#666;\">&dagger;&nbsp;<i>" + s.substring(2) + "</i></span>" : s);
+		return (s.matches("^\\+{2}.*") ? "<span style=\"color:#666;\">&dagger; <i>" + s.substring(2) + "</i></span>" : s);
 	}
 	
 	public static final String getSizeBytes(String s) {
@@ -286,9 +286,9 @@ public class StringUtils {
 			if (name.toLowerCase().matches(".+\\,\\s.+\\|.+")) {
 				String[] t = name.split("\\,\\s", -1);
 				if (name.matches(".*\\((" + PATTERN_REVERT_NAME + ")\\)"))
-					name = t[0] + (t.length > 1 && StringUtils.notEmpty(t[1]) ? "&nbsp;" + t[1].charAt(0) + "." : "");
+					name = t[0] + (t.length > 1 && StringUtils.notEmpty(t[1]) ? " " + t[1].charAt(0) + "." : "");
 				else
-					name = (t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1].charAt(0) + ".&nbsp;" : "") + t[0];
+					name = (t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1].charAt(0) + ". " : "") + t[0];
 			}
 			name = name.replaceAll("\\|.*", "");
 		}

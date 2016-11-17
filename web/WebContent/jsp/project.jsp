@@ -8,7 +8,7 @@
 		<div class="fieldset" style="height:300px;overflow-y:auto;margin-top:0px;">
 			<div class="fstitle github">GITHUB</div>
 			<div class="fscontent">
-				<%=StringUtils.text("github.desc", session)%>&nbsp;:<br/><a target="_blank" href="https://github.com/shadmin/sporthenon">https://github.com/shadmin/sporthenon</a>
+				<%=StringUtils.text("github.desc", session)%> :<br/><a target="_blank" href="https://github.com/shadmin/sporthenon">https://github.com/shadmin/sporthenon</a>
 				<table style="margin-top:10px;">
 					<tr><th style="padding:0px;"><table><tr><td><img alt="" src="/img/db/export/txt.png"/></td><td style="padding-bottom:1px;"><%=StringUtils.text("change.log", session)%></td></tr></table></th></tr>
 					<tr><td style="text-align:center;"><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/CHANGELOG.txt">https://raw.githubusercontent.com/shadmin/sporthenon/master/CHANGELOG.txt</a></td></tr>
