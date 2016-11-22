@@ -28,7 +28,7 @@
 	<link rel="alternate" hreflang="fr" href="<%=request.getAttribute("urlFR")%>"/>
 	<meta property="og:title" content="<%=(title != null ? title.toString().replaceAll("\\s+\\|\\s+Sporthenon$", "") : title)%>"/>
 	<meta property="og:type" content="website"/>
-	<meta property="og:image" content="<%=url%>/img/icon-notext.png?1"/>
+	<meta property="og:image" content="<%=(request.getAttribute("ogimg") != null ? request.getAttribute("ogimg") : url + "/img/icon-notext.png?1")%>"/>
 	<%if (request.isSecure() || !ConfigUtils.getProperty("env").equals("prod") || !ServletHelper.getURL(request).contains("sporthenon.com")) {%>
 	<meta name="robots" content="noindex, nofollow"/>
 	<%}%>

@@ -401,7 +401,7 @@ function elapsedTime(t1_, t2_) {
 	return ((t2_ - t1_) / 1000);
 }
 function backTop() {
-	Effect.ScrollTo('header');
+	Effect.ScrollTo('header', {duration: 0.5});
 }
 function setCookie(name, value) {
     var d = new Date();

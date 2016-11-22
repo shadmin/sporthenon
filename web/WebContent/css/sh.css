@@ -1187,6 +1187,9 @@ select.disabled{
 .statistics{
 	background-image: url(../img/project/statistics.png?6);
 }
+.android{
+	background-image: url(../img/project/android.png?6);
+}
 .technicalinfo{
 	background-image: url(../img/project/technicalinfo.png?6);
 }
@@ -1202,6 +1205,16 @@ select.disabled{
 }
 #project .left tr:hover td{
 	background-color: #FFA; /* _theme_ */
+}
+#project #screenshots{
+	width: 0%;
+	margin-top: 10px;	
+}
+#project #screenshots td{
+	border: none;
+}
+#project #screenshots img{
+	width: 100px;
 }
 /*================================
   ========== CONTRIBUTE ========== 

@@ -32,6 +32,29 @@
 		</div>
 	</div>
 	<div>
+		<!-- ANDROID -->
+		<div class="fieldset">
+		<div class="fstitle android">ANDROID</div>
+		<div class="fscontent" style="overflow:auto;">
+			<%=StringUtils.text("link.google.play", session)%> : <a target="_blank" href="http://play.google.com/store/apps/details?id=com.sporthenon.android">http://play.google.com/store/apps/details?id=com.sporthenon.android</a>
+			<br/><br/><%=StringUtils.text("screenshots", session)%> :
+			<table id="screenshots"><tr>
+				<td><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-48-17.png"><img src="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-48-17.png"/></a></td>
+				<td><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-48-33.png"><img src="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-48-33.png"/></a></td>
+				<td><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-48-40.png"><img src="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-48-40.png"/></a></td>
+				<td><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-48-55.png"><img src="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-48-55.png"/></a></td>
+				<td><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-49-02.png"><img src="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-49-02.png"/></a></td>
+				<td><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-49-33.png"><img src="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-49-33.png"/></a></td>
+				<td><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-49-51.png"><img src="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-49-51.png"/></a></td>
+				<td><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-49-58.png"><img src="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-49-58.png"/></a></td>
+				<td><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-50-06.png"><img src="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-50-06.png"/></a></td>
+				<td><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-50-06.png"><img src="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-50-06.png"/></a></td>
+				<td><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-50-35.png"><img src="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-50-35.png"/></a></td>
+				<td><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-51-44.png"><img src="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-51-44.png"/></a></td>
+				<td><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-51-57.png"><img src="https://raw.githubusercontent.com/shadmin/sporthenon/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-51-57.png"/></a></td>				
+			</tr></table>
+		</div>
+		</div>
 		<!-- TECHNICAL INFO -->
 		<div class="fieldset">
 		<div class="fstitle technicalinfo"><%=StringUtils.text("technical.info", session)%></div>
