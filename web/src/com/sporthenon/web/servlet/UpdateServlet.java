@@ -107,6 +107,8 @@ public class UpdateServlet extends AbstractServlet {
 				deleteEntity(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("load-overview"))
 				loadOverview(response, hParams, lang, cb);
+			else if (hParams.containsKey("p") && hParams.get("p").equals("set-overview-flag"))
+				setOverviewFlag(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("save-config"))
 				saveConfig(response, hParams, lang, cb);
 			else if (hParams.containsKey("p") && hParams.get("p").equals("execute-query"))
@@ -558,6 +560,8 @@ public class UpdateServlet extends AbstractServlet {
 			result.setExa(StringUtils.notEmpty(hParams.get("exa-l")) ? String.valueOf(hParams.get("exa-l")) : null);
 			result.setPhotoSource(StringUtils.notEmpty(hParams.get("source-l")) ? String.valueOf(hParams.get("source-l")) : null);
 			result.setDraft(String.valueOf(hParams.get("draft")).equals("1"));
+			result.setNoDate(String.valueOf(hParams.get("nodate")).equals("1"));
+			result.setNoPlace(String.valueOf(hParams.get("noplace")).equals("1"));
 			// Inactive item
 			String hql = "from InactiveItem where id_sport=" + result.getSport().getId() + " and id_championship=" + result.getChampionship().getId() + " and id_event=" + result.getEvent().getId();
 			hql += (result.getSubevent() != null ? " and id_subevent=" + result.getSubevent().getId() : "");
@@ -827,6 +831,8 @@ public class UpdateServlet extends AbstractServlet {
 				int rkcount = (item.getTxt3() != null ? item.getTxt3().split("\\,").length : 0);
 				int rscount = (item.getTxt4() != null ? item.getTxt4().split("\\,").length : 0);
 				boolean isScore = (rkcount >= 2 && rscount == 1);
+				boolean isNoDate = (item.getCount1() != null && item.getCount1() == 1);
+				boolean isNoPlace = (item.getCount2() != null && item.getCount2() == 1);
 				String[] tplace = item.getTxt1().split("\\,", -1);
 				int cxcount = (StringUtils.notEmpty(tplace[0]) && !tplace[0].equals("0") ? 1 : 0) + (StringUtils.notEmpty(tplace[1]) && !tplace[1].equals("0") ? 1 : 0);
 				int ctcount = (StringUtils.notEmpty(tplace[2]) && !tplace[2].equals("0") ? 1 : 0) + (StringUtils.notEmpty(tplace[3]) && !tplace[3].equals("0") ? 1 : 0);
@@ -846,11 +852,16 @@ public class UpdateServlet extends AbstractServlet {
 					html.append("<td class='tick'>" + ResourceUtils.getText("entity.CX.1", lang) + " (" + cxcount + ")</td>");
 				else if (ctcount > 0)
 					html.append("<td class='tick'>" + ResourceUtils.getText("entity.CT.1", lang) + " (" + ctcount + ")</td>");
+				else if (isNoPlace)
+					html.append("<td class='tick'></td>");
 				else
-					html.append("<td></td>");
-				html.append("<td" + (dtcount > 0 ? " class='tick'>" + dtcount : " class='warning_'>") + "</td>");
+					html.append("<td class='warning_'><input type='checkbox' title='" + ResourceUtils.getText("no.place", lang) + "' onclick=\"setOverviewFlag('no_place', " + item.getIdItem() + ");\"/></td>");
+				if (dtcount > 0 || isNoDate)
+					html.append("<td class='tick'></td>");
+				else
+					html.append("<td class='warning_'><input type='checkbox' title='" + ResourceUtils.getText("no.date", lang) + "' onclick=\"setOverviewFlag('no_date', " + item.getIdItem() + ");\"/></td>");					
 				html.append(StringUtils.notEmpty(item.getTxt6()) ? "<td class='tick'>" + item.getTxt6().split("\\,").length + "</td>" : "<td></td>");
-				comp = (rkcount > 0 ? 1 : 0) + (cxcount > 0 || ctcount > 0 ? 1 : 0) + (dtcount > 0 ? 1 : 0) + (StringUtils.notEmpty(item.getTxt6()) ? 1 : 0);
+				comp = (rkcount > 0 ? 1 : 0) + (cxcount > 0 || ctcount > 0 || isNoPlace ? 1 : 0) + (dtcount > 0 || isNoDate ? 1 : 0) + (StringUtils.notEmpty(item.getTxt6()) ? 1 : 0);
 				comp += (rkcount >= 3 || isScore ? 1 : 0);
 				max = 7;
 			}
@@ -929,6 +940,264 @@ public class UpdateServlet extends AbstractServlet {
 			html.append("</tr>");
 		}
 		ServletHelper.writeText(response, html.append("</tbody></table>").toString());
+	}
+	
+	private static void saveEntity(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
+		String msg = null;
+		try {
+			String id = String.valueOf(hParams.get("id"));
+			String alias = String.valueOf(hParams.get("alias"));
+			Class c = DatabaseHelper.getClassFromAlias(alias);
+			Object o = (StringUtils.notEmpty(id) ? DatabaseHelper.loadEntity(c, Integer.parseInt(id)) : c.newInstance());
+			if (alias.equalsIgnoreCase(Athlete.alias)) {
+				Athlete en = (Athlete) o;
+				en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, StringUtils.toInt(hParams.get("pr-sport"))));
+				en.setTeam((Team)DatabaseHelper.loadEntity(Team.class, StringUtils.toInt(hParams.get("pr-team"))));
+				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("pr-country"))));
+				en.setLastName(String.valueOf(hParams.get("pr-lastname")).trim());
+				en.setFirstName(String.valueOf(hParams.get("pr-firstname")).trim());
+				en.setLink(StringUtils.notEmpty(hParams.get("pr-link")) ? new Integer(String.valueOf(hParams.get("pr-link"))) : null);
+				en.setPhotoSource(String.valueOf(hParams.get("pr-source")));
+				if (en.getLink() != null && en.getLink() > 0) {
+					try {
+						Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, en.getLink());
+						while (a.getLink() != null && a.getLink() > 0)
+							a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, a.getLink());
+						en.setLink(a.getId());
+						DatabaseHelper.executeUpdate("UPDATE \"Athlete\" SET LINK=0 WHERE ID=" + en.getLink());
+					}
+					catch (Exception e) {
+						Logger.getLogger("sh").error(e.getMessage());
+					}
+				}
+			}
+			else if (alias.equalsIgnoreCase(com.sporthenon.db.entity.Calendar.alias)) {
+				com.sporthenon.db.entity.Calendar en = (com.sporthenon.db.entity.Calendar) o;
+				en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, StringUtils.toInt(hParams.get("cl-sport"))));
+				en.setChampionship((Championship)DatabaseHelper.loadEntity(Championship.class, StringUtils.toInt(hParams.get("cl-championship"))));
+				en.setEvent((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("cl-event"))));
+				en.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("cl-subevent"))));
+				en.setSubevent2((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("cl-subevent2"))));
+				en.setComplex((Complex)DatabaseHelper.loadEntity(Complex.class, StringUtils.toInt(hParams.get("cl-complex"))));
+				en.setCity((City)DatabaseHelper.loadEntity(City.class, StringUtils.toInt(hParams.get("cl-city"))));
+				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("cl-country"))));
+				en.setDate1(StringUtils.notEmpty(hParams.get("cl-date1")) ? String.valueOf(hParams.get("cl-date1")) : null);
+				en.setDate2(StringUtils.notEmpty(hParams.get("cl-date2")) ? String.valueOf(hParams.get("cl-date2")) : null);
+			}
+			else if (alias.equalsIgnoreCase(Championship.alias)) {
+				Championship en = (Championship) o;
+				en.setLabel(String.valueOf(hParams.get("cp-label")));
+				en.setLabelFr(String.valueOf(hParams.get("cp-labelfr")));
+				en.setIndex(StringUtils.notEmpty(hParams.get("cp-index")) ? Float.valueOf(String.valueOf(hParams.get("cp-index"))) : Float.MAX_VALUE);
+			}
+			else if (alias.equalsIgnoreCase(City.alias)) {
+				City en = (City) o;
+				en.setLabel(String.valueOf(hParams.get("ct-label")));
+				en.setLabelFr(String.valueOf(hParams.get("ct-labelfr")));
+				en.setState((State)DatabaseHelper.loadEntity(State.class, StringUtils.toInt(hParams.get("ct-state"))));
+				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("ct-country"))));
+				en.setPhotoSource(String.valueOf(hParams.get("ct-source")));
+				en.setLink(StringUtils.notEmpty(hParams.get("ct-link")) ? new Integer(String.valueOf(hParams.get("ct-link"))) : null);
+				if (en.getLink() != null && en.getLink() > 0) {
+					try {
+						City c_ = (City) DatabaseHelper.loadEntity(City.class, en.getLink());
+						while (c_.getLink() != null && c_.getLink() > 0)
+							c_ = (City) DatabaseHelper.loadEntity(City.class, c_.getLink());
+						en.setLink(c_.getId());
+						DatabaseHelper.executeUpdate("UPDATE \"City\" SET LINK=0 WHERE ID=" + en.getLink());
+					}
+					catch (Exception e) {
+						Logger.getLogger("sh").error(e.getMessage());
+					}
+				}
+			}
+			else if (alias.equalsIgnoreCase(Complex.alias)) {
+				Complex en = (Complex) o;
+				en.setLabel(String.valueOf(hParams.get("cx-label")));
+				en.setCity((City)DatabaseHelper.loadEntity(City.class, StringUtils.toInt(hParams.get("cx-city"))));
+				en.setPhotoSource(String.valueOf(hParams.get("cx-source")));
+				en.setLink(StringUtils.notEmpty(hParams.get("cx-link")) ? new Integer(String.valueOf(hParams.get("cx-link"))) : null);
+				if (en.getLink() != null && en.getLink() > 0) {
+					try {
+						Complex c_ = (Complex) DatabaseHelper.loadEntity(Complex.class, en.getLink());
+						while (c_.getLink() != null && c_.getLink() > 0)
+							c_ = (Complex) DatabaseHelper.loadEntity(Complex.class, c_.getLink());
+						en.setLink(c_.getId());
+						DatabaseHelper.executeUpdate("UPDATE \"Complex\" SET LINK=0 WHERE ID=" + en.getLink());
+					}
+					catch (Exception e) {
+						Logger.getLogger("sh").error(e.getMessage());
+					}
+				}
+			}
+			else if (alias.equalsIgnoreCase(Contributor.alias)) {
+				Contributor en = (Contributor) o;
+				en.setLogin(String.valueOf(hParams.get("cb-login")));
+				en.setPublicName(String.valueOf(hParams.get("cb-name")));
+				en.setEmail(String.valueOf(hParams.get("cb-email")));
+				en.setActive(String.valueOf(hParams.get("cb-active")).equals("true"));
+				en.setAdmin(String.valueOf(hParams.get("cb-admin")).equals("true"));
+				en.setSports(StringUtils.notEmpty(hParams.get("cb-sports")) ? String.valueOf(hParams.get("cb-sports")) : null);
+			}
+			else if (alias.equalsIgnoreCase(Country.alias)) {
+				Country en = (Country) o;
+				en.setLabel(String.valueOf(hParams.get("cn-label")));
+				en.setLabelFr(String.valueOf(hParams.get("cn-labelfr")));
+				en.setCode(String.valueOf(hParams.get("cn-code")));
+			}
+			else if (alias.equalsIgnoreCase(Event.alias)) {
+				Event en = (Event) o;
+				en.setLabel(String.valueOf(hParams.get("ev-label")));
+				en.setLabelFr(String.valueOf(hParams.get("ev-labelfr")));
+				en.setType((Type)DatabaseHelper.loadEntity(Type.class, StringUtils.toInt(hParams.get("ev-type"))));
+				en.setIndex(StringUtils.notEmpty(hParams.get("ev-index")) ? Float.valueOf(String.valueOf(hParams.get("ev-index"))) : Float.MAX_VALUE);
+			}
+			else if (alias.equalsIgnoreCase(Olympics.alias)) {
+				Olympics en = (Olympics) o;
+				en.setYear((Year)DatabaseHelper.loadEntity(Year.class, StringUtils.toInt(hParams.get("ol-year"))));
+				en.setCity((City)DatabaseHelper.loadEntity(City.class, StringUtils.toInt(hParams.get("ol-city"))));
+				en.setType(StringUtils.notEmpty(hParams.get("ol-type")) ? StringUtils.toInt(hParams.get("ol-type")) : 0);
+				en.setDate1(String.valueOf(hParams.get("ol-start")));
+				en.setDate2(String.valueOf(hParams.get("ol-end")));
+				en.setCountSport(StringUtils.notEmpty(hParams.get("ol-sports")) ? StringUtils.toInt(hParams.get("ol-sports")) : 0);
+				en.setCountEvent(StringUtils.notEmpty(hParams.get("ol-events")) ? StringUtils.toInt(hParams.get("ol-events")) : 0);
+				en.setCountCountry(StringUtils.notEmpty(hParams.get("ol-countries")) ? StringUtils.toInt(hParams.get("ol-countries")) : 0);
+				en.setCountPerson(StringUtils.notEmpty(hParams.get("ol-persons")) ? StringUtils.toInt(hParams.get("ol-persons")) : 0);
+			}
+			else if (alias.equalsIgnoreCase(OlympicRanking.alias)) {
+				OlympicRanking en = (OlympicRanking) o;
+				en.setOlympics((Olympics)DatabaseHelper.loadEntity(Olympics.class, StringUtils.toInt(hParams.get("or-olympics"))));
+				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("or-country"))));
+				en.setCountGold(StringUtils.notEmpty(hParams.get("or-gold")) ? StringUtils.toInt(hParams.get("or-gold")) : 0);
+				en.setCountSilver(StringUtils.notEmpty(hParams.get("or-silver")) ? StringUtils.toInt(hParams.get("or-silver")) : 0);
+				en.setCountBronze(StringUtils.notEmpty(hParams.get("or-bronze")) ? StringUtils.toInt(hParams.get("or-bronze")) : 0);
+			}
+			else if (alias.equalsIgnoreCase(RoundType.alias)) {
+				RoundType en = (RoundType) o;
+				en.setLabel(String.valueOf(hParams.get("rt-label")));
+				en.setLabelFr(String.valueOf(hParams.get("rt-labelfr")));
+				en.setIndex(StringUtils.notEmpty(hParams.get("rt-index")) ? Float.valueOf(String.valueOf(hParams.get("rt-index"))) : Float.MAX_VALUE);
+			}
+			else if (alias.equalsIgnoreCase(Sport.alias)) {
+				Sport en = (Sport) o;
+				en.setLabel(String.valueOf(hParams.get("sp-label")));
+				en.setLabelFr(String.valueOf(hParams.get("sp-labelfr")));
+				en.setType(StringUtils.notEmpty(hParams.get("sp-type")) ? StringUtils.toInt(hParams.get("sp-type")) : 0);
+				en.setIndex(StringUtils.notEmpty(hParams.get("sp-index")) ? Float.valueOf(String.valueOf(hParams.get("sp-index"))) : Float.MAX_VALUE);
+			}
+			else if (alias.equalsIgnoreCase(State.alias)) {
+				State en = (State) o;
+				en.setLabel(String.valueOf(hParams.get("st-label")));
+				en.setLabelFr(String.valueOf(hParams.get("st-labelfr")));
+				en.setCode(String.valueOf(hParams.get("st-code")));
+				en.setCapital(String.valueOf(hParams.get("st-capital")));
+			}
+			else if (alias.equalsIgnoreCase(Team.alias)) {
+				Team en = (Team) o;
+				en.setLabel(String.valueOf(hParams.get("tm-label")).trim());
+				en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, StringUtils.toInt(hParams.get("tm-sport"))));
+				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("tm-country"))));
+				en.setLeague((League)DatabaseHelper.loadEntity(League.class, StringUtils.toInt(hParams.get("tm-league"))));
+				en.setConference(String.valueOf(hParams.get("tm-conference")));
+				en.setDivision(String.valueOf(hParams.get("tm-division")));
+				en.setComment(String.valueOf(hParams.get("tm-comment")));
+				en.setYear1(String.valueOf(hParams.get("tm-year1")));
+				en.setYear2(String.valueOf(hParams.get("tm-year2")));
+				en.setLink(StringUtils.notEmpty(hParams.get("tm-link")) ? new Integer(String.valueOf(hParams.get("tm-link"))) : null);
+				if (en.getLink() != null && en.getLink() > 0) {
+					try {
+						Team t = (Team) DatabaseHelper.loadEntity(Team.class, en.getLink());
+						while (t.getLink() != null && t.getLink() > 0)
+							t = (Team) DatabaseHelper.loadEntity(Team.class, t.getLink());
+						en.setLink(t.getId());
+						DatabaseHelper.executeUpdate("UPDATE \"Team\" SET LINK=0 WHERE ID=" + en.getLink());
+					}
+					catch (Exception e) {
+						Logger.getLogger("sh").error(e.getMessage());
+					}
+				}
+			}
+			else if (alias.equalsIgnoreCase(Year.alias)) {
+				Year en = (Year) o;
+				en.setLabel(String.valueOf(hParams.get("yr-label")));
+			}
+			else if (alias.equalsIgnoreCase(HallOfFame.alias)) {
+				HallOfFame en = (HallOfFame) o;
+				en.setLeague((League)DatabaseHelper.loadEntity(League.class, StringUtils.toInt(hParams.get("hf-league"))));
+				en.setYear((Year)DatabaseHelper.loadEntity(Year.class, StringUtils.toInt(hParams.get("hf-year"))));
+				en.setPerson((Athlete)DatabaseHelper.loadEntity(Athlete.class, StringUtils.toInt(hParams.get("hf-person"))));
+				en.setPosition(StringUtils.notEmpty(hParams.get("hf-position")) ? String.valueOf(hParams.get("hf-position")) : null);
+			}
+			else if (alias.equalsIgnoreCase(Record.alias)) {
+				Record en = (Record) o;
+				en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, StringUtils.toInt(hParams.get("rc-sport"))));
+				en.setChampionship((Championship)DatabaseHelper.loadEntity(Championship.class, StringUtils.toInt(hParams.get("rc-championship"))));
+				en.setEvent((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("rc-event"))));
+				en.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("rc-subevent"))));
+				en.setType1(StringUtils.notEmpty(hParams.get("rc-type1")) ? String.valueOf(hParams.get("rc-type1")) : null);
+				en.setType2(StringUtils.notEmpty(hParams.get("rc-type2")) ? String.valueOf(hParams.get("rc-type2")) : null);
+				en.setCity((City)DatabaseHelper.loadEntity(City.class, StringUtils.toInt(hParams.get("rc-city"))));
+				en.setLabel(StringUtils.notEmpty(hParams.get("rc-label")) ? String.valueOf(hParams.get("rc-label")) : null);
+				en.setIdRank1(StringUtils.notEmpty(hParams.get("rc-rank1")) ? new Integer(String.valueOf(hParams.get("rc-rank1"))) : null);
+				en.setRecord1(StringUtils.notEmpty(hParams.get("rc-record1")) ? String.valueOf(hParams.get("rc-record1")) : null);
+				en.setDate1(StringUtils.notEmpty(hParams.get("rc-date1")) ? String.valueOf(hParams.get("rc-date1")) : null);
+				en.setIdRank2(StringUtils.notEmpty(hParams.get("rc-rank2")) ? new Integer(String.valueOf(hParams.get("rc-rank2"))) : null);
+				en.setRecord2(StringUtils.notEmpty(hParams.get("rc-record2")) ? String.valueOf(hParams.get("rc-record2")) : null);
+				en.setDate2(StringUtils.notEmpty(hParams.get("rc-date2")) ? String.valueOf(hParams.get("rc-date2")) : null);
+				en.setIdRank3(StringUtils.notEmpty(hParams.get("rc-rank3")) ? new Integer(String.valueOf(hParams.get("rc-rank3"))) : null);
+				en.setRecord3(StringUtils.notEmpty(hParams.get("rc-record3")) ? String.valueOf(hParams.get("rc-record3")) : null);
+				en.setDate3(StringUtils.notEmpty(hParams.get("rc-date3")) ? String.valueOf(hParams.get("rc-date3")) : null);
+				en.setIdRank4(StringUtils.notEmpty(hParams.get("rc-rank4")) ? new Integer(String.valueOf(hParams.get("rc-rank4"))) : null);
+				en.setRecord4(StringUtils.notEmpty(hParams.get("rc-record4")) ? String.valueOf(hParams.get("rc-record4")) : null);
+				en.setDate4(StringUtils.notEmpty(hParams.get("rc-date4")) ? String.valueOf(hParams.get("rc-date4")) : null);
+				en.setIdRank5(StringUtils.notEmpty(hParams.get("rc-rank5")) ? new Integer(String.valueOf(hParams.get("rc-rank5"))) : null);
+				en.setRecord5(StringUtils.notEmpty(hParams.get("rc-record5")) ? String.valueOf(hParams.get("rc-record5")) : null);
+				en.setDate5(StringUtils.notEmpty(hParams.get("rc-date5")) ? String.valueOf(hParams.get("rc-date5")) : null);
+				en.setCounting(StringUtils.notEmpty(hParams.get("rc-counting")) ? String.valueOf(hParams.get("rc-counting")).equals("1") : null);
+				en.setIndex(StringUtils.notEmpty(hParams.get("rc-index")) ? new Float(String.valueOf(hParams.get("rc-index"))) : null);
+				en.setExa(StringUtils.notEmpty(hParams.get("rc-tie")) ? String.valueOf(hParams.get("rc-tie")) : null);
+				en.setComment(StringUtils.notEmpty(hParams.get("rc-comment")) ? String.valueOf(hParams.get("rc-comment")) : null);
+			}
+			else if (alias.equalsIgnoreCase(RetiredNumber.alias)) {
+				RetiredNumber en = (RetiredNumber) o;
+				en.setLeague((League)DatabaseHelper.loadEntity(League.class, StringUtils.toInt(hParams.get("rn-league"))));
+				en.setTeam((Team)DatabaseHelper.loadEntity(Team.class, StringUtils.toInt(hParams.get("rn-team"))));
+				en.setPerson((Athlete)DatabaseHelper.loadEntity(Athlete.class, StringUtils.toInt(hParams.get("rn-person"))));
+				en.setYear((Year)DatabaseHelper.loadEntity(Year.class, StringUtils.toInt(hParams.get("rn-year"))));
+				en.setNumber(StringUtils.notEmpty(hParams.get("rn-number")) ? new Integer(String.valueOf(hParams.get("rn-number"))) : null);
+			}
+			else if (alias.equalsIgnoreCase(TeamStadium.alias)) {
+				TeamStadium en = (TeamStadium) o;
+				en.setLeague((League)DatabaseHelper.loadEntity(League.class, StringUtils.toInt(hParams.get("ts-league"))));
+				en.setTeam((Team)DatabaseHelper.loadEntity(Team.class, StringUtils.toInt(hParams.get("ts-team"))));
+				en.setComplex((Complex)DatabaseHelper.loadEntity(Complex.class, StringUtils.toInt(hParams.get("ts-complex"))));
+				en.setDate1(StringUtils.notEmpty(hParams.get("ts-date1")) ? new Integer(String.valueOf(hParams.get("ts-date1"))) : null);
+				en.setDate2(StringUtils.notEmpty(hParams.get("ts-date2")) ? new Integer(String.valueOf(hParams.get("ts-date2"))) : null);
+				en.setRenamed(StringUtils.notEmpty(hParams.get("ts-renamed")) ? String.valueOf(hParams.get("ts-renamed")).equals("1") : null);
+			}
+			else if (alias.equalsIgnoreCase(WinLoss.alias)) {
+				WinLoss en = (WinLoss) o;
+				en.setLeague((League)DatabaseHelper.loadEntity(League.class, StringUtils.toInt(hParams.get("wl-league"))));
+				en.setTeam((Team)DatabaseHelper.loadEntity(Team.class, StringUtils.toInt(hParams.get("wl-team"))));
+				en.setType(StringUtils.notEmpty(hParams.get("wl-type")) ? String.valueOf(hParams.get("wl-type")) : null);
+				en.setCountWin(StringUtils.notEmpty(hParams.get("wl-win")) ? new Integer(String.valueOf(hParams.get("wl-win"))) : null);
+				en.setCountLoss(StringUtils.notEmpty(hParams.get("wl-loss")) ? new Integer(String.valueOf(hParams.get("wl-loss"))) : null);
+				en.setCountTie(StringUtils.notEmpty(hParams.get("wl-tie")) ? new Integer(String.valueOf(hParams.get("wl-tie"))) : null);
+				en.setCountOtloss(StringUtils.notEmpty(hParams.get("wl-otloss")) ? new Integer(String.valueOf(hParams.get("wl-otloss"))) : null);
+			}
+			o = DatabaseHelper.saveEntity(o, cb);
+			String id_ = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
+			if (alias.matches(Athlete.alias + "|" + Championship.alias + "|" + City.alias + "|" + Complex.alias + "|" + Country.alias + "|" + Event.alias + "|" + Olympics.alias + "|" + Sport.alias + "|" + State.alias + "|" + Team.alias))
+				DatabaseHelper.saveExternalLinks(alias, Integer.parseInt(id_), String.valueOf(hParams.get("exl")));
+			msg = ResourceUtils.getText("update.ok", lang) + " " + StringUtils.SEP1 + " " + ResourceUtils.getText("entity." + alias + ".1", lang) + " #" + id_;
+		}
+		catch (Exception e) {
+			Logger.getLogger("sh").error(e.getMessage(), e);
+			msg = "ERR:" + e.getMessage();
+		}
+		finally {
+			ServletHelper.writeText(response, msg);
+		}
 	}
 	
 	private static void saveConfig(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
@@ -1146,6 +1415,9 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(inact != null ? "1" : "0").append("~");
 				// Draft
 				sb.append(rs.getDraft() != null && rs.getDraft() ? "1" : "0").append("~");
+				// No_date / No_place
+				sb.append(rs.getNoDate() != null && rs.getNoDate() ? "1" : "0").append("~");
+				sb.append(rs.getNoPlace() != null && rs.getNoPlace() ? "1" : "0").append("~");
 				// External links
 				StringBuffer sbLinks = new StringBuffer();
 				try {
@@ -1646,261 +1918,21 @@ public class UpdateServlet extends AbstractServlet {
 		ServletHelper.writeText(response, sb.toString());
 	}
 	
-	private static void saveEntity(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
-		String msg = null;
+	private static void setOverviewFlag(HttpServletResponse response, Map hParams, String lang, Contributor cb) throws Exception {
 		try {
+			String flag = String.valueOf(hParams.get("flag"));
 			String id = String.valueOf(hParams.get("id"));
-			String alias = String.valueOf(hParams.get("alias"));
-			Class c = DatabaseHelper.getClassFromAlias(alias);
-			Object o = (StringUtils.notEmpty(id) ? DatabaseHelper.loadEntity(c, Integer.parseInt(id)) : c.newInstance());
-			if (alias.equalsIgnoreCase(Athlete.alias)) {
-				Athlete en = (Athlete) o;
-				en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, StringUtils.toInt(hParams.get("pr-sport"))));
-				en.setTeam((Team)DatabaseHelper.loadEntity(Team.class, StringUtils.toInt(hParams.get("pr-team"))));
-				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("pr-country"))));
-				en.setLastName(String.valueOf(hParams.get("pr-lastname")).trim());
-				en.setFirstName(String.valueOf(hParams.get("pr-firstname")).trim());
-				en.setLink(StringUtils.notEmpty(hParams.get("pr-link")) ? new Integer(String.valueOf(hParams.get("pr-link"))) : null);
-				en.setPhotoSource(String.valueOf(hParams.get("pr-source")));
-				if (en.getLink() != null && en.getLink() > 0) {
-					try {
-						Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, en.getLink());
-						while (a.getLink() != null && a.getLink() > 0)
-							a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, a.getLink());
-						en.setLink(a.getId());
-						DatabaseHelper.executeUpdate("UPDATE \"Athlete\" SET LINK=0 WHERE ID=" + en.getLink());
-					}
-					catch (Exception e) {
-						Logger.getLogger("sh").error(e.getMessage());
-					}
-				}
+			Result r = (Result) DatabaseHelper.loadEntity(Result.class, id);
+			if (r != null) {
+				if (flag.equals("no_date"))
+					r.setNoDate(true);
+				else
+					r.setNoPlace(true);
+				DatabaseHelper.saveEntity(r, cb);
 			}
-			else if (alias.equalsIgnoreCase(com.sporthenon.db.entity.Calendar.alias)) {
-				com.sporthenon.db.entity.Calendar en = (com.sporthenon.db.entity.Calendar) o;
-				en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, StringUtils.toInt(hParams.get("cl-sport"))));
-				en.setChampionship((Championship)DatabaseHelper.loadEntity(Championship.class, StringUtils.toInt(hParams.get("cl-championship"))));
-				en.setEvent((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("cl-event"))));
-				en.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("cl-subevent"))));
-				en.setSubevent2((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("cl-subevent2"))));
-				en.setComplex((Complex)DatabaseHelper.loadEntity(Complex.class, StringUtils.toInt(hParams.get("cl-complex"))));
-				en.setCity((City)DatabaseHelper.loadEntity(City.class, StringUtils.toInt(hParams.get("cl-city"))));
-				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("cl-country"))));
-				en.setDate1(StringUtils.notEmpty(hParams.get("cl-date1")) ? String.valueOf(hParams.get("cl-date1")) : null);
-				en.setDate2(StringUtils.notEmpty(hParams.get("cl-date2")) ? String.valueOf(hParams.get("cl-date2")) : null);
-			}
-			else if (alias.equalsIgnoreCase(Championship.alias)) {
-				Championship en = (Championship) o;
-				en.setLabel(String.valueOf(hParams.get("cp-label")));
-				en.setLabelFr(String.valueOf(hParams.get("cp-labelfr")));
-				en.setIndex(StringUtils.notEmpty(hParams.get("cp-index")) ? Float.valueOf(String.valueOf(hParams.get("cp-index"))) : Float.MAX_VALUE);
-			}
-			else if (alias.equalsIgnoreCase(City.alias)) {
-				City en = (City) o;
-				en.setLabel(String.valueOf(hParams.get("ct-label")));
-				en.setLabelFr(String.valueOf(hParams.get("ct-labelfr")));
-				en.setState((State)DatabaseHelper.loadEntity(State.class, StringUtils.toInt(hParams.get("ct-state"))));
-				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("ct-country"))));
-				en.setPhotoSource(String.valueOf(hParams.get("ct-source")));
-				en.setLink(StringUtils.notEmpty(hParams.get("ct-link")) ? new Integer(String.valueOf(hParams.get("ct-link"))) : null);
-				if (en.getLink() != null && en.getLink() > 0) {
-					try {
-						City c_ = (City) DatabaseHelper.loadEntity(City.class, en.getLink());
-						while (c_.getLink() != null && c_.getLink() > 0)
-							c_ = (City) DatabaseHelper.loadEntity(City.class, c_.getLink());
-						en.setLink(c_.getId());
-						DatabaseHelper.executeUpdate("UPDATE \"City\" SET LINK=0 WHERE ID=" + en.getLink());
-					}
-					catch (Exception e) {
-						Logger.getLogger("sh").error(e.getMessage());
-					}
-				}
-			}
-			else if (alias.equalsIgnoreCase(Complex.alias)) {
-				Complex en = (Complex) o;
-				en.setLabel(String.valueOf(hParams.get("cx-label")));
-				en.setCity((City)DatabaseHelper.loadEntity(City.class, StringUtils.toInt(hParams.get("cx-city"))));
-				en.setPhotoSource(String.valueOf(hParams.get("cx-source")));
-				en.setLink(StringUtils.notEmpty(hParams.get("cx-link")) ? new Integer(String.valueOf(hParams.get("cx-link"))) : null);
-				if (en.getLink() != null && en.getLink() > 0) {
-					try {
-						Complex c_ = (Complex) DatabaseHelper.loadEntity(Complex.class, en.getLink());
-						while (c_.getLink() != null && c_.getLink() > 0)
-							c_ = (Complex) DatabaseHelper.loadEntity(Complex.class, c_.getLink());
-						en.setLink(c_.getId());
-						DatabaseHelper.executeUpdate("UPDATE \"Complex\" SET LINK=0 WHERE ID=" + en.getLink());
-					}
-					catch (Exception e) {
-						Logger.getLogger("sh").error(e.getMessage());
-					}
-				}
-			}
-			else if (alias.equalsIgnoreCase(Contributor.alias)) {
-				Contributor en = (Contributor) o;
-				en.setLogin(String.valueOf(hParams.get("cb-login")));
-				en.setPublicName(String.valueOf(hParams.get("cb-name")));
-				en.setEmail(String.valueOf(hParams.get("cb-email")));
-				en.setActive(String.valueOf(hParams.get("cb-active")).equals("true"));
-				en.setAdmin(String.valueOf(hParams.get("cb-admin")).equals("true"));
-				en.setSports(StringUtils.notEmpty(hParams.get("cb-sports")) ? String.valueOf(hParams.get("cb-sports")) : null);
-			}
-			else if (alias.equalsIgnoreCase(Country.alias)) {
-				Country en = (Country) o;
-				en.setLabel(String.valueOf(hParams.get("cn-label")));
-				en.setLabelFr(String.valueOf(hParams.get("cn-labelfr")));
-				en.setCode(String.valueOf(hParams.get("cn-code")));
-			}
-			else if (alias.equalsIgnoreCase(Event.alias)) {
-				Event en = (Event) o;
-				en.setLabel(String.valueOf(hParams.get("ev-label")));
-				en.setLabelFr(String.valueOf(hParams.get("ev-labelfr")));
-				en.setType((Type)DatabaseHelper.loadEntity(Type.class, StringUtils.toInt(hParams.get("ev-type"))));
-				en.setIndex(StringUtils.notEmpty(hParams.get("ev-index")) ? Float.valueOf(String.valueOf(hParams.get("ev-index"))) : Float.MAX_VALUE);
-			}
-			else if (alias.equalsIgnoreCase(Olympics.alias)) {
-				Olympics en = (Olympics) o;
-				en.setYear((Year)DatabaseHelper.loadEntity(Year.class, StringUtils.toInt(hParams.get("ol-year"))));
-				en.setCity((City)DatabaseHelper.loadEntity(City.class, StringUtils.toInt(hParams.get("ol-city"))));
-				en.setType(StringUtils.notEmpty(hParams.get("ol-type")) ? StringUtils.toInt(hParams.get("ol-type")) : 0);
-				en.setDate1(String.valueOf(hParams.get("ol-start")));
-				en.setDate2(String.valueOf(hParams.get("ol-end")));
-				en.setCountSport(StringUtils.notEmpty(hParams.get("ol-sports")) ? StringUtils.toInt(hParams.get("ol-sports")) : 0);
-				en.setCountEvent(StringUtils.notEmpty(hParams.get("ol-events")) ? StringUtils.toInt(hParams.get("ol-events")) : 0);
-				en.setCountCountry(StringUtils.notEmpty(hParams.get("ol-countries")) ? StringUtils.toInt(hParams.get("ol-countries")) : 0);
-				en.setCountPerson(StringUtils.notEmpty(hParams.get("ol-persons")) ? StringUtils.toInt(hParams.get("ol-persons")) : 0);
-			}
-			else if (alias.equalsIgnoreCase(OlympicRanking.alias)) {
-				OlympicRanking en = (OlympicRanking) o;
-				en.setOlympics((Olympics)DatabaseHelper.loadEntity(Olympics.class, StringUtils.toInt(hParams.get("or-olympics"))));
-				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("or-country"))));
-				en.setCountGold(StringUtils.notEmpty(hParams.get("or-gold")) ? StringUtils.toInt(hParams.get("or-gold")) : 0);
-				en.setCountSilver(StringUtils.notEmpty(hParams.get("or-silver")) ? StringUtils.toInt(hParams.get("or-silver")) : 0);
-				en.setCountBronze(StringUtils.notEmpty(hParams.get("or-bronze")) ? StringUtils.toInt(hParams.get("or-bronze")) : 0);
-			}
-			else if (alias.equalsIgnoreCase(RoundType.alias)) {
-				RoundType en = (RoundType) o;
-				en.setLabel(String.valueOf(hParams.get("rt-label")));
-				en.setLabelFr(String.valueOf(hParams.get("rt-labelfr")));
-				en.setIndex(StringUtils.notEmpty(hParams.get("rt-index")) ? Float.valueOf(String.valueOf(hParams.get("rt-index"))) : Float.MAX_VALUE);
-			}
-			else if (alias.equalsIgnoreCase(Sport.alias)) {
-				Sport en = (Sport) o;
-				en.setLabel(String.valueOf(hParams.get("sp-label")));
-				en.setLabelFr(String.valueOf(hParams.get("sp-labelfr")));
-				en.setType(StringUtils.notEmpty(hParams.get("sp-type")) ? StringUtils.toInt(hParams.get("sp-type")) : 0);
-				en.setIndex(StringUtils.notEmpty(hParams.get("sp-index")) ? Float.valueOf(String.valueOf(hParams.get("sp-index"))) : Float.MAX_VALUE);
-			}
-			else if (alias.equalsIgnoreCase(State.alias)) {
-				State en = (State) o;
-				en.setLabel(String.valueOf(hParams.get("st-label")));
-				en.setLabelFr(String.valueOf(hParams.get("st-labelfr")));
-				en.setCode(String.valueOf(hParams.get("st-code")));
-				en.setCapital(String.valueOf(hParams.get("st-capital")));
-			}
-			else if (alias.equalsIgnoreCase(Team.alias)) {
-				Team en = (Team) o;
-				en.setLabel(String.valueOf(hParams.get("tm-label")).trim());
-				en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, StringUtils.toInt(hParams.get("tm-sport"))));
-				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("tm-country"))));
-				en.setLeague((League)DatabaseHelper.loadEntity(League.class, StringUtils.toInt(hParams.get("tm-league"))));
-				en.setConference(String.valueOf(hParams.get("tm-conference")));
-				en.setDivision(String.valueOf(hParams.get("tm-division")));
-				en.setComment(String.valueOf(hParams.get("tm-comment")));
-				en.setYear1(String.valueOf(hParams.get("tm-year1")));
-				en.setYear2(String.valueOf(hParams.get("tm-year2")));
-				en.setLink(StringUtils.notEmpty(hParams.get("tm-link")) ? new Integer(String.valueOf(hParams.get("tm-link"))) : null);
-				if (en.getLink() != null && en.getLink() > 0) {
-					try {
-						Team t = (Team) DatabaseHelper.loadEntity(Team.class, en.getLink());
-						while (t.getLink() != null && t.getLink() > 0)
-							t = (Team) DatabaseHelper.loadEntity(Team.class, t.getLink());
-						en.setLink(t.getId());
-						DatabaseHelper.executeUpdate("UPDATE \"Team\" SET LINK=0 WHERE ID=" + en.getLink());
-					}
-					catch (Exception e) {
-						Logger.getLogger("sh").error(e.getMessage());
-					}
-				}
-			}
-			else if (alias.equalsIgnoreCase(Year.alias)) {
-				Year en = (Year) o;
-				en.setLabel(String.valueOf(hParams.get("yr-label")));
-			}
-			else if (alias.equalsIgnoreCase(HallOfFame.alias)) {
-				HallOfFame en = (HallOfFame) o;
-				en.setLeague((League)DatabaseHelper.loadEntity(League.class, StringUtils.toInt(hParams.get("hf-league"))));
-				en.setYear((Year)DatabaseHelper.loadEntity(Year.class, StringUtils.toInt(hParams.get("hf-year"))));
-				en.setPerson((Athlete)DatabaseHelper.loadEntity(Athlete.class, StringUtils.toInt(hParams.get("hf-person"))));
-				en.setPosition(StringUtils.notEmpty(hParams.get("hf-position")) ? String.valueOf(hParams.get("hf-position")) : null);
-			}
-			else if (alias.equalsIgnoreCase(Record.alias)) {
-				Record en = (Record) o;
-				en.setSport((Sport)DatabaseHelper.loadEntity(Sport.class, StringUtils.toInt(hParams.get("rc-sport"))));
-				en.setChampionship((Championship)DatabaseHelper.loadEntity(Championship.class, StringUtils.toInt(hParams.get("rc-championship"))));
-				en.setEvent((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("rc-event"))));
-				en.setSubevent((Event)DatabaseHelper.loadEntity(Event.class, StringUtils.toInt(hParams.get("rc-subevent"))));
-				en.setType1(StringUtils.notEmpty(hParams.get("rc-type1")) ? String.valueOf(hParams.get("rc-type1")) : null);
-				en.setType2(StringUtils.notEmpty(hParams.get("rc-type2")) ? String.valueOf(hParams.get("rc-type2")) : null);
-				en.setCity((City)DatabaseHelper.loadEntity(City.class, StringUtils.toInt(hParams.get("rc-city"))));
-				en.setLabel(StringUtils.notEmpty(hParams.get("rc-label")) ? String.valueOf(hParams.get("rc-label")) : null);
-				en.setIdRank1(StringUtils.notEmpty(hParams.get("rc-rank1")) ? new Integer(String.valueOf(hParams.get("rc-rank1"))) : null);
-				en.setRecord1(StringUtils.notEmpty(hParams.get("rc-record1")) ? String.valueOf(hParams.get("rc-record1")) : null);
-				en.setDate1(StringUtils.notEmpty(hParams.get("rc-date1")) ? String.valueOf(hParams.get("rc-date1")) : null);
-				en.setIdRank2(StringUtils.notEmpty(hParams.get("rc-rank2")) ? new Integer(String.valueOf(hParams.get("rc-rank2"))) : null);
-				en.setRecord2(StringUtils.notEmpty(hParams.get("rc-record2")) ? String.valueOf(hParams.get("rc-record2")) : null);
-				en.setDate2(StringUtils.notEmpty(hParams.get("rc-date2")) ? String.valueOf(hParams.get("rc-date2")) : null);
-				en.setIdRank3(StringUtils.notEmpty(hParams.get("rc-rank3")) ? new Integer(String.valueOf(hParams.get("rc-rank3"))) : null);
-				en.setRecord3(StringUtils.notEmpty(hParams.get("rc-record3")) ? String.valueOf(hParams.get("rc-record3")) : null);
-				en.setDate3(StringUtils.notEmpty(hParams.get("rc-date3")) ? String.valueOf(hParams.get("rc-date3")) : null);
-				en.setIdRank4(StringUtils.notEmpty(hParams.get("rc-rank4")) ? new Integer(String.valueOf(hParams.get("rc-rank4"))) : null);
-				en.setRecord4(StringUtils.notEmpty(hParams.get("rc-record4")) ? String.valueOf(hParams.get("rc-record4")) : null);
-				en.setDate4(StringUtils.notEmpty(hParams.get("rc-date4")) ? String.valueOf(hParams.get("rc-date4")) : null);
-				en.setIdRank5(StringUtils.notEmpty(hParams.get("rc-rank5")) ? new Integer(String.valueOf(hParams.get("rc-rank5"))) : null);
-				en.setRecord5(StringUtils.notEmpty(hParams.get("rc-record5")) ? String.valueOf(hParams.get("rc-record5")) : null);
-				en.setDate5(StringUtils.notEmpty(hParams.get("rc-date5")) ? String.valueOf(hParams.get("rc-date5")) : null);
-				en.setCounting(StringUtils.notEmpty(hParams.get("rc-counting")) ? String.valueOf(hParams.get("rc-counting")).equals("1") : null);
-				en.setIndex(StringUtils.notEmpty(hParams.get("rc-index")) ? new Float(String.valueOf(hParams.get("rc-index"))) : null);
-				en.setExa(StringUtils.notEmpty(hParams.get("rc-tie")) ? String.valueOf(hParams.get("rc-tie")) : null);
-				en.setComment(StringUtils.notEmpty(hParams.get("rc-comment")) ? String.valueOf(hParams.get("rc-comment")) : null);
-			}
-			else if (alias.equalsIgnoreCase(RetiredNumber.alias)) {
-				RetiredNumber en = (RetiredNumber) o;
-				en.setLeague((League)DatabaseHelper.loadEntity(League.class, StringUtils.toInt(hParams.get("rn-league"))));
-				en.setTeam((Team)DatabaseHelper.loadEntity(Team.class, StringUtils.toInt(hParams.get("rn-team"))));
-				en.setPerson((Athlete)DatabaseHelper.loadEntity(Athlete.class, StringUtils.toInt(hParams.get("rn-person"))));
-				en.setYear((Year)DatabaseHelper.loadEntity(Year.class, StringUtils.toInt(hParams.get("rn-year"))));
-				en.setNumber(StringUtils.notEmpty(hParams.get("rn-number")) ? new Integer(String.valueOf(hParams.get("rn-number"))) : null);
-			}
-			else if (alias.equalsIgnoreCase(TeamStadium.alias)) {
-				TeamStadium en = (TeamStadium) o;
-				en.setLeague((League)DatabaseHelper.loadEntity(League.class, StringUtils.toInt(hParams.get("ts-league"))));
-				en.setTeam((Team)DatabaseHelper.loadEntity(Team.class, StringUtils.toInt(hParams.get("ts-team"))));
-				en.setComplex((Complex)DatabaseHelper.loadEntity(Complex.class, StringUtils.toInt(hParams.get("ts-complex"))));
-				en.setDate1(StringUtils.notEmpty(hParams.get("ts-date1")) ? new Integer(String.valueOf(hParams.get("ts-date1"))) : null);
-				en.setDate2(StringUtils.notEmpty(hParams.get("ts-date2")) ? new Integer(String.valueOf(hParams.get("ts-date2"))) : null);
-				en.setRenamed(StringUtils.notEmpty(hParams.get("ts-renamed")) ? String.valueOf(hParams.get("ts-renamed")).equals("1") : null);
-			}
-			else if (alias.equalsIgnoreCase(WinLoss.alias)) {
-				WinLoss en = (WinLoss) o;
-				en.setLeague((League)DatabaseHelper.loadEntity(League.class, StringUtils.toInt(hParams.get("wl-league"))));
-				en.setTeam((Team)DatabaseHelper.loadEntity(Team.class, StringUtils.toInt(hParams.get("wl-team"))));
-				en.setType(StringUtils.notEmpty(hParams.get("wl-type")) ? String.valueOf(hParams.get("wl-type")) : null);
-				en.setCountWin(StringUtils.notEmpty(hParams.get("wl-win")) ? new Integer(String.valueOf(hParams.get("wl-win"))) : null);
-				en.setCountLoss(StringUtils.notEmpty(hParams.get("wl-loss")) ? new Integer(String.valueOf(hParams.get("wl-loss"))) : null);
-				en.setCountTie(StringUtils.notEmpty(hParams.get("wl-tie")) ? new Integer(String.valueOf(hParams.get("wl-tie"))) : null);
-				en.setCountOtloss(StringUtils.notEmpty(hParams.get("wl-otloss")) ? new Integer(String.valueOf(hParams.get("wl-otloss"))) : null);
-			}
-			o = DatabaseHelper.saveEntity(o, cb);
-			String id_ = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
-			if (alias.matches(Athlete.alias + "|" + Championship.alias + "|" + City.alias + "|" + Complex.alias + "|" + Country.alias + "|" + Event.alias + "|" + Olympics.alias + "|" + Sport.alias + "|" + State.alias + "|" + Team.alias))
-				DatabaseHelper.saveExternalLinks(alias, Integer.parseInt(id_), String.valueOf(hParams.get("exl")));
-			msg = ResourceUtils.getText("update.ok", lang) + " " + StringUtils.SEP1 + " " + ResourceUtils.getText("entity." + alias + ".1", lang) + " #" + id_;
 		}
 		catch (Exception e) {
 			Logger.getLogger("sh").error(e.getMessage(), e);
-			msg = "ERR:" + e.getMessage();
-		}
-		finally {
-			ServletHelper.writeText(response, msg);
 		}
 	}
 	

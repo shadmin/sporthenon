@@ -1651,9 +1651,11 @@ function loadResValues(value) {
 			$('metadata').update(t[26]);
 			tValues['inact'] = t[27]; $('inact').checked = (t[27] == '1');
 			tValues['draft'] = t[28]; $('draft').checked = (t[28] == '1');
-			tValues['exl'] = t[29]; if (t[29] != '') {$('exl').value = t[29].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
+			tValues['nodate'] = t[29]; $('nodate').checked = (t[29] == '1');
+			tValues['noplace'] = t[30]; $('noplace').checked = (t[30] == '1');
+			tValues['exl'] = t[31]; if (t[31] != '') {$('exl').value = t[31].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
 			// Rankings
-			var j = 29;
+			var j = 31;
 			for (var i = 1 ; i <= 20 ; i++) {
 				tValues['rk' + i] = t[++j];
 				// Name
@@ -1910,6 +1912,8 @@ function saveResult() {
 	});
 	h.set('inact', $('inact').checked ? '1' : '0');
 	h.set('draft', $('draft').checked ? '1' : '0');
+	h.set('nodate', $('nodate').checked ? '1' : '0');
+	h.set('noplace', $('noplace').checked ? '1' : '0');
 	new Ajax.Request('/update/save', {
 		onSuccess: function(response){
 			var text = response.responseText;
@@ -2854,6 +2858,9 @@ function loadOverview() {
 	new Ajax.Updater($('ovcontent'), '/update/load-overview', {
 		parameters: h
 	});
+}
+function setOverviewFlag(flag, id) {
+	new Ajax.Request('/update/set-overview-flag?flag=' + flag + '&id=' + id);
 }
 /*========== PICTURES ==========*/
 var dzp = null;
