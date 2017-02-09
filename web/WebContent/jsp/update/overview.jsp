@@ -44,6 +44,7 @@
 				<td><input id="showimg" type="checkbox"/></td>
 				<td><label for="showimg"><%=StringUtils.text("show.img", session)%></label></td>
 				<td><input type="button" value="OK" onclick="loadOverview();"/></td>
+				<td><fieldset><legend><%=StringUtils.text("year.report", session)%></legend><input id="year" type="text" value="<%=Calendar.getInstance().get(Calendar.YEAR)%>" style="width:50px;"/>&nbsp;<input type="button" value="OK" onclick="executeQuery(9);"/></fieldset></td>
 			</tr></table>
 			<div id="ovcontent"></div>
 		</div>

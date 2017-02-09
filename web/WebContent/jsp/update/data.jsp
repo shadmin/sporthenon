@@ -9,26 +9,9 @@
 		<div class="fstitle"><%=StringUtils.text("update.data", session).toUpperCase()%></div>
 		<div class="fscontent" style="min-height:150px;height:auto;">
 			<!-- Global data -->
-			<a id="link-PR" href="javascript:showPanel('PR');"><%=StringUtils.text("entity.PR", session)%></a>|
-			<a id="link-CL" href="javascript:showPanel('CL');"><%=StringUtils.text("entity.CL", session)%></a>|
-			<a id="link-CP" href="javascript:showPanel('CP');"><%=StringUtils.text("entity.CP", session)%></a>|
-			<a id="link-CT" href="javascript:showPanel('CT');"><%=StringUtils.text("entity.CT", session)%></a>|
-			<a id="link-CX" href="javascript:showPanel('CX');"><%=StringUtils.text("entity.CX", session)%></a>|
-			<a id="link-CN" href="javascript:showPanel('CN');"><%=StringUtils.text("entity.CN", session)%></a>|
-			<a id="link-EV" href="javascript:showPanel('EV');"><%=StringUtils.text("entity.EV", session)%></a>|
-			<a id="link-OL" href="javascript:showPanel('OL');"><%=StringUtils.text("entity.OL", session)%></a>|
-			<a id="link-OR" href="javascript:showPanel('OR');"><%=StringUtils.text("entity.OR", session)%></a>|
-			<a id="link-RT" href="javascript:showPanel('RT');"><%=StringUtils.text("entity.RT", session)%></a>|
-			<a id="link-SP" href="javascript:showPanel('SP');"><%=StringUtils.text("entity.SP", session)%></a>|
-			<a id="link-ST" href="javascript:showPanel('ST');"><%=StringUtils.text("entity.ST", session)%></a>|
-			<a id="link-TM" href="javascript:showPanel('TM');"><%=StringUtils.text("entity.TM", session)%></a>|
-			<a id="link-YR" href="javascript:showPanel('YR');"><%=StringUtils.text("entity.YR", session)%></a><br/>
+			<a id="link-PR" href="javascript:showPanel('PR');"><%=StringUtils.text("entity.PR", session)%></a>|<a id="link-CL" href="javascript:showPanel('CL');"><%=StringUtils.text("entity.CL", session)%></a>|<a id="link-CP" href="javascript:showPanel('CP');"><%=StringUtils.text("entity.CP", session)%></a>|<a id="link-CT" href="javascript:showPanel('CT');"><%=StringUtils.text("entity.CT", session)%></a>|<a id="link-CX" href="javascript:showPanel('CX');"><%=StringUtils.text("entity.CX", session)%></a>|<a id="link-CN" href="javascript:showPanel('CN');"><%=StringUtils.text("entity.CN", session)%></a>|<a id="link-EV" href="javascript:showPanel('EV');"><%=StringUtils.text("entity.EV", session)%></a>|<a id="link-OL" href="javascript:showPanel('OL');"><%=StringUtils.text("entity.OL", session)%></a>|<a id="link-OR" href="javascript:showPanel('OR');"><%=StringUtils.text("entity.OR", session)%></a>|<a id="link-RT" href="javascript:showPanel('RT');"><%=StringUtils.text("entity.RT", session)%></a>|<a id="link-SP" href="javascript:showPanel('SP');"><%=StringUtils.text("entity.SP", session)%></a>|<a id="link-ST" href="javascript:showPanel('ST');"><%=StringUtils.text("entity.ST", session)%></a>|<a id="link-TM" href="javascript:showPanel('TM');"><%=StringUtils.text("entity.TM", session)%></a>|<a id="link-YR" href="javascript:showPanel('YR');"><%=StringUtils.text("entity.YR", session)%></a><br/>
 			<!-- US leagues data -->
-			<a id="link-HF" href="javascript:showPanel('HF');"><%=StringUtils.text("entity.HF", session)%></a>|
-			<a id="link-RC" href="javascript:showPanel('RC');"><%=StringUtils.text("entity.RC", session)%></a>|
-			<a id="link-RN" href="javascript:showPanel('RN');"><%=StringUtils.text("entity.RN", session)%></a>|
-			<a id="link-TS" href="javascript:showPanel('TS');"><%=StringUtils.text("entity.TS", session)%></a>|
-			<a id="link-WL" href="javascript:showPanel('WL');"><%=StringUtils.text("entity.WL", session)%></a>
+			<a id="link-HF" href="javascript:showPanel('HF');"><%=StringUtils.text("entity.HF", session)%></a>|<a id="link-RC" href="javascript:showPanel('RC');"><%=StringUtils.text("entity.RC", session)%></a>|<a id="link-RN" href="javascript:showPanel('RN');"><%=StringUtils.text("entity.RN", session)%></a>|<a id="link-TS" href="javascript:showPanel('TS');"><%=StringUtils.text("entity.TS", session)%></a>|<a id="link-WL" href="javascript:showPanel('WL');"><%=StringUtils.text("entity.WL", session)%></a>
 			<br/><br/>
 			<!-- PHOTOS -->
 			<div id="imgzone" style="position:absolute;width:130px;">

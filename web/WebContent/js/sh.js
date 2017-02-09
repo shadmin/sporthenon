@@ -3039,19 +3039,21 @@ function loadTemplate(ext) {
 }
 /*========== QUERY ==========*/
 function executeQuery(index) {
-	var url = '/update/execute-query?index=' + index + ($('rcsv').checked ? '&csv=1' : '');
+	var isYearReport = (index == 9);
+	var output = (isYearReport ? 'ovcontent' : 'qresults')
+	var url = '/update/execute-query?index=' + index + (!isYearReport && $('rcsv').checked ? '&csv=1' : '') + (isYearReport ? '&year=' + $F('year') + '&sport=' + $F('ovsport') : '');
 	if (index == -1) {
 		url += '&query=' + escape($F('query'));
 	}
-	if ($('rcsv').checked) {
+	if (!isYearReport && $('rcsv').checked) {
 		location.href = url;
 	}
 	else {
-		$('qresults').update('<img src="/img/db/loading.gif?6"/>');
+		$(output).update('<img src="/img/db/loading.gif?6"/>');
 		new Ajax.Request(url, {
 			onSuccess: function(response){
-				$('qresults').update(response.responseText);
-				var q = $('qresults').down('td').innerHTML;
+				$(output).update(response.responseText);
+				var q = $(output).down('td').innerHTML;
 				q = replaceAll(q, '&nbsp;', ' ');
 				q = replaceAll(q, '&lt;', '<');
 				q = replaceAll(q, '&gt;', '>');

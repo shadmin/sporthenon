@@ -162,6 +162,15 @@ public class ExportUtils {
 				}
 				row = sheet.createRow(rowIndex++);
 				if (n < lTh.size()) {
+					ArrayList<String> lTh_ = lTh.get(n);
+					if (lTh_ != null && !lTh_.isEmpty() && lTh_.get(0).equalsIgnoreCase("--TTEXT--")) {
+						row = sheet.createRow(rowIndex++);
+						(cell = row.createCell(i)).setCellValue(lTh_.get(1));
+						cell.setCellStyle(headerStyle);
+						lTh_.remove(0);
+						lTh_.remove(0);
+						row = sheet.createRow(rowIndex++);
+					}					
 					for (String s : lTh.get(n)) {
 						(cell = row.createCell(i++)).setCellValue(s.replaceAll("^\\#.*\\#", ""));
 						cell.setCellStyle(headerStyle);
@@ -242,6 +251,11 @@ public class ExportUtils {
 			// HEADER
 			else if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
 				ArrayList<String> lTh_ = lTh.get(n++);
+				if (lTh_ != null && !lTh_.isEmpty() && lTh_.get(0).equalsIgnoreCase("--TTEXT--")) {
+					sbCSV.append("[" + lTh_.get(1) + "]").append("\r\n");
+					lTh_.remove(0);
+					lTh_.remove(0);
+				}
 				for (int i = 0 ; i < lTh_.size() ; i++) {
 					String s = lTh_.get(i);
 					sbCSV.append(i > 0 ? SEPARATOR : "").append(s.replaceAll("^\\#.*\\#", ""));
@@ -317,6 +331,11 @@ public class ExportUtils {
 				if (sbSep != null)
 					sbText.append("\r\n").append(sbSep).append("\r\n\r\n");
 				ArrayList<String> lTh_ = lTh.get(nth++);
+				if (lTh_ != null && !lTh_.isEmpty() && lTh_.get(0).equalsIgnoreCase("--TTEXT--")) {
+					sbText.append("[" + lTh_.get(1) + "]").append("\r\n");
+					lTh_.remove(0);
+					lTh_.remove(0);
+				}
 				tMaxLength = new int[lTh_.size()];
 				for (int i = 0 ; i < lTh_.size() ; i++)
 					tMaxLength[i] = lTh_.get(i).replaceAll("^\\#.*\\#", "").length();
@@ -450,6 +469,11 @@ public class ExportUtils {
 				}
 				if (n < lTh.size()) {
 					List<String> l_ = (List<String>) lTh.get(n);
+					if (l_ != null && !l_.isEmpty() && l_.get(0).equalsIgnoreCase("--TTEXT--")) {
+//						doc.add(new Phrase(l_.get(1), font));
+						l_.remove(0);
+						l_.remove(0);
+					}
 					float[] tf = new float[l_.size()];
 					for (int i = 0 ; i < l_.size() ; i++)
 						tf[i] = (hWidth.containsKey(l_.get(i)) ? hWidth.get(l_.get(i).replaceAll("^\\#.*\\#", "")) : 0.5f);
@@ -566,11 +590,13 @@ public class ExportUtils {
 			Element tr = (thead.childNodeSize() > 1 ? thead.child(1) : thead.child(0));
 			Element th1 = tr.getElementsByTag("th").get(0);
 			Element th = tr.getElementsByTag("th").get(0);
-//			Elements ttext = thead.getElementsByClass("toggletext");
-//			if (!ttext.isEmpty())
-//				lTh.add(ttext.text());
+			Elements ttext = thead.getElementsByClass("toggletext");
 			int cell = 0;
 			ArrayList<String> lTh_ = new ArrayList<String>();
+			if (th != null && !ttext.isEmpty()) {
+				lTh_.add("--TTEXT--");
+				lTh_.add(ttext.text());
+			}
 			while(th != null) {
 				Integer span = (StringUtils.notEmpty(th.attr("colspan")) ? new Integer(th.attr("colspan")) : 1);
 				lTh_.add((th1 != null && th1.nextElementSibling() == null && lTh_.isEmpty() ? "#" + th1.text() + "#" : "") + th.text());

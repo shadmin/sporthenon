@@ -1072,11 +1072,11 @@ public class HtmlConverter {
 					rk3 = getResultsEntity(rb.getRdResultType(), rb.getRk3Id(), rb.getRk3Str1(), rb.getRk3Str2(), rb.getRk3Str3(), rb.getRk3Rel2Code(), r.getYear().getLabel(), null);
 					rk4 = getResultsEntity(rb.getRdResultType(), rb.getRk4Id(), rb.getRk4Str1(), rb.getRk4Str2(), rb.getRk4Str3(), rb.getRk4Rel2Code(), r.getYear().getLabel(), null);
 					rk5 = getResultsEntity(rb.getRdResultType(), rb.getRk5Id(), rb.getRk5Str1(), rb.getRk5Str2(), rb.getRk5Str3(), rb.getRk5Rel2Code(), r.getYear().getLabel(), null);
-					rel1 = (rb.getRk1Rel2Id() != null ? HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, rb.getRk1Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), rb.getRk1Rel2Label()) : null);
-					rel2 = (rb.getRk2Rel2Id() != null ? HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, rb.getRk2Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), rb.getRk2Rel2Label()) : null);
-					rel3 = (rb.getRk3Rel2Id() != null ? HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, rb.getRk3Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), rb.getRk3Rel2Label()) : null);
-					rel4 = (rb.getRk4Rel2Id() != null ? HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, rb.getRk4Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), rb.getRk4Rel2Label()) : null);
-					rel5 = (rb.getRk5Rel2Id() != null ? HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, rb.getRk5Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), rb.getRk5Rel2Label()) : null);
+					rel1 = (rb.getRk1Rel2Id() != null && !isUSLeague ? HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, rb.getRk1Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), rb.getRk1Rel2Label()) : null);
+					rel2 = (rb.getRk2Rel2Id() != null && !isUSLeague ? HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, rb.getRk2Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), rb.getRk2Rel2Label()) : null);
+					rel3 = (rb.getRk3Rel2Id() != null && !isUSLeague ? HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, rb.getRk3Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), rb.getRk3Rel2Label()) : null);
+					rel4 = (rb.getRk4Rel2Id() != null && !isUSLeague ? HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, rb.getRk4Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), rb.getRk4Rel2Label()) : null);
+					rel5 = (rb.getRk5Rel2Id() != null && !isUSLeague ? HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, rb.getRk5Rel2Id(), ImageUtils.SIZE_SMALL, r.getYear().getLabel(), rb.getRk5Rel2Label()) : null);
 					rel1_ = getResultsEntityRel(rb.getRk1Rel1Id(), rb.getRk1Rel1Code(), rb.getRk1Rel1Label(), rb.getRk1Rel2Id(), rb.getRk1Rel2Code(), rb.getRk1Rel2Label(), rb.getRk1Rel2LabelEN(), type_ < 10 && rb.getRk1Rel1Id() != null, type_ <= 50 && !isUSLeague, r.getYear().getLabel());
 					rel2_ = getResultsEntityRel(rb.getRk2Rel1Id(), rb.getRk2Rel1Code(), rb.getRk2Rel1Label(), rb.getRk2Rel2Id(), rb.getRk2Rel2Code(), rb.getRk2Rel2Label(), rb.getRk2Rel2LabelEN(), type_ < 10 && rb.getRk2Rel1Id() != null, type_ <= 50 && !isUSLeague, r.getYear().getLabel());
 					String d1 = rb.getRdDate1();
@@ -1133,26 +1133,26 @@ public class HtmlConverter {
 					rdlistHtml.append("<tr>").append(comment);
 					rdlistHtml.append("<td>" + rb.getRtLabel() + "</td>");
 					rdlistHtml.append("<td><table><tr>" + (rel1 != null ? "<th>" + rel1 + "</th>" : "") + "<td>" + rk1 + "</td>");
-					rdlistHtml.append("<td> " + StringUtils.formatResult(rb.getRdResult1(), lang) + " </td>");
+					rdlistHtml.append("<td>&nbsp;" + StringUtils.formatResult(rb.getRdResult1(), lang) + "&nbsp;</td>");
 					if (rk2 != null) {
 						rdlistHtml.append(rel2 != null ? "<th>" + rel2 + "</th>" : "").append("<td>" + rk2 + "</td>");
 						if (StringUtils.notEmpty(rb.getRdResult2()) && type_ != 4)
-							rdlistHtml.append("<td> " + StringUtils.formatResult(rb.getRdResult2(), lang) + " </td>");
+							rdlistHtml.append("<td>&nbsp;" + StringUtils.formatResult(rb.getRdResult2(), lang) + "&nbsp;</td>");
 					}
 					if (rk3 != null) {
 						rdlistHtml.append(rel3 != null ? "<th>" + rel3 + "</th>" : "").append("<td>" + rk3 + "</td>");
 						if (StringUtils.notEmpty(rb.getRdResult3()) && type_ != 4)
-							rdlistHtml.append("<td> " + StringUtils.formatResult(rb.getRdResult3(), lang) + " </td>");
+							rdlistHtml.append("<td>&nbsp;" + StringUtils.formatResult(rb.getRdResult3(), lang) + "&nbsp;</td>");
 					}
 					if (rk4 != null) {
 						rdlistHtml.append(rel4 != null ? "<th>" + rel4 + "</th>" : "").append("<td>" + rk4 + "</td>");
 						if (StringUtils.notEmpty(rb.getRdResult4()) && type_ != 4)
-							rdlistHtml.append("<td> " + StringUtils.formatResult(rb.getRdResult4(), lang) + " </td>");
+							rdlistHtml.append("<td>&nbsp;" + StringUtils.formatResult(rb.getRdResult4(), lang) + "&nbsp;</td>");
 					}
 					if (rk5 != null) {
 						rdlistHtml.append(rel5 != null ? "<th>" + rel5 + "</th>" : "").append("<td>" + rk5 + "</td>");
 						if (StringUtils.notEmpty(rb.getRdResult5()) && type_ != 4)
-							rdlistHtml.append("<td> " + StringUtils.formatResult(rb.getRdResult5(), lang) + " </td>");
+							rdlistHtml.append("<td>&nbsp;" + StringUtils.formatResult(rb.getRdResult5(), lang) + "&nbsp;</td>");
 					}
 					rdlistHtml.append("</tr></table></td>");
 					rdlistHtml.append("<td>" + (StringUtils.notEmpty(dates) ? dates : "") + "</td>");

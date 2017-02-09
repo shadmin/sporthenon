@@ -60,6 +60,7 @@ import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.ErrorReport;
 import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.FolderHistory;
+import com.sporthenon.db.entity.meta.Import;
 import com.sporthenon.db.entity.meta.InactiveItem;
 import com.sporthenon.db.entity.meta.PersonList;
 import com.sporthenon.db.entity.meta.Redirection;
@@ -1253,6 +1254,7 @@ public class UpdateServlet extends AbstractServlet {
 		queries.add("SELECT DISTINCT SP.label || '-' || CP.label || '-' || EV.label || (CASE WHEN SE.id IS NOT NULL THEN '-' || SE.label ELSE '' END) || (CASE WHEN SE2.id IS NOT NULL THEN '-' || SE2.label ELSE '' END), COUNT(*) AS N FROM \"Result\" RS LEFT JOIN \"Sport\" SP ON RS.id_sport=SP.id LEFT JOIN \"Championship\" CP ON RS.id_championship=CP.id LEFT JOIN \"Event\" EV ON RS.id_event=EV.id LEFT JOIN \"Event\" SE ON RS.id_subevent=SE.id LEFT JOIN \"Event\" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN \"~InactiveItem\" II ON (RS.id_sport = II.id_sport AND RS.id_championship = II.id_championship AND RS.id_event = II.id_event AND (RS.id_subevent = II.id_subevent OR RS.id_subevent IS NULL) AND (RS.id_subevent2 = II.id_subevent2 OR RS.id_subevent2 IS NULL)) WHERE II.id IS NULL GROUP BY 1 HAVING COUNT(*)<5 ORDER BY 2, 1");
 		queries.add("SELECT 'PR', id, last_name || ', ' || first_name AS label FROM \"Athlete\" WHERE id_country IS NULL UNION SELECT 'TM', id, label FROM \"Team\" WHERE id_country IS NULL ORDER BY 1, 3");
 		queries.add("SELECT 'CT', id, label FROM \"City\" WHERE id NOT IN (SELECT id_item FROM \"~ExternalLink\" WHERE entity='CT') UNION SELECT 'CX', id, label FROM \"Complex\" WHERE id NOT IN (SELECT id_item FROM \"~ExternalLink\" WHERE entity='CX') UNION SELECT 'CN', id, label FROM \"Country\" WHERE id NOT IN (SELECT id_item FROM \"~ExternalLink\" WHERE entity='CN') UNION SELECT 'CP', id, label FROM \"Championship\" WHERE id NOT IN (SELECT id_item FROM \"~ExternalLink\" WHERE entity='CP') UNION SELECT 'EV', id, label FROM \"Event\" WHERE id NOT IN (SELECT id_item FROM \"~ExternalLink\" WHERE entity='EV') UNION SELECT 'PR', id, last_name || ', ' || first_name FROM \"Athlete\" WHERE id NOT IN (SELECT id_item FROM \"~ExternalLink\" WHERE entity='PR') UNION SELECT 'RS', RS.id, SP.label || '-' || CP.label || '-' || EV.label || '-' || YR.label AS label FROM \"Result\" RS LEFT JOIN \"Sport\" SP ON RS.id_sport=SP.id LEFT JOIN \"Championship\" CP ON RS.id_championship=CP.id LEFT JOIN \"Event\" EV ON RS.id_event=EV.id LEFT JOIN \"Year\" YR ON RS.id_year=YR.id WHERE RS.id NOT IN (SELECT id_item FROM \"~ExternalLink\" WHERE entity='RS') UNION SELECT 'SP', id, label FROM \"Sport\" WHERE id NOT IN (SELECT id_item FROM \"~ExternalLink\" WHERE entity='SP') UNION SELECT 'TM', id, label FROM \"Team\" WHERE id NOT IN (SELECT id_item FROM \"~ExternalLink\" WHERE entity='TM') ORDER BY 1, 3");
+		queries.add("SELECT SP.label AS spl, CP.label AS cpl, EV.label AS evl, SE.label AS sel, SE2.label AS se2l, CP.index AS cpi, EV.index AS evi, SE.index AS sei, SE2.index AS se2i, '' FROM (SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM \"Result\" EXCEPT SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM \"Result\" WHERE id_year = (SELECT id FROM \"Year\" WHERE label = '#YEARP#')) T LEFT JOIN \"Sport\" SP ON T.id_sport = SP.id LEFT JOIN \"Championship\" CP ON T.id_championship = CP.id LEFT JOIN \"Event\" EV ON T.id_event = EV.id LEFT JOIN \"Event\" SE ON T.id_subevent = SE.id LEFT JOIN \"Event\" SE2 ON T.id_subevent2 = SE2.id LEFT JOIN \"Year\" YR ON YR.label = '#YEARP#' LEFT JOIN \"~InactiveItem\" II ON (T.id_sport=II.id_sport AND T.id_championship=II.id_championship AND T.id_event=II.id_event AND (T.id_subevent IS NULL OR T.id_subevent=II.id_subevent) AND (T.id_subevent2 IS NULL OR T.id_subevent2=II.id_subevent2)) WHERE SP.ID=#SPORT# AND II.id IS NULL UNION SELECT SP.label AS spl, CP.label AS cpl, EV.label AS epl, SE.label AS sel, SE2.label AS se2l, CP.index AS cpi, EV.index AS evi, SE.index AS evi, SE2.index AS se2i, '<img src=\"/img/update/tick.png\"/>' FROM (SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM \"Result\" WHERE id_year = (SELECT id FROM \"Year\" WHERE label = '#YEARP#')) T LEFT JOIN \"Sport\" SP ON T.id_sport = SP.id LEFT JOIN \"Championship\" CP ON T.id_championship = CP.id LEFT JOIN \"Event\" EV ON T.id_event = EV.id LEFT JOIN \"Event\" SE ON T.id_subevent = SE.id LEFT JOIN \"Event\" SE2 ON T.id_subevent2 = SE2.id LEFT JOIN \"Year\" YR ON YR.label = '#YEARP#' LEFT JOIN \"~InactiveItem\" II ON (T.id_sport=II.id_sport AND T.id_championship=II.id_championship AND T.id_event=II.id_event AND (T.id_subevent IS NULL OR T.id_subevent=II.id_subevent) AND (T.id_subevent2 IS NULL OR T.id_subevent2=II.id_subevent2)) WHERE 1=1 AND SP.ID=#SPORT# AND II.id IS NULL ORDER BY spl, cpi, cpl, evi, evl, sei, sel, se2i, se2l");
 		
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		String query = null;
@@ -1260,6 +1262,8 @@ public class UpdateServlet extends AbstractServlet {
 		if (index != -1) {
 			query = queries.get(index);
 			query = query.replaceAll("#YEAR#", String.valueOf(year));
+			query = query.replaceAll("#YEARP#", String.valueOf(hParams.get("year")));
+			query = query.replaceAll("#SPORT#", String.valueOf(hParams.get("sport")));
 			query = query.replaceAll("#WHERE#", (year % 4 == 0 ? "(CP.id<>1 OR SP.type<>0)" : (year % 4 == 2 ? "(CP.id<>1 OR SP.type<>1)" : "CP.id<>1")) + (year % 4 != 1 ? " AND CP.id<>78" : ""));			
 		}
 		else
@@ -1275,15 +1279,18 @@ public class UpdateServlet extends AbstractServlet {
 			for (Object[] t : list)  {
 				if (!isCSV)
 					sb.append("<tr>");
-				if (isFirstRow) {
+				if (isFirstRow && index != 9) {
 					for (i = 1 ; i <= t.length ; i++)
 						sb.append(!isCSV ? "<th>" : (i > 1 ? "," : "")).append("Col." + i).append(!isCSV ? "</th>" : "");
 					sb.append(isCSV ? "\r\n" : "</tr><tr>");
 					isFirstRow = false;
 				}
 				i = 0;
-				for (Object o : t)
-					sb.append(!isCSV ? "<td>" : (i++ > 0 ? "," : "")).append(o != null ? String.valueOf(o) : "").append(!isCSV ? "</td>" : "");
+				for (Object o : t) {
+					if (index != 9 || (i < 5 || i > 8))
+						sb.append(!isCSV ? "<td>" : (i > 0 ? "," : "")).append(o != null ? String.valueOf(o) : "").append(!isCSV ? "</td>" : "");
+					i++;
+				}
 				sb.append(isCSV ? "\r\n" : "</tr>");
 			}
 		}
@@ -1975,6 +1982,7 @@ public class UpdateServlet extends AbstractServlet {
 				input = fitem.getInputStream();
 			Vector v = new Vector<Vector<String>>();
 			BufferedReader bf = new BufferedReader(new InputStreamReader(input, "UTF8"));
+			StringBuffer sb = new StringBuffer();
 			String s = null;
 			while ((s = bf.readLine()) != null) {
 				if (StringUtils.notEmpty(s)) {
@@ -1982,6 +1990,7 @@ public class UpdateServlet extends AbstractServlet {
 					for (String s_ : s.split(";", -1))
 						v_.add(s_.trim());
 					v.add(v_);
+					sb.append(s).append("\r\n");
 				}
 			}
 			String type = String.valueOf(hParams.get("type"));
@@ -1995,6 +2004,10 @@ public class UpdateServlet extends AbstractServlet {
 				fos.write((css + result).getBytes());
 				fos.close();
 				result = f;
+				Import i = new Import();
+				i.setDate(new Timestamp(System.currentTimeMillis()));
+				i.setCsvContent(sb.toString());
+				DatabaseHelper.saveEntity(i, null);
 			}
 			ServletHelper.writeText(response, result);
 		}
@@ -2537,11 +2550,13 @@ public class UpdateServlet extends AbstractServlet {
 	private static String getExternalLink(Object o, String hql) throws Exception {
 		StringBuffer sql = new StringBuffer();
 		String str1 = "", str2 = "", alias = "";
+		Integer sptype = null;
 		if (o instanceof Athlete) {
 			Athlete a = (Athlete) o;
 			str1 = a.getFirstName() + " " + a.getLastName();
 			str2 = a.getLastName();
 			alias = Athlete.alias;
+			sptype = a.getSport().getType();
 		}
 		else if (o instanceof Championship) {
 			Championship c = (Championship) o;
@@ -2580,6 +2595,7 @@ public class UpdateServlet extends AbstractServlet {
 			Sport s = (Sport) o;
 			str1 = s.getLabel();
 			alias = Sport.alias;
+			sptype = s.getType();
 		}
 		else if (o instanceof State) {
 			State s = (State) o;
@@ -2599,7 +2615,7 @@ public class UpdateServlet extends AbstractServlet {
 			sql.append("insert into \"~ExternalLink\" (select nextval('\"~SeqExternalLink\"'), '" + alias + "', " + id + ", '" + url + "', FALSE, NULL);\r\n");
 		}
 		// OLYMPICS-REFERENCE
-		if (hql.matches(".*\\/olympics.*")) {
+		if (hql.matches(".*\\/olympics.*") && (sptype == null || sptype != -1)) {
 			url = null;
 			if (o instanceof Athlete) {
 				url = "http://www.sports-reference.com/olympics/athletes/" + str2.substring(0, 2).toLowerCase() + "/" + str1.replaceAll("\\s", "-").toLowerCase() + "-1.html";	

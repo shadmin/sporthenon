@@ -300,4 +300,15 @@ $BODY$
   
   
   
-  
+  CREATE TABLE "~Import"
+(
+  id integer  NOT NULL primary key,
+  date timestamp,
+  csv_content text
+);
+CREATE SEQUENCE "~SeqImport";
+
+
+
+
+
