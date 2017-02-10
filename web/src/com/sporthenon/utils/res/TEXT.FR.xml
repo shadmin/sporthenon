@@ -143,6 +143,7 @@
 	<entry key="rec.NBACP">Championnat NBA</entry>
 	<entry key="rec.NHLCP">Stanley Cup</entry>
 	<entry key="rec.MLBCP">World Series</entry>
+	<entry key="rec.WLDCP">Coupe du monde</entry>
 	<entry key="flag">Drapeau</entry>
 	<entry key="logo">Logo</entry>
 	<entry key="otherflags">Précédents drapeaux</entry>

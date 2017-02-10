@@ -143,6 +143,7 @@
 	<entry key="rec.NBACP">NBA championship</entry>
 	<entry key="rec.NHLCP">Stanley Cup</entry>
 	<entry key="rec.MLBCP">World Series</entry>
+	<entry key="rec.WLDCP">World Cup</entry>
 	<entry key="flag">Flag</entry>
 	<entry key="logo">Logo</entry>
 	<entry key="otherflags">Previous flags</entry>

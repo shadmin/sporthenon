@@ -1633,6 +1633,7 @@ function loadResValues(value) {
 			$('id').value = tValues['id'];
 			if (dzr != null) {
 				$('dz-file').update('<p>' + TX_CLICK_DRAGDROP + '</p>');
+				fr = null;
 			}
 			// Result Info
 			tValues['dt1'] = t[16]; if (t[16] != '') {$('dt1').value = t[16]; $('dt1').addClassName('completed2');} else {$('dt1').value = $('dt1').name; $('dt1').removeClassName('completed2');}
@@ -1923,6 +1924,7 @@ function saveResult() {
 				if (fr != null) {
 					dzr.options.url = '/ImageServlet?upload-photo&entity=RS&id=' + tValues['id'];
 					dzr.processFile(fr);
+					fr = null;
 				}
 				showMessage(text.split('#')[1]);
 			}
@@ -2754,7 +2756,8 @@ function saveEntity() {
 		parameters: h
 	});
 	if (fd != null) {
-		dzd.processFile(fd);	
+		dzd.processFile(fd);
+		fd = null;
 	}
 }
 function deleteEntity() {
