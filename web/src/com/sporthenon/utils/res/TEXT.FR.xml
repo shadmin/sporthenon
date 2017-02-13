@@ -348,6 +348,8 @@
 	<entry key="define.span">Définir une période</entry>
 	<entry key="not.dated">non daté</entry>
 	<entry key="this.month">Ce mois-ci</entry>
+	<entry key="past.events">Epreuves passées</entry>
+	<entry key="future.events">Epreuves futures</entry>
 <!-- US LEAGUES -->
 	<entry key="league">Ligue</entry>
 	<entry key="championships">Championnats</entry>

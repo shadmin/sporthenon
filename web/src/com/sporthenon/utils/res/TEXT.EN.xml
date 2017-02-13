@@ -349,6 +349,8 @@
 	<entry key="define.span">Define a span</entry>
 	<entry key="not.dated">not dated</entry>
 	<entry key="this.month">This month</entry>
+	<entry key="past.events">Past events</entry>
+	<entry key="future.events">Future events</entry>
 <!-- US LEAGUES -->
 	<entry key="league">League</entry>
 	<entry key="championships">Championships</entry>

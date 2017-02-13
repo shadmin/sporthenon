@@ -2020,9 +2020,18 @@ public class HtmlConverter {
 		StringBuffer html = new StringBuffer();
 		for (Object obj : coll) {
 			RefItem item = (RefItem) obj;
+			boolean isResult = item.getEntity().equals(Result.alias);
+			if (!isResult) {
+				Calendar c = Calendar.getInstance();
+				c.setTimeInMillis(item.getDate2().getTime());
+				if (Calendar.getInstance().after(c))
+					continue;
+			}
 			if (currentEntity == null || !item.getEntity().equals(currentEntity)) {
 				long id = System.currentTimeMillis();
-				html.append("<table class='tsort'><thead><tr class='rsort'>");
+				html.append("<table id='' class='tsort'>");
+				html.append("<thead><tr><th colspan='" + (isResult ? 5 : 4) + "'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText((isResult ? "past" : "future") + ".events", lang).toUpperCase(), false) + "</th></tr>");
+				html.append("<tr class='rsort'>");
 				if (item.getEntity().equals(Result.alias))
 					html.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("year", lang)  + "</th>" + "<th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("entity.RS.1", lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("date", lang) + "</th>");
 				else
@@ -2048,7 +2057,7 @@ public class HtmlConverter {
 				dates = HtmlUtils.writeDateLink(null, d2, StringUtils.toTextDate(d2, lang, "d MMMM"));
 			d2 = (StringUtils.notEmpty(d2) ? StringUtils.toTextDate(d2.replaceFirst("\\d\\d\\d\\d$", "1900"), lang, "yyyyMMdd") : "");
 			String alias = item.getComment();
-			if (item.getEntity().equals(Result.alias)) { // Past events (final results+rounds)
+			if (isResult) { // Past events (final results+rounds)
 				boolean isRound = StringUtils.notEmpty(item.getTxt5());
 				String year = HtmlUtils.writeLink(Year.alias, item.getIdRel1(), item.getLabelRel1(), null);
 				String[] tEntity = new String[6];
@@ -2088,7 +2097,7 @@ public class HtmlConverter {
 				StringBuffer result = new StringBuffer(isRound ? "" : "<span class='details'>" + HtmlUtils.writeLink(Result.alias, item.getIdItem(), "<img alt='details' title='" +  ResourceUtils.getText("details", lang) + "' src='/img/render/details.png'/>", path) + "</span>");
 				result.append("<table style='margin-right:20px;'><tr><td style='font-weight:bold;'>" + tEntity[0] + "</td>");
 				if (StringUtils.notEmpty(item.getTxt6()))
-					result.append("<td> " + StringUtils.formatResult(item.getTxt6(), lang) + " </td>");
+					result.append("<td>&nbsp;" + StringUtils.formatResult(item.getTxt6(), lang) + "</td>");
 				result.append("<td style='padding-left:3px;'>" + (StringUtils.notEmpty(tEntity[1]) ? tEntity[1] : "") + "</td>");
 				result.append("<td style='padding-left:3px;'>" + (StringUtils.notEmpty(tEntity[2]) ? tEntity[2] : "") + "</td></tr></table>");
 				html.append("<tr><td class='srt'>" + sport + "</td><td class='srt'>" + event + (isRound ? " (" + item.getTxt5() + ")" : "") + "</td>");
@@ -2109,7 +2118,7 @@ public class HtmlConverter {
 					place = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, item.getIdRel9(), ImageUtils.SIZE_SMALL, null, null), place);
 				}
 				html.append("<tr><td class='srt'>" + sport + "</td><td class='srt'>" + event + "</td>");
-				html.append("<td class='srt'>" + dates + "</td><td class='srt'>" + place + "</td></tr>");
+				html.append("<td class='srt'>" + dates + "</td><td class='srt'>" + place + "</td></tr>");	
 			}
 		}
 		html.append("</tbody></table>");
