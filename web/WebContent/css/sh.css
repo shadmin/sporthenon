@@ -1346,12 +1346,12 @@ select.disabled{
 	text-align: center;
 	cursor: pointer;
 	width: 120px;
-	height: 80px;
+	height: 120px;
 	border: 1px dashed #CCC;
 }
 #imgzone #dz-file img{
 	width: 120px;
-	height: 80px;
+	height: 120px;
 }
 #imgzone #dz-file:hover{
 	background-color: #FFA; /* _theme_ */
@@ -1359,7 +1359,7 @@ select.disabled{
 #imgzone #dz-file p{
 	white-space: normal;
 	font-style: italic;
-	margin-top: 25px;
+	margin-top: 45px;
 }
 .dz-success-mark, .dz-error-mark, .dz-details{
 	display: none;
@@ -1580,6 +1580,8 @@ select.disabled{
 	border: none;
 }
 #update-data fieldset{
+	width: 800px;
+	margin: 10px auto;
 	border: 1px solid #AAA;
 }
 #update-data .fieldset table{

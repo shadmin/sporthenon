@@ -13,13 +13,6 @@
 			<!-- US leagues data -->
 			<a id="link-HF" href="javascript:showPanel('HF');"><%=StringUtils.text("entity.HF", session)%></a>|<a id="link-RC" href="javascript:showPanel('RC');"><%=StringUtils.text("entity.RC", session)%></a>|<a id="link-RN" href="javascript:showPanel('RN');"><%=StringUtils.text("entity.RN", session)%></a>|<a id="link-TS" href="javascript:showPanel('TS');"><%=StringUtils.text("entity.TS", session)%></a>|<a id="link-WL" href="javascript:showPanel('WL');"><%=StringUtils.text("entity.WL", session)%></a>
 			<br/><br/>
-			<!-- PHOTOS -->
-			<div id="imgzone" style="position:absolute;width:130px;">
-				<fieldset style="height:140px;"><legend><%=StringUtils.text("photos", session)%></legend>
-					<div id="dz-file"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>	
-					<div id="currentphotos"></div>
-				</fieldset>
-			</div>
 			<!-- ATHLETE -->
 			<table id="table-PR" style="display:none;">
 				<tr><th>ID</th><td><input type="text" disabled="disabled" id="pr-id" class="id"/></td></tr>
@@ -139,7 +132,7 @@
 				<tr><th><%=StringUtils.text("entity.CN.1", session)%></th><td><input type="hidden" id="tm-country"/><input type="text" id="tm-country-l"/><a href="javascript:clearValue('tm-country');">[X]</a></td></tr>
 				<tr><th><%=StringUtils.text("linked.to", session)%></th><td><input type="hidden" id="tm-link"/><input type="text" id="tm-link-l"/><a href="javascript:clearValue('tm-link');">[X]</a></td></tr>
 			</table>
-			<fieldset style="width:600px;margin:10px auto;">
+			<fieldset style="width:600px;">
 				<legend><a href="javascript:toggle('tmusleagues');"><img id="img-tmusleagues" alt="" src="/img/render/expand.gif?v=2" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("menu.usleagues.2", session)%></a></legend>
 				<table id="tmusleagues" style="margin-top:0px;padding:5px;width:auto;display:none;">
 				<tr><th><%=StringUtils.text("league", session)%></th><td><input type="hidden" id="tm-league"/><input type="text" id="tm-league-l"/><a href="javascript:clearValue('tm-league');">[X]</a></td></tr>
@@ -226,11 +219,17 @@
 				<tr><th><%=StringUtils.text("ot.loss", session)%></th><td><input type="text" id="wl-otloss"/></td></tr>
 			</table>
 			<!-- Ext.links -->
-			<table id="table-exl" style="display:none;">
-				<tr><th><%=StringUtils.text("ext.links", session)%></th></tr>
-				<tr><td><textarea id="exl" tabindex="14" cols="100" rows="4" style="width:600px;"></textarea></td></tr>
-			</table>
-			<!-- BUTTON PANEL -->
+			<fieldset id="table-exl" style="display:none;">
+				<legend><%=StringUtils.text("ext.links", session)%></legend>
+				<table><tr><td style="border:none;"><textarea id="exl" tabindex="14" cols="100" rows="5" style="width:780px;"></textarea></td></tr></table>
+			</fieldset>
+			<!-- Photos -->
+			<fieldset id="imgzone">
+				<legend><%=StringUtils.text("photos", session)%></legend>
+				<div id="dz-file"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>	
+				<div id="currentphotos"></div>
+			</fieldset>
+			<!-- Button panel -->
 			<table class="toolbar" style="position:relative;top:0;right:0;float:right;margin-top:15px;">
 				<tr>
 					<td><input id="upd-new" type="button" class="button upd-new" onclick="newEntity();" value="<%=StringUtils.text("new", session)%>"/></td>

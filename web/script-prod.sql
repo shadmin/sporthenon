@@ -2,7 +2,6 @@ ALTER TABLE "Result" add no_place boolean;
 
 ALTER TABLE "Result" add no_date boolean;
 
-
 CREATE OR REPLACE FUNCTION "~Overview"(
     _entity character varying,
     _id_sport integer,
