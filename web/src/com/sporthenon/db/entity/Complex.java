@@ -31,9 +31,6 @@ public class Complex {
 	@JoinColumn(name = "id_city", nullable = false)
 	private City city;
 	
-	@Column(name = "photo_source")
-	private String photoSource;
-	
 	@Column(name = "link")
 	private Integer link;
 	
@@ -89,14 +86,6 @@ public class Complex {
 
 	public void setRef(Integer ref) {
 		this.ref = ref;
-	}
-	
-	public String getPhotoSource() {
-		return photoSource;
-	}
-
-	public void setPhotoSource(String photoSource) {
-		this.photoSource = photoSource;
 	}
 
 	@Override

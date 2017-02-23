@@ -204,9 +204,6 @@ public class Result {
 	@Column(name = "exa", length = 15)
 	private String exa;
 	
-	@Column(name = "photo_source")
-	private String photoSource;
-	
 	@Column(name = "draft")
 	private Boolean draft;
 	
@@ -665,14 +662,6 @@ public class Result {
 
 	public void setResult20(String result20) {
 		this.result20 = result20;
-	}
-
-	public String getPhotoSource() {
-		return photoSource;
-	}
-
-	public void setPhotoSource(String photoSource) {
-		this.photoSource = photoSource;
 	}
 
 	public Country getCountry1() {

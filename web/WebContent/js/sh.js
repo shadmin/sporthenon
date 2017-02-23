@@ -1517,20 +1517,36 @@ function moveSport(sp, list1, list2) {
 var currentInputValue = null;
 var currentAlias = null;
 var currentId = null;
-function updatePhotos(names) {
-	var t = names.split(',');
-	var t_ = [];
-	for (var i = 0 ; i < t.length ; i++) {
-		t_.push('<a id="currentphoto-' + i + '" target="_blank" href="' + IMG_URL + t[i] + '" title="' + t[i] + '"><img alt="" src="' + IMG_URL + t[i] + '"/></a><a id="currentphoto-rm-' + i + '" href="javascript:removePhoto(' + i + ', \'' + t[i] + '\');">[X]</a>');
+function addPhoto() {
+	if ($F('emb') != '') { // Embedded
+		var h = $H();
+		h.set('embedded', '1');
+		h.set('value', $F('emb'));
+		new Ajax.Request('/ImageServlet?upload-photo&entity=' + currentAlias + '&id=' + currentId, {
+			onSuccess: function(response){
+				loadPhotos();
+			},
+			parameters: h
+		});
 	}
-	$('currentphotos').update(t_.join(''));
-	$('currentphotos').show();
+	else {
+		if (fd != null) {
+			dzd.processFile(fd);
+			fd = null;
+		}
+	}
+	$('dz-file').update('<p>' + TX_CLICK_DRAGDROP + '</p>');
+	$('emb').value = '';
 }
-function removePhoto(index, name) {
-	new Ajax.Request('/ImageServlet?remove=1&name=' + name, {
+function loadPhotos() {
+	$('currentphotos').update('<div><img src="/img/db/loading.gif?6"/></div>');
+	new Ajax.Updater('currentphotos', '/ImageServlet?load&entity=' + currentAlias + '&id=' + currentId, {});
+}
+function removePhoto(id, name) {
+	new Ajax.Request('/ImageServlet?remove=1&id=' + id + '&name=' + name, {
 		onSuccess: function(response){
-			$('currentphoto-' + index).hide();
-			$('currentphoto-rm-' + index).hide();
+			$('currentphoto-' + id).hide();
+			$('currentphoto-rm-' + id).hide();
 		}
 	});
 }
@@ -1642,21 +1658,14 @@ function loadResValues(value) {
 			tValues['pl2'] = t[20]; if (t[20] != '') {$('pl2').value = t[21]; $('pl2').addClassName('completed').removeClassName('completed2');} else {$('pl2').value = $('pl2').name; $('pl2').removeClassName('completed').removeClassName('completed2');}
 			tValues['exa'] = t[22]; if (t[22] != '') {$('exa').value = t[22]; $('exa').addClassName('completed2');} else {$('exa').value = $('exa').name; $('exa').removeClassName('completed2');}
 			tValues['cmt'] = t[23]; if (t[23] != '') {$('cmt').value = t[23]; $('cmt').addClassName('completed2');} else {$('cmt').value = $('cmt').name; $('cmt').removeClassName('completed2');}
-			if (t[24] != '') {
-				updatePhotos(t[24]);
-			}
-			else {
-				$('currentphotos').hide();
-			}
-			tValues['source'] = t[25]; if (t[25] != '') {$('source').value = t[25]; $('source').addClassName('completed2');} else {$('source').value = $('source').name; $('source').removeClassName('completed2');}
-			$('metadata').update(t[26]);
-			tValues['inact'] = t[27]; $('inact').checked = (t[27] == '1');
-			tValues['draft'] = t[28]; $('draft').checked = (t[28] == '1');
-			tValues['nodate'] = t[29]; $('nodate').checked = (t[29] == '1');
-			tValues['noplace'] = t[30]; $('noplace').checked = (t[30] == '1');
-			tValues['exl'] = t[31]; if (t[31] != '') {$('exl').value = t[31].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
+			$('metadata').update(t[24]);
+			tValues['inact'] = t[25]; $('inact').checked = (t[25] == '1');
+			tValues['draft'] = t[26]; $('draft').checked = (t[26] == '1');
+			tValues['nodate'] = t[27]; $('nodate').checked = (t[27] == '1');
+			tValues['noplace'] = t[28]; $('noplace').checked = (t[29] == '1');
+			tValues['exl'] = t[29]; if (t[29] != '') {$('exl').value = t[29].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
 			// Rankings
-			var j = 31;
+			var j = 29;
 			for (var i = 1 ; i <= 20 ; i++) {
 				tValues['rk' + i] = t[++j];
 				// Name
@@ -1893,7 +1902,7 @@ function saveResult() {
 		$('id').value = '';
 	}
 	var h = $H({sp: tValues['sp']});
-	var t = ['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'source', 'cmt', 'img', 'exl'];
+	var t = ['id', 'sp', 'cp', 'ev', 'se', 'se2', 'yr', 'dt1', 'dt2', 'pl1', 'pl2', 'exa', 'cmt', 'img', 'exl'];
 	for (var i = 1 ; i <= 20 ; i++) {
 		t.push('rk' + i);
 		t.push('rs' + i);
@@ -2371,6 +2380,9 @@ function initUpdateData() {
 		$$('#imgzone p')[0].remove();
 		showWarning();
 	});
+	dzd.on("success", function(f) {
+		loadPhotos();
+	});
 	showPanel('PR');
 }
 function updateRecordType(tp) {
@@ -2428,7 +2440,7 @@ function setEntityValues(text) {
 		dzd.options.url = '/ImageServlet?upload-photo&entity=' + currentAlias + '&id=' + currentId;
 	}
 	if ($('table-exl')) {
-		$('table-exl').hide();	
+		$('table-exl').hide();
 	}
 	if (currentAlias == 'PR') {
 		$('pr-id').value = currentId;
@@ -2440,7 +2452,6 @@ function setEntityValues(text) {
 		$('pr-team-l').value = t[i++];
 		$('pr-country').value = t[i++];
 		$('pr-country-l').value = t[i++];
-		$('pr-source').value = t[i++];
 		$('pr-link').value = t[i++];
 		$('pr-link-l').value = t[i++];
 		$('exl').value = t[i++];
@@ -2483,7 +2494,6 @@ function setEntityValues(text) {
 		$('ct-state-l').value = t[i++];
 		$('ct-country').value = t[i++];
 		$('ct-country-l').value = t[i++];
-		$('ct-source').value = t[i++];
 		$('ct-link').value = t[i++];
 		$('ct-link-l').value = t[i++];
 		$('exl').value = t[i++];
@@ -2494,7 +2504,6 @@ function setEntityValues(text) {
 		$('cx-label').value = t[i++];
 		$('cx-city').value = t[i++];
 		$('cx-city-l').value = t[i++];
-		$('cx-source').value = t[i++];
 		$('cx-link').value = t[i++];
 		$('cx-link-l').value = t[i++];
 		$('exl').value = t[i++];
@@ -2688,16 +2697,7 @@ function setEntityValues(text) {
 		$('wl-otloss').value = t[i++];
 	}
 	if (currentAlias == 'PR' || currentAlias == 'CT' || currentAlias == 'CX') {
-		if (t[i++] != '') {
-			updatePhotos(t[i - 1]);
-		}
-		else {
-			$('currentphotos').hide();
-		}
-		$('imgzone').show();
-	}
-	else {
-		$('imgzone').hide();
+		loadPhotos();
 	}
 	$$('#update-data input').each(function(el){
 		if ($(el).value != '' && $(el).id.indexOf('-id') == -1) {
@@ -2755,10 +2755,6 @@ function saveEntity() {
 		},
 		parameters: h
 	});
-	if (fd != null) {
-		dzd.processFile(fd);
-		fd = null;
-	}
 }
 function deleteEntity() {
 	$('header').setStyle({ opacity: 0.4 });

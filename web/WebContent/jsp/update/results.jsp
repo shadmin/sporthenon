@@ -137,7 +137,7 @@ var treeItems = null;
 			</li>
 			<!-- OTHER -->
 			<li>
-			<fieldset style="height:145px;width:567px;"><legend><table><tr><td><%=StringUtils.text("other.info", session)%></td><td><a class="helptip" href="#help-other"><img alt="help" src="/img/update/help.png"/></a></td><td><a href="javascript:clearValue('exa,cmt,source,exl');" style="color:#00C;">[X]</a></td></tr></table></legend>
+			<fieldset style="height:145px;width:567px;"><legend><table><tr><td><%=StringUtils.text("other.info", session)%></td><td><a class="helptip" href="#help-other"><img alt="help" src="/img/update/help.png"/></a></td><td><a href="javascript:clearValue('exa,cmt,exl');" style="color:#00C;">[X]</a></td></tr></table></legend>
 				<table style="margin-top:3px;">
 					<tr><td style="width:200px;"><input type="text" id="exa" tabindex="11" name="<%=StringUtils.text("tie", session)%>" style="width:150px;"/></td>
 						<td style="width:20px;"><input id="inact" type="checkbox" onclick="showWarning();"/></td>
@@ -145,7 +145,6 @@ var treeItems = null;
 						<td style="width:20px;padding-left:30px;"><input id="draft" type="checkbox" onclick="showWarning();"/></td>
 						<td><label for="draft"><%=StringUtils.text("draft", session)%></label></td></tr>
 					<tr><td colspan="5"><input type="text" id="cmt" tabindex="12" name="<%=StringUtils.text("comment", session)%>" style="width:500px;"/></td><td><input type="button" class="button" title="<%=StringUtils.text("manage.comment", session)%>" onclick="openCommentDialog();" value="..." style="padding-left:5px;"/></td></tr>
-					<tr><td colspan="5"><input type="text" id="source" tabindex="13" name="<%=StringUtils.text("photos.source", session)%>" style="width:500px;"/></td></tr>
 					<tr><td colspan="5"><textarea id="exl" tabindex="14" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="3" style="width:500px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
 				</table>
 			</fieldset>

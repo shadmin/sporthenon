@@ -1364,15 +1364,25 @@ select.disabled{
 .dz-success-mark, .dz-error-mark, .dz-details{
 	display: none;
 }
-#currentphotos{
-	width: 120px;
-	margin-top: 10px;
-	overflow: auto;
+#embimg{
+	float: left;
+	margin-left: 10px;
+	margin-bottom: 5px;
 }
-#currentphotos img{
-	border: 1px solid #AAA;
-	width: 25px;
-	height: 25px;
+#currentphotos{
+	width: 100%;
+	overflow: scroll;
+	height: 130px;
+	border: 1px solid #DDD;
+	margin: 0px;
+	padding-left: 0px;
+}
+#currentphotos li{
+	display: inline-block;
+}
+#currentphotos img, #currentphotos li.img{
+	width: 100px;
+	height: 100px;
 }
 #msg, #msg2{
 	position: relative;

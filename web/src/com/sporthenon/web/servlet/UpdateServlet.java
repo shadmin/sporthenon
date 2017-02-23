@@ -559,7 +559,6 @@ public class UpdateServlet extends AbstractServlet {
 				result.setDate2(null);
 			result.setComment(StringUtils.notEmpty(hParams.get("cmt-l")) ? String.valueOf(hParams.get("cmt-l")) : null);
 			result.setExa(StringUtils.notEmpty(hParams.get("exa-l")) ? String.valueOf(hParams.get("exa-l")) : null);
-			result.setPhotoSource(StringUtils.notEmpty(hParams.get("source-l")) ? String.valueOf(hParams.get("source-l")) : null);
 			result.setDraft(String.valueOf(hParams.get("draft")).equals("1"));
 			result.setNoDate(String.valueOf(hParams.get("nodate")).equals("1"));
 			result.setNoPlace(String.valueOf(hParams.get("noplace")).equals("1"));
@@ -958,7 +957,6 @@ public class UpdateServlet extends AbstractServlet {
 				en.setLastName(String.valueOf(hParams.get("pr-lastname")).trim());
 				en.setFirstName(String.valueOf(hParams.get("pr-firstname")).trim());
 				en.setLink(StringUtils.notEmpty(hParams.get("pr-link")) ? new Integer(String.valueOf(hParams.get("pr-link"))) : null);
-				en.setPhotoSource(String.valueOf(hParams.get("pr-source")));
 				if (en.getLink() != null && en.getLink() > 0) {
 					try {
 						Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, en.getLink());
@@ -997,7 +995,6 @@ public class UpdateServlet extends AbstractServlet {
 				en.setLabelFr(String.valueOf(hParams.get("ct-labelfr")));
 				en.setState((State)DatabaseHelper.loadEntity(State.class, StringUtils.toInt(hParams.get("ct-state"))));
 				en.setCountry((Country)DatabaseHelper.loadEntity(Country.class, StringUtils.toInt(hParams.get("ct-country"))));
-				en.setPhotoSource(String.valueOf(hParams.get("ct-source")));
 				en.setLink(StringUtils.notEmpty(hParams.get("ct-link")) ? new Integer(String.valueOf(hParams.get("ct-link"))) : null);
 				if (en.getLink() != null && en.getLink() > 0) {
 					try {
@@ -1016,7 +1013,6 @@ public class UpdateServlet extends AbstractServlet {
 				Complex en = (Complex) o;
 				en.setLabel(String.valueOf(hParams.get("cx-label")));
 				en.setCity((City)DatabaseHelper.loadEntity(City.class, StringUtils.toInt(hParams.get("cx-city"))));
-				en.setPhotoSource(String.valueOf(hParams.get("cx-source")));
 				en.setLink(StringUtils.notEmpty(hParams.get("cx-link")) ? new Integer(String.valueOf(hParams.get("cx-link"))) : null);
 				if (en.getLink() != null && en.getLink() > 0) {
 					try {
@@ -1412,7 +1408,7 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(rs.getComplex1() != null ? rs.getComplex1().toString2(lang) : (rs.getCity1() != null ? rs.getCity1().toString2(lang) : (rs.getCountry1() != null ? rs.getCountry1().toString2(lang) : ""))).append("~");
 				sb.append(rs.getComplex2() != null ? rs.getComplex2().getId() : (rs.getCity2() != null ? rs.getCity2().getId() : (rs.getCountry2() != null ? rs.getCountry2().getId() : ""))).append("~");
 				sb.append(rs.getComplex2() != null ? rs.getComplex2().toString2(lang) : (rs.getCity2() != null ? rs.getCity2().toString2(lang) : (rs.getCountry2() != null ? rs.getCountry2().toString2(lang) : ""))).append("~");
-				sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~").append(ImageUtils.getPhotoFiles(Result.alias, rs.getId())).append("~").append(rs.getPhotoSource()).append("~");
+				sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~");
 				sb.append(ResourceUtils.getText("metadata", lang).replaceFirst("\\{1\\}", StringUtils.toTextDate(rs.getMetadata().getFirstUpdate(), lang, "dd/MM/yyyy HH:mm")).replaceFirst("\\{2\\}", StringUtils.toTextDate(rs.getMetadata().getLastUpdate(), lang, "dd/MM/yyyy HH:mm")).replaceFirst("\\{3\\}", "<a target='_blank' href='" + HtmlUtils.writeLink(Contributor.alias, rs.getMetadata().getContributor().getId(), null, rs.getMetadata().getContributor().getLogin()) + "'>" + rs.getMetadata().getContributor().getLogin() + "</a>")).append("~");
 				// Inactive item?
 				String hql = "from InactiveItem where id_sport=" + rs.getSport().getId() + " and id_championship=" + rs.getChampionship().getId() + " and id_event=" + rs.getEvent().getId();
@@ -1622,7 +1618,6 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(at.getTeam() != null ? at.getTeam().getLabel() + ", " + at.getTeam().getSport().getLabel(lang) : "").append("~");
 				sb.append(at.getCountry() != null ? at.getCountry().getId() : 0).append("~");
 				sb.append(at.getCountry() != null ? at.getCountry().getLabel(lang) : "").append("~");
-				sb.append(StringUtils.notEmpty(at.getPhotoSource()) ? at.getPhotoSource() : "").append("~");
 				if (at.getLink() != null && at.getLink() > 0) {
 					try {
 						Athlete a = (Athlete) DatabaseHelper.loadEntity(Athlete.class, at.getLink());
@@ -1638,7 +1633,6 @@ public class UpdateServlet extends AbstractServlet {
 				else
 					sb.append("~~");
 				sb.append(exl).append("~");
-				sb.append(ImageUtils.getPhotoFiles(Athlete.alias, id)).append("~");
 			}
 			else if (o instanceof com.sporthenon.db.entity.Calendar) {
 				com.sporthenon.db.entity.Calendar cl = (com.sporthenon.db.entity.Calendar) o;
@@ -1677,7 +1671,6 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(ct.getState() != null ? ct.getState().getLabel(lang) : "").append("~");
 				sb.append(ct.getCountry() != null ? ct.getCountry().getId() : 0).append("~");
 				sb.append(ct.getCountry() != null ? ct.getCountry().getLabel(lang) : "").append("~");
-				sb.append(StringUtils.notEmpty(ct.getPhotoSource()) ? ct.getPhotoSource() : "").append("~");
 				if (ct.getLink() != null && ct.getLink() > 0) {
 					try {
 						City c_ = (City) DatabaseHelper.loadEntity(City.class, ct.getLink());
@@ -1693,14 +1686,12 @@ public class UpdateServlet extends AbstractServlet {
 				else
 					sb.append("~~");
 				sb.append(exl).append("~");
-				sb.append(ImageUtils.getPhotoFiles(City.alias, id)).append("~");
 			}
 			else if (o instanceof Complex) {
 				Complex cx = (Complex) o;
 				sb.append(cx.getLabel()).append("~");
 				sb.append(cx.getCity() != null ? cx.getCity().getId() : 0).append("~");
 				sb.append(cx.getCity() != null ? cx.getCity().toString2(lang) : "").append("~");
-				sb.append(StringUtils.notEmpty(cx.getPhotoSource()) ? cx.getPhotoSource() : "").append("~");
 				if (cx.getLink() != null && cx.getLink() > 0) {
 					try {
 						Complex c_ = (Complex) DatabaseHelper.loadEntity(Complex.class, cx.getLink());
@@ -1716,7 +1707,6 @@ public class UpdateServlet extends AbstractServlet {
 				else
 					sb.append("~~");
 				sb.append(exl).append("~");
-				sb.append(ImageUtils.getPhotoFiles(Complex.alias, id)).append("~");
 			}
 			else if (o instanceof Contributor) {
 				Contributor cb_ = (Contributor) o;

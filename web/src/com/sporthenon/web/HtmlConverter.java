@@ -561,7 +561,7 @@ public class HtmlConverter {
 				hInfo.put(vSp.size() > 1 ? "sports" : "sport", sp);
 			if (StringUtils.notEmpty(tm))
 				hInfo.put(vTm.size() > 1 ? "teams" : "team", tm);
-			hInfo.put("source", StringUtils.notEmpty(e.getPhotoSource()) ? e.getPhotoSource() : "");
+//			hInfo.put("source", StringUtils.notEmpty(e.getPhotoSource()) ? e.getPhotoSource() : "");
 			// Record
 			ArrayList<Object> lFuncParams = new ArrayList<Object>();
 			lFuncParams.add("PR");
@@ -647,7 +647,7 @@ public class HtmlConverter {
 				hInfo.put("state", st);
 			if (StringUtils.notEmpty(cn))
 				hInfo.put("country", cn);
-			hInfo.put("source", StringUtils.notEmpty(e.getPhotoSource()) ? e.getPhotoSource() : "");
+//			hInfo.put("source", StringUtils.notEmpty(e.getPhotoSource()) ? e.getPhotoSource() : "");
 			lastUpdate = e.getMetadata().getLastUpdate();
 		}
 		else if (type.equals(Complex.alias)) {
@@ -722,7 +722,7 @@ public class HtmlConverter {
 				hInfo.put("state", st);
 			if (StringUtils.notEmpty(cn))
 				hInfo.put("country", cn);
-			hInfo.put("source", StringUtils.notEmpty(e.getPhotoSource()) ? e.getPhotoSource() : "");
+//			hInfo.put("source", StringUtils.notEmpty(e.getPhotoSource()) ? e.getPhotoSource() : "");
 			lastUpdate = e.getMetadata().getLastUpdate();
 		}
 		else if (type.equals(Contributor.alias)) {
@@ -842,7 +842,7 @@ public class HtmlConverter {
 				int i = 0;
 				html.append("<tr><td colspan='2' class='photo'>");
 				for (String img : imgs.split("\\,"))
-					html.append(i > 0 ? "&nbsp;&nbsp;" : "").append(ImageUtils.getPhotoImg(img, r.getPhotoSource(), lang, i++ > 0));	
+					html.append(i > 0 ? "&nbsp;&nbsp;" : "").append(ImageUtils.getPhotoImg(img, /*source*/null, lang, i++ > 0));	
 				html.append("</td></tr>");
 			}
 			html.append("<tr><th class='caption'>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><td>" + HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, r.getSport().getId(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Sport.alias, r.getSport().getId(), r.getSport().getLabel(lang), r.getSport().getLabel())) + "</td></tr>");
@@ -1503,7 +1503,7 @@ public class HtmlConverter {
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("name", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("country", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("sport", lang) + "</th>");
 				else if (en.equals(TeamStadium.alias))
 					cols.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("league", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("complex", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("city", lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("state", lang) + "</th><th onclick='sort(\"" + id + "\", this, 5);'>Country</th><th onclick='sort(\"" + id + "\", this, 6);'>" + ResourceUtils.getText("timespan", lang) + "</th>");
-				if (!isAllRef && limit != null && !limit.equalsIgnoreCase("ALL") && count >= Integer.parseInt(limit)) {
+				if (!isExport && limit != null && !limit.equalsIgnoreCase("ALL") && count >= Integer.parseInt(limit)) {
 					String p = params.get(0) + "-" + params.get(1) + "-" + currentEntity + "-#LIMIT#-" + (offset + (!limit.equalsIgnoreCase("all") ? Integer.parseInt(limit) : 0));
 					html.append(MORE_ITEMS.replaceAll("#STYLE#", "").replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", String.valueOf(ITEM_LIMIT)))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
 				}
@@ -1759,7 +1759,7 @@ public class HtmlConverter {
 			}
 			count++;
 		}
-		if (!isAllRef && limit != null && !limit.equalsIgnoreCase("ALL") && count >= Integer.parseInt(limit)) {
+		if (!isExport && limit != null && !limit.equalsIgnoreCase("ALL") && count >= Integer.parseInt(limit)) {
 			String p = params.get(0) + "-" + params.get(1) + "-" + currentEntity + "-#LIMIT#-" + (offset + (!limit.equalsIgnoreCase("all") ? Integer.parseInt(limit) : 0));
 			html.append(MORE_ITEMS.replaceAll("#STYLE#", "").replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", String.valueOf(ITEM_LIMIT)))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
 		}

@@ -21,7 +21,6 @@
 				<tr><th><%=StringUtils.text("sport", session)%></th><td><input type="hidden" id="pr-sport"/><input type="text" id="pr-sport-l"/><a href="javascript:clearValue('pr-sport');">[X]</a></td></tr>
 				<tr><th><%=StringUtils.text("entity.TM.1", session)%></th><td><input type="hidden" id="pr-team"/><input type="text" id="pr-team-l"/><a href="javascript:clearValue('pr-team');">[X]</a></td></tr>
 				<tr><th><%=StringUtils.text("entity.CN.1", session)%></th><td><input type="hidden" id="pr-country"/><input type="text" id="pr-country-l"/><a href="javascript:clearValue('pr-country');">[X]</a></td></tr>
-				<tr><th><%=StringUtils.text("photos.source", session)%></th><td><input type="text" id="pr-source"/></td></tr>
 				<tr><th><%=StringUtils.text("linked.to", session)%></th><td><input type="hidden" id="pr-link"/><input type="text" id="pr-link-l"/><a href="javascript:clearValue('pr-link');">[X]</a></td></tr>
 			</table>
 			<!-- CALENDAR -->
@@ -52,7 +51,6 @@
 				<tr><th><%=StringUtils.text("label", session)%> (FR)</th><td><input type="text" id="ct-labelfr"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.ST.1", session)%></th><td><input type="hidden" id="ct-state"/><input type="text" id="ct-state-l"/><a href="javascript:clearValue('ct-state');">[X]</a></td></tr>
 				<tr><th><%=StringUtils.text("entity.CN.1", session)%></th><td><input type="hidden" id="ct-country"/><input type="text" id="ct-country-l"/><a href="javascript:clearValue('ct-country');">[X]</a></td></tr>
-				<tr><th><%=StringUtils.text("photos.source", session)%></th><td><input type="text" id="ct-source"/></td></tr>
 				<tr><th><%=StringUtils.text("linked.to", session)%></th><td><input type="hidden" id="ct-link"/><input type="text" id="ct-link-l"/><a href="javascript:clearValue('ct-link');">[X]</a></td></tr>
 			</table>
 			<!-- COMPLEX -->
@@ -60,7 +58,6 @@
 				<tr><th>ID</th><td><input type="text" disabled="disabled" id="cx-id" class="id"/></td></tr>
 				<tr><th><%=StringUtils.text("label", session)%></th><td><input type="text" id="cx-label"/></td></tr>
 				<tr><th><%=StringUtils.text("entity.CT.1", session)%></th><td><input type="hidden" id="cx-city"/><input type="text" id="cx-city-l"/><a href="javascript:clearValue('cx-city');">[X]</a></td></tr>
-				<tr><th><%=StringUtils.text("photos.source", session)%></th><td><input type="text" id="cx-source"/></td></tr>
 				<tr><th><%=StringUtils.text("linked.to", session)%></th><td><input type="hidden" id="cx-link"/><input type="text" id="cx-link-l"/><a href="javascript:clearValue('cx-link');">[X]</a></td></tr>
 			</table>
 			<!-- COUNTRY -->
@@ -226,8 +223,12 @@
 			<!-- Photos -->
 			<fieldset id="imgzone">
 				<legend><%=StringUtils.text("photos", session)%></legend>
-				<div id="dz-file"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>	
-				<div id="currentphotos"></div>
+				<div id="dz-file" style="float:left;"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>
+				<div id="embimg">
+					Embedded:<br/><textarea id="emb" tabindex="15" cols="50" rows="5" style="width:655px;white-space:normal;"></textarea>
+					<br/><input type="button" class="button" onclick="addPhoto();" value="<%=StringUtils.text("button.add", session)%>" style="padding-left:5px;"/>
+				</div><br/>
+				<ul id="currentphotos"></ul>
 			</fieldset>
 			<!-- Button panel -->
 			<table class="toolbar" style="position:relative;top:0;right:0;float:right;margin-top:15px;">

@@ -27,6 +27,7 @@ import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.PicklistBean;
 import com.sporthenon.db.entity.Olympics;
 import com.sporthenon.db.entity.Team;
+import com.sporthenon.db.entity.meta.Picture;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
@@ -47,33 +48,69 @@ public class ImageServlet extends AbstractServlet {
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			String entity = String.valueOf(hParams.get("entity"));
 			if (hParams.containsKey("upload-photo")) {
-				byte[] b = null;
-				FileItemFactory factory = new DiskFileItemFactory();
-				ServletFileUpload upload = new ServletFileUpload(factory);
-				Collection<FileItem> items = upload.parseRequest(request);
-				String name = null;
-				for (FileItem fitem : items) {
-					if (!fitem.isFormField() && fitem.getFieldName().equalsIgnoreCase("photo-file")) {
-						name = fitem.getName();
-						b = fitem.get();
-					}
-				}
 				Object id = hParams.get("id");
-				String ext = "." + name.substring(name.lastIndexOf(".") + 1).toLowerCase();
-				String fileName = "P" + StringUtils.encode(entity + "-" + id);
-				File f = new File(ConfigUtils.getProperty("img.folder") + fileName + ext);
-				if (f.exists()) {
-					int i = 1;
-					while (f.exists()) {
-						f = new File(ConfigUtils.getProperty("img.folder") + fileName + i + ext);
-						i++;
-					}
+				boolean embedded = String.valueOf(hParams.get("embedded")).equals("1");				
+				Picture p = new Picture();
+				p.setEntity(entity);
+				p.setIdItem(Integer.parseInt(String.valueOf(id)));
+				if (embedded) {
+					p.setEmbedded(true);
+					p.setValue(String.valueOf(hParams.get("value")));
+					/**
+<!--
+remplacer src="// par src="http://
+suppr 1ere div :
+<div style="padding:0;margin:0;text-align:left;"><a href="http://www.gettyimages.com/detail/635607516" target="_blank" style="color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;">Embed from Getty Images</a></div>
+
+-->
+					 */
 				}
-				FileOutputStream fos = new FileOutputStream(f);
-				fos.write(b);
-				fos.close();
-				ImageUtils.getImgFiles().add(f.getName());
-				Collections.sort(ImageUtils.getImgFiles());
+				else {
+					byte[] b = null;
+					FileItemFactory factory = new DiskFileItemFactory();
+					ServletFileUpload upload = new ServletFileUpload(factory);
+					Collection<FileItem> items = upload.parseRequest(request);
+					String name = null;
+					for (FileItem fitem : items) {
+						if (!fitem.isFormField() && fitem.getFieldName().equalsIgnoreCase("photo-file")) {
+							name = fitem.getName();
+							b = fitem.get();
+						}
+					}
+					String ext = "." + name.substring(name.lastIndexOf(".") + 1).toLowerCase();
+					String fileName = "P" + StringUtils.encode(entity + "-" + id);
+					File f = new File(ConfigUtils.getProperty("img.folder") + fileName + ext);
+					if (f.exists()) {
+						int i = 1;
+						while (f.exists()) {
+							f = new File(ConfigUtils.getProperty("img.folder") + fileName + i + ext);
+							i++;
+						}
+					}
+					FileOutputStream fos = new FileOutputStream(f);
+					fos.write(b);
+					fos.close();
+					ImageUtils.getImgFiles().add(f.getName());
+					Collections.sort(ImageUtils.getImgFiles());
+					p.setEmbedded(false);
+					p.setValue(f.getName());
+				}
+				DatabaseHelper.saveEntity(p, null);
+			}
+			else if (hParams.containsKey("load")) {
+				String id = String.valueOf(hParams.get("id"));
+				StringBuffer sb = new StringBuffer();
+				for (Picture p : (List<Picture>) DatabaseHelper.execute("from Picture where entity='" + entity + "' and idItem=" + id + "order by id")) {
+					sb.append("<li id='currentphoto-" + p.getId() + "' class='img'>");
+					if (p.isEmbedded())
+						sb.append(p.getValue());
+					else {
+						sb.append("<a target='_blank' href='" + ImageUtils.getUrl() + p.getValue() + "' title='" + p.getValue() + "'>");
+						sb.append("<img alt='' src='" + ImageUtils.getUrl() + p.getValue() + "'/></a>");
+					}
+					sb.append("</li><li id='currentphoto-rm-" + p.getId() + "'><a href='javascript:removePhoto(" + p.getId() + ", \"" + (!p.isEmbedded() ? p.getValue() : "") + "\");' title='" + ResourceUtils.getText("remove", getLocale(request)) + "'>[X]</a></li>");
+				}
+				ServletHelper.writeText(response, sb.toString());
 			}
 			else if (hParams.containsKey("upload")) {
 				String id = String.valueOf(hParams.get("id"));
@@ -123,13 +160,16 @@ public class ImageServlet extends AbstractServlet {
 				in.close();
 			}
 			else if (hParams.containsKey("remove")) {
-				String fname = String.valueOf(hParams.get("name"));
-				File f = new File(ConfigUtils.getProperty("img.folder") + fname);
-				if (f.exists()) {
-					f.delete();
-					ImageUtils.getImgFiles().remove(f.getName());
-					Collections.sort(ImageUtils.getImgFiles());
+				if (StringUtils.notEmpty(hParams.get("name"))) {
+					String fname = String.valueOf(hParams.get("name"));
+					File f = new File(ConfigUtils.getProperty("img.folder") + fname);
+					if (f.exists()) {
+						f.delete();
+						ImageUtils.getImgFiles().remove(f.getName());
+						Collections.sort(ImageUtils.getImgFiles());
+					}
 				}
+				DatabaseHelper.executeUpdate("DELETE FROM \"~Picture\" WHERE ID=" + hParams.get("id"));
 			}
 			else if (hParams.containsKey("copy")) {
 				String id1 = String.valueOf(hParams.get("id1"));

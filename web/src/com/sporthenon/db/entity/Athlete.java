@@ -43,9 +43,6 @@ public class Athlete {
 	@JoinColumn(name = "id_sport", nullable = false)
 	private Sport sport;
 	
-	@Column(name = "photo_source")
-	private String photoSource;
-	
 	@Column(name = "link")
 	private Integer link;
 	
@@ -125,14 +122,6 @@ public class Athlete {
 
 	public void setRef(Integer ref) {
 		this.ref = ref;
-	}
-
-	public String getPhotoSource() {
-		return photoSource;
-	}
-
-	public void setPhotoSource(String photoSource) {
-		this.photoSource = photoSource;
 	}
 
 	@Override

@@ -38,9 +38,6 @@ public class City {
 	@JoinColumn(name = "id_state")
 	private State state;
 	
-	@Column(name = "photo_source")
-	private String photoSource;
-	
 	@Column(name = "link")
 	private Integer link;
 	
@@ -116,14 +113,6 @@ public class City {
 
 	public void setRef(Integer ref) {
 		this.ref = ref;
-	}
-
-	public String getPhotoSource() {
-		return photoSource;
-	}
-
-	public void setPhotoSource(String photoSource) {
-		this.photoSource = photoSource;
 	}
 
 	@Override
