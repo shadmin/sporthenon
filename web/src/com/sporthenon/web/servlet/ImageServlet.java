@@ -22,6 +22,8 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import com.sporthenon.db.DatabaseHelper;
 import com.sporthenon.db.PicklistBean;
@@ -54,16 +56,13 @@ public class ImageServlet extends AbstractServlet {
 				p.setEntity(entity);
 				p.setIdItem(Integer.parseInt(String.valueOf(id)));
 				if (embedded) {
+					String value = String.valueOf(hParams.get("value"));
+					value = value.replaceFirst("\\\"\\/\\/", "\"http://").replaceFirst("\\&caption\\=true", "");
+					Document doc = Jsoup.parse(value);
+					doc.getElementsByTag("div").get(1).remove();
+					value = doc.body().html();
 					p.setEmbedded(true);
-					p.setValue(String.valueOf(hParams.get("value")));
-					/**
-<!--
-remplacer src="// par src="http://
-suppr 1ere div :
-<div style="padding:0;margin:0;text-align:left;"><a href="http://www.gettyimages.com/detail/635607516" target="_blank" style="color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;">Embed from Getty Images</a></div>
-
--->
-					 */
+					p.setValue(value);
 				}
 				else {
 					byte[] b = null;
@@ -98,19 +97,26 @@ suppr 1ere div :
 				DatabaseHelper.saveEntity(p, null);
 			}
 			else if (hParams.containsKey("load")) {
-				String id = String.valueOf(hParams.get("id"));
-				StringBuffer sb = new StringBuffer();
-				for (Picture p : (List<Picture>) DatabaseHelper.execute("from Picture where entity='" + entity + "' and idItem=" + id + "order by id")) {
-					sb.append("<li id='currentphoto-" + p.getId() + "' class='img'>");
-					if (p.isEmbedded())
-						sb.append(p.getValue());
-					else {
-						sb.append("<a target='_blank' href='" + ImageUtils.getUrl() + p.getValue() + "' title='" + p.getValue() + "'>");
-						sb.append("<img alt='' src='" + ImageUtils.getUrl() + p.getValue() + "'/></a>");
-					}
-					sb.append("</li><li id='currentphoto-rm-" + p.getId() + "'><a href='javascript:removePhoto(" + p.getId() + ", \"" + (!p.isEmbedded() ? p.getValue() : "") + "\");' title='" + ResourceUtils.getText("remove", getLocale(request)) + "'>[X]</a></li>");
+				if (hParams.containsKey("directid")) {
+					Picture p = (Picture) DatabaseHelper.loadEntity(Picture.class, hParams.get("directid"));
+					if (p != null)
+						ServletHelper.writeText(response, p.getValue());
 				}
-				ServletHelper.writeText(response, sb.toString());
+				else {
+					String id = String.valueOf(hParams.get("id"));
+					StringBuffer sb = new StringBuffer();
+					for (Picture p : (List<Picture>) DatabaseHelper.execute("from Picture where entity='" + entity + "' and idItem=" + id + "order by id")) {
+						sb.append("<li id='currentphoto-" + p.getId() + "' class='img'>");
+						if (p.isEmbedded())
+							sb.append(p.getValue());
+						else {
+							sb.append("<a target='_blank' href='" + ImageUtils.getUrl() + p.getValue() + "' title='" + p.getValue() + "'>");
+							sb.append("<img alt='' src='" + ImageUtils.getUrl() + p.getValue() + "'/></a>");
+						}
+						sb.append("</li><li id='currentphoto-rm-" + p.getId() + "'><a href='javascript:removePhoto(" + p.getId() + ", \"" + (!p.isEmbedded() ? p.getValue() : "") + "\");' title='" + ResourceUtils.getText("remove", getLocale(request)) + "'>[X]</a></li>");
+					}
+					ServletHelper.writeText(response, sb.toString());
+				}
 			}
 			else if (hParams.containsKey("upload")) {
 				String id = String.valueOf(hParams.get("id"));

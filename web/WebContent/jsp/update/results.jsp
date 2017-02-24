@@ -95,7 +95,7 @@ var treeItems = null;
 			</li>
 			<!-- DATES -->
 			<li>
-			<fieldset style="height:140px;width:329px;"><legend><table><tr><td><%=StringUtils.text("dates", session)%></td><td><a class="helptip" href="#help-dates"><img alt="help" src="/img/update/help.png"/></a></td><td><a href="javascript:clearValue('yr,dt1,dt2');" style="color:#00C;">[X]</a></td></tr></table></legend>
+			<fieldset style="height:140px;width:483px;"><legend><table><tr><td><%=StringUtils.text("dates", session)%></td><td><a class="helptip" href="#help-dates"><img alt="help" src="/img/update/help.png"/></a></td><td><a href="javascript:clearValue('yr,dt1,dt2');" style="color:#00C;">[X]</a></td></tr></table></legend>
 				<table style="margin-top:3px;">
 					<tr><td><input type="text" id="yr" tabindex="6" name="<%=StringUtils.text("entity.YR.1", session)%>"/><a href="javascript:clearValue('yr', true);">[X]</a><br/><a href="javascript:$('yr').value='<%=y-2%>';$('yr').addClassName('completed');tValues['yr']=<%=y1_.getId()%>;">Y-2</a>/<a href="javascript:$('yr').value='<%=y-1%>';$('yr').addClassName('completed');tValues['yr']=<%=y2_.getId()%>;">Y-1</a>/<a href="javascript:$('yr').value='<%=y%>';$('yr').addClassName('completed');tValues['yr']=<%=y_.getId()%>;"> Y </a>/<a href="javascript:$('yr').value='<%=y+1%>';$('yr').addClassName('completed');tValues['yr']=<%=y3_.getId()%>;">Y+1</a>/<a href="javascript:$('yr').value='<%=y+2%>';$('yr').addClassName('completed');tValues['yr']=<%=y4_.getId()%>;">Y+2</a></td>
 					<td style="padding-left:50px;"><input id="prevbtn" type="button" class="button" onclick="loadResult('prev');" value=""/></td>
@@ -112,13 +112,6 @@ var treeItems = null;
 					<td><label for="nodate"><%=StringUtils.text("no.date", session)%></label></td></tr>
 				</table>
 			</fieldset>
-			</li>
-			<!-- PHOTOS -->
-			<li id="imgzone">
-				<fieldset style="height:140px;"><legend><table><tr><td><%=StringUtils.text("photos", session)%></td><td><a class="helptip" href="#help-photo"><img alt="help" src="/img/update/help.png"/></a></td></tr></table></legend>
-					<div id="dz-file"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>
-					<div id="currentphotos"></div>
-				</fieldset>
 			</li>
 			</ul>
 			<ul>
@@ -145,17 +138,16 @@ var treeItems = null;
 						<td style="width:20px;padding-left:30px;"><input id="draft" type="checkbox" onclick="showWarning();"/></td>
 						<td><label for="draft"><%=StringUtils.text("draft", session)%></label></td></tr>
 					<tr><td colspan="5"><input type="text" id="cmt" tabindex="12" name="<%=StringUtils.text("comment", session)%>" style="width:500px;"/></td><td><input type="button" class="button" title="<%=StringUtils.text("manage.comment", session)%>" onclick="openCommentDialog();" value="..." style="padding-left:5px;"/></td></tr>
-					<tr><td colspan="5"><textarea id="exl" tabindex="14" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="3" style="width:500px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
+					<tr><td colspan="5"><textarea id="exl" tabindex="14" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="4" style="width:500px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
 				</table>
 			</fieldset>
 			</li>
 			</ul>
-			<ul>
 			<!-- RANKINGS -->
-			<li>
+			<ul><li>
 			<fieldset>
 				<legend><table><tr><td><a href="javascript:toggle('rankings');"><img id="img-rankings" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("rankings", session)%></a></td><td><a class="helptip" href="#help-rankings"><img alt="help" src="/img/update/help.png"/></a></td><td><a href="javascript:clearFieldset('rankings');" style="color:#00C;">[X]</a></td></tr></table></legend>
-				<table id="rankings" style="margin-top:0px;width:877px;">
+				<table id="rankings" style="margin-top:0px;width:876px;">
 					<tr><td><input type="text" id="rk1" tabindex="100" name="<%=StringUtils.text("rank.1", session)%>"/><a href="javascript:clearValue('rk1', true);">[X]</a></td><td><a href="javascript:initPersonList(1);"><img src="/img/update/personlist.png"/></a></td><td> <input type="text" id="rs1" tabindex="101" name="<%=StringUtils.text("result.score", session)%>" style="width:120px;"/></td><td><input type="text" id="rk11" tabindex="120" name="<%=StringUtils.text("rank.11", session)%>"/><a href="javascript:clearValue('rk11', true);">[X]</a></td><td><a href="javascript:initPersonList(11);"><img src="/img/update/personlist.png"/></a></td><td> <input type="text" id="rs11" tabindex="121" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
 					<tr><td><input type="text" id="rk2" tabindex="102" name="<%=StringUtils.text("rank.2", session)%>"/><a href="javascript:clearValue('rk2', true);">[X]</a></td><td><a href="javascript:initPersonList(2);"><img src="/img/update/personlist.png"/></a></td><td> <input type="text" id="rs2" tabindex="103" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td><td><input type="text" id="rk12" tabindex="122" name="<%=StringUtils.text("rank.12", session)%>"/><a href="javascript:clearValue('rk12', true);">[X]</a></td><td><a href="javascript:initPersonList(12);"><img src="/img/update/personlist.png"/></a></td><td> <input type="text" id="rs12" tabindex="123" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
 					<tr><td><input type="text" id="rk3" tabindex="104" name="<%=StringUtils.text("rank.3", session)%>"/><a href="javascript:clearValue('rk3', true);">[X]</a></td><td><a href="javascript:initPersonList(3);"><img src="/img/update/personlist.png"/></a></td><td> <input type="text" id="rs3" tabindex="105" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td><td><input type="text" id="rk13" tabindex="124" name="<%=StringUtils.text("rank.13", session)%>"/><a href="javascript:clearValue('rk13', true);">[X]</a></td><td><a href="javascript:initPersonList(13);"><img src="/img/update/personlist.png"/></a></td><td> <input type="text" id="rs13" tabindex="125" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
@@ -168,19 +160,30 @@ var treeItems = null;
 					<tr><td><input type="text" id="rk10" tabindex="118" name="<%=StringUtils.text("rank.10", session)%>"/><a href="javascript:clearValue('rk10', true);">[X]</a></td><td><a href="javascript:initPersonList(10);"><img src="/img/update/personlist.png"/></a></td><td> <input type="text" id="rs10" tabindex="119" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td><td><input type="text" id="rk20" tabindex="138" name="<%=StringUtils.text("rank.20", session)%>"/><a href="javascript:clearValue('rk20', true);">[X]</a></td><td><a href="javascript:initPersonList(20);"><img src="/img/update/personlist.png"/></a></td><td> <input type="text" id="rs20" tabindex="139" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
 				</table>	
 			</fieldset>
-			</ul>
+			</li></ul>
 			<ul>
 			<!-- ROUNDS -->
-			<li>
+			<ul><li>
 			<fieldset>
 				<legend><table><tr><td><a href="javascript:toggle('rounds');"><img id="img-rounds" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("matches.rounds", session)%></a></td><td><a class="helptip" href="#help-rounds"><img alt="help" src="/img/update/help.png"/></a></td><td><a href="javascript:clearFieldset('rounds');" style="color:#00C;">[X]</a></td></tr></table></legend>
 				<div id="rounds"><table style="margin-top:0px;"></table><a href="javascript:addRounds();">[+10]</a></div>
 			</fieldset>
+			</li></ul>
+			<!-- PHOTOS -->
+			<ul><li>
+			<fieldset id="imgzone">
+				<legend><%=StringUtils.text("photos", session)%></legend>
+				<div id="dz-file" style="float:left;"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>
+				<div id="embimg">
+					Embedded:<br/><textarea id="emb" tabindex="15" cols="50" rows="5" style="width:730px;white-space:normal;"></textarea>
+					<br/><input type="button" class="button" onclick="addPhoto();" value="<%=StringUtils.text("button.add", session)%>" style="padding-left:5px;"/>
+				</div><br/>
+				<ul id="currentphotos" style="width:876px;"></ul>
+			</fieldset>
 			<br/><span id="metadata"></span><br/><br/>
 			<a id="pagelink1" target="_blank" href="#" style="display:none;font-size:12px;"><%=StringUtils.text("test.page", session)%> (1)</a>
 			<a id="pagelink2" target="_blank" href="#" style="display:none;font-size:12px;"><%=StringUtils.text("test.page", session)%> (2)</a>
-			</li>
-			</ul>
+			</li></ul>
 			<!-- BUTTON PANEL -->
 			<table class="toolbar" style="position:relative;top:0;right:0;float:right;margin-top:15px;">
 				<tr>

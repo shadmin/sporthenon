@@ -561,7 +561,6 @@ public class HtmlConverter {
 				hInfo.put(vSp.size() > 1 ? "sports" : "sport", sp);
 			if (StringUtils.notEmpty(tm))
 				hInfo.put(vTm.size() > 1 ? "teams" : "team", tm);
-//			hInfo.put("source", StringUtils.notEmpty(e.getPhotoSource()) ? e.getPhotoSource() : "");
 			// Record
 			ArrayList<Object> lFuncParams = new ArrayList<Object>();
 			lFuncParams.add("PR");
@@ -647,7 +646,6 @@ public class HtmlConverter {
 				hInfo.put("state", st);
 			if (StringUtils.notEmpty(cn))
 				hInfo.put("country", cn);
-//			hInfo.put("source", StringUtils.notEmpty(e.getPhotoSource()) ? e.getPhotoSource() : "");
 			lastUpdate = e.getMetadata().getLastUpdate();
 		}
 		else if (type.equals(Complex.alias)) {
@@ -722,7 +720,6 @@ public class HtmlConverter {
 				hInfo.put("state", st);
 			if (StringUtils.notEmpty(cn))
 				hInfo.put("country", cn);
-//			hInfo.put("source", StringUtils.notEmpty(e.getPhotoSource()) ? e.getPhotoSource() : "");
 			lastUpdate = e.getMetadata().getLastUpdate();
 		}
 		else if (type.equals(Contributor.alias)) {
@@ -837,13 +834,11 @@ public class HtmlConverter {
 			html.append("<span class='url'>" + HtmlUtils.writeLink(type, id, null, r.getYear().getLabel() + "/" + r.getSport().getLabel() + "/" + r.getChampionship().getLabel() + "/" + r.getEvent().getLabel() + (r.getSubevent() != null ? "/" + r.getSubevent().getLabel() : "") + (r.getSubevent2() != null ? "/" + r.getSubevent2().getLabel() : "")) + "</span>");
 			html.append("<ul class='uinfo'><li>");
 			html.append("<table class='info'><thead><tr><th colspan='2'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity.RS.1", lang).toUpperCase(), false) + "</th></tr></thead><tbody class='tby'>");
-			String imgs = ImageUtils.getPhotoFiles(Result.alias, id);
-			if (StringUtils.notEmpty(imgs)) {
-				int i = 0;
-				html.append("<tr><td colspan='2' class='photo'>");
-				for (String img : imgs.split("\\,"))
-					html.append(i > 0 ? "&nbsp;&nbsp;" : "").append(ImageUtils.getPhotoImg(img, /*source*/null, lang, i++ > 0));	
-				html.append("</td></tr>");
+			StringBuffer ph = ImageUtils.getPhotos(type, id, lang);
+			if (ph != null) {
+				html.append("<tr><td colspan='2' class='photo'><ul>");
+				html.append(ph);
+				html.append("</ul></td></tr>");
 			}
 			html.append("<tr><th class='caption'>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><td>" + HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, r.getSport().getId(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Sport.alias, r.getSport().getId(), r.getSport().getLabel(lang), r.getSport().getLabel())) + "</td></tr>");
 			html.append("<tr><th class='caption'>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><td>" + HtmlUtils.writeLink(Year.alias, r.getYear().getId(), r.getYear().getLabel(lang), r.getYear().getLabel()) + "</td></tr>");
@@ -1415,9 +1410,9 @@ public class HtmlConverter {
 			hInfo.put("extlinks", HtmlUtils.writeExternalLinks(type, id, lang));
 		}
 		if (type.matches(Athlete.alias + "|" + City.alias + "|" + Complex.alias)) {
-			String imgs = ImageUtils.getPhotoFiles(type, id);
-			if (StringUtils.notEmpty(imgs))
-				hInfo.put("imgurls", imgs);
+			StringBuffer ph = ImageUtils.getPhotos(type, id, lang);
+			if (ph != null)
+				hInfo.put("photos", ph.toString());
 		}
 		if (lastUpdate != null)
 			request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));

@@ -216,17 +216,14 @@ public class HtmlUtils {
 		if (h.containsKey("titlename")) {
 			html.append("<tr><th id='titlename'" + (!h.containsKey("_sport_") && !h.containsKey("_year_") ? " colspan='2'" : "") + ">" + h.get("titlename") + "</th></tr>");
 			// Photos
-			if (h.containsKey("imgurls")) {
-				String imgs = h.get("imgurls");
-				int i = 0;
-				html.append("<tr><td colspan='2' class='photo'>");
-				for (String img : imgs.split("\\,"))
-					html.append(i > 0 ? "&nbsp;&nbsp;" : "").append(ImageUtils.getPhotoImg(img, h.get("source"), lang, i++ > 0));
-				html.append("</td></tr>");
+			if (h.containsKey("photos")) {
+				html.append("<tr><td colspan='2' class='photo'><ul>");
+				html.append(h.get("photos"));
+				html.append("</ul></td></tr>");
 			}
 		}
 		for (String key : h.keySet()) {
-			if (!key.matches("(tab|^)title|titleEN|imgurls|source|url|info|\\_sport\\_|\\_year\\_|width|titlename|titlename2") && StringUtils.notEmpty(h.get(key))) {
+			if (!key.matches("(tab|^)title|titleEN|photos|source|url|info|\\_sport\\_|\\_year\\_|width|titlename|titlename2") && StringUtils.notEmpty(h.get(key))) {
 				html.append("<tr>" + (h.containsKey("_sport_") || h.containsKey("_team_") || h.containsKey("_year_") || key.matches("flag|logo") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
 				html.append("<td" + (key.matches("logo|logosport|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + (key.matches("flag|logo") ? " colspan='2'" : "") + ">" + h.get(key) + "</td></tr>");
 			}

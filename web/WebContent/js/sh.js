@@ -392,6 +392,32 @@ function hideFavorites() {
 	});
 	$('favorites').hide();
 }
+function enlargePhoto(id) {
+	var li = $('ph-' + id);
+	var html = null;
+	var dpdiv = $('dpicture-div');
+	if (li.innerHTML.indexOf('<img') == 0) {
+		html = li.getElementsByTagName('img')[0].outerHTML;
+		dpdiv.style.width = 'auto';
+		dpdiv.style.height = 'auto';
+		dpdiv.update(html);
+		dPicture.open();
+	}
+	else {
+		new Ajax.Request('/ImageServlet?load&directid=' + id, {
+			onComplete: function(response){
+				html = response.responseText;
+				var iframe = li.getElementsByTagName('iframe')[0];
+				dpdiv.style.width = iframe.width + 'px';
+				dpdiv.style.height = iframe.height + 'px';
+				dpdiv.update(html);
+				dPicture.open();
+			}
+		});
+	}
+	$('header').setStyle({ opacity: 0.4 });
+	$('content').setStyle({ opacity: 0.4 });
+}
 /*============================
   ========== UTILS ========== 
   ============================*/
@@ -495,6 +521,7 @@ function closeDialog(dlg) {
 }
 var dError = null;
 var dAccountConf = null;
+var dPicture = null;
 var dLink = null;
 var dInfo = null;
 var dPersonList = null;
@@ -1534,6 +1561,11 @@ function addPhoto() {
 			dzd.processFile(fd);
 			fd = null;
 		}
+		if (fr != null) {
+			dzr.options.url = '/ImageServlet?upload-photo&entity=RS&id=' + tValues['id'];
+			dzr.processFile(fr);
+			fr = null;
+		}
 	}
 	$('dz-file').update('<p>' + TX_CLICK_DRAGDROP + '</p>');
 	$('emb').value = '';
@@ -1598,7 +1630,7 @@ function initUpdateResults(value) {
 			$(this).select();
 		});
 		Event.observe($(el), 'blur', function(){
-			if (currentInputValue != $(this).value) {
+			if (currentInputValue != $(this).value && $(this).id != 'emb') {
 				showWarning();
 			}
 			if ($(this).value == '') {
@@ -1620,6 +1652,9 @@ function initUpdateResults(value) {
 		fr = f;
 		$$('#imgzone p')[0].remove();
 		showWarning();
+	});
+	dzr.on("success", function(f) {
+		loadPhotos();
 	});
 	addRounds();
 	loadResValues(value);
@@ -1647,6 +1682,7 @@ function loadResValues(value) {
 		if (t.length > 16) {
 			tValues['id'] = t[15];
 			$('id').value = tValues['id'];
+			currentId = tValues['id'];
 			if (dzr != null) {
 				$('dz-file').update('<p>' + TX_CLICK_DRAGDROP + '</p>');
 				fr = null;
@@ -1800,6 +1836,7 @@ function loadResValues(value) {
 					$('otherids').update(toid.join(' '));	
 				}
 			}
+			loadPhotos();
 		}
 	}
 }
@@ -1930,11 +1967,6 @@ function saveResult() {
 			if (text.indexOf('ERR:') == -1) {
 				tValues['id'] = text.split('#')[0];
 				$('id').value = tValues['id'];
-				if (fr != null) {
-					dzr.options.url = '/ImageServlet?upload-photo&entity=RS&id=' + tValues['id'];
-					dzr.processFile(fr);
-					fr = null;
-				}
 				showMessage(text.split('#')[1]);
 			}
 			else {
@@ -2351,8 +2383,10 @@ function initUpdateData() {
 			$(this).select();
 		});
 		Event.observe($(el), 'change', function(){
-			$(this).removeClassName('completed');
-			showWarning();
+			$(this).removeClassName('completed').addClassName('completed2');
+			if ($(this).id != 'emb') {
+				showWarning();	
+			}
 		});
 		Event.observe($(el), 'blur', function(){
 			if ($(this).value == '') {

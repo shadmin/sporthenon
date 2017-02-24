@@ -17,6 +17,12 @@
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="saveError();"/><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dError);"/></div>
 </div>
 </div>
+<!-- Picture -->
+<div id="d-picture" class="dialog" style="display:none;">
+<div class="fieldset">
+	<div class="fscontent" id="dpicture-div"></div>
+</div>
+</div>
 <!-- Link -->
 <div id="d-link" class="dialog" style="display:none;">
 <div class="fieldset">
@@ -135,6 +141,7 @@
 <script type="text/javascript"><!--
 dAccountConf = new Control.Modal($('d-accountconf'),{ closeOnClick: false, fade: false });
 dError = new Control.Modal($('d-error'),{ closeOnClick: false, fade: false });
+dPicture = new Control.Modal($('d-picture'),{ closeOnClick: true, fade: true, afterClose:function(){$('header').setStyle({opacity: 1.0});$('content').setStyle({opacity: 1.0});} });
 dLink = new Control.Modal($('d-link'),{ closeOnClick: false, fade: false });
 dInfo = new Control.Modal($('d-info'),{ closeOnClick: false, fade: false });
 dPersonList = new Control.Modal($('d-plist'),{ closeOnClick: false, fade: false });

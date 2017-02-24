@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.sporthenon.db.DatabaseHelper;
+import com.sporthenon.db.entity.meta.Picture;
 import com.sporthenon.utils.res.ResourceUtils;
 
 public class ImageUtils {
@@ -103,26 +105,24 @@ public class ImageUtils {
 		return list;
 	}
 
-	public static String getPhotoFiles(String entity, Object id) {
-		String p = "P" + StringUtils.encode(entity + "-" + id);
-		LinkedList<String> list = new LinkedList<String>();
-		for (String s : ImageUtils.getImgFiles())
-			if (s.matches("^" + p + "\\d*\\.\\S+$"))
-				list.add(s);
-		Collections.sort(list);
-		return StringUtils.join(list, ",");
+	public static StringBuffer getPhotos(String entity, Object id, String lang) throws Exception {
+		final int MAX_WIDTH = Integer.parseInt(ConfigUtils.getValue("max_photo_width"));
+		final int MAX_HEIGHT = Integer.parseInt(ConfigUtils.getValue("max_photo_height"));
+		StringBuffer sb = new StringBuffer();
+		for (Picture p : (List<Picture>) DatabaseHelper.execute("from Picture where entity='" + entity + "' and idItem=" + id + "order by id")) {
+			sb.append("<li id='ph-" + p.getId() + "'>");
+			if (p.isEmbedded()) {
+				String value = p.getValue().replaceAll("%", "px");
+				value = value.replaceAll("height\\:100px\\;", "");
+				value = value.replaceAll("width\\:100px\\;", "width:" + MAX_WIDTH + "px;height:" + MAX_HEIGHT + "px;");
+				value = value.replaceFirst("padding:[\\d\\.]+px", "padding:0");
+				sb.append(value);
+			}
+			else
+				sb.append("<img alt='' src='" + ImageUtils.getUrl() + p.getValue() + "'/>");
+			sb.append("<div class='enlarge'><a href='javascript:enlargePhoto(" + p.getId() + ");'><img src='" + getRenderUrl() + "enlarge.png' title='" + ResourceUtils.getText("enlarge", lang) + "'/></a></div></li>");
+		}
+		return (sb.length() > 0 ? sb : null);
 	}
 	
-	public static StringBuffer getPhotoImg(String url, String source, String lang, boolean thumbnail) {
-//		final int MAX_WIDTH = Integer.parseInt(ConfigUtils.getValue("max_photo_width"));
-		final int MAX_HEIGHT = Integer.parseInt(ConfigUtils.getValue("max_photo_height"));
-		StringBuffer html = new StringBuffer();
-		url = ConfigUtils.getProperty("img.url") + url;
-		String id = url.substring(url.lastIndexOf("/") + 1);
-		html.append("<a id='link-" + id + "' href='" + (thumbnail ? "javascript:thumbnailClick(\"" + id + "\");" : url) + "' target='_blank'" + (!thumbnail ? " title=\"" + ResourceUtils.getText("enlarge", lang) + "\"" : "") + "><img id='" + id + "' alt='Photo' style='height:" + (thumbnail ? 50 : MAX_HEIGHT) + "px;" + (thumbnail ? "width:50px;" : "") + "' src='" + url + "'/></a>");
-//		if (StringUtils.notEmpty(source))
-//			html.append("<br/><span class='source'>(" + source + ")</span>");
-		return html;
-	}
-
 }

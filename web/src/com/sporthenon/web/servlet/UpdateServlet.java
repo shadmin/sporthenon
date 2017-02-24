@@ -819,7 +819,7 @@ public class UpdateServlet extends AbstractServlet {
 				html.append("</tr></thead><tbody class='tby'>");
 				currentEntity = item.getEntity();
 			}
-			boolean isPhoto = StringUtils.notEmpty(ImageUtils.getPhotoFiles(item.getEntity(), item.getIdItem()));
+			boolean isPhoto = (ImageUtils.getPhotos(item.getEntity(), item.getIdItem(), lang) != null);
 			boolean isNopic = (item.getCount3() != null && item.getCount3() == 1);
 			int picsL = ImageUtils.getImageList(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_LARGE).size();
 			int picsS = ImageUtils.getImageList(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_SMALL).size();

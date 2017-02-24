@@ -143,9 +143,27 @@
 	text-align: center;
 	white-space: nowrap;
 }
-.tc .info td.photo img{
-	/*border: 1px solid #DDD;*/
+.tc .info td.photo img, .tc .info td.photo li{
+	display: inline-block;
 	vertical-align: middle;
+}
+.tc .info td.photo img{
+	padding-bottom: 3px;
+	max-height: 150px;
+}
+.tc .info td.photo li{
+	height: 168px;
+	max-height: 168px;
+	text-align: center;
+	margin-right: 5px;
+}
+.tc .info .enlarge{
+	margin-left: auto;
+	margin-right: auto;
+}
+.tc .info .enlarge img{
+	max-width: 14px;
+	max-height: 14px;
 }
 .tc .source{
 	display: none;
