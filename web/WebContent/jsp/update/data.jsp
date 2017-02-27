@@ -225,9 +225,12 @@
 				<legend><%=StringUtils.text("photos", session)%></legend>
 				<div id="dz-file" style="float:left;"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>
 				<div id="embimg">
-					Embedded:<br/><textarea id="emb" tabindex="15" cols="50" rows="5" style="width:655px;white-space:normal;"></textarea>
-					<br/><input type="button" class="button" onclick="addPhoto();" value="<%=StringUtils.text("button.add", session)%>" style="padding-left:5px;"/>
-				</div><br/>
+					Embedded:<br/><textarea id="emb" tabindex="15" cols="50" rows="7" style="width:660px;height:102px;white-space:normal;"></textarea>
+				</div>
+				<div style="clear:left;margin-bottom:5px;">
+					<input type="text" id="src" title="<%=StringUtils.text("source", session)%>" style="width:117px;margin-right:3px;"/>
+					<input type="button" class="button" onclick="addPhoto();" value="<%=StringUtils.text("button.add", session)%>" style="padding-left:5px;"/>
+				</div>
 				<ul id="currentphotos"></ul>
 			</fieldset>
 			<!-- Button panel -->

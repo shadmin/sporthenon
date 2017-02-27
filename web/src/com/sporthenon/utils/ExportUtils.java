@@ -650,6 +650,38 @@ public class ExportUtils {
 				row++;
 			}
 		}
+		// WINREC
+//		Element twinrec = doc.getElementById("winrec");
+//		if (twinrec != null) {
+//			ArrayList<String> lTd_ = new ArrayList<String>();
+//			lTd_.add("--INFO--");
+//			Element info = tinfo.get(0);
+//			Element titleName = info.getElementById("titlename");
+//			if (titleName != null)
+//				lTd_.add("#TITLENAME#" + titleName.text());
+//			for (Element tr : info.getElementsByTag("tr")) {
+//				List<Element> lCaption = tr.getElementsByClass("caption");
+//				if (lCaption != null && !lCaption.isEmpty()) {
+//					Element th = lCaption.get(0);
+//					Element td = tr.getElementsByTag("td").get(0);
+//					if (td.className() == null || !td.className().matches("^(logo|flag|otherflags|otherlogos|record|extlinks).*")) {
+//						lTd_.add("#CAPTION#" + th.text());
+//						lTd_.add("#ALIGN_LEFT#" + td.text());
+//						row++;
+//					}
+//				}
+//				if (!tr.getElementsByClass("extlinks").isEmpty()) {
+//					Element td = tr.getElementsByTag("td").get(0);
+//					if (td.className().equals("extlinks")) {
+//						for (Element e : td.select("th,a")) {
+//							lTd_.add((e.tagName().equals("th") ? "#CAPTION#" : "#ALIGN_LEFT#") + e.text());
+//							row++;
+//						}
+//					}
+//				}
+//			}
+//			lTd.add(lTd_);
+//		}
 	}
 
 	public static void export(HttpServletResponse response, StringBuffer html, String format, String lang) throws Exception {

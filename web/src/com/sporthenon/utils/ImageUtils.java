@@ -119,7 +119,7 @@ public class ImageUtils {
 				sb.append(value);
 			}
 			else
-				sb.append("<img alt='' src='" + ImageUtils.getUrl() + p.getValue() + "'/>");
+				sb.append("<img alt='" + (StringUtils.notEmpty(p.getSource()) ? p.getSource() : "") + "' src='" + ImageUtils.getUrl() + p.getValue() + "'/>");
 			sb.append("<div class='enlarge'><a href='javascript:enlargePhoto(" + p.getId() + ");'><img src='" + getRenderUrl() + "enlarge.png' title='" + ResourceUtils.getText("enlarge", lang) + "'/></a></div></li>");
 		}
 		return (sb.length() > 0 ? sb : null);

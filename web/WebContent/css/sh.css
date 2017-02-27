@@ -1366,8 +1366,7 @@ select.disabled{
 }
 #embimg{
 	float: left;
-	margin-left: 10px;
-	margin-bottom: 5px;
+	margin-left: 8px;
 }
 #currentphotos{
 	width: 100%;
@@ -2006,6 +2005,16 @@ select.disabled{
 	padding-top: 20px;
 	text-align: center;
 	font-weight: bold;
+}
+#d-picture .source{
+	position: absolute;
+	left: 4px;
+	bottom: -1px;
+	white-space: nowrap;
+	font-size: 9px;
+	color: #888;
+	transform: rotate(-90deg) translate(0, 0);
+	transform-origin: 0% 0%;
 }
 /*=============================
   ========== TOOLBAR ========== 

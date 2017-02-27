@@ -52,9 +52,11 @@ public class ImageServlet extends AbstractServlet {
 			if (hParams.containsKey("upload-photo")) {
 				Object id = hParams.get("id");
 				boolean embedded = String.valueOf(hParams.get("embedded")).equals("1");				
+				String source = String.valueOf(hParams.get("source"));
 				Picture p = new Picture();
 				p.setEntity(entity);
 				p.setIdItem(Integer.parseInt(String.valueOf(id)));
+				p.setSource(StringUtils.notEmpty(source) ? source : null);
 				if (embedded) {
 					String value = String.valueOf(hParams.get("value"));
 					value = value.replaceFirst("\\\"\\/\\/", "\"http://").replaceFirst("\\&caption\\=true", "");
