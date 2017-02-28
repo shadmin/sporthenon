@@ -169,7 +169,8 @@ public class ExportUtils {
 						cell.setCellStyle(headerStyle);
 						lTh_.remove(0);
 						lTh_.remove(0);
-						row = sheet.createRow(rowIndex++);
+						if (!lTh_.isEmpty())
+							row = sheet.createRow(rowIndex++);
 					}					
 					for (String s : lTh.get(n)) {
 						(cell = row.createCell(i++)).setCellValue(s.replaceAll("^\\#.*\\#", ""));
@@ -260,7 +261,8 @@ public class ExportUtils {
 					String s = lTh_.get(i);
 					sbCSV.append(i > 0 ? SEPARATOR : "").append(s.replaceAll("^\\#.*\\#", ""));
 				}
-				sbCSV.append("\r\n");
+				if (!lTh_.isEmpty())
+					sbCSV.append("\r\n");
 			}
 			// INFO
 			else if (l != null && !l.isEmpty() && l.get(0).matches("^\\#CAPTION\\#.*")) {
@@ -332,11 +334,13 @@ public class ExportUtils {
 					sbText.append("\r\n").append(sbSep).append("\r\n\r\n");
 				ArrayList<String> lTh_ = lTh.get(nth++);
 				if (lTh_ != null && !lTh_.isEmpty() && lTh_.get(0).equalsIgnoreCase("--TTEXT--")) {
-					sbText.append("[" + lTh_.get(1) + "]").append("\r\n");
+					sbText.append("[" + lTh_.get(1) + "]");
 					lTh_.remove(0);
 					lTh_.remove(0);
+					if (!lTh_.isEmpty())
+						sbText.append("\r\n");
 				}
-				tMaxLength = new int[lTh_.size()];
+				tMaxLength = new int[!lTh_.isEmpty() ? lTh_.size() : 2];
 				for (int i = 0 ; i < lTh_.size() ; i++)
 					tMaxLength[i] = lTh_.get(i).replaceAll("^\\#.*\\#", "").length();
 				for (int i = index + 1 ; i < lTd.size() ; i++) {
@@ -355,7 +359,8 @@ public class ExportUtils {
 						sbSep.append("-");
 					sbSep.append("+");
 				}
-				sbText.append(sbSep).append("\r\n|");
+				if (!lTh_.isEmpty())
+					sbText.append(sbSep).append("\r\n|");	
 				for (int i = 0 ; i < lTh_.size() ; i++) {
 					String s = lTh_.get(i).replaceAll("^\\#.*\\#", "");
 					sbText.append(s);
@@ -405,6 +410,9 @@ public class ExportUtils {
 		html = html.replaceAll("alt\\=\"note\"", "alt=\"note\" style=\"display:none;\"");
 		html = html.replaceAll("alt\\=\"toggle\"", "alt=\"toggle\" style=\"display:none;\"");
 		html = html.replaceAll("class=\"rendertip\" style=\"display:none;\"", "class=\"rendertip\"");
+		html = html.replaceAll("class=\"tsort\"", "class=\"tsort\" style=\"clear:both;\"");
+		html = html.replaceAll("id\\=\"winrecmore\"", "style=\"display:none;\"");
+		html = html.replaceAll("class=\"hidden\"", "");
 		return html;
 	}
 	
@@ -651,37 +659,28 @@ public class ExportUtils {
 			}
 		}
 		// WINREC
-//		Element twinrec = doc.getElementById("winrec");
-//		if (twinrec != null) {
-//			ArrayList<String> lTd_ = new ArrayList<String>();
-//			lTd_.add("--INFO--");
-//			Element info = tinfo.get(0);
-//			Element titleName = info.getElementById("titlename");
-//			if (titleName != null)
-//				lTd_.add("#TITLENAME#" + titleName.text());
-//			for (Element tr : info.getElementsByTag("tr")) {
-//				List<Element> lCaption = tr.getElementsByClass("caption");
-//				if (lCaption != null && !lCaption.isEmpty()) {
-//					Element th = lCaption.get(0);
-//					Element td = tr.getElementsByTag("td").get(0);
-//					if (td.className() == null || !td.className().matches("^(logo|flag|otherflags|otherlogos|record|extlinks).*")) {
-//						lTd_.add("#CAPTION#" + th.text());
-//						lTd_.add("#ALIGN_LEFT#" + td.text());
-//						row++;
-//					}
-//				}
-//				if (!tr.getElementsByClass("extlinks").isEmpty()) {
-//					Element td = tr.getElementsByTag("td").get(0);
-//					if (td.className().equals("extlinks")) {
-//						for (Element e : td.select("th,a")) {
-//							lTd_.add((e.tagName().equals("th") ? "#CAPTION#" : "#ALIGN_LEFT#") + e.text());
-//							row++;
-//						}
-//					}
-//				}
-//			}
-//			lTd.add(lTd_);
-//		}
+		Element twinrec = doc.getElementById("winrec");
+		if (twinrec != null) {
+			ArrayList<String> lTd_ = new ArrayList<String>();
+			lTd_.add("--NEW--");
+			lTd.add(lTd_);
+			ArrayList<String> lTh_ = new ArrayList<String>();
+			lTh_.add("--TTEXT--");
+			lTh_.add(twinrec.getElementsByClass("toggletext").get(0).text());
+			lTh.add(lTh_);
+			lMerge.add(new MergedCell(row + 1, 0, 2));
+			for (Element tr : twinrec.getElementsByTag("tr")) {
+				List<Element> lCaption = tr.getElementsByClass("caption");
+				if (lCaption != null && !lCaption.isEmpty()) {
+					List<Element> lCount = tr.getElementsByClass("count");
+					lTd_ = new ArrayList<String>();
+					lTd_.add(lCaption.get(0).text());
+					lTd_.add(lCount.get(0).text());
+					lTd.add(lTd_);
+					row++;
+				}
+			}
+		}
 	}
 
 	public static void export(HttpServletResponse response, StringBuffer html, String format, String lang) throws Exception {
@@ -693,7 +692,7 @@ public class ExportUtils {
 			Document doc = Jsoup.parse(html_, "utf-8");
 			Element elTitle = doc.getElementsByAttributeValue("class", "title").first();
 			String title = elTitle.text().replaceAll("\\,\\s", "_");
-			title = URLEncoder.encode(title, "UTF-8").replaceAll("\\+", " ").replaceAll("\\s\\-\\s", "-");
+			title = URLEncoder.encode(title, "UTF-8").replaceAll("\\+", " ").replaceAll("\\s\\-\\s", "_");
 			List lTh = new ArrayList<ArrayList<String>>();
 			List lTd = new ArrayList<ArrayList<String>>();
 			List lMerge = new ArrayList<MergedCell>();
