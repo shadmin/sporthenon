@@ -1,7 +1,23 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 1.0.0   |
+| Last Version: 1.0.1   |
 +-----------------------+
+
++-------+
+| 1.0.1 |
++-------+
+[2 Mar 2017]
+Milestone: https://github.com/shadmin/sporthenon/issues?q=milestone%3Av1.0.1
+- New feature: <Embedded Images> (=> allow HTML inputs for embedded photos)
+- New feature: <Year report> (=> overview of completed/not completed results for a specific year)
+- Added no_place and no_date flags (update/overview, update/results)
+- Split events in calendar (past/future) and hide future events when date is reached
+- Replaced most of &nbsp; chars by 'nowrap' CSS class
+- Added Android block in project page
+- Added "win records" and ref tables titles in exports
+- Import files now kept in history table
+- Bugfix: special characters cause wrong sort
+- Bugfix: arrows to expand ref tables are not displayed
 
 +-------+
 | 1.0.0 |
