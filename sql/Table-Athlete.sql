@@ -15,7 +15,6 @@ CREATE TABLE "Athlete"
   link integer,
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
-  photo_source character varying(100),
   CONSTRAINT "PERSON_pkey" PRIMARY KEY (id),
   CONSTRAINT "PERSON_id_country_fkey" FOREIGN KEY (id_country)
       REFERENCES "Country" (id) MATCH SIMPLE

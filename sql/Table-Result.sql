@@ -62,10 +62,11 @@ CREATE TABLE "Result"
   result19 character varying(20),
   id_rank20 integer,
   result20 character varying(20),
-  photo_source character varying(100),
   id_country1 integer,
   id_country2 integer,
   draft boolean,
+  no_place boolean,
+  no_date boolean,
   CONSTRAINT "RESULT_pkey" PRIMARY KEY (id),
   CONSTRAINT "RESULT_id_championship_fkey" FOREIGN KEY (id_championship)
       REFERENCES "Championship" (id) MATCH SIMPLE

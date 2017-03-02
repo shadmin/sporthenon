@@ -14,7 +14,6 @@ CREATE TABLE "City"
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
   link integer,
-  photo_source character varying(100),
   CONSTRAINT "CITY_pkey" PRIMARY KEY (id),
   CONSTRAINT "CITY_id_member_fkey" FOREIGN KEY (id_contributor)
       REFERENCES "~Contributor" (id) MATCH SIMPLE

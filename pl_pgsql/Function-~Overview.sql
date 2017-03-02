@@ -24,7 +24,7 @@ begin
 		_query = 'SELECT RS.id, YR.label, SP.label' || _lang || ', CP.label' || _lang || ', EV.label' || _lang || ', SE.label' || _lang || ', SE2.label' || _lang || ',';
 		_query = _query || 'concat_ws('','', RS.id_rank1, RS.id_rank2, RS.id_rank3, RS.id_rank4, RS.id_rank5, RS.id_rank6, RS.id_rank7, RS.id_rank8, RS.id_rank9, RS.id_rank10, RS.id_rank11, RS.id_rank12, RS.id_rank13, RS.id_rank14, RS.id_rank15, RS.id_rank16, RS.id_rank17, RS.id_rank18, RS.id_rank19, RS.id_rank20) AS ranks,';
 		_query = _query || 'concat_ws('','', RS.result1, RS.result2, RS.result3, RS.result4, RS.result5, RS.result6, RS.result7, RS.result8, RS.result9, RS.result10, RS.result11, RS.result12, RS.result13, RS.result14, RS.result15, RS.result16, RS.result17, RS.result18, RS.result19, RS.result20) AS results,';
-		_query = _query || 'concat_ws('','', coalesce(RS.id_complex1, ''0''), coalesce(RS.id_complex2, ''0''), coalesce(RS.id_city1, ''0''), coalesce(RS.id_city2, ''0'')) AS places, concat_ws('','', coalesce(RS.date1, ''0''), coalesce(RS.date2, ''0'')) AS dates, TP1.number, TP2.number, TP3.number, string_agg(DISTINCT(CAST (EL.id AS VARCHAR)), '',''), string_agg(DISTINCT(CAST (RD.id AS VARCHAR)), '','')';	
+		_query = _query || 'concat_ws('','', coalesce(RS.id_complex1, ''0''), coalesce(RS.id_complex2, ''0''), coalesce(RS.id_city1, ''0''), coalesce(RS.id_city2, ''0'')) AS places, concat_ws('','', coalesce(RS.date1, ''0''), coalesce(RS.date2, ''0'')) AS dates, TP1.number, TP2.number, TP3.number, string_agg(DISTINCT(CAST (EL.id AS VARCHAR)), '', ''), string_agg(DISTINCT(CAST (RD.id AS VARCHAR)), '', ''), (CASE WHEN RS.no_date=true THEN 1 ELSE 0 END), (CASE WHEN RS.no_place=true THEN 1 ELSE 0 END)';
 		_query = _query || ' FROM "Result" RS';
 		_query = _query || ' LEFT JOIN "Year" YR ON RS.id_year = YR.id';
 		_query = _query || ' LEFT JOIN "Sport" SP ON RS.id_sport = SP.id';
@@ -53,7 +53,7 @@ begin
 
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.label_rel5, _item.label_rel6, _item.txt3, _item.txt4, _item.txt1, _item.txt2, _item.id_rel1, _item.id_rel2, _item.id_rel3, _item.label, _item.txt6;
+			FETCH _c INTO _item.id_item, _item.label_rel1, _item.label_rel2, _item.label_rel3, _item.label_rel4, _item.label_rel5, _item.label_rel6, _item.txt3, _item.txt4, _item.txt1, _item.txt2, _item.id_rel1, _item.id_rel2, _item.id_rel3, _item.label, _item.txt6, _item.count1, _item.count2;
 			EXIT WHEN NOT FOUND;
 			_item.id = _index;
 			_item.entity = 'RS';

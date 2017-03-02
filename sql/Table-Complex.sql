@@ -12,7 +12,6 @@ CREATE TABLE "Complex"
   first_update timestamp without time zone NOT NULL DEFAULT now(),
   ref smallint,
   link integer,
-  photo_source character varying(100),
   CONSTRAINT "COMPLEX_pkey" PRIMARY KEY (id),
   CONSTRAINT "COMPLEX_id_city_fkey" FOREIGN KEY (id_city)
       REFERENCES "City" (id) MATCH SIMPLE

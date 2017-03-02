@@ -136,6 +136,25 @@ begin
 		RETURN NEXT _item;
 		_index := _index + 1;
 	END IF;
+	-- World Cup
+	IF _type2 <= 10 THEN
+		_item.id := _index;
+		_item.label := 'WLDCP';
+		_item.txt1 := 'rank.1';
+		_item.txt2 := 'rank.2';
+		_item.txt3 := 'rank.3';	
+		SELECT COUNT(*) INTO _item.count1 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_championship = 2 AND lower(EV.label) NOT LIKE '%standings%' AND lower(SE.label) NOT LIKE '%standings%' AND ((id_subevent2 IS NOT NULL AND T3.number BETWEEN _type1 AND _type2) OR (id_subevent IS NOT NULL AND T2.number BETWEEN _type1 AND _type2) OR (id_subevent IS NULL AND T1.number BETWEEN _type1 AND _type2)) AND "GetRank"(RS.*, (CASE WHEN id_subevent2 IS NOT NULL THEN T3.number ELSE (CASE WHEN id_subevent IS NOT NULL THEN T2.number ELSE T1.number END) END), _ids) = 1;
+		SELECT COUNT(*) INTO _item.count2 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_championship = 2 AND lower(EV.label) NOT LIKE '%standings%' AND lower(SE.label) NOT LIKE '%standings%' AND ((id_subevent2 IS NOT NULL AND T3.number BETWEEN _type1 AND _type2) OR (id_subevent IS NOT NULL AND T2.number BETWEEN _type1 AND _type2) OR (id_subevent IS NULL AND T1.number BETWEEN _type1 AND _type2)) AND "GetRank"(RS.*, (CASE WHEN id_subevent2 IS NOT NULL THEN T3.number ELSE (CASE WHEN id_subevent IS NOT NULL THEN T2.number ELSE T1.number END) END), _ids) = 2;
+		SELECT COUNT(*) INTO _item.count3 FROM "Result" RS LEFT JOIN "Event" EV ON RS.id_event=EV.id LEFT JOIN "Event" SE ON RS.id_subevent=SE.id LEFT JOIN "Event" SE2 ON RS.id_subevent2=SE2.id LEFT JOIN "Type" T1 ON EV.id_type=T1.id LEFT JOIN "Type" T2 ON SE.id_type=T2.id LEFT JOIN "Type" T3 ON SE2.id_type=T3.id WHERE id_championship = 2 AND lower(EV.label) NOT LIKE '%standings%' AND lower(SE.label) NOT LIKE '%standings%' AND ((id_subevent2 IS NOT NULL AND T3.number BETWEEN _type1 AND _type2) OR (id_subevent IS NOT NULL AND T2.number BETWEEN _type1 AND _type2) OR (id_subevent IS NULL AND T1.number BETWEEN _type1 AND _type2)) AND "GetRank"(RS.*, (CASE WHEN id_subevent2 IS NOT NULL THEN T3.number ELSE (CASE WHEN id_subevent IS NOT NULL THEN T2.number ELSE T1.number END) END), _ids) = 3;
+		SELECT COUNT(*) INTO _count1 FROM "~PersonList" PL LEFT JOIN "Result" RS ON PL.id_result=RS.id WHERE id_championship = 2 AND PL.rank=1 AND id_person = ANY(_ids);
+		SELECT COUNT(*) INTO _count2 FROM "~PersonList" PL LEFT JOIN "Result" RS ON PL.id_result=RS.id WHERE id_championship = 2 AND PL.rank=2 AND id_person = ANY(_ids);
+		SELECT COUNT(*) INTO _count3 FROM "~PersonList" PL LEFT JOIN "Result" RS ON PL.id_result=RS.id WHERE id_championship = 2 AND PL.rank=3 AND id_person = ANY(_ids);
+		_item.count1 := _item.count1 + _count1;
+		_item.count2 := _item.count2 + _count2;
+		_item.count3 := _item.count3 + _count3;
+		RETURN NEXT _item;
+		_index := _index + 1;
+	END IF;
 	-- Grand Slam (Tennis)
 	IF _id_sport = 22 AND _type2 <= 10 THEN
 		_item.id := _index;

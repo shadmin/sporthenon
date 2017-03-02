@@ -42,7 +42,7 @@ begin
 	_current_ev_id := 0;
 	_current_se_id := 0;
 	OPEN _c FOR EXECUTE
-	'SELECT DISTINCT SP.id, SP.label' || _lang || ', SP.label, CP.id, CP.label' || _lang || ', CP.label, EV.id, EV.label' || _lang || ', EV.label, SE.id, SE.label' || _lang || ', SE.label, SE2.id, SE2.label' || _lang || ', SE2.label, II.id_championship, II.id_event, II.id_subevent, II.id_subevent2, CP.index, EV.index, SE.index, SE2.index, (CASE WHEN II.id_event IS NOT NULL AND II.id_subevent IS NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_ev, (CASE WHEN II.id_subevent IS NOT NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_se, (CASE WHEN II.id_subevent2 IS NOT NULL THEN 1 ELSE 0 END) AS o_ii_se2
+	'SELECT DISTINCT SP.id, SP.label' || _lang || ', SP.label, CP.id, CP.label' || _lang || ', CP.label, EV.id, EV.label' || _lang || ' COLLATE "fr_FR", EV.label, SE.id, SE.label' || _lang || ' COLLATE "fr_FR", SE.label, SE2.id, SE2.label' || _lang || ' COLLATE "fr_FR", SE2.label, II.id_championship, II.id_event, II.id_subevent, II.id_subevent2, CP.index, EV.index, SE.index, SE2.index, (CASE WHEN II.id_event IS NOT NULL AND II.id_subevent IS NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_ev, (CASE WHEN II.id_subevent IS NOT NULL AND II.id_subevent2 IS NULL THEN 1 ELSE 0 END) AS o_ii_se, (CASE WHEN II.id_subevent2 IS NOT NULL THEN 1 ELSE 0 END) AS o_ii_se2
 	    FROM "Result" RS LEFT JOIN "Sport" SP ON RS.id_sport = SP.id
 	    LEFT JOIN "Championship" CP ON RS.id_championship = CP.id
 	    LEFT JOIN "Event" EV ON RS.id_event = EV.id
@@ -50,7 +50,7 @@ begin
 	    LEFT JOIN "Event" SE2 ON RS.id_subevent2 = SE2.id
 	    LEFT JOIN "Olympics" OL ON OL.id_year = RS.id_year
 	    LEFT JOIN "~InactiveItem" II ON (RS.id_sport = II.id_sport AND RS.id_championship = II.id_championship AND RS.id_event = II.id_event AND (RS.id_subevent = II.id_subevent OR RS.id_subevent IS NULL) AND (RS.id_subevent2 = II.id_subevent2 OR RS.id_subevent2 IS NULL))
-	    ' || _filter || ' ORDER BY SP.label' || _lang || ', CP.index, CP.label' || _lang || ', o_ii_ev, EV.index, EV.label' || _lang || ', o_ii_se, SE.index, SE.label' || _lang || ', o_ii_se2, SE2.index, SE2.label' || _lang;
+	    ' || _filter || ' ORDER BY SP.label' || _lang || ', CP.index, CP.label' || _lang || ', o_ii_ev, EV.index, EV.label' || _lang || ' COLLATE "fr_FR", o_ii_se, SE.index, SE.label' || _lang || ' COLLATE "fr_FR", o_ii_se2, SE2.index, SE2.label' || _lang || ' COLLATE "fr_FR"';
 	LOOP
 		FETCH _c INTO _sp_id, _sp_label, _sp_label_en, _cp_id, _cp_label, _cp_label_en, _ev_id, _ev_label, _ev_label_en, _se_id, _se_label, _se_label_en, _se2_id, _se2_label, _se2_label_en, _ii_championship, _ii_event, _ii_subevent, _ii_subevent2;
 		EXIT WHEN NOT FOUND;
