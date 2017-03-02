@@ -420,8 +420,7 @@ function enlargePhoto(id) {
 			}
 		});
 	}
-	$('header').setStyle({ opacity: 0.4 });
-	$('content').setStyle({ opacity: 0.4 });
+	setOpacity(0.4);
 }
 /*============================
   ========== UTILS ========== 
@@ -452,6 +451,11 @@ function getCookie(name) {
         }
     }
     return '';
+}
+function setOpacity(x) {
+	$('header').setStyle({ opacity: x });
+	$('footer').setStyle({ opacity: x });
+	$('content').setStyle({ opacity: x });
 }
 /*=================================
   ========== TAB CONTROL ========== 
@@ -521,8 +525,7 @@ function closeTabs() {
 }
 function closeDialog(dlg) {
 	dlg.close();
-	$('header').setStyle({ opacity: 1.0 });
-	$('content').setStyle({ opacity: 1.0 });
+	setOpacity(1.0);
 }
 var dError = null;
 var dAccountConf = null;
@@ -564,8 +567,7 @@ function exportPage(type) {
 }
 function displayErrorReport() {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
-	$('header').setStyle({ opacity: 0.4 });
-	$('content').setStyle({ opacity: 0.4 });
+	setOpacity(0.4);
 	$('errlinkurl').value = url;
 	$('errlinktext').value = '';
 	dError.open();
@@ -574,8 +576,7 @@ function displayErrorReport() {
 function displayLink() {
 	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
 	if (dLink && url) {
-		$('header').setStyle({ opacity: 0.4 });
-		$('content').setStyle({ opacity: 0.4 });
+		setOpacity(0.4);
 		dLink.open();
 		$('linktxt').value = url.replace('&amp;', '&');
 		$('linktxt').select();
@@ -594,8 +595,7 @@ function displayInfo() {
 	t[4].update(tInfo[3] == 'fr' ? 'Français' : 'English');
 	t[4].className = ('lang-' + tInfo[3]);
 	t[5].update(tInfo[4]);
-	$('header').setStyle({ opacity: 0.4 });
-	$('content').setStyle({ opacity: 0.4 });
+	setOpacity(0.4);
 	dInfo.open();
 }
 function printCurrentTab() {
@@ -1524,8 +1524,7 @@ function createAccount() {
 		var s = response.responseText;
 		if (!/ERR\|.*/.match(s)) {
 			$('rmsg').hide();
-			$('header').setStyle({ opacity: 0.4 });
-			$('content').setStyle({ opacity: 0.4 });
+			setOpacity(0.4);
 			dAccountConf.open();
 		}
 		else {
@@ -1638,7 +1637,7 @@ function initUpdateResults(value) {
 			$(this).select();
 		});
 		Event.observe($(el), 'blur', function(){
-			if (currentInputValue != $(this).value && $(this).id != 'emb') {
+			if (currentInputValue != $(this).value && $(this).id != 'emb' && $(this).id != 'src') {
 				showWarning();
 			}
 			if ($(this).value == '') {
@@ -1985,8 +1984,7 @@ function saveResult() {
 	});
 }
 function deleteResult() {
-	$('header').setStyle({ opacity: 0.4 });
-	$('content').setStyle({ opacity: 0.4 });
+	setOpacity(0.4);
 	dQuestion.open();
 	$('confirmtxt').update(TX_CONFIRM + ' ?');
 	Event.stopObserving($('confirmbtn'), 'click');
@@ -2000,8 +1998,7 @@ function deleteResult() {
 			},
 			parameters: h
 		});
-		$('header').setStyle({ opacity: 1.0 });
-		$('content').setStyle({ opacity: 1.0 });
+		setOpacity(1.0);
 		dQuestion.close();
 	});
 }
@@ -2086,8 +2083,7 @@ function initPersonList(index) {
 	pListIndex = index;
 	$('plist-title').update('[' + index + ']');
 	dPersonList.open();
-	$('header').setStyle({ opacity: 0.4 });
-	$('content').setStyle({ opacity: 0.4 });
+	setOpacity(0.4);
 }
 function savePersonList() {
 	var t = [];
@@ -2112,8 +2108,7 @@ function savePersonList() {
 	}
 	rkList = t__.join('#');
 	dPersonList.close();
-	$('header').setStyle({ opacity: 1.0 });
-	$('content').setStyle({ opacity: 1.0 });
+	setOpacity(1.0);
 }
 function addPersonList() {
 	try {
@@ -2261,8 +2256,7 @@ function openRoundDialog(index, opened) {
 	});
 	$('round-title').update('[' + rdDlgCurrent + ']');
 	if (!opened) {
-		$('header').setStyle({ opacity: 0.4 });
-		$('content').setStyle({ opacity: 0.4 });
+		setOpacity(0.4);
 		dRound.open();
 	}
 }
@@ -2322,8 +2316,7 @@ function setRoundValues() {
 			}
 		}
 	});
-	$('header').setStyle({ opacity: 1.0 });
-	$('content').setStyle({ opacity: 1.0 });
+	setOpacity(1.0);
 	dRound.close();
 }
 function openCommentDialog() {
@@ -2345,8 +2338,7 @@ function openCommentDialog() {
 		$('cmtmode1').checked = true;
 		$('cmtmode2').checked = false;
 	}
-	$('header').setStyle({ opacity: 0.4 });
-	$('content').setStyle({ opacity: 0.4 });
+	setOpacity(0.4);
 	dComment.open();
 }
 function saveComment() {
@@ -2392,7 +2384,7 @@ function initUpdateData() {
 		});
 		Event.observe($(el), 'change', function(){
 			$(this).removeClassName('completed').addClassName('completed2');
-			if ($(this).id != 'emb') {
+			if ($(this).id != 'emb' && $(this).id != 'src') {
 				showWarning();	
 			}
 		});
@@ -2802,8 +2794,7 @@ function saveEntity() {
 	});
 }
 function deleteEntity() {
-	$('header').setStyle({ opacity: 0.4 });
-	$('content').setStyle({ opacity: 0.4 });
+	setOpacity(0.4);
 	dQuestion.open();
 	$('confirmtxt').update(TX_CONFIRM + ' ?');
 	Event.stopObserving($('confirmbtn'), 'click');
@@ -2818,8 +2809,7 @@ function deleteEntity() {
 			},
 			parameters: h
 		});
-		$('header').setStyle({ opacity: 1.0 });
-		$('content').setStyle({ opacity: 1.0 });
+		setOpacity(1.0);
 		dQuestion.close();
 	});
 }
@@ -2828,8 +2818,7 @@ function copyEntity() {
 	currentId = null;
 }
 function mergeEntity(id1_, id2_) {
-	$('header').setStyle({ opacity: 0.4 });
-	$('content').setStyle({ opacity: 0.4 });
+	setOpacity(0.4);
 	dQuestion.open();
 	new Ajax.Updater($('confirmtxt'), '/update/merge?confirm=1&id1=' + id1_ + '&id2=' + id2_ + '&alias=' + currentAlias);
 	Event.stopObserving($('confirmbtn'), 'click');
@@ -2842,16 +2831,14 @@ function mergeEntity(id1_, id2_) {
 			},
 			parameters: h
 		});
-		$('header').setStyle({ opacity: 1.0 });
-		$('content').setStyle({ opacity: 1.0 });
+		setOpacity(1.0);
 		dQuestion.close();
 	});
 }
 function findEntity(m) {
 	isMerge = (m == 1);
 	isCopyPic = (m == 2);
-	$('header').setStyle({ opacity: 0.4 });
-	$('content').setStyle({ opacity: 0.4 });
+	setOpacity(0.4);
 	dFind.open();
 	$('fresults').update('');
 	$('fpattern').value = '';
@@ -2869,8 +2856,7 @@ function searchEntity() {
 			$$('#fresults li').each(function(el){
 				Event.observe($(el), 'click', function(){
 					var id = $(this).id.split('|')[1];
-					$('header').setStyle({ opacity: 1.0 });
-					$('content').setStyle({ opacity: 1.0 });
+					setOpacity(1.0);
 					dFind.close();
 					if (currentAlias == 'RS') {
 						tValues['id'] = id;
@@ -3177,14 +3163,12 @@ function saveExtLinks() {
 	});
 }
 function updateLinksAuto() {
-	$('header').setStyle({ opacity: 0.4 });
-	$('content').setStyle({ opacity: 0.4 });
+	setOpacity(0.4);
 	dQuestion.open();
 	$('confirmtxt').update(TX_CONFIRM + ' ?');
 	Event.stopObserving($('confirmbtn'), 'click');
 	Event.observe($('confirmbtn'), 'click', function(){
-		$('header').setStyle({ opacity: 1.0 });
-		$('content').setStyle({ opacity: 1.0 });
+		setOpacity(1.0);
 		dQuestion.close();
 		$('elcontent').update('<img src="/img/db/loading.gif?6"/>');
 		var h = $H({sport: $F('elsport'), count: $F('elcount'), idmax: $F('elidmax'), pattern: $F('elpattern'), entity: $F('elentity'), includechecked: ($('elincludechecked').checked ? '1' : '0')});

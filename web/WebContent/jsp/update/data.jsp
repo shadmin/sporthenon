@@ -231,7 +231,7 @@
 					<input type="text" id="src" title="<%=StringUtils.text("source", session)%>" style="width:117px;margin-right:3px;"/>
 					<input type="button" class="button" onclick="addPhoto();" value="<%=StringUtils.text("button.add", session)%>" style="padding-left:5px;"/>
 				</div>
-				<ul id="currentphotos"></ul>
+				<ul id="currentphotos"><li/></ul>
 			</fieldset>
 			<!-- Button panel -->
 			<table class="toolbar" style="position:relative;top:0;right:0;float:right;margin-top:15px;">

@@ -459,9 +459,9 @@ public class HtmlConverter {
 				strEN = (StringUtils.isRevertName(item.getLabelRel1(), t[0] + " " + t[1]) ? (StringUtils.notEmpty(t[0]) ? t[0] + " " : "") + t[1] : (StringUtils.notEmpty(t[1]) ? t[1] + " " : "") + t[0]);
 			}
 			html.append("<tr" + (++i > MAX_WINREC ? " class='hidden'" : "") + "><td class='caption'>" + HtmlUtils.writeLink(item.getIdRel1() < 10 ? Athlete.alias : (item.getIdRel1() == 50 ? Team.alias : Country.alias), item.getIdItem(), str, strEN) + "</td>");
-			html.append("<td><table><tr><td class='bar1'>&nbsp;</td>");
-			html.append("<td class='bar2' style='width:" + (int)((item.getCount1() * 100) / max) + "px;'>&nbsp;</td>");
-			html.append("<td class='bar3'>&nbsp;</td></tr></table></td>");
+			html.append("<td><table><tr><td class='bar1'></td>");
+			html.append("<td class='bar2' style='width:" + (int)((item.getCount1() * 100) / max) + "px;'></td>");
+			html.append("<td class='bar3'></td></tr></table></td>");
 			html.append("<td class='count'>" + item.getCount1() + "</td></tr>");
 		}
 		if (list.size() > MAX_WINREC)
@@ -993,7 +993,7 @@ public class HtmlConverter {
 					String comment = String.valueOf(t[6]);
 					String date2 = String.valueOf(t[7]);
 					String s = "";
-					if (le.contains(event) || (n < l.size() - 1 && l.get(n + 1)[2].equals(event))) {
+					if (le.contains(event) || (n < l.size() - 1 && StringUtils.notEmpty(l.get(n + 1)[2]) && l.get(n + 1)[2].equals(event))) {
 						if (StringUtils.notEmpty(date2) && !date2.equals("null"))
 							s = StringUtils.toTextDate(date2, lang, "MMMM");
 						if (StringUtils.notEmpty(comment) && comment.startsWith("##"))
@@ -2090,7 +2090,7 @@ public class HtmlConverter {
 					tEntity = StringUtils.removeNulls(tEntity);
 				}
 				StringBuffer result = new StringBuffer(isRound ? "" : "<span class='details'>" + HtmlUtils.writeLink(Result.alias, item.getIdItem(), "<img alt='details' title='" +  ResourceUtils.getText("details", lang) + "' src='/img/render/details.png'/>", path) + "</span>");
-				result.append("<table style='margin-right:20px;'><tr><td style='font-weight:bold;'>" + tEntity[0] + "</td>");
+				result.append("<table style='margin-right:20px;'><tr><td style='font-weight:bold;'>" + (StringUtils.notEmpty(tEntity[0]) ? tEntity[0] : "-") + "</td>");
 				if (StringUtils.notEmpty(item.getTxt6()))
 					result.append("<td>&nbsp;" + StringUtils.formatResult(item.getTxt6(), lang) + "</td>");
 				result.append("<td style='padding-left:3px;'>" + (StringUtils.notEmpty(tEntity[1]) ? tEntity[1] : "") + "</td>");

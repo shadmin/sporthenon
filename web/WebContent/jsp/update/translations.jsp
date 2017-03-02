@@ -14,9 +14,9 @@
 			</table>
 			<table id="options"><tr>
 				<td>IDs :</td>
-				<td><input id="trrange" type="text" value="1-50" style="width:90px;"/>
+				<td><input id="trrange" type="text" value="1-50" style="width:90px;"/></td>
 				<td><%=StringUtils.text("find", session)%> :</td>
-				<td><input id="trpattern" type="text" style="width:100px;"/>
+				<td><input id="trpattern" type="text" style="width:100px;"/></td>
 				<td><%=StringUtils.text("show", session)%> :</td>
 				<td><select id="trentity">
 				<option value="CP"><%=StringUtils.text("entity.CP", session)%></option>

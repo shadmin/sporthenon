@@ -63,10 +63,10 @@
 			</div>
 			<div>
 			<fieldset><legend><%=StringUtils.text("remote", session)%></legend>
-			<table><tr><th style="width:80px;"><%=StringUtils.text("picture", session)%></th><td id='imgremote-cell'><div id="img-remote"><img src=""/></div></td></tr>
+			<table><tr><th style="width:80px;"><%=StringUtils.text("picture", session)%></th><td id='imgremote-cell'><div id="img-remote"><img alt="" src=""/></div></td></tr>
 			<tr><th><%=StringUtils.text("label", session)%></th><td id="label-remote" style="font-weight:bold;"></td></tr>
 			<tr><th><%=StringUtils.text("size", session)%></th><td><table id="tsize"><tr><td style="border:none;"><input id="size1" type="radio" name="size" checked="checked" onclick="loadPictures('direct');"/></td><td><label for="size1"><%=StringUtils.text("img.large", session)%></label></td><td><input id="size2" type="radio" name="size" onclick="loadPictures('direct');"/></td><td><label for="size2"><%=StringUtils.text("img.small", session)%></label></td></tr></table></td></tr>
-			<tr><th><%=StringUtils.text("name", session)%></th><td><select id="list-remote" size="5" style="width:250px;height:70px;" onchange="loadPicture();"></select></td></tr>
+			<tr><th><%=StringUtils.text("name", session)%></th><td><select id="list-remote" size="5" style="width:250px;height:70px;" onchange="loadPicture();"><option/></select></td></tr>
 			<tr><td colspan="2"><table id="ttrtest"><tr><td style="border:none;"><input id="nopic" type="checkbox" name="nopic" onclick="setNopic();"/></td><td style="padding-right:10px;"><label for="nopic"><%=StringUtils.text("no.picture", session)%></label></td><td style="border:none;"><input id="trtest" type="checkbox" name="trtest" onclick="$('imgremote-cell').style.backgroundColor=(this.checked ? 'gray' : '#FFF');"/></td><td><label for="trtest"><%=StringUtils.text("test.transparency", session)%></label></td></tr></table></td></tr>
 			</table>
 			</fieldset>

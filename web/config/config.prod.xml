@@ -3,7 +3,7 @@
 <properties>
 	<entry key="env">prod</entry><!-- Environment (standalone|local|test|prod) -->
 	<entry key="version">1.0.1</entry>
-	<entry key="date">15/12/2016</entry>
+	<entry key="date">02/03/2017</entry>
 	<entry key="url">http://www.sporthenon.com/</entry>
 	<entry key="img.url">//img.sporthenon.com/</entry>
 	<entry key="img.folder">/usr/share/glassfish3/glassfish/domains/domain1/docroot/img/</entry>

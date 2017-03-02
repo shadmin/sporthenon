@@ -61,8 +61,8 @@
 		<table class="toolbar" style="top:0;right:0;clear:right;float:right;margin-top:0px;">
 			<tr>
 				<td style="padding-right:20px;"><a href="javascript:copyRStoRD();"><%=StringUtils.text("copy.from.result", session)%></a></td>
-				<td><input id="upd-previous" type="button" class="button upd-previous" onclick="moveRound(-1);" value="<%=StringUtils.text("previous", session)%>"/></td>
-				<td><input id="upd-next" type="button" class="button upd-next" onclick="moveRound(1);" value="<%=StringUtils.text("next", session)%>"/></td>
+				<td><input id="upd-previous_" type="button" class="button upd-previous" onclick="moveRound(-1);" value="<%=StringUtils.text("previous", session)%>"/></td>
+				<td><input id="upd-next_" type="button" class="button upd-next" onclick="moveRound(1);" value="<%=StringUtils.text("next", session)%>"/></td>
 			</tr>
 		</table>
 		</div>
@@ -141,7 +141,7 @@
 <script type="text/javascript"><!--
 dAccountConf = new Control.Modal($('d-accountconf'),{ closeOnClick: false, fade: false });
 dError = new Control.Modal($('d-error'),{ closeOnClick: false, fade: false });
-dPicture = new Control.Modal($('d-picture'),{ closeOnClick: true, fade: true, afterClose:function(){$('header').setStyle({opacity: 1.0});$('content').setStyle({opacity: 1.0});} });
+dPicture = new Control.Modal($('d-picture'),{ closeOnClick: true, fade: true, afterClose:function(){setOpacity(1.0);} });
 dLink = new Control.Modal($('d-link'),{ closeOnClick: false, fade: false });
 dInfo = new Control.Modal($('d-info'),{ closeOnClick: false, fade: false });
 dPersonList = new Control.Modal($('d-plist'),{ closeOnClick: false, fade: false });

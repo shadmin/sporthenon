@@ -23,7 +23,7 @@
 				<tr><td onclick="location.href='/update/errors';" class="errors"><%=StringUtils.text("update.errors", session)%></td></tr>
 				<tr><td onclick="location.href='/update/redirections';" class="redirections"><%=StringUtils.text("update.redirections", session)%></td></tr>
 				<%if (cb != null && cb.isAdmin()) {%><tr><td onclick="location.href='/update/admin';" class="admin">Admin</td></tr><%}%>
-				<tr><td onclick="$('header').setStyle({ opacity: 0.4 });$('content').setStyle({ opacity: 0.4 });dHelp.open();" class="help"><%=StringUtils.text("update.help", session)%></td></tr>
+				<tr><td onclick="setOpacity(0.4);dHelp.open();" class="help"><%=StringUtils.text("update.help", session)%></td></tr>
 			</table></div>
 		</td>
 	</tr>

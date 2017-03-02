@@ -31,11 +31,11 @@
 				%>
 				</select></td>
 				<td><%=StringUtils.text("count", session)%> :</td>
-				<td><input id="elcount" type="text" value="100" style="width:80px;"/>
+				<td><input id="elcount" type="text" value="100" style="width:80px;"/></td>
 				<td>ID max. :</td>
-				<td><input id="elidmax" type="text" value="100000" style="width:80px;"/>
+				<td><input id="elidmax" type="text" value="100000" style="width:80px;"/></td>
 				<td><input id="elincludechecked" type="checkbox"/></td>
-				<td><label for="elincludechecked"><%=StringUtils.text("include.checked.links", session)%></label> </td>
+				<td><label for="elincludechecked"><%=StringUtils.text("include.checked.links", session)%></label></td>
 				<td><input type="button" value="OK" onclick="loadExtLinks();"/></td>
 				<td><input type="button" value="<%=StringUtils.text("automatic.update", session)%>" onclick="updateLinksAuto();"/></td>
 			</tr><tr>
@@ -54,7 +54,7 @@
 				<option value="TM"><%=StringUtils.text("entity.TM", session)%></option>
 				</select></td>
 				<td><%=StringUtils.text("find", session)%> :</td>
-				<td><input id="elpattern" type="text" style="width:100px;"/>			
+				<td><input id="elpattern" type="text" style="width:100px;"/></td>
 			</tr></table>
 			<div id="elcontent"></div>
 		</div>

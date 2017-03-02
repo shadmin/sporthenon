@@ -120,12 +120,16 @@
 }
 .tc .winrec .bar1{
 	background: url(../img/render/bar1.gif) left center no-repeat;
+	width: 6px;
+	height: 10px;
 }
 .tc .winrec .bar2{
 	background: url(../img/render/bar2.gif) left center repeat-x;
 }
 .tc .winrec .bar3{
 	background: url(../img/render/bar3.gif) right center no-repeat;
+	width: 6px;
+	height: 10px;
 }
 .tc .uinfo{
 	clear: right;

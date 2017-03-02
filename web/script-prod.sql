@@ -732,4 +732,6 @@ alter table "Complex" drop photo_source;
 alter table "Result" drop photo_source;
 
 
+  delete from "Result" where id=21794;
+
   

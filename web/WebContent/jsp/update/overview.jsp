@@ -26,9 +26,9 @@
 				%>
 				</select></td>
 				<td><%=StringUtils.text("count", session)%> :</td>
-				<td><input id="ovcount" type="text" value="50" style="width:50px;"/>
+				<td><input id="ovcount" type="text" value="50" style="width:50px;"/></td>
 				<td><%=StringUtils.text("find", session)%> :</td>
-				<td><input id="ovpattern" type="text" style="width:100px;"/>
+				<td><input id="ovpattern" type="text" style="width:100px;"/></td>
 				<td><%=StringUtils.text("show", session)%> :</td>
 				<td><select id="oventity">
 				<option value="RS"><%=StringUtils.text("entity.RS", session)%></option>

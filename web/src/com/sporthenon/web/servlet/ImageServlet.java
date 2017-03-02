@@ -59,7 +59,7 @@ public class ImageServlet extends AbstractServlet {
 				p.setSource(StringUtils.notEmpty(source) ? source : null);
 				if (embedded) {
 					String value = String.valueOf(hParams.get("value"));
-					value = value.replaceFirst("\\\"\\/\\/", "\"http://").replaceFirst("\\&caption\\=true", "");
+					value = value/*.replaceFirst("\\\"\\/\\/", "\"http://")*/.replaceFirst("\\&caption\\=true", "");
 					Document doc = Jsoup.parse(value);
 					doc.getElementsByTag("div").get(1).remove();
 					value = doc.body().html();
