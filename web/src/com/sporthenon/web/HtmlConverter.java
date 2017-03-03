@@ -2091,7 +2091,7 @@ public class HtmlConverter {
 				}
 				StringBuffer result = new StringBuffer(isRound ? "" : "<span class='details'>" + HtmlUtils.writeLink(Result.alias, item.getIdItem(), "<img alt='details' title='" +  ResourceUtils.getText("details", lang) + "' src='/img/render/details.png'/>", path) + "</span>");
 				result.append("<table style='margin-right:20px;'><tr><td style='font-weight:bold;'>" + (StringUtils.notEmpty(tEntity[0]) ? tEntity[0] : "-") + "</td>");
-				if (StringUtils.notEmpty(item.getTxt6()))
+				if (StringUtils.notEmpty(item.getTxt6()) && !StringUtils.notEmpty(item.getTxt2()))
 					result.append("<td>&nbsp;" + StringUtils.formatResult(item.getTxt6(), lang) + "</td>");
 				result.append("<td style='padding-left:3px;'>" + (StringUtils.notEmpty(tEntity[1]) ? tEntity[1] : "") + "</td>");
 				result.append("<td style='padding-left:3px;'>" + (StringUtils.notEmpty(tEntity[2]) ? tEntity[2] : "") + "</td></tr></table>");

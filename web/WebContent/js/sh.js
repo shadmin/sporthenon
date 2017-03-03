@@ -1658,7 +1658,6 @@ function initUpdateResults(value) {
 	dzr.on('addedfile', function(f) {
 		fr = f;
 		$$('#imgzone p')[0].remove();
-		showWarning();
 	});
 	dzr.on("success", function(f) {
 		loadPhotos();
@@ -2412,7 +2411,6 @@ function initUpdateData() {
 	dzd.on("addedfile", function(f) {
 		fd = f;
 		$$('#imgzone p')[0].remove();
-		showWarning();
 	});
 	dzd.on("success", function(f) {
 		loadPhotos();
