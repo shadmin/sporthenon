@@ -97,15 +97,16 @@ var treeItems = null;
 			<li>
 			<fieldset style="height:140px;width:483px;"><legend><%=StringUtils.text("dates", session)%>&nbsp;<a href="#help-dates" style="color:#00C;">[?]</a><a href="javascript:clearValue('yr,dt1,dt2');" style="color:#00C;">[X]</a></legend>
 				<table style="margin-top:3px;">
-					<tr><td><input type="text" id="yr" tabindex="6" name="<%=StringUtils.text("entity.YR.1", session)%>"/><a href="javascript:clearValue('yr', true);">[X]</a><br/><a href="javascript:$('yr').value='<%=y-2%>';$('yr').addClassName('completed');tValues['yr']=<%=y1_.getId()%>;">Y-2</a>/<a href="javascript:$('yr').value='<%=y-1%>';$('yr').addClassName('completed');tValues['yr']=<%=y2_.getId()%>;">Y-1</a>/<a href="javascript:$('yr').value='<%=y%>';$('yr').addClassName('completed');tValues['yr']=<%=y_.getId()%>;"> Y </a>/<a href="javascript:$('yr').value='<%=y+1%>';$('yr').addClassName('completed');tValues['yr']=<%=y3_.getId()%>;">Y+1</a>/<a href="javascript:$('yr').value='<%=y+2%>';$('yr').addClassName('completed');tValues['yr']=<%=y4_.getId()%>;">Y+2</a></td>
+					<tr><td><input type="text" id="yr" tabindex="6" name="<%=StringUtils.text("entity.YR.1", session)%>"/><a href="javascript:clearValue('yr', true);">[X]</a>&nbsp;<a href="javascript:$('yr').value=parseInt($F('yr')) - 1;tValues['yr']=parseInt(tValues['yr']) - 1;showWarning();">[-]</a>&nbsp;<a href="javascript:$('yr').value=parseInt($F('yr')) + 1;tValues['yr']=parseInt(tValues['yr']) + 1;showWarning();">[+]</a><br/>
+					<a href="javascript:$('yr').value='<%=y-2%>';$('yr').addClassName('completed');tValues['yr']=<%=y1_.getId()%>;showWarning();">Y-2</a>/<a href="javascript:$('yr').value='<%=y-1%>';$('yr').addClassName('completed');tValues['yr']=<%=y2_.getId()%>;showWarning();">Y-1</a>/<a href="javascript:$('yr').value='<%=y%>';$('yr').addClassName('completed');tValues['yr']=<%=y_.getId()%>;showWarning();"> Y </a>/<a href="javascript:$('yr').value='<%=y+1%>';$('yr').addClassName('completed');tValues['yr']=<%=y3_.getId()%>;showWarning();">Y+1</a>/<a href="javascript:$('yr').value='<%=y+2%>';$('yr').addClassName('completed');tValues['yr']=<%=y4_.getId()%>;showWarning();">Y+2</a></td>
 					<td style="padding-left:50px;"><input id="prevbtn" type="button" class="button" onclick="loadResult('prev');" value=""/></td>
 					<td><input id="yrfind" type="text" style="font-size:11px;width:35px;" onblur="tValues['yrfind']=this.value;loadResult('year');" onkeydown="if (event.keyCode == 13){this.blur();}"/></td>
 					<td><input id="nextbtn" type="button" class="button" onclick="loadResult('next');" value=""/></td>
 					<td id="otherids"></td></tr>
 				</table>
 				<table>
-					<tr><td><input type="text" id="dt1" tabindex="7" name="<%=StringUtils.text("date", session)%> #1"/><a href="javascript:clearValue('dt1', true);">[X]</a><br/><a href="javascript:$('dt1').value=tDateValues[0];$('dt1').addClassName('completed2');">D-2</a>/<a href="javascript:$('dt1').value=tDateValues[1];$('dt1').addClassName('completed2');">D-1</a>/<a href="javascript:$('dt1').value=tDateValues[2];$('dt1').addClassName('completed2');"> D </a>/<a href="javascript:$('dt1').value=tDateValues[3];$('dt1').addClassName('completed2');">D+1</a>/<a href="javascript:$('dt1').value=tDateValues[4];$('dt1').addClassName('completed2');">D+2</a></td>
-					<td> <input type="text" id="dt2" tabindex="8" name="<%=StringUtils.text("date", session)%> #2"/><a href="javascript:clearValue('dt2', true);">[X]</a><br/><a href="javascript:$('dt2').value=tDateValues[0];$('dt2').addClassName('completed2');">D-2</a>/<a href="javascript:$('dt2').value=tDateValues[1];$('dt2').addClassName('completed2');">D-1</a>/<a href="javascript:$('dt2').value=tDateValues[2];$('dt2').addClassName('completed2');"> D </a>/<a href="javascript:$('dt2').value=tDateValues[3];$('dt2').addClassName('completed2');">D+1</a>/<a href="javascript:$('dt2').value=tDateValues[4];$('dt2').addClassName('completed2');">D+2</a></td></tr>
+					<tr><td><input type="text" id="dt1" tabindex="7" name="<%=StringUtils.text("date", session)%> #1"/><a href="javascript:clearValue('dt1', true);">[X]</a><br/><a href="javascript:$('dt1').value=tDateValues[0];$('dt1').addClassName('completed2');showWarning()">D-2</a>/<a href="javascript:$('dt1').value=tDateValues[1];$('dt1').addClassName('completed2');showWarning()">D-1</a>/<a href="javascript:$('dt1').value=tDateValues[2];$('dt1').addClassName('completed2');showWarning()"> D </a>/<a href="javascript:$('dt1').value=tDateValues[3];$('dt1').addClassName('completed2');showWarning()">D+1</a>/<a href="javascript:$('dt1').value=tDateValues[4];$('dt1').addClassName('completed2');showWarning()">D+2</a></td>
+					<td> <input type="text" id="dt2" tabindex="8" name="<%=StringUtils.text("date", session)%> #2"/><a href="javascript:clearValue('dt2', true);">[X]</a><br/><a href="javascript:$('dt2').value=tDateValues[0];$('dt2').addClassName('completed2');showWarning()">D-2</a>/<a href="javascript:$('dt2').value=tDateValues[1];$('dt2').addClassName('completed2');showWarning()">D-1</a>/<a href="javascript:$('dt2').value=tDateValues[2];$('dt2').addClassName('completed2');showWarning()"> D </a>/<a href="javascript:$('dt2').value=tDateValues[3];$('dt2').addClassName('completed2');showWarning()">D+1</a>/<a href="javascript:$('dt2').value=tDateValues[4];$('dt2').addClassName('completed2');showWarning()">D+2</a></td></tr>
 				</table>
 				<table>
 					<tr><td style="width:20px;"><input id="nodate" type="checkbox" onclick="showWarning();"/></td>
@@ -171,6 +172,8 @@ var treeItems = null;
 			<!-- PHOTOS -->
 			<ul><li>
 			<fieldset id="imgzone">
+				<legend><a href="javascript:toggle('photos');"><img id="img-photos" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("photos", session)%></a></legend>
+				<div id="photos">
 				<legend><%=StringUtils.text("photos", session)%></legend>
 				<div id="dz-file" style="float:left;"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>
 				<div id="embimg">
@@ -181,6 +184,7 @@ var treeItems = null;
 					<input type="button" class="button" onclick="addPhoto();" value="<%=StringUtils.text("button.add", session)%>" style="padding-left:5px;"/>
 				</div>
 				<ul id="currentphotos" style="width:876px;"><li/></ul>
+				</div>
 			</fieldset>
 			<br/><span id="metadata"></span><br/><br/>
 			<a id="pagelink1" target="_blank" href="#" style="display:none;font-size:12px;"><%=StringUtils.text("test.page", session)%> (1)</a>

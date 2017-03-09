@@ -217,12 +217,13 @@
 			</table>
 			<!-- Ext.links -->
 			<fieldset id="table-exl" style="display:none;">
-				<legend><%=StringUtils.text("ext.links", session)%></legend>
-				<table><tr><td style="border:none;"><textarea id="exl" tabindex="14" cols="100" rows="5" style="width:780px;"></textarea></td></tr></table>
+				<legend><a href="javascript:toggle('extlinks');"><img id="img-extlinks" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("ext.links", session)%></a></legend>
+				<table id="extlinks"><tr><td style="border:none;"><textarea id="exl" tabindex="14" cols="100" rows="5" style="width:780px;"></textarea></td></tr></table>
 			</fieldset>
 			<!-- Photos -->
 			<fieldset id="imgzone">
-				<legend><%=StringUtils.text("photos", session)%></legend>
+				<legend><a href="javascript:toggle('photos');"><img id="img-photos" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("photos", session)%></a></legend>
+				<div id="photos">
 				<div id="dz-file" style="float:left;"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>
 				<div id="embimg">
 					Embedded:<br/><textarea id="emb" tabindex="15" cols="50" rows="7" style="width:660px;height:102px;white-space:normal;"></textarea>
@@ -232,6 +233,7 @@
 					<input type="button" class="button" onclick="addPhoto();" value="<%=StringUtils.text("button.add", session)%>" style="padding-left:5px;"/>
 				</div>
 				<ul id="currentphotos"><li/></ul>
+				</div>
 			</fieldset>
 			<!-- Button panel -->
 			<table class="toolbar" style="position:relative;top:0;right:0;float:right;margin-top:15px;">

@@ -376,7 +376,7 @@ public class HtmlConverter {
 		}
 		if (ogimg != null) {
 			ogimg = ogimg.replaceFirst(".*\\ssrc=\\'", "").replaceFirst("\\'\\/\\>$", "");
-			request.setAttribute("ogimg", ogimg);
+			request.setAttribute("ogimg", "http:" + ogimg);
 		}
 		// Reported errors
 		try {

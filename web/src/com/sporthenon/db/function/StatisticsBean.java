@@ -23,6 +23,9 @@ public class StatisticsBean {
 	@Column(name = "count_person")
 	private Integer countPerson;
 	
+	@Column(name = "count_picture")
+	private Integer countPicture;
+	
 	@Column(name = "count_result")
 	private Integer countResult;
 	
@@ -105,6 +108,14 @@ public class StatisticsBean {
 
 	public void setCountRound(Integer countRound) {
 		this.countRound = countRound;
+	}
+
+	public Integer getCountPicture() {
+		return countPicture;
+	}
+
+	public void setCountPicture(Integer countPicture) {
+		this.countPicture = countPicture;
 	}
 	
 }

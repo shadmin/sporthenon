@@ -319,6 +319,8 @@ public class UpdateServlet extends AbstractServlet {
 			else if (o instanceof Athlete) {
 				Athlete a = (Athlete) o;
 				text = a.toString2();
+				if (a.getLink() != null && a.getLink() == 0)
+					text = "<b>" + text + "</b>";
 			}
 			else if (o instanceof Team) {
 				Team t_ = (Team) o;
@@ -356,6 +358,7 @@ public class UpdateServlet extends AbstractServlet {
 				WinLoss w = (WinLoss) o;
 				text = w.toString2();
 			}
+			
 			text += "<div class='ajaxid'> [#" + id + "]</div>";
 			html.append("<li id='" + field_ + "|" + id + (o instanceof Event ? "|" + ((Event)o).getType().getNumber() : "") + "'>" + text + "</li>");
 			list.add(id);
