@@ -1383,6 +1383,11 @@ select.disabled{
 	width: 100px;
 	height: 100px;
 }
+#currentphotos .loading{
+	border: none;
+	width: 16px;
+	height: 16px;
+}
 #msg, #msg2{
 	position: relative;
 	font-weight: bold;

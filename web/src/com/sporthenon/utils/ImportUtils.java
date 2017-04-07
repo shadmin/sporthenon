@@ -128,7 +128,7 @@ public class ImportUtils {
 					}
 					else if (h.matches("pl\\d")) {
 						String[] t = s.toLowerCase().split("\\,\\s");
-						if (t.length < 2 || t.length > 4 || !s.toLowerCase().matches(StringUtils.PATTERN_PLACE)) {
+						if (t.length < 1 || t.length > 4 || !s.toLowerCase().matches(StringUtils.PATTERN_PLACE)) {
 							isError = true;
 							writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " <b>" + getColumnTitle(h, lang)+ ")");
 						}
@@ -140,7 +140,7 @@ public class ImportUtils {
 								cx = StringUtils.toPatternString(t[0]);
 								ct = StringUtils.toPatternString(t[1]);
 							}
-							else
+							else if (t.length > 1)
 								ct = StringUtils.toPatternString(t[0]);
 							if (cx != null) {
 								h = "cx" + h.replaceAll("pl", "");
@@ -150,9 +150,13 @@ public class ImportUtils {
 								else
 									isComplex2 = true;
 							}
-							else {
+							else if (ct != null) {
 								h = "ct" + h.replaceAll("pl", "");
 								sql = "SELECT T.id from \"City\" T LEFT JOIN \"Country\" CN ON T.id_country=CN.id WHERE lower(CN.code) = '" + cn + "' AND lower(T.label) ~ E'^" + ct + "$'";
+							}
+							else if (cn != null) {
+								h = "cn" + h.replaceAll("pl", "");
+								sql = "SELECT T.id from \"Country\" T WHERE lower(T.code) = '" + cn + "'";
 							}
 						}
 					}
@@ -233,7 +237,7 @@ public class ImportUtils {
 							isError = true;
 							writeError(vLine, ResourceUtils.getText("err.invalid.year", lang));
 						}
-						else if (h.matches("(cx|ct)\\d") && StringUtils.notEmpty(s)) {
+						else if (h.matches("(cx|ct|cn)\\d") && StringUtils.notEmpty(s)) {
 							Pattern pattern = Pattern.compile("[A-Z]{3}$");
 							Matcher matcher = pattern.matcher(s);
 							if (!matcher.find() || !lCountries.contains(new Country(matcher.group(0)))) {
@@ -301,8 +305,10 @@ public class ImportUtils {
 			Integer idYr = hId.get("yr");
 			Integer idCx1 = hId.get("cx1");
 			Integer idCt1 = hId.get("ct1");
+			Integer idCn1 = hId.get("cn1");
 			Integer idCx2 = hId.get("cx2");
 			Integer idCt2 = hId.get("ct2");
+			Integer idCn2 = hId.get("cn2");
 			Integer idRk1 = hId.get("rk1");
 			Integer idRk2 = hId.get("rk2");
 			Integer idRk3 = hId.get("rk3");
@@ -365,13 +371,13 @@ public class ImportUtils {
 							updateEntity(row, n, idRk8, s, sb, cb);
 						else if (s.matches(".*" + scPattern + ".*") && h.equalsIgnoreCase("rk9"))
 							updateEntity(row, n, idRk9, s, sb, cb);
-						else if (idCx1 == null && idCt1 == null && h.matches("pl1")) {
+						else if (idCx1 == null && idCt1 == null && idCn1 == null && h.matches("pl1")) {
 							if (isComplex1)
 								idCx1 = DatabaseHelper.insertPlace(row, s, cb, sb, ResourceUtils.LGDEFAULT);
 							else
 								idCt1 = DatabaseHelper.insertPlace(row, s, cb, sb, ResourceUtils.LGDEFAULT);
 						}
-						else if (idCx2 == null && idCt2 == null && h.matches("pl2")) {
+						else if (idCx2 == null && idCt2 == null && idCn2 == null && h.matches("pl2")) {
 							if (isComplex2)
 								idCx2 = DatabaseHelper.insertPlace(row, s, cb, sb, ResourceUtils.LGDEFAULT);
 							else
@@ -422,6 +428,8 @@ public class ImportUtils {
 				rs.setComplex2((Complex)DatabaseHelper.loadEntity(Complex.class, idCx2));
 				rs.setCity1((City)DatabaseHelper.loadEntity(City.class, idCt1));
 				rs.setCity2((City)DatabaseHelper.loadEntity(City.class, idCt2));
+				rs.setCountry1((Country)DatabaseHelper.loadEntity(Country.class, idCn1));
+				rs.setCountry2((Country)DatabaseHelper.loadEntity(Country.class, idCn2));
 				rs.setDate1(StringUtils.notEmpty(dt1) ? dt1 : null);
 				rs.setDate2(StringUtils.notEmpty(dt2) ? dt2 : null);
 				rs.setExa(StringUtils.notEmpty(exa) ? exa : null);

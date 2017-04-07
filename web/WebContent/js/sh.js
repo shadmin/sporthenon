@@ -1549,6 +1549,7 @@ var currentInputValue = null;
 var currentAlias = null;
 var currentId = null;
 function addPhoto() {
+	$('currentphotos').update('<div><img class="loading" src="/img/db/loading2.gif?6"/></div>');
 	if ($F('emb') != '') { // Embedded
 		var h = $H();
 		h.set('embedded', '1');
@@ -1578,7 +1579,7 @@ function addPhoto() {
 	$('src').value = '';
 }
 function loadPhotos() {
-	$('currentphotos').update('<div><img src="/img/db/loading.gif?6"/></div>');
+	$('currentphotos').update('<div><img class="loading" src="/img/db/loading2.gif?6"/></div>');
 	new Ajax.Updater('currentphotos', '/ImageServlet?load&entity=' + currentAlias + '&id=' + currentId, {});
 }
 function removePhoto(id, name) {
