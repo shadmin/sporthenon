@@ -1,7 +1,18 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 1.0.1   |
+| Last Version: 1.0.2   |
 +-----------------------+
+
++-------+
+| 1.0.2 |
++-------+
+[20 Nov 2017]
+- New buttons [+][-] to switch easily years in update/results
+- Country codes can be used as places #1 and #2 in update/import
+- Added pictures count in home/statistics panel
+- Added specific icon to display when sharing page on social media
+- Bugfix: error occurs on some calendar pages
+- Bugfix: wrong sorting in treeviews when label contains accents
 
 +-------+
 | 1.0.1 |
