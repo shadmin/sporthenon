@@ -142,9 +142,9 @@ public class NavigationServlet extends AbstractServlet {
 				if (key != null && key.equals("update") && !isUserSession)
 					throw new NotLoggedInException();
 				else if (isUserSession) {
-					String protocol = request.getHeader("x-forwarded-proto");
-					if (!protocol.equals("https"))
-						throw new HttpsException();
+//					String protocol = request.getHeader("x-forwarded-proto");
+//					if (!protocol.equals("https"))
+//						throw new HttpsException();
 				}
 			}
 			if (key != null && key.equals("update") && url.matches(".*\\/admin$") && isUserSession) {
@@ -155,7 +155,8 @@ public class NavigationServlet extends AbstractServlet {
 			HashMap<String, Object> hParams = ServletHelper.getParams(request);
 			url = url.replaceAll("\\&", "&amp;");
 			request.setAttribute("url", url);
-			request.setAttribute("urlLogin", isTestProd ? "https://" + url.replaceFirst("http(|s)\\:\\/\\/", "").replaceAll("\\/.*", "") + "/login" : "http://localhost/login");
+//			request.setAttribute("urlLogin", isTestProd ? "https://" + url.replaceFirst("http(|s)\\:\\/\\/", "").replaceAll("\\/.*", "") + "/login" : "http://localhost/login");
+			request.setAttribute("urlLogin", isTestProd ? "http://" + url.replaceFirst("http(|s)\\:\\/\\/", "").replaceAll("\\/.*", "") + "/login" : "http://localhost/login");
 			request.setAttribute("urlEN", url.replaceFirst(".+\\.sporthenon\\.com", "//en.sporthenon.com"));
 			request.setAttribute("urlFR", url.replaceFirst(".+\\.sporthenon\\.com", "//fr.sporthenon.com"));
 			RequestDispatcher dispatcher = null;
