@@ -34,13 +34,10 @@
 ![Screenshot #3](https://github.com/shadmin/sporthenon/blob/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-48-40.png?raw=true "Screenshot #3")
 ![Screenshot #4](https://github.com/shadmin/sporthenon/blob/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-48-55.png?raw=true "Screenshot #4")
 ![Screenshot #5](https://github.com/shadmin/sporthenon/blob/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-49-02.png?raw=true "Screenshot #5")
-<br/>
 ![Screenshot #6](https://github.com/shadmin/sporthenon/blob/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-49-33.png?raw=true "Screenshot #6")
 ![Screenshot #7](https://github.com/shadmin/sporthenon/blob/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-49-51.png?raw=true "Screenshot #7")
-<br/>
 ![Screenshot #8](https://github.com/shadmin/sporthenon/blob/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-49-58.png?raw=true "Screenshot #8")
 ![Screenshot #9](https://github.com/shadmin/sporthenon/blob/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-50-06.png?raw=true "Screenshot #9")
-<br/>
 ![Screenshot #10](https://github.com/shadmin/sporthenon/blob/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-50-17.png?raw=true "Screenshot #10")
 ![Screenshot #11](https://github.com/shadmin/sporthenon/blob/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-50-35.png?raw=true "Screenshot #11")
 ![Screenshot #12](https://github.com/shadmin/sporthenon/blob/master/res/Screenshots/Android%20V2.1/Screenshot_2016-11-08-16-51-44.png?raw=true "Screenshot #12")
