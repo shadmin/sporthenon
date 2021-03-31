@@ -79,7 +79,7 @@ public class DatabaseManager {
 	    boolean local = true;
 	    Class.forName("org.postgresql.Driver");
 	    if (local) {
-		    config.setJdbcUrl(String.format("jdbc:postgresql://127.0.0.1:5433/%s", "shlocal2"));
+		    config.setJdbcUrl(String.format("jdbc:postgresql://127.0.0.1:5432/%s", "shlocal2"));
 		    config.setUsername("shadmin");
 		    config.setPassword("password");
 	    }

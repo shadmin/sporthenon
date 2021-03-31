@@ -573,10 +573,10 @@ public class UpdateServlet extends AbstractServlet {
 			result.setNoDate(String.valueOf(params.get("nodate")).equals("1"));
 			result.setNoPlace(String.valueOf(params.get("noplace")).equals("1"));
 			// Inactive item
-			String hql = "from InactiveItem where id_sport=" + result.getSport().getId() + " and id_championship=" + result.getChampionship().getId() + " and id_event=" + result.getEvent().getId();
-			hql += (result.getSubevent() != null ? " and id_subevent=" + result.getSubevent().getId() : "");
-			hql += (result.getSubevent2() != null ? " and id_subevent2=" + result.getSubevent2().getId() : "");
-			Object o = DatabaseManager.loadEntityFromQuery(hql);
+			String hql = "from InactiveItem where id_sport = ? and id_championship = ? and id_event = ?"
+					+ (result.getSubevent() != null ? " and id_subevent = " + result.getSubevent().getId() : "")
+					+ (result.getSubevent2() != null ? " and id_subevent2 = " + result.getSubevent2().getId() : "");
+			Object o = DatabaseManager.loadEntity(hql, Arrays.asList(result.getSport().getId(), result.getChampionship().getId(), result.getEvent().getId()), InactiveItem.class);
 			String inact = (o != null ? "1" : "0");
 			if (!inact.equals(String.valueOf(params.get("inact")))) {
 				if (o != null)
@@ -600,7 +600,7 @@ public class UpdateServlet extends AbstractServlet {
 						id = hInserted.get(o);
 					else {
 						StringBuffer sb = new StringBuffer();
-						id = DatabaseManager.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(o), result.getYear().getLabel(), cb, sb, lang);
+						id = ImportUtils.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(o), result.getYear().getLabel(), cb, sb, lang);
 						hInserted.put(o, id);
 						if (sb != null && sb.toString().contains("New Team"))
 							sbMsgW.append("<span style='color:orange;'>(" + ResourceUtils.getText("warning.team.created", lang).replaceAll("\\{1\\}", "\"" + sb.toString().replaceAll("\\,.*", "").split("\\|")[1].trim() + "\"") + ")</span>");
@@ -771,11 +771,11 @@ public class UpdateServlet extends AbstractServlet {
 		try {
 			String lang_ = (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
 			StringBuffer html = new StringBuffer("<table>");
-			HashMap<String, String> hHql = new HashMap<String, String>();
-			hHql.put("team", "select label, sport.label" + lang_ + " from Team order by 1");
-			hHql.put("country", "select label" + lang_ + ", code from Country order by 1");
-			hHql.put("state", "select label" + lang_ + ", code from State order by 1");
-			List<Object[]> list = DatabaseManager.execute(hHql.get(params.get("p")));
+			HashMap<String, String> hSql = new HashMap<String, String>();
+			hSql.put("team", "SELECT TM.label, SP.label" + lang_ + " FROM team JOIN sport SP ON SP.id = TM.id_sport ORDER BY 1");
+			hSql.put("country", "SELECT label" + lang_ + ", code FROM country ORDER BY 1");
+			hSql.put("state", "SELECT label" + lang_ + ", code FROM state ORDER BY 1");
+			List<Object[]> list = (List<Object[]>) DatabaseManager.executeSelect(hSql.get(params.get("p")));
 			for (Object[] t : list)
 				html.append("<tr><td>" + t[0] + "</td><td>" + t[1] + "</td></tr>");
 			ServletHelper.writeText(response, html.append("</table>").toString());
@@ -1351,17 +1351,18 @@ public class UpdateServlet extends AbstractServlet {
 		if (tp != null) {
 			String where = null;
 			if (String.valueOf(tp).equalsIgnoreCase("direct"))
-				where = "id=" + params.get("id");
+				where = "id = " + params.get("id");
 			else if (String.valueOf(tp).equalsIgnoreCase("year") && StringUtils.notEmpty(params.get("yrfind")))
-				where = "year.label='" + params.get("yrfind") + "' and sport.id=" + params.get("sp") + " and championship.id=" + params.get("cp") + " and event.id=" + params.get("ev") + (StringUtils.notEmpty(params.get("se")) ? " and subevent.id=" + params.get("se") : "") + (StringUtils.notEmpty(params.get("se2")) ? " and subevent2.id=" + params.get("se2") : "");
+				where = "YR.label='" + params.get("yrfind") + "' AND id_sport = " + params.get("sp") + " AND id_championship = " + params.get("cp") + " AND id_event = " + params.get("ev") + (StringUtils.notEmpty(params.get("se")) ? " AND id_subevent = " + params.get("se") : "") + (StringUtils.notEmpty(params.get("se2")) ? " AND id_subevent2 = " + params.get("se2") : "");
 			else if (String.valueOf(tp).matches("first|last"))
-				where = "sport.id=" + params.get("sp") + " and championship.id=" + params.get("cp") + " and event.id=" + params.get("ev") + (StringUtils.notEmpty(params.get("se")) ? " and subevent.id=" + params.get("se") : "") + (StringUtils.notEmpty(params.get("se2")) ? " and subevent2.id=" + params.get("se2") : "") + " order by year.id " + (tp.equals("first") ? "asc" : "desc");			
+				where = "id_sport = " + params.get("sp") + " AND id_championship = " + params.get("cp") + " AND id_event = " + params.get("ev") + (StringUtils.notEmpty(params.get("se")) ? " AND id_subevent = " + params.get("se") : "") + (StringUtils.notEmpty(params.get("se2")) ? " AND id_subevent2 = " + params.get("se2") : "") + " ORDER BY id_year " + (tp.equals("first") ? "ASC" : "DESC");			
 			else if (StringUtils.notEmpty(params.get("yr")))
-				where = "year.id " + (tp.equals("next") ? ">" : "<") + " " + params.get("yr") + " and sport.id=" + params.get("sp") + " and championship.id=" + params.get("cp") + " and event.id=" + params.get("ev") + (StringUtils.notEmpty(params.get("se")) ? " and subevent.id=" + params.get("se") : "") + (StringUtils.notEmpty(params.get("se2")) ? " and subevent2.id=" + params.get("se2") : "") + " order by year.id " + (tp.equals("next") ? "asc" : "desc");
+				where = "id_year " + (tp.equals("next") ? ">" : "<") + " " + params.get("yr") + " AND id_sport = " + params.get("sp") + " AND id_championship = " + params.get("cp") + " AND id_event = " + params.get("ev") + (StringUtils.notEmpty(params.get("se")) ? " AND id_subevent = " + params.get("se") : "") + (StringUtils.notEmpty(params.get("se2")) ? " AND id_subevent2 = " + params.get("se2") : "") + " ORDER BY id_year " + (tp.equals("next") ? "ASC" : "DESC");
 			if (where != null) {
-				lResult = DatabaseManager.execute("from Result where " + where);
-				if (lResult != null && !lResult.isEmpty())
+				lResult = (List<Result>) DatabaseManager.executeSelect("SELECT * FROM result WHERE " + where, Result.class);
+				if (lResult != null && !lResult.isEmpty()) {
 					rs = lResult.get(0);
+				}
 			}
 			if (rs != null) {
 				yr = rs.getYear();
@@ -1398,8 +1399,9 @@ public class UpdateServlet extends AbstractServlet {
 				ev = (Event)DatabaseManager.loadEntity(Event.class, t[2]);
 				se = (Event)DatabaseManager.loadEntity(Event.class, t.length > 3 ? t[3] : 0);
 				se2 = (Event)DatabaseManager.loadEntity(Event.class, t.length > 4 ? t[4] : 0);
-				if (yr == null)
-					yr = (Year)DatabaseManager.loadEntityFromQuery("from Year where label='" + Calendar.getInstance().get(Calendar.YEAR) + "'");
+				if (yr == null) {
+					yr = (Year)DatabaseManager.loadEntity("SELECT * FROM year where label = ?", Arrays.asList(Calendar.getInstance().get(Calendar.YEAR)), Year.class);
+				}
 				path = sp.getId() + "-" + cp.getId() + (ev != null ? "-" + ev.getId() : "") + (se != null ? "-" + se.getId() : "") + (se2 != null ? "-" + se2.getId() : "");
 						
 				sb.append(sp.getId()).append("~").append(sp.getLabel(lang)).append("~");
@@ -1421,10 +1423,10 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(rs.getExa()).append("~").append(rs.getComment()).append("~");
 				sb.append(ResourceUtils.getText("metadata", lang).replaceFirst("\\{1\\}", StringUtils.toTextDate(rs.getMetadata().getFirstUpdate(), lang, "dd/MM/yyyy HH:mm")).replaceFirst("\\{2\\}", StringUtils.toTextDate(rs.getMetadata().getLastUpdate(), lang, "dd/MM/yyyy HH:mm")).replaceFirst("\\{3\\}", "<a target='_blank' href='" + HtmlUtils.writeLink(Contributor.alias, rs.getMetadata().getContributor().getId(), null, rs.getMetadata().getContributor().getLogin()) + "'>" + rs.getMetadata().getContributor().getLogin() + "</a>")).append("~");
 				// Inactive item?
-				String hql = "from InactiveItem where id_sport=" + rs.getSport().getId() + " and id_championship=" + rs.getChampionship().getId() + " and id_event=" + rs.getEvent().getId();
-				hql += (rs.getSubevent() != null ? " and id_subevent=" + rs.getSubevent().getId() : "");
-				hql += (rs.getSubevent2() != null ? " and id_subevent2=" + rs.getSubevent2().getId() : "");
-				Object inact = DatabaseManager.loadEntityFromQuery(hql);
+				String sql = "SELECT * FROM _inactive_item WHERE id_sport = ? and id_championship = ? and id_event = ?"
+						+ (rs.getSubevent() != null ? " and id_subevent = " + rs.getSubevent().getId() : "")
+						+ (rs.getSubevent2() != null ? " and id_subevent2 = " + rs.getSubevent2().getId() : "");
+				Object inact = DatabaseManager.loadEntity(sql, Arrays.asList(rs.getSport().getId(), rs.getChampionship().getId(), rs.getEvent().getId()), InactiveItem.class);
 				sb.append(inact != null ? "1" : "0").append("~");
 				// Draft
 				sb.append(rs.getDraft() != null && rs.getDraft() ? "1" : "0").append("~");
@@ -1434,7 +1436,7 @@ public class UpdateServlet extends AbstractServlet {
 				// External links
 				StringBuffer sbLinks = new StringBuffer();
 				try {
-					List<ExternalLink> list = DatabaseManager.execute("from ExternalLink where entity='" + Result.alias + "' and idItem=" + rs.getId() + " order by id");
+					List<ExternalLink> list = (List<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link WHERE entity = ? and id_item = ? ORDER BY id", Arrays.asList(Result.alias, rs.getId()), Result.class);
 					for (ExternalLink link : list)
 						sbLinks.append(link.getUrl()).append("|");
 				}
@@ -1468,7 +1470,7 @@ public class UpdateServlet extends AbstractServlet {
 					sb.append(result != null ? result : "").append("~");
 				}
 				// Person List
-				List<PersonList> lPList = (List<PersonList>) DatabaseManager.execute("from PersonList where idResult=" + rs.getId() + " order by id");
+				List<PersonList> lPList = (List<PersonList>) DatabaseManager.executeSelect("SELECT * FROM _person_list WHERE id_result = ? ORDER BY id", Arrays.asList(rs.getId()), PersonList.class);
 				if (lPList != null && lPList.size() > 0) {
 					List<String> l = new ArrayList<String>();
 					for (PersonList pl : (List<PersonList>) lPList) {
@@ -1481,7 +1483,7 @@ public class UpdateServlet extends AbstractServlet {
 					sb.append("rkl-" + StringUtils.join(l, "#")).append("~");
 				}
 				// Rounds
-				List<Round> lRounds = (List<Round>) DatabaseManager.execute("from Round round where idResult=" + rs.getId() + " order by roundType.index, roundType.label, round.id");
+				List<Round> lRounds = (List<Round>) DatabaseManager.executeSelect("SELECT * FROM round RD JOIN round_type RT ON RT.id = RD.id_round_type WHERE id_result = ? ORDER BY RT.index, RT.label, RD.id", Arrays.asList(rs.getId()), Round.class);
 				if (lRounds != null && lRounds.size() > 0) {
 					for (Round rd : (List<Round>) lRounds) {
 						List<String> l = new ArrayList<String>();
@@ -1613,7 +1615,7 @@ public class UpdateServlet extends AbstractServlet {
 			String exl = null;
 			if (alias.matches(Athlete.alias + "|" + Championship.alias + "|" + City.alias + "|" + Complex.alias + "|" + Country.alias + "|" + Event.alias + "|" + Olympics.alias + "|" + Sport.alias + "|" + State.alias + "|" + Team.alias)) {
 				StringBuffer sbexl = new StringBuffer();
-				for (ExternalLink exl_ : (Collection<ExternalLink>) DatabaseManager.execute("from ExternalLink where entity='" + alias + "' and idItem=" + id + " order by id"))
+				for (ExternalLink exl_ : (Collection<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link WHERE entity = ? AND id_item = ? ORDER BY id", Arrays.asList(alias, id), ExternalLink.class))
 					sbexl.append(exl_.getUrl()).append("\r\n");
 				exl = sbexl.toString();
 			}
@@ -2076,9 +2078,9 @@ public class UpdateServlet extends AbstractServlet {
 				where.append(" and lower(" + label_ + ") like '%" + pattern.toLowerCase() + "%'");
 			if (entity.matches(Athlete.alias + "|" + Team.alias) && !sport.equals("0"))
 				where.append(" and sport.id=" + sport);
-			List<Object[]> items = DatabaseManager.executeWithLimit("select id, " + label_ + " from " + DatabaseManager.getClassFromAlias(entity).getName() + " t " + where.toString() + " order by id desc", Integer.parseInt(count));
+			Collection<Object[]> items = DatabaseManager.executeSelect("select id, " + label_ + " from " + DatabaseManager.getClassFromAlias(entity).getName() + " t " + where.toString() + " order by id desc LIMIT " + Integer.parseInt(count));
 			
-			List<ExternalLink> links = DatabaseManager.execute("from ExternalLink where entity='" + entity + "' order by entity, idItem");
+			List<ExternalLink> links = (List<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link WHERE entity = ? ORDER BY entity, id_item", Arrays.asList(entity), ExternalLink.class);
 			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + "</th><th>" + ResourceUtils.getText("type", lang) + "</th><th>URL</th><th>" + ResourceUtils.getText("checked", lang) + " <input type='checkbox' onclick='checkAllLinks();'/></th></thead><tbody>");
 			for (Object[] t : items) {
 				Integer id = StringUtils.toInt(t[0]);
@@ -2214,9 +2216,10 @@ public class UpdateServlet extends AbstractServlet {
 				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%baseball-reference%') order by id desc");	
 			}
 			for (String hql : lHql) {
-				List<Object> l = DatabaseManager.executeWithLimit(hql, count);
-				for (Object o : l)
+				List<Object> l = DatabaseManager.executeSelect(hql + " LIMIT " + count);
+				for (Object o : l) {
 					sbUpdateSql.append(getExternalLink(o, hql));
+				}
 			}
 			DatabaseManager.executeUpdate(sbUpdateSql.toString());
 			sbMsg.append(ResourceUtils.getText("update.ok", lang));
@@ -2239,10 +2242,10 @@ public class UpdateServlet extends AbstractServlet {
 			String includechecked = String.valueOf(params.get("includechecked"));
 			
 			String[] tIds = range.split("\\-");
-			StringBuffer hql = new StringBuffer("from Translation where entity='" + entity + "'");
+			StringBuffer sql = new StringBuffer("SELECT * FROM _translation WHERE entity = ?");
 			if (tIds.length > 1 && pattern.length() == 0)
-				hql.append(" and idItem between " + tIds[0] + " and " + tIds[1]);		
-			hql.append(" order by idItem");
+				sql.append(" and id_item BETWEEN " + tIds[0] + " AND " + tIds[1]);		
+			sql.append(" ORDER BY id_item");
 
 			String labels = "label, labelFR";
 			if (entity.equalsIgnoreCase(City.alias))
@@ -2250,7 +2253,7 @@ public class UpdateServlet extends AbstractServlet {
 			else if (entity.equalsIgnoreCase(Complex.alias))
 				labels = "label || '<i> - ' || city.label || ', ' || city.country.code || '</i>'";
 			List<Object[]> items = DatabaseManager.execute("select id, " + labels + " from " + DatabaseManager.getClassFromAlias(entity).getName() + " where 1=1" + (tIds.length > 1 ? " and id between " + tIds[0] + " and " + tIds[1] : "") + (StringUtils.notEmpty(pattern) ? " and (lower(label) like '" + pattern + "%' or lower(labelFR) like '" + pattern + "%')" : "") + " order by id");
-			List<Translation> translations = DatabaseManager.execute(hql.toString());
+			List<Translation> translations = (List<Translation>) DatabaseManager.executeSelect(sql.toString(), Arrays.asList(entity), Translation.class);
 			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + " (EN)</th><th>" + ResourceUtils.getText("label", lang) + " (FR)</th><th>" + ResourceUtils.getText("checked", lang) + " <input type='checkbox' onclick='checkAllTranslations();'/></th></thead><tbody>");
 			for (Object[] t : items) {
 				Integer id = StringUtils.toInt(t[0]);
@@ -2456,7 +2459,7 @@ public class UpdateServlet extends AbstractServlet {
 		try {
 			StringBuffer html = new StringBuffer("<table>");
 			html.append("<thead><th>URL</th><th>Text</th><th>" + ResourceUtils.getText("date", lang) + "</th></thead><tbody>");
-			for (ErrorReport er : (List<ErrorReport>) DatabaseManager.execute("from ErrorReport order by date desc")) {
+			for (ErrorReport er : (List<ErrorReport>) DatabaseManager.executeSelect("SELECT * FROM _error_report ORDER BY date DESC", ErrorReport.class)) {
 				String url = er.getUrl().replaceFirst("http\\:\\/\\/", "");
 				html.append("<tr><td style='display:none;'>0</td>");
 				html.append("<td><a href='http://" + url + "' target='_blank'>" + url.substring(url.indexOf("/")) + "</a></td>");
@@ -2491,7 +2494,7 @@ public class UpdateServlet extends AbstractServlet {
 		try {
 			StringBuffer html = new StringBuffer("<table>");
 			html.append("<thead><th>Previous path</th><th>Current path</th></thead><tbody>");
-			for (Redirection re : (List<Redirection>) DatabaseManager.execute("from Redirection order by id")) {
+			for (Redirection re : (List<Redirection>) DatabaseManager.executeSelect("SELECT * FROM _redirection ORDER BY id", Redirection.class)) {
 				html.append("<tr id='re-" + re.getId() + "'><td style='display:none;'>" + re.getId() + "</td>");
 				html.append("<td><input type='text' value='" + re.getPreviousPath() + "' style='width:450px;'/></td>");
 				html.append("<td><input type='text' value='" + re.getCurrentPath() + "' style='width:450px;'/></td>");

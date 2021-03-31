@@ -7,6 +7,7 @@
 <%@ page import="com.sporthenon.utils.ConfigUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
+<%! @SuppressWarnings("unchecked") %>
 <jsp:include page="/jsp/common/header.jsp"/>
 <div id="update-overview" class="update">
 	<jsp:include page="/jsp/update/toolbar.jsp"/>
@@ -17,12 +18,15 @@
 				<td><%=StringUtils.text("sport", session)%> :</td>
 				<td><select id="ovsport">
 				<%
-				Contributor cb = (Contributor) session.getAttribute("user");
-							String lang = String.valueOf(session.getAttribute("locale"));
-							for (Sport sp : (List<Sport>) DatabaseManager.execute("from Sport" + (cb != null && !cb.isAdmin() ? " where id in (" + cb.getSports() + ")" : "") + " order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "")))
-								out.print("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
-							if (cb != null && cb.isAdmin())
-								out.print("<option value='0'>[" + StringUtils.text("all", session) + "]</option>");
+					Contributor cb = (Contributor) session.getAttribute("user");
+					String lang = String.valueOf(session.getAttribute("locale"));
+					String sql = "SELECT * FROM sport" + (cb != null && !cb.isAdmin() ? " WHERE id IN (" + cb.getSports() + ")" : "") + " ORDER BY label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
+					for (Sport sp : (List<Sport>) DatabaseManager.executeSelect(sql, Sport.class)) {
+						out.print("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
+					}
+					if (cb != null && cb.isAdmin()) {
+						out.print("<option value='0'>[" + StringUtils.text("all", session) + "]</option>");
+					}
 				%>
 				</select></td>
 				<td><%=StringUtils.text("count", session)%> :</td>

@@ -6,17 +6,19 @@
 <%@ page import="com.sporthenon.db.PicklistItem"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
+<%! @SuppressWarnings("unchecked") %>
 <jsp:include page="/jsp/common/header.jsp"/>
 <%
-Contributor cb = (Contributor) session.getAttribute("user");
+	Contributor cb = (Contributor) session.getAttribute("user");
 	String lang = String.valueOf(session.getAttribute("locale"));
 	String label = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
 	StringBuffer sbSport = new StringBuffer();
 	StringBuffer sbChampionship = new StringBuffer();
 	StringBuffer sbEvent = new StringBuffer();
-	String sql = "from Sport" + (cb != null && !cb.isAdmin() ? " where id in (" + cb.getSports() + ")" : "") + " ORDER BY " + label;
-	for (Sport sp : (List<Sport>) DatabaseManager.execute(sql))
-		sbSport.append("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
+	String sql = "SELECT * FROM sport" + (cb != null && !cb.isAdmin() ? " WHERE id IN (" + cb.getSports() + ")" : "") + " ORDER BY " + label;
+	for (Sport sp : (List<Sport>) DatabaseManager.executeSelect(sql, Sport.class)) {
+		out.print("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
+	}
 	sql = "SELECT id, " + label + " FROM championship";
 	for (PicklistItem plb : DatabaseManager.getPicklist(sql, null)) {
 		sbChampionship.append("<option value='" + plb.getValue() + "'>" + plb.getText() + "</option>");

@@ -18,7 +18,8 @@ public class Event extends AbstractEntity {
 	public static final transient String alias 	= "EV";
 	public static final transient String table 	= "event";
 	public static final transient String key 	= "id";
-	public static final transient String query 	= "SELECT T.*, TP.label AS tp_label, TP.number AS tp_number FROM event T JOIN type TP ON TP.id = T.id_type";
+	public static final transient String query 	= "SELECT T.*, TP.label AS tp_label, TP.number AS tp_number "
+			+ " FROM event T JOIN type TP ON TP.id = T.id_type";
 	
 	public Event() {}
 	

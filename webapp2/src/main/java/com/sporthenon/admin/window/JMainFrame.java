@@ -626,8 +626,9 @@ public class JMainFrame extends JFrame {
 				h.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 				String sql = "SELECT * FROM _contributor WHERE login = '" + jOptionsDialog.getLogin().getText() + "' AND active = TRUE AND admin = TRUE";
 				List<Contributor> lst = (List<Contributor>) DatabaseManager.executeSelect(sql, Contributor.class);
-				if (lst == null || lst.isEmpty())
+				if (lst == null || lst.isEmpty()) {
 					throw new Exception("Your account is not active or has not admin rights.");
+				}
 				contributor = lst.get(0);
 				initAll(jPasswordDialog.getQuickLoading().isSelected());
 				jDataPanel.getList().setSelectedIndex(0);

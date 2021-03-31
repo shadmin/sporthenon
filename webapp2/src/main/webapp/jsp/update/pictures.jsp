@@ -6,6 +6,7 @@
 <%@ page import="com.sporthenon.db.entity.meta.Config"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
+<%! @SuppressWarnings("unchecked") %>
 <jsp:include page="/jsp/common/header.jsp"/>
 <div id="update-pictures" class="update">
 	<script type="text/javascript" src="/js/dropzone.js"></script>
@@ -27,10 +28,12 @@
 					<td id="spcell1"><%=StringUtils.text("entity.SP.1", session)%> :</td>
 					<td id="spcell2"><select id="sport" onchange="loadPictures('direct');"><option value=""></option>
 					<%
-					Contributor cb = (Contributor) session.getAttribute("user");
-									String lang = String.valueOf(session.getAttribute("locale"));
-									for (Sport sp : (List<Sport>) DatabaseManager.execute("from Sport" + (cb != null && !cb.isAdmin() ? " where id in (" + cb.getSports() + ")" : "") + " order by label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "")))
-										out.print("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
+						Contributor cb = (Contributor) session.getAttribute("user");
+						String lang = String.valueOf(session.getAttribute("locale"));
+						String sql = "SELECT * FROM sport" + (cb != null && !cb.isAdmin() ? " WHERE id IN (" + cb.getSports() + ")" : "") + " ORDER BY label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
+						for (Sport sp : (List<Sport>) DatabaseManager.executeSelect(sql, Sport.class)) {
+							out.print("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
+						}
 					%>
 					</select></td>
 					<td><%=StringUtils.text("entity.YR", session)%> :</td>
