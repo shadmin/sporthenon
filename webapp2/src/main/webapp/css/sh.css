@@ -1,0 +1,2249 @@
+/*============================
+  ========== COMMON ========== 
+  ============================*/
+body{
+	background: #FFF url(../img/header/bg2.png?6) 0 0 repeat-y;
+	margin: 0;
+	padding: 0;
+}
+body.print{
+	background: #F5F5F5;
+}
+.separator{
+	height: 1px;
+	margin: 0;
+	margin-bottom: 5px;
+	padding: 0;
+	background-color: #BBB;
+	border: 0;
+}
+.separator{
+	margin: 6px 0px;
+}
+hr {
+  height: 1px;
+  margin: 6px 0px;
+  padding: 0px;
+  border: 0px;
+  background-color: gray;
+}
+a{
+	color: #00C;
+	text-decoration: none;
+	white-space: nowrap;
+}
+a:visited{
+	color: #00C;
+	text-decoration: none;
+}
+a:hover{
+	color: #00C;
+	text-decoration: underline;
+}
+a:focus{
+	outline: none;
+}
+input{
+	outline: none;
+}
+ul{
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+li{
+	vertical-align: top;
+}
+.fieldset{
+	background: #FFF;
+	text-align: left;
+	border: 1px solid gray;
+	margin: 3px 0px;
+	margin-top: 10px;
+	margin-bottom: 0px;
+	width: auto;
+}
+.fieldset .fstitle{
+	font-weight: bold;
+	border-bottom: 1px solid gray;
+	background-color: #c0e2fc; /* _theme_ */
+	padding: 4px;
+	padding-left: 23px;
+	background-position: 3px center;
+	background-repeat: no-repeat;
+}
+.fieldset .fscontent{
+	padding: 8px;
+}
+.fscontent table{
+	width: 100%;
+	border-collapse: collapse;
+}
+.fscontent th, .fscontent td{
+	text-align: left;
+	padding: 3px;
+	border: 1px solid #CCC;
+	border-collapse: collapse;
+	vertical-align: middle;
+}
+.fscontent th{
+	font-weight: bold;
+	background-color: #EEE;
+}
+.fieldset .fscontent ul{
+	margin: 5px;
+	padding-left: 20px;
+}
+.fieldset .fscontent li{
+	list-style-image: url(../img/bullet.gif?6);
+}
+.legend{
+	margin-top: -12px;
+	background-color: #FFFFFF;
+	display: table;
+	padding-left: 2px;
+}
+.legend input{
+	padding: 0;
+	margin: 0;
+}
+.legend td{
+	padding: 0;
+	border: none;
+}
+.tip{
+	font: 12px Verdana;
+	text-align: left;
+	border: 1px solid #000;
+	background-color: #FFC;
+	padding: 3px;
+}
+.bold{
+	font-weight: bold;
+}
+.loading{
+	background: #FFF url(../img/db/loading.gif?6) center center no-repeat;
+	width: 180px;
+	height: 80px;
+	margin: 0 auto;
+	margin-top: 12px;
+	border: 1px solid #AAA;
+}
+#optionsselect{
+	display: none;
+}
+.criteria{
+	background-image: url(../img/db/criteria.png?6);
+}
+.help{
+	background-image:url(../img/update/help.png?6);
+}
+.toggleimg{
+	cursor: pointer;
+	padding-right: 3px;
+}
+.toggletext{
+	cursor: pointer;
+}
+.toggletext:hover{
+	text-decoration: underline;
+}
+select.disabled{
+	background-color: #EEE;
+}
+/*=================================
+  ========== HEADER/MENU ========== 
+  =================================*/
+#header{
+	float: left;
+}
+#headertop{
+	height: 50px;
+	margin-left: 244px;
+	margin-bottom: 0px;
+	border-bottom: 1px solid #888;
+}
+#menutop{
+	font: 12px Verdana;
+	float: left;
+	margin-top: 28px;
+	margin-left: 4px;
+}
+#menutop div{
+	float: left;
+	height: 16px;
+	padding: 2px;
+	padding-left: 20px;
+	margin-right: 6px;
+}
+#menutop #mthome{
+	background: url(../img/menu/home.png?6) left 0 no-repeat;
+}
+#menutop #mtproject{
+	background: url(../img/menu/project.png?6) left 0 no-repeat;
+	margin-right: 7px;
+}
+#menutop #mtfavorites{
+	background: url(../img/menu/favorites.png?7) left 0 no-repeat;
+}
+#menutop #mtcontribute{
+	background: url(../img/menu/contribute.png?6) left 0 no-repeat;
+	margin-right: 5px;
+}
+#menutop #mtlogin{
+	background: url(../img/menu/login.png?6) 1px 0 no-repeat;
+}
+#menutop #mtlogout{
+	background: url(../img/menu/logout.png?6) 1px 0 no-repeat;
+}
+#menutop #mtcbarea{
+	background: url(../img/menu/contributor_area.png?8) left 0 no-repeat;
+}
+#menutop div#favorites{
+	position: absolute;
+	background: #FFF;
+	border: 2px solid gray;
+	margin-left: -20px;
+	padding-left: 0px;
+	padding: 5px;
+}
+#menutop div#favorites li{
+	list-style-image: url(../img/bullet.gif?6);
+	padding: 1px;
+}
+#flags{
+	padding: 2px;
+	text-align: right;
+}
+#headertop #searchpanel{
+	float: right;
+	margin-top: -1px;
+	margin-right: 5px;
+}
+#headertop #searchpanel td{
+	padding: 1px;
+}
+#headertop #searchpanel #dpattern{
+	color: #AAA;
+	border: 1px solid #AAA;
+	padding: 3px;
+	width: 350px;
+	padding-left: 23px;
+	background: #FFF url(../img/header/search.png) 4px center no-repeat;
+}
+#headertop #searchpanel #dpattern.focus{
+	color: #000;
+	border: 1px solid #000;
+}
+#logo{
+	margin: 12px;
+	margin-top: 12px;
+	margin-bottom: 10px;
+	width: 210px;
+}
+#logo img{
+	padding-bottom: 5px;
+	border: none;
+}
+#shmenu{
+	width: 245px;
+	list-style-type: none;
+	text-align: right;
+	padding-bottom: 0px;
+	font: 12px Verdana;
+}
+#shmenu ul{
+	margin: 0px;
+	padding: 0;
+}
+#shmenu li{
+	list-style: none;
+	margin: 0;
+	margin-bottom: 25px;
+	padding-left: 60px;
+	padding-right: 60px;
+	text-align: center;
+}
+#shmenu li a{
+	display: block;
+	color: #000;
+	font-weight: bold;
+	text-decoration: none;
+	margin-left: 2px;
+	padding: 5px 8px;
+	padding-top: 25px;
+	padding-right: 4px;
+	border: 1px solid #000;
+	background-color: #FAFAFA;
+	background-position: center 6px;
+	background-repeat: no-repeat;
+}
+#shmenu a.selected{
+	border-right: 1px solid #FAFAFA;
+}
+#shmenu a:hover, #shmenu a.selected{
+	border-right: 1px solid #000;
+	color: #FFF;
+}
+#shmenu-results{
+	background-image:url(../img/menu/dbresults.png?6);
+}
+#shmenu-results:hover, #shmenu-results.selected{
+	background-color: #389f47;
+}
+#shmenu-olympics{
+	background-image:url(../img/menu/dbolympics.png?6);
+}
+#shmenu-olympics:hover, #shmenu-olympics.selected{
+	background-color: #1482c5;
+}
+#shmenu-calendar{
+	background-image:url(../img/menu/dbcalendar.png?6);
+}
+#shmenu-calendar:hover, #shmenu-calendar.selected{
+	background-color: #f47322;
+}
+#shmenu-usleagues{
+	background-image:url(../img/menu/dbusleagues.png?6);
+}
+#shmenu-usleagues:hover, #shmenu-usleagues.selected{
+	background-color: #de1f26;
+}
+#shmenu-search{
+	background-image:url(../img/menu/dbsearch.png?6);
+}
+#shmenu-search:hover, #shmenu-search.selected{
+	background-color: #ddc126;
+}
+#sharesite{
+	text-align: center;
+	font: 11px Verdana;
+	margin-top: 30px;
+}
+#android{
+	text-align: center;
+	margin-top: 25px;
+}
+#sharesite table{
+	margin-left: auto;
+	margin-right: auto;
+}
+#footer img{
+	border: none;
+	margin-top: 2px;
+	margin-bottom: 5px;
+}
+#version{	
+	width: 220px;
+	text-align: right;
+	padding: 8px;
+	padding-top: 2px;
+	margin-bottom: 10px;
+	font: 11px Verdana;
+	color: #888;
+}
+#content{
+	font: 12px Verdana;
+	margin: 0px;
+	margin-top: 0px;
+	margin-left: 244px;
+	padding: 3px;
+	padding-top: 3px;
+	border: 1px solid transparent;
+	border-left: 1px solid #888;
+	background-color: #F5F5F5;
+}
+#content select, #content input{
+	font: 12px Verdana;
+}
+.print #content{
+	font: 11px Verdana;
+	margin: 0px;
+	padding: 0px;
+	margin-left: 0px;
+	border: 0px solid transparent;
+}
+#dupdates{
+	text-align: center;
+}
+#dupdates tr:hover td{
+	background-color: #FFA; /* _theme_ */
+}
+#dupdates td{
+	background-color: #FFF;
+	padding: 0px 3px;
+}
+#dupdates td td, #dupdates td th, #dupdates td td td{
+	padding: 1px 0px;
+	vertical-align: middle;
+}
+#dupdates td td td{
+	padding-top: 3px;
+}
+#dupdates td table{
+	width: auto;
+}
+#dupdates td th, #dupdates td td{
+	border: none;
+	background-color: transparent;
+}
+#dupdates td th img{
+	padding: 1px;
+	padding-right: 3px;
+	vertical-align: middle;
+}
+#dupdates th.sorted{
+	border: 2px solid #555;
+	padding: 0px 3px;
+	padding-right: 20px;
+	background-color: #CFCFCF;
+}
+#dupdates .moreitems td{
+	padding: 0px;
+	background-color: #FFF;
+}
+#dupdates tr.moreitems:hover td{
+	background-color: transparent;
+}
+#dupdates .moreitems div{
+	background: transparent url(../img/render/more4.gif) 0 0 no-repeat;
+}
+#dupdates .moreitems div:hover{
+	background-color: #FFA; /* _theme_ */
+}
+#dupdates .details{
+	line-height: 30px;
+	margin-top: 5px;
+}
+#dupdates-opts{
+	width: auto;
+	margin-bottom: 5px;
+}
+#dupdates-opts td{
+	border: none;
+}
+#dupdates-opts tr:hover td{
+	background-color: #FFF;
+}
+#footer{
+	height: 50px;
+	padding: 5px;
+	padding-left: 0px;
+	margin-left: 244px;
+	border-top: 1px solid #888;
+	font: 11px Verdana;
+}
+/*=================================
+  ========== TAB CONTROL ========== 
+  =================================*/
+#tabcontrol{
+	margin: 10px;
+}
+.tabbar{
+	list-style: none;
+	margin: 0 0 0px 0;
+	padding: 0;
+	height: 19px;
+}
+.tabbar li{
+	float: left;
+	margin-right: 3px;
+	text-align: center;
+	font-size: 11px;
+}
+.tabbar li a{
+	display: block;
+	height: 15px;
+	padding: 3px 4px 0px 5px;
+	margin-bottom: 1px;
+	background-color: #D6D6D6;
+	color: #333;
+	width: auto;
+	border: 1px solid #AAA;
+	text-decoration: none;
+}
+.tabbar li a:hover{
+	background-color: #F3F3F3;
+}
+.tabbar li a.active{
+	background-color: #F3F3F3;
+	font-weight: bold;
+	color: #000;
+	border-bottom: 1px solid #F3F3F3;
+}
+.tabbar li a.active span{
+	font-weight: bold;
+}
+.tabbar li img{
+	border: none;
+	padding-left: 5px;
+}
+.tc{
+	margin: 0px;
+	padding: 10px 10px;
+	border: 1px solid #AAA;
+	background-color: #F5F5F5;
+}
+.print .tc{
+	border: none;
+}
+#link-add a {
+	background: #D6D6D6 url(../img/component/tabcontrol/add.png?6) center center no-repeat;
+	width: 12px;
+}
+#link-add a:hover {
+	background-color: #F5F5F5;
+}
+/*============================
+  ========== SLIDER ========== 
+  ============================*/
+.slider .arrow{
+	display: inline-block;
+	width: 18px;
+	padding-top: 25px;
+}
+.slider .slider-control{
+	border: 1px solid #D0D0D0;
+	background-color: #F5F5F5;
+	cursor: pointer;
+	padding: 20px 0px;
+	padding-top: 24px;
+}
+.slider .slider-control:hover{
+	border: 1px solid #000;
+	background-color: #E0E0E0;
+}
+.slider .container{
+	display: inline-block;
+	overflow: hidden;
+	text-align: center;
+	border: none;
+}
+.slider .slide{
+    float: left;
+}
+/*====================================
+  ========== SELECT-MULTIPLE ========= 
+  ====================================*/
+.selmultiple{
+	position: relative;
+}
+.selmultiple table{
+	margin: 0px !important;
+}
+.optcontainer{  
+	position: absolute;  
+	top: 0;  
+	left: 0;
+	z-index: 500;  
+	border: 1px solid #222;
+	background: #FFF;
+}
+.optcontainer .header{  
+	color: #FFF;  
+	font-weight: bold;
+	margin: 0;  
+	padding: 3px;  
+	background-color: #555;
+	border-bottom: 1px solid #222;
+	text-align: left;
+} 
+.optcontainer .scroll{
+	height: 200px;
+	overflow: scroll;
+}
+.optcontainer .scroll td{
+	padding: 0px 3px !important;
+	border-bottom: 1px solid #DDD !important;
+}
+.optcontainer .scroll td.name{
+	width: 100%;
+	cursor: pointer;
+	text-align: left !important;
+}
+.optcontainer .scroll tr.over{
+	background-color: #EEE;
+}
+.optcontainer .scroll tr.selected{
+	background-color: #FFA; /* _theme_ */
+}
+.optcontainer .scroll tr.selected td{
+	font-weight: bold;
+}
+.optcontainer .btnpanel{
+	border-top: 1px solid #222;
+	text-align: right;
+	padding: 2px;
+}
+.optcontainer .btnpanel input.button{
+	height: 25px;
+	margin: 0px;
+	margin-left: 2px;
+	background-color: #E5E5E5;
+	background-position: 3px center;
+	background-repeat: no-repeat;
+	padding-left: 22px;
+	cursor: pointer;
+	border: 1px solid #AAA;
+}
+.optcontainer .btnpanel input.button:hover{
+	color: #FFF;
+	background-color: #444;
+}
+.optcontainer .btnpanel .applyall{
+	float: left;
+	padding: 2px;
+}
+/*=============================
+  ========== BUTTONS ========== 
+  =============================*/
+#buttons{
+	height: 25px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 5px;
+	margin-bottom: 15px;
+}
+#buttons #bleft{
+	float: left;
+}
+#buttons #bright{
+	float: right;
+}
+#buttons .clear{
+    overflow: hidden;
+    width: 100%;
+}
+#buttons .button, .toolbar .button, #logindiv .button, .update .button{
+	height: 25px;
+	margin: 0px;
+	background-color: #E5E5E5;
+	background-position: 3px center;
+	background-repeat: no-repeat;
+	padding-left: 22px;
+	cursor: pointer;
+	border: 1px solid #AAA;
+}
+#buttons #bleft .button{
+	margin-right: 3px;
+}
+#buttons #bright .button, .toolbar .button{
+	margin-left: 2px;
+}
+#buttons .button:hover, .toolbar .button:hover, #logindiv .button:hover, .update .button:hover{
+	color: #FFF;
+	background-color: #444;
+}
+#buttons .execute{
+	background-image: url('../img/component/button/execute.png?6');
+	padding-left: 24px;
+	font-weight: bold;
+}
+#buttons .reset{
+	background-image: url('../img/component/button/reset.png?6');
+}
+#buttons .options{
+	background-image: url('../img/component/button/options.png?6');
+}
+/*===============================
+  ========== TREE VIEW ========== 
+  ===============================*/
+#treeview{
+	width: 100%;
+	border: none;
+	margin-left: -5px;
+	margin-bottom: 0px;
+	padding-left: 3px;
+}
+#treeview table{
+	/*width: 100%;*/
+}
+#treeview td{
+	text-align: left;
+	border: none;
+	padding: 0px;
+}
+#treeview a{
+	color: black;
+}
+#treeview .nodetext{
+	padding-left: 1px;
+	padding-right: 5px;
+	padding-top: 1px;
+	cursor: pointer;
+	white-space: nowrap;
+}
+#treeview .over {
+	text-decoration: underline;
+}
+#treeview .selectednode{
+	font-weight: bold;
+	color: #00F;
+	text-decoration: underline;
+}
+/*==========================
+  ========== HOME ========== 
+  ==========================*/
+#home{
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+.homecontent .fieldset .fstitle{
+	font-weight: bold;
+	border-bottom: 1px solid gray;
+	background-color: #c0e2fc; /* _theme_ */
+	padding: 5px;
+	padding-left: 23px;
+	padding-bottom: 4px;
+	background-position: 4px 4px;
+	background-repeat: no-repeat;
+}
+.homecontent .fieldset .fscontent{
+	padding: 10px;
+}
+.homecontent #topics table{
+	width: auto;
+	margin-top: 6px;
+	border-collapse: separate;
+}
+.homecontent #topics td{
+	width: 90px;
+	min-width: 90px;
+	font-weight: bold;
+	padding: 5px;
+	padding-left: 25px;
+	border: 1px solid #DDD;
+	cursor: pointer;
+	background-color: #FFF;
+	background-position: 6px center;
+	background-repeat: no-repeat;
+	white-space: nowrap;
+}
+.homecontent #topics td:hover{
+	color: #FFF;
+	border: 1px solid #000;
+}
+.homecontent #topics td.results{
+	background-image:url(../img/menu/dbresults.png?6);
+}
+.homecontent #topics td.results:hover{
+	background-color: #389f47;
+}
+.homecontent #topics td.olympics{
+	background-image:url(../img/menu/dbolympics.png?6);
+}
+.homecontent #topics td.olympics:hover{
+	background-color: #1482c5;
+}
+.homecontent #topics td.calendar{
+	background-image:url(../img/menu/dbcalendar.png?6);
+}
+.homecontent #topics td.calendar:hover{
+	background-color: #f47322;
+}
+.homecontent #topics td.usleagues{
+	background-image:url(../img/menu/dbusleagues.png?6);
+}
+.homecontent #topics td.usleagues:hover{
+	background-color: #de1f26;
+}
+.homecontent #topics td.search{
+	background-image:url(../img/menu/dbsearch.png?6);
+}
+.homecontent #topics td.search:hover{
+	background-color: #ddc126;
+}
+.homecontent #topics #details{
+	border: none;
+	width: auto;
+	font-weight: normal;
+	padding: 5px;
+	padding-left: 15px;
+	background: transparent url(../img/render/more2.gif) left center no-repeat;
+}
+.homecontent #randomevent{
+	width: auto;
+	margin-top: 5px;
+	margin-bottom: 0px;
+}
+.homecontent #randomevent td{
+	border: none;
+}
+.homecontent #sports{
+	margin-top: 8px;
+	overflow: auto;
+}
+.homecontent .slider .arrow{
+	padding-top: 52px;
+}
+.homecontent .slider .slider-control{
+	padding: 45px 0px;
+	padding-top: 52px;
+}
+.homecontent #sports div.sport{
+	float: left;
+	width: 105px;
+	height: 115px;
+	overflow: hidden;
+	border: 1px solid #FFF;
+	text-align: center;
+	padding: 1px;
+	font-weight: bold;
+	white-space: nowrap;
+	background-position: center top;
+	background-repeat: no-repeat;
+}
+.homecontent #sports div.sport:hover{
+	border: 1px solid #000;
+	background-color: #FFA; /* _theme_ */
+}
+.homecontent #sports div.sport a{
+	display: block;
+	padding-top: 100px;
+	color: #000;
+}
+.homecontent #sports div.sport a:hover{
+	text-decoration: none;
+}
+.homecontent h3{
+	margin: 0px;
+}
+.homecontent .info{
+	background-image: url(../img/iconfav.png?6);
+}
+.homecontent .statistics{
+	background-image: url(../img/project/statistics.png?6);
+}
+.homecontent .lastupdates{
+	background-image: url(../img/updates.png?6);
+}
+#home .stat{
+	width: 60px;
+	text-align: right;
+}
+#home #chart{
+	width: 720px;
+	height: 400px;
+	vertical-align: top;
+	padding: 5px;
+}
+#home .fscontent ul{
+	list-style: none;
+	margin: 0px;
+	padding-left: 0px;
+}
+#home .fscontent li{
+	display: inline-block;
+	list-style-image: none;
+}
+/*=============================
+  ========== RESULTS ========== 
+  =============================*/
+#tree{
+	float: left;
+	width: 368px;
+	height: 245px;
+	margin-left: 10px;
+	margin-right: 5px;
+}
+#results{
+	height: 245px;
+	margin-left: 390px;
+	margin-right: 10px;
+}
+#results .spcpdiv{
+	display: inline-block;
+	width: 200px;
+	height: 210px;
+	border-right: 1px solid #BBB;
+	padding-left: 3px;
+	padding-right: 5px;
+	margin: 3px;
+}
+#results .spcpdiv table{
+	width: 100%;
+}
+#results .slider{
+	margin-top: 20px;
+	margin-left: 22px;
+}
+#results .slide{
+	border: none;
+	background-color: #FFF;
+	background-position: center top;
+	background-repeat: no-repeat;
+}
+#results .arrow{
+	margin-top: 14px;
+}
+#results select{
+	width: 100%;
+}
+#results .evdiv{
+	display: inline-block;
+	width: 290px;
+	height: 182px;
+	padding: 0px 0px;
+	padding-right: 6px;
+	margin: 3px;
+	margin-left: 0px;
+}
+#results .evdiv table{
+	width: 100%;
+}
+#results .evdiv td{
+	text-align: right;
+	border: none;
+	padding: 1px;
+}
+#tree .treediv{
+	float: left;
+	padding: 3px 8px;
+	margin: 3px;
+	margin-left: 3px;
+}
+#tree #treeview{
+	position: absolute;
+	overflow: auto;
+	width: 350px;
+	background-color: #FFF;
+	border: 1px solid #DDD;
+}
+#tree .treediv .expanded{
+	height: 498px;
+	border-right: 1px solid #DDD;
+}
+#tree .treediv .collapsed{
+	height: 207px;
+	border-right: none;
+}
+#tree .treetitle{
+	background-image: url(../img/db/tree.png?6);
+}
+/*==============================
+  ========== CALENDAR ========== 
+  ==============================*/
+#calendar{
+	margin-left: 10px;
+	margin-right: 10px;
+	height: 165px;
+}
+#calendar li{
+	display: inline-block;
+}
+#calendar .dateimg{
+	width: 120px;
+	height: 70px;
+	background: url(../img/db/calendar.png) center 10px no-repeat;
+	text-align: center;
+	padding: 10px;
+	padding-right: 0px;
+	padding-top: 52px;
+	font-family: Tahoma, Geneva, sans-serif;
+	/*font-family: "Lucida Console", Monaco, monospace;*/
+	font-weight: bold;
+}
+#calendar .dateimg div{
+	width: 110px;
+}
+#calendar .label{
+	position: absolute;
+	margin-top: -20px;
+	color: #FFF;
+}
+#calendar .day{
+	font-size: 28px;
+	color: #F25;
+}
+#calendar select{
+	width: 160px;
+}
+#calendar table{
+	padding: 25px;
+	padding-left: 0px;
+}
+#calendar td{
+	padding: 5px;
+}
+/*==============================
+  ========== OLYMPICS ========== 
+  ==============================*/
+#olympics{
+	margin-left: 10px;
+	margin-right: 10px;
+	height: 290px;
+}
+#olympics #oltype{
+	display: inline-block;
+	width: 185px;
+	height: 240px;
+}
+#olympics #oltype div{
+	margin: 6px 6px;
+	margin-right: 0px;
+	padding: 3px;
+	text-align: center;
+	cursor: pointer;
+	border: 1px solid #FFF;
+}
+#olympics #oltype input{
+	cursor: pointer;
+}
+#olympics #oltype div:hover{
+	border: 1px solid #000;
+	background-color: #FFA; /* _theme_ */
+}
+#olympics .fieldset{
+	display: inline-block;
+	width: 460px;
+	height: 242px;
+	margin: 6px 6px;
+	margin-bottom: 0px;
+	padding: 5px;
+}
+#slider-summer-ol .arrow, #slider-winter-ol .arrow{
+	padding-top: 20px;
+	padding-left: 3px;
+	width: 22x;
+}
+#slider-summer-ol .slider-control, #slider-winter-ol .slider-control{
+	padding: 10px 0px;
+	padding-top: 19px;
+}
+#olympics table img{
+	border: none;
+}
+#olympics table{
+	width: 100%;
+}
+#olympics td{
+	border: none;
+	padding: 0;
+}
+#olympics .select, #olympics select{
+	width: 100%;
+}
+#olympics .separator{
+	margin-bottom: 1px;
+}
+#olympics #summer-q1 .arrow, #olympics #winter-q1 .arrow{
+	margin-top: 14px;
+}
+/*================================
+  ========== US LEAGUES ========== 
+  ================================*/
+#usleagues{
+	height: 215px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+#usleagues .league{
+	display: inline-block;
+	margin: 40px 0px;
+	margin-right: 5px;
+	width: 180px;
+	text-align: center;
+}
+#usleagues .league .slider{
+	margin-left: 6px;
+}
+#usleagues .league .slide{
+	background-color: #FFF;
+	background-position: center top;
+	background-repeat: no-repeat;
+}
+#usleagues .league .arrow{
+	margin-top: 15px;
+}
+#usleagues #usltype{
+	display: inline-block;
+	padding: 10px;
+	padding-left: 0px;
+	margin-top: 8px;
+}
+#usleagues #usltype div{
+	width: 275px;
+	border: 1px solid #CCC;
+	margin-bottom: 15px;
+	padding: 5px; 
+	font-weight: bold;
+	cursor: pointer;
+}
+#usleagues #usltype div:hover, #usleagues #usltype .selected{
+	border: 1px solid #000;
+	background-color: #FFA; /* _theme_ */
+}
+#usleagues #usstype{
+	margin: 10px;
+	margin-right: 0px;
+}
+#usleagues #usstype td{
+	border: 1px solid #FFF;
+	padding: 3px;
+	padding-right: 5px;
+	font-weight: bold;
+	cursor: pointer;
+}
+#usleagues #usstype td:hover, #usleagues #usstype .selected{
+	border: 1px solid #000;
+	background-color: #FFA; /* _theme_ */
+}
+#usleagues input[type=text]{
+	padding: 2px;
+}
+#ustopics{
+	text-align: left;
+	float: left;
+	margin: 10px;
+	margin-right: 0px;
+	padding: 5px;
+}
+#ustopics td{
+	padding: 1px;
+	border: none;
+}
+#ustopics .select, #ustopics select{
+	width: 100%;
+}
+#ustopics .text input{
+	width: 35px;
+}
+#ustopics img{
+	border: none;
+}
+#ustopics #hof-position, #ustopics #retnum-number{
+	border: 1px solid #CCC;
+}
+#ustopics #hof-position.selected, #ustopics #retnum-number.selected{
+	border: 1px solid #D00;
+}
+/*============================
+  ========== SEARCH ========== 
+  ============================*/
+#search{
+	background: #FFF;
+	height: 160px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+#search .pattern{
+	float: left;
+	margin: 4px;
+	padding-left: 3px;
+	width: 350px;
+}
+#search .pattern input, #headertop .pattern input, #logindiv input{
+	border: 1px solid #CCC;
+	font-size: 13px;
+	padding: 2px;
+}
+#search .pattern input:focus, #headertop .pattern input:focus{
+	border: 1px solid #D00;
+}
+#search #pattern{
+	width: 300px;
+}
+#search .scope{
+	border: 1px solid gray;
+	text-align: left;
+	width: 240px;
+	margin-top: 5px;
+}
+#search .text{
+	width: 100%;
+	margin: 3px 0px;
+}
+#search td{
+	border: none;
+	padding: 0px;
+}
+/*=============================
+  ========== PROJECT ========== 
+  =============================*/
+#project{
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+#project .left{
+	width: 49%;
+	padding-right: 5px;
+}
+#project .right{
+	float: right;
+	width: 50%;
+	padding-left: 5px;
+}
+.contributors{
+	background-image: url(../img/project/contributors.png?6);
+}
+.github{
+	background-image: url(../img/project/github.png?6);
+}
+.statistics{
+	background-image: url(../img/project/statistics.png?6);
+}
+.android{
+	background-image: url(../img/project/android.png?6);
+}
+.technicalinfo{
+	background-image: url(../img/project/technicalinfo.png?6);
+}
+#project th table{
+	width: auto;
+	margin: auto;
+}
+#project th td{
+	border: none;
+}
+#project img{
+	vertical-align: middle;
+}
+#project .left tr:hover td{
+	background-color: #FFA; /* _theme_ */
+}
+#project #screenshots{
+	width: 0%;
+	margin-top: 10px;	
+}
+#project #screenshots td{
+	border: none;
+}
+#project #screenshots img{
+	width: 100px;
+}
+/*================================
+  ========== CONTRIBUTE ========== 
+  ================================*/
+#contribute{
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+#contribute .info{
+	background-image: url(../img/info.png?6);
+}
+#contribute li{
+	height: 20px;
+}
+#contribute span{
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	padding-left: 18px;
+	display: inline-block;
+	height: 18px;
+}
+#contribute span.nopadding{
+	padding-left: 0px;
+	height: auto;
+}
+/*===========================
+  ========== LOGIN ========== 
+  ===========================*/
+#logindiv{
+	text-align: center;
+}
+#logindiv .loginmsg{
+	font-weight: bold;
+	color: #F00;
+}
+#logindiv .fieldset, #logindiv .fieldset table{
+	margin-left: auto;
+	margin-right: auto;
+}
+#logindiv .fieldset table{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#logindiv th{
+	text-align: right;
+	font-weight: normal;
+}
+#logindiv td{
+	text-align: left;
+	padding: 3px;
+}
+#logindiv input[type=text]:focus, #logindiv input[type=password]:focus{
+	border: 1px solid #D00;
+}
+.mandatory{
+	font-weight: bold;
+	color: #F00;
+	padding-right: 3px;
+}
+#rmsg{
+	font-weight: bold;
+	margin-top: 10px;
+}
+#logindiv .success{
+	color: green;
+}
+#logindiv .error{
+	color: #F00;
+}
+.loginsports{
+	width: 250px;
+ 	height: 180px;
+ 	overflow: auto;
+ 	border: 1px solid #CCC;
+}
+.loginsports li{
+	height: 32px;
+	cursor: pointer;
+	border-bottom: 1px solid #EEE;
+}
+.loginsports li:hover{
+	background-color: #FFA; /* _theme_ */
+}
+.loginsports div.left{
+	clear: both;
+	float: left;
+	padding-left: 6px;
+}
+.loginsports div.right{
+	padding-left: 40px;
+	padding-top: 9px;
+}
+/*============================
+  ========== UPDATE ========== 
+  ============================*/
+.update{
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: -5px;
+	margin-bottom: 10px;
+}
+.update .toolbar{
+	 position: absolute;
+	 width: auto;
+	 top: 60px;
+	 right: 12px;
+}
+.update .toolbar .baroptions table{
+	border-spacing: 0px;
+}
+.update .fieldset{
+	margin-top: 50px;
+}
+.update #prevbtn{
+	background-image: url('../img/component/button/previous.png?6');
+	background-position: 4px center;
+	padding-left: 18px;
+}
+.update #nextbtn{
+	background-image: url('../img/component/button/next.png?6');
+	background-position: 4px center;
+	padding-left: 18px;
+}
+#imgzone fieldset{
+	border: 1px solid #AAA;
+}
+#imgzone #dz-file{
+	text-align: center;
+	cursor: pointer;
+	width: 120px;
+	height: 120px;
+	border: 1px dashed #CCC;
+}
+#imgzone #dz-file img{
+	width: 120px;
+	height: 120px;
+}
+#imgzone #dz-file:hover{
+	background-color: #FFA; /* _theme_ */
+}
+#imgzone #dz-file p{
+	white-space: normal;
+	font-style: italic;
+	margin-top: 45px;
+}
+.dz-success-mark, .dz-error-mark, .dz-details{
+	display: none;
+}
+#embimg{
+	float: left;
+	margin-left: 8px;
+}
+#currentphotos{
+	width: 100%;
+	overflow: scroll;
+	height: 130px;
+	border: 1px solid #DDD;
+	margin: 0px;
+	padding-left: 0px;
+}
+#currentphotos li{
+	display: inline-block;
+}
+#currentphotos img, #currentphotos li.img{
+	width: 100px;
+	height: 100px;
+}
+#currentphotos .loading{
+	border: none;
+	width: 16px;
+	height: 16px;
+}
+#msg, #msg2{
+	position: relative;
+	font-weight: bold;
+	min-height: 50px;
+	white-space: nowrap;
+}
+#msg div, #msg2 div{
+	position: absolute;
+	left: 5px;
+	bottom: 20px;
+}
+.fstitle #msg2{
+	position: absolute;
+	right: 25px;
+}
+.fstitle #msg2 div{
+	position: relative;
+	text-align: right;
+	bottom: 15px;
+}
+.warning{
+	background: url(../img/update/warning.gif?6) left center no-repeat;
+	padding-left: 18px;
+	color: #F80;
+}
+.update input[type=text], .update textarea, #d-plist input[type=text], #d-round input[type=text], #d-comment textarea, #d-round textarea{
+	font: 12px Verdana;
+	width: 250px;
+	border: 1px solid #AAA;
+	padding: 2px;
+}
+.update input[type=text].default, .update textarea.default, #d-plist input[type=text].default, #d-round input[type=text].default, #d-comment textarea.default, #d-round textarea.default{
+	border: 1px solid #AAA;
+	color: #888;
+}
+.update input[type=text]:focus, .update textarea:focus, #d-plist input[type=text]:focus, #d-round input[type=text]:focus, .update input[type=text].default:focus, .update textarea.default:focus, #d-plist input[type=text].default:focus, #d-round input[type=text].default:focus, #d-comment textarea:focus, #d-round textarea:focus{
+	border: 1px solid #D00;
+	color: #000;
+}
+.update input[type=text].completed, #d-plist input[type=text].completed, #d-round input[type=text].completed{
+	border: 1px solid #080;
+	color: #000;
+}
+.update input[type=text].completed2, .update textarea.completed2, #d-plist input[type=text].completed2, #d-round input[type=text].completed2, #d-round textarea.completed2{
+	border: 1px solid #000;
+	color: #000;
+}
+.update #options{
+	width: auto;
+	margin-top: 0px;
+}
+.update #options tr:hover{
+	background-color: transparent;
+}
+.update #options td{
+	border: none;
+	padding: 2px;
+}
+/*---------- OVERVIEW ----------*/
+#update-overview .fstitle{
+	background-image: url(../img/update/overview.png?6);
+}
+#update-overview .fscontent table{
+	width: auto;
+	margin-bottom: 10px;
+}
+#update-overview .fscontent td.tick{
+	font-size: 9px;
+	background: url(../img/update/tick.png?6) 2px center no-repeat;
+	padding-left: 20px;
+	white-space: nowrap;
+}
+#update-overview .fscontent td.missing{
+	font-size: 9px;
+	background: url(../img/update/missing.png?6) 2px center no-repeat;
+	padding-left: 20px;
+	white-space: nowrap;
+}
+#update-overview .fscontent td.warning_{
+	font-size: 9px;
+	background: url(../img/update/warning.gif?6) 2px center no-repeat;
+	padding-left: 20px;
+	white-space: nowrap;
+}
+#update-overview #ovcontent tr:hover td{
+	background-color: #FFA; /* _theme_ */
+}
+/*---------- RESULTS ----------*/
+#update-results .fstitle{
+	background-image: url(../img/update/results.png?6);
+}
+#update-results .fscontent{
+	padding-bottom: 70px;
+}
+#update-results fieldset{
+	border: 1px solid #AAA;
+}
+#update-results .fieldset table{
+	width: auto;
+	margin-top: 10px;
+}
+#update-results td, #d-plist td, #d-round td{
+	border: none;
+	padding: 1px;
+}
+#update-results a, #d-plist a, #d-round a{
+	font-size: 11px;
+}
+#update-results textarea, #update-data textarea, #d-comment textarea, #d-round textarea{
+	outline: none;
+	white-space: nowrap;
+}
+#update-results #dt1, #update-results #dt2, #update-results #yr{
+	width: 120px;
+}
+#update-results ul{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+#update-results li{
+	display: inline-block;
+	vertical-align: top;
+	padding: 2px;
+}
+#update-results .treediv{
+	position: absolute;
+	z-index: 1;
+	right: 24px;
+	background-color: #FFF;
+	white-space: nowrap;
+	margin: 0px;
+	margin-top: 45px;
+}
+#update-results #tree{
+	overflow: auto;
+	border: 1px solid #DDD;
+	border-top: none;
+	width: 300px;
+	height: 1150px;
+	padding: 3px;
+	margin: 0px;
+	padding-right: 30px;
+}
+#update-results #tree table{
+	margin-top: 0px;
+}
+#update-results #tree td{
+	padding: 0px;
+}
+#update-results #shortcutdiv{
+	position: absolute;
+	z-index: 2;
+	right: 24px;
+	background-color: #FFF;
+	white-space: nowrap;
+	margin: 0px;
+	margin-top: 30px;
+}
+#update-results #shortcutdiv a{
+	font-weight: bold;
+}
+#update-results #shortcutdiv .toolbar td{
+	padding: 0px;
+}
+#update-results #shortcutdiv .toolbar input.button{
+	background-position: center center;
+	width: 25px;
+	padding: 0px;
+}
+#update-results #rounds{
+	width: 877px;
+	height: 280px;
+	overflow: auto;
+}
+#update-results fieldset legend a{
+	font-size: 12px;
+	color: #000;
+}
+#update-results #metadata{
+	font-size: 11px;
+}
+#update-results .helptip img{
+	cursor: help;
+	padding-top: 1px;
+}
+/*---------- DATA ----------*/
+#update-data .fstitle{
+	background-image: url(../img/update/data.png?6);
+}
+#update-data .fscontent{
+	padding-bottom: 70px;
+}
+#update-data .fscontent table{
+	width: auto;
+	margin-left: auto;
+	margin-right: auto;
+}
+#update-data .fscontent td{
+	border: 1px solid #DDD;
+	padding: 2px;
+}
+#update-data .fscontent .toolbar td{
+	border: none;
+}
+#update-data fieldset{
+	width: 800px;
+	margin: 10px auto;
+	border: 1px solid #AAA;
+}
+#update-data .fieldset table{
+	width: auto;
+	margin-top: 10px;
+}
+#update-data fieldset legend a{
+	font-size: 12px;
+	color: #000;
+}
+#update-data input[type=text]{
+	width: 500px;
+}
+#update-data  input.id{
+	color: #666;
+	width: 50px;
+}
+/*---------- PICTURES ----------*/
+#update-pictures .fstitle{
+	background-image: url(../img/update/pictures.png?6);
+}
+#update-pictures .fscontent{
+	height: 270px;
+	padding-bottom: 70px;
+}
+#update-pictures .fscontent div{
+	float: left;
+	width: 430px;
+}
+#update-pictures .fscontent .toolbar{
+	position: relative;
+	clear: right;
+	float: right;
+	top: 0;
+	right: 0;
+	margin-top: 15px;
+}
+#update-pictures #dz-file{
+	cursor: pointer;
+	width: 100px;
+	height: 100px;
+	border: 1px dashed #CCC;
+}
+#update-pictures #dz-file img{
+	width: 100px;
+	height: 100px;
+}
+#update-pictures #dz-file:hover{
+	background-color: #FFA; /* _theme_ */
+}
+#update-pictures #remove-local{
+	float: left;
+	width: auto;
+	margin-top: 80px;
+	padding: 5px;
+	padding-bottom: 0px;
+}
+#update-pictures fieldset{
+	border: 1px solid #AAA;
+}
+#update-pictures #img-remote{
+	width: auto;
+	min-height: 100px;
+	max-height: 100px;
+}
+#update-pictures .fscontent .toolbar td{
+	padding: 2px;
+	border: none;
+}
+#update-pictures .fscontent #tsize, #update-pictures .fscontent #ttrtest{
+	width: auto;
+	padding: 0px;
+	margin: 0px;
+}
+#update-pictures .fscontent #tsize td, #update-pictures .fscontent #ttrtest td{
+	border: none;
+	padding: 0px;
+}
+/*---------- FOLDERS ----------*/
+#update-folders .fstitle{
+	background-image: url(../img/update/folders.png?6);
+}
+#update-folders .fscontent table{
+	margin-bottom: 10px;
+}
+#update-folders .fscontent .toolbar td{
+	padding: 2px;
+	border: none;
+}
+#update-folders #msg div{
+	position: relative;
+	bottom: 0px;
+	padding-right: 10px;
+}
+#update-folders select{
+	width: 450px;
+	font-size: 11px;
+}
+/*---------- IMPORT ----------*/
+#update-import .fstitle{
+	background-image: url(../img/update/import.png?6);
+}
+#update-import #dz-file{
+	cursor: pointer;
+	width: 200px;
+	height: 20px;
+	border: 1px dashed #CCC;
+}
+#update-import #dz-file:hover{
+	background-color: #FFA; /* _theme_ */
+}
+#update-import #dz-file p{
+	margin: 3px;
+}
+#update-import .green{
+	color: #080;
+}
+#update-import .red{
+	color: #F00;
+}
+#update-import .orange{
+	color: #FA0;
+}
+#update-import #report{
+	margin-top: 10px;
+}
+#update-import #report th, #update-import #report td{
+	white-space: nowrap;
+}
+#update-import #report td{
+	background-color: #FFF;
+}
+#update-import #report tr:hover td{
+	background-color: #FFA; /* _theme_ */
+}
+#update-import #progressbar{
+	width: 200px;
+	border: 1px solid #888;
+}
+#update-import #progressbar #progress{
+	background: orange;
+	width: 0px;
+	height: 18px;
+}
+/*---------- TRANSLATIONS ----------*/
+#update-translations .fscontent table{
+	margin-bottom: 10px;
+}
+#update-translations #trcontent tr:hover td{
+	background-color: #FFA; /* _theme_ */
+}
+#update-translations #trcontent input{
+	margin: 1px;
+}
+#update-translations .fscontent .toolbar td{
+	padding: 2px;
+	border: none;
+}
+#update-translations #msg div{
+	position: relative;
+	bottom: 0px;
+	padding-right: 10px;
+}
+/*---------- EXT.LINKS ----------*/
+#update-extlinks .fscontent table{
+	margin-bottom: 10px;
+}
+#update-extlinks #elcontent tr:hover td{
+	background-color: #FFA; /* _theme_ */
+}
+#update-extlinks #elcontent input{
+	margin: 1px;
+}
+#update-extlinks .fscontent .toolbar td{
+	padding: 2px;
+	border: none;
+}
+#update-extlinks #msg div{
+	position: relative;
+	bottom: 0px;
+	padding-right: 10px;
+}
+/*---------- REDIRECTIONS ----------*/
+#update-redirections .fscontent table{
+	margin-bottom: 10px;
+}
+#update-redirections #recontent tr:hover td{
+	background-color: #FFA; /* _theme_ */
+}
+#update-redirections #recontent input{
+	margin: 1px;
+}
+#update-redirections .fscontent .toolbar td{
+	padding: 2px;
+	border: none;
+}
+#update-redirections #msg div{
+	position: relative;
+	bottom: 0px;
+	padding-left: 10px;
+}
+/*---------- TOOLS ----------*/
+#toolsopt{
+	position: absolute;
+	right: 3px;
+	z-index: 10;
+}
+#toolsopt table{
+	border-spacing: 0px;
+}
+#toolsopt td {
+	padding-right: 5px;
+	text-align: left;
+}
+#toolsopt td.query{
+	background-image:url(../img/update/query.png?6);
+}
+#toolsopt td.translations{
+	background-image:url(../img/update/translations.png?6);
+}
+#toolsopt td.extlinks{
+	background-image:url(../img/update/extlinks.png?6);
+}
+#toolsopt td.errors{
+	background-image:url(../img/project/error.png?6);
+}
+#toolsopt td.redirections{
+	background-image:url(../img/update/redirections.png?6);
+}
+#toolsopt td.help{
+	background-image:url(../img/update/help.png?6);
+}
+#toolsopt td.admin{
+	background-image: url('../img/update/admin.png?6');
+}
+#update-extlinks .fstitle{
+	background-image: url(../img/update/extlinks.png?6);
+}
+#update-translations .fstitle{
+	background-image: url(../img/update/translations.png?6);
+}
+#update-redirections .fstitle{
+	background-image: url(../img/update/redirections.png?6);
+}
+#update-query .fstitle{
+	background-image: url(../img/update/query.png?6);
+}
+#update-query #qresults tr:hover td{
+	background-color: #FFA; /* _theme_ */
+}
+#update-query #qresults{
+	margin-top: 10px;
+}
+#update-query .fscontent ul{
+	padding: 0px;
+}
+#update-query .fscontent li{
+	display: inline-block;
+	list-style-image: none;
+}
+#update-query .fscontent fieldset{
+	border: 1px solid #AAA;
+	height: 135px;
+}
+#update-errors .fstitle{
+	background-image: url(../img/project/error.png?6);
+}
+/*---------- ADMIN ----------*/
+#update-admin .fstitle{
+	background-image: url(../img/update/admin.png?6);
+}
+#update-admin .users{
+	background-image: url(../img/update/users.png?6);
+}
+#update-admin .config{
+	background-image: url(../img/update/config.png?6);
+}
+#update-admin .fscontent{
+	padding-bottom: 45px;
+}
+#update-admin .fscontent table{
+	width: auto;
+	margin-left: auto;
+	margin-right: auto;
+}
+#update-admin .fscontent td{
+	border: 1px solid #DDD;
+	padding: 3px;
+}
+#update-admin .fscontent .toolbar td{
+	border: none;
+}
+#update-admin input[type=text]{
+	width: 500px;
+}
+#update-admin textarea{
+	font-family: "Courier";
+	width: 600px;
+	white-space: nowrap;
+}
+/*=============================
+  ========== DIALOGS ========== 
+  =============================*/
+.dialog, .dialog input{
+	font: 12px Verdana;
+}
+.dialog .fstitle {
+	background-color: #005090;
+	color: #FFF;
+}
+#d-error .fstitle{
+	background-image: url(../img/project/error.png?6);
+}
+#d-accountconf .fstitle{
+	background-image: url('../img/menu/login.png?6');
+}
+#d-link .fstitle{
+	background-image: url(../img/component/button/link.png?6);
+}
+#d-info .fstitle{
+	background-image: url(../img/component/button/info.png?6);
+}
+#d-plist .fstitle{
+	background-image: url(../img/update/personlist.png?6);
+}
+#d-find .fstitle{
+	background-image: url(../img/update/find.png?6);
+}
+#d-question .fstitle{
+	background-image: url(../img/update/question.png?6);
+}
+#d-help .fstitle{
+	background-image: url(../img/update/help.png?6);
+}
+.dialog .dlgbuttons{
+	height: 33px;
+	padding-right: 8px;
+}
+.dialog .dlgbuttons input.button{
+	float: right;
+	height: 25px;
+	margin: 0px;
+	margin-left: 3px;
+	background-color: #DADADA;
+	background-position: 3px center;
+	background-repeat: no-repeat;
+	padding-left: 22px;
+	cursor: pointer;
+	border: 1px solid #AAA;
+}
+.dialog .dlgbuttons input.button:hover{
+	color: #FFF;
+	background-color: #444;
+}
+.dialog .dlgbuttons .ok, .optcontainer .ok, #logindiv .ok{
+	background-image: url('../img/component/button/ok.png?6');
+}
+.dialog .dlgbuttons .cancel, .optcontainer .cancel{
+	background-image: url('../img/component/button/cancel.png?6');
+}
+#datatip{
+	width: auto;
+	margin-top: 5px;
+}
+#d-find #fpattern{
+	padding: 2px;
+	border: 1px solid #CCC;
+	width: 99%;
+}
+#d-find #fpattern:focus{
+	border: 1px solid #D00;
+}
+#d-find #fresults{
+	margin-top: 10px;
+	border: 1px solid #DDD;
+	width: 500px;
+	height: 250px;
+	overflow: auto;
+}
+#d-find #fresults ul{
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+#d-find li{
+	cursor: pointer;
+	padding: 3px;
+	border-bottom: 1px solid #CCC;
+}
+#d-find li:hover{
+	background-color: #FFA; /* _theme_ */
+}
+#d-question #confirmtxt{
+	width: 600px;
+	height: 100px;
+}
+#d-comment td{
+	border: none;
+}
+#d-info .lang-fr{
+	padding-left: 25px;
+	background: transparent url(../img/header/lang-fr.png?6) 5px center no-repeat;	
+}
+#d-info .lang-en{
+	padding-left: 25px;
+	background: transparent url(../img/header/lang-en.png?6) 5px center no-repeat;	
+}
+#d-accountconf .fscontent{
+	width: 300px;
+	height: 60px;
+	padding-top: 20px;
+	text-align: center;
+	font-weight: bold;
+}
+#d-picture .source{
+	position: absolute;
+	left: 4px;
+	bottom: -1px;
+	white-space: nowrap;
+	font-size: 9px;
+	color: #888;
+	transform: rotate(-90deg) translate(0, 0);
+	transform-origin: 0% 0%;
+}
+/*=============================
+  ========== TOOLBAR ========== 
+  =============================*/
+#toolbar .add, .toolbar .add{
+	background-image: url('../img/component/button/add.png?6');
+}
+#toolbar .modify, .toolbar .modify{
+	background-image: url('../img/component/button/modify.png?6');
+}
+#toolbar .share, .toolbar .share{
+	background-image: url('../img/component/button/share.png?6');
+}
+#toolbar .export, .toolbar .export{
+	background-image: url('../img/component/button/export.png?6');
+}
+#buttons .link, .toolbar .link{
+	background-image: url('../img/component/button/link.png?6');
+}
+#buttons .print, .toolbar .print{
+	background-image: url('../img/component/button/print.png?6');
+}
+#buttons .info2, .toolbar .info2{
+	background-image: url('../img/component/button/info.png?6');
+}
+#buttons .calendarspan, .toolbar .calendarspan{
+	background-image: url('../img/db/calendar-span.png?6');
+}
+#buttons .upd-overview, .toolbar .upd-overview{
+	background-image: url('../img/update/overview.png?6');
+}
+#buttons .upd-results, .toolbar .upd-results{
+	background-image: url('../img/update/results.png?6');
+}
+#buttons .upd-data, .toolbar .upd-data{
+	background-image: url('../img/update/data.png?6');
+}
+#buttons .upd-pictures, .toolbar .upd-pictures{
+	background-image: url('../img/update/pictures.png?6');
+}
+#buttons .upd-folders, .toolbar .upd-folders{
+	background-image: url('../img/update/folders.png?6');
+}
+#buttons .upd-import, .toolbar .upd-import{
+	background-image: url('../img/update/import.png?6');
+}
+#buttons .upd-tools, .toolbar .upd-tools{
+	background-image: url('../img/update/tools.png?6');
+}
+#buttons .upd-help, .toolbar .upd-help{
+	background-image: url('../img/update/help.png?6');
+}
+#buttons .upd-new, .toolbar .upd-new{
+	background-image: url('../img/update/new.png?6');
+}
+#buttons .upd-save, .toolbar .upd-save{
+	background-image: url('../img/update/save.png?6');
+}
+#buttons .upd-copy, .toolbar .upd-copy{
+	background-image: url('../img/update/copy.png?6');
+}
+#buttons .upd-merge, .toolbar .upd-merge{
+	background-image: url('../img/update/merge.png?6');
+}
+#buttons .upd-upload, .toolbar .upd-upload{
+	background-image: url('../img/update/upload.png?6');
+}
+#buttons .upd-download, .toolbar .upd-download{
+	background-image: url('../img/update/download.png?6');
+}
+#buttons .upd-first, .toolbar .upd-first{
+	background-image: url('../img/update/first.png?6');
+}
+#buttons .upd-previous, .toolbar .upd-previous{
+	background-image: url('../img/update/previous.png?6');
+}
+#buttons .upd-find, .toolbar .upd-find{
+	background-image: url('../img/update/find.png?6');
+}
+#buttons .upd-next, .toolbar .upd-next{
+	background-image: url('../img/update/next.png?6');
+}
+#buttons .upd-last, .toolbar .upd-last{
+	background-image: url('../img/update/last.png?6');
+}
+#buttons .upd-add, .toolbar .upd-add{
+	background-image: url('../img/component/button/add.png?6');
+}
+#buttons .upd-modify, .toolbar .upd-modify{
+	background-image: url('../img/component/button/modify.png?6');
+}
+#buttons .upd-delete, .toolbar .upd-delete{
+	background-image: url('../img/component/button/delete.png?6');
+}
+#shareopt, #exportopt, #toolsopt{
+	position: absolute;
+	text-align: right;
+	margin-top: -1px;
+	margin-left: 2px;
+	width: 200px;
+	border: 1px solid #000;
+	background: #FFF;
+	width: auto;
+	z-index: 100;
+}
+#shareopt td, #exportopt td, #toolsopt td{
+	cursor: pointer;
+	width: 60px;
+	padding: 5px;
+	padding-left: 25px;
+	padding-right: 15px;
+	border-bottom: 1px solid #888;
+	background-color: #F0F0F0;
+	background-position: 4px center;
+	background-repeat: no-repeat;
+	white-space: nowrap;
+}
+#shareopt td:HOVER, #exportopt td:HOVER, #toolsopt td:HOVER{
+	color: #FFF;
+	background-color: #444;
+}
+.baroptions td.fb{
+	background-image:url(../img/header/facebook.png?6);
+}
+.baroptions td.tw{
+	background-image:url(../img/header/twitter.png?6);
+}
+.baroptions td.gp{
+	background-image:url(../img/header/gplus.png?6);
+}
+.baroptions td.bg{
+	background-image:url(../img/header/blogger.png?6);
+}
+.baroptions td.tm{
+	background-image:url(../img/header/tumblr.png?6);
+}
+.baroptions td.html{
+	background-image:url(../img/db/export/html.png?6);
+}
+.baroptions td.csv{
+	background-image:url(../img/db/export/csv.png?6);
+}
+.baroptions td.excel{
+	background-image:url(../img/db/export/xls.png?6);
+}
+.baroptions td.pdf{
+	background-image:url(../img/db/export/pdf.png?6);
+}
+.baroptions td.text{
+	background-image:url(../img/db/export/txt.png?6);
+}
+.baroptions div{
+	background-color: #F0F0F0;
+	padding: 3px;
+}
+.baroptions a{
+	background: transparent url(../img/component/button/cancel.png?6) left center no-repeat;
+	padding-left: 18px;
+}
+/*==========================
+  ========== AJAX ========== 
+  ==========================*/
+.ajaxsearch {
+	position: absolute;
+	font: 12px Verdana;
+	width: auto;
+	background-color: #FFF;
+	margin: 0px;
+	padding: 0px;
+	z-index: 100;
+}
+.ajaxsearch ul {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	border: 1px solid #CCC;
+	max-height: 300px;
+	overflow: auto;
+}
+.ajaxsearch ul li {
+	list-style-type: none;
+	display: block;
+	margin: 0px;
+	padding: 3px;
+	border: 1px solid #FFF;
+	cursor: pointer;
+	white-space: nowrap;
+}
+.ajaxsearch ul li div.ajaxid, #d-find li div.ajaxid{
+	display: inline-block;
+	color: #888;
+}
+.ajaxsearch ul li.selected {
+    background-color: #FFA; /* _theme_ */
+    border: 1px solid #888;
+}
+.ajaxsearch ul li.ajaxlastrow {
+	color: #555;
+	font-style: italic;
+	border-top: 1px solid #888;
+	white-space: nowrap;
+}
+.ajaxsearch ul .ajxdetails {
+	float: right;
+	text-align: right;
+	font-size: 10px;
+	color: #888;
+	padding-top: 1px;
+	white-space: nowrap;
+}
+#ajaxsearch2 ul, #ajaxsearch3 ul{
+	margin: 0px;
+	padding-left: 0px;
+}
+/*==========================
+  ========== MISC ========== 
+  ==========================*/
+#linktxt{
+	width: 600px;
+	cursor: pointer;
+}
+.otherimglink{
+	float: left;
+	background: transparent url(../img/render/more2.gif) left bottom no-repeat;
+	padding-left: 15px;
+	padding-right: 5px;
+}
