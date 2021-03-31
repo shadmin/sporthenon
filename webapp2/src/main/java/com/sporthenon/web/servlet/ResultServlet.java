@@ -17,6 +17,7 @@ import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.meta.FolderHistory;
+import com.sporthenon.db.function.ResultsBean;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
@@ -70,7 +71,7 @@ public class ResultServlet extends AbstractServlet {
 				params.add(StringUtils.notEmpty(mapParams.get("yr")) ? String.valueOf(mapParams.get("yr")) : "0");
 				params.add(0);
 				params.add("_" + lang);
-				Collection<Result> c = (Collection<Result>) DatabaseManager.callFunction("get_results", params, Result.class);
+				Collection<Result> c = (Collection<Result>) DatabaseManager.callFunction("get_results", params, ResultsBean.class);
 				boolean isRedirect = false;
 				if (c == null || c.isEmpty()) { // Check in folders history
 					String sql = "SELECT * FROM _folder_history WHERE previous_params = ? ORDER BY id";

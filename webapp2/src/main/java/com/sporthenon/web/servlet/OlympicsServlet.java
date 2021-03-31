@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -46,7 +45,6 @@ public class OlympicsServlet extends AbstractServlet {
 		doPost(request, response);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			init(request);
@@ -127,8 +125,8 @@ public class OlympicsServlet extends AbstractServlet {
 					plId = type + "-" + PICKLIST_ID_COUNTRY;
 				}
 				else {
-					String label = (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
-					String sql = "SELECT OL.id, YR.label ' - ' CT." + label
+					String label = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
+					String sql = "SELECT OL.id, YR.label || ' - ' || CT." + label
 						+ " FROM olympics OL JOIN year YR ON YR.id = OL.id_year JOIN city CT ON CT.id = OL.id_city "
 						+ " WHERE OL.type = " + (type.equals(TYPE_SUMMER) ? 1 : 0) + " ORDER BY YR.id desc";
 					items.add(new PicklistItem(0, "--- " + ResourceUtils.getText("all.olympic.games", lang) + " ---"));

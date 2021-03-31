@@ -15,9 +15,10 @@ public class Event extends AbstractEntity {
 	private Integer ref;
 	private Boolean nopic;
 	
-	public static final transient String alias = "EV";
-	public static final transient String table = "event";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "EV";
+	public static final transient String table 	= "event";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT T.*, TP.label AS tp_label, TP.number AS tp_number FROM event T JOIN type TP ON TP.id = T.id_type";
 	
 	public Event() {}
 	
@@ -33,7 +34,9 @@ public class Event extends AbstractEntity {
 			setIndex((Double)mapValues.get("index"));
 			Integer idType = (Integer)mapValues.get("id_type");
 			if (idType != null) {
-				setType(new Type(idType));	
+				setType(new Type(idType));
+				getType().setLabel((String)mapValues.get("tp_label"));
+				getType().setNumber((Integer)mapValues.get("tp_number"));
 			}
 			setRef((Integer)mapValues.get("ref"));
 			setNopic((Boolean)mapValues.get("no_pic"));

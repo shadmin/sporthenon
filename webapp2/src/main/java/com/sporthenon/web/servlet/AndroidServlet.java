@@ -476,8 +476,6 @@ public class AndroidServlet extends AbstractServlet {
 						+ " JOIN type TP ON TP.id_type = SE2.id_type "
 						+ " WHERE SE2.id IN (SELECT id_subevent2 FROM result RS JOIN event EV ON EV.id_event = RS.id_event WHERE id_championship = ?" + filter + ")"
 						+ " ORDER by SE2.label DESC";
-				
-				
 				addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseManager.getPicklist(sql, Arrays.asList(USLeaguesServlet.HLEAGUES.get(league), "%" + uslStatEvLabel + "%")), null, null, null, null);
 			}
 		}

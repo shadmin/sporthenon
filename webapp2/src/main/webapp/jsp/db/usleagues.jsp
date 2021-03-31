@@ -138,15 +138,15 @@ var tRcCtA = [];
 		sql = "SELECT TM.id, TM.label, TM.inactive"
 				+ " FROM team TM "
 				+ " WHERE TM.id IN (SELECT id_team FROM retired_number WHERE id_league = ?) "
-				+ " ORDER by YR.id DESC";
-		c = DatabaseManager.getPicklist(RetiredNumber.class, "team", "league.id=" + i, "x.team.inactive || '-'", "x.team.inactive, x.team.label", "en");
+				+ " ORDER by TM.inactive, TM.label";
+		c = DatabaseManager.getPicklist(sql, Arrays.asList(i));
 		sb = new StringBuffer();
 		for (PicklistItem plb : c) {
 			sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText().replaceAll("^true\\-", "&dagger;").replaceAll("^false\\-", "") + "</option>");
 		}
 		out.print("tTm[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.teams", "en") + " ––</option>" + sb.toString() + "';\r\n");
 		// Record (Subevent)
-		c = DatabaseManager.getPicklist("SELECT DISTINCT SE.id, SE.label, RC.type1 FROM record RC JOIN event SE ON SE.id_event = RC.id_subevent WHERE id_championship = ? ORDER BY SE.label", Arrays.asList(USLeaguesServlet.HLEAGUES.get(i) ));
+		c = DatabaseManager.getPicklist("SELECT DISTINCT SE.id, SE.label, RC.type1 FROM record RC JOIN event SE ON SE.id_event = RC.id_subevent WHERE id_championship = ? ORDER BY SE.label", Arrays.asList(USLeaguesServlet.HLEAGUES.get(i)));
 		StringBuffer sb1 = new StringBuffer();
 		StringBuffer sb2 = new StringBuffer();
 		StringBuffer sb3 = new StringBuffer();
@@ -162,13 +162,23 @@ var tRcCtA = [];
 		out.print("tRcCtI[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.categories", "en") + " ––</option>" + sb2.toString() + "';\r\n");
 		out.print("tRcCtT[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.categories", "en") + " ––</option>" + sb3.toString() + "';\r\n");
 		// Yearly stats (year)
-		c = DatabaseManager.getPicklist(Result.class, "year", "championship.id=" + USLeaguesServlet.HLEAGUES.get(i) + " and event.label like '%" + uslStatEvLabel + "%'", null, (short)1, "en");
+		sql = "SELECT YR.id, YR.label"
+				+ " FROM year YR "
+				+ " WHERE YR.id IN (SELECT id_year FROM result RS JOIN event EV ON EV.id_event = RS.id_event WHERE id_championship = ? AND EV.label LIKE ?) "
+				+ " ORDER by YR.id DESC";
+		c = DatabaseManager.getPicklist(sql, Arrays.asList(USLeaguesServlet.HLEAGUES.get(i), "%" + uslStatEvLabel + "%"));
 		sb = new StringBuffer();
 		for (PicklistItem plb : c)
 			sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
 		out.print("tStatsYr[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.years", "en") + " ––</option>" + sb.toString() + "';\r\n");
 		// Yearly stats (category)
-		c = DatabaseManager.getPicklist("SELECT DISTINCT SE2.id, SE2.label, TP.number FROM result RS JOIN event EV ON EV.id_event = RS.id_event JOIN event SE2 ON SE2.id_event = RS.id_subevent2 JOIN type TP ON TP.id_type = SE2.id_type WHERE id_championship = ? AND EV.label LIKE ? ORDER BY SE2.label", Arrays.asList(USLeaguesServlet.HLEAGUES.get(i), "%" + uslStatEvLabel + "%"));
+		sql = "SELECT SE2.id, SE2.label, TP.number"
+				+ " FROM event SE2 "
+				+ " JOIN type TP ON TP.id_type = SE2.id_type "
+				+ " WHERE SE2.id IN (SELECT id_subevent2 FROM result RS JOIN event EV ON EV.id_event = RS.id_event WHERE id_championship = ? AND EV.label LIKE ? ORDER BY SE2.label)"
+				+ " ORDER by SE2.label DESC";
+		//"SELECT DISTINCT SE2.id, SE2.label, TP.number FROM result RS JOIN event EV ON EV.id_event = RS.id_event JOIN event SE2 ON SE2.id_event = RS.id_subevent2 JOIN type TP ON TP.id_type = SE2.id_type "
+		c = DatabaseManager.getPicklist(sql, Arrays.asList(USLeaguesServlet.HLEAGUES.get(i), "%" + uslStatEvLabel + "%"));
 		sb1 = new StringBuffer();
 		sb2 = new StringBuffer();
 		for (PicklistItem plb : c) {

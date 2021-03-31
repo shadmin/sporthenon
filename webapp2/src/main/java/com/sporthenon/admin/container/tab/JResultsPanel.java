@@ -293,10 +293,11 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			params.add(idSubevent != null ? idSubevent : 0);
 			params.add(idSubevent2 != null ? idSubevent2 : 0);
 			params.add("0");
+			params.add(0);
 			params.add("");
 			Event ev = (Event) DatabaseManager.loadEntity(Event.class, new Integer(String.valueOf(t.length > 4 ? params.get(4) : (t.length > 3 ? params.get(3) : params.get(2)))));
 			int type = ev.getType().getNumber();
-			Collection<ResultsBean> list = (Collection<ResultsBean>) DatabaseManager.callFunction("GetResults", params, ResultsBean.class);
+			Collection<ResultsBean> list = (Collection<ResultsBean>) DatabaseManager.callFunction("get_results", params, ResultsBean.class);
 			Vector<Vector<Object>> v = new Vector<Vector<Object>>();
 			for (ResultsBean rb : list) {
 				Vector<Object> v_ = new Vector<>();

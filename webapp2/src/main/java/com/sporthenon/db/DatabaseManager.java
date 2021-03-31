@@ -232,7 +232,14 @@ public class DatabaseManager {
 		try {
 			final String table = (String) class_.getField("table").get(null);
 			final String key = (String) class_.getField("key").get(null);
-			final String sql = "SELECT * from " + table + " WHERE " + key + " = ?";
+			String sql = null;
+			try {
+				sql = (String) class_.getField("query").get(null);
+			}
+			catch (NoSuchFieldException e) {
+				sql = "SELECT * from " + table + " T";
+			}
+			sql += " WHERE T." + key + " = ?";
 			List<?> results = (List<?>) executeSelect(sql, Arrays.asList(id), class_);
 			if (results != null && !results.isEmpty()) {
 				result = results.get(0);
@@ -342,7 +349,7 @@ public class DatabaseManager {
 	
 	public static void saveExternalLinks(String alias, Integer id, String s) {
 		try {
-			executeUpdate("DELETE FROM _external_link WHERE ENTITY='" + alias + "' AND ID_ITEM=" + id);
+			executeUpdate("DELETE FROM _external_link WHERE entity = '" + alias + "' AND id_item = " + id);
 			if (StringUtils.notEmpty(s) && !s.equals("null")) {
 				for (String s_ : s.split("\\s")) {
 					if (StringUtils.notEmpty(s_)) {
