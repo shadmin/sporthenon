@@ -803,15 +803,15 @@ function getLastUpdates(row, p, sp) {
 function getRandomEvent() {
 	new Ajax.Updater($('randomeventvalue'), '/IndexServlet?randomevent&t=' + currentTime());
 }
-var cindex = 3;
-var cmax = 3;
+var cindex = 0;
+var cmax = 1;
 var cdata = [];
 var clabel = [];
 var ccolor = [['Gradient(#f8cb98:#f88f18)'], ['Gradient(#f8cb98:#f88f18)'], ['Gradient(#94cff5:#179ef5)', 'Gradient(#f8cb98:#f88f18)', 'red', 'blue']];
 function loadReport(cdata_, clabel_, ccolor_) {
 	$('chart').update('<canvas id="cvs" width="720" height="400"></canvas>');
 	if (cindex == 0 || cindex == 1) {
-		var bar = new RGraph.HBar('cvs', cdata_)
+		new RGraph.HBar('cvs', cdata_)
 		.Set('gutter.top', 0)
 		.Set('gutter.left', 120)
 		.Set('labels', clabel_)
@@ -822,7 +822,7 @@ function loadReport(cdata_, clabel_, ccolor_) {
 		.Draw();
 	}
 	else if (cindex == 2) {
-		var pie = new RGraph.Pie('cvs', cdata_)
+		new RGraph.Pie('cvs', cdata_)
 		.Set('labels', clabel_)
 		.Set('text.font', 'Verdana')
 		.Set('text.size', 8)
@@ -834,7 +834,7 @@ function loadReport(cdata_, clabel_, ccolor_) {
 		.Draw();
 	}
 	else if (cindex == 3) {
-		var line = new RGraph.Line('cvs', cdata_)
+		new RGraph.Line('cvs', cdata_)
 		.Set('labels', clabel_)
 		.Set('text.font', 'Verdana')
 		.Set('text.size', 8)
@@ -2953,7 +2953,7 @@ function deletePicture() {
 			onSuccess: function(response){
 				loadPictures('direct');
 			}
-		});	
+		});
 	}
 }
 function loadPicture() {

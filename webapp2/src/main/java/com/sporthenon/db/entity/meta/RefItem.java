@@ -79,6 +79,71 @@ public class RefItem extends AbstractEntity {
 	public RefItem() {}
 	
 	public void setValuesFromMap(Map<String, Object> mapValues) {
+		setId((Integer)mapValues.get("id"));
+		setIdItem((Integer)mapValues.get("id_item"));
+		setLabel((String)mapValues.get("label"));
+		setLabelEN((String)mapValues.get("label_en"));
+		setEntity((String)mapValues.get("entity"));
+		setCountRef((Integer)mapValues.get("count_ref"));
+		setIdRel1((Integer)mapValues.get("id_rel1"));
+		setIdRel2((Integer)mapValues.get("id_rel2"));
+		setIdRel3((Integer)mapValues.get("id_rel3"));
+		setIdRel4((Integer)mapValues.get("id_rel4"));
+		setIdRel5((Integer)mapValues.get("id_rel5"));
+		setIdRel6((Integer)mapValues.get("id_rel6"));
+		setIdRel7((Integer)mapValues.get("id_rel7"));
+		setIdRel8((Integer)mapValues.get("id_rel8"));
+		setIdRel9((Integer)mapValues.get("id_rel9"));
+		setIdRel10((Integer)mapValues.get("id_rel10"));
+		setIdRel11((Integer)mapValues.get("id_rel11"));
+		setIdRel12((Integer)mapValues.get("id_rel12"));
+		setIdRel13((Integer)mapValues.get("id_rel13"));
+		setIdRel14((Integer)mapValues.get("id_rel14"));
+		setIdRel15((Integer)mapValues.get("id_rel15"));
+		setIdRel16((Integer)mapValues.get("id_rel16"));
+		setIdRel17((Integer)mapValues.get("id_rel17"));
+		setIdRel18((Integer)mapValues.get("id_rel18"));
+		setLink((Integer)mapValues.get("link"));
+		setLabelRel1((String)mapValues.get("label_rel1"));
+		setLabelRel2((String)mapValues.get("label_rel2"));
+		setLabelRel3((String)mapValues.get("label_rel3"));
+		setLabelRel4((String)mapValues.get("label_rel4"));
+		setLabelRel5((String)mapValues.get("label_rel5"));
+		setLabelRel6((String)mapValues.get("label_rel6"));
+		setLabelRel7((String)mapValues.get("label_rel7"));
+		setLabelRel8((String)mapValues.get("label_rel8"));
+		setLabelRel9((String)mapValues.get("label_rel9"));
+		setLabelRel10((String)mapValues.get("label_rel10"));
+		setLabelRel11((String)mapValues.get("label_rel11"));
+		setLabelRel12((String)mapValues.get("label_rel12"));
+		setLabelRel13((String)mapValues.get("label_rel13"));
+		setLabelRel14((String)mapValues.get("label_rel14"));
+		setLabelRel15((String)mapValues.get("label_rel15"));
+		setLabelRel16((String)mapValues.get("label_rel16"));
+		setLabelRel17((String)mapValues.get("label_rel17"));
+		setLabelRel18((String)mapValues.get("label_rel18"));
+		setLabelRel19((String)mapValues.get("label_rel19"));
+		setLabelRel20((String)mapValues.get("label_rel20"));
+		setLabelRel21((String)mapValues.get("label_rel21"));
+		setLabelRel22((String)mapValues.get("label_rel22"));
+		setLabelRel23((String)mapValues.get("label_rel23"));
+		setLabelRel24((String)mapValues.get("label_rel24"));
+		setLabelRel25((String)mapValues.get("label_rel25"));
+		setTxt1((String)mapValues.get("txt1"));
+		setTxt2((String)mapValues.get("txt2"));
+		setTxt3((String)mapValues.get("txt3"));
+		setTxt4((String)mapValues.get("txt4"));
+		setTxt5((String)mapValues.get("txt5"));
+		setTxt6((String)mapValues.get("txt6"));
+		setCount1((Integer)mapValues.get("count1"));
+		setCount2((Integer)mapValues.get("count2"));
+		setCount3((Integer)mapValues.get("count3"));
+		setCount4((Integer)mapValues.get("count4"));
+		setCount5((Integer)mapValues.get("count5"));
+		setDate1((Timestamp)mapValues.get("date1"));
+		setDate2((Timestamp)mapValues.get("date2"));
+		setDate3((Timestamp)mapValues.get("date3"));
+		setComment((String)mapValues.get("comment"));
 	}
 	
 	public Integer getId() {

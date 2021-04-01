@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -54,7 +55,7 @@ public class SearchServlet extends AbstractServlet {
 				final int LIMIT = 10;
 				String value = String.valueOf(mapParams.get("value"));
 				value = "^" + value.replaceAll("'", "''").replaceAll("_", ".").replaceAll("\\*", ".*");
-				ArrayList<Object> params = new ArrayList<Object>();
+				List<Object> params = new ArrayList<Object>();
 				params.add(value);
 				params.add(".");
 				params.add((short)LIMIT);
@@ -100,7 +101,7 @@ public class SearchServlet extends AbstractServlet {
 				Boolean match = String.valueOf(mapParams.get("match")).equals("on");
 				pattern = pattern.replaceAll("'", "''").replaceAll("_", ".").replaceAll("\\*", ".*");
 				pattern = "^" + pattern;
-				ArrayList<Object> params = new ArrayList<Object>();
+				List<Object> params = new ArrayList<Object>();
 				params.add(pattern);
 				params.add(scope);
 				params.add(max);

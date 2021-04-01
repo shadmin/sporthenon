@@ -160,7 +160,7 @@ public class JUsersPanel extends JSplitPane implements ActionListener, ListSelec
 		String msg = null;
 		try {
 			if (e.getActionCommand().equals("save")) {
-				Contributor cb = (Contributor) DatabaseManager.loadEntity(Contributor.class, new Integer(jId.getText()));
+				Contributor cb = (Contributor) DatabaseManager.loadEntity(Contributor.class, Integer.valueOf(jId.getText()));
 				cb.setLogin(jLogin.getText());
 				cb.setPublicName(jName.getText());
 				cb.setEmail(jEmail.getText());

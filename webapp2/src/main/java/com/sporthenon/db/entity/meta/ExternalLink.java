@@ -25,7 +25,7 @@ public class ExternalLink extends AbstractEntity {
 			setIdItem((Integer)mapValues.get("id_item"));
 			setUrl((String)mapValues.get("url"));
 			setChecked((Boolean)mapValues.get("checked"));
-			setFlag((Character)mapValues.get("flag"));
+			setFlag(String.valueOf(mapValues.get("flag")).charAt(0));
 		}
 	}
 	

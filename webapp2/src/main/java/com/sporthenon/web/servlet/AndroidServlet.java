@@ -151,7 +151,7 @@ public class AndroidServlet extends AbstractServlet {
         	Integer se = Integer.valueOf(t.length > 4 ? t[4] : "0");
         	Integer se2 = Integer.valueOf(t.length > 5 ? t[5] : "0");
         	
-        	ArrayList<Object> params = new ArrayList<Object>();
+        	List<Object> params = new ArrayList<Object>();
 			params.add(sp);
 			params.add(cp);
 			params.add(ev);
@@ -238,7 +238,7 @@ public class AndroidServlet extends AbstractServlet {
 			}
 		
 			// Result
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add(0);
 			params.add(0);
 			params.add(0);
@@ -356,7 +356,7 @@ public class AndroidServlet extends AbstractServlet {
         	addItems(doc, root, (short)-1, picklist, null, null, null, null);
 		}
 		else if (code.equalsIgnoreCase(Calendar.alias)) {
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add(t[1]);
 			params.add(t[2]);
 			params.add(0);
@@ -391,7 +391,7 @@ public class AndroidServlet extends AbstractServlet {
 				where += " AND EV.id = " + t[4];
 			if (code.matches("SE2"))
 				where += " AND SE.id = " + t[5];
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add(where);
 			params.add("_" + lang);
 			ArrayList<PicklistItem> lPicklist = new ArrayList<PicklistItem>();
@@ -401,7 +401,7 @@ public class AndroidServlet extends AbstractServlet {
 			addItems(doc, root, code.equalsIgnoreCase(Sport.alias) ? ImageUtils.INDEX_SPORT : ImageUtils.INDEX_EVENT, lPicklist, null, null, null, null);
 		}
 		else if (code.equalsIgnoreCase(Result.alias)) {
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add(t[2]);
 			params.add(Integer.parseInt(t[3]));
 			params.add(t.length > 4 ? t[4] : "0");
@@ -411,7 +411,7 @@ public class AndroidServlet extends AbstractServlet {
 			addOlympicMedalsItems(doc, root, (Collection<OlympicMedalsBean>) DatabaseManager.callFunction("get_olympic_medals", params, OlympicMedalsBean.class), lang);
 		}
 		else if (code.equalsIgnoreCase(OlympicRanking.alias)) {
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add(t[2]);
 			params.add("0");
 			params.add("_" + lang);
@@ -480,10 +480,10 @@ public class AndroidServlet extends AbstractServlet {
 			}
 		}
 		else if (code.equalsIgnoreCase(USLeaguesServlet.TYPE_RETNUM)) {
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add(league);
 			params.add(t[2]);
-			params.add(t.length > 3 && StringUtils.notEmpty(t[3]) ? new Short(String.valueOf(t[3])) : -1);
+			params.add(t.length > 3 && StringUtils.notEmpty(t[3]) ? Short.valueOf(String.valueOf(t[3])) : -1);
 			for (RetiredNumberBean bean : (Collection<RetiredNumberBean>) DatabaseManager.callFunction("get_retired_numbers", params, RetiredNumberBean.class)) {
 				Element item = root.addElement("item");
 				item.addAttribute("team", bean.getTmLabel());
@@ -493,7 +493,7 @@ public class AndroidServlet extends AbstractServlet {
 			}
 		}
 		else if (code.equalsIgnoreCase(USLeaguesServlet.TYPE_TEAMSTADIUM)) {
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add(league);
 			params.add(t[2]);
 			params.add("_" + lang);
@@ -508,7 +508,7 @@ public class AndroidServlet extends AbstractServlet {
 			}
 		}
 		else if (code.equalsIgnoreCase(USLeaguesServlet.TYPE_STATS)) {
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add(USLeaguesServlet.HLEAGUES.get(league));
 			params.add(t[2]);
 			params.add(t[3]);
@@ -544,10 +544,10 @@ public class AndroidServlet extends AbstractServlet {
 			}
 		}
 		else if (code.equalsIgnoreCase(USLeaguesServlet.TYPE_HOF)) {
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add(league);
 			params.add(t[2]);
-			params.add(t.length > 3 && StringUtils.notEmpty(t[3]) ? new Short(String.valueOf(t[3])) : "");
+			params.add(t.length > 3 && StringUtils.notEmpty(t[3]) ? Short.valueOf(String.valueOf(t[3])) : "");
 			for (HallOfFameBean bean : (Collection<HallOfFameBean>) DatabaseManager.callFunction("get_hall_of_fame", params, HallOfFameBean.class)) {
 				Element item = root.addElement("item");
 				item.addAttribute("year", bean.getYrLabel());
@@ -557,7 +557,7 @@ public class AndroidServlet extends AbstractServlet {
 			}
 		}
 		else if (code.equalsIgnoreCase(USLeaguesServlet.TYPE_CHAMPIONSHIP)) {
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add(USLeaguesServlet.HLEAGUES.get(league));
 			params.add(t[2]);
 			params.add("_en");
@@ -574,7 +574,7 @@ public class AndroidServlet extends AbstractServlet {
 			}
 		}
 		else if (code.equalsIgnoreCase(USLeaguesServlet.TYPE_RECORD)) {
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add(USLeaguesServlet.HLEAGUES.get(league));
 			params.add(String.valueOf(t[2]).equals("1") ? "0" : "495");
 			params.add(StringUtils.notEmpty(t[3]) ? t[3] : "0");
@@ -587,7 +587,7 @@ public class AndroidServlet extends AbstractServlet {
 				String sql = "SELECT id FROM event EV "
 						+ " JOIN type TP ON TP.id_type = EV.id_type "
 						+ " WHERE TP.number <= 50 AND EV.label IN (SELECT EV2.label FROM event EV2 WHERE EV2.id IN (" + String.valueOf(t[3]) + "))";
-				ArrayList<String> lstSe = new ArrayList<String>();
+				List<String> lstSe = new ArrayList<String>();
 				for (Integer i : (List<Integer>) DatabaseManager.executeSelect(sql, Integer.class))
 					lstSe.add(String.valueOf(i));
 				params.set(2, StringUtils.join(lstSe , ","));
@@ -712,7 +712,7 @@ public class AndroidServlet extends AbstractServlet {
 			}
 			// Win records
 			try {
-				ArrayList<Object> lParams = new ArrayList<Object>();
+				List<Object> lParams = new ArrayList<Object>();
 				lParams.add(StringUtils.join(lIds, ","));
 				lParams.add("_" + lang);
 				List<RefItem> list_ = (List<RefItem>) DatabaseManager.callFunctionSelect("win_records", lParams, RefItem.class);

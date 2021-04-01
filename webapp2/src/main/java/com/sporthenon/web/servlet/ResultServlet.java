@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -62,7 +63,7 @@ public class ResultServlet extends AbstractServlet {
 					mapParams.put("yr", t.length > 5 ? t[5] : "0");
 					isLink = true;
 				}
-				ArrayList<Object> params = new ArrayList<Object>();
+				List<Object> params = new ArrayList<Object>();
 				params.add(StringUtils.notEmpty(mapParams.get("sp")) ? Integer.valueOf(String.valueOf(mapParams.get("sp"))) : 0);
 				params.add(StringUtils.notEmpty(mapParams.get("cp")) ? Integer.valueOf(String.valueOf(mapParams.get("cp"))) : 0);
 				params.add(StringUtils.notEmpty(mapParams.get("ev")) ? Integer.valueOf(String.valueOf(mapParams.get("ev"))) : 0);

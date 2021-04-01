@@ -108,14 +108,18 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			DefaultMutableTreeNode level3Node = null;
 			DefaultMutableTreeNode level4Node = null;
 			DefaultMutableTreeNode level5Node = null;
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<>();
 			params.add(new String(""));
 			params.add(new String(""));
 			Collection<TreeItem> coll = (Collection<TreeItem>) DatabaseManager.callFunctionSelect("tree_results", params, TreeItem.class);
-			treeItems = new ArrayList<PicklistItem>();
+			treeItems = new ArrayList<>();
 			PicklistItem plb = null;
-			ArrayList<Object> lst = new ArrayList<Object>(coll);
-			int i, j, k, l, m;
+			List<Object> lst = new ArrayList<>(coll);
+			int i;
+			int j;
+			int k;
+			int l;
+			int m;
 			for (i = 0 ; i < lst.size() ; i++) {
 				TreeItem item = (TreeItem) lst.get(i);
 				plb = new PicklistItem(item.getIdItem(), item.getStdLabel(), item.getIdItem());
@@ -243,11 +247,11 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			Object info = node.getUserObject();
 			String param = String.valueOf(((PicklistItem)info).getParam());
 			String[] t = param.split(",");
-			idSport = new Integer(t[0]);
-			idChampionship = (t.length > 1 ? new Integer(t[1]) : null);
-			idEvent = (t.length > 2 ? new Integer(t[2]) : null);
-			idSubevent = (t.length > 3 ? new Integer(t[3]) : null);
-			idSubevent2 = (t.length > 4 ? new Integer(t[4]) : null);
+			idSport = Integer.valueOf(t[0]);
+			idChampionship = (t.length > 1 ? Integer.valueOf(t[1]) : null);
+			idEvent = (t.length > 2 ? Integer.valueOf(t[2]) : null);
+			idSubevent = (t.length > 3 ? Integer.valueOf(t[3]) : null);
+			idSubevent2 = (t.length > 4 ? Integer.valueOf(t[4]) : null);
 			if (node.isLeaf())
 				loadData(param);
 		}
@@ -286,7 +290,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 	private void loadData(String s) {
 		try {
 			String[] t = s.split(",");
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<>();
 			params.add(idSport);
 			params.add(idChampionship);
 			params.add(idEvent);
@@ -295,10 +299,10 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			params.add("0");
 			params.add(0);
 			params.add("");
-			Event ev = (Event) DatabaseManager.loadEntity(Event.class, new Integer(String.valueOf(t.length > 4 ? params.get(4) : (t.length > 3 ? params.get(3) : params.get(2)))));
+			Event ev = (Event) DatabaseManager.loadEntity(Event.class, Integer.valueOf(String.valueOf(t.length > 4 ? params.get(4) : (t.length > 3 ? params.get(3) : params.get(2)))));
 			int type = ev.getType().getNumber();
 			Collection<ResultsBean> list = (Collection<ResultsBean>) DatabaseManager.callFunction("get_results", params, ResultsBean.class);
-			Vector<Vector<Object>> v = new Vector<Vector<Object>>();
+			Vector<Vector<Object>> v = new Vector<>();
 			for (ResultsBean rb : list) {
 				Vector<Object> v_ = new Vector<>();
 				v_.add(rb.getRsId());
@@ -311,18 +315,20 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				v_.add((rb.getCx2Id() != null ? rb.getCx2Label() + " [" : "") + (rb.getCt3Id() != null ? rb.getCt3Label() + (rb.getSt3Id() != null ? ", " + rb.getSt3Code() : "") + ", " + rb.getCn3Code() : (rb.getCt4Id() != null ? rb.getCt4Label() + (rb.getSt4Id() != null ? ", " + rb.getSt4Code() : "") + ", " + rb.getCn4Code() : "")) + (rb.getCx2Id() != null ? "]" : ""));
 				v.add(v_);
 			}
-			Vector<String> cols = new Vector<String>();
+			Vector<String> cols = new Vector<>();
 			cols.add("ID");cols.add("Year");
 			cols.add("1st");cols.add("2nd");cols.add("3rd");cols.add("4th");cols.add("5th");
 			cols.add("6th");cols.add("7th");cols.add("8th");cols.add("9th");cols.add("10th");
 			cols.add("Date #1");cols.add("Date #2");cols.add("Place #1");cols.add("Place #2");
 			jResultTable = new JTable(v, cols) {
 				private static final long serialVersionUID = 1L;
+				@Override
 				public boolean isCellEditable(int row, int column) {
 					return false;
 				}
 			};
 			jResultTable.addMouseListener(new MouseAdapter() {
+				@Override
 				public void mousePressed(MouseEvent e) {
 					if (e.getClickCount() == 2)
 						actionPerformed(new ActionEvent(jEditButton, 0, "edit-result"));
@@ -441,14 +447,14 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				JEditResultDialog rd = JMainFrame.getResultDialog();
 				rd.clear();
 				if (isAdd) {
-					Event ev = (Event)DatabaseManager.loadEntity(Event.class, new Integer(idEvent));
-					Event se = (Event)(idSubevent != null ? DatabaseManager.loadEntity(Event.class, new Integer(idSubevent)) : null);
-					Event se2 = (Event)(idSubevent2 != null ? DatabaseManager.loadEntity(Event.class, new Integer(idSubevent2)) : null);
+					Event ev = (Event)DatabaseManager.loadEntity(Event.class, Integer.valueOf(idEvent));
+					Event se = (Event)(idSubevent != null ? DatabaseManager.loadEntity(Event.class, Integer.valueOf(idSubevent)) : null);
+					Event se2 = (Event)(idSubevent2 != null ? DatabaseManager.loadEntity(Event.class, Integer.valueOf(idSubevent2)) : null);
 					type = (se2 != null ? se2.getType().getNumber() : (se != null ? se.getType().getNumber() : ev.getType().getNumber()));
 				}
 				else {
 					resultId = String.valueOf(jResultTable.getValueAt(jResultTable.getSelectedRow(), 0));
-					rs = (Result) DatabaseManager.loadEntity(Result.class, new Integer(resultId));
+					rs = (Result) DatabaseManager.loadEntity(Result.class, Integer.valueOf(resultId));
 					SwingUtils.selectValue(rd.getYear(), rs.getYear().getId());
 					if (rs.getComplex1() != null)
 						SwingUtils.selectValue(rd.getComplex1(), rs.getComplex1().getId());
@@ -480,7 +486,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 						res[i].setText(StringUtils.notEmpty(res_) ? String.valueOf(res_) : null);
 					}
 				}
-				rd.open(this, resultId != null ? new Integer(resultId) : null, null, isAdd ? JEditResultDialog.NEW : (isCopy ? JEditResultDialog.COPY : JEditResultDialog.EDIT), type);
+				rd.open(this, resultId != null ? Integer.valueOf(resultId) : null, null, isAdd ? JEditResultDialog.NEW : (isCopy ? JEditResultDialog.COPY : JEditResultDialog.EDIT), type);
 			}
 			else if (e.getActionCommand().equals("addmultiple-result"))
 				JMainFrame.getAddMultipleDialog().open(this);

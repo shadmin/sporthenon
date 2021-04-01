@@ -317,7 +317,7 @@ public class JMainFrame extends JFrame {
 
 	public static PicklistItem saveEntity(String alias, Integer id) throws Exception {
 		Class<? extends AbstractEntity> c = DatabaseManager.getClassFromAlias(alias);
-		Object o = (id != null ? DatabaseManager.loadEntity(c, id) : c.newInstance());
+		Object o = (id != null ? DatabaseManager.loadEntity(c, id) : c.getConstructor().newInstance());
 		PicklistItem plb = new PicklistItem();
 		if (alias.equalsIgnoreCase(Athlete.alias)) {
 			JAthletePanel p = (JAthletePanel) jEntityPanels.get(alias);

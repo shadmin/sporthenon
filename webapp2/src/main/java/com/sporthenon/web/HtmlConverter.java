@@ -208,7 +208,7 @@ public class HtmlConverter {
 	}
 	
 	public static StringBuffer getHeader(HttpServletRequest request, short type, Collection<Object> params, Contributor cb, String lang) throws Exception {
-		ArrayList<Object> lstParams = new ArrayList<Object>(params);
+		List<Object> lstParams = new ArrayList<Object>(params);
 		HashMap<String, String> hHeader = new HashMap<String, String>();
 		hHeader.put("info", "#INFO#");
 		Integer spid = null;
@@ -418,7 +418,7 @@ public class HtmlConverter {
 	}
 
 	private static Map<Integer, List<StringBuffer>> getPersonLists(String results, String lang) throws Exception {
-		ArrayList<Object> params = new ArrayList<Object>();
+		List<Object> params = new ArrayList<Object>();
 		params.add(results);
 		List<PersonListBean> list = (List<PersonListBean>) DatabaseManager.callFunction("get_person_list", params, PersonListBean.class);
 		Map<Integer, List<StringBuffer>> m = new HashMap<Integer, List<StringBuffer>>();
@@ -456,7 +456,7 @@ public class HtmlConverter {
 	
 	private static StringBuffer getWinRecords(String results, String lang) throws Exception {
 		final int MAX_WINREC = 10;
-		ArrayList<Object> params = new ArrayList<Object>();
+		List<Object> params = new ArrayList<Object>();
 		params.add(results);
 		params.add("_" + lang);
 		Collection<RefItem> list = (Collection<RefItem>) DatabaseManager.callFunctionSelect("win_records", params, RefItem.class);
@@ -577,7 +577,7 @@ public class HtmlConverter {
 			if (StringUtils.notEmpty(tm))
 				hInfo.put(vTm.size() > 1 ? "teams" : "team", tm);
 			// Record
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add("PR");
 			params.add(e.getSport().getId());
 			params.add(lId.toString().replaceAll("\\[|\\]", "").replaceAll("\\,\\s", "-"));
@@ -780,7 +780,7 @@ public class HtmlConverter {
 			}
 			hInfo.put("otherflags", sbOtherFlags.toString());
 			// Record
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add("CN");
 			params.add(0);
 			params.add(String.valueOf(e.getId()));
@@ -906,7 +906,7 @@ public class HtmlConverter {
 			// Result
 			int type_ = -1;
 			final int MAX_RANKS = 20;
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add(0);
 			params.add(0);
 			params.add(0);
@@ -1000,7 +1000,7 @@ public class HtmlConverter {
 			if (l != null && l.size() > 1) {
 				sbOtherEvents.append("<span>" + r.getYear().getLabel() + "</span><hr/>");
 				int n = 0;
-				ArrayList<String> le = new ArrayList<String>();
+				List<String> le = new ArrayList<String>();
 				for (Object[] t : l) {
 					Integer id_ = (Integer) t[0];
 					String event = String.valueOf(t[2]);
@@ -1033,7 +1033,7 @@ public class HtmlConverter {
 				String path = r.getSport().getLabel() + "/" + r.getChampionship().getLabel() + "/" + r.getEvent().getLabel() + (r.getSubevent() != null ? "/" + r.getSubevent().getLabel() : "") + (r.getSubevent2() != null ? "/" + r.getSubevent2().getLabel() : "");
 				StringBuffer sbOtherYears = new StringBuffer();
 				int n = 0;
-				ArrayList<String> ly = new ArrayList<String>();
+				List<String> ly = new ArrayList<String>();
 				for (Object[] t : l) {
 					Integer id_ = (Integer) t[0];
 					String label = String.valueOf(t[1]);
@@ -1216,7 +1216,7 @@ public class HtmlConverter {
 			
 			int y = Calendar.getInstance().get(Calendar.YEAR);
 			int m = Calendar.getInstance().get(Calendar.MONTH) + 1;
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add(y + (m < 10 ? "0" : "") + m + "01");
 			m++;
 			if (m > 12) {
@@ -1228,7 +1228,7 @@ public class HtmlConverter {
 			params.add("_" + lang);
 			int n = 0;
 			StringBuffer sb = new StringBuffer();
-			for (RefItem item : (Collection<RefItem>) DatabaseManager.callFunction("get_calendar_results", params, RefItem.class)) {
+			for (RefItem item : (Collection<RefItem>) DatabaseManager.callFunctionSelect("get_calendar_results", params, RefItem.class)) {
 				String event = "<a href='" + HtmlUtils.writeURL("/results", item.getIdRel2() + "-" + item.getIdRel3() + (item.getIdRel4() != null ? "-" + item.getIdRel4() : "") + (item.getIdRel5() != null ? "-" + item.getIdRel5() : "") + (item.getIdRel18() != null ? "-" + item.getIdRel18() : ""), item.getLabelRel12() + "/" + item.getLabelRel13() + (item.getIdRel4() != null ? "/" + item.getLabelRel14() : "") + (item.getIdRel5() != null ? "/" + item.getLabelRel15() : "") + (item.getIdRel18() != null ? "/" + item.getLabelRel16() : "")) + "'>" + (item.getLabelRel3() + (item.getIdRel4() != null ? " " + StringUtils.SEP1 + " " + item.getLabelRel4() : "") + (item.getIdRel5() != null ? " " + StringUtils.SEP1 + " " + item.getLabelRel5() : "") + (item.getIdRel18() != null ? " " + StringUtils.SEP1 + " " + item.getLabelRel18() : "")) + "</a>";
 				if (StringUtils.notEmpty(item.getTxt5()))
 					event += " [" + item.getTxt5() + "]";
@@ -1359,7 +1359,7 @@ public class HtmlConverter {
 			if (StringUtils.notEmpty(e.getYear1()))
 				hInfo.put("franchist", sbTmFH.toString());
 			// Record
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add("TM");
 			params.add(e.getSport().getId());
 			params.add(lId.toString().replaceAll("\\[|\\]", "").replaceAll("\\,\\s", "-"));
@@ -1417,7 +1417,7 @@ public class HtmlConverter {
 			ref = e.getRef();
 			lastUpdate = e.getMetadata().getLastUpdate();
 			StringWriter sw = new StringWriter();
-			ArrayList<Object> params = new ArrayList<Object>();
+			List<Object> params = new ArrayList<Object>();
 			params.add("YR.id=" + id);
 			params.add("_" + lang);
 			HtmlConverter.convertTreeArray(DatabaseManager.callFunctionSelect("tree_months", params, TreeItem.class), sw, false, lang);
@@ -1438,13 +1438,13 @@ public class HtmlConverter {
 		return HtmlUtils.writeInfoHeader(hInfo, lang);
 	}
 
-	public static StringBuffer getRecordRef(HttpServletRequest request, ArrayList<Object> params, Collection<?> coll, boolean isExport, Contributor m, String lang) throws Exception {
+	public static StringBuffer getRecordRef(HttpServletRequest request, List<Object> params, Collection<?> coll, boolean isExport, Contributor m, String lang) throws Exception {
 		String etype = String.valueOf(params.get(0));
 		Integer itemId = (Integer) params.get(1);
 		boolean isAllRef = (isExport || !StringUtils.notEmpty(params.get(2)));
 		final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_ref_limit"));
 		String limit = (params.size() > 3 ? String.valueOf(params.get(3)) : String.valueOf(ITEM_LIMIT));
-		Integer offset = (params.size() > 4 ? new Integer(String.valueOf(params.get(4))) : 0);
+		Integer offset = (params.size() > 4 ? Integer.valueOf(String.valueOf(params.get(4))) : 0);
 		boolean isPRTMCN = etype.matches(Athlete.alias + "|" + Team.alias + "|" + Country.alias);
 		StringBuffer html = new StringBuffer();
 
@@ -1804,7 +1804,7 @@ public class HtmlConverter {
 		boolean isMedal = String.valueOf(cp.getId()).matches(ConfigUtils.getValue("cp_medal_pattern"));
 		boolean isUSLeague = String.valueOf(cp.getId()).matches(USLeaguesServlet.CHAMPIONSHIP_NFL + "|" + USLeaguesServlet.CHAMPIONSHIP_NBA + "|" + USLeaguesServlet.CHAMPIONSHIP_NHL + "|" + USLeaguesServlet.CHAMPIONSHIP_MLB);
 		Timestamp lastUpdate = null;
-		ArrayList<String> lIds = new ArrayList<String>();
+		List<String> lIds = new ArrayList<String>();
 		Result rs = null;
 		// Evaluate columns
 		for (Object obj : coll) {
@@ -2142,7 +2142,7 @@ public class HtmlConverter {
 	
 	public static void convertTreeArray(Collection<?> coll, Writer writer, boolean encode, String lang) throws IOException {
 		writer.write("treeItems=[" + (!encode ? "['',null," : ""));
-		ArrayList<Object> lst = new ArrayList<Object>(coll);
+		List<Object> lst = new ArrayList<Object>(coll);
 		int i, j, k, l, m;
 		boolean isMonths = false;
 		String yr = null;

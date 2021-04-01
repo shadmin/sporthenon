@@ -109,7 +109,7 @@ public class DatabaseManager {
 			else {
 				Map<String, Method> mapMethods = getEntityMethods(class_);
 				Map<String, Object> mapValues = new HashMap<>();
-				Object obj = class_.newInstance();
+				Object obj = class_.getConstructor().newInstance();
 				for (int j = 1 ; j <= metadata.getColumnCount() ; j++) {
 					String col = metadata.getColumnName(j);
 					Object value = rs.getObject(j);
@@ -329,7 +329,7 @@ public class DatabaseManager {
 			try {
 				Object newId = o.getClass().getMethod("getId").invoke(o);
 				Contribution co = new Contribution();
-				co.setIdItem(new Integer(String.valueOf(newId)));
+				co.setIdItem(Integer.valueOf(String.valueOf(newId)));
 				co.setIdContributor(cb.getId());
 				co.setType(isAdd ? 'A' : 'U');
 				co.setDate(currentDate);

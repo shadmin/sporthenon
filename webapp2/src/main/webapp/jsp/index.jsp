@@ -70,7 +70,7 @@
         	List<Object> params = new ArrayList<Object>();
         	params.add(0);
         	params.add(ITEM_LIMIT);
-        	params.add(new Integer(0));
+        	params.add(Integer.valueOf(0));
         	params.add("_" + lang);
         	Collection<LastUpdateBean> coll = (Collection<LastUpdateBean>) DatabaseManager.callFunction("_last_updates", params, LastUpdateBean.class);
         	out.print(HtmlConverter.convertLastUpdates(coll, 0, ITEM_LIMIT, 0, lang));

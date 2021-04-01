@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -68,7 +69,7 @@ public class OlympicsServlet extends AbstractServlet {
 						hParams.put("cn", t.length > 2 ? t[2] : "0");
 					isLink = true;
 				}
-				ArrayList<Object> params = new ArrayList<Object>();
+				List<Object> params = new ArrayList<Object>();
 				String type = String.valueOf(hParams.get("type"));
 				StringBuffer html = null;
 				if (type.equals(TYPE_INDIVIDUAL)) {
@@ -103,7 +104,7 @@ public class OlympicsServlet extends AbstractServlet {
 			else if (hParams.containsKey("tree")) { // Tree of sports/events
 				String ol = String.valueOf(hParams.get("ol"));
 				String type = String.valueOf(hParams.get("type"));
-				ArrayList<Object> params = new ArrayList<Object>();
+				List<Object> params = new ArrayList<Object>();
 				params.add("WHERE CP.id=1 AND SP.type=" + (type.equals(TYPE_SUMMER) ? 1 : 0) + (!ol.equals("0") ? " AND OL.id IN (" + ol + ")" : ""));
 				params.add("_" + lang);
 				response.setCharacterEncoding("utf-8");

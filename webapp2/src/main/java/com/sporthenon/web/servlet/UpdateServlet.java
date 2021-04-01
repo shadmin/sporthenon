@@ -289,7 +289,7 @@ public class UpdateServlet extends AbstractServlet {
 		}
 		StringBuffer html = new StringBuffer("<ul>");
 		int n = 0;
-		ArrayList<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<String>();
 		for (Object[] t : l) {
 			if (n++ == MAX_AUTOCOMPLETE_RESULTS)
 				break;
@@ -490,7 +490,7 @@ public class UpdateServlet extends AbstractServlet {
 						isCity = true;
 					int id = 0;
 					if (StringUtils.notEmpty(params.get("pl" + i)))
-						id = new Integer(String.valueOf(params.get("pl" + i)));
+						id = Integer.valueOf(String.valueOf(params.get("pl" + i)));
 					else
 						id = ImportUtils.insertPlace(0, String.valueOf(params.get("pl" + i + "-l")), cb, null, lang);
 					if (isComplex) {
@@ -593,7 +593,7 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			// Rankings
 			for (int i = 1 ; i <= MAX_RANKS ; i++) {
-				Integer id = (StringUtils.notEmpty(params.get("rk" + i)) ? new Integer(String.valueOf(params.get("rk" + i))) : 0);
+				Integer id = (StringUtils.notEmpty(params.get("rk" + i)) ? Integer.valueOf(String.valueOf(params.get("rk" + i))) : 0);
 				o = params.get("rk" + i + "-l");
 				if (id == 0 && StringUtils.notEmpty(o)) {
 					if (hInserted.keySet().contains(o))
@@ -681,7 +681,7 @@ public class UpdateServlet extends AbstractServlet {
 							if (tpl.length > 1) {
 								int id = 0;
 								if (StringUtils.notEmpty(t_[20]))
-									id = new Integer(String.valueOf(t_[20]));
+									id = Integer.valueOf(String.valueOf(t_[20]));
 								else
 									id = ImportUtils.insertPlace(0, String.valueOf(t_[21]), cb, null, lang);
 								if (tpl.length > 2)
@@ -695,7 +695,7 @@ public class UpdateServlet extends AbstractServlet {
 							if (tpl.length > 1) {
 								int id = 0;
 								if (StringUtils.notEmpty(t_[22]))
-									id = new Integer(String.valueOf(t_[22]));
+									id = Integer.valueOf(String.valueOf(t_[22]));
 								else
 									id = ImportUtils.insertPlace(0, String.valueOf(t_[23]), cb, null, lang);
 								if (tpl.length > 2)
@@ -787,7 +787,7 @@ public class UpdateServlet extends AbstractServlet {
 	
 	private static void loadOverview(HttpServletResponse response, Map<?, ?> params, String lang, Contributor cb) throws Exception {
 		StringBuffer html = new StringBuffer();
-		ArrayList<Object> params_ = new ArrayList<Object>();
+		List<Object> params_ = new ArrayList<Object>();
 		Object pattern = params.get("pattern");
 		params_.add(params.get("entity"));
 		params_.add(StringUtils.toInt(params.get("sport")));
@@ -958,7 +958,7 @@ public class UpdateServlet extends AbstractServlet {
 			String id = String.valueOf(params.get("id"));
 			String alias = String.valueOf(params.get("alias"));
 			Class<?> c = DatabaseManager.getClassFromAlias(alias);
-			Object o = (StringUtils.notEmpty(id) ? DatabaseManager.loadEntity(c, Integer.parseInt(id)) : c.newInstance());
+			Object o = (StringUtils.notEmpty(id) ? DatabaseManager.loadEntity(c, Integer.parseInt(id)) : c.getConstructor().newInstance());
 			if (alias.equalsIgnoreCase(Athlete.alias)) {
 				Athlete en = (Athlete) o;
 				en.setSport((Sport)DatabaseManager.loadEntity(Sport.class, StringUtils.toInt(params.get("pr-sport"))));
@@ -966,7 +966,7 @@ public class UpdateServlet extends AbstractServlet {
 				en.setCountry((Country)DatabaseManager.loadEntity(Country.class, StringUtils.toInt(params.get("pr-country"))));
 				en.setLastName(String.valueOf(params.get("pr-lastname")).trim());
 				en.setFirstName(String.valueOf(params.get("pr-firstname")).trim());
-				en.setLink(StringUtils.notEmpty(params.get("pr-link")) ? new Integer(String.valueOf(params.get("pr-link"))) : null);
+				en.setLink(StringUtils.notEmpty(params.get("pr-link")) ? Integer.valueOf(String.valueOf(params.get("pr-link"))) : null);
 				if (en.getLink() != null && en.getLink() > 0) {
 					try {
 						Athlete a = (Athlete) DatabaseManager.loadEntity(Athlete.class, en.getLink());
@@ -1005,7 +1005,7 @@ public class UpdateServlet extends AbstractServlet {
 				en.setLabelFr(String.valueOf(params.get("ct-labelfr")));
 				en.setState((State)DatabaseManager.loadEntity(State.class, StringUtils.toInt(params.get("ct-state"))));
 				en.setCountry((Country)DatabaseManager.loadEntity(Country.class, StringUtils.toInt(params.get("ct-country"))));
-				en.setLink(StringUtils.notEmpty(params.get("ct-link")) ? new Integer(String.valueOf(params.get("ct-link"))) : null);
+				en.setLink(StringUtils.notEmpty(params.get("ct-link")) ? Integer.valueOf(String.valueOf(params.get("ct-link"))) : null);
 				if (en.getLink() != null && en.getLink() > 0) {
 					try {
 						City c_ = (City) DatabaseManager.loadEntity(City.class, en.getLink());
@@ -1023,7 +1023,7 @@ public class UpdateServlet extends AbstractServlet {
 				Complex en = (Complex) o;
 				en.setLabel(String.valueOf(params.get("cx-label")));
 				en.setCity((City)DatabaseManager.loadEntity(City.class, StringUtils.toInt(params.get("cx-city"))));
-				en.setLink(StringUtils.notEmpty(params.get("cx-link")) ? new Integer(String.valueOf(params.get("cx-link"))) : null);
+				en.setLink(StringUtils.notEmpty(params.get("cx-link")) ? Integer.valueOf(String.valueOf(params.get("cx-link"))) : null);
 				if (en.getLink() != null && en.getLink() > 0) {
 					try {
 						Complex c_ = (Complex) DatabaseManager.loadEntity(Complex.class, en.getLink());
@@ -1110,7 +1110,7 @@ public class UpdateServlet extends AbstractServlet {
 				en.setComment(String.valueOf(params.get("tm-comment")));
 				en.setYear1(String.valueOf(params.get("tm-year1")));
 				en.setYear2(String.valueOf(params.get("tm-year2")));
-				en.setLink(StringUtils.notEmpty(params.get("tm-link")) ? new Integer(String.valueOf(params.get("tm-link"))) : null);
+				en.setLink(StringUtils.notEmpty(params.get("tm-link")) ? Integer.valueOf(String.valueOf(params.get("tm-link"))) : null);
 				if (en.getLink() != null && en.getLink() > 0) {
 					try {
 						Team t = (Team) DatabaseManager.loadEntity(Team.class, en.getLink());
@@ -1145,19 +1145,19 @@ public class UpdateServlet extends AbstractServlet {
 				en.setType2(StringUtils.notEmpty(params.get("rc-type2")) ? String.valueOf(params.get("rc-type2")) : null);
 				en.setCity((City)DatabaseManager.loadEntity(City.class, StringUtils.toInt(params.get("rc-city"))));
 				en.setLabel(StringUtils.notEmpty(params.get("rc-label")) ? String.valueOf(params.get("rc-label")) : null);
-				en.setIdRank1(StringUtils.notEmpty(params.get("rc-rank1")) ? new Integer(String.valueOf(params.get("rc-rank1"))) : null);
+				en.setIdRank1(StringUtils.notEmpty(params.get("rc-rank1")) ? Integer.valueOf(String.valueOf(params.get("rc-rank1"))) : null);
 				en.setRecord1(StringUtils.notEmpty(params.get("rc-record1")) ? String.valueOf(params.get("rc-record1")) : null);
 				en.setDate1(StringUtils.notEmpty(params.get("rc-date1")) ? String.valueOf(params.get("rc-date1")) : null);
-				en.setIdRank2(StringUtils.notEmpty(params.get("rc-rank2")) ? new Integer(String.valueOf(params.get("rc-rank2"))) : null);
+				en.setIdRank2(StringUtils.notEmpty(params.get("rc-rank2")) ? Integer.valueOf(String.valueOf(params.get("rc-rank2"))) : null);
 				en.setRecord2(StringUtils.notEmpty(params.get("rc-record2")) ? String.valueOf(params.get("rc-record2")) : null);
 				en.setDate2(StringUtils.notEmpty(params.get("rc-date2")) ? String.valueOf(params.get("rc-date2")) : null);
-				en.setIdRank3(StringUtils.notEmpty(params.get("rc-rank3")) ? new Integer(String.valueOf(params.get("rc-rank3"))) : null);
+				en.setIdRank3(StringUtils.notEmpty(params.get("rc-rank3")) ? Integer.valueOf(String.valueOf(params.get("rc-rank3"))) : null);
 				en.setRecord3(StringUtils.notEmpty(params.get("rc-record3")) ? String.valueOf(params.get("rc-record3")) : null);
 				en.setDate3(StringUtils.notEmpty(params.get("rc-date3")) ? String.valueOf(params.get("rc-date3")) : null);
-				en.setIdRank4(StringUtils.notEmpty(params.get("rc-rank4")) ? new Integer(String.valueOf(params.get("rc-rank4"))) : null);
+				en.setIdRank4(StringUtils.notEmpty(params.get("rc-rank4")) ? Integer.valueOf(String.valueOf(params.get("rc-rank4"))) : null);
 				en.setRecord4(StringUtils.notEmpty(params.get("rc-record4")) ? String.valueOf(params.get("rc-record4")) : null);
 				en.setDate4(StringUtils.notEmpty(params.get("rc-date4")) ? String.valueOf(params.get("rc-date4")) : null);
-				en.setIdRank5(StringUtils.notEmpty(params.get("rc-rank5")) ? new Integer(String.valueOf(params.get("rc-rank5"))) : null);
+				en.setIdRank5(StringUtils.notEmpty(params.get("rc-rank5")) ? Integer.valueOf(String.valueOf(params.get("rc-rank5"))) : null);
 				en.setRecord5(StringUtils.notEmpty(params.get("rc-record5")) ? String.valueOf(params.get("rc-record5")) : null);
 				en.setDate5(StringUtils.notEmpty(params.get("rc-date5")) ? String.valueOf(params.get("rc-date5")) : null);
 				en.setCounting(StringUtils.notEmpty(params.get("rc-counting")) ? String.valueOf(params.get("rc-counting")).equals("1") : null);
@@ -1171,15 +1171,15 @@ public class UpdateServlet extends AbstractServlet {
 				en.setTeam((Team)DatabaseManager.loadEntity(Team.class, StringUtils.toInt(params.get("rn-team"))));
 				en.setPerson((Athlete)DatabaseManager.loadEntity(Athlete.class, StringUtils.toInt(params.get("rn-person"))));
 				en.setYear((Year)DatabaseManager.loadEntity(Year.class, StringUtils.toInt(params.get("rn-year"))));
-				en.setNumber(StringUtils.notEmpty(params.get("rn-number")) ? new Integer(String.valueOf(params.get("rn-number"))) : null);
+				en.setNumber(StringUtils.notEmpty(params.get("rn-number")) ? Integer.valueOf(String.valueOf(params.get("rn-number"))) : null);
 			}
 			else if (alias.equalsIgnoreCase(TeamStadium.alias)) {
 				TeamStadium en = (TeamStadium) o;
 				en.setLeague((League)DatabaseManager.loadEntity(League.class, StringUtils.toInt(params.get("ts-league"))));
 				en.setTeam((Team)DatabaseManager.loadEntity(Team.class, StringUtils.toInt(params.get("ts-team"))));
 				en.setComplex((Complex)DatabaseManager.loadEntity(Complex.class, StringUtils.toInt(params.get("ts-complex"))));
-				en.setDate1(StringUtils.notEmpty(params.get("ts-date1")) ? new Integer(String.valueOf(params.get("ts-date1"))) : null);
-				en.setDate2(StringUtils.notEmpty(params.get("ts-date2")) ? new Integer(String.valueOf(params.get("ts-date2"))) : null);
+				en.setDate1(StringUtils.notEmpty(params.get("ts-date1")) ? Integer.valueOf(String.valueOf(params.get("ts-date1"))) : null);
+				en.setDate2(StringUtils.notEmpty(params.get("ts-date2")) ? Integer.valueOf(String.valueOf(params.get("ts-date2"))) : null);
 				en.setRenamed(StringUtils.notEmpty(params.get("ts-renamed")) ? String.valueOf(params.get("ts-renamed")).equals("1") : null);
 			}
 			else if (alias.equalsIgnoreCase(WinLoss.alias)) {
@@ -1187,10 +1187,10 @@ public class UpdateServlet extends AbstractServlet {
 				en.setLeague((League)DatabaseManager.loadEntity(League.class, StringUtils.toInt(params.get("wl-league"))));
 				en.setTeam((Team)DatabaseManager.loadEntity(Team.class, StringUtils.toInt(params.get("wl-team"))));
 				en.setType(StringUtils.notEmpty(params.get("wl-type")) ? String.valueOf(params.get("wl-type")) : null);
-				en.setCountWin(StringUtils.notEmpty(params.get("wl-win")) ? new Integer(String.valueOf(params.get("wl-win"))) : null);
-				en.setCountLoss(StringUtils.notEmpty(params.get("wl-loss")) ? new Integer(String.valueOf(params.get("wl-loss"))) : null);
-				en.setCountTie(StringUtils.notEmpty(params.get("wl-tie")) ? new Integer(String.valueOf(params.get("wl-tie"))) : null);
-				en.setCountOtloss(StringUtils.notEmpty(params.get("wl-otloss")) ? new Integer(String.valueOf(params.get("wl-otloss"))) : null);
+				en.setCountWin(StringUtils.notEmpty(params.get("wl-win")) ? Integer.valueOf(String.valueOf(params.get("wl-win"))) : null);
+				en.setCountLoss(StringUtils.notEmpty(params.get("wl-loss")) ? Integer.valueOf(String.valueOf(params.get("wl-loss"))) : null);
+				en.setCountTie(StringUtils.notEmpty(params.get("wl-tie")) ? Integer.valueOf(String.valueOf(params.get("wl-tie"))) : null);
+				en.setCountOtloss(StringUtils.notEmpty(params.get("wl-otloss")) ? Integer.valueOf(String.valueOf(params.get("wl-otloss"))) : null);
 			}
 			o = DatabaseManager.saveEntity(o, cb);
 			String id_ = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
@@ -1250,7 +1250,7 @@ public class UpdateServlet extends AbstractServlet {
 	private static void executeQuery(HttpServletResponse response, Map<?, ?> params, String lang, Contributor cb) throws Exception {
 		boolean isCSV = params.containsKey("csv");
 		StringBuffer sb = new StringBuffer(!isCSV ? "<table>" : "");
-		ArrayList<String> queries = new ArrayList<String>();
+		List<String> queries = new ArrayList<String>();
 		queries.add("SELECT DISTINCT LAST_NAME || ',' || FIRST_NAME || ',' || ID_SPORT AS N, COUNT(*) AS C\r\nFROM athlete\r\nWHERE LINK IS NULL\r\nGROUP BY N\r\nORDER BY C DESC\r\nLIMIT 100");
 		queries.add("SELECT DISTINCT LABEL AS N, COUNT(*) AS C\r\nFROM city\r\nWHERE LINK IS NULL\r\nGROUP BY N\r\nORDER BY C DESC\r\nLIMIT 100");
 		queries.add("SELECT 'EV', ID, LABEL FROM event\r\nWHERE ID NOT IN (SELECT ID_EVENT FROM result WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM result WHERE ID_SUBEVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT2 FROM result WHERE ID_SUBEVENT2 IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_EVENT FROM record WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM record WHERE ID_SUBEVENT IS NOT NULL)\r\nUNION SELECT 'CP', ID, LABEL FROM championship WHERE ID NOT IN (SELECT ID_CHAMPIONSHIP FROM result WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_CHAMPIONSHIP FROM record WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nORDER BY 1, 3");
@@ -1264,7 +1264,7 @@ public class UpdateServlet extends AbstractServlet {
 		
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		String query = null;
-		Integer index = new Integer(String.valueOf(params.get("index")));
+		Integer index = Integer.valueOf(String.valueOf(params.get("index")));
 		if (index != -1) {
 			query = queries.get(index);
 			query = query.replaceAll("#YEAR#", String.valueOf(year));
@@ -2078,7 +2078,7 @@ public class UpdateServlet extends AbstractServlet {
 				where.append(" and lower(" + label_ + ") like '%" + pattern.toLowerCase() + "%'");
 			if (entity.matches(Athlete.alias + "|" + Team.alias) && !sport.equals("0"))
 				where.append(" and sport.id=" + sport);
-			Collection<Object[]> items = DatabaseManager.executeSelect("select id, " + label_ + " from " + DatabaseManager.getClassFromAlias(entity).getName() + " t " + where.toString() + " order by id desc LIMIT " + Integer.parseInt(count));
+			Collection<Object[]> items = DatabaseManager.executeSelect("select id, " + label_ + " from " + DatabaseManager.getClassFromAlias(entity).getName() + " t " + where.toString() + " ORDER BY id desc LIMIT " + Integer.parseInt(count));
 			
 			List<ExternalLink> links = (List<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link WHERE entity = ? ORDER BY entity, id_item", Arrays.asList(entity), ExternalLink.class);
 			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + "</th><th>" + ResourceUtils.getText("type", lang) + "</th><th>URL</th><th>" + ResourceUtils.getText("checked", lang) + " <input type='checkbox' onclick='checkAllLinks();'/></th></thead><tbody>");
@@ -2170,55 +2170,55 @@ public class UpdateServlet extends AbstractServlet {
 	private static void updateAutoExternalLinks(HttpServletResponse response, Map<?, ?> params, String lang, Contributor cb) throws Exception {
 		StringBuffer sbMsg = new StringBuffer();
 		try {
-//			System.getProperties().setProperty("http.proxyHost", "globalproxy-emea.pharma.aventis.com");
-//			System.getProperties().setProperty("http.proxyPort", "3129");
+//			System.getProperties().setProperty("http.proxyHost", "XXXX");
+//			System.getProperties().setProperty("http.proxyPort", "XXXX");
 			Integer count = Integer.parseInt(String.valueOf(params.get("count") != null ? params.get("count") : 100));
 			Integer idmax = Integer.parseInt(String.valueOf(params.get("idmax") != null ? params.get("idmax") : 100000));
 			String sport = String.valueOf(params.get("sport"));
 			String entity = String.valueOf(params.get("entity"));
 			StringBuffer sbUpdateSql = new StringBuffer();
-			List<String> lHql = new LinkedList<String>();
+			List<String> lSql = new LinkedList<String>();
 			if (entity.equalsIgnoreCase(Athlete.alias)) {
-				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%wikipedia%') order by id desc");
-				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%reference.com/olympics%') order by id desc");
-				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%basketball-reference%') order by id desc");
-				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%pro-football-reference%') order by id desc");
-				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%hockey-reference%') order by id desc");
-				lHql.add("from Athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Athlete.alias + "' and url like '%baseball-reference%') order by id desc");
+				lSql.add("SELECT * FROM athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' and url like '%wikipedia%') ORDER BY id desc");
+				lSql.add("SELECT * FROM athlete WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' and url like '%reference.com/olympics%') ORDER BY id desc");
+				lSql.add("SELECT * FROM athlete WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' and url like '%basketball-reference%') ORDER BY id desc");
+				lSql.add("SELECT * FROM athlete WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' and url like '%pro-football-reference%') ORDER BY id desc");
+				lSql.add("SELECT * FROM athlete WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' and url like '%hockey-reference%') ORDER BY id desc");
+				lSql.add("SELECT * FROM athlete WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' and url like '%baseball-reference%') ORDER BY id desc");
 			}
 			if (entity.equalsIgnoreCase(Championship.alias))
-				lHql.add("from Championship where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Championship.alias + "' and url like '%wikipedia%') order by id desc");
+				lSql.add("SELECT * FROM championship WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Championship.alias + "' and url like '%wikipedia%') ORDER BY id desc");
 			if (entity.equalsIgnoreCase(City.alias))
-				lHql.add("from City where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + City.alias + "' and url like '%wikipedia%') order by id desc");
+				lSql.add("SELECT * FROM city WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + City.alias + "' and url like '%wikipedia%') ORDER BY id desc");
 			if (entity.equalsIgnoreCase(Complex.alias))
-				lHql.add("from Complex where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Complex.alias + "' and url like '%wikipedia%') order by id desc");
+				lSql.add("SELECT * FROM complex WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Complex.alias + "' and url like '%wikipedia%') ORDER BY id desc");
 			if (entity.equalsIgnoreCase(Country.alias)) {
-				lHql.add("from Country where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Country.alias + "' and url like '%wikipedia%') order by id desc");
-				lHql.add("from Country where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Country.alias + "' and url like '%reference.com/olympics%') order by id desc");	
+				lSql.add("SELECT * FROM country WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Country.alias + "' and url like '%wikipedia%') ORDER BY id desc");
+				lSql.add("SELECT * FROM country WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Country.alias + "' and url like '%reference.com/olympics%') ORDER BY id desc");	
 			}
 			if (entity.equalsIgnoreCase(Event.alias))
-				lHql.add("from Event where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Event.alias + "' and url like '%wikipedia%') order by id desc");
+				lSql.add("SELECT * FROM event WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Event.alias + "' and url like '%wikipedia%') ORDER BY id desc");
 			if (entity.equalsIgnoreCase(Olympics.alias)) {
-				lHql.add("from Olympics where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Olympics.alias + "' and url like '%wikipedia%') order by id desc");
-				lHql.add("from Olympics where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Olympics.alias + "' and url like '%reference.com/olympics%') order by id desc");	
+				lSql.add("SELECT * FROM olympics WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Olympics.alias + "' and url like '%wikipedia%') ORDER BY id desc");
+				lSql.add("SELECT * FROM olympics WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Olympics.alias + "' and url like '%reference.com/olympics%') ORDER BY id desc");	
 			}
 			if (entity.equalsIgnoreCase(Sport.alias)) {
-				lHql.add("from Sport where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Sport.alias + "' and url like '%wikipedia%') order by id desc");
-				lHql.add("from Sport where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Sport.alias + "' and url like '%reference.com/olympics%') order by id desc");	
+				lSql.add("SELECT * FROM sport WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Sport.alias + "' and url like '%wikipedia%') ORDER BY id desc");
+				lSql.add("SELECT * FROM Sport WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Sport.alias + "' and url like '%reference.com/olympics%') ORDER BY id desc");	
 			}
 			if (entity.equalsIgnoreCase(State.alias))
-				lHql.add("from State where id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + State.alias + "' and url like '%wikipedia%') order by id desc");
+				lSql.add("SELECT * FROM state WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + State.alias + "' and url like '%wikipedia%') ORDER BY id desc");
 			if (entity.equalsIgnoreCase(Team.alias)) {
-				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%wikipedia%') order by id desc");
-				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%basketball-reference%') order by id desc");
-				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%pro-football-reference%') order by id desc");
-				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%hockey-reference%') order by id desc");
-				lHql.add("from Team where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id<=" + idmax + " and id not in (select idItem from ExternalLink where entity='" + Team.alias + "' and url like '%baseball-reference%') order by id desc");	
+				lSql.add("SELECT * FROM team WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Team.alias + "' and url like '%wikipedia%') ORDER BY id desc");
+				lSql.add("SELECT * FROM team WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Team.alias + "' and url like '%basketball-reference%') ORDER BY id desc");
+				lSql.add("SELECT * FROM team WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Team.alias + "' and url like '%pro-football-reference%') ORDER BY id desc");
+				lSql.add("SELECT * FROM team WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Team.alias + "' and url like '%hockey-reference%') ORDER BY id desc");
+				lSql.add("SELECT * FROM team WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Team.alias + "' and url like '%baseball-reference%') ORDER BY id desc");	
 			}
-			for (String hql : lHql) {
-				List<Object> l = DatabaseManager.executeSelect(hql + " LIMIT " + count);
+			for (String sql : lSql) {
+				List<Object> l = (List<Object>) DatabaseManager.executeSelect(sql + " LIMIT " + count, DatabaseManager.getClassFromAlias(entity));
 				for (Object o : l) {
-					sbUpdateSql.append(getExternalLink(o, hql));
+					sbUpdateSql.append(getExternalLink(o, sql));
 				}
 			}
 			DatabaseManager.executeUpdate(sbUpdateSql.toString());
@@ -2247,12 +2247,20 @@ public class UpdateServlet extends AbstractServlet {
 				sql.append(" and id_item BETWEEN " + tIds[0] + " AND " + tIds[1]);		
 			sql.append(" ORDER BY id_item");
 
-			String labels = "label, labelFR";
-			if (entity.equalsIgnoreCase(City.alias))
-				labels = "label || '<i> - ' || country.code || '</i>', labelFR";
-			else if (entity.equalsIgnoreCase(Complex.alias))
-				labels = "label || '<i> - ' || city.label || ', ' || city.country.code || '</i>'";
-			List<Object[]> items = DatabaseManager.execute("select id, " + labels + " from " + DatabaseManager.getClassFromAlias(entity).getName() + " where 1=1" + (tIds.length > 1 ? " and id between " + tIds[0] + " and " + tIds[1] : "") + (StringUtils.notEmpty(pattern) ? " and (lower(label) like '" + pattern + "%' or lower(labelFR) like '" + pattern + "%')" : "") + " order by id");
+			String sql_ = null;
+			if (entity.equalsIgnoreCase(City.alias)) {
+				sql_ = "SELECT T.id, T.label || '<i> - ' || CN.code || '</i>', T.label_fr from city T JOIN country CN ON CN.id = T.id_country ";
+			}
+			else if (entity.equalsIgnoreCase(Complex.alias)) {
+				sql_ = "SELECT T.id, T.label || '<i> - ' || CT.label || ', ' || CN.code || '</i>' from complex T JOIN city CT ON CT.id = T.id_city JOIN country CN ON CN.id = CT.id_country ";
+			}
+			else  {
+				String table = (String) DatabaseManager.getClassFromAlias(entity).getField("table").get(null);
+				sql_ = "SELECT T.id, T.label, T.label_fr " + table + " T";
+			}
+			sql_ += " WHERE 1 = 1" + (tIds.length > 1 ? " AND T.id BETWEEN " + tIds[0] + " AND " + tIds[1] : "") + 
+					(StringUtils.notEmpty(pattern) ? " and (LOWER(T.label) LIKE '" + pattern + "%' OR LOWER(T.label_fr) LIKE '" + pattern + "%')" : "") + " ORDER BY T.id";
+			List<Object[]> items = (List<Object[]>) DatabaseManager.executeSelect(sql_);
 			List<Translation> translations = (List<Translation>) DatabaseManager.executeSelect(sql.toString(), Arrays.asList(entity), Translation.class);
 			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + " (EN)</th><th>" + ResourceUtils.getText("label", lang) + " (FR)</th><th>" + ResourceUtils.getText("checked", lang) + " <input type='checkbox' onclick='checkAllTranslations();'/></th></thead><tbody>");
 			for (Object[] t : items) {

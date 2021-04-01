@@ -556,7 +556,7 @@ public class ExportUtils {
 		// INFO
 		Elements tinfo = doc.getElementsByClass("info");
 		if (tinfo != null && !tinfo.isEmpty()) {
-			ArrayList<String> lTd_ = new ArrayList<String>();
+			List<String> lTd_ = new ArrayList<String>();
 			lTd_.add("--INFO--");
 			Element info = tinfo.get(0);
 			Element titleName = info.getElementById("titlename");
@@ -590,7 +590,7 @@ public class ExportUtils {
 		for (Element table : tsorts) {
 			if (table.getElementsByTag("thead").isEmpty())
 				continue;
-			ArrayList<String> lTd_ = new ArrayList<String>();
+			List<String> lTd_ = new ArrayList<String>();
 			lTd_.add("--NEW--");
 			lTd.add(lTd_);
 			Element thead = table.getElementsByTag("thead").get(0);
@@ -600,13 +600,13 @@ public class ExportUtils {
 			Element th = tr.getElementsByTag("th").get(0);
 			Elements ttext = thead.getElementsByClass("toggletext");
 			int cell = 0;
-			ArrayList<String> lTh_ = new ArrayList<String>();
+			List<String> lTh_ = new ArrayList<String>();
 			if (th != null && !ttext.isEmpty()) {
 				lTh_.add("--TTEXT--");
 				lTh_.add(ttext.text());
 			}
 			while(th != null) {
-				Integer span = (StringUtils.notEmpty(th.attr("colspan")) ? new Integer(th.attr("colspan")) : 1);
+				Integer span = (StringUtils.notEmpty(th.attr("colspan")) ? Integer.valueOf(th.attr("colspan")) : 1);
 				lTh_.add((th1 != null && th1.nextElementSibling() == null && lTh_.isEmpty() ? "#" + th1.text() + "#" : "") + th.text());
 				if (span > 1) {
 					lMerge.add(new MergedCell(row, cell, span));
@@ -629,7 +629,7 @@ public class ExportUtils {
 				Element td = tr.getElementsByTag("td").get(0);
 				cell = 0;
 				while (td != null) {
-					Integer span = (StringUtils.notEmpty(td.attr("colspan")) ? new Integer(td.attr("colspan")) : 1);
+					Integer span = (StringUtils.notEmpty(td.attr("colspan")) ? Integer.valueOf(td.attr("colspan")) : 1);
 					String title_ = td.attr("title");
 					if (StringUtils.notEmpty(title_))
 						lTd_.add(title_);
@@ -661,10 +661,10 @@ public class ExportUtils {
 		// WINREC
 		Element twinrec = doc.getElementById("winrec");
 		if (twinrec != null) {
-			ArrayList<String> lTd_ = new ArrayList<String>();
+			List<String> lTd_ = new ArrayList<String>();
 			lTd_.add("--NEW--");
 			lTd.add(lTd_);
-			ArrayList<String> lTh_ = new ArrayList<String>();
+			List<String> lTh_ = new ArrayList<String>();
 			lTh_.add("--TTEXT--");
 			lTh_.add(twinrec.getElementsByClass("toggletext").get(0).text());
 			lTh.add(lTh_);

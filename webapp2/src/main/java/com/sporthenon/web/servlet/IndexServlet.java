@@ -67,10 +67,10 @@ private static final long serialVersionUID = 1L;
 			else if (hParams.containsKey("lastupdates")) { // Last Updates
 				final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_lastupdates_limit"));
 				boolean isFull = !hParams.containsKey("p");
-				Integer sport = new Integer(String.valueOf(hParams.get("sport")));
-				Integer count = (isFull ? ITEM_LIMIT : new Integer(String.valueOf(hParams.get("count"))));
-		        Integer offset = (isFull ? 0 : new Integer(String.valueOf(hParams.get("offset"))));
-		    	ArrayList<Object> params = new ArrayList<Object>();
+				Integer sport = Integer.valueOf(String.valueOf(hParams.get("sport")));
+				Integer count = (isFull ? ITEM_LIMIT : Integer.valueOf(String.valueOf(hParams.get("count"))));
+		        Integer offset = (isFull ? 0 : Integer.valueOf(String.valueOf(hParams.get("offset"))));
+		    	List<Object> params = new ArrayList<Object>();
 		    	params.add(sport);
 		    	params.add(count);
 		    	params.add(offset);
@@ -81,7 +81,7 @@ private static final long serialVersionUID = 1L;
 				ServletHelper.writeText(response, getRandomEvent(lang));
 			}
 			else if (hParams.containsKey("report")) { // Report
-				ArrayList<String> lReport = new ArrayList<String>();
+				List<String> lReport = new ArrayList<String>();
 				lReport.add(REPORT_QUERY1);
 				lReport.add(REPORT_QUERY2);
 				int index = Integer.parseInt(String.valueOf(hParams.get("report")));

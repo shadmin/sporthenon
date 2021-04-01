@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,7 +51,7 @@ private static final long serialVersionUID = 1L;
 					hParams.put("sp", t.length > 2 ? t[2] : "");
 					isLink = true;
 				}
-				ArrayList<Object> lFuncParams = new ArrayList<Object>();
+				List<Object> lFuncParams = new ArrayList<Object>();
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("dt1")) ? String.valueOf(hParams.get("dt1")) : "18500101");
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("dt2")) ? String.valueOf(hParams.get("dt2")) : "21001231");
 				lFuncParams.add(StringUtils.notEmpty(hParams.get("sp")) ? StringUtils.toInt(hParams.get("sp")) : 0);

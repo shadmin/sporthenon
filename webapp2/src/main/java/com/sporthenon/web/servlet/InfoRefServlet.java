@@ -3,6 +3,7 @@ package com.sporthenon.web.servlet;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 
 import javax.servlet.ServletException;
@@ -49,7 +50,7 @@ public class InfoRefServlet extends AbstractServlet {
 			if (isResultX) {
 				String p = "";
 				if (params.length == 2) {
-					Result rs = (Result) DatabaseManager.loadEntity(Result.class, new Integer(params[1]));
+					Result rs = (Result) DatabaseManager.loadEntity(Result.class, Integer.valueOf(params[1]));
 					p = rs.getSport().getId() + "-" + rs.getChampionship().getId() + "-" + rs.getEvent().getId() + "-" + (rs.getSubevent() != null ? rs.getSubevent().getId() : "") + "-" + (rs.getSubevent2() != null ? rs.getSubevent2().getId() : "") + "-0";
 				}
 				else
@@ -57,15 +58,15 @@ public class InfoRefServlet extends AbstractServlet {
 				redirect(request, response, "/results/" + StringUtils.encode(p), false);
 			}
 			else {
-				int id = (params.length > 1 ? new Integer(params[1]) : 0);
+				int id = (params.length > 1 ? Integer.valueOf(params[1]) : 0);
 				if (id == 0)
 					throw new EmptyIdException();
-				ArrayList<Object> params_ = new ArrayList<Object>();
+				List<Object> params_ = new ArrayList<Object>();
 				params_.add(params[0]);
 				params_.add(id);
 				params_.add(params.length > 2 ? params[2] : "");
 				params_.add(params.length > 3 ? params[3] : ConfigUtils.getValue("default_ref_limit"));
-				params_.add(params.length > 4 ? new Integer(params[4]) : 0);
+				params_.add(params.length > 4 ? Integer.valueOf(params[4]) : 0);
 				params_.add("_" + lang);
 				if (isExport) {
 					params_.set(3, "1000");
@@ -75,8 +76,9 @@ public class InfoRefServlet extends AbstractServlet {
 				// Info
 				if (params.length == 2 || isResult1) {
 					StringBuffer ri = HtmlConverter.getRecordInfo(request, params[0], id, lang);
-					if (ri == null)
+					if (ri == null) {
 						throw new RemovedEntityException("Entity removed: " + params[0] + "-" + id);
+					}
 					params_.add(ri.substring(0, ri.indexOf("</span>")).replaceFirst(".*title'\\>", ""));
 					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_REF, params_, getUser(request), lang));
 					html.append(ri);
@@ -84,8 +86,9 @@ public class InfoRefServlet extends AbstractServlet {
 				}
 
 				// References
-				if (!isResult1)
-					html.append(HtmlConverter.getRecordRef(request, params_, DatabaseManager.callFunction("_entity_ref", params_, RefItem.class), isExport, getUser(request), lang));
+				if (!isResult1) {
+					html.append(HtmlConverter.getRecordRef(request, params_, DatabaseManager.callFunctionSelect("entity_ref", params_, RefItem.class), isExport, getUser(request), lang));
+				}
 
 				if (isLink) {
 					HtmlUtils.setHeadInfo(request, html.toString());

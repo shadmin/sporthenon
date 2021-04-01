@@ -25,7 +25,7 @@ import com.sporthenon.web.ServletHelper;
 @WebServlet(
     name = "NavigationServlet",
     urlPatterns = {"/index", "/results/*", "/calendar/*", "/olympics/*", "/usleagues/*", "/search/*", "/project/*", "/contribute/*", "/login/*", "/update/*", "/android/*",
-    		"/athlete/*", "/championship/*", "/city/*", "/complex/*", "/contributor/*", "/country/*", "/entity/*", "/event/*", "/olympicgames/*", "/sport/*", "/usstate/*", "/team/*", "/year/*",
+    		"/athlete/*", "/championship/*", "/city/*", "/complex/*", "/contributor/*", "/country/*", "/entity/*", "/event/*", "/olympicgames/*", "/result/*", "/sport/*", "/usstate/*", "/team/*", "/year/*",
     		"/fr/*", "/en/*"}
 )
 public class NavigationServlet extends AbstractServlet {
@@ -116,18 +116,20 @@ public class NavigationServlet extends AbstractServlet {
 			String ua = request.getHeader("user-agent");
 			boolean isTestProd = ConfigUtils.getProperty("env").matches("test|prod");
 			boolean isUserSession = (request.getSession() != null && request.getSession().getAttribute("user") != null);
-			if (url.matches(".*(\\/null)$"))
+			if (url.matches(".*(\\/null)$")) {
 				throw new NullParameterException();
-			if (url.matches(".*\\/(athletes|championships|cities|complexes|countries|events|sports|usstates|teams|years)\\/.*"))
+			}
+			if (url.matches(".*\\/(athletes|championships|cities|complexes|countries|events|sports|usstates|teams|years)\\/.*")) {
 				throw new OldPatternException();
+			}
 			String sql = "SELECT * FROM _redirection WHERE previous_path = ? ORDER BY id DESC";
 			Redirection re = (Redirection) DatabaseManager.loadEntity(sql, Arrays.asList(URLDecoder.decode(request.getRequestURI(), "UTF-8").replaceAll("'", "''")), Redirection.class);
 			if (re != null) {
 				newURI = re.getCurrentPath();
 				throw new ObsoleteURLException();
 			}
-			if (!isBot(request) && !url.contains("/ajax") && !url.contains("/load") && !url.contains("/check-progress-import"))
-				log.log(Level.WARNING, "[" + ua + "] " + url);
+//			if (!isBot(request) && !url.contains("/ajax") && !url.contains("/load") && !url.contains("/check-progress-import"))
+//				log.log(Level.WARNING, "[" + ua + "] " + url);
 			if (ConfigUtils.getProperty("env").matches("local|test")) {
 				Enumeration<String> hn = request.getHeaderNames();
 				while (hn.hasMoreElements()) {
