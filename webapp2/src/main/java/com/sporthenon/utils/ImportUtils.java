@@ -855,7 +855,7 @@ public class ImportUtils {
 			if (o != null) {
 				if (sb != null)
 					sb.append("Row " + (row + 1) + ": " + msg + " | " + o).append("<br/>");
-				id = Integer.valueOf(String.valueOf(o.getClass().getMethod("getId").invoke(o)));
+				id = StringUtils.toInt(o.getClass().getMethod("getId").invoke(o));
 			}
 		}
 		return id;
@@ -959,7 +959,7 @@ public class ImportUtils {
 			if (o != null) {
 				if (sb != null)
 					sb.append("Row " + (row + 1) + ": " + msg + " | " + o).append("<br/>");
-				id = Integer.valueOf(String.valueOf(o.getClass().getMethod("getId").invoke(o)));
+				id = StringUtils.toInt(o.getClass().getMethod("getId").invoke(o));
 			}
 		}
 		return id;
@@ -1047,7 +1047,7 @@ public class ImportUtils {
 			if (o != null) {
 				if (sb != null)
 					sb.append("Row " + (row + 1) + ": " + msg + " | " + o).append("<br/>");
-				id = Integer.valueOf(String.valueOf(o.getClass().getMethod("getId").invoke(o)));
+				id = StringUtils.toInt(o.getClass().getMethod("getId").invoke(o));
 			}
 		}
 		return id;

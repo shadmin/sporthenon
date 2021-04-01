@@ -64,11 +64,11 @@ public class ResultServlet extends AbstractServlet {
 					isLink = true;
 				}
 				List<Object> params = new ArrayList<Object>();
-				params.add(StringUtils.notEmpty(mapParams.get("sp")) ? Integer.valueOf(String.valueOf(mapParams.get("sp"))) : 0);
-				params.add(StringUtils.notEmpty(mapParams.get("cp")) ? Integer.valueOf(String.valueOf(mapParams.get("cp"))) : 0);
-				params.add(StringUtils.notEmpty(mapParams.get("ev")) ? Integer.valueOf(String.valueOf(mapParams.get("ev"))) : 0);
-				params.add(StringUtils.notEmpty(mapParams.get("se")) ? Integer.valueOf(String.valueOf(mapParams.get("se"))) : 0);
-				params.add(StringUtils.notEmpty(mapParams.get("se2")) ? Integer.valueOf(String.valueOf(mapParams.get("se2"))) : 0);
+				params.add(StringUtils.notEmpty(mapParams.get("sp")) ? StringUtils.toInt(mapParams.get("sp")) : 0);
+				params.add(StringUtils.notEmpty(mapParams.get("cp")) ? StringUtils.toInt(mapParams.get("cp")) : 0);
+				params.add(StringUtils.notEmpty(mapParams.get("ev")) ? StringUtils.toInt(mapParams.get("ev")) : 0);
+				params.add(StringUtils.notEmpty(mapParams.get("se")) ? StringUtils.toInt(mapParams.get("se")) : 0);
+				params.add(StringUtils.notEmpty(mapParams.get("se2")) ? StringUtils.toInt(mapParams.get("se2")) : 0);
 				params.add(StringUtils.notEmpty(mapParams.get("yr")) ? String.valueOf(mapParams.get("yr")) : "0");
 				params.add(0);
 				params.add("_" + lang);
@@ -84,8 +84,8 @@ public class ResultServlet extends AbstractServlet {
 					}
 				}
 				if (!isRedirect) {
-					Championship oCp = (Championship) DatabaseManager.loadEntity(Championship.class, Integer.valueOf(String.valueOf(params.get(1))));
-					Event oEv = (Event) DatabaseManager.loadEntity(Event.class, Integer.valueOf(!String.valueOf(params.get(4)).equals("0") ? String.valueOf(params.get(4)) : (!String.valueOf(params.get(3)).equals("0") ? String.valueOf(params.get(3)) : String.valueOf(params.get(2)))));
+					Championship oCp = (Championship) DatabaseManager.loadEntity(Championship.class, params.get(1));
+					Event oEv = (Event) DatabaseManager.loadEntity(Event.class, !String.valueOf(params.get(4)).equals("0") ? String.valueOf(params.get(4)) : (!String.valueOf(params.get(3)).equals("0") ? String.valueOf(params.get(3)) : String.valueOf(params.get(2))));
 					StringBuffer html = new StringBuffer();
 					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_RESULTS, params, getUser(request), lang));
 					html.append(HtmlConverter.convertResults(request, c, oCp, oEv, getUser(request), lang));

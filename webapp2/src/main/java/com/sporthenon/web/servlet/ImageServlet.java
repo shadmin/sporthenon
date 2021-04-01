@@ -209,7 +209,7 @@ public class ImageServlet extends AbstractServlet {
 			else if (hParams.containsKey("url")) {
 				String id = String.valueOf(hParams.get("id"));
 				String size = String.valueOf(hParams.get("size"));
-				String s = HtmlUtils.writeImage(ImageUtils.getIndex(entity), Integer.valueOf(id), size.charAt(0), null, null);
+				String s = HtmlUtils.writeImage(ImageUtils.getIndex(entity), StringUtils.toInt(id), size.charAt(0), null, null);
 				ServletHelper.writeText(response, s.replaceAll(".*src\\=\\'", "").replaceAll("\\'\\/\\>", ""));
 			}
 			else if (hParams.containsKey("list")) {

@@ -16,9 +16,12 @@ public class WinLoss extends AbstractEntity {
 	private Integer countTie;
 	private Integer countOtloss;
 	
-	public static final transient String alias = "WL";
-	public static final transient String table = "win_loss";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "WL";
+	public static final transient String table 	= "win_loss";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT T.*, LG.label AS lg_label, TM.label AS tm_label "
+			+ " FROM win_loss T JOIN league LG ON LG.id = T.id_league "
+			+ " JOIN team TM ON TM.id = T.id_team";
 	
 	public WinLoss() {}
 	
@@ -31,11 +34,13 @@ public class WinLoss extends AbstractEntity {
 			setId((Integer)mapValues.get("id"));
 			Integer idLeague = (Integer)mapValues.get("id_league");
 			if (idLeague != null) {
-				setLeague(new League(idLeague));	
+				setLeague(new League(idLeague));
+				getLeague().setLabel((String)mapValues.get("lg_label"));
 			}
 			Integer idTeam = (Integer)mapValues.get("id_team");
 			if (idTeam != null) {
-				setTeam(new Team(idTeam));	
+				setTeam(new Team(idTeam));
+				getTeam().setLabel((String)mapValues.get("tm_label"));
 			}
 			setType((String)mapValues.get("type"));
 			setCountWin((Integer)mapValues.get("count_win"));

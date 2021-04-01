@@ -113,7 +113,6 @@ public class NavigationServlet extends AbstractServlet {
 		String url = ServletHelper.getURL(request);
 		String newURI = null;
 		try {
-			String ua = request.getHeader("user-agent");
 			boolean isTestProd = ConfigUtils.getProperty("env").matches("test|prod");
 			boolean isUserSession = (request.getSession() != null && request.getSession().getAttribute("user") != null);
 			if (url.matches(".*(\\/null)$")) {

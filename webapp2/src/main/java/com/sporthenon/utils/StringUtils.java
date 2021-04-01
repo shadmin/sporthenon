@@ -79,7 +79,7 @@ public class StringUtils {
 	}
 
 	public static Integer toInt(Object o) {
-		return (o != null && o instanceof Integer ? (Integer) o : (notEmpty(o) ? Integer.valueOf(String.valueOf(o)) : 0));
+		return (o != null && o instanceof Integer ? (Integer)o : (notEmpty(o) ? Integer.valueOf(String.valueOf(o)) : 0));
 	}
 	
 	public static String toMD5(String s) {
@@ -173,7 +173,7 @@ public class StringUtils {
 	}
 
 	public static Integer extractId(Object o) {
-		return (notEmpty(o) ? Integer.valueOf(String.valueOf(o).replaceAll(".*\\s\\[#|\\]$", "")) : 0);
+		return (notEmpty(o) ? StringUtils.toInt(String.valueOf(o).replaceAll(".*\\s\\[#|\\]$", "")) : 0);
 	}
 
 	public static final String toTree(String s) {

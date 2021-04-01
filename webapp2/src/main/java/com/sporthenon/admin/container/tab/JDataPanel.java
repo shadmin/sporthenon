@@ -289,7 +289,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			String msg = null;
 			try {
 				String id = panel.getId().getText();
-				PicklistItem plb = JMainFrame.saveEntity(alias, StringUtils.notEmpty(id) ? Integer.valueOf(id) : null);
+				PicklistItem plb = JMainFrame.saveEntity(alias, StringUtils.toInt(id));
 				msg = ResourceUtils.getText("entity." + alias.toUpperCase() + ".1", ResourceUtils.LGDEFAULT) + " #" + plb.getValue() + " successfully " + (StringUtils.notEmpty(id) ? "updated" : "created") + ".";
 				panel.setId(String.valueOf(plb.getValue()));
 				currentId = panel.getId().getText();

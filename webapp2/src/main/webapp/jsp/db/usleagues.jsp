@@ -146,7 +146,7 @@ var tRcCtA = [];
 		}
 		out.print("tTm[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.teams", "en") + " ––</option>" + sb.toString() + "';\r\n");
 		// Record (Subevent)
-		c = DatabaseManager.getPicklist("SELECT DISTINCT SE.id, SE.label, RC.type1 FROM record RC JOIN event SE ON SE.id_event = RC.id_subevent WHERE id_championship = ? ORDER BY SE.label", Arrays.asList(USLeaguesServlet.HLEAGUES.get(i)));
+		c = DatabaseManager.getPicklist("SELECT DISTINCT SE.id, SE.label, RC.type1 FROM record RC JOIN event SE ON SE.id = RC.id_subevent WHERE id_championship = ? ORDER BY SE.label", Arrays.asList(USLeaguesServlet.HLEAGUES.get(i)));
 		StringBuffer sb1 = new StringBuffer();
 		StringBuffer sb2 = new StringBuffer();
 		StringBuffer sb3 = new StringBuffer();
@@ -164,7 +164,7 @@ var tRcCtA = [];
 		// Yearly stats (year)
 		sql = "SELECT YR.id, YR.label"
 				+ " FROM year YR "
-				+ " WHERE YR.id IN (SELECT id_year FROM result RS JOIN event EV ON EV.id_event = RS.id_event WHERE id_championship = ? AND EV.label LIKE ?) "
+				+ " WHERE YR.id IN (SELECT id_year FROM result RS JOIN event EV ON EV.id = RS.id_event WHERE id_championship = ? AND EV.label LIKE ?) "
 				+ " ORDER by YR.id DESC";
 		c = DatabaseManager.getPicklist(sql, Arrays.asList(USLeaguesServlet.HLEAGUES.get(i), "%" + uslStatEvLabel + "%"));
 		sb = new StringBuffer();
@@ -174,10 +174,9 @@ var tRcCtA = [];
 		// Yearly stats (category)
 		sql = "SELECT SE2.id, SE2.label, TP.number"
 				+ " FROM event SE2 "
-				+ " JOIN type TP ON TP.id_type = SE2.id_type "
-				+ " WHERE SE2.id IN (SELECT id_subevent2 FROM result RS JOIN event EV ON EV.id_event = RS.id_event WHERE id_championship = ? AND EV.label LIKE ? ORDER BY SE2.label)"
+				+ " JOIN type TP ON TP.id = SE2.id_type "
+				+ " WHERE SE2.id IN (SELECT id_subevent2 FROM result RS JOIN event EV ON EV.id = RS.id_event WHERE id_championship = ? AND EV.label LIKE ? ORDER BY SE2.label)"
 				+ " ORDER by SE2.label DESC";
-		//"SELECT DISTINCT SE2.id, SE2.label, TP.number FROM result RS JOIN event EV ON EV.id_event = RS.id_event JOIN event SE2 ON SE2.id_event = RS.id_subevent2 JOIN type TP ON TP.id_type = SE2.id_type "
 		c = DatabaseManager.getPicklist(sql, Arrays.asList(USLeaguesServlet.HLEAGUES.get(i), "%" + uslStatEvLabel + "%"));
 		sb1 = new StringBuffer();
 		sb2 = new StringBuffer();
@@ -209,9 +208,9 @@ window.onload = function() {
 	for (Object[] tObj : l) {
 		String league = String.valueOf(tObj[0]);
 		String position = String.valueOf(tObj[1]);
-		String labelpos = StringUtils.getUSPosition(Integer.valueOf(league), position);
+		String labelpos = StringUtils.getUSPosition(StringUtils.toInt(league), position);
 		if (!position.matches(".*\\-.*")) {
-			out.print("tPos[" + league + "] = (tPos[" + league + "] ? tPos[" + league + "] + '\r\n' : '') + '" + position + "' - '" + labelpos + "'");
+			//out.print("tPos[" + league + "] = (tPos[" + league + "] ? tPos[" + league + "] + '\\r\\n' : '') + '" + position + "' - '" + labelpos + "'");
 		}
 	}
 %>

@@ -181,7 +181,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 		}
 		else if (cmd.matches("query\\d")) {
 			int year = Calendar.getInstance().get(Calendar.YEAR);
-			String query = QUERIES.get(Integer.valueOf(cmd.substring(5)));
+			String query = QUERIES.get(StringUtils.toInt(cmd.substring(5)));
 			query = query.replaceAll("#YEAR#", String.valueOf(year));
 			query = query.replaceAll("#WHERE#", (year % 4 == 0 ? "(CP.id<>1 OR SP.type<>0)" : (year % 4 == 2 ? "(CP.id<>1 OR SP.type<>1)" : "CP.id<>1")));
 			jQuery.setText(query);

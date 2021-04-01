@@ -145,11 +145,11 @@ public class AndroidServlet extends AbstractServlet {
         	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseManager.getPicklist(sql, Arrays.asList(t[1], t[2], t[3], t[4])), lInactive, t[1], t[2] + "-" + t[3] + "-" + t[4], null);
         }
         else if (code.equalsIgnoreCase(Result.alias)) {
-        	Integer sp = Integer.valueOf(t[1]);
-        	Integer cp = Integer.valueOf(t[2]);
-        	Integer ev = Integer.valueOf(t[3]);
-        	Integer se = Integer.valueOf(t.length > 4 ? t[4] : "0");
-        	Integer se2 = Integer.valueOf(t.length > 5 ? t[5] : "0");
+        	Integer sp = StringUtils.toInt(t[1]);
+        	Integer cp = StringUtils.toInt(t[2]);
+        	Integer ev = StringUtils.toInt(t[3]);
+        	Integer se = StringUtils.toInt(t.length > 4 ? t[4] : "0");
+        	Integer se2 = StringUtils.toInt(t.length > 5 ? t[5] : "0");
         	
         	List<Object> params = new ArrayList<Object>();
 			params.add(sp);

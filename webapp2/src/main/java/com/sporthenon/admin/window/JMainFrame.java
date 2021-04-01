@@ -325,7 +325,7 @@ public class JMainFrame extends JFrame {
 			en.setSport((Sport)DatabaseManager.loadEntity(Sport.class, SwingUtils.getValue(p.getSport())));
 			en.setTeam((Team)DatabaseManager.loadEntity(Team.class, SwingUtils.getValue(p.getTeam())));
 			en.setCountry((Country)DatabaseManager.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
-			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? Integer.valueOf(p.getLink().getText()) : null);
+			en.setLink(StringUtils.toInt(p.getLink().getText()));
 			en.setLastName(p.getLastName().getText());
 			en.setFirstName(p.getFirstName().getText());
 			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLastName() + ", " + en.getFirstName() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : "") + (en.getTeam() != null ? " [" + en.getTeam().getLabel() + "]" : ""));
@@ -358,7 +358,7 @@ public class JMainFrame extends JFrame {
 			en.setLabelFr(p.getLabelFR().getText());
 			en.setState((State)DatabaseManager.loadEntity(State.class, SwingUtils.getValue(p.getState())));
 			en.setCountry((Country)DatabaseManager.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
-			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? Integer.valueOf(p.getLink().getText()) : null);
+			en.setLink(StringUtils.toInt(p.getLink().getText()));
 			plb.setText(en.getLabel() + ", " + en.getCountry().getCode());
 			if (en.getLink() != null && en.getLink() > 0) {
 				try {
@@ -379,7 +379,7 @@ public class JMainFrame extends JFrame {
 			Complex en = (Complex) o;
 			en.setLabel(p.getLabel().getText());
 			en.setCity((City)DatabaseManager.loadEntity(City.class, SwingUtils.getValue(p.getCity())));
-			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? Integer.valueOf(p.getLink().getText()) : null);
+			en.setLink(StringUtils.toInt(p.getLink().getText()));
 			plb.setText(en.getLabel() + " [" + en.getCity().getLabel() + ", " + en.getCity().getCountry().getCode() + "]");
 			if (en.getLink() != null && en.getLink() > 0) {
 				try {
@@ -417,11 +417,11 @@ public class JMainFrame extends JFrame {
 			Olympics en = (Olympics) o;
 			en.setYear((Year)DatabaseManager.loadEntity(Year.class, SwingUtils.getValue(p.getYear())));
 			en.setCity((City)DatabaseManager.loadEntity(City.class, SwingUtils.getValue(p.getCity())));
-			en.setType(Integer.valueOf(p.getType().getText()));
-			en.setCountSport(Integer.valueOf(p.getSports().getText()));
-			en.setCountEvent(Integer.valueOf(p.getEvents().getText()));
-			en.setCountPerson(Integer.valueOf(p.getPersons().getText()));
-			en.setCountCountry(Integer.valueOf(p.getCountries().getText()));
+			en.setType(StringUtils.toInt(p.getType().getText()));
+			en.setCountSport(StringUtils.toInt(p.getSports().getText()));
+			en.setCountEvent(StringUtils.toInt(p.getEvents().getText()));
+			en.setCountPerson(StringUtils.toInt(p.getPersons().getText()));
+			en.setCountCountry(StringUtils.toInt(p.getCountries().getText()));
 			en.setDate1(p.getStart().getText());
 			en.setDate2(p.getEnd().getText());
 			plb.setText(en.getYear().getLabel() + " - " + en.getCity().getLabel());
@@ -431,7 +431,7 @@ public class JMainFrame extends JFrame {
 			Sport en = (Sport) o;
 			en.setLabel(p.getLabel().getText());
 			en.setLabelFr(p.getLabelFR().getText());
-			en.setType(Integer.valueOf(p.getType().getText()));
+			en.setType(StringUtils.toInt(p.getType().getText()));
 			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Double.valueOf(p.getIndex().getText()) : null);
 			plb.setText(en.getLabel());
 		}
@@ -456,7 +456,7 @@ public class JMainFrame extends JFrame {
 			en.setComment(p.getComment().getText());
 			en.setYear1(p.getYear1().getText());
 			en.setYear2(p.getYear2().getText());
-			en.setLink(StringUtils.notEmpty(p.getLink().getText()) ? Integer.valueOf(p.getLink().getText()) : null);
+			en.setLink(StringUtils.toInt(p.getLink().getText()));
 			en.setInactive(p.getInactive().isSelected());
 			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLabel() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : ""));
 			if (en.getLink() != null && en.getLink() > 0) {
@@ -492,9 +492,9 @@ public class JMainFrame extends JFrame {
 			OlympicRanking en = (OlympicRanking) o;
 			en.setOlympics((Olympics)DatabaseManager.loadEntity(Olympics.class, SwingUtils.getValue(p.getOlympics())));
 			en.setCountry((Country)DatabaseManager.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
-			en.setCountGold(Integer.valueOf(p.getGold().getText()));
-			en.setCountSilver(Integer.valueOf(p.getSilver().getText()));
-			en.setCountBronze(Integer.valueOf(p.getBronze().getText()));
+			en.setCountGold(StringUtils.toInt(p.getGold().getText()));
+			en.setCountSilver(StringUtils.toInt(p.getSilver().getText()));
+			en.setCountBronze(StringUtils.toInt(p.getBronze().getText()));
 		}
 		else if (alias.equalsIgnoreCase(Record.alias)) {
 			JRecordPanel p = (JRecordPanel) jEntityPanels.get(alias);
@@ -533,7 +533,7 @@ public class JMainFrame extends JFrame {
 			en.setTeam((Team)DatabaseManager.loadEntity(Team.class, SwingUtils.getValue(p.getTeam())));
 			en.setPerson((Athlete)DatabaseManager.loadEntity(Athlete.class, SwingUtils.getValue(p.getPerson())));
 			en.setYear((Year)DatabaseManager.loadEntity(Year.class, SwingUtils.getValue(p.getYear())));
-			en.setNumber(Integer.valueOf(p.getNumber().getText()));
+			en.setNumber(StringUtils.toInt(p.getNumber().getText()));
 		}
 		else if (alias.equalsIgnoreCase(TeamStadium.alias)) {
 			JTeamStadiumPanel p = (JTeamStadiumPanel) jEntityPanels.get(alias);
@@ -541,8 +541,8 @@ public class JMainFrame extends JFrame {
 			en.setLeague((League)DatabaseManager.loadEntity(League.class, SwingUtils.getValue(p.getLeague())));
 			en.setTeam((Team)DatabaseManager.loadEntity(Team.class, SwingUtils.getValue(p.getTeam())));
 			en.setComplex((Complex)DatabaseManager.loadEntity(Complex.class, SwingUtils.getValue(p.getComplex())));
-			en.setDate1(Integer.valueOf(p.getDate1().getText()));
-			en.setDate2(StringUtils.notEmpty(p.getDate2().getText()) ? Integer.valueOf(p.getDate2().getText()) : 0);
+			en.setDate1(StringUtils.toInt(p.getDate1().getText()));
+			en.setDate2(StringUtils.toInt(p.getDate2().getText()));
 			en.setRenamed(p.getRenamed().isSelected());
 		}
 		else if (alias.equalsIgnoreCase(WinLoss.alias)) {
@@ -551,14 +551,14 @@ public class JMainFrame extends JFrame {
 			en.setLeague((League)DatabaseManager.loadEntity(League.class, SwingUtils.getValue(p.getLeague())));
 			en.setTeam((Team)DatabaseManager.loadEntity(Team.class, SwingUtils.getValue(p.getTeam())));
 			en.setType(String.valueOf(p.getType().getSelectedItem()));
-			en.setCountWin(StringUtils.notEmpty(p.getWin().getText()) ? Integer.valueOf(p.getWin().getText()) : null);
-			en.setCountLoss(StringUtils.notEmpty(p.getLoss().getText()) ? Integer.valueOf(p.getLoss().getText()) : null);
-			en.setCountTie(StringUtils.notEmpty(p.getTie().getText()) ? Integer.valueOf(p.getTie().getText()) : null);
-			en.setCountOtloss(StringUtils.notEmpty(p.getOtLoss().getText()) ? Integer.valueOf(p.getOtLoss().getText()) : null);
+			en.setCountWin(StringUtils.toInt(p.getWin().getText()));
+			en.setCountLoss(StringUtils.toInt(p.getLoss().getText()));
+			en.setCountTie(StringUtils.toInt(p.getTie().getText()));
+			en.setCountOtloss(StringUtils.toInt(p.getOtLoss().getText()));
 		}
 		o = DatabaseManager.saveEntity(o, contributor);
 		String id_ = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
-		plb.setValue(Integer.valueOf(id_));
+		plb.setValue(StringUtils.toInt(id_));
 		JMainFrame.refreshPicklist(alias, plb);
 		return plb;
 	}

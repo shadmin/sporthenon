@@ -50,7 +50,7 @@ public class InfoRefServlet extends AbstractServlet {
 			if (isResultX) {
 				String p = "";
 				if (params.length == 2) {
-					Result rs = (Result) DatabaseManager.loadEntity(Result.class, Integer.valueOf(params[1]));
+					Result rs = (Result) DatabaseManager.loadEntity(Result.class, params[1]);
 					p = rs.getSport().getId() + "-" + rs.getChampionship().getId() + "-" + rs.getEvent().getId() + "-" + (rs.getSubevent() != null ? rs.getSubevent().getId() : "") + "-" + (rs.getSubevent2() != null ? rs.getSubevent2().getId() : "") + "-0";
 				}
 				else
@@ -58,7 +58,7 @@ public class InfoRefServlet extends AbstractServlet {
 				redirect(request, response, "/results/" + StringUtils.encode(p), false);
 			}
 			else {
-				int id = (params.length > 1 ? Integer.valueOf(params[1]) : 0);
+				int id = (params.length > 1 ? StringUtils.toInt(params[1]) : 0);
 				if (id == 0)
 					throw new EmptyIdException();
 				List<Object> params_ = new ArrayList<Object>();
@@ -66,7 +66,7 @@ public class InfoRefServlet extends AbstractServlet {
 				params_.add(id);
 				params_.add(params.length > 2 ? params[2] : "");
 				params_.add(params.length > 3 ? params[3] : ConfigUtils.getValue("default_ref_limit"));
-				params_.add(params.length > 4 ? Integer.valueOf(params[4]) : 0);
+				params_.add(params.length > 4 ? StringUtils.toInt(params[4]) : 0);
 				params_.add("_" + lang);
 				if (isExport) {
 					params_.set(3, "1000");

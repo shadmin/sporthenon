@@ -67,9 +67,9 @@ private static final long serialVersionUID = 1L;
 			else if (hParams.containsKey("lastupdates")) { // Last Updates
 				final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_lastupdates_limit"));
 				boolean isFull = !hParams.containsKey("p");
-				Integer sport = Integer.valueOf(String.valueOf(hParams.get("sport")));
-				Integer count = (isFull ? ITEM_LIMIT : Integer.valueOf(String.valueOf(hParams.get("count"))));
-		        Integer offset = (isFull ? 0 : Integer.valueOf(String.valueOf(hParams.get("offset"))));
+				Integer sport = StringUtils.toInt(hParams.get("sport"));
+				Integer count = (isFull ? ITEM_LIMIT : StringUtils.toInt(hParams.get("count")));
+		        Integer offset = (isFull ? 0 : StringUtils.toInt(hParams.get("offset")));
 		    	List<Object> params = new ArrayList<Object>();
 		    	params.add(sport);
 		    	params.add(count);

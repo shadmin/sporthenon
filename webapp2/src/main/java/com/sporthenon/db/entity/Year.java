@@ -11,9 +11,9 @@ public class Year extends AbstractEntity {
 	private String label;
 	private Integer ref;
 	
-	public static final transient String alias = "YR";
-	public static final transient String table = "year";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "YR";
+	public static final transient String table 	= "year";
+	public static final transient String key 	= "id";
 	
 	public Year() {}
 	

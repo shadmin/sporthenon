@@ -116,7 +116,7 @@ public class USLeaguesServlet extends AbstractServlet {
 					isLink = true;
 				}
 				List<Object> params = new ArrayList<Object>();
-				params.add(Integer.valueOf(league));
+				params.add(StringUtils.toInt(league));
 				String type = String.valueOf(mapParams.get("type"));
 				String teams = StringUtils.notEmpty(mapParams.get("tm")) ? String.valueOf(mapParams.get("tm")) : "0";
 				String years = StringUtils.notEmpty(mapParams.get("yr")) ? String.valueOf(mapParams.get("yr")) : "0";

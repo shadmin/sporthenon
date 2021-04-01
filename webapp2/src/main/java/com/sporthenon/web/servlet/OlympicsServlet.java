@@ -74,7 +74,7 @@ public class OlympicsServlet extends AbstractServlet {
 				StringBuffer html = null;
 				if (type.equals(TYPE_INDIVIDUAL)) {
 					params.add(StringUtils.notEmpty(hParams.get("ol")) ? String.valueOf(hParams.get("ol")) : "0");
-					params.add(StringUtils.notEmpty(hParams.get("sp")) ? Integer.valueOf(String.valueOf(hParams.get("sp"))) : 0);
+					params.add(StringUtils.notEmpty(hParams.get("sp")) ? StringUtils.toInt(hParams.get("sp")) : 0);
 					params.add(StringUtils.notEmpty(hParams.get("ev")) ? String.valueOf(hParams.get("ev")) : "0");
 					params.add(StringUtils.notEmpty(hParams.get("se")) ? String.valueOf(hParams.get("se")) : "0");
 					params.add(StringUtils.notEmpty(hParams.get("se2")) ? String.valueOf(hParams.get("se2")) : "0");

@@ -206,7 +206,7 @@ public class HtmlUtils {
 	public static StringBuffer writeInfoHeader(LinkedHashMap<String, String> h, String lang) {
 		StringBuffer html = new StringBuffer();
 		String title = h.get("title");
-		Integer width = (h.containsKey("width") ? Integer.valueOf(h.get("width")) : 0);
+		Integer width = (h.containsKey("width") ? StringUtils.toInt(h.get("width")) : 0);
 		html.append("<span class='title'>" + title.replaceAll(".{6}\\[.+#.*\\]$", "") + "</span>");
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");

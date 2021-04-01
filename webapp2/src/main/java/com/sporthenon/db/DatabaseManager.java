@@ -142,7 +142,7 @@ public class DatabaseManager {
 		return results;
 	}
 	
-	public static Collection<?> callFunction(final String functionName, Collection<Object> params, Class<?> class_) {
+	public static Collection<?> callFunction(final String functionName, Collection<?> params, Class<?> class_) {
  		List<Object> results = new ArrayList<>();
 		try (Connection conn = pool.getConnection()) {
  			conn.setAutoCommit(false);
@@ -164,7 +164,7 @@ public class DatabaseManager {
  		return results;
 	}
 	
-	public static Collection<?> callFunctionSelect(final String functionName, Collection<Object> params, Class<?> class_, Object... options) {
+	public static Collection<?> callFunctionSelect(final String functionName, Collection<?> params, Class<?> class_, Object... options) {
 		final String sql = "SELECT * FROM " + functionName
 				+ (params != null ? "(" + StringUtils.repeat("?", params.size(), ",") + ")" : "")
 				+ (options != null && options.length > 0 && options[0] != null ? options[0] : "")
@@ -172,7 +172,7 @@ public class DatabaseManager {
 		return executeSelect(sql, params, class_);
 	}
 	
-	public static Collection<?> executeSelect(final String sql, Collection<Object> params, Class<?> class_) {
+	public static Collection<?> executeSelect(final String sql, Collection<?> params, Class<?> class_) {
  		List<Object> results = new ArrayList<>();
 		try (Connection conn = pool.getConnection()) {
  			try (PreparedStatement ps = conn.prepareStatement(sql);) {
@@ -240,6 +240,9 @@ public class DatabaseManager {
 				sql = "SELECT * from " + table + " T";
 			}
 			sql += " WHERE T." + key + " = ?";
+			if (key.equals("id")) {
+				id = StringUtils.toInt(id);
+			}
 			List<?> results = (List<?>) executeSelect(sql, Arrays.asList(id), class_);
 			if (results != null && !results.isEmpty()) {
 				result = results.get(0);
@@ -251,7 +254,7 @@ public class DatabaseManager {
 		return result;
 	}
 	
-	public static Object loadEntity(final String sql, Collection<Object> params, Class<?> class_) {
+	public static Object loadEntity(final String sql, Collection<?> params, Class<?> class_) {
 		List<Object> results = (List<Object>) executeSelect(sql, params, class_);
 		return (results != null && !results.isEmpty() ? results.get(0) : null);
 	}
@@ -329,7 +332,7 @@ public class DatabaseManager {
 			try {
 				Object newId = o.getClass().getMethod("getId").invoke(o);
 				Contribution co = new Contribution();
-				co.setIdItem(Integer.valueOf(String.valueOf(newId)));
+				co.setIdItem(StringUtils.toInt(newId));
 				co.setIdContributor(cb.getId());
 				co.setType(isAdd ? 'A' : 'U');
 				co.setDate(currentDate);
@@ -368,7 +371,7 @@ public class DatabaseManager {
 		}
 	}
 	
-	public static Collection<PicklistItem> getPicklist(String sql, Collection<Object> params) throws Exception {
+	public static Collection<PicklistItem> getPicklist(String sql, Collection<?> params) throws Exception {
 		return (Collection<PicklistItem>) executeSelect(sql, params, PicklistItem.class);
 	}
 	

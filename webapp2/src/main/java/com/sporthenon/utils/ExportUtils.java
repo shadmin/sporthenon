@@ -606,7 +606,7 @@ public class ExportUtils {
 				lTh_.add(ttext.text());
 			}
 			while(th != null) {
-				Integer span = (StringUtils.notEmpty(th.attr("colspan")) ? Integer.valueOf(th.attr("colspan")) : 1);
+				Integer span = (StringUtils.notEmpty(th.attr("colspan")) ? StringUtils.toInt(th.attr("colspan")) : 1);
 				lTh_.add((th1 != null && th1.nextElementSibling() == null && lTh_.isEmpty() ? "#" + th1.text() + "#" : "") + th.text());
 				if (span > 1) {
 					lMerge.add(new MergedCell(row, cell, span));
@@ -629,7 +629,7 @@ public class ExportUtils {
 				Element td = tr.getElementsByTag("td").get(0);
 				cell = 0;
 				while (td != null) {
-					Integer span = (StringUtils.notEmpty(td.attr("colspan")) ? Integer.valueOf(td.attr("colspan")) : 1);
+					Integer span = (StringUtils.notEmpty(td.attr("colspan")) ? StringUtils.toInt(td.attr("colspan")) : 1);
 					String title_ = td.attr("title");
 					if (StringUtils.notEmpty(title_))
 						lTd_.add(title_);

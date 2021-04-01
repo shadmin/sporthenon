@@ -20,6 +20,7 @@ import com.sporthenon.db.function.TeamStadiumBean;
 import com.sporthenon.db.function.USChampionshipsBean;
 import com.sporthenon.db.function.USRecordsBean;
 import com.sporthenon.db.function.YearlyStatsBean;
+import com.sporthenon.utils.StringUtils;
 
 import junit.framework.TestCase;
 
@@ -29,7 +30,7 @@ public class FunctionTest extends TestCase {
 	public void testCountRef() throws Exception {
 		List<Object> params = new ArrayList<Object>();
 		params.add(String.valueOf(Athlete.alias));
-		params.add(Integer.valueOf(1));
+		params.add(StringUtils.toInt(1));
 		Collection col = DatabaseManager.callFunctionSelect("count_ref", params, Integer.class);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
@@ -40,10 +41,10 @@ public class FunctionTest extends TestCase {
 	public void testEntityRef() throws Exception {
 		List<Object> params = new ArrayList<Object>();
 		params.add(String.valueOf(Country.alias));
-		params.add(Integer.valueOf(92));
+		params.add(StringUtils.toInt(92));
 		params.add(String.valueOf(""));
 		params.add(String.valueOf("10"));
-		params.add(Integer.valueOf(0));
+		params.add(StringUtils.toInt(0));
 		params.add(String.valueOf(""));
 		Collection col = DatabaseManager.callFunctionSelect("entity_ref", params, RefItem.class);
 		assertNotNull(col);
@@ -56,7 +57,7 @@ public class FunctionTest extends TestCase {
 		List<Object> params = new ArrayList<Object>();
 		params.add(String.valueOf("19100101"));
 		params.add(String.valueOf("19120201"));
-		params.add(Integer.valueOf(0));
+		params.add(StringUtils.toInt(0));
 		params.add(String.valueOf("_fr"));
 		Collection col = DatabaseManager.callFunctionSelect("get_calendar_results", params, RefItem.class);
 		assertNotNull(col);
@@ -67,7 +68,7 @@ public class FunctionTest extends TestCase {
 	
 	public void testHallOfFame() throws Exception {
 		List<Object> params = new ArrayList<Object>();
-		params.add(Integer.valueOf(1));
+		params.add(StringUtils.toInt(1));
 		params.add(String.valueOf("0"));
 		params.add(String.valueOf("QB"));
 		Collection col = DatabaseManager.callFunction("get_hall_of_fame", params, HallOfFameBean.class);
@@ -80,7 +81,7 @@ public class FunctionTest extends TestCase {
 	public void testMedalCount() throws Exception {
 		List<Object> params = new ArrayList<Object>();
 		params.add(Athlete.alias);
-		params.add(Integer.valueOf(1));
+		params.add(StringUtils.toInt(1));
 		params.add(String.valueOf("1"));
 		Collection col = DatabaseManager.callFunctionSelect("get_medal_count", params, RefItem.class);
 		assertNotNull(col);
@@ -92,7 +93,7 @@ public class FunctionTest extends TestCase {
 	public void testOlympicMedals() throws Exception {
 		List<Object> params = new ArrayList<Object>();
 		params.add(String.valueOf("1"));
-		params.add(Integer.valueOf(1));
+		params.add(StringUtils.toInt(1));
 		params.add(String.valueOf("188,189"));
 		params.add(String.valueOf("1"));
 		params.add(String.valueOf("0"));
@@ -128,13 +129,13 @@ public class FunctionTest extends TestCase {
 	
 	public void testGetResults() throws Exception {
 		List<Object> params = new ArrayList<Object>();
-		params.add(Integer.valueOf(1));
-		params.add(Integer.valueOf(1));
-		params.add(Integer.valueOf(188));
-		params.add(Integer.valueOf(0));
-		params.add(Integer.valueOf(0));
+		params.add(StringUtils.toInt(1));
+		params.add(StringUtils.toInt(1));
+		params.add(StringUtils.toInt(188));
+		params.add(StringUtils.toInt(0));
+		params.add(StringUtils.toInt(0));
 		params.add(String.valueOf("146,154"));
-		params.add(Integer.valueOf(0));
+		params.add(StringUtils.toInt(0));
 		params.add(String.valueOf(""));
 		Collection col = DatabaseManager.callFunction("get_results", params, ResultsBean.class);
 		assertNotNull(col);
@@ -145,7 +146,7 @@ public class FunctionTest extends TestCase {
 	
 	public void testRetiredNumbers() throws Exception {
 		List<Object> params = new ArrayList<Object>();
-		params.add(Integer.valueOf(2));
+		params.add(StringUtils.toInt(2));
 		params.add(String.valueOf("0"));
 		params.add(Short.valueOf("23"));
 		Collection col = DatabaseManager.callFunction("get_retired_numbers", params, RetiredNumberBean.class);
@@ -157,7 +158,7 @@ public class FunctionTest extends TestCase {
 	
 	public void testRounds() throws Exception {
 		List<Object> params = new ArrayList<Object>();
-		params.add(Integer.valueOf(32847));
+		params.add(StringUtils.toInt(32847));
 		params.add(String.valueOf("_fr"));
 		Collection col = DatabaseManager.callFunction("get_rounds", params, RoundsBean.class);
 		assertNotNull(col);
@@ -168,7 +169,7 @@ public class FunctionTest extends TestCase {
 	
 	public void testTeamStadiums() throws Exception {
 		List<Object> params = new ArrayList<Object>();
-		params.add(Integer.valueOf(1));
+		params.add(StringUtils.toInt(1));
 		params.add(String.valueOf("0"));
 		params.add(String.valueOf(""));
 		Collection col = DatabaseManager.callFunction("get_team_stadiums", params, TeamStadiumBean.class);
@@ -180,7 +181,7 @@ public class FunctionTest extends TestCase {
 	
 	public void testUSChampionships() throws Exception {
 		List<Object> params = new ArrayList<Object>();
-		params.add(Integer.valueOf(51));
+		params.add(StringUtils.toInt(51));
 		params.add(String.valueOf("0"));
 		params.add(String.valueOf(""));
 		Collection col = DatabaseManager.callFunction("get_us_championships", params, USChampionshipsBean.class);
@@ -192,7 +193,7 @@ public class FunctionTest extends TestCase {
 	
 	public void testUSRecords() throws Exception {
 		List<Object> params = new ArrayList<Object>();
-		params.add(Integer.valueOf(51));
+		params.add(StringUtils.toInt(51));
 		params.add(String.valueOf("0"));
 		params.add(String.valueOf("0"));
 		params.add(String.valueOf("0"));
@@ -207,7 +208,7 @@ public class FunctionTest extends TestCase {
 	
 	public void testYearlyStats() throws Exception {
 		List<Object> params = new ArrayList<Object>();
-		params.add(Integer.valueOf(51));
+		params.add(StringUtils.toInt(51));
 		params.add(String.valueOf("0"));
 		params.add(String.valueOf("0"));
 		params.add(Boolean.valueOf(true));

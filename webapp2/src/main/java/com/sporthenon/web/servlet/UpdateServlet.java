@@ -382,7 +382,7 @@ public class UpdateServlet extends AbstractServlet {
 			HashMap<String, Type> hType = new HashMap<String, Type>();
 			for (Type type : (List<Type>) DatabaseManager.executeSelect("SELECT * FROM type", Type.class))
 				hType.put(type.getLabel(lang), type);
-			Integer idRS = (StringUtils.notEmpty(params.get("id")) ? Integer.valueOf(String.valueOf(params.get("id"))) : null);
+			Integer idRS = (StringUtils.notEmpty(params.get("id")) ? StringUtils.toInt(params.get("id")) : null);
 			Result result = (idRS != null ? (Result)DatabaseManager.loadEntity(Result.class, idRS) : new Result());
 			// Sport
 			result.setSport((Sport)DatabaseManager.loadEntity(Sport.class, params.get("sp")));
@@ -490,7 +490,7 @@ public class UpdateServlet extends AbstractServlet {
 						isCity = true;
 					int id = 0;
 					if (StringUtils.notEmpty(params.get("pl" + i)))
-						id = Integer.valueOf(String.valueOf(params.get("pl" + i)));
+						id = StringUtils.toInt(params.get("pl" + i));
 					else
 						id = ImportUtils.insertPlace(0, String.valueOf(params.get("pl" + i + "-l")), cb, null, lang);
 					if (isComplex) {
@@ -593,7 +593,7 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			// Rankings
 			for (int i = 1 ; i <= MAX_RANKS ; i++) {
-				Integer id = (StringUtils.notEmpty(params.get("rk" + i)) ? Integer.valueOf(String.valueOf(params.get("rk" + i))) : 0);
+				Integer id = (StringUtils.notEmpty(params.get("rk" + i)) ? StringUtils.toInt(params.get("rk" + i)) : 0);
 				o = params.get("rk" + i + "-l");
 				if (id == 0 && StringUtils.notEmpty(o)) {
 					if (hInserted.keySet().contains(o))
@@ -643,7 +643,7 @@ public class UpdateServlet extends AbstractServlet {
 				String[] t = String.valueOf(params.get("pldel")).split("\\|", 0);
 				for (String value : t)
 					if (StringUtils.notEmpty(value))
-						DatabaseManager.removeEntity(DatabaseManager.loadEntity(PersonList.class, Integer.parseInt(value)));
+						DatabaseManager.removeEntity(DatabaseManager.loadEntity(PersonList.class, value));
 			}
 			// Rounds
 			if (params.containsKey("rdlist")) {
@@ -681,7 +681,7 @@ public class UpdateServlet extends AbstractServlet {
 							if (tpl.length > 1) {
 								int id = 0;
 								if (StringUtils.notEmpty(t_[20]))
-									id = Integer.valueOf(String.valueOf(t_[20]));
+									id = StringUtils.toInt(t_[20]);
 								else
 									id = ImportUtils.insertPlace(0, String.valueOf(t_[21]), cb, null, lang);
 								if (tpl.length > 2)
@@ -695,7 +695,7 @@ public class UpdateServlet extends AbstractServlet {
 							if (tpl.length > 1) {
 								int id = 0;
 								if (StringUtils.notEmpty(t_[22]))
-									id = Integer.valueOf(String.valueOf(t_[22]));
+									id = StringUtils.toInt(t_[22]);
 								else
 									id = ImportUtils.insertPlace(0, String.valueOf(t_[23]), cb, null, lang);
 								if (tpl.length > 2)
@@ -736,7 +736,7 @@ public class UpdateServlet extends AbstractServlet {
 				String[] t = String.valueOf(params.get("rddel")).split("\\|", 0);
 				for (String value : t)
 					if (StringUtils.notEmpty(value))
-						DatabaseManager.removeEntity(DatabaseManager.loadEntity(Round.class, Integer.parseInt(value)));
+						DatabaseManager.removeEntity(DatabaseManager.loadEntity(Round.class, value));
 			}
 			sbMsg.append(result.getId() + "#" + ResourceUtils.getText("result." + (idRS != null ? "modified" : "created"), lang));
 			if (sbMsgW.length() > 0)
@@ -755,7 +755,7 @@ public class UpdateServlet extends AbstractServlet {
 		StringBuffer sbMsg = new StringBuffer();
 		try {
 			Object id = params.get("id");
-			DatabaseManager.removeEntity(DatabaseManager.loadEntity(Result.class, StringUtils.toInt(id)));
+			DatabaseManager.removeEntity(DatabaseManager.loadEntity(Result.class, id));
 			sbMsg.append(ResourceUtils.getText("result.deleted", lang));
 		}
 		catch (Exception e) {
@@ -958,15 +958,15 @@ public class UpdateServlet extends AbstractServlet {
 			String id = String.valueOf(params.get("id"));
 			String alias = String.valueOf(params.get("alias"));
 			Class<?> c = DatabaseManager.getClassFromAlias(alias);
-			Object o = (StringUtils.notEmpty(id) ? DatabaseManager.loadEntity(c, Integer.parseInt(id)) : c.getConstructor().newInstance());
+			Object o = (StringUtils.notEmpty(id) ? DatabaseManager.loadEntity(c, id) : c.getConstructor().newInstance());
 			if (alias.equalsIgnoreCase(Athlete.alias)) {
 				Athlete en = (Athlete) o;
-				en.setSport((Sport)DatabaseManager.loadEntity(Sport.class, StringUtils.toInt(params.get("pr-sport"))));
-				en.setTeam((Team)DatabaseManager.loadEntity(Team.class, StringUtils.toInt(params.get("pr-team"))));
-				en.setCountry((Country)DatabaseManager.loadEntity(Country.class, StringUtils.toInt(params.get("pr-country"))));
+				en.setSport((Sport)DatabaseManager.loadEntity(Sport.class, params.get("pr-sport")));
+				en.setTeam((Team)DatabaseManager.loadEntity(Team.class, params.get("pr-team")));
+				en.setCountry((Country)DatabaseManager.loadEntity(Country.class, params.get("pr-country")));
 				en.setLastName(String.valueOf(params.get("pr-lastname")).trim());
 				en.setFirstName(String.valueOf(params.get("pr-firstname")).trim());
-				en.setLink(StringUtils.notEmpty(params.get("pr-link")) ? Integer.valueOf(String.valueOf(params.get("pr-link"))) : null);
+				en.setLink(StringUtils.notEmpty(params.get("pr-link")) ? StringUtils.toInt(params.get("pr-link")) : null);
 				if (en.getLink() != null && en.getLink() > 0) {
 					try {
 						Athlete a = (Athlete) DatabaseManager.loadEntity(Athlete.class, en.getLink());
@@ -982,14 +982,14 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			else if (alias.equalsIgnoreCase(com.sporthenon.db.entity.Calendar.alias)) {
 				com.sporthenon.db.entity.Calendar en = (com.sporthenon.db.entity.Calendar) o;
-				en.setSport((Sport)DatabaseManager.loadEntity(Sport.class, StringUtils.toInt(params.get("cl-sport"))));
-				en.setChampionship((Championship)DatabaseManager.loadEntity(Championship.class, StringUtils.toInt(params.get("cl-championship"))));
-				en.setEvent((Event)DatabaseManager.loadEntity(Event.class, StringUtils.toInt(params.get("cl-event"))));
-				en.setSubevent((Event)DatabaseManager.loadEntity(Event.class, StringUtils.toInt(params.get("cl-subevent"))));
-				en.setSubevent2((Event)DatabaseManager.loadEntity(Event.class, StringUtils.toInt(params.get("cl-subevent2"))));
-				en.setComplex((Complex)DatabaseManager.loadEntity(Complex.class, StringUtils.toInt(params.get("cl-complex"))));
-				en.setCity((City)DatabaseManager.loadEntity(City.class, StringUtils.toInt(params.get("cl-city"))));
-				en.setCountry((Country)DatabaseManager.loadEntity(Country.class, StringUtils.toInt(params.get("cl-country"))));
+				en.setSport((Sport)DatabaseManager.loadEntity(Sport.class, params.get("cl-sport")));
+				en.setChampionship((Championship)DatabaseManager.loadEntity(Championship.class, params.get("cl-championship")));
+				en.setEvent((Event)DatabaseManager.loadEntity(Event.class, params.get("cl-event")));
+				en.setSubevent((Event)DatabaseManager.loadEntity(Event.class, params.get("cl-subevent")));
+				en.setSubevent2((Event)DatabaseManager.loadEntity(Event.class, params.get("cl-subevent2")));
+				en.setComplex((Complex)DatabaseManager.loadEntity(Complex.class, params.get("cl-complex")));
+				en.setCity((City)DatabaseManager.loadEntity(City.class, params.get("cl-city")));
+				en.setCountry((Country)DatabaseManager.loadEntity(Country.class, params.get("cl-country")));
 				en.setDate1(StringUtils.notEmpty(params.get("cl-date1")) ? String.valueOf(params.get("cl-date1")) : null);
 				en.setDate2(StringUtils.notEmpty(params.get("cl-date2")) ? String.valueOf(params.get("cl-date2")) : null);
 			}
@@ -1003,9 +1003,9 @@ public class UpdateServlet extends AbstractServlet {
 				City en = (City) o;
 				en.setLabel(String.valueOf(params.get("ct-label")));
 				en.setLabelFr(String.valueOf(params.get("ct-labelfr")));
-				en.setState((State)DatabaseManager.loadEntity(State.class, StringUtils.toInt(params.get("ct-state"))));
-				en.setCountry((Country)DatabaseManager.loadEntity(Country.class, StringUtils.toInt(params.get("ct-country"))));
-				en.setLink(StringUtils.notEmpty(params.get("ct-link")) ? Integer.valueOf(String.valueOf(params.get("ct-link"))) : null);
+				en.setState((State)DatabaseManager.loadEntity(State.class, params.get("ct-state")));
+				en.setCountry((Country)DatabaseManager.loadEntity(Country.class, params.get("ct-country")));
+				en.setLink(StringUtils.notEmpty(params.get("ct-link")) ? StringUtils.toInt(params.get("ct-link")) : null);
 				if (en.getLink() != null && en.getLink() > 0) {
 					try {
 						City c_ = (City) DatabaseManager.loadEntity(City.class, en.getLink());
@@ -1023,7 +1023,7 @@ public class UpdateServlet extends AbstractServlet {
 				Complex en = (Complex) o;
 				en.setLabel(String.valueOf(params.get("cx-label")));
 				en.setCity((City)DatabaseManager.loadEntity(City.class, StringUtils.toInt(params.get("cx-city"))));
-				en.setLink(StringUtils.notEmpty(params.get("cx-link")) ? Integer.valueOf(String.valueOf(params.get("cx-link"))) : null);
+				en.setLink(StringUtils.notEmpty(params.get("cx-link")) ? StringUtils.toInt(params.get("cx-link")) : null);
 				if (en.getLink() != null && en.getLink() > 0) {
 					try {
 						Complex c_ = (Complex) DatabaseManager.loadEntity(Complex.class, en.getLink());
@@ -1110,7 +1110,7 @@ public class UpdateServlet extends AbstractServlet {
 				en.setComment(String.valueOf(params.get("tm-comment")));
 				en.setYear1(String.valueOf(params.get("tm-year1")));
 				en.setYear2(String.valueOf(params.get("tm-year2")));
-				en.setLink(StringUtils.notEmpty(params.get("tm-link")) ? Integer.valueOf(String.valueOf(params.get("tm-link"))) : null);
+				en.setLink(StringUtils.notEmpty(params.get("tm-link")) ? StringUtils.toInt(params.get("tm-link")) : null);
 				if (en.getLink() != null && en.getLink() > 0) {
 					try {
 						Team t = (Team) DatabaseManager.loadEntity(Team.class, en.getLink());
@@ -1145,19 +1145,19 @@ public class UpdateServlet extends AbstractServlet {
 				en.setType2(StringUtils.notEmpty(params.get("rc-type2")) ? String.valueOf(params.get("rc-type2")) : null);
 				en.setCity((City)DatabaseManager.loadEntity(City.class, StringUtils.toInt(params.get("rc-city"))));
 				en.setLabel(StringUtils.notEmpty(params.get("rc-label")) ? String.valueOf(params.get("rc-label")) : null);
-				en.setIdRank1(StringUtils.notEmpty(params.get("rc-rank1")) ? Integer.valueOf(String.valueOf(params.get("rc-rank1"))) : null);
+				en.setIdRank1(StringUtils.notEmpty(params.get("rc-rank1")) ? StringUtils.toInt(params.get("rc-rank1")) : null);
 				en.setRecord1(StringUtils.notEmpty(params.get("rc-record1")) ? String.valueOf(params.get("rc-record1")) : null);
 				en.setDate1(StringUtils.notEmpty(params.get("rc-date1")) ? String.valueOf(params.get("rc-date1")) : null);
-				en.setIdRank2(StringUtils.notEmpty(params.get("rc-rank2")) ? Integer.valueOf(String.valueOf(params.get("rc-rank2"))) : null);
+				en.setIdRank2(StringUtils.notEmpty(params.get("rc-rank2")) ? StringUtils.toInt(params.get("rc-rank2")) : null);
 				en.setRecord2(StringUtils.notEmpty(params.get("rc-record2")) ? String.valueOf(params.get("rc-record2")) : null);
 				en.setDate2(StringUtils.notEmpty(params.get("rc-date2")) ? String.valueOf(params.get("rc-date2")) : null);
-				en.setIdRank3(StringUtils.notEmpty(params.get("rc-rank3")) ? Integer.valueOf(String.valueOf(params.get("rc-rank3"))) : null);
+				en.setIdRank3(StringUtils.notEmpty(params.get("rc-rank3")) ? StringUtils.toInt(params.get("rc-rank3")) : null);
 				en.setRecord3(StringUtils.notEmpty(params.get("rc-record3")) ? String.valueOf(params.get("rc-record3")) : null);
 				en.setDate3(StringUtils.notEmpty(params.get("rc-date3")) ? String.valueOf(params.get("rc-date3")) : null);
-				en.setIdRank4(StringUtils.notEmpty(params.get("rc-rank4")) ? Integer.valueOf(String.valueOf(params.get("rc-rank4"))) : null);
+				en.setIdRank4(StringUtils.notEmpty(params.get("rc-rank4")) ? StringUtils.toInt(params.get("rc-rank4")) : null);
 				en.setRecord4(StringUtils.notEmpty(params.get("rc-record4")) ? String.valueOf(params.get("rc-record4")) : null);
 				en.setDate4(StringUtils.notEmpty(params.get("rc-date4")) ? String.valueOf(params.get("rc-date4")) : null);
-				en.setIdRank5(StringUtils.notEmpty(params.get("rc-rank5")) ? Integer.valueOf(String.valueOf(params.get("rc-rank5"))) : null);
+				en.setIdRank5(StringUtils.notEmpty(params.get("rc-rank5")) ? StringUtils.toInt(params.get("rc-rank5")) : null);
 				en.setRecord5(StringUtils.notEmpty(params.get("rc-record5")) ? String.valueOf(params.get("rc-record5")) : null);
 				en.setDate5(StringUtils.notEmpty(params.get("rc-date5")) ? String.valueOf(params.get("rc-date5")) : null);
 				en.setCounting(StringUtils.notEmpty(params.get("rc-counting")) ? String.valueOf(params.get("rc-counting")).equals("1") : null);
@@ -1171,15 +1171,15 @@ public class UpdateServlet extends AbstractServlet {
 				en.setTeam((Team)DatabaseManager.loadEntity(Team.class, StringUtils.toInt(params.get("rn-team"))));
 				en.setPerson((Athlete)DatabaseManager.loadEntity(Athlete.class, StringUtils.toInt(params.get("rn-person"))));
 				en.setYear((Year)DatabaseManager.loadEntity(Year.class, StringUtils.toInt(params.get("rn-year"))));
-				en.setNumber(StringUtils.notEmpty(params.get("rn-number")) ? Integer.valueOf(String.valueOf(params.get("rn-number"))) : null);
+				en.setNumber(StringUtils.notEmpty(params.get("rn-number")) ? StringUtils.toInt(params.get("rn-number")) : null);
 			}
 			else if (alias.equalsIgnoreCase(TeamStadium.alias)) {
 				TeamStadium en = (TeamStadium) o;
 				en.setLeague((League)DatabaseManager.loadEntity(League.class, StringUtils.toInt(params.get("ts-league"))));
 				en.setTeam((Team)DatabaseManager.loadEntity(Team.class, StringUtils.toInt(params.get("ts-team"))));
 				en.setComplex((Complex)DatabaseManager.loadEntity(Complex.class, StringUtils.toInt(params.get("ts-complex"))));
-				en.setDate1(StringUtils.notEmpty(params.get("ts-date1")) ? Integer.valueOf(String.valueOf(params.get("ts-date1"))) : null);
-				en.setDate2(StringUtils.notEmpty(params.get("ts-date2")) ? Integer.valueOf(String.valueOf(params.get("ts-date2"))) : null);
+				en.setDate1(StringUtils.notEmpty(params.get("ts-date1")) ? StringUtils.toInt(params.get("ts-date1")) : null);
+				en.setDate2(StringUtils.notEmpty(params.get("ts-date2")) ? StringUtils.toInt(params.get("ts-date2")) : null);
 				en.setRenamed(StringUtils.notEmpty(params.get("ts-renamed")) ? String.valueOf(params.get("ts-renamed")).equals("1") : null);
 			}
 			else if (alias.equalsIgnoreCase(WinLoss.alias)) {
@@ -1187,10 +1187,10 @@ public class UpdateServlet extends AbstractServlet {
 				en.setLeague((League)DatabaseManager.loadEntity(League.class, StringUtils.toInt(params.get("wl-league"))));
 				en.setTeam((Team)DatabaseManager.loadEntity(Team.class, StringUtils.toInt(params.get("wl-team"))));
 				en.setType(StringUtils.notEmpty(params.get("wl-type")) ? String.valueOf(params.get("wl-type")) : null);
-				en.setCountWin(StringUtils.notEmpty(params.get("wl-win")) ? Integer.valueOf(String.valueOf(params.get("wl-win"))) : null);
-				en.setCountLoss(StringUtils.notEmpty(params.get("wl-loss")) ? Integer.valueOf(String.valueOf(params.get("wl-loss"))) : null);
-				en.setCountTie(StringUtils.notEmpty(params.get("wl-tie")) ? Integer.valueOf(String.valueOf(params.get("wl-tie"))) : null);
-				en.setCountOtloss(StringUtils.notEmpty(params.get("wl-otloss")) ? Integer.valueOf(String.valueOf(params.get("wl-otloss"))) : null);
+				en.setCountWin(StringUtils.notEmpty(params.get("wl-win")) ? StringUtils.toInt(params.get("wl-win")) : null);
+				en.setCountLoss(StringUtils.notEmpty(params.get("wl-loss")) ? StringUtils.toInt(params.get("wl-loss")) : null);
+				en.setCountTie(StringUtils.notEmpty(params.get("wl-tie")) ? StringUtils.toInt(params.get("wl-tie")) : null);
+				en.setCountOtloss(StringUtils.notEmpty(params.get("wl-otloss")) ? StringUtils.toInt(params.get("wl-otloss")) : null);
 			}
 			o = DatabaseManager.saveEntity(o, cb);
 			String id_ = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
@@ -1264,7 +1264,7 @@ public class UpdateServlet extends AbstractServlet {
 		
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		String query = null;
-		Integer index = Integer.valueOf(String.valueOf(params.get("index")));
+		Integer index = StringUtils.toInt(params.get("index"));
 		if (index != -1) {
 			query = queries.get(index);
 			query = query.replaceAll("#YEAR#", String.valueOf(year));
