@@ -7,32 +7,39 @@ import com.sporthenon.db.entity.meta.Metadata;
 
 public class Round extends AbstractEntity {
 
-	private Integer id;
-	private Integer idResult;
-	private Integer idResultType;
+	private Integer   id;
+	private Integer   idResult;
+	private Integer   idResultType;
 	private RoundType roundType;
-	private Integer idRank1;
-	private String result1;
-	private Integer idRank2;
-	private String result2;
-	private Integer idRank3;
-	private String result3;
-	private Integer idRank4;
-	private String result4;
-	private Integer idRank5;
-	private String result5;
-	private City city1;
-	private Complex complex1;
-	private City city2;
-	private Complex complex2;
-	private String date1;
-	private String date2;
-	private String exa;
-	private String comment;
+	private Integer   idRank1;
+	private String 	  result1;
+	private Integer   idRank2;
+	private String 	  result2;
+	private Integer   idRank3;
+	private String    result3;
+	private Integer   idRank4;
+	private String    result4;
+	private Integer   idRank5;
+	private String    result5;
+	private City  	  city1;
+	private Complex   complex1;
+	private City 	  city2;
+	private Complex   complex2;
+	private String    date1;
+	private String    date2;
+	private String 	  exa;
+	private String 	  comment;
 
-	public static final transient String alias = "RD";
-	public static final transient String table = "round";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "RD";
+	public static final transient String table 	= "round";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT T.*, "
+			+ " CX1.label AS cx1_label, CT1.label AS ct1_label, CT1.label_fr AS ct1_label_fr, "
+			+ " CX2.label AS cx2_label, CT2.label AS ct2_label, CT2.label_fr AS ct2_label_fr "
+			+ " FROM round T LEFT JOIN complex CX1 ON CX1.id = T.id_complex"
+			+ " LEFT JOIN city CT1 ON CT1.id = T.id_city"
+			+ " LEFT JOIN complex CX2 ON CX2.id = T.id_complex1"
+			+ " LEFT JOIN city CT2 ON CT2.id = T.id_city1";
 	
 	public Round() {}
 	
@@ -47,7 +54,8 @@ public class Round extends AbstractEntity {
 			setIdResultType((Integer)mapValues.get("id_result_type"));
 			Integer idRoundType = (Integer)mapValues.get("id_round_type");
 			if (idRoundType != null) {
-				setRoundType(new RoundType(idRoundType));	
+				setRoundType(new RoundType());
+				getRoundType().setValuesFromMap(extractEntityColumns(RoundType.alias, idRoundType, mapValues));
 			}
 			setIdRank1((Integer)mapValues.get("id_rank1"));
 			setIdRank2((Integer)mapValues.get("id_rank2"));
@@ -59,6 +67,26 @@ public class Round extends AbstractEntity {
 			setResult3((String)mapValues.get("result3"));
 			setResult4((String)mapValues.get("result4"));
 			setResult5((String)mapValues.get("result5"));
+			Integer idCity1 = (Integer)mapValues.get("id_city");
+			if (idCity1 != null) {
+				setCity1(new City());
+				getCity1().setValuesFromMap(extractEntityColumns("CT1", idCity1, mapValues));
+			}
+			Integer idCity2 = (Integer)mapValues.get("id_city1");
+			if (idCity2 != null) {
+				setCity2(new City());
+				getCity2().setValuesFromMap(extractEntityColumns("CT2", idCity2, mapValues));
+			}
+			Integer idComplex1 = (Integer)mapValues.get("id_complex");
+			if (idComplex1 != null) {
+				setComplex1(new Complex());
+				getComplex1().setValuesFromMap(extractEntityColumns("CX1", idComplex1, mapValues));
+			}
+			Integer idComplex2 = (Integer)mapValues.get("id_complex1");
+			if (idComplex2 != null) {
+				setComplex2(new Complex());
+				getComplex2().setValuesFromMap(extractEntityColumns("CX2", idComplex2, mapValues));
+			}
 			setDate1((String)mapValues.get("date1"));
 			setDate2((String)mapValues.get("date2"));
 			setExa((String)mapValues.get("exa"));

@@ -8,17 +8,20 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class TeamStadium extends AbstractEntity {
 
 	private Integer id;
-	private League league;
-	private Team team;
+	private League 	league;
+	private Team 	team;
 	private Complex complex;
 	private Integer date1;
 	private Integer date2;
 	private Boolean renamed;
-	private String comment;
+	private String 	comment;
 	
-	public static final transient String alias = "TS";
-	public static final transient String table = "team_stadium";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "TS";
+	public static final transient String table 	= "team_stadium";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT T.*, LG.label AS lg_label, TM.label AS tm_label "
+			+ " FROM win_loss T LEFT JOIN league LG ON LG.id = T.id_league "
+			+ " LEFT JOIN team TM ON TM.id = T.id_team";
 	
 	public TeamStadium() {}
 	
@@ -31,15 +34,18 @@ public class TeamStadium extends AbstractEntity {
 			setId((Integer)mapValues.get("id"));
 			Integer idLeague = (Integer)mapValues.get("id_league");
 			if (idLeague != null) {
-				setLeague(new League(idLeague));	
+				setLeague(new League());
+				getLeague().setValuesFromMap(extractEntityColumns(League.alias, idLeague, mapValues));
 			}
 			Integer idTeam = (Integer)mapValues.get("id_team");
 			if (idTeam != null) {
-				setTeam(new Team(idTeam));	
+				setTeam(new Team());
+				getTeam().setValuesFromMap(extractEntityColumns(Team.alias, idTeam, mapValues));
 			}
 			Integer idComplex = (Integer)mapValues.get("id_complex");
 			if (idComplex != null) {
-				setComplex(new Complex(idComplex));	
+				setComplex(new Complex());
+				getComplex().setValuesFromMap(extractEntityColumns(Complex.alias, idComplex, mapValues));
 			}
 			setDate1((Integer)mapValues.get("date1"));
 			setDate2((Integer)mapValues.get("date2"));

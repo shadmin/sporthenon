@@ -8,20 +8,20 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class Result extends AbstractEntity {
 
 	private Integer id;
-	private Sport sport;
+	private Sport 	sport;
 	private Championship championship;
-	private Event event;
-	private Event subevent;
-	private Event subevent2;
-	private City city1;
-	private City city2;
+	private Event 	event;
+	private Event 	subevent;
+	private Event 	subevent2;
+	private City 	city1;
+	private City 	city2;
 	private Complex complex1;
 	private Complex complex2;
 	private Country country1;
 	private Country country2;
-	private Year year;
-	private String date1;
-	private String date2;
+	private Year 	year;
+	private String 	date1;
+	private String 	date2;
 	private Integer idRank1;
 	private Integer idRank2;
 	private Integer idRank3;
@@ -42,35 +42,57 @@ public class Result extends AbstractEntity {
 	private Integer idRank18;
 	private Integer idRank19;
 	private Integer idRank20;
-	private String result1;
-	private String result2;
-	private String result3;
-	private String result4;
-	private String result5;
-	private String result6;
-	private String result7;
-	private String result8;
-	private String result9;
-	private String result10;
-	private String result11;
-	private String result12;
-	private String result13;
-	private String result14;
-	private String result15;
-	private String result16;
-	private String result17;
-	private String result18;
-	private String result19;
-	private String result20;
-	private String comment;
-	private String exa;
+	private String 	result1;
+	private String 	result2;
+	private String 	result3;
+	private String 	result4;
+	private String 	result5;
+	private String 	result6;
+	private String 	result7;
+	private String 	result8;
+	private String 	result9;
+	private String 	result10;
+	private String 	result11;
+	private String 	result12;
+	private String 	result13;
+	private String 	result14;
+	private String 	result15;
+	private String 	result16;
+	private String 	result17;
+	private String 	result18;
+	private String 	result19;
+	private String 	result20;
+	private String 	comment;
+	private String 	exa;
 	private Boolean draft;
 	private Boolean noPlace;
 	private Boolean noDate;
 	
-	public static final transient String alias = "RS";
-	public static final transient String table = "result";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "RS";
+	public static final transient String table 	= "result";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT T.*, SP.label AS sp_label, SP.label_fr AS sp_label_fr, CP.label AS cp_label, CP.label_fr AS cp_label_fr, "
+			+ " EV.label AS ev_label, EV.label_fr AS ev_label_fr, EV.id_type AS ev_id_type, TP1.label AS ev_tp_label, TP1.number AS ev_tp_number, "
+			+ " SE.label AS se_label, SE.label_fr AS se_label_fr, SE.id_type AS se_id_type, TP2.label AS se_tp_label, TP2.number AS se_tp_number, "
+			+ " SE2.label AS se2_label, SE2.label_fr AS se2_label_fr, SE2.id_type AS se2_id_type, TP3.label AS se2_tp_label, TP3.number AS se2_tp_number, "
+			+ " CX1.label AS cx1_label, CT1.label AS ct1_label, CT1.label_fr AS ct1_label_fr, CN1.label AS cn1_label, CN1.label_fr AS cn1_label_fr, "
+			+ " CX2.label AS cx2_label, CT2.label AS ct2_label, CT2.label_fr AS ct2_label_fr, CN2.label AS cn2_label, CN2.label_fr AS cn2_label_fr, "
+			+ " YR.label AS yr_label "
+			+ " FROM result T LEFT JOIN sport SP ON SP.id = T.id_sport "
+			+ " LEFT JOIN championship CP ON CP.id = T.id_championship"
+			+ " LEFT JOIN event EV ON EV.id = T.id_event"
+			+ " LEFT JOIN event SE ON SE.id = T.id_subevent"
+			+ " LEFT JOIN event SE2 ON SE2.id = T.id_subevent2"
+			+ " LEFT JOIN type TP1 ON TP1.id = EV.id_type"
+			+ " LEFT JOIN type TP2 ON TP2.id = SE.id_type"
+			+ " LEFT JOIN type TP3 ON TP3.id = SE2.id_type"
+			+ " LEFT JOIN complex CX1 ON CX1.id = T.id_complex1"
+			+ " LEFT JOIN city CT1 ON CT1.id = T.id_city1"
+			+ " LEFT JOIN country CN1 ON CN1.id = T.id_country1"
+			+ " LEFT JOIN complex CX2 ON CX2.id = T.id_complex2"
+			+ " LEFT JOIN city CT2 ON CT2.id = T.id_city2"
+			+ " LEFT JOIN country CN2 ON CN2.id = T.id_country2"
+			+ " LEFT JOIN year YR ON YR.id = T.id_year";
 	
 	public Result() {}
 	
@@ -83,51 +105,63 @@ public class Result extends AbstractEntity {
 			setId((Integer)mapValues.get("id"));
 			Integer idSport = (Integer)mapValues.get("id_sport");
 			if (idSport != null) {
-				setSport(new Sport(idSport));	
+				setSport(new Sport());
+				getSport().setValuesFromMap(extractEntityColumns(Sport.alias, idSport, mapValues));
 			}
 			Integer idChampionship = (Integer)mapValues.get("id_championship");
 			if (idChampionship != null) {
-				setChampionship(new Championship(idChampionship));	
+				setChampionship(new Championship());
+				getChampionship().setValuesFromMap(extractEntityColumns(Championship.alias, idChampionship, mapValues));
 			}
 			Integer idEvent = (Integer)mapValues.get("id_event");
 			if (idEvent != null) {
-				setEvent(new Event(idEvent));	
+				setEvent(new Event());
+				getEvent().setValuesFromMap(extractEntityColumns(Event.alias, idEvent, mapValues));
 			}
 			Integer idSubevent = (Integer)mapValues.get("id_subevent");
 			if (idSubevent != null) {
-				setSubevent(new Event(idSubevent));	
+				setSubevent(new Event());
+				getSubevent().setValuesFromMap(extractEntityColumns("SE", idSubevent, mapValues));
 			}
 			Integer idSubevent2 = (Integer)mapValues.get("id_subevent2");
 			if (idSubevent2 != null) {
-				setSubevent2(new Event(idSubevent2));	
+				setSubevent2(new Event(idSubevent2));
+				getSubevent2().setValuesFromMap(extractEntityColumns("SE2", idSubevent2, mapValues));
 			}
 			Integer idCity1 = (Integer)mapValues.get("id_city1");
 			if (idCity1 != null) {
-				setCity1(new City(idCity1));	
+				setCity1(new City());
+				getCity1().setValuesFromMap(extractEntityColumns("CT1", idCity1, mapValues));
 			}
 			Integer idCity2 = (Integer)mapValues.get("id_city2");
 			if (idCity2 != null) {
-				setCity2(new City(idCity2));	
+				setCity2(new City());
+				getCity2().setValuesFromMap(extractEntityColumns("CT2", idCity2, mapValues));
 			}
 			Integer idComplex1 = (Integer)mapValues.get("id_complex1");
 			if (idComplex1 != null) {
-				setComplex1(new Complex(idComplex1));	
+				setComplex1(new Complex());
+				getComplex1().setValuesFromMap(extractEntityColumns("CX1", idComplex1, mapValues));
 			}
 			Integer idComplex2 = (Integer)mapValues.get("id_complex2");
 			if (idComplex2 != null) {
-				setComplex2(new Complex(idComplex2));	
+				setComplex2(new Complex());
+				getComplex2().setValuesFromMap(extractEntityColumns("CX2", idComplex2, mapValues));
 			}
 			Integer idCountry1 = (Integer)mapValues.get("id_country1");
 			if (idCountry1 != null) {
-				setCountry1(new Country(idCountry1));	
+				setCountry1(new Country());
+				getCountry1().setValuesFromMap(extractEntityColumns("CN1", idCountry1, mapValues));
 			}
 			Integer idCountry2 = (Integer)mapValues.get("id_country2");
 			if (idCountry2 != null) {
-				setCountry2(new Country(idCountry2));	
+				setCountry2(new Country());
+				getCountry2().setValuesFromMap(extractEntityColumns("CN2", idCountry2, mapValues));
 			}
 			Integer idYear = (Integer)mapValues.get("id_year");
 			if (idYear != null) {
-				setYear(new Year(idYear));	
+				setYear(new Year());
+				getYear().setValuesFromMap(extractEntityColumns(Year.alias, idYear, mapValues));
 			}
 			setDate1((String)mapValues.get("date1"));
 			setDate2((String)mapValues.get("date2"));

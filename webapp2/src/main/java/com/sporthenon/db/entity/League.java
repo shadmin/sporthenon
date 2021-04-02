@@ -8,11 +8,12 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class League extends AbstractEntity {
 	
 	private Integer id;
-	private String label;
+	private String 	label;
 
-	public static final transient String alias = "LG";
-	public static final transient String table = "league";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "LG";
+	public static final transient String table 	= "league";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT * FROM " + table;
 	
 	public League() {}
 	

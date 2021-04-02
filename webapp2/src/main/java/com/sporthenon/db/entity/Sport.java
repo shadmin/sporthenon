@@ -8,16 +8,17 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class Sport extends AbstractEntity {
 	
 	private Integer id;
-	private String label;
-	private String labelFR;
+	private String 	label;
+	private String 	labelFR;
 	private Integer type;
-	private Double index;
+	private Double 	index;
 	private Integer ref;
 	private Boolean nopic;
 	
-	public static final transient String alias = "SP";
-	public static final transient String table = "sport";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "SP";
+	public static final transient String table 	= "sport";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT * FROM " + table;
 	
 	public Sport() {}
 	

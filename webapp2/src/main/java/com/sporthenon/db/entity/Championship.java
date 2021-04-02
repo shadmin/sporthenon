@@ -8,16 +8,16 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class Championship extends AbstractEntity {
 	
 	private Integer id;
-	private String label;
-	private String labelFR;
-	private Double index;
+	private String 	label;
+	private String 	labelFR;
+	private Double 	index;
 	private Integer ref;
 	private Boolean nopic;
 	
-	public static final transient String alias = "CP";
-	public static final transient String table = "championship";
-	public static final transient String key = 	 "id";
-	
+	public static final transient String alias 	= "CP";
+	public static final transient String table 	= "championship";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT * FROM " + table;
 	public Championship() {}
 	
 	public Championship(Integer id) {

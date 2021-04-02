@@ -7,14 +7,14 @@ import com.sporthenon.db.entity.AbstractEntity;
 public class Picture extends AbstractEntity {
 	
 	private Integer id;
-	private String entity;
+	private String 	entity;
 	private Integer idItem;
-	private String value;
-	private String source;
+	private String 	value;
+	private String 	source;
 	private Boolean embedded;
 	
-	public static transient String table = 	"_picture";
-	public static transient String key = 	"id";
+	public static transient String table 	= "_picture";
+	public static transient String key 		= "id";
 
 	public Picture() {}
 	

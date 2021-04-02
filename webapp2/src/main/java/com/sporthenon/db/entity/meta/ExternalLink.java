@@ -6,15 +6,15 @@ import com.sporthenon.db.entity.AbstractEntity;
 
 public class ExternalLink extends AbstractEntity {
 	
-	private Integer id;
-	private String entity;
-	private Integer idItem;
-	private String url;
-	private Boolean checked;
+	private Integer   id;
+	private String 	  entity;
+	private Integer   idItem;
+	private String 	  url;
+	private Boolean   checked;
 	private Character flag;
 	
-	public static transient String table = 	"_external_link";
-	public static transient String key = 	"id";
+	public static transient String table 	= "_external_link";
+	public static transient String key 		= "id";
 	
 	public ExternalLink() {}
 	

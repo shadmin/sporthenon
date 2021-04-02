@@ -8,13 +8,14 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class RoundType extends AbstractEntity {
 
 	private Integer id;
-	private String label;
-	private String labelFR;
-	private Double index;
+	private String 	label;
+	private String 	labelFR;
+	private Double 	index;
 	
-	public static final transient String alias = "RT";
-	public static final transient String table = "round_type";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "RT";
+	public static final transient String table 	= "round_type";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT * FROM " + table;
 	
 	public RoundType() {}
 	

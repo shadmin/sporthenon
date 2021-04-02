@@ -10,10 +10,10 @@ public class PersonList extends AbstractEntity {
 	private Integer idResult;
 	private Integer rank;
 	private Integer idPerson;
-	private String index;
+	private String 	index;
 	
-	public static transient String table = 	"_person_list";
-	public static transient String key = 	"id";
+	public static transient String table 	= "_person_list";
+	public static transient String key 		= "id";
 	
 	public PersonList() {}
 	

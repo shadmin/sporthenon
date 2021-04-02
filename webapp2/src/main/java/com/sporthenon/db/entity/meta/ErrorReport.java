@@ -7,14 +7,14 @@ import com.sporthenon.db.entity.AbstractEntity;
 
 public class ErrorReport extends AbstractEntity {
 
-	private Integer id;
-	private String url;
-	private String text;
+	private Integer   id;
+	private String 	  url;
+	private String 	  text;
 	private Timestamp date;
 
-	public static final transient String alias = "ER";
-	public static final transient String table = "_error_report";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "ER";
+	public static final transient String table 	= "_error_report";
+	public static final transient String key 	= "id";
 	
 	public ErrorReport() {}
 	

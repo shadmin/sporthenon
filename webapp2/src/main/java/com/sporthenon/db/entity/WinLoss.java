@@ -8,9 +8,9 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class WinLoss extends AbstractEntity {
 
 	private Integer id;
-	private League league;
-	private Team team;
-	private String type;
+	private League 	league;
+	private Team 	team;
+	private String 	type;
 	private Integer countWin;
 	private Integer countLoss;
 	private Integer countTie;
@@ -20,8 +20,8 @@ public class WinLoss extends AbstractEntity {
 	public static final transient String table 	= "win_loss";
 	public static final transient String key 	= "id";
 	public static final transient String query 	= "SELECT T.*, LG.label AS lg_label, TM.label AS tm_label "
-			+ " FROM win_loss T JOIN league LG ON LG.id = T.id_league "
-			+ " JOIN team TM ON TM.id = T.id_team";
+			+ " FROM win_loss T LEFT JOIN league LG ON LG.id = T.id_league "
+			+ " LEFT JOIN team TM ON TM.id = T.id_team";
 	
 	public WinLoss() {}
 	
@@ -34,13 +34,13 @@ public class WinLoss extends AbstractEntity {
 			setId((Integer)mapValues.get("id"));
 			Integer idLeague = (Integer)mapValues.get("id_league");
 			if (idLeague != null) {
-				setLeague(new League(idLeague));
-				getLeague().setLabel((String)mapValues.get("lg_label"));
+				setLeague(new League());
+				getLeague().setValuesFromMap(extractEntityColumns(League.alias, idLeague, mapValues));
 			}
 			Integer idTeam = (Integer)mapValues.get("id_team");
 			if (idTeam != null) {
-				setTeam(new Team(idTeam));
-				getTeam().setLabel((String)mapValues.get("tm_label"));
+				setTeam(new Team());
+				getTeam().setValuesFromMap(extractEntityColumns(Team.alias, idTeam, mapValues));
 			}
 			setType((String)mapValues.get("type"));
 			setCountWin((Integer)mapValues.get("count_win"));

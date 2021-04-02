@@ -7,12 +7,12 @@ import com.sporthenon.db.entity.AbstractEntity;
 
 public class Import extends AbstractEntity {
 	
-	private Integer id;
+	private Integer   id;
 	private Timestamp date;
-	private String csvContent;
+	private String 	  csvContent;
 	
-	public static transient String table = 	"_import";
-	public static transient String key = 	"id";
+	public static transient String table 	= "_import";
+	public static transient String key 		= "id";
 
 	public Import() {}
 	

@@ -8,21 +8,24 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class Olympics extends AbstractEntity {
 	
 	private Integer id;
-	private Year year;
-	private City city;
+	private Year 	year;
+	private City 	city;
 	private Integer countCountry;
 	private Integer countPerson;
 	private Integer countSport;
 	private Integer countEvent;
-	private String date1;
-	private String date2;
+	private String 	date1;
+	private String 	date2;
 	private Integer type;
 	private Integer ref;
 	private Boolean nopic;
 	
-	public static final transient String alias = "OL";
-	public static final transient String table = "olympics";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "OL";
+	public static final transient String table 	= "olympics";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT T.*, YR.label AS yr_label, ct.label AS ct_label, ct.label_fr AS ct_label_fr "
+			+ " FROM olympics T LEFT JOIN city CT ON CT.id = T.id_city "
+			+ " LEFT JOIN year YR ON YR.id = T.id_year";
 	
 	public Olympics() {}
 	
@@ -35,11 +38,13 @@ public class Olympics extends AbstractEntity {
 			setId((Integer)mapValues.get("id"));
 			Integer idYear = (Integer)mapValues.get("id_year");
 			if (idYear != null) {
-				setYear(new Year(idYear));	
+				setYear(new Year());
+				getYear().setValuesFromMap(extractEntityColumns(Year.alias, idYear, mapValues));
 			}
 			Integer idCity = (Integer)mapValues.get("id_city");
 			if (idCity != null) {
-				setCity(new City(idCity));	
+				setCity(new City());
+				getCity().setValuesFromMap(extractEntityColumns(City.alias, idCity, mapValues));
 			}
 			setCountCountry((Integer)mapValues.get("count_country"));
 			setCountPerson((Integer)mapValues.get("count_person"));

@@ -9,11 +9,11 @@ import com.sporthenon.utils.StringUtils;
 public class Athlete extends AbstractEntity {
 	
 	private Integer id;
-	private String lastName;
-	private String firstName;
+	private String 	lastName;
+	private String 	firstName;
 	private Country country;
-	private Team team;
-	private Sport sport;
+	private Team 	team;
+	private Sport 	sport;
 	private Integer link;
 	private Integer ref;
 	
@@ -22,9 +22,9 @@ public class Athlete extends AbstractEntity {
 	public static final transient String key 	= "id";
 	public static final transient String query 	= "SELECT T.*, CN.code AS cn_code, CN.label AS cn_label, CN.label_fr AS cn_label_fr, "
 			+ " SP.label AS sp_label, SP.label_fr AS sp_label_fr, SP.type AS sp_type, TM.label AS tm_label "
-			+ " FROM athlete T JOIN country CN ON CN.id = T.id_country "
-			+ " JOIN team TM ON TM.id = T.id_team"
-			+ " JOIN sport SP ON SP.id = T.id_sport";
+			+ " FROM athlete T LEFT JOIN country CN ON CN.id = T.id_country "
+			+ " LEFT JOIN team TM ON TM.id = T.id_team"
+			+ " LEFT JOIN sport SP ON SP.id = T.id_sport";
 	
 	public Athlete() {}
 	
@@ -39,22 +39,18 @@ public class Athlete extends AbstractEntity {
 			setFirstName((String)mapValues.get("first_name"));
 			Integer idCountry = (Integer)mapValues.get("id_country");
 			if (idCountry != null) {
-				setCountry(new Country(idCountry));
-				getCountry().setCode((String)mapValues.get("cn_code"));
-				getCountry().setLabel((String)mapValues.get("cn_label"));
-				getCountry().setLabelFr((String)mapValues.get("cn_label_fr"));
+				setCountry(new Country());
+				getCountry().setValuesFromMap(extractEntityColumns(Country.alias, idCountry, mapValues));
 			}
 			Integer idTeam = (Integer)mapValues.get("id_team");
 			if (idTeam != null) {
-				setTeam(new Team(idTeam));
-				getTeam().setLabel((String)mapValues.get("tm_label"));
+				setTeam(new Team());
+				getTeam().setValuesFromMap(extractEntityColumns(Team.alias, idTeam, mapValues));
 			}
 			Integer idSport = (Integer)mapValues.get("id_sport");
 			if (idSport != null) {
-				setSport(new Sport(idSport));
-				getSport().setLabel((String)mapValues.get("sp_label"));
-				getSport().setLabelFr((String)mapValues.get("sp_label_fr"));
-				getSport().setType((Integer)mapValues.get("sp_type"));
+				setSport(new Sport());
+				getSport().setValuesFromMap(extractEntityColumns(Sport.alias, idSport, mapValues));
 			}
 			setLink((Integer)mapValues.get("link"));
 			setRef((Integer)mapValues.get("ref"));

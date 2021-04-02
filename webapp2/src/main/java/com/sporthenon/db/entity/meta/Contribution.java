@@ -7,15 +7,15 @@ import com.sporthenon.db.entity.AbstractEntity;
 
 public class Contribution extends AbstractEntity {
 
-	private Integer id;
-	private Integer idItem;
-	private Integer idContributor;
+	private Integer   id;
+	private Integer	  idItem;
+	private Integer   idContributor;
 	private Character type;
 	private Timestamp date;
 
-	public static final transient String alias = "CO";
-	public static final transient String table = "_contribution";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "CO";
+	public static final transient String table 	= "_contribution";
+	public static final transient String key 	= "id";
 	
 	public Contribution() {}
 	

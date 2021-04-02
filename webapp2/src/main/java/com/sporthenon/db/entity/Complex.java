@@ -8,14 +8,20 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class Complex extends AbstractEntity {
 	
 	private Integer id;
-	private String label;
-	private City city;
+	private String 	label;
+	private City 	city;
 	private Integer link;
 	private Integer ref;
 	
-	public static final transient String alias = "CX";
-	public static final transient String table = "complex";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "CX";
+	public static final transient String table 	= "complex";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT T.*, CT.label AS ct_label, CT.label_fr AS ct_label_fr, "
+			+ " CN.id AS ct_id_country, CN.code AS ct_cn_code, CN.label AS ct_cn_label, CN.label_fr AS ct_cn_label_fr, "
+			+ " ST.id AS ct_id_state, ST.code AS ct_st_code, ST.label AS ct_st_label, ST.label_fr AS ct_st_label_fr "
+			+ " FROM complex T LEFT JOIN city CT ON CT.id = T.id_city "
+			+ " LEFT JOIN country CN ON CN.id = CT.id_country "
+			+ " LEFT JOIN state ST ON ST.id = CT.id_state";
 	
 	public Complex() {}
 	
@@ -29,7 +35,8 @@ public class Complex extends AbstractEntity {
 			setLabel((String)mapValues.get("label"));
 			Integer idCity = (Integer)mapValues.get("id_city");
 			if (idCity != null) {
-				setCity(new City(idCity));	
+				setCity(new City());
+				getCity().setValuesFromMap(extractEntityColumns(City.alias, idCity, mapValues));
 			}
 			setLink((Integer)mapValues.get("link"));
 			setRef((Integer)mapValues.get("ref"));

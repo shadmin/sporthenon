@@ -8,13 +8,14 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class Type extends AbstractEntity {
 
 	private Integer id;
-	private String label;
-	private String labelFR;
+	private String 	label;
+	private String 	labelFR;
 	private Integer number;
 	
-	public static final transient String alias = "TP";
-	public static final transient String table = "type";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "TP";
+	public static final transient String table 	= "type";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT * FROM " + table;
 	
 	public Type() {}
 	

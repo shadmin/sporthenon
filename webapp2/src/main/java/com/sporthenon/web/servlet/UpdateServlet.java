@@ -573,7 +573,7 @@ public class UpdateServlet extends AbstractServlet {
 			result.setNoDate(String.valueOf(params.get("nodate")).equals("1"));
 			result.setNoPlace(String.valueOf(params.get("noplace")).equals("1"));
 			// Inactive item
-			String hql = "from InactiveItem where id_sport = ? and id_championship = ? and id_event = ?"
+			String hql = "SELECT * FROM _inactive_item WHERE id_sport = ? and id_championship = ? and id_event = ?"
 					+ (result.getSubevent() != null ? " and id_subevent = " + result.getSubevent().getId() : "")
 					+ (result.getSubevent2() != null ? " and id_subevent2 = " + result.getSubevent2().getId() : "");
 			Object o = DatabaseManager.loadEntity(hql, Arrays.asList(result.getSport().getId(), result.getChampionship().getId(), result.getEvent().getId()), InactiveItem.class);

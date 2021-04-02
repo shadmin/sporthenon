@@ -9,37 +9,46 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class Record extends AbstractEntity {
 	
 	private Integer id;
-	private Sport sport;
+	private Sport 	sport;
 	private Championship championship;
-	private Event event;
-	private Event subevent;
-	private City city;
-	private String label;
+	private Event 	event;
+	private Event 	subevent;
+	private City 	city;
+	private String 	label;
 	private Integer idRank1;
 	private Integer idRank2;
 	private Integer idRank3;
 	private Integer idRank4;
 	private Integer idRank5;
-	private String record1;
-	private String record2;
-	private String record3;
-	private String record4;
-	private String record5;
-	private String date1;
-	private String date2;
-	private String date3;
-	private String date4;
-	private String date5;
+	private String 	record1;
+	private String 	record2;
+	private String 	record3;
+	private String 	record4;
+	private String 	record5;
+	private String 	date1;
+	private String 	date2;
+	private String 	date3;
+	private String 	date4;
+	private String 	date5;
 	private Boolean counting;
 	private BigDecimal index;
-	private String type1;
-	private String type2;
-	private String comment;
-	private String exa;
+	private String 	type1;
+	private String 	type2;
+	private String 	comment;
+	private String	exa;
 
-	public static final transient String alias = "RC";
-	public static final transient String table = "record";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "RC";
+	public static final transient String table 	= "record";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT T.*, SP.label AS sp_label, SP.label_fr AS sp_label_fr, CP.label AS cp_label, CP.label_fr AS cp_label_fr, "
+			+ " EV.label AS ev_label, EV.label_fr AS ev_label_fr, SE.label AS se_label, SE.label_fr AS se_label_fr, "
+			+ " CT.label AS ct_label, CT.label_fr AS ct_label_fr, CN.code AS ct_cn_code"
+			+ " FROM record T LEFT JOIN sport SP ON SP.id = T.id_sport "
+			+ " LEFT JOIN championship CP ON CP.id = T.id_championship"
+			+ " LEFT JOIN event EV ON EV.id = T.id_event"
+			+ " LEFT JOIN event SE ON SE.id = T.id_subevent"
+			+ " LEFT JOIN city CT ON CT.id = T.id_city"
+			+ " LEFT JOIN country CN ON CN.id = CT.id_country";
 	
 	public Record() {}
 	
@@ -52,23 +61,28 @@ public class Record extends AbstractEntity {
 			setId((Integer)mapValues.get("id"));
 			Integer idSport = (Integer)mapValues.get("id_sport");
 			if (idSport != null) {
-				setSport(new Sport(idSport));	
+				setSport(new Sport());
+				getSport().setValuesFromMap(extractEntityColumns(Sport.alias, idSport, mapValues));
 			}
 			Integer idChampionship = (Integer)mapValues.get("id_championship");
 			if (idChampionship != null) {
-				setChampionship(new Championship(idChampionship));	
+				setChampionship(new Championship());
+				getChampionship().setValuesFromMap(extractEntityColumns(Championship.alias, idChampionship, mapValues));
 			}
 			Integer idEvent = (Integer)mapValues.get("id_event");
 			if (idEvent != null) {
-				setEvent(new Event(idEvent));	
+				setEvent(new Event());
+				getEvent().setValuesFromMap(extractEntityColumns(Event.alias, idEvent, mapValues));
 			}
 			Integer idSubevent = (Integer)mapValues.get("id_subevent");
 			if (idSubevent != null) {
-				setSubevent(new Event(idSubevent));	
+				setSubevent(new Event());
+				getSubevent().setValuesFromMap(extractEntityColumns("SE", idSubevent, mapValues));
 			}
 			Integer idCity = (Integer)mapValues.get("id_city");
 			if (idCity != null) {
-				setCity(new City(idCity));	
+				setCity(new City());
+				getCity().setValuesFromMap(extractEntityColumns(City.alias, idCity, mapValues));
 			}
 			setLabel((String)mapValues.get("label"));
 			setIdRank1((Integer)mapValues.get("id_rank1"));

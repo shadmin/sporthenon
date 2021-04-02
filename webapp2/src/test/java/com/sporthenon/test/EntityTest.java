@@ -37,161 +37,161 @@ public class EntityTest extends TestCase {
 	private static final Logger log = Logger.getLogger(EntityTest.class.getName());
 	
 	public void testAthlete() {
-		List<Athlete> lst = (List<Athlete>) DatabaseManager.executeSelect("SELECT * FROM athlete LIMIT 10", Athlete.class);
+		List<Athlete> lst = (List<Athlete>) DatabaseManager.executeSelect(Athlete.query + " LIMIT 10", Athlete.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testCalendar() {
-		List<Calendar> lst = (List<Calendar>) DatabaseManager.executeSelect("SELECT * FROM calendar LIMIT 10", Calendar.class);
+		List<Calendar> lst = (List<Calendar>) DatabaseManager.executeSelect(Calendar.query + " LIMIT 10", Calendar.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testChampionship() {
-		List<Championship> lst = (List<Championship>) DatabaseManager.executeSelect("SELECT * FROM championship LIMIT 10", Championship.class);
+		List<Championship> lst = (List<Championship>) DatabaseManager.executeSelect(Championship.query + " LIMIT 10", Championship.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testCity() {
-		List<City> lst = (List<City>) DatabaseManager.executeSelect("SELECT * FROM city LIMIT 10", City.class);
+		List<City> lst = (List<City>) DatabaseManager.executeSelect(City.query + " LIMIT 10", City.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testComplex() {
-		List<Complex> lst = (List<Complex>) DatabaseManager.executeSelect("SELECT * FROM complex LIMIT 10", Complex.class);
+		List<Complex> lst = (List<Complex>) DatabaseManager.executeSelect(Complex.query + " LIMIT 10", Complex.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testCountry() {
-		List<Country> lst = (List<Country>) DatabaseManager.executeSelect("SELECT * FROM country LIMIT 10", Country.class);
+		List<Country> lst = (List<Country>) DatabaseManager.executeSelect(Country.query + " LIMIT 10", Country.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testEvent() {
-		List<Event> lst = (List<Event>) DatabaseManager.executeSelect("SELECT * FROM event LIMIT 10", Event.class);
+		List<Event> lst = (List<Event>) DatabaseManager.executeSelect(Event.query + " LIMIT 10", Event.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testHallOfFame() {
-		List<HallOfFame> lst = (List<HallOfFame>) DatabaseManager.executeSelect("SELECT * FROM hall_of_fame LIMIT 10", HallOfFame.class);
+		List<HallOfFame> lst = (List<HallOfFame>) DatabaseManager.executeSelect(HallOfFame.query + " LIMIT 10", HallOfFame.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testLeague() {
-		List<League> lst = (List<League>) DatabaseManager.executeSelect("SELECT * FROM league LIMIT 10", League.class);
+		List<League> lst = (List<League>) DatabaseManager.executeSelect(League.query + " LIMIT 10", League.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testOlympicRanking() {
-		List<OlympicRanking> lst = (List<OlympicRanking>) DatabaseManager.executeSelect("SELECT * FROM olympic_ranking LIMIT 10", OlympicRanking.class);
+		List<OlympicRanking> lst = (List<OlympicRanking>) DatabaseManager.executeSelect(OlympicRanking.query + " LIMIT 10", OlympicRanking.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testOlympics() {
-		List<Olympics> lst = (List<Olympics>) DatabaseManager.executeSelect("SELECT * FROM olympics LIMIT 10", Olympics.class);
+		List<Olympics> lst = (List<Olympics>) DatabaseManager.executeSelect(Olympics.query + " LIMIT 10", Olympics.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testRecord() {
-		List<Record> lst = (List<Record>) DatabaseManager.executeSelect("SELECT * FROM record LIMIT 10", Record.class);
+		List<Record> lst = (List<Record>) DatabaseManager.executeSelect(Record.query + " LIMIT 10", Record.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testResult() {
-		List<Result> lst = (List<Result>) DatabaseManager.executeSelect("SELECT * FROM result LIMIT 10", Result.class);
+		List<Result> lst = (List<Result>) DatabaseManager.executeSelect(Result.query + " LIMIT 10", Result.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testRetiredNumber() {
-		List<RetiredNumber> lst = (List<RetiredNumber>) DatabaseManager.executeSelect("SELECT * FROM retired_number LIMIT 10", RetiredNumber.class);
+		List<RetiredNumber> lst = (List<RetiredNumber>) DatabaseManager.executeSelect(RetiredNumber.query + " LIMIT 10", RetiredNumber.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testRound() {
-		List<Round> lst = (List<Round>) DatabaseManager.executeSelect("SELECT * FROM round LIMIT 10", Round.class);
+		List<Round> lst = (List<Round>) DatabaseManager.executeSelect(Round.query + " LIMIT 10", Round.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testRoundType() {
-		List<RoundType> lst = (List<RoundType>) DatabaseManager.executeSelect("SELECT * FROM round_type LIMIT 10", RoundType.class);
+		List<RoundType> lst = (List<RoundType>) DatabaseManager.executeSelect(RoundType.query + " LIMIT 10", RoundType.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testSport() {
-		List<Sport> lst = (List<Sport>) DatabaseManager.executeSelect("SELECT * FROM sport LIMIT 10", Sport.class);
+		List<Sport> lst = (List<Sport>) DatabaseManager.executeSelect(Sport.query + " LIMIT 10", Sport.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testState() {
-		List<State> lst = (List<State>) DatabaseManager.executeSelect("SELECT * FROM state LIMIT 10", State.class);
+		List<State> lst = (List<State>) DatabaseManager.executeSelect(State.query + " LIMIT 10", State.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testTeam() {
-		List<Team> lst = (List<Team>) DatabaseManager.executeSelect("SELECT * FROM team LIMIT 10", Team.class);
+		List<Team> lst = (List<Team>) DatabaseManager.executeSelect(Team.query + " LIMIT 10", Team.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testTeamStadium() {
-		List<TeamStadium> lst = (List<TeamStadium>) DatabaseManager.executeSelect("SELECT * FROM team_stadium LIMIT 10", TeamStadium.class);
+		List<TeamStadium> lst = (List<TeamStadium>) DatabaseManager.executeSelect(TeamStadium.query + " LIMIT 10", TeamStadium.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testType() {
-		List<Type> lst = (List<Type>) DatabaseManager.executeSelect("SELECT * FROM type LIMIT 10", Type.class);
+		List<Type> lst = (List<Type>) DatabaseManager.executeSelect(Type.query + " LIMIT 10", Type.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testWinLoss() {
-		List<WinLoss> lst = (List<WinLoss>) DatabaseManager.executeSelect("SELECT * FROM win_loss LIMIT 10", WinLoss.class);
+		List<WinLoss> lst = (List<WinLoss>) DatabaseManager.executeSelect(WinLoss.query + " LIMIT 10", WinLoss.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testYear() {
-		List<Year> lst = (List<Year>) DatabaseManager.executeSelect("SELECT * FROM year LIMIT 10", Year.class);
+		List<Year> lst = (List<Year>) DatabaseManager.executeSelect(Year.query + " LIMIT 10", Year.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());

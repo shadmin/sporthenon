@@ -8,16 +8,20 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class City extends AbstractEntity {
 
 	private Integer id;
-	private String label;
-	private String labelFR;
+	private String 	label;
+	private String 	labelFR;
 	private Country country;
-	private State state;
+	private State 	state;
 	private Integer link;
 	private Integer ref;
 	
-	public static final transient String alias = "CT";
-	public static final transient String table = "city";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "CT";
+	public static final transient String table 	= "city";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT T.*, CN.code AS cn_code, CN.label AS cn_label, CN.label_fr AS cn_label_fr, "
+			+ " ST.code AS st_code, ST.label AS st_label, ST.label_fr AS st_label_fr "
+			+ " FROM city T LEFT JOIN country CN ON CN.id = T.id_country "
+			+ " LEFT JOIN state ST ON ST.id = T.id_state";
 	
 	public City() {}
 	
@@ -32,11 +36,13 @@ public class City extends AbstractEntity {
 			setLabelFr((String)mapValues.get("label_fr"));
 			Integer idState = (Integer)mapValues.get("id_state");
 			if (idState != null) {
-				setState(new State(idState));	
+				setState(new State());
+				getState().setValuesFromMap(extractEntityColumns(State.alias, idState, mapValues));
 			}
 			Integer idCountry = (Integer)mapValues.get("id_country");
 			if (idCountry != null) {
-				setCountry(new Country(idCountry));	
+				setCountry(new Country());
+				getCountry().setValuesFromMap(extractEntityColumns(Country.alias, idCountry, mapValues));
 			}
 			setLink((Integer)mapValues.get("link"));
 			setRef((Integer)mapValues.get("ref"));

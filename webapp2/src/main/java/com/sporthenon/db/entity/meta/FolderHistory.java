@@ -7,15 +7,15 @@ import com.sporthenon.db.entity.AbstractEntity;
 
 public class FolderHistory extends AbstractEntity {
 
-	private Integer id;
-	private String previousParams;
-	private String currentParams;
-	private String currentPath;
+	private Integer   id;
+	private String 	  previousParams;
+	private String 	  currentParams;
+	private String 	  currentPath;
 	private Timestamp date;
 
-	public static final transient String alias = "FH";
-	public static final transient String table = "_folder_history";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "FH";
+	public static final transient String table 	= "_folder_history";
+	public static final transient String key 	= "id";
 	
 	public FolderHistory() {}
 	

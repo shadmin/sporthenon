@@ -8,15 +8,21 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class RetiredNumber extends AbstractEntity {
 	
 	private Integer id;
-	private League league;
-	private Team team;
+	private League 	league;
+	private Team 	team;
 	private Athlete person;
-	private Year year;
+	private Year 	year;
 	private Integer number;
 	
-	public static final transient String alias = "RN";
-	public static final transient String table = "retired_number";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "RN";
+	public static final transient String table 	= "retired_number";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT T.*, LG.label AS lg_label, TM.label AS tm_label, "
+			+ " PR.last_name AS pr_last__name, PR.first_name AS pr_first_name, YR.label AS yr_label "
+			+ " FROM retired_number T LEFT JOIN league LG ON LG.id = T.id_league "
+			+ " LEFT JOIN team TM ON TM.id = T.id_team"
+			+ " LEFT JOIN athlete PR ON PR.id = T.id_person"
+			+ " LEFT JOIN year YR ON YR.id = T.id_year";
 	
 	public RetiredNumber() {}
 	
@@ -29,19 +35,23 @@ public class RetiredNumber extends AbstractEntity {
 			setId((Integer)mapValues.get("id"));
 			Integer idLeague = (Integer)mapValues.get("id_league");
 			if (idLeague != null) {
-				setLeague(new League(idLeague));	
+				setLeague(new League());
+				getLeague().setValuesFromMap(extractEntityColumns(League.alias, idLeague, mapValues));
 			}
 			Integer idTeam = (Integer)mapValues.get("id_team");
 			if (idTeam != null) {
-				setTeam(new Team(idTeam));	
+				setTeam(new Team());
+				getTeam().setValuesFromMap(extractEntityColumns(Team.alias, idTeam, mapValues));
 			}
 			Integer idPerson = (Integer)mapValues.get("id_person");
 			if (idPerson != null) {
-				setPerson(new Athlete(idPerson));	
+				setPerson(new Athlete());
+				getPerson().setValuesFromMap(extractEntityColumns(Athlete.alias, idPerson, mapValues));
 			}
 			Integer idYear = (Integer)mapValues.get("id_year");
 			if (idYear != null) {
-				setYear(new Year(idYear));	
+				setYear(new Year());
+				getYear().setValuesFromMap(extractEntityColumns(Year.alias, idYear, mapValues));
 			}
 			setNumber((Integer)mapValues.get("number"));
 			setMetadata(new Metadata((Integer)mapValues.get("id_contributor"), (Timestamp)mapValues.get("first_update"), (Timestamp)mapValues.get("last_update")));

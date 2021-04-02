@@ -260,7 +260,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		else if (e.getActionCommand().equals("extlinks")) {
 			StringBuffer sbLinks = new StringBuffer();
 			try {
-				final String sql = "from ExternalLink where entity='" + alias + "' and id_item=" + currentId + " order by id";
+				final String sql = "SELECT * FROM _external_link WHERE entity = ? and id_item = ? ORDER BY id";
 				List<ExternalLink> list = (List<ExternalLink>) DatabaseManager.executeSelect(sql, Arrays.asList(new Object[]{alias, currentId}), ExternalLink.class);
 				for (ExternalLink link : list)
 					sbLinks.append(link.getUrl()).append("\r\n");

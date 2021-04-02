@@ -7,12 +7,12 @@ import com.sporthenon.db.entity.AbstractEntity;
 public class Translation extends AbstractEntity {
 	
 	private Integer id;
-	private String entity;
+	private String 	entity;
 	private Integer idItem;
 	private Boolean checked;
 	
-	public static transient String table = 	"_translation";
-	public static transient String key = 	"id";
+	public static transient String table 	= "_translation";
+	public static transient String key 		= "id";
 	
 	public Translation() {}
 	

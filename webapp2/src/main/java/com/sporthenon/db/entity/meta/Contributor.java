@@ -9,17 +9,17 @@ public class Contributor extends AbstractEntity {
 
 	
 	private Integer id;
-	private String login;
-	private String publicName;
-	private String password;
-	private String email;
+	private String 	login;
+	private String 	publicName;
+	private String 	password;
+	private String 	email;
 	private Boolean active;
 	private Boolean admin;
-	private String sports;
+	private String 	sports;
 	
-	public static final transient String alias = "CB";
-	public static final transient String table = "_contributor";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "CB";
+	public static final transient String table 	= "_contributor";
+	public static final transient String key 	= "id";
 	
 	public Contributor() {}
 	

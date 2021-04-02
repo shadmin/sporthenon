@@ -8,12 +8,13 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class Year extends AbstractEntity {
 	
 	private Integer id;
-	private String label;
+	private String 	label;
 	private Integer ref;
 	
 	public static final transient String alias 	= "YR";
 	public static final transient String table 	= "year";
 	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT * FROM " + table;
 	
 	public Year() {}
 	

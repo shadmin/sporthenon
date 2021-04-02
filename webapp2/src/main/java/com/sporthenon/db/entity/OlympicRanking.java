@@ -7,16 +7,23 @@ import com.sporthenon.db.entity.meta.Metadata;
 
 public class OlympicRanking extends AbstractEntity {
 	
-	private Integer id;
+	private Integer  id;
 	private Olympics olympics;
-	private Country country;
-	private Integer countGold;
-	private Integer countSilver;
-	private Integer countBronze;
+	private Country  country;
+	private Integer  countGold;
+	private Integer  countSilver;
+	private Integer  countBronze;
 	
-	public static final transient String alias = "OR";
-	public static final transient String table = "olympic_ranking";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "OR_";
+	public static final transient String table 	= "olympic_ranking";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT T.*, YR.id AS ol_id_year, YR.label AS ol_yr_label, "
+			+ " CT.id AS ol_id_city, ct.label AS ol_ct_label, ct.label_fr AS ol_ct_label_fr, "
+			+ " CN.code AS cn_code, CN.label AS cn_label, CN.label_fr AS cn_label_fr "
+			+ " FROM olympic_ranking T LEFT JOIN olympics OL ON OL.id = T.id_olympics "
+			+ " LEFT JOIN city CT ON CT.id = OL.id_city "
+			+ " LEFT JOIN year YR ON YR.id = OL.id_year"
+			+ " LEFT JOIN country CN ON CN.id = T.id_country";
 	
 	public OlympicRanking() {}
 	
@@ -29,11 +36,13 @@ public class OlympicRanking extends AbstractEntity {
 			setId((Integer)mapValues.get("id"));
 			Integer idOlympics = (Integer)mapValues.get("id_olympics");
 			if (idOlympics != null) {
-				setOlympics(new Olympics(idOlympics));
+				setOlympics(new Olympics());
+				getOlympics().setValuesFromMap(extractEntityColumns(Olympics.alias, idOlympics, mapValues));
 			}
 			Integer idCountry = (Integer)mapValues.get("id_country");
 			if (idCountry != null) {
-				setCountry(new Country(idCountry));	
+				setCountry(new Country());
+				getCountry().setValuesFromMap(extractEntityColumns(Country.alias, idCountry, mapValues));
 			}
 			setCountGold((Integer)mapValues.get("count_gold"));
 			setCountSilver((Integer)mapValues.get("count_silver"));

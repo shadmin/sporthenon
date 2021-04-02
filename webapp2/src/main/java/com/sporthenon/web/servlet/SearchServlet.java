@@ -107,9 +107,8 @@ public class SearchServlet extends AbstractServlet {
 				params.add(max);
 				params.add(match);
 				params.add("_" + lang);
-				params.add(max);
 				StringBuffer html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_SEARCH, params, getUser(request), lang);
-				html.append(HtmlConverter.convertSearch(request, DatabaseManager.callFunctionSelect("search", params, RefItem.class, null, "?"), String.valueOf(mapParams.get("pattern")), lang));
+				html.append(HtmlConverter.convertSearch(request, DatabaseManager.callFunctionSelect("search", params, RefItem.class, null, max), String.valueOf(mapParams.get("pattern")), lang));
 				if (isLink) {
 					HtmlUtils.setHeadInfo(request, html.toString());
 					if (mapParams.containsKey("export"))

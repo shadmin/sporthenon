@@ -8,16 +8,17 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class State extends AbstractEntity {
 	
 	private Integer id;
-	private String code;
-	private String label;
-	private String labelFR;
-	private String capital;
+	private String 	code;
+	private String 	label;
+	private String 	labelFR;
+	private String 	capital;
 	private Integer ref;
 	private Boolean nopic;
 	
-	public static final transient String alias = "ST";
-	public static final transient String table = "state";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "ST";
+	public static final transient String table 	= "state";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT * FROM " + table;
 	
 	public State() {}
 	

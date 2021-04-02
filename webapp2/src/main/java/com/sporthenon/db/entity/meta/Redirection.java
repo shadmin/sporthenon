@@ -7,12 +7,12 @@ import com.sporthenon.db.entity.AbstractEntity;
 public class Redirection extends AbstractEntity {
 
 	private Integer id;
-	private String previousPath;
-	private String currentPath;
+	private String 	previousPath;
+	private String 	currentPath;
 
-	public static final transient String alias = "RE";
-	public static final transient String table = "_redirection";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "RE";
+	public static final transient String table 	= "_redirection";
+	public static final transient String key 	= "id";
 	
 	public Redirection() {}
 	

@@ -8,23 +8,28 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class Team extends AbstractEntity {
 
 	private Integer id;
-	private String label;
-	private Sport sport;
-	private String year1;
-	private String year2;
+	private String 	label;
+	private Sport 	sport;
+	private String 	year1;
+	private String 	year2;
 	private Country country;
-	private League league;
-	private String conference;
-	private String division;
-	private String comment;
+	private League 	league;
+	private String 	conference;
+	private String 	division;
+	private String 	comment;
 	private Integer link;
 	private Boolean inactive;
 	private Integer ref;
 	private Boolean nopic;
 	
-	public static final transient String alias = "TM";
-	public static final transient String table = "team";
-	public static final transient String key =   "id";
+	public static final transient String alias 	= "TM";
+	public static final transient String table 	= "team";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT T.*, CN.code AS cn_code, CN.label AS cn_label, CN.label_fr AS cn_label_fr, "
+			+ " SP.label AS sp_label, SP.label_fr AS sp_label_fr, SP.type AS sp_type, LG.label AS lg_label "
+			+ " FROM team T LEFT JOIN country CN ON CN.id = T.id_country "
+			+ " LEFT JOIN league LG ON LG.id = T.id_league"
+			+ " LEFT JOIN sport SP ON SP.id = T.id_sport";
 	
 	public Team() {}
 	
@@ -38,17 +43,24 @@ public class Team extends AbstractEntity {
 			setLabel((String)mapValues.get("label"));
 			Integer idSport = (Integer)mapValues.get("id_sport");
 			if (idSport != null) {
-				setSport(new Sport(idSport));	
+				setSport(new Sport(idSport));
+				getSport().setLabel((String)mapValues.get("sp_label"));
+				getSport().setLabelFr((String)mapValues.get("sp_label_fr"));
+				getSport().setType((Integer)mapValues.get("sp_type"));
 			}
 			setYear1((String)mapValues.get("year1"));
 			setYear2((String)mapValues.get("year2"));
 			Integer idCountry = (Integer)mapValues.get("id_country");
 			if (idCountry != null) {
-				setCountry(new Country(idCountry));	
+				setCountry(new Country(idCountry));
+				getCountry().setCode((String)mapValues.get("cn_code"));
+				getCountry().setLabel((String)mapValues.get("cn_label"));
+				getCountry().setLabelFr((String)mapValues.get("cn_label_fr"));
 			}
 			Integer idLeague = (Integer)mapValues.get("id_league");
 			if (idLeague != null) {
 				setLeague(new League(idLeague));	
+				getLeague().setLabel((String)mapValues.get("lg_label"));
 			}
 			setConference((String)mapValues.get("conference"));
 			setDivision((String)mapValues.get("division"));

@@ -5,8 +5,8 @@ import java.sql.Timestamp;
 public class Metadata {
 
 	private Contributor contributor;
-	private Timestamp firstUpdate;
-	private Timestamp lastUpdate;
+	private Timestamp 	firstUpdate;
+	private Timestamp 	lastUpdate;
 
 	public Metadata() {
 	}

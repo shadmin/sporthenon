@@ -2276,7 +2276,7 @@ public class HtmlConverter {
 					StringBuffer sbRel1 = new StringBuffer();
 					StringBuffer sbRel2 = new StringBuffer();
 					StringBuffer sbRel3 = new StringBuffer();
-					for (Athlete a : (List<Athlete>) DatabaseManager.executeSelect("from Athlete where id = ? or link = ? order by id", Arrays.asList(item.getIdItem(), item.getIdItem()), Athlete.class)) {
+					for (Athlete a : (List<Athlete>) DatabaseManager.executeSelect(Athlete.query + " WHERE T.id = ? or T.link = ? ORDER BY T.id", Arrays.asList(item.getIdItem(), item.getIdItem()), Athlete.class)) {
 						if (a.getCountry() != null && !lRel1Id.contains(a.getCountry().getId())) {
 							link = HtmlUtils.writeLink(Country.alias, a.getCountry().getId(), a.getCountry().getLabel(lang) + " (" + a.getCountry().getCode() + ")", a.getCountry().getLabel());
 							img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, a.getCountry().getId(), ImageUtils.SIZE_SMALL, null, null);

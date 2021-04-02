@@ -10,8 +10,8 @@ public class Config extends AbstractEntity {
 	private String value;
 	private String valueHtml;
 	
-	public static transient String table = 	"_config";
-	public static transient String key = 	"key";
+	public static transient String table 	= "_config";
+	public static transient String key 		= "key";
 
 	public Config() {}
 	

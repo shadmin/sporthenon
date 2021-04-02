@@ -8,15 +8,16 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class Country extends AbstractEntity {
 	
 	private Integer id;
-	private String code;
-	private String label;
-	private String labelFR;
+	private String 	code;
+	private String 	label;
+	private String 	labelFR;
 	private Integer ref;
 	private Boolean nopic;
 	
-	public static final transient String alias = "CN";
-	public static final transient String table = "country";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "CN";
+	public static final transient String table 	= "country";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT * FROM " + table;
 	
 	public Country() {
 	}

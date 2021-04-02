@@ -8,20 +8,37 @@ import com.sporthenon.db.entity.meta.Metadata;
 public class Calendar extends AbstractEntity {
 
 	private Integer id;
-	private Sport sport;
+	private Sport 	sport;
 	private Championship championship;
-	private Event event;
-	private Event subevent;
-	private Event subevent2;
+	private Event 	event;
+	private Event 	subevent;
+	private Event 	subevent2;
 	private Complex complex;
-	private City city;
+	private City 	city;
 	private Country country;
-	private String date1;
-	private String date2;
+	private String 	date1;
+	private String 	date2;
 	
-	public static final transient String alias = "CL";
-	public static final transient String table = "calendar";
-	public static final transient String key = 	 "id";
+	public static final transient String alias 	= "CL";
+	public static final transient String table 	= "calendar";
+	public static final transient String key 	= "id";
+	public static final transient String query 	= "SELECT T.*, SP.label AS sp_label, SP.label_fr AS sp_label_fr, CP.label AS cp_label, CP.label_fr AS cp_label_fr, "
+			+ " EV.label AS ev_label, EV.label_fr AS ev_label_fr, EV.id_type AS ev_id_type, TP1.label AS ev_tp_label, TP1.number AS ev_tp_number, "
+			+ " SE.label AS se_label, SE.label_fr AS se_label_fr, SE.id_type AS se_id_type, TP2.label AS se_tp_label, TP2.number AS se_tp_number, "
+			+ " SE2.label AS se2_label, SE2.label_fr AS se2_label_fr, SE2.id_type AS se2_id_type, TP3.label AS se2_tp_label, TP3.number AS se2_tp_number, "
+			+ " CX.label AS cx_label, CT.label AS ct_label, CT.label_fr AS ct_label_fr, "
+			+ " CN.label AS cn_label, CN.label_fr AS cn_label_fr "
+			+ " FROM calendar T LEFT JOIN sport SP ON SP.id = T.id_sport "
+			+ " LEFT JOIN championship CP ON CP.id = T.id_championship"
+			+ " LEFT JOIN event EV ON EV.id = T.id_event"
+			+ " LEFT JOIN event SE ON SE.id = T.id_subevent"
+			+ " LEFT JOIN event SE2 ON SE2.id = T.id_subevent2"
+			+ " LEFT JOIN type TP1 ON TP1.id = EV.id_type"
+			+ " LEFT JOIN type TP2 ON TP2.id = SE.id_type"
+			+ " LEFT JOIN type TP3 ON TP3.id = SE2.id_type"
+			+ " LEFT JOIN complex CX ON CX.id = T.id_complex"
+			+ " LEFT JOIN city CT ON CT.id = T.id_city"
+			+ " LEFT JOIN country CN ON CN.id = T.id_country";
 	
 	public Calendar() {}
 	
@@ -34,35 +51,43 @@ public class Calendar extends AbstractEntity {
 			setId((Integer)mapValues.get("id"));
 			Integer idSport = (Integer)mapValues.get("id_sport");
 			if (idSport != null) {
-				setSport(new Sport(idSport));	
+				setSport(new Sport());
+				getSport().setValuesFromMap(extractEntityColumns(Sport.alias, idSport, mapValues));
 			}
 			Integer idChampionship = (Integer)mapValues.get("id_championship");
 			if (idChampionship != null) {
-				setChampionship(new Championship(idChampionship));	
+				setChampionship(new Championship());
+				getChampionship().setValuesFromMap(extractEntityColumns(Championship.alias, idChampionship, mapValues));
 			}
 			Integer idEvent = (Integer)mapValues.get("id_event");
 			if (idEvent != null) {
-				setEvent(new Event(idEvent));	
+				setEvent(new Event());
+				getEvent().setValuesFromMap(extractEntityColumns(Event.alias, idEvent, mapValues));
 			}
 			Integer idSubevent = (Integer)mapValues.get("id_subevent");
 			if (idSubevent != null) {
-				setSubevent(new Event(idSubevent));	
+				setSubevent(new Event());	
+				getSubevent().setValuesFromMap(extractEntityColumns("SE", idSubevent, mapValues));
 			}
 			Integer idSubevent2 = (Integer)mapValues.get("id_subevent2");
 			if (idSubevent2 != null) {
-				setSubevent2(new Event(idSubevent2));	
+				setSubevent2(new Event());
+				getSubevent2().setValuesFromMap(extractEntityColumns("SE2", idSubevent2, mapValues));
 			}
 			Integer idComplex = (Integer)mapValues.get("id_complex");
 			if (idComplex != null) {
-				setComplex(new Complex(idComplex));	
+				setComplex(new Complex());
+				getComplex().setValuesFromMap(extractEntityColumns(Complex.alias, idComplex, mapValues));
 			}
 			Integer idCity = (Integer)mapValues.get("id_city");
 			if (idCity != null) {
-				setCity(new City(idCity));	
+				setCity(new City());
+				getCity().setValuesFromMap(extractEntityColumns(City.alias, idCity, mapValues));
 			}
 			Integer idCountry = (Integer)mapValues.get("id_country");
 			if (idCountry != null) {
-				setCountry(new Country(idCountry));	
+				setCountry(new Country());
+				getCountry().setValuesFromMap(extractEntityColumns(Country.alias, idCountry, mapValues));
 			}
 			setDate1((String)mapValues.get("date1"));
 			setDate2((String)mapValues.get("date2"));
