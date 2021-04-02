@@ -11,8 +11,8 @@ public class Import extends AbstractEntity {
 	private Timestamp date;
 	private String 	  csvContent;
 	
-	public static transient String table 	= "_import";
-	public static transient String key 		= "id";
+	public static final transient String table 	= "_import";
+	public static final transient String key 	= "id";
 
 	public Import() {}
 	

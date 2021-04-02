@@ -13,8 +13,8 @@ public class InactiveItem extends AbstractEntity {
 	private Integer idSubevent;
 	private Integer idSubevent2;
 	
-	public static transient String table	= "_inactive_item";
-	public static transient String key 		= "id";
+	public static final transient String table	= "_inactive_item";
+	public static final transient String key 	= "id";
 
 	public InactiveItem() {}
 	

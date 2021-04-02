@@ -3307,7 +3307,7 @@ function saveRedirections() {
 }
 function addRedirection(id) {
 	var t = [];
-	var t_ = $$('#re-' + id + ' td');
+	//var t_ = $$('#re-' + id + ' td');
 	t.push('<tr><td style="display:none;">0</td>');
 	t.push('<td><input type="text" style="width:450px;"/></td>');
 	t.push('<td><input type="text" style="width:450px;"/></td></tr>');

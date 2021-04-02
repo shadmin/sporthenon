@@ -79,7 +79,7 @@ public class DatabaseManager {
 	    boolean local = true;
 	    Class.forName("org.postgresql.Driver");
 	    if (local) {
-		    config.setJdbcUrl(String.format("jdbc:postgresql://127.0.0.1:5433/%s", "shlocal2"));
+		    config.setJdbcUrl(String.format("jdbc:postgresql://127.0.0.1:5432/%s", "shlocal2"));
 		    config.setUsername("shadmin");
 		    config.setPassword("password");
 	    }
@@ -167,7 +167,7 @@ public class DatabaseManager {
 	public static Collection<?> callFunctionSelect(final String functionName, Collection<?> params, Class<?> class_, Object... options) {
 		final String sql = "SELECT * FROM " + functionName
 				+ (params != null ? "(" + StringUtils.repeat("?", params.size(), ",") + ")" : "")
-				+ (options != null && options.length > 0 && options[0] != null ? options[0] : "")
+				+ (options != null && options.length > 0 && options[0] != null ? " ORDER BY " + options[0] : "")
 				+ (options != null && options.length > 1 && options[1] != null ? " LIMIT " + options[1] : "");
 		return executeSelect(sql, params, class_);
 	}

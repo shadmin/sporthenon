@@ -11,8 +11,8 @@ public class Translation extends AbstractEntity {
 	private Integer idItem;
 	private Boolean checked;
 	
-	public static transient String table 	= "_translation";
-	public static transient String key 		= "id";
+	public static final transient String table 	= "_translation";
+	public static final transient String key 		= "id";
 	
 	public Translation() {}
 	

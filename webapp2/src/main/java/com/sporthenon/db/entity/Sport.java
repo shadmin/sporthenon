@@ -18,7 +18,6 @@ public class Sport extends AbstractEntity {
 	public static final transient String alias 	= "SP";
 	public static final transient String table 	= "sport";
 	public static final transient String key 	= "id";
-	public static final transient String query 	= "SELECT * FROM " + table;
 	
 	public Sport() {}
 	

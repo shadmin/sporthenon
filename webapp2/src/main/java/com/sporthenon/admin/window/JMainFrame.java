@@ -266,19 +266,19 @@ public class JMainFrame extends JFrame {
 			String sql = null;
 			if (c_.equals(City.class)) {
 				sql = "SELECT CT.id, CT.label || case when id_state is not null then ', ' || ST.code else '' end || ', ' || CN.code as text "
-					+ "FROM city CT left join state ST on CT.id_state=ST.id left join country CN on CT.id_country=CN.id ORDER BY text";
+					+ " FROM city CT left join state ST on CT.id_state=ST.id left join country CN on CT.id_country=CN.id ORDER BY text";
 			}
 			else if (c_.equals(Complex.class)) {
 				sql = "SELECT CX.id, CX.label || ' [' || CT.label || case when id_state is not null then ', ' || ST.code else '' end || ', ' || CN.code || ']' as text "
-					+ "FROM complex CX left join city CT on CX.id_city=CT.id left join state ST on CT.id_state=ST.id left join country CN on CT.id_country=CN.id ORDER BY text";
+					+ " FROM complex CX left join city CT on CX.id_city=CT.id left join state ST on CT.id_state=ST.id left join country CN on CT.id_country=CN.id ORDER BY text";
 			}
 			else if (c_.equals(Athlete.class)) {
 				sql = "SELECT PR.id, last_name || ', ' || first_name || case when PR.id_country is not null then ' [' || CN.code || ']' else '' end || case when PR.id_team is not null then ' [' || TM.label || ']' else '' end as text, PR.id_sport "
-					+ "FROM athlete PR left join country CN on PR.id_country=CN.id left join team TM on PR.id_team=TM.id ORDER BY text";
+					+ " FROM athlete PR left join country CN on PR.id_country=CN.id left join team TM on PR.id_team=TM.id ORDER BY text";
 			}
 			else if (c_.equals(Team.class)) {
 				sql = "SELECT TM.id, TM.label || case when id_country is not null then ' [' || CN.code || ']' else '' end || case when TM.year1 is not null and TM.year1 <> '' then ' [' || TM.year1 || ']' else '' end || case when TM.year2 is not null and TM.year2 <> '' then ' [' || TM.year2 || ']' else '' end as text, TM.id_sport "
-					+ "FROM team TM left join country CN on TM.id_country=CN.id order by text";
+					+ " FROM team TM left join country CN on TM.id_country=CN.id order by text";
 			}
 			else if (c_.equals(Country.class)) {
 				sql = "SELECT id, label || ' [' || code || ']' FROM country ORDER BY label";

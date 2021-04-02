@@ -13,9 +13,9 @@ public class Picture extends AbstractEntity {
 	private String 	source;
 	private Boolean embedded;
 	
-	public static transient String table 	= "_picture";
-	public static transient String key 		= "id";
-
+	public static final transient String table 	= "_picture";
+	public static final transient String key 	= "id";
+	
 	public Picture() {}
 	
 	public void setValuesFromMap(Map<String, Object> mapValues) {

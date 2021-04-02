@@ -17,7 +17,7 @@ public class Championship extends AbstractEntity {
 	public static final transient String alias 	= "CP";
 	public static final transient String table 	= "championship";
 	public static final transient String key 	= "id";
-	public static final transient String query 	= "SELECT * FROM " + table;
+	
 	public Championship() {}
 	
 	public Championship(Integer id) {
