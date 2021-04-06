@@ -831,8 +831,8 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			boolean isPhoto = (ImageUtils.getPhotos(item.getEntity(), item.getIdItem(), lang) != null);
 			boolean isNopic = (item.getCount3() != null && item.getCount3() == 1);
-			int picsL = ImageUtils.getImageList(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_LARGE).size();
-			int picsS = ImageUtils.getImageList(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_SMALL).size();
+			int picsL = ImageUtils.getImages(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_LARGE).size();
+			int picsS = ImageUtils.getImages(ImageUtils.getIndex(item.getEntity()), item.getIdItem(), ImageUtils.SIZE_SMALL).size();
 			int comp = 0, max = 1;
 			String url = "/" + ResourceUtils.getText("entity." + item.getEntity() + ".1", ResourceUtils.LGDEFAULT).replaceAll("\\s", "").toLowerCase() + "/" + StringUtils.encode(item.getEntity() + "-" + item.getIdItem());
 			html.append("<tr>");
@@ -940,7 +940,7 @@ public class UpdateServlet extends AbstractServlet {
 				short index = ImageUtils.getIndex(item.getEntity());
 				if (index != -1) {
 					html.append("<td>");
-					for (String img : ImageUtils.getImageList(index, item.getIdItem(), ImageUtils.SIZE_SMALL))
+					for (String img : ImageUtils.getImages(index, item.getIdItem(), ImageUtils.SIZE_SMALL))
 						html.append("<a href='" + ImageUtils.getUrl() + img.replaceFirst("\\-S", "\\-L") + "' target='_blank'><img title='" + img + "' src='" + ImageUtils.getUrl() + img + "'/></a>");
 					html.append("</td>");
 				}

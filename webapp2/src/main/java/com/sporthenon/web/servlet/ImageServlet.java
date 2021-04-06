@@ -10,7 +10,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,7 +22,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -98,8 +96,6 @@ public class ImageServlet extends AbstractServlet {
 					FileOutputStream fos = new FileOutputStream(f);
 					fos.write(b);
 					fos.close();
-					ImageUtils.getImgFiles().add(f.getName());
-					Collections.sort(ImageUtils.getImgFiles());
 					p.setEmbedded(false);
 					p.setValue(f.getName());
 				}
@@ -143,7 +139,7 @@ public class ImageServlet extends AbstractServlet {
 				String ext = ".png";
 				String fileName = ImageUtils.getIndex(entity.toUpperCase()) + "-" + id + "-" + hParams.get("size") + (StringUtils.notEmpty(y1) && !y1.equals("null") ? "_" + y1 + "-" + y2 : "");
 				int index = -1;
-				Collection<String> lExisting = ImageUtils.getImageList(ImageUtils.getIndex(entity.toUpperCase()), id, String.valueOf(hParams.get("size")).charAt(0));
+				Collection<String> lExisting = ImageUtils.getImages(ImageUtils.getIndex(entity.toUpperCase()), id, String.valueOf(hParams.get("size")).charAt(0));
 				for (String s : lExisting) {
 					if (s.indexOf(fileName) == 0) {
 						index = 0;
@@ -157,8 +153,7 @@ public class ImageServlet extends AbstractServlet {
 				FileOutputStream fos = new FileOutputStream(f);
 				fos.write(b);
 				fos.close();
-				ImageUtils.getImgFiles().add(f.getName());
-				Collections.sort(ImageUtils.getImgFiles());
+				ImageUtils.addImage(f.getName());
 			}
 			else if (hParams.containsKey("download")) {
 				String fname = String.valueOf(hParams.get("name"));
@@ -181,8 +176,7 @@ public class ImageServlet extends AbstractServlet {
 					File f = new File(ConfigUtils.getProperty("img.folder") + fname);
 					if (f.exists()) {
 						f.delete();
-						ImageUtils.getImgFiles().remove(f.getName());
-						Collections.sort(ImageUtils.getImgFiles());
+						ImageUtils.removeImage(f.getName());
 					}
 				}
 				DatabaseManager.executeUpdate("DELETE FROM _picture WHERE ID=" + hParams.get("id"));
@@ -192,7 +186,7 @@ public class ImageServlet extends AbstractServlet {
 				String id2 = String.valueOf(hParams.get("id2"));
 				boolean found = false;
 				List<String> lAdded = new ArrayList<String>();
-				for (String s : ImageUtils.getImgFiles()) {
+				/*for (String s : ImageUtils.getImgFiles()) {
 					if (s.indexOf(ImageUtils.getIndex(entity) + "-" + id1 + "-") == 0) {
 						File f1 = new File(ConfigUtils.getProperty("img.folder") + s);
 						File f2 = new File(ConfigUtils.getProperty("img.folder") + s.replaceFirst("\\-" + id1 + "\\-", "-" + id2 + "-"));
@@ -203,8 +197,7 @@ public class ImageServlet extends AbstractServlet {
 					else if (found)
 						break;
 				}
-				ImageUtils.getImgFiles().addAll(lAdded);
-				Collections.sort(ImageUtils.getImgFiles());
+				ImageUtils.getImgFiles().addAll(lAdded);*/
 			}
 			else if (hParams.containsKey("url")) {
 				String id = String.valueOf(hParams.get("id"));
@@ -216,7 +209,7 @@ public class ImageServlet extends AbstractServlet {
 				String id = String.valueOf(hParams.get("id"));
 				String size = String.valueOf(hParams.get("size"));
 				StringBuffer sb = new StringBuffer();
-				for (String s : ImageUtils.getImageList(ImageUtils.getIndex(entity), id, size.charAt(0)))
+				for (String s : ImageUtils.getImages(ImageUtils.getIndex(entity), id, size.charAt(0)))
 					sb.append(s).append(",");
 				ServletHelper.writeText(response, sb.toString());
 			}
@@ -253,7 +246,7 @@ public class ImageServlet extends AbstractServlet {
 						if (o.getParam() != null && o.getParam().equals("true")) {
 							continue;
 						}
-						Collection<String> list = ImageUtils.getImageList(ImageUtils.getIndex(entity_.toUpperCase()), o.getValue(), ImageUtils.SIZE_LARGE);
+						Collection<String> list = ImageUtils.getImages(ImageUtils.getIndex(entity_.toUpperCase()), o.getValue(), ImageUtils.SIZE_LARGE);
 						if (list == null || list.isEmpty()) {
 							sbResult.append(entity_).append(";").append(++n).append(";").append(o.getValue()).append(";").append(o.getText()).append("\r\n");
 						}

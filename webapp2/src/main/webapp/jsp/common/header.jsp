@@ -1,14 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.sporthenon.db.entity.meta.Contributor"%>
 <%@ page import="com.sporthenon.utils.ConfigUtils"%>
+<%@ page import="com.sporthenon.utils.ImageUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <%@ page import="com.sporthenon.web.ServletHelper"%>
 <%
 	Object o = session.getAttribute("user");
 	Contributor m = null;
-	if (o != null && o instanceof Contributor)
+	if (o != null && o instanceof Contributor) {
 		m = (Contributor) o;
+	}
 	ResourceUtils.setLocale(request);
 	Object title = request.getAttribute("title");
 	Object desc = request.getAttribute("desc");
@@ -68,7 +70,7 @@
 <script type="text/javascript"><!--
 <%
 	out.print("var VERSION=\"" + version + "\";");
-	out.print("var IMG_URL=\"" + ConfigUtils.getProperty("img.url") + "\";");
+	out.print("var IMG_URL=\"" + ImageUtils.getUrl() + "\";");
 	out.print("var TX_OK=\"" + StringUtils.text("ok", session) + "\";");
 	out.print("var TX_CANCEL=\"" + StringUtils.text("cancel", session) + "\";");
 	out.print("var TX_ACTIONS_TAB=\"" + StringUtils.text("actions.currenttab", session) + "\";");

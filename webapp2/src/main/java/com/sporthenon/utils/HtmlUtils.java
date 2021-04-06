@@ -34,42 +34,42 @@ public class HtmlUtils {
 	
 	public static String writeImage(short type, Object id, char size, String year, String title) {
 		StringBuffer html = new StringBuffer();
-		final String name = type + "-" + id + "-" + size;
-		String name2 = "";
-		if (type == ImageUtils.INDEX_SPORT_CHAMPIONSHIP || type == ImageUtils.INDEX_SPORT_EVENT)
-			name2 = (type == ImageUtils.INDEX_SPORT_CHAMPIONSHIP ? ImageUtils.INDEX_CHAMPIONSHIP : ImageUtils.INDEX_EVENT) + "-" + String.valueOf(id).split("\\-")[1] + "-" + size;
+		final String key1 = type + "-" + id + "-" + size;
 		LinkedList<String> list = new LinkedList<String>();
-		LinkedList<String> list2 = new LinkedList<String>();
-		for (String s : ImageUtils.getImgFiles()) {
-			if (s.startsWith(name)) {
-				boolean isInclude = true;
-				if (StringUtils.notEmpty(year)) {
-					String[] t = s.replaceAll("^" + name + "(\\_|)|(gif|png)$|(\\_\\d+|)\\.", "").split("\\-");
-					try {
-						if (t.length > 1) {
-							Integer y = Integer.parseInt(year.contains("-") || year.contains("/") ? year.substring(year.length() - 4) : year);
-							Integer y1 = Integer.parseInt(t[0].equalsIgnoreCase("X") ? "0" : t[0]);
-							Integer y2 = Integer.parseInt(t[1].equalsIgnoreCase("X") ? "5000" : t[1]);
-							isInclude = (y >= y1 && y <= y2);
-						}
+		for (String s : ImageUtils.getImages(key1)) {
+			boolean isInclude = true;
+			if (StringUtils.notEmpty(year)) {
+				String[] t = s.replaceAll("^" + key1 + "(\\_|)|(gif|png)$|(\\_\\d+|)\\.", "").split("\\-");
+				try {
+					if (t.length > 1) {
+						Integer y = Integer.parseInt(year.contains("-") || year.contains("/") ? year.substring(year.length() - 4) : year);
+						Integer y1 = Integer.parseInt(t[0].equalsIgnoreCase("X") ? "0" : t[0]);
+						Integer y2 = Integer.parseInt(t[1].equalsIgnoreCase("X") ? "5000" : t[1]);
+						isInclude = (y >= y1 && y <= y2);
 					}
-					catch (NumberFormatException e) {}
 				}
-				else
-					isInclude = !s.matches(".*\\d{4}\\-\\d{4}\\.(gif|png)$");
-				if (isInclude)
-					list.add(s);
+				catch (NumberFormatException e) {}
 			}
-			else if (StringUtils.notEmpty(name2) && s.startsWith(name2))
-				list2.add(s);
+			else {
+				isInclude = !s.matches(".*\\d{4}\\-\\d{4}\\.(gif|png)$");
+			}
+			if (isInclude) {
+				list.add(s);
+			}
 		}
-		if (list.isEmpty())
-			list.addAll(list2);
+		if (list.isEmpty()) {
+			if (type == ImageUtils.INDEX_SPORT_CHAMPIONSHIP || type == ImageUtils.INDEX_SPORT_EVENT) {
+				String key2 = (type == ImageUtils.INDEX_SPORT_CHAMPIONSHIP ? ImageUtils.INDEX_CHAMPIONSHIP : ImageUtils.INDEX_EVENT) + "-" + String.valueOf(id).split("\\-")[1] + "-" + size;
+				list.addAll(ImageUtils.getImages(key2));
+			}
+		}
 		Collections.sort(list);
-		if (!list.isEmpty())
+		if (!list.isEmpty()) {
 			html.append("<img alt=''" + (StringUtils.notEmpty(title) ? " title=\"" + title + "\"" : "") + " src='" + ImageUtils.getUrl() + list.getLast() + "'/>");
-		else if (size == ImageUtils.SIZE_LARGE && type != ImageUtils.INDEX_SPORT_CHAMPIONSHIP && type != ImageUtils.INDEX_SPORT_EVENT)
+		}
+		else if (size == ImageUtils.SIZE_LARGE && type != ImageUtils.INDEX_SPORT_CHAMPIONSHIP && type != ImageUtils.INDEX_SPORT_EVENT) {
 			html.append("<img alt='' src='/img/noimage.png?0'/>");
+		}
 		return html.toString();
 	}
 	

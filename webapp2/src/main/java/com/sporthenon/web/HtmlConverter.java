@@ -758,7 +758,7 @@ public class HtmlConverter {
 			if (e == null)
 				return null;
 			String currentLogo = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, e.getId(), ImageUtils.SIZE_LARGE, null, null);
-			Collection<String> lAllLogos = ImageUtils.getImageList(ImageUtils.INDEX_COUNTRY, e.getId(), ImageUtils.SIZE_LARGE);
+			Collection<String> lAllLogos = ImageUtils.getImages(ImageUtils.INDEX_COUNTRY, e.getId(), ImageUtils.SIZE_LARGE);
 			hInfo.put("title", e.getLabel(lang));
 			hInfo.put("titleEN", e.getLabel());
 			hInfo.put("titlename", "<b>" + e.getLabel(lang).toUpperCase() + "</b>");
@@ -1284,7 +1284,7 @@ public class HtmlConverter {
 				lTeam.add(e);
 			String titlename = "";
 			String currentLogo = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, e.getId(), ImageUtils.SIZE_LARGE, null, null);
-			Collection<String> lAllLogos = ImageUtils.getImageList(ImageUtils.INDEX_TEAM, e.getId(), ImageUtils.SIZE_LARGE);
+			Collection<String> lAllLogos = ImageUtils.getImages(ImageUtils.INDEX_TEAM, e.getId(), ImageUtils.SIZE_LARGE);
 			ArrayList<Integer> lId = new ArrayList<Integer>();
 			Vector<String> vNm = new Vector<String>();
 			Vector<Integer> vSp = new Vector<Integer>();

@@ -51,7 +51,7 @@ public class EntityTest extends TestCase {
 	}
 	
 	public void testChampionship() {
-		List<Championship> lst = (List<Championship>) DatabaseManager.executeSelect("SELECT * FROM LIMIT 10", Championship.class);
+		List<Championship> lst = (List<Championship>) DatabaseManager.executeSelect("SELECT * FROM championship LIMIT 10", Championship.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
@@ -72,7 +72,7 @@ public class EntityTest extends TestCase {
 	}
 	
 	public void testCountry() {
-		List<Country> lst = (List<Country>) DatabaseManager.executeSelect("SELECT * FROM LIMIT 10", Country.class);
+		List<Country> lst = (List<Country>) DatabaseManager.executeSelect("SELECT * FROM country LIMIT 10", Country.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
@@ -93,7 +93,7 @@ public class EntityTest extends TestCase {
 	}
 	
 	public void testLeague() {
-		List<League> lst = (List<League>) DatabaseManager.executeSelect("SELECT * FROM LIMIT 10", League.class);
+		List<League> lst = (List<League>) DatabaseManager.executeSelect("SELECT * FROM league LIMIT 10", League.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
@@ -142,21 +142,21 @@ public class EntityTest extends TestCase {
 	}
 	
 	public void testRoundType() {
-		List<RoundType> lst = (List<RoundType>) DatabaseManager.executeSelect("SELECT * FROM LIMIT 10", RoundType.class);
+		List<RoundType> lst = (List<RoundType>) DatabaseManager.executeSelect("SELECT * FROM round_type LIMIT 10", RoundType.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testSport() {
-		List<Sport> lst = (List<Sport>) DatabaseManager.executeSelect("SELECT * FROM LIMIT 10", Sport.class);
+		List<Sport> lst = (List<Sport>) DatabaseManager.executeSelect("SELECT * FROM sport LIMIT 10", Sport.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
 	}
 	
 	public void testState() {
-		List<State> lst = (List<State>) DatabaseManager.executeSelect("SELECT * FROM LIMIT 10", State.class);
+		List<State> lst = (List<State>) DatabaseManager.executeSelect("SELECT * FROM state LIMIT 10", State.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
@@ -177,7 +177,7 @@ public class EntityTest extends TestCase {
 	}
 	
 	public void testType() {
-		List<Type> lst = (List<Type>) DatabaseManager.executeSelect("SELECT * FROM LIMIT 10", Type.class);
+		List<Type> lst = (List<Type>) DatabaseManager.executeSelect("SELECT * FROM type LIMIT 10", Type.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());
@@ -191,7 +191,7 @@ public class EntityTest extends TestCase {
 	}
 	
 	public void testYear() {
-		List<Year> lst = (List<Year>) DatabaseManager.executeSelect("SELECT * FROM LIMIT 10", Year.class);
+		List<Year> lst = (List<Year>) DatabaseManager.executeSelect("SELECT * FROM year LIMIT 10", Year.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());

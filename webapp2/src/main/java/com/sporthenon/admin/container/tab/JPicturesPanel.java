@@ -59,6 +59,7 @@ import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.utils.ConfigUtils;
+import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
 
@@ -431,7 +432,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 				try {
 					String value = String.valueOf(((JList<?>)e.getSource()).getSelectedValue());
 					if (StringUtils.notEmpty(value) && !value.equals("null")) {
-						jRemoteFile.setText(ConfigUtils.getProperty("img.url") + value);
+						jRemoteFile.setText(ImageUtils.getUrl() + value);
 						jRemotePanel.setImage(new URL(jRemoteFile.getText()));						
 					}
 					else

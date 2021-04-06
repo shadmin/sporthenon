@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<entry key="env">local</entry><!-- Environment (standalone|local|test|prod) -->
-	<entry key="version">1.0.2</entry>
-	<entry key="date">01/12/2015</entry>
-	<entry key="url">http://localhost/</entry>
-	<entry key="img.url">/img/_imgdb_/</entry>
-	<entry key="img.folder">C:\eclipse\workspace\sporthenon\src\main\webapp\img\_imgdb_</entry>
+	<entry key="version">1.1.0</entry>
+	<entry key="date">06/04/2021</entry>
+	<entry key="url">http://localhost:8080/</entry>
+	<entry key="bucket.name">sh_bucket</entry>
+	<entry key="bucket.folder">shimg</entry>
 	<entry key="font.folder">c:/windows/fonts/</entry>
 	<entry key="temp.folder">c:/temp/</entry>
 </properties>

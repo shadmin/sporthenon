@@ -1,15 +1,20 @@
 package com.sporthenon.utils;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.api.gax.paging.Page;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.Storage.BlobListOption;
+import com.google.cloud.storage.StorageOptions;
 import com.sporthenon.db.DatabaseManager;
 import com.sporthenon.db.entity.meta.Picture;
 import com.sporthenon.utils.res.ResourceUtils;
@@ -19,21 +24,22 @@ public class ImageUtils {
 
 	private static final Logger log = Logger.getLogger(ImageUtils.class.getName());
 	
-	public static final short INDEX_SPORT = 0;
-	public static final short INDEX_CHAMPIONSHIP = 1;
-	public static final short INDEX_STATE = 2;
-	public static final short INDEX_OLYMPICS = 3;
-	public static final short INDEX_COUNTRY = 4;
-	public static final short INDEX_TEAM = 5;
-	public static final short INDEX_EVENT = 6;
-	public static final short INDEX_SPORT_CHAMPIONSHIP = 7;
-	public static final short INDEX_SPORT_EVENT = 8;
+	public static final short INDEX_SPORT 		 		= 0;
+	public static final short INDEX_CHAMPIONSHIP 		= 1;
+	public static final short INDEX_STATE 		 		= 2;
+	public static final short INDEX_OLYMPICS 	 		= 3;
+	public static final short INDEX_COUNTRY 	 		= 4;
+	public static final short INDEX_TEAM 		 		= 5;
+	public static final short INDEX_EVENT 		 		= 6;
+	public static final short INDEX_SPORT_CHAMPIONSHIP 	= 7;
+	public static final short INDEX_SPORT_EVENT  		= 8;
 	
 	public static final char SIZE_LARGE = 'L';
 	public static final char SIZE_SMALL = 'S';
 	
 	private static Map<String, Short> mapIndex;
-	private static List<String> imgFiles;
+	private static Map<String, List<String>> mapFiles;
+	private static String imgURL = null;
 	
 	static {
 		mapIndex = new HashMap<String, Short>();
@@ -49,11 +55,79 @@ public class ImageUtils {
 	}
 
 	public static short getIndex(String alias) {
-		return (mapIndex.containsKey(alias) ? mapIndex.get(alias) : -1);
+		return mapIndex.containsKey(alias) ? mapIndex.get(alias) : -1;
 	}
 	
 	public static String getUrl() {
-		return ConfigUtils.getProperty("img.url");
+		if (imgURL == null) {
+			imgURL = String.format("https://storage.googleapis.com/%s/%s/",
+					ConfigUtils.getProperty("bucket.name"),
+					ConfigUtils.getProperty("bucket.folder")); 
+		}
+		return imgURL;
+	}
+	
+	private static void initFileMap() {
+		try {
+			mapFiles = new HashMap<>();
+			Storage storage = StorageOptions.getDefaultInstance().getService();
+		    String bucket = ConfigUtils.getProperty("bucket.name");
+		    String folder = ConfigUtils.getProperty("bucket.folder") + "/";
+		    Page<Blob> files = storage.list(bucket, BlobListOption.currentDirectory(), BlobListOption.prefix(folder));
+		    Iterator<Blob> it = files.iterateAll().iterator();
+		    while (it.hasNext()) {
+		      Blob file = it.next();
+		      String fileName = file.getName().replace(folder, "");
+		      String key = fileName.replaceFirst("(\\.|\\_).+", "");
+		      List<String> value = mapFiles.containsKey(key) ? mapFiles.get(key) : new ArrayList<>();
+		      value.add(fileName);
+		      mapFiles.put(key, value);
+		    }
+		}
+		catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+	
+	public static void addImage(String name) {
+		
+	}
+	
+	public static void removeImage(String name) {
+		
+	}
+	
+	public static Collection<String> getImages(String key) {
+		if (mapFiles == null) {
+			initFileMap();
+		}
+		return mapFiles.containsKey(key) ? mapFiles.get(key) : Collections.EMPTY_LIST;
+	}
+	
+	public static Collection<String> getImages(short type, Object id, char size) {
+		String key = type + "-" + id + "-" + size;
+		return getImages(key);
+	}
+
+	public static StringBuffer getPhotos(String entity, Object id, String lang) throws Exception {
+		final int MAX_WIDTH = Integer.parseInt(ConfigUtils.getValue("max_photo_width"));
+		final int MAX_HEIGHT = Integer.parseInt(ConfigUtils.getValue("max_photo_height"));
+		StringBuffer sb = new StringBuffer();
+		for (Picture p : (List<Picture>) DatabaseManager.executeSelect("SELECT * FROM _picture WHERE entity='" + entity + "' AND id_item=" + id + " ORDER BY id", Picture.class)) {
+			sb.append("<li id='ph-" + p.getId() + "'>");
+			if (p.isEmbedded()) {
+				String value = p.getValue().replaceAll("%", "px");
+				value = value.replaceAll("height\\:100px\\;", "");
+				value = value.replaceAll("width\\:100px\\;", "width:" + MAX_WIDTH + "px;height:" + MAX_HEIGHT + "px;");
+				value = value.replaceFirst("padding:[\\d\\.]+px", "padding:0");
+				sb.append(value);
+			}
+			else {
+				sb.append("<img alt='" + (StringUtils.notEmpty(p.getSource()) ? p.getSource() : "") + "' src='" + ImageUtils.getUrl() + p.getValue() + "'/>");
+			}
+			sb.append("<div class='enlarge'><a href='javascript:enlargePhoto(" + p.getId() + ");'><img src='" + getRenderUrl() + "enlarge.png' title='" + ResourceUtils.getText("enlarge", lang) + "'/></a></div></li>");
+		}
+		return (sb.length() > 0 ? sb : null);
 	}
 	
 	public static String getRenderUrl() {
@@ -82,59 +156,6 @@ public class ImageUtils {
 	
 	public static String getBronzeHeader(String lang) {
 		return "<table><tr><td><img alt='" + ResourceUtils.getText("bronze", lang) + "' src='" + getRenderUrl() + "bronze.png'/></td><td class='bold'>" + ResourceUtils.getText("bronze", lang) + "</td></tr></table>";
-	}
-	
-	public static List<String> getImgFiles() {
-		if (imgFiles == null) {
-			imgFiles = new LinkedList<String>();
-			try {
-				final String imgFolder = ConfigUtils.getProperty("img.folder");
-				File[] files = new File(imgFolder).listFiles();
-				for (File f : files)
-					imgFiles.add(f.getName());
-				Collections.sort(imgFiles);
-			}
-			catch (Exception e) {
-				log.log(Level.SEVERE, e.getMessage(), e);
-			}
-		}
-		return imgFiles;
-	}
-	
-	public static Collection<String> getImageList(short type, Object id, char size) {
-		LinkedList<String> list = new LinkedList<String>();
-		String name = type + "-" + id + "-" + size;
-		boolean found = false;
-		for (String s : imgFiles) {
-			if (s.indexOf(name) == 0) {
-				list.add(s);
-				found = true;
-			}
-			else if (found)
-				break;
-		}
-		Collections.reverse(list);
-		return list;
-	}
-
-	public static StringBuffer getPhotos(String entity, Object id, String lang) throws Exception {
-		final int MAX_WIDTH = Integer.parseInt(ConfigUtils.getValue("max_photo_width"));
-		final int MAX_HEIGHT = Integer.parseInt(ConfigUtils.getValue("max_photo_height"));
-		StringBuffer sb = new StringBuffer();
-		for (Picture p : (List<Picture>) DatabaseManager.executeSelect("SELECT * FROM _picture WHERE entity='" + entity + "' AND id_item=" + id + " ORDER BY id", Picture.class)) {
-			sb.append("<li id='ph-" + p.getId() + "'>");
-			if (p.isEmbedded()) {
-				String value = p.getValue().replaceAll("%", "px");
-				value = value.replaceAll("height\\:100px\\;", "");
-				value = value.replaceAll("width\\:100px\\;", "width:" + MAX_WIDTH + "px;height:" + MAX_HEIGHT + "px;");
-				value = value.replaceFirst("padding:[\\d\\.]+px", "padding:0");
-				sb.append(value);
-			}
-			else
-				sb.append("<img alt='" + (StringUtils.notEmpty(p.getSource()) ? p.getSource() : "") + "' src='" + ImageUtils.getUrl() + p.getValue() + "'/>");
-			sb.append("<div class='enlarge'><a href='javascript:enlargePhoto(" + p.getId() + ");'><img src='" + getRenderUrl() + "enlarge.png' title='" + ResourceUtils.getText("enlarge", lang) + "'/></a></div></li>");
-		}
-		return (sb.length() > 0 ? sb : null);
 	}
 	
 }

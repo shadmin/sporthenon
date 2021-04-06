@@ -19,8 +19,9 @@ public class ConfigUtils {
 		try {
 			properties = new Properties();
 			InputStream stream = ConfigUtils.class.getResourceAsStream("/com/sporthenon/utils/res/config.xml");
-			if (stream != null)
+			if (stream != null) {
 				properties.loadFromXML(stream);
+			}
 		}
 		catch (IOException e) {
 			log.log(Level.WARNING, e.getMessage(), e);
