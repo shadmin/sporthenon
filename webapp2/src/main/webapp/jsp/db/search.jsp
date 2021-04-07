@@ -40,7 +40,6 @@
 	</form>
 </div>
 <%@include file="../../html/buttons.html"%>
-<%@include file="../../html/tabcontrol.html"%>
 <script type="text/javascript"><!--
 function toggleCheck(cb) {
 	$$('#search .scope input').each(function(el){
@@ -53,7 +52,6 @@ window.onload = function() {
 	new Control.Window($(document.body).down('[href=#helplink]'),{  
 		position: 'relative', hover: true, offsetLeft: 20, offsetTop: 0, className: 'tip'
 	});
-	initTabControl();
 }
 --></script>
 <jsp:include page="/jsp/common/footer.jsp"/>

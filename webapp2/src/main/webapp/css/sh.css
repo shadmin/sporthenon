@@ -2,7 +2,7 @@
   ========== COMMON ========== 
   ============================*/
 body{
-	background: #FFF url(../img/header/bg2.png?6) 0 0 repeat-y;
+	background-color: #F0F0F0;
 	margin: 0;
 	padding: 0;
 }
@@ -160,7 +160,7 @@ select.disabled{
 }
 #headertop{
 	height: 50px;
-	margin-left: 244px;
+	margin-left: 150px;
 	margin-bottom: 0px;
 	border-bottom: 1px solid #888;
 }
@@ -247,7 +247,7 @@ select.disabled{
 	border: none;
 }
 #shmenu{
-	width: 245px;
+	width: 160px;
 	list-style-type: none;
 	text-align: right;
 	padding-bottom: 0px;
@@ -261,8 +261,8 @@ select.disabled{
 	list-style: none;
 	margin: 0;
 	margin-bottom: 25px;
-	padding-left: 60px;
-	padding-right: 60px;
+	padding-left: 25px;
+	padding-right: 30px;
 	text-align: center;
 }
 #shmenu li a{
@@ -273,17 +273,14 @@ select.disabled{
 	margin-left: 2px;
 	padding: 5px 8px;
 	padding-top: 25px;
-	padding-right: 4px;
-	border: 1px solid #000;
+	border: 1px solid #AAA;
+	border-radius: 5px;
 	background-color: #FAFAFA;
 	background-position: center 6px;
 	background-repeat: no-repeat;
 }
-#shmenu a.selected{
-	border-right: 1px solid #FAFAFA;
-}
 #shmenu a:hover, #shmenu a.selected{
-	border-right: 1px solid #000;
+	border: 1px solid #666;
 	color: #FFF;
 }
 #shmenu-results{
@@ -291,6 +288,12 @@ select.disabled{
 }
 #shmenu-results:hover, #shmenu-results.selected{
 	background-color: #389f47;
+}
+#shmenu-browse{
+	background-image:url(../img/menu/dbbrowse.png?6);
+}
+#shmenu-browse:hover, #shmenu-browse.selected{
+	background-color: #b446a0;
 }
 #shmenu-olympics{
 	background-image:url(../img/menu/dbolympics.png?6);
@@ -347,7 +350,7 @@ select.disabled{
 	font: 12px Verdana;
 	margin: 0px;
 	margin-top: 0px;
-	margin-left: 244px;
+	margin-left: 150px;
 	padding: 3px;
 	padding-top: 3px;
 	border: 1px solid transparent;
@@ -430,70 +433,9 @@ select.disabled{
 	height: 50px;
 	padding: 5px;
 	padding-left: 0px;
-	margin-left: 244px;
+	margin-left: 150px;
 	border-top: 1px solid #888;
 	font: 11px Verdana;
-}
-/*=================================
-  ========== TAB CONTROL ========== 
-  =================================*/
-#tabcontrol{
-	margin: 10px;
-}
-.tabbar{
-	list-style: none;
-	margin: 0 0 0px 0;
-	padding: 0;
-	height: 19px;
-}
-.tabbar li{
-	float: left;
-	margin-right: 3px;
-	text-align: center;
-	font-size: 11px;
-}
-.tabbar li a{
-	display: block;
-	height: 15px;
-	padding: 3px 4px 0px 5px;
-	margin-bottom: 1px;
-	background-color: #D6D6D6;
-	color: #333;
-	width: auto;
-	border: 1px solid #AAA;
-	text-decoration: none;
-}
-.tabbar li a:hover{
-	background-color: #F3F3F3;
-}
-.tabbar li a.active{
-	background-color: #F3F3F3;
-	font-weight: bold;
-	color: #000;
-	border-bottom: 1px solid #F3F3F3;
-}
-.tabbar li a.active span{
-	font-weight: bold;
-}
-.tabbar li img{
-	border: none;
-	padding-left: 5px;
-}
-.tc{
-	margin: 0px;
-	padding: 10px 10px;
-	border: 1px solid #AAA;
-	background-color: #F5F5F5;
-}
-.print .tc{
-	border: none;
-}
-#link-add a {
-	background: #D6D6D6 url(../img/component/tabcontrol/add.png?6) center center no-repeat;
-	width: 12px;
-}
-#link-add a:hover {
-	background-color: #F5F5F5;
 }
 /*============================
   ========== SLIDER ========== 
@@ -682,6 +624,10 @@ select.disabled{
 	color: #00F;
 	text-decoration: underline;
 }
+#treeresults{
+	position: absolute;
+	left: 550px;
+}
 /*==========================
   ========== HOME ========== 
   ==========================*/
@@ -850,7 +796,6 @@ select.disabled{
 }
 #results{
 	height: 245px;
-	margin-left: 390px;
 	margin-right: 10px;
 }
 #results .spcpdiv{
@@ -903,6 +848,8 @@ select.disabled{
 	padding: 3px 8px;
 	margin: 3px;
 	margin-left: 3px;
+	width: 300px;
+	border-right: 1px solid #CCC;
 }
 #tree #treeview{
 	position: absolute;

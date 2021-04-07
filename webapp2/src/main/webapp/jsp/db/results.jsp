@@ -2,7 +2,6 @@
 <%@ page import="com.sporthenon.db.PicklistItem"%>
 <%@ page import="com.sporthenon.db.DatabaseManager"%>
 <%@ page import="com.sporthenon.db.entity.Result"%>
-<%@ page import="com.sporthenon.db.entity.meta.TreeItem"%>
 <%@ page import="com.sporthenon.web.HtmlConverter"%>
 <%@ page import="com.sporthenon.utils.HtmlUtils"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
@@ -13,27 +12,10 @@
 <%@ page import="java.util.HashMap"%>
 <jsp:include page="/jsp/common/header.jsp"/>
 <script type="text/javascript"><!--
-	var treeItems = null;
 <%
 	String lang = String.valueOf(session.getAttribute("locale"));
-	List<Object> params = new ArrayList<Object>();
-	params.add("");
-	params.add("_" + lang.toLowerCase());
-	HtmlConverter.convertTreeArray(DatabaseManager.callFunctionSelect("tree_results", params, TreeItem.class), out, false, lang);
 %>
 --></script>
-<div id="tree" class="fieldset">
-<div class="fstitle treetitle">
-<%=StringUtils.text("tree", session)%> &ndash; <img style="display:none;" id="treeiconimg" src="/img/db/tree_expand.png" alt="<%=StringUtils.text("expand", session)%>" class="treeicon"/><a id="treeicontxt" href='javascript:toggleTreeExpand();' style="font-weight:normal;">[+] <%=StringUtils.text("expand", session)%></a>
-</div>
-	<div class="treediv"><div id="treeview" class="collapsed">
-		<table><tr><td>
-		<script type="text/javascript"><!--
-			new Tree(treeItems, treeTemplate);
-		--></script>
-		</td></tr></table>
-	</div></div>
-</div>
 <div id="results" class="fieldset">
 	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
 	<form action="/results">
@@ -75,7 +57,6 @@
 	</form>
 </div>
 <%@include file="../../html/buttons.html"%>
-<%@include file="../../html/tabcontrol.html"%>
 <%
 	HashMap<String, String> hSportImg = new HashMap<String, String>();
 	String sql = "SELECT SP.id, SP.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "")
@@ -100,7 +81,6 @@ window.onload = function() {
 		changeSport(false);
 	};
 	changeSport();
-	initTabControl();
 }
 --></script>
 <jsp:include page="/jsp/common/footer.jsp"/>

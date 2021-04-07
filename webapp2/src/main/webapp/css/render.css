@@ -1,137 +1,137 @@
-.tc table{
+.render table{
 	border-collapse: collapse;
 	margin: 15px;
 	margin-left: auto;
 	margin-right: auto;
 	background-color: #FFF;
 }
-.tc th, .tc td{
+.render th, .render td{
 	border: 1px solid #777;
 	padding: 3px;
 	vertical-align: middle;
 }
-.tc th{
+.render th{
 	font-weight: bold;
 	background-color: #c0e2fc; /* _theme_ */
 	text-align: center;
 	padding: 3px 10px;
 }
-.tc td{
+.render td{
 	text-align: left;
 	white-space: nowrap;
 }
-.tc a{
+.render a{
 	color: #00C;
 	text-decoration: none;
 }
-.tc a:visited{
+.render a:visited{
 	color: #00C;
 	text-decoration: none;
 }
-.tc a:hover{
+.render a:hover{
 	color: #00C;
 	text-decoration: underline;
 }
-.tc th a, .tc th a:visited, .tc th a:hover{
+.render th a, .render th a:visited, .render th a:hover{
 	color: #000;
 }
-.tc td table, .tc th table{
+.render td table, .render th table{
 	margin: 0;
 	padding: 0;
 	background-color: transparent;
 }
-.tc th table{
+.render th table{
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 0px;
 	margin-bottom: 0px;
 }
-.tc td table th, .tc th table th{
+.render td table th, .render th table th{
 	border: none;
 	padding: 0;
 	padding-right: 3px;
 	background-color: transparent;
 }
-.tc td table td, .tc th table td, .tc .info td table td{
+.render td table td, .render th table td, .render .info td table td{
 	border: none;
 	padding: 0;
 	vertical-align: middle;
 }
-.tc th table th{
+.render th table th{
 	border: none;
 	padding-left: 3px;
 }
-.tc td th img{
+.render td th img{
 	vertical-align: top;
 }
-.tc .bold{
+.render .bold{
 	font-weight: bold;
 	padding-left: 3px;
 }
-.tc .bold a{
+.render .bold a{
 	font-weight: bold;
 }
-.tc .bordered{
+.render .bordered{
 	background-color: #FFF;
 }
-.tc .bordered img{
+.render .bordered img{
 	border: 1px solid #666;
 }
-.tc .hidden, .tc span.title, .tc span.desc, .tc span.url, .tc span.infostats{
+.render .hidden, .render span.title, .render span.desc, .render span.url, .render span.infostats{
 	display: none;
 }
-.tc .header{
+.render .header{
 	float: left;
 	margin: 0px;
 }
-.tc .header table, .tc .toolbar table{
+.render .header table, .render .toolbar table{
 	background-color: transparent;
 	margin: 0px;
 }
-.tc .header td, .tc .toolbar td{
+.render .header td, .render .toolbar td{
 	border: none;
 	padding: 0px;
 }
-.tc .header .arrow{
+.render .header .arrow{
 	width: 18px;
 	background: url(../img/arrow.gif) center center no-repeat;	
 }
-.tc .toolbar{
+.render .toolbar{
 	float: right;
 	margin-bottom: 10px;
 }
-.tc .toolbar td{
+.render .toolbar td{
 	padding: 1px;
 }
-.tc .winrec{
+.render .winrec{
 	margin-bottom: 5px;
 	border: 1px solid #666;
 }
-.tc .winrec td{
+.render .winrec td{
 	border: none;
 }
-.tc .winrec .caption{
+.render .winrec .caption{
 	text-align: right;
 	padding-left: 10px;
 }
-.tc .winrec .count{
+.render .winrec .count{
 	font-weight: bold;
 	padding: 5px 10px;
 }
-.tc .winrec .bar1{
+.render .winrec .bar1{
 	background: url(../img/render/bar1.gif) left center no-repeat;
 	width: 6px;
 	height: 10px;
 }
-.tc .winrec .bar2{
+.render .winrec .bar2{
 	background: url(../img/render/bar2.gif) left center repeat-x;
 }
-.tc .winrec .bar3{
+.render .winrec .bar3{
 	background: url(../img/render/bar3.gif) right center no-repeat;
 	width: 6px;
 	height: 10px;
 }
-.tc .uinfo{
+.render .uinfo{
 	clear: right;
 	margin: 0 auto;
 	padding: 0px;
@@ -139,209 +139,209 @@
 	margin-bottom: 10px;
 	text-align: center;
 }
-.tc .uinfo li{
+.render .uinfo li{
 	vertical-align: top;
 	display: inline-block;
 }
-.tc .info td.photo{
+.render .info td.photo{
 	text-align: center;
 	white-space: nowrap;
 }
-.tc .info td.photo img, .tc .info td.photo li{
+.render .info td.photo img, .render .info td.photo li{
 	display: inline-block;
 	vertical-align: middle;
 }
-.tc .info td.photo img{
+.render .info td.photo img{
 	padding-bottom: 3px;
 	max-height: 150px;
 }
-.tc .info td.photo li{
+.render .info td.photo li{
 	height: 168px;
 	max-height: 168px;
 	text-align: center;
 	margin-right: 5px;
 }
-.tc .info .enlarge{
+.render .info .enlarge{
 	margin-left: auto;
 	margin-right: auto;
 }
-.tc .info .enlarge img{
+.render .info .enlarge img{
 	max-width: 14px;
 	max-height: 14px;
 }
-.tc .info{
+.render .info{
 	max-width: 850px;
 	margin: 0px;
 	border: 2px solid #555;
 }
-.tc .info td{
+.render .info td{
 	padding: 5px 5px;
 	text-align: left;
 }
-.tc .info td table{
+.render .info td table{
 	/*margin: auto;*/
 }
-.tc .info .logo, .tc .info .flag{
+.render .info .logo, .render .info .flag{
 	text-align: center;
 	padding: 5px 5px;
 }
-.tc .info .logosport{
+.render .info .logosport{
 	text-align: center;
 }
-.tc .info .flag img, .tc .info .otherflags img{
+.render .info .flag img, .render .info .otherflags img{
 	border: 1px solid #666;
 	vertical-align: middle;
 }
-.tc .info .logo img, .tc .info .otherlogos img{
+.render .info .logo img, .render .info .otherlogos img{
 	vertical-align: middle;
 }
-.tc .info .otherflags, .tc .info .otherlogos{
+.render .info .otherflags, .render .info .otherlogos{
 	padding: 0px;
 }
-.tc .info .otherflags img, .tc .info .otherlogos img{
+.render .info .otherflags img, .render .info .otherlogos img{
 	margin-bottom: 2px;
 }
-.tc .info .caption{
+.render .info .caption{
 	padding-left: 20px;
 	padding-right: 5px;
 	text-align: right;
 }
-.tc .margintop{
+.render .margintop{
 	margin-top: 2px;
 }
-.tc .marginbottom{
+.render .marginbottom{
 	margin-bottom: 2px;
 }
-.tc .ref{
+.render .ref{
 	border: none;
 	border-top: 1px solid #AAA;
 	width: auto;
 	padding-top: 0px;
 	padding-bottom: 0px;
 }
-.tc .ref legend{
+.render .ref legend{
 	color: #333;
 	font-weight: bold;
 	margin: 10px;
 }
-.tc .ref table{
+.render .ref table{
 	margin-top: 0px;
 	margin-bottom: 15px;
 }
-.tc .ref table table{
+.render .ref table table{
 	margin-bottom: 0px;
 }
-.tc .celldraw{
+.render .celldraw{
 	width: 850px;
 	background-color: #F8F8F8;
 	padding-left: 15px;
 }
-.tc .draw{
+.render .draw{
 	height: 540px;
 	background: transparent url(../img/render/draw-bg3.gif) top left no-repeat;
 	margin-top: 15px;
 }
-.tc .draw .box{
+.render .draw .box{
 	position: absolute;
 	z-index: 0;
 }
-.tc .draw .box table, .tc .info .result table, .tc .rounds table{
+.render .draw .box table, .render .info .result table, .render .rounds table{
 	border-collapse: collapse;
 	background-color: transparent;
 	width: 300px;
 }
-.tc .draw .box table{
+.render .draw .box table{
 	background-color: #FFF;
 }
-.tc .draw .box td table, .tc .info .result td table, .tc .rounds td table{
+.render .draw .box td table, .render .info .result td table, .render .rounds td table{
 	width: auto;
 	border: none;
 }
-.tc .draw .box td, .draw .box th, .tc .info .result td, .tc .info .result th, .tc .rounds td, .tc .rounds th{
+.render .draw .box td, .draw .box th, .render .info .result td, .render .info .result th, .render .rounds td, .render .rounds th{
 	font-size: 12px;
 	border: 1px solid #CCC;
 	text-align: left;
 	padding: 2px 2px;
 }
-.tc .draw .box td, .draw .box th{
+.render .draw .box td, .draw .box th{
 	border: 1px solid #666;
 }
-.tc .info .result td, .tc .info .result th, .tc .rounds td, .tc .rounds th{
+.render .info .result td, .render .info .result th, .render .rounds td, .render .rounds th{
 	padding: 3px 3px;
 }
-.tc .info #titlename{
+.render .info #titlename{
 	border-bottom: 2px solid #555;
 	/*padding: 4px 4px;*/
 }
-.tc .info #titlename2{
+.render .info #titlename2{
 	font-style: italic;
 	text-align: center;
 }
-.tc .draw .box th, .tc .info .result th, .tc .rounds th{
+.render .draw .box th, .render .info .result th, .render .rounds th{
 	font-size: 11px;
 	text-align: left;
 	font-weight: bold;
 	background-color: #EEE;
 }
-.tc .draw .box td table td, .tc .info .result td table td, .tc .rounds td table td{
+.render .draw .box td table td, .render .info .result td table td, .render .rounds td table td{
 	border: none;
 	padding: 0px;
 }
-.tc .draw .box td table th, .tc .info .result td table th, .tc .rounds td table th{
+.render .draw .box td table th, .render .info .result td table th, .render .rounds td table th{
 	border: none;
 	background-color: transparent;
 	padding: 0px;
 	padding-right: 3px;
 }
-.tc .rounds td{
+.render .rounds td{
 	white-space: nowrap;
 }
-.tc .rounds td table{
+.render .rounds td table{
 	background-color: transparent;
 }
-.tc .rounds tr:hover td{
+.render .rounds tr:hover td{
 	background-color: #FFA; /* _theme_ */
 }
-.tc .box:hover tr{
+.render .box:hover tr{
 	background-color: #FFA; /* _theme_ */	
 }
-.tc .box2, .tc .box4{
+.render .box2, .render .box4{
 	margin-left: 400px;
 }
-.tc .box7{
+.render .box7{
 	margin-left: 520px;
 }
-.tc .box3, .tc .box4{
+.render .box3, .render .box4{
 	margin-top: 440px;
 }
-.tc .box5, .tc .box6, .tc .box8{
+.render .box5, .render .box6, .render .box8{
 	margin-left: 200px;
 }
-.tc .box8, .tc .box7{
+.render .box8, .render .box7{
 	margin-top: 220px;
 }
-.tc .box5{
+.render .box5{
 	margin-top: 110px;
 }
-.tc .box6{
+.render .box6{
 	margin-top: 330px;
 }
-.tc .box8 table{
+.render .box8 table{
 	border: 2px solid #555;
 }
-.tc .tsort{
+.render .tsort{
 	clear: right;
 }
-.tc .tsort tr:hover{
+.render .tsort tr:hover{
 	background-color: #FFA; /* _theme_ */
 }
-.tc .tsort tr:hover td[rowspan] {
+.render .tsort tr:hover td[rowspan] {
 	background-color: #FFF;
 }
-.tc .tsort table tr:hover, .tc .tsort .moreitems:hover, #dupdates .tsort .moreitems:hover{
+.render .tsort table tr:hover, .render .tsort .moreitems:hover, #dupdates .tsort .moreitems:hover{
 	background-color: transparent;
 }
-.tc .noresult{
+.render .noresult{
 	width: auto;
 	margin-top: 40px;
 	padding: 5px;
@@ -350,14 +350,14 @@
 	border: 1px solid #000;
 	background: #FDD url(../img/render/noresult.gif) 2px center no-repeat;
 }
-.tc .info td.record {
+.render .info td.record {
 	text-align: center;
 }
-.tc .info td.record table{
+.render .info td.record table{
 	border-collapse: collapse;
 	margin: 0px;
 }
-.tc .info td.record  th, .tc .info td.record td, .tc .info td.extlinks  th, .tc .info td.extlinks td{
+.render .info td.record  th, .render .info td.record td, .render .info td.extlinks  th, .render .info td.extlinks td{
 	text-align: center;
 	width: 25px;
 	padding: 3px;
@@ -365,53 +365,53 @@
 	border-collapse: collapse;
 	vertical-align: middle;
 }
-.tc .info td.record th, .tc .info td.extlinks th{
+.render .info td.record th, .render .info td.extlinks th{
 	font-weight: bold;
 	background-color: #EEE;
 }
-.tc .info td.record th{
+.render .info td.record th{
 	width: 28px;
 }
-.tc .info td.record td, .tc .info td.extlinks td{
+.render .info td.record td, .render .info td.extlinks td{
 	white-space: nowrap;
 }
-.tc .info .extlinks td table{
+.render .info .extlinks td table{
 	margin: auto;
 }
-.tc .info .extlinks td table td{
+.render .info .extlinks td table td{
 	padding: 0px;
 	border: none;
 }
-.tc .info .result{
+.render .info .result{
 	width: 500px;
 	background-color: #F9F9F9;
 }
-.tc .info .result td{
+.render .info .result td{
 	background-color: #FFF;
 }
-.tc .info .result tr:hover td{
+.render .info .result tr:hover td{
 	background-color: #FFA; /* _theme_ */
 }
-.tc .info .result tr:hover td[rowspan] {
+.render .info .result tr:hover td[rowspan] {
 	background-color: #FFF;
 }
-.tc .info .result table.tsort{
+.render .info .result table.tsort{
 	width: auto;
 	margin: auto auto;
 }
-.tc .searchtitle{
+.render .searchtitle{
 	background: url(../img/menu/dbsearch.png) left 0px no-repeat;
 	padding-left: 20px;
 	height: 20px;
 }
-.tc td.centered{
+.render td.centered{
 	text-align: center;
 }
-.tc #calmonth{
+.render #calmonth{
 	margin-left: 16px;
 	margin-top: 2px;
 }
-.tc #calmonth li{
+.render #calmonth li{
 	vertical-align: middle;
 	display: list-item;
 	list-style-image: url(../img/bullet.gif?6);
@@ -420,7 +420,7 @@ tr.rsort th{
 	cursor: pointer;
 	text-decoration: none;
 }
-tr.rsort th:hover, .tc tr.rsort th:hover td{
+tr.rsort th:hover, .render tr.rsort th:hover td{
 	text-decoration:  underline;
 }
 th.sorted{

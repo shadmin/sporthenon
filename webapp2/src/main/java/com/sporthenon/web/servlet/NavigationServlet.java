@@ -3,10 +3,8 @@ package com.sporthenon.web.servlet;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,14 +15,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.sporthenon.db.DatabaseManager;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.Redirection;
-import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 import com.sporthenon.web.ServletHelper;
 
 @WebServlet(
     name = "NavigationServlet",
-    urlPatterns = {"/index", "/results/*", "/calendar/*", "/olympics/*", "/usleagues/*", "/search/*", "/project/*", "/contribute/*", "/login/*", "/update/*", "/android/*",
+    urlPatterns = {"/index", "/results/*", "/browse/*", "/calendar/*", "/olympics/*", "/usleagues/*", "/search/*", "/project/*", "/contribute/*", "/login/*", "/update/*", "/android/*",
     		"/athlete/*", "/championship/*", "/city/*", "/complex/*", "/contributor/*", "/country/*", "/entity/*", "/event/*", "/olympicgames/*", "/result/*", "/sport/*", "/usstate/*", "/team/*", "/year/*",
     		"/fr/*", "/en/*"}
 )
@@ -36,10 +33,13 @@ public class NavigationServlet extends AbstractServlet {
 	private static Map<String, String> hServlet;
 	private static Map<String, String> hTitle;
 	
+	private static final String CONTEXT_ROOT = "/sporthenon";
+	
 	static {
 		hPages = new HashMap<>();
 		hPages.put("index", "index.jsp");
 		hPages.put("results", "db/results.jsp");
+		hPages.put("browse", "db/browse.jsp");
 		hPages.put("calendar", "db/calendar.jsp");
 		hPages.put("olympics", "db/olympics.jsp");
 		hPages.put("usleagues", "db/usleagues.jsp");
@@ -110,84 +110,90 @@ public class NavigationServlet extends AbstractServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url = ServletHelper.getURL(request);
 		String newURI = null;
 		try {
-			boolean isTestProd = ConfigUtils.getProperty("env").matches("test|prod");
-			boolean isUserSession = (request.getSession() != null && request.getSession().getAttribute("user") != null);
+			// Get info on URL and parameters
+			String url = ServletHelper.getURL(request);
+			String uri = request.getRequestURI().replace(CONTEXT_ROOT, "");
+			HashMap<String, Object> mapParams = ServletHelper.getParams(request);
+			
+			// Check NULL parameter
 			if (url.matches(".*(\\/null)$")) {
 				throw new NullParameterException();
 			}
-			if (url.matches(".*\\/(athletes|championships|cities|complexes|countries|events|sports|usstates|teams|years)\\/.*")) {
-				throw new OldPatternException();
-			}
+			
+			// Handle redirections
 			String sql = "SELECT * FROM _redirection WHERE previous_path = ? ORDER BY id DESC";
 			Redirection re = (Redirection) DatabaseManager.loadEntity(sql, Arrays.asList(URLDecoder.decode(request.getRequestURI(), "UTF-8").replaceAll("'", "''")), Redirection.class);
 			if (re != null) {
 				newURI = re.getCurrentPath();
 				throw new ObsoleteURLException();
 			}
-//			if (!isBot(request) && !url.contains("/ajax") && !url.contains("/load") && !url.contains("/check-progress-import"))
-//				log.log(Level.WARNING, "[" + ua + "] " + url);
-			if (ConfigUtils.getProperty("env").matches("local|test")) {
-				Enumeration<String> hn = request.getHeaderNames();
-				while (hn.hasMoreElements()) {
-					String hn_ = (String) hn.nextElement();
-					log.log(Level.WARNING, hn_+ ": " + request.getHeader(hn_));
-				}
-			}
-			String[] tURI = request.getRequestURI().substring(1).split("\\/", 0);
+			
+			// Get key from request URL
+			String[] tURI = uri.substring(1).split("\\/", 0);
 			String key = tURI[0];
 			if (key.isEmpty()) {
 				key = "index";
 			}
-			if (isTestProd) {
-				if (key != null && key.equals("update") && !isUserSession)
-					throw new NotLoggedInException();
-				else if (isUserSession) {
-//					String protocol = request.getHeader("x-forwarded-proto");
-//					if (!protocol.equals("https"))
-//						throw new HttpsException();
-				}
+			
+			// Handle user in session (check if user logged in when accessing "update" content)
+			boolean isUserSession = (request.getSession() != null && request.getSession().getAttribute("user") != null);
+			if (key != null && key.equals("update") && !isUserSession) {
+				throw new NotLoggedInException();
 			}
 			if (key != null && key.equals("update") && url.matches(".*\\/admin$") && isUserSession) {
 				Contributor cb = (Contributor) request.getSession().getAttribute("user");
-				if (!cb.isAdmin())
+				if (!cb.isAdmin()) {
 					throw new NotAdminException();
+				}
 			}
-			HashMap<String, Object> hParams = ServletHelper.getParams(request);
+			
+			// Set attributes with URL
 			url = url.replaceAll("\\&", "&amp;");
 			request.setAttribute("url", url);
-//			request.setAttribute("urlLogin", isTestProd ? "https://" + url.replaceFirst("http(|s)\\:\\/\\/", "").replaceAll("\\/.*", "") + "/login" : "http://localhost/login");
-			request.setAttribute("urlLogin", isTestProd ? "http://" + url.replaceFirst("http(|s)\\:\\/\\/", "").replaceAll("\\/.*", "") + "/login" : "http://localhost/login");
+			request.setAttribute("urlLogin", "http://" + url.replaceFirst("http(|s)\\:\\/\\/", "").replaceAll("\\/.*", "") + "/login");
 			request.setAttribute("urlEN", url.replaceFirst(".+\\.sporthenon\\.com", "//en.sporthenon.com"));
 			request.setAttribute("urlFR", url.replaceFirst(".+\\.sporthenon\\.com", "//fr.sporthenon.com"));
-			RequestDispatcher dispatcher = null;
-			if (hParams.containsKey("lang"))
-				request.getSession().setAttribute("locale", String.valueOf(hParams.get("lang")));
-			if (key != null && key.equals("project"))
-				hParams.put("p", 1);
-			boolean isRun = (tURI.length > 1 || hParams.containsKey("p"));
-			if (key != null && key.equals("update")) {
-				if (hPages.containsKey("update-" + tURI[1])) {
-					key += "-" + tURI[1];
-					isRun = (tURI.length > 2);
-				}
-				else	
-					isRun = true;
-			}
 			request.setAttribute("title", StringUtils.getTitle(ResourceUtils.getText(hTitle.containsKey(key) ? hTitle.get(key) : "title", getLocale(request)) + (key.startsWith("update-") ? " | " + ResourceUtils.getText("menu.cbarea", getLocale(request)) : "")));
 			request.setAttribute("desc", ResourceUtils.getText(key.equals("index") ? "desc" : "desc." + key, getLocale(request)));
-			if (isRun) {
-				Object export = hParams.get("export");
-				boolean isPrint = hParams.containsKey("print");
-				if (export != null)
-					hParams.remove("export");
-				if (isPrint)
-					hParams.remove("print");
+			
+			// Specific behaviours
+			if (mapParams.containsKey("lang")) {
+				request.getSession().setAttribute("locale", String.valueOf(mapParams.get("lang")));
+			}
+			if (key.equals("project")) {
+				mapParams.put("p", 1);
+			}
+				
+			// Determine if it is :
+			//		- a search query => servlet call
+			// 		- a direct access to JSP
+			boolean isRunServlet = (tURI.length > 1 || mapParams.containsKey("p"));
+			if (key.equals("update")) {
+				if (hPages.containsKey("update-" + tURI[1])) {
+					key += "-" + tURI[1];
+					isRunServlet = (tURI.length > 2);
+				}
+				else {
+					isRunServlet = true;
+				}
+			}
+			
+			// Redirect to Servlet or JSP
+			RequestDispatcher dispatcher = null;
+			if (isRunServlet) {
+				Object export = mapParams.get("export");
+				boolean isPrint = mapParams.containsKey("print");
+				if (export != null) {
+					mapParams.remove("export");
+				}
+				if (isPrint) {
+					mapParams.remove("print");
+				}
 				StringBuffer url_ = new StringBuffer(hServlet.containsKey(key) ? hServlet.get(key) : "/InfoRefServlet");
 				url_.append("?run=1&t=" + System.currentTimeMillis());
-				url_.append("&p=" + (hParams.containsKey("p") ? hParams.get("p") : tURI[tURI.length - 1]));
+				url_.append("&p=" + (mapParams.containsKey("p") ? mapParams.get("p") : tURI[tURI.length - 1]));
 				url_.append(tURI.length > 2 ? "&p2=" + tURI[tURI.length - 2] : "");
 				url_.append(isPrint ? "?print" : "");
 				url_.append(export != null ? "?export=" + export : "");
@@ -203,11 +209,9 @@ public class NavigationServlet extends AbstractServlet {
 					dispatcher = request.getRequestDispatcher("/jsp/" + hPages.get(key));
 				}
 			}
-		    if (dispatcher != null)
+		    if (dispatcher != null) {
 		    	dispatcher.forward(request, response);
-		}
-		catch (OldPatternException e) {
-			redirect(request, response, url.replaceAll("\\/athletes", "/athlete").replaceAll("\\/championships", "/championship").replaceAll("\\/cities", "/city").replaceAll("\\/complexes", "/complex").replaceAll("\\/countries", "/country").replaceAll("\\/events", "/event").replaceAll("\\/sports", "/sport").replaceAll("\\/usstates", "/usstate").replaceAll("\\/teams", "/team").replaceAll("\\/years", "/year"), false);
+		    }
 		}
 		catch (NotLoggedInException e) {
 			redirect(request, response, "/login", true);
@@ -229,9 +233,6 @@ public class NavigationServlet extends AbstractServlet {
 		}
 	}
 	
-	class OldPatternException extends Exception{
-		private static final long serialVersionUID = 1L;
-	}
 	class NotLoggedInException extends Exception{
 		private static final long serialVersionUID = 1L;
 	}

@@ -43,7 +43,6 @@ public class InfoRefServlet extends AbstractServlet {
 			String lang = getLocale(request);
 			String[] params = StringUtils.decode(String.valueOf(hParams.get("p"))).split("-");
 			StringBuffer html = new StringBuffer();
-			boolean isLink = (hParams.containsKey("run") && !String.valueOf(hParams.get("p2")).equals("more"));
 			boolean isExport = hParams.containsKey("export");
 			boolean isResult1 = (params[0].equals(Result.alias) && params.length == 3);
 			boolean isResultX = (params[0].equals(Result.alias) && params.length == 2);
@@ -90,15 +89,12 @@ public class InfoRefServlet extends AbstractServlet {
 					html.append(HtmlConverter.getRecordRef(request, params_, DatabaseManager.callFunctionSelect("entity_ref", params_, RefItem.class), isExport, getUser(request), lang));
 				}
 
-				if (isLink) {
-					HtmlUtils.setHeadInfo(request, html.toString());
-					if (isExport)
-						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), lang);
-					else
-						ServletHelper.writePageHtml(request, response, html, lang, hParams.containsKey("print"));
-				}
+				// Load HTML results or export
+				HtmlUtils.setHeadInfo(request, html.toString());
+				if (isExport)
+					ExportUtils.export(response, html, String.valueOf(hParams.get("export")), lang);
 				else
-					ServletHelper.writeTabHtml(request, response, html, lang);				
+					ServletHelper.writePageHtml(request, response, html, lang, hParams.containsKey("print"));
 			}
 		}
 		catch (EmptyIdException e) {

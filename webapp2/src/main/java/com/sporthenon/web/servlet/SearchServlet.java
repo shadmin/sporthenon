@@ -26,15 +26,12 @@ import com.sporthenon.web.ServletHelper;
 
 @WebServlet(
     name = "SearchServlet",
-    urlPatterns = {"/SearchServlet"}
+    urlPatterns = {"/SearchServlet", "/Search"}
 )
 public class SearchServlet extends AbstractServlet {
 
 	private static final long serialVersionUID = 1L;
 	
-	public SearchServlet() {
-    }
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
@@ -74,12 +71,10 @@ public class SearchServlet extends AbstractServlet {
 					String details = "<div class='ajxdetails'>" + ResourceUtils.getText("entity." + item.getEntity() + ".1", lang) + (StringUtils.notEmpty(item.getLabelRel2()) ? "/" + (item.getEntity().equals(Olympics.alias) ? ResourceUtils.getText(item.getLabelRel2().equals("1") ? "summer" : "winter", lang) : item.getLabelRel2()) : "") + " (" + (item.getCountRef() != null ? item.getCountRef() : 0) + " ref.)</div>";
 					html.append("<li id='" + StringUtils.encode(item.getEntity() + "-" + item.getIdItem()) + "'>" + label + details + "</li>");
 				}
-//				if (!list.isEmpty())
 				html.append("<li class='ajaxlastrow' id=\"LR\">" + ResourceUtils.getText("search.for", lang) + " : \"" + mapParams.get("value") + "\"</li>");
 				ServletHelper.writeText(response, html.append("</ul>").toString());
 			}
-			else if (mapParams.containsKey("run")) { // Run search
-				boolean isLink = false;
+			else if (request.getRequestURI().contains("/Search")) {
 				if (mapParams.containsKey("p")) {
 					String p = String.valueOf(mapParams.get("p"));
 					String[] t = p.split("\\-");
@@ -93,7 +88,6 @@ public class SearchServlet extends AbstractServlet {
 						mapParams.put("pattern", t[0].replaceAll("\\.\\*", "").substring(1));
 						mapParams.put("scope", t[1]);
 					}
-					isLink = true;
 				}
 				String pattern = String.valueOf(mapParams.get("pattern"));
 				String scope = String.valueOf(mapParams.get("scope"));
@@ -109,17 +103,15 @@ public class SearchServlet extends AbstractServlet {
 				params.add("_" + lang);
 				StringBuffer html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_SEARCH, params, getUser(request), lang);
 				html.append(HtmlConverter.convertSearch(request, DatabaseManager.callFunctionSelect("search", params, RefItem.class, null, max), String.valueOf(mapParams.get("pattern")), lang));
-				if (isLink) {
-					HtmlUtils.setHeadInfo(request, html.toString());
-					if (mapParams.containsKey("export"))
-						ExportUtils.export(response, html, String.valueOf(mapParams.get("export")), lang);
-					else {
-						request.setAttribute("menu", "search");
-						ServletHelper.writePageHtml(request, response, html, lang, mapParams.containsKey("print"));
-					}
+					
+				// Load HTML results or export
+				HtmlUtils.setHeadInfo(request, html.toString());
+				if (mapParams.containsKey("export"))
+					ExportUtils.export(response, html, String.valueOf(mapParams.get("export")), lang);
+				else {
+					request.setAttribute("menu", "search");
+					ServletHelper.writePageHtml(request, response, html, lang, mapParams.containsKey("print"));
 				}
-				else
-					ServletHelper.writeTabHtml(request, response, html, lang);
 			}
 		}
 		catch (Exception e) {

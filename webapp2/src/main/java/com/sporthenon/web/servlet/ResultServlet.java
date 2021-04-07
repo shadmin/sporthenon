@@ -28,16 +28,13 @@ import com.sporthenon.web.ServletHelper;
 
 @WebServlet(
     name = "ResultServlet",
-    urlPatterns = {"/ResultServlet"}
+    urlPatterns = {"/ResultServlet", "/SearchResults", "/BrowseResults"}
 )
 public class ResultServlet extends AbstractServlet {
 
 	private static final long serialVersionUID = 1L;
 	
 	private static final String PICKLIST_ID_YEAR = "pl-yr";
-
-	public ResultServlet() {
-    }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -49,8 +46,7 @@ public class ResultServlet extends AbstractServlet {
 			init(request);
 			HashMap<String, Object> mapParams = ServletHelper.getParams(request);
 			String lang = getLocale(request);
-			if (mapParams.containsKey("run")) { // View results
-				boolean isLink = false;
+			if (request.getRequestURI().matches(".*\\/(Search|Browse)Results.*")) {
 				if (mapParams.containsKey("p") && !mapParams.containsKey("redirect")) {
 					String p = String.valueOf(mapParams.get("p"));
 					p = StringUtils.decode(p);
@@ -61,7 +57,6 @@ public class ResultServlet extends AbstractServlet {
 					mapParams.put("se", t.length > 3 ? t[3] : "0");
 					mapParams.put("se2", t.length > 4 ? t[4] : "0");
 					mapParams.put("yr", t.length > 5 ? t[5] : "0");
-					isLink = true;
 				}
 				List<Object> params = new ArrayList<Object>();
 				params.add(StringUtils.notEmpty(mapParams.get("sp")) ? StringUtils.toInt(mapParams.get("sp")) : 0);
@@ -90,17 +85,17 @@ public class ResultServlet extends AbstractServlet {
 					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_RESULTS, params, getUser(request), lang));
 					html.append(HtmlConverter.convertResults(request, c, oCp, oEv, getUser(request), lang));
 
-					if (isLink) {
-						HtmlUtils.setHeadInfo(request, html.toString());
-						if (mapParams.containsKey("export"))
-							ExportUtils.export(response, html, String.valueOf(mapParams.get("export")), lang);
-						else {
-							request.setAttribute("menu", "results");
-							ServletHelper.writePageHtml(request, response, html, lang, mapParams.containsKey("print"));
-						}
+					// Load HTML results or export
+					HtmlUtils.setHeadInfo(request, html.toString());
+					if (mapParams.containsKey("export")) {
+						ExportUtils.export(response, html, String.valueOf(mapParams.get("export")), lang);
 					}
-					else
-						ServletHelper.writeTabHtml(request, response, html.append(isLink ? "</div>" : ""), lang);
+					else if (request.getRequestURI().contains("/SearchResults")) {
+						ServletHelper.writePageHtml(request, response, html, lang, mapParams.containsKey("print"));
+					}
+					else if (request.getRequestURI().contains("/BrowseResults")) {
+						ServletHelper.writeHtmlResponse(request, response, html, lang);
+					}
 				}
 			}
 			else { // Picklists

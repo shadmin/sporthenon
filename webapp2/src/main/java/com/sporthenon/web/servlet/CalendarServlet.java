@@ -21,15 +21,12 @@ import com.sporthenon.web.ServletHelper;
 
 @WebServlet(
 	name = "CalendarServlet",
-	urlPatterns = {"/CalendarServlet"}
+	urlPatterns = {"/CalendarServlet", "/SearchCalendar"}
 )
 public class CalendarServlet extends AbstractServlet {
 
-private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	
-	public CalendarServlet() {
-    }
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
@@ -38,39 +35,35 @@ private static final long serialVersionUID = 1L;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			init(request);
-			HashMap<String, Object> hParams = ServletHelper.getParams(request);
+			HashMap<String, Object> mapParams = ServletHelper.getParams(request);
 			String lang = getLocale(request);
-			if (hParams.containsKey("run")) { // View results
-				boolean isLink = false;
-				if (hParams.containsKey("p") && !hParams.containsKey("redirect")) {
-					String p = String.valueOf(hParams.get("p"));
+			if (request.getRequestURI().contains("/SearchCalendar")) {
+				if (mapParams.containsKey("p") && !mapParams.containsKey("redirect")) {
+					String p = String.valueOf(mapParams.get("p"));
 					p = StringUtils.decode(p);
 					String[] t = p.split("\\-");
-					hParams.put("dt1", t[0]);
-					hParams.put("dt2", t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1] : t[0]);
-					hParams.put("sp", t.length > 2 ? t[2] : "");
-					isLink = true;
+					mapParams.put("dt1", t[0]);
+					mapParams.put("dt2", t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1] : t[0]);
+					mapParams.put("sp", t.length > 2 ? t[2] : "");
 				}
-				List<Object> lFuncParams = new ArrayList<Object>();
-				lFuncParams.add(StringUtils.notEmpty(hParams.get("dt1")) ? String.valueOf(hParams.get("dt1")) : "18500101");
-				lFuncParams.add(StringUtils.notEmpty(hParams.get("dt2")) ? String.valueOf(hParams.get("dt2")) : "21001231");
-				lFuncParams.add(StringUtils.notEmpty(hParams.get("sp")) ? StringUtils.toInt(hParams.get("sp")) : 0);
-				lFuncParams.add("_" + lang);
-				Collection<RefItem> c = (Collection<RefItem>) DatabaseManager.callFunction("get_calendar_results", lFuncParams, RefItem.class);
+				List<Object> params = new ArrayList<Object>();
+				params.add(StringUtils.notEmpty(mapParams.get("dt1")) ? String.valueOf(mapParams.get("dt1")) : "18500101");
+				params.add(StringUtils.notEmpty(mapParams.get("dt2")) ? String.valueOf(mapParams.get("dt2")) : "21001231");
+				params.add(StringUtils.notEmpty(mapParams.get("sp")) ? StringUtils.toInt(mapParams.get("sp")) : 0);
+				params.add("_" + lang);
+				Collection<RefItem> c = (Collection<RefItem>) DatabaseManager.callFunction("get_calendar_results", params, RefItem.class);
 				StringBuffer html = new StringBuffer();
-				html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_CALENDAR, lFuncParams, getUser(request), lang));
+				html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_CALENDAR, params, getUser(request), lang));
 				html.append(HtmlConverter.convertCalendarResults(request, c, getUser(request), lang));
-				if (isLink) {
-					HtmlUtils.setHeadInfo(request, html.toString());
-					if (hParams.containsKey("export"))
-						ExportUtils.export(response, html, String.valueOf(hParams.get("export")), lang);
-					else {
-						request.setAttribute("menu", "calendar");
-						ServletHelper.writePageHtml(request, response, html, lang, hParams.containsKey("print"));
-					}
+				
+				// Load HTML results or export
+				HtmlUtils.setHeadInfo(request, html.toString());
+				if (mapParams.containsKey("export"))
+					ExportUtils.export(response, html, String.valueOf(mapParams.get("export")), lang);
+				else {
+					request.setAttribute("menu", "calendar");
+					ServletHelper.writePageHtml(request, response, html, lang, mapParams.containsKey("print"));
 				}
-				else
-					ServletHelper.writeTabHtml(request, response, html.append(isLink ? "</div>" : ""), lang);
 			}
 		}
 		catch (Exception e) {

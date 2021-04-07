@@ -6,11 +6,13 @@
 	<entry key="desc">Sports results database (free and opened to contributors)</entry>
 	<entry key="keywords">sport, results, database, records, olympics</entry>
 	<entry key="menu.results">RESULTS</entry>
+	<entry key="menu.browse">BROWSE</entry>
 	<entry key="menu.calendar">CALENDAR</entry>
 	<entry key="menu.olympics">OLYMPICS</entry>
 	<entry key="menu.usleagues">US LEAGUES</entry>
 	<entry key="menu.search">SEARCH</entry>
 	<entry key="menu.results.2">Results</entry>
+	<entry key="menu.browse.2">Browse</entry>
 	<entry key="menu.calendar.2">Calendar</entry>
 	<entry key="menu.olympics.2">Olympics</entry>
 	<entry key="menu.usleagues.2">US leagues</entry>

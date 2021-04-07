@@ -47,16 +47,17 @@
 	<div id="logo"><a href="/" title="<%=StringUtils.text("menu.home", session)%>"><img src="/img/icon.png?v=<%=version%>" alt="sporthenon.com"/></a></div>
 	<div id="shmenu">
 		<ul>
-			<li><a id="shmenu-results" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("results") ? "class='selected'" : "")%> href="/results"><%=StringUtils.text("menu.results", session)%></a></li>
-			<li><a id="shmenu-calendar" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("calendar") ? "class='selected'" : "")%> href="/calendar"><%=StringUtils.text("menu.calendar", session)%></a></li>
-			<li><a id="shmenu-olympics" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("olympics") ? "class='selected'" : "")%> href="/olympics"><%=StringUtils.text("menu.olympics", session)%></a></li>
-			<li><a id="shmenu-usleagues" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("usleagues") ? "class='selected'" : "")%> href="/usleagues"><%=StringUtils.text("menu.usleagues", session)%></a></li>
-			<li><a id="shmenu-search" <%=(request.getAttribute("menu") != null && request.getAttribute("menu").equals("search") ? "class='selected'" : "")%> href="/search"><%=StringUtils.text("menu.search", session)%></a></li>
+			<li><a id="shmenu-results" href="/results"><%=StringUtils.text("menu.results", session)%></a></li>
+			<li><a id="shmenu-browse" href="/browse"><%=StringUtils.text("menu.browse", session)%></a></li>
+			<li><a id="shmenu-calendar" href="/calendar"><%=StringUtils.text("menu.calendar", session)%></a></li>
+			<li><a id="shmenu-olympics" href="/olympics"><%=StringUtils.text("menu.olympics", session)%></a></li>
+			<li><a id="shmenu-usleagues" href="/usleagues"><%=StringUtils.text("menu.usleagues", session)%></a></li>
+			<li><a id="shmenu-search" href="/search"><%=StringUtils.text("menu.search", session)%></a></li>
 		</ul>
 	</div>
 	<div id="sharesite">
 		<table>
-			<tr><td style="padding-bottom:3px;"><%=StringUtils.text("share", session)%>:</td>
+			<tr>
 			<td><a href="https://www.facebook.com/sharer/sharer.php?u=<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="facebook" title="<%=StringUtils.text("share.on", session)%> Facebook" src="/img/header/facebook.png"/></a></td>
 			<td><a href="https://twitter.com/share?text=<%=StringUtils.text("title", session).replaceAll("\\s", "%20")%>&amp;url=<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="twitter" title="<%=StringUtils.text("share.on", session)%> Twitter" src="/img/header/twitter.png"/></a></td>
 			<td><a href="https://plus.google.com/share?url<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="gplus" title="<%=StringUtils.text("share.on", session)%> Google+" src="/img/header/gplus.png"/></a></td></tr>

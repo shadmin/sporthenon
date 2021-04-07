@@ -49,13 +49,11 @@
 	</ul>
 </div>
 <%@include file="../../html/buttons.html"%>
-<%@include file="../../html/tabcontrol.html"%>
 <script type="text/javascript"><!--
 var todayY = '<%=y%>';
 var todayM = '<%=(m < 10 ? "0" : "") + m%>';
 var todayD = '<%=d%>';
 window.onload = function() {
-	initTabControl();
 	refreshDate(1);
 }
 --></script>

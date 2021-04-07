@@ -28,7 +28,7 @@ import com.sporthenon.web.ServletHelper;
 
 @WebServlet(
     name = "IndexServlet",
-    urlPatterns = {"/"}
+    urlPatterns = {"/IndexServlet"}
 )
 public class IndexServlet extends AbstractServlet {
 
@@ -75,7 +75,8 @@ private static final long serialVersionUID = 1L;
 		    	params.add(count);
 		    	params.add(offset);
 		    	params.add("_" + lang);
-		    	ServletHelper.writeTabHtml(request, response, HtmlConverter.convertLastUpdates(DatabaseManager.callFunctionSelect("_last_updates", params, LastUpdateBean.class), sport, count, offset, getLocale(request)), getLocale(request));
+		    	StringBuffer html = HtmlConverter.convertLastUpdates(DatabaseManager.callFunctionSelect("_last_updates", params, LastUpdateBean.class), sport, count, offset, getLocale(request));
+		    	ServletHelper.writeHtmlResponse(request, response, html, getLocale(request));
 			}
 			else if (hParams.containsKey("randomevent")) { // Random Event
 				ServletHelper.writeText(response, getRandomEvent(lang));

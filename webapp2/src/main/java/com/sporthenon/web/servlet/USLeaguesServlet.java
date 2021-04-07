@@ -25,7 +25,7 @@ import com.sporthenon.web.ServletHelper;
 
 @WebServlet(
     name = "USLeaguesServlet",
-    urlPatterns = {"/USLeaguesServlet"}
+    urlPatterns = {"/USLeaguesServlet", "/SearchUSLeagues"}
 )
 public class USLeaguesServlet extends AbstractServlet {
 
@@ -65,9 +65,6 @@ public class USLeaguesServlet extends AbstractServlet {
 		HTYPE2.put("-", "'Alltime/Career', 'Season', 'Series', 'Game'");
 	}
 
-	public USLeaguesServlet() {
-    }
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
@@ -79,8 +76,7 @@ public class USLeaguesServlet extends AbstractServlet {
 			HashMap<String, Object> mapParams = ServletHelper.getParams(request);
 			String lang = getLocale(request);
 			String league = String.valueOf(mapParams.get("league"));
-			if (mapParams.containsKey("run")) { // View results
-				boolean isLink = false;
+			if (request.getRequestURI().contains("/SearchUSLeagues")) {
 				if (mapParams.containsKey("p")) {
 					String p = String.valueOf(mapParams.get("p"));
 					p = StringUtils.decode(p);
@@ -113,7 +109,6 @@ public class USLeaguesServlet extends AbstractServlet {
 						mapParams.put("tp1", t[5]);
 						mapParams.put("tp2", t.length > 6 ? t[6] : "");
 					}
-					isLink = true;
 				}
 				List<Object> params = new ArrayList<Object>();
 				params.add(StringUtils.toInt(league));
@@ -180,17 +175,15 @@ public class USLeaguesServlet extends AbstractServlet {
 					}
 					html.append(HtmlConverter.convertUSRecords(request, DatabaseManager.callFunction("get_us_records", params, USRecordsBean.class), "en"));
 				}
-				if (isLink) {
-					HtmlUtils.setHeadInfo(request, html.toString());
-					if (mapParams.containsKey("export"))
-						ExportUtils.export(response, html, String.valueOf(mapParams.get("export")), lang);
-					else {
-						request.setAttribute("menu", "usleagues");
-						ServletHelper.writePageHtml(request, response, html, lang, mapParams.containsKey("print"));
-					}
+				
+				// Load HTML results or export
+				HtmlUtils.setHeadInfo(request, html.toString());
+				if (mapParams.containsKey("export"))
+					ExportUtils.export(response, html, String.valueOf(mapParams.get("export")), lang);
+				else {
+					request.setAttribute("menu", "usleagues");
+					ServletHelper.writePageHtml(request, response, html, lang, mapParams.containsKey("print"));
 				}
-				else
-					ServletHelper.writeTabHtml(request, response, html, lang);
 			}
 		}
 		catch (Exception e) {

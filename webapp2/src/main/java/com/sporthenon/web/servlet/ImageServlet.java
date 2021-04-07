@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -182,22 +181,22 @@ public class ImageServlet extends AbstractServlet {
 				DatabaseManager.executeUpdate("DELETE FROM _picture WHERE ID=" + hParams.get("id"));
 			}
 			else if (hParams.containsKey("copy")) {
-				String id1 = String.valueOf(hParams.get("id1"));
-				String id2 = String.valueOf(hParams.get("id2"));
-				boolean found = false;
-				List<String> lAdded = new ArrayList<String>();
-				/*for (String s : ImageUtils.getImgFiles()) {
-					if (s.indexOf(ImageUtils.getIndex(entity) + "-" + id1 + "-") == 0) {
-						File f1 = new File(ConfigUtils.getProperty("img.folder") + s);
-						File f2 = new File(ConfigUtils.getProperty("img.folder") + s.replaceFirst("\\-" + id1 + "\\-", "-" + id2 + "-"));
-						FileUtils.copyFile(f1, f2);
-						lAdded.add(f2.getName());
-						found = true;
-					}
-					else if (found)
-						break;
-				}
-				ImageUtils.getImgFiles().addAll(lAdded);*/
+//				String id1 = String.valueOf(hParams.get("id1"));
+//				String id2 = String.valueOf(hParams.get("id2"));
+//				boolean found = false;
+//				List<String> lAdded = new ArrayList<String>();
+//				for (String s : ImageUtils.getImgFiles()) {
+//					if (s.indexOf(ImageUtils.getIndex(entity) + "-" + id1 + "-") == 0) {
+//						File f1 = new File(ConfigUtils.getProperty("img.folder") + s);
+//						File f2 = new File(ConfigUtils.getProperty("img.folder") + s.replaceFirst("\\-" + id1 + "\\-", "-" + id2 + "-"));
+//						FileUtils.copyFile(f1, f2);
+//						lAdded.add(f2.getName());
+//						found = true;
+//					}
+//					else if (found)
+//						break;
+//				}
+//				ImageUtils.getImgFiles().addAll(lAdded);
 			}
 			else if (hParams.containsKey("url")) {
 				String id = String.valueOf(hParams.get("id"));

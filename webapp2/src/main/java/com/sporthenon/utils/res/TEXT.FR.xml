@@ -5,12 +5,14 @@
 	<entry key="title">SPORTHENON – Le temple des résultats sportifs</entry>
 	<entry key="desc">Base de données de résultats sportifs (gratuite et ouverte aux contributeurs)</entry>
 	<entry key="keywords">sport, résultats sportifs, base de données, records, jeux olympiques</entry>
-	<entry key="menu.results">RÉSULTATS</entry>
+	<entry key="menu.results">PALMARÈS</entry>
+	<entry key="menu.browse">PARCOURIR</entry>
 	<entry key="menu.calendar">CALENDRIER</entry>
 	<entry key="menu.olympics">OLYMPIQUE</entry>
 	<entry key="menu.usleagues">LIGUES US</entry>
 	<entry key="menu.search">RECHERCHE</entry>
-	<entry key="menu.results.2">Résultats</entry>
+	<entry key="menu.results.2">Palmarès</entry>
+	<entry key="menu.browse.2">Parcourir</entry>
 	<entry key="menu.calendar.2">Calendrier</entry>
 	<entry key="menu.olympics.2">Olympique</entry>
 	<entry key="menu.usleagues.2">Ligues US</entry>

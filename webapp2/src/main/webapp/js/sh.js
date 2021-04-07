@@ -100,21 +100,8 @@ function updateTip(pl, empty) {
 	$(hTips.get(pl)).update(text);
 }
 function handleRender() {
-	var tabId = null;
-	if (tabs != null) {
-		tabId = 't-' + tabcurrent;
-		if ($(tabId)) {
-			var title = $('title-' + tabcurrent);
-			var stitle = $$('#' + tabId + ' .title')[0].innerHTML;
-			title.update(stitle);
-			t2 = currentTime();	
-		}
-	}
-	else {
-		tabId = 'content';
-	}
-	var info = $$('#' + tabId + ' .infostats')[0];
-	$$('#' + tabId + ' .rendertip').each(function(el) {
+	var info = $$('#content .infostats')[0];
+	$$('#content .rendertip').each(function(el) {
 		new Control.Window($(document.body).down('[href=#' + el.id + ']'),{
 			position: 'relative', hover: true, offsetLeft: 20, offsetTop: 28, className: 'tip'
 		});
@@ -129,7 +116,7 @@ function handleRender() {
 	}
 	// Favorites
 	if ($('favimg')) {
-		var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
+		var url = $$('#content .url')[0].innerHTML;
 		if (isFavorite(url)) {
 			$('favimg').onclick = function(){deleteFavorite();};
 			$('favimg').src = '/img/menu/favorites.png';
@@ -170,18 +157,7 @@ function toggleContent(el) {
 	el.src = '/img/render/' + (isDisplayed ? 'expand.gif' : 'collapse.gif') + '?v=' + VERSION;
 }
 function info(s) {
-	t1 = currentTime();
-	if ($('tabcontrol')) {
-		window.scrollTo(0, 0);
-		addTab(TX_BLANK);
-		var tab = initTab();
-		new Ajax.Updater(tab, '/InfoRefServlet?p=' + s, {
-			onComplete: handleRender
-		});
-	}
-	else {
-		location.href = '/results/' + s;
-	}
+	window.location.href = '/results/' + s;
 }
 function currentTime() {
 	return new Date().getTime();
@@ -278,25 +254,6 @@ function sort(id, col, sortIndex) {
 	$(col).addClassName('sorted');
 	tCurrentSortedCol[id] = col;
 }
-var treeExpanded = false;
-function toggleTreeExpand() {
-	var img = $('treeiconimg');
-	if (!treeExpanded) {
-		$('treeview').removeClassName('collapsed').addClassName('expanded');
-		img.src = img.src.replace('expand', 'collapse') + '?v=' + VERSION;
-		img.alt = '[-] ' + TX_COLLAPSE;
-		$('treeview').style.border = '1px solid #000';
-	}
-	else {
-		$('treeview').removeClassName('expanded').addClassName('collapsed');
-		img.src = img.src.replace('collapse', 'expand') + '?v=' + VERSION;
-		img.alt = '[+] ' + TX_EXPAND;
-		$('treeview').style.border = '1px solid #DDD';
-	}
-	$('treeicontxt').update(img.alt);
-	//img.title = img.alt;
-	treeExpanded = !treeExpanded;
-}
 function moreImg(c) {
 	$$('.' + c).each(function(el) {
 		el.show();
@@ -305,10 +262,10 @@ function moreImg(c) {
 }
 function addFavorite() {
 	var fav = getCookie('shfav');
-	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
+	var url = $$('#content .url')[0].innerHTML;
 	url = url.replace('http://', '').replace('https://', '');
 	url = url.substring(url.indexOf('/')).replace('&amp;', '&');
-	var title = (tabs != null ? $('title-' + tabcurrent).innerHTML : document.title.replace(' | Sporthenon', ''));
+	var title = document.title.replace(' | Sporthenon', '');
 	title = title.replace(/\&nbsp\;/gi, ' ');
 	fav += '|' + url + ':' + title;
 	setCookie('shfav', fav);
@@ -320,7 +277,7 @@ function addFavorite() {
 }
 function deleteFavorite(url) {
 	if (!url) {
-		url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
+		url = $$('#content .url')[0].innerHTML;
 	}
 	url = url.replace('http://', '').replace('https://', '');
 	url = url.substring(url.indexOf('/'));
@@ -457,72 +414,6 @@ function setOpacity(x) {
 	$('footer').setStyle({ opacity: x });
 	$('content').setStyle({ opacity: x });
 }
-/*=================================
-  ========== TAB CONTROL ========== 
-  =================================*/
-var tabs = null;
-var tabcurrent = 0;
-var tabcount = 0;
-function initTabControl() {
-	addTab(TX_BLANK);
-	
-	tabbar.insert('<li title="Open New Tab" id="link-add"><a href="javascript:void(0);"></a></li>');
-	var link = $$('#link-add a')[0];
-	link.observe('click', function(){addTab(TX_BLANK);});
-}
-function getCloseImg(idx) {
-	var img = new Element('img', {id: 'close-' + idx, src: '/img/component/tabcontrol/close.gif'});
-	img.observe('mouseover', overCloseImg)
-	   .observe('mouseout', outCloseImg)
-	   .observe('mousedown', clickCloseImg);
-	return img;
-}
-function overCloseImg() {
-	this.src = this.src.replace('close.gif', 'close-over.gif');
-}
-function outCloseImg() {
-	this.src = this.src.replace('close-over.gif', 'close.gif');
-}
-function clickCloseImg(id_) {
-	var idx = (this.id == 'close' ? tabs.activeContainer.id.replace('t-', '') : this.id.replace('close-', ''));
-	$('link-' + idx).remove();
-	tabs.removeTab('t-' + idx);
-	if (tabs.activeContainer.id == 't-' + idx) {
-		var i = tabcurrent + 1;
-		while (!$('t-' + i--) && i > 0);
-		tabs.setActiveTab(i > 0 ? 't-' + (i + 1) : 0);
-	}
-	if ($$('#tabbar li').length <= 2) {
-		addTab(TX_BLANK);
-	}
-}
-function addTab(title) {
-	tabcurrent = ++tabcount;
-	title = '<span id="title-' + tabcurrent + '">' + title + '</span>';
-	tabcontrol.insert('<div class="tc" id="t-' + tabcurrent + '"><br/><br/><br/></div>');
-	tabbar.insert('<li id="link-' + tabcurrent + '"><a href="#t-' + tabcurrent + '">' + title + '</a></li>');
-	var link = $$('#link-' + tabcurrent + ' a')[0];
-	link.insert(getCloseImg(tabcurrent));
-	$('link-' + tabcurrent).observe('mouseup', function(){tabcurrent = this.id.replace('link-', '');});
-	tabs.addTab(link);
-	tabs.last();
-	tabbar.insert($('link-add'));
-	return $('t-' + tabcurrent);
-}
-function initTab() {
-	var tab = $(tabs.activeContainer.id);
-	$('title-' + tab.id.replace('t-', '')).update(TX_LOADING);
-	return tab.update('<div class="loading"></div>');
-}
-function closeTabs() {
-	$('tabbar').update('<li/>');
-	$$('#tabcontrol .tc').each(function(el) {
-		el.remove();
-	});
-	tabcurrent = 0;
-	tabcount = 0;
-	initTabControl();
-}
 function closeDialog(dlg) {
 	dlg.close();
 	setOpacity(1.0);
@@ -539,7 +430,7 @@ var dQuestion = null;
 var dComment = null;
 var dHelp = null;
 function share(type) {
-	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
+	var url = $$('#content .url')[0].innerHTML;
 	if (type == 'fb') {
 		url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
 	}
@@ -559,14 +450,14 @@ function share(type) {
 	window.open(url, '_blank');
 }
 function exportPage(type) {
-	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
+	var url = $$('#content .url')[0].innerHTML;
 	if (url) {
 		location.href = url + '?export=' + type;
 		$('exportopt').hide();
 	}
 }
 function displayErrorReport() {
-	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
+	var url = $$('#content .url')[0].innerHTML;
 	setOpacity(0.4);
 	$('errlinkurl').value = url;
 	$('errlinktext').value = '';
@@ -574,7 +465,7 @@ function displayErrorReport() {
 	$('errlinktext').focus();
 }
 function displayLink() {
-	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
+	var url = $$('#content .url')[0].innerHTML;
 	if (dLink && url) {
 		setOpacity(0.4);
 		dLink.open();
@@ -584,8 +475,8 @@ function displayLink() {
 	}
 }
 function displayInfo() {
-	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
-	var info = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .infostats')[0].innerHTML;
+	var url = $$('#content .url')[0].innerHTML;
+	var info = $$('#content .infostats')[0].innerHTML;
 	var tInfo = info.split('|');
 	var t = $$('#d-info td');
 	t[0].update('<a href="' + url + '" target="_blank">' + url + '</a>');
@@ -599,7 +490,7 @@ function displayInfo() {
 	dInfo.open();
 }
 function printCurrentTab() {
-	var url = $$('#' + (tabs != null ? tabs.activeContainer.id : 'content') + ' .url')[0].innerHTML;
+	var url = $$('#content .url')[0].innerHTML;
 	if (url) {
 		window.open(url + '?print', '_blank');
 	}
@@ -958,7 +849,6 @@ function getPicklist(picklistId) {
 }
 function runResults(tleaf) {
 	t1 = currentTime();
-	var tab = initTab();
 	var h = null;
 	if (tleaf && tleaf instanceof Array) { // Treeview
 		var sp_ = tleaf[0];
@@ -971,10 +861,17 @@ function runResults(tleaf) {
 	else { // Picklist
 		h = $H({sp: $F('pl-sp'), cp: $F('pl-cp'), ev: $F('pl-ev'), se: $F('pl-se'), se2: $F('pl-se2'), yr: $F('pl-yr')});
 	}
-	new Ajax.Updater(tab, '/ResultServlet?run', {
-		parameters: h,
-		onComplete: handleRender
-	});
+	const treeresults = $('treeresults');
+	if (treeresults) {
+		window.scrollTo(0, 0);
+		new Ajax.Updater(treeresults, '/BrowseResults', {
+			onComplete: handleRender,
+			parameters: h
+		});
+	}
+	else {
+		window.location.href = '/SearchResults?' + h.toQueryString();
+	}
 }
 function resetResults() {
 	closeTabs();
@@ -983,9 +880,6 @@ function resetResults() {
 }
 var currentNodeLink = null;
 function treeLeafClick(anchor, value) {
-	if (treeExpanded) {
-		toggleTreeExpand();
-	}
 	if (value.indexOf('link-') == 0) {
 		info(value.substring(5));
 		return;
@@ -1094,10 +988,7 @@ function runCalendar() {
 	mo1 = (mo1 == '' ? '01' : mo1);
 	dt1 = (dt1 == '' ? '01' : dt1);
 	var h = $H({dt1: yr1 + mo1 + dt1, dt2: yr2 + mo2 + dt2});
-	new Ajax.Updater(tab, '/CalendarServlet?run', {
-		parameters: h,
-		onComplete: handleRender
-	});
+	window.location.href = '/SearchCalendar?' + h.toQueryString();
 }
 function resetCalendar() {
 	closeTabs();
@@ -1274,11 +1165,7 @@ function runOlympics() {
 	else {
 		h.set('cn', $F(code + '-pl-cn'));
 	}
-	var url = '/OlympicsServlet?run&type=' + (ind ? 'ind' : 'cnt');
-	new Ajax.Updater(tab, url, {
-		parameters: h,
-		onComplete: handleRender
-	});
+	window.location.href = '/SearchOlympics?' + h.toQueryString() + '&type=' + (ind ? 'ind' : 'cnt');
 }
 function resetOlympics() {
 	closeTabs();
@@ -1385,10 +1272,7 @@ function runUSLeagues() {
 	h.set('pf', $('records-pf').checked ? '1' : '0');
 	h.set('num', $F('retnum-number'));
 	h.set('pos', $F('hof-position'));
-	new Ajax.Updater(tab, '/USLeaguesServlet?run', {
-		parameters: h,
-		onComplete: handleRender
-	});
+	window.location.href = '/SearchUSLeagues?' + h.toQueryString();
 }
 function resetUSLeagues() {
 	closeTabs();
@@ -1445,10 +1329,7 @@ function runSearch() {
 		h.set('max', $F('max') != '' ? $F('max') : '0');
 		h.set('match', $F('match'));
 		h.set('scope', tScopeValue.join(','));
-		new Ajax.Updater(tab, '/SearchServlet?run', {
-			parameters: h,
-			onComplete: handleRender
-		});
+		window.location.href = '/Search?' + h.toQueryString();
 	}
 }
 function resetSearch() {

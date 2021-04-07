@@ -98,7 +98,6 @@
 	</form>
 </div>
 <%@include file="../../html/buttons.html"%>
-<%@include file="../../html/tabcontrol.html"%>
 <script type="text/javascript"><!--
 var tStatsYr = [];
 var tStatsCtI = [];
@@ -202,7 +201,6 @@ window.onload = function() {
 	initSliderUS();
 	changeModeUS();
 	changeLeague('nfl');
-	initTabControl();
 <%
 	List<Object[]> l = (List<Object[]>) DatabaseManager.executeSelect("SELECT DISTINCT id_league, position FROM hall_of_fame WHERE position IS NOT NULL AND position <> '' ORDER BY id_league, position");
 	for (Object[] tObj : l) {

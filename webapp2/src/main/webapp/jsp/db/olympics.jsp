@@ -86,7 +86,6 @@
 	</form>
 </div>
 <%@include file="../../html/buttons.html"%>
-<%@include file="../../html/tabcontrol.html"%>
 <%
 	String lang = String.valueOf(session.getAttribute("locale"));
 	HashMap<String, String> hOlympicsImg = new HashMap<String, String>();
@@ -134,7 +133,6 @@ window.onload = function() {
 		createSlider('slider-' + c + '-sp', 100, 100);
 		initOlympics(c + '-pl-ol');
 	}
-	initTabControl();
 }
 --></script>
 <jsp:include page="/jsp/common/footer.jsp"/>
