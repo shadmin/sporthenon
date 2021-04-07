@@ -75,13 +75,15 @@ public class DatabaseManager {
 	}
 	
 	private static DataSource createConnectionPool() throws ClassNotFoundException {
-		final String localUrl = String.format("jdbc:postgresql://%s:%d/%s", "127.0.0.1", 5433, "shlocal2");
-		final String localUser = "shadmin";
-		final String localPwd = "password";
+		final String dbHost = System.getenv("SHDB_HOST");
+		final String dbPort = System.getenv("SHDB_PORT");
+		final String dbName = System.getenv("SHDB_NAME");
+		final String dbUser = System.getenv("SHDB_USER");
+		final String dbPwd = System.getenv("SHDB_PWD");
 		HikariConfig config = new HikariConfig();
-		config.setJdbcUrl(localUrl);
-		config.setUsername(localUser);
-		config.setPassword(localPwd);
+		config.setJdbcUrl(String.format("jdbc:postgresql://%s:%s/%s", dbHost, dbPort, dbName));
+		config.setUsername(dbUser);
+		config.setPassword(dbPwd);
 		config.setMaximumPoolSize(10);
 		config.setMinimumIdle(3);
 		config.setConnectionTimeout(10000);

@@ -1,0 +1,5 @@
+User-Agent: *
+Disallow: /android/
+Disallow: /update/
+Disallow: /contributor/
+Disallow: /*?*
