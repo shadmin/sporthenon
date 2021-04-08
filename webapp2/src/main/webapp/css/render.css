@@ -6,13 +6,13 @@
 	background-color: #FFF;
 }
 .render th, .render td{
-	border: 1px solid #777;
+	border: 1px solid #CCC;
 	padding: 3px;
 	vertical-align: middle;
 }
 .render th{
 	font-weight: bold;
-	background-color: #c0e2fc; /* _theme_ */
+	background-color: #E8E8E8; /* _theme_ */
 	text-align: center;
 	padding: 3px 10px;
 }

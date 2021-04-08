@@ -29,80 +29,81 @@ public class NavigationServlet extends AbstractServlet {
 
 	private static final long serialVersionUID = 1L;
 	
-	private static Map<String, String> hPages;
-	private static Map<String, String> hServlet;
-	private static Map<String, String> hTitle;
+	private static Map<String, String> mapPages;
+	private static Map<String, String> mapServlet;
+	private static Map<String, String> mapTitle;
 	
 	private static final String CONTEXT_ROOT = "/sporthenon";
 	
 	static {
-		hPages = new HashMap<>();
-		hPages.put("index", "index.jsp");
-		hPages.put("results", "db/results.jsp");
-		hPages.put("browse", "db/browse.jsp");
-		hPages.put("calendar", "db/calendar.jsp");
-		hPages.put("olympics", "db/olympics.jsp");
-		hPages.put("usleagues", "db/usleagues.jsp");
-		hPages.put("search", "db/search.jsp");
-		hPages.put("project", "project.jsp");
-		hPages.put("contribute", "contribute.jsp");
-		hPages.put("login", "login.jsp");
-		hPages.put("update-overview", "update/overview.jsp");
-		hPages.put("update-results", "update/results.jsp");
-		hPages.put("update-data", "update/data.jsp");
-		hPages.put("update-pictures", "update/pictures.jsp");
-		hPages.put("update-folders", "update/folders.jsp");
-		hPages.put("update-import", "update/import.jsp");
-		hPages.put("update-extlinks", "update/extlinks.jsp");
-		hPages.put("update-translations", "update/translations.jsp");
-		hPages.put("update-query", "update/query.jsp");
-		hPages.put("update-errors", "update/errors.jsp");
-		hPages.put("update-redirections", "update/redirections.jsp");
-		hPages.put("update-admin", "update/admin.jsp");
-		hServlet = new HashMap<>();
-		hServlet.put("results", "/ResultServlet");
-		hServlet.put("calendar", "/CalendarServlet");
-		hServlet.put("olympics", "/OlympicsServlet");
-		hServlet.put("usleagues", "/USLeaguesServlet");
-		hServlet.put("project", "/ProjectServlet");
-		hServlet.put("search", "/SearchServlet");
-		hServlet.put("login", "/LoginServlet");
-		hServlet.put("update", "/UpdateServlet");
-		hServlet.put("update-overview", "/UpdateServlet");
-		hServlet.put("update-results", "/UpdateServlet");
-		hServlet.put("update-data", "/UpdateServlet");
-		hServlet.put("update-pictures", "/UpdateServlet");
-		hServlet.put("update-folders", "/UpdateServlet");
-		hServlet.put("update-import", "/UpdateServlet");
-		hServlet.put("update-extlinks", "/UpdateServlet");
-		hServlet.put("update-translations", "/UpdateServlet");
-		hServlet.put("update-query", "/UpdateServlet");
-		hServlet.put("update-errors", "/UpdateServlet");
-		hServlet.put("update-redirections", "/UpdateServlet");
-		hServlet.put("update-admin", "/UpdateServlet");
-		hServlet.put("android", "/AndroidServlet");
-		hTitle = new HashMap<>();
-		hTitle.put("index", "title");
-		hTitle.put("results", "menu.results.2");
-		hTitle.put("olympics", "menu.olympics.2");
-		hTitle.put("calendar", "menu.calendar.2");
-		hTitle.put("usleagues", "menu.usleagues.2");
-		hTitle.put("project", "menu.project");
-		hTitle.put("contribute", "menu.contribute");
-		hTitle.put("search", "menu.search.2");
-		hTitle.put("login", "menu.login");
-		hTitle.put("update-overview", "update.overview");
-		hTitle.put("update-results", "update.results");
-		hTitle.put("update-data", "data");
-		hTitle.put("update-pictures", "update.pictures");
-		hTitle.put("update-folders", "update.folders");
-		hTitle.put("update-import", "update.import");
-		hTitle.put("update-extlinks", "update.extlinks");
-		hTitle.put("update-translations", "update.translations");
-		hTitle.put("update-query", "update.query");
-		hTitle.put("update-errors", "update.errors");
-		hTitle.put("update-redirections", "update.redirections");
-		hTitle.put("update-admin", "Admin");
+		mapPages = new HashMap<>();
+		mapPages.put("index", "index.jsp");
+		mapPages.put("results", "db/results.jsp");
+		mapPages.put("browse", "db/browse.jsp");
+		mapPages.put("calendar", "db/calendar.jsp");
+		mapPages.put("olympics", "db/olympics.jsp");
+		mapPages.put("usleagues", "db/usleagues.jsp");
+		mapPages.put("search", "db/search.jsp");
+		mapPages.put("project", "project.jsp");
+		mapPages.put("contribute", "contribute.jsp");
+		mapPages.put("login", "login.jsp");
+		mapPages.put("update-overview", "update/overview.jsp");
+		mapPages.put("update-results", "update/results.jsp");
+		mapPages.put("update-data", "update/data.jsp");
+		mapPages.put("update-pictures", "update/pictures.jsp");
+		mapPages.put("update-folders", "update/folders.jsp");
+		mapPages.put("update-import", "update/import.jsp");
+		mapPages.put("update-extlinks", "update/extlinks.jsp");
+		mapPages.put("update-translations", "update/translations.jsp");
+		mapPages.put("update-query", "update/query.jsp");
+		mapPages.put("update-errors", "update/errors.jsp");
+		mapPages.put("update-redirections", "update/redirections.jsp");
+		mapPages.put("update-admin", "update/admin.jsp");
+		mapServlet = new HashMap<>();
+		mapServlet.put("results", "/ResultServlet");
+		mapServlet.put("calendar", "/CalendarServlet");
+		mapServlet.put("olympics", "/OlympicsServlet");
+		mapServlet.put("usleagues", "/USLeaguesServlet");
+		mapServlet.put("project", "/ProjectServlet");
+		mapServlet.put("search", "/SearcmapServlet");
+		mapServlet.put("login", "/LoginServlet");
+		mapServlet.put("update", "/UpdateServlet");
+		mapServlet.put("update-overview", "/UpdateServlet");
+		mapServlet.put("update-results", "/UpdateServlet");
+		mapServlet.put("update-data", "/UpdateServlet");
+		mapServlet.put("update-pictures", "/UpdateServlet");
+		mapServlet.put("update-folders", "/UpdateServlet");
+		mapServlet.put("update-import", "/UpdateServlet");
+		mapServlet.put("update-extlinks", "/UpdateServlet");
+		mapServlet.put("update-translations", "/UpdateServlet");
+		mapServlet.put("update-query", "/UpdateServlet");
+		mapServlet.put("update-errors", "/UpdateServlet");
+		mapServlet.put("update-redirections", "/UpdateServlet");
+		mapServlet.put("update-admin", "/UpdateServlet");
+		mapServlet.put("android", "/AndroidServlet");
+		mapTitle = new HashMap<>();
+		mapTitle.put("index", "title");
+		mapTitle.put("results", "menu.results.2");
+		mapTitle.put("browse", "menu.browse.2");
+		mapTitle.put("olympics", "menu.olympics.2");
+		mapTitle.put("calendar", "menu.calendar.2");
+		mapTitle.put("usleagues", "menu.usleagues.2");
+		mapTitle.put("project", "menu.project");
+		mapTitle.put("contribute", "menu.contribute");
+		mapTitle.put("search", "menu.search.2");
+		mapTitle.put("login", "menu.login");
+		mapTitle.put("update-overview", "update.overview");
+		mapTitle.put("update-results", "update.results");
+		mapTitle.put("update-data", "data");
+		mapTitle.put("update-pictures", "update.pictures");
+		mapTitle.put("update-folders", "update.folders");
+		mapTitle.put("update-import", "update.import");
+		mapTitle.put("update-extlinks", "update.extlinks");
+		mapTitle.put("update-translations", "update.translations");
+		mapTitle.put("update-query", "update.query");
+		mapTitle.put("update-errors", "update.errors");
+		mapTitle.put("update-redirections", "update.redirections");
+		mapTitle.put("update-admin", "Admin");
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -155,7 +156,7 @@ public class NavigationServlet extends AbstractServlet {
 			request.setAttribute("urlLogin", "http://" + url.replaceFirst("http(|s)\\:\\/\\/", "").replaceAll("\\/.*", "") + "/login");
 			request.setAttribute("urlEN", url.replaceFirst(".+\\.sporthenon\\.com", "//en.sporthenon.com"));
 			request.setAttribute("urlFR", url.replaceFirst(".+\\.sporthenon\\.com", "//fr.sporthenon.com"));
-			request.setAttribute("title", StringUtils.getTitle(ResourceUtils.getText(hTitle.containsKey(key) ? hTitle.get(key) : "title", getLocale(request)) + (key.startsWith("update-") ? " | " + ResourceUtils.getText("menu.cbarea", getLocale(request)) : "")));
+			request.setAttribute("title", StringUtils.getTitle(ResourceUtils.getText(mapTitle.containsKey(key) ? mapTitle.get(key) : "title", getLocale(request)) + (key.startsWith("update-") ? " | " + ResourceUtils.getText("menu.cbarea", getLocale(request)) : "")));
 			request.setAttribute("desc", ResourceUtils.getText(key.equals("index") ? "desc" : "desc." + key, getLocale(request)));
 			
 			// Specific behaviours
@@ -171,7 +172,7 @@ public class NavigationServlet extends AbstractServlet {
 			// 		- a direct access to JSP
 			boolean isRunServlet = (tURI.length > 1 || mapParams.containsKey("p"));
 			if (key.equals("update")) {
-				if (hPages.containsKey("update-" + tURI[1])) {
+				if (mapPages.containsKey("update-" + tURI[1])) {
 					key += "-" + tURI[1];
 					isRunServlet = (tURI.length > 2);
 				}
@@ -191,7 +192,7 @@ public class NavigationServlet extends AbstractServlet {
 				if (isPrint) {
 					mapParams.remove("print");
 				}
-				StringBuffer url_ = new StringBuffer(hServlet.containsKey(key) ? hServlet.get(key) : "/InfoRefServlet");
+				StringBuffer url_ = new StringBuffer(mapServlet.containsKey(key) ? mapServlet.get(key) : "/InfoRefServlet");
 				url_.append("?run=1&t=" + System.currentTimeMillis());
 				url_.append("&p=" + (mapParams.containsKey("p") ? mapParams.get("p") : tURI[tURI.length - 1]));
 				url_.append(tURI.length > 2 ? "&p2=" + tURI[tURI.length - 2] : "");
@@ -206,7 +207,7 @@ public class NavigationServlet extends AbstractServlet {
 				}
 				else {
 					request.setAttribute("menu", key);
-					dispatcher = request.getRequestDispatcher("/jsp/" + hPages.get(key));
+					dispatcher = request.getRequestDispatcher("/jsp/" + mapPages.get(key));
 				}
 			}
 		    if (dispatcher != null) {

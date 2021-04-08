@@ -2,6 +2,7 @@
 <%@ page import="com.sporthenon.db.DatabaseManager"%>
 <%@ page import="com.sporthenon.db.entity.meta.TreeItem"%>
 <%@ page import="com.sporthenon.web.HtmlConverter"%>
+<%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.ArrayList"%>
 <jsp:include page="/jsp/common/header.jsp"/>
@@ -15,6 +16,9 @@
 	HtmlConverter.convertTreeArray(DatabaseManager.callFunctionSelect("tree_results", params, TreeItem.class), out, false, lang);
 %>
 --></script>
+<div id="title-browse" class="title">
+	<div><%=StringUtils.text("menu.browse", session)%></div>
+</div>
 <div id="treeresults" class="render"></div>
 <div class="treediv">
 	<div id="treeview">

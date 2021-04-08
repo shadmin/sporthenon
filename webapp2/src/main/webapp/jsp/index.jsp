@@ -25,6 +25,7 @@
 		sbSports1.append("<option value=\"" + StringUtils.urlEscape("/sport/" + sp.getLabel() + "/" + StringUtils.encode("SP-" + sp.getId())) + "\">" + sp.getLabel(lang) + "</option>");
 		sbSports2.append("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
 	}
+	String url = "http://" + request.getServerName();
 %>
 --></script>
 <div id="home">
@@ -46,6 +47,18 @@
 			<hr/><img src='/img/bullet.gif' alt='-'/> <b><%=StringUtils.text("random.event", session)%></b><br/><table id="randomevent"><tr><td id="randomeventvalue"><%=IndexServlet.getRandomEvent(lang)%></td><td><a href="javascript:getRandomEvent();"><img alt="Change" title="<%=StringUtils.text("change", session)%>" src="/img/db/refresh.png"/></a></td></tr></table>
 			<hr/><img src='/img/bullet.gif' alt='-'/> <b><%=StringUtils.text("access.sport", session)%></b><select style="margin-left:10px;" onchange="location.href=this.value;"><option value="">–– <%=StringUtils.text("select.sport", session)%> ––</option><%=sbSports1.toString()%></select><br/>
 			<div id="sports" class="slider"><%@include file="../html/slider.html"%></div>
+			
+			<div id="sharesite">
+				<table>
+					<tr>
+					<td><a href="https://www.facebook.com/sharer/sharer.php?u=<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="facebook" title="<%=StringUtils.text("share.on", session)%> Facebook" src="/img/header/facebook.png"/></a></td>
+					<td><a href="https://twitter.com/share?text=<%=StringUtils.text("title", session).replaceAll("\\s", "%20")%>&amp;url=<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="twitter" title="<%=StringUtils.text("share.on", session)%> Twitter" src="/img/header/twitter.png"/></a></td>
+					<td><a href="https://plus.google.com/share?url<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="gplus" title="<%=StringUtils.text("share.on", session)%> Google+" src="/img/header/gplus.png"/></a></td></tr>
+				</table>
+			</div>
+			<div id="android">
+				<a href="https://play.google.com/store/apps/details?id=com.sporthenon.android" target="_blank"><img alt="Android app on Google Play" src="/img/header/android<%=lang%>.png"/></a>
+			</div>
 		</div>
 	</div>
 	<!-- LAST UPDATES -->

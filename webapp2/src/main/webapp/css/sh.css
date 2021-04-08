@@ -96,7 +96,7 @@ li{
 	padding-left: 20px;
 }
 .fieldset .fscontent li{
-	list-style-image: url(../img/bullet.gif?6);
+	list-style-image: url(../img/bullet.gif);
 }
 .legend{
 	margin-top: -12px;
@@ -123,7 +123,7 @@ li{
 	font-weight: bold;
 }
 .loading{
-	background: #FFF url(../img/db/loading.gif?6) center center no-repeat;
+	background: #FFF url(../img/db/loading.gif) center center no-repeat;
 	width: 180px;
 	height: 80px;
 	margin: 0 auto;
@@ -134,10 +134,10 @@ li{
 	display: none;
 }
 .criteria{
-	background-image: url(../img/db/criteria.png?6);
+	background-image: url(../img/db/criteria.png);
 }
 .help{
-	background-image:url(../img/update/help.png?6);
+	background-image:url(../img/update/help.png);
 }
 .toggleimg{
 	cursor: pointer;
@@ -159,16 +159,16 @@ select.disabled{
 	float: left;
 }
 #headertop{
-	height: 50px;
-	margin-left: 150px;
+	height: 35px;
+	margin-left: 140px;
 	margin-bottom: 0px;
-	border-bottom: 1px solid #888;
+	border-bottom: 1px solid #CCC;
 }
 #menutop{
 	font: 12px Verdana;
 	float: left;
-	margin-top: 28px;
-	margin-left: 4px;
+	margin-top: 14px;
+	margin-left: 2px;
 }
 #menutop div{
 	float: left;
@@ -178,24 +178,24 @@ select.disabled{
 	margin-right: 6px;
 }
 #menutop #mthome{
-	background: url(../img/menu/home.png?6) left 0 no-repeat;
+	background: url(../img/menu/home.png) left 0 no-repeat;
 }
 #menutop #mtproject{
-	background: url(../img/menu/project.png?6) left 0 no-repeat;
+	background: url(../img/menu/project.png) left 0 no-repeat;
 	margin-right: 7px;
 }
 #menutop #mtfavorites{
 	background: url(../img/menu/favorites.png?7) left 0 no-repeat;
 }
 #menutop #mtcontribute{
-	background: url(../img/menu/contribute.png?6) left 0 no-repeat;
+	background: url(../img/menu/contribute.png) left 0 no-repeat;
 	margin-right: 5px;
 }
 #menutop #mtlogin{
-	background: url(../img/menu/login.png?6) 1px 0 no-repeat;
+	background: url(../img/menu/login.png) 1px 0 no-repeat;
 }
 #menutop #mtlogout{
-	background: url(../img/menu/logout.png?6) 1px 0 no-repeat;
+	background: url(../img/menu/logout.png) 1px 0 no-repeat;
 }
 #menutop #mtcbarea{
 	background: url(../img/menu/contributor_area.png?8) left 0 no-repeat;
@@ -209,17 +209,13 @@ select.disabled{
 	padding: 5px;
 }
 #menutop div#favorites li{
-	list-style-image: url(../img/bullet.gif?6);
+	list-style-image: url(../img/bullet.gif);
 	padding: 1px;
-}
-#flags{
-	padding: 2px;
-	text-align: right;
 }
 #headertop #searchpanel{
 	float: right;
-	margin-top: -1px;
-	margin-right: 5px;
+	margin-top: 7px;
+	margin-right: 3px;
 }
 #headertop #searchpanel td{
 	padding: 1px;
@@ -228,7 +224,7 @@ select.disabled{
 	color: #AAA;
 	border: 1px solid #AAA;
 	padding: 3px;
-	width: 350px;
+	width: 380px;
 	padding-left: 23px;
 	background: #FFF url(../img/header/search.png) 4px center no-repeat;
 }
@@ -237,17 +233,17 @@ select.disabled{
 	border: 1px solid #000;
 }
 #logo{
-	margin: 12px;
-	margin-top: 12px;
-	margin-bottom: 10px;
-	width: 210px;
+	width: 135px;
+	margin-top: 16px;
+	margin-bottom: 20px;
+	text-align: center;
 }
 #logo img{
 	padding-bottom: 5px;
 	border: none;
 }
 #shmenu{
-	width: 160px;
+	width: 140px;
 	list-style-type: none;
 	text-align: right;
 	padding-bottom: 0px;
@@ -259,10 +255,9 @@ select.disabled{
 }
 #shmenu li{
 	list-style: none;
-	margin: 0;
+	margin: 0px auto;
 	margin-bottom: 25px;
-	padding-left: 25px;
-	padding-right: 30px;
+	width: 115px;
 	text-align: center;
 }
 #shmenu li a{
@@ -270,7 +265,6 @@ select.disabled{
 	color: #000;
 	font-weight: bold;
 	text-decoration: none;
-	margin-left: 2px;
 	padding: 5px 8px;
 	padding-top: 25px;
 	border: 1px solid #AAA;
@@ -284,40 +278,44 @@ select.disabled{
 	color: #FFF;
 }
 #shmenu-results{
-	background-image:url(../img/menu/dbresults.png?6);
+	background-image:url(../img/menu/dbresults.png);
 }
 #shmenu-results:hover, #shmenu-results.selected{
 	background-color: #389f47;
 }
 #shmenu-browse{
-	background-image:url(../img/menu/dbbrowse.png?6);
+	background-image:url(../img/menu/dbbrowse.png);
 }
 #shmenu-browse:hover, #shmenu-browse.selected{
 	background-color: #b446a0;
 }
 #shmenu-olympics{
-	background-image:url(../img/menu/dbolympics.png?6);
+	background-image:url(../img/menu/dbolympics.png);
 }
 #shmenu-olympics:hover, #shmenu-olympics.selected{
 	background-color: #1482c5;
 }
 #shmenu-calendar{
-	background-image:url(../img/menu/dbcalendar.png?6);
+	background-image:url(../img/menu/dbcalendar.png);
 }
 #shmenu-calendar:hover, #shmenu-calendar.selected{
 	background-color: #f47322;
 }
 #shmenu-usleagues{
-	background-image:url(../img/menu/dbusleagues.png?6);
+	background-image:url(../img/menu/dbusleagues.png);
 }
 #shmenu-usleagues:hover, #shmenu-usleagues.selected{
 	background-color: #de1f26;
 }
 #shmenu-search{
-	background-image:url(../img/menu/dbsearch.png?6);
+	background-image:url(../img/menu/dbsearch.png);
 }
 #shmenu-search:hover, #shmenu-search.selected{
 	background-color: #ddc126;
+}
+#flags{
+	width: 145px;
+	text-align: center;
 }
 #sharesite{
 	text-align: center;
@@ -344,18 +342,18 @@ select.disabled{
 	padding-top: 2px;
 	margin-bottom: 10px;
 	font: 11px Verdana;
-	color: #888;
+	color: #CCC;
 }
 #content{
 	font: 12px Verdana;
 	margin: 0px;
 	margin-top: 0px;
-	margin-left: 150px;
+	margin-left: 140px;
 	padding: 3px;
 	padding-top: 3px;
 	border: 1px solid transparent;
-	border-left: 1px solid #888;
-	background-color: #F5F5F5;
+	border-left: 1px solid #CCC;
+	background-color: #FFF;
 }
 #content select, #content input{
 	font: 12px Verdana;
@@ -433,9 +431,19 @@ select.disabled{
 	height: 50px;
 	padding: 5px;
 	padding-left: 0px;
-	margin-left: 150px;
-	border-top: 1px solid #888;
+	margin-left: 140px;
+	border-top: 1px solid #CCC;
 	font: 11px Verdana;
+}
+.title{
+	height: 15px;
+	color: #FFF;
+	margin: 3px;
+	padding: 8px;
+	font: 12px Verdana;
+	font-weight: bold;
+	background-position: left top;
+	background-repeat: no-repeat;
 }
 /*============================
   ========== SLIDER ========== 
@@ -542,10 +550,7 @@ select.disabled{
   =============================*/
 #buttons{
 	height: 25px;
-	margin-left: 10px;
-	margin-right: 10px;
-	margin-top: 5px;
-	margin-bottom: 15px;
+	margin: 10px;
 }
 #buttons #bleft{
 	float: left;
@@ -568,7 +573,7 @@ select.disabled{
 	border: 1px solid #AAA;
 }
 #buttons #bleft .button{
-	margin-right: 3px;
+	margin-right: 5px;
 }
 #buttons #bright .button, .toolbar .button{
 	margin-left: 2px;
@@ -578,15 +583,15 @@ select.disabled{
 	background-color: #444;
 }
 #buttons .execute{
-	background-image: url('../img/component/button/execute.png?6');
+	background-image: url('../img/component/button/execute.png');
 	padding-left: 24px;
 	font-weight: bold;
 }
 #buttons .reset{
-	background-image: url('../img/component/button/reset.png?6');
+	background-image: url('../img/component/button/reset.png');
 }
 #buttons .options{
-	background-image: url('../img/component/button/options.png?6');
+	background-image: url('../img/component/button/options.png');
 }
 /*===============================
   ========== TREE VIEW ========== 
@@ -597,9 +602,6 @@ select.disabled{
 	margin-left: -5px;
 	margin-bottom: 0px;
 	padding-left: 3px;
-}
-#treeview table{
-	/*width: 100%;*/
 }
 #treeview td{
 	text-align: left;
@@ -672,31 +674,31 @@ select.disabled{
 	border: 1px solid #000;
 }
 .homecontent #topics td.results{
-	background-image:url(../img/menu/dbresults.png?6);
+	background-image:url(../img/menu/dbresults.png);
 }
 .homecontent #topics td.results:hover{
 	background-color: #389f47;
 }
 .homecontent #topics td.olympics{
-	background-image:url(../img/menu/dbolympics.png?6);
+	background-image:url(../img/menu/dbolympics.png);
 }
 .homecontent #topics td.olympics:hover{
 	background-color: #1482c5;
 }
 .homecontent #topics td.calendar{
-	background-image:url(../img/menu/dbcalendar.png?6);
+	background-image:url(../img/menu/dbcalendar.png);
 }
 .homecontent #topics td.calendar:hover{
 	background-color: #f47322;
 }
 .homecontent #topics td.usleagues{
-	background-image:url(../img/menu/dbusleagues.png?6);
+	background-image:url(../img/menu/dbusleagues.png);
 }
 .homecontent #topics td.usleagues:hover{
 	background-color: #de1f26;
 }
 .homecontent #topics td.search{
-	background-image:url(../img/menu/dbsearch.png?6);
+	background-image:url(../img/menu/dbsearch.png);
 }
 .homecontent #topics td.search:hover{
 	background-color: #ddc126;
@@ -757,13 +759,13 @@ select.disabled{
 	margin: 0px;
 }
 .homecontent .info{
-	background-image: url(../img/iconfav.png?6);
+	background-image: url(../img/iconfav.png);
 }
 .homecontent .statistics{
-	background-image: url(../img/project/statistics.png?6);
+	background-image: url(../img/project/statistics.png);
 }
 .homecontent .lastupdates{
-	background-image: url(../img/updates.png?6);
+	background-image: url(../img/updates.png);
 }
 #home .stat{
 	width: 60px;
@@ -787,22 +789,18 @@ select.disabled{
 /*=============================
   ========== RESULTS ========== 
   =============================*/
-#tree{
-	float: left;
-	width: 368px;
-	height: 245px;
-	margin-left: 10px;
-	margin-right: 5px;
+#title-results{
+	background-image: url(../img/menu/bg-results.png);
 }
-#results{
-	height: 245px;
-	margin-right: 10px;
+#title-results div{
+	padding-left: 25px;
+	background: url(../img/menu/dbresults.png) left center no-repeat;
 }
 #results .spcpdiv{
 	display: inline-block;
 	width: 200px;
-	height: 210px;
-	border-right: 1px solid #BBB;
+	height: 180px;
+	border-right: 1px solid #DDD;
 	padding-left: 3px;
 	padding-right: 5px;
 	margin: 3px;
@@ -829,8 +827,10 @@ select.disabled{
 #results .evdiv{
 	display: inline-block;
 	width: 290px;
-	height: 182px;
+	height: 180px;
+	border-right: 1px solid #DDD;
 	padding: 0px 0px;
+	padding-left:5px;
 	padding-right: 6px;
 	margin: 3px;
 	margin-left: 0px;
@@ -843,13 +843,22 @@ select.disabled{
 	border: none;
 	padding: 1px;
 }
-#tree .treediv{
-	float: left;
-	padding: 3px 8px;
-	margin: 3px;
-	margin-left: 3px;
+#results .yrdiv{
+	display: inline-block;
+}
+/*==============================
+  =========== BROWSE =========== 
+  ==============================*/
+#title-browse{
+	background-image: url(../img/menu/bg-browse.png);
+}
+#title-browse div{
+	padding-left: 25px;
+	background: url(../img/menu/dbbrowse.png) left center no-repeat;
+}
+.treediv{
 	width: 300px;
-	border-right: 1px solid #CCC;
+	border-right: 1px solid #DDD;
 }
 #tree #treeview{
 	position: absolute;
@@ -857,17 +866,6 @@ select.disabled{
 	width: 350px;
 	background-color: #FFF;
 	border: 1px solid #DDD;
-}
-#tree .treediv .expanded{
-	height: 498px;
-	border-right: 1px solid #DDD;
-}
-#tree .treediv .collapsed{
-	height: 207px;
-	border-right: none;
-}
-#tree .treetitle{
-	background-image: url(../img/db/tree.png?6);
 }
 /*==============================
   ========== CALENDAR ========== 
@@ -1126,19 +1124,19 @@ select.disabled{
 	padding-left: 5px;
 }
 .contributors{
-	background-image: url(../img/project/contributors.png?6);
+	background-image: url(../img/project/contributors.png);
 }
 .github{
-	background-image: url(../img/project/github.png?6);
+	background-image: url(../img/project/github.png);
 }
 .statistics{
-	background-image: url(../img/project/statistics.png?6);
+	background-image: url(../img/project/statistics.png);
 }
 .android{
-	background-image: url(../img/project/android.png?6);
+	background-image: url(../img/project/android.png);
 }
 .technicalinfo{
-	background-image: url(../img/project/technicalinfo.png?6);
+	background-image: url(../img/project/technicalinfo.png);
 }
 #project th table{
 	width: auto;
@@ -1172,7 +1170,7 @@ select.disabled{
 	margin-bottom: 10px;
 }
 #contribute .info{
-	background-image: url(../img/info.png?6);
+	background-image: url(../img/info.png);
 }
 #contribute li{
 	height: 20px;
@@ -1277,12 +1275,12 @@ select.disabled{
 	margin-top: 50px;
 }
 .update #prevbtn{
-	background-image: url('../img/component/button/previous.png?6');
+	background-image: url('../img/component/button/previous.png');
 	background-position: 4px center;
 	padding-left: 18px;
 }
 .update #nextbtn{
-	background-image: url('../img/component/button/next.png?6');
+	background-image: url('../img/component/button/next.png');
 	background-position: 4px center;
 	padding-left: 18px;
 }
@@ -1356,7 +1354,7 @@ select.disabled{
 	bottom: 15px;
 }
 .warning{
-	background: url(../img/update/warning.gif?6) left center no-repeat;
+	background: url(../img/update/warning.gif) left center no-repeat;
 	padding-left: 18px;
 	color: #F80;
 }
@@ -1368,7 +1366,7 @@ select.disabled{
 }
 .update input[type=text].default, .update textarea.default, #d-plist input[type=text].default, #d-round input[type=text].default, #d-comment textarea.default, #d-round textarea.default{
 	border: 1px solid #AAA;
-	color: #888;
+	color: #CCC;
 }
 .update input[type=text]:focus, .update textarea:focus, #d-plist input[type=text]:focus, #d-round input[type=text]:focus, .update input[type=text].default:focus, .update textarea.default:focus, #d-plist input[type=text].default:focus, #d-round input[type=text].default:focus, #d-comment textarea:focus, #d-round textarea:focus{
 	border: 1px solid #D00;
@@ -1395,7 +1393,7 @@ select.disabled{
 }
 /*---------- OVERVIEW ----------*/
 #update-overview .fstitle{
-	background-image: url(../img/update/overview.png?6);
+	background-image: url(../img/update/overview.png);
 }
 #update-overview .fscontent table{
 	width: auto;
@@ -1403,19 +1401,19 @@ select.disabled{
 }
 #update-overview .fscontent td.tick{
 	font-size: 9px;
-	background: url(../img/update/tick.png?6) 2px center no-repeat;
+	background: url(../img/update/tick.png) 2px center no-repeat;
 	padding-left: 20px;
 	white-space: nowrap;
 }
 #update-overview .fscontent td.missing{
 	font-size: 9px;
-	background: url(../img/update/missing.png?6) 2px center no-repeat;
+	background: url(../img/update/missing.png) 2px center no-repeat;
 	padding-left: 20px;
 	white-space: nowrap;
 }
 #update-overview .fscontent td.warning_{
 	font-size: 9px;
-	background: url(../img/update/warning.gif?6) 2px center no-repeat;
+	background: url(../img/update/warning.gif) 2px center no-repeat;
 	padding-left: 20px;
 	white-space: nowrap;
 }
@@ -1424,7 +1422,7 @@ select.disabled{
 }
 /*---------- RESULTS ----------*/
 #update-results .fstitle{
-	background-image: url(../img/update/results.png?6);
+	background-image: url(../img/update/results.png);
 }
 #update-results .fscontent{
 	padding-bottom: 70px;
@@ -1523,7 +1521,7 @@ select.disabled{
 }
 /*---------- DATA ----------*/
 #update-data .fstitle{
-	background-image: url(../img/update/data.png?6);
+	background-image: url(../img/update/data.png);
 }
 #update-data .fscontent{
 	padding-bottom: 70px;
@@ -1562,7 +1560,7 @@ select.disabled{
 }
 /*---------- PICTURES ----------*/
 #update-pictures .fstitle{
-	background-image: url(../img/update/pictures.png?6);
+	background-image: url(../img/update/pictures.png);
 }
 #update-pictures .fscontent{
 	height: 270px;
@@ -1623,7 +1621,7 @@ select.disabled{
 }
 /*---------- FOLDERS ----------*/
 #update-folders .fstitle{
-	background-image: url(../img/update/folders.png?6);
+	background-image: url(../img/update/folders.png);
 }
 #update-folders .fscontent table{
 	margin-bottom: 10px;
@@ -1643,7 +1641,7 @@ select.disabled{
 }
 /*---------- IMPORT ----------*/
 #update-import .fstitle{
-	background-image: url(../img/update/import.png?6);
+	background-image: url(../img/update/import.png);
 }
 #update-import #dz-file{
 	cursor: pointer;
@@ -1680,7 +1678,7 @@ select.disabled{
 }
 #update-import #progressbar{
 	width: 200px;
-	border: 1px solid #888;
+	border: 1px solid #CCC;
 }
 #update-import #progressbar #progress{
 	background: orange;
@@ -1758,37 +1756,37 @@ select.disabled{
 	text-align: left;
 }
 #toolsopt td.query{
-	background-image:url(../img/update/query.png?6);
+	background-image:url(../img/update/query.png);
 }
 #toolsopt td.translations{
-	background-image:url(../img/update/translations.png?6);
+	background-image:url(../img/update/translations.png);
 }
 #toolsopt td.extlinks{
-	background-image:url(../img/update/extlinks.png?6);
+	background-image:url(../img/update/extlinks.png);
 }
 #toolsopt td.errors{
-	background-image:url(../img/project/error.png?6);
+	background-image:url(../img/project/error.png);
 }
 #toolsopt td.redirections{
-	background-image:url(../img/update/redirections.png?6);
+	background-image:url(../img/update/redirections.png);
 }
 #toolsopt td.help{
-	background-image:url(../img/update/help.png?6);
+	background-image:url(../img/update/help.png);
 }
 #toolsopt td.admin{
-	background-image: url('../img/update/admin.png?6');
+	background-image: url('../img/update/admin.png');
 }
 #update-extlinks .fstitle{
-	background-image: url(../img/update/extlinks.png?6);
+	background-image: url(../img/update/extlinks.png);
 }
 #update-translations .fstitle{
-	background-image: url(../img/update/translations.png?6);
+	background-image: url(../img/update/translations.png);
 }
 #update-redirections .fstitle{
-	background-image: url(../img/update/redirections.png?6);
+	background-image: url(../img/update/redirections.png);
 }
 #update-query .fstitle{
-	background-image: url(../img/update/query.png?6);
+	background-image: url(../img/update/query.png);
 }
 #update-query #qresults tr:hover td{
 	background-color: #FFA; /* _theme_ */
@@ -1808,17 +1806,17 @@ select.disabled{
 	height: 135px;
 }
 #update-errors .fstitle{
-	background-image: url(../img/project/error.png?6);
+	background-image: url(../img/project/error.png);
 }
 /*---------- ADMIN ----------*/
 #update-admin .fstitle{
-	background-image: url(../img/update/admin.png?6);
+	background-image: url(../img/update/admin.png);
 }
 #update-admin .users{
-	background-image: url(../img/update/users.png?6);
+	background-image: url(../img/update/users.png);
 }
 #update-admin .config{
-	background-image: url(../img/update/config.png?6);
+	background-image: url(../img/update/config.png);
 }
 #update-admin .fscontent{
 	padding-bottom: 45px;
@@ -1854,28 +1852,28 @@ select.disabled{
 	color: #FFF;
 }
 #d-error .fstitle{
-	background-image: url(../img/project/error.png?6);
+	background-image: url(../img/project/error.png);
 }
 #d-accountconf .fstitle{
-	background-image: url('../img/menu/login.png?6');
+	background-image: url('../img/menu/login.png');
 }
 #d-link .fstitle{
-	background-image: url(../img/component/button/link.png?6);
+	background-image: url(../img/component/button/link.png);
 }
 #d-info .fstitle{
-	background-image: url(../img/component/button/info.png?6);
+	background-image: url(../img/component/button/info.png);
 }
 #d-plist .fstitle{
-	background-image: url(../img/update/personlist.png?6);
+	background-image: url(../img/update/personlist.png);
 }
 #d-find .fstitle{
-	background-image: url(../img/update/find.png?6);
+	background-image: url(../img/update/find.png);
 }
 #d-question .fstitle{
-	background-image: url(../img/update/question.png?6);
+	background-image: url(../img/update/question.png);
 }
 #d-help .fstitle{
-	background-image: url(../img/update/help.png?6);
+	background-image: url(../img/update/help.png);
 }
 .dialog .dlgbuttons{
 	height: 33px;
@@ -1898,10 +1896,10 @@ select.disabled{
 	background-color: #444;
 }
 .dialog .dlgbuttons .ok, .optcontainer .ok, #logindiv .ok{
-	background-image: url('../img/component/button/ok.png?6');
+	background-image: url('../img/component/button/ok.png');
 }
 .dialog .dlgbuttons .cancel, .optcontainer .cancel{
-	background-image: url('../img/component/button/cancel.png?6');
+	background-image: url('../img/component/button/cancel.png');
 }
 #datatip{
 	width: auto;
@@ -1945,11 +1943,11 @@ select.disabled{
 }
 #d-info .lang-fr{
 	padding-left: 25px;
-	background: transparent url(../img/header/lang-fr.png?6) 5px center no-repeat;	
+	background: transparent url(../img/header/lang-fr.png) 5px center no-repeat;	
 }
 #d-info .lang-en{
 	padding-left: 25px;
-	background: transparent url(../img/header/lang-en.png?6) 5px center no-repeat;	
+	background: transparent url(../img/header/lang-en.png) 5px center no-repeat;	
 }
 #d-accountconf .fscontent{
 	width: 300px;
@@ -1964,7 +1962,7 @@ select.disabled{
 	bottom: -1px;
 	white-space: nowrap;
 	font-size: 9px;
-	color: #888;
+	color: #CCC;
 	transform: rotate(-90deg) translate(0, 0);
 	transform-origin: 0% 0%;
 }
@@ -1972,94 +1970,94 @@ select.disabled{
   ========== TOOLBAR ========== 
   =============================*/
 #toolbar .add, .toolbar .add{
-	background-image: url('../img/component/button/add.png?6');
+	background-image: url('../img/component/button/add.png');
 }
 #toolbar .modify, .toolbar .modify{
-	background-image: url('../img/component/button/modify.png?6');
+	background-image: url('../img/component/button/modify.png');
 }
 #toolbar .share, .toolbar .share{
-	background-image: url('../img/component/button/share.png?6');
+	background-image: url('../img/component/button/share.png');
 }
 #toolbar .export, .toolbar .export{
-	background-image: url('../img/component/button/export.png?6');
+	background-image: url('../img/component/button/export.png');
 }
 #buttons .link, .toolbar .link{
-	background-image: url('../img/component/button/link.png?6');
+	background-image: url('../img/component/button/link.png');
 }
 #buttons .print, .toolbar .print{
-	background-image: url('../img/component/button/print.png?6');
+	background-image: url('../img/component/button/print.png');
 }
 #buttons .info2, .toolbar .info2{
-	background-image: url('../img/component/button/info.png?6');
+	background-image: url('../img/component/button/info.png');
 }
 #buttons .calendarspan, .toolbar .calendarspan{
-	background-image: url('../img/db/calendar-span.png?6');
+	background-image: url('../img/db/calendar-span.png');
 }
 #buttons .upd-overview, .toolbar .upd-overview{
-	background-image: url('../img/update/overview.png?6');
+	background-image: url('../img/update/overview.png');
 }
 #buttons .upd-results, .toolbar .upd-results{
-	background-image: url('../img/update/results.png?6');
+	background-image: url('../img/update/results.png');
 }
 #buttons .upd-data, .toolbar .upd-data{
-	background-image: url('../img/update/data.png?6');
+	background-image: url('../img/update/data.png');
 }
 #buttons .upd-pictures, .toolbar .upd-pictures{
-	background-image: url('../img/update/pictures.png?6');
+	background-image: url('../img/update/pictures.png');
 }
 #buttons .upd-folders, .toolbar .upd-folders{
-	background-image: url('../img/update/folders.png?6');
+	background-image: url('../img/update/folders.png');
 }
 #buttons .upd-import, .toolbar .upd-import{
-	background-image: url('../img/update/import.png?6');
+	background-image: url('../img/update/import.png');
 }
 #buttons .upd-tools, .toolbar .upd-tools{
-	background-image: url('../img/update/tools.png?6');
+	background-image: url('../img/update/tools.png');
 }
 #buttons .upd-help, .toolbar .upd-help{
-	background-image: url('../img/update/help.png?6');
+	background-image: url('../img/update/help.png');
 }
 #buttons .upd-new, .toolbar .upd-new{
-	background-image: url('../img/update/new.png?6');
+	background-image: url('../img/update/new.png');
 }
 #buttons .upd-save, .toolbar .upd-save{
-	background-image: url('../img/update/save.png?6');
+	background-image: url('../img/update/save.png');
 }
 #buttons .upd-copy, .toolbar .upd-copy{
-	background-image: url('../img/update/copy.png?6');
+	background-image: url('../img/update/copy.png');
 }
 #buttons .upd-merge, .toolbar .upd-merge{
-	background-image: url('../img/update/merge.png?6');
+	background-image: url('../img/update/merge.png');
 }
 #buttons .upd-upload, .toolbar .upd-upload{
-	background-image: url('../img/update/upload.png?6');
+	background-image: url('../img/update/upload.png');
 }
 #buttons .upd-download, .toolbar .upd-download{
-	background-image: url('../img/update/download.png?6');
+	background-image: url('../img/update/download.png');
 }
 #buttons .upd-first, .toolbar .upd-first{
-	background-image: url('../img/update/first.png?6');
+	background-image: url('../img/update/first.png');
 }
 #buttons .upd-previous, .toolbar .upd-previous{
-	background-image: url('../img/update/previous.png?6');
+	background-image: url('../img/update/previous.png');
 }
 #buttons .upd-find, .toolbar .upd-find{
-	background-image: url('../img/update/find.png?6');
+	background-image: url('../img/update/find.png');
 }
 #buttons .upd-next, .toolbar .upd-next{
-	background-image: url('../img/update/next.png?6');
+	background-image: url('../img/update/next.png');
 }
 #buttons .upd-last, .toolbar .upd-last{
-	background-image: url('../img/update/last.png?6');
+	background-image: url('../img/update/last.png');
 }
 #buttons .upd-add, .toolbar .upd-add{
-	background-image: url('../img/component/button/add.png?6');
+	background-image: url('../img/component/button/add.png');
 }
 #buttons .upd-modify, .toolbar .upd-modify{
-	background-image: url('../img/component/button/modify.png?6');
+	background-image: url('../img/component/button/modify.png');
 }
 #buttons .upd-delete, .toolbar .upd-delete{
-	background-image: url('../img/component/button/delete.png?6');
+	background-image: url('../img/component/button/delete.png');
 }
 #shareopt, #exportopt, #toolsopt{
 	position: absolute;
@@ -2078,7 +2076,7 @@ select.disabled{
 	padding: 5px;
 	padding-left: 25px;
 	padding-right: 15px;
-	border-bottom: 1px solid #888;
+	border-bottom: 1px solid #CCC;
 	background-color: #F0F0F0;
 	background-position: 4px center;
 	background-repeat: no-repeat;
@@ -2089,41 +2087,41 @@ select.disabled{
 	background-color: #444;
 }
 .baroptions td.fb{
-	background-image:url(../img/header/facebook.png?6);
+	background-image:url(../img/header/facebook.png);
 }
 .baroptions td.tw{
-	background-image:url(../img/header/twitter.png?6);
+	background-image:url(../img/header/twitter.png);
 }
 .baroptions td.gp{
-	background-image:url(../img/header/gplus.png?6);
+	background-image:url(../img/header/gplus.png);
 }
 .baroptions td.bg{
-	background-image:url(../img/header/blogger.png?6);
+	background-image:url(../img/header/blogger.png);
 }
 .baroptions td.tm{
-	background-image:url(../img/header/tumblr.png?6);
+	background-image:url(../img/header/tumblr.png);
 }
 .baroptions td.html{
-	background-image:url(../img/db/export/html.png?6);
+	background-image:url(../img/db/export/html.png);
 }
 .baroptions td.csv{
-	background-image:url(../img/db/export/csv.png?6);
+	background-image:url(../img/db/export/csv.png);
 }
 .baroptions td.excel{
-	background-image:url(../img/db/export/xls.png?6);
+	background-image:url(../img/db/export/xls.png);
 }
 .baroptions td.pdf{
-	background-image:url(../img/db/export/pdf.png?6);
+	background-image:url(../img/db/export/pdf.png);
 }
 .baroptions td.text{
-	background-image:url(../img/db/export/txt.png?6);
+	background-image:url(../img/db/export/txt.png);
 }
 .baroptions div{
 	background-color: #F0F0F0;
 	padding: 3px;
 }
 .baroptions a{
-	background: transparent url(../img/component/button/cancel.png?6) left center no-repeat;
+	background: transparent url(../img/component/button/cancel.png) left center no-repeat;
 	padding-left: 18px;
 }
 /*==========================
@@ -2157,23 +2155,23 @@ select.disabled{
 }
 .ajaxsearch ul li div.ajaxid, #d-find li div.ajaxid{
 	display: inline-block;
-	color: #888;
+	color: #CCC;
 }
 .ajaxsearch ul li.selected {
     background-color: #FFA; /* _theme_ */
-    border: 1px solid #888;
+    border: 1px solid #CCC;
 }
 .ajaxsearch ul li.ajaxlastrow {
 	color: #555;
 	font-style: italic;
-	border-top: 1px solid #888;
+	border-top: 1px solid #CCC;
 	white-space: nowrap;
 }
 .ajaxsearch ul .ajxdetails {
 	float: right;
 	text-align: right;
 	font-size: 10px;
-	color: #888;
+	color: #CCC;
 	padding-top: 1px;
 	white-space: nowrap;
 }
