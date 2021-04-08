@@ -60,8 +60,8 @@ public class NavigationServlet extends AbstractServlet {
 		mapPages.put("update-redirections", "update/redirections.jsp");
 		mapPages.put("update-admin", "update/admin.jsp");
 		mapServlet = new HashMap<>();
-		mapServlet.put("results", "/ResultServlet");
-		mapServlet.put("calendar", "/CalendarServlet");
+		mapServlet.put("results", "/SearchResults");
+		mapServlet.put("calendar", "/SearchCalendar");
 		mapServlet.put("olympics", "/OlympicsServlet");
 		mapServlet.put("usleagues", "/USLeaguesServlet");
 		mapServlet.put("project", "/ProjectServlet");

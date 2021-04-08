@@ -124,7 +124,7 @@ public class USLeaguesServlet extends AbstractServlet {
 				}
 				else if (type.equals(TYPE_TEAMSTADIUM)) {
 					params.add(teams);
-					params.add("_en");
+					params.add("");
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_US_LEAGUES_TEAMSTADIUM, params, getUser(request), lang);
 					html.append(HtmlConverter.convertTeamStadium(request, DatabaseManager.callFunction("get_team_stadiums", params, TeamStadium.class), "en"));
 				}
@@ -134,7 +134,7 @@ public class USLeaguesServlet extends AbstractServlet {
 					params.add(categories);
 					params.add(String.valueOf(mapParams.get("tpind")));
 					params.add(String.valueOf(mapParams.get("tptm")));
-					params.add("_en");
+					params.add("");
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_US_LEAGUES_STATS, params, getUser(request), lang);
 					params.set(0, HLEAGUES.get(Short.valueOf(league)));
 					params.set(3, params.get(3).equals("1") ? true : false);
@@ -150,7 +150,7 @@ public class USLeaguesServlet extends AbstractServlet {
 				else if (type.equals(TYPE_CHAMPIONSHIP)) {
 					params.add(HLEAGUES.get(Short.valueOf(league)));
 					params.add(years);
-					params.add("_en");
+					params.add("");
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_US_LEAGUES_CHAMPIONSHIP, params, getUser(request), lang);
 					params.remove(0);
 					html.append(HtmlConverter.convertUSChampionships(request, DatabaseManager.callFunction("get_us_championships", params, USChampionshipsBean.class), "en"));
@@ -161,7 +161,7 @@ public class USLeaguesServlet extends AbstractServlet {
 					params.add(StringUtils.notEmpty(mapParams.get("ct")) ? String.valueOf(mapParams.get("ct")) : "0");
 					params.add(StringUtils.notEmpty(mapParams.get("tp1")) ? String.valueOf(mapParams.get("tp1")) : "i");
 					params.add(StringUtils.notEmpty(mapParams.get("tp2")) ? String.valueOf(mapParams.get("tp2")) : "-");
-					params.add("_en");
+					params.add("");
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_US_LEAGUES_RECORD, params, getUser(request), lang);
 					params.set(4, HTYPE1.get(params.get(4)));
 					params.set(5, HTYPE2.get(params.get(5)));

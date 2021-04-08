@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ page import="java.util.Arrays"%>
-<%@ page import="java.util.Collection"%>
-<%@ page import="java.util.List"%>
+<%@ page import="java.util.*"%>
 <%@ page import="com.sporthenon.db.entity.*"%>
 <%@ page import="com.sporthenon.db.DatabaseManager"%>
 <%@ page import="com.sporthenon.db.PicklistItem"%>
@@ -10,8 +8,10 @@
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <%@ page import="com.sporthenon.web.servlet.USLeaguesServlet"%>
 <jsp:include page="/jsp/common/header.jsp"/>
-<div id="usleagues" class="fieldset">
-	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
+<div id="title-usleagues" class="title">
+	<div><%=StringUtils.text("menu.usleagues", session)%></div>
+</div>
+<div id="usleagues">
 	<form id="usleagues-form" action="/usleagues">
 	<ul>
 	<li class="league">
@@ -23,7 +23,7 @@
 		<div id="nhl" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/> NHL &#150; National Hockey League</div>
 		<div id="mlb" onclick="changeLeague(this.id);" style="margin-bottom:0px;"><img alt="-" src="/img/bullet.gif"/> MLB &#150; Major League Baseball</div>
 	</li>
-	<li style="display:inline-block;width:400px;height:170px;" class="fieldset">
+	<li id="usoptpanel" class="fieldset">
 		<div style="float:left;width:auto;">
 			<table id="usstype">
 				<tr><td id="championships" onclick="changeModeUS(this.id);"><img alt="-" src="/img/bullet.gif"/> <%=ResourceUtils.getText("championships", "en")%></td></tr>
@@ -174,8 +174,8 @@ var tRcCtA = [];
 		sql = "SELECT SE2.id, SE2.label, TP.number"
 				+ " FROM event SE2 "
 				+ " JOIN type TP ON TP.id = SE2.id_type "
-				+ " WHERE SE2.id IN (SELECT id_subevent2 FROM result RS JOIN event EV ON EV.id = RS.id_event WHERE id_championship = ? AND EV.label LIKE ? ORDER BY SE2.label)"
-				+ " ORDER by SE2.label DESC";
+				+ " WHERE SE2.id IN (SELECT id_subevent2 FROM result RS JOIN event EV ON EV.id = RS.id_event WHERE id_championship = ? AND EV.label LIKE ?)"
+				+ " ORDER by SE2.label";
 		c = DatabaseManager.getPicklist(sql, Arrays.asList(USLeaguesServlet.HLEAGUES.get(i), "%" + uslStatEvLabel + "%"));
 		sb1 = new StringBuffer();
 		sb2 = new StringBuffer();

@@ -67,7 +67,7 @@ li{
 .fieldset .fstitle{
 	font-weight: bold;
 	border-bottom: 1px solid gray;
-	background-color: #c0e2fc; /* _theme_ */
+	background-color: #c0e2fc;
 	padding: 4px;
 	padding-left: 23px;
 	background-position: 3px center;
@@ -132,9 +132,6 @@ li{
 }
 #optionsselect{
 	display: none;
-}
-.criteria{
-	background-image: url(../img/db/criteria.png);
 }
 .help{
 	background-image:url(../img/update/help.png);
@@ -247,7 +244,7 @@ select.disabled{
 	list-style-type: none;
 	text-align: right;
 	padding-bottom: 0px;
-	font: 12px Verdana;
+	font: 11px Verdana;
 }
 #shmenu ul{
 	margin: 0px;
@@ -257,7 +254,7 @@ select.disabled{
 	list-style: none;
 	margin: 0px auto;
 	margin-bottom: 25px;
-	width: 115px;
+	width: 90px;
 	text-align: center;
 }
 #shmenu li a{
@@ -265,7 +262,7 @@ select.disabled{
 	color: #000;
 	font-weight: bold;
 	text-decoration: none;
-	padding: 5px 8px;
+	padding: 5px;
 	padding-top: 25px;
 	border: 1px solid #AAA;
 	border-radius: 5px;
@@ -369,7 +366,7 @@ select.disabled{
 	text-align: center;
 }
 #dupdates tr:hover td{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 #dupdates td{
 	background-color: #FFF;
@@ -411,7 +408,7 @@ select.disabled{
 	background: transparent url(../img/render/more4.gif) 0 0 no-repeat;
 }
 #dupdates .moreitems div:hover{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 #dupdates .details{
 	line-height: 30px;
@@ -516,7 +513,7 @@ select.disabled{
 	background-color: #EEE;
 }
 .optcontainer .scroll tr.selected{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 .optcontainer .scroll tr.selected td{
 	font-weight: bold;
@@ -626,10 +623,6 @@ select.disabled{
 	color: #00F;
 	text-decoration: underline;
 }
-#treeresults{
-	position: absolute;
-	left: 550px;
-}
 /*==========================
   ========== HOME ========== 
   ==========================*/
@@ -641,7 +634,7 @@ select.disabled{
 .homecontent .fieldset .fstitle{
 	font-weight: bold;
 	border-bottom: 1px solid gray;
-	background-color: #c0e2fc; /* _theme_ */
+	background-color: #c0e2fc;
 	padding: 5px;
 	padding-left: 23px;
 	padding-bottom: 4px;
@@ -745,7 +738,7 @@ select.disabled{
 }
 .homecontent #sports div.sport:hover{
 	border: 1px solid #000;
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 .homecontent #sports div.sport a{
 	display: block;
@@ -857,23 +850,34 @@ select.disabled{
 	background: url(../img/menu/dbbrowse.png) left center no-repeat;
 }
 .treediv{
-	width: 300px;
+	width: 270px;
 	border-right: 1px solid #DDD;
 }
 #tree #treeview{
 	position: absolute;
 	overflow: auto;
-	width: 350px;
+	width: 270px;
 	background-color: #FFF;
 	border: 1px solid #DDD;
+}
+#treeresults{
+	position: absolute;
+	left: 420px;
 }
 /*==============================
   ========== CALENDAR ========== 
   ==============================*/
+#title-calendar{
+	background-image: url(../img/menu/bg-calendar.png);
+}
+#title-calendar div{
+	padding-left: 25px;
+	background: url(../img/menu/dbcalendar.png) left center no-repeat;
+}
 #calendar{
 	margin-left: 10px;
 	margin-right: 10px;
-	height: 165px;
+	height: 140px;
 }
 #calendar li{
 	display: inline-block;
@@ -915,6 +919,13 @@ select.disabled{
 /*==============================
   ========== OLYMPICS ========== 
   ==============================*/
+#title-olympics{
+	background-image: url(../img/menu/bg-olympics.png);
+}
+#title-olympics div{
+	padding-left: 25px;
+	background: url(../img/menu/dbolympics.png) left center no-repeat;
+}
 #olympics{
 	margin-left: 10px;
 	margin-right: 10px;
@@ -938,7 +949,7 @@ select.disabled{
 }
 #olympics #oltype div:hover{
 	border: 1px solid #000;
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 #olympics .fieldset{
 	display: inline-block;
@@ -979,8 +990,15 @@ select.disabled{
 /*================================
   ========== US LEAGUES ========== 
   ================================*/
+#title-usleagues{
+	background-image: url(../img/menu/bg-usleagues.png);
+}
+#title-usleagues div{
+	padding-left: 25px;
+	background: url(../img/menu/dbusleagues.png) left center no-repeat;
+}
 #usleagues{
-	height: 215px;
+	height: 190px;
 	margin-bottom: 0px;
 	margin-left: 10px;
 	margin-right: 10px;
@@ -1011,15 +1029,16 @@ select.disabled{
 }
 #usleagues #usltype div{
 	width: 275px;
-	border: 1px solid #CCC;
+	border: 1px solid #DDD;
 	margin-bottom: 15px;
 	padding: 5px; 
 	font-weight: bold;
 	cursor: pointer;
 }
-#usleagues #usltype div:hover, #usleagues #usltype .selected{
-	border: 1px solid #000;
-	background-color: #FFA; /* _theme_ */
+#usleagues #usltype div:hover, #usleagues #usltype .selected, #usleagues #usstype td:hover, #usleagues #usstype .selected{
+	border: 1px solid #BBB;
+	background-color: #666;
+	color: #FFF;
 }
 #usleagues #usstype{
 	margin: 10px;
@@ -1031,10 +1050,6 @@ select.disabled{
 	padding-right: 5px;
 	font-weight: bold;
 	cursor: pointer;
-}
-#usleagues #usstype td:hover, #usleagues #usstype .selected{
-	border: 1px solid #000;
-	background-color: #FFA; /* _theme_ */
 }
 #usleagues input[type=text]{
 	padding: 2px;
@@ -1065,12 +1080,25 @@ select.disabled{
 #ustopics #hof-position.selected, #ustopics #retnum-number.selected{
 	border: 1px solid #D00;
 }
+#usleagues #usoptpanel{
+	display: inline-block;
+	width: 400px;
+	height: 170px;
+	border: 1px solid #CCC;
+}
 /*============================
   ========== SEARCH ========== 
   ============================*/
+#title-search{
+	background-image: url(../img/menu/bg-search.png);
+}
+#title-search div{
+	padding-left: 25px;
+	background: url(../img/menu/dbsearch.png) left center no-repeat;
+}
 #search{
 	background: #FFF;
-	height: 160px;
+	height: 140px;
 	margin-bottom: 0px;
 	margin-left: 10px;
 	margin-right: 10px;
@@ -1149,7 +1177,7 @@ select.disabled{
 	vertical-align: middle;
 }
 #project .left tr:hover td{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 #project #screenshots{
 	width: 0%;
@@ -1242,7 +1270,7 @@ select.disabled{
 	border-bottom: 1px solid #EEE;
 }
 .loginsports li:hover{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 .loginsports div.left{
 	clear: both;
@@ -1299,7 +1327,7 @@ select.disabled{
 	height: 120px;
 }
 #imgzone #dz-file:hover{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 #imgzone #dz-file p{
 	white-space: normal;
@@ -1418,7 +1446,7 @@ select.disabled{
 	white-space: nowrap;
 }
 #update-overview #ovcontent tr:hover td{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 /*---------- RESULTS ----------*/
 #update-results .fstitle{
@@ -1589,7 +1617,7 @@ select.disabled{
 	height: 100px;
 }
 #update-pictures #dz-file:hover{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 #update-pictures #remove-local{
 	float: left;
@@ -1650,7 +1678,7 @@ select.disabled{
 	border: 1px dashed #CCC;
 }
 #update-import #dz-file:hover{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 #update-import #dz-file p{
 	margin: 3px;
@@ -1674,7 +1702,7 @@ select.disabled{
 	background-color: #FFF;
 }
 #update-import #report tr:hover td{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 #update-import #progressbar{
 	width: 200px;
@@ -1690,7 +1718,7 @@ select.disabled{
 	margin-bottom: 10px;
 }
 #update-translations #trcontent tr:hover td{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 #update-translations #trcontent input{
 	margin: 1px;
@@ -1709,7 +1737,7 @@ select.disabled{
 	margin-bottom: 10px;
 }
 #update-extlinks #elcontent tr:hover td{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 #update-extlinks #elcontent input{
 	margin: 1px;
@@ -1728,7 +1756,7 @@ select.disabled{
 	margin-bottom: 10px;
 }
 #update-redirections #recontent tr:hover td{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 #update-redirections #recontent input{
 	margin: 1px;
@@ -1789,7 +1817,7 @@ select.disabled{
 	background-image: url(../img/update/query.png);
 }
 #update-query #qresults tr:hover td{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 #update-query #qresults{
 	margin-top: 10px;
@@ -1932,7 +1960,7 @@ select.disabled{
 	border-bottom: 1px solid #CCC;
 }
 #d-find li:hover{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 #d-question #confirmtxt{
 	width: 600px;
@@ -2158,7 +2186,7 @@ select.disabled{
 	color: #CCC;
 }
 .ajaxsearch ul li.selected {
-    background-color: #FFA; /* _theme_ */
+    background-color: #FFA;
     border: 1px solid #CCC;
 }
 .ajaxsearch ul li.ajaxlastrow {

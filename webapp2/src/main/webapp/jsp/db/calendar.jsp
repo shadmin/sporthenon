@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ page import="java.util.Calendar"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
+<%@ page import="java.util.Calendar"%>
 <jsp:include page="/jsp/common/header.jsp"/>
 <%
 	int y = Calendar.getInstance().get(Calendar.YEAR);
@@ -20,8 +20,10 @@
 		sbD.append("<option value='" + i + "'" + (i == d ? " selected='selected'" : "") + ">" + i + "</option>");
 	}
 %>
-<div id="calendar" class="fieldset">
-	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
+<div id="title-calendar" class="title">
+	<div><%=StringUtils.text("menu.calendar", session)%></div>
+</div>
+<div id="calendar">
 	<ul>
 	<!-- DATE 1 -->
 	<li class="dateimg"><div id="label1" class="label" style="display:none;"><%=StringUtils.text("date.from", session).toUpperCase()%></div><div id="day1" class="day"></div><div id="month1" class="month"></div><div id="year1" class="year"></div></li>

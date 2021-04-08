@@ -1,16 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ page import="com.sporthenon.db.PicklistItem"%>
-<%@ page import="com.sporthenon.db.DatabaseManager"%>
-<%@ page import="com.sporthenon.db.entity.Olympics"%>
-<%@ page import="com.sporthenon.db.entity.Sport"%>
+<%@ page import="com.sporthenon.db.*"%>
+<%@ page import="com.sporthenon.db.entity.*"%>
 <%@ page import="com.sporthenon.web.HtmlConverter"%>
 <%@ page import="com.sporthenon.utils.HtmlUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
-<%@ page import="java.util.Collection"%>
-<%@ page import="java.util.HashMap"%>
+<%@ page import="java.util.*"%>
 <jsp:include page="/jsp/common/header.jsp"/>
-<div id="olympics" class="fieldset">
-	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
+<div id="title-olympics" class="title">
+	<div><%=StringUtils.text("menu.olympics", session)%></div>
+</div>
+<div id="olympics">
 	<form id="olympics-form" action="/olympics">
 	<ul>
 	<!-- TYPE SELECTION -->

@@ -51,7 +51,7 @@ public class CalendarServlet extends AbstractServlet {
 				params.add(StringUtils.notEmpty(mapParams.get("dt2")) ? String.valueOf(mapParams.get("dt2")) : "21001231");
 				params.add(StringUtils.notEmpty(mapParams.get("sp")) ? StringUtils.toInt(mapParams.get("sp")) : 0);
 				params.add("_" + lang);
-				Collection<RefItem> c = (Collection<RefItem>) DatabaseManager.callFunction("get_calendar_results", params, RefItem.class);
+				Collection<RefItem> c = (Collection<RefItem>) DatabaseManager.callFunctionSelect("get_calendar_results", params, RefItem.class);
 				StringBuffer html = new StringBuffer();
 				html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_CALENDAR, params, getUser(request), lang));
 				html.append(HtmlConverter.convertCalendarResults(request, c, getUser(request), lang));

@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp"/>
-<div id="search" class="fieldset">
-	<div class="fstitle criteria"><%=StringUtils.text("search.criteria", session)%></div>
+<div id="title-search" class="title">
+	<div><%=StringUtils.text("menu.search", session)%></div>
+</div>
+<div id="search">
 	<form id="search-form" action="/search" onsubmit="return false;">
 	<div class="pattern">
 		<%=StringUtils.text("search.for", session)%>:<br/><input type="text" class="text" name="pattern" id="pattern" onkeydown="if(event.keyCode == 13){runSearch();}"></input>

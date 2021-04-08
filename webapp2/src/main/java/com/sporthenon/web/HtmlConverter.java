@@ -223,7 +223,6 @@ public class HtmlConverter {
 			hHeader.put("title", sp.getLabel(lang) + " " + StringUtils.SEP1 + " " + cp.getLabel(lang) + (ev != null ? " " + StringUtils.SEP1 + " " + ev.getLabel(lang) + (se != null ? " " + StringUtils.SEP1 + " " + se.getLabel(lang) : "") + (se2 != null ? " " + StringUtils.SEP1 + " " + se2.getLabel(lang) : "") : ""));
 			hHeader.put("desc", ResourceUtils.getText("desc.results.page", lang) + " (" + sp.getLabel(lang).toLowerCase() + ")");
 			hHeader.put("url", HtmlUtils.writeURL("/results", lstParams.toString(), sp.getLabel() + "/" + cp.getLabel() + (ev != null ? "/" + ev.getLabel() + (se != null ? "/" + se.getLabel() : "") + (se2 != null ? "/" + se2.getLabel() : "") : "")));
-			hHeader.put("item0", "<table><tr><td style='padding-right:3px;'><img alt='Results' src='/img/menu/dbresults.png'/></td><td><a href='/results'>" + ResourceUtils.getText("menu.results", lang) + "</a></td></tr></table>");
 			hHeader.put("item1", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_SMALL, null, sp.getLabel(lang)), HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel(lang), sp.getLabel())));
 			hHeader.put("item2", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT_CHAMPIONSHIP, sp.getId() + "-" + cp.getId(), ImageUtils.SIZE_SMALL, null, cp.getLabel(lang)), HtmlUtils.writeLink(Championship.alias, cp.getId(), cp.getLabel(lang), cp.getLabel())));
 			if (ev != null)
@@ -277,7 +276,6 @@ public class HtmlConverter {
 			hHeader.put("title", ResourceUtils.getText("entity.OL", lang) + " " + StringUtils.SEP1 + " " + sp.getLabel(lang) + (ev != null ? " " + StringUtils.SEP1 + " " + ev.getLabel(lang) : ""));
 			hHeader.put("desc", ResourceUtils.getText("desc.olympics1.page", lang));
 			hHeader.put("url", HtmlUtils.writeURL("/olympics", "ind, " + lstParams.toString(), "results/" + sp.getLabel() + (lstEvents != null && lstEvents.size() == 1 ? "/" + ev.getLabel() : "")));
-			hHeader.put("item0", "<table><tr><td style='padding-right:3px;'><img alt='Olympics' src='/img/menu/dbolympics.png'/></td><td> <a href='/olympics'>" + ResourceUtils.getText("menu.olympics", lang) + "</a></td></tr></table>");
 			hHeader.put("item1", ResourceUtils.getText("event.results", lang));
 			hHeader.put("item2", (lstOlympics.isEmpty() ? ResourceUtils.getText("all.olympic.games", lang) : (lstOlympics.size() == 1 ? HtmlUtils.writeLink(Olympics.alias, StringUtils.toInt(olId), lstOlympics.get(0), null) : HtmlUtils.writeTip(Olympics.alias, lstOlympics) + " " + ResourceUtils.getText("x.olympic.games", lang))));
 			hHeader.put("item3", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_SMALL, null, sp.getLabel(lang)), HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel(lang), sp.getLabel())));
@@ -299,7 +297,6 @@ public class HtmlConverter {
 			hHeader.put("title", ResourceUtils.getText("entity.OL", lang) + " " + StringUtils.SEP1 + " " + ResourceUtils.getText("medals.tables", lang));
 			hHeader.put("desc", ResourceUtils.getText("desc.olympics2.page", lang));
 			hHeader.put("url", HtmlUtils.writeURL("/olympics", "cnt, " + lstParams.toString(), "tables"));
-			hHeader.put("item0", "<table><tr><td style='padding-right:3px;'><img alt='Olympics' src='/img/menu/dbolympics.png'/></td><td> <a href='/olympics'>" + ResourceUtils.getText("menu.olympics", lang) + "</a></td></tr></table>");
 			hHeader.put("item1", ResourceUtils.getText("medals.tables", lang));
 			hHeader.put("item2", (lstOlympics.isEmpty() ? ResourceUtils.getText("all.olympic.games", lang) : (lstOlympics.size() == 1 ? HtmlUtils.writeLink(Olympics.alias, StringUtils.toInt(olId), lstOlympics.get(0), null) : HtmlUtils.writeTip(Olympics.alias, lstOlympics) + " " + ResourceUtils.getText("x.olympic.games", lang))));
 			hHeader.put("item3", (lstCountries.isEmpty() ? ResourceUtils.getText("all.countries", lang) : (lstCountries.size() == 1 ? HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, StringUtils.toInt(cnId), ImageUtils.SIZE_SMALL, null, lstCountries.get(0)), HtmlUtils.writeLink(Country.alias, StringUtils.toInt(cnId), lstCountries.get(0), null)) : HtmlUtils.writeTip(Country.alias, lstCountries) + " " + ResourceUtils.getText("x.countries", lang))));
@@ -311,7 +308,6 @@ public class HtmlConverter {
 			Integer cpId = (league.equals("1") ? 51 : (league.equals("2") ? 54 : (league.equals("3") ? 55 : 56)));
 			String title = leagueLabel + " " + StringUtils.SEP1 + " " + typeLabel;
 			hHeader.put("desc", leagueLabel + " : " +  ResourceUtils.getText("desc.usleagues.page", lang));
-			hHeader.put("item0", "<table><tr><td style='padding-right:3px;'><img alt='US leagues' src='/img/menu/dbusleagues.png'/></td><td> <a href='/usleagues'>" + ResourceUtils.getText("menu.usleagues", lang) + "</a></td></tr></table>");
 			hHeader.put("item1", HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, cpId, ImageUtils.SIZE_SMALL, null, leagueLabel), HtmlUtils.writeLink(Championship.alias, cpId, leagueLabel, null)));
 			hHeader.put("item2", typeLabel);
 			if (type == HEADER_US_LEAGUES_RETNUM) {
@@ -1377,7 +1373,7 @@ public class HtmlConverter {
 				hInfo.put("entity.RN", sb.toString());
 			}
 			// Team Stadiums
-			List<TeamStadium> lTs = (List<TeamStadium>) DatabaseManager.executeSelect("SELECT * team_stadium WHERE id_team = ? order by date1 desc", Arrays.asList(e.getId()), TeamStadium.class);
+			List<TeamStadium> lTs = (List<TeamStadium>) DatabaseManager.executeSelect("SELECT * FROM team_stadium WHERE id_team = ? order by date1 desc", Arrays.asList(e.getId()), TeamStadium.class);
 			if (lTs != null && !lTs.isEmpty()) {
 				StringBuffer sb = new StringBuffer();
 				for (TeamStadium ts : lTs) {
@@ -1397,7 +1393,7 @@ public class HtmlConverter {
 				hInfo.put("entity.TS", sb.toString());
 			}
 			// Wins/Losses
-			List<WinLoss> lWl = (List<WinLoss>) DatabaseManager.executeSelect("SELECT * win_loss WHERE id_team = ?", Arrays.asList(e.getId()), WinLoss.class);
+			List<WinLoss> lWl = (List<WinLoss>) DatabaseManager.executeSelect("SELECT * FROM win_loss WHERE id_team = ?", Arrays.asList(e.getId()), WinLoss.class);
 			if (lWl != null && !lWl.isEmpty()) {
 				StringBuffer sb = new StringBuffer();
 				for (WinLoss wl : lWl)

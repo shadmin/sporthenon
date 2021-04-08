@@ -1,3 +1,6 @@
+.render{
+	margin: 5px;
+}
 .render table{
 	border-collapse: collapse;
 	margin: 15px;
@@ -12,7 +15,7 @@
 }
 .render th{
 	font-weight: bold;
-	background-color: #E8E8E8; /* _theme_ */
+	background-color: #EAEAEA; /* _theme_ */
 	text-align: center;
 	padding: 3px 10px;
 }
@@ -75,7 +78,7 @@
 	background-color: #FFF;
 }
 .render .bordered img{
-	border: 1px solid #666;
+	border: 1px solid #CCC;
 }
 .render .hidden, .render span.title, .render span.desc, .render span.url, .render span.infostats{
 	display: none;
@@ -83,6 +86,7 @@
 .render .header{
 	float: left;
 	margin: 0px;
+	margin-bottom: 20px;
 }
 .render .header table, .render .toolbar table{
 	background-color: transparent;
@@ -98,14 +102,14 @@
 }
 .render .toolbar{
 	float: right;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 }
 .render .toolbar td{
 	padding: 1px;
 }
 .render .winrec{
-	margin-bottom: 5px;
-	border: 1px solid #666;
+	margin: 25px auto;
+	border: 1px solid #CCC;
 }
 .render .winrec td{
 	border: none;
@@ -172,7 +176,7 @@
 .render .info{
 	max-width: 850px;
 	margin: 0px;
-	border: 2px solid #555;
+	border: 2px solid #CCC;
 }
 .render .info td{
 	padding: 5px 5px;
@@ -189,7 +193,7 @@
 	text-align: center;
 }
 .render .info .flag img, .render .info .otherflags img{
-	border: 1px solid #666;
+	border: 1px solid #CCC;
 	vertical-align: middle;
 }
 .render .info .logo img, .render .info .otherlogos img{
@@ -264,13 +268,13 @@
 	padding: 2px 2px;
 }
 .render .draw .box td, .draw .box th{
-	border: 1px solid #666;
+	border: 1px solid #CCC;
 }
 .render .info .result td, .render .info .result th, .render .rounds td, .render .rounds th{
 	padding: 3px 3px;
 }
 .render .info #titlename{
-	border-bottom: 2px solid #555;
+	border-bottom: 2px solid #CCC;
 	/*padding: 4px 4px;*/
 }
 .render .info #titlename2{
@@ -300,10 +304,10 @@
 	background-color: transparent;
 }
 .render .rounds tr:hover td{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFD; /* _theme_ */
 }
 .render .box:hover tr{
-	background-color: #FFA; /* _theme_ */	
+	background-color: #FFD; /* _theme_ */	
 }
 .render .box2, .render .box4{
 	margin-left: 400px;
@@ -327,13 +331,13 @@
 	margin-top: 330px;
 }
 .render .box8 table{
-	border: 2px solid #555;
+	border: 2px solid #CCC;
 }
 .render .tsort{
 	clear: right;
 }
 .render .tsort tr:hover{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFD; /* _theme_ */
 }
 .render .tsort tr:hover td[rowspan] {
 	background-color: #FFF;
@@ -390,7 +394,7 @@
 	background-color: #FFF;
 }
 .render .info .result tr:hover td{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFD; /* _theme_ */
 }
 .render .info .result tr:hover td[rowspan] {
 	background-color: #FFF;
@@ -479,7 +483,7 @@ th.desc{
 	white-space: normal;
 }
 #errorlink{
-	margin-top: 10px;
+	padding: 5px;
 	margin-bottom: -5px;
 }
 #errorlink a{
@@ -528,7 +532,7 @@ th.desc{
 	font-size: 13px;
 }	
 .bullet{
-	color: #666;
+	color: #CCC;
 	padding: 0px 2px;
 }
 .nopadding{

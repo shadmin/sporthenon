@@ -47,12 +47,12 @@
 	<div id="logo"><a href="/" title="<%=StringUtils.text("menu.home", session)%>"><img src="/img/icon.png?v=<%=version%>" alt="sporthenon.com"/></a></div>
 	<div id="shmenu">
 		<ul>
-			<li><a id="shmenu-results" href="/results"><%=StringUtils.text("menu.results", session)%></a></li>
-			<li><a id="shmenu-browse" href="/browse"><%=StringUtils.text("menu.browse", session)%></a></li>
-			<li><a id="shmenu-calendar" href="/calendar"><%=StringUtils.text("menu.calendar", session)%></a></li>
-			<li><a id="shmenu-olympics" href="/olympics"><%=StringUtils.text("menu.olympics", session)%></a></li>
-			<li><a id="shmenu-usleagues" href="/usleagues"><%=StringUtils.text("menu.usleagues", session)%></a></li>
-			<li><a id="shmenu-search" href="/search"><%=StringUtils.text("menu.search", session)%></a></li>
+			<li><a id="shmenu-results" href="/results"><%=StringUtils.text("menu.results.2", session)%></a></li>
+			<li><a id="shmenu-browse" href="/browse"><%=StringUtils.text("menu.browse.2", session)%></a></li>
+			<li><a id="shmenu-calendar" href="/calendar"><%=StringUtils.text("menu.calendar.2", session)%></a></li>
+			<li><a id="shmenu-olympics" href="/olympics"><%=StringUtils.text("menu.olympics.2", session)%></a></li>
+			<li><a id="shmenu-usleagues" href="/usleagues"><%=StringUtils.text("menu.usleagues.2", session)%></a></li>
+			<li><a id="shmenu-search" href="/search"><%=StringUtils.text("menu.search.2", session)%></a></li>
 		</ul>
 	</div>
 	<div id="flags"><a title="English" href="<%=request.getAttribute("urlEN")%>"><img alt="EN" src="/img/header/lang-en.png"/></a> <a title="Français" href="<%=request.getAttribute("urlFR")%>"><img alt="FR" src="/img/header/lang-fr.png"/></a> </div>

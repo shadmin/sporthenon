@@ -874,7 +874,6 @@ function runResults(tleaf) {
 	}
 }
 function resetResults() {
-	closeTabs();
 	$('pl-sp').selectedIndex = 0;
 	changeSport();
 }
@@ -969,7 +968,6 @@ function showDate2() {
 function runCalendar() {
 	var tm = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 	t1 = currentTime();
-	var tab = initTab();
 	var yr1 = $F('yr1');
 	var mo1 = $F('mo1');
 	var dt1 = $F('dt1');
@@ -991,7 +989,6 @@ function runCalendar() {
 	window.location.href = '/SearchCalendar?' + h.toQueryString();
 }
 function resetCalendar() {
-	closeTabs();
 	$('spanbutton').show();
 	$('date2-1').hide();
 	$('date2-2').hide();
@@ -1152,7 +1149,6 @@ function slideOlClick(code, value) {
 }
 function runOlympics() {
 	t1 = currentTime();
-	var tab = initTab();
 	var ind = ($('olt1').checked ? $('sq1').checked : $('wq1').checked);
 	var code = ($('olt1').checked ? 'summer' : 'winter');
 	var h = $H({ol: $F(code + '-pl-ol')});
@@ -1168,7 +1164,6 @@ function runOlympics() {
 	window.location.href = '/SearchOlympics?' + h.toQueryString() + '&type=' + (ind ? 'ind' : 'cnt');
 }
 function resetOlympics() {
-	closeTabs();
 	var ind = ($('olympics-individual') ? true : false);
 	$('olt1').checked = true;
 	changeModeOL();
@@ -1257,7 +1252,6 @@ function changeStType() {
 }
 function runUSLeagues() {
 	t1 = currentTime();
-	var tab = initTab();
 	var league = (currentLeague == 'nfl' ? 1 : (currentLeague == 'nba' ? 2 : (currentLeague == 'nhl' ? 3 : 4)));
 	var h = new Hash();
 	h.set('league', league);
@@ -1275,7 +1269,6 @@ function runUSLeagues() {
 	window.location.href = '/SearchUSLeagues?' + h.toQueryString();
 }
 function resetUSLeagues() {
-	closeTabs();
 	changeModeUS();
 	changeLeague('nfl');
 }
@@ -1316,7 +1309,6 @@ function runSearch() {
 		alert('No search pattern defined.');
 	}
 	else {
-		var tab = initTab();
 		var tScope = $('search-form')['scope'];
 		var tScopeValue = [];
 		$R(0, tScope.length - 1).each(function(i) {
@@ -1333,7 +1325,6 @@ function runSearch() {
 	}
 }
 function resetSearch() {
-	closeTabs();
 	$('pattern').setValue('').activate();
 	$('match').checked = false;
 	$('max').value = '100';
