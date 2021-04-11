@@ -9,6 +9,7 @@
 <%@ page import="com.sporthenon.db.DatabaseManager"%>
 <%@ page import="com.sporthenon.utils.ConfigUtils"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
+<%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <%@ page import="com.sporthenon.web.HtmlConverter"%>
 <%
 	String lang = String.valueOf(session.getAttribute("locale"));
@@ -28,13 +29,13 @@
 %>
 <jsp:include page="/jsp/common/header.jsp"/>
 <script type="text/javascript"><!--
-var tDateValues = [d1%=d1%>', d2%=d2%>', d<%=d%>', d3%=d3%>', d4%=d4%>'];
+var tDateValues = ['<%=d1%>', '<%=d2%>', '<%=d%>', '<%=d3%>', '<%=d4%>'];
 var treeItems = null;
 <%
 	Contributor cb = (Contributor) session.getAttribute("user");
 	ArrayList<Object> params = new ArrayList<Object>();
 	params.add(cb != null && !cb.isAdmin() ? " where SP.id in (" + cb.getSports() + ")" : "");
-	params.add("_" + lang.toLowerCase());
+	params.add(ResourceUtils.getLocaleParam(lang));
 	HtmlConverter.convertTreeArray(DatabaseManager.callFunctionSelect("tree_results", params, TreeItem.class), out, false, lang);
 %>
 --></script>

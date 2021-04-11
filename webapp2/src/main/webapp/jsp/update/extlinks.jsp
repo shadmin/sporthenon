@@ -25,7 +25,7 @@
 				<%
 					Contributor cb = (Contributor) session.getAttribute("user");
 					String lang = String.valueOf(session.getAttribute("locale"));
-					String sql = "SELECT * FROM sport" + (cb != null && !cb.isAdmin() ? " WHERE id IN (" + cb.getSports() + ")" : "") + " ORDER BY label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
+					String sql = "SELECT * FROM sport" + (cb != null && !cb.isAdmin() ? " WHERE id IN (" + cb.getSports() + ")" : "") + " ORDER BY label" + ResourceUtils.getLocaleParam(lang);
 					for (Sport sp : (List<Sport>) DatabaseManager.executeSelect(sql, Sport.class)) {
 						out.print("<option value=\"" + sp.getId() + "\">" + sp.getLabel(lang) + "</option>");
 					}

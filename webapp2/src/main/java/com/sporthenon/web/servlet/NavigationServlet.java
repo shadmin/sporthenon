@@ -21,7 +21,7 @@ import com.sporthenon.web.ServletHelper;
 
 @WebServlet(
     name = "NavigationServlet",
-    urlPatterns = {"/index", "/results/*", "/browse/*", "/calendar/*", "/olympics/*", "/usleagues/*", "/search/*", "/project/*", "/contribute/*", "/login/*", "/update/*", "/android/*",
+    urlPatterns = {"/index", "/results/*", "/browse/*", "/calendar/*", "/olympics/*", "/usleagues/*", "/search/*", "/contribute/*", "/login/*", "/update/*", "/android/*",
     		"/athlete/*", "/championship/*", "/city/*", "/complex/*", "/contributor/*", "/country/*", "/entity/*", "/event/*", "/olympicgames/*", "/result/*", "/sport/*", "/usstate/*", "/team/*", "/year/*",
     		"/fr/*", "/en/*"}
 )
@@ -44,7 +44,6 @@ public class NavigationServlet extends AbstractServlet {
 		mapPages.put("olympics", "db/olympics.jsp");
 		mapPages.put("usleagues", "db/usleagues.jsp");
 		mapPages.put("search", "db/search.jsp");
-		mapPages.put("project", "project.jsp");
 		mapPages.put("contribute", "contribute.jsp");
 		mapPages.put("login", "login.jsp");
 		mapPages.put("update-overview", "update/overview.jsp");
@@ -64,8 +63,7 @@ public class NavigationServlet extends AbstractServlet {
 		mapServlet.put("calendar", "/SearchCalendar");
 		mapServlet.put("olympics", "/OlympicsServlet");
 		mapServlet.put("usleagues", "/USLeaguesServlet");
-		mapServlet.put("project", "/ProjectServlet");
-		mapServlet.put("search", "/SearcmapServlet");
+		mapServlet.put("search", "/SearchServlet");
 		mapServlet.put("login", "/LoginServlet");
 		mapServlet.put("update", "/UpdateServlet");
 		mapServlet.put("update-overview", "/UpdateServlet");
@@ -88,7 +86,6 @@ public class NavigationServlet extends AbstractServlet {
 		mapTitle.put("olympics", "menu.olympics.2");
 		mapTitle.put("calendar", "menu.calendar.2");
 		mapTitle.put("usleagues", "menu.usleagues.2");
-		mapTitle.put("project", "menu.project");
 		mapTitle.put("contribute", "menu.contribute");
 		mapTitle.put("search", "menu.search.2");
 		mapTitle.put("login", "menu.login");
@@ -114,7 +111,7 @@ public class NavigationServlet extends AbstractServlet {
 		String newURI = null;
 		try {
 			// Get info on URL and parameters
-			String url = ServletHelper.getURL(request);
+			String url = ServletHelper.getURL(request).replaceFirst("(\\&|\\?)lang\\=..", "");
 			String uri = request.getRequestURI().replace(CONTEXT_ROOT, "");
 			HashMap<String, Object> mapParams = ServletHelper.getParams(request);
 			
@@ -153,18 +150,14 @@ public class NavigationServlet extends AbstractServlet {
 			// Set attributes with URL
 			url = url.replaceAll("\\&", "&amp;");
 			request.setAttribute("url", url);
-			request.setAttribute("urlLogin", "http://" + url.replaceFirst("http(|s)\\:\\/\\/", "").replaceAll("\\/.*", "") + "/login");
-			request.setAttribute("urlEN", url.replaceFirst(".+\\.sporthenon\\.com", "//en.sporthenon.com"));
-			request.setAttribute("urlFR", url.replaceFirst(".+\\.sporthenon\\.com", "//fr.sporthenon.com"));
+			request.setAttribute("urlEN", url + (url.contains("?") ? "&" : "?") + "lang=en");
+			request.setAttribute("urlFR", url + (url.contains("?") ? "&" : "?") + "lang=fr");
 			request.setAttribute("title", StringUtils.getTitle(ResourceUtils.getText(mapTitle.containsKey(key) ? mapTitle.get(key) : "title", getLocale(request)) + (key.startsWith("update-") ? " | " + ResourceUtils.getText("menu.cbarea", getLocale(request)) : "")));
 			request.setAttribute("desc", ResourceUtils.getText(key.equals("index") ? "desc" : "desc." + key, getLocale(request)));
 			
 			// Specific behaviours
 			if (mapParams.containsKey("lang")) {
-				request.getSession().setAttribute("locale", String.valueOf(mapParams.get("lang")));
-			}
-			if (key.equals("project")) {
-				mapParams.put("p", 1);
+				request.getSession().setAttribute("locale", mapParams.get("lang"));
 			}
 				
 			// Determine if it is :

@@ -36,7 +36,7 @@ private static final long serialVersionUID = 1L;
 			String lang = getLocale(request);
 			// Contributors
 			StringBuffer html = new StringBuffer();
-			Collection<?> coll = DatabaseManager.callFunctionSelect("_contributors", null, Contributor.class);
+			Collection<?> coll = DatabaseManager.callFunctionSelect("_contributors", null, ContributorBean.class);
 			for (Object obj : coll) {
 				ContributorBean bean = (ContributorBean) obj;
 				String sports = null;

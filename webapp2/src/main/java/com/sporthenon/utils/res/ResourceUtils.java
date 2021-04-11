@@ -79,4 +79,8 @@ public class ResourceUtils {
 		}
 	}
 	
+	public static String getLocaleParam(String lang) {
+		return (lang != null && !lang.equalsIgnoreCase(LGDEFAULT) ? "_" + lang : "");
+	}
+	
 }

@@ -5,6 +5,7 @@
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <jsp:include page="/jsp/common/header.jsp"/>
 <script type="text/javascript"><!--
 	var treeItems = null;
@@ -12,7 +13,7 @@
 	String lang = String.valueOf(session.getAttribute("locale"));
 	List<Object> params = new ArrayList<Object>();
 	params.add("");
-	params.add("_" + lang.toLowerCase());
+	params.add(ResourceUtils.getLocaleParam(lang));
 	HtmlConverter.convertTreeArray(DatabaseManager.callFunctionSelect("tree_results", params, TreeItem.class), out, false, lang);
 %>
 --></script>

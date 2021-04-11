@@ -172,9 +172,10 @@ public class HtmlUtils {
 			url = h.get("url").substring(1);
 			html.append("<span class='url'>" + ConfigUtils.getProperty("url") + url + "</span>");
 		}
+		html.append("<div id='topbar'>");
 		html.append("<div id='Header' class='header'><table><tr>");
 		html.append(h.containsKey("item0") ? "<td style='font-weight:bold;'>" + h.get("item0") + "</td>" : "");
-		html.append(h.containsKey("item1") ? "<td class='arrow'></td><td>" + h.get("item1") + "</td>" : "");
+		html.append(h.containsKey("item1") ? "<td " + (h.containsKey("item0") ? "class='arrow'" : "") + "></td><td>" + h.get("item1") + "</td>" : "");
 		html.append(h.containsKey("item2") ? "<td class='arrow'></td><td>" + h.get("item2") + "</td>" : "");
 		html.append(h.containsKey("item3") ? "<td class='arrow'></td><td>" + h.get("item3") + "</td>" : "");
 		html.append(h.containsKey("item4") ? "<td class='arrow'></td><td>" + h.get("item4") + "</td>" : "");
@@ -186,13 +187,16 @@ public class HtmlUtils {
 		html.append("<table><tr>");
 		final String SHARE_OPTIONS = "<div id='shareopt' class='baroptions' style='display:none;'><table><tr><td onclick='share(\"fb\");' class='fb'>Facebook</td></tr><tr><td onclick='share(\"tw\");' class='tw'>Twitter</td></tr><tr><td onclick='share(\"gp\");' class='gp'>Google+</td></tr><tr><td onclick='share(\"bg\");' class='bg'>Blogger</td></tr><tr><td onclick='share(\"tm\");' class='tm' style='border-bottom:none;'>Tumblr</td></tr></table></div>";
 		final String EXPORT_OPTIONS = "<div id='exportopt' class='baroptions' style='display:none;'><table><tr><td onclick='exportPage(\"html\");' class='html'>" + ResourceUtils.getText("web.page", lang) + "</td></tr><tr><td onclick='exportPage(\"csv\");' class='csv'>" + ResourceUtils.getText("csv.file", lang) + "</td></tr><tr><td onclick='exportPage(\"xls\");' class='excel'>" + ResourceUtils.getText("excel.sheet", lang) + "</td></tr><tr><td onclick='exportPage(\"pdf\");' class='pdf'>" + ResourceUtils.getText("pdf.file", lang) + "</td></tr><tr><td onclick='exportPage(\"txt\");' class='text' style='border-bottom:none;'>" + ResourceUtils.getText("plain.text", lang) + "</td></tr></table></div>";
-		if (h.containsKey("errors"))
+		if (h.containsKey("errors")) {
 			html.append("<td>" + h.get("errors") + "</td>");
+		}
 		if (m != null && url != null && sp != null && m.isSport(sp)) {
-			if (url.matches("^results.*"))
+			if (url.matches("^results.*")) {
 				html.append("<td><input id='add' type='button' class='button add' onclick='location.href=\"" + h.get("url").replaceAll("\\/results", "/update") + "\";' value='" + ResourceUtils.getText("button.add", lang) + "'/></td>");	
-			else if (url.matches("^result.*"))
-				html.append("<td><input id='modify' type='button' class='button modify' onclick='location.href=\"" + h.get("url").replaceAll("\\/result", "/update") + "\";' value='" + ResourceUtils.getText("button.modify", lang) + "'/></td>");
+			}
+			else if (url.matches("^result.*")) {
+				html.append("<td><input id='modify' type='button' class='button modify' onclick='location.href=\"" + h.get("url").replaceAll("\\/result", "/update") + "\";' value='" + ResourceUtils.getText("button.modify", lang) + "'/></td>");		
+			}
 		}
 		html.append("<td onmouseover=\"$('shareopt').show();\" onmouseout=\"$('shareopt').hide();\"><input id='share' type='button' class='button share' value='" + ResourceUtils.getText("share", lang) + "'/>" + SHARE_OPTIONS + "</td>");
 		html.append("<td onmouseover=\"$('exportopt').show();\" onmouseout=\"$('exportopt').hide();\"><input id='export' type='button' class='button export' value='" + ResourceUtils.getText("button.export", lang) + "'/>" + EXPORT_OPTIONS + "</td>");
@@ -200,6 +204,7 @@ public class HtmlUtils {
 		html.append("<td><input id='print' type='button' class='button print' onclick='javascript:printCurrentTab();' value='" + ResourceUtils.getText("button.print", lang) + "'/></td>");
 		html.append("<td><input id='info2' type='button' class='button info2' onclick='displayInfo();' value='" + ResourceUtils.getText("button.info", lang) + "'/></td>");
 		html.append("</tr></table></div>");
+		html.append("</div>");
 		return html;
 	}
 	

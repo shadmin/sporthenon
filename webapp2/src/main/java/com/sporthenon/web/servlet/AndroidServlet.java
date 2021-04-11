@@ -104,7 +104,7 @@ public class AndroidServlet extends AbstractServlet {
 	
 	private void processResults(Document doc, Element root, String[] t, String lang) throws Exception {
 		String code = t[0];
-		String label = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
+		String label = "label" + ResourceUtils.getLocaleParam(lang);
         //Inactive Events
 		List<String> lInactive = new ArrayList<String>();
 		if (code.matches("(?i:" + Event.alias + "|SE|SE2)")) {
@@ -159,7 +159,7 @@ public class AndroidServlet extends AbstractServlet {
 			params.add(se2);
 			params.add("0");
 			params.add(0);
-			params.add("_" + lang);
+			params.add(ResourceUtils.getLocaleParam(lang));
 			Event ev_ = (Event) DatabaseManager.loadEntity(Event.class, (se2 > 0 ? se2 : (se > 0 ? se : ev)));
 			addResultItems(doc, root, ev_, (Collection<ResultsBean>) DatabaseManager.callFunction("get_results", params, ResultsBean.class), lang);
         }
@@ -246,7 +246,7 @@ public class AndroidServlet extends AbstractServlet {
 			params.add(0);
 			params.add("0");
 			params.add(r.getId());
-			params.add("_" + lang);
+			params.add(ResourceUtils.getLocaleParam(lang));
 			List<ResultsBean> list = (List<ResultsBean>) DatabaseManager.callFunction("get_results", params, ResultsBean.class);
 			if (list != null && !list.isEmpty()) {
 				ResultsBean bean = list.get(0);
@@ -343,8 +343,6 @@ public class AndroidServlet extends AbstractServlet {
 	
 	private void processCalendar(Document doc, Element root, String[] t, String lang) throws Exception {
 		String code = t[0];
-//		String label = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
-
 		if (code.equalsIgnoreCase(Year.alias)) {
 			String sql = "SELECT id, label FROM year ORDER BY id DESC";
         	addItems(doc, root, (short)-1, DatabaseManager.getPicklist(sql, null), null, null, null, null);
@@ -360,8 +358,8 @@ public class AndroidServlet extends AbstractServlet {
 			params.add(t[1]);
 			params.add(t[2]);
 			params.add(0);
-			params.add("_" + lang);
-			Collection<RefItem> c = (Collection<RefItem>) DatabaseManager.callFunctionSelect("get_calendar_results", params, RefItem.class);
+			params.add(ResourceUtils.getLocaleParam(lang));
+			Collection<RefItem> c = (Collection<RefItem>) DatabaseManager.callFunctionSelect("get_calendar_results", params, RefItem.class, "entity DESC, date2 DESC");
 			for (RefItem item : c) {
 				Element item_ = root.addElement("item");
 				item_.addAttribute("id", String.valueOf(item.getIdItem()));
@@ -374,7 +372,7 @@ public class AndroidServlet extends AbstractServlet {
 	
 	private void processOlympics(Document doc, Element root, String[] t, String lang) throws Exception {
 		String code = t[0];
-		String label = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
+		String label = "label" + ResourceUtils.getLocaleParam(lang);
 		if (code.equalsIgnoreCase(Olympics.alias)) {
 			String sql = "SELECT OL.id, CT." + label + " || ', ' || YR.label "
 					+ " FROM olympics OL "
@@ -393,7 +391,7 @@ public class AndroidServlet extends AbstractServlet {
 				where += " AND SE.id = " + t[5];
 			List<Object> params = new ArrayList<Object>();
 			params.add(where);
-			params.add("_" + lang);
+			params.add(ResourceUtils.getLocaleParam(lang));
 			ArrayList<PicklistItem> lPicklist = new ArrayList<PicklistItem>();
 			for (TreeItem item : (List<TreeItem>) DatabaseManager.callFunctionSelect("tree_results", params, TreeItem.class))
 				if ((item.getLevel() == 1 && code.equalsIgnoreCase(Sport.alias)) || (item.getLevel() == 3 && code.equalsIgnoreCase(Event.alias)) || (item.getLevel() == 4 && code.equalsIgnoreCase("SE")) || (item.getLevel() == 5 && code.equalsIgnoreCase("SE2")))
@@ -407,14 +405,14 @@ public class AndroidServlet extends AbstractServlet {
 			params.add(t.length > 4 ? t[4] : "0");
 			params.add(t.length > 5 ? t[5] : "0");
 			params.add(t.length > 6 ? t[6] : "0");
-			params.add("_" + lang);
+			params.add(ResourceUtils.getLocaleParam(lang));
 			addOlympicMedalsItems(doc, root, (Collection<OlympicMedalsBean>) DatabaseManager.callFunction("get_olympic_medals", params, OlympicMedalsBean.class), lang);
 		}
 		else if (code.equalsIgnoreCase(OlympicRanking.alias)) {
 			List<Object> params = new ArrayList<Object>();
 			params.add(t[2]);
 			params.add("0");
-			params.add("_" + lang);
+			params.add(ResourceUtils.getLocaleParam(lang));
 			for (OlympicRankingsBean bean : (Collection<OlympicRankingsBean>) DatabaseManager.callFunction("get_olympic_rankings", params, OlympicRankingsBean.class)) {
 				Element item = root.addElement("item");
 				item.addAttribute("country", bean.getCn1Label());
@@ -496,7 +494,7 @@ public class AndroidServlet extends AbstractServlet {
 			List<Object> params = new ArrayList<Object>();
 			params.add(league);
 			params.add(t[2]);
-			params.add("_" + lang);
+			params.add(ResourceUtils.getLocaleParam(lang));
 			for (TeamStadiumBean bean : (Collection<TeamStadiumBean>) DatabaseManager.callFunction("get_team_stadiums", params, TeamStadiumBean.class)) {
 				Element item = root.addElement("item");
 				item.addAttribute("team", bean.getTmLabel());
@@ -714,7 +712,7 @@ public class AndroidServlet extends AbstractServlet {
 			try {
 				List<Object> lParams = new ArrayList<Object>();
 				lParams.add(StringUtils.join(lIds, ","));
-				lParams.add("_" + lang);
+				lParams.add(ResourceUtils.getLocaleParam(lang));
 				List<RefItem> list_ = (List<RefItem>) DatabaseManager.callFunctionSelect("win_records", lParams, RefItem.class);
 				if (list_ != null && list_.size() > 0) {
 					RefItem item = list_.get(0);

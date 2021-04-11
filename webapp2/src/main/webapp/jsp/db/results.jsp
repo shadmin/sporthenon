@@ -15,7 +15,7 @@
 	String lang = String.valueOf(session.getAttribute("locale"));
 	List<Object> params = new ArrayList<Object>();
 	params.add("");
-	params.add("_" + lang.toLowerCase());
+	params.add(ResourceUtils.getLocaleParam(lang));
 	HtmlConverter.convertTreeArray(DatabaseManager.callFunctionSelect("tree_results", params, TreeItem.class), out, false, lang);
 %>
 --></script>
@@ -68,7 +68,7 @@
 <%@include file="../../html/buttons.html"%>
 <%
 	HashMap<String, String> hSportImg = new HashMap<String, String>();
-	String sql = "SELECT SP.id, SP.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "")
+	String sql = "SELECT SP.id, SP.label" + ResourceUtils.getLocaleParam(lang)
 			+ " FROM sport SP "
 			+ " WHERE SP.id IN (SELECT id_sport FROM result)"
 			+ " ORDER by 2";

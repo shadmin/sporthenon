@@ -475,17 +475,15 @@ function displayLink() {
 	}
 }
 function displayInfo() {
-	var url = $$('#content .url')[0].innerHTML;
 	var info = $$('#content .infostats')[0].innerHTML;
 	var tInfo = info.split('|');
 	var t = $$('#d-info td');
-	t[0].update('<a href="' + url + '" target="_blank">' + url + '</a>');
-	t[1].update(tInfo[0] + ' ' + TX_KB);
-	t[2].update(tInfo[1] + ' ' + TX_SECONDS);
-	t[3].update(tInfo[2]);
-	t[4].update(tInfo[3] == 'fr' ? 'Français' : 'English');
-	t[4].className = ('lang-' + tInfo[3]);
-	t[5].update(tInfo[4]);
+	t[0].update(tInfo[0] + ' ' + TX_KB);
+	t[1].update(tInfo[1] + ' ' + TX_SECONDS);
+	t[2].update(tInfo[2]);
+	t[3].update(tInfo[3] == 'fr' ? 'Français' : 'English');
+	t[3].className = ('lang-' + tInfo[3]);
+	t[4].update(tInfo[4]);
 	setOpacity(0.4);
 	dInfo.open();
 }
@@ -650,10 +648,6 @@ function selMultClick() {
 /*==========================
   ========== HOME ========== 
   ==========================*/
-function overTopic(txt) {
-	$('details').update(txt);
-	$('details').show();
-}
 function moreSports(index1, index2) {
 	for (var i = index1 ; i <= index2 ; i++) {
 		$('sport-' + i).show();
@@ -698,7 +692,7 @@ var cindex = 0;
 var cmax = 1;
 var cdata = [];
 var clabel = [];
-var ccolor = [['Gradient(#f8cb98:#f88f18)'], ['Gradient(#f8cb98:#f88f18)'], ['Gradient(#94cff5:#179ef5)', 'Gradient(#f8cb98:#f88f18)', 'red', 'blue']];
+var ccolor = [['Gradient(#f8ef2d:#f8ef2d)'], ['Gradient(#f8ef2d:#f8ef2d)']];
 function loadReport(cdata_, clabel_, ccolor_) {
 	$('chart').update('<canvas id="cvs" width="720" height="400"></canvas>');
 	if (cindex == 0 || cindex == 1) {
@@ -710,35 +704,6 @@ function loadReport(cdata_, clabel_, ccolor_) {
 		.Set('text.font', 'Verdana')
 		.Set('text.size', 8)
 		.Set('vmargin', 8)
-		.Draw();
-	}
-	else if (cindex == 2) {
-		new RGraph.Pie('cvs', cdata_)
-		.Set('labels', clabel_)
-		.Set('text.font', 'Verdana')
-		.Set('text.size', 8)
-		.Set('gutter.top', 40)
-		.Set('gutter.bottom', 40)
-		.Set('vmargin', 5)
-		.Set('exploded', 8)
-		.Set('strokestyle', '#666')
-		.Draw();
-	}
-	else if (cindex == 3) {
-		new RGraph.Line('cvs', cdata_)
-		.Set('labels', clabel_)
-		.Set('text.font', 'Verdana')
-		.Set('text.size', 8)
-		.Set('gutter.top', 15)
-		.Set('gutter.bottom', 30)
-		.Set('gutter.left', 50)
-		.Set('vmargin', 5)
-		.Set('linewidth', 2)
-		.Set('shadow', true)
-		.Set('numxticks', 11)
-		.Set('numyticks', 5)
-		.Set('strokestyle', '#666')
-		.Set('background.grid.autofit.align', true)
 		.Draw();
 	}
 }
@@ -1336,8 +1301,8 @@ function resetSearch() {
   ========== LOGIN =========== 
   ============================*/
 function auth() {
-	if ($F('login') == '') {
-		$('login').focus();
+	if ($F('username') == '') {
+		$('username').focus();
 	}
 	else if ($F('password') == '') {
 		$('password').focus();
@@ -1347,7 +1312,7 @@ function auth() {
 	}
 }
 function rauth() {
-	$('login').value = $('rlogin').value;
+	$('username').value = $('rlogin').value;
 	$('password').value = $('rpassword').value;
 	auth();
 }

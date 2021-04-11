@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <!-- HEADER -->
-	<entry key="title">SPORTHENON – The temple of sports results</entry>
+	<entry key="title">Sporthenon | The temple of sports results</entry>
 	<entry key="desc">Sports results database (free and opened to contributors)</entry>
 	<entry key="keywords">sport, results, database, records, olympics</entry>
 	<entry key="menu.results">RESULTS</entry>
@@ -36,7 +36,7 @@
 	<entry key="kb">Kb</entry>
 	<entry key="seconds">seconds</entry>
 	<entry key="actions.currenttab">Actions on current tab</entry>
-	<entry key="button.run">RUN SEARCH</entry>
+	<entry key="button.run">Run search</entry>
 	<entry key="button.reset">Reset</entry>
 	<entry key="button.add">Add</entry>
 	<entry key="button.modify">Modify</entry>
@@ -211,7 +211,6 @@
 	<entry key="plain.text">Text</entry>
 	<entry key="direct.address">Direct address to this result</entry>
 	<entry key="use.ctrl.C">Use Ctrl+C or Right-click/Copy</entry>
-	<entry key="info.statistics">Informations/Statistics on this page</entry>
 	<entry key="address">Address</entry>
 	<entry key="size">Size</entry>
 	<entry key="pictures">Pictures</entry>
@@ -245,7 +244,7 @@
 	<entry key="next">Next</entry>
 	<entry key="all">All</entry>
 	<entry key="details">Details</entry>
-	<entry key="last.update">Last update</entry>
+	<entry key="last.update">Last update on this page</entry>
 	<entry key="wikipedia">Wikipedia</entry>
 	<entry key="extlink.others">Others</entry>
 	<entry key="extlink.federation">International Federation</entry>
@@ -304,15 +303,22 @@
 	<entry key="language">Language</entry>
 	<entry key="reported.on">Reported on</entry>
 <!-- HOME -->
-	<entry key="title.presentation">PRESENTATION</entry>
-	<entry key="title.last.results">LAST RESULTS</entry>
-	<entry key="title.statistics">STATISTICS</entry>
-	<entry key="sporthenon.welcome"><![CDATA[Welcome to <a href="project">SPORTHENON</a>, the temple of sports results !]]></entry>
+	<entry key="title.presentation">Presentation</entry>
+	<entry key="title.last.results">Last results</entry>
+	<entry key="title.statistics">Statistics</entry>
+	
+	<entry key="title.presentation">Presentation</entry>
+	<entry key="title.access.sport">Direct access by sport</entry>
+	<entry key="title.random.event">Random event</entry>
+	<entry key="title.share">Share</entry>
+	<entry key="title.mobile.app">Mobile application</entry>
+	<entry key="title.last.results">Last results</entry>
+	<entry key="title.statistics">Statistics</entry>
+	<entry key="sporthenon.welcome"><![CDATA[Welcome to SPORTHENON, the temple of sports results !]]></entry>
 	<entry key="sporthenon.desc"><![CDATA[Sporthenon is a free sport database <a href="contribute">opened to contributors</a>]]></entry>
 	<entry key="site.topics">Site topics</entry>
-	<entry key="access.sport">Direct access by sport</entry>
-	<entry key="share.on">Share on</entry>
 	<entry key="desc.results">Complete results organized by sport / championship / event</entry>
+	<entry key="desc.browse">Browse database with a tree view</entry>
 	<entry key="desc.calendar">Events calendar by week / month / year</entry>
 	<entry key="desc.olympics">Podiums and medals tables of winter and summer Olympic Games</entry>
 	<entry key="desc.usleagues">Specific page for the 4 major US leagues (NFL / NBA / NHL / MLB)</entry>
@@ -322,7 +328,6 @@
 	<entry key="desc.login">Login to add/update data</entry>
 	<entry key="report.1">Results per sport</entry>
 	<entry key="report.2">Athletes per country</entry>
-	<entry key="random.event">Random event</entry>
 	<entry key="note">Note</entry>
 	<entry key="filter.sport">Filter by sport</entry>
 <!-- RESULTS -->
@@ -392,11 +397,6 @@
 	<entry key="places">Places</entry>
 	<entry key="sports">Sports</entry>
 <!-- PROJECT/CONTRIBUTE -->
-	<entry key="downloads">DOWNLOADS</entry>
-	<entry key="report.bug">REPORT A BUG</entry>
-	<entry key="contributors">CONTRIBUTORS</entry>
-	<entry key="statistics">STATISTICS</entry>
-	<entry key="technical.info">TECHNICAL INFORMATION</entry>
 	<entry key="download.last">Download latest version</entry>
 	<entry key="download.previous">Previous versions</entry>
 	<entry key="step">STEP</entry>
@@ -407,7 +407,6 @@
 	<entry key="download.admin">Administration program</entry>
 	<entry key="change.log">Change log</entry>
 	<entry key="report.bug">Report a bug</entry>
-	<entry key="github.desc">The project and its source code are hosted on GitHub</entry>
 	<entry key="programming">Programming</entry>
 	<entry key="db.hosting"><![CDATA[Database &amp; hosting]]></entry>
 	<entry key="about.contribution">ABOUT CONTRIBUTION</entry>
@@ -421,8 +420,8 @@
 	<entry key="msg.login.err4">Please select {1} sports max.</entry>
 	<entry key="msg.registered">Your account has been created.</entry>
 	<entry key="msg.logout">You were logged out.</entry>
-	<entry key="title.authentication">AUTHENTICATION</entry>
-	<entry key="title.createaccount">NOT REGISTERED? CREATE AN ACCOUNT</entry>
+	<entry key="title.authentication">Authentication</entry>
+	<entry key="title.createaccount">Create an account</entry>
 	<entry key="loginid">Login</entry>
 	<entry key="password">Password</entry>
 	<entry key="confirm.password">Confirm password</entry>

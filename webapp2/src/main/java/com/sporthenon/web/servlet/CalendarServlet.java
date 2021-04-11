@@ -16,6 +16,7 @@ import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
+import com.sporthenon.utils.res.ResourceUtils;
 import com.sporthenon.web.HtmlConverter;
 import com.sporthenon.web.ServletHelper;
 
@@ -50,8 +51,8 @@ public class CalendarServlet extends AbstractServlet {
 				params.add(StringUtils.notEmpty(mapParams.get("dt1")) ? String.valueOf(mapParams.get("dt1")) : "18500101");
 				params.add(StringUtils.notEmpty(mapParams.get("dt2")) ? String.valueOf(mapParams.get("dt2")) : "21001231");
 				params.add(StringUtils.notEmpty(mapParams.get("sp")) ? StringUtils.toInt(mapParams.get("sp")) : 0);
-				params.add("_" + lang);
-				Collection<RefItem> c = (Collection<RefItem>) DatabaseManager.callFunctionSelect("get_calendar_results", params, RefItem.class);
+				params.add(ResourceUtils.getLocaleParam(lang));
+				Collection<RefItem> c = (Collection<RefItem>) DatabaseManager.callFunctionSelect("get_calendar_results", params, RefItem.class, "entity DESC, date2 DESC");
 				StringBuffer html = new StringBuffer();
 				html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_CALENDAR, params, getUser(request), lang));
 				html.append(HtmlConverter.convertCalendarResults(request, c, getUser(request), lang));

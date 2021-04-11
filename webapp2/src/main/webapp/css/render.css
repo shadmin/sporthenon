@@ -15,7 +15,7 @@
 }
 .render th{
 	font-weight: bold;
-	background-color: #EAEAEA; /* _theme_ */
+	background-color: #EAEAEA;
 	text-align: center;
 	padding: 3px 10px;
 }
@@ -83,10 +83,14 @@
 .render .hidden, .render span.title, .render span.desc, .render span.url, .render span.infostats{
 	display: none;
 }
+.render #topbar{
+	display: flex;
+	width: 100%;
+	margin-bottom: 15px;
+}
 .render .header{
-	float: left;
+	width:100%;
 	margin: 0px;
-	margin-bottom: 20px;
 }
 .render .header table, .render .toolbar table{
 	background-color: transparent;
@@ -99,10 +103,6 @@
 .render .header .arrow{
 	width: 18px;
 	background: url(../img/arrow.gif) center center no-repeat;	
-}
-.render .toolbar{
-	float: right;
-	margin-bottom: 20px;
 }
 .render .toolbar td{
 	padding: 1px;
@@ -123,7 +123,7 @@
 	padding: 5px 10px;
 }
 .render .winrec .bar1{
-	background: url(../img/render/bar1.gif) left center no-repeat;
+	background: url(../img/render/bar1.gif) right center no-repeat;
 	width: 6px;
 	height: 10px;
 }
@@ -131,15 +131,14 @@
 	background: url(../img/render/bar2.gif) left center repeat-x;
 }
 .render .winrec .bar3{
-	background: url(../img/render/bar3.gif) right center no-repeat;
+	background: url(../img/render/bar3.gif) left center no-repeat;
 	width: 6px;
 	height: 10px;
 }
 .render .uinfo{
 	clear: right;
-	margin: 0 auto;
+	margin: 0px auto;
 	padding: 0px;
-	margin-top: 40px;
 	margin-bottom: 10px;
 	text-align: center;
 }
@@ -182,9 +181,6 @@
 	padding: 5px 5px;
 	text-align: left;
 }
-.render .info td table{
-	/*margin: auto;*/
-}
 .render .info .logo, .render .info .flag{
 	text-align: center;
 	padding: 5px 5px;
@@ -218,7 +214,7 @@
 }
 .render .ref{
 	border: none;
-	border-top: 1px solid #AAA;
+	border-top: 1px solid #CCC;
 	width: auto;
 	padding-top: 0px;
 	padding-bottom: 0px;
@@ -275,7 +271,6 @@
 }
 .render .info #titlename{
 	border-bottom: 2px solid #CCC;
-	/*padding: 4px 4px;*/
 }
 .render .info #titlename2{
 	font-style: italic;
@@ -304,10 +299,10 @@
 	background-color: transparent;
 }
 .render .rounds tr:hover td{
-	background-color: #FFD; /* _theme_ */
+	background-color: #FFD;
 }
 .render .box:hover tr{
-	background-color: #FFD; /* _theme_ */	
+	background-color: #FFD;	
 }
 .render .box2, .render .box4{
 	margin-left: 400px;
@@ -333,11 +328,8 @@
 .render .box8 table{
 	border: 2px solid #CCC;
 }
-.render .tsort{
-	clear: right;
-}
 .render .tsort tr:hover{
-	background-color: #FFD; /* _theme_ */
+	background-color: #FFD;
 }
 .render .tsort tr:hover td[rowspan] {
 	background-color: #FFF;
@@ -394,7 +386,7 @@
 	background-color: #FFF;
 }
 .render .info .result tr:hover td{
-	background-color: #FFD; /* _theme_ */
+	background-color: #FFD;
 }
 .render .info .result tr:hover td[rowspan] {
 	background-color: #FFF;
@@ -429,8 +421,9 @@ tr.rsort th:hover, .render tr.rsort th:hover td{
 }
 th.sorted{
 	padding: 1px 20px 1px 10px;
-	border: 2px solid #333;
-	background-color: #FE0;
+	border-color: #444;
+	background-color: #666;
+	color: #FFF;
 	background-repeat: no-repeat;
 	background-position: right center;
 }
@@ -455,7 +448,7 @@ th.desc{
 	background: transparent url(../img/render/more3.gif) 0 0 no-repeat;
 }
 .moreitems div:hover{
-	background-color: #FFA; /* _theme_ */
+	background-color: #FFA;
 }
 .moreitems .sfdiv1{
 	background: transparent url(../img/render/more.gif) left 2px no-repeat;
@@ -515,21 +508,19 @@ th.desc{
 }
 #summary, #summary2{
 	position: absolute;
-	top: 105px;
-	background-color: #FFF;
-	border: 1px solid #AAA;
+	top: 90px;
+	border: 1px solid #CCC;
 	padding: 5px;
 }
 #summary{
-	left: 260px;
+	left: 160px;
 }
 #summary2{
-	right: 15px;
+	right: 20px;
 	text-align: center;
 }
 #summary2 span{
 	font-weight: bold;
-	font-size: 13px;
 }	
 .bullet{
 	color: #CCC;

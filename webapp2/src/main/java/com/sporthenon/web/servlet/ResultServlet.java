@@ -66,7 +66,7 @@ public class ResultServlet extends AbstractServlet {
 				params.add(StringUtils.notEmpty(mapParams.get("se2")) ? StringUtils.toInt(mapParams.get("se2")) : 0);
 				params.add(StringUtils.notEmpty(mapParams.get("yr")) ? String.valueOf(mapParams.get("yr")) : "0");
 				params.add(0);
-				params.add("_" + lang);
+				params.add(ResourceUtils.getLocaleParam(lang));
 				Collection<Result> c = (Collection<Result>) DatabaseManager.callFunction("get_results", params, ResultsBean.class);
 				boolean isRedirect = false;
 				if (c == null || c.isEmpty()) { // Check in folders history

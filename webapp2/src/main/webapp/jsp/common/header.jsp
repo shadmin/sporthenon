@@ -55,7 +55,9 @@
 			<li><a id="shmenu-search" href="/search"><%=StringUtils.text("menu.search.2", session)%></a></li>
 		</ul>
 	</div>
-	<div id="flags"><a title="English" href="<%=request.getAttribute("urlEN")%>"><img alt="EN" src="/img/header/lang-en.png"/></a> <a title="Français" href="<%=request.getAttribute("urlFR")%>"><img alt="FR" src="/img/header/lang-fr.png"/></a> </div>
+	<div id="flags">
+		<a title="English" href="<%=request.getAttribute("urlEN")%>"><img alt="EN" src="/img/header/lang-en.png"/></a>&nbsp;
+		<a title="Français" href="<%=request.getAttribute("urlFR")%>"><img alt="FR" src="/img/header/lang-fr.png"/></a> </div>
 </div>
 
 <script type="text/javascript"><!--
@@ -91,11 +93,6 @@
 	out.print("var TX_LOADING=\"" + StringUtils.text("loading", session) + "\";");
 	out.print("var TX_SEARCH=\"" + StringUtils.text("search.for", session) + "\";");
 	out.print("var TX_SEARCH2=\"" + StringUtils.text("search.in", session) + " Sporthenon\";");
-	out.print("var TX_DESC_RESULTS=\"" + StringUtils.text("desc.results", session) + "\";");
-	out.print("var TX_DESC_CALENDAR=\"" + StringUtils.text("desc.calendar", session) + "\";");
-	out.print("var TX_DESC_OLYMPICS=\"" + StringUtils.text("desc.olympics", session) + "\";");
-	out.print("var TX_DESC_USLEAGUES=\"" + StringUtils.text("desc.usleagues", session) + "\";");
-	out.print("var TX_DESC_SEARCH=\"" + StringUtils.text("desc.search", session) + "\";");
 	out.print("var TX_MLOGIN=\"" + StringUtils.text("mandatory.login", session) + "\";");
 	out.print("var TX_MPASSWORD=\"" + StringUtils.text("mandatory.password", session) + "\";");
 	out.print("var TX_MCONFIRMPWD=\"" + StringUtils.text("mandatory.confirmpwd", session) + "\";");
@@ -133,19 +130,20 @@
 <div id="headertop">
 	<div id="menutop">
 		<div id="mthome"><a href="/"><%=StringUtils.text("menu.home", session)%></a></div>
-		<div id="mtproject"><a href="/project"><%=StringUtils.text("menu.project", session)%></a></div>
 		<div id="mtcontribute"><a href="/contribute"><%=StringUtils.text("menu.contribute", session)%></a></div>
 		<div id="mtfavorites"><a href="javascript:showFavorites();"><%=StringUtils.text("menu.favorites", session)%></a><div id="favorites" style="display:none;"></div></div>
 		<%if (m != null) {%>
 		<div id="mtcbarea"><a href="/update/overview"><%=StringUtils.text("menu.cbarea", session)%></a></div>
 		<div id="mtlogout"><a href="/LoginServlet?logout"><%=StringUtils.text("menu.logout", session)%></a> (<%=m.getLogin()%>)</div>
 		<%} else {%>
-		<div id="mtlogin"><a href="<%=request.getAttribute("urlLogin")%>"><%=StringUtils.text("menu.login", session)%></a></div>
+		<div id="mtlogin"><a href="/login"><%=StringUtils.text("menu.login", session)%></a></div>
 		<%}%>
 	</div>
 	<div id="searchpanel">
-		<table style="border-spacing:0px;">
-		<tr><td class="pattern" style="padding-bottom:3px;"><input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.in", session)%> Sporthenon" onfocus="dpatternFocus();" onblur="dpatternBlur();"></input></td>
+		<table class="noborder" style="border-spacing:0px;">
+		<tr><td class="pattern" style="padding-bottom:3px;">
+			<input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.in", session)%> Sporthenon" onfocus="dpatternFocus();" onblur="dpatternBlur();"></input>
+		</td>
 		</tr></table>
 	</div>
 </div>
@@ -156,7 +154,7 @@ new Ajax.Autocompleter(
 	'dpattern',
 	'ajaxsearch',
 	'/search/ajax/1',
-	{ paramName: 'value', minChars: 1, frequency: 0.05, updateElement: directSearch}
+	{ paramName: 'value', minChars: 2, frequency: 0.05, updateElement: directSearch}
 );
 Event.observe($('dpattern'), 'keyup', directSearch);
 

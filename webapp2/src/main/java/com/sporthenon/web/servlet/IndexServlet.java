@@ -35,7 +35,7 @@ public class IndexServlet extends AbstractServlet {
 private static final long serialVersionUID = 1L;
 
 	public static final String REPORT_QUERY1 = "SELECT SP.label#LANG#, COUNT(*) FROM result RS LEFT JOIN sport SP ON RS.id_sport=SP.id GROUP BY SP.label#LANG# ORDER BY 2 DESC LIMIT 10";
-	public static final String REPORT_QUERY2 = "SELECT CN.label#LANG#, COUNT(*) FROM country\" CN LEFT JOIN athlete PR ON PR.id_country=CN.id GROUP BY CN.label#LANG# ORDER BY 2 DESC LIMIT 10";
+	public static final String REPORT_QUERY2 = "SELECT CN.label#LANG#, COUNT(*) FROM country CN LEFT JOIN athlete PR ON PR.id_country=CN.id GROUP BY CN.label#LANG# ORDER BY 2 DESC LIMIT 10";
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -74,8 +74,8 @@ private static final long serialVersionUID = 1L;
 		    	params.add(sport);
 		    	params.add(count);
 		    	params.add(offset);
-		    	params.add("_" + lang);
-		    	StringBuffer html = HtmlConverter.convertLastUpdates(DatabaseManager.callFunctionSelect("_last_updates", params, LastUpdateBean.class), sport, count, offset, getLocale(request));
+		    	params.add(ResourceUtils.getLocaleParam(lang));
+		    	StringBuffer html = HtmlConverter.convertLastUpdates(DatabaseManager.callFunction("_last_updates", params, LastUpdateBean.class), sport, count, offset, getLocale(request));
 		    	ServletHelper.writeHtmlResponse(request, response, html, getLocale(request));
 			}
 			else if (hParams.containsKey("randomevent")) { // Random Event
@@ -86,8 +86,8 @@ private static final long serialVersionUID = 1L;
 				lReport.add(REPORT_QUERY1);
 				lReport.add(REPORT_QUERY2);
 				int index = Integer.parseInt(String.valueOf(hParams.get("report")));
-				String lang_ = (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");				
-				List<Object[]> list = (List<Object[]>) DatabaseManager.executeSelect(lReport.get(index).replaceAll("#LANG#", lang_));
+				String langParam = ResourceUtils.getLocaleParam(lang);				
+				List<Object[]> list = (List<Object[]>) DatabaseManager.executeSelect(lReport.get(index).replaceAll("#LANG#", langParam));
 				StringBuffer sb1 = new StringBuffer();
 				StringBuffer sb2 = new StringBuffer();
 				for (Object[] t : list) {

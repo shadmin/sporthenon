@@ -263,7 +263,7 @@ public class HtmlConverter {
 		}
 		else if (type == HEADER_OLYMPICS_INDIVIDUAL) {
 			String olId = String.valueOf(lstParams.get(0));
-			String sql = "SELECT YR.label || CT.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "") + ") "
+			String sql = "SELECT YR.label || CT.label" + ResourceUtils.getLocaleParam(lang) + ") "
 					+ " FROM olympics OL "
 					+ " JOIN year YR ON YR.id_year = OL.id_year "
 					+ " JOIN city CT ON CT.id_city = CT.id_city "
@@ -287,7 +287,7 @@ public class HtmlConverter {
 		else if (type == HEADER_OLYMPICS_COUNTRY) {
 			String olId = String.valueOf(lstParams.get(0));
 			String cnId = String.valueOf(lstParams.get(1));
-			String sql = "SELECT YR.label || CT.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "") + ") "
+			String sql = "SELECT YR.label || CT.label" + ResourceUtils.getLocaleParam(lang) + ") "
 					+ " FROM olympics OL "
 					+ " JOIN year YR ON YR.id_year = OL.id_year "
 					+ " JOIN city CT ON CT.id_city = CT.id_city "
@@ -454,8 +454,8 @@ public class HtmlConverter {
 		final int MAX_WINREC = 10;
 		List<Object> params = new ArrayList<Object>();
 		params.add(results);
-		params.add("_" + lang);
-		Collection<RefItem> list = (Collection<RefItem>) DatabaseManager.callFunctionSelect("win_records", params, RefItem.class);
+		params.add(ResourceUtils.getLocaleParam(lang));
+		Collection<RefItem> list = (Collection<RefItem>) DatabaseManager.callFunctionSelect("win_records", params, RefItem.class, "count1 DESC, label");
 		StringBuffer html = new StringBuffer();
 		html.append("<table id='winrec' class='winrec'><thead><tr><th colspan='3'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("win.records", lang), false) + "</th></tr></thead><tbody class='tby'>");
 		int max = -1;
@@ -493,7 +493,7 @@ public class HtmlConverter {
 			if (e.getLink() != null && e.getLink() >= 0) {
 				Athlete e_ = (Athlete) DatabaseManager.loadEntity(Athlete.class, e.getLink());
 				String wId = "(-1" + (e_ != null && e_.getId() > 0 ? "," + e_.getId() : "") + (e_ != null && e_.getLink() > 0 ? "," + e_.getLink() : "") + (e.getId() > 0 ? "," + e.getId() : "") + (e.getLink() > 0 ? "," + e.getLink() : "") + ")";
-				lAthlete.addAll((List<Athlete>)DatabaseManager.executeSelect("SELECT * FROM athlete WHERE id IN " + wId + " OR link IN " + wId + " ORDER BY id", Athlete.class));
+				lAthlete.addAll((List<Athlete>)DatabaseManager.executeSelect(Athlete.query + " WHERE T.id IN " + wId + " OR T.link IN " + wId + " ORDER BY T.id", Athlete.class));
 				id = lAthlete.get(0).getId();
 			}
 			else
@@ -602,7 +602,7 @@ public class HtmlConverter {
 			if (e.getLink() != null && e.getLink() >= 0) {
 				City e_ = (City) DatabaseManager.loadEntity(City.class, e.getLink());
 				String wId = "(-1" + (e_ != null && e_.getId() > 0 ? "," + e_.getId() : "") + (e_ != null && e_.getLink() > 0 ? "," + e_.getLink() : "") + (e.getId() > 0 ? "," + e.getId() : "") + (e.getLink() > 0 ? "," + e.getLink() : "") + ")";
-				lCity.addAll((List<City>)DatabaseManager.executeSelect("SELECT * FROM city WHERE id IN " + wId + " OR link IN " + wId + " ORDER BY id", City.class));
+				lCity.addAll((List<City>)DatabaseManager.executeSelect(City.query + " WHERE T.id IN " + wId + " OR T.link IN " + wId + " ORDER BY T.id", City.class));
 				id = lCity.get(0).getId();
 			}
 			else
@@ -667,7 +667,7 @@ public class HtmlConverter {
 			if (e.getLink() != null && e.getLink() >= 0) {
 				Complex e_ = (Complex) DatabaseManager.loadEntity(Complex.class, e.getLink());
 				String wId = "(-1" + (e_ != null && e_.getId() > 0 ? "," + e_.getId() : "") + (e_ != null && e_.getLink() > 0 ? "," + e_.getLink() : "") + (e.getId() > 0 ? "," + e.getId() : "") + (e.getLink() > 0 ? "," + e.getLink() : "") + ")";
-				lComplex.addAll((List<Complex>)DatabaseManager.executeSelect("SELECT * FROM complex WHERE id IN " + wId + " OR link IN " + wId + " ORDER BY id", Complex.class));
+				lComplex.addAll((List<Complex>)DatabaseManager.executeSelect(Complex.query + " WHERE T.id IN " + wId + " OR T.link IN " + wId + " ORDER BY T.id", Complex.class));
 				id = lComplex.get(0).getId();
 			}
 			else
@@ -743,7 +743,7 @@ public class HtmlConverter {
 			hInfo.put("admin", ResourceUtils.getText(e.getAdmin() != null && e.getAdmin() ? "yes" : "no", lang));
 			if (StringUtils.notEmpty(e.getSports())) {
 				StringBuffer sb = new StringBuffer();
-				String sql = "SELECT * FROM sport WHERE id IN (" + e.getSports() + ") ORDER BY label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
+				String sql = "SELECT * FROM sport WHERE id IN (" + e.getSports() + ") ORDER BY label" + ResourceUtils.getLocaleParam(lang);
 				for (Sport sp : (List<Sport>) DatabaseManager.executeSelect(sql, Sport.class))
 					sb.append(HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_SMALL, null, null), sp.getLabel(lang)));
 				hInfo.put("entity.SP", sb.toString());	
@@ -910,7 +910,7 @@ public class HtmlConverter {
 			params.add(0);
 			params.add("0");
 			params.add(r.getId());
-			params.add("_" + lang);
+			params.add(ResourceUtils.getLocaleParam(lang));
 			List<ResultsBean> list = (List<ResultsBean>) DatabaseManager.callFunction("get_results", params, ResultsBean.class);
 			if (list != null && !list.isEmpty()) {
 				ResultsBean bean = list.get(0);
@@ -980,7 +980,7 @@ public class HtmlConverter {
 				html.append("</ul>");
 			}
 			// Other events
-			String l_ = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
+			String l_ = "label" + ResourceUtils.getLocaleParam(lang);
 			String sql = "SELECT RS.id, RS." + (r.getSubevent2() != null ? "id_subevent2" : (r.getSubevent() != null ? "id_subevent" : "id_event")) + ", EV." + l_ + ", EV.label, EV.index, II.id, RS.comment, RS.date2 FROM result RS";
 			sql += " LEFT JOIN event EV ON RS." + (r.getSubevent2() != null ? "id_subevent2" : (r.getSubevent() != null ? "id_subevent" : "id_event")) + "=EV.id LEFT JOIN _inactive_item II ON (RS.id_sport = II.id_sport AND RS.id_championship = II.id_championship AND RS.id_event = II.id_event AND (RS.id_subevent = II.id_subevent OR RS.id_subevent IS NULL) AND (RS.id_subevent2 = II.id_subevent2 OR RS.id_subevent2 IS NULL))";
 			sql += " WHERE RS.id_year = " + r.getYear().getId() + " AND RS.id_sport = " + r.getSport().getId() + " AND RS.id_championship = " + r.getChampionship().getId();
@@ -1021,8 +1021,8 @@ public class HtmlConverter {
 				}
 			}
 			// Other years
-			sql = "SELECT id, YR.label, comment, date2 FROM result RS "
-					+ " JOIN year YR ON YR.id_year = RS.id_year "
+			sql = "SELECT RS.id, YR.label, comment, date2 FROM result RS "
+					+ " JOIN year YR ON YR.id = RS.id_year "
 					+ " WHERE id_sport = " + r.getSport().getId() + " AND id_championship = " + r.getChampionship().getId() + " AND id_event = " + r.getEvent().getId() + (r.getSubevent() != null ? " AND id_subevent = " + r.getSubevent().getId() : "") + (r.getSubevent2() != null ? " AND id_subevent2 = " + r.getSubevent2().getId() : "") + " ORDER BY RS.id_year, RS.id";
 			l = (List<Object[]>) DatabaseManager.executeSelect(sql);
 			if (l != null && l.size() > 1) {
@@ -1062,7 +1062,7 @@ public class HtmlConverter {
 			// Rounds
 			params = new ArrayList<Object>();
 			params.add(id);
-			params.add("_" + lang);
+			params.add(ResourceUtils.getLocaleParam(lang));
 			List<RoundsBean> lRounds = (List<RoundsBean>) DatabaseManager.callFunction("get_rounds", params, RoundsBean.class);
 			if (lRounds != null && !lRounds.isEmpty()) {
 				StringBuffer rdlistHtml = new StringBuffer();
@@ -1221,10 +1221,10 @@ public class HtmlConverter {
 			}
 			params.add(y + (m < 10 ? "0" : "") + m + "01");
 			params.add(id);
-			params.add("_" + lang);
+			params.add(ResourceUtils.getLocaleParam(lang));
 			int n = 0;
 			StringBuffer sb = new StringBuffer();
-			for (RefItem item : (Collection<RefItem>) DatabaseManager.callFunctionSelect("get_calendar_results", params, RefItem.class)) {
+			for (RefItem item : (Collection<RefItem>) DatabaseManager.callFunctionSelect("get_calendar_results", params, RefItem.class, "entity DESC, date2 DESC")) {
 				String event = "<a href='" + HtmlUtils.writeURL("/results", item.getIdRel2() + "-" + item.getIdRel3() + (item.getIdRel4() != null ? "-" + item.getIdRel4() : "") + (item.getIdRel5() != null ? "-" + item.getIdRel5() : "") + (item.getIdRel18() != null ? "-" + item.getIdRel18() : ""), item.getLabelRel12() + "/" + item.getLabelRel13() + (item.getIdRel4() != null ? "/" + item.getLabelRel14() : "") + (item.getIdRel5() != null ? "/" + item.getLabelRel15() : "") + (item.getIdRel18() != null ? "/" + item.getLabelRel16() : "")) + "'>" + (item.getLabelRel3() + (item.getIdRel4() != null ? " " + StringUtils.SEP1 + " " + item.getLabelRel4() : "") + (item.getIdRel5() != null ? " " + StringUtils.SEP1 + " " + item.getLabelRel5() : "") + (item.getIdRel18() != null ? " " + StringUtils.SEP1 + " " + item.getLabelRel18() : "")) + "</a>";
 				if (StringUtils.notEmpty(item.getTxt5()))
 					event += " [" + item.getTxt5() + "]";
@@ -1247,7 +1247,7 @@ public class HtmlConverter {
 			StringWriter sw = new StringWriter();
 			params = new ArrayList<Object>();
 			params.add("WHERE SP.id=" + id);
-			params.add("_" + lang);
+			params.add(ResourceUtils.getLocaleParam(lang));
 			HtmlConverter.convertTreeArray(DatabaseManager.callFunctionSelect("tree_results", params, TreeItem.class), sw, true, lang);
 			hInfo.put("tree", "<div class='treediv'><div id='treeview' class='collapsed'><table cellpadding='0' cellspacing='0'><tr><td>\r\n<script type='text/javascript'><!--\r\nvar " + sw.toString() + "new Tree(treeItems, treeTemplate);\r\n--></script>\r\n</td></tr></table></div></div>");
 		}
@@ -1273,7 +1273,7 @@ public class HtmlConverter {
 			if (e.getLink() != null && e.getLink() >= 0) {
 				Team e_ = (Team) DatabaseManager.loadEntity(Team.class, e.getLink());
 				String wId = "(-1" + (e_ != null && e_.getId() > 0 ? "," + e_.getId() : "") + (e_ != null && e_.getLink() > 0 ? "," + e_.getLink() : "") + (e.getId() > 0 ? "," + e.getId() : "") + (e.getLink() > 0 ? "," + e.getLink() : "") + ")";
-				lTeam.addAll((List<Team>)DatabaseManager.executeSelect("SELECT * FROM team WHERE id IN " + wId + " OR link IN " + wId + " ORDER BY year1 desc, label", Team.class));
+				lTeam.addAll((List<Team>)DatabaseManager.executeSelect(Team.query + " WHERE T.id IN " + wId + " OR T.link IN " + wId + " ORDER BY T.year1 desc, T.label", Team.class));
 				id = lTeam.get(0).getId();
 			}
 			else
@@ -1363,7 +1363,7 @@ public class HtmlConverter {
 			if (!cRecord.isEmpty())
 				hInfo.put("record", HtmlUtils.writeRecordItems(cRecord, lang));
 			// Retired Numbers
-			List<RetiredNumber> lRn = (List<RetiredNumber>) DatabaseManager.executeSelect("SELECT * FROM retired_number WHERE id_team = ? ORDER BY number", Arrays.asList(e.getId()), RetiredNumber.class);
+			List<RetiredNumber> lRn = (List<RetiredNumber>) DatabaseManager.executeSelect(RetiredNumber.query + " WHERE T.id_team = ? ORDER BY T.number", Arrays.asList(e.getId()), RetiredNumber.class);
 			if (lRn != null && !lRn.isEmpty()) {
 				StringBuffer sb = new StringBuffer();
 				for (RetiredNumber rn : lRn) {
@@ -1373,7 +1373,7 @@ public class HtmlConverter {
 				hInfo.put("entity.RN", sb.toString());
 			}
 			// Team Stadiums
-			List<TeamStadium> lTs = (List<TeamStadium>) DatabaseManager.executeSelect("SELECT * FROM team_stadium WHERE id_team = ? order by date1 desc", Arrays.asList(e.getId()), TeamStadium.class);
+			List<TeamStadium> lTs = (List<TeamStadium>) DatabaseManager.executeSelect(TeamStadium.query + " WHERE T.id_team = ? ORDER BY T.date1 DESC", Arrays.asList(e.getId()), TeamStadium.class);
 			if (lTs != null && !lTs.isEmpty()) {
 				StringBuffer sb = new StringBuffer();
 				for (TeamStadium ts : lTs) {
@@ -1393,7 +1393,7 @@ public class HtmlConverter {
 				hInfo.put("entity.TS", sb.toString());
 			}
 			// Wins/Losses
-			List<WinLoss> lWl = (List<WinLoss>) DatabaseManager.executeSelect("SELECT * FROM win_loss WHERE id_team = ?", Arrays.asList(e.getId()), WinLoss.class);
+			List<WinLoss> lWl = (List<WinLoss>) DatabaseManager.executeSelect(WinLoss.query + " WHERE T.id_team = ?", Arrays.asList(e.getId()), WinLoss.class);
 			if (lWl != null && !lWl.isEmpty()) {
 				StringBuffer sb = new StringBuffer();
 				for (WinLoss wl : lWl)
@@ -1415,7 +1415,7 @@ public class HtmlConverter {
 			StringWriter sw = new StringWriter();
 			List<Object> params = new ArrayList<Object>();
 			params.add("YR.id=" + id);
-			params.add("_" + lang);
+			params.add(ResourceUtils.getLocaleParam(lang));
 			HtmlConverter.convertTreeArray(DatabaseManager.callFunctionSelect("tree_months", params, TreeItem.class), sw, false, lang);
 			hInfo.put("tree", "<div class='treediv'><div id='treeview' class='collapsed'><table cellpadding='0' cellspacing='0'><tr><td><script type='text/javascript'>var " + sw.toString() + "new Tree(treeItems, treeTemplate);</script></td></tr></table></div></div>");
 		}

@@ -338,7 +338,7 @@ public class DatabaseManager {
 				co.setIdContributor(cb.getId());
 				co.setType(isAdd ? 'A' : 'U');
 				co.setDate(currentDate);
-				executeUpdate("INSERT INTO _contribution ...");
+				executeUpdate("INSERT INTO _contribution ..."); //TODO
 			}
 			catch (NoSuchMethodException e) {}
 		}
@@ -384,9 +384,9 @@ public class DatabaseManager {
 			final String table = (String) class_.getField("table").get(null);
 			final String key = (String) class_.getField("key").get(null);
 			final String sql = "SELECT " + 
-					(alias.equals(Athlete.alias) ? "firstName || ' ' || lastName" : 
+					(alias.equals(Athlete.alias) ? "first_name || ' ' || last_name" : 
 					(alias.equals(Contributor.alias) ? "login" : 
-					(alias.equals(Olympics.alias) ? "city.label || ' ' || year.label" :
+					(alias.equals(Olympics.alias) ? "CT.label || ' ' || YR.label" : //TODO le join
 					"label"))) +
 					" FROM " + table + " WHERE " + key + " = ?";
 			results = (List<String>) executeSelect(sql, Arrays.asList(id), String.class);

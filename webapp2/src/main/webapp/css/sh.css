@@ -55,6 +55,22 @@ ul{
 li{
 	vertical-align: top;
 }
+table{
+	border-collapse: collapse;
+}
+th, td{
+	text-align: left;
+	padding: 3px;
+	border: 1px solid #CCC;
+	vertical-align: middle;
+}
+th{
+	font-weight: bold;
+	background-color: #EEE;
+}
+table.noborder, table.noborder th, table.noborder td{
+	border: none;
+}
 .fieldset{
 	background: #FFF;
 	text-align: left;
@@ -63,40 +79,6 @@ li{
 	margin-top: 10px;
 	margin-bottom: 0px;
 	width: auto;
-}
-.fieldset .fstitle{
-	font-weight: bold;
-	border-bottom: 1px solid gray;
-	background-color: #c0e2fc;
-	padding: 4px;
-	padding-left: 23px;
-	background-position: 3px center;
-	background-repeat: no-repeat;
-}
-.fieldset .fscontent{
-	padding: 8px;
-}
-.fscontent table{
-	width: 100%;
-	border-collapse: collapse;
-}
-.fscontent th, .fscontent td{
-	text-align: left;
-	padding: 3px;
-	border: 1px solid #CCC;
-	border-collapse: collapse;
-	vertical-align: middle;
-}
-.fscontent th{
-	font-weight: bold;
-	background-color: #EEE;
-}
-.fieldset .fscontent ul{
-	margin: 5px;
-	padding-left: 20px;
-}
-.fieldset .fscontent li{
-	list-style-image: url(../img/bullet.gif);
 }
 .legend{
 	margin-top: -12px;
@@ -177,10 +159,6 @@ select.disabled{
 #menutop #mthome{
 	background: url(../img/menu/home.png) left 0 no-repeat;
 }
-#menutop #mtproject{
-	background: url(../img/menu/project.png) left 0 no-repeat;
-	margin-right: 7px;
-}
 #menutop #mtfavorites{
 	background: url(../img/menu/favorites.png?7) left 0 no-repeat;
 }
@@ -230,8 +208,8 @@ select.disabled{
 	border: 1px solid #000;
 }
 #logo{
-	width: 135px;
-	margin-top: 16px;
+	width: 140px;
+	margin-top: 15px;
 	margin-bottom: 20px;
 	text-align: center;
 }
@@ -263,7 +241,7 @@ select.disabled{
 	font-weight: bold;
 	text-decoration: none;
 	padding: 5px;
-	padding-top: 25px;
+	padding-top: 26px;
 	border: 1px solid #AAA;
 	border-radius: 5px;
 	background-color: #FAFAFA;
@@ -311,21 +289,8 @@ select.disabled{
 	background-color: #ddc126;
 }
 #flags{
-	width: 145px;
+	width: 140px;
 	text-align: center;
-}
-#sharesite{
-	text-align: center;
-	font: 11px Verdana;
-	margin-top: 30px;
-}
-#android{
-	text-align: center;
-	margin-top: 25px;
-}
-#sharesite table{
-	margin-left: auto;
-	margin-right: auto;
 }
 #footer img{
 	border: none;
@@ -339,7 +304,7 @@ select.disabled{
 	padding-top: 2px;
 	margin-bottom: 10px;
 	font: 11px Verdana;
-	color: #CCC;
+	color: #888;
 }
 #content{
 	font: 12px Verdana;
@@ -361,68 +326,6 @@ select.disabled{
 	padding: 0px;
 	margin-left: 0px;
 	border: 0px solid transparent;
-}
-#dupdates{
-	text-align: center;
-}
-#dupdates tr:hover td{
-	background-color: #FFA;
-}
-#dupdates td{
-	background-color: #FFF;
-	padding: 0px 3px;
-}
-#dupdates td td, #dupdates td th, #dupdates td td td{
-	padding: 1px 0px;
-	vertical-align: middle;
-}
-#dupdates td td td{
-	padding-top: 3px;
-}
-#dupdates td table{
-	width: auto;
-}
-#dupdates td th, #dupdates td td{
-	border: none;
-	background-color: transparent;
-}
-#dupdates td th img{
-	padding: 1px;
-	padding-right: 3px;
-	vertical-align: middle;
-}
-#dupdates th.sorted{
-	border: 2px solid #555;
-	padding: 0px 3px;
-	padding-right: 20px;
-	background-color: #CFCFCF;
-}
-#dupdates .moreitems td{
-	padding: 0px;
-	background-color: #FFF;
-}
-#dupdates tr.moreitems:hover td{
-	background-color: transparent;
-}
-#dupdates .moreitems div{
-	background: transparent url(../img/render/more4.gif) 0 0 no-repeat;
-}
-#dupdates .moreitems div:hover{
-	background-color: #FFA;
-}
-#dupdates .details{
-	line-height: 30px;
-	margin-top: 5px;
-}
-#dupdates-opts{
-	width: auto;
-	margin-bottom: 5px;
-}
-#dupdates-opts td{
-	border: none;
-}
-#dupdates-opts tr:hover td{
-	background-color: #FFF;
 }
 #footer{
 	height: 50px;
@@ -559,7 +462,7 @@ select.disabled{
     overflow: hidden;
     width: 100%;
 }
-#buttons .button, .toolbar .button, #logindiv .button, .update .button{
+#buttons .button, .update .toolbar .button, #login .button, .update .button{
 	height: 25px;
 	margin: 0px;
 	background-color: #E5E5E5;
@@ -575,7 +478,7 @@ select.disabled{
 #buttons #bright .button, .toolbar .button{
 	margin-left: 2px;
 }
-#buttons .button:hover, .toolbar .button:hover, #logindiv .button:hover, .update .button:hover{
+#buttons .button:hover, .toolbar .button:hover, #login .button:hover, .update .button:hover{
 	color: #FFF;
 	background-color: #444;
 }
@@ -627,103 +530,35 @@ select.disabled{
   ========== HOME ========== 
   ==========================*/
 #home{
-	margin-left: 10px;
-	margin-right: 10px;
-	margin-bottom: 10px;
+	margin: 5px;
 }
-.homecontent .fieldset .fstitle{
-	font-weight: bold;
-	border-bottom: 1px solid gray;
-	background-color: #c0e2fc;
-	padding: 5px;
-	padding-left: 23px;
-	padding-bottom: 4px;
-	background-position: 4px 4px;
-	background-repeat: no-repeat;
-}
-.homecontent .fieldset .fscontent{
+#home .homepanel, #login .loginpanel{
+	margin: 5px;
+	border-radius: 7px;
+	border: 2px solid #DFDFDF;
 	padding: 10px;
+	padding-top: 3px;
 }
-.homecontent #topics table{
-	width: auto;
-	margin-top: 6px;
-	border-collapse: separate;
-}
-.homecontent #topics td{
-	width: 90px;
-	min-width: 90px;
+#home .homepanel .hometitle, #login .loginpanel .logintitle{
+	padding: 5px;
+	padding-bottom: 3px;
+	margin-bottom: 10px;
+	font: 16px Georgia;
 	font-weight: bold;
-	padding: 5px;
-	padding-left: 25px;
-	border: 1px solid #DDD;
-	cursor: pointer;
-	background-color: #FFF;
-	background-position: 6px center;
-	background-repeat: no-repeat;
-	white-space: nowrap;
+	border-bottom: 2px solid #BBB;
 }
-.homecontent #topics td:hover{
-	color: #FFF;
-	border: 1px solid #000;
-}
-.homecontent #topics td.results{
-	background-image:url(../img/menu/dbresults.png);
-}
-.homecontent #topics td.results:hover{
-	background-color: #389f47;
-}
-.homecontent #topics td.olympics{
-	background-image:url(../img/menu/dbolympics.png);
-}
-.homecontent #topics td.olympics:hover{
-	background-color: #1482c5;
-}
-.homecontent #topics td.calendar{
-	background-image:url(../img/menu/dbcalendar.png);
-}
-.homecontent #topics td.calendar:hover{
-	background-color: #f47322;
-}
-.homecontent #topics td.usleagues{
-	background-image:url(../img/menu/dbusleagues.png);
-}
-.homecontent #topics td.usleagues:hover{
-	background-color: #de1f26;
-}
-.homecontent #topics td.search{
-	background-image:url(../img/menu/dbsearch.png);
-}
-.homecontent #topics td.search:hover{
-	background-color: #ddc126;
-}
-.homecontent #topics #details{
-	border: none;
-	width: auto;
-	font-weight: normal;
-	padding: 5px;
-	padding-left: 15px;
-	background: transparent url(../img/render/more2.gif) left center no-repeat;
-}
-.homecontent #randomevent{
-	width: auto;
-	margin-top: 5px;
-	margin-bottom: 0px;
-}
-.homecontent #randomevent td{
-	border: none;
-}
-.homecontent #sports{
+.homepanel #sports{
 	margin-top: 8px;
 	overflow: auto;
 }
-.homecontent .slider .arrow{
+.homepanel .slider .arrow{
 	padding-top: 52px;
 }
-.homecontent .slider .slider-control{
+.homepanel .slider .slider-control{
 	padding: 45px 0px;
 	padding-top: 52px;
 }
-.homecontent #sports div.sport{
+.homepanel #sports div.sport{
 	float: left;
 	width: 105px;
 	height: 115px;
@@ -736,48 +571,92 @@ select.disabled{
 	background-position: center top;
 	background-repeat: no-repeat;
 }
-.homecontent #sports div.sport:hover{
+.homepanel #sports div.sport:hover{
 	border: 1px solid #000;
-	background-color: #FFA;
+	background-color: #FFC;
 }
-.homecontent #sports div.sport a{
+.homepanel #sports div.sport a{
 	display: block;
 	padding-top: 100px;
 	color: #000;
 }
-.homecontent #sports div.sport a:hover{
+.homepanel #sports div.sport a:hover{
 	text-decoration: none;
 }
-.homecontent h3{
-	margin: 0px;
-}
-.homecontent .info{
-	background-image: url(../img/iconfav.png);
-}
-.homecontent .statistics{
-	background-image: url(../img/project/statistics.png);
-}
-.homecontent .lastupdates{
-	background-image: url(../img/updates.png);
-}
-#home .stat{
+.homepanel .stat{
 	width: 60px;
 	text-align: right;
 }
-#home #chart{
+.homepanel #chart{
 	width: 720px;
 	height: 400px;
 	vertical-align: top;
 	padding: 5px;
 }
-#home .fscontent ul{
-	list-style: none;
-	margin: 0px;
-	padding-left: 0px;
+#dupdates{
+	text-align: center;
 }
-#home .fscontent li{
-	display: inline-block;
-	list-style-image: none;
+#dupdates #tlast{
+	width: 100%;
+}
+#dupdates tr:hover td{
+	background-color: #FFC;
+}
+#dupdates td{
+	background-color: #FFF;
+	padding: 0px 3px;
+}
+#dupdates td td, #dupdates td th, #dupdates td td td{
+	padding: 1px 0px;
+	vertical-align: middle;
+}
+#dupdates td td td{
+	padding-top: 3px;
+}
+#dupdates td table{
+	width: auto;
+}
+#dupdates td th, #dupdates td td{
+	border: none;
+	background-color: transparent;
+}
+#dupdates td th img{
+	padding: 1px;
+	padding-right: 3px;
+	vertical-align: middle;
+}
+#dupdates th.sorted{
+	padding: 0px 3px;
+	padding-right: 20px;
+	border-color: #444;
+	background-color: #666;
+	color: #FFF;
+}
+#dupdates .moreitems td{
+	padding: 0px;
+	background-color: #FFF;
+}
+#dupdates tr.moreitems:hover td{
+	background-color: transparent;
+}
+#dupdates .moreitems div{
+	background: transparent url(../img/render/more4.gif) 0 0 no-repeat;
+}
+#dupdates .moreitems div:hover{
+	background-color: #FFC;
+}
+#dupdates .details{
+	line-height: 30px;
+	margin-top: 5px;
+}
+#dupdates-opts{
+	margin-bottom: 5px;
+}
+#dupdates-opts td{
+	border: none;
+}
+#dupdates-opts tr:hover td{
+	background-color: #FFF;
 }
 /*=============================
   ========== RESULTS ========== 
@@ -1109,7 +988,7 @@ select.disabled{
 	padding-left: 3px;
 	width: 350px;
 }
-#search .pattern input, #headertop .pattern input, #logindiv input{
+#search .pattern input, #headertop .pattern input, #login input{
 	border: 1px solid #CCC;
 	font-size: 13px;
 	padding: 2px;
@@ -1133,61 +1012,6 @@ select.disabled{
 #search td{
 	border: none;
 	padding: 0px;
-}
-/*=============================
-  ========== PROJECT ========== 
-  =============================*/
-#project{
-	margin-left: 10px;
-	margin-right: 10px;
-	margin-bottom: 10px;
-}
-#project .left{
-	width: 49%;
-	padding-right: 5px;
-}
-#project .right{
-	float: right;
-	width: 50%;
-	padding-left: 5px;
-}
-.contributors{
-	background-image: url(../img/project/contributors.png);
-}
-.github{
-	background-image: url(../img/project/github.png);
-}
-.statistics{
-	background-image: url(../img/project/statistics.png);
-}
-.android{
-	background-image: url(../img/project/android.png);
-}
-.technicalinfo{
-	background-image: url(../img/project/technicalinfo.png);
-}
-#project th table{
-	width: auto;
-	margin: auto;
-}
-#project th td{
-	border: none;
-}
-#project img{
-	vertical-align: middle;
-}
-#project .left tr:hover td{
-	background-color: #FFA;
-}
-#project #screenshots{
-	width: 0%;
-	margin-top: 10px;	
-}
-#project #screenshots td{
-	border: none;
-}
-#project #screenshots img{
-	width: 100px;
 }
 /*================================
   ========== CONTRIBUTE ========== 
@@ -1217,30 +1041,29 @@ select.disabled{
 /*===========================
   ========== LOGIN ========== 
   ===========================*/
-#logindiv{
+#login{
 	text-align: center;
 }
-#logindiv .loginmsg{
+#login .loginpanel{
+	margin: 10px auto;
+}
+#login .loginpanel table{
+	margin: 0px auto;
+}
+#login .loginmsg{
 	font-weight: bold;
 	color: #F00;
 }
-#logindiv .fieldset, #logindiv .fieldset table{
-	margin-left: auto;
-	margin-right: auto;
-}
-#logindiv .fieldset table{
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-#logindiv th{
+#login th{
 	text-align: right;
 	font-weight: normal;
+	background-color: #FFF;
 }
-#logindiv td{
+#login td{
 	text-align: left;
 	padding: 3px;
 }
-#logindiv input[type=text]:focus, #logindiv input[type=password]:focus{
+#login input[type=text]:focus, #login input[type=password]:focus{
 	border: 1px solid #D00;
 }
 .mandatory{
@@ -1252,10 +1075,10 @@ select.disabled{
 	font-weight: bold;
 	margin-top: 10px;
 }
-#logindiv .success{
+#login .success{
 	color: green;
 }
-#logindiv .error{
+#login .error{
 	color: #F00;
 }
 .loginsports{
@@ -1293,14 +1116,26 @@ select.disabled{
 .update .toolbar{
 	 position: absolute;
 	 width: auto;
-	 top: 60px;
-	 right: 12px;
-}
-.update .toolbar .baroptions table{
-	border-spacing: 0px;
+	 top: 45px;
+	 right: 14px;
 }
 .update .fieldset{
 	margin-top: 50px;
+	padding: 0px;
+}
+.update .fieldset .fstitle{
+	display: block;
+	font-weight: bold;
+	border-bottom: 1px solid gray;
+	background-color: #444;
+	color: #FFF;
+	padding: 4px;
+	padding-left: 23px;
+	background-position: 3px center;
+	background-repeat: no-repeat;
+}
+.update .fieldset .fscontent{
+	padding: 8px;
 }
 .update #prevbtn{
 	background-image: url('../img/component/button/previous.png');
@@ -1876,7 +1711,7 @@ select.disabled{
 	font: 12px Verdana;
 }
 .dialog .fstitle {
-	background-color: #005090;
+	background-color: #444;
 	color: #FFF;
 }
 #d-error .fstitle{
@@ -1923,7 +1758,7 @@ select.disabled{
 	color: #FFF;
 	background-color: #444;
 }
-.dialog .dlgbuttons .ok, .optcontainer .ok, #logindiv .ok{
+.dialog .dlgbuttons .ok, .optcontainer .ok, #login .ok{
 	background-image: url('../img/component/button/ok.png');
 }
 .dialog .dlgbuttons .cancel, .optcontainer .cancel{
@@ -1997,26 +1832,8 @@ select.disabled{
 /*=============================
   ========== TOOLBAR ========== 
   =============================*/
-#toolbar .add, .toolbar .add{
-	background-image: url('../img/component/button/add.png');
-}
-#toolbar .modify, .toolbar .modify{
-	background-image: url('../img/component/button/modify.png');
-}
-#toolbar .share, .toolbar .share{
-	background-image: url('../img/component/button/share.png');
-}
-#toolbar .export, .toolbar .export{
-	background-image: url('../img/component/button/export.png');
-}
-#buttons .link, .toolbar .link{
-	background-image: url('../img/component/button/link.png');
-}
-#buttons .print, .toolbar .print{
-	background-image: url('../img/component/button/print.png');
-}
-#buttons .info2, .toolbar .info2{
-	background-image: url('../img/component/button/info.png');
+.toolbar .button{
+	padding-left: 5px;
 }
 #buttons .calendarspan, .toolbar .calendarspan{
 	background-image: url('../img/db/calendar-span.png');

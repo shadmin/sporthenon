@@ -3,7 +3,7 @@
 <properties>
 	<entry key="version">1.1.0</entry>
 	<entry key="date">06/04/2021</entry>
-	<entry key="url">http://localhost:8080/</entry>
+	<entry key="url">http://localhost/</entry>
 	<entry key="bucket.name">sh_bucket</entry>
 	<entry key="bucket.folder">shimg</entry>
 	<entry key="font.folder">c:/windows/fonts/</entry>

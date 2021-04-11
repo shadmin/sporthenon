@@ -18,7 +18,7 @@ public class RetiredNumber extends AbstractEntity {
 	public static final transient String table 	= "retired_number";
 	public static final transient String key 	= "id";
 	public static final transient String query 	= "SELECT T.*, LG.label AS lg_label, TM.label AS tm_label, "
-			+ " PR.last_name AS pr_last__name, PR.first_name AS pr_first_name, YR.label AS yr_label "
+			+ " PR.last_name AS pr_last_name, PR.first_name AS pr_first_name, YR.label AS yr_label "
 			+ " FROM retired_number T LEFT JOIN league LG ON LG.id = T.id_league "
 			+ " LEFT JOIN team TM ON TM.id = T.id_team"
 			+ " LEFT JOIN athlete PR ON PR.id = T.id_person"

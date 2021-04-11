@@ -5,8 +5,8 @@ public class ContributorBean {
 	private Integer id;
 	private String login;
 	private String name;
-	private Integer countA;
-	private Integer countU;
+	private Long countA;
+	private Long countU;
 	private String sports;
 	private String sportsFR;
 	
@@ -34,19 +34,19 @@ public class ContributorBean {
 		this.name = name;
 	}
 
-	public Integer getCountA() {
+	public Long getCountA() {
 		return countA;
 	}
 
-	public Integer getCountU() {
+	public Long getCountU() {
 		return countU;
 	}
 
-	public void setCountA(Integer countA) {
+	public void setCountA(Long countA) {
 		this.countA = countA;
 	}
 
-	public void setCountU(Integer countU) {
+	public void setCountU(Long countU) {
 		this.countU = countU;
 	}
 

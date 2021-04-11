@@ -59,7 +59,7 @@ public class FunctionTest extends TestCase {
 		params.add(String.valueOf("19120201"));
 		params.add(StringUtils.toInt(0));
 		params.add(String.valueOf("_fr"));
-		Collection col = DatabaseManager.callFunctionSelect("get_calendar_results", params, RefItem.class);
+		Collection col = DatabaseManager.callFunctionSelect("get_calendar_results", params, RefItem.class, "entity DESC, date2 DESC");
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
 		List<Object> lst = new ArrayList<Object>(col);

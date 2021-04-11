@@ -11,7 +11,7 @@
 <%
 	Contributor cb = (Contributor) session.getAttribute("user");
 	String lang = String.valueOf(session.getAttribute("locale"));
-	String label = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
+	String label = "label" + ResourceUtils.getLocaleParam(lang);
 	StringBuffer sbSport = new StringBuffer();
 	StringBuffer sbChampionship = new StringBuffer();
 	StringBuffer sbEvent = new StringBuffer();
@@ -23,7 +23,7 @@
 	for (PicklistItem plb : DatabaseManager.getPicklist(sql, null)) {
 		sbChampionship.append("<option value='" + plb.getValue() + "'>" + plb.getText() + "</option>");
 	}
-	sql = "SELECT EV.id, EV." + label + ", TP." + label + " FROM event EV JOIN type TP ON TP.id_type = EV.id_type ORDER BY " + label;
+	sql = "SELECT EV.id, EV." + label + ", TP." + label + " FROM event EV JOIN type TP ON TP.id = EV.id_type ORDER BY EV." + label;
 	for (PicklistItem plb : DatabaseManager.getPicklist(sql, null)) {
 		sbEvent.append("<option value='" + plb.getValue() + "'>" + plb.getText() + " (" + plb.getParam() + ")" + "</option>");
 	}

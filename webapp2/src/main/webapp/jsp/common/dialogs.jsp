@@ -3,7 +3,7 @@
 <!-- Account Confirm -->
 <div id="d-accountconf" class="dialog" style="display:none;">
 <div class="fieldset">
-	<div class="fstitle"><%=StringUtils.text("dialog.accountconf", session).toUpperCase()%></div>
+	<div class="fstitle"><%=StringUtils.text("dialog.accountconf", session)%></div>
 	<div class="fscontent"><%=StringUtils.text("msg.registered", session)%><br/><br/><a href='javascript:' onclick='rauth()'><%=StringUtils.text("menu.login", session)%></a></div>
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dAccountConf);"/></div>
 </div>
@@ -11,7 +11,7 @@
 <!-- Report Error -->
 <div id="d-error" class="dialog" style="display:none;">
 <div class="fieldset">
-	<div class="fstitle"><%=StringUtils.text("report.error", session).toUpperCase()%></div>
+	<div class="fstitle"><%=StringUtils.text("report.error", session)%></div>
 	<div class="fscontent"><%=StringUtils.text("page.address", session)%>:<br/><input id="errlinkurl" disabled="disabled" style="width:650px;margin-top:3px;"/><br/><br/>
 	<%=StringUtils.text("error.description", session)%>:<br/><textarea id="errlinktext" rows="10" cols="80" style="width:650px;margin-top:3px;"></textarea></div>
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="saveError();"/><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dError);"/></div>
@@ -26,7 +26,7 @@
 <!-- Link -->
 <div id="d-link" class="dialog" style="display:none;">
 <div class="fieldset">
-	<div class="fstitle"><%=StringUtils.text("dialog.link", session).toUpperCase()%></div>
+	<div class="fstitle"><%=StringUtils.text("dialog.link", session)%></div>
 	<div class="fscontent"><%=StringUtils.text("direct.address", session)%>:<br/><input id="linktxt" type="text" readonly="readonly" onclick="this.select();"/><br/>(<%=StringUtils.text("use.ctrl.C", session)%>)</div>
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dLink);"/></div>
 </div>
@@ -34,9 +34,10 @@
 <!-- Info -->
 <div id="d-info" class="dialog" style="display:none;">
 <div class="fieldset">
-	<div class="fstitle"><%=StringUtils.text("dialog.info", session).toUpperCase()%></div>
-	<div class="fscontent"><%=StringUtils.text("info.statistics", session)%>:<table style="width:750px;margin-top:8px;">
-		<tr><th style="width:150px;"><%=StringUtils.text("address", session)%></th><td></td></tr><tr><th><%=StringUtils.text("size", session)%></th><td></td></tr>
+	<div class="fstitle"><%=StringUtils.text("dialog.info", session)%></div>
+	<div class="fscontent">
+	<table style="width:450px;margin-top:8px;">
+		<tr><th><%=StringUtils.text("size", session)%></th><td></td></tr>
 		<tr><th><%=StringUtils.text("display.time", session)%></th><td></td></tr><tr><th><%=StringUtils.text("pictures", session)%></th><td></td></tr>
 		<tr><th><%=StringUtils.text("language", session)%></th><td></td></tr><tr><th><%=StringUtils.text("last.update", session)%></th><td></td></tr>
 	</table></div>
@@ -95,7 +96,7 @@
 <!-- Find -->
 <div id="d-find" class="dialog" style="display:none;">
 <div class="fieldset">
-	<div class="fstitle"><%=StringUtils.text("find", session).toUpperCase()%></div>
+	<div class="fstitle"><%=StringUtils.text("find", session)%></div>
 	<div class="fscontent"><input type="text" id="fpattern" onkeydown="if(event.keyCode==13){searchEntity();}"/><div id="fresults"></div></div>
 	<div class="dlgbuttons"><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dFind);"/></div>
 </div>
@@ -103,7 +104,7 @@
 <!-- Confirm -->
 <div id="d-question" class="dialog" style="display:none;">
 <div class="fieldset">
-	<div class="fstitle"><%=StringUtils.text("confirm", session).toUpperCase()%></div>
+	<div class="fstitle"><%=StringUtils.text("confirm", session)%></div>
 	<div class="fscontent"><div id="confirmtxt"></div></div>
 	<div class="dlgbuttons"><input type="button" class="button cancel" value="<%=StringUtils.text("no", session)%>" onclick="closeDialog(dQuestion);"/><input id="confirmbtn" type="button" class="button ok" value="<%=StringUtils.text("yes", session)%>"/></div>
 </div>
@@ -111,7 +112,7 @@
 <!-- Comment -->
 <div id="d-comment" class="dialog" style="display:none;">
 <div class="fieldset">
-	<div class="fstitle"><%=StringUtils.text("comment", session).toUpperCase()%></div>
+	<div class="fstitle"><%=StringUtils.text("comment", session)%></div>
 	<div class="fscontent"><table>
 		<tr><td><img alt="EN" src="/img/header/lang-en.png"/> <%=StringUtils.text("comment", session)%> (EN)</td></tr>
 		<tr><td><textarea id="cmt-en" cols="100" rows="6" style="width:750px;"></textarea></td></tr>

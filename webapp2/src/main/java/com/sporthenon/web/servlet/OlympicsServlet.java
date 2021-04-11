@@ -76,14 +76,14 @@ public class OlympicsServlet extends AbstractServlet {
 					params.add(StringUtils.notEmpty(mapParams.get("ev")) ? String.valueOf(mapParams.get("ev")) : "0");
 					params.add(StringUtils.notEmpty(mapParams.get("se")) ? String.valueOf(mapParams.get("se")) : "0");
 					params.add(StringUtils.notEmpty(mapParams.get("se2")) ? String.valueOf(mapParams.get("se2")) : "0");
-					params.add("_" + lang);
+					params.add(ResourceUtils.getLocaleParam(lang));
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_OLYMPICS_INDIVIDUAL, params, getUser(request), lang);
 					html.append(HtmlConverter.convertOlympicMedals(request, DatabaseManager.callFunction("get_olympic_medals", params, OlympicMedalsBean.class), lang));
 				}
 				else if (type.equals(TYPE_COUNTRY)) {
 					params.add(StringUtils.notEmpty(mapParams.get("ol")) ? String.valueOf(mapParams.get("ol")) : "0");
 					params.add(StringUtils.notEmpty(mapParams.get("cn")) ? String.valueOf(mapParams.get("cn")) : "0");
-					params.add("_" + lang);
+					params.add(ResourceUtils.getLocaleParam(lang));
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_OLYMPICS_COUNTRY, params, getUser(request), lang);
 					html.append(HtmlConverter.convertOlympicRankings(request, DatabaseManager.callFunction("get_olympic_rankings", params, OlympicRankingsBean.class), lang));
 				}
@@ -102,7 +102,7 @@ public class OlympicsServlet extends AbstractServlet {
 				String type = String.valueOf(mapParams.get("type"));
 				List<Object> params = new ArrayList<Object>();
 				params.add("WHERE CP.id=1 AND SP.type=" + (type.equals(TYPE_SUMMER) ? 1 : 0) + (!ol.equals("0") ? " AND OL.id IN (" + ol + ")" : ""));
-				params.add("_" + lang);
+				params.add(ResourceUtils.getLocaleParam(lang));
 				response.setCharacterEncoding("utf-8");
 				HtmlConverter.convertTreeArray(DatabaseManager.callFunctionSelect("tree_results", params, TreeItem.class), response.getWriter(), false, lang);
 				response.flushBuffer();
@@ -113,16 +113,16 @@ public class OlympicsServlet extends AbstractServlet {
 				Collection<PicklistItem> items = new ArrayList<PicklistItem>();
 				String plId = null;
 				if (mapParams.containsKey(PICKLIST_ID_COUNTRY)) {
-					String sql = "SELECT DISTINCT CN.id, CN.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "") + " FROM olympic_ranking OR_"
+					String sql = "SELECT DISTINCT CN.id, CN.label" + ResourceUtils.getLocaleParam(lang) + " FROM olympic_ranking OR_"
 						+ " LEFT JOIN country CN ON OR_.id_country = CN.id"
 						+ (!ol.equals("0") ? " WHERE OR_.id_olympics IN (" + ol + ")" : "")
-						+ " ORDER BY CN.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
+						+ " ORDER BY CN.label" + ResourceUtils.getLocaleParam(lang);
 					items.add(new PicklistItem(0, "--- " + ResourceUtils.getText("all.countries", lang) + " ---"));
 					items.addAll(DatabaseManager.getPicklist(sql, null));
 					plId = type + "-" + PICKLIST_ID_COUNTRY;
 				}
 				else {
-					String label = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
+					String label = "label" + ResourceUtils.getLocaleParam(lang);
 					String sql = "SELECT OL.id, YR.label || ' - ' || CT." + label
 						+ " FROM olympics OL JOIN year YR ON YR.id = OL.id_year JOIN city CT ON CT.id = OL.id_city "
 						+ " WHERE OL.type = " + (type.equals(TYPE_SUMMER) ? 1 : 0) + " ORDER BY YR.id desc";

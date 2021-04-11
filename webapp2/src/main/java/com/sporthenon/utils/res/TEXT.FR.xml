@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <!-- HEADER -->
-	<entry key="title">SPORTHENON – Le temple des résultats sportifs</entry>
+	<entry key="title">Sporthenon | Le temple des résultats sportifs</entry>
 	<entry key="desc">Base de données de résultats sportifs (gratuite et ouverte aux contributeurs)</entry>
 	<entry key="keywords">sport, résultats sportifs, base de données, records, jeux olympiques</entry>
 	<entry key="menu.results">PALMARÈS</entry>
@@ -36,7 +36,7 @@
 	<entry key="kb">Ko</entry>
 	<entry key="seconds">secondes</entry>
 	<entry key="actions.currenttab">Actions sur l'onglet courant</entry>
-	<entry key="button.run">LANCER LA RECHERCHE</entry>
+	<entry key="button.run">Lancer la recherche</entry>
 	<entry key="button.reset">Réinitialiser</entry>
 	<entry key="button.add">Ajouter</entry>
 	<entry key="button.modify">Modifier</entry>
@@ -198,10 +198,10 @@
 	<entry key="info.snow">Neige</entry>
 	<entry key="info.tarmac">Asphalte</entry>
 	<entry key="back.top">Haut de page</entry>
-	<entry key="dialog.accountconf">COMPTE CRÉÉ</entry>
-	<entry key="dialog.export">EXPORTER</entry>
-	<entry key="dialog.link">LIEN</entry>
-	<entry key="dialog.info">INFOS</entry>
+	<entry key="dialog.accountconf">Compte créé</entry>
+	<entry key="dialog.export">Exporter</entry>
+	<entry key="dialog.link">Lien</entry>
+	<entry key="dialog.info">Infos</entry>
 	<entry key="count">Nombre</entry>
 	<entry key="select.format">Sélectionner un format</entry>
 	<entry key="web.page">Page HTML</entry>
@@ -211,7 +211,6 @@
 	<entry key="plain.text">Texte</entry>
 	<entry key="direct.address">Adresse directe vers cette page</entry>
 	<entry key="use.ctrl.C">Utilisez Ctrl+C ou clic droit/copier</entry>
-	<entry key="info.statistics">Informations/Statistiques sur cette page</entry>
 	<entry key="address">Adresse</entry>
 	<entry key="size">Taille</entry>
 	<entry key="pictures">Images</entry>
@@ -245,7 +244,7 @@
 	<entry key="next">Suivant</entry>
 	<entry key="all">Tout</entry>
 	<entry key="details">Détails</entry>
-	<entry key="last.update">Dernière mise à jour</entry>
+	<entry key="last.update">Dernière mise à jour sur cette page</entry>
 	<entry key="wikipedia">Wikipédia</entry>
 	<entry key="extlink.others">Autres</entry>
 	<entry key="extlink.federation">Fédération Internationale</entry>
@@ -304,15 +303,18 @@
 	<entry key="language">Langue</entry>
 	<entry key="reported.on">Signalée le</entry>
 <!-- HOME -->
-	<entry key="title.presentation">PRÉSENTATION</entry>
-	<entry key="title.last.results">DERNIERS RÉSULTATS</entry>
-	<entry key="title.statistics">STATISTIQUES</entry>
-	<entry key="sporthenon.welcome"><![CDATA[Bienvenue sur <a href="project">SPORTHENON</a>, le temple des résultats sportifs !]]></entry>
+	<entry key="title.presentation">Présentation</entry>
+	<entry key="title.access.sport">Accès direct par sport</entry>
+	<entry key="title.random.event">Epreuve au hasard</entry>
+	<entry key="title.share">Partager</entry>
+	<entry key="title.mobile.app">Application mobile</entry>
+	<entry key="title.last.results">Derniers résultats</entry>
+	<entry key="title.statistics">Statistiques</entry>
+	<entry key="sporthenon.welcome"><![CDATA[Bienvenue sur SPORTHENON, le temple des résultats sportifs !]]></entry>
 	<entry key="sporthenon.desc"><![CDATA[Sporthenon est une base de données sportive gratuite et <a href="contribute">ouverte aux contributeurs</a>]]></entry>
 	<entry key="site.topics">Rubriques du site</entry>
-	<entry key="access.sport">Accès direct par sport</entry>
-	<entry key="share.on">Partager sur</entry>
 	<entry key="desc.results">Palmarès complets classés par sport / championnat / épreuve</entry>
+	<entry key="desc.browse">Parcourir la base de données avec une arborescence</entry>
 	<entry key="desc.calendar">Calendrier des épreuves par semaine / mois / année</entry>
 	<entry key="desc.olympics">Podiums et tableaux de médailles des Jeux Olympiques d'hiver et d'été</entry>
 	<entry key="desc.usleagues">Page spécifique aux 4 ligues majeures US (NFL / NBA / NHL / MLB)</entry>
@@ -322,7 +324,6 @@
 	<entry key="desc.login">Se connecter pour ajouter/modifier des données</entry>
 	<entry key="report.1">Résultats par sport</entry>
 	<entry key="report.2">Athlètes par pays</entry>
-	<entry key="random.event">Epreuve au hasard</entry>
 	<entry key="filter.sport">Filtrer par sport</entry>
 <!-- RESULTS -->
 	<entry key="sport">Sport</entry>
@@ -391,10 +392,6 @@
 	<entry key="places">Lieux</entry>
 	<entry key="sports">Sports</entry>
 <!-- PROJECT/CONTRIBUTE -->
-	<entry key="downloads">TÉLÉCHARGEMENTS</entry>
-	<entry key="contributors">CONTRIBUTEURS</entry>
-	<entry key="statistics">STATISTIQUES</entry>
-	<entry key="technical.info">INFORMATIONS TECHNIQUES</entry>
 	<entry key="download.last">Télécharger la dernière version</entry>
 	<entry key="download.previous">Versions précédentes</entry>
 	<entry key="step">ÉTAPE</entry>
@@ -405,7 +402,6 @@
 	<entry key="download.admin">Programme d'administration</entry>
 	<entry key="change.log">Log des changements</entry>
 	<entry key="report.bug">Rapporter un bug</entry>
-	<entry key="github.desc">Le projet et ses codes source sont hébergés sur GitHub</entry>
 	<entry key="programming">Programmation</entry>
 	<entry key="db.hosting"><![CDATA[Base de données &amp; Hébergement]]></entry>
 	<entry key="about.contribution">À PROPOS DE LA CONTRIBUTION</entry>
@@ -419,8 +415,8 @@
 	<entry key="msg.login.err4">Merci de sélectionner au maximum {1} sports.</entry>
 	<entry key="msg.registered">Votre compte a été créé.</entry>
 	<entry key="msg.logout">Vous avez été déconnecté.</entry>
-	<entry key="title.authentication">AUTHENTIFICATION</entry>
-	<entry key="title.createaccount">PAS ENREGISTRÉ ? CRÉER UN COMPTE</entry>
+	<entry key="title.authentication">Authentification</entry>
+	<entry key="title.createaccount">Créer un compte</entry>
 	<entry key="loginid">Identifiant</entry>
 	<entry key="password">Mot de passe</entry>
 	<entry key="confirm.password">Confirmer le mot de passe</entry>

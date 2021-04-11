@@ -57,7 +57,7 @@ public class SearchServlet extends AbstractServlet {
 				params.add(".");
 				params.add((short)LIMIT);
 				params.add(false);
-				params.add("_" + lang);
+				params.add(ResourceUtils.getLocaleParam(lang));
 				StringBuffer html = new StringBuffer("<ul>");
 				Collection<RefItem> list = (Collection<RefItem>) DatabaseManager.callFunctionSelect("search", params, RefItem.class, "count_ref DESC", "10");
 				for (Object obj : list) {
@@ -100,9 +100,9 @@ public class SearchServlet extends AbstractServlet {
 				params.add(scope);
 				params.add(max);
 				params.add(match);
-				params.add("_" + lang);
+				params.add(ResourceUtils.getLocaleParam(lang));
 				StringBuffer html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_SEARCH, params, getUser(request), lang);
-				html.append(HtmlConverter.convertSearch(request, DatabaseManager.callFunctionSelect("search", params, RefItem.class, null, max), String.valueOf(mapParams.get("pattern")), lang));
+				html.append(HtmlConverter.convertSearch(request, DatabaseManager.callFunctionSelect("search", params, RefItem.class, "count_ref DESC", max), String.valueOf(mapParams.get("pattern")), lang));
 					
 				// Load HTML results or export
 				HtmlUtils.setHeadInfo(request, html.toString());

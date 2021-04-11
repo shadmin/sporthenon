@@ -9,7 +9,7 @@
 	<div style="float:right;text-align:right;">
 		<img alt="top" onclick="backTop();" style="cursor:pointer;" title="<%=StringUtils.text("back.top", session)%>" src="/img/top.png"/>
 		<a target="_blank" title="Valid XHTML 1.1" href="http://validator.w3.org/check?uri=referer"><img src="/img/header/validxhtml11.png" alt="Valid XHTML 1.1"/></a>
-		<div id="version">Version <%=ConfigUtils.getProperty("version")%></div>
+		<div id="version">v<%=ConfigUtils.getProperty("version")%></div>
 	</div>
 	&copy;2011-<%=Calendar.getInstance().get(Calendar.YEAR)%> (sporthenon.com)<br/><br/>
 	<span style="color:#888;">

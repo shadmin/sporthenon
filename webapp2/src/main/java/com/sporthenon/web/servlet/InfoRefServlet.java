@@ -18,6 +18,7 @@ import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.StringUtils;
+import com.sporthenon.utils.res.ResourceUtils;
 import com.sporthenon.web.HtmlConverter;
 import com.sporthenon.web.ServletHelper;
 
@@ -66,7 +67,7 @@ public class InfoRefServlet extends AbstractServlet {
 				params_.add(params.length > 2 ? params[2] : "");
 				params_.add(params.length > 3 ? params[3] : ConfigUtils.getValue("default_ref_limit"));
 				params_.add(params.length > 4 ? StringUtils.toInt(params[4]) : 0);
-				params_.add("_" + lang);
+				params_.add(ResourceUtils.getLocaleParam(lang));
 				if (isExport) {
 					params_.set(3, "1000");
 					params_.set(4, 0);
@@ -79,22 +80,24 @@ public class InfoRefServlet extends AbstractServlet {
 						throw new RemovedEntityException("Entity removed: " + params[0] + "-" + id);
 					}
 					params_.add(ri.substring(0, ri.indexOf("</span>")).replaceFirst(".*title'\\>", ""));
-					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_REF, params_, getUser(request), lang));
+					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_REF, params_, getUser(request), ResourceUtils.getLocaleParam(lang)));
 					html.append(ri);
 					params_.remove(6);
 				}
 
 				// References
 				if (!isResult1) {
-					html.append(HtmlConverter.getRecordRef(request, params_, DatabaseManager.callFunctionSelect("entity_ref", params_, RefItem.class), isExport, getUser(request), lang));
+					html.append(HtmlConverter.getRecordRef(request, params_, DatabaseManager.callFunctionSelect("entity_ref", params_, RefItem.class), isExport, getUser(request), ResourceUtils.getLocaleParam(lang)));
 				}
 
 				// Load HTML results or export
 				HtmlUtils.setHeadInfo(request, html.toString());
-				if (isExport)
+				if (isExport) {
 					ExportUtils.export(response, html, String.valueOf(hParams.get("export")), lang);
-				else
+				}
+				else {
 					ServletHelper.writePageHtml(request, response, html, lang, hParams.containsKey("print"));
+				}
 			}
 		}
 		catch (EmptyIdException e) {

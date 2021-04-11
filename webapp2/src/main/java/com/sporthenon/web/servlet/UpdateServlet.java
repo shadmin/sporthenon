@@ -220,7 +220,7 @@ public class UpdateServlet extends AbstractServlet {
 		hTable.put("wl", "WinLoss");
 		String alias = (String) Class.forName("com.sporthenon.db.entity." + hTable.get(field)).getField("alias").get(null);
 		String labelHQL = "T.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !field.matches("cx|pl1|pl2|lg|tm|yr|complex|league|team|year") ? "_" + lang : "");
-		String l_ = "label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
+		String l_ = "label" + ResourceUtils.getLocaleParam(lang);
 		String whereHQL = "";
 		String joins = "";
 		if (field.matches(Athlete.alias.toLowerCase() + "|athlete|person")) {
@@ -769,7 +769,7 @@ public class UpdateServlet extends AbstractServlet {
 	
 	private static void dataTips(HttpServletResponse response, Map<?, ?> params, String lang, Contributor cb) throws Exception {
 		try {
-			String lang_ = (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) ? "_" + lang : "");
+			String lang_ = ResourceUtils.getLocaleParam(lang);
 			StringBuffer html = new StringBuffer("<table>");
 			HashMap<String, String> hSql = new HashMap<String, String>();
 			hSql.put("team", "SELECT TM.label, SP.label" + lang_ + " FROM team JOIN sport SP ON SP.id = TM.id_sport ORDER BY 1");
@@ -802,9 +802,9 @@ public class UpdateServlet extends AbstractServlet {
 			params_.add(0);
 			params_.add(0);
 		}
-		params_.add("_" + lang);
+		params_.add(ResourceUtils.getLocaleParam(lang));
 		String currentEntity = null;
-		for (RefItem item : (List<RefItem>) DatabaseManager.callFunctionSelect("_overview", params_, RefItem.class)) {
+		for (RefItem item : (List<RefItem>) DatabaseManager.callFunctionSelect("_overview", params_, RefItem.class, "id")) {
 			if (currentEntity == null || !item.getEntity().equals(currentEntity)) {
 				if (currentEntity != null)
 					html.append("</tbody></table>");
@@ -1436,7 +1436,7 @@ public class UpdateServlet extends AbstractServlet {
 				// External links
 				StringBuffer sbLinks = new StringBuffer();
 				try {
-					List<ExternalLink> list = (List<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link WHERE entity = ? and id_item = ? ORDER BY id", Arrays.asList(Result.alias, rs.getId()), Result.class);
+					List<ExternalLink> list = (List<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link WHERE entity = ? and id_item = ? ORDER BY id", Arrays.asList(Result.alias, rs.getId()), ExternalLink.class);
 					for (ExternalLink link : list)
 						sbLinks.append(link.getUrl()).append("|");
 				}
@@ -1615,7 +1615,7 @@ public class UpdateServlet extends AbstractServlet {
 			String exl = null;
 			if (alias.matches(Athlete.alias + "|" + Championship.alias + "|" + City.alias + "|" + Complex.alias + "|" + Country.alias + "|" + Event.alias + "|" + Olympics.alias + "|" + Sport.alias + "|" + State.alias + "|" + Team.alias)) {
 				StringBuffer sbexl = new StringBuffer();
-				for (ExternalLink exl_ : (Collection<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link WHERE entity = ? AND id_item = ? ORDER BY id", Arrays.asList(alias, id), ExternalLink.class))
+				for (ExternalLink exl_ : (Collection<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link WHERE entity = ? AND id_item = ? ORDER BY id", Arrays.asList(alias, Integer.valueOf(id)), ExternalLink.class))
 					sbexl.append(exl_.getUrl()).append("\r\n");
 				exl = sbexl.toString();
 			}
@@ -2331,7 +2331,7 @@ public class UpdateServlet extends AbstractServlet {
 		try {
 			List<Object> params_ = new ArrayList<Object>();
 			params_.add(cb != null && !cb.isAdmin() ? " where SP.id in (" + cb.getSports() + ")" : "");
-			params_.add("_" + lang.toLowerCase());
+			params_.add(ResourceUtils.getLocaleParam(lang));
 			Collection<Object> coll = (Collection<Object>) DatabaseManager.callFunctionSelect("tree_results", params_, TreeItem.class);
 			StringBuffer sb = new StringBuffer();
 			List<Object> lst = new ArrayList<Object>(coll);

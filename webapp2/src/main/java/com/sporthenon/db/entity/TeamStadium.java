@@ -19,9 +19,14 @@ public class TeamStadium extends AbstractEntity {
 	public static final transient String alias 	= "TS";
 	public static final transient String table 	= "team_stadium";
 	public static final transient String key 	= "id";
-	public static final transient String query 	= "SELECT T.*, LG.label AS lg_label, TM.label AS tm_label "
-			+ " FROM win_loss T LEFT JOIN league LG ON LG.id = T.id_league "
-			+ " LEFT JOIN team TM ON TM.id = T.id_team";
+	public static final transient String query 	= "SELECT T.*, LG.label AS lg_label, TM.label AS tm_label, CX.label AS cx_label,"
+			+ " CT.id AS cx_id_city, CT.label AS cx_ct_label, CT.label_fr AS cx_ct_label_fr,"
+			+ " CN.id AS cx_ct_id_country, CN.label AS cx_ct_cn_label, CN.label_fr AS cx_ct_cn_label_fr, CN.code AS cx_ct_cn_code "
+			+ " FROM team_stadium T LEFT JOIN league LG ON LG.id = T.id_league "
+			+ " LEFT JOIN team TM ON TM.id = T.id_team"
+			+ " LEFT JOIN complex CX ON CX.id = T.id_complex"
+			+ " LEFT JOIN city CT ON CT.id = CX.id_city"
+			+ " LEFT JOIN country CN ON CN.id = CT.id_country";
 	
 	public TeamStadium() {}
 	
