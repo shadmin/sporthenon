@@ -93,10 +93,13 @@ public class DatabaseManager {
 		return new HikariDataSource(config);
 	}
 
-	private static Map<String, Method> getEntityMethods(Class<?> entity) {
+	private static Map<String, Method> getEntityMethods(Class<?> entity, String prefix) {
 		Map<String, Method> mapMethods = new HashMap<>();
 		for (Method method : entity.getDeclaredMethods()) {
-			mapMethods.put(method.getName().toLowerCase(), method);
+			if (method.getName().startsWith(prefix)
+					&& (!"get".equals(prefix) || method.getParameterTypes() == null || method.getParameterTypes().length == 0)) {
+				mapMethods.put(method.getName().toLowerCase(), method);	
+			}
 		}
 		return mapMethods;
 	}
@@ -109,7 +112,7 @@ public class DatabaseManager {
 				results.add(rs.getObject(1));
 			}
 			else {
-				Map<String, Method> mapMethods = getEntityMethods(class_);
+				Map<String, Method> mapMethods = getEntityMethods(class_, "set");
 				Map<String, Object> mapValues = new HashMap<>();
 				Object obj = class_.getConstructor().newInstance();
 				for (int j = 1 ; j <= metadata.getColumnCount() ; j++) {
@@ -301,44 +304,90 @@ public class DatabaseManager {
 		return loadEntity(class_, id_);
 	}
 	
-	public static void executeUpdate(final String sql) throws Exception {
+	public static Integer executeUpdate(final String sql, Collection<?> params) throws Exception {
+		Integer id = null;
 		try (Connection conn = pool.getConnection()) {
- 			try (Statement st = conn.createStatement();) {
- 				st.executeUpdate(sql);
+ 			try (PreparedStatement ps = conn.prepareStatement(sql);) {
+ 				int i = 1;
+ 				if (params != null) {
+ 					for (Object param : params) {
+ 	 					ps.setObject(i++, param);
+ 	 				}	
+ 				}
+ 				if (sql.matches("^(INSERT|UPDATE).*")) {
+ 					ResultSet rs = ps.executeQuery();
+ 	 				rs.next();
+ 	 				id = rs.getInt(1);
+ 				}
+ 				else {
+ 					ps.executeUpdate();
+ 				}
  			}
  		}
  		catch (Exception e) {
  			log.log(Level.SEVERE, "Error occured with PSQL SELECT '" + sql + "'", e);
  		}
+		return id;
 	}
 	
 	public static Object saveEntity(Object o, Contributor cb) throws Exception {
 		final Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+		final String table = (String) o.getClass().getField("table").get(null);
+		final String key = (String) o.getClass().getField("key").get(null);
+		final String cols = (String) o.getClass().getField("cols").get(null);
 		final Object id = o.getClass().getMethod("getId").invoke(o);
 		final boolean isAdd = (id == null);
-		if (cb != null) {
-			Metadata md = null;
-			if (isAdd) {
-				md = new Metadata();
-				md.setFirstUpdate(currentDate);
-			}
-			else
-				md = (Metadata) o.getClass().getMethod("getMetadata").invoke(o);
-			md.setContributor(cb);		
-			md.setLastUpdate(currentDate);
-			o.getClass().getMethod("setMetadata", Metadata.class).invoke(o, md);
+		final boolean isMetadata = (cb != null);
+
+		// Get params for query
+		Map<String, Method> mapMethods = getEntityMethods(o.getClass(), "get");
+		List<Object> params = new ArrayList<>();
+		String[] tcols = cols.split("\\,");
+		for (int i = 0 ; i < tcols.length ; i++) {
+			Method method = mapMethods.get("get" + tcols[i].replaceAll("\\_", ""));
+			Object value = method.invoke(o);
+			params.add(value);
 		}
+		if (isMetadata) {
+			params.add(cb.getId());
+			params.add(currentDate);
+			if (isAdd) {
+				params.add(currentDate);
+			}
+		}
+		
+		// Write SQL query
+		String sql;
+		if (isAdd) {
+			sql = "INSERT INTO " + table + " (" + key + "," + cols + (isMetadata ? "," + Metadata.cols : "") + ") "
+					+ "VALUES (NEXTVAL('" + (table.startsWith("_") ? "_" : "") + "s_" + table + "'),"
+					+ StringUtils.repeat("?", tcols.length + (isMetadata ? 3 : 0), ",") + ")";
+		}
+		else {
+			sql = "UPDATE " + table + " SET ";
+			for (int i = 0 ; i < tcols.length ; i++) {
+				tcols[i] += " = ?";
+			}
+			sql += StringUtils.join(Arrays.asList(tcols), ",");
+			if (isMetadata) {
+				sql += ", id_contributor = ?, last_update = ?";
+			}
+			sql += " WHERE " + key + " = ?";
+			params.add(id);
+		}
+		sql += " RETURNING id";
+		Integer newId = executeUpdate(sql, params);
+		o.getClass().getMethod("setId", Integer.class).invoke(o, newId);
 
 		// Create contribution item
 		if (o instanceof Result && cb != null) {
 			try {
-				Object newId = o.getClass().getMethod("getId").invoke(o);
 				Contribution co = new Contribution();
-				co.setIdItem(StringUtils.toInt(newId));
+				co.setIdItem(newId);
 				co.setIdContributor(cb.getId());
 				co.setType(isAdd ? 'A' : 'U');
 				co.setDate(currentDate);
-				executeUpdate("INSERT INTO _contribution ..."); //TODO
+				saveEntity(co, null);
 			}
 			catch (NoSuchMethodException e) {}
 		}
@@ -349,12 +398,13 @@ public class DatabaseManager {
 		final String table = (String) o.getClass().getField("table").get(null);
 		final String key = (String) o.getClass().getField("key").get(null);
 		final Object id = (Object) o.getClass().getMethod("getId").invoke(o);
-		executeUpdate("DELETE FROM " + table + "WHERE " + key + " = " + id);
+		String sql = "DELETE FROM " + table + " WHERE " + key + " = ?";
+		executeUpdate(sql, Arrays.asList(id));
 	}
 	
 	public static void saveExternalLinks(String alias, Integer id, String s) {
 		try {
-			executeUpdate("DELETE FROM _external_link WHERE entity = '" + alias + "' AND id_item = " + id);
+			executeUpdate("DELETE FROM _external_link WHERE entity = ? AND id_item = ?", Arrays.asList(alias, id));
 			if (StringUtils.notEmpty(s) && !s.equals("null")) {
 				for (String s_ : s.split("\\s")) {
 					if (StringUtils.notEmpty(s_)) {

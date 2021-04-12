@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -336,7 +337,7 @@ public class JMainFrame extends JFrame {
 						a = (Athlete) DatabaseManager.loadEntity(Athlete.class, a.getLink());
 					en.setLink(a.getId());
 					p.setLinkLabel(" Linked to: [" + a.getLastName() + (StringUtils.notEmpty(a.getFirstName()) ? ", " + a.getFirstName() : "") + (a.getCountry() != null ? ", " + a.getCountry().getCode() : "") + (a.getTeam() != null ? ", " + a.getTeam().getLabel() : "") + "]");
-					DatabaseManager.executeUpdate("UPDATE athlete SET LINK = 0 WHERE id = " + en.getLink());
+					DatabaseManager.executeUpdate("UPDATE athlete SET LINK = 0 WHERE id = ?", Arrays.asList(en.getLink()));
 				}
 				catch (Exception e) {
 					log.log(Level.WARNING, e.getMessage());
@@ -367,7 +368,7 @@ public class JMainFrame extends JFrame {
 						c_ = (City) DatabaseManager.loadEntity(City.class, c_.getLink());
 					en.setLink(c_.getId());
 					p.setLinkLabel(" Linked to: [" + c_.toString2(ResourceUtils.LGDEFAULT) + "]");
-					DatabaseManager.executeUpdate("UPDATE city SET LINK = 0 WHERE ID=" + en.getLink());
+					DatabaseManager.executeUpdate("UPDATE city SET LINK = 0 WHERE ID = ?", Arrays.asList(en.getLink()));
 				}
 				catch (Exception e) {
 					log.log(Level.WARNING, e.getMessage());
@@ -388,7 +389,7 @@ public class JMainFrame extends JFrame {
 						c_ = (Complex) DatabaseManager.loadEntity(Complex.class, c_.getLink());
 					en.setLink(c_.getId());
 					p.setLinkLabel(" Linked to: [" + c_.toString2(ResourceUtils.LGDEFAULT) + "]");
-					DatabaseManager.executeUpdate("UPDATE complex SET LINK = 0 WHERE ID=" + en.getLink());
+					DatabaseManager.executeUpdate("UPDATE complex SET LINK = 0 WHERE ID = ?", Arrays.asList(en.getLink()));
 				}
 				catch (Exception e) {
 					log.log(Level.WARNING, e.getMessage());
@@ -466,7 +467,7 @@ public class JMainFrame extends JFrame {
 						t = (Team) DatabaseManager.loadEntity(Team.class, t.getLink());
 					en.setLink(t.getId());
 					p.setLinkLabel(" Linked to: [" + t.getLabel() + "]");
-					DatabaseManager.executeUpdate("UPDATE team SET LINK = 0 WHERE ID=" + en.getLink());
+					DatabaseManager.executeUpdate("UPDATE team SET LINK = 0 WHERE ID = ?", Arrays.asList(en.getLink()));
 				}
 				catch (Exception e) {
 					log.log(Level.WARNING, e.getMessage());

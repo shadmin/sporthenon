@@ -15,6 +15,7 @@ public class ErrorReport extends AbstractEntity {
 	public static final transient String alias 	= "ER";
 	public static final transient String table 	= "_error_report";
 	public static final transient String key 	= "id";
+	public static final transient String cols 	= "url,text,date";
 	
 	public ErrorReport() {}
 	

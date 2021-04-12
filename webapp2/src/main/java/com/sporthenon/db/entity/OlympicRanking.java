@@ -17,6 +17,7 @@ public class OlympicRanking extends AbstractEntity {
 	public static final transient String alias 	= "OR_";
 	public static final transient String table 	= "olympic_ranking";
 	public static final transient String key 	= "id";
+	public static final transient String cols 	= "id_olympics,id_country,count_gold,count_silver,count_bronze";
 	public static final transient String query 	= "SELECT T.*, YR.id AS ol_id_year, YR.label AS ol_yr_label, "
 			+ " CT.id AS ol_id_city, ct.label AS ol_ct_label, ct.label_fr AS ol_ct_label_fr, "
 			+ " CN.code AS cn_code, CN.label AS cn_label, CN.label_fr AS cn_label_fr "

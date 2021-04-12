@@ -40,11 +40,22 @@
 	<script type="text/javascript" src="/js/prototype.js?v=<%=version%>"></script>
 	<script type="text/javascript" src="/js/includes.js?v=<%=version%>"></script>
 	<script type="text/javascript" src="/js/sh.js?v=<%=version%>"></script>
+	<%if (ConfigUtils.isProd()) {%>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-WN79FCNBJD"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	
+	  gtag('config', 'G-WN79FCNBJD');
+	</script>
+	<%}%>
 </head>
 
 <body>
 <div id="header">
-	<div id="logo"><a href="/" title="<%=StringUtils.text("menu.home", session)%>"><img src="/img/icon.png?v=<%=version%>" alt="sporthenon.com"/></a></div>
+	<div id="logo"><a href="/"><img src="/img/icon.png?v=<%=version%>" alt="sporthenon.com"/></a></div>
 	<div id="shmenu">
 		<ul>
 			<li><a id="shmenu-results" href="/results"><%=StringUtils.text("menu.results.2", session)%></a></li>

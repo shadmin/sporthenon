@@ -10,6 +10,7 @@ public class AllTests {
 		//$JUnit-BEGIN$
 		suite.addTestSuite(EntityTest.class);
 		suite.addTestSuite(FunctionTest.class);
+		suite.addTestSuite(UpdateTest.class);
 		//$JUnit-END$
 		return suite;
 	}

@@ -7,6 +7,8 @@ public class Metadata {
 	private Contributor contributor;
 	private Timestamp 	firstUpdate;
 	private Timestamp 	lastUpdate;
+	
+	public static final transient String cols = "id_contributor,first_update,last_update";
 
 	public Metadata() {
 	}

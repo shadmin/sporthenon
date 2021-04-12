@@ -13,6 +13,7 @@ public class Import extends AbstractEntity {
 	
 	public static final transient String table 	= "_import";
 	public static final transient String key 	= "id";
+	public static final transient String cols = "date,csv_content";
 
 	public Import() {}
 	

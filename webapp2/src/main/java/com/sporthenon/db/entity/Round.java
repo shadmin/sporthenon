@@ -33,6 +33,8 @@ public class Round extends AbstractEntity {
 	public static final transient String alias 	= "RD";
 	public static final transient String table 	= "round";
 	public static final transient String key 	= "id";
+	public static final transient String cols 	= "id_result,id_result_type,id_round_type,id_rank1,result1,id_rank2,result2,"
+			+ "id_rank3,result3,id_rank4,result4,id_rank5,result5,id_city,id_city1,id_city,id_complex1,date1,date2,exa,comment";
 	public static final transient String query 	= "SELECT T.*, "
 			+ " CX1.label AS cx1_label, CT1.label AS ct1_label, CT1.label_fr AS ct1_label_fr, "
 			+ " CX2.label AS cx2_label, CT2.label AS ct2_label, CT2.label_fr AS ct2_label_fr "

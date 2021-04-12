@@ -195,7 +195,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 				sbSitemap.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">").append("\r\n");
 				Collection<Object[]> coll = DatabaseManager.executeSelect(QUERIES.get(3));
 				for (Object[] t : coll) {
-					sbSitemap.append("<url><loc>http://www.sporthenon.com/results/");
+					sbSitemap.append("<url><loc>http://sporthenon.com/results/");
 					sbSitemap.append(StringUtils.urlEscape(t[5] + "/" + t[6] + "/" + t[7] + (t[8] != null ? "/" + t[8] : "") + (t[9] != null ? "/" + t[9] : "")));
 					sbSitemap.append("/" + StringUtils.encode(t[0] + "-" + t[1] + "-" + t[2] + (t[3] != null ? "-" + t[3] : "") + (t[4] != null ? "-" + t[4] : "") + "-0"));
 					sbSitemap.append("</loc><changefreq>monthly</changefreq><priority>0.2</priority>");

@@ -462,7 +462,7 @@ select.disabled{
     overflow: hidden;
     width: 100%;
 }
-#buttons .button, .update .toolbar .button, #login .button, .update .button{
+#buttons .button, .toolbar .button, #login .button, .update .button, .update .toolbar .button{
 	height: 25px;
 	margin: 0px;
 	background-color: #E5E5E5;
@@ -491,6 +491,7 @@ select.disabled{
 	background-image: url('../img/component/button/reset.png');
 }
 #buttons .options{
+	display:none;
 	background-image: url('../img/component/button/options.png');
 }
 /*===============================
@@ -1123,20 +1124,6 @@ select.disabled{
 	margin-top: 50px;
 	padding: 0px;
 }
-.update .fieldset .fstitle{
-	display: block;
-	font-weight: bold;
-	border-bottom: 1px solid gray;
-	background-color: #444;
-	color: #FFF;
-	padding: 4px;
-	padding-left: 23px;
-	background-position: 3px center;
-	background-repeat: no-repeat;
-}
-.update .fieldset .fscontent{
-	padding: 8px;
-}
 .update #prevbtn{
 	background-image: url('../img/component/button/previous.png');
 	background-position: 4px center;
@@ -1710,9 +1697,19 @@ select.disabled{
 .dialog, .dialog input{
 	font: 12px Verdana;
 }
-.dialog .fstitle {
+.dialog .fstitle, .update .fieldset .fstitle{
+	display: block;
+	font-weight: bold;
+	border-bottom: 1px solid gray;
 	background-color: #444;
 	color: #FFF;
+	padding: 4px;
+	padding-left: 23px;
+	background-position: 3px center;
+	background-repeat: no-repeat;
+}
+.dialog  .fscontent, .update .fieldset .fscontent{
+	padding: 8px;
 }
 #d-error .fstitle{
 	background-image: url(../img/project/error.png);

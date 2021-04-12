@@ -19,6 +19,7 @@ public class TeamStadium extends AbstractEntity {
 	public static final transient String alias 	= "TS";
 	public static final transient String table 	= "team_stadium";
 	public static final transient String key 	= "id";
+	public static final transient String cols 	= "id_league,id_team,id_complex,date1,date2,renamed,comment";
 	public static final transient String query 	= "SELECT T.*, LG.label AS lg_label, TM.label AS tm_label, CX.label AS cx_label,"
 			+ " CT.id AS cx_id_city, CT.label AS cx_ct_label, CT.label_fr AS cx_ct_label_fr,"
 			+ " CN.id AS cx_ct_id_country, CN.label AS cx_ct_cn_label, CN.label_fr AS cx_ct_cn_label_fr, CN.code AS cx_ct_cn_code "

@@ -40,11 +40,11 @@ public class InfoRefServlet extends AbstractServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			init(request);
-			HashMap<String, Object> hParams = ServletHelper.getParams(request);
+			HashMap<String, Object> mapParams = ServletHelper.getParams(request);
 			String lang = getLocale(request);
-			String[] params = StringUtils.decode(String.valueOf(hParams.get("p"))).split("-");
+			String[] params = StringUtils.decode(String.valueOf(mapParams.get("p"))).split("-");
 			StringBuffer html = new StringBuffer();
-			boolean isExport = hParams.containsKey("export");
+			boolean isExport = mapParams.containsKey("export");
 			boolean isResult1 = (params[0].equals(Result.alias) && params.length == 3);
 			boolean isResultX = (params[0].equals(Result.alias) && params.length == 2);
 			if (isResultX) {
@@ -93,10 +93,10 @@ public class InfoRefServlet extends AbstractServlet {
 				// Load HTML results or export
 				HtmlUtils.setHeadInfo(request, html.toString());
 				if (isExport) {
-					ExportUtils.export(response, html, String.valueOf(hParams.get("export")), lang);
+					ExportUtils.export(response, html, String.valueOf(mapParams.get("export")), lang);
 				}
 				else {
-					ServletHelper.writePageHtml(request, response, html, lang, hParams.containsKey("print"));
+					ServletHelper.writePageHtml(request, response, html, lang, mapParams.containsKey("print"));
 				}
 			}
 		}

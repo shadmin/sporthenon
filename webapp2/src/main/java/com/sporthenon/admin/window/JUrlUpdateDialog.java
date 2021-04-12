@@ -192,7 +192,7 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 				for (Object o : coll)
 					sbUpdateSql.append(getUrlUpdate(o, msg));
 			}
-			DatabaseManager.executeUpdate(sbUpdateSql.toString());
+			DatabaseManager.executeUpdate(sbUpdateSql.toString(), null);
 		}
 		catch (Exception e_) {
 			log.log(Level.WARNING, e_.getMessage(), e_);

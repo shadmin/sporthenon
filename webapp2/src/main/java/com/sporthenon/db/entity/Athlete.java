@@ -20,6 +20,7 @@ public class Athlete extends AbstractEntity {
 	public static final transient String alias 	= "PR";
 	public static final transient String table 	= "athlete";
 	public static final transient String key 	= "id";
+	public static final transient String cols 	= "last_name,first_name,id_country,id_team,id_sport,link,ref";
 	public static final transient String query 	= "SELECT T.*, CN.code AS cn_code, CN.label AS cn_label, CN.label_fr AS cn_label_fr, "
 			+ " SP.label AS sp_label, SP.label_fr AS sp_label_fr, SP.type AS sp_type, TM.label AS tm_label "
 			+ " FROM athlete T LEFT JOIN country CN ON CN.id = T.id_country "
@@ -121,7 +122,18 @@ public class Athlete extends AbstractEntity {
 	public void setRef(Integer ref) {
 		this.ref = ref;
 	}
+	
+	public Integer getIdCountry() {
+		return (country != null ? country.getId() : null);
+	}
 
+	public Integer getIdTeam() {
+		return (team != null ? team.getId() : null);
+	}
+	public Integer getIdSport() {
+		return (sport != null ? sport.getId() : null);
+	}
+	
 	@Override
 	public String toString() {
 		return lastName + ", " + firstName + (team != null ? ", " + team : "") + (country != null ? ", " + country : "") + (sport != null ? ", " + sport : "") + " [#" + id + "]";

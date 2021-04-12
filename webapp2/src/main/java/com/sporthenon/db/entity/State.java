@@ -18,6 +18,7 @@ public class State extends AbstractEntity {
 	public static final transient String alias 	= "ST";
 	public static final transient String table 	= "state";
 	public static final transient String key 	= "id";
+	public static final transient String cols 	= "code,label,label_fr,capital,ref,no_pic";
 	
 	public State() {}
 	

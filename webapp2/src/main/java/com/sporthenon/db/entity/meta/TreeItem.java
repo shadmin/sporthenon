@@ -13,7 +13,8 @@ public class TreeItem extends AbstractEntity {
 	private Integer level;
 	
 	public static final transient String table 	= "_tree_item";
-	public static final transient String key 		= "id";
+	public static final transient String key 	= "id";
+	public static final transient String cols 	= "id_item,label,label_en,level";
 
 	public TreeItem() {}
 	

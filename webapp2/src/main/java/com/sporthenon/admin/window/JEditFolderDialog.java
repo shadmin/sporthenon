@@ -233,7 +233,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 			String msg = null;
 			boolean err = false;
 			try {
-				DatabaseManager.executeUpdate("ALTER TABLE result DISABLE TRIGGER trigger_rs;");
+				DatabaseManager.executeUpdate("ALTER TABLE result DISABLE TRIGGER trigger_rs", null);
 				Integer sp = SwingUtils.getValue(jSport);
 				Integer c1 = SwingUtils.getValue(jCategory1);
 				Integer c2 = SwingUtils.getValue(jCategory2);
@@ -272,8 +272,8 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 						sql.append(" AND id_subevent=" + t[3]);
 					if (t.length > 4)
 						sql.append(" AND id_subevent2=" + t[4]);
-					DatabaseManager.executeUpdate(sql.toString());
-					DatabaseManager.executeUpdate(sql.toString().replaceAll("Result", "~InactiveItem"));
+					DatabaseManager.executeUpdate(sql.toString(), null);
+					DatabaseManager.executeUpdate(sql.toString().replaceAll("Result", "~InactiveItem"), null);
 					// Keep previous path in folders history (for redirection)
 					String currentParams = sp + (c1 != null && c1 > 0 ? "-" + c1 : "") + (c2 != null && c2 > 0 ? "-" + c2 : "") + (c3 != null && c3 > 0 ? "-" + c3 : "") + (c4 != null && c4 > 0 ? "-" + c4 : "");
 					String currentPath = SwingUtils.getText(jSport) + (c1 != null && c1 > 0 ? "/" + SwingUtils.getText(jCategory1) : "") + (c2 != null && c2 > 0 ? "/" + SwingUtils.getText(jCategory2).replaceAll("\\s\\[.+$", "") : "") + (c3 != null && c3 > 0 ? "/" + SwingUtils.getText(jCategory3).replaceAll("\\s\\[.+$", "") : "") + (c4 != null && c4 > 0 ? "/" + SwingUtils.getText(jCategory4).replaceAll("\\s\\[.+$", "") : "");
@@ -295,7 +295,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 					fh.setDate(new Timestamp(System.currentTimeMillis()));
 					DatabaseManager.saveEntity(fh, null);
 				}
-				DatabaseManager.executeUpdate("ALTER TABLE result ENABLE TRIGGER trigger_rs;");
+				DatabaseManager.executeUpdate("ALTER TABLE result ENABLE TRIGGER trigger_rs", null);
 				msg = "Folders have been updated successfully.";
 			}
 			catch (Exception e_) {

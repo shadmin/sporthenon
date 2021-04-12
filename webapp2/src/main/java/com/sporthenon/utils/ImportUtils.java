@@ -897,7 +897,7 @@ public class ImportUtils {
 				lId = (List<Integer>) DatabaseManager.executeSelect(sql, Arrays.asList(spid), Integer.class);
 				if (lId != null && lId.size() > 0) {
 					a.setLink(lId.get(0));
-					DatabaseManager.executeUpdate("UPDATE athlete SET link=0 WHERE id=" + lId.get(0));
+					DatabaseManager.executeUpdate("UPDATE athlete SET link = 0 WHERE id = ?",  Arrays.asList(lId.get(0)));
 				}
 				if (isCountry || isCountryTeam) { // Country set
 					p = s.indexOf(" (") + 2;

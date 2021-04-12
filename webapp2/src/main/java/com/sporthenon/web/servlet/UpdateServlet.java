@@ -973,7 +973,7 @@ public class UpdateServlet extends AbstractServlet {
 						while (a.getLink() != null && a.getLink() > 0)
 							a = (Athlete) DatabaseManager.loadEntity(Athlete.class, a.getLink());
 						en.setLink(a.getId());
-						DatabaseManager.executeUpdate("UPDATE athlete SET LINK=0 WHERE ID=" + en.getLink());
+						DatabaseManager.executeUpdate("UPDATE athlete SET LINK = 0 WHERE ID = ?", Arrays.asList(en.getLink()));
 					}
 					catch (Exception e) {
 						log.log(Level.WARNING, e.getMessage());
@@ -1012,7 +1012,7 @@ public class UpdateServlet extends AbstractServlet {
 						while (c_.getLink() != null && c_.getLink() > 0)
 							c_ = (City) DatabaseManager.loadEntity(City.class, c_.getLink());
 						en.setLink(c_.getId());
-						DatabaseManager.executeUpdate("UPDATE city SET LINK=0 WHERE ID=" + en.getLink());
+						DatabaseManager.executeUpdate("UPDATE city SET LINK = 0 WHERE ID = ?", Arrays.asList(en.getLink()));
 					}
 					catch (Exception e) {
 						log.log(Level.WARNING, e.getMessage());
@@ -1030,7 +1030,7 @@ public class UpdateServlet extends AbstractServlet {
 						while (c_.getLink() != null && c_.getLink() > 0)
 							c_ = (Complex) DatabaseManager.loadEntity(Complex.class, c_.getLink());
 						en.setLink(c_.getId());
-						DatabaseManager.executeUpdate("UPDATE complex SET LINK=0 WHERE ID=" + en.getLink());
+						DatabaseManager.executeUpdate("UPDATE complex SET LINK = 0 WHERE ID = ?", Arrays.asList(en.getLink()));
 					}
 					catch (Exception e) {
 						log.log(Level.WARNING, e.getMessage());
@@ -1117,7 +1117,7 @@ public class UpdateServlet extends AbstractServlet {
 						while (t.getLink() != null && t.getLink() > 0)
 							t = (Team) DatabaseManager.loadEntity(Team.class, t.getLink());
 						en.setLink(t.getId());
-						DatabaseManager.executeUpdate("UPDATE team SET LINK=0 WHERE ID=" + en.getLink());
+						DatabaseManager.executeUpdate("UPDATE team SET LINK = 0 WHERE ID = ?", Arrays.asList(en.getLink()));
 					}
 					catch (Exception e) {
 						log.log(Level.WARNING, e.getMessage());
@@ -2221,7 +2221,7 @@ public class UpdateServlet extends AbstractServlet {
 					sbUpdateSql.append(getExternalLink(o, sql));
 				}
 			}
-			DatabaseManager.executeUpdate(sbUpdateSql.toString());
+			DatabaseManager.executeUpdate(sbUpdateSql.toString(), null);
 			sbMsg.append(ResourceUtils.getText("update.ok", lang));
 		}
 		catch (Exception e) {
@@ -2374,7 +2374,7 @@ public class UpdateServlet extends AbstractServlet {
 	private static void saveFolders(HttpServletResponse response, Map<?, ?> params, String lang, Contributor cb) throws Exception {
 		StringBuffer sbMsg = new StringBuffer();
 		try {
-			DatabaseManager.executeUpdate("ALTER TABLE result DISABLE TRIGGER trigger_RS;");
+			DatabaseManager.executeUpdate("ALTER TABLE result DISABLE TRIGGER trigger_RS", null);
 			Integer sp = StringUtils.toInt(params.get("sp"));
 			Integer c1 = StringUtils.toInt(params.get("cp"));
 			Integer c2 = StringUtils.toInt(params.get("ev1"));
@@ -2427,8 +2427,8 @@ public class UpdateServlet extends AbstractServlet {
 					sql.append(" AND id_subevent=" + t[3]);
 				if (t.length > 4)
 					sql.append(" AND id_subevent2=" + t[4]);
-				DatabaseManager.executeUpdate(sql.toString());
-				DatabaseManager.executeUpdate(sql.toString().replaceAll("Result", "~InactiveItem"));
+				DatabaseManager.executeUpdate(sql.toString(), null);
+				DatabaseManager.executeUpdate(sql.toString().replaceAll("Result", "~InactiveItem"), null);
 				// Keep previous path in folders history (for redirection)
 				String currentParams = sp + (c1 != null && c1 > 0 ? "-" + c1 : "") + (c2 != null && c2 > 0 ? "-" + c2 : "") + (c3 != null && c3 > 0 ? "-" + c3 : "") + (c4 != null && c4 > 0 ? "-" + c4 : "");
 				String currentPath = splabel + (c1 != null && c1 > 0 ? "/" + cplabel : "") + (c2 != null && c2 > 0 ? "/" + ev1label : "") + (c3 != null && c3 > 0 ? "/" + ev2label : "") + (c4 != null && c4 > 0 ? "/" + ev3label : "");
@@ -2451,7 +2451,7 @@ public class UpdateServlet extends AbstractServlet {
 				fh.setDate(new Timestamp(System.currentTimeMillis()));
 				DatabaseManager.saveEntity(fh, null);
 			}
-			DatabaseManager.executeUpdate("ALTER TABLE result ENABLE TRIGGER trigger_RS;");
+			DatabaseManager.executeUpdate("ALTER TABLE result ENABLE TRIGGER trigger_RS", null);
 			sbMsg.append(ResourceUtils.getText("update.ok", lang));
 		}
 		catch (Exception e) {

@@ -51,18 +51,18 @@ public class ImageServlet extends AbstractServlet {
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			HashMap<String, Object> hParams = ServletHelper.getParams(request);
-			String entity = String.valueOf(hParams.get("entity"));
-			if (hParams.containsKey("upload-photo")) {
-				Object id = hParams.get("id");
-				boolean embedded = String.valueOf(hParams.get("embedded")).equals("1");				
-				String source = String.valueOf(hParams.get("source"));
+			HashMap<String, Object> mapParams = ServletHelper.getParams(request);
+			String entity = String.valueOf(mapParams.get("entity"));
+			if (mapParams.containsKey("upload-photo")) {
+				Object id = mapParams.get("id");
+				boolean embedded = String.valueOf(mapParams.get("embedded")).equals("1");				
+				String source = String.valueOf(mapParams.get("source"));
 				Picture p = new Picture();
 				p.setEntity(entity);
 				p.setIdItem(Integer.parseInt(String.valueOf(id)));
 				p.setSource(StringUtils.notEmpty(source) ? source : null);
 				if (embedded) {
-					String value = String.valueOf(hParams.get("value"));
+					String value = String.valueOf(mapParams.get("value"));
 					value = value/*.replaceFirst("\\\"\\/\\/", "\"http://")*/.replaceFirst("\\&caption\\=true", "");
 					Document doc = Jsoup.parse(value);
 					doc.getElementsByTag("div").get(1).remove();
@@ -100,17 +100,17 @@ public class ImageServlet extends AbstractServlet {
 				}
 				DatabaseManager.saveEntity(p, null);
 			}
-			else if (hParams.containsKey("load")) {
-				if (hParams.containsKey("directid")) {
-					Picture p = (Picture) DatabaseManager.loadEntity(Picture.class, hParams.get("directid"));
+			else if (mapParams.containsKey("load")) {
+				if (mapParams.containsKey("directid")) {
+					Picture p = (Picture) DatabaseManager.loadEntity(Picture.class, mapParams.get("directid"));
 					if (p != null)
 						ServletHelper.writeText(response, p.getValue());
 				}
 				else {
-					String id = String.valueOf(hParams.get("id"));
+					String id = String.valueOf(mapParams.get("id"));
 					StringBuffer sb = new StringBuffer();
 					String sql = "SELECT * FROM _picture WHERE entity = ? AND id_item = ? ORDER BY id";
-					for (Picture p : (List<Picture>) DatabaseManager.executeSelect(sql, Arrays.asList(entity, id), Picture.class)) {
+					for (Picture p : (List<Picture>) DatabaseManager.executeSelect(sql, Arrays.asList(entity, Integer.valueOf(id)), Picture.class)) {
 						sb.append("<li id='currentphoto-" + p.getId() + "' class='img'>");
 						if (p.isEmbedded())
 							sb.append(p.getValue());
@@ -123,8 +123,8 @@ public class ImageServlet extends AbstractServlet {
 					ServletHelper.writeText(response, sb.toString());
 				}
 			}
-			else if (hParams.containsKey("upload")) {
-				String id = String.valueOf(hParams.get("id"));
+			else if (mapParams.containsKey("upload")) {
+				String id = String.valueOf(mapParams.get("id"));
 				byte[] b = null;
 				FileItemFactory factory = new DiskFileItemFactory();
 				ServletFileUpload upload = new ServletFileUpload(factory);
@@ -133,12 +133,12 @@ public class ImageServlet extends AbstractServlet {
 					if (!fitem.isFormField() && fitem.getFieldName().equalsIgnoreCase("f"))
 						b = fitem.get();
 				}
-				String y1 = String.valueOf(hParams.get("y1"));
-				String y2 = String.valueOf(hParams.get("y2"));
+				String y1 = String.valueOf(mapParams.get("y1"));
+				String y2 = String.valueOf(mapParams.get("y2"));
 				String ext = ".png";
-				String fileName = ImageUtils.getIndex(entity.toUpperCase()) + "-" + id + "-" + hParams.get("size") + (StringUtils.notEmpty(y1) && !y1.equals("null") ? "_" + y1 + "-" + y2 : "");
+				String fileName = ImageUtils.getIndex(entity.toUpperCase()) + "-" + id + "-" + mapParams.get("size") + (StringUtils.notEmpty(y1) && !y1.equals("null") ? "_" + y1 + "-" + y2 : "");
 				int index = -1;
-				Collection<String> lExisting = ImageUtils.getImages(ImageUtils.getIndex(entity.toUpperCase()), id, String.valueOf(hParams.get("size")).charAt(0));
+				Collection<String> lExisting = ImageUtils.getImages(ImageUtils.getIndex(entity.toUpperCase()), id, String.valueOf(mapParams.get("size")).charAt(0));
 				for (String s : lExisting) {
 					if (s.indexOf(fileName) == 0) {
 						index = 0;
@@ -154,8 +154,8 @@ public class ImageServlet extends AbstractServlet {
 				fos.close();
 				ImageUtils.addImage(f.getName());
 			}
-			else if (hParams.containsKey("download")) {
-				String fname = String.valueOf(hParams.get("name"));
+			else if (mapParams.containsKey("download")) {
+				String fname = String.valueOf(mapParams.get("name"));
 				File f = new File(ConfigUtils.getProperty("img.folder") + fname);
 				response.setHeader("Content-Disposition", "attachment;filename=" + fname);
 				response.setContentType("text/html");
@@ -169,20 +169,20 @@ public class ImageServlet extends AbstractServlet {
 				out.close();
 				in.close();
 			}
-			else if (hParams.containsKey("remove")) {
-				if (StringUtils.notEmpty(hParams.get("name"))) {
-					String fname = String.valueOf(hParams.get("name"));
+			else if (mapParams.containsKey("remove")) {
+				if (StringUtils.notEmpty(mapParams.get("name"))) {
+					String fname = String.valueOf(mapParams.get("name"));
 					File f = new File(ConfigUtils.getProperty("img.folder") + fname);
 					if (f.exists()) {
 						f.delete();
 						ImageUtils.removeImage(f.getName());
 					}
 				}
-				DatabaseManager.executeUpdate("DELETE FROM _picture WHERE ID=" + hParams.get("id"));
+				DatabaseManager.executeUpdate("DELETE FROM _picture WHERE ID=" + mapParams.get("id"), null);
 			}
-			else if (hParams.containsKey("copy")) {
-//				String id1 = String.valueOf(hParams.get("id1"));
-//				String id2 = String.valueOf(hParams.get("id2"));
+			else if (mapParams.containsKey("copy")) {
+//				String id1 = String.valueOf(mapParams.get("id1"));
+//				String id2 = String.valueOf(mapParams.get("id2"));
 //				boolean found = false;
 //				List<String> lAdded = new ArrayList<String>();
 //				for (String s : ImageUtils.getImgFiles()) {
@@ -198,30 +198,30 @@ public class ImageServlet extends AbstractServlet {
 //				}
 //				ImageUtils.getImgFiles().addAll(lAdded);
 			}
-			else if (hParams.containsKey("url")) {
-				String id = String.valueOf(hParams.get("id"));
-				String size = String.valueOf(hParams.get("size"));
+			else if (mapParams.containsKey("url")) {
+				String id = String.valueOf(mapParams.get("id"));
+				String size = String.valueOf(mapParams.get("size"));
 				String s = HtmlUtils.writeImage(ImageUtils.getIndex(entity), StringUtils.toInt(id), size.charAt(0), null, null);
 				ServletHelper.writeText(response, s.replaceAll(".*src\\=\\'", "").replaceAll("\\'\\/\\>", ""));
 			}
-			else if (hParams.containsKey("list")) {
-				String id = String.valueOf(hParams.get("id"));
-				String size = String.valueOf(hParams.get("size"));
+			else if (mapParams.containsKey("list")) {
+				String id = String.valueOf(mapParams.get("id"));
+				String size = String.valueOf(mapParams.get("size"));
 				StringBuffer sb = new StringBuffer();
 				for (String s : ImageUtils.getImages(ImageUtils.getIndex(entity), id, size.charAt(0)))
 					sb.append(s).append(",");
 				ServletHelper.writeText(response, sb.toString());
 			}
-			else if (hParams.containsKey("nopic")) {
-				String id = String.valueOf(hParams.get("id"));
-				String value = String.valueOf(hParams.get("value"));
+			else if (mapParams.containsKey("nopic")) {
+				String id = String.valueOf(mapParams.get("id"));
+				String value = String.valueOf(mapParams.get("value"));
 				Object o = DatabaseManager.loadEntity(DatabaseManager.getClassFromAlias(entity), id);
 				Method m = o.getClass().getMethod("setNopic", Boolean.class);
 				m.invoke(o, value.equals("1"));
 				DatabaseManager.saveEntity(o, null);
 			}
-			else if (hParams.containsKey("data")) {} // OBSOLETE
-			else if (hParams.containsKey("missing")) {
+			else if (mapParams.containsKey("data")) {} // OBSOLETE
+			else if (mapParams.containsKey("missing")) {
 				StringBuffer sbResult = new StringBuffer();
 				for (String entity_ : new String[]{"CP", "EV", "SP", "CN", "OL", "TM"}) {
 					String table = (String) DatabaseManager.getClassFromAlias(entity_).getField("table").get(null);

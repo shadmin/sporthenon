@@ -14,6 +14,7 @@ public class ConfigUtils {
 	private static final Logger log = Logger.getLogger(ConfigUtils.class.getName());
 	
 	private static Properties properties = null;
+	private static String env = null;
 	
 	static {
 		try {
@@ -22,6 +23,7 @@ public class ConfigUtils {
 			if (stream != null) {
 				properties.loadFromXML(stream);
 			}
+			env = System.getenv("SH_ENV");
 		}
 		catch (IOException e) {
 			log.log(Level.WARNING, e.getMessage(), e);
@@ -43,6 +45,10 @@ public class ConfigUtils {
 			log.log(Level.WARNING, e.getMessage(), e);
 		}
 		return value;
+	}
+	
+	public static boolean isProd() {
+		return (env != null && env.equalsIgnoreCase("prod"));
 	}
 	
 }

@@ -18,6 +18,7 @@ public class Sport extends AbstractEntity {
 	public static final transient String alias 	= "SP";
 	public static final transient String table 	= "sport";
 	public static final transient String key 	= "id";
+	public static final transient String cols 	= "label,label_fr,type,index,ref,no_pic";
 	
 	public Sport() {}
 	

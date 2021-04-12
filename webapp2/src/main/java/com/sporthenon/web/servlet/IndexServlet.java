@@ -45,31 +45,31 @@ private static final long serialVersionUID = 1L;
 		try {
 			init(request);
 			String lang = getLocale(request);
-			HashMap<String, Object> hParams = ServletHelper.getParams(request);
-			if (hParams.containsKey("p")) {
-				String p = String.valueOf(hParams.get("p"));
+			HashMap<String, Object> mapParams = ServletHelper.getParams(request);
+			if (mapParams.containsKey("p")) {
+				String p = String.valueOf(mapParams.get("p"));
 				p = StringUtils.decode(p);
 				String[] t = p.split("\\-");
-				hParams.put("sport", t[0]);
-				hParams.put("count", t[1]);
-				hParams.put("offset", t[2]);
+				mapParams.put("sport", t[0]);
+				mapParams.put("count", t[1]);
+				mapParams.put("offset", t[2]);
 			}
-			if (hParams.containsKey("lang")) { // Language
-		        request.getSession().setAttribute("locale", String.valueOf(hParams.get("value")));
+			if (mapParams.containsKey("lang")) { // Language
+		        request.getSession().setAttribute("locale", String.valueOf(mapParams.get("value")));
 			}
-			else if (hParams.containsKey("error")) { // Error Report
+			else if (mapParams.containsKey("error")) { // Error Report
 				ErrorReport er = new ErrorReport();
-				er.setUrl(String.valueOf(hParams.get("url")));
-				er.setText(String.valueOf(hParams.get("text")));
+				er.setUrl(String.valueOf(mapParams.get("url")));
+				er.setText(String.valueOf(mapParams.get("text")));
 				er.setDate(new Timestamp(System.currentTimeMillis()));
 				DatabaseManager.saveEntity(er, null);
 			}
-			else if (hParams.containsKey("lastupdates")) { // Last Updates
+			else if (mapParams.containsKey("lastupdates")) { // Last Updates
 				final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_lastupdates_limit"));
-				boolean isFull = !hParams.containsKey("p");
-				Integer sport = StringUtils.toInt(hParams.get("sport"));
-				Integer count = (isFull ? ITEM_LIMIT : StringUtils.toInt(hParams.get("count")));
-		        Integer offset = (isFull ? 0 : StringUtils.toInt(hParams.get("offset")));
+				boolean isFull = !mapParams.containsKey("p");
+				Integer sport = StringUtils.toInt(mapParams.get("sport"));
+				Integer count = (isFull ? ITEM_LIMIT : StringUtils.toInt(mapParams.get("count")));
+		        Integer offset = (isFull ? 0 : StringUtils.toInt(mapParams.get("offset")));
 		    	List<Object> params = new ArrayList<Object>();
 		    	params.add(sport);
 		    	params.add(count);
@@ -78,14 +78,14 @@ private static final long serialVersionUID = 1L;
 		    	StringBuffer html = HtmlConverter.convertLastUpdates(DatabaseManager.callFunction("_last_updates", params, LastUpdateBean.class), sport, count, offset, getLocale(request));
 		    	ServletHelper.writeHtmlResponse(request, response, html, getLocale(request));
 			}
-			else if (hParams.containsKey("randomevent")) { // Random Event
+			else if (mapParams.containsKey("randomevent")) { // Random Event
 				ServletHelper.writeText(response, getRandomEvent(lang));
 			}
-			else if (hParams.containsKey("report")) { // Report
+			else if (mapParams.containsKey("report")) { // Report
 				List<String> lReport = new ArrayList<String>();
 				lReport.add(REPORT_QUERY1);
 				lReport.add(REPORT_QUERY2);
-				int index = Integer.parseInt(String.valueOf(hParams.get("report")));
+				int index = Integer.parseInt(String.valueOf(mapParams.get("report")));
 				String langParam = ResourceUtils.getLocaleParam(lang);				
 				List<Object[]> list = (List<Object[]>) DatabaseManager.executeSelect(lReport.get(index).replaceAll("#LANG#", langParam));
 				StringBuffer sb1 = new StringBuffer();

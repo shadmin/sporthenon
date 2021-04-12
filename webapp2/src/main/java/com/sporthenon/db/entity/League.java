@@ -13,6 +13,7 @@ public class League extends AbstractEntity {
 	public static final transient String alias 	= "LG";
 	public static final transient String table 	= "league";
 	public static final transient String key 	= "id";
+	public static final transient String cols 	= "label";
 	
 	public League() {}
 	

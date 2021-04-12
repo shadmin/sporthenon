@@ -87,7 +87,7 @@ public class JAddMultipleDialog extends JDialog implements ActionListener {
 					String sql_ = "SELECT ID FROM year WHERE LABEL='" + s + "'";
 					String sql = "INSERT INTO result(id, id_sport, id_championship, id_event, id_subevent, id_subevent2, id_year, id_contributor, last_update) ";
 					sql += "VALUES (nextval('s_result')," + sp + "," + cp + "," + (ev != null && ev > 0 ? ev : "NULL") + "," + (se != null && se > 0 ? se : "NULL") + "," + (se2 != null && se > 0 ? se2 : "NULL") + ",(" + sql_ + ")," + JMainFrame.getContributor().getId() + ",now())";
-					DatabaseManager.executeUpdate(sql);
+					DatabaseManager.executeUpdate(sql, null);
 				}
 				msg = "Years have been added successfully.";
 			}

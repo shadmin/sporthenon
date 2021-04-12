@@ -22,6 +22,7 @@ public class Calendar extends AbstractEntity {
 	public static final transient String alias 	= "CL";
 	public static final transient String table 	= "calendar";
 	public static final transient String key 	= "id";
+	public static final transient String cols 	= "id_sport,id_championship,id_event,id_subevent,id_subevent2,id_complex,id_city,id_country,date1,date2";
 	public static final transient String query 	= "SELECT T.*, SP.label AS sp_label, SP.label_fr AS sp_label_fr, CP.label AS cp_label, CP.label_fr AS cp_label_fr, "
 			+ " EV.label AS ev_label, EV.label_fr AS ev_label_fr, EV.id_type AS ev_id_type, TP1.label AS ev_tp_label, TP1.number AS ev_tp_number, "
 			+ " SE.label AS se_label, SE.label_fr AS se_label_fr, SE.id_type AS se_id_type, TP2.label AS se_tp_label, TP2.number AS se_tp_number, "

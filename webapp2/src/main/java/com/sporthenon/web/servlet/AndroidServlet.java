@@ -73,10 +73,10 @@ public class AndroidServlet extends AbstractServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			HashMap<String, Object> hParams = ServletHelper.getParams(request);
-			String lang = (hParams.containsKey("lang") ? String.valueOf(hParams.get("lang")) : ResourceUtils.LGDEFAULT);
-			String p = String.valueOf(hParams.get("p"));
-			String p2 = String.valueOf(hParams.get("p2"));
+			HashMap<String, Object> mapParams = ServletHelper.getParams(request);
+			String lang = (mapParams.containsKey("lang") ? String.valueOf(mapParams.get("lang")) : ResourceUtils.LGDEFAULT);
+			String p = String.valueOf(mapParams.get("p"));
+			String p2 = String.valueOf(mapParams.get("p2"));
 			Document doc = DocumentFactory.getInstance().createDocument();
 	        Element root = doc.addElement("picklist");
 	        root.addAttribute("id", p2);

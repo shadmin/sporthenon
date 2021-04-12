@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -164,7 +165,7 @@ public class JExtLinksPanel extends JSplitPane implements ActionListener, ListSe
 			else if (e.getActionCommand().equals("check")) {
 				for (int i : jLinkTable.getSelectedRows()) {
 					String id = String.valueOf(jLinkTable.getValueAt(i, 0));
-					DatabaseManager.executeUpdate("UPDATE _external_link SET checked=TRUE WHERE id=" + id);
+					DatabaseManager.executeUpdate("UPDATE _external_link SET checked = TRUE WHERE id = ?", Arrays.asList(Integer.valueOf(id)));
 					jLinkTable.setValueAt("X", i, 6);
 				}
 				msg = "Links checked successfully (" + jLinkTable.getSelectedRowCount() + ")";
@@ -172,7 +173,7 @@ public class JExtLinksPanel extends JSplitPane implements ActionListener, ListSe
 			else if (e.getActionCommand().equals("save")) {
 				for (int i : jLinkTable.getSelectedRows()) {
 					String id = String.valueOf(jLinkTable.getValueAt(i, 0));
-					DatabaseManager.executeUpdate("UPDATE _external_link SET type='" + jLinkTable.getValueAt(i, 4) + "', url='" + jLinkTable.getValueAt(i, 5) + "' WHERE id=" + id);
+					DatabaseManager.executeUpdate("UPDATE _external_link SET type = ?, url = ? WHERE id = ?", Arrays.asList(jLinkTable.getValueAt(i, 4), jLinkTable.getValueAt(i, 5), id));
 				}
 				msg = "Links updated successfully (" + jLinkTable.getSelectedRowCount() + ")";
 			}
