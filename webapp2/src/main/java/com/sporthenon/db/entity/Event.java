@@ -106,6 +106,10 @@ public class Event extends AbstractEntity {
 		this.index = index;
 	}
 
+	public Integer getIdType() {
+		return (type != null ? type.getId() : null);
+	}
+	
 	@Override
 	public String toString() {
 		return label + " [#" + id + "]";

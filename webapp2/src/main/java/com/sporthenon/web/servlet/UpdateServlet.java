@@ -724,8 +724,8 @@ public class UpdateServlet extends AbstractServlet {
 						rd.setCity1(rdCt1);
 						rd.setComplex2(rdCx2);
 						rd.setCity2(rdCt2);
-						rd.setDate1(rdDt1);
-						rd.setDate2(rdDt2);
+						rd.setDate(rdDt1);
+						rd.setDate1(rdDt2);
 						rd.setExa(rdExa);
 						rd.setComment(rdCmt);
 						DatabaseManager.saveEntity(rd, cb);
@@ -1540,8 +1540,8 @@ public class UpdateServlet extends AbstractServlet {
 							l.add("");
 							l.add("");
 						}
+						l.add(StringUtils.notEmpty(rd.getDate()) ? rd.getDate() : "");
 						l.add(StringUtils.notEmpty(rd.getDate1()) ? rd.getDate1() : "");
-						l.add(StringUtils.notEmpty(rd.getDate2()) ? rd.getDate2() : "");
 						if (rd.getComplex1() != null) {
 							l.add(String.valueOf(rd.getComplex1().getId()));
 							l.add(rd.getComplex1().toString2(lang));

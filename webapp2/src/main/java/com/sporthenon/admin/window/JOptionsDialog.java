@@ -30,7 +30,6 @@ import javax.swing.border.TitledBorder;
 import com.sporthenon.admin.component.JDialogButtonBar;
 import com.sporthenon.admin.container.JTopPanel;
 import com.sporthenon.utils.ConfigUtils;
-import com.sporthenon.utils.RegUtils;
 import com.sporthenon.utils.StringUtils;
 
 public class JOptionsDialog extends JDialog implements ActionListener {
@@ -49,7 +48,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 	
 	private Properties props = null;
 	private HashMap<String, String> hConfig = null;
-	private String configDir = null;
+	private String userHomeDir = null;
 	private final String[] tHost = new String[] {"92.243.3.85", "92.243.3.85", "localhost"};
 	private final String[] tDatabase = new String[] {"shprod", "shtest", "shlocal"};
 
@@ -61,12 +60,12 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 	private void initialize() {
 		try {
 			try {
-				configDir = RegUtils.readRegistry("HKEY_CURRENT_USER\\Software\\Sporthenon", "configDir");
+				userHomeDir = System.getProperty("user.home");
 			}
 			catch (Exception e) {}
 			props = new Properties();
-			File f = new File(configDir + "\\options.xml");
-			InputStream is = (StringUtils.notEmpty(configDir) && f.exists() ? new FileInputStream(f) : ConfigUtils.class.getResourceAsStream("/com/sporthenon/admin/options.xml"));
+			File f = new File(userHomeDir + "\\shupdate.xml");
+			InputStream is = (StringUtils.notEmpty(userHomeDir) && f.exists() ? new FileInputStream(f) : ConfigUtils.class.getResourceAsStream("/com/sporthenon/admin/options.xml"));
 			props.loadFromXML(is);
 			hConfig = new HashMap<String, String>();
 			for (Object key : props.keySet())
@@ -166,7 +165,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("ok")) {
 			try {
-				if (StringUtils.notEmpty(configDir)) {
+				if (StringUtils.notEmpty(userHomeDir)) {
 					props = new Properties();
 					props.setProperty("db.host", jHost.getText());
 					props.setProperty("db.name", jDatabase.getText());
@@ -174,7 +173,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 					props.setProperty("alwaystop", jAlwaysTop.isSelected() ? "1" : "0");
 					props.setProperty("proxy.addr", jProxyAddr.getText());
 					props.setProperty("proxy.port", jProxyPort.getText());
-					props.storeToXML(new FileOutputStream(new File(configDir + "\\options.xml")), null);
+					props.storeToXML(new FileOutputStream(new File(userHomeDir + "\\shupdate.xml")), null);
 				}
 			}
 			catch (Exception e_) {}

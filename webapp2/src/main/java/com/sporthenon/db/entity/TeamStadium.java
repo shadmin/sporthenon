@@ -124,6 +124,18 @@ public class TeamStadium extends AbstractEntity {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	
+	public Integer getIdLeague() {
+		return (league != null ? league.getId() : null);
+	}
+	
+	public Integer getIdTeam() {
+		return (team != null ? team.getId() : null);
+	}
+	
+	public Integer getIdComplex() {
+		return (complex != null ? complex.getId() : null);
+	}
 
 	@Override
 	public String toString() {

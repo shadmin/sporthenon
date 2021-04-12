@@ -100,6 +100,14 @@ public class OlympicRanking extends AbstractEntity {
 		this.countBronze = countBronze;
 	}
 
+	public Integer getIdOlympics() {
+		return (olympics != null ? olympics.getId() : null);
+	}
+	
+	public Integer getIdCountry() {
+		return (country != null ? country.getId() : null);
+	}
+	
 	@Override
 	public String toString() {
 		return "OlympicRanking [id=" + id + ", olympics=" + olympics

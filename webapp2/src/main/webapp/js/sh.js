@@ -494,9 +494,11 @@ function printCurrentTab() {
 	}
 }
 function saveError() {
-	var h = $H({url: $F('errlinkurl'), text: $F('errlinktext')});
+	const url_ = $F('errlinkurl');
+	var h = $H({url: url_, text: $F('errlinktext')});
 	new Ajax.Request('/IndexServlet?error=1', {
 		onSuccess: function(response){
+			window.location.href = url_;
 		},
 		parameters: h
 	});
@@ -867,28 +869,10 @@ function treeLeafClick(anchor, value) {
 		currentNodeLink = anchor;
 		return;
 	}
+	if ($('treeresults')) {
+		$('treeresults').update('<div class="loading"></div>');
+	}
 	runResults(t);
-	$('pl-sp').value = t[0];
-	$('pl-sp').onchange();
-	setTimeout(function(){
-		$('pl-cp').value = t[1];
-		$('pl-cp').onchange();
-		setTimeout(function(){
-			$('pl-ev').value = t[2];
-			$('pl-ev').onchange();
-			if (t.length > 3 && t[3] != '') {
-				setTimeout(function(){
-					$('pl-se').value = t[3];
-					$('pl-se').onchange();
-					if (t.length > 4 && t[4] != '') {
-						setTimeout(function(){
-							$('pl-se2').value = t[4];
-						}, 600);
-					}
-				}, 600);
-			}
-		}, 600);
-	}, 600);
 }
 /*==============================
   ========== CALENDAR ========== 

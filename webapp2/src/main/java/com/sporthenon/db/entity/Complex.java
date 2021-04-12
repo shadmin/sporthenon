@@ -85,6 +85,10 @@ public class Complex extends AbstractEntity {
 		this.ref = ref;
 	}
 
+	public Integer getIdCity() {
+		return (city != null ? city.getId() : null);
+	}
+	
 	@Override
 	public String toString() {
 		return label + (city != null ? ", " + city : "") + " [#" + id + "]";

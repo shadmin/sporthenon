@@ -116,6 +116,14 @@ public class WinLoss extends AbstractEntity {
 		this.countOtloss = countOtloss;
 	}
 
+	public Integer getIdLeague() {
+		return (league != null ? league.getId() : null);
+	}
+	
+	public Integer getIdTeam() {
+		return (team != null ? team.getId() : null);
+	}
+	
 	@Override
 	public String toString() {
 		return "WinLoss [id=" + id + ", league=" + league + ", team=" + team + ", type=" + type + ", countWin=" + countWin + ", countLoss=" + countLoss + ", countTie=" + countTie + ", countOtloss=" + countOtloss + "]";

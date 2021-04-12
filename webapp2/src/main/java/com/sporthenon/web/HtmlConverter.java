@@ -398,8 +398,9 @@ public class HtmlConverter {
 				StringBuffer sb = new StringBuffer();
 				sb.append("<a class='ertip' href='#ereport'>" + list.size() + " " + ResourceUtils.getText("error" + (list.size() > 1 ? "s" : ""), lang) + " " + ResourceUtils.getText("on.this.page", lang) + "</a>");
 				sb.append("<div id='ereport' class='rendertip' style='display:none;'>");
-				for (ErrorReport er : list)
+				for (ErrorReport er : list) {
 					sb.append(StringUtils.SEP1 + " " + ResourceUtils.getText("reported.on", lang) + " <b>" + StringUtils.toTextDate(er.getDate(), lang, "dd/MM/yyyy, HH:mm") + "</b> :<br/>" + er.getText().replaceAll("\r\n|\n", "<br/>")).append("<br/>").append(list.size() > 1 ? "<br/>" : "");
+				}
 				sb.append("</div>");
 				hHeader.put("errors", sb.toString());
 			}

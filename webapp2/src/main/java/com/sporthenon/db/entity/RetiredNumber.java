@@ -107,6 +107,22 @@ public class RetiredNumber extends AbstractEntity {
 		this.year = year;
 	}
 
+	public Integer getIdLeague() {
+		return (league != null ? league.getId() : null);
+	}
+	
+	public Integer getIdTeam() {
+		return (team != null ? team.getId() : null);
+	}
+	
+	public Integer getIdPerson() {
+		return (person != null ? person.getId() : null);
+	}
+	
+	public Integer getIdYear() {
+		return (year != null ? year.getId() : null);
+	}
+	
 	@Override
 	public String toString() {
 		return "RetiredNumber [id=" + id + ", league=" + league + ", team=" + team + ", person=" + person + ", number=" + number + "]";

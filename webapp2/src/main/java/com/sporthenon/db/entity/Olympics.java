@@ -156,6 +156,14 @@ public class Olympics extends AbstractEntity {
 		this.nopic = nopic;
 	}
 	
+	public Integer getIdCity() {
+		return (city != null ? city.getId() : null);
+	}
+	
+	public Integer getIdYear() {
+		return (year != null ? year.getId() : null);
+	}
+	
 	@Override
 	public String toString() {
 		return "Olympics [id=" + id + ", year=" + year + ", city=" + city

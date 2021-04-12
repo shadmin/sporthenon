@@ -122,7 +122,7 @@ public class JMainFrame extends JFrame {
 
 	private void initialize() {
 		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel");
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
 			jEntityPanels = new HashMap<String, JAbstractEntityPanel>();
 			jEntityPanels.put(Championship.alias, new JChampionshipPanel());

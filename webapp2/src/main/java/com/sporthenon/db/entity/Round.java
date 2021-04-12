@@ -25,8 +25,8 @@ public class Round extends AbstractEntity {
 	private Complex   complex1;
 	private City 	  city2;
 	private Complex   complex2;
+	private String    date;
 	private String    date1;
-	private String    date2;
 	private String 	  exa;
 	private String 	  comment;
 
@@ -34,7 +34,7 @@ public class Round extends AbstractEntity {
 	public static final transient String table 	= "round";
 	public static final transient String key 	= "id";
 	public static final transient String cols 	= "id_result,id_result_type,id_round_type,id_rank1,result1,id_rank2,result2,"
-			+ "id_rank3,result3,id_rank4,result4,id_rank5,result5,id_city,id_city1,id_city,id_complex1,date1,date2,exa,comment";
+			+ "id_rank3,result3,id_rank4,result4,id_rank5,result5,id_city,id_city1,id_complex,id_complex1,date,date1,exa,comment";
 	public static final transient String query 	= "SELECT T.*, "
 			+ " CX1.label AS cx1_label, CT1.label AS ct1_label, CT1.label_fr AS ct1_label_fr, "
 			+ " CX2.label AS cx2_label, CT2.label AS ct2_label, CT2.label_fr AS ct2_label_fr "
@@ -89,8 +89,8 @@ public class Round extends AbstractEntity {
 				setComplex2(new Complex());
 				getComplex2().setValuesFromMap(extractEntityColumns("CX2", idComplex2, mapValues));
 			}
+			setDate((String)mapValues.get("date"));
 			setDate1((String)mapValues.get("date1"));
-			setDate2((String)mapValues.get("date2"));
 			setExa((String)mapValues.get("exa"));
 			setComment((String)mapValues.get("comment"));
 			setMetadata(new Metadata((Integer)mapValues.get("id_contributor"), (Timestamp)mapValues.get("first_update"), (Timestamp)mapValues.get("last_update")));
@@ -225,20 +225,20 @@ public class Round extends AbstractEntity {
 		this.complex2 = complex2;
 	}
 
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
 	public String getDate1() {
 		return date1;
 	}
 
-	public String getDate2() {
-		return date2;
-	}
-
 	public void setDate1(String date1) {
 		this.date1 = date1;
-	}
-
-	public void setDate2(String date2) {
-		this.date2 = date2;
 	}
 
 	public Integer getIdRank4() {
@@ -273,6 +273,26 @@ public class Round extends AbstractEntity {
 		this.result5 = result5;
 	}
 
+	public Integer getIdRoundType() {
+		return (roundType != null ? roundType.getId() : null);
+	}
+	
+	public Integer getIdCity() {
+		return (city1 != null ? city1.getId() : null);
+	}
+	
+	public Integer getIdCity1() {
+		return (city2 != null ? city2.getId() : null);
+	}
+	
+	public Integer getIdComplex() {
+		return (complex1 != null ? complex1.getId() : null);
+	}
+	
+	public Integer getIdComplex1() {
+		return (complex2 != null ? complex2.getId() : null);
+	}
+	
 	@Override
 	public String toString() {
 		return "Round [id=" + id + ", idResult=" + idResult + ", idResultType="
@@ -281,7 +301,7 @@ public class Round extends AbstractEntity {
 				+ ", result2=" + result2 + ", idRank3=" + idRank3
 				+ ", result3=" + result3 + ", city1=" + city1 + ", complex1="
 				+ complex1 + ", city2=" + city2 + ", complex2=" + complex2
-				+ ", date1=" + date1 + ", date2=" + date2 + ", exa=" + exa
+				+ ", date=" + date + ", date1=" + date1 + ", exa=" + exa
 				+ ", comment=" + comment + "]";
 	}
 

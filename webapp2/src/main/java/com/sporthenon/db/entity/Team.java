@@ -187,6 +187,18 @@ public class Team extends AbstractEntity {
 		this.nopic = nopic;
 	}
 
+	public Integer getIdCountry() {
+		return (country != null ? country.getId() : null);
+	}
+	
+	public Integer getIdLeague() {
+		return (league != null ? league.getId() : null);
+	}
+	
+	public Integer getIdSport() {
+		return (sport != null ? sport.getId() : null);
+	}
+	
 	@Override
 	public String toString() {
 		return label + (country != null ? ", " + country : "") + (sport != null ? ", " + sport.getLabel() : "") + " [#" + id + "]";

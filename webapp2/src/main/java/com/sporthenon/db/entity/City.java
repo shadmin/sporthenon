@@ -111,6 +111,14 @@ public class City extends AbstractEntity {
 		this.ref = ref;
 	}
 
+	public Integer getIdCountry() {
+		return (country != null ? country.getId() : null);
+	}
+	
+	public Integer getIdState() {
+		return (state != null ? state.getId() : null);
+	}
+	
 	public String toString() {
 		return label + (country != null ? ", " + country : "") + " [#" + id + "]";
 	}

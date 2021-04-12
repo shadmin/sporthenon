@@ -109,7 +109,6 @@ table.noborder, table.noborder th, table.noborder td{
 	width: 180px;
 	height: 80px;
 	margin: 0 auto;
-	margin-top: 12px;
 	border: 1px solid #AAA;
 }
 #optionsselect{
@@ -209,8 +208,8 @@ select.disabled{
 }
 #logo{
 	width: 140px;
-	margin-top: 15px;
-	margin-bottom: 20px;
+	margin-top: 0px;
+	margin-bottom: 5px;
 	text-align: center;
 }
 #logo img{

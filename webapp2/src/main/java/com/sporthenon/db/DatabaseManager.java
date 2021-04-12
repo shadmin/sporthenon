@@ -345,6 +345,7 @@ public class DatabaseManager {
 		String[] tcols = cols.split("\\,");
 		for (int i = 0 ; i < tcols.length ; i++) {
 			Method method = mapMethods.get("get" + tcols[i].replaceAll("\\_", ""));
+			if (method==null) {System.out.println("get" + tcols[i].replaceAll("\\_", ""));}
 			Object value = method.invoke(o);
 			params.add(value);
 		}
@@ -360,7 +361,7 @@ public class DatabaseManager {
 		String sql;
 		if (isAdd) {
 			sql = "INSERT INTO " + table + " (" + key + "," + cols + (isMetadata ? "," + Metadata.cols : "") + ") "
-					+ "VALUES (NEXTVAL('" + (table.startsWith("_") ? "_" : "") + "s_" + table + "'),"
+					+ "VALUES (NEXTVAL('" + (table.startsWith("_") ? "_s" : "s_") + table + "'),"
 					+ StringUtils.repeat("?", tcols.length + (isMetadata ? 3 : 0), ",") + ")";
 		}
 		else {
