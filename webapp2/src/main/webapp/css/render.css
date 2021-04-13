@@ -484,7 +484,7 @@ th.desc{
 }
 .ertip{
 	cursor: help;
-	background: url(/img/project/error.png) left top no-repeat;
+	background: url(/img/db/error.png) left top no-repeat;
 	padding: 1px;
 	padding-left: 20px;
 	padding-right: 20px;

@@ -29,7 +29,6 @@
 <!-- GLOBAL -->
 	<entry key="ok">OK</entry>
 	<entry key="cancel">Cancel</entry>
-	<entry key="search.criteria">SEARCH CRITERIA</entry>
 	<entry key="blank">Blank</entry>
 	<entry key="currently.selected">Currently selected</entry>
 	<entry key="click.change">Click to change selection</entry>
@@ -198,10 +197,10 @@
 	<entry key="info.snow">Snow</entry>
 	<entry key="info.tarmac">Tarmac</entry>
 	<entry key="back.top">Back to top</entry>
-	<entry key="dialog.accountconf">ACCOUNT CREATED</entry>
-	<entry key="dialog.export">EXPORT</entry>
-	<entry key="dialog.link">LINK</entry>
-	<entry key="dialog.info">INFO</entry>
+	<entry key="dialog.accountconf">Account created</entry>
+	<entry key="dialog.export">Export</entry>
+	<entry key="dialog.link">Link</entry>
+	<entry key="dialog.info">Info</entry>
 	<entry key="count">Count</entry>
 	<entry key="select.format">Select a format</entry>
 	<entry key="web.page">HTML page</entry>
@@ -306,7 +305,6 @@
 	<entry key="title.presentation">Presentation</entry>
 	<entry key="title.last.results">Last results</entry>
 	<entry key="title.statistics">Statistics</entry>
-	
 	<entry key="title.presentation">Presentation</entry>
 	<entry key="title.access.sport">Direct access by sport</entry>
 	<entry key="title.random.event">Random event</entry>
@@ -338,7 +336,6 @@
 	<entry key="select.tree">Select in tree</entry>
 	<entry key="expand">Expand</entry>
 	<entry key="collapse">Collapse</entry>
-	<entry key="tree">TREE VIEW</entry>
 <!-- OLYMPICS -->
 	<entry key="summer.games">Summer Olympic Games</entry>
 	<entry key="winter.games">Winter Olympic Games</entry>
@@ -396,23 +393,16 @@
 	<entry key="athletes">Athletes</entry>
 	<entry key="places">Places</entry>
 	<entry key="sports">Sports</entry>
-<!-- PROJECT/CONTRIBUTE -->
-	<entry key="download.last">Download latest version</entry>
-	<entry key="download.previous">Previous versions</entry>
-	<entry key="step">STEP</entry>
+<!-- CONTRIBUTE -->
+	<entry key="about.contribution">About contribution</entry>
+	<entry key="howto.contribute">How to contribute ?</entry>
+	<entry key="download">Download</entry>
+	<entry key="contributors">Contributors</entry>
 	<entry key="step1.desc"><![CDATA[Create an account on <a href="/login">this page</a>.<br/><br/>Fill the mandatory fields (marked with <span class="mandatory">*</span>) and click on "Create Account".]]></entry>
 	<entry key="step2.desc"><![CDATA[Go to page "Login" and authenticate using credentials created in step 1.]]></entry>
 	<entry key="step3.desc"><![CDATA[Add and update results with buttons <img alt="add" src="/img/component/button/add.png"/> and <img alt="add" src="/img/component/button/modify.png"/>]]></entry>
-	<entry key="contributions">Contributions</entry>
-	<entry key="download.admin">Administration program</entry>
 	<entry key="change.log">Change log</entry>
 	<entry key="report.bug">Report a bug</entry>
-	<entry key="programming">Programming</entry>
-	<entry key="db.hosting"><![CDATA[Database &amp; hosting]]></entry>
-	<entry key="about.contribution">ABOUT CONTRIBUTION</entry>
-	<entry key="howto.contribute">HOW TO CONTRIBUTE ?</entry>
-	<entry key="link.google.play">Link to Sporthenon in Google Play</entry>
-	<entry key="screenshots">Screenshots</entry>
 <!-- LOGIN -->
 	<entry key="msg.login.err1">Login failed. The user is not active.</entry>
 	<entry key="msg.login.err2">Login failed. Please check your login and password.</entry>

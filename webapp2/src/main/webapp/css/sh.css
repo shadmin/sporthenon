@@ -532,14 +532,14 @@ select.disabled{
 #home{
 	margin: 5px;
 }
-#home .homepanel, #login .loginpanel{
+#home .homepanel, #contribute .cbpanel, #login .loginpanel{
 	margin: 5px;
 	border-radius: 7px;
 	border: 2px solid #DFDFDF;
 	padding: 10px;
 	padding-top: 3px;
 }
-#home .homepanel .hometitle, #login .loginpanel .logintitle{
+#home .homepanel .hometitle, #contribute .cbpanel .cbtitle, #login .loginpanel .logintitle{
 	padding: 5px;
 	padding-bottom: 3px;
 	margin-bottom: 10px;
@@ -547,7 +547,7 @@ select.disabled{
 	font-weight: bold;
 	border-bottom: 2px solid #BBB;
 }
-#home .homepanel .hometitle{
+#home .homepanel .hometitle, #contribute .cbpanel .cbtitle{
 	padding-left: 21px;
 	background-position: left center;
 	background-repeat: no-repeat;
@@ -1046,12 +1046,22 @@ select.disabled{
   ========== CONTRIBUTE ========== 
   ================================*/
 #contribute{
-	margin-left: 10px;
-	margin-right: 10px;
-	margin-bottom: 10px;
+	margin: 5px;
 }
-#contribute .info{
-	background-image: url(../img/info.png);
+#contribute .cbpanel table{
+	margin: 0px auto;
+}
+#contribute .about{
+	background-image: url(../img/home/about.png);
+}
+#contribute .download{
+	background-image: url(../img/home/download.png);
+}
+#contribute .howto{
+	background-image: url(../img/home/howto.png);
+}
+#contribute .users{
+	background-image: url(../img/home/users.png);
 }
 #contribute li{
 	height: 20px;
@@ -2063,7 +2073,7 @@ select.disabled{
 	float: right;
 	text-align: right;
 	font-size: 10px;
-	color: #CCC;
+	color: #999;
 	padding-top: 1px;
 	white-space: nowrap;
 }

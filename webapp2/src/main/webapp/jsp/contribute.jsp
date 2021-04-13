@@ -1,26 +1,59 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ page import="com.sporthenon.utils.ConfigUtils"%>
-<%@ page import="com.sporthenon.utils.StringUtils"%>
+<%@ page import="com.sporthenon.utils.*"%>
+<%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.sporthenon.db.function.ContributorBean"%>
+<%@ page import="com.sporthenon.db.entity.meta.Contributor"%>
+<%@ page import="com.sporthenon.db.DatabaseManager"%>
 <%
-String lang = String.valueOf(session.getAttribute("locale"));
+	String lang = String.valueOf(session.getAttribute("locale"));
 %>
 <jsp:include page="/jsp/common/header.jsp"/>
-		<div class="fieldset" style="height:300px;">
-		<div class="fstitle contributors"><%=StringUtils.text("contributors", session)%></div>
-		<div class="fscontent">
-			<div style="height:260px;overflow:auto;">
-			<table><tr><th>ID</th><th><%=StringUtils.text("name", session)%></th><th><%=StringUtils.text("entity.SP", session)%></th><th><%=StringUtils.text("contributions", session)%></th></tr><%=request.getAttribute("contributors")%></table>
-			</div>
-		</div>
-		</div>
 <div id="contribute">
-<div class="fieldset">
-	<div class="fstitle info"><%=StringUtils.text("about.contribution", session)%></div>
-	<div class="fscontent"><%=ConfigUtils.getValue("html_contribution1_" + lang)%></div>
-</div>
-<div class="fieldset">
-	<div class="fstitle help"><%=StringUtils.text("howto.contribute", session)%></div>
-	<div class="fscontent"><%=ConfigUtils.getValue("html_contribution2_" + lang)%></div>
-</div>
+	<div style="display:flex;width:100%;">
+		<div class="cbpanel" style="width:100%;">
+			<div class="cbtitle about"><%=StringUtils.text("about.contribution", session)%></div>
+			<%=ConfigUtils.getValue("html_contribution1_" + lang)%>
+		</div>
+		<div class="cbpanel" style="white-space:nowrap;">
+			<div class="cbtitle download"><%=StringUtils.text("download", session)%></div>
+			Un utilitaire est disponible pour administrer la base de données.<br/><br/>
+			<a href="#">Télécharger le programme d'administration</a>
+		</div>
+	</div>
+	<div style="display:flex;width:100%;">
+		<div class="cbpanel" style="width:100%;">
+			<div class="cbtitle howto"><%=StringUtils.text("howto.contribute", session)%></div>
+			<%=ConfigUtils.getValue("html_contribution2_" + lang)%>
+		</div>
+		<div class="cbpanel">
+			<div class="cbtitle users"><%=StringUtils.text("contributors", session)%></div>
+			<table>
+				<tr>
+					<th>ID</th><th><%=StringUtils.text("name", session)%></th>
+					<th><%=StringUtils.text("entity.SP", session)%></th>
+					<th><%=StringUtils.text("contributions", session)%></th>
+				</tr>
+				<%
+					StringBuffer html = new StringBuffer();
+					Collection<?> coll = DatabaseManager.callFunctionSelect("_contributors", null, ContributorBean.class);
+					for (Object obj : coll) {
+						ContributorBean bean = (ContributorBean) obj;
+						String sports = null;
+						if (StringUtils.notEmpty(bean.getSports())) {
+							List<String> l = Arrays.asList((lang.equalsIgnoreCase("fr") ? bean.getSportsFR() : bean.getSports()).split("\\|"));
+							Collections.sort(l);
+							sports = StringUtils.join(l, "<br/>");
+						}
+						out.print("<tr><td><a href='" + HtmlUtils.writeLink(Contributor.alias, bean.getId(), null, bean.getLogin()) + "'>" + bean.getLogin() + "</a></td>");
+						out.print("<td>" + (StringUtils.notEmpty(bean.getName()) ? bean.getName() : "-") + "</td>");
+						out.print("<td>" + (StringUtils.notEmpty(sports) ? sports : "-") + "</td>");
+						out.print("<td style='white-space:nowrap;'><img style='vertical-align:middle;padding-bottom:2px;padding-right:5px;' alt='adds' title='" + ResourceUtils.getText("co.adds", lang) + "' src='/img/home/adds.png'/>" + bean.getCountA());
+						out.print("&nbsp;<img style='vertical-align:middle;padding-bottom:2px;padding-right:5px;' alt='updates' title='" + ResourceUtils.getText("co.updates", lang) + "' src='/img/home/updates.png'/>" + bean.getCountU() + "</td></tr>");
+					}
+				%>
+			</table>
+		</div>
+	</div>
 </div>
 <jsp:include page="/jsp/common/footer.jsp"/>

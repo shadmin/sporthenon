@@ -148,7 +148,7 @@
 			<td><a target="_blank" href="https://github.com/shadmin/sporthenon">Page du projet sur GitHub</a></td>
 		</tr>
 		<tr>
-			<td><img alt="" src="/img/db/export/txt.png"/></td>
+			<td><img alt="" src="/img/home/changelog.png"/></td>
 			<td><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/CHANGELOG.txt"><%=StringUtils.text("change.log", session)%></a></td>
 		</tr>
 		<tr>
