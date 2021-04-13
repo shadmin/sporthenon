@@ -44,6 +44,7 @@ public class InfoRefServlet extends AbstractServlet {
 			String lang = getLocale(request);
 			String[] params = StringUtils.decode(String.valueOf(mapParams.get("p"))).split("-");
 			StringBuffer html = new StringBuffer();
+			boolean isMore = String.valueOf(mapParams.get("p2")).equals("more");
 			boolean isExport = mapParams.containsKey("export");
 			boolean isResult1 = (params[0].equals(Result.alias) && params.length == 3);
 			boolean isResultX = (params[0].equals(Result.alias) && params.length == 2);
@@ -91,12 +92,17 @@ public class InfoRefServlet extends AbstractServlet {
 				}
 
 				// Load HTML results or export
-				HtmlUtils.setHeadInfo(request, html.toString());
-				if (isExport) {
-					ExportUtils.export(response, html, String.valueOf(mapParams.get("export")), lang);
+				if (!isMore) {
+					HtmlUtils.setHeadInfo(request, html.toString());
+					if (isExport) {
+						ExportUtils.export(response, html, String.valueOf(mapParams.get("export")), lang);
+					}
+					else {
+						ServletHelper.writePageHtml(request, response, html, lang, mapParams.containsKey("print"));
+					}	
 				}
 				else {
-					ServletHelper.writePageHtml(request, response, html, lang, mapParams.containsKey("print"));
+					ServletHelper.writeHtmlResponse(request, response, html, getLocale(request));
 				}
 			}
 		}

@@ -30,7 +30,7 @@
 <div style="display:flex;width:100%;">
 	<!-- Presentation -->
 	<div class="homepanel" style="width:100%;">
-		<div class="hometitle"><%=StringUtils.text("title.presentation", session)%></div>
+		<div class="hometitle info"><%=StringUtils.text("title.presentation", session)%></div>
 		<%=StringUtils.text("sporthenon.welcome", session)%>
 		<br/><br/><%=StringUtils.text("site.topics", session)%> :<br/><br/>
 		<img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("menu.results.2", session)%></b> : <%=StringUtils.text("desc.results", session)%><br/><br/>
@@ -43,7 +43,7 @@
 	<div style="display:flex;flex-direction:column;">
 		<!-- Random event -->
 		<div class="homepanel">
-			<div class="hometitle"><%=StringUtils.text("title.random.event", session)%></div>
+			<div class="hometitle randomevent"><%=StringUtils.text("title.random.event", session)%></div>
 			<table id="randomevent" class="noborder">
 				<tr><td id="randomeventvalue"><%=IndexServlet.getRandomEvent(lang)%></td>
 				<td><a href="javascript:getRandomEvent();"><img alt="Change" title="<%=StringUtils.text("change", session)%>" src="/img/db/refresh.png"/></a></td>
@@ -52,7 +52,7 @@
 		</div>
 		<!-- Share -->
 		<div class="homepanel">
-			<div class="hometitle"><%=StringUtils.text("title.share", session)%></div>
+			<div class="hometitle share"><%=StringUtils.text("title.share", session)%></div>
 			<table class="noborder"><tr>
 				<td><a href="https://www.facebook.com/sharer/sharer.php?u=<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="facebook" title="<%=StringUtils.text("share.on", session)%> Facebook" src="/img/header/facebook.png"/></a></td>
 				<td><a href="https://twitter.com/share?text=<%=StringUtils.text("title", session).replaceAll("\\s", "%20")%>&amp;url=<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="twitter" title="<%=StringUtils.text("share.on", session)%> Twitter" src="/img/header/twitter.png"/></a></td>
@@ -61,14 +61,14 @@
 		</div>
 		<!-- Mobile application -->
 		<div class="homepanel">
-			<div class="hometitle"><%=StringUtils.text("title.mobile.app", session)%></div>
+			<div class="hometitle mobile"><%=StringUtils.text("title.mobile.app", session)%></div>
 			<a href="https://play.google.com/store/apps/details?id=com.sporthenon.android" target="_blank"><img alt="Android app on Google Play" src="/img/header/android<%=lang%>.png"/></a>
 		</div>
 	</div>
 </div>
 <!-- Access sport -->
 <div class="homepanel">
-	<div class="hometitle"><%=StringUtils.text("title.access.sport", session)%></div>
+	<div class="hometitle opensport"><%=StringUtils.text("title.access.sport", session)%></div>
 	<select style="margin-left:10px;" onchange="location.href=this.value;">
 		<option value="">–– <%=StringUtils.text("select.sport", session)%> ––</option>
 		<%=sbSports1.toString()%>
@@ -77,7 +77,7 @@
 </div>
 <!-- Last updates -->
 <div class="homepanel" style="margin-top:10px;">
-	<div class="hometitle"><%=StringUtils.text("title.last.results", session)%></div>
+	<div class="hometitle lastupdates"><%=StringUtils.text("title.last.results", session)%></div>
 	<div id="dupdates">
 		<table id="dupdates-opts">
 			<tr><td><%=StringUtils.text("filter.sport", session)%> :</td>
@@ -112,7 +112,7 @@
 </div>
 <!-- Statistics -->
 <div class="homepanel" style="margin-top:10px;">
-	<div class="hometitle"><%=StringUtils.text("title.statistics", session)%></div>
+	<div class="hometitle statistics"><%=StringUtils.text("title.statistics", session)%></div>
 	<%
 		List<StatisticsBean> stats = (List<StatisticsBean>) DatabaseManager.callFunctionSelect("_statistics", null, StatisticsBean.class);
 		StatisticsBean stb = stats.get(0);
@@ -141,10 +141,10 @@
 </div>
 <!-- Statistics -->
 <div class="homepanel" style="margin-top:10px;">
-	<div class="hometitle"><%=StringUtils.text("extlinks", session)%></div>
+	<div class="hometitle extlinks"><%=StringUtils.text("extlinks", session)%></div>
 	<table class="noborder">
 		<tr>
-			<td><img alt="" src="/img/project/github.png"/></td>
+			<td><img alt="" src="/img/home/github.png"/></td>
 			<td><a target="_blank" href="https://github.com/shadmin/sporthenon">Page du projet sur GitHub</a></td>
 		</tr>
 		<tr>
@@ -152,11 +152,11 @@
 			<td><a target="_blank" href="https://raw.githubusercontent.com/shadmin/sporthenon/master/CHANGELOG.txt"><%=StringUtils.text("change.log", session)%></a></td>
 		</tr>
 		<tr>
-			<td><img alt="" src="/img/project/reportbug.png"/></td>
+			<td><img alt="" src="/img/home/reportbug.png"/></td>
 			<td><a target="_blank" href="http://github.com/shadmin/sporthenon/issues"><%=StringUtils.text("report.bug", session)%></a></td>
 		</tr>
 		<tr>
-			<td><img alt="" src="/img/project/wiki.png"/></td>
+			<td><img alt="" src="/img/home/wiki.png"/></td>
 			<td><a target="_blank" href="http://github.com/shadmin/sporthenon/wiki">Wiki</a></td>
 		</tr>
 	</table>

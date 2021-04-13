@@ -277,15 +277,36 @@ public class UpdateServlet extends AbstractServlet {
 			whereHQL += " and T.id <> " + currentId;
 		// Execute query
 		String regexp = StringUtils.toPatternString(value);
-		List<Object[]> l = (List<Object[]>) DatabaseManager.executeSelect("SELECT T.id, " + labelHQL + ", CAST('" + alias + "' AS VARCHAR) FROM " + hTable.get(field) + " T" + joins + " WHERE (" + (isId ? "T.id=" + value.substring(1).replaceFirst("\\%", "") : "lower(" + labelHQL + ") ~ E'" + regexp) + "')" + whereHQL + " ORDER BY " + (field.equalsIgnoreCase(Result.alias) ? "id_year desc" : labelHQL) + " LIMIT " + MAX_AUTOCOMPLETE_RESULTS);
+		String sql = "SELECT T.id, " + labelHQL + ", CAST('" + alias + "' AS VARCHAR) "
+				+ " FROM " + hTable.get(field) + " T" + joins
+				+ " WHERE (" + (isId ? "T.id=" + value.substring(1).replaceFirst("\\%", "") : "lower(" + labelHQL + ") ~ E'" + regexp) + "')" + whereHQL
+				+ " ORDER BY " + (field.equalsIgnoreCase(Result.alias) ? "id_year desc" : labelHQL)
+				+ " LIMIT " + MAX_AUTOCOMPLETE_RESULTS;
+		List<Object[]> l = (List<Object[]>) DatabaseManager.executeSelect(sql);
 		if (field.matches(Athlete.alias.toLowerCase() + "|athlete|person")) {
 			String labelHQL_ = "last_name || ', ' || first_name || ' (' || CN.code || ', ' || TM.label || ')'";
 			joins += " LEFT JOIN Team TM ON T.id_team=TM.id";
-			l.addAll(DatabaseManager.executeSelect("SELECT T.id, " + labelHQL_ + ", CAST('" + Athlete.alias + "' AS VARCHAR) FROM Athlete T" + joins + " WHERE lower(" + labelHQL_ + ") ~ E'" + regexp + "'" + whereHQL + " ORDER BY " + (field.equalsIgnoreCase(Result.alias) ? "id_year desc" : labelHQL_) + " LIMIT " + MAX_AUTOCOMPLETE_RESULTS));
+			sql = "SELECT T.id, " + labelHQL_ + ", CAST('" + Athlete.alias + "' AS VARCHAR) "
+				+ " FROM Athlete T" + joins
+				+ " WHERE lower(" + labelHQL_ + ") ~ E'" + regexp + "'" + whereHQL
+				+ " ORDER BY " + (field.equalsIgnoreCase(Result.alias) ? "id_year desc" : labelHQL_)
+				+ " LIMIT " + MAX_AUTOCOMPLETE_RESULTS;
+			l.addAll(DatabaseManager.executeSelect(sql));
 		}
 		else if (field.matches("pl\\d|complex")) {
-			l.addAll(DatabaseManager.executeSelect("SELECT T.id, T." + l_ + ", CAST('" + City.alias + "' AS VARCHAR) FROM City T LEFT JOIN Country CN ON T.id_country=CN.id WHERE lower(T." + l_ + ") || ', ' || lower(CN.code) ~ E'" + regexp + "' ORDER BY T." + l_ + " LIMIT " + MAX_AUTOCOMPLETE_RESULTS));
-			l.addAll(DatabaseManager.executeSelect("SELECT T.id, T." + l_ + ", CAST('" + Country.alias + "' AS VARCHAR) FROM Country T WHERE lower(T." + l_ + ") ~ E'" + regexp + "' ORDER BY T." + l_ + " LIMIT " + MAX_AUTOCOMPLETE_RESULTS));
+			sql = "SELECT T.id, T." + l_ + ", CAST('" + City.alias + "' AS VARCHAR)"
+				+ "FROM City T "
+				+ " LEFT JOIN Country CN ON T.id_country=CN.id "
+				+ " WHERE lower(T." + l_ + ") || ', ' || lower(CN.code) ~ E'" + regexp + "'"
+				+ " ORDER BY T." + l_
+				+ " LIMIT " + MAX_AUTOCOMPLETE_RESULTS;
+			l.addAll(DatabaseManager.executeSelect(sql));
+			sql = "SELECT T.id, T." + l_ + ", CAST('" + Country.alias + "' AS VARCHAR) "
+				+ " FROM Country T "
+				+ " WHERE lower(T." + l_ + ") ~ E'" + regexp + "'"
+				+ " ORDER BY T." + l_
+				+ " LIMIT " + MAX_AUTOCOMPLETE_RESULTS;
+			l.addAll(DatabaseManager.executeSelect(sql));
 		}
 		StringBuffer html = new StringBuffer("<ul>");
 		int n = 0;
@@ -1351,7 +1372,7 @@ public class UpdateServlet extends AbstractServlet {
 		if (tp != null) {
 			String where = null;
 			if (String.valueOf(tp).equalsIgnoreCase("direct"))
-				where = "id = " + params.get("id");
+				where = "T.id = " + params.get("id");
 			else if (String.valueOf(tp).equalsIgnoreCase("year") && StringUtils.notEmpty(params.get("yrfind")))
 				where = "YR.label='" + params.get("yrfind") + "' AND id_sport = " + params.get("sp") + " AND id_championship = " + params.get("cp") + " AND id_event = " + params.get("ev") + (StringUtils.notEmpty(params.get("se")) ? " AND id_subevent = " + params.get("se") : "") + (StringUtils.notEmpty(params.get("se2")) ? " AND id_subevent2 = " + params.get("se2") : "");
 			else if (String.valueOf(tp).matches("first|last"))
@@ -1359,7 +1380,7 @@ public class UpdateServlet extends AbstractServlet {
 			else if (StringUtils.notEmpty(params.get("yr")))
 				where = "id_year " + (tp.equals("next") ? ">" : "<") + " " + params.get("yr") + " AND id_sport = " + params.get("sp") + " AND id_championship = " + params.get("cp") + " AND id_event = " + params.get("ev") + (StringUtils.notEmpty(params.get("se")) ? " AND id_subevent = " + params.get("se") : "") + (StringUtils.notEmpty(params.get("se2")) ? " AND id_subevent2 = " + params.get("se2") : "") + " ORDER BY id_year " + (tp.equals("next") ? "ASC" : "DESC");
 			if (where != null) {
-				lResult = (List<Result>) DatabaseManager.executeSelect("SELECT * FROM result WHERE " + where, Result.class);
+				lResult = (List<Result>) DatabaseManager.executeSelect(Result.query + " WHERE " + where, Result.class);
 				if (lResult != null && !lResult.isEmpty()) {
 					rs = lResult.get(0);
 				}
@@ -1483,7 +1504,7 @@ public class UpdateServlet extends AbstractServlet {
 					sb.append("rkl-" + StringUtils.join(l, "#")).append("~");
 				}
 				// Rounds
-				List<Round> lRounds = (List<Round>) DatabaseManager.executeSelect("SELECT * FROM round RD JOIN round_type RT ON RT.id = RD.id_round_type WHERE id_result = ? ORDER BY RT.index, RT.label, RD.id", Arrays.asList(rs.getId()), Round.class);
+				List<Round> lRounds = (List<Round>) DatabaseManager.executeSelect(Round.query + " WHERE id_result = ? ORDER BY RT.index, RT.label, T.id", Arrays.asList(rs.getId()), Round.class);
 				if (lRounds != null && lRounds.size() > 0) {
 					for (Round rd : (List<Round>) lRounds) {
 						List<String> l = new ArrayList<String>();

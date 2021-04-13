@@ -100,7 +100,7 @@ public class ImportUtils {
 	public static boolean processLineRS(int row, Vector<String> vHeader, Vector<String> vLine, boolean isUpdate, StringBuffer sb, Contributor cb, String lang) throws Exception {
 		boolean isError = false;
 		List<Integer> lId = null;
-		List<Country> lCountries = (List<Country>) DatabaseManager.executeSelect("SELECT * FROM ountry", Country.class);
+		List<Country> lCountries = (List<Country>) DatabaseManager.executeSelect("SELECT * FROM country", Country.class);
 		HashMap<String, Integer> hId = new HashMap<>();
 		Integer n = null;
 		boolean isComplex1 = false;

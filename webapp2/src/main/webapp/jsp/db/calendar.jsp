@@ -28,7 +28,7 @@
 	<!-- DATE 1 -->
 	<li class="dateimg"><div id="label1" class="label" style="display:none;"><%=StringUtils.text("date.from", session).toUpperCase()%></div><div id="day1" class="day"></div><div id="month1" class="month"></div><div id="year1" class="year"></div></li>
 	<li style="display:inline-block;">
-		<table style="padding-right:0px;">
+		<table class="noborder" style="padding-right:0px;">
 			<tr><td><%=StringUtils.text("year", session)%> :</td><td><select id="yr1" onchange="refreshDate(1);"><%=sbY.toString()%></select></td></tr>
 			<tr><td><%=StringUtils.text("month", session)%> :</td><td><select id="mo1" onchange="refreshDate(1);"><%=sbM.toString()%></select></td></tr>
 			<tr><td><%=StringUtils.text("day", session)%> :</td><td><select id="dt1" onchange="refreshDate(1);"><%=sbD.toString()%></select></td></tr>
@@ -44,7 +44,7 @@
 		</table>
 	</li>
 	<li id="spanbutton" style="padding-left:10px;">
-		<table class="toolbar">
+		<table class="noborder toolbar">
 			<tr><td><input id="calendarspan" type="button" class="button calendarspan" onclick="showDate2();" value="<%=StringUtils.text("define.span", session)%>"/></td></tr>
 		</table>
 	</li>

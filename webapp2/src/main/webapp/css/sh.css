@@ -547,6 +547,35 @@ select.disabled{
 	font-weight: bold;
 	border-bottom: 2px solid #BBB;
 }
+#home .homepanel .hometitle{
+	padding-left: 21px;
+	background-position: left center;
+	background-repeat: no-repeat;
+}
+#home .info{
+	background-image: url(../img/home/info.png);
+}
+#home .randomevent{
+	background-image: url(../img/home/randomevent.png);
+}
+#home .share{
+	background-image: url(../img/home/share.png);
+}
+#home .mobile{
+	background-image: url(../img/home/mobile.png);
+}
+#home .opensport{
+	background-image: url(../img/home/opensport.png);
+}
+#home .lastupdates{
+	background-image: url(../img/home/lastupdates.png);
+}
+#home .statistics{
+	background-image: url(../img/home/statistics.png);
+}
+#home .extlinks{
+	background-image: url(../img/home/extlinks.png);
+}
 .homepanel #sports{
 	margin-top: 8px;
 	overflow: auto;
@@ -728,7 +757,7 @@ select.disabled{
 	padding-left: 25px;
 	background: url(../img/menu/dbbrowse.png) left center no-repeat;
 }
-.treediv{
+#browse .treediv{
 	width: 270px;
 	border-right: 1px solid #DDD;
 }
@@ -1614,7 +1643,7 @@ select.disabled{
 	background-image:url(../img/update/extlinks.png);
 }
 #toolsopt td.errors{
-	background-image:url(../img/project/error.png);
+	background-image:url(../img/db/error.png);
 }
 #toolsopt td.redirections{
 	background-image:url(../img/update/redirections.png);
@@ -1655,7 +1684,7 @@ select.disabled{
 	height: 135px;
 }
 #update-errors .fstitle{
-	background-image: url(../img/project/error.png);
+	background-image: url(../img/db/error.png);
 }
 /*---------- ADMIN ----------*/
 #update-admin .fstitle{
@@ -1711,7 +1740,7 @@ select.disabled{
 	padding: 8px;
 }
 #d-error .fstitle{
-	background-image: url(../img/project/error.png);
+	background-image: url(../img/db/error.png);
 }
 #d-accountconf .fstitle{
 	background-image: url('../img/menu/login.png');
@@ -1829,10 +1858,32 @@ select.disabled{
   ========== TOOLBAR ========== 
   =============================*/
 .toolbar .button{
-	padding-left: 5px;
+	padding-left: 24px;
+}
+#toolbar .add, .toolbar .add{
+	background-image: url('../img/component/button/add.png?6');
+}
+#toolbar .modify, .toolbar .modify{
+	background-image: url('../img/component/button/modify.png?6');
+}
+#toolbar .share, .toolbar .share{
+	background-image: url('../img/component/button/share.png?6');
+}
+#toolbar .export, .toolbar .export{
+	background-image: url('../img/component/button/export.png?6');
+}
+#buttons .link, .toolbar .link{
+	background-image: url('../img/component/button/link.png?6');
+}
+#buttons .print, .toolbar .print{
+	background-image: url('../img/component/button/print.png?6');
+}
+#buttons .info2, .toolbar .info2{
+	background-image: url('../img/component/button/info.png?6');
 }
 #buttons .calendarspan, .toolbar .calendarspan{
 	background-image: url('../img/db/calendar-span.png');
+	padding-left: 24px;
 }
 #buttons .upd-overview, .toolbar .upd-overview{
 	background-image: url('../img/update/overview.png');

@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.codec.binary.Base32;
 import org.jsoup.Jsoup;
 
+import com.sporthenon.db.DatabaseManager;
 import com.sporthenon.utils.res.ResourceUtils;
 
 public class StringUtils {
@@ -94,13 +95,15 @@ public class StringUtils {
 		return s;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static String toPatternString(String s) throws Exception {
 		String regexp = s.replaceAll("\\_", ".").replaceAll("'", "''");
 		regexp = regexp.replaceAll("\\,", "\\\\\\\\,");
 		regexp = regexp.replaceAll("\\(", "\\\\\\\\\\\\\\\\(");
 		regexp = regexp.replaceAll("\\)", "\\\\\\\\\\\\\\\\)");
-		return regexp;
-		//return String.valueOf(DatabaseManager.executeNative("SELECT _pattern_string\"(E'" + regexp + "')").get(0)).replaceAll("'", "''");
+		String sql = "SELECT _pattern_string(E'" + regexp + "')";
+		List<String> l = (List<String>) DatabaseManager.executeSelect(sql, String.class);
+		return l.get(0).replaceAll("'", "''");
 	}
 
 	public static List<Integer> tieList(String s) {

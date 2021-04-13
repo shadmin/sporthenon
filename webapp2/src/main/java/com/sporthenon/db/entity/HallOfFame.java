@@ -92,6 +92,18 @@ public class HallOfFame extends AbstractEntity {
 		this.position = position;
 	}
 
+	public Integer getIdLeague() {
+		return (league != null ? league.getId() : null);
+	}
+
+	public Integer getIdYear() {
+		return (year != null ? year.getId() : null);
+	}
+
+	public Integer getIdPerson() {
+		return (person != null ? person.getId() : null);
+	}
+	
 	@Override
 	public String toString() {
 		return "HallOfFame [id=" + id + ", league=" + league + ", year=" + year + ", person=" + person + ", position=" + position + "]";

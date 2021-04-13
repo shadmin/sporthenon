@@ -71,7 +71,7 @@ public class Result extends AbstractEntity {
 	public static final transient String alias 	= "RS";
 	public static final transient String table 	= "result";
 	public static final transient String key 	= "id";
-	public static final transient String cols 	= "id_sport,id_championship,id_event,id_subevent,id_subevent2,id_city1,id_city2,id_complex1,id_complex2"
+	public static final transient String cols 	= "id_sport,id_championship,id_event,id_subevent,id_subevent2,id_city1,id_city2,id_complex1,id_complex2,"
 			+ "id_country1,id_country2,id_year,date1,date2,id_rank1,id_rank2,id_rank3,id_rank4,id_rank5,id_rank6,id_rank7,id_rank8,id_rank9,id_rank10,"
 			+ "id_rank11,id_rank12,id_rank13,id_rank14,id_rank15,id_rank16,id_rank17,id_rank18,id_rank19,id_rank20,"
 			+ "result1,result2,result3,result4,result5,result6,result7,result8,result9,result10,"
@@ -710,6 +710,54 @@ public class Result extends AbstractEntity {
 		this.noDate = noDate;
 	}
 
+	public Integer getIdSport() {
+		return (sport != null ? sport.getId() : null);
+	}
+	
+	public Integer getIdChampionship() {
+		return (championship != null ? championship.getId() : null);
+	}
+	
+	public Integer getIdEvent() {
+		return (event != null ? event.getId() : null);
+	}
+	
+	public Integer getIdSubevent() {
+		return (subevent != null ? subevent.getId() : null);
+	}
+	
+	public Integer getIdSubevent2() {
+		return (subevent2 != null ? subevent2.getId() : null);
+	}
+	
+	public Integer getIdComplex1() {
+		return (complex1 != null ? complex1.getId() : null);
+	}
+	
+	public Integer getIdCity1() {
+		return (city1 != null ? city1.getId() : null);
+	}
+	
+	public Integer getIdCountry1() {
+		return (country1 != null ? country1.getId() : null);
+	}
+	
+	public Integer getIdComplex2() {
+		return (complex2 != null ? complex2.getId() : null);
+	}
+	
+	public Integer getIdCity2() {
+		return (city2 != null ? city2.getId() : null);
+	}
+	
+	public Integer getIdCountry2() {
+		return (country2 != null ? country2.getId() : null);
+	}
+	
+	public Integer getIdYear() {
+		return (year != null ? year.getId() : null);
+	}
+	
 	@Override
 	public String toString() {
 		return sport + ", " + championship + (event != null ? ", " + event : "") + (subevent != null ? ", " + subevent : "") + ", " + year + (date1 != null ? ", " + date1 : "") + (date2 != null ? ", " + date2 : "") + ", 1. #" + idRank1 + ", 2. #" + idRank2 + ", 3. #" + idRank3 + " [#" + id + "]";

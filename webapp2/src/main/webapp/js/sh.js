@@ -661,7 +661,7 @@ function moreSports(index1, index2) {
 }
 function initSliderHome(html) {
 	$$('#sports .content')[0].update(html);
-	createSlider('sports', 872, 120, true);
+	createSlider('sports', 1090, 120, true);
 }
 function getLastUpdates(row, p, sp) {
 	var tbody = $('tlast').down('tbody');

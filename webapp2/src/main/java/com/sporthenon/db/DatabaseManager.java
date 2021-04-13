@@ -345,7 +345,6 @@ public class DatabaseManager {
 		String[] tcols = cols.split("\\,");
 		for (int i = 0 ; i < tcols.length ; i++) {
 			Method method = mapMethods.get("get" + tcols[i].replaceAll("\\_", ""));
-			if (method==null) {System.out.println("get" + tcols[i].replaceAll("\\_", ""));}
 			Object value = method.invoke(o);
 			params.add(value);
 		}
@@ -376,7 +375,7 @@ public class DatabaseManager {
 			sql += " WHERE " + key + " = ?";
 			params.add(id);
 		}
-		sql += " RETURNING id";
+		sql += " RETURNING " + key;
 		Integer newId = executeUpdate(sql, params);
 		o.getClass().getMethod("setId", Integer.class).invoke(o, newId);
 

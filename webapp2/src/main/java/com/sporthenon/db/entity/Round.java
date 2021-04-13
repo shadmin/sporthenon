@@ -38,7 +38,8 @@ public class Round extends AbstractEntity {
 	public static final transient String query 	= "SELECT T.*, "
 			+ " CX1.label AS cx1_label, CT1.label AS ct1_label, CT1.label_fr AS ct1_label_fr, "
 			+ " CX2.label AS cx2_label, CT2.label AS ct2_label, CT2.label_fr AS ct2_label_fr "
-			+ " FROM round T LEFT JOIN complex CX1 ON CX1.id = T.id_complex"
+			+ " FROM round T LEFT JOIN round_type RT ON RT.id = T.id_round_type "
+			+ " LEFT JOIN complex CX1 ON CX1.id = T.id_complex"
 			+ " LEFT JOIN city CT1 ON CT1.id = T.id_city"
 			+ " LEFT JOIN complex CX2 ON CX2.id = T.id_complex1"
 			+ " LEFT JOIN city CT2 ON CT2.id = T.id_city1";

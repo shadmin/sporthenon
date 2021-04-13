@@ -17,17 +17,19 @@
 	HtmlConverter.convertTreeArray(DatabaseManager.callFunctionSelect("tree_results", params, TreeItem.class), out, false, lang);
 %>
 --></script>
-<div id="title-browse" class="title">
-	<div><%=StringUtils.text("menu.browse", session)%></div>
-</div>
-<div id="treeresults" class="render"></div>
-<div class="treediv">
-	<div id="treeview">
-		<table><tr><td>
-		<script type="text/javascript"><!--
-			new Tree(treeItems, treeTemplate);
-		--></script>
-		</td></tr></table>
+<div id="browse">
+	<div id="title-browse" class="title">
+		<div><%=StringUtils.text("menu.browse", session)%></div>
+	</div>
+	<div id="treeresults" class="render"></div>
+	<div class="treediv">
+		<div id="treeview">
+			<table><tr><td>
+			<script type="text/javascript"><!--
+				new Tree(treeItems, treeTemplate);
+			--></script>
+			</td></tr></table>
+		</div>
 	</div>
 </div>
 <script type="text/javascript"><!--

@@ -108,7 +108,7 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	public static String getSportDivs(String lang) throws Exception {
-		final int N = 8;
+		final int N = 10;
 		HashMap<Integer, String> hSports = new HashMap<Integer, String>();
 		ArrayList<Integer> lId = new ArrayList<Integer>();
 		for (Object obj : DatabaseManager.executeSelect("SELECT * FROM sport ORDER BY index", Sport.class)) {
