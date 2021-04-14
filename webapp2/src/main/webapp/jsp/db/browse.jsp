@@ -7,7 +7,7 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <jsp:include page="/jsp/common/header.jsp"/>
-<script type="text/javascript"><!--
+<script><!--
 	var treeItems = null;
 <%
 	String lang = String.valueOf(session.getAttribute("locale"));
@@ -25,14 +25,14 @@
 	<div class="treediv">
 		<div id="treeview">
 			<table><tr><td>
-			<script type="text/javascript"><!--
+			<script><!--
 				new Tree(treeItems, treeTemplate);
 			--></script>
 			</td></tr></table>
 		</div>
 	</div>
 </div>
-<script type="text/javascript"><!--
+<script><!--
 window.onload = function() {
 }
 --></script>

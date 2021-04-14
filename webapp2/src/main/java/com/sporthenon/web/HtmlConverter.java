@@ -263,10 +263,10 @@ public class HtmlConverter {
 		}
 		else if (type == HEADER_OLYMPICS_INDIVIDUAL) {
 			String olId = String.valueOf(lstParams.get(0));
-			String sql = "SELECT YR.label || CT.label" + ResourceUtils.getLocaleParam(lang) + ") "
+			String sql = "SELECT YR.label || ' ' || CT.label" + ResourceUtils.getLocaleParam(lang)
 					+ " FROM olympics OL "
-					+ " JOIN year YR ON YR.id_year = OL.id_year "
-					+ " JOIN city CT ON CT.id_city = CT.id_city "
+					+ " JOIN year YR ON YR.id = OL.id_year "
+					+ " JOIN city CT ON CT.id = OL.id_city "
 					+ " WHERE OL.id IN (" + olId + ")";
 			List<String> lstOlympics = (List<String>) DatabaseManager.executeSelect(sql, String.class);
 			Sport sp = (Sport) DatabaseManager.loadEntity(Sport.class, lstParams.get(1));
@@ -287,10 +287,10 @@ public class HtmlConverter {
 		else if (type == HEADER_OLYMPICS_COUNTRY) {
 			String olId = String.valueOf(lstParams.get(0));
 			String cnId = String.valueOf(lstParams.get(1));
-			String sql = "SELECT YR.label || CT.label" + ResourceUtils.getLocaleParam(lang) + ") "
+			String sql = "SELECT YR.label || ' ' || CT.label" + ResourceUtils.getLocaleParam(lang) 
 					+ " FROM olympics OL "
-					+ " JOIN year YR ON YR.id_year = OL.id_year "
-					+ " JOIN city CT ON CT.id_city = CT.id_city "
+					+ " JOIN year YR ON YR.id = OL.id_year "
+					+ " JOIN city CT ON CT.id = OL.id_city "
 					+ " WHERE OL.id IN (" + olId + ")";
 			List<String> lstOlympics = (List<String>) DatabaseManager.executeSelect(sql, String.class);
 			List<String> lstCountries = (List<String>) DatabaseManager.loadLabels(Country.class, cnId, lang);
@@ -1569,9 +1569,9 @@ public class HtmlConverter {
 				c2 = HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2(), item.getLabelRel6());
 				c3 = "<a href='" + HtmlUtils.writeURL("/results", item.getIdRel2() + "-" + item.getIdRel3() + "-" + item.getIdRel4() + (item.getIdRel5() != null ? "-" + item.getIdRel5() : "") + (item.getIdRel18() != null ? "-" + item.getIdRel18() : ""), item.getLabelRel6() + "/" + item.getLabelRel7() + "/" + item.getLabelRel8() + (item.getIdRel5() != null ? "/" + item.getLabelRel9() : "") + (item.getIdRel18() != null ? "/" + item.getLabelRel10() : "")) + "'>" + (item.getLabelRel3() + " " + StringUtils.SEP1 + " " + item.getLabelRel4() + (item.getIdRel5() != null ? " " + StringUtils.SEP1 + " " + item.getLabelRel5() : "") + (item.getIdRel18() != null ? " " + StringUtils.SEP1 + " " + item.getLabelRel18() : "")) + "</a>";
 				if (item.getTxt1().equals("A"))
-					c4 = "<img style='vertical-align:middle;padding-bottom:2px;' alt='add' src='/img/project/adds.png'/> " + ResourceUtils.getText("co.add", lang);
+					c4 = "<img style='vertical-align:middle;padding-bottom:2px;' alt='add' src='/img/home/adds.png'/> " + ResourceUtils.getText("co.add", lang);
 				else
-					c4 = "<img style='vertical-align:middle;padding-bottom:2px;' alt='update' src='/img/project/updates.png'/> " + ResourceUtils.getText("co.update", lang);
+					c4 = "<img style='vertical-align:middle;padding-bottom:2px;' alt='update' src='/img/home/updates.png'/> " + ResourceUtils.getText("co.update", lang);
 				c5 = StringUtils.toTextDate(item.getDate1(), lang, "d MMMM yyyy HH:mm");
 			}
 			else if (en.equals(Event.alias)) {
@@ -1862,7 +1862,7 @@ public class HtmlConverter {
 		long id = System.currentTimeMillis();
 		Map<Integer, List<StringBuffer>> mpl = getPersonLists(StringUtils.join(lIds, ","), lang);
 		StringBuffer html = new StringBuffer("<table class='tsort'>");
-		html.append("<thead><tr class='rsort'><th/>" + (isComment ? "<th>" + ResourceUtils.getText("note", lang) + "</th>" : "") + "<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("year", lang) + "</th>");
+		html.append("<thead><tr class='rsort'><th></th>" + (isComment ? "<th>" + ResourceUtils.getText("note", lang) + "</th>" : "") + "<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("year", lang) + "</th>");
 		for (int i = 1 ; i <= entityCount ; i++)
 			html.append(i == 2 && isScore ? "<th onclick='sort(\"" + id + "\", this, " + i + ");'>" + ResourceUtils.getText("score", lang) + "</th>" : "").append("<th colspan='" + tColspan[i - 1] + "' onclick='sort(\"" + id + "\", this, " + i + ");'>" + (isMedal ? (i == 1 ? ImageUtils.getGoldHeader(lang) : (i == 2 ? ImageUtils.getSilverHeader(lang) : ImageUtils.getBronzeHeader(lang))) : ResourceUtils.getText("rank." + i, lang)) + "</th>");
 		if (isDates)

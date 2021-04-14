@@ -9,7 +9,7 @@
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <%@ page import="java.util.*"%>
 <jsp:include page="/jsp/common/header.jsp"/>
-<script type="text/javascript"><!--
+<script><!--
 	var treeItems = null;
 <%
 	String lang = String.valueOf(session.getAttribute("locale"));
@@ -77,7 +77,7 @@
 		hSportImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)0, plb.getValue(), 'L', null, null));
 	}
 %>
-<script type="text/javascript"><!--
+<script><!--
 var hSportImg = new Array();
 window.onload = function() {
 	<%for (String s : hSportImg.keySet()) {%>

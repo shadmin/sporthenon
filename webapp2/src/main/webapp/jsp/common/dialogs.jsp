@@ -71,7 +71,7 @@
 			<tr><td>ID:</td><td><input id="rddlg-id" type="text" disabled="disabled" style="width:50px;"/></td></tr>
 		</table>
 		<table id="dlg-round">
-			<tr><td><input type="text" id="rddlg-rt" name="<%=StringUtils.text("type", session)%>" style="width:250px;"/></td></tr>
+			<tr><td><input type="text" id="rddlg-rt" name="<%=StringUtils.text("type", session)%>" style="width:250px;"/></td><td></td></tr>
 			<tr><td><input type="text" id="rddlg-rk1" name="<%=StringUtils.text("rank.1", session)%>" style="width:300px;"/><a href="javascript:clearValue('rddlg-rk1');">[X]</a></td>
 			<td><input type="text" id="rddlg-rs1" name="<%=StringUtils.text("result.score", session)%>" style="width:120px;"/></td></tr>
 			<tr><td><input type="text" id="rddlg-rk2" name="<%=StringUtils.text("rank.2", session)%>" style="width:300px;"/><a href="javascript:clearValue('rddlg-rk2');">[X]</a></td>
@@ -139,7 +139,7 @@
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dHelp);"/></div>
 </div>
 </div>
-<script type="text/javascript"><!--
+<script><!--
 dAccountConf = new Control.Modal($('d-accountconf'),{ closeOnClick: false, fade: false });
 dError = new Control.Modal($('d-error'),{ closeOnClick: false, fade: false });
 dPicture = new Control.Modal($('d-picture'),{ closeOnClick: true, fade: true, afterClose:function(){setOpacity(1.0);} });

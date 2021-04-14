@@ -15,12 +15,12 @@
 	<!-- TYPE SELECTION -->
 	<li id="oltype">
 		<div onclick="$('olt1').checked = true;$('olt1').onclick();">
-			<img alt="Summer" src="/img/db/summer2.png"/><br/>
+			<img alt="Summer" src="/img/db/summer.png"/><br/>
 			<input type="radio" name="ol-type" id="olt1" checked="checked" onclick="changeModeOL()"/><br/>
 			<b><%=StringUtils.text("summer.games", session)%></b>
 		</div>
 		<div style="margin-top:0px;" onclick="$('olt2').checked = true;$('olt2').onclick();">
-			<img alt="Winter" src="/img/db/winter2.png"/><br/>
+			<img alt="Winter" src="/img/db/winter.png"/><br/>
 			<input type="radio" name="ol-type" id="olt2" onclick="changeModeOL()"/><br/>
 			<b><%=StringUtils.text("winter.games", session)%></b>
 		</div>
@@ -28,9 +28,10 @@
 	<!-- SUMMER -->
 	<li id="summerfs" class="fieldset">
 		<div id="slider-summer-ol" class="slider"><%@include file="../../html/slider.html"%></div>
-		<table id="summer-tb" style="margin-top:5px;">
+		<table id="summer-tb">
 			<tr><td style="padding-bottom:3px;"><div id="sm-summer-pl-ol" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
-			<tr><td colspan="2" style="padding-bottom:3px;border-top:1px solid #BBB;border-bottom:1px solid #BBB;"><table style="margin-left:2px;margin-top:5px;margin-bottom:0px;width:0%;"><tr>
+			<tr><td colspan="2" style="padding:6px 5px;border-top:1px solid #BBB;border-bottom:1px solid #BBB;"><table style="margin-left:2px;margin-top:5px;margin-bottom:0px;width:0%;"><tr>
+				<td><%=StringUtils.text("search.type", session)%>&nbsp;:&nbsp;</td>
 				<td><input type="radio" name="summer-q" id="sq1" checked="checked" onclick="$('summer-q1').show();$('summer-q2').hide();" style="margin:0px;margin-top:3px;"/></td>
 				<td style="padding-left:2px;"><label for="sq1"><%=StringUtils.text("event.results", session)%></label></td>
 				<td style="padding-left:10px;"><input type="radio" name="summer-q" id="sq2" onclick="$('summer-q2').show();$('summer-q1').hide();" style="margin:0px;margin-top:3px;"/></td>
@@ -40,7 +41,7 @@
 			<tr><td colspan="3"><table id="summer-q1">
 				<tr><td rowspan="6"><div id="slider-summer-sp" class="slider" style="width:150px;"><%@include file="../../html/slider.html"%></div></td>
 				<td colspan="3" style="padding:2px;padding-top:0px;"><%=StringUtils.text("sport", session)%>:</td></tr>
-				<tr><td colspan="3" class="select"><select id="summer-pl-sp" name="summer-pl-sp" onchange="changeSportOL(this, 'summer', false);"><option/></select></td></tr>
+				<tr><td colspan="3" class="select"><select id="summer-pl-sp" name="summer-pl-sp" onchange="changeSportOL(this, 'summer', false);"></select></td></tr>
 				<tr><td colspan="3" style="padding:2px;"><%=StringUtils.text("event", session)%>:</td></tr>
 				<tr><td colspan="3"><div id="sm-summer-pl-ev" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 				<tr><td style="width:0px;"><img src="/img/component/treeview/join.gif" alt="L"/></td><td colspan="2" style="padding-left:5px;"><div id="sm-summer-pl-se" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
@@ -56,9 +57,10 @@
 	<!-- WINTER -->
 	<li id="winterfs" class="fieldset" style="display:none;">
 		<div id="slider-winter-ol" class="slider"><%@include file="../../html/slider.html"%></div>
-		<table id="winter-tb" style="margin-top:5px;">
+		<table id="winter-tb">
 			<tr><td style="padding-bottom:3px;"><div id="sm-winter-pl-ol" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
-			<tr><td colspan="2" style="padding-bottom:3px;border-top:1px solid #BBB;border-bottom:1px solid #BBB;"><table style="margin-left:2px;margin-top:5px;margin-bottom:0px;width:0%;"><tr>
+			<tr><td colspan="2" style="padding:6px 5px;border-top:1px solid #BBB;border-bottom:1px solid #BBB;"><table style="margin-left:2px;margin-top:5px;margin-bottom:0px;width:0%;"><tr>
+				<td><%=StringUtils.text("search.type", session)%>&nbsp;:&nbsp;</td>
 				<td><input type="radio" name="winter-q" id="wq1" checked="checked" onclick="$('winter-q1').show();$('winter-q2').hide();" style="margin:0px;margin-top:3px;"/></td>
 				<td style="padding-left:2px;"><label for="wq1"><%=StringUtils.text("event.results", session)%></label></td>
 				<td style="padding-left:10px;"><input type="radio" name="winter-q" id="wq2" onclick="$('winter-q2').show();$('winter-q1').hide();" style="margin:0px;margin-top:3px;"/></td>
@@ -68,7 +70,7 @@
 			<tr><td colspan="3"><table id="winter-q1">
 				<tr><td rowspan="6"><div id="slider-winter-sp" class="slider" style="width:150px;"><%@include file="../../html/slider.html"%></div></td>
 				<td colspan="3" style="padding:2px;padding-top:0px;"><%=StringUtils.text("sport", session)%>:</td></tr>
-				<tr><td colspan="3" class="select"><select id="winter-pl-sp" name="winter-pl-sp" onchange="changeSportOL(this, 'winter', false);"><option/></select></td></tr>
+				<tr><td colspan="3" class="select"><select id="winter-pl-sp" name="winter-pl-sp" onchange="changeSportOL(this, 'winter', false);"></select></td></tr>
 				<tr><td colspan="3" style="padding:2px;"><%=StringUtils.text("event", session)%>:</td></tr>
 				<tr><td colspan="3"><div id="sm-winter-pl-ev" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 				<tr><td style="width:0px;"><img src="/img/component/treeview/join.gif" alt="L"/></td><td colspan="2" style="padding-left:5px;"><div id="sm-winter-pl-se" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
@@ -98,7 +100,7 @@
 		hSportImg.put(String.valueOf(plb.getValue()), HtmlUtils.writeImage((short)0, plb.getValue(), 'L', null, null));
 	}
 %>
-<script type="text/javascript"><!--
+<script><!--
 var treeItems = null;
 var hOlympicsImg = new Array();
 var hSportImg = new Array();
@@ -113,11 +115,11 @@ window.onload = function() {
 	var c = null;
 	for (var i = 0 ; i < t.length ; i++) {
 		c = t[i];
-		initSelectMult('sm-' + c + '-pl-ol', TX_OLYMPIC_GAMES, 430);
-		initSelectMult('sm-' + c + '-pl-ev', TX_EVENTS, 285);
-		initSelectMult('sm-' + c + '-pl-se', TX_EVENTS, 261);
-		initSelectMult('sm-' + c + '-pl-se2', TX_EVENTS, 242);
-		initSelectMult('sm-' + c + '-pl-cn', TX_COUNTRIES, 430);
+		initSelectMult('sm-' + c + '-pl-ol', TX_OLYMPIC_GAMES, 625);
+		initSelectMult('sm-' + c + '-pl-ev', TX_EVENTS, 465);
+		initSelectMult('sm-' + c + '-pl-se', TX_EVENTS, 441);
+		initSelectMult('sm-' + c + '-pl-se2', TX_EVENTS, 422);
+		initSelectMult('sm-' + c + '-pl-cn', TX_COUNTRIES, 625);
 		$(c + '-pl-ol').onchange = function() {
 			changeOlympics(this.id);
 			updateTip(this.id);
@@ -128,7 +130,7 @@ window.onload = function() {
 		$(c + '-pl-se').onchange = function() {
 			getPicklistOL(this.id.replace('-se', '-se2'));
 		}
-		createSlider('slider-' + c + '-ol', 400, 50);
+		createSlider('slider-' + c + '-ol', 595, 50);
 		createSlider('slider-' + c + '-sp', 100, 100);
 		initOlympics(c + '-pl-ol');
 	}

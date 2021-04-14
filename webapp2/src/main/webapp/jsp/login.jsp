@@ -70,7 +70,7 @@
 </div>
 </div><!-- <div id="login"> -->
 </form>
-<script type="text/javascript"><!--
+<script><!--
 window.onload = function() {
 	$('username').focus();
 	$$('#login input').each(function(el){

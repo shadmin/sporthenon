@@ -51,7 +51,7 @@
 	</ul>
 </div>
 <%@include file="../../html/buttons.html"%>
-<script type="text/javascript"><!--
+<script><!--
 var todayY = '<%=y%>';
 var todayM = '<%=(m < 10 ? "0" : "") + m%>';
 var todayD = '<%=d%>';

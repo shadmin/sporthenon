@@ -336,6 +336,7 @@
 <!-- OLYMPICS -->
 	<entry key="summer.games">Jeux Olympiques d'été</entry>
 	<entry key="winter.games">Jeux Olympiques d'hiver</entry>
+	<entry key="search.type">Type de recherche</entry>
 	<entry key="event.results">Résultats d'épreuves</entry>
 	<entry key="medals.tables">Tableaux de médailles</entry>
 	<entry key="country">Pays</entry>

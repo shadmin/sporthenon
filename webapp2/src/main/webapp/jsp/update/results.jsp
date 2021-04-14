@@ -28,7 +28,7 @@
 	Year y4_ = (Year) DatabaseManager.loadEntity(sql, Arrays.asList(String.valueOf(y + 2)), Year.class);
 %>
 <jsp:include page="/jsp/common/header.jsp"/>
-<script type="text/javascript"><!--
+<script><!--
 var tDateValues = ['<%=d1%>', '<%=d2%>', '<%=d%>', '<%=d3%>', '<%=d4%>'];
 var treeItems = null;
 <%
@@ -39,7 +39,7 @@ var treeItems = null;
 	HtmlConverter.convertTreeArray(DatabaseManager.callFunctionSelect("tree_results", params, TreeItem.class), out, false, lang);
 %>
 --></script>
-<script type="text/javascript" src="/js/dropzone.js"></script>
+<script src="/js/dropzone.js"></script>
 <div id="update-results" class="update">
 	<!-- Help tips -->
 	<div id="help-event" class="rendertip" style="display:none;"><%=ConfigUtils.getValue("html_helpevent_" + lang)%></div>
@@ -81,7 +81,7 @@ var treeItems = null;
 				<table>
 				<thead><tr><th style="text-align:right;"><img alt="" src="/img/render/expand.gif?v=2" class="toggleimg" onclick="toggleContent(this);"/><span class="toggletext" onclick="toggleContent(this);"><%=StringUtils.text("tree", session)%></span></th></tr></thead>
 				<tbody class="tby"><tr style="display:none;"><td id="tree">
-				<script type="text/javascript">new Tree(treeItems, treeTemplate);</script>
+				<script>new Tree(treeItems, treeTemplate);</script>
 				</td></tr></tbody></table>
 			</div></div>
 			<ul>
@@ -217,7 +217,7 @@ var treeItems = null;
 	<br/>
 	<span class="small"><%=StringUtils.text("for.any.request", session)%> : <a href="mailto:admin@sporthenon.com">admin@sporthenon.com</a></span>
 </div>
-<script type="text/javascript"><!--
+<script><!--
 window.onload = function() {
 	initUpdateResults("<%=request.getAttribute("value")%>");
 	

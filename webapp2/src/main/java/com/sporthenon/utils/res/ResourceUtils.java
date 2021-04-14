@@ -42,8 +42,10 @@ public class ResourceUtils {
 	}
 	
 	public static String getText(String key, String lang) {
-		if (!HP.containsKey(lang.toLowerCase()))
+		lang = lang.replace("_", "");
+		if (!HP.containsKey(lang.toLowerCase())) {
 			lang = LGDEFAULT;
+		}
 		Properties p = HP.get(lang.toLowerCase());
 		return (p != null && p.containsKey(key) ? String.valueOf(p.get(key)) : key);
 	}

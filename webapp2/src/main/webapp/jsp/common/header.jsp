@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.sporthenon.db.entity.meta.Contributor"%>
-<%@ page import="com.sporthenon.utils.ConfigUtils"%>
-<%@ page import="com.sporthenon.utils.ImageUtils"%>
-<%@ page import="com.sporthenon.utils.StringUtils"%>
+<%@ page import="com.sporthenon.utils.*"%>
 <%@ page import="com.sporthenon.utils.res.ResourceUtils"%>
 <%@ page import="com.sporthenon.web.ServletHelper"%>
 <%
@@ -18,38 +16,33 @@
 	String lang = String.valueOf(session.getAttribute("locale"));
 	String url = "http://" + request.getServerName();
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.1//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-2.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="<%=lang%>" xml:lang="<%=lang%>">
+<!DOCTYPE html>
+<html lang="<%=lang%>">
 <head>
 	<title><%=title%></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta charset="utf-8">
 	<meta name="Description" content="<%=desc%>"/>
 	<meta name="keywords" content="<%=StringUtils.text("keywords", session)%>"/>
 	<link rel="alternate" hreflang="x-default" href="<%=request.getAttribute("urlEN")%>"/>
 	<link rel="alternate" hreflang="en" href="<%=request.getAttribute("urlEN")%>"/>
 	<link rel="alternate" hreflang="fr" href="<%=request.getAttribute("urlFR")%>"/>
-	<meta property="og:title" content="<%=(title != null ? title.toString().replaceAll("\\s+\\|\\s+Sporthenon$", "") : title)%>"/>
-	<meta property="og:type" content="website"/>
-	<meta property="og:image" content="<%=(request.getAttribute("ogimg") != null ? request.getAttribute("ogimg") : url + "/img/icon-notext.png?1")%>"/>
-	<%if (request.isSecure() || !ConfigUtils.getProperty("env").equals("prod") || !ServletHelper.getURL(request).contains("sporthenon.com")) {%>
-	<meta name="robots" content="noindex, nofollow"/>
-	<%}%>
 	<link rel="stylesheet" type="text/css" href="/css/sh.css?v=<%=version%>"/>	
 	<link rel="stylesheet" type="text/css" href="/css/render.css?v=<%=version%>"/>
 	<link rel="shortcut icon" type="image/x-icon" href="/img/iconfav.ico?v=6"/>
-	<script type="text/javascript" src="/js/prototype.js?v=<%=version%>"></script>
-	<script type="text/javascript" src="/js/includes.js?v=<%=version%>"></script>
-	<script type="text/javascript" src="/js/sh.js?v=<%=version%>"></script>
+	<script src="/js/prototype.js?v=<%=version%>"></script>
+	<script src="/js/includes.js?v=<%=version%>"></script>
 	<%if (ConfigUtils.isProd()) {%>
+	<script src="/js/sh.min.js?v=<%=version%>"></script>
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-WN79FCNBJD"></script>
 	<script>
 	  window.dataLayer = window.dataLayer || [];
 	  function gtag(){dataLayer.push(arguments);}
 	  gtag('js', new Date());
-	
 	  gtag('config', 'G-WN79FCNBJD');
 	</script>
+	<%} else {%>
+	<script src="/js/sh.js?v=<%=version%>"></script>
 	<%}%>
 </head>
 
@@ -71,7 +64,7 @@
 		<a title="Français" href="<%=request.getAttribute("urlFR")%>"><img alt="FR" src="/img/header/lang-fr.png"/></a> </div>
 </div>
 
-<script type="text/javascript"><!--
+<script><!--
 <%
 	out.print("var VERSION=\"" + version + "\";");
 	out.print("var IMG_URL=\"" + ImageUtils.getUrl() + "\";");
@@ -153,14 +146,14 @@
 	<div id="searchpanel">
 		<table class="noborder" style="border-spacing:0px;">
 		<tr><td class="pattern" style="padding-bottom:3px;">
-			<input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.in", session)%> Sporthenon" onfocus="dpatternFocus();" onblur="dpatternBlur();"></input>
+			<input type="text" class="text" name="dpattern" id="dpattern" value="<%=StringUtils.text("search.in", session)%> Sporthenon" onfocus="dpatternFocus();" onblur="dpatternBlur();"/>
 		</td>
 		</tr></table>
 	</div>
 </div>
 <div id="ajaxsearch" class="ajaxsearch"></div>
 
-<script type="text/javascript"><!--
+<script><!--
 new Ajax.Autocompleter(
 	'dpattern',
 	'ajaxsearch',

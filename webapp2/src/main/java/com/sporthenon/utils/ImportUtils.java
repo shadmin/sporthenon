@@ -984,7 +984,7 @@ public class ImportUtils {
 				ct = t[0];
 			City ct_ = null;
 			if (cx != null) { // Set City (for complex)
-				String sql = "SELECT * FROM city ct WHERE LOWER(ct.label" + ResourceUtils.getLocaleParam(lang) + ") LIKE ? and lower(country.code) = ?";
+				String sql = "SELECT * FROM city CT WHERE LOWER(CT.label" + ResourceUtils.getLocaleParam(lang) + ") LIKE ? and lower(country.code) = ?";
 				Object o_ = DatabaseManager.loadEntity(sql, Arrays.asList(ct.toLowerCase().replaceAll("'", "''"), cn.toLowerCase()), City.class);
 				if (o_ == null) {
 					Integer idCt = insertPlace(row, ct + ", " + cn, cb, sb, lang);

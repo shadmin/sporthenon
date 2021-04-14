@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 
 import com.sporthenon.admin.component.JDialogButtonBar;
 import com.sporthenon.utils.ConfigUtils;
-import com.sporthenon.utils.res.ResourceUtils;
 
 
 public class JInfoDialog extends JDialog implements ActionListener {
@@ -53,7 +52,6 @@ public class JInfoDialog extends JDialog implements ActionListener {
 	private JPanel getPanel() {
 		JPanel p = new JPanel(new BorderLayout());
 		p.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		p.add(new JLabel(ResourceUtils.getIcon("icon128.png")), BorderLayout.WEST);
 		
 		JPanel p_ = new JPanel(new GridLayout(0, 1));
 		p_.add(new JLabel());

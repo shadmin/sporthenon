@@ -2134,7 +2134,7 @@ public class UpdateServlet extends AbstractServlet {
 					html.append("<td>" + label + "</td>");
 					html.append("<td><input type='text' style='width:60px;'/></td>");
 					html.append("<td><input type='text' style='width:500px;'/></td>");
-					html.append("<td><input type='checkbox'/></td><td/></tr>");
+					html.append("<td><input type='checkbox'/></td><td></td></tr>");
 				}
 			}
 			ServletHelper.writeText(response, html.append("</tbody></table>").toString());

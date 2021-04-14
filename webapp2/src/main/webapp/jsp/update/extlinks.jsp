@@ -64,7 +64,7 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript"><!--
+<script><!--
 window.onload = function() {
 	loadExtLinks();
 }

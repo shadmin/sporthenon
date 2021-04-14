@@ -9,7 +9,7 @@
 <%! @SuppressWarnings("unchecked") %>
 <jsp:include page="/jsp/common/header.jsp"/>
 <div id="update-pictures" class="update">
-	<script type="text/javascript" src="/js/dropzone.js"></script>
+	<script src="/js/dropzone.js"></script>
 	<jsp:include page="/jsp/update/toolbar.jsp"/>
 	<div class="fieldset">
 		<div class="fstitle users"><%=StringUtils.text("update.pictures", session).toUpperCase()%></div>
@@ -77,7 +77,7 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript"><!--
+<script><!--
 window.onload = function() {
 	initPictures();
 }

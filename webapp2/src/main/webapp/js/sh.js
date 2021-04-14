@@ -694,7 +694,7 @@ var cindex = 0;
 var cmax = 1;
 var cdata = [];
 var clabel = [];
-var ccolor = [['Gradient(#f8ef2d:#f8ef2d)'], ['Gradient(#f8ef2d:#f8ef2d)']];
+var ccolor = [['Gradient(#ff8b6b:#ff3900)'], ['Gradient(#ff8b6b:#ff3900)']];
 function loadReport(cdata_, clabel_, ccolor_) {
 	$('chart').update('<canvas id="cvs" width="720" height="400"></canvas>');
 	if (cindex == 0 || cindex == 1) {
@@ -1052,13 +1052,13 @@ function updateSliderOl(code) {
 	var n = -1;
 	var currentOl = $F(code + '-pl-ol');
 	$$('#' + code + '-pl-ol option').each(function(el) {
-		if (el.text.indexOf('––') != 0 && el.text.indexOf('[') != 0) {
+		if (el.value.indexOf(',') === -1 && parseInt(el.value) > 0) {
 			var pattern = new RegExp('(^|.*,)' + el.value + '(,.*|$)');
 			var text = null;
 			if (currentOl == '0' || pattern.match(currentOl)) {
 				text = el.text;
 				text = text.substring(text.indexOf(' - ') + 3) + ' ' + text.substring(0, 4);
-				sliderContent.push(++n > 0 && n % 8 == 0 ? '</div><div class="slide">' : '');
+				sliderContent.push(++n > 0 && n % 12 == 0 ? '</div><div class="slide">' : '');
 				sliderContent.push('<img alt="' + text + '" title="' + text + '" src="' + hOlympicsImg[el.value] + '" style="cursor:pointer;" onclick="slideOlClick(\'' + code + '\', \'' + el.value + '\');"/>');
 			}
 		}

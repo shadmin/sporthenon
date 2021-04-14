@@ -74,7 +74,7 @@ table.noborder, table.noborder th, table.noborder td{
 .fieldset{
 	background: #FFF;
 	text-align: left;
-	border: 1px solid gray;
+	border: 1px solid #CCC;
 	margin: 3px 0px;
 	margin-top: 10px;
 	margin-bottom: 0px;
@@ -535,7 +535,7 @@ select.disabled{
 #home .homepanel, #contribute .cbpanel, #login .loginpanel{
 	margin: 5px;
 	border-radius: 7px;
-	border: 2px solid #DFDFDF;
+	border: 1px solid #D0D0D0;
 	padding: 10px;
 	padding-top: 3px;
 }
@@ -837,7 +837,7 @@ select.disabled{
 #olympics{
 	margin-left: 10px;
 	margin-right: 10px;
-	height: 290px;
+	height: 275px;
 }
 #olympics #oltype{
 	display: inline-block;
@@ -857,12 +857,11 @@ select.disabled{
 }
 #olympics #oltype div:hover{
 	border: 1px solid #000;
-	background-color: #FFA;
+	background-color: #FFD;
 }
 #olympics .fieldset{
 	display: inline-block;
-	width: 460px;
-	height: 242px;
+	height: 250px;
 	margin: 6px 6px;
 	margin-bottom: 0px;
 	padding: 5px;
@@ -894,6 +893,12 @@ select.disabled{
 }
 #olympics #summer-q1 .arrow, #olympics #winter-q1 .arrow{
 	margin-top: 14px;
+}
+#olympics #summer-tb, #olympics #winter-tb, #olympics #summer-q1, #olympics #winter-q1, #olympics #summer-q2, #olympics #winter-q2{
+	margin-top: 10px;
+}
+#olympics #slider-summer-sp, #olympics #slider-summer-sp{
+	margin: 5px;
 }
 /*================================
   ========== US LEAGUES ========== 
@@ -1058,10 +1063,10 @@ select.disabled{
 	background-image: url(../img/home/download.png);
 }
 #contribute .howto{
-	background-image: url(../img/home/howto.png);
+	background-image: url(../img/home/direction.png);
 }
 #contribute .users{
-	background-image: url(../img/home/users.png);
+	background-image: url(../img/menu/contribute.png);
 }
 #contribute li{
 	height: 20px;
@@ -1242,7 +1247,7 @@ select.disabled{
 	bottom: 15px;
 }
 .warning{
-	background: url(../img/update/warning.gif) left center no-repeat;
+	background: url(../img/update/warning.png) left center no-repeat;
 	padding-left: 18px;
 	color: #F80;
 }
@@ -1254,7 +1259,7 @@ select.disabled{
 }
 .update input[type=text].default, .update textarea.default, #d-plist input[type=text].default, #d-round input[type=text].default, #d-comment textarea.default, #d-round textarea.default{
 	border: 1px solid #AAA;
-	color: #CCC;
+	color: #999;
 }
 .update input[type=text]:focus, .update textarea:focus, #d-plist input[type=text]:focus, #d-round input[type=text]:focus, .update input[type=text].default:focus, .update textarea.default:focus, #d-plist input[type=text].default:focus, #d-round input[type=text].default:focus, #d-comment textarea:focus, #d-round textarea:focus{
 	border: 1px solid #D00;

@@ -5,10 +5,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -155,10 +152,10 @@ public class JMainFrame extends JFrame {
 			this.setTitle("Sporthenon Admin v" + ConfigUtils.getProperty("version"));
 			this.setContentPane(getJContentPane());
 			this.setLocationRelativeTo(null);
-			List<Image> lIcons = new ArrayList<Image>();
-			for (String size : new String[]{"16", "24", "32", "48", "64", "72", "96", "128", "256"})
-				lIcons.add(Toolkit.getDefaultToolkit().getImage(JMainFrame.class.getResource("/com/sporthenon/utils/res/img/icon" + size + ".png")));
-			this.setIconImages(lIcons);
+//			List<Image> lIcons = new ArrayList<Image>();
+//			for (String size : new String[]{"16", "24", "32", "48", "64", "72", "96", "128", "256"})
+//				lIcons.add(Toolkit.getDefaultToolkit().getImage(JMainFrame.class.getResource("/com/sporthenon/utils/res/img/icon" + size + ".png")));
+//			this.setIconImages(lIcons);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}
 		catch (Exception e) {

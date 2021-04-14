@@ -45,9 +45,9 @@
 				<td><select id="list2" multiple="multiple" size="20"><option/></select></td>
 			</tr>
 			<tr><td><%=StringUtils.text("entity.SP.1", session)%> :</td></tr>
-			<tr><td><select id="sp"><option value=""></option><%=sbSport.toString()%></select></td><td/><td><input type="checkbox" id="cb1"/><label for="cb1"><%=StringUtils.text("automatic.subevent", session)%></label></td></tr>
-			<tr><td><%=StringUtils.text("entity.CP.1", session)%> :</td><td/><td><input type="checkbox" id="cb2"/><label for="cb2"><%=StringUtils.text("clear.event", session)%> #2</label></td></tr>
-			<tr><td><select id="cp"><option value=""></option><%=sbChampionship.toString()%></select></td><td/><td><input type="checkbox" id="cb3"/><label for="cb3"><%=StringUtils.text("clear.event", session)%> #3</label></td></tr>
+			<tr><td><select id="sp"><option value=""></option><%=sbSport.toString()%></select></td><td></td><td><input type="checkbox" id="cb1"/><label for="cb1"><%=StringUtils.text("automatic.subevent", session)%></label></td></tr>
+			<tr><td><%=StringUtils.text("entity.CP.1", session)%> :</td><td></td><td><input type="checkbox" id="cb2"/><label for="cb2"><%=StringUtils.text("clear.event", session)%> #2</label></td></tr>
+			<tr><td><select id="cp"><option value=""></option><%=sbChampionship.toString()%></select></td><td></td><td><input type="checkbox" id="cb3"/><label for="cb3"><%=StringUtils.text("clear.event", session)%> #3</label></td></tr>
 			<tr><td><%=StringUtils.text("entity.EV.1", session)%> #1 :</td></tr>
 			<tr><td><select id="ev1"><option value=""></option><%=sbEvent.toString()%></select></td></tr>
 			<tr><td><%=StringUtils.text("entity.EV.1", session)%> #2 :</td></tr>
@@ -58,7 +58,7 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript"><!--
+<script><!--
 window.onload = function() {
 	loadFolders();
 }

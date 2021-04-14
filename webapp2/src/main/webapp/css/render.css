@@ -175,7 +175,7 @@
 .render .info{
 	max-width: 850px;
 	margin: 0px;
-	border: 2px solid #CCC;
+	border: 2px solid #999;
 }
 .render .info td{
 	padding: 5px 5px;
@@ -270,7 +270,7 @@
 	padding: 3px 3px;
 }
 .render .info #titlename{
-	border-bottom: 2px solid #CCC;
+	border-bottom: 2px solid #999;
 }
 .render .info #titlename2{
 	font-style: italic;
@@ -326,7 +326,7 @@
 	margin-top: 330px;
 }
 .render .box8 table{
-	border: 2px solid #CCC;
+	border: 2px solid #999;
 }
 .render .tsort tr:hover{
 	background-color: #FFD;
@@ -344,7 +344,7 @@
 	font-weight: bold;
 	text-align: center;
 	border: 1px solid #000;
-	background: #FDD url(../img/render/noresult.gif) 2px center no-repeat;
+	background: #FDD url(../img/render/noresult.png) 5px center no-repeat;
 }
 .render .info td.record {
 	text-align: center;
@@ -523,7 +523,7 @@ th.desc{
 	font-weight: bold;
 }	
 .bullet{
-	color: #CCC;
+	color: #999;
 	padding: 0px 2px;
 }
 .nopadding{

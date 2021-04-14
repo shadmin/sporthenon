@@ -12,7 +12,7 @@
 <%@ page import="com.sporthenon.web.servlet.IndexServlet"%>
 <%! @SuppressWarnings("unchecked") %>
 <jsp:include page="/jsp/common/header.jsp"/>
-<script type="text/javascript"><!--
+<script><!--
 <%	
 	String lang = String.valueOf(session.getAttribute("locale"));
 	out.print("t1 = " + System.currentTimeMillis() + ";");
@@ -42,7 +42,7 @@
 	</div>
 	<div style="display:flex;flex-direction:column;">
 		<!-- Random event -->
-		<div class="homepanel">
+		<div class="homepanel" style="height:100%;">
 			<div class="hometitle randomevent"><%=StringUtils.text("title.random.event", session)%></div>
 			<table id="randomevent" class="noborder">
 				<tr><td id="randomeventvalue"><%=IndexServlet.getRandomEvent(lang)%></td>
@@ -55,7 +55,7 @@
 			<div class="hometitle share"><%=StringUtils.text("title.share", session)%></div>
 			<table class="noborder"><tr>
 				<td><a href="https://www.facebook.com/sharer/sharer.php?u=<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="facebook" title="<%=StringUtils.text("share.on", session)%> Facebook" src="/img/header/facebook.png"/></a></td>
-				<td><a href="https://twitter.com/share?text=<%=StringUtils.text("title", session).replaceAll("\\s", "%20")%>&amp;url=<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="twitter" title="<%=StringUtils.text("share.on", session)%> Twitter" src="/img/header/twitter.png"/></a></td>
+				<td><a href="https://twitter.com/share?text=" target="_blank"><img alt="twitter" title="<%=StringUtils.text("share.on", session)%> Twitter" src="/img/header/twitter.png"/></a></td>
 				<td><a href="https://plus.google.com/share?url<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="gplus" title="<%=StringUtils.text("share.on", session)%> Google+" src="/img/header/gplus.png"/></a></td>
 			</tr></table>
 		</div>
@@ -82,7 +82,7 @@
 		<table id="dupdates-opts">
 			<tr><td><%=StringUtils.text("filter.sport", session)%> :</td>
 			<td><select onchange="getLastUpdates(null, null, this.value);"><option value="0">–– <%=StringUtils.text("all.sports", session)%> ––</option><%=sbSports2.toString()%></select></td></tr>
-			<tr><td id="dupdates-loading" style="display:none;"><img alt="Loading..." style="float:left;" src="/img/db/loading.gif?6"/></td></tr>
+			<tr><td id="dupdates-loading" style="display:none;"><img alt="Loading..." style="float:left;" src="/img/db/loading.gif?6"/></td><td></td></tr>
 		</table>
 		<table id="tlast" class="tsort"><thead><tr class='rsort'>
 			<th onclick="sort('tlast', this, 0);"><%=StringUtils.text("year", session)%></th>
@@ -162,11 +162,11 @@
 	</table>
 </div>
 </div><!-- <div id="home"> -->
-<script type="text/javascript" src="js/RGraph.common.core.js"></script>
-<script type="text/javascript" src="js/RGraph.hbar.js"></script>
-<script type="text/javascript" src="js/RGraph.line.js"></script>
-<script type="text/javascript" src="js/RGraph.pie.js"></script>
-<script type="text/javascript"><!--
+<script src="js/RGraph.common.core.js"></script>
+<script src="js/RGraph.hbar.js"></script>
+<script src="js/RGraph.line.js"></script>
+<script src="js/RGraph.pie.js"></script>
+<script><!--
 var ctitle = ['<%=StringUtils.text("report.1", session)%>', '<%=StringUtils.text("report.2", session)%>'];
 window.onload = function() {
 	tCurrentSortedCol['tlast'] = $('tlast-dtcol');

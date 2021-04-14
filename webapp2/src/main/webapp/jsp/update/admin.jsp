@@ -63,7 +63,7 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript"><!--
+<script><!--
 window.onload = function() {
 	currentAlias = 'CB';
 	loadEntity('last');

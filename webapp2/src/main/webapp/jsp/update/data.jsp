@@ -3,7 +3,7 @@
 <%@ page import="com.sporthenon.utils.StringUtils"%>
 <jsp:include page="/jsp/common/header.jsp"/>
 <div id="update-data" class="update">
-	<script type="text/javascript" src="/js/dropzone.js"></script>
+	<script src="/js/dropzone.js"></script>
 	<jsp:include page="/jsp/update/toolbar.jsp"/>
 	<div class="fieldset">
 		<div class="fstitle"><%=StringUtils.text("update.data", session).toUpperCase()%></div>
@@ -258,7 +258,7 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript"><!--
+<script><!--
 window.onload = function() {
 	initUpdateData();
 }

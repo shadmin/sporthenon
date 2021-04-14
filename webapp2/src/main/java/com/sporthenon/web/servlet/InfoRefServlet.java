@@ -81,14 +81,14 @@ public class InfoRefServlet extends AbstractServlet {
 						throw new RemovedEntityException("Entity removed: " + params[0] + "-" + id);
 					}
 					params_.add(ri.substring(0, ri.indexOf("</span>")).replaceFirst(".*title'\\>", ""));
-					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_REF, params_, getUser(request), ResourceUtils.getLocaleParam(lang)));
+					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_REF, params_, getUser(request), lang));
 					html.append(ri);
 					params_.remove(6);
 				}
 
 				// References
 				if (!isResult1) {
-					html.append(HtmlConverter.getRecordRef(request, params_, DatabaseManager.callFunctionSelect("entity_ref", params_, RefItem.class), isExport, getUser(request), ResourceUtils.getLocaleParam(lang)));
+					html.append(HtmlConverter.getRecordRef(request, params_, DatabaseManager.callFunctionSelect("entity_ref", params_, RefItem.class), isExport, getUser(request), lang));
 				}
 
 				// Load HTML results or export

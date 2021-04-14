@@ -339,6 +339,7 @@
 <!-- OLYMPICS -->
 	<entry key="summer.games">Summer Olympic Games</entry>
 	<entry key="winter.games">Winter Olympic Games</entry>
+	<entry key="search.type">Search type</entry>
 	<entry key="event.results">Event results</entry>
 	<entry key="medals.tables">Medals tables</entry>
 	<entry key="country">Country</entry>

@@ -62,7 +62,7 @@
 				<div id="sm-pl-hof-yr" class="selmultiple"><%@include file="../../html/selectmult.html"%></div>
 				<br/><table><tr>
 					<td>&nbsp;<%=ResourceUtils.getText("position", "en")%>:</td>
-					<td class="text"><input type="text" name="hof-position" id="hof-position" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"></input></td>
+					<td class="text"><input type="text" name="hof-position" id="hof-position" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"/></td>
 					<td><span id="hof-postip" style="color:#666;cursor:help;font-weight:bold;">[?]</span></td>
 				</tr></table>
 			</div>
@@ -71,7 +71,7 @@
 				&nbsp;<%=ResourceUtils.getText("team", "en")%>:<br/>
 				<div id="sm-pl-retnum-tm" class="selmultiple"><%@include file="../../html/selectmult.html"%></div>
 				<br/>&nbsp;<%=ResourceUtils.getText("number", "en")%>:<br/>
-				<input type="text" name="retnum-number" id="retnum-number" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"></input>
+				<input type="text" name="retnum-number" id="retnum-number" onfocus="$(this).addClassName('selected');" onblur="$(this).removeClassName('selected');"/>
 			</div>
 			<!-- TEAM STADIUMS -->
 			<div id="f-teamstadiums" style="display:none;">
@@ -98,7 +98,7 @@
 	</form>
 </div>
 <%@include file="../../html/buttons.html"%>
-<script type="text/javascript"><!--
+<script><!--
 var tStatsYr = [];
 var tStatsCtI = [];
 var tStatsCtT = [];
