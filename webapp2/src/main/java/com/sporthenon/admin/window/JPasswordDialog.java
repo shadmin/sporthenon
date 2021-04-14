@@ -56,7 +56,7 @@ public class JPasswordDialog extends JDialog implements ActionListener {
 		jOk.setActionCommand("ok");
 		jOk.addActionListener(this);
 		jContentPane.add(jPassword);
-		jContentPane.add(jQuickLoading);
+		//jContentPane.add(jQuickLoading);
 		jContentPane.add(jOk);
 	}
 	

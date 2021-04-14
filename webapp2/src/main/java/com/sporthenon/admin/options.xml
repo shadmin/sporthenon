@@ -5,6 +5,4 @@
 	<entry key="db.name">shlocal</entry>
 	<entry key="db.user">***UserID***</entry>
 	<entry key="alwaystop">0</entry>
-	<entry key="proxy.addr"></entry>
-	<entry key="proxy.port"></entry>
 </properties>

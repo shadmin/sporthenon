@@ -22,7 +22,7 @@ public class JConnectionStatus extends JPanel {
 		jLabel.setHorizontalAlignment(JLabel.CENTER);
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createEtchedBorder());
-		this.setPreferredSize(new Dimension(160, 16));
+		this.setPreferredSize(new Dimension(210, 16));
 		this.add(jLabel, BorderLayout.CENTER);
 	}
 

@@ -147,15 +147,6 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 	@SuppressWarnings("unchecked")
 	private void executeUpdate() {
 		try {
-			String proxyAddr = JMainFrame.getOptionsDialog().getProxyAddr().getText();
-			String proxyPort = JMainFrame.getOptionsDialog().getProxyPort().getText();
-//			proxyAddr = "globalproxy-emea.pharma.aventis.com";
-//			proxyPort = "3129";
-			if (StringUtils.notEmpty(proxyAddr)) {
-				System.getProperties().setProperty("http.proxyHost", proxyAddr);
-				System.getProperties().setProperty("http.proxyPort", proxyPort);
-			}
-			
 			StringBuffer sbUpdateSql = new StringBuffer();
 			List<String> lMsg = new LinkedList<String>();
 			List<String> lHql = new LinkedList<String>();

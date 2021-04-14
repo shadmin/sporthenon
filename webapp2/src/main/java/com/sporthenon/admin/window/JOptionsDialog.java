@@ -43,14 +43,12 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 	private JTextField jDatabase;
 	private JTextField jLogin;
 	private JCheckBox jAlwaysTop = null;
-	private JTextField jProxyAddr;
-	private JTextField jProxyPort;
 	
 	private Properties props = null;
 	private HashMap<String, String> hConfig = null;
 	private String userHomeDir = null;
-	private final String[] tHost = new String[] {"92.243.3.85", "92.243.3.85", "localhost"};
-	private final String[] tDatabase = new String[] {"shprod", "shtest", "shlocal"};
+	private final String[] tHost = new String[] {"sporthenon.com", "localhost"};
+	private final String[] tDatabase = new String[] {"shdb", "shlocal"};
 
 	public JOptionsDialog(JFrame owner) {
 		super(owner);
@@ -81,7 +79,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		}
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(350, 320));
+		this.setPreferredSize(new Dimension(350, 230));
 		this.setSize(this.getPreferredSize());
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
@@ -97,7 +95,6 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 		p.add(getDatabasePanel());
 		p.add(getWindowPanel());
-		p.add(getProxyPanel());
 		jContentPane.add(p, BorderLayout.NORTH);
 		jContentPane.add(jButtonBar, BorderLayout.SOUTH);
 	}
@@ -106,17 +103,19 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		JPanel p = new JPanel(new GridLayout(4, 2, 5, 5));
 		p.setBorder(BorderFactory.createTitledBorder(null, "Database", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 		jEnvironment = new JComboBox<String>();
-		jEnvironment.addItem("Production");
-		jEnvironment.addItem("Test");
+		jEnvironment.addItem("Prod");
 		jEnvironment.addItem("Local");
 		jEnvironment.addItem("Custom");
 		jEnvironment.setSelectedIndex(-1);
 		jEnvironment.setPreferredSize(new Dimension(350, 22));
-		for (int i = 0 ; i < 3 ; i++)
-			if (tHost[i].equals(hConfig.get("db.host")) && tDatabase[i].equals(hConfig.get("db.name")))
+		for (int i = 0 ; i < 2 ; i++) {
+			if (tHost[i].equals(hConfig.get("db.host")) && tDatabase[i].equals(hConfig.get("db.name"))) {
 				jEnvironment.setSelectedIndex(i);
-		if (jEnvironment.getSelectedIndex() == -1)
-			jEnvironment.setSelectedIndex(3);
+			}
+		}
+		if (jEnvironment.getSelectedIndex() == -1) {
+			jEnvironment.setSelectedIndex(0);
+		}
 		jEnvironment.setActionCommand("env");
 		jEnvironment.addActionListener(this);
 		p.add(new JLabel(" Environment:"));
@@ -130,8 +129,8 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		jLogin = new JTextField(hConfig.get("db.user"));
 		p.add(new JLabel(" User ID:"));
 		p.add(jLogin);
-		jHost.setEnabled(jEnvironment.getSelectedIndex() == 3);
-		jDatabase.setEnabled(jEnvironment.getSelectedIndex() == 3);
+		jHost.setEnabled(jEnvironment.getSelectedIndex() == 2);
+		jDatabase.setEnabled(jEnvironment.getSelectedIndex() == 2);
 		return p;
 	}
 
@@ -144,19 +143,6 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		return p;
 	}
 	
-	private JPanel getProxyPanel() {
-		JPanel p = new JPanel(new GridLayout(2, 2, 5, 5));
-		p.setBorder(BorderFactory.createTitledBorder(null, "Proxy", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
-		jProxyAddr = new JTextField(hConfig.get("proxy.addr"));
-		jProxyAddr.setPreferredSize(new Dimension(350, 22));
-		p.add(new JLabel(" Address:"));
-		p.add(jProxyAddr);
-		jProxyPort = new JTextField(hConfig.get("proxy.port"));
-		p.add(new JLabel(" Port:"));
-		p.add(jProxyPort);
-		return p;
-	}
-
 	public void open(JTopPanel parent) {
 		this.parent = parent;
 		this.setVisible(true);
@@ -171,8 +157,6 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 					props.setProperty("db.name", jDatabase.getText());
 					props.setProperty("db.user", jLogin.getText());
 					props.setProperty("alwaystop", jAlwaysTop.isSelected() ? "1" : "0");
-					props.setProperty("proxy.addr", jProxyAddr.getText());
-					props.setProperty("proxy.port", jProxyPort.getText());
 					props.storeToXML(new FileOutputStream(new File(userHomeDir + "\\shupdate.xml")), null);
 				}
 			}
@@ -208,12 +192,4 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		return jAlwaysTop;
 	}
 	
-	public JTextField getProxyAddr() {
-		return jProxyAddr;
-	}
-	
-	public JTextField getProxyPort() {
-		return jProxyPort;
-	}
-
 }

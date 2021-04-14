@@ -203,10 +203,6 @@
 	<entry key="dialog.info">Info</entry>
 	<entry key="count">Count</entry>
 	<entry key="select.format">Select a format</entry>
-	<entry key="web.page">HTML page</entry>
-	<entry key="excel.sheet">MS Excel</entry>
-	<entry key="pdf.file">PDF</entry>
-	<entry key="csv.file">CSV file</entry>
 	<entry key="plain.text">Text</entry>
 	<entry key="direct.address">Direct address to this result</entry>
 	<entry key="use.ctrl.C">Use Ctrl+C or Right-click/Copy</entry>

@@ -35,11 +35,13 @@ public class SwingUtils {
 	public static void fillPicklist(JEntityPicklist pl, Collection<PicklistItem> cl, Object param) {
 		pl.getPicklist().removeAllItems();
 		pl.getPicklist().addItem(new PicklistItem(0, ""));
-		if (cl != null && !cl.isEmpty())
+		if (cl != null && !cl.isEmpty()) {
 			for (PicklistItem bean : cl) {
-				if (param == null || bean.getParam() == null || (bean.getParam() != null && bean.getParam().equals(String.valueOf(param))))
+				if (param == null || bean.getParam() == null || (bean.getParam() != null && bean.getParam().equals(param))) {
 					pl.getPicklist().addItem(bean);
+				}
 			}
+		}
 	}
 
 	public static void selectValue(JEntityPicklist pl, Integer id) {
@@ -52,8 +54,9 @@ public class SwingUtils {
 				break;
 			}
 		}
-		if (pl.getPicklist().getItemCount() > 0)
+		if (pl.getPicklist().getItemCount() > 0) {
 			pl.getPicklist().setSelectedIndex(x);
+		}
 	}
 	
 	public static Integer getValue(JEntityPicklist pl) {

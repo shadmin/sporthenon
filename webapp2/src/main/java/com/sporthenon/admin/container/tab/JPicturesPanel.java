@@ -12,9 +12,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -385,29 +388,33 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void loadImage(String alias, String currentId) {
-//		try {
-//			jRemoteFile.setText("");
-//			URL url_ = new URL(ConfigUtils.getProperty("url") + "ImageServlet?list=1&type=" + ImageUtils.getIndex(alias) + "&id=" + currentId + "&size=" + (largeRadioBtn.isSelected() ? "L" : "S"));
-//			HttpURLConnection conn_ = (HttpURLConnection) url_.openConnection();
-//			if (conn_.getResponseCode() == 200) {
-//				PlainTextInputStream pis_ = (PlainTextInputStream) conn_.getContent();
-//				DataInputStream dis_ = new DataInputStream(pis_);
-//				String s_ = dis_.readLine();
-//				DefaultListModel model = (DefaultListModel) jRemoteList.getModel();
-//				model.clear();
-//				if (StringUtils.notEmpty(s_)) {
-//					for (String s__ : s_.split(","))
-//						if (StringUtils.notEmpty(s__))
-//							model.addElement(s__);
-//					if (model.getSize() > 0)
-//						jRemoteList.setSelectedIndex(0);
-//				}
-//			}
-//		}
-//		catch (IOException e) {
-//			log.log(Level.WARNING, e.getMessage());
-//		}
+		try {
+			jRemoteFile.setText("");
+			String strURL = ConfigUtils.getProperty("url") + "ImageServlet?list=1&type=" + ImageUtils.getIndex(alias) + "&id=" + currentId + "&size=" + (largeRadioBtn.isSelected() ? "L" : "S");
+			URL url = new URL(strURL);
+			HttpURLConnection conn_ = (HttpURLConnection) url.openConnection();
+			if (conn_.getResponseCode() == 200) {
+				DataInputStream dis_ = new DataInputStream((InputStream)conn_.getContent());
+				String s_ = dis_.readLine();
+				DefaultListModel<String> model = (DefaultListModel<String>) jRemoteList.getModel();
+				model.clear();
+				if (StringUtils.notEmpty(s_)) {
+					for (String s__ : s_.split(",")) {
+						if (StringUtils.notEmpty(s__)) {
+							model.addElement(s__);
+						}
+					}
+					if (model.getSize() > 0) {
+						jRemoteList.setSelectedIndex(0);
+					}
+				}
+			}
+		}
+		catch (IOException e) {
+			log.log(Level.WARNING, e.getMessage());
+		}
 	}
 
 	public void valueChanged(ListSelectionEvent e) {

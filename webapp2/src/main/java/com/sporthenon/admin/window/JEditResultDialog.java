@@ -95,7 +95,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		
 		jCommentDialog = new JCommentDialog(this);
 		
-		this.setSize(new Dimension(685, 425));
+		this.setSize(new Dimension(690, 425));
         this.setContentPane(jContentPane);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setModal(true);
@@ -212,8 +212,9 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			String alias = cmd.substring(0, 2);
 			JEntityPicklist srcPicklist = (JEntityPicklist)((JCustomButton)e.getSource()).getParent().getParent();
 			if (cmd.matches("\\D\\D\\-add")) {
-				if (alias.equalsIgnoreCase("EN"))
+				if (alias.equalsIgnoreCase("EN")) {
 					alias = (entityType < 10 ? "PR" : (entityType == 50 ? "TM" : "CN"));
+				}
 				JMainFrame.getEntityDialog().open(alias, srcPicklist);
 			}
 			else {

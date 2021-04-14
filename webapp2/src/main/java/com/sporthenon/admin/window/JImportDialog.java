@@ -131,7 +131,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 		jProcessButton.setEnabled(false);
 		jProcessButton.addActionListener(this);
 		p.add(jProcessButton);
-		jUpdateButton = new JCustomButton("Update", "update.png", null);
+		jUpdateButton = new JCustomButton("Update", "save.png", null);
 		jUpdateButton.setActionCommand("update");
 		jUpdateButton.setEnabled(false);
 		jUpdateButton.addActionListener(this);

@@ -2009,19 +2009,19 @@ select.disabled{
 	background-image:url(../img/header/tumblr.png);
 }
 .baroptions td.html{
-	background-image:url(../img/db/export/html.png);
+	background-image:url(../img/db/export/html.png?3);
 }
 .baroptions td.csv{
-	background-image:url(../img/db/export/csv.png);
+	background-image:url(../img/db/export/csv.png?2);
 }
 .baroptions td.excel{
-	background-image:url(../img/db/export/xls.png);
+	background-image:url(../img/db/export/xls.png?3);
 }
 .baroptions td.pdf{
-	background-image:url(../img/db/export/pdf.png);
+	background-image:url(../img/db/export/pdf.png?2);
 }
 .baroptions td.text{
-	background-image:url(../img/db/export/txt.png);
+	background-image:url(../img/db/export/txt.png?2);
 }
 .baroptions div{
 	background-color: #F0F0F0;
