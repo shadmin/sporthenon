@@ -12,19 +12,13 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -47,6 +41,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.apache.commons.io.IOUtils;
+
 import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JImagePanel;
 import com.sporthenon.admin.window.JFindEntityDialog;
@@ -61,7 +57,6 @@ import com.sporthenon.db.entity.Olympics;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
-import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
@@ -266,8 +261,9 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 				id_ = sportValue + "-" + currentId;
 			}
 			if (e.getActionCommand().matches("first|previous|next|last")) {
-				if (!alias.equals(Team.alias))
+				if (!alias.equals(Team.alias)) {
 					jSportList.setSelectedIndex(0);
+				}
 				HashMap<String, Short> hLocs = new HashMap<String, Short>();
 				hLocs.put("first", DatabaseManager.FIRST);
 				hLocs.put("previous", DatabaseManager.PREVIOUS);
@@ -278,7 +274,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 				data = DatabaseManager.move(c, currentId, hLocs.get(e.getActionCommand()), filter);
 				if (data != null) {
 					currentId = String.valueOf(c.getMethod("getId").invoke(data, new Object[0]));
-					loadImage(alias, currentId);
+					loadImageList(alias, currentId);
 				}
 			}
 			else if (e.getActionCommand().equals("find")) {
@@ -288,7 +284,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 					Class<? extends AbstractEntity> c = DatabaseManager.getClassFromAlias(alias);
 					data = DatabaseManager.loadEntity(c, dlg.getSelectedItem().getValue());
 					currentId = String.valueOf(c.getMethod("getId").invoke(data, new Object[0]));
-					loadImage(alias, currentId);
+					loadImageList(alias, currentId);
 				}
 			}
 			else if (e.getActionCommand().equals("browse")) {
@@ -301,85 +297,42 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 				}
 			}
 			else if (e.getActionCommand().equals("download")) {
-				if (StringUtils.notEmpty(jRemoteFile.getText())) {
-					if (jFileChooser.showOpenDialog(this) == 0) {
-						File f = jFileChooser.getSelectedFile();
-						if (f != null) {
-							HttpURLConnection conn_ = (HttpURLConnection) new URL(jRemoteFile.getText()).openConnection();
-							if (conn_.getResponseCode() == 200) {
-								BufferedInputStream in = new BufferedInputStream(conn_.getInputStream());
-								BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(f));
-								int i;
-								while ((i = in.read()) != -1) {
-								    out.write(i);
-								}
-								out.flush();
-								out.close();
-							}
-						}
-					}
-				}
+				downloadImage();
 			}
 			else if (e.getActionCommand().equals("upload")) {
-				String params = "upload&entity=" + alias_ + "&size=" + (largeRadioBtn.isSelected() ? "L" : "S") + (StringUtils.notEmpty(jYear1.getText()) ? "&y1=" + jYear1.getText() + "&y2=" + jYear2.getText() : "");
-				URL url = new URL(ConfigUtils.getProperty("url") + "ImageServlet?" + params);
-				String bnd = "==" + System.currentTimeMillis() + "==";
-				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-				conn.setDoOutput(true);
-				conn.setDoInput(true);
-				conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + bnd);
-				OutputStream out = conn.getOutputStream();
-				PrintWriter writer = new PrintWriter(new OutputStreamWriter(out, "UTF-8"), true);
-				writer.append("--" + bnd).append("\r\n").append("Content-Disposition: form-data; name=\"" + alias_ + "-id\"").append("\r\n");
-				writer.append("Content-Type: text/plain; charset=UTF-8").append("\r\n\r\n");
-				writer.append(id_).append("\r\n").flush();
-				writer.append("--" + bnd).append("\r\n").append("Content-Disposition: form-data; name=\"" + alias_ + "-file\"; filename=\"" + jLocalFile.getText() + "\"").append("\r\n");
-				writer.append("Content-Type: " + URLConnection.guessContentTypeFromName(jLocalFile.getText())).append("\r\n");
-				writer.append("Content-Transfer-Encoding: binary").append("\r\n\r\n").flush();
-				FileInputStream inputStream = new FileInputStream(new File(jLocalFile.getText()));
-				byte[] buffer = new byte[4096];
-				int bytesRead = -1;
-				while ((bytesRead = inputStream.read(buffer)) != -1)
-					out.write(buffer, 0, bytesRead);
-				out.flush();
-				inputStream.close();
-				writer.append("\r\n").flush(); 
-				writer.append("\r\n").flush();
-				writer.append("--" + bnd + "--").append("\r\n").close();
-		        int status = conn.getResponseCode();
-		        if (status == 200) {
-		        	jYear1.setText("");
-		        	jYear2.setText("");
-		        	loadImage(alias_, id_);
-		        }
+				uploadImage(alias_, id_);
 			}
 			else if (e.getActionCommand().equals("remove")) {
-				String params = "remove=1&name=" + jRemoteList.getSelectedValue();
-				URL url = new URL(ConfigUtils.getProperty("url") + "ImageServlet?" + params);
-				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		        int status = conn.getResponseCode();
-		        if (status == 200)
-		        	loadImage(alias_, id_);
+				ImageUtils.removeImage(jRemoteList.getSelectedValue(), JMainFrame.getOptionsDialog().getCredentialsFile().getText());
+				loadImageList(alias_, id_);
 			}
-			else
-				loadImage(alias_, id_);
+			else {
+				loadImageList(alias_, id_);
+			}
 			
 			if (e.getActionCommand().matches("first|previous|next|last|find") && data != null) {
 				String desc = null;
-				if (alias.equalsIgnoreCase(Championship.alias))
+				if (alias.equalsIgnoreCase(Championship.alias)) {
 					desc = ((Championship) data).getLabel();
-				else if (alias.equalsIgnoreCase(Country.alias))
+				}
+				else if (alias.equalsIgnoreCase(Country.alias)) {
 					desc = ((Country) data).getLabel() + " (" + ((Country) data).getCode() + ")";
-				else if (alias.equalsIgnoreCase(Event.alias))
+				}
+				else if (alias.equalsIgnoreCase(Event.alias)) {
 					desc = ((Event) data).getLabel();
-				else if (alias.equalsIgnoreCase(Olympics.alias))
+				}
+				else if (alias.equalsIgnoreCase(Olympics.alias)) {
 					desc = ((Olympics) data).getYear() + " - " + ((Olympics) data).getCity().getLabel();
-				else if (alias.equalsIgnoreCase(Sport.alias))
+				}
+				else if (alias.equalsIgnoreCase(Sport.alias)) {
 					desc = ((Sport) data).getLabel();
-				else if (alias.equalsIgnoreCase(State.alias))
+				}
+				else if (alias.equalsIgnoreCase(State.alias)) {
 					desc = ((State) data).getLabel() + " (" + ((State) data).getCode() + ")";
-				else if (alias.equalsIgnoreCase(Team.alias))
+				}
+				else if (alias.equalsIgnoreCase(Team.alias)) {
 					desc = ((Team) data).getLabel();
+				}
 				jDescription.setText("   " + desc);
 			}
 		}
@@ -387,33 +340,73 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 			log.log(Level.WARNING, e_.getMessage(), e_);
 		}
 	}
-
-	@SuppressWarnings("deprecation")
-	private void loadImage(String alias, String currentId) {
-		try {
-			jRemoteFile.setText("");
-			String strURL = ConfigUtils.getProperty("url") + "ImageServlet?list=1&type=" + ImageUtils.getIndex(alias) + "&id=" + currentId + "&size=" + (largeRadioBtn.isSelected() ? "L" : "S");
-			URL url = new URL(strURL);
-			HttpURLConnection conn_ = (HttpURLConnection) url.openConnection();
-			if (conn_.getResponseCode() == 200) {
-				DataInputStream dis_ = new DataInputStream((InputStream)conn_.getContent());
-				String s_ = dis_.readLine();
-				DefaultListModel<String> model = (DefaultListModel<String>) jRemoteList.getModel();
-				model.clear();
-				if (StringUtils.notEmpty(s_)) {
-					for (String s__ : s_.split(",")) {
-						if (StringUtils.notEmpty(s__)) {
-							model.addElement(s__);
+	
+	private void downloadImage() throws Exception {
+		if (StringUtils.notEmpty(jRemoteFile.getText())) {
+			if (jFileChooser.showOpenDialog(this) == 0) {
+				File f = jFileChooser.getSelectedFile();
+				if (f != null) {
+					HttpURLConnection conn_ = (HttpURLConnection) new URL(jRemoteFile.getText()).openConnection();
+					if (conn_.getResponseCode() == 200) {
+						BufferedInputStream in = new BufferedInputStream(conn_.getInputStream());
+						BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(f));
+						int i;
+						while ((i = in.read()) != -1) {
+						    out.write(i);
 						}
-					}
-					if (model.getSize() > 0) {
-						jRemoteList.setSelectedIndex(0);
+						out.flush();
+						out.close();
 					}
 				}
 			}
 		}
-		catch (IOException e) {
-			log.log(Level.WARNING, e.getMessage());
+	}
+
+	private void uploadImage(String alias_, String id_) throws Exception {
+		short idx = ImageUtils.getIndex(alias_);
+		char size = (largeRadioBtn.isSelected() ? ImageUtils.SIZE_LARGE : ImageUtils.SIZE_SMALL);
+		String y1 = jYear1.getText();
+		String y2 = jYear2.getText();
+		String ext = ".png";
+		
+		// Set file name
+		String key = idx + "-" + id_ + "-" + size;
+		String fileName = key + (StringUtils.notEmpty(y1) ? "_" + y1 + "-" + y2 : "");
+		int index = -1;
+		Collection<String> lExisting = ImageUtils.getImages(idx, id_, size);
+		for (String s : lExisting) {
+			if (s.indexOf(fileName) == 0) {
+				index = 0;
+				if (s.matches(".*\\_\\d+\\.png$")) {
+					index = Integer.parseInt(s.replaceAll(".*\\_|\\.png$", ""));
+				}
+				index++;
+				break;
+			}
+		}
+		fileName = fileName + (index > -1 ? "_" + index : "") + ext;
+		
+		// Upload to bucket
+		try(FileInputStream inputStream = new FileInputStream(new File(jLocalFile.getText()))) {
+			byte[] content = IOUtils.toByteArray(inputStream);
+			ImageUtils.uploadImage(key, fileName, content, JMainFrame.getOptionsDialog().getCredentialsFile().getText());
+		}
+
+		// Refresh UI
+		jYear1.setText("");
+		jYear2.setText("");
+		loadImageList(alias_, id_);
+	}
+
+	private void loadImageList(String alias, String currentId) {
+		jRemoteFile.setText("");
+		DefaultListModel<String> model = (DefaultListModel<String>) jRemoteList.getModel();
+		model.clear();
+		for (String s : ImageUtils.getImages(ImageUtils.getIndex(alias), currentId, (largeRadioBtn.isSelected() ? ImageUtils.SIZE_LARGE : ImageUtils.SIZE_SMALL))) {
+			model.addElement(s);
+		}
+		if (model.getSize() > 0) {
+			jRemoteList.setSelectedIndex(0);
 		}
 	}
 
@@ -440,7 +433,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 					String value = String.valueOf(((JList<?>)e.getSource()).getSelectedValue());
 					if (StringUtils.notEmpty(value) && !value.equals("null")) {
 						jRemoteFile.setText(ImageUtils.getUrl() + value);
-						jRemotePanel.setImage(new URL(jRemoteFile.getText()));						
+						jRemotePanel.setImage(new URL(jRemoteFile.getText()));
 					}
 					else
 						throw new MalformedURLException();
@@ -459,7 +452,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 			if (sportValue != null && sportValue > 0) {
 				String alias_ = Sport.alias + alias;
 				String id_ = sportValue + "-" + currentId;
-				loadImage(alias_, id_);	
+				loadImageList(alias_, id_);	
 			}
 		}
 	}

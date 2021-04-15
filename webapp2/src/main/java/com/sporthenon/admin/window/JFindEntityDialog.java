@@ -153,8 +153,9 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 					String sql = "select id," + label + " from " + c.getSimpleName();
 					sql += " where " + (pattern.matches("^\\#\\d+") ? "id=" + pattern.substring(1) : "lower(" + label + ") like '" + pattern + "%'");
 					sql += " order by 2";
-					for (PicklistItem bean : (Collection<PicklistItem>) DatabaseManager.executeSelect(sql, PicklistItem.class))
+					for (PicklistItem bean : DatabaseManager.getPicklist(sql, null)) {
 						model.addElement(bean);
+					}
 				}
 			}
 		}

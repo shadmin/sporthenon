@@ -5,4 +5,5 @@
 	<entry key="db.name">shlocal</entry>
 	<entry key="db.user">***UserID***</entry>
 	<entry key="alwaystop">0</entry>
+	<entry key="cred.file">C:\TEMP\shbucket.json</entry>
 </properties>

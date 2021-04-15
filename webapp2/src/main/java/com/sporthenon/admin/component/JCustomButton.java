@@ -22,8 +22,9 @@ public class JCustomButton extends JButton {
 		initialize();
 		this.setText(text);
 		this.setToolTipText(tip);
-		if (icon != null)
+		if (icon != null) {
 			this.setIcon(ResourceUtils.getIcon(icon));
+		}
 		this.setMargin(StringUtils.notEmpty(text) ? new Insets(2, 5, 2, 5) : new Insets(2, 2, 2, 2));
 	}
 

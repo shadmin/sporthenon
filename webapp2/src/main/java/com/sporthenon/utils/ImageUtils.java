@@ -1,5 +1,7 @@
 package com.sporthenon.utils;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,7 +13,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.api.gax.paging.Page;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.Storage.BlobListOption;
 import com.google.cloud.storage.StorageOptions;
@@ -40,6 +45,8 @@ public class ImageUtils {
 	private static Map<String, Short> mapIndex;
 	private static Map<String, List<String>> mapFiles;
 	private static String imgURL = null;
+	private static String bucket = null;
+	private static String folder = null;
 	
 	static {
 		mapIndex = new HashMap<String, Short>();
@@ -60,28 +67,38 @@ public class ImageUtils {
 	
 	public static String getUrl() {
 		if (imgURL == null) {
-			imgURL = String.format("https://storage.googleapis.com/%s/%s/",
-					ConfigUtils.getProperty("bucket.name"),
-					ConfigUtils.getProperty("bucket.folder")); 
+			imgURL = String.format("https://storage.googleapis.com/%s/%s", getBucket(), getFolder()); 
 		}
 		return imgURL;
+	}
+	
+	private static String getBucket()  {
+		if (bucket == null) {
+			bucket = ConfigUtils.getProperty("bucket.name");
+		}
+		return bucket;
+	}
+	
+	private static String getFolder()  {
+		if (folder == null) {
+			folder = ConfigUtils.getProperty("bucket.folder") + "/";
+		}
+		return folder;
 	}
 	
 	private static void initFileMap() {
 		try {
 			mapFiles = new HashMap<>();
 			Storage storage = StorageOptions.getDefaultInstance().getService();
-		    String bucket = ConfigUtils.getProperty("bucket.name");
-		    String folder = ConfigUtils.getProperty("bucket.folder") + "/";
+		    String bucket = getBucket();
+		    String folder = getFolder();
 		    Page<Blob> files = storage.list(bucket, BlobListOption.currentDirectory(), BlobListOption.prefix(folder));
 		    Iterator<Blob> it = files.iterateAll().iterator();
 		    while (it.hasNext()) {
 		      Blob file = it.next();
 		      String fileName = file.getName().replace(folder, "");
 		      String key = fileName.replaceFirst("(\\.|\\_).+", "");
-		      List<String> value = mapFiles.containsKey(key) ? mapFiles.get(key) : new ArrayList<>();
-		      value.add(fileName);
-		      mapFiles.put(key, value);
+		      addImageToMap(key, fileName);
 		    }
 		}
 		catch (Exception e) {
@@ -89,12 +106,32 @@ public class ImageUtils {
 		}
 	}
 	
-	public static void addImage(String name) {
-		
+	public static void addImageToMap(String key, String fileName) {
+		List<String> value = mapFiles.containsKey(key) ? mapFiles.get(key) : new ArrayList<>();
+		value.add(fileName);
+		mapFiles.put(key, value);
 	}
 	
-	public static void removeImage(String name) {
-		
+	public static void removeImageFromMap(String fileName) {
+		String key = fileName.replaceFirst("(\\.|\\_).+", "");
+		mapFiles.get(key).remove(fileName);
+	}
+	
+	public static void uploadImage(String key, String fileName, byte[] content, String credFile) throws IOException {
+		GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(credFile));
+		Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+		BlobId blobId = BlobId.of(getBucket(), getFolder() + fileName);
+		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("image/png").build();
+		storage.create(blobInfo, content);
+		addImageToMap(key, fileName);
+	}
+	
+	public static void removeImage(String fileName, String credFile) throws IOException {
+		GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(credFile));
+		Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+		BlobId blobId = BlobId.of(getBucket(), getFolder() + fileName);
+		storage.delete(blobId);
+		removeImageFromMap(fileName);
 	}
 	
 	public static Collection<String> getImages(String key) {

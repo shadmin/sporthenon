@@ -101,7 +101,6 @@ function updateTip(pl, empty) {
 }
 function handleRender() {
 	var info = $$('#content .infostats')[0];
-	alert(info);
 	/*$$('#content .rendertip').each(function(el) {
 		new Control.Window($(document.body).down('[href=#' + el.id + ']'),{
 			position: 'relative', hover: true, offsetLeft: 20, offsetTop: 28, className: 'tip'

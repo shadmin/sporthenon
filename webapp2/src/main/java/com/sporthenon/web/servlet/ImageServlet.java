@@ -1,9 +1,6 @@
 package com.sporthenon.web.servlet;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -123,62 +120,14 @@ public class ImageServlet extends AbstractServlet {
 					ServletHelper.writeText(response, sb.toString());
 				}
 			}
-			else if (mapParams.containsKey("upload")) {
-				String id = String.valueOf(mapParams.get("id"));
-				byte[] b = null;
-				FileItemFactory factory = new DiskFileItemFactory();
-				ServletFileUpload upload = new ServletFileUpload(factory);
-				Collection<FileItem> items = upload.parseRequest(request);
-				for (FileItem fitem : items) {
-					if (!fitem.isFormField() && fitem.getFieldName().equalsIgnoreCase("f"))
-						b = fitem.get();
-				}
-				String y1 = String.valueOf(mapParams.get("y1"));
-				String y2 = String.valueOf(mapParams.get("y2"));
-				String ext = ".png";
-				String fileName = ImageUtils.getIndex(entity.toUpperCase()) + "-" + id + "-" + mapParams.get("size") + (StringUtils.notEmpty(y1) && !y1.equals("null") ? "_" + y1 + "-" + y2 : "");
-				int index = -1;
-				Collection<String> lExisting = ImageUtils.getImages(ImageUtils.getIndex(entity.toUpperCase()), id, String.valueOf(mapParams.get("size")).charAt(0));
-				for (String s : lExisting) {
-					if (s.indexOf(fileName) == 0) {
-						index = 0;
-						if (s.matches(".*\\_\\d+\\.png$"))
-							index = Integer.parseInt(s.replaceAll(".*\\_|\\.png$", ""));
-						index++;
-						break;
-					}
-				}
-				File f = new File(ConfigUtils.getProperty("img.folder") + fileName + (index > -1 ? "_" + index : "") + ext);
-				FileOutputStream fos = new FileOutputStream(f);
-				fos.write(b);
-				fos.close();
-				ImageUtils.addImage(f.getName());
-			}
-			else if (mapParams.containsKey("download")) {
-				String fname = String.valueOf(mapParams.get("name"));
-				File f = new File(ConfigUtils.getProperty("img.folder") + fname);
-				response.setHeader("Content-Disposition", "attachment;filename=" + fname);
-				response.setContentType("text/html");
-				BufferedInputStream in = new BufferedInputStream(new FileInputStream(f));
-				BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
-				int i;
-				while ((i = in.read()) != -1) {
-					out.write(i);
-				}
-				out.flush();
-				out.close();
-				in.close();
+			else if (mapParams.containsKey("add")) {
+//				String name = String.valueOf(mapParams.get("name"));
+//				ImageUtils.addImage(name);
 			}
 			else if (mapParams.containsKey("remove")) {
-				if (StringUtils.notEmpty(mapParams.get("name"))) {
-					String fname = String.valueOf(mapParams.get("name"));
-					File f = new File(ConfigUtils.getProperty("img.folder") + fname);
-					if (f.exists()) {
-						f.delete();
-						ImageUtils.removeImage(f.getName());
-					}
-				}
-				DatabaseManager.executeUpdate("DELETE FROM _picture WHERE ID=" + mapParams.get("id"), null);
+//				String name = String.valueOf(mapParams.get("name"));
+//				ImageUtils.removeImage(name);
+//				DatabaseManager.executeUpdate("DELETE FROM _picture WHERE ID=" + mapParams.get("id"), null);
 			}
 			else if (mapParams.containsKey("copy")) {
 //				String id1 = String.valueOf(mapParams.get("id1"));
@@ -204,14 +153,6 @@ public class ImageServlet extends AbstractServlet {
 				String s = HtmlUtils.writeImage(ImageUtils.getIndex(entity), StringUtils.toInt(id), size.charAt(0), null, null);
 				ServletHelper.writeText(response, s.replaceAll(".*src\\=\\'", "").replaceAll("\\'\\/\\>", ""));
 			}
-			else if (mapParams.containsKey("list")) {
-				String id = String.valueOf(mapParams.get("id"));
-				String size = String.valueOf(mapParams.get("size"));
-				StringBuffer sb = new StringBuffer();
-				for (String s : ImageUtils.getImages(ImageUtils.getIndex(entity), id, size.charAt(0)))
-					sb.append(s).append(",");
-				ServletHelper.writeText(response, sb.toString());
-			}
 			else if (mapParams.containsKey("nopic")) {
 				String id = String.valueOf(mapParams.get("id"));
 				String value = String.valueOf(mapParams.get("value"));
@@ -220,7 +161,6 @@ public class ImageServlet extends AbstractServlet {
 				m.invoke(o, value.equals("1"));
 				DatabaseManager.saveEntity(o, null);
 			}
-			else if (mapParams.containsKey("data")) {} // OBSOLETE
 			else if (mapParams.containsKey("missing")) {
 				StringBuffer sbResult = new StringBuffer();
 				for (String entity_ : new String[]{"CP", "EV", "SP", "CN", "OL", "TM"}) {

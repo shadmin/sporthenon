@@ -151,7 +151,7 @@ public class JMainFrame extends JFrame {
 			
 			this.setFont(SwingUtils.getDefaultFont());
 			this.setMinimumSize(new Dimension(640, 480));
-			this.setSize(new Dimension(1050, 700));
+			this.setSize(new Dimension(1050, 720));
 			this.setTitle("Sporthenon Admin v" + ConfigUtils.getProperty("version"));
 			this.setContentPane(getJContentPane());
 			this.setLocationRelativeTo(null);

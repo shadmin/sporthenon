@@ -43,6 +43,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 	private JTextField jDatabase;
 	private JTextField jLogin;
 	private JCheckBox jAlwaysTop = null;
+	private JTextField jCredentialsFile;
 	
 	private Properties props = null;
 	private HashMap<String, String> hConfig = null;
@@ -66,12 +67,8 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 			InputStream is = (StringUtils.notEmpty(userHomeDir) && f.exists() ? new FileInputStream(f) : ConfigUtils.class.getResourceAsStream("/com/sporthenon/admin/options.xml"));
 			props.loadFromXML(is);
 			hConfig = new HashMap<String, String>();
-			for (Object key : props.keySet())
+			for (Object key : props.keySet()) {
 				hConfig.put(String.valueOf(key), props.getProperty(String.valueOf(key)));
-			if (ConfigUtils.getProperty("env").equals("local")) {
-				hConfig.put("db.host", "localhost");
-				hConfig.put("db.name", "shlocal2");
-				hConfig.put("db.user", "shadmin");
 			}
 		}
 		catch (IOException e) {
@@ -79,7 +76,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		}
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(350, 230));
+		this.setPreferredSize(new Dimension(400, 500));
 		this.setSize(this.getPreferredSize());
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
@@ -95,6 +92,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 		p.add(getDatabasePanel());
 		p.add(getWindowPanel());
+		p.add(getCredentialsPanel());
 		jContentPane.add(p, BorderLayout.NORTH);
 		jContentPane.add(jButtonBar, BorderLayout.SOUTH);
 	}
@@ -114,7 +112,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 			}
 		}
 		if (jEnvironment.getSelectedIndex() == -1) {
-			jEnvironment.setSelectedIndex(0);
+			jEnvironment.setSelectedIndex(2);
 		}
 		jEnvironment.setActionCommand("env");
 		jEnvironment.addActionListener(this);
@@ -143,6 +141,15 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		return p;
 	}
 	
+	private JPanel getCredentialsPanel() {
+		JPanel p = new JPanel(new GridLayout(4, 2, 5, 5));
+		p.setBorder(BorderFactory.createTitledBorder(null, "Storage credentials", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
+		jCredentialsFile = new JTextField(hConfig.get("cred.file"));
+		p.add(new JLabel(" JSON credentials file:"));
+		p.add(jCredentialsFile);
+		return p;
+	}
+	
 	public void open(JTopPanel parent) {
 		this.parent = parent;
 		this.setVisible(true);
@@ -157,6 +164,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 					props.setProperty("db.name", jDatabase.getText());
 					props.setProperty("db.user", jLogin.getText());
 					props.setProperty("alwaystop", jAlwaysTop.isSelected() ? "1" : "0");
+					props.setProperty("cred.file", jCredentialsFile.getText());
 					props.storeToXML(new FileOutputStream(new File(userHomeDir + "\\shupdate.xml")), null);
 				}
 			}
@@ -169,8 +177,8 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 					jHost.setText(tHost[jEnvironment.getSelectedIndex()]);
 					jDatabase.setText(tDatabase[jEnvironment.getSelectedIndex()]);
 				}
-				jHost.setEnabled(jEnvironment.getSelectedIndex() == 3);
-				jDatabase.setEnabled(jEnvironment.getSelectedIndex() == 3);
+				jHost.setEnabled(jEnvironment.getSelectedIndex() == 2);
+				jDatabase.setEnabled(jEnvironment.getSelectedIndex() == 2);
 			}
 		}
 		this.setVisible(!e.getActionCommand().matches("ok|cancel"));
@@ -192,4 +200,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		return jAlwaysTop;
 	}
 	
+	public JTextField getCredentialsFile() {
+		return jCredentialsFile;
+	}
 }

@@ -46,10 +46,10 @@ public class JPasswordDialog extends JDialog implements ActionListener {
 		jContentPane.setLayout(layout);
 		jLabel = new JLabel();
 		jContentPane.add(jLabel);
-		jLabel.setPreferredSize(new Dimension(260, 20));
+		jLabel.setPreferredSize(new Dimension(240, 20));
 		jPassword = new JPasswordField();
 		jPassword.addActionListener(this);
-		jPassword.setPreferredSize(new Dimension(260, 20));
+		jPassword.setPreferredSize(new Dimension(240, 20));
 		jQuickLoading = new JCheckBox("Quick connect");
 		jQuickLoading.setPreferredSize(new Dimension(265, 20));
 		JCustomButton jOk = new JCustomButton("OK", "ok.png", null);
