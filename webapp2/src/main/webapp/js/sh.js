@@ -101,11 +101,17 @@ function updateTip(pl, empty) {
 }
 function handleRender() {
 	var info = $$('#content .infostats')[0];
-	/*$$('#content .rendertip').each(function(el) {
-		new Control.Window($(document.body).down('[href=#' + el.id + ']'),{
-			position: 'relative', hover: true, offsetLeft: 20, offsetTop: 28, className: 'tip'
-		});
-	});*/
+	$$('#content .rendertip').each(function(el) {
+		if ($('treeresults')) {
+			$(el).previous('a').title = el.innerHTML;
+		}
+		else {
+			new Control.Window($(document.body).down('[href=#' + el.id + ']'),{
+				position: 'relative', hover: true, offsetLeft: 20, offsetTop: 28, className: 'tip'
+			});		
+		}
+	});
+	t2 = currentTime();
 	var t = elapsedTime(t1, t2);
 	if (info) {
 		info.update(info.innerHTML.replace('#DTIME#', t));

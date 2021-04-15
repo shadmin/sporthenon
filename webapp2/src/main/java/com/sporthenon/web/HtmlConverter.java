@@ -1169,9 +1169,9 @@ public class HtmlConverter {
 					rdlistHtml.append("<td>" + (StringUtils.notEmpty(dates) ? dates : "") + "</td>");
 					rdlistHtml.append("<td>" + (pl2 != null ? pl2 : "") + "</td></tr>");
 					if (rk1 != null && rb.getRtIndex() > 0 && rb.getRtIndex() <= 8) {
-						drawHtml.append("<div class='box box" + rb.getRtIndex() + "'><table><tr><th colspan='" + (rb.getRdResultType() < 10 || (rb.getRdResultType() == 50 && !isUSLeague) ? 3 : 2) + "'>" + rb.getRtLabel() + "</th></tr>");
+						drawHtml.append("<div class='box box" + Math.round(rb.getRtIndex()) + "'><table><tr><th colspan='" + (rb.getRdResultType() < 10 || (rb.getRdResultType() == 50 && !isUSLeague) ? 3 : 2) + "'>" + rb.getRtLabel() + "</th></tr>");
 						drawHtml.append("<tr><td style='font-weight:bold;'>" + rk1 + "</td>" + (rel1_ != null ? rel1_ : ""));
-						drawHtml.append("<td rowspan='2' style='width:33%;'>" + StringUtils.formatResult(rb.getRdResult1(), lang).replaceAll("\\&nbsp\\;", " ") + "</td></tr>");
+						drawHtml.append("<td rowspan='2' class='boxresult'>" + StringUtils.formatResult(rb.getRdResult1(), lang).replaceAll("\\&nbsp\\;", " ") + "</td></tr>");
 						drawHtml.append("<tr><td>" + rk2 + "</td>" + (rel2_ != null ? rel2_ : "") + "</tr>");
 						drawHtml.append("</table></div>");
 					}

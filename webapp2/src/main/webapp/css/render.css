@@ -233,7 +233,7 @@
 }
 .render .celldraw{
 	width: 850px;
-	background-color: #F8F8F8;
+	background-color: #FFF;
 	padding-left: 15px;
 }
 .render .draw{
@@ -244,6 +244,10 @@
 .render .draw .box{
 	position: absolute;
 	z-index: 0;
+}
+.render .draw .boxresult{
+	width: 33%;
+	white-space: normal;
 }
 .render .draw .box table, .render .info .result table, .render .rounds table{
 	border-collapse: collapse;

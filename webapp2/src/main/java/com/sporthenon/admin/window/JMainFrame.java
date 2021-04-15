@@ -169,8 +169,9 @@ public class JMainFrame extends JFrame {
 	}
 
 	private void initAll(boolean quickload) throws Exception {
-		if (!quickload)
+		if (!quickload) {
 			initPicklists();
+		}
 		jResultsPanel.setTree();
 		jResultDialog  = new JEditResultDialog(this);
 		jFolderDialog  = new JEditFolderDialog(this);
@@ -184,8 +185,9 @@ public class JMainFrame extends JFrame {
 		if (!quickload) {
 			fillPicklists(null);
 			jPicturesPanel.getSportList().removeAllItems();
-			for (int i = 0 ; i < jFolderDialog.getSport().getPicklist().getItemCount() ; i++)
-				jPicturesPanel.getSportList().addItem(jFolderDialog.getSport().getPicklist().getItemAt(i));	
+			for (int i = 0 ; i < jFolderDialog.getSport().getPicklist().getItemCount() ; i++) {
+				jPicturesPanel.getSportList().addItem(jFolderDialog.getSport().getPicklist().getItemAt(i));
+			}
 		}
 	}
 

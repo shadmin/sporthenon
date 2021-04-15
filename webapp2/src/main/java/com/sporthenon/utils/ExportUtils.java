@@ -399,20 +399,20 @@ public class ExportUtils {
 	
 	public static String buildHTML(Document doc) throws Exception {
 		String html = doc.toString();
-		html = html.replaceAll("<head>", "<head>\r\n<style>*{font:12px Verdana;}</style>\r\n<link rel='stylesheet' type='text/css' href='" + ConfigUtils.getProperty("url") + "css/sh.css'/>\r\n<link rel='stylesheet' type='text/css' href='" + ConfigUtils.getProperty("url") + "css/render.css'/>\r\n");
-		html = html.replaceAll("<body>", "<body class='print'><div id='content'><div class='tc'>");
-		html = html.replaceAll("<\\/body>", "</div></div></body>");
-		html = html.replaceAll("/img/", ConfigUtils.getProperty("url") + "img/");
+		html = html.replace("<head>", "<head>\r\n<style>*{font:12px Verdana;}</style>\r\n<link rel='stylesheet' type='text/css' href='" + ConfigUtils.getProperty("url") + "css/sh.css'/>\r\n<link rel='stylesheet' type='text/css' href='" + ConfigUtils.getProperty("url") + "css/render.css'/>\r\n");
+		html = html.replace("<body>", "<body class='print render' style='background:#FFF;'><div id='content'><div class='tc'>");
+		html = html.replace("</body>", "</div></div></body>");
+		html = html.replace("/img/", ConfigUtils.getProperty("url") + "img/");
 		html = html.replaceAll("\\</?a.*?>|\\sclass=\"srt\"|onclick\\=\".*?\"", "");
-		html = html.replaceAll("class\\=\"toolbar\"", "class=\"toolbar\" style=\"display:none;\"");
-		html = html.replaceAll("alt\\=\"fav\"", "alt=\"fav\" style=\"display:none;\"");
-		html = html.replaceAll("alt\\=\"details\"", "alt=\"details\" style=\"display:none;\"");
-		html = html.replaceAll("alt\\=\"note\"", "alt=\"note\" style=\"display:none;\"");
-		html = html.replaceAll("alt\\=\"toggle\"", "alt=\"toggle\" style=\"display:none;\"");
-		html = html.replaceAll("class=\"rendertip\" style=\"display:none;\"", "class=\"rendertip\"");
-		html = html.replaceAll("class=\"tsort\"", "class=\"tsort\" style=\"clear:both;\"");
-		html = html.replaceAll("id\\=\"winrecmore\"", "style=\"display:none;\"");
-		html = html.replaceAll("class=\"hidden\"", "");
+		html = html.replace("id=\"topbar\"", "id=\"topbar\" style=\"display:none;\"");
+		html = html.replace("alt=\"fav\"", "alt=\"fav\" style=\"display:none;\"");
+		html = html.replace("alt=\"details\"", "alt=\"details\" style=\"display:none;\"");
+		html = html.replace("alt=\"note\"", "alt=\"note\" style=\"display:none;\"");
+		html = html.replace("alt=\"toggle\"", "alt=\"toggle\" style=\"display:none;\"");
+		html = html.replace("class=\"rendertip\" style=\"display:none;\"", "class=\"rendertip\"");
+		html = html.replace("class=\"tsort\"", "class=\"tsort\" style=\"clear:both;\"");
+		html = html.replace("id=\"winrecmore\"", "style=\"display:none;\"");
+		html = html.replace("class=\"hidden\"", "");
 		return html;
 	}
 	

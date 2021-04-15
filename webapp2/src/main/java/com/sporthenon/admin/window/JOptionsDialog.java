@@ -76,7 +76,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		}
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(400, 500));
+		this.setPreferredSize(new Dimension(370, 300));
 		this.setSize(this.getPreferredSize());
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
@@ -133,7 +133,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 	}
 
 	private JPanel getWindowPanel() {
-		JPanel p = new JPanel(new GridLayout(1, 1, 0, 0));
+		JPanel p = new JPanel(new GridLayout(1, 1, 5, 5));
 		p.setBorder(BorderFactory.createTitledBorder(null, "Window", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 		jAlwaysTop = new JCheckBox("Always on top");
 		jAlwaysTop.setSelected(hConfig.get("alwaystop") != null && hConfig.get("alwaystop").equals("1"));
@@ -142,7 +142,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 	}
 	
 	private JPanel getCredentialsPanel() {
-		JPanel p = new JPanel(new GridLayout(4, 2, 5, 5));
+		JPanel p = new JPanel(new GridLayout(2, 1, 2, 2));
 		p.setBorder(BorderFactory.createTitledBorder(null, "Storage credentials", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 		jCredentialsFile = new JTextField(hConfig.get("cred.file"));
 		p.add(new JLabel(" JSON credentials file:"));

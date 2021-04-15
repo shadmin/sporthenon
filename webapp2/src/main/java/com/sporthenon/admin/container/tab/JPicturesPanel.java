@@ -130,11 +130,11 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 	private JPanel getButtonPanel() {
 		JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 1, 8));
 		jYear1 = new JTextField();
-		jYear1.setPreferredSize(new Dimension(40, 20));
+		jYear1.setPreferredSize(new Dimension(50, 22));
 		leftPanel.add(new JLabel("From:"));
 		leftPanel.add(jYear1);
 		jYear2 = new JTextField();
-		jYear2.setPreferredSize(new Dimension(40, 20));
+		jYear2.setPreferredSize(new Dimension(50, 22));
 		leftPanel.add(new JLabel("to:"));
 		leftPanel.add(jYear2);
 		largeRadioBtn = new JRadioButton("Large");

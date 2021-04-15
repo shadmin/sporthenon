@@ -51,17 +51,22 @@ public class ServletHelper {
         response.flushBuffer();
 	}
 	
-	public static void writePageHtml(HttpServletRequest request, HttpServletResponse response, StringBuffer sb, String lang, boolean isPrint) throws ServletException, IOException, ParseException {
-		String s = sb.append(!isPrint ? "<p id=\"errorlink\"><a href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", request.getSession()) + "</a></p>" : "").toString();
+	private static String replaceInfoStats(String s, String lang, Object lastUpdate) {
 		if (s.contains("#INFO#")) {
 			StringBuffer sbInfo = new StringBuffer();
 			sbInfo.append(StringUtils.getSizeBytes(s));
 			sbInfo.append("|#DTIME#");
 			sbInfo.append("|" + StringUtils.countIn(s, "<img"));
 			sbInfo.append("|" + lang);
-			sbInfo.append("|" + (StringUtils.notEmpty(request.getAttribute("lastupdate")) ? request.getAttribute("lastupdate") : ""));
+			sbInfo.append("|" + (StringUtils.notEmpty(lastUpdate) ? lastUpdate : ""));
 			s = s.replaceAll("\\#INFO\\#", sbInfo.toString());
 		}
+		return s;
+	}
+	
+	public static void writePageHtml(HttpServletRequest request, HttpServletResponse response, StringBuffer sb, String lang, boolean isPrint) throws ServletException, IOException, ParseException {
+		String s = sb.append(!isPrint ? "<p id=\"errorlink\"><a href=\"javascript:displayErrorReport();\">" + StringUtils.text("report.error", request.getSession()) + "</a></p>" : "").toString();
+		s = replaceInfoStats(s, lang, request.getAttribute("lastupdate"));
 		request.setAttribute("version", "v=" + ConfigUtils.getProperty("version"));
 		request.setAttribute("html", s);
 		request.setAttribute("t2", System.currentTimeMillis());
@@ -69,10 +74,12 @@ public class ServletHelper {
 	}
 	
 	public static void writeHtmlResponse(HttpServletRequest request, HttpServletResponse response, StringBuffer sb, String lang) throws IOException, ParseException {
+		String s = sb.toString();
+		s = replaceInfoStats(s, lang, request.getAttribute("lastupdate"));
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
         PrintWriter writer = response.getWriter();
-        writer.write(sb.toString());
+        writer.write(s);
         response.flushBuffer();
 	}
 	

@@ -9,7 +9,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -108,7 +107,6 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 	public void keyPressed(KeyEvent e) {
 	}
 
-	@SuppressWarnings("unchecked")
 	public void keyReleased(KeyEvent e) {
 		try {
 			DefaultListModel<PicklistItem> model = (DefaultListModel<PicklistItem>)jList.getModel();
@@ -124,35 +122,60 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 				else {
 					Class<? extends AbstractEntity> c = DatabaseManager.getClassFromAlias(alias);
 					String label = null;
-					if (c.equals(City.class))
-						label = "label || ', ' || country.code";
-					else if (c.equals(Complex.class))
-						label = "label || ' [' || city.label || ', ' || city.country.code || ']'";
-					else if (c.equals(Country.class)) 
-						label = "label || ', ' || code";
-					else if (c.equals(Olympics.class)) 
-						label = "year.label || ' - ' || city.label";
-					else if (c.equals(Athlete.class))
-						label = "last_name || ', ' || first_name || ' [' || country.code || ']'";
-					else if (c.equals(Team.class))
-						label = "label || ', ' || sport.label";
-					else if (c.equals(HallOfFame.class)) 
-						label = "league.label || ' - ' || year.label";
-					else if (c.equals(OlympicRanking.class)) 
-						label = "olympics.year.label || ' - ' || olympics.city.label || ' - ' || country.label";
-					else if (c.equals(Record.class)) 
-						label = "championship.label || ' - ' || event.label || ' - ' || subevent.label || ' - ' || type1 || ' - ' || type2 || ' - ' || label";
-					else if (c.equals(RetiredNumber.class)) 
-						label = "league.label || ' - ' || team.label";
-					else if (c.equals(TeamStadium.class)) 
-						label = "league.label || ' - ' || team.label";
-					else if (c.equals(WinLoss.class)) 
-						label = "league.label || ' - ' || team.label";
-					label = (label != null ? label : "label") + " || ' [#' || id || ']'";
+					String joins = "";
+					if (c.equals(City.class)) {
+						label = "T.label || ', ' || CN.code";
+						joins = "JOIN country CN ON CN.id = T.id_country";
+					}
+					else if (c.equals(Complex.class)) {
+						label = "label || ' [' || CT.label || ', ' || CN.code || ']'";
+						joins = "JOIN city CT ON CT.id = T.id_city JOIN country CN ON CN.id = CT.id_country";
+					}
+					else if (c.equals(Country.class)) {
+						label = "T.label || ', ' || T.code";
+					}
+					else if (c.equals(Olympics.class)) {
+						label = "YR.label || ' - ' || CT.label";
+						joins = "JOIN year YR ON YR.id = T.id_year JOIN city CT ON CT.id = T.id_city";
+					}
+					else if (c.equals(Athlete.class)) {
+						label = "T.last_name || ', ' || T.first_name || ' [' || CN.code || ']'";
+						joins = "JOIN country CN ON CN.id = T.id_country";
+					}
+					else if (c.equals(Team.class)) {
+						label = "T.label || ', ' || SP.label";
+						joins = "JOIN sport SP ON SP.id = T.id_sport";
+					}
+					else if (c.equals(HallOfFame.class)) {
+						label = "LG.label || ' - ' || YR.label";
+						joins = "JOIN league LG ON LG.id = T.id_league JOIN year YR ON YR.id = T.id_year";
+					}
+					else if (c.equals(OlympicRanking.class)) {
+						label = "YR.label || ' - ' || CT.label || ' - ' || CN.label";
+						joins = "JOIN country CN ON CN.id = T.id_country JOIN olympics OL ON OL.id = T.id_olympics JOIN year YR ON YR.id = OL.id_year JOIN city CT ON CT.id = OL.id_city";
+					}
+					else if (c.equals(Record.class)) {
+						label = "CP.label || ' - ' || EV.label || ' - ' || SE.label || ' - ' || T.type1 || ' - ' || T.type2 || ' - ' || T.label";
+						joins = "JOIN championship CP ON CP.id = T.id_championship JOIN event EV ON EV.id = T.id_event JOIN event SE ON SE.id = T.id_subevent";
+					}
+					else if (c.equals(RetiredNumber.class)) {
+						label = "LG.label || ' - ' || TM.label";
+						joins = "JOIN league LG ON LG.id = T.id_league JOIN team TM ON TM.id = T.id_team";
+					}
+					else if (c.equals(TeamStadium.class)) {
+						label = "LG.label || ' - ' || TM.label";
+						joins = "JOIN league LG ON LG.id = T.id_league JOIN team TM ON TM.id = T.id_team";
+					}
+					else if (c.equals(WinLoss.class)) {
+						label = "LG.label || ' - ' || TM.label";
+						joins = "JOIN league LG ON LG.id = T.id_league JOIN team TM ON TM.id = T.id_team";
+					}
+					label = (label != null ? label : "label") + " || ' [#' || T.id || ']'";
 					String pattern = jText.getText().replaceAll("\\*", "%").toLowerCase();
-					String sql = "select id," + label + " from " + c.getSimpleName();
-					sql += " where " + (pattern.matches("^\\#\\d+") ? "id=" + pattern.substring(1) : "lower(" + label + ") like '" + pattern + "%'");
-					sql += " order by 2";
+					String sql = "SELECT id," + label
+						+ " FROM " + DatabaseManager.getTable(c) + " T " + joins
+						+ " WHERE " + (pattern.matches("^\\#\\d+") ? "T.id = " + pattern.substring(1) : "LOWER(" + label + ") LIKE '" + pattern + "%'")
+					 	+ " ORDER BY 2";
 					for (PicklistItem bean : DatabaseManager.getPicklist(sql, null)) {
 						model.addElement(bean);
 					}

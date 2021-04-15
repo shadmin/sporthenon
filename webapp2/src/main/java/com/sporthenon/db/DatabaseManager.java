@@ -235,7 +235,7 @@ public class DatabaseManager {
 	public static Object loadEntity(Class<?> class_, Object id) {
 		Object result = null;
 		try {
-			final String table = (String) class_.getField("table").get(null);
+			final String table = getTable(class_);
 			final String key = (String) class_.getField("key").get(null);
 			String sql = null;
 			try {
@@ -262,6 +262,10 @@ public class DatabaseManager {
 	public static Object loadEntity(final String sql, Collection<?> params, Class<?> class_) {
 		List<Object> results = (List<Object>) executeSelect(sql, params, class_);
 		return (results != null && !results.isEmpty() ? results.get(0) : null);
+	}
+	
+	public static String getTable(Class<?> class_) throws NoSuchFieldException, IllegalAccessException {
+		return (String) class_.getField("table").get(null);
 	}
 	
 	public static Class<? extends AbstractEntity> getClassFromAlias(String alias) {
@@ -292,9 +296,8 @@ public class DatabaseManager {
 	}
 	
 	public static Object move(Class<?> class_, Object id, short l, String filter) throws Exception {
-		final String table = (String) class_.getField("table").get(null);
 		final String key = (String) class_.getField("key").get(null);
-		String sql = "SELECT " + (l == FIRST || l == NEXT ? "MIN" : "MAX") + "(" + key + ") FROM " + table;
+		String sql = "SELECT " + (l == FIRST || l == NEXT ? "MIN" : "MAX") + "(" + key + ") FROM " + getTable(class_);
 		if (l == PREVIOUS || l == NEXT)
 			sql += " WHERE " + key + " " + (l == PREVIOUS ? "<" : ">") + id;
 		if (StringUtils.notEmpty(filter))
@@ -332,7 +335,7 @@ public class DatabaseManager {
 	
 	public static Object saveEntity(Object o, Contributor cb) throws Exception {
 		final Timestamp currentDate = new Timestamp(System.currentTimeMillis());
-		final String table = (String) o.getClass().getField("table").get(null);
+		final String table = getTable(o.getClass());
 		final String key = (String) o.getClass().getField("key").get(null);
 		final String cols = (String) o.getClass().getField("cols").get(null);
 		final Object id = o.getClass().getMethod("getId").invoke(o);
@@ -395,7 +398,7 @@ public class DatabaseManager {
 	}
 	
 	public static void removeEntity(Object o) throws Exception {
-		final String table = (String) o.getClass().getField("table").get(null);
+		final String table = getTable(o.getClass());
 		final String key = (String) o.getClass().getField("key").get(null);
 		final Object id = (Object) o.getClass().getMethod("getId").invoke(o);
 		String sql = "DELETE FROM " + table + " WHERE " + key + " = ?";
@@ -431,7 +434,7 @@ public class DatabaseManager {
 		List<String> results = null;
 		try {
 			Class<?> class_ = getClassFromAlias(alias);
-			final String table = (String) class_.getField("table").get(null);
+			final String table = getTable(class_);
 			final String key = (String) class_.getField("key").get(null);
 			final String sql = "SELECT " + 
 					(alias.equals(Athlete.alias) ? "first_name || ' ' || last_name" : 
@@ -448,7 +451,7 @@ public class DatabaseManager {
 	}
 	
 	public static Collection<String> loadLabels(Class<?> class_, String ids, String lang) throws Exception {
-		final String table = (String) class_.getField("table").get(null);
+		final String table = getTable(class_);
 		final String sql = "SELECT x.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && class_ != Team.class && class_ != Year.class ? "_" + lang : "")
 				+ " FROM " + table + " x"
 				+ (StringUtils.notEmpty(ids) ? " WHERE x.id IN (" + ids + ")" : "");
