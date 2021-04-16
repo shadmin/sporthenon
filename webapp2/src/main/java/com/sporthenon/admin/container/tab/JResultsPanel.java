@@ -10,8 +10,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -443,7 +443,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				Result rs = null;
 				String resultId = null;
 				int type = 0;
-				HashMap<String, List<PicklistItem>> pl = JMainFrame.getPicklists();
+				Map<String, List<PicklistItem>> pl = JMainFrame.getPicklists();
 				JEditResultDialog rd = JMainFrame.getResultDialog();
 				rd.clear();
 				if (isAdd) {

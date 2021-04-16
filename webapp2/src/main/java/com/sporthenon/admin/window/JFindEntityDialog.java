@@ -172,7 +172,7 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 					}
 					label = (label != null ? label : "label") + " || ' [#' || T.id || ']'";
 					String pattern = jText.getText().replaceAll("\\*", "%").toLowerCase();
-					String sql = "SELECT id," + label
+					String sql = "SELECT T.id," + label
 						+ " FROM " + DatabaseManager.getTable(c) + " T " + joins
 						+ " WHERE " + (pattern.matches("^\\#\\d+") ? "T.id = " + pattern.substring(1) : "LOWER(" + label + ") LIKE '" + pattern + "%'")
 					 	+ " ORDER BY 2";

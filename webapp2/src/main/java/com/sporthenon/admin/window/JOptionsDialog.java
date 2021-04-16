@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,7 +47,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 	private JTextField jCredentialsFile;
 	
 	private Properties props = null;
-	private HashMap<String, String> hConfig = null;
+	private Map<String, String> hConfig = null;
 	private String userHomeDir = null;
 	private final String[] tHost = new String[] {"sporthenon.com", "localhost"};
 	private final String[] tDatabase = new String[] {"shdb", "shlocal"};
@@ -76,7 +77,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		}
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(370, 300));
+		this.setPreferredSize(new Dimension(370, 320));
 		this.setSize(this.getPreferredSize());
 		this.setModal(true);
 		this.setLocationRelativeTo(null);

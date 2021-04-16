@@ -294,6 +294,26 @@ public class Round extends AbstractEntity {
 		return (complex2 != null ? complex2.getId() : null);
 	}
 	
+	public void setIdRoundType(Integer id) {
+		roundType = (id != null && id > 0 ? new RoundType(id) : null);
+	}
+	
+	public void setIdCity(Integer id) {
+		city1 = (id != null && id > 0 ? new City(id) : null);
+	}
+	
+	public void setIdCity1(Integer id) {
+		city2 = (id != null && id > 0 ? new City(id) : null);
+	}
+	
+	public void setIdComplex(Integer id) {
+		complex1 = (id != null && id > 0 ? new Complex(id) : null);
+	}
+	
+	public void setIdComplex1(Integer id) {
+		complex2 = (id != null && id > 0 ? new Complex(id) : null);
+	}
+	
 	@Override
 	public String toString() {
 		return "Round [id=" + id + ", idResult=" + idResult + ", idResultType="

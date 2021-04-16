@@ -7,7 +7,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
@@ -72,7 +72,7 @@ public class JEditEntityDialog extends JDialog implements ActionListener {
 	}
 	
 	public void open(String alias, JEntityPicklist picklist) {
-		HashMap<String, JAbstractEntityPanel> panels = JMainFrame.getEntityPanels();
+		Map<String, JAbstractEntityPanel> panels = JMainFrame.getEntityPanels();
 		JAbstractEntityPanel p = panels.get(alias);
 		for (String key : panels.keySet())
 			jContainer.remove(panels.get(key));
@@ -84,10 +84,12 @@ public class JEditEntityDialog extends JDialog implements ActionListener {
 		this.pack();
 		p.clear();
 		p.focus();
-		if (p instanceof JAthletePanel)
+		if (p instanceof JAthletePanel) {
 			SwingUtils.selectValue(((JAthletePanel)p).getSport(), JResultsPanel.getIdSport());
-		else if (p instanceof JTeamPanel)
+		}
+		else if (p instanceof JTeamPanel) {
 			SwingUtils.selectValue(((JTeamPanel)p).getSport(), JResultsPanel.getIdSport());
+		}
 //((JTeamPanel)p).setInactive(false);
 //		int width = p.getPreferredSize().width + 30;
 //		int height = p.getPreferredSize().height + 110;

@@ -317,7 +317,7 @@ public class DatabaseManager {
  	 					ps.setObject(i++, param);
  	 				}	
  				}
- 				if (sql.matches("^(INSERT|UPDATE).*")) {
+ 				if (sql.matches("^(INSERT).*")) {
  					ResultSet rs = ps.executeQuery();
  	 				rs.next();
  	 				id = rs.getInt(1);
@@ -364,7 +364,8 @@ public class DatabaseManager {
 		if (isAdd) {
 			sql = "INSERT INTO " + table + " (" + key + "," + cols + (isMetadata ? "," + Metadata.cols : "") + ") "
 					+ "VALUES (NEXTVAL('" + (table.startsWith("_") ? "_s" : "s_") + table + "'),"
-					+ StringUtils.repeat("?", tcols.length + (isMetadata ? 3 : 0), ",") + ")";
+					+ StringUtils.repeat("?", tcols.length + (isMetadata ? 3 : 0), ",") + ")"
+					+ " RETURNING " + key;
 		}
 		else {
 			sql = "UPDATE " + table + " SET ";
@@ -378,9 +379,10 @@ public class DatabaseManager {
 			sql += " WHERE " + key + " = ?";
 			params.add(id);
 		}
-		sql += " RETURNING " + key;
 		Integer newId = executeUpdate(sql, params);
-		o.getClass().getMethod("setId", Integer.class).invoke(o, newId);
+		if (newId != null) {
+			o.getClass().getMethod("setId", Integer.class).invoke(o, newId);	
+		}
 
 		// Create contribution item
 		if (o instanceof Result && cb != null) {

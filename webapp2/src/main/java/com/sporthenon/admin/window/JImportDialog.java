@@ -13,6 +13,7 @@ import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -303,7 +304,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 			jUpdateButton.setEnabled(false);
 			jProgressBar.setValue(0);
 			jScrollPane.setViewportView(null);
-			final HashMap<String, String> hTitle = new HashMap<String, String>();
+			final Map<String, String> hTitle = new HashMap<String, String>();
 			Vector<String> vHeaderLabel = new Vector<String>();
 			if (jTypeRS.isSelected()) {
 				vHeader = new Vector<String>(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rk5", "rk6", "rk7", "rk8", "rk9", "dt1", "dt2", "pl1", "pl2", "exa", "cmt", "exl"}));

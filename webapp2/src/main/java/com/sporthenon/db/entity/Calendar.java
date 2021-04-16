@@ -215,6 +215,38 @@ public class Calendar extends AbstractEntity {
 	public Integer getIdCountry() {
 		return (country != null ? country.getId() : null);
 	}
+	
+	public void setIdSport(Integer id) {
+		sport = (id != null && id > 0 ? new Sport(id) : null);
+	}
+	
+	public void setIdChampionship(Integer id) {
+		championship = (id != null && id > 0 ? new Championship(id) : null);
+	}
+	
+	public void setIdEvent(Integer id) {
+		event = (id != null && id > 0 ? new Event(id) : null);
+	}
+	
+	public void setIdSubevent(Integer id) {
+		subevent = (id != null && id > 0 ? new Event(id) : null);
+	}
+	
+	public void setIdSubevent2(Integer id) {
+		subevent2 = (id != null && id > 0 ? new Event(id) : null);
+	}
+	
+	public void setIdComplex(Integer id) {
+		complex = (id != null && id > 0 ? new Complex(id) : null);
+	}
+	
+	public void setIdCity(Integer id) {
+		city = (id != null && id > 0 ? new City(id) : null);
+	}
+	
+	public void setIdCountry(Integer id) {
+		country = (id != null && id > 0 ? new Country(id) : null);
+	}
 
 	@Override
 	public String toString() {

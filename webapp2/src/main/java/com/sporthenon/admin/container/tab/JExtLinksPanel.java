@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -206,7 +207,7 @@ public class JExtLinksPanel extends JSplitPane implements ActionListener, ListSe
 			if (!jChecked.isSelected())
 				sql.append(" AND (checked = FALSE OR checked IS NULL)");
 			sql.append(" ORDER BY id_item");
-			HashMap<Integer, String> hLabel = new HashMap<Integer, String>();
+			Map<Integer, String> hLabel = new HashMap<Integer, String>();
 			String table = (String) DatabaseManager.getClassFromAlias(alias).getField("table").get(null);
 			String sql_ = "SELECT id, " + (alias.equals(Athlete.alias) ? "last_name || ', ' || first_name || ' - ' || id_sport" : "label") + " FROM " + table + (tIds.length > 1 ? " WHERE id BETWEEN " + tIds[0] + " AND " + tIds[1] : "");
 			for (Object[] t_ : (List<Object[]>) DatabaseManager.executeSelect(sql_)) {

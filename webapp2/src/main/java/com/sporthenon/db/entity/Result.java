@@ -758,6 +758,54 @@ public class Result extends AbstractEntity {
 		return (year != null ? year.getId() : null);
 	}
 	
+	public void setIdSport(Integer id) {
+		sport = (id != null && id > 0 ? new Sport(id) : null);
+	}
+	
+	public void setIdChampionship(Integer id) {
+		championship = (id != null && id > 0 ? new Championship(id) : null);
+	}
+	
+	public void setIdEvent(Integer id) {
+		event = (id != null && id > 0 ? new Event(id) : null);
+	}
+	
+	public void setIdSubevent(Integer id) {
+		subevent = (id != null && id > 0 ? new Event(id) : null);
+	}
+	
+	public void setIdSubevent2(Integer id) {
+		subevent2 = (id != null && id > 0 ? new Event(id) : null);
+	}
+	
+	public void setIdComplex1(Integer id) {
+		complex1 = (id != null && id > 0 ? new Complex(id) : null);
+	}
+	
+	public void setIdComplex2(Integer id) {
+		complex2 = (id != null && id > 0 ? new Complex(id) : null);
+	}
+	
+	public void setIdCity1(Integer id) {
+		city1 = (id != null && id > 0 ? new City(id) : null);
+	}
+	
+	public void setIdCity2(Integer id) {
+		city2 = (id != null && id > 0 ? new City(id) : null);
+	}
+	
+	public void setIdCountry1(Integer id) {
+		country1 = (id != null && id > 0 ? new Country(id) : null);
+	}
+	
+	public void setIdCountry2(Integer id) {
+		country2 = (id != null && id > 0 ? new Country(id) : null);
+	}
+	
+	public void setIdYear(Integer id) {
+		year = (id != null && id > 0 ? new Year(id) : null);
+	}
+	
 	@Override
 	public String toString() {
 		return sport + ", " + championship + (event != null ? ", " + event : "") + (subevent != null ? ", " + subevent : "") + ", " + year + (date1 != null ? ", " + date1 : "") + (date2 != null ? ", " + date2 : "") + ", 1. #" + idRank1 + ", 2. #" + idRank2 + ", 3. #" + idRank3 + " [#" + id + "]";

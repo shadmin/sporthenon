@@ -1,5 +1,6 @@
 package com.sporthenon.admin.container.entity;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -11,9 +12,10 @@ public class JStatePanel extends JAbstractEntityPanel {
 	public JTextField jLabelFR;
 	public JTextField jCode;
 	public JTextField jCapital;
+	public JCheckBox jNopic;
 	
 	public JStatePanel() {
-		super(5);
+		super(6);
 		initialize();
 	}
 
@@ -42,13 +44,20 @@ public class JStatePanel extends JAbstractEntityPanel {
         jCode.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jCode);
         
-        //Code
-        JLabel lCapital = new JLabel(" Code:");
+        //Capital
+        JLabel lCapital = new JLabel(" Capital:");
         lCapital.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lCapital);
         jCapital = new JTextField();
         jCapital.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jCapital);
+        
+        //Nopic
+        JLabel lNopic = new JLabel(" No picture:");
+        lNopic.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lNopic);
+        jNopic = new JCheckBox();
+        gridPanel.add(jNopic);
 	}
 
 	public JTextField getLabel() {
@@ -67,6 +76,10 @@ public class JStatePanel extends JAbstractEntityPanel {
 		return jCapital;
 	}
 	
+	public JCheckBox getNopic() {
+		return jNopic;
+	}
+	
 	public void setLabel(String s) {
 		jLabel.setText(s);
 	}
@@ -83,12 +96,17 @@ public class JStatePanel extends JAbstractEntityPanel {
 		jCapital.setText(s);
 	}
 	
+	public void setNopic(Boolean b) {
+		jNopic.setSelected(b != null && b);
+	}
+	
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
 		jLabelFR.setText("");
 		jCode.setText("");
 		jCapital.setText("");
+		jNopic.setSelected(false);
 	}
 	
 	public void focus() {

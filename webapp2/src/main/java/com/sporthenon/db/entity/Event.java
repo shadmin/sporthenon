@@ -110,6 +110,10 @@ public class Event extends AbstractEntity {
 		return (type != null ? type.getId() : null);
 	}
 	
+	public void setIdType(Integer id) {
+		type = (id != null && id > 0 ? new Type(id) : null);
+	}
+	
 	@Override
 	public String toString() {
 		return label + " [#" + id + "]";

@@ -134,6 +134,18 @@ public class Athlete extends AbstractEntity {
 		return (sport != null ? sport.getId() : null);
 	}
 	
+	public void setIdCountry(Integer id) {
+		country = (id != null && id > 0 ? new Country(id) : null);
+	}
+	
+	public void setIdTeam(Integer id) {
+		team = (id != null && id > 0 ? new Team(id) : null);
+	}
+	
+	public void setIdSport(Integer id) {
+		sport = (id != null && id > 0 ? new Sport(id) : null);
+	}
+	
 	@Override
 	public String toString() {
 		return lastName + ", " + firstName + (team != null ? ", " + team : "") + (country != null ? ", " + country : "") + (sport != null ? ", " + sport : "") + " [#" + id + "]";

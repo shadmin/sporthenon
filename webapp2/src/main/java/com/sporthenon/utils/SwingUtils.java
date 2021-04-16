@@ -87,8 +87,9 @@ public class SwingUtils {
 		for (int i = 0 ; x == 0 && i < lst.size() ; i++) {
 			String s1 = lst.get(i).getText().toLowerCase();
 			String s2 = value.getText().toLowerCase();
-			if (Collator.getInstance(Locale.ENGLISH).compare(s1, s2) > 0)
+			if (Collator.getInstance(Locale.ENGLISH).compare(s1, s2) > 0) {
 				x = i;
+			}
 		}
 		x = (x == 0 ? lst.size() : x);
 		lst.add(x, value);

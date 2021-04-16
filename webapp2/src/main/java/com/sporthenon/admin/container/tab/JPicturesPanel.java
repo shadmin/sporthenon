@@ -20,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -264,7 +265,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 				if (!alias.equals(Team.alias)) {
 					jSportList.setSelectedIndex(0);
 				}
-				HashMap<String, Short> hLocs = new HashMap<String, Short>();
+				Map<String, Short> hLocs = new HashMap<String, Short>();
 				hLocs.put("first", DatabaseManager.FIRST);
 				hLocs.put("previous", DatabaseManager.PREVIOUS);
 				hLocs.put("next", DatabaseManager.NEXT);
@@ -409,6 +410,20 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 			jRemoteList.setSelectedIndex(0);
 		}
 	}
+	
+	public void changeEntity(int index) {
+		switch (index) {
+			case 0: alias = Championship.alias; break;
+			case 1: alias = Country.alias; break;
+			case 2: alias = Event.alias; break;
+			case 3: alias = Olympics.alias; break;
+			case 4: alias = Sport.alias; break;
+			case 5: alias = State.alias; break;
+			case 6: alias = Team.alias; break;
+		}
+		jSportList.setVisible(alias.matches(Championship.alias + "|" + Event.alias + "|" + Team.alias));
+		actionPerformed(new ActionEvent(this, 0, "first"));
+	}
 
 	public void valueChanged(ListSelectionEvent e) {
 		int index = 0;
@@ -416,17 +431,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 			index = ((JList<?>)e.getSource()).getSelectedIndex();
 			boolean isMainList = ((JList<?>)e.getSource()).getName().equalsIgnoreCase("mainlist");
 			if (isMainList) {
-				switch (index) {
-					case 0: alias = Championship.alias; break;
-					case 1: alias = Country.alias; break;
-					case 2: alias = Event.alias; break;
-					case 3: alias = Olympics.alias; break;
-					case 4: alias = Sport.alias; break;
-					case 5: alias = State.alias; break;
-					case 6: alias = Team.alias; break;
-				}
-				jSportList.setVisible(alias.matches(Championship.alias + "|" + Event.alias + "|" + Team.alias));
-				actionPerformed(new ActionEvent(this, 0, "last"));
+				changeEntity(index);
 			}
 			else {
 				try {

@@ -356,6 +356,26 @@ public class Record extends AbstractEntity {
 		return (city != null ? city.getId() : null);
 	}
 	
+	public void setIdSport(Integer id) {
+		sport = (id != null && id > 0 ? new Sport(id) : null);
+	}
+	
+	public void setIdChampionship(Integer id) {
+		championship = (id != null && id > 0 ? new Championship(id) : null);
+	}
+	
+	public void setIdEvent(Integer id) {
+		event = (id != null && id > 0 ? new Event(id) : null);
+	}
+	
+	public void setIdSubevent(Integer id) {
+		subevent = (id != null && id > 0 ? new Event(id) : null);
+	}
+	
+	public void setIdCity(Integer id) {
+		city = (id != null && id > 0 ? new City(id) : null);
+	}
+	
 	@Override
 	public String toString() {
 		return "Record [id=" + id + ", sport=" + sport + ", championship=" + championship + ", event=" + event + ", subevent=" + subevent + ", city=" + city + ", label=" + label + ", idRank1=" + idRank1 + ", idRank2=" + idRank2 + ", idRank3=" + idRank3 + ", idRank4=" + idRank4 + ", idRank5=" + idRank5 + ", record1=" + record1 + ", record2=" + record2 + ", record3=" + record3 + ", record4=" + record4 + ", record5=" + record5 + ", date1=" + date1 + ", date2=" + date2 + ", date3=" + date3 + ", date4=" + date4 + ", date5=" + date5 + ", counting=" + counting + ", index=" + index + ", type1=" + type1 + ", type2=" + type2 + ", comment=" + comment + ", exa=" + exa + "]";

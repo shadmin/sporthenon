@@ -164,6 +164,14 @@ public class Olympics extends AbstractEntity {
 		return (year != null ? year.getId() : null);
 	}
 	
+	public void setIdCity(Integer id) {
+		city = (id != null && id > 0 ? new City(id) : null);
+	}
+	
+	public void setIdYear(Integer id) {
+		year = (id != null && id > 0 ? new Year(id) : null);
+	}
+	
 	@Override
 	public String toString() {
 		return "Olympics [id=" + id + ", year=" + year + ", city=" + city

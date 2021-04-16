@@ -107,6 +107,14 @@ public class OlympicRanking extends AbstractEntity {
 	public Integer getIdCountry() {
 		return (country != null ? country.getId() : null);
 	}
+
+	public void setIdOlympics(Integer id) {
+		olympics = (id != null && id > 0 ? new Olympics(id) : null);
+	}
+	
+	public void setIdCountry(Integer id) {
+		country = (id != null && id > 0 ? new Country(id) : null);
+	}
 	
 	@Override
 	public String toString() {

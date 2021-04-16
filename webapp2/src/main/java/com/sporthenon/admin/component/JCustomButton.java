@@ -1,5 +1,6 @@
 package com.sporthenon.admin.component;
 
+import java.awt.Dimension;
 import java.awt.Insets;
 
 import javax.swing.JButton;
@@ -26,6 +27,9 @@ public class JCustomButton extends JButton {
 			this.setIcon(ResourceUtils.getIcon(icon));
 		}
 		this.setMargin(StringUtils.notEmpty(text) ? new Insets(2, 5, 2, 5) : new Insets(2, 2, 2, 2));
+		if (text == null) {
+			this.setPreferredSize(new Dimension(22, 22));	
+		}
 	}
 
 	protected void initialize() {

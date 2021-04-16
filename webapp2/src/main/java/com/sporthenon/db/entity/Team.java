@@ -199,6 +199,18 @@ public class Team extends AbstractEntity {
 		return (sport != null ? sport.getId() : null);
 	}
 	
+	public void setIdCountry(Integer id) {
+		country = (id != null && id > 0 ? new Country(id) : null);
+	}
+	
+	public void setIdLeague(Integer id) {
+		league = (id != null && id > 0 ? new League(id) : null);
+	}
+	
+	public void setIdSport(Integer id) {
+		sport = (id != null && id > 0 ? new Sport(id) : null);
+	}
+	
 	@Override
 	public String toString() {
 		return label + (country != null ? ", " + country : "") + (sport != null ? ", " + sport.getLabel() : "") + " [#" + id + "]";

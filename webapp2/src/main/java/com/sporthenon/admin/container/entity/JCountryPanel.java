@@ -1,5 +1,6 @@
 package com.sporthenon.admin.container.entity;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -10,9 +11,10 @@ public class JCountryPanel extends JAbstractEntityPanel {
 	public JTextField jLabel;
 	public JTextField jLabelFR;
 	public JTextField jCode;
-
+	public JCheckBox jNopic;
+	
 	public JCountryPanel() {
-		super(4);
+		super(5);
 		initialize();
 	}
 
@@ -40,6 +42,13 @@ public class JCountryPanel extends JAbstractEntityPanel {
         jCode = new JTextField();
         jCode.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jCode);
+        
+        //Nopic
+        JLabel lNopic = new JLabel(" No picture:");
+        lNopic.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lNopic);
+        jNopic = new JCheckBox();
+        gridPanel.add(jNopic);
 	}
 
 	public JTextField getLabel() {
@@ -52,6 +61,10 @@ public class JCountryPanel extends JAbstractEntityPanel {
 	
 	public JTextField getCode() {
 		return jCode;
+	}
+	
+	public JCheckBox getNopic() {
+		return jNopic;
 	}
 	
 	public void setLabel(String s) {
@@ -67,11 +80,16 @@ public class JCountryPanel extends JAbstractEntityPanel {
 		jCode.setText(s);
 	}
 	
+	public void setNopic(Boolean b) {
+		jNopic.setSelected(b != null && b);
+	}
+	
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
 		jLabelFR.setText("");
 		jCode.setText("");
+		jNopic.setSelected(false);
 	}
 	
 	public void focus() {

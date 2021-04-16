@@ -1,5 +1,6 @@
 package com.sporthenon.admin.container.entity;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -22,9 +23,10 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
 	public JTextField jEvents;
 	public JTextField jCountries;
 	public JTextField jPersons;
+	public JCheckBox jNopic;
 	
 	public JOlympicsPanel() {
-		super(10);
+		super(11);
 		initialize();
 	}
 
@@ -98,6 +100,13 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
         jPersons = new JTextField();
         jPersons.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jPersons);
+        
+        //Nopic
+        JLabel lNopic = new JLabel(" No picture:");
+        lNopic.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lNopic);
+        jNopic = new JCheckBox();
+        gridPanel.add(jNopic);
 	}
 
 	public JEntityPicklist getYear() {
@@ -136,6 +145,10 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
 		return jPersons;
 	}
 	
+	public JCheckBox getNopic() {
+		return jNopic;
+	}
+	
 	public void setYear(Integer id) {
 		SwingUtils.selectValue(jYear, id);;
 	}
@@ -172,6 +185,10 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
 		jPersons.setText(s);
 	}
 	
+	public void setNopic(Boolean b) {
+		jNopic.setSelected(b != null && b);
+	}
+	
 	public void clear() {
 		jId.setText("");
 		jType.setText("");
@@ -180,9 +197,10 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
 		jSports.setText("");
 		jEvents.setText("");
 		jCountries.setText("");
-		jEvents.setText("");
+		jPersons.setText("");
 		jYear.clear();
 		jCity.clear();
+		jNopic.setSelected(false);
 	}
 	
 	public void focus() {

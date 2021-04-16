@@ -124,6 +124,14 @@ public class WinLoss extends AbstractEntity {
 		return (team != null ? team.getId() : null);
 	}
 	
+	public void setIdLeague(Integer id) {
+		league = (id != null && id > 0 ? new League(id) : null);
+	}
+	
+	public void setIdTeam(Integer id) {
+		team = (id != null && id > 0 ? new Team(id) : null);
+	}
+	
 	@Override
 	public String toString() {
 		return "WinLoss [id=" + id + ", league=" + league + ", team=" + team + ", type=" + type + ", countWin=" + countWin + ", countLoss=" + countLoss + ", countTie=" + countTie + ", countOtloss=" + countOtloss + "]";

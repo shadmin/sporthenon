@@ -29,9 +29,10 @@ public class JTeamPanel extends JAbstractEntityPanel {
 	public JLabel lLink;
 	public JLinkTextField jLink;
 	public JCheckBox jInactive;
+	public JCheckBox jNopic;
 	
 	public JTeamPanel() {
-		super(13);
+		super(14);
 		initialize();
 	}
 
@@ -80,6 +81,13 @@ public class JTeamPanel extends JAbstractEntityPanel {
         gridPanel.add(lInactive);
         jInactive = new JCheckBox();
         gridPanel.add(jInactive);
+        
+        //Nopic
+        JLabel lNopic = new JLabel(" No picture:");
+        lNopic.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lNopic);
+        jNopic = new JCheckBox();
+        gridPanel.add(jNopic);
         
         //League
         JLabel lLeague = new JLabel(" League:");
@@ -167,6 +175,10 @@ public class JTeamPanel extends JAbstractEntityPanel {
 		return jYear2;
 	}
 	
+	public JCheckBox getNopic() {
+		return jNopic;
+	}
+	
 	public void setLabel(String s) {
 		jLabel.setText(s);
 	}
@@ -215,6 +227,10 @@ public class JTeamPanel extends JAbstractEntityPanel {
 		jYear2.setText(s);
 	}
 
+	public void setNopic(Boolean b) {
+		jNopic.setSelected(b != null && b);
+	}
+	
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
@@ -228,6 +244,7 @@ public class JTeamPanel extends JAbstractEntityPanel {
 		jComment.setText("");
 		jYear1.setText("");
 		jYear2.setText("");
+		jNopic.setSelected(false);
 	}
 	
 	public void focus() {

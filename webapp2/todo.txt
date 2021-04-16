@@ -1,1 +1,3 @@
 export html pdf
+titres des chapitres inforef
+boutons share

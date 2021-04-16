@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +30,7 @@ import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JQueryStatus;
 import com.sporthenon.admin.container.entity.JAbstractEntityPanel;
 import com.sporthenon.admin.container.entity.JAthletePanel;
+import com.sporthenon.admin.container.entity.JCalendarPanel;
 import com.sporthenon.admin.container.entity.JChampionshipPanel;
 import com.sporthenon.admin.container.entity.JCityPanel;
 import com.sporthenon.admin.container.entity.JComplexPanel;
@@ -53,6 +55,7 @@ import com.sporthenon.db.DatabaseManager;
 import com.sporthenon.db.PicklistItem;
 import com.sporthenon.db.entity.AbstractEntity;
 import com.sporthenon.db.entity.Athlete;
+import com.sporthenon.db.entity.Calendar;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
@@ -114,23 +117,24 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 	private void initList() {
 		Vector<String> v = new Vector<String>();
 		v.add("Athlete");
+		v.add("Calendar");
 		v.add("Championship");
 		v.add("City");
 		v.add("Complex");
 		v.add("Country");
 		v.add("Event");
-		v.add("Olympics");
-		v.add("Sport");
-		v.add("State");
-		v.add("Team");
-		v.add("Year");
-		v.add("-----------------------------------");
 		v.add("Hall of Fame");
+		v.add("Olympics");
 		v.add("Olympic Medals");
 		v.add("Records");
 		v.add("Retired Numbers");
+		v.add("Sport");
+		v.add("State");
+		v.add("Team");
 		v.add("Team Stadiums");
 		v.add("Win/Loss");
+		v.add("Year");
+		
 		jList = new JList<>(v);
 		jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jList.setLayoutOrientation(JList.VERTICAL);
@@ -209,7 +213,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 	}
 
 	private JPanel getEntityPanel() {
-		HashMap<String, JAbstractEntityPanel> panels = JMainFrame.getEntityPanels();
+		Map<String, JAbstractEntityPanel> panels = JMainFrame.getEntityPanels();
 		jContainer = new Container();
 		jContainer.setLayout(new CardLayout());
 		for (String key : panels.keySet())
@@ -226,7 +230,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		JAbstractEntityPanel panel = JMainFrame.getEntityPanels().get(alias);
 		if (e.getActionCommand().matches("first|previous|next|last")) {
 			try {
-				HashMap<String, Short> hLocs = new HashMap<String, Short>();
+				Map<String, Short> hLocs = new HashMap<String, Short>();
 				hLocs.put("first", DatabaseManager.FIRST);
 				hLocs.put("previous", DatabaseManager.PREVIOUS);
 				hLocs.put("next", DatabaseManager.NEXT);
@@ -383,12 +387,27 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 				}
 			}
 		}
+		else if (o instanceof Calendar) {
+			Calendar cl = (Calendar) o;
+			JCalendarPanel p = (JCalendarPanel) panel;
+			p.setSport(cl.getSport().getId());
+			p.setChampionship(cl.getChampionship() != null ? cl.getChampionship().getId() : null);
+			p.setEvent(cl.getEvent() != null ? cl.getEvent().getId() : null);
+			p.setSubevent(cl.getSubevent() != null ? cl.getSubevent().getId() : null);
+			p.setSubevent2(cl.getSubevent2() != null ? cl.getSubevent2().getId() : null);
+			p.setComplex(cl.getComplex() != null ? cl.getComplex().getId() : null);
+			p.setCity(cl.getCity() != null ? cl.getCity().getId() : null);
+			p.setCountry(cl.getCountry() != null ? cl.getCountry().getId() : null);
+			p.setDate1(cl.getDate1());
+			p.setDate2(cl.getDate2());
+		}
 		else if (o instanceof Championship) {
 			Championship cp = (Championship) o;
 			JChampionshipPanel p = (JChampionshipPanel) panel;
 			p.setLabel(cp.getLabel());
 			p.setLabelFR(cp.getLabelFr());
 			p.setIndex(cp.getIndex() != null ? String.valueOf(cp.getIndex()) : null);
+			p.setNopic(cp.getNopic());
 		}
 		else if (o instanceof City) {
 			City ct = (City) o;
@@ -432,6 +451,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabel(cn.getLabel());
 			p.setLabelFR(cn.getLabelFr());
 			p.setCode(cn.getCode());
+			p.setNopic(cn.getNopic());
 		}
 		else if (o instanceof Event) {
 			Event ev = (Event) o;
@@ -440,6 +460,17 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setLabelFR(ev.getLabelFr());
 			p.setType(ev.getType() != null ? ev.getType().getId() : null);
 			p.setIndex(ev.getIndex() != null ? String.valueOf(ev.getIndex()) : null);
+			p.setNopic(ev.getNopic());
+		}
+		else if (o instanceof HallOfFame) {
+			HallOfFame hf = (HallOfFame) o;
+			JHallOfFamePanel p = (JHallOfFamePanel) panel;
+			int leagueId = hf.getLeague().getId();
+			SwingUtils.fillPicklist(p.getPerson(), JMainFrame.getPicklists().get(Athlete.alias), leagueId == 1 ? 23 : (leagueId == 2 ? 24 : (leagueId == 3 ? 25 : 26)));
+			p.setLeague(hf.getLeague().getId());
+			p.setYear(hf.getYear().getId());
+			p.setPerson(hf.getPerson().getId());
+			p.setPosition(hf.getPosition());
 		}
 		else if (o instanceof Olympics) {
 			Olympics ol = (Olympics) o;
@@ -453,62 +484,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setEvents(String.valueOf(ol.getCountEvent()));
 			p.setCountries(String.valueOf(ol.getCountCountry()));
 			p.setPersons(String.valueOf(ol.getCountPerson()));
-		}
-		else if (o instanceof Sport) {
-			Sport sp = (Sport) o;
-			JSportPanel p = (JSportPanel) panel;
-			p.setLabel(sp.getLabel());
-			p.setLabelFR(sp.getLabelFr());
-			p.setIndex(sp.getIndex() != null ? String.valueOf(sp.getIndex()) : null);
-			p.setType(String.valueOf(sp.getType()));
-		}
-		else if (o instanceof State) {
-			State st = (State) o;
-			JStatePanel p = (JStatePanel) panel;
-			p.setLabel(st.getLabel());
-			p.setLabelFR(st.getLabelFr());
-			p.setCode(st.getCode());
-			p.setCapital(st.getCapital());
-		}
-		else if (o instanceof Team) {
-			Team tm = (Team) o;
-			JTeamPanel p = (JTeamPanel) panel;
-			p.setCountry(tm.getCountry() != null ? tm.getCountry().getId() : null);
-			p.setSport(tm.getSport() != null ? tm.getSport().getId() : null);
-			p.setLabel(tm.getLabel());
-			p.setLeague(tm.getLeague() != null ? tm.getLeague().getId() : null);
-			p.setConference(StringUtils.notEmpty(tm.getConference()) ? tm.getConference() : "");
-			p.setDivision(StringUtils.notEmpty(tm.getDivision()) ? tm.getDivision() : "");
-			p.setYear1(tm.getYear1());
-			p.setYear2(tm.getYear2());
-			p.setComment(StringUtils.notEmpty(tm.getComment()) ? tm.getComment() : "");
-			p.setLink(tm.getLink() != null ? String.valueOf(tm.getLink()) : null);
-			p.setInactive(tm.getInactive());
-			p.setLinkLabel(" Linked to:");
-			if (tm.getLink() != null && tm.getLink() > 0) {
-				try {
-					Team a = (Team) DatabaseManager.loadEntity(Team.class, tm.getLink());
-					p.setLinkLabel(" Linked to: [" + a.getLabel() + "]");
-				}
-				catch (Exception e) {
-					log.log(Level.WARNING, e.getMessage());
-				}
-			}
-		}
-		else if (o instanceof Year) {
-			Year yr = (Year) o;
-			JYearPanel p = (JYearPanel) panel;
-			p.setLabel(yr.getLabel());
-		}
-		else if (o instanceof HallOfFame) {
-			HallOfFame hf = (HallOfFame) o;
-			JHallOfFamePanel p = (JHallOfFamePanel) panel;
-			int leagueId = hf.getLeague().getId();
-			SwingUtils.fillPicklist(p.getPerson(), JMainFrame.getPicklists().get(Athlete.alias), leagueId == 1 ? 23 : (leagueId == 2 ? 24 : (leagueId == 3 ? 25 : 26)));
-			p.setLeague(hf.getLeague().getId());
-			p.setYear(hf.getYear().getId());
-			p.setPerson(hf.getPerson().getId());
-			p.setPosition(hf.getPosition());
+			p.setNopic(ol.getNopic());
 		}
 		else if (o instanceof OlympicRanking) {
 			OlympicRanking or = (OlympicRanking) o;
@@ -567,6 +543,50 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setYear(rn.getYear() != null ? rn.getYear().getId() : null);
 			p.setNumber(String.valueOf(rn.getNumber()));
 		}
+		else if (o instanceof Sport) {
+			Sport sp = (Sport) o;
+			JSportPanel p = (JSportPanel) panel;
+			p.setLabel(sp.getLabel());
+			p.setLabelFR(sp.getLabelFr());
+			p.setIndex(sp.getIndex() != null ? String.valueOf(sp.getIndex()) : null);
+			p.setType(String.valueOf(sp.getType()));
+			p.setNopic(sp.getNopic());
+		}
+		else if (o instanceof State) {
+			State st = (State) o;
+			JStatePanel p = (JStatePanel) panel;
+			p.setLabel(st.getLabel());
+			p.setLabelFR(st.getLabelFr());
+			p.setCode(st.getCode());
+			p.setCapital(st.getCapital());
+			p.setNopic(st.getNopic());
+		}
+		else if (o instanceof Team) {
+			Team tm = (Team) o;
+			JTeamPanel p = (JTeamPanel) panel;
+			p.setCountry(tm.getCountry() != null ? tm.getCountry().getId() : null);
+			p.setSport(tm.getSport() != null ? tm.getSport().getId() : null);
+			p.setLabel(tm.getLabel());
+			p.setLeague(tm.getLeague() != null ? tm.getLeague().getId() : null);
+			p.setConference(StringUtils.notEmpty(tm.getConference()) ? tm.getConference() : "");
+			p.setDivision(StringUtils.notEmpty(tm.getDivision()) ? tm.getDivision() : "");
+			p.setYear1(tm.getYear1());
+			p.setYear2(tm.getYear2());
+			p.setComment(StringUtils.notEmpty(tm.getComment()) ? tm.getComment() : "");
+			p.setLink(tm.getLink() != null ? String.valueOf(tm.getLink()) : null);
+			p.setInactive(tm.getInactive());
+			p.setNopic(tm.getNopic());
+			p.setLinkLabel(" Linked to:");
+			if (tm.getLink() != null && tm.getLink() > 0) {
+				try {
+					Team a = (Team) DatabaseManager.loadEntity(Team.class, tm.getLink());
+					p.setLinkLabel(" Linked to: [" + a.getLabel() + "]");
+				}
+				catch (Exception e) {
+					log.log(Level.WARNING, e.getMessage());
+				}
+			}
+		}
 		else if (o instanceof TeamStadium) {
 			TeamStadium ts = (TeamStadium) o;
 			JTeamStadiumPanel p = (JTeamStadiumPanel) panel;
@@ -592,31 +612,38 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setTie(wl.getCountTie() != null ? String.valueOf(wl.getCountTie()) : "");
 			p.setOtLoss(wl.getCountOtloss() != null ? String.valueOf(wl.getCountOtloss()) : "");
 		}
+		else if (o instanceof Year) {
+			Year yr = (Year) o;
+			JYearPanel p = (JYearPanel) panel;
+			p.setLabel(yr.getLabel());
+		}
 		jQueryStatus.clear();
 	}
 
 	public void valueChanged(ListSelectionEvent e) {
 		int index = 0;
-		if (e != null && e.getSource() instanceof JList)
+		if (e != null && e.getSource() instanceof JList) {
 			index = ((JList<?>)e.getSource()).getSelectedIndex();
+		}
 		switch (index) {
 			case 0: alias = Athlete.alias; break;
-			case 1: alias = Championship.alias; break;
-			case 2: alias = City.alias; break;
-			case 3: alias = Complex.alias; break;
-			case 4: alias = Country.alias; break;
-			case 5: alias = Event.alias; break;
-			case 6: alias = Olympics.alias; break;
-			case 7: alias = Sport.alias; break;
-			case 8: alias = State.alias; break;
-			case 9: alias = Team.alias; break;
-			case 10: alias = Year.alias; break;
-			case 12: alias = HallOfFame.alias; break;
-			case 13: alias = OlympicRanking.alias; break;
-			case 14: alias = Record.alias; break;
-			case 15: alias = RetiredNumber.alias; break;
-			case 16: alias = TeamStadium.alias; break;
-			case 17: alias = WinLoss.alias; break;
+			case 1: alias = Calendar.alias; break;
+			case 2: alias = Championship.alias; break;
+			case 3: alias = City.alias; break;
+			case 4: alias = Complex.alias; break;
+			case 5: alias = Country.alias; break;
+			case 6: alias = Event.alias; break;
+			case 7: alias = HallOfFame.alias; break;
+			case 8: alias = Olympics.alias; break;
+			case 9: alias = OlympicRanking.alias; break;
+			case 10: alias = Record.alias; break;
+			case 11: alias = RetiredNumber.alias; break;
+			case 12: alias = Sport.alias; break;
+			case 13: alias = State.alias; break;
+			case 14: alias = Team.alias; break;
+			case 15: alias = TeamStadium.alias; break;
+			case 16: alias = WinLoss.alias; break;
+			case 17: alias = Year.alias; break;
 		}
 		jContainer.add(JMainFrame.getEntityPanels().get(alias), alias);
 		((CardLayout) jContainer.getLayout()).show(jContainer, alias);

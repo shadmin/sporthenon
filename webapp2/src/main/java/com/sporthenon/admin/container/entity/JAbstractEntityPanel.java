@@ -19,7 +19,7 @@ import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.utils.SwingUtils;
 
 
-public abstract class JAbstractEntityPanel extends JPanel implements ActionListener, IEntityPanel {
+public abstract class JAbstractEntityPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -38,7 +38,7 @@ public abstract class JAbstractEntityPanel extends JPanel implements ActionListe
 		setLayout(new BorderLayout());
         gridPanel = new JPanel();
 		gridPanel.setLayout(new GridLayout(n * 2, 1, 0, 0));
-		setPreferredSize(new Dimension(310, LINE_HEIGHT * n * 2));
+		//setPreferredSize(new Dimension(310, LINE_HEIGHT * n));
 		add(gridPanel, BorderLayout.NORTH);
 		
         //ID
@@ -51,6 +51,10 @@ public abstract class JAbstractEntityPanel extends JPanel implements ActionListe
 	}
 
 	protected abstract void initialize();
+	
+	public abstract void clear();
+	
+	public abstract void focus();
 
 	public JTextField getId() {
 		return jId;

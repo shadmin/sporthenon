@@ -136,6 +136,18 @@ public class TeamStadium extends AbstractEntity {
 	public Integer getIdComplex() {
 		return (complex != null ? complex.getId() : null);
 	}
+	
+	public void setIdLeague(Integer id) {
+		league = (id != null && id > 0 ? new League(id) : null);
+	}
+	
+	public void setIdTeam(Integer id) {
+		team = (id != null && id > 0 ? new Team(id) : null);
+	}
+	
+	public void setIdComplex(Integer id) {
+		complex = (id != null && id > 0 ? new Complex(id) : null);
+	}
 
 	@Override
 	public String toString() {

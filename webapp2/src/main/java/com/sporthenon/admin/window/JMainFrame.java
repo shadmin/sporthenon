@@ -9,9 +9,9 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,6 +30,7 @@ import com.sporthenon.admin.container.JBottomPanel;
 import com.sporthenon.admin.container.JTopPanel;
 import com.sporthenon.admin.container.entity.JAbstractEntityPanel;
 import com.sporthenon.admin.container.entity.JAthletePanel;
+import com.sporthenon.admin.container.entity.JCalendarPanel;
 import com.sporthenon.admin.container.entity.JChampionshipPanel;
 import com.sporthenon.admin.container.entity.JCityPanel;
 import com.sporthenon.admin.container.entity.JComplexPanel;
@@ -55,6 +56,7 @@ import com.sporthenon.db.DatabaseManager;
 import com.sporthenon.db.PicklistItem;
 import com.sporthenon.db.entity.AbstractEntity;
 import com.sporthenon.db.entity.Athlete;
+import com.sporthenon.db.entity.Calendar;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
@@ -76,7 +78,7 @@ import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
-import com.sporthenon.utils.res.ResourceUtils;
+import com.sporthenon.utils.UpdateUtils;
 
 public class JMainFrame extends JFrame {
 
@@ -111,8 +113,8 @@ public class JMainFrame extends JFrame {
 	private static JEntityPicklist jAllTeams = null;
 
 	private static Contributor contributor;
-	private static HashMap<String, JAbstractEntityPanel> jEntityPanels = null;
-	private static HashMap<String, List<PicklistItem>> hPicklists = new HashMap<String, List<PicklistItem>>();
+	private static Map<String, JAbstractEntityPanel> jEntityPanels = null;
+	private static Map<String, List<PicklistItem>> hPicklists = new HashMap<String, List<PicklistItem>>();
 
 	public JMainFrame() {
 		super();
@@ -125,24 +127,25 @@ public class JMainFrame extends JFrame {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
 			jEntityPanels = new HashMap<String, JAbstractEntityPanel>();
+			jEntityPanels.put(Athlete.alias, new JAthletePanel());
+			jEntityPanels.put(Calendar.alias, new JCalendarPanel());
 			jEntityPanels.put(Championship.alias, new JChampionshipPanel());
 			jEntityPanels.put(City.alias, new JCityPanel());
 			jEntityPanels.put(Complex.alias, new JComplexPanel());
 			jEntityPanels.put(Country.alias, new JCountryPanel());
 			jEntityPanels.put(Event.alias, new JEventPanel());
-			jEntityPanels.put(Olympics.alias, new JOlympicsPanel());
-			jEntityPanels.put(Athlete.alias, new JAthletePanel());
-			jEntityPanels.put(Sport.alias, new JSportPanel());
-			jEntityPanels.put(State.alias, new JStatePanel());
-			jEntityPanels.put(Team.alias, new JTeamPanel());
-			jEntityPanels.put(Year.alias, new JYearPanel());
 			jEntityPanels.put(HallOfFame.alias, new JHallOfFamePanel());
+			jEntityPanels.put(Olympics.alias, new JOlympicsPanel());
 			jEntityPanels.put(OlympicRanking.alias, new JOlympicRankingPanel());
 			jEntityPanels.put(Record.alias, new JRecordPanel());
 			jEntityPanels.put(RetiredNumber.alias, new JRetiredNumberPanel());
+			jEntityPanels.put(Sport.alias, new JSportPanel());
+			jEntityPanels.put(State.alias, new JStatePanel());
+			jEntityPanels.put(Team.alias, new JTeamPanel());
 			jEntityPanels.put(TeamStadium.alias, new JTeamStadiumPanel());
 			jEntityPanels.put(WinLoss.alias, new JWinLossPanel());
-
+			jEntityPanels.put(Year.alias, new JYearPanel());
+			
 			jInfoDialog = new JInfoDialog(this);
 			jImportDialog = new JImportDialog(this);
 			jQueryDialog = new JQueryDialog(this);
@@ -197,19 +200,10 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(((JRetiredNumberPanel)jEntityPanels.get(RetiredNumber.alias)).getPerson(), hPicklists.get(Athlete.alias), null);
 			SwingUtils.fillPicklist(jAllAthletes, hPicklists.get(Athlete.alias), null);
 		}
-		if (alias == null || alias.equalsIgnoreCase(Olympics.alias)) {
-			SwingUtils.fillPicklist(((JOlympicRankingPanel)jEntityPanels.get(OlympicRanking.alias)).getOlympics(), hPicklists.get(Olympics.alias), null);
-		}
-		if (alias == null || alias.equalsIgnoreCase(Year.alias)) {
-			SwingUtils.fillPicklist(jResultDialog.getYear(), hPicklists.get(Year.alias), null);
-			SwingUtils.fillPicklist(((JOlympicsPanel)jEntityPanels.get(Olympics.alias)).getYear(), hPicklists.get(Year.alias), null);
-			SwingUtils.fillPicklist(((JHallOfFamePanel)jEntityPanels.get(HallOfFame.alias)).getYear(), hPicklists.get(Year.alias), null);
-			SwingUtils.fillPicklist(((JRetiredNumberPanel)jEntityPanels.get(RetiredNumber.alias)).getYear(), hPicklists.get(Year.alias), null);
-		}
-		if (alias == null || alias.equalsIgnoreCase(Complex.alias)) {
-			SwingUtils.fillPicklist(jResultDialog.getComplex1(), hPicklists.get(Complex.alias), null);
-			SwingUtils.fillPicklist(jResultDialog.getComplex2(), hPicklists.get(Complex.alias), null);
-			SwingUtils.fillPicklist(((JTeamStadiumPanel)jEntityPanels.get(TeamStadium.alias)).getComplex(), hPicklists.get(Complex.alias), null);
+		if (alias == null || alias.equalsIgnoreCase(Championship.alias)) {
+			SwingUtils.fillPicklist(jFolderDialog.getCategory1(), hPicklists.get(Championship.alias), null);
+			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getChampionship(), hPicklists.get(Championship.alias), null);
+			SwingUtils.fillPicklist(((JCalendarPanel)jEntityPanels.get(Calendar.alias)).getChampionship(), hPicklists.get(Championship.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(City.alias)) {
 			SwingUtils.fillPicklist(jResultDialog.getCity1(), hPicklists.get(City.alias), null);
@@ -217,17 +211,20 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(((JComplexPanel)jEntityPanels.get(Complex.alias)).getCity(), hPicklists.get(City.alias), null);
 			SwingUtils.fillPicklist(((JOlympicsPanel)jEntityPanels.get(Olympics.alias)).getCity(), hPicklists.get(City.alias), null);
 			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getCity(), hPicklists.get(City.alias), null);
+			SwingUtils.fillPicklist(((JCalendarPanel)jEntityPanels.get(Calendar.alias)).getCity(), hPicklists.get(City.alias), null);
 		}
-		if (alias == null || alias.equalsIgnoreCase(Sport.alias)) {
-			SwingUtils.fillPicklist(jFolderDialog.getSport(), hPicklists.get(Sport.alias), null);
-			SwingUtils.fillPicklist(((JAthletePanel)jEntityPanels.get(Athlete.alias)).getSport(), hPicklists.get(Sport.alias), null);
-			SwingUtils.fillPicklist(((JTeamPanel)jEntityPanels.get(Team.alias)).getSport(), hPicklists.get(Sport.alias), null);
-			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getSport(), hPicklists.get(Sport.alias), null);
+		if (alias == null || alias.equalsIgnoreCase(Complex.alias)) {
+			SwingUtils.fillPicklist(jResultDialog.getComplex1(), hPicklists.get(Complex.alias), null);
+			SwingUtils.fillPicklist(jResultDialog.getComplex2(), hPicklists.get(Complex.alias), null);
+			SwingUtils.fillPicklist(((JTeamStadiumPanel)jEntityPanels.get(TeamStadium.alias)).getComplex(), hPicklists.get(Complex.alias), null);
+			SwingUtils.fillPicklist(((JCalendarPanel)jEntityPanels.get(Calendar.alias)).getComplex(), hPicklists.get(Complex.alias), null);
 		}
-		if (alias == null || alias.equalsIgnoreCase(Championship.alias)) {
-			SwingUtils.fillPicklist(jFolderDialog.getCategory1(), hPicklists.get(Championship.alias), null);
-			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getChampionship(), hPicklists.get(Championship.alias), null);
-			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getChampionship(), hPicklists.get(Championship.alias), null);
+		if (alias == null || alias.equalsIgnoreCase(Country.alias)) {
+			SwingUtils.fillPicklist(((JCityPanel)jEntityPanels.get(City.alias)).getCountry(), hPicklists.get(Country.alias), null);
+			SwingUtils.fillPicklist(((JAthletePanel)jEntityPanels.get(Athlete.alias)).getCountry(), hPicklists.get(Country.alias), null);
+			SwingUtils.fillPicklist(((JTeamPanel)jEntityPanels.get(Team.alias)).getCountry(), hPicklists.get(Country.alias), null);
+			SwingUtils.fillPicklist(((JOlympicRankingPanel)jEntityPanels.get(OlympicRanking.alias)).getCountry(), hPicklists.get(Country.alias), null);
+			SwingUtils.fillPicklist(((JCalendarPanel)jEntityPanels.get(Calendar.alias)).getCountry(), hPicklists.get(Country.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(Event.alias)) {
 			SwingUtils.fillPicklist(jFolderDialog.getCategory2(), hPicklists.get(Event.alias), null);
@@ -235,18 +232,29 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(jFolderDialog.getCategory4(), hPicklists.get(Event.alias), null);
 			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getEvent(), hPicklists.get(Event.alias), null);
 			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getSubevent(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(((JCalendarPanel)jEntityPanels.get(Calendar.alias)).getEvent(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(((JCalendarPanel)jEntityPanels.get(Calendar.alias)).getSubevent(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(((JCalendarPanel)jEntityPanels.get(Calendar.alias)).getSubevent2(), hPicklists.get(Event.alias), null);
 		}
-		if (alias == null || alias.equalsIgnoreCase(Country.alias)) {
-			SwingUtils.fillPicklist(((JCityPanel)jEntityPanels.get(City.alias)).getCountry(), hPicklists.get(Country.alias), null);
-			SwingUtils.fillPicklist(((JAthletePanel)jEntityPanels.get(Athlete.alias)).getCountry(), hPicklists.get(Country.alias), null);
-			SwingUtils.fillPicklist(((JTeamPanel)jEntityPanels.get(Team.alias)).getCountry(), hPicklists.get(Country.alias), null);
-			SwingUtils.fillPicklist(((JOlympicRankingPanel)jEntityPanels.get(OlympicRanking.alias)).getCountry(), hPicklists.get(Country.alias), null);
+		if (alias == null || alias.equalsIgnoreCase(League.alias)) {
+			SwingUtils.fillPicklist(((JTeamPanel)jEntityPanels.get(Team.alias)).getLeague(), hPicklists.get(League.alias), null);
+			SwingUtils.fillPicklist(((JHallOfFamePanel)jEntityPanels.get(HallOfFame.alias)).getLeague(), hPicklists.get(League.alias), null);
+			SwingUtils.fillPicklist(((JRetiredNumberPanel)jEntityPanels.get(RetiredNumber.alias)).getLeague(), hPicklists.get(League.alias), null);
+			SwingUtils.fillPicklist(((JTeamStadiumPanel)jEntityPanels.get(TeamStadium.alias)).getLeague(), hPicklists.get(League.alias), null);
+			SwingUtils.fillPicklist(((JWinLossPanel)jEntityPanels.get(WinLoss.alias)).getLeague(), hPicklists.get(League.alias), null);
+		}
+		if (alias == null || alias.equalsIgnoreCase(Olympics.alias)) {
+			SwingUtils.fillPicklist(((JOlympicRankingPanel)jEntityPanels.get(OlympicRanking.alias)).getOlympics(), hPicklists.get(Olympics.alias), null);
+		}
+		if (alias == null || alias.equalsIgnoreCase(Sport.alias)) {
+			SwingUtils.fillPicklist(jFolderDialog.getSport(), hPicklists.get(Sport.alias), null);
+			SwingUtils.fillPicklist(((JAthletePanel)jEntityPanels.get(Athlete.alias)).getSport(), hPicklists.get(Sport.alias), null);
+			SwingUtils.fillPicklist(((JTeamPanel)jEntityPanels.get(Team.alias)).getSport(), hPicklists.get(Sport.alias), null);
+			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getSport(), hPicklists.get(Sport.alias), null);
+			SwingUtils.fillPicklist(((JCalendarPanel)jEntityPanels.get(Calendar.alias)).getSport(), hPicklists.get(Sport.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(State.alias)) {
 			SwingUtils.fillPicklist(((JCityPanel)jEntityPanels.get(City.alias)).getState(), hPicklists.get(State.alias), null);
-		}
-		if (alias == null || alias.equalsIgnoreCase(com.sporthenon.db.entity.Type.alias)) {
-			SwingUtils.fillPicklist(((JEventPanel)jEntityPanels.get(Event.alias)).getType(), hPicklists.get(com.sporthenon.db.entity.Type.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(Team.alias)) {
 			SwingUtils.fillPicklist(((JAthletePanel)jEntityPanels.get(Athlete.alias)).getTeam(), hPicklists.get(Team.alias), null);
@@ -255,12 +263,14 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(((JWinLossPanel)jEntityPanels.get(WinLoss.alias)).getTeam(), hPicklists.get(Team.alias), null);
 			SwingUtils.fillPicklist(jAllTeams, hPicklists.get(Team.alias), null);
 		}
-		if (alias == null || alias.equalsIgnoreCase(League.alias)) {
-			SwingUtils.fillPicklist(((JTeamPanel)jEntityPanels.get(Team.alias)).getLeague(), hPicklists.get(League.alias), null);
-			SwingUtils.fillPicklist(((JHallOfFamePanel)jEntityPanels.get(HallOfFame.alias)).getLeague(), hPicklists.get(League.alias), null);
-			SwingUtils.fillPicklist(((JRetiredNumberPanel)jEntityPanels.get(RetiredNumber.alias)).getLeague(), hPicklists.get(League.alias), null);
-			SwingUtils.fillPicklist(((JTeamStadiumPanel)jEntityPanels.get(TeamStadium.alias)).getLeague(), hPicklists.get(League.alias), null);
-			SwingUtils.fillPicklist(((JWinLossPanel)jEntityPanels.get(WinLoss.alias)).getLeague(), hPicklists.get(League.alias), null);
+		if (alias == null || alias.equalsIgnoreCase(com.sporthenon.db.entity.Type.alias)) {
+			SwingUtils.fillPicklist(((JEventPanel)jEntityPanels.get(Event.alias)).getType(), hPicklists.get(com.sporthenon.db.entity.Type.alias), null);
+		}
+		if (alias == null || alias.equalsIgnoreCase(Year.alias)) {
+			SwingUtils.fillPicklist(jResultDialog.getYear(), hPicklists.get(Year.alias), null);
+			SwingUtils.fillPicklist(((JOlympicsPanel)jEntityPanels.get(Olympics.alias)).getYear(), hPicklists.get(Year.alias), null);
+			SwingUtils.fillPicklist(((JHallOfFamePanel)jEntityPanels.get(HallOfFame.alias)).getYear(), hPicklists.get(Year.alias), null);
+			SwingUtils.fillPicklist(((JRetiredNumberPanel)jEntityPanels.get(RetiredNumber.alias)).getYear(), hPicklists.get(Year.alias), null);
 		}
 	}
 
@@ -320,251 +330,205 @@ public class JMainFrame extends JFrame {
 	}
 
 	public static PicklistItem saveEntity(String alias, Integer id) throws Exception {
-		Class<? extends AbstractEntity> c = DatabaseManager.getClassFromAlias(alias);
-		Object o = (id != null ? DatabaseManager.loadEntity(c, id) : c.getConstructor().newInstance());
-		PicklistItem plb = new PicklistItem();
+		PicklistItem pi = new PicklistItem();
+		Map<String, Object> params = new HashMap<>();
 		if (alias.equalsIgnoreCase(Athlete.alias)) {
 			JAthletePanel p = (JAthletePanel) jEntityPanels.get(alias);
-			Athlete en = (Athlete) o;
-			en.setSport((Sport)DatabaseManager.loadEntity(Sport.class, SwingUtils.getValue(p.getSport())));
-			en.setTeam((Team)DatabaseManager.loadEntity(Team.class, SwingUtils.getValue(p.getTeam())));
-			en.setCountry((Country)DatabaseManager.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
-			en.setLink(StringUtils.toInt(p.getLink().getText()));
-			en.setLastName(p.getLastName().getText());
-			en.setFirstName(p.getFirstName().getText());
-			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLastName() + ", " + en.getFirstName() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : "") + (en.getTeam() != null ? " [" + en.getTeam().getLabel() + "]" : ""));
-			if (en.getLink() != null && en.getLink() > 0) {
-				try {
-					Athlete a = (Athlete) DatabaseManager.loadEntity(Athlete.class, en.getLink());
-					while (a.getLink() != null && a.getLink() > 0)
-						a = (Athlete) DatabaseManager.loadEntity(Athlete.class, a.getLink());
-					en.setLink(a.getId());
-					p.setLinkLabel(" Linked to: [" + a.getLastName() + (StringUtils.notEmpty(a.getFirstName()) ? ", " + a.getFirstName() : "") + (a.getCountry() != null ? ", " + a.getCountry().getCode() : "") + (a.getTeam() != null ? ", " + a.getTeam().getLabel() : "") + "]");
-					DatabaseManager.executeUpdate("UPDATE athlete SET LINK = 0 WHERE id = ?", Arrays.asList(en.getLink()));
-				}
-				catch (Exception e) {
-					log.log(Level.WARNING, e.getMessage());
-				}
-			}
+			params.put("pr-sport", 	SwingUtils.getValue(p.getSport()));
+			params.put("pr-team", SwingUtils.getValue(p.getTeam()));
+			params.put("pr-country", SwingUtils.getValue(p.getCountry()));
+			params.put("pr-lastname", p.getLastName().getText());
+			params.put("pr-firstname", p.getFirstName().getText());
+			params.put("pr-link", p.getLink().getText());
+			pi.setText(params.get("pr-lastname") + ", " + params.get("pr-firstname") + " [" + SwingUtils.getText(p.getCountry()) + "]");
+			pi.setParam(String.valueOf(params.get("pr-sport"))); 
+		}
+		else if (alias.equalsIgnoreCase(Calendar.alias)) {
+			JCalendarPanel p = (JCalendarPanel) jEntityPanels.get(alias);
+			params.put("cl-sport", SwingUtils.getValue(p.getSport()));
+			params.put("cl-championship", SwingUtils.getValue(p.getChampionship()));
+			params.put("cl-event", SwingUtils.getValue(p.getEvent()));
+			params.put("cl-subevent", SwingUtils.getValue(p.getSubevent()));
+			params.put("cl-subevent2", SwingUtils.getValue(p.getSubevent2()));
+			params.put("cl-complex", SwingUtils.getValue(p.getComplex()));
+			params.put("cl-city", SwingUtils.getValue(p.getCity()));
+			params.put("cl-country", SwingUtils.getValue(p.getCountry()));
+			params.put("cl-date1", p.getDate1().getText());
+			params.put("cl-date2", p.getDate2().getText());
 		}
 		else if (alias.equalsIgnoreCase(Championship.alias)) {
 			JChampionshipPanel p = (JChampionshipPanel) jEntityPanels.get(alias);
-			Championship en = (Championship) o;
-			en.setLabel(p.getLabel().getText());
-			en.setLabelFr(p.getLabelFR().getText());
-			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Double.parseDouble(p.getIndex().getText()) : Double.MAX_VALUE);
-			plb.setText(en.getLabel());
+			params.put("cp-label", p.getLabel().getText());
+			params.put("cp-labelfr", p.getLabelFR().getText());
+			params.put("cp-index", p.getIndex().getText());
+			params.put("cp-nopic", p.getNopic().isSelected() ? "1" : "0");
+			pi.setText(String.valueOf(params.get("cp-label")));
 		}
 		else if (alias.equalsIgnoreCase(City.alias)) {
 			JCityPanel p = (JCityPanel) jEntityPanels.get(alias);
-			City en = (City) o;
-			en.setLabel(p.getLabel().getText());
-			en.setLabelFr(p.getLabelFR().getText());
-			en.setState((State)DatabaseManager.loadEntity(State.class, SwingUtils.getValue(p.getState())));
-			en.setCountry((Country)DatabaseManager.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
-			en.setLink(StringUtils.toInt(p.getLink().getText()));
-			plb.setText(en.getLabel() + ", " + en.getCountry().getCode());
-			if (en.getLink() != null && en.getLink() > 0) {
-				try {
-					City c_ = (City) DatabaseManager.loadEntity(City.class, en.getLink());
-					while (c_.getLink() != null && c_.getLink() > 0)
-						c_ = (City) DatabaseManager.loadEntity(City.class, c_.getLink());
-					en.setLink(c_.getId());
-					p.setLinkLabel(" Linked to: [" + c_.toString2(ResourceUtils.LGDEFAULT) + "]");
-					DatabaseManager.executeUpdate("UPDATE city SET LINK = 0 WHERE ID = ?", Arrays.asList(en.getLink()));
-				}
-				catch (Exception e) {
-					log.log(Level.WARNING, e.getMessage());
-				}
-			}
+			params.put("ct-label", p.getLabel().getText());
+			params.put("ct-labelfr", p.getLabelFR().getText());
+			params.put("ct-state", SwingUtils.getValue(p.getState()));
+			params.put("ct-country", SwingUtils.getValue(p.getCountry()));
+			params.put("ct-link", p.getLink().getText());
+			pi.setText(params.get("ct-label") + ", " + SwingUtils.getText(p.getCountry()));
 		}
 		else if (alias.equalsIgnoreCase(Complex.alias)) {
 			JComplexPanel p = (JComplexPanel) jEntityPanels.get(alias);
-			Complex en = (Complex) o;
-			en.setLabel(p.getLabel().getText());
-			en.setCity((City)DatabaseManager.loadEntity(City.class, SwingUtils.getValue(p.getCity())));
-			en.setLink(StringUtils.toInt(p.getLink().getText()));
-			plb.setText(en.getLabel() + " [" + en.getCity().getLabel() + ", " + en.getCity().getCountry().getCode() + "]");
-			if (en.getLink() != null && en.getLink() > 0) {
-				try {
-					Complex c_ = (Complex) DatabaseManager.loadEntity(Complex.class, en.getLink());
-					while (c_.getLink() != null && c_.getLink() > 0)
-						c_ = (Complex) DatabaseManager.loadEntity(Complex.class, c_.getLink());
-					en.setLink(c_.getId());
-					p.setLinkLabel(" Linked to: [" + c_.toString2(ResourceUtils.LGDEFAULT) + "]");
-					DatabaseManager.executeUpdate("UPDATE complex SET LINK = 0 WHERE ID = ?", Arrays.asList(en.getLink()));
-				}
-				catch (Exception e) {
-					log.log(Level.WARNING, e.getMessage());
-				}
-			}
+			params.put("cx-label", p.getLabel().getText());
+			params.put("cx-city", SwingUtils.getValue(p.getCity()));
+			params.put("cx-link", p.getLink().getText());
+			pi.setText(params.get("cx-label") + ", " + SwingUtils.getText(p.getCity()));
 		}
 		else if (alias.equalsIgnoreCase(Country.alias)) {
 			JCountryPanel p = (JCountryPanel) jEntityPanels.get(alias);
-			Country en = (Country) o;
-			en.setLabel(p.getLabel().getText());
-			en.setLabelFr(p.getLabelFR().getText());
-			en.setCode(p.getCode().getText());
-			plb.setText(en.getLabel() + " [" + en.getCode() + "]");
+			params.put("cn-label", p.getLabel().getText());
+			params.put("cn-labelfr", p.getLabelFR().getText());
+			params.put("cn-code", p.getCode().getText());
+			params.put("cn-nopic", p.getNopic().isSelected() ? "1" : "0");
+			pi.setText(params.get("cn-label") + " [" + params.get("cn-code") + "]");
 		}
 		else if (alias.equalsIgnoreCase(Event.alias)) {
 			JEventPanel p = (JEventPanel) jEntityPanels.get(alias);
-			Event en = (Event) o;
-			en.setLabel(p.getLabel().getText());
-			en.setLabelFr(p.getLabelFR().getText());
-			en.setType((com.sporthenon.db.entity.Type)DatabaseManager.loadEntity(com.sporthenon.db.entity.Type.class, SwingUtils.getValue(p.getType())));
-			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Double.parseDouble(p.getIndex().getText()) : Double.MAX_VALUE);
-			plb.setText(en.getLabel());
-		}
-		else if (alias.equalsIgnoreCase(Olympics.alias)) {
-			JOlympicsPanel p = (JOlympicsPanel) jEntityPanels.get(alias);
-			Olympics en = (Olympics) o;
-			en.setYear((Year)DatabaseManager.loadEntity(Year.class, SwingUtils.getValue(p.getYear())));
-			en.setCity((City)DatabaseManager.loadEntity(City.class, SwingUtils.getValue(p.getCity())));
-			en.setType(StringUtils.toInt(p.getType().getText()));
-			en.setCountSport(StringUtils.toInt(p.getSports().getText()));
-			en.setCountEvent(StringUtils.toInt(p.getEvents().getText()));
-			en.setCountPerson(StringUtils.toInt(p.getPersons().getText()));
-			en.setCountCountry(StringUtils.toInt(p.getCountries().getText()));
-			en.setDate1(p.getStart().getText());
-			en.setDate2(p.getEnd().getText());
-			plb.setText(en.getYear().getLabel() + " - " + en.getCity().getLabel());
-		}
-		else if (alias.equalsIgnoreCase(Sport.alias)) {
-			JSportPanel p = (JSportPanel) jEntityPanels.get(alias);
-			Sport en = (Sport) o;
-			en.setLabel(p.getLabel().getText());
-			en.setLabelFr(p.getLabelFR().getText());
-			en.setType(StringUtils.toInt(p.getType().getText()));
-			en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? Double.valueOf(p.getIndex().getText()) : null);
-			plb.setText(en.getLabel());
-		}
-		else if (alias.equalsIgnoreCase(State.alias)) {
-			JStatePanel p = (JStatePanel) jEntityPanels.get(alias);
-			State en = (State) o;
-			en.setLabel(p.getLabel().getText());
-			en.setLabelFr(p.getLabelFR().getText());
-			en.setCode(p.getCode().getText());
-			en.setCapital(p.getCapital().getText());
-			plb.setText(en.getLabel());
-		}
-		else if (alias.equalsIgnoreCase(Team.alias)) {
-			JTeamPanel p = (JTeamPanel) jEntityPanels.get(alias);
-			Team en = (Team) o;
-			en.setLabel(p.getLabel().getText());
-			en.setSport((Sport)DatabaseManager.loadEntity(Sport.class, SwingUtils.getValue(p.getSport())));
-			en.setCountry((Country)DatabaseManager.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
-			en.setLeague((League)DatabaseManager.loadEntity(League.class, SwingUtils.getValue(p.getLeague())));
-			en.setConference(p.getConference().getText());
-			en.setDivision(p.getDivision().getText());
-			en.setComment(p.getComment().getText());
-			en.setYear1(p.getYear1().getText());
-			en.setYear2(p.getYear2().getText());
-			en.setLink(StringUtils.toInt(p.getLink().getText()));
-			en.setInactive(p.getInactive().isSelected());
-			plb.setParam(String.valueOf(en.getSport().getId())); plb.setText(en.getLabel() + (en.getCountry() != null ? " [" + en.getCountry().getCode() + "]" : ""));
-			if (en.getLink() != null && en.getLink() > 0) {
-				try {
-					Team t = (Team) DatabaseManager.loadEntity(Team.class, en.getLink());
-					while (t.getLink() != null && t.getLink() > 0)
-						t = (Team) DatabaseManager.loadEntity(Team.class, t.getLink());
-					en.setLink(t.getId());
-					p.setLinkLabel(" Linked to: [" + t.getLabel() + "]");
-					DatabaseManager.executeUpdate("UPDATE team SET LINK = 0 WHERE ID = ?", Arrays.asList(en.getLink()));
-				}
-				catch (Exception e) {
-					log.log(Level.WARNING, e.getMessage());
-				}
-			}
-		}
-		else if (alias.equalsIgnoreCase(Year.alias)) {
-			JYearPanel p = (JYearPanel) jEntityPanels.get(alias);
-			Year en = (Year) o;
-			en.setLabel(p.getLabel().getText());
-			plb.setText(en.getLabel());
+			params.put("ev-label", p.getLabel().getText());
+			params.put("ev-labelfr", p.getLabelFR().getText());
+			params.put("ev-type", SwingUtils.getValue(p.getType()));
+			params.put("ev-index", p.getIndex().getText());
+			params.put("ev-nopic", p.getNopic().isSelected() ? "1" : "0");
+			pi.setText(String.valueOf(params.get("ev-label")));
 		}
 		else if (alias.equalsIgnoreCase(HallOfFame.alias)) {
 			JHallOfFamePanel p = (JHallOfFamePanel) jEntityPanels.get(alias);
-			HallOfFame en = (HallOfFame) o;
-			en.setLeague((League)DatabaseManager.loadEntity(League.class, SwingUtils.getValue(p.getLeague())));
-			en.setYear((Year)DatabaseManager.loadEntity(Year.class, SwingUtils.getValue(p.getYear())));
-			en.setPerson((Athlete)DatabaseManager.loadEntity(Athlete.class, SwingUtils.getValue(p.getPerson())));
-			en.setPosition(p.getPosition().getText());
+			params.put("hf-league", SwingUtils.getValue(p.getLeague()));
+			params.put("hf-year", SwingUtils.getValue(p.getYear()));
+			params.put("hf-person", SwingUtils.getValue(p.getPerson()));
+			params.put("hf-position", p.getPosition().getText());		
+		}
+		else if (alias.equalsIgnoreCase(Olympics.alias)) {
+			JOlympicsPanel p = (JOlympicsPanel) jEntityPanels.get(alias);
+			params.put("ol-year", SwingUtils.getValue(p.getYear()));
+			params.put("ol-city", SwingUtils.getValue(p.getCity()));
+			params.put("ol-type", p.getType().getText());
+			params.put("ol-start", p.getStart().getText());
+			params.put("ol-end", p.getEnd().getText());
+			params.put("ol-sports", p.getSports().getText());
+			params.put("ol-events", p.getEvents().getText());
+			params.put("ol-countries", p.getCountries().getText());
+			params.put("ol-persons", p.getPersons().getText());
+			params.put("ol-nopic", p.getNopic().isSelected() ? "1" : "0");
+			pi.setText(SwingUtils.getText(p.getYear()) + " " + SwingUtils.getText(p.getCity()));
 		}
 		else if (alias.equalsIgnoreCase(OlympicRanking.alias)) {
 			JOlympicRankingPanel p = (JOlympicRankingPanel) jEntityPanels.get(alias);
-			OlympicRanking en = (OlympicRanking) o;
-			en.setOlympics((Olympics)DatabaseManager.loadEntity(Olympics.class, SwingUtils.getValue(p.getOlympics())));
-			en.setCountry((Country)DatabaseManager.loadEntity(Country.class, SwingUtils.getValue(p.getCountry())));
-			en.setCountGold(StringUtils.toInt(p.getGold().getText()));
-			en.setCountSilver(StringUtils.toInt(p.getSilver().getText()));
-			en.setCountBronze(StringUtils.toInt(p.getBronze().getText()));
+			params.put("or-olympics", SwingUtils.getValue(p.getOlympics()));
+			params.put("or-country", SwingUtils.getValue(p.getCountry()));
+			params.put("or-gold", p.getGold().getText());
+			params.put("or-silver", p.getSilver().getText());
+			params.put("or-bronze", p.getBronze().getText());
 		}
 		else if (alias.equalsIgnoreCase(Record.alias)) {
 			JRecordPanel p = (JRecordPanel) jEntityPanels.get(alias);
-			Record en = (Record) o;
-			en.setSport((Sport)DatabaseManager.loadEntity(Sport.class, SwingUtils.getValue(p.getSport())));
-			en.setChampionship((Championship)DatabaseManager.loadEntity(Championship.class, SwingUtils.getValue(p.getChampionship())));
-			en.setEvent((Event)DatabaseManager.loadEntity(Event.class, SwingUtils.getValue(p.getEvent())));
-			en.setSubevent((Event)DatabaseManager.loadEntity(Event.class, SwingUtils.getValue(p.getSubevent())));
-			en.setType1(StringUtils.notEmpty(p.getType1().getText()) ? p.getType1().getText() : null);
-			en.setType2(StringUtils.notEmpty(p.getType2().getText()) ? p.getType2().getText() : null);
-			en.setCity((City)DatabaseManager.loadEntity(City.class, SwingUtils.getValue(p.getCity())));
-			en.setLabel(StringUtils.notEmpty(p.getLabel().getText()) ? p.getLabel().getText() : null);
-			en.setIdRank1(SwingUtils.getValue(p.getRank1()));
-			en.setIdRank2(SwingUtils.getValue(p.getRank2()));
-			en.setIdRank3(SwingUtils.getValue(p.getRank3()));
-			en.setIdRank4(SwingUtils.getValue(p.getRank4()));
-			en.setIdRank5(SwingUtils.getValue(p.getRank5()));
-			en.setRecord1(StringUtils.notEmpty(p.getRecord1().getText()) ? p.getRecord1().getText() : null);
-			en.setRecord2(StringUtils.notEmpty(p.getRecord2().getText()) ? p.getRecord2().getText() : null);
-			en.setRecord3(StringUtils.notEmpty(p.getRecord3().getText()) ? p.getRecord3().getText() : null);
-			en.setRecord4(StringUtils.notEmpty(p.getRecord4().getText()) ? p.getRecord4().getText() : null);
-			en.setRecord5(StringUtils.notEmpty(p.getRecord5().getText()) ? p.getRecord5().getText() : null);
-			en.setDate1(StringUtils.notEmpty(p.getDate1().getText()) ? p.getDate1().getText() : null);
-			en.setDate2(StringUtils.notEmpty(p.getDate2().getText()) ? p.getDate2().getText() : null);
-			en.setDate3(StringUtils.notEmpty(p.getDate3().getText()) ? p.getDate3().getText() : null);
-			en.setDate4(StringUtils.notEmpty(p.getDate4().getText()) ? p.getDate4().getText() : null);
-			en.setCounting(p.getCounting().isSelected());
-			//en.setIndex(StringUtils.notEmpty(p.getIndex().getText()) ? BigDecimal.valueOf(p.getIndex().getText()) : null);
-			en.setExa(p.getExa().getText());
-			en.setComment(p.getComment().getText());
+			params.put("rc-sport", SwingUtils.getValue(p.getSport()));
+			params.put("rc-championship", SwingUtils.getValue(p.getChampionship()));
+			params.put("rc-event", SwingUtils.getValue(p.getEvent()));
+			params.put("rc-subevent", SwingUtils.getValue(p.getSubevent()));
+			params.put("rc-city", SwingUtils.getValue(p.getCity()));
+			params.put("rc-rank1", SwingUtils.getValue(p.getRank1()));
+			params.put("rc-rank2", SwingUtils.getValue(p.getRank2()));
+			params.put("rc-rank3", SwingUtils.getValue(p.getRank3()));
+			params.put("rc-rank4", SwingUtils.getValue(p.getRank4()));
+			params.put("rc-rank5", SwingUtils.getValue(p.getRank1()));
+			params.put("rc-record1", p.getRecord1().getText());
+			params.put("rc-record2", p.getRecord2().getText());
+			params.put("rc-record3", p.getRecord3().getText());
+			params.put("rc-record4", p.getRecord4().getText());
+			params.put("rc-record5", p.getRecord5().getText());
+			params.put("rc-date1", p.getDate1().getText());
+			params.put("rc-date2", p.getDate2().getText());
+			params.put("rc-date3", p.getDate3().getText());
+			params.put("rc-date4", p.getDate4().getText());
+			params.put("rc-date5", p.getDate1().getText());
+			params.put("rc-type1", p.getType1().getText());
+			params.put("rc-type2", p.getType2().getText());
+			params.put("rc-label", p.getLabel().getText());
+			params.put("rc-counting", p.getCounting().isSelected() ? "1" : "0");
+			params.put("rc-index", p.getIndex().getText());
+			params.put("rc-tie", p.getExa().getText());
+			params.put("rc-comment", p.getComment().getText());
 		}
 		else if (alias.equalsIgnoreCase(RetiredNumber.alias)) {
 			JRetiredNumberPanel p = (JRetiredNumberPanel) jEntityPanels.get(alias);
-			RetiredNumber en = (RetiredNumber) o;
-			en.setLeague((League)DatabaseManager.loadEntity(League.class, SwingUtils.getValue(p.getLeague())));
-			en.setTeam((Team)DatabaseManager.loadEntity(Team.class, SwingUtils.getValue(p.getTeam())));
-			en.setPerson((Athlete)DatabaseManager.loadEntity(Athlete.class, SwingUtils.getValue(p.getPerson())));
-			en.setYear((Year)DatabaseManager.loadEntity(Year.class, SwingUtils.getValue(p.getYear())));
-			en.setNumber(StringUtils.toInt(p.getNumber().getText()));
+			params.put("rn-league", SwingUtils.getValue(p.getLeague()));
+			params.put("rn-team", SwingUtils.getValue(p.getTeam()));
+			params.put("rn-person", SwingUtils.getValue(p.getPerson()));
+			params.put("rn-year", SwingUtils.getValue(p.getYear()));
+			params.put("rn-number", p.getNumber().getText());
+		}
+		else if (alias.equalsIgnoreCase(Sport.alias)) {
+			JSportPanel p = (JSportPanel) jEntityPanels.get(alias);
+			params.put("sp-label", p.getLabel().getText());
+			params.put("sp-labelfr", p.getLabelFR().getText());
+			params.put("sp-type", p.getType().getText());
+			params.put("sp-index", p.getIndex().getText());
+			params.put("sp-nopic", p.getNopic().isSelected() ? "1" : "0");
+			pi.setText(String.valueOf(params.get("sp-label")));
+		}
+		else if (alias.equalsIgnoreCase(State.alias)) {
+			JStatePanel p = (JStatePanel) jEntityPanels.get(alias);
+			params.put("st-label", p.getLabel().getText());
+			params.put("st-labelfr", p.getLabelFR().getText());
+			params.put("st-code", p.getCode().getText());
+			params.put("st-capital", p.getCapital().getText());
+			params.put("st-nopic", p.getNopic().isSelected() ? "1" : "0");
+			pi.setText(String.valueOf(params.get("st-label")));
+		}
+		else if (alias.equalsIgnoreCase(Team.alias)) {
+			JTeamPanel p = (JTeamPanel) jEntityPanels.get(alias);
+			params.put("tm-label", p.getLabel().getText());
+			params.put("tm-sport", SwingUtils.getValue(p.getSport()));
+			params.put("tm-country", SwingUtils.getValue(p.getCountry()));
+			params.put("tm-league", SwingUtils.getValue(p.getLeague()));
+			params.put("tm-conference", p.getConference().getText());
+			params.put("tm-division", p.getDivision().getText());
+			params.put("tm-comment", p.getComment().getText());
+			params.put("tm-year1", p.getYear1().getText());
+			params.put("tm-year2", p.getYear2().getText());
+			params.put("tm-link", p.getLink().getText());
+			params.put("tm-inactive", p.getInactive().isSelected() ? "1" : "0");
+			params.put("tm-nopic", p.getNopic().isSelected() ? "1" : "0");
+			pi.setText(params.get("tm-label") + " [" + SwingUtils.getText(p.getSport()) + "]");
+			pi.setParam(String.valueOf(params.get("tm-sport"))); 
 		}
 		else if (alias.equalsIgnoreCase(TeamStadium.alias)) {
 			JTeamStadiumPanel p = (JTeamStadiumPanel) jEntityPanels.get(alias);
-			TeamStadium en = (TeamStadium) o;
-			en.setLeague((League)DatabaseManager.loadEntity(League.class, SwingUtils.getValue(p.getLeague())));
-			en.setTeam((Team)DatabaseManager.loadEntity(Team.class, SwingUtils.getValue(p.getTeam())));
-			en.setComplex((Complex)DatabaseManager.loadEntity(Complex.class, SwingUtils.getValue(p.getComplex())));
-			en.setDate1(StringUtils.toInt(p.getDate1().getText()));
-			en.setDate2(StringUtils.toInt(p.getDate2().getText()));
-			en.setRenamed(p.getRenamed().isSelected());
+			params.put("ts-league", SwingUtils.getValue(p.getLeague()));
+			params.put("ts-team", SwingUtils.getValue(p.getTeam()));
+			params.put("ts-complex", SwingUtils.getValue(p.getComplex()));
+			params.put("ts-date1", p.getDate1().getText());
+			params.put("ts-date2", p.getDate2().getText());
+			params.put("ts-renamed", p.getRenamed().isSelected() ? "1" : "0");
 		}
 		else if (alias.equalsIgnoreCase(WinLoss.alias)) {
 			JWinLossPanel p = (JWinLossPanel) jEntityPanels.get(alias);
-			WinLoss en = (WinLoss) o;
-			en.setLeague((League)DatabaseManager.loadEntity(League.class, SwingUtils.getValue(p.getLeague())));
-			en.setTeam((Team)DatabaseManager.loadEntity(Team.class, SwingUtils.getValue(p.getTeam())));
-			en.setType(String.valueOf(p.getType().getSelectedItem()));
-			en.setCountWin(StringUtils.toInt(p.getWin().getText()));
-			en.setCountLoss(StringUtils.toInt(p.getLoss().getText()));
-			en.setCountTie(StringUtils.toInt(p.getTie().getText()));
-			en.setCountOtloss(StringUtils.toInt(p.getOtLoss().getText()));
+			params.put("wl-league", SwingUtils.getValue(p.getLeague()));
+			params.put("wl-team", SwingUtils.getValue(p.getTeam()));
+			params.put("wl-type", p.getType().getSelectedItem());
+			params.put("wl-win", p.getWin().getText());
+			params.put("wl-loss", p.getLoss().getText());
+			params.put("wl-tie", p.getTie().getText());
+			params.put("wl-otloss", p.getOtLoss().getText());
 		}
-		o = DatabaseManager.saveEntity(o, contributor);
+		else if (alias.equalsIgnoreCase(Year.alias)) {
+			JYearPanel p = (JYearPanel) jEntityPanels.get(alias);
+			params.put("yr-label", p.getLabel().getText());
+			pi.setText(String.valueOf(params.get("yr-label")));
+		}
+		Object o = UpdateUtils.saveEntity(alias, id, params, getContributor());
+		Class<? extends AbstractEntity> c = DatabaseManager.getClassFromAlias(alias);
 		String id_ = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));
-		plb.setValue(StringUtils.toInt(id_));
-		JMainFrame.refreshPicklist(alias, plb);
-		return plb;
+		pi.setValue(StringUtils.toInt(id_));
+		JMainFrame.refreshPicklist(alias, pi);
+		return pi;
 	}
 
 	public static void mergeEntities(String alias, Integer id1, Integer id2) throws Exception {
@@ -620,7 +584,7 @@ public class JMainFrame extends JFrame {
 				jConnectInfoLabel.setText("Connecting to database...");
 				jBottomPanel.getQueryStatus().showProgress();
 				jBottomPanel.getConnectionStatus().set((short)1, null);
-				HashMap<String, String> h = new HashMap<>();
+				Map<String, String> h = new HashMap<>();
 				h.put("hibernate.connection.url", "jdbc:postgresql://" + jOptionsDialog.getHost().getText() + "/" + jOptionsDialog.getDatabase().getText());
 				h.put("hibernate.connection.username", jOptionsDialog.getLogin().getText());
 				h.put("hibernate.connection.password", new String(jPasswordDialog.getPassword().getPassword()));
@@ -638,7 +602,7 @@ public class JMainFrame extends JFrame {
 				jDataPanel.getList().setSelectedIndex(0);
 				jDataPanel.valueChanged(new ListSelectionEvent(this, 0, 0, true));
 				jPicturesPanel.getList().setSelectedIndex(0);
-				jPicturesPanel.valueChanged(new ListSelectionEvent(this, 0, 0, true));
+				jPicturesPanel.changeEntity(0);
 				jExtLinksPanel.valueChanged(new ListSelectionEvent(this, 0, 0, true));
 				jUsersPanel.initList();
 				jUsersPanel.valueChanged(new ListSelectionEvent(jUsersPanel.getList(), 0, 0, true));
@@ -731,11 +695,11 @@ public class JMainFrame extends JFrame {
 		return jInfoDialog;
 	}
 
-	public static HashMap<String, List<PicklistItem>> getPicklists() {
+	public static Map<String, List<PicklistItem>> getPicklists() {
 		return hPicklists;
 	}
 
-	public static HashMap<String, JAbstractEntityPanel> getEntityPanels() {
+	public static Map<String, JAbstractEntityPanel> getEntityPanels() {
 		return jEntityPanels;
 	}
 

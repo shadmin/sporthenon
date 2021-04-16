@@ -119,6 +119,14 @@ public class City extends AbstractEntity {
 		return (state != null ? state.getId() : null);
 	}
 	
+	public void setIdCountry(Integer id) {
+		country = (id != null && id > 0 ? new Country(id) : null);
+	}
+	
+	public void setIdState(Integer id) {
+		state = (id != null && id > 0 ? new State(id) : null);
+	}
+	
 	public String toString() {
 		return label + (country != null ? ", " + country : "") + " [#" + id + "]";
 	}

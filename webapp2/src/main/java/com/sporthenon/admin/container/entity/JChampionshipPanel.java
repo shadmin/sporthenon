@@ -1,5 +1,6 @@
 package com.sporthenon.admin.container.entity;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -10,9 +11,10 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 	public JTextField jLabel;
 	public JTextField jLabelFR;
 	public JTextField jIndex;
-
+	public JCheckBox jNopic;
+	
 	public JChampionshipPanel() {
-		super(4);
+		super(5);
 		initialize();
 	}
 
@@ -39,6 +41,13 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
         gridPanel.add(lIndex);
         jIndex = new JTextField();
         gridPanel.add(jIndex);
+        
+        //Nopic
+        JLabel lNopic = new JLabel(" No picture:");
+        lNopic.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lNopic);
+        jNopic = new JCheckBox();
+        gridPanel.add(jNopic);
 	}
 
 	public JTextField getLabel() {
@@ -53,6 +62,10 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 		return jIndex;
 	}
 	
+	public JCheckBox getNopic() {
+		return jNopic;
+	}
+	
 	public void setLabel(String s) {
 		jLabel.setText(s);
 	}
@@ -65,11 +78,16 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
 		jIndex.setText(s);
 	}
 	
+	public void setNopic(Boolean b) {
+		jNopic.setSelected(b != null && b);
+	}
+	
 	public void clear() {
 		jId.setText("");
 		jLabel.setText("");
 		jLabelFR.setText("");
 		jIndex.setText("");
+		jNopic.setSelected(false);
 	}
 	
 	public void focus() {
