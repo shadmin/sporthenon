@@ -128,6 +128,7 @@
 	out.print("var TX_COMMENT=\"" + StringUtils.text("comment", session) + "\";");
 	out.print("var TX_OPEN_DIALOG=\"" + StringUtils.text("open.dialog", session) + "\";");
 	out.print("var TX_ENLARGE=\"" + StringUtils.text("enlarge", session) + "\";");
+	out.print("var TX_ACCOUNT_CREATED=\"" + StringUtils.text("msg.registered", session) + "\";");
 %>
 --></script>
 

@@ -197,7 +197,6 @@
 	<entry key="info.snow">Neige</entry>
 	<entry key="info.tarmac">Asphalte</entry>
 	<entry key="back.top">Haut de page</entry>
-	<entry key="dialog.accountconf">Compte créé</entry>
 	<entry key="dialog.export">Exporter</entry>
 	<entry key="dialog.link">Lien</entry>
 	<entry key="dialog.info">Infos</entry>
@@ -249,6 +248,7 @@
 	<entry key="other.years">Toutes les années</entry>
 	<entry key="none">Aucun</entry>
 	<entry key="report.error">Signaler une erreur sur cette page</entry>
+	<entry key="title.error">Une erreur s'est produite</entry>
 	<entry key="page.error">Une erreur s'est produite. La page a été déplacée ou supprimée.</entry>
 	<entry key="select.sport">Choisir un sport</entry>
 	<entry key="photos">Photos</entry>
@@ -297,6 +297,8 @@
 	<entry key="total">Total</entry>
 	<entry key="language">Langue</entry>
 	<entry key="reported.on">Signalée le</entry>
+	<entry key="final.result">Résultat final</entry>
+	<entry key="surface">Surface</entry>
 <!-- HOME -->
 	<entry key="title.presentation">Présentation</entry>
 	<entry key="title.access.sport">Accès direct par sport</entry>
@@ -391,10 +393,9 @@
 	<entry key="about.contribution">A propos de la contribution</entry>
 	<entry key="howto.contribute">Comment contribuer ?</entry>
 	<entry key="download">Téléchargement</entry>
+	<entry key="download.desc"><![CDATA[Un utilitaire est disponible pour mettre à jour la base de données.<br/><br/><a href="https://storage.googleapis.com/sh_bucket/shadmin.zip">Télécharger le programme de mise à jour</a>]]></entry>
 	<entry key="contributors">Contributeurs</entry>
-	<entry key="step1.desc"><![CDATA[Créer un compte sur <a href="/login">cette page</a>.<br/><br/>Remplir les champs obligatoires (mentionnés par <span class="mandatory">*</span>) et cliquer sur "Créer un compte".]]></entry>
-	<entry key="step2.desc"><![CDATA[Aller sur la page "Connexion" et s'authentifier en utilisant les identifiants créés en étape 1.]]></entry>
-	<entry key="step3.desc"><![CDATA[Ajouter et modifier des résultats par les boutons <img alt="add" src="/img/component/button/add.png"/> et <img alt="add" src="/img/component/button/modify.png"/>]]></entry>
+	<entry key="contributions">Contributions</entry>
 	<entry key="change.log">Log des changements</entry>
 	<entry key="report.bug">Rapporter un bug</entry>
 <!-- LOGIN -->

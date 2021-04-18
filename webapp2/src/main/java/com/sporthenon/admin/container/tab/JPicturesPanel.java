@@ -32,6 +32,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -70,6 +71,9 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 	private JList<String> jList = null;
 	private String alias = Championship.alias;
 	private String currentId;
+	JCustomButton downloadBtn = null;
+	JCustomButton uploadBtn = null;
+	JCustomButton removeBtn = null;
 	private JRadioButton largeRadioBtn = null;
 	private JRadioButton smallRadioBtn = null;
 	private JTextField jYear1 = null;
@@ -129,7 +133,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 	}
 
 	private JPanel getButtonPanel() {
-		JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 1, 8));
+		JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 1));
 		jYear1 = new JTextField();
 		jYear1.setPreferredSize(new Dimension(50, 22));
 		leftPanel.add(new JLabel("From:"));
@@ -200,7 +204,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		p_ = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		jLocalFile = new JTextField(60);
 		p_.add(jLocalFile);
-		JCustomButton btn = new JCustomButton(null, "common/folder.png", null);
+		JCustomButton btn = new JCustomButton(null, "folderimg.png", null);
 		btn.setToolTipText("Browse");
 		btn.setActionCommand("browse");
 		btn.setMargin(new Insets(0, 0, 0, 0));
@@ -212,15 +216,18 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		JPanel pMiddle = new JPanel(new GridBagLayout());
 		pMiddle.setBorder(BorderFactory.createEmptyBorder());
 		pMiddle.setPreferredSize(new Dimension(500, 50));
-		JCustomButton downloadBtn = new JCustomButton("Download", "download.png", null);
+		downloadBtn = new JCustomButton("Download", "download.png", null);
+		downloadBtn.setEnabled(false);
 		downloadBtn.setActionCommand("download");
 		downloadBtn.addActionListener(this);
 		pMiddle.add(downloadBtn);
-		JCustomButton uploadBtn = new JCustomButton("Upload", "upload.png", null);
+		uploadBtn = new JCustomButton("Upload", "upload.png", null);
+		uploadBtn.setEnabled(false);
 		uploadBtn.setActionCommand("upload");
 		uploadBtn.addActionListener(this);
 		pMiddle.add(uploadBtn);
-		JCustomButton removeBtn = new JCustomButton("Remove", "remove.png", null);
+		removeBtn = new JCustomButton("Remove", "remove.png", null);
+		removeBtn.setEnabled(false);
 		removeBtn.setActionCommand("remove");
 		removeBtn.addActionListener(this);
 		pMiddle.add(removeBtn);
@@ -294,6 +301,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 					if (f != null) {
 						jLocalFile.setText(f.getPath());
 						jLocalPanel.setImage(new File(f.getPath()));
+						uploadBtn.setEnabled(true);
 					}
 				}
 			}
@@ -304,6 +312,11 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 				uploadImage(alias_, id_);
 			}
 			else if (e.getActionCommand().equals("remove")) {
+				Object[] options = {"Yes", "No"};
+				int n = JOptionPane.showOptionDialog(this, "Remove image " + jRemoteList.getSelectedValue() + "?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+				if (n != 0) {
+					return;
+				}
 				ImageUtils.removeImage(jRemoteList.getSelectedValue(), JMainFrame.getOptionsDialog().getCredentialsFile().getText());
 				loadImageList(alias_, id_);
 			}
@@ -409,6 +422,8 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		if (model.getSize() > 0) {
 			jRemoteList.setSelectedIndex(0);
 		}
+		downloadBtn.setEnabled(model.getSize() > 0);
+		removeBtn.setEnabled(model.getSize() > 0);
 	}
 	
 	public void changeEntity(int index) {
@@ -452,7 +467,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 	}
 
 	public void itemStateChanged(ItemEvent e) {
-		if (alias.matches(Championship.alias + "|" + Event.alias)) {
+		if (alias.matches(Championship.alias + "|" + Event.alias) && jSportList.getSelectedItem() != null) {
 			Integer sportValue = ((PicklistItem)jSportList.getSelectedItem()).getValue();
 			if (sportValue != null && sportValue > 0) {
 				String alias_ = Sport.alias + alias;

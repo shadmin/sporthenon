@@ -119,7 +119,7 @@ public class JUsersPanel extends JSplitPane implements ActionListener, ListSelec
 		jLogin.setPreferredSize(new Dimension(0, 21));
 		p.add(jLogin);
 
-		l = new JLabel(" Name:");
+		l = new JLabel(" ¨Public name:");
 		l.setHorizontalAlignment(JLabel.LEFT);
 		p.add(l);
 		jName = new JTextField();

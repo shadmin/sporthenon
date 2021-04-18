@@ -1,7 +1,9 @@
 package com.sporthenon.utils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +32,30 @@ import com.sporthenon.db.entity.meta.Contributor;
 public class UpdateUtils {
 	
 	private static final Logger log = Logger.getLogger(UpdateUtils.class.getName());
+	
+	public static List<String> queries;
+	
+	static {
+		queries = new ArrayList<String>();
+		// Duplicate athletes by sport
+		queries.add("SELECT DISTINCT LAST_NAME || ',' || FIRST_NAME || ',' || ID_SPORT AS N, COUNT(*) AS C\r\nFROM athlete\r\nWHERE LINK IS NULL\r\nGROUP BY N\r\nORDER BY C DESC\r\nLIMIT 100");
+		// Events/Championships not used
+		queries.add("SELECT 'EV', ID, LABEL FROM event\r\nWHERE ID NOT IN (SELECT ID_EVENT FROM result WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM result WHERE ID_SUBEVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT2 FROM result WHERE ID_SUBEVENT2 IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_EVENT FROM record WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM record WHERE ID_SUBEVENT IS NOT NULL)\r\nUNION SELECT 'CP', ID, LABEL FROM championship WHERE ID NOT IN (SELECT ID_CHAMPIONSHIP FROM result WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_CHAMPIONSHIP FROM record WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nORDER BY 1, 3");
+		// Events not completed for current year
+		queries.add("SELECT SP.label AS SPORT, CP.label AS Championship, EV.label AS EVENT, SE.label AS SUBEVENT, SE2.label AS SUBEVENT2, YR.label AS YEAR\r\nFROM (SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM result EXCEPT SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM result WHERE id_year = (SELECT id FROM year WHERE label = '#YEAR#')) T\r\nLEFT JOIN sport SP ON T.id_sport = SP.id\r\nLEFT JOIN championship CP ON T.id_championship = CP.id LEFT JOIN event EV ON T.id_event = EV.id\r\nLEFT JOIN event SE ON T.id_subevent = SE.id LEFT JOIN event SE2 ON T.id_subevent2 = SE2.id LEFT JOIN year YR ON YR.label = '#YEAR#'\r\nLEFT JOIN _inactive_item II ON (T.id_sport=II.id_sport AND T.id_championship=II.id_championship AND T.id_event=II.id_event AND (T.id_subevent IS NULL OR T.id_subevent=II.id_subevent) AND (T.id_subevent2 IS NULL OR T.id_subevent2=II.id_subevent2))\r\nWHERE 1=1 AND #WHERE# AND II.id IS NULL\r\nORDER BY SP.label, CP.index, CP.label, EV.index, EV.label, SE.index, SE.label, SE2.index, SE2.label");
+		// Generate site map
+		queries.add("SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2, SP.label AS label1, CP.label AS label2, EV.label AS label3, SE.label AS label4, SE2.label AS label5 FROM result RS LEFT JOIN sport SP ON RS.id_sport=SP.id LEFT JOIN championship CP ON RS.id_championship=CP.id LEFT JOIN event EV ON RS.id_event=EV.id LEFT JOIN event SE ON RS.id_subevent=SE.id LEFT JOIN event SE2 ON RS.id_subevent2=SE2.id ORDER BY SP.label, CP.label, EV.label, SE.label, SE2.label");
+		// Untranslated items
+		queries.add("SELECT * FROM (SELECT 'CP', ID, LABEL FROM championship WHERE LABEL=LABEL_FR UNION SELECT 'CT', ID, LABEL FROM city WHERE LABEL=LABEL_FR UNION SELECT 'CN', ID, LABEL FROM country WHERE LABEL=LABEL_FR UNION SELECT 'EV', ID, LABEL FROM event WHERE LABEL=LABEL_FR UNION SELECT 'SP', ID, LABEL FROM sport WHERE LABEL=LABEL_FR ) T ORDER BY 1,2");
+		// Incomplete event results
+		queries.add("SELECT DISTINCT SP.label || '-' || CP.label || '-' || EV.label || (CASE WHEN SE.id IS NOT NULL THEN '-' || SE.label ELSE '' END) || (CASE WHEN SE2.id IS NOT NULL THEN '-' || SE2.label ELSE '' END), COUNT(*) AS N FROM result RS LEFT JOIN sport SP ON RS.id_sport=SP.id LEFT JOIN championship CP ON RS.id_championship=CP.id LEFT JOIN event EV ON RS.id_event=EV.id LEFT JOIN event SE ON RS.id_subevent=SE.id LEFT JOIN event SE2 ON RS.id_subevent2=SE2.id LEFT JOIN _inactive_item II ON (RS.id_sport = II.id_sport AND RS.id_championship = II.id_championship AND RS.id_event = II.id_event AND (RS.id_subevent = II.id_subevent OR RS.id_subevent IS NULL) AND (RS.id_subevent2 = II.id_subevent2 OR RS.id_subevent2 IS NULL)) WHERE II.id IS NULL GROUP BY 1 HAVING COUNT(*)<5 ORDER BY 2, 1");
+		// Athletes/teams without country
+		queries.add("SELECT 'PR', id, last_name || ', ' || first_name AS label FROM athlete WHERE id_country IS NULL UNION SELECT 'TM', id, label FROM team WHERE id_country IS NULL ORDER BY 1, 3");
+		// Entities without external link
+		queries.add("SELECT 'CT', id, label FROM city WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='CT') UNION SELECT 'CX', id, label FROM complex WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='CX') UNION SELECT 'CN', id, label FROM country WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='CN') UNION SELECT 'CP', id, label FROM championship WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='CP') UNION SELECT 'EV', id, label FROM event WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='EV') UNION SELECT 'PR', id, last_name || ', ' || first_name FROM athlete WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='PR') UNION SELECT 'RS', RS.id, SP.label || '-' || CP.label || '-' || EV.label || '-' || YR.label AS label FROM result RS LEFT JOIN sport SP ON RS.id_sport=SP.id LEFT JOIN championship CP ON RS.id_championship=CP.id LEFT JOIN event EV ON RS.id_event=EV.id LEFT JOIN year YR ON RS.id_year=YR.id WHERE RS.id NOT IN (SELECT id_item FROM _external_link WHERE entity='RS') UNION SELECT 'SP', id, label FROM sport WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='SP') UNION SELECT 'TM', id, label FROM team WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='TM') ORDER BY 1, 3");
+		// Duplicate cities
+		queries.add("SELECT DISTINCT LABEL AS N, COUNT(*) AS C\r\nFROM city\r\nWHERE LINK IS NULL\r\nGROUP BY N\r\nORDER BY C DESC\r\nLIMIT 100");
+	}
 	
 	public static Object saveEntity(String alias, Object id, Map<?, ?> params, Contributor cb) throws Exception {
 		Class<?> c = DatabaseManager.getClassFromAlias(alias);

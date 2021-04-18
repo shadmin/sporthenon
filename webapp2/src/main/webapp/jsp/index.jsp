@@ -54,9 +54,11 @@
 		<div class="homepanel">
 			<div class="hometitle share"><%=StringUtils.text("title.share", session)%></div>
 			<table class="noborder"><tr>
-				<td><a href="https://www.facebook.com/sharer/sharer.php?u=<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="facebook" title="<%=StringUtils.text("share.on", session)%> Facebook" src="/img/header/facebook.png"/></a></td>
-				<td><a href="https://twitter.com/share?text=" target="_blank"><img alt="twitter" title="<%=StringUtils.text("share.on", session)%> Twitter" src="/img/header/twitter.png"/></a></td>
-				<td><a href="https://plus.google.com/share?url<%=url.replaceAll("\\:", "%3A").replaceAll("\\/", "%2F")%>" target="_blank"><img alt="gplus" title="<%=StringUtils.text("share.on", session)%> Google+" src="/img/header/gplus.png"/></a></td>
+				<td><a href="https://www.facebook.com/sharer/sharer.php?u=sporthenon.com" target="_blank"><img alt="Facebook" src="/img/header/facebook.png"/></a></td>
+				<td><a href="https://twitter.com/share?url=sporthenon.com" target="_blank"><img alt="Twitter" src="/img/header/twitter.png"/></a></td>
+				<td><a href="https://www.linkedin.com/sharing/share-offsite/?url=sporthenon.com" target="_blank"><img alt="LinkedIn" src="/img/header/linkedin.png"/></a></td>
+				<td><a href="https://www.blogger.com/blog-this.g?u=sporthenon.com" target="_blank"><img alt="Blogger" src="/img/header/blogger.png"/></a></td>
+				<td><a href="http://tumblr.com/share?&u=sporthenon.com" target="_blank"><img alt="Tumblr" src="/img/header/tumblr.png"/></a></td>
 			</tr></table>
 		</div>
 		<!-- Mobile application -->

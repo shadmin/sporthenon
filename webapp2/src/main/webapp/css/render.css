@@ -107,30 +107,30 @@
 .render .toolbar td{
 	padding: 1px;
 }
-.render .winrec{
+.render #winrec{
 	margin: 25px auto;
 	border: 1px solid #CCC;
 }
-.render .winrec td{
+.render #winrec td{
 	border: none;
 }
-.render .winrec .caption{
+.render #winrec .caption{
 	text-align: right;
 	padding-left: 10px;
 }
-.render .winrec .count{
+.render #winrec .count{
 	font-weight: bold;
 	padding: 5px 10px;
 }
-.render .winrec .bar1{
+.render #winrec .bar1{
 	background: url(../img/render/bar1.gif) right center no-repeat;
 	width: 6px;
 	height: 10px;
 }
-.render .winrec .bar2{
+.render #winrec .bar2{
 	background: url(../img/render/bar2.gif) left center repeat-x;
 }
-.render .winrec .bar3{
+.render #winrec .bar3{
 	background: url(../img/render/bar3.gif) left center no-repeat;
 	width: 6px;
 	height: 10px;
@@ -231,15 +231,10 @@
 .render .ref table table{
 	margin-bottom: 0px;
 }
-.render .celldraw{
-	width: 850px;
-	background-color: #FFF;
-	padding-left: 15px;
-}
 .render .draw{
+	width: 700px;
 	height: 540px;
-	background: transparent url(../img/render/draw-bg3.gif) top left no-repeat;
-	margin-top: 15px;
+	background: #FFF url(../img/render/draw-bg3.gif) top left no-repeat;
 }
 .render .draw .box{
 	position: absolute;
@@ -275,6 +270,7 @@
 }
 .render .info #titlename{
 	border-bottom: 2px solid #999;
+	padding: 4px;
 }
 .render .info #titlename2{
 	font-style: italic;
@@ -350,14 +346,14 @@
 	border: 1px solid #000;
 	background: #FDD url(../img/render/noresult.png) 5px center no-repeat;
 }
-.render .info td.record {
+/*.render .info td{
 	text-align: center;
-}
+}*/
 .render .info td.record table{
 	border-collapse: collapse;
 	margin: 0px;
 }
-.render .info td.record  th, .render .info td.record td, .render .info td.extlinks  th, .render .info td.extlinks td{
+.render .info td.record th, .render .info td.record td, .render .info td.extlinks th, .render .info td.extlinks td{
 	text-align: center;
 	width: 25px;
 	padding: 3px;
@@ -375,8 +371,14 @@
 .render .info td.record td, .render .info td.extlinks td{
 	white-space: nowrap;
 }
-.render .info .extlinks td table{
-	margin: auto;
+.render .info .extlinks{
+	padding: 2px;
+}
+.render .info .extlinks table th, .render .info .extlinks table td{
+	font-weight: normal;
+	border: none;
+	background-color: #FFF;
+	text-align: left;
 }
 .render .info .extlinks td table td{
 	padding: 0px;
@@ -404,6 +406,12 @@
 	padding-left: 20px;
 	height: 20px;
 }
+.render .border1{
+	border: 1px solid #CCC;
+}
+.render div.centered{
+	margin: 0px auto;
+}
 .render td.centered{
 	text-align: center;
 }
@@ -415,6 +423,28 @@
 	vertical-align: middle;
 	display: list-item;
 	list-style-image: url(../img/bullet.gif?6);
+}
+.render #finalresult, .render #finalresult th, .render #finalresult td {
+	border: none;
+	background-color: #FFF;
+}
+.render .finalscore{
+	padding: 15px;
+	font-weight: bold;
+}
+.render #othyears {
+	width: 410px;
+	padding: 6px;
+	margin-bottom: 10px;
+}
+.render .chaptertitle{
+	padding: 5px;
+	padding-bottom: 3px;
+	margin-bottom: 10px;
+	font: 16px Georgia;
+	font-weight: bold;
+	border-bottom: 2px solid #BBB;
+	text-align: center;
 }
 tr.rsort th{
 	cursor: pointer;
@@ -432,10 +462,10 @@ th.sorted{
 	background-position: right center;
 }
 th.asc{
-	background-image: url(../img/render/sort-asc.png);
+	background-image: url(../img/render/sort-asc.png?4);
 }
 th.desc{
-	background-image: url(../img/render/sort-desc.png);
+	background-image: url(../img/render/sort-desc.png?4);
 }
 .moreitems td{
 	text-align: center;
@@ -514,6 +544,7 @@ th.desc{
 	position: absolute;
 	top: 90px;
 	border: 1px solid #CCC;
+	background-color: #FFF;
 	padding: 5px;
 }
 #summary{

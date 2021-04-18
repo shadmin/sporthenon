@@ -174,7 +174,7 @@ public class JExtLinksPanel extends JSplitPane implements ActionListener, ListSe
 			else if (e.getActionCommand().equals("save")) {
 				for (int i : jLinkTable.getSelectedRows()) {
 					String id = String.valueOf(jLinkTable.getValueAt(i, 0));
-					DatabaseManager.executeUpdate("UPDATE _external_link SET type = ?, url = ? WHERE id = ?", Arrays.asList(jLinkTable.getValueAt(i, 4), jLinkTable.getValueAt(i, 5), id));
+					DatabaseManager.executeUpdate("UPDATE _external_link SET url = ? WHERE id = ?", Arrays.asList(jLinkTable.getValueAt(i, 4), jLinkTable.getValueAt(i, 5), id));
 				}
 				msg = "Links updated successfully (" + jLinkTable.getSelectedRowCount() + ")";
 			}
@@ -197,19 +197,45 @@ public class JExtLinksPanel extends JSplitPane implements ActionListener, ListSe
 			String[] tIds = jIdRange.getText().split("\\-");
 			String text = jSearch.getText();
 			StringBuilder sql = new StringBuilder("SELECT * FROM _external_link WHERE entity = '" + alias + "'");
-			if (tIds.length > 1)
+			if (tIds.length > 1) {
 				sql.append(" AND id_item BETWEEN " + tIds[0] + " AND " + tIds[1]);				
+			}
 			if (StringUtils.notEmpty(text)) {
 				sql.append(" AND (0=1" + (text.matches("\\d+") ? " OR idItem=" + text : ""));
 				sql.append(" OR LOWER(url) LIKE '%" + text.toLowerCase() + "%'");
 				sql.append(")");
 			}
-			if (!jChecked.isSelected())
+			if (!jChecked.isSelected()) {
 				sql.append(" AND (checked = FALSE OR checked IS NULL)");
+			}
 			sql.append(" ORDER BY id_item");
 			Map<Integer, String> hLabel = new HashMap<Integer, String>();
 			String table = (String) DatabaseManager.getClassFromAlias(alias).getField("table").get(null);
-			String sql_ = "SELECT id, " + (alias.equals(Athlete.alias) ? "last_name || ', ' || first_name || ' - ' || id_sport" : "label") + " FROM " + table + (tIds.length > 1 ? " WHERE id BETWEEN " + tIds[0] + " AND " + tIds[1] : "");
+			String labelField;
+			String joins = "";
+			if (alias.equals(Athlete.alias)) {
+				labelField = "T.last_name || ', ' || T.first_name || ' [' || SP.label || ']'";
+				joins = " JOIN sport SP ON SP.id = T.id_sport";
+			}
+			else if (alias.equals(Olympics.alias)) {
+				labelField = "CT.label || ' ' || YR.label";
+				joins = " JOIN city CT ON CT.id = T.id_city JOIN year YR ON YR.id = T.id_year";
+			} 
+			else if (alias.equals(Result.alias)) {
+				labelField = "SP.label || ' - ' || CP.label || CASE WHEN T.id_event IS NOT NULL THEN ' - ' || EV.label ELSE '' END || CASE WHEN T.id_subevent IS NOT NULL THEN ' - ' || SE.label ELSE '' END || CASE WHEN T.id_subevent2 IS NOT NULL THEN ' - ' || SE2.label ELSE '' END";
+				joins = " JOIN sport SP ON SP.id = T.id_sport JOIN championship CP ON CP.id = T.id_championship JOIN event EV ON EV.id = T.id_event"
+					+ " JOIN event SE ON SE.id = T.id_subevent JOIN event SE2 ON SE2.id = T.id_subevent2";
+			}
+			else if (alias.equals(Team.alias)) {
+				labelField = "T.label || ' [' || SP.label || ']'";
+				joins = " JOIN sport SP ON SP.id = T.id_sport";
+			}
+			else {
+				labelField = "T.label";
+			}
+			String sql_ = "SELECT T.id, " + labelField
+					+ " FROM " + table + " T " + joins
+					+ (tIds.length > 1 ? " WHERE T.id BETWEEN " + tIds[0] + " AND " + tIds[1] : "");
 			for (Object[] t_ : (List<Object[]>) DatabaseManager.executeSelect(sql_)) {
 				hLabel.put(Integer.parseInt(String.valueOf(t_[0])), String.valueOf(t_[1]));
 			}
@@ -230,7 +256,6 @@ public class JExtLinksPanel extends JSplitPane implements ActionListener, ListSe
 			vHeader.add("Entity ID");
 			vHeader.add("Entity");
 			vHeader.add("Label");
-			vHeader.add("URL type");
 			vHeader.add("URL");
 			vHeader.add("Checked");
 			jLinkTable = new JTable(vLinks, vHeader) {
@@ -244,10 +269,9 @@ public class JExtLinksPanel extends JSplitPane implements ActionListener, ListSe
 			model.getColumn(0).setPreferredWidth(50);
 			model.getColumn(1).setPreferredWidth(50);
 			model.getColumn(2).setPreferredWidth(50);
-			model.getColumn(3).setPreferredWidth(100);
-			model.getColumn(4).setPreferredWidth(70);
-			model.getColumn(5).setPreferredWidth(450);
-			model.getColumn(6).setPreferredWidth(50);
+			model.getColumn(3).setPreferredWidth(200);
+			model.getColumn(4).setPreferredWidth(480);
+			model.getColumn(5).setPreferredWidth(45);
 			jLinkTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			jScrollPane.setViewportView(jLinkTable);
 		}

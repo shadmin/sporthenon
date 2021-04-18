@@ -70,6 +70,8 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 	private static Integer idEvent = null;
 	private static Integer idSubevent = null;
 	private static Integer idSubevent2 = null;
+	private JCustomButton jAddMultipleButton = null;
+	private JCustomButton jAddButton = null;
 	private JCustomButton jEditButton = null;
 	private JCustomButton jCopyButton = null;
 	private JCustomButton jRemoveButton = null;
@@ -202,15 +204,17 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 		jInactive = new JCheckBox("Inactive event");
 		jInactive.addActionListener(this);
 		jInactive.setActionCommand("set-inactive");
+		jInactive.setEnabled(false);
 		leftPanel.add(jRefreshTreeButton, null);
 		leftPanel.add(jNewFolderButton, null);
 		leftPanel.add(jEditFolderButton, null);
 		leftPanel.add(jInactive, null);
 
 		JPanel rightPanel = new JPanel();
-		JCustomButton jAddButton = new JCustomButton("Add", "add.png", "Add");
+		jAddButton = new JCustomButton("Add", "add.png", "Add");
 		jAddButton.addActionListener(this);
 		jAddButton.setActionCommand("add-result");
+		jAddButton.setEnabled(false);
 		jEditButton = new JCustomButton("Edit", "edit.png", "Edit");
 		jEditButton.addActionListener(this);
 		jEditButton.setActionCommand("edit-result");
@@ -219,9 +223,10 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 		jCopyButton.addActionListener(this);
 		jCopyButton.setActionCommand("copy-result");
 		jCopyButton.setEnabled(false);
-		JCustomButton jAddMultipleButton = new JCustomButton("Add+", "addmultiple.png", "Add Multiple");
+		jAddMultipleButton = new JCustomButton("Add+", "addmultiple.png", "Add Multiple");
 		jAddMultipleButton.addActionListener(this);
 		jAddMultipleButton.setActionCommand("addmultiple-result");
+		jAddMultipleButton.setEnabled(false);
 		jRemoveButton = new JCustomButton("Remove", "remove.png", "Remove");
 		jRemoveButton.addActionListener(this);
 		jRemoveButton.setActionCommand("remove-result");
@@ -252,8 +257,10 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			idEvent = (t.length > 2 ? StringUtils.toInt(t[2]) : null);
 			idSubevent = (t.length > 3 ? StringUtils.toInt(t[3]) : null);
 			idSubevent2 = (t.length > 4 ? StringUtils.toInt(t[4]) : null);
-			if (node.isLeaf())
+			jInactive.setEnabled(true);
+			if (node.isLeaf()) {
 				loadData(param);
+			}
 		}
 	}
 
@@ -342,6 +349,8 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			for (int i = 0 ; i < jResultTable.getColumnCount() ; i++)
 				jResultTable.getColumnModel().getColumn(i).setPreferredWidth(i < 2 ? 50 : (i == 12 || i == 13 ? 80 : 200));
 			jScrollPane.setViewportView(jResultTable);
+			jAddButton.setEnabled(true);
+			jAddMultipleButton.setEnabled(true);
 			jEditButton.setEnabled(false);
 			jCopyButton.setEnabled(false);
 			jRemoveButton.setEnabled(false);
@@ -399,10 +408,12 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				SwingUtils.selectValue(dlg.getCategory3(), idSubevent);
 				SwingUtils.selectValue(dlg.getCategory4(), idSubevent2);
 				List<PicklistItem> list = new ArrayList<PicklistItem>();
-				for (TreePath path : jTree.getSelectionPaths()) {
-					DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-					Object info = node.getUserObject();
-					list.add((PicklistItem)info);
+				if (jTree.getSelectionPaths() != null) {
+					for (TreePath path : jTree.getSelectionPaths()) {
+						DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+						Object info = node.getUserObject();
+						list.add((PicklistItem)info);
+					}	
 				}
 				dlg.open(this, list);
 			}
@@ -444,8 +455,8 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				String resultId = null;
 				int type = 0;
 				Map<String, List<PicklistItem>> pl = JMainFrame.getPicklists();
-				JEditResultDialog rd = JMainFrame.getResultDialog();
-				rd.clear();
+				JEditResultDialog rdlg = JMainFrame.getResultDialog();
+				rdlg.clear();
 				if (isAdd) {
 					Event ev = (Event)DatabaseManager.loadEntity(Event.class, idEvent);
 					Event se = (Event)(idSubevent != null ? DatabaseManager.loadEntity(Event.class, idSubevent) : null);
@@ -455,26 +466,26 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				else {
 					resultId = String.valueOf(jResultTable.getValueAt(jResultTable.getSelectedRow(), 0));
 					rs = (Result) DatabaseManager.loadEntity(Result.class, resultId);
-					SwingUtils.selectValue(rd.getYear(), rs.getYear().getId());
+					SwingUtils.selectValue(rdlg.getYear(), rs.getYear().getId());
 					if (rs.getComplex1() != null)
-						SwingUtils.selectValue(rd.getComplex1(), rs.getComplex1().getId());
+						SwingUtils.selectValue(rdlg.getComplex1(), rs.getComplex1().getId());
 					if (rs.getCity1() != null)
-						SwingUtils.selectValue(rd.getCity1(), rs.getCity1().getId());
+						SwingUtils.selectValue(rdlg.getCity1(), rs.getCity1().getId());
 					if (rs.getComplex2() != null)
-						SwingUtils.selectValue(rd.getComplex2(), rs.getComplex2().getId());
+						SwingUtils.selectValue(rdlg.getComplex2(), rs.getComplex2().getId());
 					if (rs.getCity2() != null)
-						SwingUtils.selectValue(rd.getCity2(), rs.getCity2().getId());
-					rd.getDate1().setText(StringUtils.notEmpty(rs.getDate1()) ? rs.getDate1() : null);
-					rd.getDate2().setText(StringUtils.notEmpty(rs.getDate2()) ? rs.getDate2() : null);
-					rd.getComment().setText(StringUtils.notEmpty(rs.getComment()) ? rs.getComment() : null);
-					rd.getExa().setText(StringUtils.notEmpty(rs.getExa()) ? rs.getExa() : null);
+						SwingUtils.selectValue(rdlg.getCity2(), rs.getCity2().getId());
+					rdlg.getDate1().setText(StringUtils.notEmpty(rs.getDate1()) ? rs.getDate1() : null);
+					rdlg.getDate2().setText(StringUtils.notEmpty(rs.getDate2()) ? rs.getDate2() : null);
+					rdlg.setComment(StringUtils.notEmpty(rs.getComment()) ? rs.getComment() : null);
+					rdlg.getExa().setText(StringUtils.notEmpty(rs.getExa()) ? rs.getExa() : null);
 					List<Integer> lTie = StringUtils.tieList(rs.getExa());
 					for (int i = 0 ; i < 10 ; i++)
-						rd.getExaCheckbox()[i].setSelected(lTie.contains(i + 1));
+						rdlg.getExaCheckbox()[i].setSelected(lTie.contains(i + 1));
 					type = (rs.getSubevent2() != null ? rs.getSubevent2().getType().getNumber() : (rs.getSubevent() != null ? rs.getSubevent().getType().getNumber() : rs.getEvent().getType().getNumber()));
 				}
-				JEntityPicklist[] ranks = rd.getRanks();
-				JTextField[] res = rd.getRes();
+				JEntityPicklist[] ranks = rdlg.getRanks();
+				JTextField[] res = rdlg.getRes();
 				Object param = (type != 99 ? idSport : null);
 				String alias = (type < 10 ? Athlete.alias : (type == 50 ? Team.alias : Country.alias));
 				for (int i = 0 ; i < ranks.length ; i++) {
@@ -486,7 +497,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 						res[i].setText(StringUtils.notEmpty(res_) ? String.valueOf(res_) : null);
 					}
 				}
-				rd.open(this, StringUtils.toInt(resultId), null, isAdd ? JEditResultDialog.NEW : (isCopy ? JEditResultDialog.COPY : JEditResultDialog.EDIT), type);
+				rdlg.open(this, StringUtils.toInt(resultId), null, isAdd ? JEditResultDialog.NEW : (isCopy ? JEditResultDialog.COPY : JEditResultDialog.EDIT), type);
 			}
 			else if (e.getActionCommand().equals("addmultiple-result"))
 				JMainFrame.getAddMultipleDialog().open(this);

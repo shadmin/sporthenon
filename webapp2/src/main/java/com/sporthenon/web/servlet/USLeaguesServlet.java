@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.DatabaseManager;
-import com.sporthenon.db.entity.RetiredNumber;
-import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.function.HallOfFameBean;
+import com.sporthenon.db.function.RetiredNumberBean;
+import com.sporthenon.db.function.TeamStadiumBean;
 import com.sporthenon.db.function.USChampionshipsBean;
 import com.sporthenon.db.function.USRecordsBean;
 import com.sporthenon.db.function.YearlyStatsBean;
@@ -120,13 +120,13 @@ public class USLeaguesServlet extends AbstractServlet {
 					params.add(teams);
 					params.add(StringUtils.notEmpty(mapParams.get("num")) ? Short.valueOf(String.valueOf(mapParams.get("num"))) : -1);
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_US_LEAGUES_RETNUM, params, getUser(request), lang);
-					html.append(HtmlConverter.convertRetiredNumber(request, DatabaseManager.callFunction("get_retired_numbers", params, RetiredNumber.class), "en"));
+					html.append(HtmlConverter.convertRetiredNumber(request, DatabaseManager.callFunction("get_retired_numbers", params, RetiredNumberBean.class), "en"));
 				}
 				else if (type.equals(TYPE_TEAMSTADIUM)) {
 					params.add(teams);
 					params.add("");
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_US_LEAGUES_TEAMSTADIUM, params, getUser(request), lang);
-					html.append(HtmlConverter.convertTeamStadium(request, DatabaseManager.callFunction("get_team_stadiums", params, TeamStadium.class), "en"));
+					html.append(HtmlConverter.convertTeamStadium(request, DatabaseManager.callFunction("get_team_stadiums", params, TeamStadiumBean.class), "en"));
 				}
 				else if (type.equals(TYPE_STATS)) {
 					String categories = StringUtils.notEmpty(mapParams.get("ct")) ? String.valueOf(mapParams.get("ct")) : "0";
@@ -178,8 +178,9 @@ public class USLeaguesServlet extends AbstractServlet {
 				
 				// Load HTML results or export
 				HtmlUtils.setHeadInfo(request, html.toString());
-				if (mapParams.containsKey("export"))
+				if (mapParams.containsKey("export")) {
 					ExportUtils.export(response, html, String.valueOf(mapParams.get("export")), lang);
+				}
 				else {
 					request.setAttribute("menu", "usleagues");
 					ServletHelper.writePageHtml(request, response, html, lang, mapParams.containsKey("print"));

@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.sporthenon.admin.component.JDialogButtonBar;
-import com.sporthenon.utils.ConfigUtils;
 
 
 public class JInfoDialog extends JDialog implements ActionListener {
@@ -31,7 +30,7 @@ public class JInfoDialog extends JDialog implements ActionListener {
 	private void initialize() {
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(320, 220));
+		this.setPreferredSize(new Dimension(300, 200));
 		this.setSize(this.getPreferredSize());
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
@@ -51,18 +50,18 @@ public class JInfoDialog extends JDialog implements ActionListener {
 	
 	private JPanel getPanel() {
 		JPanel p = new JPanel(new BorderLayout());
-		p.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		p.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 		
 		JPanel p_ = new JPanel(new GridLayout(0, 1));
 		p_.add(new JLabel());
-		JLabel l1 = new JLabel("Sporthenon Admin");
+		JLabel l1 = new JLabel("Sporthenon Update Tool");
 		l1.setHorizontalAlignment(JLabel.CENTER);
 		l1.setFont(new Font("Verdana", Font.BOLD, 13));
 		p_.add(l1);
-		JLabel l2 = new JLabel("Version " + ConfigUtils.getProperty("version"));
+		JLabel l2 = new JLabel("Version 1.0.0");
 		l2.setHorizontalAlignment(JLabel.CENTER);
 		p_.add(l2);
-		JLabel l3 = new JLabel("©2011-" + String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+		JLabel l3 = new JLabel("Â©2011-" + String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
 		l3.setHorizontalAlignment(JLabel.CENTER);
 		p_.add(l3);
 		JLabel l4 = new JLabel("http://sporthenon.com");

@@ -152,7 +152,6 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 			List<String> lHql = new LinkedList<String>();
 			String filter = " and id between " + jRange.getText().replaceAll("\\-", " and ");
 			lMsg.add("Athletes (Wiki)"); lHql.add("SELECT * FROM athlete WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' AND type = 'wiki')" + filter + " ORDER BY id");
-			lMsg.add("Athletes (Oly)"); lHql.add("SELECT * FROM athlete WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' AND type = 'oly-ref')" + filter + " ORDER BY id");
 			lMsg.add("Athletes (Bkt)"); lHql.add("SELECT * FROM athlete WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' AND type = 'bkt-ref')" + filter + " ORDER BY id");
 			lMsg.add("Athletes (Bb)"); lHql.add("SELECT * FROM athlete WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' AND type = 'bb-ref')" + filter + " ORDER BY id");
 			lMsg.add("Athletes (Ft)"); lHql.add("SELECT * FROM athlete WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' AND type = 'ft-ref')" + filter + " ORDER BY id");
@@ -161,12 +160,9 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 			lMsg.add("Cities (Wiki)"); lHql.add("SELECT * FROM City WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + City.alias + "' AND type = 'wiki')" + filter + " ORDER BY id");
 			lMsg.add("Complexes (Wiki)"); lHql.add("SELECT * FROM Complex WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Complex.alias + "' AND type = 'wiki')" + filter + " ORDER BY id");
 			lMsg.add("Countries (Wiki)"); lHql.add("SELECT * FROM Country WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Country.alias + "' AND type = 'wiki')" + filter + " ORDER BY id");
-			lMsg.add("Countries (Oly)"); lHql.add("SELECT * FROM Country WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Country.alias + "' AND type = 'oly-ref')" + filter + " ORDER BY id");
 			lMsg.add("Events (Wiki)"); lHql.add("SELECT * FROM Event WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Event.alias + "' AND type = 'wiki')" + filter + " ORDER BY id");
 			lMsg.add("Olympics (Wiki)"); lHql.add("SELECT * FROM Olympics WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Olympics.alias + "' AND type = 'wiki')" + filter + " ORDER BY id");
-			lMsg.add("Olympics (Oly)"); lHql.add("SELECT * FROM Olympics WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Olympics.alias + "' AND type = 'oly-ref')" + filter + " ORDER BY id");
 			lMsg.add("Sports (Wiki)"); lHql.add("SELECT * FROM Sport WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Sport.alias + "' AND type = 'wiki')" + filter + " ORDER BY id");
-			lMsg.add("Sports (Oly)"); lHql.add("SELECT * FROM Sport WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Sport.alias + "' AND type = 'oly-ref')" + filter + " ORDER BY id");
 			lMsg.add("States (Wiki)"); lHql.add("SELECT * FROM State WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + State.alias + "' AND type = 'wiki')" + filter + " ORDER BY id");
 			lMsg.add("Teams (Wiki)"); lHql.add("SELECT * FROM Team WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Team.alias + "' AND type = 'wiki')" + filter + " ORDER BY id");
 			lMsg.add("Teams (Bkt)"); lHql.add("SELECT * FROM Team WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Team.alias + "' AND type = 'bkt-ref')" + filter + " ORDER BY id");
@@ -259,30 +255,6 @@ public class JUrlUpdateDialog extends JDialog implements ActionListener {
 			conn.setDoOutput(true);
 			if (conn.getResponseCode() == 200)
 				sql.append("insert into _external_link (select nextval('_s_external_link'), '" + alias + "', " + id + ", 'wiki', '" + url + "');\r\n");
-		}
-		// OLYMPICS-REFERENCE
-		if (msg.matches(".*\\(Oly\\)$")) {
-			url = null;
-			if (o instanceof Athlete) {
-				url = "http://www.sports-reference.com/olympics/athletes/" + str2.substring(0, 2).toLowerCase() + "/" + str1.replaceAll("\\s", "-").toLowerCase() + "-1.html";	
-			}
-			else if (o instanceof Country) {
-				url = "http://www.sports-reference.com/olympics/countries/" + str2;
-			}
-			else if (o instanceof Olympics) {
-				url = "http://www.sports-reference.com/olympics/" + str2;
-			}
-			if (url != null) {
-				url_ = new URL(StringUtils.normalize(url));
-				conn = (HttpURLConnection) url_.openConnection();
-				conn.setDoOutput(true);
-				if (conn.getResponseCode() == 200) {
-					StringWriter writer = new StringWriter();
-					IOUtils.copy(conn.getInputStream(), writer, "UTF-8");
-					if (writer.toString().indexOf("File Not Found") == -1 && writer.toString().indexOf("0 hits") == -1)
-						sql.append("insert into _external_link (select nextval('_s_external_link'), '" + alias + "', " + id + ", 'oly-ref', '" + StringUtils.normalize(url) + "');\r\n");
-				}
-			}
 		}
 		// BASKETBALL-REFERENCE
 		if (msg.matches(".*\\(Bkt\\)$")) {

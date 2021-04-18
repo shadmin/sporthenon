@@ -206,29 +206,6 @@ public class StringUtils {
 		return result;
 	}
 	
-	public static final String getCommentColor(String s) {
-		String color = "#FFF";
-		if (s.matches("^clay.*"))
-			color = "#ffc24c";
-		else if (s.matches("^decoturf.*"))
-			color = "#8cb9ff";
-		else if (s.matches("^grass.*"))
-			color = "#0F0";
-		else if (s.matches("^gravel\\/T.*"))
-			color = "#b4a676";
-		else if (s.matches("^gravel.*"))
-			color = "#dcc989";
-		else if (s.matches("^hard.*"))
-			color = "#8cb9ff";
-		else if (s.matches("^rebound.*"))
-			color = "#9dd4fc";
-		else if (s.matches("^snow.*"))
-			color = "#a3fffe";
-		else if (s.matches("^tarmac.*"))
-			color = "#c1c7c1";
-		return color;
-	}
-	
 	public static final String getUSPosition(Integer league, String pos) {
 		HashMap<String, String> hPos1 = new HashMap<String, String>();
 		HashMap<String, String> hPos2 = new HashMap<String, String>();

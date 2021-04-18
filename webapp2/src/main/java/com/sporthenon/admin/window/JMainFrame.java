@@ -75,7 +75,6 @@ import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Contributor;
-import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
 import com.sporthenon.utils.UpdateUtils;
@@ -155,7 +154,7 @@ public class JMainFrame extends JFrame {
 			this.setFont(SwingUtils.getDefaultFont());
 			this.setMinimumSize(new Dimension(640, 480));
 			this.setSize(new Dimension(1050, 720));
-			this.setTitle("Sporthenon Admin v" + ConfigUtils.getProperty("version"));
+			this.setTitle("Sporthenon Update Tool");
 			this.setContentPane(getJContentPane());
 			this.setLocationRelativeTo(null);
 			List<Image> lIcons = new ArrayList<Image>();

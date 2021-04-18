@@ -37,7 +37,7 @@
 	<!-- DATE 2 -->
 	<li id="date2-1" class="dateimg" style="display:none;"><div class="label"><%=StringUtils.text("date.to", session).toUpperCase()%></div><div id="day2" class="day"></div><div id="month2" class="month"></div><div id="year2" class="year"></div></li>
 	<li id="date2-2" style="display:none;">
-		<table>
+		<table class="noborder">
 			<tr><td><%=StringUtils.text("year", session)%> :</td><td><select id="yr2" onchange="refreshDate(2);"><%=sbY.toString()%></select></td></tr>
 			<tr><td><%=StringUtils.text("month", session)%> :</td><td><select id="mo2" onchange="refreshDate(2);"><%=sbM.toString()%></select></td></tr>
 			<tr><td><%=StringUtils.text("day", session)%> :</td><td><select id="dt2" onchange="refreshDate(2);"><%=sbD.toString()%></select></td></tr>

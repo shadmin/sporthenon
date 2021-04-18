@@ -119,7 +119,7 @@ table.noborder, table.noborder th, table.noborder td{
 }
 .toggleimg{
 	cursor: pointer;
-	padding-right: 3px;
+	padding-right: 5px;
 }
 .toggletext{
 	cursor: pointer;
@@ -855,7 +855,10 @@ select.disabled{
 #olympics #oltype input{
 	cursor: pointer;
 }
-#olympics #oltype div:hover{
+#slider-summer-ol .slide img, #slider-winter-ol .slide img{
+	border: 1px solid #FFF;
+}
+#olympics #oltype div:hover, #slider-summer-ol .slide img:hover, #slider-winter-ol .slide img:hover{
 	border: 1px solid #000;
 	background-color: #FFD;
 }
@@ -948,21 +951,21 @@ select.disabled{
 	font-weight: bold;
 	cursor: pointer;
 }
-#usleagues #usltype div:hover, #usleagues #usltype .selected, #usleagues #usstype td:hover, #usleagues #usstype .selected{
-	border: 1px solid #BBB;
-	background-color: #666;
-	color: #FFF;
-}
 #usleagues #usstype{
 	margin: 10px;
 	margin-right: 0px;
+	border-collapse: separate;
+	border-spacing: 3px;
 }
 #usleagues #usstype td{
-	border: 1px solid #FFF;
 	padding: 3px;
 	padding-right: 5px;
 	font-weight: bold;
 	cursor: pointer;
+}
+#usleagues #usltype div:hover, #usleagues #usltype .selected, #usleagues #usstype td:hover, #usleagues #usstype .selected{
+	border: 1px solid #000;
+	background-color: #FFD;
 }
 #usleagues input[type=text]{
 	padding: 2px;
@@ -1056,6 +1059,9 @@ select.disabled{
 #contribute .cbpanel table{
 	margin: 0px auto;
 }
+#contribute .cbpanel td{
+	white-space: nowrap;
+}
 #contribute .about{
 	background-image: url(../img/home/about.png);
 }
@@ -1117,7 +1123,7 @@ select.disabled{
 }
 #rmsg{
 	font-weight: bold;
-	margin-top: 10px;
+	margin: 15px;
 }
 #login .success{
 	color: green;
@@ -1969,10 +1975,10 @@ select.disabled{
 #shareopt, #exportopt, #toolsopt{
 	position: absolute;
 	text-align: right;
-	margin-top: -1px;
+	margin-top: 0px;
 	margin-left: 2px;
 	width: 200px;
-	border: 1px solid #000;
+	border: 1px solid #999;
 	background: #FFF;
 	width: auto;
 	z-index: 100;
@@ -1999,8 +2005,8 @@ select.disabled{
 .baroptions td.tw{
 	background-image:url(../img/header/twitter.png);
 }
-.baroptions td.gp{
-	background-image:url(../img/header/gplus.png);
+.baroptions td.lnk{
+	background-image:url(../img/header/linkedin.png);
 }
 .baroptions td.bg{
 	background-image:url(../img/header/blogger.png);

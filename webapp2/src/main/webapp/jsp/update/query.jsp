@@ -10,13 +10,13 @@
 			<li>
 				<fieldset><legend><%=StringUtils.text("predefined.queries", session)%></legend>
 				<a href="javascript:executeQuery(0);">Duplicate athletes by sport</a><br/>
-				<a href="javascript:executeQuery(1);">Duplicate cities</a><br/>
-				<a href="javascript:executeQuery(2);">Events/Championships not used</a><br/>
-				<a href="javascript:executeQuery(3);">Events not completed for current year</a><br/>
+				<a href="javascript:executeQuery(1);">Events/Championships not used</a><br/>
+				<a href="javascript:executeQuery(2);">Events not completed for current year</a><br/>
 				<a href="javascript:executeQuery(4);">Untranslated items</a><br/>
 				<a href="javascript:executeQuery(5);">Incomplete event results</a><br/>
 				<a href="javascript:executeQuery(6);">Athletes/teams without country</a><br/>
 				<a href="javascript:executeQuery(7);">Entities without external link</a>
+				<a href="javascript:executeQuery(8);">Duplicate cities</a><br/>
 				</fieldset>
 			</li>
 			<li>

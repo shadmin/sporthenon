@@ -157,7 +157,7 @@ public class HtmlUtils {
 
 	public static String writeToggleTitle(String s, boolean collapsed) {
 		StringBuffer html = new StringBuffer();
-		html.append("<img alt='toggle' src='" + ImageUtils.getRenderUrl() + (collapsed ? "expand" : "collapse") + ".gif' class='toggleimg' onclick='toggleContent(this)'/>");
+		html.append("<img alt='toggle' src='" + ImageUtils.getRenderUrl() + (collapsed ? "expand" : "collapse") + ".png' class='toggleimg' onclick='toggleContent(this)'/>");
 		html.append("<span class='toggletext' onclick='toggleContent(this)'>" + s + "</span>");
 		return html.toString();
 	}
@@ -185,7 +185,7 @@ public class HtmlUtils {
 		html.append("</div>");
 		html.append("<div class='toolbar'>");
 		html.append("<table><tr>");
-		final String SHARE_OPTIONS = "<div id='shareopt' class='baroptions' style='display:none;'><table><tr><td onclick='share(\"fb\");' class='fb'>Facebook</td></tr><tr><td onclick='share(\"tw\");' class='tw'>Twitter</td></tr><tr><td onclick='share(\"gp\");' class='gp'>Google+</td></tr><tr><td onclick='share(\"bg\");' class='bg'>Blogger</td></tr><tr><td onclick='share(\"tm\");' class='tm' style='border-bottom:none;'>Tumblr</td></tr></table></div>";
+		final String SHARE_OPTIONS = "<div id='shareopt' class='baroptions' style='display:none;'><table><tr><td onclick='share(\"fb\");' class='fb'>Facebook</td></tr><tr><td onclick='share(\"tw\");' class='tw'>Twitter</td></tr><tr><td onclick='share(\"lnk\");' class='lnk'>LinkedIn</td></tr><tr><td onclick='share(\"bg\");' class='bg'>Blogger</td></tr><tr><td onclick='share(\"tm\");' class='tm' style='border-bottom:none;'>Tumblr</td></tr></table></div>";
 		final String EXPORT_OPTIONS = "<div id='exportopt' class='baroptions' style='display:none;'><table><tr><td onclick='exportPage(\"html\");' class='html'>HTML</td></tr><tr><td onclick='exportPage(\"csv\");' class='csv'>CSV</td></tr><tr><td onclick='exportPage(\"xls\");' class='excel'>Excel</td></tr><tr><td onclick='exportPage(\"pdf\");' class='pdf'>PDF</td></tr><tr><td onclick='exportPage(\"txt\");' class='text' style='border-bottom:none;'>" + ResourceUtils.getText("plain.text", lang) + "</td></tr></table></div>";
 		if (h.containsKey("errors")) {
 			html.append("<td>" + h.get("errors") + "</td>");
@@ -232,8 +232,9 @@ public class HtmlUtils {
 				html.append("<tr>" + (h.containsKey("_sport_") || h.containsKey("_team_") || h.containsKey("_year_") || key.matches("flag|logo") ? "" : "<th class='caption'>" + ResourceUtils.getText(key, lang) + "</th>"));
 				html.append("<td" + (key.matches("logo|logosport|otherlogos|flag|otherflags|record|extlinks") ? " class='" + key + "'" : "") + (key.matches("flag|logo") ? " colspan='2'" : "") + ">" + h.get(key) + "</td></tr>");
 			}
-			else if (key.equals("titlename2"))
+			else if (key.equals("titlename2")) {
 				html.append("<tr><td id='titlename2' colspan='2'>" + h.get("titlename2") + "</th></tr>");
+			}
 		}
 		html.append("</table></li>");
 		return html.append("</ul>");
@@ -257,12 +258,14 @@ public class HtmlUtils {
 				s = s.substring(2);
 				html.append(s.replaceAll("\\{\\{.*", ""));
 				// Forced tooltip
-				if (s.contains("{{"))
+				if (s.contains("{{")) {
 					html.append(" ").append(writeTip("cmt-" + id, s.replaceAll(".*\\{\\{|\\}\\}", "")));
+				}
 			}
 			// Tooltip
-			else
+			else {
 				html.append(writeTip("cmt-" + id, s));
+			}
 		}
 		return html.toString();
 	}
@@ -274,7 +277,7 @@ public class HtmlUtils {
 			if (currentHeader == null || !currentHeader.equals(item.getTxt1() + item.getTxt2() + item.getTxt3())) {
 				if (currentHeader != null)
 					sbRecord.append("</table>");
-				sbRecord.append("<table" + (sbRecord.toString().length() > 0 ? " style='margin-top:5px;'" : "") + "><tr><td style='border:none;'/>");
+				sbRecord.append("<table" + (sbRecord.toString().length() > 0 ? " style='margin-top:5px;'" : "") + "><tr><td style='border:none;'></td>");
 				if (StringUtils.notEmpty(item.getTxt1()))
 					sbRecord.append("<th>" + (item.getTxt1().equalsIgnoreCase("#GOLD#") ? ImageUtils.getGoldMedImg(lang) : ResourceUtils.getText(item.getTxt1(), lang)) + "</th>");
 				if (StringUtils.notEmpty(item.getTxt2()))
@@ -322,9 +325,11 @@ public class HtmlUtils {
 			}
 			else {
 				String[] t = null;
-				for (String key : hPatterns.keySet())
-					if (link.getUrl().contains(key))
+				for (String key : hPatterns.keySet()) {
+					if (link.getUrl().contains(key)) {
 						t = hPatterns.get(key).split("\\|");
+					}
+				}
 				if (t != null) {
 					text = t[0];
 					icon = t[1];
@@ -334,8 +339,9 @@ public class HtmlUtils {
 					icon = "/img/render/website.png";
 				}
 			}
-			if (currentType == null || !currentType.equalsIgnoreCase(text))
-				sbHtml.append("<tr><th>" + text + "</th></tr>");
+			if (currentType == null || !currentType.equalsIgnoreCase(text)) {
+				sbHtml.append("<tr><th>" + text + "&nbsp;:</th></tr>");
+			}	
 			currentType = text;
 			// Link
 			String formattedURL = URLDecoder.decode(link.getUrl(), "UTF-8");
@@ -356,6 +362,47 @@ public class HtmlUtils {
 		String desc = e.get(1).text();
 		request.setAttribute("title", StringUtils.getTitle(title));
 		request.setAttribute("desc", desc);
+	}
+	
+	public static final String getCommentInfo(String comment, String lang) {
+		String text = comment;
+		if (comment != null && comment.matches("^\\#\\#(Clay|Decoturf|Grass|Gravel|Hard|Rebound|Snow|Tarmac).*")) {
+			String color = "#FFF";
+			String cmt = comment.substring(2).replaceAll("\\s", "").toLowerCase();
+			text = "##" + ResourceUtils.getText("info." + cmt, lang);
+			if (cmt.matches("^clay.*")) {
+				color = "#ffc24c";
+			}
+			else if (cmt.matches("^decoturf.*")) {
+				color = "#8cb9ff";
+			}
+			else if (cmt.matches("^grass.*")) {
+				color = "#0F0";
+			}
+			else if (cmt.matches("^gravel\\/t.*")) {
+				color = "#b4a676";
+			}
+			else if (cmt.matches("^gravel.*")) {
+				color = "#dcc989";
+			}
+			else if (cmt.matches("^hard.*")) {
+				color = "#8cb9ff";
+			}
+			else if (cmt.matches("^rebound.*")) {
+				color = "#9dd4fc";
+			}
+			else if (cmt.matches("^snow.*")) {
+				color = "#a3fffe";
+			}
+			else if (cmt.matches("^tarmac.*")) {
+				color = "#c1c7c1";
+			}
+			comment = ResourceUtils.getText("surface", lang) + "|" + text + "|" + color;
+		}
+		else {
+			comment = ResourceUtils.getText("comment", lang) + "|" + text + "|";
+		}
+		return comment;
 	}
 	
 }

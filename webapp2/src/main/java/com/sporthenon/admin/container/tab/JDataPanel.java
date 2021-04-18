@@ -312,8 +312,9 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			String id = panel.getId().getText();
 			Object[] options = {"Yes", "No"};
 			int n = JOptionPane.showOptionDialog(this, "Remove object #" + id + "?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-			if (n != 0)
+			if (n != 0) {
 				return;
+			}
 			String msg = null;
 			boolean err = false;
 			try {

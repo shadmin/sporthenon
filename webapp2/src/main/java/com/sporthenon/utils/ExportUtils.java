@@ -666,7 +666,7 @@ public class ExportUtils {
 			lTd.add(lTd_);
 			List<String> lTh_ = new ArrayList<String>();
 			lTh_.add("--TTEXT--");
-			lTh_.add(twinrec.getElementsByClass("toggletext").get(0).text());
+			lTh_.add(twinrec.getElementsByTag("th").get(0).text());
 			lTh.add(lTh_);
 			lMerge.add(new MergedCell(row + 1, 0, 2));
 			for (Element tr : twinrec.getElementsByTag("tr")) {

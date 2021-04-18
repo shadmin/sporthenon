@@ -41,7 +41,7 @@ public class JPasswordDialog extends JDialog implements ActionListener {
 		this.setContentPane(jContentPane);
 		
 		FlowLayout layout = new FlowLayout();
-		layout.setVgap(0);
+		layout.setVgap(3);
 		jContentPane.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 5));
 		jContentPane.setLayout(layout);
 		jLabel = new JLabel();

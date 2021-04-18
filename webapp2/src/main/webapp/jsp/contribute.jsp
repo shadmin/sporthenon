@@ -17,8 +17,7 @@
 		</div>
 		<div class="cbpanel" style="white-space:nowrap;">
 			<div class="cbtitle download"><%=StringUtils.text("download", session)%></div>
-			Un utilitaire est disponible pour administrer la base de données.<br/><br/>
-			<a href="#">Télécharger le programme d'administration</a>
+			<%=StringUtils.text("download.desc", session)%>
 		</div>
 	</div>
 	<div style="display:flex;width:100%;">

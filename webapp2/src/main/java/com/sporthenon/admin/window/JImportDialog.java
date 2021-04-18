@@ -46,8 +46,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 	private static final Logger log = Logger.getLogger(JImportDialog.class.getName());
 	
 	private JRadioButton jTypeRS;
-	private JRadioButton jTypeDR;
-	private JRadioButton jTypeRC;
+	private JRadioButton jTypeRD;
 	private JTextField jFile;
 	private JFileChooser jFileChooser;
 	private JCustomButton jProcessButton;
@@ -99,24 +98,21 @@ public class JImportDialog extends JDialog implements ActionListener {
 		p.add(new JLabel("CSV File:"));
 		jFile = new JTextField(50);
 		p.add(jFile);
-		JCustomButton btn = new JCustomButton(null, "common/folder.png", null);
+		JCustomButton btn = new JCustomButton(null, "foldertable.png", null);
 		btn.setToolTipText("Browse");
 		btn.setActionCommand("browse");
 		btn.setMargin(new Insets(0, 0, 0, 0));
 		btn.addActionListener(this);
 		p.add(btn);
 		jTypeRS = new JRadioButton("Results");
-		jTypeDR = new JRadioButton("Draws");
-		jTypeRC = new JRadioButton("Records");
+		jTypeRD = new JRadioButton("Rounds");
 		jTypeRS.setSelected(true);
 		ButtonGroup grp = new ButtonGroup();
 		grp.add(jTypeRS);
-		grp.add(jTypeDR);
-		grp.add(jTypeRC);
-		p.add(new JLabel(" Import Type:"));
+		grp.add(jTypeRD);
+		p.add(new JLabel(" Import type:"));
 		p.add(jTypeRS);
-		p.add(jTypeDR);
-		p.add(jTypeRC);
+		p.add(jTypeRD);
 		return p;
 	}
 	
@@ -155,20 +151,12 @@ public class JImportDialog extends JDialog implements ActionListener {
 		btn.setActionCommand("template-RS-csv");
 		btn.addActionListener(this);
 		p.add(btn);
-		btn = new JCustomButton("Draws (XLS)", null, null);
-		btn.setActionCommand("template-DR-xls");
+		btn = new JCustomButton("Rounds (XLS)", null, null);
+		btn.setActionCommand("template-RD-xls");
 		btn.addActionListener(this);
 		p.add(btn);
-		btn = new JCustomButton("Draws (CSV)", null, null);
-		btn.setActionCommand("template-DR-csv");
-		btn.addActionListener(this);
-		p.add(btn);
-		btn = new JCustomButton("Records (XLS)", null, null);
-		btn.setActionCommand("template-RC-xls");
-		btn.addActionListener(this);
-		p.add(btn);
-		btn = new JCustomButton("Records (CSV)", null, null);
-		btn.setActionCommand("template-RC-csv");
+		btn = new JCustomButton("Rounds (CSV)", null, null);
+		btn.setActionCommand("template-RD-csv");
 		btn.addActionListener(this);
 		p.add(btn);
 		return p;
@@ -238,7 +226,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 				int x = e.getActionCommand().lastIndexOf("-");
 				String type = e.getActionCommand().substring(x - 2, x);
 				String ext = e.getActionCommand().substring(x + 1);
-				List<List<String>> list = ImportUtils.getTemplate(type, null);
+				List<List<String>> list = ImportUtils.getTemplate(type, "en");
 				FileOutputStream fos = null;
 				try {
 					File f = jFileChooser.getSelectedFile();
@@ -329,7 +317,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 				hTitle.put("cmt", "Comment");
 				hTitle.put("exl", "External Link");
 			}
-			else if (jTypeDR.isSelected()) {
+			else if (jTypeRD.isSelected()) {
 				vHeader = new Vector<String>(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "qf1w", "qf1r", "qf1s", "qf2w", "qf2r", "qf2s", "qf3w", "qf3r", "qf3s", "qf4w", "qf4r", "qf4s", "sf1w", "sf1r", "sf1s", "sf2w", "sf2r", "sf2s", "thdw", "thdr", "thds"}));
 				hTitle.put("msg", "Message");
 				hTitle.put("sp", "Sport");
@@ -360,35 +348,6 @@ public class JImportDialog extends JDialog implements ActionListener {
 				hTitle.put("thdr", "3rd place - L");
 				hTitle.put("thds", "3rd place - Score");
 			}
-			else if (jTypeRC.isSelected()) {
-				vHeader = new Vector<String>(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "tp1", "tp2", "label", "rk1", "rc1", "dt1", "rk2", "rc2", "dt2", "rk3", "rc3", "dt3", "rk4", "rc4", "dt4", "rk5", "rc5", "dt5", "idx", "exa", "cmt"}));
-				hTitle.put("msg", "Message");
-				hTitle.put("sp", "Sport");
-				hTitle.put("cp", "Championship");
-				hTitle.put("ev", "Event");
-				hTitle.put("se", "Subevent");
-				hTitle.put("tp1", "Type #1");
-				hTitle.put("tp2", "Type #2");
-				hTitle.put("label", "Record Label");
-				hTitle.put("rk1", "Holder");
-				hTitle.put("rc1", "Record - Holder");
-				hTitle.put("dt1", "Date - Holder");
-				hTitle.put("rk2", "2nd");
-				hTitle.put("rc2", "Record - 2nd");
-				hTitle.put("dt2", "Date - 2nd");
-				hTitle.put("rk3", "3rd");
-				hTitle.put("rc3", "Record - 3rd");
-				hTitle.put("dt3", "Date - 3rd");
-				hTitle.put("rk4", "4th");
-				hTitle.put("rc4", "Record - 4th");
-				hTitle.put("dt4", "Date - 4th");
-				hTitle.put("rk5", "5th");
-				hTitle.put("rc5", "Record - 5th");
-				hTitle.put("dt5", "Date - 5th");
-				hTitle.put("idx", "Index");
-				hTitle.put("exa", "Tie");
-				hTitle.put("cmt", "Comment");
-			}
 			for (String s : vHeader)
 				vHeaderLabel.add(hTitle.get(s));
 			Vector<Vector<String>> vFile = getTableAsVector();
@@ -402,9 +361,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 					v.set(0, "");
 				if (jTypeRS.isSelected())
 					isError |= ImportUtils.processLineRS(i, vHeader, v, isUpdate, null, null, null);
-//				else if (jTypeDR.isSelected())
-//					isError |= ImportUtils.processLineDR(i, vHeader, v, isUpdate, null, null, null);
-				else if (jTypeRC.isSelected())
+				else if (jTypeRD.isSelected())
 					isError |= ImportUtils.processLineRC(i, vHeader, v, isUpdate, null, null, null);
 				if (i * 100 / vFile.size() > pg) {
 					incrementProgress();

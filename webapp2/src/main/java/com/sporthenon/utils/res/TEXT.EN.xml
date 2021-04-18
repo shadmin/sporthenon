@@ -197,7 +197,6 @@
 	<entry key="info.snow">Snow</entry>
 	<entry key="info.tarmac">Tarmac</entry>
 	<entry key="back.top">Back to top</entry>
-	<entry key="dialog.accountconf">Account created</entry>
 	<entry key="dialog.export">Export</entry>
 	<entry key="dialog.link">Link</entry>
 	<entry key="dialog.info">Info</entry>
@@ -249,6 +248,7 @@
 	<entry key="other.years">All years</entry>
 	<entry key="none">None</entry>
 	<entry key="report.error">Report an error on this page</entry>
+	<entry key="title.error">An error occured</entry>
 	<entry key="page.error">An error occured. The page has been moved or deleted.</entry>
 	<entry key="select.sport">Select a sport</entry>
 	<entry key="photos">Photos</entry>
@@ -297,6 +297,8 @@
 	<entry key="total">Total</entry>
 	<entry key="language">Language</entry>
 	<entry key="reported.on">Reported on</entry>
+	<entry key="final.result">Final result</entry>
+	<entry key="surface">Surface</entry>
 <!-- HOME -->
 	<entry key="title.presentation">Presentation</entry>
 	<entry key="title.last.results">Last results</entry>
@@ -394,10 +396,9 @@
 	<entry key="about.contribution">About contribution</entry>
 	<entry key="howto.contribute">How to contribute ?</entry>
 	<entry key="download">Download</entry>
+	<entry key="download.desc"><![CDATA[An utility is available to update the database.<br/><br/><a href="https://storage.googleapis.com/sh_bucket/shadmin.zip">Download the update program</a>]]></entry>
 	<entry key="contributors">Contributors</entry>
-	<entry key="step1.desc"><![CDATA[Create an account on <a href="/login">this page</a>.<br/><br/>Fill the mandatory fields (marked with <span class="mandatory">*</span>) and click on "Create Account".]]></entry>
-	<entry key="step2.desc"><![CDATA[Go to page "Login" and authenticate using credentials created in step 1.]]></entry>
-	<entry key="step3.desc"><![CDATA[Add and update results with buttons <img alt="add" src="/img/component/button/add.png"/> and <img alt="add" src="/img/component/button/modify.png"/>]]></entry>
+	<entry key="contributions">Contributions</entry>
 	<entry key="change.log">Change log</entry>
 	<entry key="report.bug">Report a bug</entry>
 <!-- LOGIN -->

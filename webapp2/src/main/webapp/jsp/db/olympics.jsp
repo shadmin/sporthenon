@@ -115,11 +115,11 @@ window.onload = function() {
 	var c = null;
 	for (var i = 0 ; i < t.length ; i++) {
 		c = t[i];
-		initSelectMult('sm-' + c + '-pl-ol', TX_OLYMPIC_GAMES, 625);
-		initSelectMult('sm-' + c + '-pl-ev', TX_EVENTS, 465);
-		initSelectMult('sm-' + c + '-pl-se', TX_EVENTS, 441);
-		initSelectMult('sm-' + c + '-pl-se2', TX_EVENTS, 422);
-		initSelectMult('sm-' + c + '-pl-cn', TX_COUNTRIES, 625);
+		initSelectMult('sm-' + c + '-pl-ol', TX_OLYMPIC_GAMES, 550);
+		initSelectMult('sm-' + c + '-pl-ev', TX_EVENTS, 390);
+		initSelectMult('sm-' + c + '-pl-se', TX_EVENTS, 366);
+		initSelectMult('sm-' + c + '-pl-se2', TX_EVENTS, 347);
+		initSelectMult('sm-' + c + '-pl-cn', TX_COUNTRIES, 550);
 		$(c + '-pl-ol').onchange = function() {
 			changeOlympics(this.id);
 			updateTip(this.id);
@@ -130,7 +130,7 @@ window.onload = function() {
 		$(c + '-pl-se').onchange = function() {
 			getPicklistOL(this.id.replace('-se', '-se2'));
 		}
-		createSlider('slider-' + c + '-ol', 595, 50);
+		createSlider('slider-' + c + '-ol', 520, 52);
 		createSlider('slider-' + c + '-sp', 100, 100);
 		initOlympics(c + '-pl-ol');
 	}

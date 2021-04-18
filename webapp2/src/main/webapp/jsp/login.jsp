@@ -31,7 +31,7 @@
 <div class="loginpanel" style="width:550px;">
 	<div class="logintitle"><%=StringUtils.text("title.createaccount", session)%></div>
 	<div id="rmsg" style="display:none;"></div>
-	<table class="noborder">
+	<table class="register noborder">
 		<tr>
 			<th><span class="mandatory">*</span><%=StringUtils.text("loginid", session)%> :</th><td><input type="text" id="rlogin"/></td>
 		</tr>

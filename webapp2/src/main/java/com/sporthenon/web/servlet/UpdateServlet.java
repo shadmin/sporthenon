@@ -1035,33 +1035,23 @@ public class UpdateServlet extends AbstractServlet {
 	private static void executeQuery(HttpServletResponse response, Map<?, ?> params, String lang, Contributor cb) throws Exception {
 		boolean isCSV = params.containsKey("csv");
 		StringBuffer sb = new StringBuffer(!isCSV ? "<table>" : "");
-		List<String> queries = new ArrayList<String>();
-		queries.add("SELECT DISTINCT LAST_NAME || ',' || FIRST_NAME || ',' || ID_SPORT AS N, COUNT(*) AS C\r\nFROM athlete\r\nWHERE LINK IS NULL\r\nGROUP BY N\r\nORDER BY C DESC\r\nLIMIT 100");
-		queries.add("SELECT DISTINCT LABEL AS N, COUNT(*) AS C\r\nFROM city\r\nWHERE LINK IS NULL\r\nGROUP BY N\r\nORDER BY C DESC\r\nLIMIT 100");
-		queries.add("SELECT 'EV', ID, LABEL FROM event\r\nWHERE ID NOT IN (SELECT ID_EVENT FROM result WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM result WHERE ID_SUBEVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT2 FROM result WHERE ID_SUBEVENT2 IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_EVENT FROM record WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM record WHERE ID_SUBEVENT IS NOT NULL)\r\nUNION SELECT 'CP', ID, LABEL FROM championship WHERE ID NOT IN (SELECT ID_CHAMPIONSHIP FROM result WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_CHAMPIONSHIP FROM record WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nORDER BY 1, 3");
-		queries.add("SELECT SP.label AS SPORT, CP.label AS Championship, EV.label AS EVENT, SE.label AS SUBEVENT, SE2.label AS SUBEVENT2, YR.label AS YEAR\r\nFROM (SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM result EXCEPT SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM result WHERE id_year = (SELECT id FROM year WHERE label = '#YEAR#')) T\r\nLEFT JOIN sport SP ON T.id_sport = SP.id\r\nLEFT JOIN championship CP ON T.id_championship = CP.id LEFT JOIN event EV ON T.id_event = EV.id\r\nLEFT JOIN event SE ON T.id_subevent = SE.id LEFT JOIN event SE2 ON T.id_subevent2 = SE2.id LEFT JOIN year YR ON YR.label = '#YEAR#'\r\nLEFT JOIN _inactive_item II ON (T.id_sport=II.id_sport AND T.id_championship=II.id_championship AND T.id_event=II.id_event AND (T.id_subevent IS NULL OR T.id_subevent=II.id_subevent) AND (T.id_subevent2 IS NULL OR T.id_subevent2=II.id_subevent2))\r\nWHERE 1=1 AND #WHERE# AND II.id IS NULL\r\nORDER BY SP.label, CP.index, CP.label, EV.index, EV.label, SE.index, SE.label, SE2.index, SE2.label");
-		queries.add("SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2, SP.label AS label1, CP.label AS label2, EV.label AS label3, SE.label AS label4, SE2.label AS label5 FROM result RS LEFT JOIN sport SP ON RS.id_sport=SP.id LEFT JOIN championship CP ON RS.id_championship=CP.id LEFT JOIN event EV ON RS.id_event=EV.id LEFT JOIN event SE ON RS.id_subevent=SE.id LEFT JOIN event SE2 ON RS.id_subevent2=SE2.id ORDER BY SP.label, CP.label, EV.label, SE.label, SE2.label");
-		queries.add("SELECT * FROM (SELECT 'CP', ID, LABEL FROM championship WHERE LABEL=LABEL_FR UNION SELECT 'CT', ID, LABEL FROM city WHERE LABEL=LABEL_FR UNION SELECT 'CX', ID, LABEL FROM complex WHERE LABEL=LABEL_FR UNION SELECT 'CN', ID, LABEL FROM country WHERE LABEL=LABEL_FR UNION SELECT 'EV', ID, LABEL FROM event WHERE LABEL=LABEL_FR UNION SELECT 'SP', ID, LABEL FROM sport WHERE LABEL=LABEL_FR ) T ORDER BY 1,2");
-		queries.add("SELECT DISTINCT SP.label || '-' || CP.label || '-' || EV.label || (CASE WHEN SE.id IS NOT NULL THEN '-' || SE.label ELSE '' END) || (CASE WHEN SE2.id IS NOT NULL THEN '-' || SE2.label ELSE '' END), COUNT(*) AS N FROM result RS LEFT JOIN sport SP ON RS.id_sport=SP.id LEFT JOIN championship CP ON RS.id_championship=CP.id LEFT JOIN event EV ON RS.id_event=EV.id LEFT JOIN event SE ON RS.id_subevent=SE.id LEFT JOIN event SE2 ON RS.id_subevent2=SE2.id LEFT JOIN _inactive_item II ON (RS.id_sport = II.id_sport AND RS.id_championship = II.id_championship AND RS.id_event = II.id_event AND (RS.id_subevent = II.id_subevent OR RS.id_subevent IS NULL) AND (RS.id_subevent2 = II.id_subevent2 OR RS.id_subevent2 IS NULL)) WHERE II.id IS NULL GROUP BY 1 HAVING COUNT(*)<5 ORDER BY 2, 1");
-		queries.add("SELECT 'PR', id, last_name || ', ' || first_name AS label FROM athlete WHERE id_country IS NULL UNION SELECT 'TM', id, label FROM team WHERE id_country IS NULL ORDER BY 1, 3");
-		queries.add("SELECT 'CT', id, label FROM city WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='CT') UNION SELECT 'CX', id, label FROM complex WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='CX') UNION SELECT 'CN', id, label FROM country WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='CN') UNION SELECT 'CP', id, label FROM championship WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='CP') UNION SELECT 'EV', id, label FROM event WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='EV') UNION SELECT 'PR', id, last_name || ', ' || first_name FROM athlete WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='PR') UNION SELECT 'RS', RS.id, SP.label || '-' || CP.label || '-' || EV.label || '-' || YR.label AS label FROM result RS LEFT JOIN sport SP ON RS.id_sport=SP.id LEFT JOIN championship CP ON RS.id_championship=CP.id LEFT JOIN event EV ON RS.id_event=EV.id LEFT JOIN year YR ON RS.id_year=YR.id WHERE RS.id NOT IN (SELECT id_item FROM _external_link WHERE entity='RS') UNION SELECT 'SP', id, label FROM sport WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='SP') UNION SELECT 'TM', id, label FROM team WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='TM') ORDER BY 1, 3");
-		queries.add("SELECT SP.label AS spl, CP.label AS cpl, EV.label AS evl, SE.label AS sel, SE2.label AS se2l, CP.index AS cpi, EV.index AS evi, SE.index AS sei, SE2.index AS se2i, '' FROM (SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM result EXCEPT SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM result WHERE id_year = (SELECT id FROM year WHERE label = '#YEARP#')) T LEFT JOIN sport SP ON T.id_sport = SP.id LEFT JOIN championship CP ON T.id_championship = CP.id LEFT JOIN event EV ON T.id_event = EV.id LEFT JOIN event SE ON T.id_subevent = SE.id LEFT JOIN event SE2 ON T.id_subevent2 = SE2.id LEFT JOIN year YR ON YR.label = '#YEARP#' LEFT JOIN _inactive_item II ON (T.id_sport=II.id_sport AND T.id_championship=II.id_championship AND T.id_event=II.id_event AND (T.id_subevent IS NULL OR T.id_subevent=II.id_subevent) AND (T.id_subevent2 IS NULL OR T.id_subevent2=II.id_subevent2)) WHERE SP.ID=#SPORT# AND II.id IS NULL UNION SELECT SP.label AS spl, CP.label AS cpl, EV.label AS epl, SE.label AS sel, SE2.label AS se2l, CP.index AS cpi, EV.index AS evi, SE.index AS evi, SE2.index AS se2i, '<img src=\"/img/update/tick.png\"/>' FROM (SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM result WHERE id_year = (SELECT id FROM year WHERE label = '#YEARP#')) T LEFT JOIN sport SP ON T.id_sport = SP.id LEFT JOIN championship CP ON T.id_championship = CP.id LEFT JOIN event EV ON T.id_event = EV.id LEFT JOIN event SE ON T.id_subevent = SE.id LEFT JOIN event SE2 ON T.id_subevent2 = SE2.id LEFT JOIN year YR ON YR.label = '#YEARP#' LEFT JOIN _inactive_item II ON (T.id_sport=II.id_sport AND T.id_championship=II.id_championship AND T.id_event=II.id_event AND (T.id_subevent IS NULL OR T.id_subevent=II.id_subevent) AND (T.id_subevent2 IS NULL OR T.id_subevent2=II.id_subevent2)) WHERE 1=1 AND SP.ID=#SPORT# AND II.id IS NULL ORDER BY spl, cpi, cpl, evi, evl, sei, sel, se2i, se2l");
-		
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		String query = null;
 		Integer index = StringUtils.toInt(params.get("index"));
 		if (index != -1) {
-			query = queries.get(index);
+			query = UpdateUtils.queries.get(index);
 			query = query.replaceAll("#YEAR#", String.valueOf(year));
 			query = query.replaceAll("#YEARP#", String.valueOf(params.get("year")));
 			query = query.replaceAll("#SPORT#", String.valueOf(params.get("sport")));
 			query = query.replaceAll("#WHERE#", (year % 4 == 0 ? "(CP.id<>1 OR SP.type<>0)" : (year % 4 == 2 ? "(CP.id<>1 OR SP.type<>1)" : "CP.id<>1")) + (year % 4 != 1 ? " AND CP.id<>78" : ""));			
 		}
-		else
+		else {
 			query = String.valueOf(params.get("query"));
+		}
 		
-		if (!isCSV)
+		if (!isCSV) {
 			sb.append("<tr style='display:none;'><td>" + query + "</td></tr>");
+		}
 		
 		List<Object[]> list = (List<Object[]>) DatabaseManager.executeSelect(query);
 		if (list != null && list.size() > 0) {
@@ -1965,7 +1955,6 @@ public class UpdateServlet extends AbstractServlet {
 			List<String> lSql = new LinkedList<String>();
 			if (entity.equalsIgnoreCase(Athlete.alias)) {
 				lSql.add("SELECT * FROM athlete where" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' and url like '%wikipedia%') ORDER BY id desc");
-				lSql.add("SELECT * FROM athlete WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' and url like '%reference.com/olympics%') ORDER BY id desc");
 				lSql.add("SELECT * FROM athlete WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' and url like '%basketball-reference%') ORDER BY id desc");
 				lSql.add("SELECT * FROM athlete WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' and url like '%pro-football-reference%') ORDER BY id desc");
 				lSql.add("SELECT * FROM athlete WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' and url like '%hockey-reference%') ORDER BY id desc");
@@ -1979,17 +1968,14 @@ public class UpdateServlet extends AbstractServlet {
 				lSql.add("SELECT * FROM complex WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Complex.alias + "' and url like '%wikipedia%') ORDER BY id desc");
 			if (entity.equalsIgnoreCase(Country.alias)) {
 				lSql.add("SELECT * FROM country WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Country.alias + "' and url like '%wikipedia%') ORDER BY id desc");
-				lSql.add("SELECT * FROM country WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Country.alias + "' and url like '%reference.com/olympics%') ORDER BY id desc");	
 			}
 			if (entity.equalsIgnoreCase(Event.alias))
 				lSql.add("SELECT * FROM event WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Event.alias + "' and url like '%wikipedia%') ORDER BY id desc");
 			if (entity.equalsIgnoreCase(Olympics.alias)) {
 				lSql.add("SELECT * FROM olympics WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Olympics.alias + "' and url like '%wikipedia%') ORDER BY id desc");
-				lSql.add("SELECT * FROM olympics WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Olympics.alias + "' and url like '%reference.com/olympics%') ORDER BY id desc");	
 			}
 			if (entity.equalsIgnoreCase(Sport.alias)) {
 				lSql.add("SELECT * FROM sport WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Sport.alias + "' and url like '%wikipedia%') ORDER BY id desc");
-				lSql.add("SELECT * FROM Sport WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Sport.alias + "' and url like '%reference.com/olympics%') ORDER BY id desc");	
 			}
 			if (entity.equalsIgnoreCase(State.alias))
 				lSql.add("SELECT * FROM state WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + State.alias + "' and url like '%wikipedia%') ORDER BY id desc");
@@ -2409,21 +2395,6 @@ public class UpdateServlet extends AbstractServlet {
 		if (hql.matches(".*wikipedia.*")) {
 			url = "https://en.wikipedia.org/wiki/" + URLEncoder.encode(str1.replaceAll("\\s", "_"), "utf-8");
 			sql.append("insert into _external_link (select nextval('_s_external_link'), '" + alias + "', " + id + ", '" + url + "', FALSE, NULL);\r\n");
-		}
-		// OLYMPICS-REFERENCE
-		if (hql.matches(".*\\/olympics.*") && (sptype == null || sptype != -1)) {
-			url = null;
-			if (o instanceof Athlete) {
-				url = "http://www.sports-reference.com/olympics/athletes/" + str2.substring(0, 2).toLowerCase() + "/" + str1.replaceAll("\\s", "-").toLowerCase() + "-1.html";	
-			}
-			else if (o instanceof Country) {
-				url = "http://www.sports-reference.com/olympics/countries/" + str2;
-			}
-			else if (o instanceof Olympics) {
-				url = "http://www.sports-reference.com/olympics/" + str2;
-			}
-			if (url != null)
-				sql.append("insert into _external_link (select nextval('_s_external_link'), '" + alias + "', " + id + ", '" + StringUtils.normalize(url) + "', FALSE, NULL);\r\n");
 		}
 		// BASKETBALL-REFERENCE
 		if (hql.matches(".*basketball\\-reference.*")) {

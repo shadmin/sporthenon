@@ -1,13 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
-<!-- Account Confirm -->
-<div id="d-accountconf" class="dialog" style="display:none;">
-<div class="fieldset">
-	<div class="fstitle"><%=StringUtils.text("dialog.accountconf", session)%></div>
-	<div class="fscontent"><%=StringUtils.text("msg.registered", session)%><br/><br/><a href='javascript:' onclick='rauth()'><%=StringUtils.text("menu.login", session)%></a></div>
-	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dAccountConf);"/></div>
-</div>
-</div>
 <!-- Report Error -->
 <div id="d-error" class="dialog" style="display:none;">
 <div class="fieldset">
@@ -140,7 +132,6 @@
 </div>
 </div>
 <script><!--
-dAccountConf = new Control.Modal($('d-accountconf'),{ closeOnClick: false, fade: false });
 dError = new Control.Modal($('d-error'),{ closeOnClick: false, fade: false });
 dPicture = new Control.Modal($('d-picture'),{ closeOnClick: true, fade: true, afterClose:function(){setOpacity(1.0);} });
 dLink = new Control.Modal($('d-link'),{ closeOnClick: false, fade: false });

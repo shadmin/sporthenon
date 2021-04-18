@@ -745,7 +745,7 @@ public class ImportUtils {
 				list_.add(s);
 			list.add(list_);
 			list_ = new ArrayList<String>();
-			for (String s : new String[] {COLOR1 + "Athletics", COLOR1 + "Olympic Games", COLOR1 + "Men", COLOR1 + "100 M", COLOR1 + "", COLOR1 + "1936", COLOR2 + "Owens, Jessie (USA)", COLOR2 + "10.30", COLOR2 + "Metcalfe, Ralf (USA)", COLOR2 + "10.40", COLOR2 + "Osendarp, Tinus (NED)", COLOR2 + "10.50", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR3 + "", COLOR3 + "08/03/1936", COLOR3 + "", COLOR3 + "Olympiastadion, Berlin, GER", COLOR3 + "", COLOR3 + "", COLOR3 + "https://en.wikipedia.org/wiki/Athletics_at_the_1936_Summer_Olympics_%E2%80%93_Men%27s_100_metres", COLOR3 + "http://www.sports-reference.com/olympics/summer/1936/ATH/mens-100-metres.html", COLOR3 + ""})
+			for (String s : new String[] {COLOR1 + "Athletics", COLOR1 + "Olympic Games", COLOR1 + "Men", COLOR1 + "100 M", COLOR1 + "", COLOR1 + "1936", COLOR2 + "Owens, Jessie (USA)", COLOR2 + "10.30", COLOR2 + "Metcalfe, Ralf (USA)", COLOR2 + "10.40", COLOR2 + "Osendarp, Tinus (NED)", COLOR2 + "10.50", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR2 + "", COLOR3 + "", COLOR3 + "08/03/1936", COLOR3 + "", COLOR3 + "Olympiastadion, Berlin, GER", COLOR3 + "", COLOR3 + "", COLOR3 + "https://en.wikipedia.org/wiki/Athletics_at_the_1936_Summer_Olympics_%E2%80%93_Men%27s_100_metres", COLOR3 + "http://www.olympic.org/summer/1936/ATH/mens-100-metres.html", COLOR3 + ""})
 				list_.add(s);
 			list.add(list_);
 			list_ = new ArrayList<String>();

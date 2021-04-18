@@ -20,9 +20,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
@@ -56,18 +54,19 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private JEntityPicklist jComplex2 = null;
 	private JTextField jDate1 = null;
 	private JTextField jDate2 = null;
-	private JTextArea jComment = null;
 	private JTextField jExa = null;
-	private JCheckBox[] jExaCheckbox = new JCheckBox[10];
-	private JEntityPicklist[] jRanks = new JEntityPicklist[10];
-	private JTextField[] jRes = new JTextField[10];
+	private JCheckBox[] jExaCheckbox = new JCheckBox[20];
+	private JEntityPicklist[] jRanks = new JEntityPicklist[20];
+	private JTextField[] jRes = new JTextField[20];
 	private JCommentDialog jCommentDialog = null;
+	private JEditRoundsDialog jEditRoundsDialog = null;
+	private JEditPhotosDialog jEditPhotosDialog = null;
 	
 	private JResultsPanel parent;
 	private Integer id;
 	private short mode;
 	private int entityType;
-	private boolean draw;
+	private String comment;
 	public static final short NEW = 1;
 	public static final short EDIT = 2;
 	public static final short COPY = 3;
@@ -84,18 +83,35 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jContentPane.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 4));
 		jContentPane.setLayout(layout);
 		jButtonBar = new JDialogButtonBar(this);
-		jButtonBar.getOptional().setText("Draw");
-		jButtonBar.getOptional().setIcon("draw.png");
+		jButtonBar.getOptional().setText("Rounds");
+		jButtonBar.getOptional().setIcon("rounds.png");
 		jButtonBar.getOptional().setVisible(true);
-		jButtonBar.getOptional().setActionCommand("draw");
+		jButtonBar.getOptional().setActionCommand("rounds");
 		jButtonBar.getOptional().addActionListener(this);
+		jButtonBar.getOptional2().setText("Comment");
+		jButtonBar.getOptional2().setIcon("comment.png");
+		jButtonBar.getOptional2().setVisible(true);
+		jButtonBar.getOptional2().setActionCommand("comment");
+		jButtonBar.getOptional2().addActionListener(this);
+		jButtonBar.getOptional3().setText("Ext. Links");
+		jButtonBar.getOptional3().setIcon("weblinks.png");
+		jButtonBar.getOptional3().setVisible(true);
+		jButtonBar.getOptional3().setActionCommand("extlinks");
+		jButtonBar.getOptional3().addActionListener(this);
+		jButtonBar.getOptional4().setText("Photos");
+		jButtonBar.getOptional4().setIcon("photos.png");
+		jButtonBar.getOptional4().setVisible(true);
+		jButtonBar.getOptional4().setActionCommand("photos");
+		jButtonBar.getOptional4().addActionListener(this);
 		jContentPane.add(getEventPanel(), BorderLayout.NORTH);
 		jContentPane.add(jButtonBar, BorderLayout.SOUTH);
 		jContentPane.add(getStandingsPanel(), BorderLayout.CENTER);
 		
 		jCommentDialog = new JCommentDialog(this);
+		jEditRoundsDialog = new JEditRoundsDialog(this);
+		jEditPhotosDialog = new JEditPhotosDialog(this);
 		
-		this.setSize(new Dimension(690, 425));
+		this.setSize(new Dimension(790, 580));
         this.setContentPane(jContentPane);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setModal(true);
@@ -109,11 +125,11 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jCity1 = new JEntityPicklist(this, City.alias);
 		jCity1.setPreferredSize(new Dimension(250, 21));
 		jComplex1 = new JEntityPicklist(this, Complex.alias);
-		jComplex1.setPreferredSize(new Dimension(280, 21));
+		jComplex1.setPreferredSize(new Dimension(300, 21));
 		jCity2 = new JEntityPicklist(this, City.alias);
 		jCity2.setPreferredSize(new Dimension(250, 21));
 		jComplex2 = new JEntityPicklist(this, Complex.alias);
-		jComplex2.setPreferredSize(new Dimension(280, 21));
+		jComplex2.setPreferredSize(new Dimension(300, 21));
 		jDate1 = new JTextField();
 		jDate1.setPreferredSize(new Dimension(72, 21));
 		jDate2 = new JTextField();
@@ -123,26 +139,14 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jToday.setToolTipText("Today");
 		jToday.setActionCommand("today");
 		jToday.addActionListener(this);
-		jComment = new JTextArea();
-		jComment.setFont(SwingUtils.getDefaultFont());
-		JScrollPane jCommentPane = new JScrollPane(jComment);
-		jCommentPane.setPreferredSize(new Dimension(150, 60));
-		JCustomButton jCommentDlg = new JCustomButton("...", null, null);
-		jCommentDlg.setMargin(new Insets(0, 0, 0, 0));
-		jCommentDlg.setToolTipText("Edit Comment");
-		jCommentDlg.setActionCommand("comment");
-		jCommentDlg.addActionListener(this);
 		jExa = new JTextField();
 		jExa.setPreferredSize(new Dimension(60, 21));
-		JCustomButton jExtLinksButton = new JCustomButton("Ext. Links", "weblinks.png", "External Links");
-		jExtLinksButton.addActionListener(this);
-		jExtLinksButton.setActionCommand("extlinks");
 		
 		JSeparator jSeparator1 = new JSeparator(JSeparator.HORIZONTAL);
 		jSeparator1.setPreferredSize(new Dimension(250, 0));
 		JPanel jEventPanel = new JPanel();
 		jEventPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 4));
-		jEventPanel.setPreferredSize(new Dimension(0, 200));
+		jEventPanel.setPreferredSize(new Dimension(0, 170));
 		jEventPanel.setBorder(BorderFactory.createTitledBorder(null, "Event Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 		jEventPanel.add(new JLabel("Year:"), null);
 		jEventPanel.add(jYear, null);
@@ -161,47 +165,47 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jEventPanel.add(new JLabel("City #2:"), null);
 		jEventPanel.add(jCity2, null);
 		jEventPanel.add(new JLabel("Tie:"), null);
-		for (int i = 0 ; i < 10 ; i++) {
+		for (int i = 0 ; i < 20 ; i++) {
 			jExaCheckbox[i] = new JCheckBox(String.valueOf(i + 1));
 			jEventPanel.add(jExaCheckbox[i], null);
 			jExaCheckbox[i].setActionCommand("exacb-" + (i + 1));
 			jExaCheckbox[i].addActionListener(this);
 		}
 		jEventPanel.add(jExa, null);
-		jEventPanel.add(new JLabel("Comment:"), null);
-		jEventPanel.add(jCommentPane, null);
-		jEventPanel.add(jCommentDlg, null);
-		jEventPanel.add(jExtLinksButton, null);
-
 		return jEventPanel;
 	}
 
 	private JPanel getStandingsPanel() {
-		JLabel[] labels = new JLabel[10];
+		JLabel[] labels = new JLabel[20];
 		for (int i = 0 ; i < jRanks.length ; i++) {
 			jRanks[i] = new JEntityPicklist(this, "EN");
-			jRanks[i].setPreferredSize(new Dimension(220, 21));
+			jRanks[i].setPreferredSize(new Dimension(245, 21));
+			jRanks[i].getPicklist().setPreferredSize(new Dimension(250, 0));
+			JCustomButton optionalBtn = jRanks[i].getOptionalButton();
+			optionalBtn.setText("");
+			optionalBtn.setIcon("persons.png");
+			optionalBtn.setVisible(true);
+			optionalBtn.setActionCommand("persons-" + i);
+			optionalBtn.addActionListener(this);
 			labels[i] = new JLabel(ResourceUtils.getText("rank." + (i + 1), ResourceUtils.LGDEFAULT) + ":");
 			labels[i].setPreferredSize(new Dimension(28, 21));
 			jRes[i] = new JTextField();
-			jRes[i].setPreferredSize(new Dimension(70, 21));
+			jRes[i].setPreferredSize(new Dimension(90, 21));
 		}
 		
 		JPanel jStandingsPanel = new JPanel();
 		jStandingsPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 4));
 		jStandingsPanel.setPreferredSize(new Dimension(0, 80));
-		jStandingsPanel.setBorder(BorderFactory.createTitledBorder(null, "Standings", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
-		jStandingsPanel.add(labels[0]); jStandingsPanel.add(jRanks[0]); jStandingsPanel.add(jRes[0]);
-		jStandingsPanel.add(labels[5]); jStandingsPanel.add(jRanks[5]); jStandingsPanel.add(jRes[5]);
-		jStandingsPanel.add(labels[1]); jStandingsPanel.add(jRanks[1]); jStandingsPanel.add(jRes[1]);
-		jStandingsPanel.add(labels[6]); jStandingsPanel.add(jRanks[6]); jStandingsPanel.add(jRes[6]);
-		jStandingsPanel.add(labels[2]); jStandingsPanel.add(jRanks[2]); jStandingsPanel.add(jRes[2]);
-		jStandingsPanel.add(labels[7]); jStandingsPanel.add(jRanks[7]); jStandingsPanel.add(jRes[7]);
-		jStandingsPanel.add(labels[3]); jStandingsPanel.add(jRanks[3]); jStandingsPanel.add(jRes[3]);
-		jStandingsPanel.add(labels[8]); jStandingsPanel.add(jRanks[8]); jStandingsPanel.add(jRes[8]);
-		jStandingsPanel.add(labels[4]); jStandingsPanel.add(jRanks[4]); jStandingsPanel.add(jRes[4]);
-		jStandingsPanel.add(labels[9]); jStandingsPanel.add(jRanks[9]); jStandingsPanel.add(jRes[9]);
-		
+		jStandingsPanel.setBorder(BorderFactory.createTitledBorder(null, "Final standings", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
+		for (int i = 0 ; i < 10 ; i++) {
+			jStandingsPanel.add(labels[i]);
+			jStandingsPanel.add(jRanks[i]);
+			jStandingsPanel.add(jRes[i]);
+			jStandingsPanel.add(labels[i + 10]);
+			jStandingsPanel.add(jRanks[i + 10]);
+			jStandingsPanel.add(jRes[i + 10]);
+		}
+
 		return jStandingsPanel;
 	}
 
@@ -227,45 +231,24 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			}
 			return;
 		}
-//		else if (cmd.equals("draw")) {
-//			jEditDrawDialog.clear();
-//			try {
-//				if (drawId != null) {
-//					Draw dr = (Draw) DatabaseHelper.loadEntity(Draw.class, drawId);
-//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[0], dr.getId1Qf1());
-//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[1], dr.getId2Qf1());
-//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[2], dr.getId1Qf2());
-//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[3], dr.getId2Qf2());
-//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[4], dr.getId1Qf3());
-//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[5], dr.getId2Qf3());
-//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[6], dr.getId1Qf4());
-//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[7], dr.getId2Qf4());
-//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[8], dr.getId1Sf1());
-//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[9], dr.getId2Sf1());
-//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[10], dr.getId1Sf2());
-//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[11], dr.getId2Sf2());
-//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[12], dr.getId1Thd());
-//					SwingUtils.selectValue(jEditDrawDialog.getEntity()[13], dr.getId2Thd());
-//					jEditDrawDialog.getRes()[0].setText(dr.getResult_qf1());
-//					jEditDrawDialog.getRes()[1].setText(dr.getResult_qf2());
-//					jEditDrawDialog.getRes()[2].setText(dr.getResult_qf3());
-//					jEditDrawDialog.getRes()[3].setText(dr.getResult_qf4());
-//					jEditDrawDialog.getRes()[4].setText(dr.getResult_sf1());
-//					jEditDrawDialog.getRes()[5].setText(dr.getResult_sf2());
-//					jEditDrawDialog.getRes()[6].setText(dr.getResult_thd());
-//				}
-//			}
-//			catch (Exception e_) {
-//				log.log(Level.WARNING, e_.getMessage(), e_);
-//			}
-//			jEditDrawDialog.open();
-//		}
+		else if (cmd.startsWith("persons")) {
+			jEditRoundsDialog.clear();
+			jEditRoundsDialog.open();
+		}
+		else if (cmd.equals("rounds")) {
+			jEditRoundsDialog.clear();
+			jEditRoundsDialog.open();
+		}
+		else if (cmd.equals("photos")) {
+			jEditPhotosDialog.clear();
+			jEditPhotosDialog.open();
+		}
 		else if (cmd.equals("today")) {
 			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 			jDate2.setText(df.format(Calendar.getInstance().getTime()));
 		}
 		else if (cmd.equals("comment")) {
-			jCommentDialog.getComment().setText(getComment().getText());
+			jCommentDialog.getComment().setText(comment);
 			jCommentDialog.open();
 		}
 		else if (cmd.equals("extlinks")) {
@@ -289,7 +272,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		else if (cmd.matches("exacb.*")) {
 			int min = 100;
 			int max = -1;
-			for (int i = 0 ; i < 10 ; i++) {
+			for (int i = 0 ; i < 20 ; i++) {
 				if (jExaCheckbox[i].isSelected() && i < min)
 					min = i;
 				if (jExaCheckbox[i].isSelected() && i > max)
@@ -321,7 +304,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 				rs.setComplex2((Complex)DatabaseManager.loadEntity(Complex.class, SwingUtils.getValue(jComplex2)));
 				rs.setDate1(StringUtils.notEmpty(jDate1.getText()) ? jDate1.getText() : null);
 				rs.setDate2(StringUtils.notEmpty(jDate2.getText()) ? jDate2.getText() : null);
-				rs.setComment(StringUtils.notEmpty(jComment.getText()) ? jComment.getText() : null);
+				rs.setComment(StringUtils.notEmpty(comment) ? comment : null);
 				rs.setExa(StringUtils.notEmpty(jExa.getText()) ? jExa.getText() : null);
 				for (int i = 0 ; i < jRanks.length ; i++) {
 					Integer id = SwingUtils.getValue(jRanks[i]);
@@ -329,7 +312,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 					Result.class.getMethod("setResult" + (i + 1), String.class).invoke(rs, StringUtils.notEmpty(jRes[i].getText()) ? jRes[i].getText() : null);
 				}
 				rs = (Result) DatabaseManager.saveEntity(rs, JMainFrame.getContributor());
-				msg = "Result #" + rs.getId() + (isDraw() ? "/Draw #" /*+dr.getId()*/ : "") + " has been successfully " + (mode == EDIT ? "updated" : "created") + ".";
+				msg = "Result #" + rs.getId() + " has been successfully " + (mode == EDIT ? "updated" : "created") + ".";
 			}
 			catch (Exception e_) {
 				err = true;
@@ -340,7 +323,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 				parent.resultCallback(mode, getDataVector(rs), msg, err);
 			}
 		}
-		this.setVisible(cmd.matches("draw|comment|extlinks|today|exacb.*"));
+		this.setVisible(cmd.matches("rounds|photos|comment|extlinks|today|persons.*|exacb.*"));
 	}
 	
 	private Vector<Object> getDataVector(Result rs) {
@@ -364,7 +347,6 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jCity2.getPicklist().setSelectedIndex(-1);
 		jDate1.setText("");
 		jDate2.setText("");
-		jComment.setText("");
 		for (JEntityPicklist pl : jRanks)
 			pl.getPicklist().setSelectedIndex(-1);
 		for (JTextField tf : jRes)
@@ -377,10 +359,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		this.mode = mode;
 		this.entityType = entityType;
 		this.setTitle(mode == NEW || mode == COPY ? "New Result" : "Edit Result #" + id);
-		this.setDraw(false);
 		this.setVisible(true);
-		for (int i = 0 ; i < 10 ; i++)
+		for (int i = 0 ; i < 20 ; i++) {
 			jExaCheckbox[i].setSelected(false);
+		}
 	}
 	
 	public Integer getId() {
@@ -419,10 +401,6 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		return jDate2;
 	}
 
-	public JTextArea getComment() {
-		return jComment;
-	}
-	
 	public JTextField getExa() {
 		return jExa;
 	}
@@ -434,13 +412,9 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	public JTextField[] getRes() {
 		return jRes;
 	}
-
-	public boolean isDraw() {
-		return draw;
-	}
-
-	public void setDraw(boolean draw) {
-		this.draw = draw;
+	
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 }

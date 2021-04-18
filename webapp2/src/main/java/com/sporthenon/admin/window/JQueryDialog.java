@@ -7,7 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
@@ -30,6 +29,7 @@ import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JDialogButtonBar;
 import com.sporthenon.db.DatabaseManager;
 import com.sporthenon.utils.StringUtils;
+import com.sporthenon.utils.UpdateUtils;
 
 public class JQueryDialog extends JDialog implements ActionListener {
 
@@ -39,19 +39,6 @@ public class JQueryDialog extends JDialog implements ActionListener {
 	private JTextArea jQuery = null;
 	private JScrollPane jResultPane = null;
 	private JTable jResult = null;
-	private static List<String> QUERIES;
-	
-	static {
-		QUERIES = new ArrayList<String>();
-		QUERIES.add("SELECT DISTINCT LAST_NAME || ',' || FIRST_NAME || ',' || ID_SPORT AS N, COUNT(*) AS C\r\nFROM athlete\r\nWHERE LINK IS NULL\r\nGROUP BY N\r\nORDER BY C DESC\r\nLIMIT 100");
-		QUERIES.add("SELECT 'EV', ID, LABEL FROM event\r\nWHERE ID NOT IN (SELECT ID_EVENT FROM result WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM result WHERE ID_SUBEVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT2 FROM result WHERE ID_SUBEVENT2 IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_EVENT FROM record WHERE ID_EVENT IS NOT NULL) AND ID NOT IN (SELECT ID_SUBEVENT FROM record WHERE ID_SUBEVENT IS NOT NULL)\r\nUNION SELECT 'CP', ID, LABEL FROM championship WHERE ID NOT IN (SELECT ID_CHAMPIONSHIP FROM result WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nAND ID NOT IN (SELECT ID_CHAMPIONSHIP FROM record WHERE ID_CHAMPIONSHIP IS NOT NULL)\r\nORDER BY 1, 3");
-		QUERIES.add("SELECT SP.label AS SPORT, CP.label AS Championship, EV.label AS EVENT, SE.label AS SUBEVENT, SE2.label AS SUBEVENT2, YR.label AS YEAR\r\nFROM (SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM result EXCEPT SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2 FROM result WHERE id_year = (SELECT id FROM year WHERE label = '#YEAR#')) T\r\nLEFT JOIN sport SP ON T.id_sport = SP.id\r\nLEFT JOIN championship CP ON T.id_championship = CP.id LEFT JOIN event EV ON T.id_event = EV.id\r\nLEFT JOIN event SE ON T.id_subevent = SE.id LEFT JOIN event SE2 ON T.id_subevent2 = SE2.id LEFT JOIN year YR ON YR.label = '#YEAR#'\r\nLEFT JOIN _inactive_item II ON (T.id_sport=II.id_sport AND T.id_championship=II.id_championship AND T.id_event=II.id_event AND (T.id_subevent IS NULL OR T.id_subevent=II.id_subevent) AND (T.id_subevent2 IS NULL OR T.id_subevent2=II.id_subevent2))\r\nWHERE 1=1 AND #WHERE# AND II.id IS NULL\r\nORDER BY SP.label, CP.index, CP.label, EV.index, EV.label, SE.index, SE.label, SE2.index, SE2.label");
-		QUERIES.add("SELECT DISTINCT id_sport, id_championship, id_event, id_subevent, id_subevent2, SP.label AS label1, CP.label AS label2, EV.label AS label3, SE.label AS label4, SE2.label AS label5 FROM result RS LEFT JOIN sport SP ON RS.id_sport=SP.id LEFT JOIN championship CP ON RS.id_championship=CP.id LEFT JOIN event EV ON RS.id_event=EV.id LEFT JOIN event SE ON RS.id_subevent=SE.id LEFT JOIN event SE2 ON RS.id_subevent2=SE2.id ORDER BY SP.label, CP.label, EV.label, SE.label, SE2.label");
-		QUERIES.add("SELECT * FROM (SELECT 'CP', ID, LABEL FROM championship WHERE LABEL=LABEL_FR UNION SELECT 'CT', ID, LABEL FROM city WHERE LABEL=LABEL_FR UNION SELECT 'CX', ID, LABEL FROM complex WHERE LABEL=LABEL_FR UNION SELECT 'CN', ID, LABEL FROM country WHERE LABEL=LABEL_FR UNION SELECT 'EV', ID, LABEL FROM event WHERE LABEL=LABEL_FR UNION SELECT 'SP', ID, LABEL FROM sport WHERE LABEL=LABEL_FR ) T ORDER BY 1,2");
-		QUERIES.add("SELECT DISTINCT SP.label || '-' || CP.label || '-' || EV.label || (CASE WHEN SE.id IS NOT NULL THEN '-' || SE.label ELSE '' END) || (CASE WHEN SE2.id IS NOT NULL THEN '-' || SE2.label ELSE '' END), COUNT(*) AS N FROM result RS LEFT JOIN sport SP ON RS.id_sport=SP.id LEFT JOIN championship CP ON RS.id_championship=CP.id LEFT JOIN event EV ON RS.id_event=EV.id LEFT JOIN event SE ON RS.id_subevent=SE.id LEFT JOIN event SE2 ON RS.id_subevent2=SE2.id LEFT JOIN _inactive_item II ON (RS.id_sport = II.id_sport AND RS.id_championship = II.id_championship AND RS.id_event = II.id_event AND (RS.id_subevent = II.id_subevent OR RS.id_subevent IS NULL) AND (RS.id_subevent2 = II.id_subevent2 OR RS.id_subevent2 IS NULL)) WHERE II.id IS NULL GROUP BY 1 HAVING COUNT(*)<5 ORDER BY 2, 1");
-		QUERIES.add("SELECT 'PR', id, last_name || ', ' || first_name AS label FROM athlete WHERE id_country IS NULL UNION SELECT 'TM', id, label FROM team WHERE id_country IS NULL ORDER BY 1, 3");
-		QUERIES.add("SELECT 'CT', id, label FROM city WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='CT') UNION SELECT 'CX', id, label FROM complex WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='CX') UNION SELECT 'CN', id, label FROM country WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='CN') UNION SELECT 'CP', id, label FROM championship WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='CP') UNION SELECT 'EV', id, label FROM event WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='EV') UNION SELECT 'PR', id, last_name || ', ' || first_name FROM athlete WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='PR') UNION SELECT 'RS', RS.id, SP.label || '-' || CP.label || '-' || EV.label || '-' || YR.label AS label FROM result RS LEFT JOIN sport SP ON RS.id_sport=SP.id LEFT JOIN championship CP ON RS.id_championship=CP.id LEFT JOIN event EV ON RS.id_event=EV.id LEFT JOIN year YR ON RS.id_year=YR.id WHERE RS.id NOT IN (SELECT id_item FROM _external_link WHERE entity='RS') UNION SELECT 'SP', id, label FROM sport WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='SP') UNION SELECT 'TM', id, label FROM team WHERE id NOT IN (SELECT id_item FROM _external_link WHERE entity='TM') ORDER BY 1, 3");
-	}
 	
 	public JQueryDialog(JFrame owner) {
 		super(owner);
@@ -61,7 +48,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 	private void initialize() {
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(700, 550));
+		this.setPreferredSize(new Dimension(800, 600));
 		this.setSize(this.getPreferredSize());
 		this.setModal(false);
 		this.setLocationRelativeTo(null);
@@ -181,7 +168,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 		}
 		else if (cmd.matches("query\\d")) {
 			int year = Calendar.getInstance().get(Calendar.YEAR);
-			String query = QUERIES.get(StringUtils.toInt(cmd.substring(5)));
+			String query = UpdateUtils.queries.get(StringUtils.toInt(cmd.substring(5)));
 			query = query.replaceAll("#YEAR#", String.valueOf(year));
 			query = query.replaceAll("#WHERE#", (year % 4 == 0 ? "(CP.id<>1 OR SP.type<>0)" : (year % 4 == 2 ? "(CP.id<>1 OR SP.type<>1)" : "CP.id<>1")));
 			jQuery.setText(query);
@@ -193,7 +180,7 @@ public class JQueryDialog extends JDialog implements ActionListener {
 			try {
 				StringBuffer sbSitemap = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>").append("\r\n");
 				sbSitemap.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">").append("\r\n");
-				Collection<Object[]> coll = DatabaseManager.executeSelect(QUERIES.get(3));
+				Collection<Object[]> coll = DatabaseManager.executeSelect(UpdateUtils.queries.get(3));
 				for (Object[] t : coll) {
 					sbSitemap.append("<url><loc>http://sporthenon.com/results/");
 					sbSitemap.append(StringUtils.urlEscape(t[5] + "/" + t[6] + "/" + t[7] + (t[8] != null ? "/" + t[8] : "") + (t[9] != null ? "/" + t[9] : "")));
@@ -221,12 +208,14 @@ public class JQueryDialog extends JDialog implements ActionListener {
 			if (l != null && l.size() > 0) {
 				for (Object[] t : l)  {
 					Vector<Object> v_ = new Vector<>();
-					for (Object o : t)
+					for (Object o : t) {
 						v_.add(o != null ? String.valueOf(o) : "");
+					}
 					v.add(v_);
 				}
-				for (int i = 0 ; i < l.get(0).length ; i++)
+				for (int i = 0 ; i < l.get(0).length ; i++) {
 					cols.add(" ");
+				}
 			}
 			else {
 				Vector<Object> v_ = new Vector<>();
@@ -241,8 +230,9 @@ public class JQueryDialog extends JDialog implements ActionListener {
 				}
 			};
 			jResult.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			for (int i = 0 ; i < jResult.getColumnCount() ; i++)
+			for (int i = 0 ; i < jResult.getColumnCount() ; i++) {
 				jResult.getColumnModel().getColumn(i).setPreferredWidth(150);
+			}
 			jResultPane.setViewportView(jResult);
 		}
 		catch (Exception e_) {

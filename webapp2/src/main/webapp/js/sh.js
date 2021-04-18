@@ -139,28 +139,18 @@ function toggleContent(el) {
 	if (el.tagName != 'IMG') {
 		el = $(el).previous('img');
 	}
-	var isDisplayed = (el.src.indexOf('collapse.gif') != -1);
-	var table = $(el).up('table');
-	var row = table.down('.tby').down();
-	while (row != null) {
-		if (!isDisplayed) {
-			row.show();
-		}
-		else {
-			row.hide();
-		}
-		row = row.next();
+	var isDisplayed = (el.src.indexOf('collapse.png') != -1);
+	var obj = $(el).up('div').next('table');
+	if (!$(obj)) {
+		obj = $(el).up('div').next('div');
 	}
-	if (table.down('thead')) {
-		row = table.down('thead').down('tr', 1);
-		if (row) {
-			row[!isDisplayed ? 'show' : 'hide']();
-		}
+	if (!isDisplayed) {
+		obj.show();
 	}
 	else {
-		table.down('tr').show();
+		obj.hide();
 	}
-	el.src = '/img/render/' + (isDisplayed ? 'expand.gif' : 'collapse.gif') + '?v=' + VERSION;
+	el.src = '/img/render/' + (isDisplayed ? 'expand.png' : 'collapse.png') + '?v=' + VERSION;
 }
 function info(s) {
 	window.location.href = '/results/' + s;
@@ -196,7 +186,7 @@ function togglePlist(img, id) {
 	}
 }
 function winrecMore(row) {
-	var table = $(row).up('.winrec');
+	var table = $(row).up('table');
 	var row_ = table.down('.hidden');
 	while (row_ != null) {
 		row_.removeClassName('hidden');
@@ -425,7 +415,6 @@ function closeDialog(dlg) {
 	setOpacity(1.0);
 }
 var dError = null;
-var dAccountConf = null;
 var dPicture = null;
 var dLink = null;
 var dInfo = null;
@@ -443,8 +432,8 @@ function share(type) {
 	else if (type == 'tw') {
 		url = 'https://twitter.com/share?url=' + encodeURIComponent(url);
 	}
-	else if (type == 'gp') {
-		url = 'https://plus.google.com/share?url=' + encodeURIComponent(url);
+	else if (type == 'lnk') {
+		url = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url);
 	}
 	else if (type == 'bg') {
 		url = 'https://www.blogger.com/blog-this.g?u=' + encodeURIComponent(url) + '&n=' + escape(document.title);
@@ -1064,7 +1053,7 @@ function updateSliderOl(code) {
 			if (currentOl == '0' || pattern.match(currentOl)) {
 				text = el.text;
 				text = text.substring(text.indexOf(' - ') + 3) + ' ' + text.substring(0, 4);
-				sliderContent.push(++n > 0 && n % 12 == 0 ? '</div><div class="slide">' : '');
+				sliderContent.push(++n > 0 && n % 10 == 0 ? '</div><div class="slide">' : '');
 				sliderContent.push('<img alt="' + text + '" title="' + text + '" src="' + hOlympicsImg[el.value] + '" style="cursor:pointer;" onclick="slideOlClick(\'' + code + '\', \'' + el.value + '\');"/>');
 			}
 		}
@@ -1321,7 +1310,6 @@ function createAccount() {
 		$('rpassword').focus();
 		{return;}
 	}
-	
 	else if ($('rpassword2').value == '') {
 		accountErr(TX_MCONFIRMPWD);
 		$('rpassword2').focus();
@@ -1350,9 +1338,8 @@ function createAccount() {
 	new Ajax.Request('/LoginServlet?create', { onSuccess: function(response) {
 		var s = response.responseText;
 		if (!/ERR\|.*/.match(s)) {
-			$('rmsg').hide();
-			setOpacity(0.4);
-			dAccountConf.open();
+			$('rmsg').update(TX_ACCOUNT_CREATED).removeClassName('error').addClassName('success').show();
+			$('rlogin').focus();
 		}
 		else {
 			accountErr(s.split('|')[1]);

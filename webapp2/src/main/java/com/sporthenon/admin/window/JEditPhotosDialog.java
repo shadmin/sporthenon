@@ -19,7 +19,7 @@ import com.sporthenon.admin.component.JDialogButtonBar;
 import com.sporthenon.admin.component.JEntityPicklist;
 import com.sporthenon.db.PicklistItem;
 
-public class JEditDrawDialog extends JDialog implements ActionListener {
+public class JEditPhotosDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,7 @@ public class JEditDrawDialog extends JDialog implements ActionListener {
 	private JEntityPicklist[] jEntity = null;
 	private JTextField[] jRes = null;
 
-	public JEditDrawDialog(JEditResultDialog owner) {
+	public JEditPhotosDialog(JEditResultDialog owner) {
 		super(owner);
 		parent = (JEditResultDialog) this.getOwner();
 		initialize();
@@ -140,7 +140,6 @@ public class JEditDrawDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		if (cmd.equals("ok")) {
-			parent.setDraw(true);
 		}
 		this.setVisible(false);
 	}

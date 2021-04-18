@@ -21,6 +21,7 @@ public class JEntityPicklist extends JPanel implements ItemListener {
 	private JComboBox<PicklistItem> jPicklist = null;
 	private JCustomButton jAddButton = null;
 	private JCustomButton jFindButton = null;
+	private JCustomButton jOptionalButton = null;
 	private ActionListener listener = null;
 	private String alias = null;
 
@@ -45,7 +46,7 @@ public class JEntityPicklist extends JPanel implements ItemListener {
 	private JPanel getJPanel() {
 		JPanel jButtonPanel = new JPanel();
 		jButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-		jButtonPanel.setPreferredSize(new Dimension(46, 0));
+		jButtonPanel.setPreferredSize(new Dimension(69, 0));
 		
 		jAddButton = new JCustomButton(null, "add.png", null);
 		jAddButton.setMargin(new Insets(0, 0, 0, 0));
@@ -53,14 +54,22 @@ public class JEntityPicklist extends JPanel implements ItemListener {
 		jAddButton.setFocusable(false);
 		jAddButton.addActionListener(listener);
 		jAddButton.setActionCommand(alias + "-add");
+		
 		jFindButton = new JCustomButton(null, "find.png", null);
 		jFindButton.setMargin(new Insets(0, 0, 0, 0));
 		jFindButton.setToolTipText("Find");
 		jFindButton.setFocusable(false);
 		jFindButton.addActionListener(listener);
 		jFindButton.setActionCommand(alias + "-find");
+		
+		jOptionalButton = new JCustomButton(".", null, null);
+		jOptionalButton.setMargin(new Insets(0, 0, 0, 0));
+		jOptionalButton.setFocusable(false);
+		jOptionalButton.setVisible(false);
+		
 		jButtonPanel.add(jAddButton, null);
 		jButtonPanel.add(jFindButton, null);
+		jButtonPanel.add(jOptionalButton, null);
 		
 		return jButtonPanel;
 	}
@@ -76,6 +85,10 @@ public class JEntityPicklist extends JPanel implements ItemListener {
 	public JCustomButton getFindButton() {
 		return jFindButton;
 	}
+
+	public JCustomButton getOptionalButton() {
+		return jOptionalButton;
+	}
 	
 	public void clear() {
 		jPicklist.setSelectedIndex(0);
@@ -85,6 +98,7 @@ public class JEntityPicklist extends JPanel implements ItemListener {
 		jPicklist.setEnabled(enabled);
 		jAddButton.setEnabled(enabled);
 		jFindButton.setEnabled(enabled);
+		jOptionalButton.setEnabled(enabled);
 	}
 
 	public void itemStateChanged(ItemEvent e) {
