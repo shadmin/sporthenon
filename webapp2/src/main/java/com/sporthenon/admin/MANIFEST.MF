@@ -1,3 +1,14 @@
 Manifest-Version: 1.0
 Main-Class: com.sporthenon.admin.Launcher
-Class-Path: 
+Class-Path: lib/commons-codec-1.10.jar 
+ lib/commons-io-1.4.jar 
+ lib/dom4j-1.6.1.jar 
+ lib/google-auth-library-credentials-0.25.2.jar 
+ lib/google-auth-library-oauth2-http-0.25.2.jar 
+ lib/HikariCP-4.0.3.jar 
+ lib/jstl-1.2.jar 
+ lib/poi.jar 
+ lib/postgresql-42.2.19.jar 
+ lib/postgres-socket-factory-1.2.1.jar 
+ lib/slf4j-api-1.7.30.jar
+ 

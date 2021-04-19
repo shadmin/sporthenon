@@ -388,9 +388,15 @@ public class DatabaseManager {
 		if (o instanceof Result && cb != null) {
 			try {
 				Contribution co = new Contribution();
-				co.setIdItem(newId);
 				co.setIdContributor(cb.getId());
-				co.setType(isAdd ? 'A' : 'U');
+				if (isAdd) {
+					co.setIdItem(newId);
+					co.setType('A');	
+				}
+				else {
+					co.setIdItem(StringUtils.toInt(id));
+					co.setType('U');
+				}
 				co.setDate(currentDate);
 				saveEntity(co, null);
 			}
