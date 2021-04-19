@@ -31,8 +31,8 @@
 	<!-- Presentation -->
 	<div class="homepanel" style="width:100%;">
 		<div class="hometitle info"><%=StringUtils.text("title.presentation", session)%></div>
-		<%=StringUtils.text("sporthenon.welcome", session)%>
-		<br/><br/><%=StringUtils.text("site.topics", session)%> :<br/><br/>
+		<h3><%=StringUtils.text("sporthenon.welcome", session)%></h3>
+		<%=StringUtils.text("site.topics", session)%>&nbsp;:<br/><br/>
 		<img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("menu.results.2", session)%></b> : <%=StringUtils.text("desc.results", session)%><br/><br/>
 		<img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("menu.browse.2", session)%></b> : <%=StringUtils.text("desc.browse", session)%><br/><br/>
 		<img src='/img/bullet.gif' alt='-'/>&nbsp;<b><%=StringUtils.text("menu.calendar.2", session)%></b> : <%=StringUtils.text("desc.calendar", session)%><br/><br/>

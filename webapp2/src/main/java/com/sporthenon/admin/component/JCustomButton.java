@@ -28,7 +28,7 @@ public class JCustomButton extends JButton {
 		}
 		this.setMargin(StringUtils.notEmpty(text) ? new Insets(2, 5, 2, 5) : new Insets(2, 2, 2, 2));
 		if (text == null) {
-			this.setPreferredSize(new Dimension(22, 22));	
+			this.setPreferredSize(new Dimension(22, 22));
 		}
 	}
 

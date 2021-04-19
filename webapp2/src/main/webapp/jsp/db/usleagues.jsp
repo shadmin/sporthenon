@@ -18,10 +18,10 @@
 		<div id="slider-league-img" class="slider"><%@include file="../../html/slider.html"%></div>
 	</li>
 	<li id="usltype">
-		<div id="nfl" class="selected" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/> NFL &#150; National Football League</div>
-		<div id="nba" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/> NBA &#150; National Basketball Association</div>
-		<div id="nhl" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/> NHL &#150; National Hockey League</div>
-		<div id="mlb" onclick="changeLeague(this.id);" style="margin-bottom:0px;"><img alt="-" src="/img/bullet.gif"/> MLB &#150; Major League Baseball</div>
+		<div id="nfl" class="selected" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/> NFL &ndash; National Football League</div>
+		<div id="nba" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/> NBA &ndash; National Basketball Association</div>
+		<div id="nhl" onclick="changeLeague(this.id);"><img alt="-" src="/img/bullet.gif"/> NHL &ndash; National Hockey League</div>
+		<div id="mlb" onclick="changeLeague(this.id);" style="margin-bottom:0px;"><img alt="-" src="/img/bullet.gif"/> MLB &ndash; Major League Baseball</div>
 	</li>
 	<li id="usoptpanel" class="fieldset">
 		<div style="float:left;width:auto;">
@@ -50,7 +50,7 @@
 						<option value="it">[<%=ResourceUtils.getText("all", "en")%>]</option>
 					</select></td></tr>
 					<tr><td><img src="/img/component/treeview/join.gif" alt="L"/></td>
-					<td><select id="pl-records-tp2" name="pl-records-tp2" style="width:130px;"><option/></select></td></tr>
+					<td><select id="pl-records-tp2" name="pl-records-tp2" style="width:130px;"></select></td></tr>
 				</table>
 				&nbsp;<%=ResourceUtils.getText("category", "en")%>:<br/>
 				<div id="sm-pl-records-ct" class="selmultiple" style="margin-bottom:8px;"><%@include file="../../html/selectmult.html"%></div>

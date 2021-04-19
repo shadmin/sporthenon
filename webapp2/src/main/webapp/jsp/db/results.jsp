@@ -28,7 +28,7 @@
 		<li class="spcpdiv">
 			<table class="noborder">
 				<tr><td style="text-align:left;"><img src='/img/bullet.gif' alt='-'/>&nbsp;<%=StringUtils.text("sport", session)%></td></tr>
-				<tr><td><select id="pl-sp" name="pl-sp"><option/></select></td></tr>
+				<tr><td><select id="pl-sp" name="pl-sp"></select></td></tr>
 				<tr><td><div id="slider-sp" class="slider"><%@include file="../../html/slider.html"%></div></td></tr>
 			</table>
 		</li>
@@ -36,30 +36,30 @@
 			<table class="noborder">
 				<tr><td colspan="4" style="text-align:left;"><img src='/img/bullet.gif' alt='-'/>&nbsp;<%=StringUtils.text("event", session)%></td></tr>
 				<tr>
-					<td colspan="4"><select disabled="disabled" class="disabled" id="pl-cp" name="pl-cp" onchange="getPicklist('pl-ev');"><option/></select></td>
+					<td colspan="4"><select disabled="disabled" class="disabled" id="pl-cp" name="pl-cp" onchange="getPicklist('pl-ev');"></select></td>
 				</tr>
 				<tr>
 					<td style="width:1px;"><img src="/img/component/treeview/join.gif" alt="L"/></td>
-					<td colspan="3"><select disabled="disabled" class="disabled" id="pl-ev" name="pl-ev" onchange="getPicklist('pl-se');getPicklist('pl-yr');"><option/></select></td>
+					<td colspan="3"><select disabled="disabled" class="disabled" id="pl-ev" name="pl-ev" onchange="getPicklist('pl-se');getPicklist('pl-yr');"></select></td>
 				</tr>
 				<tr>
 					<td style="width:1px;"><img src="/img/component/treeview/empty.gif" alt=""/></td>
 					<td style="width:1px;"><img src="/img/component/treeview/join.gif" alt="L"/></td>
-					<td colspan="2"><select disabled="disabled" class="disabled" id="pl-se" name="pl-se" onchange="getPicklist('pl-se2');getPicklist('pl-yr');"><option/></select></td>
+					<td colspan="2"><select disabled="disabled" class="disabled" id="pl-se" name="pl-se" onchange="getPicklist('pl-se2');getPicklist('pl-yr');"></select></td>
 				</tr>
 				<tr>
 					<td style="width:1px;"><img src="/img/component/treeview/empty.gif" alt=""/></td>
 					<td style="width:1px;"><img src="/img/component/treeview/empty.gif" alt=""/></td>
 					<td style="width:1px;"><img src="/img/component/treeview/join.gif" alt="L"/></td>
-					<td><select disabled="disabled" class="disabled" id="pl-se2" name="pl-se2" onchange="getPicklist('pl-yr')"><option/></select></td>
+					<td><select disabled="disabled" class="disabled" id="pl-se2" name="pl-se2" onchange="getPicklist('pl-yr')"></select></td>
 				</tr>
 				<tr><td colspan="4" style="padding-top:15px;text-align:right;">(&dagger; <%=StringUtils.text("event.notheld", session)%>)</td></tr>
 			</table>
 		</li>
 		<li class="yrdiv">
 			<table class="noborder">
-				<tr><td colspan="4" style="text-align:left;padding-top:5px;"><img src='/img/bullet.gif' alt='-'/>&nbsp;<%=StringUtils.text("years", session)%></td></tr>
-				<tr><td colspan="4" style="padding:0;"><div id="sm-pl-yr" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>			
+				<tr><td style="text-align:left;padding-top:5px;"><img src='/img/bullet.gif' alt='-'/>&nbsp;<%=StringUtils.text("years", session)%></td></tr>
+				<tr><td style="padding:0;"><div id="sm-pl-yr" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>			
 			</table>
 		</li>
 		</ul>

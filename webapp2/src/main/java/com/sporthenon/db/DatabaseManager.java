@@ -407,17 +407,17 @@ public class DatabaseManager {
 		executeUpdate(sql, Arrays.asList(id));
 	}
 	
-	public static void saveExternalLinks(String alias, Integer id, String s) {
+	public static void saveExternalLinks(String alias, Integer id, String urls) {
 		try {
 			executeUpdate("DELETE FROM _external_link WHERE entity = ? AND id_item = ?", Arrays.asList(alias, id));
-			if (StringUtils.notEmpty(s) && !s.equals("null")) {
-				for (String s_ : s.split("\\s")) {
-					if (StringUtils.notEmpty(s_)) {
+			if (StringUtils.notEmpty(urls) && !urls.equals("null")) {
+				for (String url : urls.split("\\s")) {
+					if (StringUtils.notEmpty(url)) {
 						ExternalLink link = new ExternalLink();
 						link.setEntity(alias);
 						link.setIdItem(id);
 						link.setChecked(false);
-						link.setUrl(s_);
+						link.setUrl(url);
 						saveEntity(link, null);
 					}
 				}

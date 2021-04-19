@@ -2332,13 +2332,11 @@ public class UpdateServlet extends AbstractServlet {
 	private static String getExternalLink(Object o, String hql) throws Exception {
 		StringBuffer sql = new StringBuffer();
 		String str1 = "", str2 = "", alias = "";
-		Integer sptype = null;
 		if (o instanceof Athlete) {
 			Athlete a = (Athlete) o;
 			str1 = a.getFirstName() + " " + a.getLastName();
 			str2 = a.getLastName();
 			alias = Athlete.alias;
-			sptype = a.getSport().getType();
 		}
 		else if (o instanceof Championship) {
 			Championship c = (Championship) o;
@@ -2377,7 +2375,6 @@ public class UpdateServlet extends AbstractServlet {
 			Sport s = (Sport) o;
 			str1 = s.getLabel();
 			alias = Sport.alias;
-			sptype = s.getType();
 		}
 		else if (o instanceof State) {
 			State s = (State) o;

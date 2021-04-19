@@ -1275,7 +1275,7 @@ public class HtmlConverter {
 			params.add("WHERE SP.id=" + id);
 			params.add(ResourceUtils.getLocaleParam(lang));
 			HtmlConverter.convertTreeArray(DatabaseManager.callFunctionSelect("tree_results", params, TreeItem.class), sw, true, lang);
-			hInfo.put("tree", "<div class='treediv'><div id='treeview' class='collapsed'><table cellpadding='0' cellspacing='0'><tr><td>\r\n<script type='text/javascript'><!--\r\nvar " + sw.toString() + "new Tree(treeItems, treeTemplate);\r\n--></script>\r\n</td></tr></table></div></div>");
+			hInfo.put("tree", "<div class='treediv'><div id='treeview' class='collapsed'><table><tr><td>\r\n<script><!--\r\nvar " + sw.toString() + "new Tree(treeItems, treeTemplate);\r\n--></script>\r\n</td></tr></table></div></div>");
 		}
 		else if (type.equals(State.alias)) {
 			State e = (State) DatabaseManager.loadEntity(State.class, id);
@@ -1443,7 +1443,7 @@ public class HtmlConverter {
 			params.add("YR.id=" + id);
 			params.add(ResourceUtils.getLocaleParam(lang));
 			HtmlConverter.convertTreeArray(DatabaseManager.callFunctionSelect("tree_months", params, TreeItem.class), sw, false, lang);
-			hInfo.put("tree", "<div class='treediv'><div id='treeview' class='collapsed'><table cellpadding='0' cellspacing='0'><tr><td><script type='text/javascript'>var " + sw.toString() + "new Tree(treeItems, treeTemplate);</script></td></tr></table></div></div>");
+			hInfo.put("tree", "<div class='treediv'><div id='treeview' class='collapsed'><table><tr><td><script>var " + sw.toString() + "new Tree(treeItems, treeTemplate);</script></td></tr></table></div></div>");
 		}
 		hInfo.put("url", "http://" + request.getServerName() + HtmlUtils.writeLink(type, id, null, hInfo.containsKey("titleEN") ? hInfo.get("titleEN") : hInfo.get("title")));
 		if (!type.matches(Contributor.alias + "|" + Sport.alias + "|" + Year.alias)) {
@@ -1557,7 +1557,7 @@ public class HtmlConverter {
 					String p = params.get(0) + "-" + params.get(1) + "-" + currentEntity + "-#LIMIT#-" + (offset + (!limit.equalsIgnoreCase("all") ? Integer.parseInt(limit) : 0));
 					html.append(MORE_ITEMS.replaceAll("#STYLE#", "").replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", String.valueOf(ITEM_LIMIT)))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
 				}
-				colspan = StringUtils.countIn(cols.toString(), "<th") + (en.equals(Result.alias) ? 1 : 0);
+				colspan = StringUtils.countIn(cols.toString(), "<th");
 				html.append(StringUtils.notEmpty(currentEntity) ? "</tbody></table>" : "");
 				count = 0;
 				summary.append("<a href='#" + tableName.replaceAll("\\s|\\/", "_") + "'>" + ++ns + ". " + tableName + "</a><br/>");
@@ -2081,9 +2081,9 @@ public class HtmlConverter {
 			}
 			if (currentEntity == null || !item.getEntity().equals(currentEntity)) {
 				long id = System.currentTimeMillis();
-				html.append("<table id='' class='tsort'>");
-				html.append("<thead><tr><th colspan='" + (isResult ? 5 : 4) + "'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText((isResult ? "past" : "future") + ".events", lang).toUpperCase(), false) + "</th></tr>");
-				html.append("<tr class='rsort'>");
+				html.append("<div class='chaptertitle'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText((isResult ? "past" : "future") + ".events", lang), false) + "</div>");
+				html.append("<table class='tsort'>");
+				html.append("<thead><tr class='rsort'>");
 				if (item.getEntity().equals(Result.alias))
 					html.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("year", lang)  + "</th>" + "<th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("entity.RS.1", lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("date", lang) + "</th>");
 				else
@@ -2208,10 +2208,12 @@ public class HtmlConverter {
 				TreeItem item2 = (TreeItem) lst.get(j);
 				if (item2.getLevel() < 2) {j--; break;}
 				if (isMonths) {
-					if (mh != null)
+					if (mh != null) {
 						calLink = StringUtils.urlEscape(item2.getLabelEN()) + "/" + yr + "-" + mh + "-01/" + yr + "-" + mh + "-" + tm[item.getIdItem()] + "/" + StringUtils.encode(yr + mh + "01-" + yr + mh + tm[item.getIdItem()] + "-" + item2.getIdItem());
-					else
+					}
+					else {
 						calLink = StringUtils.urlEscape(item2.getLabelEN()) + "/" + yr + "/" + StringUtils.encode(yr + "-0-" + item2.getIdItem());
+					}
 				}
 				writer.write(j > i + 1 ? "," : "");
 				writer.write("['" + StringUtils.toTree(item2.getLabel()) + "','" + (isMonths ? "calendar-" + calLink : (encode ? "link-" + StringUtils.urlEscape(item.getLabelEN() + "/" + item2.getLabelEN()) + "/" + StringUtils.encode(item.getIdItem() + "-" + item2.getIdItem()) : item.getIdItem() + "_" + item2.getIdItem())) + "',");

@@ -82,7 +82,14 @@ public class JCommentDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("ok")) {
 			if (getOwner() instanceof JEditResultDialog) {
-				((JEditResultDialog) getOwner()).setComment(jComment.getText());
+				JEditResultDialog rdlg = (JEditResultDialog) getOwner();
+				if (this.getTitle().endsWith("Comment")) {
+					rdlg.setComment(jComment.getText());	
+				}
+				else if (this.getTitle().endsWith("Links")) {
+					rdlg.setExtLinks(jComment.getText());
+					rdlg.setExtLinksModified(true);
+				}
 			}
 			else {
 				DatabaseManager.saveExternalLinks(alias, id, getComment().getText());

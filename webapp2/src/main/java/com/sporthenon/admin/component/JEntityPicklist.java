@@ -39,11 +39,11 @@ public class JEntityPicklist extends JPanel implements ItemListener {
         jPicklist = new JComboBox<>();
         jPicklist.setMaximumRowCount(20);
         jPicklist.addItemListener(this);
-        this.add(getJPanel(), BorderLayout.EAST);
+        this.add(getButtonPanel(), BorderLayout.EAST);
         this.add(jPicklist, BorderLayout.CENTER);
 	}
 
-	private JPanel getJPanel() {
+	private JPanel getButtonPanel() {
 		JPanel jButtonPanel = new JPanel();
 		jButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		jButtonPanel.setPreferredSize(new Dimension(69, 0));
@@ -62,7 +62,7 @@ public class JEntityPicklist extends JPanel implements ItemListener {
 		jFindButton.addActionListener(listener);
 		jFindButton.setActionCommand(alias + "-find");
 		
-		jOptionalButton = new JCustomButton(".", null, null);
+		jOptionalButton = new JCustomButton(null, null, null);
 		jOptionalButton.setMargin(new Insets(0, 0, 0, 0));
 		jOptionalButton.setFocusable(false);
 		jOptionalButton.setVisible(false);

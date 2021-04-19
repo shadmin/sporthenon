@@ -30,7 +30,7 @@
 		<div id="slider-summer-ol" class="slider"><%@include file="../../html/slider.html"%></div>
 		<table id="summer-tb">
 			<tr><td style="padding-bottom:3px;"><div id="sm-summer-pl-ol" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
-			<tr><td colspan="2" style="padding:6px 5px;border-top:1px solid #BBB;border-bottom:1px solid #BBB;"><table style="margin-left:2px;margin-top:5px;margin-bottom:0px;width:0%;"><tr>
+			<tr><td style="padding:6px 5px;border-top:1px solid #BBB;border-bottom:1px solid #BBB;"><table style="margin-left:2px;margin-top:5px;margin-bottom:0px;width:0%;"><tr>
 				<td><%=StringUtils.text("search.type", session)%>&nbsp;:&nbsp;</td>
 				<td><input type="radio" name="summer-q" id="sq1" checked="checked" onclick="$('summer-q1').show();$('summer-q2').hide();" style="margin:0px;margin-top:3px;"/></td>
 				<td style="padding-left:2px;"><label for="sq1"><%=StringUtils.text("event.results", session)%></label></td>
@@ -38,7 +38,7 @@
 				<td style="padding-left:2px;"><label for="sq2"><%=StringUtils.text("medals.tables", session)%></label></td>
 			</tr></table></td></tr>
 			<!-- EVENTS RESULTS -->
-			<tr><td colspan="3"><table id="summer-q1">
+			<tr><td><table id="summer-q1">
 				<tr><td rowspan="6"><div id="slider-summer-sp" class="slider" style="width:150px;"><%@include file="../../html/slider.html"%></div></td>
 				<td colspan="3" style="padding:2px;padding-top:0px;"><%=StringUtils.text("sport", session)%>:</td></tr>
 				<tr><td colspan="3" class="select"><select id="summer-pl-sp" name="summer-pl-sp" onchange="changeSportOL(this, 'summer', false);"></select></td></tr>
@@ -48,7 +48,7 @@
 				<tr><td style="width:0px;"><img src="/img/component/treeview/empty.gif" alt=""/></td><td style="width:0px;"><img src="/img/component/treeview/join.gif" alt="L"/></td><td style="padding-left:5px;"><div id="sm-summer-pl-se2" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>		
 			</table></td></tr>
 			<!-- MEDALS TABLES -->
-			<tr><td  colspan="2"><table id="summer-q2" style="display:none;">
+			<tr><td><table id="summer-q2" style="display:none;">
 				<tr><td style="padding: 2px;"><%=StringUtils.text("country", session)%>:</td></tr>
 				<tr><td><div id="sm-summer-pl-cn" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 			</table></td></tr>
@@ -59,7 +59,7 @@
 		<div id="slider-winter-ol" class="slider"><%@include file="../../html/slider.html"%></div>
 		<table id="winter-tb">
 			<tr><td style="padding-bottom:3px;"><div id="sm-winter-pl-ol" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
-			<tr><td colspan="2" style="padding:6px 5px;border-top:1px solid #BBB;border-bottom:1px solid #BBB;"><table style="margin-left:2px;margin-top:5px;margin-bottom:0px;width:0%;"><tr>
+			<tr><td style="padding:6px 5px;border-top:1px solid #BBB;border-bottom:1px solid #BBB;"><table style="margin-left:2px;margin-top:5px;margin-bottom:0px;width:0%;"><tr>
 				<td><%=StringUtils.text("search.type", session)%>&nbsp;:&nbsp;</td>
 				<td><input type="radio" name="winter-q" id="wq1" checked="checked" onclick="$('winter-q1').show();$('winter-q2').hide();" style="margin:0px;margin-top:3px;"/></td>
 				<td style="padding-left:2px;"><label for="wq1"><%=StringUtils.text("event.results", session)%></label></td>
@@ -67,7 +67,7 @@
 				<td style="padding-left:2px;"><label for="wq2"><%=StringUtils.text("medals.tables", session)%></label></td>
 			</tr></table></td></tr>
 			<!-- EVENTS RESULTS -->
-			<tr><td colspan="3"><table id="winter-q1">
+			<tr><td><table id="winter-q1">
 				<tr><td rowspan="6"><div id="slider-winter-sp" class="slider" style="width:150px;"><%@include file="../../html/slider.html"%></div></td>
 				<td colspan="3" style="padding:2px;padding-top:0px;"><%=StringUtils.text("sport", session)%>:</td></tr>
 				<tr><td colspan="3" class="select"><select id="winter-pl-sp" name="winter-pl-sp" onchange="changeSportOL(this, 'winter', false);"></select></td></tr>
@@ -77,7 +77,7 @@
 				<tr><td style="width:0px;"><img src="/img/component/treeview/empty.gif" alt=""/></td><td style="width:0px;"><img src="/img/component/treeview/join.gif" alt="L"/></td><td style="padding-left:5px;"><div id="sm-winter-pl-se2" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 			</table></td></tr>
 			<!-- MEDALS TABLES -->
-			<tr><td  colspan="2"><table id="winter-q2" style="display:none;">
+			<tr><td><table id="winter-q2" style="display:none;">
 				<tr><td style="padding: 2px;"><%=StringUtils.text("country", session)%>:</td></tr>
 				<tr><td><div id="sm-winter-pl-cn" class="selmultiple"><%@include file="../../html/selectmult.html"%></div></td></tr>
 			</table></td></tr>

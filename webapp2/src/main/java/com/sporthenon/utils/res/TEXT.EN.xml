@@ -395,7 +395,7 @@
 <!-- CONTRIBUTE -->
 	<entry key="about.contribution">About contribution</entry>
 	<entry key="howto.contribute">How to contribute ?</entry>
-	<entry key="download">Download</entry>
+	<entry key="download2">Download</entry>
 	<entry key="download.desc"><![CDATA[An utility is available to update the database.<br/><br/><a href="https://storage.googleapis.com/sh_bucket/shadmin.zip">Download the update program</a>]]></entry>
 	<entry key="contributors">Contributors</entry>
 	<entry key="contributions">Contributions</entry>

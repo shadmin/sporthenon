@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,7 +35,6 @@ import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.Year;
-import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
 import com.sporthenon.utils.res.ResourceUtils;
@@ -67,6 +65,8 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private short mode;
 	private int entityType;
 	private String comment;
+	private String extlinks;
+	private boolean extlinksModified;
 	public static final short NEW = 1;
 	public static final short EDIT = 2;
 	public static final short COPY = 3;
@@ -111,7 +111,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jEditRoundsDialog = new JEditRoundsDialog(this);
 		jEditPhotosDialog = new JEditPhotosDialog(this);
 		
-		this.setSize(new Dimension(790, 580));
+		this.setSize(new Dimension(935, 490));
         this.setContentPane(jContentPane);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setModal(true);
@@ -125,11 +125,11 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jCity1 = new JEntityPicklist(this, City.alias);
 		jCity1.setPreferredSize(new Dimension(250, 21));
 		jComplex1 = new JEntityPicklist(this, Complex.alias);
-		jComplex1.setPreferredSize(new Dimension(300, 21));
+		jComplex1.setPreferredSize(new Dimension(350, 21));
 		jCity2 = new JEntityPicklist(this, City.alias);
 		jCity2.setPreferredSize(new Dimension(250, 21));
 		jComplex2 = new JEntityPicklist(this, Complex.alias);
-		jComplex2.setPreferredSize(new Dimension(300, 21));
+		jComplex2.setPreferredSize(new Dimension(350, 21));
 		jDate1 = new JTextField();
 		jDate1.setPreferredSize(new Dimension(72, 21));
 		jDate2 = new JTextField();
@@ -143,10 +143,14 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jExa.setPreferredSize(new Dimension(60, 21));
 		
 		JSeparator jSeparator1 = new JSeparator(JSeparator.HORIZONTAL);
-		jSeparator1.setPreferredSize(new Dimension(250, 0));
+		jSeparator1.setPreferredSize(new Dimension(500, 0));
+		JSeparator jSeparator2 = new JSeparator(JSeparator.HORIZONTAL);
+		jSeparator2.setPreferredSize(new Dimension(180, 0));
+		JSeparator jSeparator3 = new JSeparator(JSeparator.HORIZONTAL);
+		jSeparator3.setPreferredSize(new Dimension(180, 0));
 		JPanel jEventPanel = new JPanel();
 		jEventPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 4));
-		jEventPanel.setPreferredSize(new Dimension(0, 170));
+		jEventPanel.setPreferredSize(new Dimension(0, 130));
 		jEventPanel.setBorder(BorderFactory.createTitledBorder(null, "Event Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 		jEventPanel.add(new JLabel("Year:"), null);
 		jEventPanel.add(jYear, null);
@@ -160,10 +164,12 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jEventPanel.add(jComplex1, null);
 		jEventPanel.add(new JLabel("City #1:"), null);
 		jEventPanel.add(jCity1, null);
+		jEventPanel.add(jSeparator2);
 		jEventPanel.add(new JLabel("Complex #2:"), null);
 		jEventPanel.add(jComplex2, null);
 		jEventPanel.add(new JLabel("City #2:"), null);
 		jEventPanel.add(jCity2, null);
+		jEventPanel.add(jSeparator3);
 		jEventPanel.add(new JLabel("Tie:"), null);
 		for (int i = 0 ; i < 20 ; i++) {
 			jExaCheckbox[i] = new JCheckBox(String.valueOf(i + 1));
@@ -179,10 +185,9 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		JLabel[] labels = new JLabel[20];
 		for (int i = 0 ; i < jRanks.length ; i++) {
 			jRanks[i] = new JEntityPicklist(this, "EN");
-			jRanks[i].setPreferredSize(new Dimension(245, 21));
-			jRanks[i].getPicklist().setPreferredSize(new Dimension(250, 0));
+			jRanks[i].setPreferredSize(new Dimension(320, 21));
 			JCustomButton optionalBtn = jRanks[i].getOptionalButton();
-			optionalBtn.setText("");
+			optionalBtn.setText(null);
 			optionalBtn.setIcon("persons.png");
 			optionalBtn.setVisible(true);
 			optionalBtn.setActionCommand("persons-" + i);
@@ -209,7 +214,6 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		return jStandingsPanel;
 	}
 
-	@SuppressWarnings("unchecked")
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		if (cmd.matches("\\D\\D\\-(add|find)")) {
@@ -248,26 +252,16 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			jDate2.setText(df.format(Calendar.getInstance().getTime()));
 		}
 		else if (cmd.equals("comment")) {
+			jCommentDialog.setTitle("Edit Comment");
 			jCommentDialog.getComment().setText(comment);
+			jCommentDialog.setSize(new Dimension(300, 250));
 			jCommentDialog.open();
 		}
 		else if (cmd.equals("extlinks")) {
-			StringBuffer sbLinks = new StringBuffer();
-			try {
-				List<ExternalLink> list = (List<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link where entity = '" + Result.alias + "' and id_item = " + id + " order by id", ExternalLink.class);
-				for (ExternalLink link : list)
-					sbLinks.append(link.getUrl()).append("\r\n");
-			}
-			catch (Exception e_) {
-				log.log(Level.WARNING, e_.getMessage(), e_);
-			}
-			JCommentDialog dialog = JMainFrame.getCommentDialog();
-			dialog.setAlias(Result.alias);
-			dialog.setId(id);
-			dialog.setTitle("External Links (#" + id + ")");
-			dialog.getComment().setText(sbLinks.toString());
-			dialog.setSize(new Dimension(600, 250));
-			dialog.open();
+			jCommentDialog.setTitle("External Links");
+			jCommentDialog.getComment().setText(extlinks);
+			jCommentDialog.setSize(new Dimension(600, 250));
+			jCommentDialog.open();
 		}
 		else if (cmd.matches("exacb.*")) {
 			int min = 100;
@@ -312,6 +306,9 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 					Result.class.getMethod("setResult" + (i + 1), String.class).invoke(rs, StringUtils.notEmpty(jRes[i].getText()) ? jRes[i].getText() : null);
 				}
 				rs = (Result) DatabaseManager.saveEntity(rs, JMainFrame.getContributor());
+				if (extlinksModified) {
+					DatabaseManager.saveExternalLinks(Result.alias, rs.getId(), extlinks);
+				}
 				msg = "Result #" + rs.getId() + " has been successfully " + (mode == EDIT ? "updated" : "created") + ".";
 			}
 			catch (Exception e_) {
@@ -360,6 +357,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		this.entityType = entityType;
 		this.setTitle(mode == NEW || mode == COPY ? "New Result" : "Edit Result #" + id);
 		this.setVisible(true);
+		this.extlinksModified = false;
 		for (int i = 0 ; i < 20 ; i++) {
 			jExaCheckbox[i].setSelected(false);
 		}
@@ -415,6 +413,14 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	
+	public void setExtLinks(String extlinks) {
+		this.extlinks = extlinks;
+	}
+	
+	public void setExtLinksModified(boolean extlinksModified) {
+		this.extlinksModified = extlinksModified;
 	}
 
 }

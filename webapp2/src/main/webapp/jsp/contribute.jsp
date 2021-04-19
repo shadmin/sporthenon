@@ -16,7 +16,7 @@
 			<%=ConfigUtils.getValue("html_contribution1_" + lang)%>
 		</div>
 		<div class="cbpanel" style="white-space:nowrap;">
-			<div class="cbtitle download"><%=StringUtils.text("download", session)%></div>
+			<div class="cbtitle download"><%=StringUtils.text("download2", session)%></div>
 			<%=StringUtils.text("download.desc", session)%>
 		</div>
 	</div>

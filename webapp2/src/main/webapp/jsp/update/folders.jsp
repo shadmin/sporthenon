@@ -40,9 +40,9 @@
 				</tr>
 			</table>
 			<table id="options"><tr>
-				<td><select id="list1" multiple="multiple" size="20"><option/></select></td>
+				<td><select id="list1" multiple="multiple" size="20"></select></td>
 				<td><input type="button" value="&gt;" onclick="moveFolder('list1', 'list2');"/><br/><input type="button" value="&lt;" onclick="moveFolder('list2', 'list1');"/></td>
-				<td><select id="list2" multiple="multiple" size="20"><option/></select></td>
+				<td><select id="list2" multiple="multiple" size="20"></select></td>
 			</tr>
 			<tr><td><%=StringUtils.text("entity.SP.1", session)%> :</td></tr>
 			<tr><td><select id="sp"><option value=""></option><%=sbSport.toString()%></select></td><td></td><td><input type="checkbox" id="cb1"/><label for="cb1"><%=StringUtils.text("automatic.subevent", session)%></label></td></tr>

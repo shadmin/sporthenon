@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Sporthenon" default="shupdate.exe" basedir=".">
+
+	<property name="root" value="../../../../../.." />
+	<property name="classes" value="${root}/build/classes" />
+	<property name="temp" value="${root}/temp" />
+	
+	<target name="prepare">
+		<mkdir dir="${temp}"/>
+		<copy todir="${temp}">
+			<fileset dir="${classes}">
+				<exclude name="**/com/sporthenon/test/**"/>
+				<exclude name="**/com/sporthenon/web/**"/>
+				<exclude name="**/build.xml"/>
+				<exclude name="**/MANIFEST.MF"/>
+				<exclude name="**/options**.xml"/>
+			</fileset>
+		</copy>
+	</target>
+	<target name="shupdate.jar" depends="prepare">
+		<jar destfile="${root}/shupdate.jar" basedir="${temp}" manifest="${classes}/com/sporthenon/admin/MANIFEST.MF"/>
+		<delete dir="${temp}" failonerror="false"/>
+	</target>
+	<target name="shupdate.exe" depends="shupdate.jar">
+	   <exec executable="C:\Program Files (x86)\Launch4j\sign4j\sign4j.exe">
+	        <arg line="java -jar C:\3rdParty\jsign\jsign-3.1.jar
+	        --keystore ${keystore.location} --alias ${key.alias} --storepass ${store.password}
+	        --name 'Sporthenon Update Tool'
+	        --tsaurl http://timestamp.verisign.com/scripts/timstamp.dll
+	         shupdate.exe"/>
+	    </exec>
+	</target>
+
+</project>

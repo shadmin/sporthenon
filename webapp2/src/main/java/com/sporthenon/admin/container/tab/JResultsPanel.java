@@ -49,6 +49,7 @@ import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Team;
+import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.InactiveItem;
 import com.sporthenon.db.entity.meta.TreeItem;
 import com.sporthenon.db.function.ResultsBean;
@@ -392,6 +393,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 		jQueryStatus.set(err ? JQueryStatus.FAILURE : JQueryStatus.SUCCESS, msg);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void actionPerformed(ActionEvent e) {
 		try {
 			jQueryStatus.clear();
@@ -480,9 +482,22 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					rdlg.setComment(StringUtils.notEmpty(rs.getComment()) ? rs.getComment() : null);
 					rdlg.getExa().setText(StringUtils.notEmpty(rs.getExa()) ? rs.getExa() : null);
 					List<Integer> lTie = StringUtils.tieList(rs.getExa());
-					for (int i = 0 ; i < 10 ; i++)
+					for (int i = 0 ; i < 10 ; i++) {
 						rdlg.getExaCheckbox()[i].setSelected(lTie.contains(i + 1));
+					}
 					type = (rs.getSubevent2() != null ? rs.getSubevent2().getType().getNumber() : (rs.getSubevent() != null ? rs.getSubevent().getType().getNumber() : rs.getEvent().getType().getNumber()));
+					// Ext.links
+					StringBuffer sbLinks = new StringBuffer();
+					try {
+						List<ExternalLink> list = (List<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link where entity = ? and id_item = ? order by id", Arrays.asList(Result.alias, Integer.valueOf(resultId)), ExternalLink.class);
+						for (ExternalLink link : list) {
+							sbLinks.append(link.getUrl()).append("\r\n");
+						}
+						rdlg.setExtLinks(sbLinks.toString());
+					}
+					catch (Exception e_) {
+						log.log(Level.WARNING, e_.getMessage(), e_);
+					}
 				}
 				JEntityPicklist[] ranks = rdlg.getRanks();
 				JTextField[] res = rdlg.getRes();

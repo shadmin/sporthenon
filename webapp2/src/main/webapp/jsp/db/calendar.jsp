@@ -7,8 +7,8 @@
 	int m = Calendar.getInstance().get(Calendar.MONTH) + 1;
 	int d = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 	StringBuffer sbY = new StringBuffer();
-	StringBuffer sbM = new StringBuffer("<option value=''></option>");
-	StringBuffer sbD = new StringBuffer("<option value=''></option>");
+	StringBuffer sbM = new StringBuffer("<option value=''>--- " + StringUtils.text("all", session) + " ---</option>");
+	StringBuffer sbD = new StringBuffer("<option value=''>--- " + StringUtils.text("all", session) + " ---</option>");
 	for (int i = 1851 ; i <= y + 5 ; i++) {
 		sbY.append("<option value='" + i + "'" + (i == y ? " selected='selected'" : "") + ">" + i + "</option>");
 	}

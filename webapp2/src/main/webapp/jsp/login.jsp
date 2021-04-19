@@ -61,7 +61,6 @@
 			%>
 			</ul></td>
 			<td><ul id="sp2" class="loginsports"></ul></td>
-			<td>
 		</tr>
 		<tr>
 		<td colspan="2" style="padding-top:10px;text-align:center;"><input type="button" class="button ok" onclick="createAccount();" value="<%=StringUtils.text("create.account", session)%>" style="padding-right:5px;"/></td>

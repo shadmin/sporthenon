@@ -150,7 +150,7 @@ function toggleContent(el) {
 	else {
 		obj.hide();
 	}
-	el.src = '/img/render/' + (isDisplayed ? 'expand.png' : 'collapse.png') + '?v=' + VERSION;
+	el.src = '/img/render/' + (isDisplayed ? 'expand.png' : 'collapse.png') + '?v=' + VERSION + '_2';
 }
 function info(s) {
 	window.location.href = '/results/' + s;
@@ -847,6 +847,7 @@ function treeLeafClick(anchor, value) {
 	}
 	else if (value.indexOf('calendar-') == 0) {
 		location.href = '/calendar/' + value.substring(9);
+		return;
 	}
 	var t = value.split('_');
 	if (location.href.indexOf('/update/results') != -1) {
