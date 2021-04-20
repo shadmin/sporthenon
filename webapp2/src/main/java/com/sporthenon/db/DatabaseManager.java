@@ -44,6 +44,7 @@ import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.Type;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
+import com.sporthenon.db.entity.meta.Config;
 import com.sporthenon.db.entity.meta.Contribution;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.ExternalLink;
@@ -292,7 +293,8 @@ public class DatabaseManager {
 			   (alias.equalsIgnoreCase(TeamStadium.alias) ? TeamStadium.class : 
 			   (alias.equalsIgnoreCase(Type.alias) ? Type.class : 
 			   (alias.equalsIgnoreCase(WinLoss.alias) ? WinLoss.class : 
-			   (alias.equalsIgnoreCase(Year.alias) ? Year.class : null))))))))))))))))))))))));
+			   (alias.equalsIgnoreCase(Year.alias) ? Year.class :
+			   (alias.equalsIgnoreCase(Config.alias) ? Config.class : null)))))))))))))))))))))))));
 	}
 	
 	public static Object move(Class<?> class_, Object id, short l, String filter) throws Exception {

@@ -34,6 +34,7 @@ import com.sporthenon.admin.container.entity.JCalendarPanel;
 import com.sporthenon.admin.container.entity.JChampionshipPanel;
 import com.sporthenon.admin.container.entity.JCityPanel;
 import com.sporthenon.admin.container.entity.JComplexPanel;
+import com.sporthenon.admin.container.entity.JConfigPanel;
 import com.sporthenon.admin.container.entity.JCountryPanel;
 import com.sporthenon.admin.container.entity.JEventPanel;
 import com.sporthenon.admin.container.entity.JHallOfFamePanel;
@@ -72,6 +73,7 @@ import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
+import com.sporthenon.db.entity.meta.Config;
 import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
@@ -114,7 +116,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		this.setBottomComponent(rightPanel);
 	}
 	
-	private void initList() {
+	public void initList() {
 		Vector<String> v = new Vector<String>();
 		v.add("Athlete");
 		v.add("Calendar");
@@ -134,7 +136,11 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		v.add("Team Stadiums");
 		v.add("Win/Loss");
 		v.add("Year");
-		
+//		if (JMainFrame.getContributor().isAdmin()) {
+			v.add("---------------");
+			v.add("Config");
+//		}
+
 		jList = new JList<>(v);
 		jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jList.setLayoutOrientation(JList.VERTICAL);
@@ -618,6 +624,13 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			JYearPanel p = (JYearPanel) panel;
 			p.setLabel(yr.getLabel());
 		}
+		else if (o instanceof Config) {
+			Config cg = (Config) o;
+			JConfigPanel p = (JConfigPanel) panel;
+			p.setKey(cg.getKey());
+			p.setValue(cg.getValue());
+			p.setValueHtml(cg.getValueHtml());
+		}
 		jQueryStatus.clear();
 	}
 
@@ -645,6 +658,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			case 15: alias = TeamStadium.alias; break;
 			case 16: alias = WinLoss.alias; break;
 			case 17: alias = Year.alias; break;
+			case 19: alias = Config.alias; break;
 		}
 		jContainer.add(JMainFrame.getEntityPanels().get(alias), alias);
 		((CardLayout) jContainer.getLayout()).show(jContainer, alias);

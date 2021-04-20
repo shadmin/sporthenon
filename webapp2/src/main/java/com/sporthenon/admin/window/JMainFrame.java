@@ -34,6 +34,7 @@ import com.sporthenon.admin.container.entity.JCalendarPanel;
 import com.sporthenon.admin.container.entity.JChampionshipPanel;
 import com.sporthenon.admin.container.entity.JCityPanel;
 import com.sporthenon.admin.container.entity.JComplexPanel;
+import com.sporthenon.admin.container.entity.JConfigPanel;
 import com.sporthenon.admin.container.entity.JCountryPanel;
 import com.sporthenon.admin.container.entity.JEventPanel;
 import com.sporthenon.admin.container.entity.JHallOfFamePanel;
@@ -74,6 +75,7 @@ import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
+import com.sporthenon.db.entity.meta.Config;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
@@ -144,6 +146,7 @@ public class JMainFrame extends JFrame {
 			jEntityPanels.put(TeamStadium.alias, new JTeamStadiumPanel());
 			jEntityPanels.put(WinLoss.alias, new JWinLossPanel());
 			jEntityPanels.put(Year.alias, new JYearPanel());
+			jEntityPanels.put(Config.alias, new JConfigPanel());
 			
 			jInfoDialog = new JInfoDialog(this);
 			jImportDialog = new JImportDialog(this);
@@ -521,6 +524,13 @@ public class JMainFrame extends JFrame {
 			JYearPanel p = (JYearPanel) jEntityPanels.get(alias);
 			params.put("yr-label", p.getLabel().getText());
 			pi.setText(String.valueOf(params.get("yr-label")));
+		}
+		else if (alias.equalsIgnoreCase(Config.alias)) {
+			JConfigPanel p = (JConfigPanel) jEntityPanels.get(alias);
+			params.put("cg-key", p.getKey().getText());
+			params.put("cg-value", p.getValue().getText());
+			params.put("cg-valuehtml", p.getValueHtml().getText());
+			pi.setText(String.valueOf(params.get("cg-key")));
 		}
 		Object o = UpdateUtils.saveEntity(alias, id, params, getContributor());
 		Class<? extends AbstractEntity> c = DatabaseManager.getClassFromAlias(alias);
