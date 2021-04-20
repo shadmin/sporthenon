@@ -23,11 +23,13 @@
 	<meta charset="utf-8">
 	<meta name="Description" content="<%=desc%>"/>
 	<meta name="keywords" content="<%=StringUtils.text("keywords", session)%>"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="alternate" hreflang="x-default" href="<%=request.getAttribute("urlEN")%>"/>
 	<link rel="alternate" hreflang="en" href="<%=request.getAttribute("urlEN")%>"/>
 	<link rel="alternate" hreflang="fr" href="<%=request.getAttribute("urlFR")%>"/>
 	<link rel="stylesheet" type="text/css" href="/css/sh.css?v=<%=version%>"/>	
 	<link rel="stylesheet" type="text/css" href="/css/render.css?v=<%=version%>"/>
+	<link rel="stylesheet" type="text/css" href="/css/mobile.css?v=<%=version%>"/>
 	<link rel="shortcut icon" type="image/x-icon" href="/img/iconfav.ico?v=6"/>
 	<script src="/js/prototype.js?v=<%=version%>"></script>
 	<script src="/js/includes.js?v=<%=version%>"></script>

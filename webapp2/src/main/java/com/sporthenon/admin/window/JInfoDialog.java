@@ -61,7 +61,7 @@ public class JInfoDialog extends JDialog implements ActionListener {
 		JLabel l2 = new JLabel("Version 1.0.0");
 		l2.setHorizontalAlignment(JLabel.CENTER);
 		p_.add(l2);
-		JLabel l3 = new JLabel("©2011-" + String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+		JLabel l3 = new JLabel("(c) 2011-" + String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
 		l3.setHorizontalAlignment(JLabel.CENTER);
 		p_.add(l3);
 		JLabel l4 = new JLabel("http://sporthenon.com");

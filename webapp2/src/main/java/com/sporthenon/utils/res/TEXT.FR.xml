@@ -393,7 +393,7 @@
 	<entry key="about.contribution">A propos de la contribution</entry>
 	<entry key="howto.contribute">Comment contribuer ?</entry>
 	<entry key="download2">Téléchargement</entry>
-	<entry key="download.desc"><![CDATA[Un utilitaire est disponible pour mettre à jour la base de données.<br/><br/><a href="https://storage.googleapis.com/sh_bucket/shadmin.zip">Télécharger le programme de mise à jour</a>]]></entry>
+	<entry key="download.desc"><![CDATA[Un utilitaire est disponible pour mettre à jour la base de données.<br/><br/><a href="https://storage.googleapis.com/sh_bucket/shupdate.zip">Télécharger le programme de mise à jour</a>]]></entry>
 	<entry key="contributors">Contributeurs</entry>
 	<entry key="contributions">Contributions</entry>
 	<entry key="change.log">Log des changements</entry>

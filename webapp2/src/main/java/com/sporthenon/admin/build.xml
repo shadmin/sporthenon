@@ -1,52 +1,39 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="Sporthenon" default="shupdate.jar" basedir=".">
+<project name="Sporthenon" default="shupdate.exe" basedir=".">
 
-	<property name="root" value="../../../../../.."/>
-	<property name="dest" value="C:\TEMP"/>
-	<property name="classes" value="${root}/build/classes"/>
+	<property environment="env"/>
+	<property name="dest" value="../../../../../../target"/>
 	<property name="launch4j" location="C:\Program Files (x86)\Launch4j"/>
-	<property name="temp" value="${root}/temp"/>
+	<property name="p12key" location="C:\Sporthenon\shupdate.p12"/>
 	
-	<target name="prepare">
-		<mkdir dir="${temp}"/>
-		<copy todir="${temp}">
-			<fileset dir="${classes}">
-				<exclude name="**/com/sporthenon/test/**"/>
-				<exclude name="**/com/sporthenon/web/**"/>
-				<exclude name="**/build.xml"/>
-				<exclude name="**/MANIFEST.MF"/>
-				<exclude name="**/options**.xml"/>
-			</fileset>
-		</copy>
-	</target>
-
-	<target name="shupdate.jar" depends="prepare">
-		<jar destfile="${dest}/shupdate.jar" basedir="${temp}" manifest="${classes}/com/sporthenon/admin/MANIFEST.MF"/>
-		<delete dir="${temp}" failonerror="false"/>
-	</target>
-	
-	<target name="shupdate.exe" depends="shupdate.jar">
+	<target name="shupdate.exe">
+		<!-- Initialize -->
+		<rename src="${dest}/shupdate.jar" dest="${dest}/libs.jar"/>
 		<taskdef name="launch4j"
 		    classname="net.sf.launch4j.ant.Launch4jTask"
 		    classpath="${launch4j}/launch4j.jar:${launch4j}/lib/xstream.jar"/>
+		<!-- Make EXE -->
 		<launch4j>
-		  	<config headerType="gui" outfile="${dest}/shupdate.exe" jarPath="${dest}/shupdate.jar">
+		  	<config
+		  		headerType="gui"
+		  		icon="./icon.ico"
+		  		outfile="${dest}/shupdate.exe"
+		  		jarPath="${dest}/libs.jar"
+		  		dontwrapjar="true">
 		    	<classPath mainClass="com.sporthenon.admin.Launcher">
-		    		<cp>./lib/commons-codec-1.10.jar</cp>
-		    		<cp>./lib/commons-io-1.4.jar</cp>
-		    		<cp>./lib/dom4j-1.6.1.jar</cp>
-		    		<cp>./lib/google-auth-library-credentials-0.25.2.jar</cp>
-		    		<cp>./lib/google-auth-library-oauth2-http-0.25.2.jar</cp>
-		    		<cp>./lib/HikariCP-4.0.3.jar</cp>
-		    		<cp>./lib/jstl-1.2.jar</cp>
-		    		<cp>./lib/poi.jar</cp>
-		    		<cp>./lib/postgresql-42.2.19.jar</cp>
-		    		<cp>./lib/postgres-socket-factory-1.2.1.jar</cp>
-		    		<cp>./lib/slf4j-api-1.7.30.jar</cp>
+		    		<cp>libs.jar</cp>
 		    	</classPath>
 	        	<jre minVersion="1.8.0"/>
 		  	</config>
 		</launch4j>
+		<!-- Sign EXE -->
+		<exec executable="${launch4j}/sign4j/sign4j.exe">
+		  <arg line="java -jar '${launch4j}/sign4j/jsign-2.0.jar' -s '${p12key}' -a shupdate --storepass ${env.SHUPDATE_PWD} --storetype pkcs12 ${dest}/shupdate.exe"/>
+		</exec>
+		<!-- Make ZIP -->
+		<zip destfile="${dest}/shupdate.zip"
+		     basedir="${dest}"
+		     includes="**/shupdate.exe, **/libs.jar"/>
 	</target>
 	
 </project>
