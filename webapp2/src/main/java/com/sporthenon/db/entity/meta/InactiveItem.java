@@ -14,7 +14,6 @@ public class InactiveItem extends AbstractEntity {
 	private Integer idSubevent2;
 	
 	public static final transient String table	= "_inactive_item";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "id_sport,id_championship,id_event,id_subevent,id_subevent2";
 
 	public InactiveItem() {}

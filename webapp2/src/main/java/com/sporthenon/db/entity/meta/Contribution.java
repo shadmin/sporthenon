@@ -15,7 +15,6 @@ public class Contribution extends AbstractEntity {
 
 	public static final transient String alias 	= "CO";
 	public static final transient String table 	= "_contribution";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "id_item,id_contributor,type,date";
 	
 	public Contribution() {}

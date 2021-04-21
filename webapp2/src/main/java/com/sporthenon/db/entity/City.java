@@ -17,7 +17,6 @@ public class City extends AbstractEntity {
 	
 	public static final transient String alias 	= "CT";
 	public static final transient String table 	= "city";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "label,label_fr,id_country,id_state,link,ref";
 	public static final transient String query 	= "SELECT T.*, CN.code AS cn_code, CN.label AS cn_label, CN.label_fr AS cn_label_fr, "
 			+ " ST.code AS st_code, ST.label AS st_label, ST.label_fr AS st_label_fr "

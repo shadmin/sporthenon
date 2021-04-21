@@ -14,7 +14,6 @@ public class Type extends AbstractEntity {
 	
 	public static final transient String alias 	= "TP";
 	public static final transient String table 	= "type";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "label,label_fr,number";
 	
 	public Type() {}

@@ -14,7 +14,6 @@ public class Picture extends AbstractEntity {
 	private Boolean embedded;
 	
 	public static final transient String table 	= "_picture";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "entity,id_item,value,source,embedded";
 	
 	public Picture() {}

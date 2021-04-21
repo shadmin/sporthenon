@@ -70,7 +70,6 @@ public class Result extends AbstractEntity {
 	
 	public static final transient String alias 	= "RS";
 	public static final transient String table 	= "result";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "id_sport,id_championship,id_event,id_subevent,id_subevent2,id_city1,id_city2,id_complex1,id_complex2,"
 			+ "id_country1,id_country2,id_year,date1,date2,id_rank1,id_rank2,id_rank3,id_rank4,id_rank5,id_rank6,id_rank7,id_rank8,id_rank9,id_rank10,"
 			+ "id_rank11,id_rank12,id_rank13,id_rank14,id_rank15,id_rank16,id_rank17,id_rank18,id_rank19,id_rank20,"

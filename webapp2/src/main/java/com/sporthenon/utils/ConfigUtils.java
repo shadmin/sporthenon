@@ -2,6 +2,9 @@ package com.sporthenon.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +18,7 @@ public class ConfigUtils {
 	
 	private static Properties properties = null;
 	private static String env = null;
+	private static Map<String, String> mapValues = new HashMap<>();
 	
 	static {
 		try {
@@ -37,9 +41,16 @@ public class ConfigUtils {
 	public static String getValue(String key) {
 		String value = "";
 		try {
-			Config c = (Config) DatabaseManager.loadEntity(Config.class, key);
-			if (c != null)
-				return (c.getKey().startsWith("html") ? c.getValueHtml() : c.getValue());
+			if (mapValues.containsKey(key)) {
+				value = mapValues.get(key);
+			}
+			else {
+				Config cfg = (Config) DatabaseManager.loadEntity("SELECT * FROM _config WHERE key = ?", Arrays.asList(key), Config.class);
+				if (cfg != null) {
+					value = cfg.getKey().startsWith("html") ? cfg.getValueHtml() : cfg.getValue();
+					mapValues.put(key, value);
+				}
+			}
 		}
 		catch (Exception e) {
 			log.log(Level.WARNING, e.getMessage(), e);

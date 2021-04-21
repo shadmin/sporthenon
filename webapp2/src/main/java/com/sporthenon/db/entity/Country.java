@@ -16,7 +16,6 @@ public class Country extends AbstractEntity {
 	
 	public static final transient String alias 	= "CN";
 	public static final transient String table 	= "country";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "code,label,label_fr,ref,no_pic";
 	
 	public Country() {

@@ -22,7 +22,6 @@ public class Olympics extends AbstractEntity {
 	
 	public static final transient String alias 	= "OL";
 	public static final transient String table 	= "olympics";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "id_year,id_city,count_country,count_person,count_sport,count_event,date1,date2,type,ref,no_pic";
 	public static final transient String query 	= "SELECT T.*, YR.label AS yr_label, ct.label AS ct_label, ct.label_fr AS ct_label_fr "
 			+ " FROM olympics T LEFT JOIN city CT ON CT.id = T.id_city "

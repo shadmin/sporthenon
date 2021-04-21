@@ -6,35 +6,48 @@ import com.sporthenon.db.entity.AbstractEntity;
 
 public class Config extends AbstractEntity {
 	
-	private String key_;
-	private String value;
-	private String valueHtml;
+	private Integer	id;
+	private String 	key;
+	private String 	value;
+	private String 	valueHtml;
 	
 	public static final transient String alias 	= "CG";
 	public static final transient String table 	= "_config";
-	public static final transient String key 	= "key";
 	public static final transient String cols 	= "key,value,value_html";
 
 	public Config() {}
 	
+	public Config(Integer id) {
+		this.id = id;
+	}
+	
 	public void setValuesFromMap(Map<String, Object> mapValues) {
 		if (mapValues != null) {
+			setId((Integer)mapValues.get("id"));
 			setKey((String)mapValues.get("key"));
 			setValue((String)mapValues.get("value"));
 			setValueHtml((String)mapValues.get("value_html"));
 		}
 	}
 	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getKey() {
-		return key_;
+		return key;
 	}
 
 	public String getValue() {
 		return value;
 	}
 
-	public void setKey(String key_) {
-		this.key_ = key_;
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 	public void setValue(String value) {
@@ -51,7 +64,7 @@ public class Config extends AbstractEntity {
 
 	@Override
 	public String toString() {
-		return "Config [key_=" + key_ + ", value=" + value + ", valueHtml=" + valueHtml + "]";
+		return "Config [key_=" + key + ", value=" + value + ", valueHtml=" + valueHtml + "]";
 	}
 	
 }

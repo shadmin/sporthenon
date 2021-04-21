@@ -12,7 +12,6 @@ public class Redirection extends AbstractEntity {
 
 	public static final transient String alias 	= "RE";
 	public static final transient String table 	= "_redirection";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "previous_path,current_path";
 	
 	public Redirection() {}

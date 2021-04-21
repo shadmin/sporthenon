@@ -18,7 +18,6 @@ public class WinLoss extends AbstractEntity {
 	
 	public static final transient String alias 	= "WL";
 	public static final transient String table 	= "win_loss";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "id_league,id_team,type,count_win,count_loss,count_tie,count_otloss";
 	public static final transient String query 	= "SELECT T.*, LG.label AS lg_label, TM.label AS tm_label "
 			+ " FROM win_loss T LEFT JOIN league LG ON LG.id = T.id_league "

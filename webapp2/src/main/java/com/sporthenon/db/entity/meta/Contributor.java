@@ -19,7 +19,6 @@ public class Contributor extends AbstractEntity {
 	
 	public static final transient String alias 	= "CB";
 	public static final transient String table 	= "_contributor";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "login,public_name,password,email,active,admin,sports";
 	
 	public Contributor() {}

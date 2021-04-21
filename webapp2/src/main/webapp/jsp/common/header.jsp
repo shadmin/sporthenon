@@ -23,7 +23,7 @@
 	<meta charset="utf-8">
 	<meta name="Description" content="<%=desc%>"/>
 	<meta name="keywords" content="<%=StringUtils.text("keywords", session)%>"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<link rel="alternate" hreflang="x-default" href="<%=request.getAttribute("urlEN")%>"/>
 	<link rel="alternate" hreflang="en" href="<%=request.getAttribute("urlEN")%>"/>
 	<link rel="alternate" hreflang="fr" href="<%=request.getAttribute("urlFR")%>"/>

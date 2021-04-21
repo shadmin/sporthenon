@@ -24,7 +24,6 @@ public class Team extends AbstractEntity {
 	
 	public static final transient String alias 	= "TM";
 	public static final transient String table 	= "team";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "label,id_sport,year1,year2,id_country,id_league,conference,division,comment,link,inactive,ref,no_pic";
 	public static final transient String query 	= "SELECT T.*, CN.code AS cn_code, CN.label AS cn_label, CN.label_fr AS cn_label_fr, "
 			+ " SP.label AS sp_label, SP.label_fr AS sp_label_fr, SP.type AS sp_type, LG.label AS lg_label "

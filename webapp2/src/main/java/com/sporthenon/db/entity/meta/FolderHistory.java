@@ -15,7 +15,6 @@ public class FolderHistory extends AbstractEntity {
 
 	public static final transient String alias 	= "FH";
 	public static final transient String table 	= "_folder_history";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "previous_params,current_params,current_path,date";
 	
 	public FolderHistory() {}

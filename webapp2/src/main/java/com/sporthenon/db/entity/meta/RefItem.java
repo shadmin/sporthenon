@@ -74,7 +74,6 @@ public class RefItem extends AbstractEntity {
 	private String comment;
 	
 	public static final transient String table 	= "_ref_item";
-	public static final transient String key 	= "id";
 	
 	public RefItem() {}
 	

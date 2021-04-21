@@ -5,6 +5,7 @@ body{
 	background-color: #F0F0F0;
 	margin: 0;
 	padding: 0;
+	font: 12px Verdana;
 }
 body.print{
 	background: #F5F5F5;
@@ -95,7 +96,6 @@ table.noborder, table.noborder th, table.noborder td{
 	border: none;
 }
 .tip{
-	font: 12px Verdana;
 	text-align: left;
 	border: 1px solid #000;
 	background-color: #FFC;
@@ -143,7 +143,6 @@ select.disabled{
 	border-bottom: 1px solid #CCC;
 }
 #menutop{
-	font: 12px Verdana;
 	float: left;
 	margin-top: 14px;
 	margin-left: 2px;
@@ -221,7 +220,6 @@ select.disabled{
 	list-style-type: none;
 	text-align: right;
 	padding-bottom: 0px;
-	font: 11px Verdana;
 }
 #shmenu ul{
 	margin: 0px;
@@ -306,7 +304,6 @@ select.disabled{
 	color: #888;
 }
 #content{
-	font: 12px Verdana;
 	margin: 0px;
 	margin-top: 0px;
 	margin-left: 140px;
@@ -315,9 +312,6 @@ select.disabled{
 	border: 1px solid transparent;
 	border-left: 1px solid #CCC;
 	background-color: #FFF;
-}
-#content select, #content input{
-	font: 12px Verdana;
 }
 .print #content{
 	font: 11px Verdana;
@@ -339,9 +333,8 @@ select.disabled{
 	color: #FFF;
 	margin: 3px;
 	padding: 8px;
-	font: 12px Verdana;
 	font-weight: bold;
-	background-position: left top;
+	background-position: left center;
 	background-repeat: no-repeat;
 }
 /*============================
@@ -1259,7 +1252,6 @@ select.disabled{
 	color: #F80;
 }
 .update input[type=text], .update textarea, #d-plist input[type=text], #d-round input[type=text], #d-comment textarea, #d-round textarea{
-	font: 12px Verdana;
 	width: 250px;
 	border: 1px solid #AAA;
 	padding: 2px;
@@ -1744,9 +1736,6 @@ select.disabled{
 /*=============================
   ========== DIALOGS ========== 
   =============================*/
-.dialog, .dialog input{
-	font: 12px Verdana;
-}
 .dialog .fstitle, .update .fieldset .fstitle{
 	display: block;
 	font-weight: bold;
@@ -2043,7 +2032,6 @@ select.disabled{
   ==========================*/
 .ajaxsearch {
 	position: absolute;
-	font: 12px Verdana;
 	width: auto;
 	background-color: #FFF;
 	margin: 0px;

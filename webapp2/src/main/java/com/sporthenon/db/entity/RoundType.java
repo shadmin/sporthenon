@@ -14,7 +14,6 @@ public class RoundType extends AbstractEntity {
 	
 	public static final transient String alias 	= "RT";
 	public static final transient String table 	= "round_type";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "label,label_fr,index";
 	
 	public RoundType() {}

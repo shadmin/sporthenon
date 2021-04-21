@@ -1563,7 +1563,7 @@ public class HtmlConverter {
 				summary.append("<a href='#" + tableName.replaceAll("\\s|\\/", "_") + "'>" + ++ns + ". " + tableName + "</a><br/>");
 				if (isAllRef) {
 					html.append("<div id='" + tableName.replaceAll("\\s|\\/", "_") + "' class='chaptertitle'>" + HtmlUtils.writeToggleTitle(tableName, false) + "</div>");
-					html.append("<table class='tsort'>");
+					html.append("<div class='mobile100'><table class='tsort'>");
 					html.append("<thead>");
 					if (cols.length() > 0) {
 						html.append("<tr class='rsort'>" + cols.toString() + "</tr>");
@@ -1816,7 +1816,7 @@ public class HtmlConverter {
 			html.append(MORE_ITEMS.replaceAll("#STYLE#", "").replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", String.valueOf(ITEM_LIMIT)))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
 		}
 		if (isAllRef) {
-			html.append("</tbody></table>");
+			html.append("</tbody></table></div>");
 			if (!isExport)
 				html.append("<div id='summary'>" + summary.toString() + "</div>");	
 		}
@@ -1901,7 +1901,7 @@ public class HtmlConverter {
 
 		long id = System.currentTimeMillis();
 		Map<Integer, List<StringBuffer>> mpl = getPersonLists(StringUtils.join(lIds, ","), lang);
-		StringBuffer html = new StringBuffer("<table class='tsort'>");
+		StringBuffer html = new StringBuffer("<div class='mobile100'><table class='tsort'>");
 		html.append("<thead><tr class='rsort'><th></th>" + (isComment ? "<th>" + ResourceUtils.getText("note", lang) + "</th>" : "") + "<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("year", lang) + "</th>");
 		for (int i = 1 ; i <= entityCount ; i++)
 			html.append(i == 2 && isScore ? "<th onclick='sort(\"" + id + "\", this, " + i + ");'>" + ResourceUtils.getText("score", lang) + "</th>" : "").append("<th colspan='" + tColspan[i - 1] + "' onclick='sort(\"" + id + "\", this, " + i + ");'>" + (isMedal ? (i == 1 ? ImageUtils.getGoldHeader(lang) : (i == 2 ? ImageUtils.getSilverHeader(lang) : ImageUtils.getBronzeHeader(lang))) : ResourceUtils.getText("rank." + i, lang)) + "</th>");
@@ -2059,7 +2059,7 @@ public class HtmlConverter {
 				}
 			}
 		}
-		html.append("</tbody></table>");
+		html.append("</tbody></table></div>");
 		html.append(getWinRecords(StringUtils.join(lIds, ","), lang));
 		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
@@ -2082,7 +2082,7 @@ public class HtmlConverter {
 			if (currentEntity == null || !item.getEntity().equals(currentEntity)) {
 				long id = System.currentTimeMillis();
 				html.append("<div class='chaptertitle'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText((isResult ? "past" : "future") + ".events", lang), false) + "</div>");
-				html.append("<table class='tsort'>");
+				html.append("<div class='mobile100'><table class='tsort'>");
 				html.append("<thead><tr class='rsort'>");
 				if (item.getEntity().equals(Result.alias))
 					html.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("year", lang)  + "</th>" + "<th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("entity.RS.1", lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("date", lang) + "</th>");
@@ -2173,7 +2173,7 @@ public class HtmlConverter {
 				html.append("<td class='srt'>" + dates + "</td><td class='srt'>" + place + "</td></tr>");	
 			}
 		}
-		html.append("</tbody></table>");
+		html.append("</tbody></table></div>");
 		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
@@ -2288,7 +2288,7 @@ public class HtmlConverter {
 				}
 				html.append(StringUtils.notEmpty(currentEntity) ? "</tbody></table>" : "");
 				html.append("<div class='chaptertitle'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + en, lang) + " (" + hCount.get(en) + ")", false) + "</div>");
-				html.append("<table class='tsort'>");
+				html.append("<div class='mobile100'><table class='tsort'>");
 				html.append("<thead><tr class='rsort'>" + cols.toString() + "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("references", lang) + "</th></tr></thead><tbody class='tby' id='tb-" + id + "'>");
 				currentEntity = en;
 			}
@@ -2384,7 +2384,7 @@ public class HtmlConverter {
 			html.append("<td class='centered srt'>" + (item.getCountRef() != null ? item.getCountRef() : 0) + "</td>");
 			html.append("</tr>");
 		}
-		html.append("</tbody></table>");
+		html.append("</tbody></table></div>");
 		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
@@ -2408,7 +2408,7 @@ public class HtmlConverter {
 		String tmpImg = null;
 		long id = System.currentTimeMillis();
 		Timestamp lastUpdate = null;
-		StringBuffer html = new StringBuffer("<table class='tsort'>");
+		StringBuffer html = new StringBuffer("<div class='mobile100'><table class='tsort'>");
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("entity.OL", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th>");
 		html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, 2);'>" + ImageUtils.getGoldHeader(lang) + "</th>");
 		html.append("<th colspan='" + colspan + "' onclick='sort(\"" + id + "\", this, 3);'>" + ImageUtils.getSilverHeader(lang) + "</th>");
@@ -2475,7 +2475,7 @@ public class HtmlConverter {
 			html.append("<td class='srt'>" + (StringUtils.notEmpty(venue) ? venue : "-") + "</td>");
 			html.append("</tr>");
 		}
-		html.append("</tbody></table>");
+		html.append("</tbody></table></div>");
 		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
@@ -2486,7 +2486,7 @@ public class HtmlConverter {
 		String tmpImg = null;
 		long id = System.currentTimeMillis();
 		Timestamp lastUpdate = null;
-		StringBuffer html = new StringBuffer("<table class='tsort'>");
+		StringBuffer html = new StringBuffer("<div class='mobile100'><table class='tsort'>");
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("country", lang) + "</th>");
 		html.append("<th onclick='sort(\"" + id + "\", this, 1);'>" + ImageUtils.getGoldHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ImageUtils.getSilverHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ImageUtils.getBronzeHeader(lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("total", lang) + "</th>");
 		html.append("</tr></thead><tbody class='tby' id='tb-" + id + "'>");
@@ -2507,7 +2507,7 @@ public class HtmlConverter {
 			html.append("<td class='srt'>" + bean.getOrCountBronze() + "</td>");
 			html.append("<td class='srt'>" + (bean.getOrCountGold() + bean.getOrCountSilver() + bean.getOrCountBronze()) + "</td></tr>");
 		}
-		html.append("</tbody></table>");
+		html.append("</tbody></table></div>");
 		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
@@ -2515,7 +2515,7 @@ public class HtmlConverter {
 	public static StringBuffer convertHallOfFame(HttpServletRequest request, Collection<?> coll, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
-		StringBuffer html = new StringBuffer("<table class='tsort'>");
+		StringBuffer html = new StringBuffer("<div class='mobile100'><table class='tsort'>");
 		long id = System.currentTimeMillis();
 		Timestamp lastUpdate = null;
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("year", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("inductee", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("inducted.as", lang) + "</th></tr></thead><tbody class='tby' id='tb-" + id + "'>");
@@ -2539,7 +2539,7 @@ public class HtmlConverter {
 			// Write line
 			html.append("<tr><td class='srt'>" + year + "</td><td id='" + ln.replaceAll("\\s", "-") + "-" + bean.getHfId() + "' class='srt'><b>" + name + "</b></td><td class='srt'>" + position + "</td></tr>");
 		}
-		html.append("</tbody></table>");
+		html.append("</tbody></table></div>");
 		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
@@ -2547,7 +2547,7 @@ public class HtmlConverter {
 	public static StringBuffer convertRetiredNumber(HttpServletRequest request, Collection<?> coll, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
-		StringBuffer html = new StringBuffer("<table class='tsort'>");
+		StringBuffer html = new StringBuffer("<div class='mobile100'><table class='tsort'>");
 		long id = System.currentTimeMillis();
 		Timestamp lastUpdate = null;
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("number", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("name", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("year", lang) + "</th></tr></thead><tbody class='tby' id='tb-" + id + "'>");
@@ -2567,7 +2567,7 @@ public class HtmlConverter {
 			// Write line
 			html.append("<tr><td class='srt'>" + team + "</td><td class='srt' width='50'>" + number + "</td><td class='srt'><b>" + name + "</b></td><td class='srt'>" + year + "</td></tr>");
 		}
-		html.append("</tbody></table>");
+		html.append("</tbody></table></div>");
 		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
@@ -2575,7 +2575,7 @@ public class HtmlConverter {
 	public static StringBuffer convertTeamStadium(HttpServletRequest request, Collection<?> coll, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
-		StringBuffer html = new StringBuffer("<table class='tsort'>");
+		StringBuffer html = new StringBuffer("<div class='mobile100'><table class='tsort'>");
 		long id = System.currentTimeMillis();
 		Timestamp lastUpdate = null;
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("complex", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("city", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("years", lang) + "</th></tr></thead><tbody class='tby' id='tb-" + id + "'>");
@@ -2600,7 +2600,7 @@ public class HtmlConverter {
 			// Write line
 			html.append("<tr><td class='srt'>" + team + "</td><td class='srt'>" + complex + (bean.getTsRenamed() ? "<b>*</b>" : "") + "</td><td class='srt'>" + city + "</td><td class='srt'>" + years + "</td></tr>");
 		}
-		html.append("</tbody></table>");
+		html.append("</tbody></table></div>");
 		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
@@ -2608,7 +2608,7 @@ public class HtmlConverter {
 	public static StringBuffer convertUSChampionships(HttpServletRequest request, Collection<?> coll, String lang) throws Exception {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
-		StringBuffer html = new StringBuffer("<table class='tsort'>");
+		StringBuffer html = new StringBuffer("<div class='mobile100'><table class='tsort'>");
 		boolean isDate = false;
 		boolean isPlace = false;
 		boolean isComment = false;
@@ -2657,7 +2657,7 @@ public class HtmlConverter {
 			html.append("<tr>" + (isComment ? "<td>" + HtmlUtils.writeComment(bean.getRsId(), bean.getRsComment()) + "</td>" : "") + "<td class='srt'>" + year + "</td><td class='srt'>" + (champion != null ? champion : StringUtils.EMPTY) + "</td><td class='srt'>" + (StringUtils.notEmpty(bean.getRsResult()) ? StringUtils.formatResult(bean.getRsResult(), lang) : "") + "</td>");
 			html.append("<td class='srt'>" + (runnerup != null ? runnerup : StringUtils.EMPTY) + "</td>" + (isDate ? "<td class='srt'>" + date + "</td>" : "") + (isPlace ? "<td class='srt'>" + place + "</td>" : "") + "</tr>");
 		}
-		html.append("</tbody></table>");
+		html.append("</tbody></table></div>");
 		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
@@ -2666,7 +2666,7 @@ public class HtmlConverter {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		Timestamp lastUpdate = null;
-		StringBuffer html = new StringBuffer("<table class='tsort'>");
+		StringBuffer html = new StringBuffer("<div class='mobile100'><table class='tsort'>");
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"0\", this, 0);'>" + ResourceUtils.getText("category", lang) + "</th><th onclick='sort(\"0\", this, 1);'>" + ResourceUtils.getText("scope", lang) + "</th><th onclick='sort(\"0\", this, 2);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"0\", this, 3);'>" + ResourceUtils.getText("period", lang) + "</th><th onclick='sort(\"0\", this, 4);'>" + ResourceUtils.getText("record", lang) + "</th><th colspan='2' onclick='sort(\"0\", this, 5);'>" + ResourceUtils.getText("record.holder", lang) + "</th><th onclick='sort(\"0\", this, 6);'>" + ResourceUtils.getText("date", lang) + "</th>");
 		html.append("</tr></thead><tbody class='tby' id='tb-0'>");
 		for (Object obj : coll) {
@@ -2723,7 +2723,7 @@ public class HtmlConverter {
 			html.append("</tr>").append(sbTies);
 			
 		}
-		html.append("</tbody></table>");
+		html.append("</tbody></table></div>");
 		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}
@@ -2732,7 +2732,7 @@ public class HtmlConverter {
 		if (coll == null || coll.isEmpty())
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
 		Timestamp lastUpdate = null;
-		StringBuffer html = new StringBuffer("<table class='tsort'>");
+		StringBuffer html = new StringBuffer("<div class='mobile100'><table class='tsort'>");
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"0\", this, 0);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"0\", this, 1);'>" + ResourceUtils.getText("category", lang) + "</th><th onclick='sort(\"0\", this, 2);'>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><th onclick='sort(\"0\", this, 3);' colspan='2'>" + ResourceUtils.getText("rank.1", lang) + "</th><th onclick='sort(\"0\", this, 4);' colspan='2'>" + ResourceUtils.getText("rank.2", lang) + "</th><th onclick='sort(\"0\", this, 5);' colspan='2'>" + ResourceUtils.getText("rank.3", lang) + "</th>");
 		html.append("</tr></thead><tbody class='tby' id='tb-0'>");
 		for (Object obj : coll) {
@@ -2782,7 +2782,7 @@ public class HtmlConverter {
 			html.append("<td class='srt'" + (!StringUtils.notEmpty(bean.getResult3()) ? " colspan='2'" : "") + ">" + (StringUtils.notEmpty(tRank[2]) ? tRank[2] : "") + "</td>" + (StringUtils.notEmpty(bean.getResult3()) ? "<td>" + bean.getResult3() + "</td>" : ""));
 			html.append("</tr>");
 		}
-		html.append("</tbody></table>");
+		html.append("</tbody></table></div>");
 		request.setAttribute("lastupdate", StringUtils.toTextDate(lastUpdate, lang, "d MMM yyyy, HH:mm"));
 		return html;
 	}

@@ -13,16 +13,19 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.sporthenon.admin.component.JCustomButton;
 
-public class JPasswordDialog extends JDialog implements ActionListener {
+public class JPasswordDialog extends JDialog implements ActionListener, DocumentListener {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel jLabel;
 	private JPasswordField jPassword;
 	private JCheckBox jQuickLoading;
+	JCustomButton jOk; 
 	
 	public JPasswordDialog(JFrame owner) {
 		super(owner);
@@ -49,12 +52,14 @@ public class JPasswordDialog extends JDialog implements ActionListener {
 		jLabel.setPreferredSize(new Dimension(240, 20));
 		jPassword = new JPasswordField();
 		jPassword.addActionListener(this);
+		jPassword.getDocument().addDocumentListener(this);
 		jPassword.setPreferredSize(new Dimension(240, 20));
 		jQuickLoading = new JCheckBox("Quick connect");
 		jQuickLoading.setPreferredSize(new Dimension(265, 20));
-		JCustomButton jOk = new JCustomButton("OK", "ok.png", null);
+		jOk = new JCustomButton("OK", "ok.png", null);
 		jOk.setActionCommand("ok");
 		jOk.addActionListener(this);
+		jOk.setEnabled(false);
 		jContentPane.add(jPassword);
 		//jContentPane.add(jQuickLoading);
 		jContentPane.add(jOk);
@@ -67,9 +72,30 @@ public class JPasswordDialog extends JDialog implements ActionListener {
 		this.setVisible(true);
 		jPassword.requestFocus();
 	}
+	
+	private void passwordChanged() {
+		jOk.setEnabled(jPassword.getPassword().length > 0);
+	}
+
+	@Override
+	public void insertUpdate(DocumentEvent e) {
+		passwordChanged();
+	}
+
+	@Override
+	public void removeUpdate(DocumentEvent e) {
+		passwordChanged();
+	}
+
+	@Override
+	public void changedUpdate(DocumentEvent e) {
+		passwordChanged();
+	}
 
 	public void actionPerformed(ActionEvent e) {
-		this.setVisible(false);
+		if (jPassword.getPassword().length > 0) {
+			this.setVisible(false);	
+		}
 	}
 
 	public JPasswordField getPassword() {

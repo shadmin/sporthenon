@@ -1,15 +1,34 @@
 @media (max-width: 640px) {
-	* {
-		box-sizing: border-box;
-	}
+* {
+	box-sizing: border-box;
+}
+body {
+	width: auto;
+	margin: 0;
+	padding: 0;
+	font: 11px Verdana;
+	background-color: #FFF;
+}
+#header, #headertop, #footer, #summary, #summary2, #topbar, #errorlink, .scope{
+	display: none !important;
+}
+#content{
+	width: auto;
+	margin: 0;
+	padding: 3px;
+}
+.title{
+	height: 30px;
+	padding: 6px;
+}
+table th, table td{
+	white-space: nowrap;
+}
+.mobile100{
+	max-width: 100%;
+	overflow: auto;
+}
 	
-	/* passer body (et tous les éléments de largeur fixe) en largeur automatique */
-
-	body {
-		width: auto;
-		margin: 0;
-		padding: 0;
-	}
 	
 	/* fixer une largeur maximale de 100% aux éléments potentiellement problématiques */
 
@@ -25,7 +44,7 @@
 	object,
 	embed,
 	video {
-		max-width: 100%;
+		/*max-width: 100%;*/
 	}
 	
 	/* conserver le ratio des images */
@@ -61,21 +80,5 @@
 	.element2 {
 		float: none;
 		width: auto;
-	}
-	
-	/* masquer les éléments superflus */
-
-	.hide_mobile {
-		display: none !important;
-	}
-	
-	/* Un message personnalisé */
-
-	body:before {
-		content: "Version mobile du site";
-		display: block;
-		text-align: center;
-		font-style: italic;
-		color: #777;
 	}
 }

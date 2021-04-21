@@ -14,7 +14,6 @@ public class ExternalLink extends AbstractEntity {
 	private Character flag;
 	
 	public static final transient String table 	= "_external_link";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "entity,id_item,url,checked,flag";
 	
 	public ExternalLink() {}

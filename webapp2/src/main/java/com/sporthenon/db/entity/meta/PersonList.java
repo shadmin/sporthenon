@@ -13,7 +13,6 @@ public class PersonList extends AbstractEntity {
 	private String 	index;
 	
 	public static final transient String table 	= "_person_list";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "id_result,rank,id_person,index";
 	
 	public PersonList() {}

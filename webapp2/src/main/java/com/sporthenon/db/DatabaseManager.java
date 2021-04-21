@@ -237,7 +237,6 @@ public class DatabaseManager {
 		Object result = null;
 		try {
 			final String table = getTable(class_);
-			final String key = (String) class_.getField("key").get(null);
 			String sql = null;
 			try {
 				sql = (String) class_.getField("query").get(null);
@@ -245,10 +244,8 @@ public class DatabaseManager {
 			catch (NoSuchFieldException e) {
 				sql = "SELECT * from " + table + " T";
 			}
-			sql += " WHERE T." + key + " = ?";
-			if (key.equals("id")) {
-				id = StringUtils.toInt(id);
-			}
+			sql += " WHERE T.id = ?";
+			id = StringUtils.toInt(id);
 			List<?> results = (List<?>) executeSelect(sql, Arrays.asList(id), class_);
 			if (results != null && !results.isEmpty()) {
 				result = results.get(0);
@@ -298,10 +295,9 @@ public class DatabaseManager {
 	}
 	
 	public static Object move(Class<?> class_, Object id, short l, String filter) throws Exception {
-		final String key = (String) class_.getField("key").get(null);
-		String sql = "SELECT " + (l == FIRST || l == NEXT ? "MIN" : "MAX") + "(" + key + ") FROM " + getTable(class_);
+		String sql = "SELECT " + (l == FIRST || l == NEXT ? "MIN" : "MAX") + "(id) FROM " + getTable(class_);
 		if (l == PREVIOUS || l == NEXT)
-			sql += " WHERE " + key + " " + (l == PREVIOUS ? "<" : ">") + id;
+			sql += " WHERE id " + (l == PREVIOUS ? "<" : ">") + id;
 		if (StringUtils.notEmpty(filter))
 			sql += (sql.indexOf(" WHERE ") != -1 ? " AND " : " WHERE ") + filter;
 		Integer id_ = ((List<Integer>) executeSelect(sql, Integer.class)).get(0);
@@ -338,7 +334,6 @@ public class DatabaseManager {
 	public static Object saveEntity(Object o, Contributor cb) throws Exception {
 		final Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		final String table = getTable(o.getClass());
-		final String key = (String) o.getClass().getField("key").get(null);
 		final String cols = (String) o.getClass().getField("cols").get(null);
 		final Object id = o.getClass().getMethod("getId").invoke(o);
 		final boolean isAdd = (id == null);
@@ -364,10 +359,10 @@ public class DatabaseManager {
 		// Write SQL query
 		String sql;
 		if (isAdd) {
-			sql = "INSERT INTO " + table + " (" + key + "," + cols + (isMetadata ? "," + Metadata.cols : "") + ") "
+			sql = "INSERT INTO " + table + " (id," + cols + (isMetadata ? "," + Metadata.cols : "") + ") "
 					+ "VALUES (NEXTVAL('" + (table.startsWith("_") ? "_s" : "s_") + table + "'),"
 					+ StringUtils.repeat("?", tcols.length + (isMetadata ? 3 : 0), ",") + ")"
-					+ " RETURNING " + key;
+					+ " RETURNING id";
 		}
 		else {
 			sql = "UPDATE " + table + " SET ";
@@ -378,7 +373,7 @@ public class DatabaseManager {
 			if (isMetadata) {
 				sql += ", id_contributor = ?, last_update = ?";
 			}
-			sql += " WHERE " + key + " = ?";
+			sql += " WHERE id = ?";
 			params.add(id);
 		}
 		Integer newId = executeUpdate(sql, params);
@@ -409,9 +404,8 @@ public class DatabaseManager {
 	
 	public static void removeEntity(Object o) throws Exception {
 		final String table = getTable(o.getClass());
-		final String key = (String) o.getClass().getField("key").get(null);
 		final Object id = (Object) o.getClass().getMethod("getId").invoke(o);
-		String sql = "DELETE FROM " + table + " WHERE " + key + " = ?";
+		String sql = "DELETE FROM " + table + " WHERE id = ?";
 		executeUpdate(sql, Arrays.asList(id));
 	}
 	
@@ -445,13 +439,12 @@ public class DatabaseManager {
 		try {
 			Class<?> class_ = getClassFromAlias(alias);
 			final String table = getTable(class_);
-			final String key = (String) class_.getField("key").get(null);
 			final String sql = "SELECT " + 
 					(alias.equals(Athlete.alias) ? "first_name || ' ' || last_name" : 
 					(alias.equals(Contributor.alias) ? "login" : 
 					(alias.equals(Olympics.alias) ? "CT.label || ' ' || YR.label" : //TODO le join
 					"label"))) +
-					" FROM " + table + " WHERE " + key + " = ?";
+					" FROM " + table + " WHERE id = ?";
 			results = (List<String>) executeSelect(sql, Arrays.asList(id), String.class);
 		}
 		catch (Exception e_) {

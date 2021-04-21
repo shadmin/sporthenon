@@ -41,6 +41,7 @@ public abstract class AbstractServlet extends HttpServlet {
 	}
 	
 	protected void handleException(HttpServletRequest request, HttpServletResponse response, Throwable e) throws ServletException, IOException {
+		log.log(Level.WARNING, "URL: " + request.getAttribute("url"));
 		log.log(Level.WARNING, e.getMessage(), e);
 		request.setAttribute("title", ResourceUtils.getText("title.error", getLocale(request)) + " | Sporthenon");
 		request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);

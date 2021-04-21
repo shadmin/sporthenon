@@ -45,6 +45,7 @@
 	<entry key="button.print">Print</entry>
 	<entry key="button.info">Info</entry>
 	<entry key="button.close">Close</entry>
+	<entry key="entity.CG">Config</entry>
 	<entry key="entity.CB">Contributors</entry>
 	<entry key="entity.CO">Contributions</entry>
 	<entry key="entity.CL">Calendars</entry>
@@ -68,6 +69,7 @@
 	<entry key="entity.TS">Team Stadiums</entry>
 	<entry key="entity.WL">Wins/Losses</entry>
 	<entry key="entity.YR">Years</entry>
+	<entry key="entity.CG.1">Config</entry>
 	<entry key="entity.CB.1">Contributor</entry>
 	<entry key="entity.CO.1">Contribution</entry>
 	<entry key="entity.CL.1">Calendar</entry>

@@ -15,7 +15,6 @@ public class Complex extends AbstractEntity {
 	
 	public static final transient String alias 	= "CX";
 	public static final transient String table 	= "complex";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "label,id_city,link,ref";
 	public static final transient String query 	= "SELECT T.*, CT.label AS ct_label, CT.label_fr AS ct_label_fr, "
 			+ " CN.id AS ct_id_country, CN.code AS ct_cn_code, CN.label AS ct_cn_label, CN.label_fr AS ct_cn_label_fr, "

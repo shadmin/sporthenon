@@ -27,6 +27,7 @@ import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
+import com.sporthenon.db.entity.meta.Config;
 import com.sporthenon.db.entity.meta.Contributor;
 
 public class UpdateUtils {
@@ -304,6 +305,13 @@ public class UpdateUtils {
 		else if (alias.equalsIgnoreCase(Year.alias)) {
 			Year en = (Year) o;
 			en.setLabel(String.valueOf(params.get("yr-label")));
+		}
+		else if (alias.equalsIgnoreCase(Config.alias)) {
+			Config en = (Config) o;
+			en.setKey(String.valueOf(params.get("cg-key")));
+			en.setValue(String.valueOf(params.get("cg-value")));
+			en.setValueHtml(String.valueOf(params.get("cg-valuehtml")));
+			cb = null;
 		}
 		o = DatabaseManager.saveEntity(o, cb);
 		String id_ = String.valueOf(c.getMethod("getId").invoke(o, new Object[0]));

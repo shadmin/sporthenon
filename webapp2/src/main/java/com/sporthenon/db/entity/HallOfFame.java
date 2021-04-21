@@ -15,7 +15,6 @@ public class HallOfFame extends AbstractEntity {
 	
 	public static final transient String alias 	= "HF";
 	public static final transient String table 	= "hall_of_fame";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "id_league,id_year,id_person,position";
 	public static final transient String query 	= "SELECT T.*, LG.label AS lg_label, "
 			+ " PR.last_name AS pr_last__name, PR.first_name AS pr_first_name, YR.label AS yr_label "

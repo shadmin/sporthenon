@@ -18,7 +18,7 @@ private static final long serialVersionUID = 1L;
 	public JTextArea jValueHtml;
 	
 	public JConfigPanel() {
-		super(3);
+		super(4);
 		initialize();
 	}
 
@@ -76,6 +76,7 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	public void clear() {
+		jId.setText("");
 		jKey.setText("");
 		jValue.setText("");
 		jValueHtml.setText("");

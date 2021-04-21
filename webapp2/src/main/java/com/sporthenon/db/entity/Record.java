@@ -39,16 +39,18 @@ public class Record extends AbstractEntity {
 
 	public static final transient String alias 	= "RC";
 	public static final transient String table 	= "record";
-	public static final transient String key 	= "id";
 	public static final transient String cols 	= "id_sport,id_championship,id_event,id_subevent,id_city,label,id_rank1,id_rank2,id_rank3,id_rank4,id_rank5,"
 			+ "record1,record2,record3,record4,record5,date1,date2,date3,date4,date5,counting,index,type1,type2,comment,exa";
 	public static final transient String query 	= "SELECT T.*, SP.label AS sp_label, SP.label_fr AS sp_label_fr, CP.label AS cp_label, CP.label_fr AS cp_label_fr, "
-			+ " EV.label AS ev_label, EV.label_fr AS ev_label_fr, SE.label AS se_label, SE.label_fr AS se_label_fr, "
+			+ " EV.label AS ev_label, EV.label_fr AS ev_label_fr, EV.id_type AS ev_id_type, TP1.label AS ev_tp_label, TP1.number AS ev_tp_number, "
+			+ " SE.label AS se_label, SE.label_fr AS se_label_fr, SE.id_type AS se_id_type, TP2.label AS se_tp_label, TP2.number AS se_tp_number, "
 			+ " CT.label AS ct_label, CT.label_fr AS ct_label_fr, CN.code AS ct_cn_code"
 			+ " FROM record T LEFT JOIN sport SP ON SP.id = T.id_sport "
 			+ " LEFT JOIN championship CP ON CP.id = T.id_championship"
 			+ " LEFT JOIN event EV ON EV.id = T.id_event"
 			+ " LEFT JOIN event SE ON SE.id = T.id_subevent"
+			+ " LEFT JOIN type TP1 ON TP1.id = EV.id_type"
+			+ " LEFT JOIN type TP2 ON TP2.id = SE.id_type"
 			+ " LEFT JOIN city CT ON CT.id = T.id_city"
 			+ " LEFT JOIN country CN ON CN.id = CT.id_country";
 	
