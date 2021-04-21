@@ -545,6 +545,10 @@ select.disabled{
 	background-position: left center;
 	background-repeat: no-repeat;
 }
+#home .flexline{
+	display: flex;
+	width: 100%;
+}
 #home .info{
 	background-image: url(../img/home/info.png);
 }
@@ -679,6 +683,10 @@ select.disabled{
 }
 #dupdates-opts tr:hover td{
 	background-color: #FFF;
+}
+#statdiv1{
+	float: left;
+	margin-right: 10px;
 }
 /*=============================
   ========== RESULTS ========== 

@@ -7,18 +7,20 @@ body {
 	margin: 0;
 	padding: 0;
 	font: 11px Verdana;
-	background-color: #FFF;
+	background-color: #F7F7F7;
 }
 #header, #headertop, #footer, #summary, #summary2, #topbar, #errorlink, .scope{
 	display: none !important;
 }
 #content{
-	width: auto;
+	width: 100%;
 	margin: 0;
 	padding: 3px;
+	background-color: #FFF;
+	border-top: 1px solid #AAA;
 }
 .title{
-	height: 30px;
+	height: 25px;
 	padding: 6px;
 }
 table th, table td{
@@ -28,57 +30,54 @@ table th, table td{
 	max-width: 100%;
 	overflow: auto;
 }
-	
-	
-	/* fixer une largeur maximale de 100% aux éléments potentiellement problématiques */
-
-	img,
-	table,
-	td,
-	blockquote,
-	code,
-	pre,
-	textarea,
-	input,
-	iframe,
-	object,
-	embed,
-	video {
-		/*max-width: 100%;*/
-	}
-	
-	/* conserver le ratio des images */
-
-	img {
-		height: auto;
-	}
-	
-	/* gestion des mots longs */
-
-	textarea,
-	table,
-	td,
-	th,
-	code,
-	pre,
-	samp {
-		-webkit-hyphens: auto; /* césure propre */
-		-moz-hyphens: auto;
-		hyphens: auto;
-		word-wrap: break-word; /* passage à la ligne forcé */
-	}
-	
-	code,
-	pre,
-	samp {
-		white-space: pre-wrap; /* passage à la ligne spécifique pour les éléments à châsse fixe */
-	}
-	
-	/* Passer à une seule colonne (à appliquer aux éléments multi-colonnes) */
-
-	.element1,
-	.element2 {
-		float: none;
-		width: auto;
-	}
+.selmultiple img{
+	display: none;
+}
+#mobilemenu{
+	display: block !important;
+}
+#home .flexline{
+	flex-direction: column;
+}
+#home .homepanel{
+	width: auto !important;
+	background-color: #FFF;
+}
+#home #dupdates th, #home #dupdates td, #home #dupdates a{
+	white-space: nowrap;
+}
+#statdiv1{
+	float: none;
+}
+#statdiv1 table{
+	margin: 0 auto;
+}
+#statdiv2{
+	width: 100%;
+	margin-top: 10px;
+}
+#results .spcpdiv, #results .evdiv, #results .yrdiv{
+	display: block;
+	width: auto;
+	height: auto;
+	border-right: none;
+}
+#results .slider{
+	margin: 5px auto;
+	width: 150px;
+}
+#browse .treediv{
+	width: auto;
+	border-right: none;
+}
+#usleagues{
+	height: auto;
+}
+#usleagues #usltype, #usleagues .league{
+	display: block;
+	width: auto;
+	padding: 0;
+	margin: 0;
+	border: none;
+}
 }

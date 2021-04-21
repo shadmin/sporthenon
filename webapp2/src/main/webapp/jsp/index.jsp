@@ -27,7 +27,7 @@
 %>
 --></script>
 <div id="home">
-<div style="display:flex;width:100%;">
+<div class="flexline">
 	<!-- Presentation -->
 	<div class="homepanel" style="width:100%;">
 		<div class="hometitle info"><%=StringUtils.text("title.presentation", session)%></div>
@@ -44,11 +44,13 @@
 		<!-- Random event -->
 		<div class="homepanel" style="height:100%;">
 			<div class="hometitle randomevent"><%=StringUtils.text("title.random.event", session)%></div>
-			<table id="randomevent" class="noborder">
-				<tr><td id="randomeventvalue"><%=IndexServlet.getRandomEvent(lang)%></td>
-				<td><a href="javascript:getRandomEvent();"><img alt="Change" title="<%=StringUtils.text("change", session)%>" src="/img/db/refresh.png"/></a></td>
-				</tr>
-			</table>
+			<div class="mobile100">
+				<table id="randomevent" class="noborder">
+					<tr><td id="randomeventvalue"><%=IndexServlet.getRandomEvent(lang)%></td>
+					<td><a href="javascript:getRandomEvent();"><img alt="Change" title="<%=StringUtils.text("change", session)%>" src="/img/db/refresh.png"/></a></td>
+					</tr>
+				</table>
+			</div>
 		</div>
 		<!-- Share -->
 		<div class="homepanel">
@@ -86,30 +88,32 @@
 			<td><select onchange="getLastUpdates(null, null, this.value);"><option value="0">–– <%=StringUtils.text("all.sports", session)%> ––</option><%=sbSports2.toString()%></select></td></tr>
 			<tr><td id="dupdates-loading" style="display:none;"><img alt="Loading..." style="float:left;" src="/img/db/loading.gif?6"/></td><td></td></tr>
 		</table>
-		<table id="tlast" class="tsort"><thead><tr class='rsort'>
-			<th onclick="sort('tlast', this, 0);"><%=StringUtils.text("year", session)%></th>
-			<th onclick="sort('tlast', this, 1);"><%=StringUtils.text("sport", session)%></th>
-			<th onclick="sort('tlast', this, 2);"><%=StringUtils.text("event", session)%></th>
-			<th onclick="sort('tlast', this, 3);"><%=StringUtils.text("entity.RS.1", session)%></th>
-			<th id="tlast-dtcol" class="sorted desc" style="width:100px;" onclick="sort('tlast', this, 4);"><%=StringUtils.text("date", session)%></th>
-		</tr></thead><tbody class="tby" id="tb-tlast">
-		<%
-			final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_lastupdates_limit"));
-        	List<Object> params = new ArrayList<Object>();
-        	params.add(0);
-        	params.add(ITEM_LIMIT);
-        	params.add(0);
-        	params.add(ResourceUtils.getLocaleParam(lang));
-        	Collection<LastUpdateBean> coll = (Collection<LastUpdateBean>) DatabaseManager.callFunction("_last_updates", params, LastUpdateBean.class);
-        	out.print(HtmlConverter.convertLastUpdates(coll, 0, ITEM_LIMIT, 0, lang));
-        	Timestamp ts = null;
-        	for (LastUpdateBean bean : coll) {
-        		if (ts == null || bean.getLastUpdate().compareTo(ts) > 0) {
-        			ts = bean.getLastUpdate();
-        		}
-        	}
-        	request.setAttribute("lastupdate", StringUtils.toTextDate(ts, lang, "d MMM yyyy, HH:mm"));
-		%></tbody></table>
+		<div class="mobile100">
+			<table id="tlast" class="tsort"><thead><tr class='rsort'>
+				<th onclick="sort('tlast', this, 0);"><%=StringUtils.text("year", session)%></th>
+				<th onclick="sort('tlast', this, 1);"><%=StringUtils.text("sport", session)%></th>
+				<th onclick="sort('tlast', this, 2);"><%=StringUtils.text("event", session)%></th>
+				<th onclick="sort('tlast', this, 3);"><%=StringUtils.text("entity.RS.1", session)%></th>
+				<th id="tlast-dtcol" class="sorted desc" style="width:100px;" onclick="sort('tlast', this, 4);"><%=StringUtils.text("date", session)%></th>
+			</tr></thead><tbody class="tby" id="tb-tlast">
+			<%
+				final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_lastupdates_limit"));
+	        	List<Object> params = new ArrayList<Object>();
+	        	params.add(0);
+	        	params.add(ITEM_LIMIT);
+	        	params.add(0);
+	        	params.add(ResourceUtils.getLocaleParam(lang));
+	        	Collection<LastUpdateBean> coll = (Collection<LastUpdateBean>) DatabaseManager.callFunction("_last_updates", params, LastUpdateBean.class);
+	        	out.print(HtmlConverter.convertLastUpdates(coll, 0, ITEM_LIMIT, 0, lang));
+	        	Timestamp ts = null;
+	        	for (LastUpdateBean bean : coll) {
+	        		if (ts == null || bean.getLastUpdate().compareTo(ts) > 0) {
+	        			ts = bean.getLastUpdate();
+	        		}
+	        	}
+	        	request.setAttribute("lastupdate", StringUtils.toTextDate(ts, lang, "d MMM yyyy, HH:mm"));
+			%></tbody></table>
+		</div>
 	</div>
 </div>
 <!-- Statistics -->
@@ -119,7 +123,7 @@
 		List<StatisticsBean> stats = (List<StatisticsBean>) DatabaseManager.callFunctionSelect("_statistics", null, StatisticsBean.class);
 		StatisticsBean stb = stats.get(0);
 	%>
-	<div style="float:left;margin-right:10px;">
+	<div id="statdiv1">
 		<table>
 			<tr><th><%=StringUtils.text("entity.SP", session)%></th><td class="stat"><%=StringUtils.formatNumber(stb.getCountSport(), lang)%></td></tr>
 			<tr><th><%=StringUtils.text("entity.EV", session)%></th><td class="stat"><%=StringUtils.formatNumber(stb.getCountEvent(), lang)%></td></tr>
@@ -134,14 +138,14 @@
 			<tr><th><%=StringUtils.text("entity.CX", session)%></th><td class="stat"><%=StringUtils.formatNumber(stb.getCountComplex(), lang)%></td></tr>
 		</table>
 	</div>
-	<div>
+	<div id="statdiv2" class="mobile100">
 		<table>
 			<tr><th style="text-align:center;"><div style="float:left;margin-left:2px;font-weight:normal;"><a href="javascript:changeReport(-1);">&lt; <%=StringUtils.text("previous", session)%></a></div><div style="float:right;margin-right:2px;font-weight:normal;"><a href="javascript:changeReport(1);"><%=StringUtils.text("next", session)%> &gt;</a></div><span id="ctitle">.</span></th></tr>
 			<tr><td id="chart"></td></tr>
 		</table>
 	</div>
 </div>
-<!-- Statistics -->
+<!-- Ext.Links -->
 <div class="homepanel" style="margin-top:10px;">
 	<div class="hometitle extlinks"><%=StringUtils.text("extlinks", session)%></div>
 	<table class="noborder">

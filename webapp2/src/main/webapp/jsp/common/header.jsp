@@ -134,6 +134,10 @@
 %>
 --></script>
 
+<div id="mobilemenu" style="display:none;">
+	<div id="logo"><a href="/"><img src="/img/icon.png?v=<%=version%>"/></a></div>
+</div>
+
 <div id="headertop">
 	<div id="menutop">
 		<div id="mthome"><a href="/"><%=StringUtils.text("menu.home", session)%></a></div>
