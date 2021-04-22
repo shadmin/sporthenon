@@ -65,21 +65,35 @@ table th, table td{
 	border-radius: 0;
 	background-position: 8px center;
 }
-#shmenu.displayed{	
+#shmenu.displayed{
 	visibility: visible;
 	opacity: 1;
 }
 #headertop{
-	height: 0;
+	display: none;
+	height: 36px;
 	margin: 0;
 	border-bottom: none;
 }
+#headertop.displayed{
+	display: block;
+}
 #searchpanel{
+	position: relative;
 	float: none;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
+	width: 100%;
+	margin: 0;
+}
+#searchpanel #dpattern{
+	font: 14px Verdana;
+	height: 30px;
+	width: 100%;
+}
+#searchpanel table, #searchpanel td{
+	width: 100%;
+}
+.ajaxsearch{
+	font: 14px Verdana;
 }
 #home .flexline{
 	flex-direction: column;
@@ -124,5 +138,8 @@ table th, table td{
 	padding: 0;
 	margin: 0;
 	border: none;
+}
+.render .info{
+	margin-top: 8px;
 }
 }

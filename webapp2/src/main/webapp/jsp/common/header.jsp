@@ -141,10 +141,10 @@
 	<div><a href="/"><img src="/img/icon_m.png?v=<%=version%>"/></a></div>
 	<div style="width:100%;"></div>
 	<div style="padding-right:8px;">
-		<a href="javascript:toggleSearchMobile();"><img src="/img/header/search_m.png?v=<%=version%>"/></a>
+		<a href="javascript:toggleSearchM();"><img src="/img/header/search_m.png?v=<%=version%>"/></a>
 	</div>
 	<div>
-		<a href="javascript:$('shmenu').toggleClassName('displayed');"><img src="/img/header/menu_m.png?v=<%=version%>"/></a>
+		<a href="javascript:toggleMenuM();"><img src="/img/header/menu_m.png?v=<%=version%>"/></a>
 	</div>
 </div>
 

@@ -3147,3 +3147,14 @@ function saveConfig() {
 		parameters: h
 	});
 }
+/*============================
+  ========== MOBILE ========== 
+  ============================*/
+function toggleSearchM(){
+	$('shmenu').removeClassName('displayed');
+	$('headertop').toggleClassName('displayed');
+}
+function toggleMenuM(){
+	$('headertop').removeClassName('displayed');
+	$('shmenu').toggleClassName('displayed');
+}
