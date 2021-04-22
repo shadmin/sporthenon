@@ -49,6 +49,7 @@
 </head>
 
 <body>
+<!-- LEFT BAR -->
 <div id="header">
 	<div id="logo"><a href="/"><img src="/img/icon.png?v=<%=version%>" alt="sporthenon.com"/></a></div>
 	<div id="shmenu">
@@ -63,7 +64,8 @@
 	</div>
 	<div id="flags">
 		<a title="English" href="<%=request.getAttribute("urlEN")%>"><img alt="EN" src="/img/header/lang-en.png"/></a>&nbsp;
-		<a title="Français" href="<%=request.getAttribute("urlFR")%>"><img alt="FR" src="/img/header/lang-fr.png"/></a> </div>
+		<a title="Français" href="<%=request.getAttribute("urlFR")%>"><img alt="FR" src="/img/header/lang-fr.png"/></a>
+	</div>
 </div>
 
 <script><!--
@@ -134,10 +136,19 @@
 %>
 --></script>
 
-<div id="mobilemenu" style="display:none;">
-	<div id="logo"><a href="/"><img src="/img/icon.png?v=<%=version%>"/></a></div>
+<!-- TOP BAR (MOBILE) -->
+<div id="mobilebar" style="display:none;">
+	<div><a href="/"><img src="/img/icon_m.png?v=<%=version%>"/></a></div>
+	<div style="width:100%;"></div>
+	<div style="padding-right:8px;">
+		<a href="javascript:toggleSearchMobile();"><img src="/img/header/search_m.png?v=<%=version%>"/></a>
+	</div>
+	<div>
+		<a href="javascript:$('shmenu').toggleClassName('displayed');"><img src="/img/header/menu_m.png?v=<%=version%>"/></a>
+	</div>
 </div>
 
+<!-- TOP BAR -->
 <div id="headertop">
 	<div id="menutop">
 		<div id="mthome"><a href="/"><%=StringUtils.text("menu.home", session)%></a></div>

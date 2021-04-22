@@ -185,15 +185,15 @@ select.disabled{
 	list-style-image: url(../img/bullet.gif);
 	padding: 1px;
 }
-#headertop #searchpanel{
+#searchpanel{
 	float: right;
 	margin-top: 7px;
 	margin-right: 3px;
 }
-#headertop #searchpanel td{
+#searchpanel td{
 	padding: 1px;
 }
-#headertop #searchpanel #dpattern{
+#searchpanel #dpattern{
 	color: #AAA;
 	border: 1px solid #AAA;
 	padding: 3px;
@@ -201,7 +201,7 @@ select.disabled{
 	padding-left: 23px;
 	background: #FFF url(../img/header/search.png) 4px center no-repeat;
 }
-#headertop #searchpanel #dpattern.focus{
+#searchpanel #dpattern.focus{
 	color: #000;
 	border: 1px solid #000;
 }
@@ -218,7 +218,6 @@ select.disabled{
 #shmenu{
 	width: 140px;
 	list-style-type: none;
-	text-align: right;
 	padding-bottom: 0px;
 }
 #shmenu ul{
@@ -241,7 +240,7 @@ select.disabled{
 	padding-top: 26px;
 	border: 1px solid #AAA;
 	border-radius: 5px;
-	background-color: #FAFAFA;
+	background-color: #FFF;
 	background-position: center 6px;
 	background-repeat: no-repeat;
 }
