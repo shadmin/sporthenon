@@ -75,8 +75,6 @@ public class ImportUtils {
 				v.insertElementAt("-", 0);
 				if (isRS)
 					processLineRS(i, vHeader, v, isUpdate, report, cb, lang);
-//				else if (isDR)
-//					processLineDR(i, vHeader, v, isUpdate, report, cb, lang);
 				else if (isRC)
 					processLineRC(i, vHeader, v, isUpdate, report, cb, lang);
 				html.append("<tr><td>").append(StringUtils.join(v, "</td><td>")).append("</td></tr>");

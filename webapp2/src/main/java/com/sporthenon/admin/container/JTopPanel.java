@@ -46,7 +46,6 @@ public class JTopPanel extends JPanel implements ActionListener {
 		flowLayout.setHgap(1);
 		flowLayout.setVgap(1);
 		this.setLayout(flowLayout);
-		//this.setBorder(BorderFactory.createEtchedBorder());
 		this.setPreferredSize(new Dimension(0, 50));
 
 		jConnectButton = new JCustomButton("Connect", "common/connect.png", null);
