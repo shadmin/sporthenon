@@ -73,11 +73,16 @@
 <!-- Access sport -->
 <div class="homepanel">
 	<div class="hometitle opensport"><%=StringUtils.text("title.access.sport", session)%></div>
-	<select style="margin-left:10px;" onchange="location.href=this.value;">
-		<option value="">–– <%=StringUtils.text("select.sport", session)%> ––</option>
-		<%=sbSports1.toString()%>
-	</select><br/>
-	<div id="sports" class="slider"><%@include file="../html/slider.html"%></div>
+	<div id="spaccess">
+		<select style="margin-left:10px;" onchange="location.href=this.value;">
+			<option value="">–– <%=StringUtils.text("select.sport", session)%> ––</option>
+			<%=sbSports1.toString()%>
+		</select><br/>
+		<div id="sports" class="slider"><%@include file="../html/slider.html"%></div>
+	</div>
+	<div id="spaccess_m">
+		<%=IndexServlet.getSportDivsMobile(lang)%>
+	</div>
 </div>
 <!-- Last updates -->
 <div class="homepanel" style="margin-top:10px;">

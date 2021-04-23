@@ -15,8 +15,10 @@ import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -81,154 +83,156 @@ public class ExportUtils {
 	}
 
 	public static void buildXLS(OutputStream out, String title, List<List<String>> lTh, List<List<String>> lTd, List<MergedCell> lMerge , boolean[] tBold) throws Exception {
-		HSSFWorkbook hwb = new HSSFWorkbook();
-		HSSFSheet sheet = null;
-		HSSFRow row = null;
-		HSSFCell cell = null;
-		sheet = hwb.createSheet(title != null ? title.replaceAll("\\[", "(").replaceAll("\\]", ")") : "Untitled");
-		short rowIndex = 0;
-		// Styles
-		HSSFCellStyle normalStyle = hwb.createCellStyle();
-		Font defaultFont = hwb.createFont();
-		defaultFont.setFontName("Verdana");
-		defaultFont.setFontHeightInPoints((short)10);
-		defaultFont.setBoldweight(Font.BOLDWEIGHT_NORMAL);
-		normalStyle.setFont(defaultFont);
-		normalStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-		normalStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-		normalStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-		normalStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-		normalStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-		normalStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("text"));
-		
-		HSSFCellStyle headerStyle = hwb.createCellStyle();
-		headerStyle.cloneStyleFrom(normalStyle);
-		Font boldFont = hwb.createFont();
-		boldFont.setFontName("Verdana");
-		boldFont.setFontHeightInPoints((short)10);
-		boldFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
-		headerStyle.setFont(boldFont);
-		headerStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-		headerStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-		headerStyle.setFillForegroundColor(new HSSFColor.AQUA().getIndex());
-		
-		HSSFCellStyle boldStyle = hwb.createCellStyle();
-		boldStyle.cloneStyleFrom(normalStyle);
-		boldStyle.setFont(boldFont);
-		
-		HSSFCellStyle blueStyle = hwb.createCellStyle();
-		blueStyle.cloneStyleFrom(normalStyle);
-		blueStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-		blueStyle.setFillForegroundColor(HSSFColor.LIGHT_BLUE.index);
-		
-		HSSFCellStyle greenStyle = hwb.createCellStyle();
-		greenStyle.cloneStyleFrom(normalStyle);
-		greenStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-		greenStyle.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
-		
-		HSSFCellStyle orangeStyle = hwb.createCellStyle();
-		orangeStyle.cloneStyleFrom(normalStyle);
-		orangeStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-		orangeStyle.setFillForegroundColor(HSSFColor.LIGHT_ORANGE.index);
-		
-		// Content
-		ArrayList<Short> lBlankRow = new ArrayList<Short>();
-		int cols = 0;
-		int n = 0;
-		for (List<String> l : lTd) {
-			int i = 0;
-			// HEADER (ref)
-			if (l != null && l.size() > 1 && l.get(0).equalsIgnoreCase("--INFO--")) {
-				for (int j = 1 ; j < l.size() ; j++) {
-					if (l.get(j).startsWith("#TITLENAME#")) {
-						row = sheet.createRow(rowIndex++);
-						(cell = row.createCell(0)).setCellValue(l.get(j).replaceAll("^\\#.*\\#", ""));
-						cell.setCellStyle(headerStyle);
-						lMerge.add(new MergedCell(0, 0, 2));
-					}
-					else {
-						if (j % 2 == 0)
+		try(HSSFWorkbook hwb = new HSSFWorkbook();) {
+			HSSFSheet sheet = null;
+			HSSFRow row = null;
+			HSSFCell cell = null;
+			sheet = hwb.createSheet(title != null ? title.replaceAll("\\[", "(").replaceAll("\\]", ")") : "Untitled");
+			short rowIndex = 0;
+			// Styles
+			HSSFCellStyle normalStyle = hwb.createCellStyle();
+			Font defaultFont = hwb.createFont();
+			defaultFont.setFontName("Verdana");
+			defaultFont.setFontHeightInPoints((short)10);
+			defaultFont.setBold(false);
+			normalStyle.setFont(defaultFont);
+			normalStyle.setAlignment(HorizontalAlignment.LEFT);
+			normalStyle.setBorderBottom(BorderStyle.THIN);
+			normalStyle.setBorderTop(BorderStyle.THIN);
+			normalStyle.setBorderRight(BorderStyle.THIN);
+			normalStyle.setBorderLeft(BorderStyle.THIN);
+			normalStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("text"));
+			
+			HSSFCellStyle headerStyle = hwb.createCellStyle();
+			headerStyle.cloneStyleFrom(normalStyle);
+			Font boldFont = hwb.createFont();
+			boldFont.setFontName("Verdana");
+			boldFont.setFontHeightInPoints((short)10);
+			boldFont.setBold(true);
+			headerStyle.setFont(boldFont);
+			headerStyle.setAlignment(HorizontalAlignment.CENTER);
+			headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			//headerStyle.setFillForegroundColor(new HSSFColor.AQUA().getIndex());
+			
+			HSSFCellStyle boldStyle = hwb.createCellStyle();
+			boldStyle.cloneStyleFrom(normalStyle);
+			boldStyle.setFont(boldFont);
+			
+			HSSFCellStyle blueStyle = hwb.createCellStyle();
+			blueStyle.cloneStyleFrom(normalStyle);
+			blueStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			
+			HSSFCellStyle greenStyle = hwb.createCellStyle();
+			greenStyle.cloneStyleFrom(normalStyle);
+			greenStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			
+			HSSFCellStyle orangeStyle = hwb.createCellStyle();
+			orangeStyle.cloneStyleFrom(normalStyle);
+			orangeStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			
+			// Content
+			ArrayList<Short> lBlankRow = new ArrayList<Short>();
+			int cols = 0;
+			int n = 0;
+			for (List<String> l : lTd) {
+				int i = 0;
+				// HEADER (ref)
+				if (l != null && l.size() > 1 && l.get(0).equalsIgnoreCase("--INFO--")) {
+					for (int j = 1 ; j < l.size() ; j++) {
+						if (l.get(j).startsWith("#TITLENAME#")) {
 							row = sheet.createRow(rowIndex++);
-						(cell = row.createCell(j % 2)).setCellValue(l.get(j).replaceAll("^\\#.*\\#", ""));
-						cell.setCellStyle(j % 2 == 0 ? headerStyle : normalStyle);
+							(cell = row.createCell(0)).setCellValue(l.get(j).replaceAll("^\\#.*\\#", ""));
+							cell.setCellStyle(headerStyle);
+							lMerge.add(new MergedCell(0, 0, 2));
+						}
+						else {
+							if (j % 2 == 0)
+								row = sheet.createRow(rowIndex++);
+							(cell = row.createCell(j % 2)).setCellValue(l.get(j).replaceAll("^\\#.*\\#", ""));
+							cell.setCellStyle(j % 2 == 0 ? headerStyle : normalStyle);
+						}
 					}
 				}
-			}
-			// TH
-			else if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
-				if (rowIndex > 0) {
-					lBlankRow.add(rowIndex);
+				// TH
+				else if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
+					if (rowIndex > 0) {
+						lBlankRow.add(rowIndex);
+						row = sheet.createRow(rowIndex++);
+					}
 					row = sheet.createRow(rowIndex++);
-				}
-				row = sheet.createRow(rowIndex++);
-				if (n < lTh.size()) {
-					List<String> lTh_ = lTh.get(n);
-					if (lTh_ != null && !lTh_.isEmpty() && lTh_.get(0).equalsIgnoreCase("--TTEXT--")) {
-						row = sheet.createRow(rowIndex++);
-						(cell = row.createCell(i)).setCellValue(lTh_.get(1));
-						cell.setCellStyle(headerStyle);
-						lTh_.remove(0);
-						lTh_.remove(0);
-						if (!lTh_.isEmpty())
+					if (n < lTh.size()) {
+						List<String> lTh_ = lTh.get(n);
+						if (lTh_ != null && !lTh_.isEmpty() && lTh_.get(0).equalsIgnoreCase("--TTEXT--")) {
 							row = sheet.createRow(rowIndex++);
-					}					
-					for (String s : lTh.get(n)) {
+							(cell = row.createCell(i)).setCellValue(lTh_.get(1));
+							cell.setCellStyle(headerStyle);
+							lTh_.remove(0);
+							lTh_.remove(0);
+							if (!lTh_.isEmpty())
+								row = sheet.createRow(rowIndex++);
+						}					
+						for (String s : lTh.get(n)) {
+							(cell = row.createCell(i++)).setCellValue(s.replaceAll("^\\#.*\\#", ""));
+							cell.setCellStyle(headerStyle);
+						}
+						n++;
+					}
+					if (n > cols)
+						cols = n;
+				}
+				// TD
+				else {
+					int n_ = 0;
+					row = sheet.createRow(rowIndex++);
+					for (String s : l) {
+						boolean isCaption = (s != null && s.matches("^\\#CAPTION\\#.*"));
+						boolean isAlignLeft = (s != null && s.matches(".*\\#ALIGN_LEFT\\#.*"));
+						boolean isAlignCenter = (s != null && s.matches(".*\\#ALIGN_CENTER\\#.*"));
+						boolean isAlignRight = (s != null && s.matches(".*\\#ALIGN_RIGHT\\#.*"));
 						(cell = row.createCell(i++)).setCellValue(s.replaceAll("^\\#.*\\#", ""));
-						cell.setCellStyle(headerStyle);
+						HSSFCellStyle st = (l.size() == 1 ? headerStyle : (tBold != null && tBold.length > i - 1 && tBold[i - 1] ? boldStyle : normalStyle));
+						if (s.matches(".*\\#color\\-.+\\#.*")) {
+							String color = s.substring(1).split("\\#")[0].replaceFirst("color\\-", "");
+							st = (color.equalsIgnoreCase("blue") ? blueStyle : (color.equalsIgnoreCase("green") ? greenStyle : orangeStyle));
+						}
+						if (isAlignLeft) {
+							st.setAlignment(HorizontalAlignment.LEFT);
+						}
+						else if (isAlignCenter) {
+							st.setAlignment(HorizontalAlignment.CENTER);
+						}
+						else if (isAlignRight) {
+							st.setAlignment(HorizontalAlignment.RIGHT);
+						}
+						cell.setCellStyle(st);
+						if (l.size() == 1) {
+							(cell = row.createCell(i++)).setCellValue("");
+							cell.setCellStyle(headerStyle);
+						}
+						if (isCaption)
+							cell.setCellStyle(headerStyle);
+						n_++;
 					}
-					n++;
+					if (n_ > cols)
+						cols = n_;
 				}
-				if (n > cols)
-					cols = n;
 			}
-			// TD
-			else {
-				int n_ = 0;
-				row = sheet.createRow(rowIndex++);
-				for (String s : l) {
-					boolean isCaption = (s != null && s.matches("^\\#CAPTION\\#.*"));
-					boolean isAlignLeft = (s != null && s.matches(".*\\#ALIGN_LEFT\\#.*"));
-					boolean isAlignCenter = (s != null && s.matches(".*\\#ALIGN_CENTER\\#.*"));
-					boolean isAlignRight = (s != null && s.matches(".*\\#ALIGN_RIGHT\\#.*"));
-					(cell = row.createCell(i++)).setCellValue(s.replaceAll("^\\#.*\\#", ""));
-					HSSFCellStyle st = (l.size() == 1 ? headerStyle : (tBold != null && tBold.length > i - 1 && tBold[i - 1] ? boldStyle : normalStyle));
-					if (s.matches(".*\\#color\\-.+\\#.*")) {
-						String color = s.substring(1).split("\\#")[0].replaceFirst("color\\-", "");
-						st = (color.equalsIgnoreCase("blue") ? blueStyle : (color.equalsIgnoreCase("green") ? greenStyle : orangeStyle));
-					}
-					if (isAlignLeft)
-						st.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-					else if (isAlignCenter)
-						st.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-					else if (isAlignRight)
-						st.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
-					cell.setCellStyle(st);
-					if (l.size() == 1) {
-						(cell = row.createCell(i++)).setCellValue("");
-						cell.setCellStyle(headerStyle);
-					}
-					if (isCaption)
-						cell.setCellStyle(headerStyle);
-					n_++;
+			// Merging
+			if (lMerge != null) {
+				for (MergedCell mc : lMerge) {
+					int offset = 0;
+					for (Short sh : lBlankRow)
+						if (mc.getRow() + offset >= sh)
+							offset++;
+					sheet.addMergedRegion(new CellRangeAddress(mc.getRow() + offset, mc.getRow() + offset, mc.getCell(), mc.getCell() + mc.getSpan() - 1));
 				}
-				if (n_ > cols)
-					cols = n_;
 			}
-		}
-		// Merging
-		if (lMerge != null) {
-			for (MergedCell mc : lMerge) {
-				int offset = 0;
-				for (Short sh : lBlankRow)
-					if (mc.getRow() + offset >= sh)
-						offset++;
-				sheet.addMergedRegion(new CellRangeAddress(mc.getRow() + offset, mc.getRow() + offset, mc.getCell(), mc.getCell() + mc.getSpan() - 1));
+			// Auto-Sizing
+			for (int j = 0 ; j < cols ; j++) {
+				sheet.autoSizeColumn(j);
 			}
+			hwb.write(out);
 		}
-		// Auto-Sizing
-		for (int j = 0 ; j < cols ; j++)
-			sheet.autoSizeColumn(j);
-		hwb.write(out);
 	}
 	
 	private static void buildCSV(PrintWriter pw, List<List<String>> lTh, List<List<String>> lTd) throws Exception {

@@ -823,8 +823,9 @@ function runResults(tleaf) {
 	else { // Picklist
 		h = $H({sp: $F('pl-sp'), cp: $F('pl-cp'), ev: $F('pl-ev'), se: $F('pl-se'), se2: $F('pl-se2'), yr: $F('pl-yr')});
 	}
+	const isMobile = (document.body.clientWidth < 640);
 	const treeresults = $('treeresults');
-	if (treeresults) {
+	if (treeresults && !isMobile) {
 		window.scrollTo(0, 0);
 		new Ajax.Updater(treeresults, '/BrowseResults', {
 			onComplete: handleRender,

@@ -30,7 +30,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/sh.css?v=<%=version%>"/>	
 	<link rel="stylesheet" type="text/css" href="/css/render.css?v=<%=version%>"/>
 	<link rel="stylesheet" type="text/css" href="/css/mobile.css?v=<%=version%>"/>
-	<link rel="shortcut icon" type="image/x-icon" href="/img/iconfav.ico?v=6"/>
+	<link rel="shortcut icon" type="image/x-icon" href="/img/logo/iconfav2.png"/>
 	<script src="/js/prototype.js?v=<%=version%>"></script>
 	<script src="/js/includes.js?v=<%=version%>"></script>
 	<%if (ConfigUtils.isProd()) {%>
@@ -51,7 +51,7 @@
 <body>
 <!-- LEFT BAR -->
 <div id="header">
-	<div id="logo"><a href="/"><img src="/img/icon.png?v=<%=version%>" alt="sporthenon.com"/></a></div>
+	<div id="logo"><a href="/"><img src="/img/logo/icon.png?v=<%=version%>" alt="sporthenon.com"/></a></div>
 	<div id="shmenu">
 		<ul>
 			<li><a id="shmenu-results" href="/results"><%=StringUtils.text("menu.results.2", session)%></a></li>
@@ -138,13 +138,15 @@
 
 <!-- TOP BAR (MOBILE) -->
 <div id="mobilebar" style="display:none;">
-	<div><a href="/"><img src="/img/icon_m.png?v=<%=version%>"/></a></div>
-	<div style="width:100%;"></div>
-	<div style="padding-right:8px;">
-		<a href="javascript:toggleSearchM();"><img src="/img/header/search_m.png?v=<%=version%>"/></a>
+	<div>
+		<a href="javascript:toggleMenuM();"><img alt="M" src="/img/header/menu_m.png?v=<%=version%>"/></a>
+	</div>	
+	<div id="title_m">
+		<div><a href="/"><img alt="logo" src="/img/logo/icon_m.png?v=<%=version%>"/></a></div>
+		<div><span>Sporthenon</span></div>
 	</div>
 	<div>
-		<a href="javascript:toggleMenuM();"><img src="/img/header/menu_m.png?v=<%=version%>"/></a>
+		<a href="javascript:toggleSearchM();"><img alt="S" src="/img/header/search_m.png?v=<%=version%>"/></a>
 	</div>
 </div>
 

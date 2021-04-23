@@ -583,7 +583,10 @@ select.disabled{
 	padding: 45px 0px;
 	padding-top: 52px;
 }
-.homepanel #sports div.sport{
+#spaccess_m{
+	display: none;
+}
+.homepanel div.sport{
 	float: left;
 	width: 105px;
 	height: 115px;
@@ -596,16 +599,16 @@ select.disabled{
 	background-position: center top;
 	background-repeat: no-repeat;
 }
-.homepanel #sports div.sport:hover{
+.homepanel div.sport:hover{
 	border: 1px solid #000;
 	background-color: #FFC;
 }
-.homepanel #sports div.sport a{
+.homepanel div.sport a{
 	display: block;
 	padding-top: 100px;
 	color: #000;
 }
-.homepanel #sports div.sport a:hover{
+.homepanel div.sport a:hover{
 	text-decoration: none;
 }
 .homepanel .stat{
@@ -792,18 +795,20 @@ select.disabled{
 }
 #calendar .dateimg{
 	width: 120px;
-	height: 70px;
+	height: 130px;
 	background: url(../img/db/calendar.png) center 10px no-repeat;
 	text-align: center;
 	padding: 10px;
 	padding-right: 0px;
 	padding-top: 52px;
 	font-family: Tahoma, Geneva, sans-serif;
-	/*font-family: "Lucida Console", Monaco, monospace;*/
 	font-weight: bold;
 }
 #calendar .dateimg div{
 	width: 110px;
+}
+#calendar #spanbutton{
+	padding-left: 10px;
 }
 #calendar .label{
 	position: absolute;

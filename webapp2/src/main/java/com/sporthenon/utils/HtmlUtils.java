@@ -74,8 +74,9 @@ public class HtmlUtils {
 	}
 	
 	public static String writeURL(String main, String params, String text) {
-		if (params != null)
+		if (params != null) {
 			params = params.replaceAll("\\,\\s", "-").replaceAll("[\\[\\]]", "").replaceAll("\\-\\_(en|fr)$", "");
+		}
 		return main + (StringUtils.notEmpty(text) ? "/" + StringUtils.urlEscape(text.replaceAll("\\&nbsp;(\\-|" + StringUtils.SEP1 + ")\\&nbsp\\;", "/")) : "") + (StringUtils.notEmpty(params) ? "/" + StringUtils.encode(params) : "");
 	}
 
@@ -92,8 +93,9 @@ public class HtmlUtils {
 				html.append(" title=\"" + text2.replaceAll("\\\"", "'") + "\"");
 				html.append(">" + text1 + "</a>");
 		}
-		else
-			html.append("/" + url.toString().substring(1));
+		else {
+			html.append("/" + url.toString().substring(1));			
+		}
 		return html.toString();
 	}
 	

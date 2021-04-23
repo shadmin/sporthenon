@@ -370,26 +370,30 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 	public void resultCallback(short mode, Vector<Object> v, String msg, boolean err) {
 		if (!err) {
 			if (mode == JEditResultDialog.NEW || mode == JEditResultDialog.COPY)
-				((DefaultTableModel)jResultTable.getModel()).addRow(v);
-			else
-				for (int i = 0 ; i < jResultTable.getColumnCount() ; i++)
+				((DefaultTableModel)jResultTable.getModel()).insertRow(0, v);
+			else {
+				for (int i = 0 ; i < jResultTable.getColumnCount() ; i++) {
 					jResultTable.setValueAt(v.get(i), jResultTable.getSelectedRow(), i);
+				}
+			}
 		}
 		jQueryStatus.set(err ? JQueryStatus.FAILURE : JQueryStatus.SUCCESS, msg);
 	}
 
 	public void folderCallback(String msg, boolean err) {
 		if (!err) {
-			if (jResultTable != null)
+			if (jResultTable != null) {
 				jResultTable.setVisible(false);
+			}
 			setTree();
 		}
 		jQueryStatus.set(err ? JQueryStatus.FAILURE : JQueryStatus.SUCCESS, msg);
 	}
 
 	public void addMultipleCallback(String msg, boolean err) {
-		if (!err)
+		if (!err) {
 			loadData(idSport + "," + idChampionship + "," + idEvent + (idSubevent != null && idSubevent > 0 ? "," + idSubevent : "") + (idSubevent2 != null && idSubevent2 > 0 ? "," + idSubevent2 : ""));
+		}
 		jQueryStatus.set(err ? JQueryStatus.FAILURE : JQueryStatus.SUCCESS, msg);
 	}
 
@@ -481,6 +485,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					rdlg.getDate2().setText(StringUtils.notEmpty(rs.getDate2()) ? rs.getDate2() : null);
 					rdlg.setComment(StringUtils.notEmpty(rs.getComment()) ? rs.getComment() : null);
 					rdlg.getExa().setText(StringUtils.notEmpty(rs.getExa()) ? rs.getExa() : null);
+					rdlg.getDraft().setSelected(Boolean.TRUE.equals(rs.getDraft()));
 					List<Integer> lTie = StringUtils.tieList(rs.getExa());
 					for (int i = 0 ; i < 10 ; i++) {
 						rdlg.getExaCheckbox()[i].setSelected(lTie.contains(i + 1));

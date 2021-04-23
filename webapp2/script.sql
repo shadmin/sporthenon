@@ -1,3 +1,11 @@
+ALTER TABLE result ALTER COLUMN draft SET DEFAULT FALSE;
+ALTER TABLE result ALTER COLUMN no_place SET DEFAULT FALSE;
+ALTER TABLE result ALTER COLUMN no_date SET DEFAULT FALSE;
+
+UPDATE result set draft = FALSE where draft is null;
+ALTER TABLE result ALTER COLUMN draft SET NOT NULL;
+
+
 CREATE SEQUENCE _s_config;
 
 ALTER TABLE _config

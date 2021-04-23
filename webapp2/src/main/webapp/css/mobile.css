@@ -20,8 +20,13 @@ body {
 	border-top: 1px solid #AAA;
 }
 .title{
-	height: 25px;
-	padding: 6px;
+	padding: 5px;
+	height: 27px;
+}
+.title div{
+	height: 100%;
+	padding-top: 1px;
+	font-size: 12px;
 }
 table th, table td{
 	white-space: nowrap;
@@ -39,12 +44,25 @@ table th, table td{
 	padding-bottom: 0;
 	height: 46px;
 }
+#title_m{
+	width: 100%;
+	text-align: center;
+}
+#title_m div{
+	display: inline;
+	vertical-align: middle;
+}
+#title_m div span{
+	font: 20px Georgia;
+	font-weight: bold;
+	padding-left: 4px;
+}
 #shmenu{
 	position: absolute;
 	visibility: hidden;
   	opacity: 0;
-  	transition: visibility 0s, opacity 0.5s linear;
-	right: 0;
+  	transition: visibility 0s, opacity 0.7s linear;
+	left: 0;
 	top: 46px;
 	width: 150px;
 	background-color: #FFF;
@@ -102,6 +120,30 @@ table th, table td{
 	width: auto !important;
 	background-color: #FFF;
 }
+#spaccess{
+	display: none;
+}
+#spaccess_m{
+	display: block;
+}
+#spaccess_m div.sport{
+	display: inline-block;
+	float: none;
+	width: 48.5%;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	height: 36px;
+	background-position: 5px center;
+	text-align: left;
+	border: 1px solid #DFDFDF;
+	border-radius: 5px;
+}
+#spaccess_m div.sport a{
+	display: block;
+	padding-top: 10px;
+	padding-left: 42px;
+	color: #000;
+}
 #home #dupdates th, #home #dupdates td, #home #dupdates a{
 	white-space: nowrap;
 }
@@ -129,6 +171,36 @@ table th, table td{
 	width: auto;
 	border-right: none;
 }
+#treeview .nodetext{
+	font-size: 12px;
+}
+#treeresults{
+	display: none;
+}
+#calendar{
+	height: auto;
+}
+#calendar li{
+	display: block;
+	width: 100%;
+}
+#calendar li table{
+	margin: 0 auto;
+}
+#calendar .dateimg{
+	width: 100%;
+	padding-left: 0;
+}
+#calendar .dateimg div{
+	width: 100%;
+}
+#calendar #spanbutton{
+	padding-left: 0px;
+	padding-top: 10px;
+}
+#calendar .ccaption{
+	display: none;
+}
 #usleagues{
 	height: auto;
 }
@@ -136,8 +208,29 @@ table th, table td{
 	display: block;
 	width: auto;
 	padding: 0;
-	margin: 0;
+	margin: 0 auto;
+	margin-top: 10px;
 	border: none;
+}
+#usleagues #usltype div{
+	margin: 0 auto;
+	margin-bottom: 15px;
+}
+#usleagues #usoptpanel{
+	max-width: 100%;
+	border: none;
+}
+#buttons{
+	margin: 0;
+	text-align: center;
+}
+#buttons #bleft{
+	display: inline-block;	
+	float: none;
+	margin: 15px auto;
+}
+#buttons #bleft .button{
+	margin-right: 0;
 }
 .render .info{
 	margin-top: 8px;

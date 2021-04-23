@@ -108,7 +108,7 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	public static String getSportDivs(String lang) throws Exception {
-		final int N = 10;
+		final int N_SLIDE = 10;
 		HashMap<Integer, String> hSports = new HashMap<Integer, String>();
 		ArrayList<Integer> lId = new ArrayList<Integer>();
 		for (Object obj : DatabaseManager.executeSelect("SELECT * FROM sport ORDER BY index", Sport.class)) {
@@ -124,16 +124,34 @@ private static final long serialVersionUID = 1L;
 		String slide1 = null;
 		int index = 0;
 		for (Integer i : lId) {
-			if (index > 0 && index % N == 0)
+			if (index > 0 && index % N_SLIDE == 0) {
 				sports.append("</div><div class='slide'>");
+			}
 			sports.append(hSports.get(i).replaceAll("#INDEX#", String.valueOf(index)));
 			index++;
-			if (index == N)
+			if (index == N_SLIDE) {
 				slide1 = sports.toString();
+			}
 		}
 		sports.append("</div>");
 		
 		return sports.append(slide1).toString().replaceAll("\"", "\\\\\"");
+	}
+	
+	public static String getSportDivsMobile(String lang) throws Exception {
+		final int MAX = 20;
+		int index = 0;
+		StringBuffer sports = new StringBuffer("");
+		for (Object obj : DatabaseManager.executeSelect("SELECT * FROM sport ORDER BY index", Sport.class)) {
+			Sport sp = (Sport) obj;
+			String img = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, sp.getId(), ImageUtils.SIZE_SMALL, null, null);
+			img = img.replaceAll(".*\\ssrc\\='|'/\\>", "");
+			sports.append("<div class='sport' style=\"background-image:url('" + img + "');" + "\">" + HtmlUtils.writeLink(Sport.alias, sp.getId(), sp.getLabel(lang), sp.getLabel()) + "</div>");
+			if (++index >= MAX) {
+				break;
+			}
+		}
+		return sports.toString();
 	}
 	
 	@SuppressWarnings("unchecked")

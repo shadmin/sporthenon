@@ -52,6 +52,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private JEntityPicklist jComplex2 = null;
 	private JTextField jDate1 = null;
 	private JTextField jDate2 = null;
+	private JCheckBox jDraft = null;
 	private JTextField jExa = null;
 	private JCheckBox[] jExaCheckbox = new JCheckBox[20];
 	private JEntityPicklist[] jRanks = new JEntityPicklist[20];
@@ -139,11 +140,13 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jToday.setToolTipText("Today");
 		jToday.setActionCommand("today");
 		jToday.addActionListener(this);
+		jDraft = new JCheckBox();
+		jDraft.setText("Not published (only rounds)");
 		jExa = new JTextField();
 		jExa.setPreferredSize(new Dimension(60, 21));
 		
 		JSeparator jSeparator1 = new JSeparator(JSeparator.HORIZONTAL);
-		jSeparator1.setPreferredSize(new Dimension(500, 0));
+		jSeparator1.setPreferredSize(new Dimension(350, 0));
 		JSeparator jSeparator2 = new JSeparator(JSeparator.HORIZONTAL);
 		jSeparator2.setPreferredSize(new Dimension(180, 0));
 		JSeparator jSeparator3 = new JSeparator(JSeparator.HORIZONTAL);
@@ -159,6 +162,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jEventPanel.add(new JLabel("to:"), null);
 		jEventPanel.add(jDate2, null);
 		jEventPanel.add(jToday, null);
+		jEventPanel.add(jDraft, null);
 		jEventPanel.add(jSeparator1);
 		jEventPanel.add(new JLabel("Complex #1:"), null);
 		jEventPanel.add(jComplex1, null);
@@ -300,6 +304,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 				rs.setDate2(StringUtils.notEmpty(jDate2.getText()) ? jDate2.getText() : null);
 				rs.setComment(StringUtils.notEmpty(comment) ? comment : null);
 				rs.setExa(StringUtils.notEmpty(jExa.getText()) ? jExa.getText() : null);
+				rs.setDraft(jDraft.isSelected());
 				for (int i = 0 ; i < jRanks.length ; i++) {
 					Integer id = SwingUtils.getValue(jRanks[i]);
 					Result.class.getMethod("setIdRank" + (i + 1), Integer.class).invoke(rs, id > 0 ? id : null);
@@ -327,8 +332,9 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		Vector<Object> v = new Vector<Object>();
 		v.add(rs.getId());
 		v.add(SwingUtils.getText(jYear));
-		for (int i = 0 ; i < jRanks.length ; i++)
+		for (int i = 0 ; i < jRanks.length ; i++) {
 			v.add(SwingUtils.getText(jRanks[i]) + (StringUtils.notEmpty(jRes[i].getText()) ? " - " + jRes[i].getText() : ""));
+		}
 		v.add(StringUtils.notEmpty(jDate1.getText()) ? jDate1.getText() : "");
 		v.add(StringUtils.notEmpty(jDate2.getText()) ? jDate2.getText() : "");
 		v.add(StringUtils.notEmpty(SwingUtils.getText(jComplex1)) ? SwingUtils.getText(jComplex1) : SwingUtils.getText(jCity1));
@@ -344,10 +350,13 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jCity2.getPicklist().setSelectedIndex(-1);
 		jDate1.setText("");
 		jDate2.setText("");
-		for (JEntityPicklist pl : jRanks)
+		jDraft.setSelected(false);
+		for (JEntityPicklist pl : jRanks) {
 			pl.getPicklist().setSelectedIndex(-1);
-		for (JTextField tf : jRes)
+		}
+		for (JTextField tf : jRes) {
 			tf.setText("");
+		}
 	}
 	
 	public void open(JResultsPanel parent, Integer id, Integer drawId, short mode, int entityType) {
@@ -409,6 +418,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 
 	public JTextField[] getRes() {
 		return jRes;
+	}
+	
+	public JCheckBox getDraft() {
+		return jDraft;
 	}
 	
 	public void setComment(String comment) {

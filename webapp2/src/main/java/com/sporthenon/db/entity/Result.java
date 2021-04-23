@@ -690,6 +690,9 @@ public class Result extends AbstractEntity {
 	}
 
 	public void setDraft(Boolean draft) {
+		if (draft == null) {
+			draft = false;
+		}
 		this.draft = draft;
 	}
 
