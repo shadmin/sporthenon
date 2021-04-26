@@ -88,22 +88,31 @@
 	width: 100%;
 	margin-bottom: 15px;
 }
-.render .pathbar{
-	width:100%;
-}
-.render .pathbar table, .render .toolbar table{
-	background-color: transparent;
-	margin: 0px;
-}
-.render .pathbar td, .render .toolbar td{
+.render .pathbar table, .render .pathbar th, .render .pathbar td{
 	border: none;
-	padding: 0px;
+	background-color: #FFF;
+	margin: 0px;
+	padding: 1px;
+}
+.render .pathbar{
+	width: 100%;
+}
+.render .pathbar div{
+	display: inline-block;
+	vertical-align: middle;
 }
 .render .pathbar .arrow{
-	background: #FFF url(../img/arrow.gif) left center no-repeat;	
+	background: #FFF url(../img/arrow.gif) left center no-repeat;
+	padding-left: 10px;
+	margin-left: 8px;
 }
-.render .toolbar td{
+.render .toolbar table, .render .toolbar td{
+	border: none;
+	margin: 0px;
 	padding: 1px;
+}
+.render #addfav{
+	padding-left: 15px;
 }
 .render #winrec{
 	margin: 25px auto;

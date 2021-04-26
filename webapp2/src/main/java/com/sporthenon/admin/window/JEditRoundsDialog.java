@@ -3,6 +3,7 @@ package com.sporthenon.admin.window;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -47,22 +48,24 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
-		this.setResizable(true);
+		this.setResizable(false);
 	}
 
 	private JScrollPane getScrollPane() {
 		jScrollPane = new JScrollPane();
 		jScrollPane.setBorder(BorderFactory.createEmptyBorder());
 		jScrollPane.setViewportView(getRoundsPanel());
+		jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 		return jScrollPane;
 	}
 	
 	private JPanel getRoundsPanel() {
 		JPanel roundsPanel = new JPanel();
-		roundsPanel.setLayout(new BoxLayout(roundsPanel, BoxLayout.Y_AXIS));
-		for (int i = 0 ; i < 1 ; i++) {
-			rounds.add(new JRoundPanel());
-			roundsPanel.add(rounds.get(i));
+		roundsPanel.setLayout(new GridLayout(20, 18, 0, 0));
+		for (int i = 0 ; i < 20 ; i++) {
+			rounds.add(new JRoundPanel(roundsPanel));
+			//roundsPanel.add(rounds.get(i));
 		}
 		return roundsPanel;
 	}

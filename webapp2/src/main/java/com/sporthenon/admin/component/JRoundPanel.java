@@ -1,7 +1,9 @@
 package com.sporthenon.admin.component;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +18,7 @@ public class JRoundPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
+	private Container parent;
 	private JEntityPicklist jRoundType;
 	private JEntityPicklist[] jRanks = new JEntityPicklist[5];
 	private JTextField[] jRes = new JTextField[5];
@@ -28,8 +31,9 @@ public class JRoundPanel extends JPanel implements ActionListener {
 	private JTextField jExa;
 	private JTextField jComment;
 	
-	public JRoundPanel() {
+	public JRoundPanel(Container parent) {
 		super();
+		this.parent = parent;
 		initialize();
 	}
 
@@ -38,46 +42,48 @@ public class JRoundPanel extends JPanel implements ActionListener {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		flowLayout.setHgap(1);
 		flowLayout.setVgap(1);
-		this.setLayout(flowLayout);
-		this.setPreferredSize(new Dimension(0, 21));
+		
+		
+		//this.setLayout(new GridLayout(1, 18, 0, 0));
+		this.setMinimumSize(new Dimension(4000, 21));
 		
 		jRoundType = new JEntityPicklist(this, RoundType.alias);
-		jRoundType.setPreferredSize(new Dimension(180, 21));
+		jRoundType.setMinimumSize(new Dimension(180, 21));
 		
 		for (int i = 0 ; i < jRanks.length ; i++) {
 			jRanks[i] = new JEntityPicklist(this, "EN");
-			jRanks[i].setPreferredSize(new Dimension(260, 21));
+			jRanks[i].setMinimumSize(new Dimension(260, 21));
 			jRes[i] = new JTextField();
-			jRes[i].setPreferredSize(new Dimension(75, 21));
-			this.add(jRanks[i], null);
-			this.add(jRes[i], null);
+			jRes[i].setMinimumSize(new Dimension(75, 21));
+			parent.add(jRanks[i], null);
+			parent.add(jRes[i], null);
 		}
 
 		jComplex1 = new JEntityPicklist(this, Complex.alias);
-		jComplex1.setPreferredSize(new Dimension(300, 21));
+		jComplex1.setMinimumSize(new Dimension(300, 21));
 		jComplex2 = new JEntityPicklist(this, Complex.alias);
-		jComplex2.setPreferredSize(new Dimension(300, 21));
+		jComplex2.setMinimumSize(new Dimension(300, 21));
 		jCity1 = new JEntityPicklist(this, City.alias);
-		jCity1.setPreferredSize(new Dimension(220, 21));
+		jCity1.setMinimumSize(new Dimension(220, 21));
 		jCity2 = new JEntityPicklist(this, City.alias);
-		jCity2.setPreferredSize(new Dimension(220, 21));
+		jCity2.setMinimumSize(new Dimension(220, 21));
 		jDate1 = new JTextField();
-		jDate1.setPreferredSize(new Dimension(70, 21));
+		jDate1.setMinimumSize(new Dimension(70, 21));
 		jDate2 = new JTextField();
-		jDate2.setPreferredSize(new Dimension(70, 21));
+		jDate2.setMinimumSize(new Dimension(70, 21));
 		jExa = new JTextField();
-		jExa.setPreferredSize(new Dimension(50, 21));
+		jExa.setMinimumSize(new Dimension(50, 21));
 		jComment = new JTextField();
-		jComment.setPreferredSize(new Dimension(250, 21));
+		jComment.setMinimumSize(new Dimension(250, 21));
 		
-		this.add(jDate1, null);
-		this.add(jDate2, null);
-		this.add(jComplex1, null);
-		this.add(jComplex2, null);
-		this.add(jCity1, null);
-		this.add(jCity2, null);
-		this.add(jExa, null);
-		this.add(jComment, null);
+		parent.add(jDate1, null);
+		parent.add(jDate2, null);
+		parent.add(jComplex1, null);
+		parent.add(jComplex2, null);
+		parent.add(jCity1, null);
+		parent.add(jCity2, null);
+		parent.add(jExa, null);
+		parent.add(jComment, null);
 	}
 
 	public JEntityPicklist getRoundType() {

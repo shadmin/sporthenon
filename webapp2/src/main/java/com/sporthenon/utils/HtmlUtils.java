@@ -182,7 +182,7 @@ public class HtmlUtils {
 		html.append(h.containsKey("item3") ? "<div class='arrow'>" + h.get("item3") + "</div>" : "");
 		html.append(h.containsKey("item4") ? "<div class='arrow'>" + h.get("item4") + "</div>" : "");
 		html.append(h.containsKey("item5") ? "<div class='arrow'>" + h.get("item5") + "</div>" : "");
-		html.append("<div id='addfav' style='padding-left:10px;'><img id='favimg' alt='fav' src='/img/menu/favorites2.png' style='cursor:pointer;'/></div>");
+		html.append("<div id='addfav'><img id='favimg' alt='fav' src='/img/menu/favorites2.png' style='cursor:pointer;'/></div>");
 		html.append("</div>");
 		html.append("<div class='toolbar'>");
 		html.append("<table><tr>");
