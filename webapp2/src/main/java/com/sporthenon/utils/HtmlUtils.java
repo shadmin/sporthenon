@@ -175,15 +175,14 @@ public class HtmlUtils {
 			html.append("<span class='url'>" + ConfigUtils.getProperty("url") + url + "</span>");
 		}
 		html.append("<div id='topbar'>");
-		html.append("<div id='Header' class='header'><table><tr>");
-		html.append(h.containsKey("item0") ? "<td style='font-weight:bold;'>" + h.get("item0") + "</td>" : "");
-		html.append(h.containsKey("item1") ? "<td " + (h.containsKey("item0") ? "class='arrow'" : "") + "></td><td>" + h.get("item1") + "</td>" : "");
-		html.append(h.containsKey("item2") ? "<td class='arrow'></td><td>" + h.get("item2") + "</td>" : "");
-		html.append(h.containsKey("item3") ? "<td class='arrow'></td><td>" + h.get("item3") + "</td>" : "");
-		html.append(h.containsKey("item4") ? "<td class='arrow'></td><td>" + h.get("item4") + "</td>" : "");
-		html.append(h.containsKey("item5") ? "<td class='arrow'></td><td>" + h.get("item5") + "</td>" : "");
-		html.append("<td style='padding-left:10px;'><img id='favimg' alt='fav' src='/img/menu/favorites2.png' style='cursor:pointer;'/></td>");
-		html.append("</tr></table>");
+		html.append("<div class='pathbar'>");
+		html.append(h.containsKey("item0") ? "<div style='font-weight:bold;'>" + h.get("item0") + "</div>" : "");
+		html.append(h.containsKey("item1") ? "<div " + (h.containsKey("item0") ? "class='arrow'" : "") + ">" + h.get("item1") + "</div>" : "");
+		html.append(h.containsKey("item2") ? "<div class='arrow'>" + h.get("item2") + "</div>" : "");
+		html.append(h.containsKey("item3") ? "<div class='arrow'>" + h.get("item3") + "</div>" : "");
+		html.append(h.containsKey("item4") ? "<div class='arrow'>" + h.get("item4") + "</div>" : "");
+		html.append(h.containsKey("item5") ? "<div class='arrow'>" + h.get("item5") + "</div>" : "");
+		html.append("<div id='addfav' style='padding-left:10px;'><img id='favimg' alt='fav' src='/img/menu/favorites2.png' style='cursor:pointer;'/></div>");
 		html.append("</div>");
 		html.append("<div class='toolbar'>");
 		html.append("<table><tr>");
@@ -218,6 +217,7 @@ public class HtmlUtils {
 		html.append("<span class='infostats'>" + h.get("info") + "</span>");
 		html.append("<span class='url'>" + h.get("url") + "</span>");
 		// Info
+		html.append("<div class='mobile100'>");
 		html.append("<ul class='uinfo'><li>");
 		html.append("<table class='info'" + (width != null && width > 0 ? " style='width:" + width + "px;'" : "") + ">");
 		if (h.containsKey("titlename")) {
@@ -239,7 +239,7 @@ public class HtmlUtils {
 			}
 		}
 		html.append("</table></li>");
-		return html.append("</ul>");
+		return html.append("</ul></div>");
 	}
 
 	@SuppressWarnings("unchecked")

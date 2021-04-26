@@ -1,3 +1,5 @@
+update result set exa = null where exa = '>';
+
 ALTER TABLE result ALTER COLUMN draft SET DEFAULT FALSE;
 ALTER TABLE result ALTER COLUMN no_place SET DEFAULT FALSE;
 ALTER TABLE result ALTER COLUMN no_date SET DEFAULT FALSE;

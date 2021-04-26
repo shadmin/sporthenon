@@ -6,10 +6,10 @@ body {
 	width: auto;
 	margin: 0;
 	padding: 0;
-	font: 11px Verdana;
+	font: 12x Verdana;
 	background-color: #F7F7F7;
 }
-#logo, #flags, #menutop, #footer, #summary, #summary2, #topbar, #errorlink, .scope{
+#logo, #flags, #menutop, #footer, #summary, #summary2, #errorlink, .toolbar, .scope, #addfav{
 	display: none !important;
 }
 #content{
@@ -53,15 +53,15 @@ table th, table td{
 	vertical-align: middle;
 }
 #title_m div span{
-	font: 20px Georgia;
+	font: 24px Georgia;
 	font-weight: bold;
-	padding-left: 4px;
+	padding-left: 5px;
 }
 #shmenu{
 	position: absolute;
 	visibility: hidden;
   	opacity: 0;
-  	transition: visibility 0s, opacity 0.7s linear;
+  	transition: visibility 0s, opacity 0.6s linear;
 	left: 0;
 	top: 46px;
 	width: 150px;
@@ -234,5 +234,8 @@ table th, table td{
 }
 .render .info{
 	margin-top: 8px;
+}
+.render .info .caption{
+	padding-left: 5px;
 }
 }

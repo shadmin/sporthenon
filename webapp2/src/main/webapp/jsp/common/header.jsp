@@ -30,7 +30,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/sh.css?v=<%=version%>"/>	
 	<link rel="stylesheet" type="text/css" href="/css/render.css?v=<%=version%>"/>
 	<link rel="stylesheet" type="text/css" href="/css/mobile.css?v=<%=version%>"/>
-	<link rel="shortcut icon" type="image/x-icon" href="/img/logo/iconfav2.png"/>
+	<link rel="shortcut icon" type="image/x-icon" href="/img/logo/iconfav.png"/>
 	<script src="/js/prototype.js?v=<%=version%>"></script>
 	<script src="/js/includes.js?v=<%=version%>"></script>
 	<%if (ConfigUtils.isProd()) {%>

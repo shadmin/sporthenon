@@ -88,21 +88,19 @@
 	width: 100%;
 	margin-bottom: 15px;
 }
-.render .header{
+.render .pathbar{
 	width:100%;
-	margin: 0px;
 }
-.render .header table, .render .toolbar table{
+.render .pathbar table, .render .toolbar table{
 	background-color: transparent;
 	margin: 0px;
 }
-.render .header td, .render .toolbar td{
+.render .pathbar td, .render .toolbar td{
 	border: none;
 	padding: 0px;
 }
-.render .header .arrow{
-	width: 18px;
-	background: url(../img/arrow.gif) center center no-repeat;	
+.render .pathbar .arrow{
+	background: #FFF url(../img/arrow.gif) left center no-repeat;	
 }
 .render .toolbar td{
 	padding: 1px;

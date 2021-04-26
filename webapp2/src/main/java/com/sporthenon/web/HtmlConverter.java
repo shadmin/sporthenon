@@ -845,6 +845,7 @@ public class HtmlConverter {
 			Integer eventId = (r.getSubevent2() != null ? r.getSubevent2().getId() : (r.getSubevent() != null ? r.getSubevent().getId() : r.getEvent().getId()));
 			html.append("<span class='title'>" + r.getYear().getLabel() + " " + StringUtils.SEP1 + " " + r.getSport().getLabel(lang) + " " + StringUtils.SEP1 + " " + r.getChampionship().getLabel(lang) + (r.getEvent() != null ? " " + StringUtils.SEP1 + " " + r.getEvent().getLabel(lang) + (r.getSubevent() != null ? " " + StringUtils.SEP1 + " " + r.getSubevent().getLabel(lang) : "") + (r.getSubevent2() != null ? " " + StringUtils.SEP1 + " " + r.getSubevent2().getLabel(lang) : "") : "") + "</span>");
 			html.append("<span class='url'>" + HtmlUtils.writeLink(type, id, null, r.getYear().getLabel() + "/" + r.getSport().getLabel() + "/" + r.getChampionship().getLabel() + "/" + r.getEvent().getLabel() + (r.getSubevent() != null ? "/" + r.getSubevent().getLabel() : "") + (r.getSubevent2() != null ? "/" + r.getSubevent2().getLabel() : "")) + "</span>");
+			html.append("<div class='mobile100'>");
 			html.append("<ul class='uinfo'><li>");
 			html.append("<table class='info'><thead><tr><th id='titlename' colspan='2'>" + ResourceUtils.getText("entity.RS.1", lang).toUpperCase() + "</th></tr></thead><tbody class='tby'>");
 			StringBuffer ph = ImageUtils.getPhotos(type, id, lang);
@@ -975,7 +976,7 @@ public class HtmlConverter {
 					}
 				rspan = (!lTies.get(0).isEmpty() ? " rowspan='" + (lTies.get(0).size() + 1) + "'" : "");
 				html.append("</tbody></table>");
-				html.append("</li></ul>");
+				html.append("</li></ul></div>");
 				boolean isMedal = String.valueOf(r.getChampionship().getId()).matches(ConfigUtils.getValue("cp_medal_pattern"));
 				String anchor = ResourceUtils.getText("final.result", lang).replaceAll("\\s|\\/", "_");
 				summary.append("<a href='#" + anchor + "'>" + ++ns + ". " + ResourceUtils.getText("final.result", lang) + "</a><br/>");
@@ -1079,7 +1080,7 @@ public class HtmlConverter {
 				String anchor = ResourceUtils.getText("entity.YR", lang).replaceAll("\\s|\\/", "_");
 				summary.append("<a href='#" + anchor + "'>" + ++ns + ". " + ResourceUtils.getText("entity.YR", lang) + "</a><br/>");
 				html.append("<div id='" + anchor + "' class='chaptertitle'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity.YR", lang), false) + "</div>");
-				html.append("<div id='othyears' class='border1 centered'>").append(sbOtherYears.toString()).append("</div>");
+				html.append("<div id='othyears' class='border1 centered mobile100'>").append(sbOtherYears.toString()).append("</div>");
 			}
 			// Rounds
 			params = new ArrayList<Object>();
