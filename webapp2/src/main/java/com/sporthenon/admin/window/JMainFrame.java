@@ -69,6 +69,7 @@ import com.sporthenon.db.entity.OlympicRanking;
 import com.sporthenon.db.entity.Olympics;
 import com.sporthenon.db.entity.Record;
 import com.sporthenon.db.entity.RetiredNumber;
+import com.sporthenon.db.entity.RoundType;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
@@ -277,7 +278,7 @@ public class JMainFrame extends JFrame {
 	}
 
 	private void initPicklists() throws Exception {
-		Class<?>[] t = {Championship.class, City.class, Complex.class, Country.class, Event.class, League.class, Olympics.class, Athlete.class, Sport.class, State.class, Team.class, com.sporthenon.db.entity.Type.class, Year.class};
+		Class<?>[] t = {Championship.class, City.class, Complex.class, Country.class, Event.class, League.class, Olympics.class, Athlete.class, RoundType.class, Sport.class, State.class, Team.class, com.sporthenon.db.entity.Type.class, Year.class};
 		for (Class<?> c_ : t) {
 			String sql = null;
 			if (c_.equals(City.class)) {

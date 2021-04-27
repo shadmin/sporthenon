@@ -19,6 +19,7 @@ public class JEntityPicklist extends JPanel implements ItemListener {
 	private static final long serialVersionUID = 1L;
 	
 	private JComboBox<PicklistItem> jPicklist = null;
+	private JPanel jButtonPanel = null;
 	private JCustomButton jAddButton = null;
 	private JCustomButton jFindButton = null;
 	private JCustomButton jOptionalButton = null;
@@ -44,9 +45,9 @@ public class JEntityPicklist extends JPanel implements ItemListener {
 	}
 
 	private JPanel getButtonPanel() {
-		JPanel jButtonPanel = new JPanel();
+		jButtonPanel = new JPanel();
 		jButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-		jButtonPanel.setPreferredSize(new Dimension(69, 0));
+		jButtonPanel.setPreferredSize(new Dimension(46, 0));
 		
 		jAddButton = new JCustomButton(null, "add.png", null);
 		jAddButton.setMargin(new Insets(0, 0, 0, 0));
@@ -76,6 +77,10 @@ public class JEntityPicklist extends JPanel implements ItemListener {
 
 	public JComboBox<PicklistItem> getPicklist() {
 		return jPicklist;
+	}
+
+	public JPanel getButtonPanel2() {
+		return jButtonPanel;
 	}
 
 	public JCustomButton getAddButton() {

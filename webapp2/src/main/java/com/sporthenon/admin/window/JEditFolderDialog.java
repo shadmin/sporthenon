@@ -226,7 +226,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 			return;
 		}
 		else if (cmd.equals("ok")) {
-			if (SwingUtils.getValue(jSport) == 0) {
+			if (SwingUtils.getValue(jSport) == null) {
 				JOptionPane.showMessageDialog(this, "Field 'Sport' can not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}

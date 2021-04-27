@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,12 +29,10 @@ import com.sporthenon.admin.component.JDialogButtonBar;
 import com.sporthenon.admin.component.JEntityPicklist;
 import com.sporthenon.admin.container.tab.JResultsPanel;
 import com.sporthenon.db.DatabaseManager;
-import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
-import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
-import com.sporthenon.db.entity.Sport;
+import com.sporthenon.db.entity.Round;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
@@ -68,6 +67,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private String comment;
 	private String extlinks;
 	private boolean extlinksModified;
+	private List<Round> rounds;
+	private boolean roundsModified;
+	private String alias;
+	private Object param;
 	public static final short NEW = 1;
 	public static final short EDIT = 2;
 	public static final short COPY = 3;
@@ -84,17 +87,14 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jContentPane.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 4));
 		jContentPane.setLayout(layout);
 		jButtonBar = new JDialogButtonBar(this);
-		jButtonBar.getOptional().setText("Rounds");
 		jButtonBar.getOptional().setIcon("rounds.png");
 		jButtonBar.getOptional().setVisible(true);
 		jButtonBar.getOptional().setActionCommand("rounds");
 		jButtonBar.getOptional().addActionListener(this);
-		jButtonBar.getOptional2().setText("Comment");
 		jButtonBar.getOptional2().setIcon("comment.png");
 		jButtonBar.getOptional2().setVisible(true);
 		jButtonBar.getOptional2().setActionCommand("comment");
 		jButtonBar.getOptional2().addActionListener(this);
-		jButtonBar.getOptional3().setText("Ext. Links");
 		jButtonBar.getOptional3().setIcon("weblinks.png");
 		jButtonBar.getOptional3().setVisible(true);
 		jButtonBar.getOptional3().setActionCommand("extlinks");
@@ -196,6 +196,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			optionalBtn.setVisible(true);
 			optionalBtn.setActionCommand("persons-" + i);
 			optionalBtn.addActionListener(this);
+			jRanks[i].getButtonPanel2().setPreferredSize(new Dimension(69, 0));
 			labels[i] = new JLabel(ResourceUtils.getText("rank." + (i + 1), ResourceUtils.LGDEFAULT) + ":");
 			labels[i].setPreferredSize(new Dimension(28, 21));
 			jRes[i] = new JTextField();
@@ -241,11 +242,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		}
 		else if (cmd.startsWith("persons")) {
 			jEditRoundsDialog.clear();
-			jEditRoundsDialog.open();
+			//jEditRoundsDialog.open(alias, param);
 		}
 		else if (cmd.equals("rounds")) {
-			jEditRoundsDialog.clear();
-			jEditRoundsDialog.open();
+			jEditRoundsDialog.open(alias, param, rounds);
 		}
 		else if (cmd.equals("photos")) {
 			jEditPhotosDialog.clear();
@@ -290,16 +290,16 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			boolean err = false;
 			try {
 				rs = (Result)(mode == EDIT ? DatabaseManager.loadEntity(Result.class, id) : new Result());
-				rs.setSport((Sport)DatabaseManager.loadEntity(Sport.class, JResultsPanel.getIdSport()));
-				rs.setChampionship((Championship)DatabaseManager.loadEntity(Championship.class, JResultsPanel.getIdChampionship()));
-				rs.setEvent((Event)DatabaseManager.loadEntity(Event.class, JResultsPanel.getIdEvent()));
-				rs.setSubevent((Event)DatabaseManager.loadEntity(Event.class, JResultsPanel.getIdSubevent() != null ? JResultsPanel.getIdSubevent() : 0));
-				rs.setSubevent2((Event)DatabaseManager.loadEntity(Event.class, JResultsPanel.getIdSubevent2() != null ? JResultsPanel.getIdSubevent2() : 0));
-				rs.setYear((Year)DatabaseManager.loadEntity(Year.class, SwingUtils.getValue(jYear)));
-				rs.setCity1((City)DatabaseManager.loadEntity(City.class, SwingUtils.getValue(jCity1)));
-				rs.setComplex1((Complex)DatabaseManager.loadEntity(Complex.class, SwingUtils.getValue(jComplex1)));
-				rs.setCity2((City)DatabaseManager.loadEntity(City.class, SwingUtils.getValue(jCity2)));
-				rs.setComplex2((Complex)DatabaseManager.loadEntity(Complex.class, SwingUtils.getValue(jComplex2)));
+				rs.setIdSport(JResultsPanel.getIdSport());
+				rs.setIdChampionship(JResultsPanel.getIdChampionship());
+				rs.setIdEvent(JResultsPanel.getIdEvent());
+				rs.setIdSubevent(JResultsPanel.getIdSubevent());
+				rs.setIdSubevent2(JResultsPanel.getIdSubevent2());
+				rs.setIdYear(SwingUtils.getValue(jYear));
+				rs.setIdCity1(SwingUtils.getValue(jCity1));
+				rs.setIdCity2(SwingUtils.getValue(jCity2));
+				rs.setIdComplex1(SwingUtils.getValue(jComplex1));
+				rs.setIdComplex2(SwingUtils.getValue(jComplex2));
 				rs.setDate1(StringUtils.notEmpty(jDate1.getText()) ? jDate1.getText() : null);
 				rs.setDate2(StringUtils.notEmpty(jDate2.getText()) ? jDate2.getText() : null);
 				rs.setComment(StringUtils.notEmpty(comment) ? comment : null);
@@ -307,10 +307,15 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 				rs.setDraft(jDraft.isSelected());
 				for (int i = 0 ; i < jRanks.length ; i++) {
 					Integer id = SwingUtils.getValue(jRanks[i]);
-					Result.class.getMethod("setIdRank" + (i + 1), Integer.class).invoke(rs, id > 0 ? id : null);
+					Result.class.getMethod("setIdRank" + (i + 1), Integer.class).invoke(rs, id);
 					Result.class.getMethod("setResult" + (i + 1), String.class).invoke(rs, StringUtils.notEmpty(jRes[i].getText()) ? jRes[i].getText() : null);
 				}
 				rs = (Result) DatabaseManager.saveEntity(rs, JMainFrame.getContributor());
+				if (roundsModified) {
+					for (Round round : rounds) {
+						DatabaseManager.saveEntity(round, JMainFrame.getContributor());
+					}
+				}
 				if (extlinksModified) {
 					DatabaseManager.saveExternalLinks(Result.alias, rs.getId(), extlinks);
 				}
@@ -365,8 +370,12 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		this.mode = mode;
 		this.entityType = entityType;
 		this.setTitle(mode == NEW || mode == COPY ? "New Result" : "Edit Result #" + id);
+		jButtonBar.getOptional().setText("Rounds" + (!rounds.isEmpty() ? " (" + rounds.size() + ")" : ""));
+		jButtonBar.getOptional2().setText("Comment" + (StringUtils.notEmpty(comment) ? " (1)" : ""));
+		jButtonBar.getOptional3().setText("Ext. Links" + (StringUtils.notEmpty(extlinks) ? " (" + extlinks.split("\r\n").length + ")" : ""));
 		this.setVisible(true);
 		this.extlinksModified = false;
+		this.roundsModified = false;
 		for (int i = 0 ; i < 20 ; i++) {
 			jExaCheckbox[i].setSelected(false);
 		}
@@ -434,6 +443,22 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	
 	public void setExtLinksModified(boolean extlinksModified) {
 		this.extlinksModified = extlinksModified;
+	}
+
+	public void setRounds(List<Round> rounds) {
+		this.rounds = rounds;
+	}
+
+	public void setRoundsModified(boolean roundsModified) {
+		this.roundsModified = roundsModified;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
+
+	public void setParam(Object param) {
+		this.param = param;
 	}
 
 }

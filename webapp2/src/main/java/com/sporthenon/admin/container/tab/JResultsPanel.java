@@ -48,6 +48,7 @@ import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
+import com.sporthenon.db.entity.Round;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.InactiveItem;
@@ -491,23 +492,23 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 						rdlg.getExaCheckbox()[i].setSelected(lTie.contains(i + 1));
 					}
 					type = (rs.getSubevent2() != null ? rs.getSubevent2().getType().getNumber() : (rs.getSubevent() != null ? rs.getSubevent().getType().getNumber() : rs.getEvent().getType().getNumber()));
+					// Rounds
+					List<Round> listR = (List<Round>) DatabaseManager.executeSelect("SELECT * FROM round where id_result = ? order by id", Arrays.asList(Integer.valueOf(resultId)), Round.class);
+					rdlg.setRounds(listR);
 					// Ext.links
 					StringBuffer sbLinks = new StringBuffer();
-					try {
-						List<ExternalLink> list = (List<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link where entity = ? and id_item = ? order by id", Arrays.asList(Result.alias, Integer.valueOf(resultId)), ExternalLink.class);
-						for (ExternalLink link : list) {
-							sbLinks.append(link.getUrl()).append("\r\n");
-						}
-						rdlg.setExtLinks(sbLinks.toString());
+					List<ExternalLink> listEL = (List<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link where entity = ? and id_item = ? order by id", Arrays.asList(Result.alias, Integer.valueOf(resultId)), ExternalLink.class);
+					for (ExternalLink link : listEL) {
+						sbLinks.append(link.getUrl()).append("\r\n");
 					}
-					catch (Exception e_) {
-						log.log(Level.WARNING, e_.getMessage(), e_);
-					}
+					rdlg.setExtLinks(sbLinks.toString());
 				}
 				JEntityPicklist[] ranks = rdlg.getRanks();
 				JTextField[] res = rdlg.getRes();
 				Object param = (type != 99 ? idSport : null);
 				String alias = (type < 10 ? Athlete.alias : (type == 50 ? Team.alias : Country.alias));
+				rdlg.setParam(param);
+				rdlg.setAlias(alias);
 				for (int i = 0 ; i < ranks.length ; i++) {
 					SwingUtils.fillPicklist(ranks[i], pl.get(alias), param);
 					if (isCopy || isEdit) {
