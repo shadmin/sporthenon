@@ -60,7 +60,13 @@ public class SwingUtils {
 	}
 	
 	public static Integer getValue(JEntityPicklist pl) {
-		return (pl.getPicklist().getSelectedItem() != null ? ((PicklistItem)pl.getPicklist().getSelectedItem()).getValue() : null);
+		if (pl.getPicklist().getSelectedItem() != null) {
+			int value = ((PicklistItem)pl.getPicklist().getSelectedItem()).getValue();
+			if (value > 0) {
+				return value;
+			}
+		}
+		return null;
 	}
 	
 	public static String getText(JEntityPicklist pl) {

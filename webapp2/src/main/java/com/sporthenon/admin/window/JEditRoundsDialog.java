@@ -37,6 +37,7 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 	private int nbRounds = 0;
 	private String alias;
 	private Object param;
+	private static final int INITIAL_COUNT = 15;
 
 	public JEditRoundsDialog(JEditResultDialog owner) {
 		super(owner);
@@ -126,7 +127,7 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 			List<Round> rounds = new ArrayList<>();
 			for (JRoundPanel rdpanel : rdPanels) {
 				Integer idRoundType = SwingUtils.getValue(rdpanel.getRoundType());
-				if (idRoundType != null) {
+				if (idRoundType != null && idRoundType > 0) {
 					Round round = new Round();
 					round.setId(rdpanel.getId());
 					round.setIdRoundType(idRoundType);
@@ -165,7 +166,7 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 		roundsPanel.removeAll();
 		roundsPanel.add(getLabelsPanel());
 		nbRounds = 0;
-		addRounds(20);
+		addRounds(INITIAL_COUNT);
 	}
 
 	public void open(String alias, Object param, List<Round> rounds) {

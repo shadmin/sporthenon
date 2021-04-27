@@ -168,7 +168,7 @@ public class ImportUtils {
 							if (tp != null)
 								n = (tp.equalsIgnoreCase("country") ? 99 : (tp.equalsIgnoreCase("team") ? 50 : 1));
 							else {
-								String sql_ = "select type.number from Event ev where ev.id = ?";
+								String sql_ = "SELECT TP.number FROM event EV JOIN type TP ON TP.id = EV.id_type WHERE EV.id = ?";
 								List<Integer> lNumber = (List<Integer>) DatabaseManager.executeSelect(sql_, Arrays.asList(hId.get(hId.containsKey("se2") ? "se2" : (hId.containsKey("se") ? "se" : "ev"))), Integer.class);
 								if (lNumber != null && lNumber.size() > 0)
 									n = lNumber.get(0);
@@ -295,6 +295,7 @@ public class ImportUtils {
 			}
 			catch (Exception e) {
 				isError = true;
+				log.log(Level.WARNING, e.getMessage(), e);
 				writeError(vLine, ResourceUtils.getText("error", lang).toUpperCase() + ": " + e.getMessage());
 			}
 			if (isError)
@@ -826,7 +827,7 @@ public class ImportUtils {
 		return (hTitle.containsKey(s) ? hTitle.get(s) : s);
 	}
 	
-	public static Integer insertEvent(int row, String s, Contributor cb, StringBuffer sb, String lang) throws Exception {
+	private static Integer insertEvent(int row, String s, Contributor cb, StringBuffer sb, String lang) throws Exception {
 		Integer id = null;
 		Object o = null;
 		String msg = null;
@@ -834,9 +835,9 @@ public class ImportUtils {
 			String[] t = s.split("\\|");
 			Object o_ = null;
 			if (t.length > 1)
-				o_ = DatabaseManager.loadEntity("SELECT * FROM type tp WHERE LOWER(tp.label) = ?", Arrays.asList(t[1].toLowerCase()), Type.class);
+				o_ = DatabaseManager.loadEntity("SELECT * FROM type TP WHERE LOWER(TP.label) = ?", Arrays.asList(t[1].toLowerCase()), Type.class);
 			if (o_ == null)
-				o_ = DatabaseManager.loadEntity("SELECT * FROM type tp WHERE LOWER(tp.label) = 'single'", null, Type.class);
+				o_ = DatabaseManager.loadEntity("SELECT * FROM type TP WHERE LOWER(TP.label) = 'single'", null, Type.class);
 			Event ev = new Event();
 			ev.setLabel(t[0]);
 			ev.setLabelFr(t[0]);

@@ -123,9 +123,11 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	public void itemStateChanged(ItemEvent e) {
-		int leagueId = SwingUtils.getValue(jLeague);
-		SwingUtils.fillPicklist(jTeam, JMainFrame.getPicklists().get(Team.alias), leagueId == 1 ? 23 : (leagueId == 2 ? 24 : (leagueId == 3 ? 25 : 26)));
-		SwingUtils.fillPicklist(jPerson, JMainFrame.getPicklists().get(Athlete.alias), leagueId == 1 ? 23 : (leagueId == 2 ? 24 : (leagueId == 3 ? 25 : 26)));
+		Integer leagueId = SwingUtils.getValue(jLeague);
+		if (leagueId != null) {
+			SwingUtils.fillPicklist(jTeam, JMainFrame.getPicklists().get(Team.alias), leagueId == 1 ? 23 : (leagueId == 2 ? 24 : (leagueId == 3 ? 25 : 26)));
+			SwingUtils.fillPicklist(jPerson, JMainFrame.getPicklists().get(Athlete.alias), leagueId == 1 ? 23 : (leagueId == 2 ? 24 : (leagueId == 3 ? 25 : 26)));
+		}
 	}
 	
 }

@@ -460,7 +460,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				boolean isCopy = e.getActionCommand().matches("copy.*");
 				Result rs = null;
 				String resultId = null;
-				int type = 0;
+				com.sporthenon.db.entity.Type type = null;
 				Map<String, List<PicklistItem>> pl = JMainFrame.getPicklists();
 				JEditResultDialog rdlg = JMainFrame.getResultDialog();
 				rdlg.clear();
@@ -468,7 +468,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					Event ev = (Event)DatabaseManager.loadEntity(Event.class, idEvent);
 					Event se = (Event)(idSubevent != null ? DatabaseManager.loadEntity(Event.class, idSubevent) : null);
 					Event se2 = (Event)(idSubevent2 != null ? DatabaseManager.loadEntity(Event.class, idSubevent2) : null);
-					type = (se2 != null ? se2.getType().getNumber() : (se != null ? se.getType().getNumber() : ev.getType().getNumber()));
+					type = (se2 != null ? se2.getType() : (se != null ? se.getType() : ev.getType()));
 				}
 				else {
 					resultId = String.valueOf(jResultTable.getValueAt(jResultTable.getSelectedRow(), 0));
@@ -491,7 +491,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					for (int i = 0 ; i < 10 ; i++) {
 						rdlg.getExaCheckbox()[i].setSelected(lTie.contains(i + 1));
 					}
-					type = (rs.getSubevent2() != null ? rs.getSubevent2().getType().getNumber() : (rs.getSubevent() != null ? rs.getSubevent().getType().getNumber() : rs.getEvent().getType().getNumber()));
+					type = (rs.getSubevent2() != null ? rs.getSubevent2().getType() : (rs.getSubevent() != null ? rs.getSubevent().getType() : rs.getEvent().getType()));
 					// Rounds
 					List<Round> listR = (List<Round>) DatabaseManager.executeSelect("SELECT * FROM round where id_result = ? order by id", Arrays.asList(Integer.valueOf(resultId)), Round.class);
 					rdlg.setRounds(listR);
@@ -505,8 +505,8 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				}
 				JEntityPicklist[] ranks = rdlg.getRanks();
 				JTextField[] res = rdlg.getRes();
-				Object param = (type != 99 ? idSport : null);
-				String alias = (type < 10 ? Athlete.alias : (type == 50 ? Team.alias : Country.alias));
+				Object param = (type.getNumber() != 99 ? idSport : null);
+				String alias = (type.getNumber() < 10 ? Athlete.alias : (type.getNumber() == 50 ? Team.alias : Country.alias));
 				rdlg.setParam(param);
 				rdlg.setAlias(alias);
 				for (int i = 0 ; i < ranks.length ; i++) {

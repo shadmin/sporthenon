@@ -8,8 +8,11 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +42,8 @@ import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.container.JTopPanel;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.ImportUtils;
+import com.sporthenon.utils.StringUtils;
+import com.sporthenon.utils.res.ResourceUtils;
 
 public class JImportDialog extends JDialog implements ActionListener {
 
@@ -273,7 +278,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 		catch (Exception e) {}
 	}
 
-	private Vector<Vector<String>> getTableAsVector() {
+	private Vector<Vector<String>> getTableAsVector() throws Exception {
 		final int n = jProcessTable.getColumnCount();
 		Vector<Vector<String>> v = new Vector<Vector<String>>();
 		for (int i = 0 ; i < jProcessTable.getRowCount() ; i++) {
@@ -283,6 +288,20 @@ public class JImportDialog extends JDialog implements ActionListener {
 				v_.add(o != null ? String.valueOf(o) : "");
 			}
 			v.add(v_);
+		}
+		if (v.isEmpty() && StringUtils.notEmpty(jFile.getText())) {
+			try (BufferedReader bf = new BufferedReader(new InputStreamReader(new FileInputStream(jFile.getText()), "UTF8"));) {
+				String s = null;
+				while ((s = bf.readLine()) != null) {
+					if (StringUtils.notEmpty(s)) {
+						Vector<String> v_ = new Vector<>();
+						for (String s_ : s.split(";", -1)) {
+							v_.add(s_.trim());
+						}
+						v.add(v_);
+					}
+				}
+			}
 		}
 		return v;
 	}
@@ -348,21 +367,26 @@ public class JImportDialog extends JDialog implements ActionListener {
 				hTitle.put("thdr", "3rd place - L");
 				hTitle.put("thds", "3rd place - Score");
 			}
-			for (String s : vHeader)
+			for (String s : vHeader) {
 				vHeaderLabel.add(hTitle.get(s));
+			}
 			Vector<Vector<String>> vFile = getTableAsVector();
 			int i = 0;
 			float pg = 0.0f;
 			boolean isError = false;
 			for (Vector<String> v : vFile) {
-				if (!isReprocess)
+				if (!isReprocess) {
 					v.insertElementAt("", 0);
-				else
+				}
+				else {
 					v.set(0, "");
-				if (jTypeRS.isSelected())
-					isError |= ImportUtils.processLineRS(i, vHeader, v, isUpdate, null, null, null);
-				else if (jTypeRD.isSelected())
-					isError |= ImportUtils.processLineRC(i, vHeader, v, isUpdate, null, null, null);
+				}
+				if (jTypeRS.isSelected()) {
+					isError |= ImportUtils.processLineRS(i, vHeader, v, isUpdate, null, JMainFrame.getContributor(), ResourceUtils.LGDEFAULT);
+				}
+				else if (jTypeRD.isSelected()) {
+					isError |= ImportUtils.processLineRC(i, vHeader, v, isUpdate, null, JMainFrame.getContributor(), ResourceUtils.LGDEFAULT);
+				}
 				if (i * 100 / vFile.size() > pg) {
 					incrementProgress();
 					pg = i * 100 / vFile.size();
@@ -393,8 +417,9 @@ public class JImportDialog extends JDialog implements ActionListener {
 						component.setForeground(Color.white);
 						component.setBackground(Color.orange);
 					}
-					else
+					else {
 						component.setBackground(Color.white);
+					}
 					return component;
 				}
 			});

@@ -105,8 +105,10 @@ public class JHallOfFamePanel extends JAbstractEntityPanel implements ItemListen
 	}
 	
 	public void itemStateChanged(ItemEvent e) {
-		int leagueId = SwingUtils.getValue(jLeague);
-		SwingUtils.fillPicklist(jPerson, JMainFrame.getPicklists().get(Athlete.alias), leagueId == 1 ? 23 : (leagueId == 2 ? 24 : (leagueId == 3 ? 25 : 26)));
+		Integer leagueId = SwingUtils.getValue(jLeague);
+		if (leagueId != null) {
+			SwingUtils.fillPicklist(jPerson, JMainFrame.getPicklists().get(Athlete.alias), leagueId == 1 ? 23 : (leagueId == 2 ? 24 : (leagueId == 3 ? 25 : 26)));
+		}
 	}
 	
 }

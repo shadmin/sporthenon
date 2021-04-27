@@ -63,7 +63,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private JResultsPanel parent;
 	private Integer id;
 	private short mode;
-	private int entityType;
+	private com.sporthenon.db.entity.Type type;
 	private String comment;
 	private String extlinks;
 	private boolean extlinksModified;
@@ -226,7 +226,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			JEntityPicklist srcPicklist = (JEntityPicklist)((JCustomButton)e.getSource()).getParent().getParent();
 			if (cmd.matches("\\D\\D\\-add")) {
 				if (alias.equalsIgnoreCase("EN")) {
-					alias = (entityType < 10 ? "PR" : (entityType == 50 ? "TM" : "CN"));
+					alias = (type.getNumber() < 10 ? "PR" : (type.getNumber() == 50 ? "TM" : "CN"));
 				}
 				JMainFrame.getEntityDialog().open(alias, srcPicklist);
 			}
@@ -246,6 +246,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		}
 		else if (cmd.equals("rounds")) {
 			jEditRoundsDialog.open(alias, param, rounds);
+			jButtonBar.getOptional().setText("Rounds" + (!rounds.isEmpty() ? " (" + rounds.size() + ")" : ""));
 		}
 		else if (cmd.equals("photos")) {
 			jEditPhotosDialog.clear();
@@ -313,6 +314,8 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 				rs = (Result) DatabaseManager.saveEntity(rs, JMainFrame.getContributor());
 				if (roundsModified) {
 					for (Round round : rounds) {
+						round.setIdResult(id);
+						round.setIdResultType(type.getId());
 						DatabaseManager.saveEntity(round, JMainFrame.getContributor());
 					}
 				}
@@ -364,11 +367,11 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		}
 	}
 	
-	public void open(JResultsPanel parent, Integer id, Integer drawId, short mode, int entityType) {
+	public void open(JResultsPanel parent, Integer id, Integer drawId, short mode, com.sporthenon.db.entity.Type type) {
 		this.parent = parent;
 		this.id = id;
 		this.mode = mode;
-		this.entityType = entityType;
+		this.type = type;
 		this.setTitle(mode == NEW || mode == COPY ? "New Result" : "Edit Result #" + id);
 		jButtonBar.getOptional().setText("Rounds" + (!rounds.isEmpty() ? " (" + rounds.size() + ")" : ""));
 		jButtonBar.getOptional2().setText("Comment" + (StringUtils.notEmpty(comment) ? " (1)" : ""));
