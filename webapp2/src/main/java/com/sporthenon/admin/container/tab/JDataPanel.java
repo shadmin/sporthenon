@@ -42,6 +42,7 @@ import com.sporthenon.admin.container.entity.JOlympicRankingPanel;
 import com.sporthenon.admin.container.entity.JOlympicsPanel;
 import com.sporthenon.admin.container.entity.JRecordPanel;
 import com.sporthenon.admin.container.entity.JRetiredNumberPanel;
+import com.sporthenon.admin.container.entity.JRoundTypePanel;
 import com.sporthenon.admin.container.entity.JSportPanel;
 import com.sporthenon.admin.container.entity.JStatePanel;
 import com.sporthenon.admin.container.entity.JTeamPanel;
@@ -67,6 +68,7 @@ import com.sporthenon.db.entity.OlympicRanking;
 import com.sporthenon.db.entity.Olympics;
 import com.sporthenon.db.entity.Record;
 import com.sporthenon.db.entity.RetiredNumber;
+import com.sporthenon.db.entity.RoundType;
 import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
@@ -130,6 +132,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		v.add("Olympic Medals");
 		v.add("Records");
 		v.add("Retired Numbers");
+		v.add("Round type");
 		v.add("Sport");
 		v.add("State");
 		v.add("Team");
@@ -550,6 +553,13 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setYear(rn.getYear() != null ? rn.getYear().getId() : null);
 			p.setNumber(String.valueOf(rn.getNumber()));
 		}
+		else if (o instanceof RoundType) {
+			RoundType rt = (RoundType) o;
+			JRoundTypePanel p = (JRoundTypePanel) panel;
+			p.setLabel(rt.getLabel());
+			p.setLabelFR(rt.getLabelFr());
+			p.setIndex(rt.getIndex() != null ? String.valueOf(rt.getIndex()) : null);
+		}
 		else if (o instanceof Sport) {
 			Sport sp = (Sport) o;
 			JSportPanel p = (JSportPanel) panel;
@@ -652,13 +662,14 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			case 9: alias = OlympicRanking.alias; break;
 			case 10: alias = Record.alias; break;
 			case 11: alias = RetiredNumber.alias; break;
-			case 12: alias = Sport.alias; break;
-			case 13: alias = State.alias; break;
-			case 14: alias = Team.alias; break;
-			case 15: alias = TeamStadium.alias; break;
-			case 16: alias = WinLoss.alias; break;
-			case 17: alias = Year.alias; break;
-			case 19: alias = Config.alias; break;
+			case 12: alias = RoundType.alias; break;
+			case 13: alias = Sport.alias; break;
+			case 14: alias = State.alias; break;
+			case 15: alias = Team.alias; break;
+			case 16: alias = TeamStadium.alias; break;
+			case 17: alias = WinLoss.alias; break;
+			case 18: alias = Year.alias; break;
+			case 20: alias = Config.alias; break;
 		}
 		jContainer.add(JMainFrame.getEntityPanels().get(alias), alias);
 		((CardLayout) jContainer.getLayout()).show(jContainer, alias);

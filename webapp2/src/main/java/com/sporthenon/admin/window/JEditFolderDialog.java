@@ -209,16 +209,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		if (cmd.matches("\\D\\D\\-(add|find)")) {
-			String alias = cmd.substring(0, 2);
-			JEntityPicklist srcPicklist = (JEntityPicklist)((JCustomButton)e.getSource()).getParent().getParent();
-			if (cmd.matches("\\D\\D\\-add"))
-				JMainFrame.getEntityDialog().open(alias, srcPicklist);
-			else {
-				JFindEntityDialog dlg = JMainFrame.getFindDialog();
-				dlg.open(alias, srcPicklist);
-				if (dlg.getSelectedItem() != null)
-					SwingUtils.selectValue(srcPicklist, dlg.getSelectedItem().getValue());
-			}
+			SwingUtils.openAddFindDialog(e, null);
 			return;
 		}
 		else if (cmd.matches("add|remove")) {

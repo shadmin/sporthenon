@@ -25,7 +25,7 @@ import com.sporthenon.db.entity.RoundType;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
 
-public class JEditRoundsDialog extends JDialog implements ActionListener {
+public class JEditPersonListDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,7 +39,7 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 	private Object param;
 	private static final int INITIAL_COUNT = 15;
 
-	public JEditRoundsDialog(JEditResultDialog owner) {
+	public JEditPersonListDialog(JEditResultDialog owner) {
 		super(owner);
 		parent = (JEditResultDialog) this.getOwner();
 		initialize();

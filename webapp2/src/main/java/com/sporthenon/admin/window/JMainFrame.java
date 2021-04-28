@@ -42,6 +42,7 @@ import com.sporthenon.admin.container.entity.JOlympicRankingPanel;
 import com.sporthenon.admin.container.entity.JOlympicsPanel;
 import com.sporthenon.admin.container.entity.JRecordPanel;
 import com.sporthenon.admin.container.entity.JRetiredNumberPanel;
+import com.sporthenon.admin.container.entity.JRoundTypePanel;
 import com.sporthenon.admin.container.entity.JSportPanel;
 import com.sporthenon.admin.container.entity.JStatePanel;
 import com.sporthenon.admin.container.entity.JTeamPanel;
@@ -141,6 +142,7 @@ public class JMainFrame extends JFrame {
 			jEntityPanels.put(OlympicRanking.alias, new JOlympicRankingPanel());
 			jEntityPanels.put(Record.alias, new JRecordPanel());
 			jEntityPanels.put(RetiredNumber.alias, new JRetiredNumberPanel());
+			jEntityPanels.put(RoundType.alias, new JRoundTypePanel());
 			jEntityPanels.put(Sport.alias, new JSportPanel());
 			jEntityPanels.put(State.alias, new JStatePanel());
 			jEntityPanels.put(Team.alias, new JTeamPanel());
@@ -466,6 +468,13 @@ public class JMainFrame extends JFrame {
 			params.put("rn-person", SwingUtils.getValue(p.getPerson()));
 			params.put("rn-year", SwingUtils.getValue(p.getYear()));
 			params.put("rn-number", p.getNumber().getText());
+		}
+		else if (alias.equalsIgnoreCase(RoundType.alias)) {
+			JRoundTypePanel p = (JRoundTypePanel) jEntityPanels.get(alias);
+			params.put("rt-label", p.getLabel().getText());
+			params.put("rt-labelfr", p.getLabelFR().getText());
+			params.put("rt-index", p.getIndex().getText());
+			pi.setText(String.valueOf(params.get("rt-label")));
 		}
 		else if (alias.equalsIgnoreCase(Sport.alias)) {
 			JSportPanel p = (JSportPanel) jEntityPanels.get(alias);

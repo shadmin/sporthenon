@@ -74,8 +74,9 @@ public class JEditEntityDialog extends JDialog implements ActionListener {
 	public void open(String alias, JEntityPicklist picklist) {
 		Map<String, JAbstractEntityPanel> panels = JMainFrame.getEntityPanels();
 		JAbstractEntityPanel p = panels.get(alias);
-		for (String key : panels.keySet())
+		for (String key : panels.keySet()) {
 			jContainer.remove(panels.get(key));
+		}
 		jContainer.add(p, alias);
 		this.alias = alias;
 		this.picklist = picklist;

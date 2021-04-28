@@ -511,6 +511,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				rdlg.setAlias(alias);
 				for (int i = 0 ; i < ranks.length ; i++) {
 					SwingUtils.fillPicklist(ranks[i], pl.get(alias), param);
+					ranks[i].getOptionalButton().setEnabled(type.getNumber() > 10);
 					if (isCopy || isEdit) {
 						Object id = Result.class.getMethod("getIdRank" + (i + 1)).invoke(rs);
 						Object res_ = Result.class.getMethod("getResult" + (i + 1)).invoke(rs);

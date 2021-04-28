@@ -10,12 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.sporthenon.admin.component.JCustomButton;
-import com.sporthenon.admin.component.JEntityPicklist;
-import com.sporthenon.admin.component.JLinkTextField;
-import com.sporthenon.admin.window.JFindEntityDialog;
-import com.sporthenon.admin.window.JMainFrame;
-import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.utils.SwingUtils;
 
 
@@ -65,28 +59,7 @@ public abstract class JAbstractEntityPanel extends JPanel implements ActionListe
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		String alias = e.getActionCommand().substring(0, 2);
-		Object parent = ((JCustomButton)e.getSource()).getParent().getParent();
-		JEntityPicklist srcPicklist = null;
-		if (parent instanceof JEntityPicklist)
-			srcPicklist = (JEntityPicklist)parent;
-		else
-			srcPicklist = (alias.equals(Athlete.alias) ? JMainFrame.getAllAthletes() : JMainFrame.getAllTeams());
-		if (e.getActionCommand().matches(".*\\-add")) {
-			JMainFrame.getEntityDialog().open(alias, srcPicklist);
-			return;
-		}
-		else if (e.getActionCommand().matches(".*\\-find")) {
-			JFindEntityDialog dlg = JMainFrame.getFindDialog();
-			dlg.open(alias, parent instanceof JEntityPicklist ? srcPicklist : null);
-			if (dlg.getSelectedItem() != null) {
-				int value = dlg.getSelectedItem().getValue();
-				if (parent instanceof JEntityPicklist)
-					SwingUtils.selectValue(srcPicklist, value);
-				else
-					((JLinkTextField)parent).setText(String.valueOf(value));
-			}
-		}
+		SwingUtils.openAddFindDialog(e, null);
 	}
 
 }

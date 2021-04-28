@@ -222,22 +222,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		if (cmd.matches("\\D\\D\\-(add|find)")) {
-			String alias = cmd.substring(0, 2);
-			JEntityPicklist srcPicklist = (JEntityPicklist)((JCustomButton)e.getSource()).getParent().getParent();
-			if (cmd.matches("\\D\\D\\-add")) {
-				if (alias.equalsIgnoreCase("EN")) {
-					alias = (type.getNumber() < 10 ? "PR" : (type.getNumber() == 50 ? "TM" : "CN"));
-				}
-				JMainFrame.getEntityDialog().open(alias, srcPicklist);
-			}
-			else {
-				JFindEntityDialog dlg = JMainFrame.getFindDialog();
-				dlg.open(alias, srcPicklist);
-				if (dlg.getSelectedItem() != null) {
-					SwingUtils.selectValue(srcPicklist, dlg.getSelectedItem().getValue());
-					srcPicklist.requestFocus();
-				}
-			}
+			SwingUtils.openAddFindDialog(e, type.getNumber());
 			return;
 		}
 		else if (cmd.startsWith("persons")) {
@@ -434,6 +419,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	
 	public JCheckBox getDraft() {
 		return jDraft;
+	}
+	
+	public com.sporthenon.db.entity.Type getResultType() {
+		return type;
 	}
 	
 	public void setComment(String comment) {
