@@ -529,8 +529,8 @@
 	<entry key="template.rs.result">Result</entry>
 	<entry key="template.date1">Start Date (DD/MM/YYYY)</entry>
 	<entry key="template.date2">End Date (DD/MM/YYYY)</entry>
-	<entry key="template.place1">Place #1 (Complex Name or City)</entry>
-	<entry key="template.place2">Place #2 (Complex Name or City)</entry>
+	<entry key="template.place1">Place 1 (Complex Name or City)</entry>
+	<entry key="template.place2">Place 2 (Complex Name or City)</entry>
 	<entry key="template.record.label">Record Label</entry>
 	<entry key="renamed">Same stadium renamed?</entry>
 	<entry key="counting">Counting</entry>

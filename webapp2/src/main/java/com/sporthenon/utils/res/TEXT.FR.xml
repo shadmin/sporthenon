@@ -526,8 +526,8 @@
 	<entry key="template.rs.result">Résultat</entry>
 	<entry key="template.date1">Date de début (DD/MM/YYYY)</entry>
 	<entry key="template.date2">Date de fin (DD/MM/YYYY)</entry>
-	<entry key="template.place1">Lieu #1 (Complexe ou Ville)</entry>
-	<entry key="template.place2">Lieu #2 (Complexe ou Ville)</entry>
+	<entry key="template.place1">Lieu 1 (Complexe ou Ville)</entry>
+	<entry key="template.place2">Lieu 2 (Complexe ou Ville)</entry>
 	<entry key="template.record.label">Libellé du record</entry>
 	<entry key="renamed">Même stade renommé ?</entry>
 	<entry key="counting">En cours</entry>

@@ -15,6 +15,7 @@ import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
@@ -112,7 +113,7 @@ public class ExportUtils {
 			headerStyle.setFont(boldFont);
 			headerStyle.setAlignment(HorizontalAlignment.CENTER);
 			headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-			//headerStyle.setFillForegroundColor(new HSSFColor.AQUA().getIndex());
+			headerStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_YELLOW.getIndex());
 			
 			HSSFCellStyle boldStyle = hwb.createCellStyle();
 			boldStyle.cloneStyleFrom(normalStyle);
@@ -121,14 +122,17 @@ public class ExportUtils {
 			HSSFCellStyle blueStyle = hwb.createCellStyle();
 			blueStyle.cloneStyleFrom(normalStyle);
 			blueStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			blueStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_BLUE.getIndex());
 			
 			HSSFCellStyle greenStyle = hwb.createCellStyle();
 			greenStyle.cloneStyleFrom(normalStyle);
 			greenStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			greenStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_GREEN.getIndex());
 			
 			HSSFCellStyle orangeStyle = hwb.createCellStyle();
 			orangeStyle.cloneStyleFrom(normalStyle);
 			orangeStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			orangeStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_ORANGE.getIndex());
 			
 			// Content
 			ArrayList<Short> lBlankRow = new ArrayList<Short>();

@@ -37,6 +37,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.container.JTopPanel;
@@ -61,7 +62,6 @@ public class JImportDialog extends JDialog implements ActionListener {
 	private JProgressBar jProgressBar;
 	private JImportReportDialog jImportReportDialog;
 	private Vector<String> vHeader = null;
-	private StringBuffer processReport = null;
 
 	public JImportDialog(JFrame owner) {
 		super(owner);
@@ -186,6 +186,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 		jProcessButton.setText("Process");
 		jTypeRS.setSelected(true);
 		jProgressBar.setValue(0);
+		((DefaultTableModel) jProcessTable.getModel()).setRowCount(0);
 		vHeader = null;
 		this.setVisible(true);
 	}
@@ -216,10 +217,10 @@ public class JImportDialog extends JDialog implements ActionListener {
 		else if (e.getActionCommand().equals("update")) {
 			new Thread (new Runnable() {
 				public void run() {
-					processReport = new StringBuffer();
-					processAll(true, true);
-					jImportReportDialog.getReport().setText(processReport.toString());
+					jImportReportDialog.disableOk();
 					jImportReportDialog.open();
+					processAll(true, true);
+					jImportReportDialog.enableOk();
 				}
 			}).start ();
 		}
@@ -232,10 +233,8 @@ public class JImportDialog extends JDialog implements ActionListener {
 				String type = e.getActionCommand().substring(x - 2, x);
 				String ext = e.getActionCommand().substring(x + 1);
 				List<List<String>> list = ImportUtils.getTemplate(type, "en");
-				FileOutputStream fos = null;
-				try {
-					File f = jFileChooser.getSelectedFile();
-					fos = new FileOutputStream(new File(f.getAbsolutePath() + "\\SH-Template-" + type + "." + ext));
+				File f = jFileChooser.getSelectedFile();
+				try (FileOutputStream fos = new FileOutputStream(new File(f.getAbsolutePath() + "\\SH-Template-" + type + "." + ext));) {
 					if (ext.equalsIgnoreCase("xls")) {
 						ExportUtils.buildXLS(fos, null, null, list, null, new boolean[]{false});
 					}
@@ -243,8 +242,9 @@ public class JImportDialog extends JDialog implements ActionListener {
 						StringBuffer sb = new StringBuffer();
 						for (List<String> list_ : list) {
 							int i = 0;
-							for (String s : list_)
-								sb.append(i++ > 0 ? ";" : "").append(s);
+							for (String s : list_) {
+								sb.append(i++ > 0 ? ";" : "").append(s.replaceFirst("^\\#color.+\\#", ""));
+							}
 							sb.append("\r\n");
 						}
 						fos.write(sb.toString().getBytes());
@@ -253,29 +253,16 @@ public class JImportDialog extends JDialog implements ActionListener {
 				catch (Exception e_) {
 					log.log(Level.WARNING, e_.getMessage(), e_);
 				}
-				finally {
-					try {
-						if (fos != null)
-							fos.close();
-					}
-					catch (Exception e_) {
-						log.log(Level.WARNING, e_.getMessage(), e_);
-					}
-				}
 			}
 		}
 	}
 
-	private void incrementProgress() {
+	private void incrementProgress(float pg) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				jProgressBar.setValue(jProgressBar.getValue() + 1);
+				jProgressBar.setValue(Math.round(pg));
 			}
 		});
-		try  {
-			//java.lang.Thread.sleep(100);
-		}
-		catch (Exception e) {}
 	}
 
 	private Vector<Vector<String>> getTableAsVector() throws Exception {
@@ -314,7 +301,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 			final Map<String, String> hTitle = new HashMap<String, String>();
 			Vector<String> vHeaderLabel = new Vector<String>();
 			if (jTypeRS.isSelected()) {
-				vHeader = new Vector<String>(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rk5", "rk6", "rk7", "rk8", "rk9", "dt1", "dt2", "pl1", "pl2", "exa", "cmt", "exl"}));
+				vHeader = new Vector<String>(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rs4", "rk5", "rs5", "rk6", "rs6", "rk7", "rs7", "rk8", "rs8", "rk9", "rs9", "rk10", "rs10", "rk11", "rs11", "rk12", "rs12", "rk13", "rs13", "rk14", "rs14", "rk15", "rs15", "rk16", "rs16", "rk17", "rs17", "rk18", "rs18", "rk19", "rs19", "rk20", "rs20", "dt1", "dt2", "pl1", "pl2", "exa", "cmt", "exl"}));
 				hTitle.put("msg", "Message");
 				hTitle.put("sp", "Sport");
 				hTitle.put("cp", "Championship");
@@ -322,12 +309,10 @@ public class JImportDialog extends JDialog implements ActionListener {
 				hTitle.put("se", "Event #2");
 				hTitle.put("se2", "Event #3");
 				hTitle.put("yr", "Year");
-				hTitle.put("rk1", "Rank #1"); hTitle.put("rk2", "Rank #2"); hTitle.put("rk3", "Rank #3"); hTitle.put("rk4", "Rank #4"); hTitle.put("rk5", "Rank #5"); hTitle.put("rk6", "Rank #6"); hTitle.put("rk7", "Rank #7"); hTitle.put("rk8", "Rank #8"); hTitle.put("rk9", "Rank #9");
-				hTitle.put("rs1", "Result #1");
-				hTitle.put("rs2", "Result #2");
-				hTitle.put("rs3", "Result #3");
-				hTitle.put("rs4", "Result #4");
-				hTitle.put("rs5", "Result #5");
+				for (int i = 1 ; i <= 20 ; i++) {
+					hTitle.put("rk" + i, "Rank #" + i);
+					hTitle.put("rs" + i, "Result #" + i);
+				}
 				hTitle.put("dt1", "Date #1");
 				hTitle.put("dt2", "Date #2");
 				hTitle.put("pl1", "Place #1");
@@ -337,35 +322,19 @@ public class JImportDialog extends JDialog implements ActionListener {
 				hTitle.put("exl", "External Link");
 			}
 			else if (jTypeRD.isSelected()) {
-				vHeader = new Vector<String>(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "qf1w", "qf1r", "qf1s", "qf2w", "qf2r", "qf2s", "qf3w", "qf3r", "qf3s", "qf4w", "qf4r", "qf4s", "sf1w", "sf1r", "sf1s", "sf2w", "sf2r", "sf2s", "thdw", "thdr", "thds"}));
-				hTitle.put("msg", "Message");
-				hTitle.put("sp", "Sport");
-				hTitle.put("cp", "Championship");
-				hTitle.put("ev", "Event #1");
-				hTitle.put("se", "Event #2");
-				hTitle.put("se2", "Event #3");
-				hTitle.put("yr", "Year");
-				hTitle.put("qf1w", "Quarterfinal #1 - W");
-				hTitle.put("qf1r", "Quarterfinal #1 - L");
-				hTitle.put("qf1s", "Quarterfinal #1 - Score");
-				hTitle.put("qf2w", "Quarterfinal #2 - W");
-				hTitle.put("qf2r", "Quarterfinal #2 - L");
-				hTitle.put("qf2s", "Quarterfinal #2 - Score");
-				hTitle.put("qf3w", "Quarterfinal #3 - W");
-				hTitle.put("qf3r", "Quarterfinal #3 - L");
-				hTitle.put("qf3s", "Quarterfinal #3 - Score");
-				hTitle.put("qf4w", "Quarterfinal #4 - W");
-				hTitle.put("qf4r", "Quarterfinal #4 - L");
-				hTitle.put("qf4s", "Quarterfinal #4 - Score");
-				hTitle.put("sf1w", "Semifinal #1 - W");
-				hTitle.put("sf1r", "Semifinal #1 - L");
-				hTitle.put("sf1s", "Semifinal #1 - Score");
-				hTitle.put("sf2w", "Semifinal #2 - W");
-				hTitle.put("sf2r", "Semifinal #2 - L");
-				hTitle.put("sf2s", "Semifinal #2 - Score");
-				hTitle.put("thdw", "3rd place - W");
-				hTitle.put("thdr", "3rd place - L");
-				hTitle.put("thds", "3rd place - Score");
+				vHeader = new Vector<String>(Arrays.asList(new String[] {"idr", "rt", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rs4", "rk5", "rs5", "pl1", "pl2", "dt1", "dt2", "exa", "cmt"}));
+				hTitle.put("idr", "ID Result");
+				hTitle.put("rt", "Round Type");
+				for (int i = 1 ; i <= 5 ; i++) {
+					hTitle.put("rk" + i, "Rank #" + i);
+					hTitle.put("rs" + i, "Result #" + i);	
+				}
+				hTitle.put("pl1", "Place #1");
+				hTitle.put("pl2", "Place #2");
+				hTitle.put("dt1", "Date #1");
+				hTitle.put("dt2", "Date #2");
+				hTitle.put("exa", "Tie");
+				hTitle.put("cmt", "Comment");
 			}
 			for (String s : vHeader) {
 				vHeaderLabel.add(hTitle.get(s));
@@ -375,6 +344,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 			float pg = 0.0f;
 			boolean isError = false;
 			for (Vector<String> v : vFile) {
+				StringBuffer processReport = new StringBuffer();
 				if (!isReprocess) {
 					v.insertElementAt("", 0);
 				}
@@ -382,15 +352,16 @@ public class JImportDialog extends JDialog implements ActionListener {
 					v.set(0, "");
 				}
 				if (jTypeRS.isSelected()) {
-					isError |= ImportUtils.processLineRS(i, vHeader, v, isUpdate, null, JMainFrame.getContributor(), ResourceUtils.LGDEFAULT);
+					isError |= ImportUtils.processLineRS(i, vHeader, v, isUpdate, processReport, JMainFrame.getContributor(), ResourceUtils.LGDEFAULT);
 				}
 				else if (jTypeRD.isSelected()) {
-					isError |= ImportUtils.processLineRC(i, vHeader, v, isUpdate, null, JMainFrame.getContributor(), ResourceUtils.LGDEFAULT);
+					isError |= ImportUtils.processLineRC(i, vHeader, v, isUpdate, processReport, JMainFrame.getContributor(), ResourceUtils.LGDEFAULT);
 				}
 				if (i * 100 / vFile.size() > pg) {
-					incrementProgress();
 					pg = i * 100 / vFile.size();
+					incrementProgress(pg);
 				}
+				jImportReportDialog.getReport().append(processReport.toString());
 				i++;
 			}
 			jUpdateButton.setEnabled(!isError);
@@ -429,6 +400,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 				jProcessTable.getColumnModel().getColumn(j).setPreferredWidth(h.matches("rk\\d|pl\\d") ? 200 : (h.matches("(rs|dt)\\d") ? 80 : 150));
 			}
 			jProcessTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			jProcessTable.getTableHeader().setReorderingAllowed(false);
 			jScrollPane.setViewportView(jProcessTable);
 			jProcessButton.setText("Reprocess");
 		}

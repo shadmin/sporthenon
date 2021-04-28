@@ -202,7 +202,7 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 			rdpanel.getDate2().setText(round.getDate());
 			rdpanel.getExa().setText(round.getExa());
 			rdpanel.getComment().setText(round.getComment());
-			if (i++ >= nbRounds) {
+			if (++i >= nbRounds) {
 				addRounds(10);
 			}
 		}

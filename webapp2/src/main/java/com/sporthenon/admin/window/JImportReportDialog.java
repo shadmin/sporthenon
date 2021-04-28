@@ -21,6 +21,7 @@ public class JImportReportDialog extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	private JImportDialog parent;
+	private JDialogButtonBar jButtonBar;
 	private JScrollPane jScrollPane;
 	private JTextArea jReport;
 
@@ -34,6 +35,7 @@ public class JImportReportDialog extends JDialog implements ActionListener {
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setPreferredSize(new Dimension(640, 480));
 		this.setSize(this.getPreferredSize());
+		this.setAlwaysOnTop(true);
 		this.setModal(false);
 		this.setLocationRelativeTo(null);
 		this.setResizable(true);
@@ -45,7 +47,7 @@ public class JImportReportDialog extends JDialog implements ActionListener {
 		jReport = new JTextArea();
 		jReport.setFont(SwingUtils.getDefaultFont());
 		
-		JDialogButtonBar jButtonBar = new JDialogButtonBar(this);
+		jButtonBar = new JDialogButtonBar(this);
 		jButtonBar.getCancel().setVisible(false);
 		jContentPane.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 2));
 		jContentPane.setLayout(new BorderLayout());
@@ -70,6 +72,14 @@ public class JImportReportDialog extends JDialog implements ActionListener {
 
 	public JTextArea getReport() {
 		return jReport;
+	}
+	
+	public void enableOk() {
+		jButtonBar.getOk().setEnabled(true);
+	}
+	
+	public void disableOk() {
+		jButtonBar.getOk().setEnabled(false);
 	}
 
 }
