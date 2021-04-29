@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -52,6 +53,7 @@ import com.sporthenon.db.entity.Round;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.InactiveItem;
+import com.sporthenon.db.entity.meta.PersonList;
 import com.sporthenon.db.entity.meta.TreeItem;
 import com.sporthenon.db.function.ResultsBean;
 import com.sporthenon.utils.StringUtils;
@@ -474,14 +476,18 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					resultId = String.valueOf(jResultTable.getValueAt(jResultTable.getSelectedRow(), 0));
 					rs = (Result) DatabaseManager.loadEntity(Result.class, resultId);
 					SwingUtils.selectValue(rdlg.getYear(), rs.getYear().getId());
-					if (rs.getComplex1() != null)
+					if (rs.getComplex1() != null) {
 						SwingUtils.selectValue(rdlg.getComplex1(), rs.getComplex1().getId());
-					if (rs.getCity1() != null)
+					}
+					if (rs.getCity1() != null) {
 						SwingUtils.selectValue(rdlg.getCity1(), rs.getCity1().getId());
-					if (rs.getComplex2() != null)
+					}
+					if (rs.getComplex2() != null) {
 						SwingUtils.selectValue(rdlg.getComplex2(), rs.getComplex2().getId());
-					if (rs.getCity2() != null)
+					}
+					if (rs.getCity2() != null) {
 						SwingUtils.selectValue(rdlg.getCity2(), rs.getCity2().getId());
+					}
 					rdlg.getDate1().setText(StringUtils.notEmpty(rs.getDate1()) ? rs.getDate1() : null);
 					rdlg.getDate2().setText(StringUtils.notEmpty(rs.getDate2()) ? rs.getDate2() : null);
 					rdlg.setComment(StringUtils.notEmpty(rs.getComment()) ? rs.getComment() : null);
@@ -509,6 +515,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				String alias = (type.getNumber() < 10 ? Athlete.alias : (type.getNumber() == 50 ? Team.alias : Country.alias));
 				rdlg.setParam(param);
 				rdlg.setAlias(alias);
+				Map<Integer, List<PersonList>> mapPersonList = new HashMap<>();
 				for (int i = 0 ; i < ranks.length ; i++) {
 					SwingUtils.fillPicklist(ranks[i], pl.get(alias), param);
 					ranks[i].getOptionalButton().setEnabled(type.getNumber() > 10);
@@ -518,17 +525,24 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 						SwingUtils.selectValue(ranks[i], id != null ? (Integer) id : null);
 						res[i].setText(StringUtils.notEmpty(res_) ? String.valueOf(res_) : null);
 					}
+					// Person lists
+					List<PersonList> listPL = (List<PersonList>) DatabaseManager.executeSelect("SELECT * FROM _person_list where id_result = ? and rank = ? order by id", Arrays.asList(Integer.valueOf(resultId), i + 1), PersonList.class);
+					mapPersonList.put(i + 1, listPL);
 				}
+				rdlg.setMapPersonList(mapPersonList);
+				rdlg.setIdSport(idSport);
 				rdlg.open(this, StringUtils.toInt(resultId), null, isAdd ? JEditResultDialog.NEW : (isCopy ? JEditResultDialog.COPY : JEditResultDialog.EDIT), type);
 			}
-			else if (e.getActionCommand().equals("addmultiple-result"))
+			else if (e.getActionCommand().equals("addmultiple-result")) {
 				JMainFrame.getAddMultipleDialog().open(this);
+			}
 			else if (e.getActionCommand().equals("remove-result")) {
 				String resultId = String.valueOf(jResultTable.getValueAt(jResultTable.getSelectedRow(), 0));
 				Object[] options = {"Yes", "No"};
 				int n = JOptionPane.showOptionDialog(this, "Remove result #" + resultId + "?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-				if (n != 0)
+				if (n != 0) {
 					return;
+				}
 				String msg = null;
 				boolean err = false;
 				try {

@@ -1,7 +1,6 @@
 package com.sporthenon.admin.component;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
@@ -12,7 +11,7 @@ import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
 import com.sporthenon.db.entity.RoundType;
 
-public class JRoundPanel extends JPanel implements ActionListener {
+public class JRoundPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -129,10 +128,6 @@ public class JRoundPanel extends JPanel implements ActionListener {
 
 	public JTextField getComment() {
 		return jComment;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
 	}
 
 }

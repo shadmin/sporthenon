@@ -8,8 +8,10 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +36,8 @@ import com.sporthenon.db.entity.Complex;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Round;
 import com.sporthenon.db.entity.Year;
+import com.sporthenon.db.entity.meta.Contributor;
+import com.sporthenon.db.entity.meta.PersonList;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
 import com.sporthenon.utils.res.ResourceUtils;
@@ -57,6 +61,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private JEntityPicklist[] jRanks = new JEntityPicklist[20];
 	private JTextField[] jRes = new JTextField[20];
 	private JCommentDialog jCommentDialog = null;
+	private JEditPersonListDialog jEditPersonListDialog = null;
 	private JEditRoundsDialog jEditRoundsDialog = null;
 	private JEditPhotosDialog jEditPhotosDialog = null;
 	
@@ -65,12 +70,15 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private short mode;
 	private com.sporthenon.db.entity.Type type;
 	private String comment;
+	private Map<Integer, List<PersonList>> mapPersonList;
+	private List<Integer> personListModified = new ArrayList<>();
 	private String extlinks;
 	private boolean extlinksModified;
 	private List<Round> rounds;
 	private boolean roundsModified;
 	private String alias;
 	private Object param;
+	private Integer idSport;
 	public static final short NEW = 1;
 	public static final short EDIT = 2;
 	public static final short COPY = 3;
@@ -109,6 +117,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jContentPane.add(getStandingsPanel(), BorderLayout.CENTER);
 		
 		jCommentDialog = new JCommentDialog(this);
+		jEditPersonListDialog = new JEditPersonListDialog(this);
 		jEditRoundsDialog = new JEditRoundsDialog(this);
 		jEditPhotosDialog = new JEditPhotosDialog(this);
 		
@@ -194,7 +203,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			optionalBtn.setText(null);
 			optionalBtn.setIcon("persons.png");
 			optionalBtn.setVisible(true);
-			optionalBtn.setActionCommand("persons-" + i);
+			optionalBtn.setActionCommand("persons-" + (i + 1));
 			optionalBtn.addActionListener(this);
 			jRanks[i].getButtonPanel2().setPreferredSize(new Dimension(69, 0));
 			labels[i] = new JLabel(ResourceUtils.getText("rank." + (i + 1), ResourceUtils.LGDEFAULT) + ":");
@@ -226,8 +235,8 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			return;
 		}
 		else if (cmd.startsWith("persons")) {
-			jEditRoundsDialog.clear();
-			//jEditRoundsDialog.open(alias, param);
+			int rank = Integer.valueOf(cmd.replace("persons-", ""));
+			jEditPersonListDialog.open(rank, idSport, mapPersonList.get(rank));
 		}
 		else if (cmd.equals("rounds")) {
 			jEditRoundsDialog.open(alias, param, rounds);
@@ -257,20 +266,25 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			int min = 100;
 			int max = -1;
 			for (int i = 0 ; i < 20 ; i++) {
-				if (jExaCheckbox[i].isSelected() && i < min)
+				if (jExaCheckbox[i].isSelected() && i < min) {
 					min = i;
-				if (jExaCheckbox[i].isSelected() && i > max)
+				}
+				if (jExaCheckbox[i].isSelected() && i > max) {
 					max = i;
+				}
 			}
 			if (max > -1) {
-				for (int i = min ; i <= max ; i++)
+				for (int i = min ; i <= max ; i++) {
 					jExaCheckbox[i].setSelected(true);
+				}
 				jExa.setText(String.valueOf(min != max ? (min + 1) + "-" + (max + 1) : (min + 1)));
 			}
-			else
+			else {
 				jExa.setText(null);
+			}
 		}
 		else if (cmd.equals("ok")) {
+			Contributor cb = JMainFrame.getContributor();
 			Result rs = null;
 			String msg = null;
 			boolean err = false;
@@ -296,12 +310,23 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 					Result.class.getMethod("setIdRank" + (i + 1), Integer.class).invoke(rs, id);
 					Result.class.getMethod("setResult" + (i + 1), String.class).invoke(rs, StringUtils.notEmpty(jRes[i].getText()) ? jRes[i].getText() : null);
 				}
-				rs = (Result) DatabaseManager.saveEntity(rs, JMainFrame.getContributor());
+				rs = (Result) DatabaseManager.saveEntity(rs, cb);
+				if (!personListModified.isEmpty()) {
+					for (int j = 1 ; j <= jRanks.length ; j++) {
+						if (personListModified.contains(j)) {
+							List<PersonList> personLists = mapPersonList.get(j);
+							for (PersonList pl : personLists) {
+								pl.setIdResult(rs.getId());
+								DatabaseManager.saveEntity(pl, null);
+							}	
+						}
+					}
+				}
 				if (roundsModified) {
 					for (Round round : rounds) {
-						round.setIdResult(id);
+						round.setIdResult(rs.getId());
 						round.setIdResultType(type.getId());
-						DatabaseManager.saveEntity(round, JMainFrame.getContributor());
+						DatabaseManager.saveEntity(round, cb);
 					}
 				}
 				if (extlinksModified) {
@@ -318,7 +343,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 				parent.resultCallback(mode, getDataVector(rs), msg, err);
 			}
 		}
-		this.setVisible(cmd.matches("rounds|photos|comment|extlinks|today|persons.*|exacb.*"));
+		this.setVisible(cmd.matches("rounds|photos|comment|extlinks|today|persons.+|exacb.+"));
 	}
 	
 	private Vector<Object> getDataVector(Result rs) {
@@ -364,6 +389,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		this.setVisible(true);
 		this.extlinksModified = false;
 		this.roundsModified = false;
+		this.personListModified.clear();
 		for (int i = 0 ; i < 20 ; i++) {
 			jExaCheckbox[i].setSelected(false);
 		}
@@ -451,6 +477,22 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 
 	public void setParam(Object param) {
 		this.param = param;
+	}
+	
+	public void setIdSport(Integer idSport) {
+		this.idSport = idSport;
+	}
+
+	public List<Integer> getPersonListModified() {
+		return personListModified;
+	}
+
+	public Map<Integer, List<PersonList>> getMapPersonList() {
+		return mapPersonList;
+	}
+
+	public void setMapPersonList(Map<Integer, List<PersonList>> mapPersonList) {
+		this.mapPersonList = mapPersonList;
 	}
 
 }
