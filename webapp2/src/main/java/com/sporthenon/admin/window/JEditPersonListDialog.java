@@ -32,7 +32,7 @@ public class JEditPersonListDialog extends JDialog implements ActionListener {
 	JEditResultDialog parent = null;
 	private JDialogButtonBar jButtonBar = null;
 	private JScrollPane jScrollPane = null;
-	private JPanel roundsPanel = null;
+	private JPanel personsPanel = null;
 	private List<JRoundPanel> rdPanels = new ArrayList<>();
 	private int nbRounds = 0;
 	private String alias;
