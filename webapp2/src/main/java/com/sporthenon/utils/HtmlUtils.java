@@ -401,7 +401,7 @@ public class HtmlUtils {
 			}
 			comment = ResourceUtils.getText("surface", lang) + "|" + text + "|" + color;
 		}
-		else {
+		else if (comment != null) {
 			comment = ResourceUtils.getText("comment", lang) + "|" + text + "|";
 		}
 		return comment;

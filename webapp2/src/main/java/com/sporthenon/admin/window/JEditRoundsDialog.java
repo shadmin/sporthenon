@@ -85,9 +85,9 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 		JPanel labelsPanel = new JPanel();
 		labelsPanel.setLayout(new BoxLayout(labelsPanel, BoxLayout.X_AXIS));
 		
-		String[] tLabel = { "Round type", "Rank #1", "Result/Score", "Rank #2", "Result", "Rank #3", "Result", "Rank #4", "Result", "Rank #5", "Result",
+		String[] tLabel = { "", "Round type", "Rank #1", "Result/Score", "Rank #2", "Result", "Rank #3", "Result", "Rank #4", "Result", "Rank #5", "Result",
 				"Complex #1", "Complex #2", "City #1", "City #2", "Start date", "End date", "Tie", "Comment"};
-		int[] tWidth = { 180, 260, 75, 260, 75, 260, 75, 260, 75, 260, 75, 300, 300, 220, 220, 70, 70, 50, 250 };
+		int[] tWidth = { 22, 180, 260, 75, 260, 75, 260, 75, 260, 75, 260, 75, 300, 300, 220, 220, 70, 70, 50, 250 };
 		
 		for (int i = 0 ; i < tLabel.length ; i++) {
 			JTextField tf = new JTextField();
@@ -95,6 +95,9 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 			tf.setPreferredSize(new Dimension(tWidth[i], 21));
 			tf.setEnabled(false);
 			tf.setHorizontalAlignment(JTextField.CENTER);
+			if (i == 0) {
+				tf.setBorder(null);
+			}
 			labelsPanel.add(tf);
 		}
 		

@@ -21,15 +21,17 @@
 	<div id="title-browse" class="title">
 		<div><%=StringUtils.text("menu.browse", session)%></div>
 	</div>
-	<div id="treeresults" class="render"></div>
-	<div class="treediv">
-		<div id="treeview">
-			<table><tr><td>
-			<script><!--
-				new Tree(treeItems, treeTemplate);
-			--></script>
-			</td></tr></table>
+	<div style="display:flex;">
+		<div class="treediv">
+			<div id="treeview">
+				<table><tr><td>
+				<script><!--
+					new Tree(treeItems, treeTemplate);
+				--></script>
+				</td></tr></table>
+			</div>
 		</div>
+		<div id="treeresults" class="render"></div>
 	</div>
 </div>
 <script><!--

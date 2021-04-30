@@ -60,7 +60,7 @@ public class JEditPersonListDialog extends JDialog implements ActionListener {
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
-		this.setResizable(true);
+		this.setResizable(false);
 	}
 
 	private JScrollPane getScrollPane() {
@@ -80,8 +80,8 @@ public class JEditPersonListDialog extends JDialog implements ActionListener {
 		JPanel labelsPanel = new JPanel();
 		labelsPanel.setLayout(new BoxLayout(labelsPanel, BoxLayout.X_AXIS));
 		
-		String[] tLabel = { "Note", "Name"};
-		int[] tWidth = { 80, 260 };
+		String[] tLabel = { "", "Note", "Name"};
+		int[] tWidth = { 20, 80, 260 };
 		
 		for (int i = 0 ; i < tLabel.length ; i++) {
 			JTextField tf = new JTextField();
@@ -89,6 +89,9 @@ public class JEditPersonListDialog extends JDialog implements ActionListener {
 			tf.setPreferredSize(new Dimension(tWidth[i], 21));
 			tf.setEnabled(false);
 			tf.setHorizontalAlignment(JTextField.CENTER);
+			if (i == 0) {
+				tf.setBorder(null);
+			}
 			labelsPanel.add(tf);
 		}
 		
@@ -148,7 +151,7 @@ public class JEditPersonListDialog extends JDialog implements ActionListener {
 		this.param = param;
 		clear();
 		setValues(personlists);
-		this.setSize(new Dimension(380, 400));
+		this.setSize(new Dimension(410, 410));
 		this.setTitle("Rank " + rank);
 		this.setVisible(true);
 	}

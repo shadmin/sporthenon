@@ -761,19 +761,18 @@ select.disabled{
 	background: url(../img/menu/dbbrowse.png) left center no-repeat;
 }
 #browse .treediv{
-	width: 270px;
+	width: 350px;
+	overflow: hidden;
 	border-right: 1px solid #DDD;
 }
 #tree #treeview{
 	position: absolute;
-	overflow: auto;
-	width: 270px;
 	background-color: #FFF;
 	border: 1px solid #DDD;
 }
 #treeresults{
-	position: absolute;
-	left: 420px;
+	width: 100%;
+	overflow: auto;
 }
 /*==============================
   ========== CALENDAR ========== 

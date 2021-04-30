@@ -7,13 +7,14 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.sporthenon.db.entity.RoundType;
+import com.sporthenon.db.entity.Athlete;
 
 public class JPersonPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	private Integer id = null;
+	private JCustomButton jRemoveButton;
 	private JTextField jNote;
 	private JEntityPicklist jPerson;
 	private ActionListener listener;
@@ -27,11 +28,16 @@ public class JPersonPanel extends JPanel {
 	private void initialize() {
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
+		jRemoveButton = new JCustomButton(null, "remove.png", "Remove");
+		jRemoveButton.setActionCommand("remove");
+		jRemoveButton.addActionListener(listener);
+		this.add(jRemoveButton, null);
+		
 		jNote = new JTextField();
 		jNote.setPreferredSize(new Dimension(80, 21));
 		this.add(jNote, null);
 		
-		jPerson = new JEntityPicklist(listener, RoundType.alias);
+		jPerson = new JEntityPicklist(listener, Athlete.alias);
 		jPerson.setPreferredSize(new Dimension(260, 21));
 		this.add(jPerson, null);
 	}

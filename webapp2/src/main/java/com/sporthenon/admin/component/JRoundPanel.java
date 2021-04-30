@@ -16,6 +16,7 @@ public class JRoundPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id = null;
+	private JCustomButton jRemoveButton;
 	private JEntityPicklist jRoundType;
 	private JEntityPicklist[] jRanks = new JEntityPicklist[5];
 	private JTextField[] jRes = new JTextField[5];
@@ -37,6 +38,11 @@ public class JRoundPanel extends JPanel {
 
 	private void initialize() {
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		
+		jRemoveButton = new JCustomButton(null, "remove.png", "Remove");
+		jRemoveButton.setActionCommand("remove");
+		jRemoveButton.addActionListener(listener);
+		this.add(jRemoveButton, null);
 		
 		jRoundType = new JEntityPicklist(listener, RoundType.alias);
 		jRoundType.setPreferredSize(new Dimension(180, 21));
