@@ -91,10 +91,12 @@ public class HtmlConverter {
 		String s = null;
 		if (rank != null && rank > 0) {
 			String expand = "";
-			if (type > 10 && plist != null) 
-				expand = "<img alt='+' src='/img/render/expand.gif?v=" + ConfigUtils.getProperty("version") + "' style='cursor:pointer;padding:3px 1px;" + (type == 50 ? "margin-top:6px;" : "") + "' onclick=\"togglePlist(this, '" + plist + "');\"/>";
-			if (type < 10)
+			if (type > 10 && plist != null)  {
+				expand = "<img alt='+' src='/img/render/plus.png?v=" + ConfigUtils.getProperty("version") + "' style='cursor:pointer;padding:3px 1px;" + (type == 50 ? "margin-top:6px;" : "") + "' onclick=\"togglePlist(this, '" + plist + "');\"/>";
+			}
+			if (type < 10) {
 				s = HtmlUtils.writeLink(Athlete.alias, rank, StringUtils.toFullName(str1, str2, country, true), StringUtils.isRevertName(country, str1 + " " + str2) ? (StringUtils.notEmpty(str1) ? str1 + " " : "") + str2 : (StringUtils.notEmpty(str2) ? str2 + " " : "") + str1);
+			}
 			else if (type == 50) {
 				String img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, rank, ImageUtils.SIZE_SMALL, year, null);
 				s = HtmlUtils.writeLink(Team.alias, rank, str2, null);

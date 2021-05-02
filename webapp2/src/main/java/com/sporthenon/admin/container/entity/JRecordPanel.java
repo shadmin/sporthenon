@@ -58,28 +58,28 @@ private static final long serialVersionUID = 1L;
         JLabel lSport = new JLabel(" Sport:");
         lSport.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lSport);
-        jSport = new JEntityPicklist(this, Sport.alias);
+        jSport = new JEntityPicklist(this, Sport.alias, false);
         gridPanel.add(jSport);
         
         //Championship
         JLabel lChampionship = new JLabel(" Championship:");
         lChampionship.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lChampionship);
-        jChampionship = new JEntityPicklist(this, Championship.alias);
+        jChampionship = new JEntityPicklist(this, Championship.alias, false);
         gridPanel.add(jChampionship);
         
         //Event
         JLabel lEvent = new JLabel(" Event:");
         lEvent.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lEvent);
-        jEvent = new JEntityPicklist(this, Event.alias);
+        jEvent = new JEntityPicklist(this, Event.alias, false);
         gridPanel.add(jEvent);
         
         //Subevent
         JLabel lSubevent = new JLabel(" Subevent:");
         lSubevent.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lSubevent);
-        jSubevent = new JEntityPicklist(this, Event.alias);
+        jSubevent = new JEntityPicklist(this, Event.alias, false);
         gridPanel.add(jSubevent);
         
         //Type
@@ -95,7 +95,7 @@ private static final long serialVersionUID = 1L;
         JLabel lCity = new JLabel(" City:");
         lCity.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lCity);
-        jCity = new JEntityPicklist(this, City.alias);
+        jCity = new JEntityPicklist(this, City.alias, true);
         gridPanel.add(jCity);
         
         //Deceased
@@ -109,7 +109,7 @@ private static final long serialVersionUID = 1L;
         JLabel lRank1 = new JLabel(" Rank #1 (Name / Record / Date):");
         lRank1.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lRank1);
-        jRank1 = new JEntityPicklist(this, null);
+        jRank1 = new JEntityPicklist(this, null, true);
         gridPanel.add(jRank1);
         jRecord1 = new JTextField();
         gridPanel.add(jRecord1);
@@ -120,7 +120,7 @@ private static final long serialVersionUID = 1L;
         JLabel lRank2 = new JLabel(" Rank #2 (Name / Record / Date):");
         lRank2.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lRank2);
-        jRank2 = new JEntityPicklist(this, null);
+        jRank2 = new JEntityPicklist(this, null, true);
         gridPanel.add(jRank2);
         jRecord2 = new JTextField();
         gridPanel.add(jRecord2);
@@ -131,7 +131,7 @@ private static final long serialVersionUID = 1L;
         JLabel lRank3 = new JLabel(" Rank #3 (Name / Record / Date):");
         lRank3.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lRank3);
-        jRank3 = new JEntityPicklist(this, null);
+        jRank3 = new JEntityPicklist(this, null, true);
         gridPanel.add(jRank3);
         jRecord3 = new JTextField();
         gridPanel.add(jRecord3);
@@ -142,7 +142,7 @@ private static final long serialVersionUID = 1L;
         JLabel lRank4 = new JLabel(" Rank #4 (Name / Record / Date):");
         lRank4.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lRank4);
-        jRank4 = new JEntityPicklist(this, null);
+        jRank4 = new JEntityPicklist(this, null, true);
         gridPanel.add(jRank4);
         jRecord4 = new JTextField();
         gridPanel.add(jRecord4);
@@ -153,7 +153,7 @@ private static final long serialVersionUID = 1L;
         JLabel lRank5 = new JLabel(" Rank #5 (Name / Record / Date):");
         lRank5.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lRank5);
-        jRank5 = new JEntityPicklist(this, null);
+        jRank5 = new JEntityPicklist(this, null, true);
         gridPanel.add(jRank5);
         jRecord5 = new JTextField();
         gridPanel.add(jRecord5);

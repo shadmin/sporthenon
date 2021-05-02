@@ -36,17 +36,17 @@ private static final long serialVersionUID = 1L;
         JLabel lLeague = new JLabel(" League:");
         lLeague.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lLeague);
-        jLeague = new JEntityPicklist(this, League.alias);
+        jLeague = new JEntityPicklist(this, League.alias, false);
         jLeague.getAddButton().setVisible(false);
         jLeague.setPreferredSize(TEXT_SIZE);
-        jLeague.getPicklist().addItemListener(this);
+        jLeague.getCombobox().addItemListener(this);
         gridPanel.add(jLeague);
         
         //Team
         JLabel lTeam = new JLabel(" Team:");
         lTeam.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lTeam);
-        jTeam = new JEntityPicklist(this, Team.alias);
+        jTeam = new JEntityPicklist(this, Team.alias, true);
         gridPanel.add(jTeam);
 
         //Type

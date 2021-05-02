@@ -1,5 +1,7 @@
 package com.sporthenon.admin;
 
+import com.sporthenon.admin.window.JEditPhotosDialog;
+import com.sporthenon.admin.window.JEditResultDialog;
 import com.sporthenon.admin.window.JMainFrame;
 
 public class Launcher {
@@ -18,7 +20,8 @@ public class Launcher {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		new JMainFrame();
+		//new JMainFrame();
+		new JEditPhotosDialog(new JEditResultDialog(new JMainFrame())).open();
 	}
 
 }

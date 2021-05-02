@@ -26,7 +26,7 @@ public class JQueryStatus extends JPanel {
 		jLabel = new JLabel();
 		jLabel.setFont(new Font("Verdana", Font.BOLD, 11));
 		jConnectProgress = new JProgressBar();
-		jConnectProgress.setBorder(BorderFactory.createEmptyBorder());
+		jConnectProgress.setBorder(null);
 		jConnectProgress.setIndeterminate(false);
 		jConnectProgress.setVisible(false);
 		this.setLayout(new BorderLayout());

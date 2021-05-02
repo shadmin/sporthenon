@@ -47,7 +47,7 @@ public class JComplexPanel extends JAbstractEntityPanel {
         JLabel lCity = new JLabel(" City:");
         lCity.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lCity);
-        jCity = new JEntityPicklist(this, City.alias);
+        jCity = new JEntityPicklist(this, City.alias, true);
         gridPanel.add(jCity);
         
 		//Link

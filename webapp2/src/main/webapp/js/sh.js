@@ -178,11 +178,11 @@ function moreItems(row, p) {
 function togglePlist(img, id) {
 	if ($(id).style.display == 'none') {
 		$(id).show();
-		img.src = '/img/render/collapse.gif?v=' + VERSION;
+		img.src = '/img/render/minus.png?v=' + VERSION;
 	}
 	else {
 		$(id).hide();
-		img.src = '/img/render/expand.gif?v=' + VERSION;
+		img.src = '/img/render/plus.png?v=' + VERSION;
 	}
 }
 function winrecMore(row) {

@@ -35,14 +35,14 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
         JLabel lYear = new JLabel(" Year:");
         lYear.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lYear);
-        jYear = new JEntityPicklist(this, Year.alias);
+        jYear = new JEntityPicklist(this, Year.alias, false);
         gridPanel.add(jYear);
         
         //City
         JLabel lCity = new JLabel(" City:");
         lCity.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lCity);
-        jCity = new JEntityPicklist(this, City.alias);
+        jCity = new JEntityPicklist(this, City.alias, true);
         gridPanel.add(jCity);
 
         //Type

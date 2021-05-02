@@ -38,36 +38,17 @@ public class SwingUtils {
 		return new Font("Verdana", Font.BOLD, 11);
 	}
 
-	public static void fillPicklist(JEntityPicklist pl, Collection<PicklistItem> cl, Object param) {
-		pl.getPicklist().removeAllItems();
-		pl.getPicklist().addItem(new PicklistItem(0, ""));
-		if (cl != null && !cl.isEmpty()) {
-			for (PicklistItem bean : cl) {
-				if (param == null || bean.getParam() == null || (bean.getParam() != null && bean.getParam().equals(param))) {
-					pl.getPicklist().addItem(bean);
-				}
-			}
-		}
+	public static void fillPicklist(JEntityPicklist pl, Collection<PicklistItem> items, Object param) {
+		pl.setItemList(items, param);
 	}
 
 	public static void selectValue(JEntityPicklist pl, Integer id) {
-		int x = 0;
-		for (int i = 1 ; id != null && i < pl.getPicklist().getItemCount() ; i++) {
-			x++;
-			PicklistItem bean = (PicklistItem) pl.getPicklist().getItemAt(i);
-			if (bean.getValue() == id) {
-				//pl.getPicklist().setToolTipText(bean.getText());
-				break;
-			}
-		}
-		if (pl.getPicklist().getItemCount() > 0) {
-			pl.getPicklist().setSelectedIndex(x);
-		}
+		pl.setValue(id);
 	}
 	
 	public static Integer getValue(JEntityPicklist pl) {
-		if (pl.getPicklist().getSelectedItem() != null) {
-			int value = ((PicklistItem)pl.getPicklist().getSelectedItem()).getValue();
+		if (pl.getSelectedItem() != null) {
+			int value = ((PicklistItem)pl.getSelectedItem()).getValue();
 			if (value > 0) {
 				return value;
 			}
@@ -76,25 +57,28 @@ public class SwingUtils {
 	}
 	
 	public static String getText(JEntityPicklist pl) {
-		return (pl.getPicklist().getSelectedItem() != null ? ((PicklistItem)pl.getPicklist().getSelectedItem()).getText() : "");
+		return (pl.getSelectedItem() != null ? ((PicklistItem)pl.getSelectedItem()).getText() : "");
 	}
 	
 	public static void insertValue(JEntityPicklist pl, PicklistItem value) {
-		int x = 0;
-		for (int i = 0 ; x == 0 && i < pl.getPicklist().getItemCount() ; i++) {
-			String s1 = ((PicklistItem)pl.getPicklist().getItemAt(i)).getText().toLowerCase();
-			String s2 = value.getText().toLowerCase();
-			if (Collator.getInstance(Locale.ENGLISH).compare(s1, s2) > 0)
-				x = i;
+		if (!pl.isTextfield()) {
+			int x = 0;
+			for (int i = 0 ; x == 0 && i < pl.getCombobox().getItemCount() ; i++) {
+				String s1 = ((PicklistItem)pl.getCombobox().getItemAt(i)).getText().toLowerCase();
+				String s2 = value.getText().toLowerCase();
+				if (Collator.getInstance(Locale.ENGLISH).compare(s1, s2) > 0)
+					x = i;
+			}
+			x = (x == 0 ? pl.getCombobox().getItemCount() : x);
+			pl.getCombobox().insertItemAt(value, x);
+			pl.getCombobox().setSelectedIndex(x);
 		}
-		x = (x == 0 ? pl.getPicklist().getItemCount() : x);
-		pl.getPicklist().insertItemAt(value, x);
-		pl.getPicklist().setSelectedIndex(x);
 	}
 	
 	public static void insertValue(List<PicklistItem> lst, PicklistItem value) {
-		if (lst.contains(value))
+		if (lst.contains(value)) {
 			lst.remove(value);
+		}
 		int x = 0;
 		for (int i = 0 ; x == 0 && i < lst.size() ; i++) {
 			String s1 = lst.get(i).getText().toLowerCase();

@@ -28,14 +28,14 @@ public class JOlympicRankingPanel extends JAbstractEntityPanel {
         JLabel lOlympics = new JLabel(" Olympics:");
         lOlympics.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lOlympics);
-        jOlympics = new JEntityPicklist(this, Olympics.alias);
+        jOlympics = new JEntityPicklist(this, Olympics.alias, false);
         gridPanel.add(jOlympics);
 
         //Country
         JLabel lCountry = new JLabel(" Country:");
         lCountry.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lCountry);
-        jCountry = new JEntityPicklist(this, Country.alias);
+        jCountry = new JEntityPicklist(this, Country.alias, false);
         gridPanel.add(jCountry);
         
         //Gold

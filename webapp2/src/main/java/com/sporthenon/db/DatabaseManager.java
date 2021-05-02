@@ -313,7 +313,7 @@ public class DatabaseManager {
  				if (params != null) {
  					for (Object param : params) {
  	 					ps.setObject(i++, param);
- 	 				}	
+ 	 				}
  				}
  				if (sql.matches("^(INSERT).*")) {
  					ResultSet rs = ps.executeQuery();

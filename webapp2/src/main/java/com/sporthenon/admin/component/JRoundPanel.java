@@ -44,12 +44,12 @@ public class JRoundPanel extends JPanel {
 		jRemoveButton.addActionListener(listener);
 		this.add(jRemoveButton, null);
 		
-		jRoundType = new JEntityPicklist(listener, RoundType.alias);
+		jRoundType = new JEntityPicklist(listener, RoundType.alias, false);
 		jRoundType.setPreferredSize(new Dimension(180, 21));
 		this.add(jRoundType, null);
 		
 		for (int i = 0 ; i < jRanks.length ; i++) {
-			jRanks[i] = new JEntityPicklist(listener, "EN");
+			jRanks[i] = new JEntityPicklist(listener, "EN", true);
 			jRanks[i].setPreferredSize(new Dimension(260, 21));
 			jRes[i] = new JTextField();
 			jRes[i].setPreferredSize(new Dimension(75, 21));
@@ -57,13 +57,13 @@ public class JRoundPanel extends JPanel {
 			this.add(jRes[i], null);
 		}
 
-		jComplex1 = new JEntityPicklist(listener, Complex.alias);
+		jComplex1 = new JEntityPicklist(listener, Complex.alias, true);
 		jComplex1.setPreferredSize(new Dimension(300, 21));
-		jComplex2 = new JEntityPicklist(listener, Complex.alias);
+		jComplex2 = new JEntityPicklist(listener, Complex.alias, true);
 		jComplex2.setPreferredSize(new Dimension(300, 21));
-		jCity1 = new JEntityPicklist(listener, City.alias);
+		jCity1 = new JEntityPicklist(listener, City.alias, true);
 		jCity1.setPreferredSize(new Dimension(220, 21));
-		jCity2 = new JEntityPicklist(listener, City.alias);
+		jCity2 = new JEntityPicklist(listener, City.alias, true);
 		jCity2.setPreferredSize(new Dimension(220, 21));
 		jDate1 = new JTextField();
 		jDate1.setPreferredSize(new Dimension(70, 21));

@@ -8,10 +8,11 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,6 +47,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(JEditResultDialog.class.getName());
+	private static final int RANK_COUNT = 20;
 	
 	private JDialogButtonBar jButtonBar = null;
 	private JEntityPicklist jYear = null;
@@ -57,9 +59,9 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private JTextField jDate2 = null;
 	private JCheckBox jDraft = null;
 	private JTextField jExa = null;
-	private JCheckBox[] jExaCheckbox = new JCheckBox[20];
-	private JEntityPicklist[] jRanks = new JEntityPicklist[20];
-	private JTextField[] jRes = new JTextField[20];
+	private JCheckBox[] jExaCheckbox = new JCheckBox[RANK_COUNT];
+	private JEntityPicklist[] jRanks = new JEntityPicklist[RANK_COUNT];
+	private JTextField[] jRes = new JTextField[RANK_COUNT];
 	private JCommentDialog jCommentDialog = null;
 	private JEditPersonListDialog jEditPersonListDialog = null;
 	private JEditRoundsDialog jEditRoundsDialog = null;
@@ -71,11 +73,13 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private com.sporthenon.db.entity.Type type;
 	private String comment;
 	private Map<Integer, List<PersonList>> mapPersonList;
-	private List<Integer> personListModified = new ArrayList<>();
+	private Set<Integer> personListModified = new HashSet<>();
+	private Set<Integer> personListDeleted = new HashSet<>();
 	private String extlinks;
 	private boolean extlinksModified;
 	private List<Round> rounds;
 	private boolean roundsModified;
+	private Set<Integer> roundsDeleted = new HashSet<>();
 	private String alias;
 	private Object param;
 	private Integer idSport;
@@ -130,15 +134,15 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	}
 
 	private JPanel getEventPanel() {
-		jYear = new JEntityPicklist(this, Year.alias);
+		jYear = new JEntityPicklist(this, Year.alias, false);
 		jYear.setPreferredSize(new Dimension(130, 21));
-		jCity1 = new JEntityPicklist(this, City.alias);
+		jCity1 = new JEntityPicklist(this, City.alias, true);
 		jCity1.setPreferredSize(new Dimension(250, 21));
-		jComplex1 = new JEntityPicklist(this, Complex.alias);
+		jComplex1 = new JEntityPicklist(this, Complex.alias, true);
 		jComplex1.setPreferredSize(new Dimension(350, 21));
-		jCity2 = new JEntityPicklist(this, City.alias);
+		jCity2 = new JEntityPicklist(this, City.alias, true);
 		jCity2.setPreferredSize(new Dimension(250, 21));
-		jComplex2 = new JEntityPicklist(this, Complex.alias);
+		jComplex2 = new JEntityPicklist(this, Complex.alias, true);
 		jComplex2.setPreferredSize(new Dimension(350, 21));
 		jDate1 = new JTextField();
 		jDate1.setPreferredSize(new Dimension(72, 21));
@@ -184,7 +188,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jEventPanel.add(jCity2, null);
 		jEventPanel.add(jSeparator3);
 		jEventPanel.add(new JLabel("Tie:"), null);
-		for (int i = 0 ; i < 20 ; i++) {
+		for (int i = 0 ; i < RANK_COUNT ; i++) {
 			jExaCheckbox[i] = new JCheckBox(String.valueOf(i + 1));
 			jEventPanel.add(jExaCheckbox[i], null);
 			jExaCheckbox[i].setActionCommand("exacb-" + (i + 1));
@@ -195,9 +199,9 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	}
 
 	private JPanel getStandingsPanel() {
-		JLabel[] labels = new JLabel[20];
+		JLabel[] labels = new JLabel[RANK_COUNT];
 		for (int i = 0 ; i < jRanks.length ; i++) {
-			jRanks[i] = new JEntityPicklist(this, "EN");
+			jRanks[i] = new JEntityPicklist(this, "EN", true);
 			jRanks[i].setPreferredSize(new Dimension(320, 21));
 			JCustomButton optionalBtn = jRanks[i].getOptionalButton();
 			optionalBtn.setText(null);
@@ -265,7 +269,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		else if (cmd.matches("exacb.*")) {
 			int min = 100;
 			int max = -1;
-			for (int i = 0 ; i < 20 ; i++) {
+			for (int i = 0 ; i < RANK_COUNT ; i++) {
 				if (jExaCheckbox[i].isSelected() && i < min) {
 					min = i;
 				}
@@ -311,6 +315,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 					Result.class.getMethod("setResult" + (i + 1), String.class).invoke(rs, StringUtils.notEmpty(jRes[i].getText()) ? jRes[i].getText() : null);
 				}
 				rs = (Result) DatabaseManager.saveEntity(rs, cb);
+				if (!personListDeleted.isEmpty()) {
+					String sql = "DELETE FROM _person_list WHERE id in (" + StringUtils.repeat("?", personListDeleted.size(), ",") + ")";
+					DatabaseManager.executeUpdate(sql, personListDeleted);
+				}
 				if (!personListModified.isEmpty()) {
 					for (int j = 1 ; j <= jRanks.length ; j++) {
 						if (personListModified.contains(j)) {
@@ -318,9 +326,13 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 							for (PersonList pl : personLists) {
 								pl.setIdResult(rs.getId());
 								DatabaseManager.saveEntity(pl, null);
-							}	
+							}
 						}
 					}
+				}
+				if (!roundsDeleted.isEmpty()) {
+					String sql = "DELETE FROM round WHERE id in (" + StringUtils.repeat("?", roundsDeleted.size(), ",") + ")";
+					DatabaseManager.executeUpdate(sql, roundsDeleted);
 				}
 				if (roundsModified) {
 					for (Round round : rounds) {
@@ -361,16 +373,16 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	}
 	
 	public void clear() {
-		jYear.getPicklist().setSelectedIndex(-1);
-		jComplex1.getPicklist().setSelectedIndex(-1);
-		jCity1.getPicklist().setSelectedIndex(-1);
-		jComplex2.getPicklist().setSelectedIndex(-1);
-		jCity2.getPicklist().setSelectedIndex(-1);
+		jYear.clear();
+		jComplex1.clear();
+		jCity1.clear();
+		jComplex2.clear();
+		jCity2.clear();
 		jDate1.setText("");
 		jDate2.setText("");
 		jDraft.setSelected(false);
 		for (JEntityPicklist pl : jRanks) {
-			pl.getPicklist().setSelectedIndex(-1);
+			pl.clear();
 		}
 		for (JTextField tf : jRes) {
 			tf.setText("");
@@ -390,7 +402,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		this.extlinksModified = false;
 		this.roundsModified = false;
 		this.personListModified.clear();
-		for (int i = 0 ; i < 20 ; i++) {
+		for (int i = 0 ; i < RANK_COUNT ; i++) {
 			jExaCheckbox[i].setSelected(false);
 		}
 	}
@@ -470,6 +482,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	public void setRoundsModified(boolean roundsModified) {
 		this.roundsModified = roundsModified;
 	}
+	
+	public Set<Integer> getRoundsDeleted() {
+		return roundsDeleted;
+	}
 
 	public void setAlias(String alias) {
 		this.alias = alias;
@@ -483,8 +499,12 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		this.idSport = idSport;
 	}
 
-	public List<Integer> getPersonListModified() {
+	public Set<Integer> getPersonListModified() {
 		return personListModified;
+	}
+	
+	public Set<Integer> getPersonListDeleted() {
+		return personListDeleted;
 	}
 
 	public Map<Integer, List<PersonList>> getMapPersonList() {

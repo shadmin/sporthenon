@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -78,8 +79,9 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 		jList = new JList<>(new DefaultListModel<>());
 		jList.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				if (e.getClickCount() == 2)
+				if (e.getClickCount() == 2) {
 					actionPerformed(new ActionEvent(jButtonBar.getOk(), 0, "ok"));
+				}
 			}
 		});
 		jContentPane.add(jText, BorderLayout.NORTH);
@@ -97,11 +99,24 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 		this.setVisible(true);
 	}
 
+	public void open(String alias, JEntityPicklist picklist, String value, List<PicklistItem> items) {
+		this.alias = alias;
+		this.jPicklist = picklist;
+		jText.setText(value);
+		DefaultListModel<PicklistItem> model = (DefaultListModel<PicklistItem>)jList.getModel();
+		model.clear();
+		model.addAll(items);
+		jList.requestFocus();
+		this.setVisible(true);
+	}
+
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("cancel"))
+		if (e.getActionCommand().equals("cancel")) {
 			jList.clearSelection();
-		if ((e.getActionCommand().equals("ok") && jList.getSelectedIndex() != -1) || e.getActionCommand().equals("cancel"))
+		}
+		if ((e.getActionCommand().equals("ok") && jList.getSelectedIndex() != -1) || e.getActionCommand().equals("cancel")) {
 			this.setVisible(false);
+		}
 	}
 
 	public void keyPressed(KeyEvent e) {
@@ -113,11 +128,7 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 			if (e.getKeyCode() == KeyEvent.VK_ENTER && StringUtils.notEmpty(jText.getText())) {
 				model.clear();
 				if (jPicklist != null) {
-					for (int i = 1 ; i < jPicklist.getPicklist().getItemCount() ; i++) {
-						PicklistItem bean = (PicklistItem) jPicklist.getPicklist().getItemAt(i);
-						if (bean.getText().toLowerCase().matches("^" + jText.getText().toLowerCase() + ".*"))
-							model.addElement(bean);
-					}
+					model.addAll(jPicklist.getItemsFromText(jText.getText()));
 				}
 				else {
 					Class<? extends AbstractEntity> c = DatabaseManager.getClassFromAlias(alias);

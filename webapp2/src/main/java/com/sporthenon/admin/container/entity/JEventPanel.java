@@ -45,7 +45,7 @@ public class JEventPanel extends JAbstractEntityPanel {
         JLabel lType = new JLabel(" Type:");
         lType.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lType);
-        jType = new JEntityPicklist(this, Type.alias);
+        jType = new JEntityPicklist(this, Type.alias, false);
         gridPanel.add(jType);
         
         //Index

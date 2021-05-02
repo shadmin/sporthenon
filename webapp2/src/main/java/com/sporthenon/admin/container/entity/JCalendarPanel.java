@@ -38,56 +38,56 @@ private static final long serialVersionUID = 1L;
         JLabel lSport = new JLabel(" Sport:");
         lSport.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lSport);
-        jSport = new JEntityPicklist(this, Sport.alias);
+        jSport = new JEntityPicklist(this, Sport.alias, false);
         gridPanel.add(jSport);
         
         //Championship
         JLabel lChampionship = new JLabel(" Championship:");
         lChampionship.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lChampionship);
-        jChampionship = new JEntityPicklist(this, Championship.alias);
+        jChampionship = new JEntityPicklist(this, Championship.alias, false);
         gridPanel.add(jChampionship);
         
         //Event
         JLabel lEvent = new JLabel(" Event:");
         lEvent.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lEvent);
-        jEvent = new JEntityPicklist(this, Event.alias);
+        jEvent = new JEntityPicklist(this, Event.alias, false);
         gridPanel.add(jEvent);
         
         //Subevent
         JLabel lSubevent = new JLabel(" Subevent:");
         lSubevent.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lSubevent);
-        jSubevent = new JEntityPicklist(this, Event.alias);
+        jSubevent = new JEntityPicklist(this, Event.alias, false);
         gridPanel.add(jSubevent);
         
         //Subevent
         JLabel lSubevent2 = new JLabel(" Subevent #2:");
         lSubevent2.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lSubevent2);
-        jSubevent2 = new JEntityPicklist(this, Event.alias);
+        jSubevent2 = new JEntityPicklist(this, Event.alias, false);
         gridPanel.add(jSubevent2);
         
         //City
         JLabel lCity = new JLabel(" City:");
         lCity.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lCity);
-        jCity = new JEntityPicklist(this, City.alias);
+        jCity = new JEntityPicklist(this, City.alias, true);
         gridPanel.add(jCity);
         
         //Complex
         JLabel lComplex = new JLabel(" Complex:");
         lComplex.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lComplex);
-        jComplex = new JEntityPicklist(this, Complex.alias);
+        jComplex = new JEntityPicklist(this, Complex.alias, true);
         gridPanel.add(jComplex);
         
         //Country
         JLabel lCountry = new JLabel(" Country:");
         lCountry.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lCountry);
-        jCountry = new JEntityPicklist(this, Country.alias);
+        jCountry = new JEntityPicklist(this, Country.alias, false);
         gridPanel.add(jCountry);
         
         //Date1

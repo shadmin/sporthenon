@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JDialogButtonBar;
 import com.sporthenon.admin.component.JPersonPanel;
 import com.sporthenon.db.entity.Athlete;
@@ -33,7 +34,7 @@ public class JEditPersonListDialog extends JDialog implements ActionListener {
 	private int nbPersons = 0;
 	private Object param;
 	private Integer rank;
-	private static final int INITIAL_COUNT = 15;
+	private static final int INITIAL_COUNT = 30;
 
 	public JEditPersonListDialog(JEditResultDialog owner) {
 		super(owner);
@@ -116,6 +117,12 @@ public class JEditPersonListDialog extends JDialog implements ActionListener {
 			SwingUtils.openAddFindDialog(e, parent.getResultType().getNumber());
 			return;
 		}
+		else if (cmd.equals("remove")) {
+			JPersonPanel pp = (JPersonPanel)((JCustomButton) e.getSource()).getParent();
+			prPanels.remove(pp);
+			personsPanel.remove(pp);
+			parent.getPersonListDeleted().add(pp.getId());
+		}
 		else if (cmd.equals("ok")) {
 			List<PersonList> personlists = new ArrayList<>();
 			for (JPersonPanel prpanel : prPanels) {
@@ -151,7 +158,7 @@ public class JEditPersonListDialog extends JDialog implements ActionListener {
 		this.param = param;
 		clear();
 		setValues(personlists);
-		this.setSize(new Dimension(410, 410));
+		this.setSize(new Dimension(410, 350));
 		this.setTitle("Rank " + rank);
 		this.setVisible(true);
 	}

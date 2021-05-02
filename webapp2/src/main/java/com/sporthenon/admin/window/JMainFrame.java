@@ -193,8 +193,8 @@ public class JMainFrame extends JFrame {
 		if (!quickload) {
 			fillPicklists(null);
 			jPicturesPanel.getSportList().removeAllItems();
-			for (int i = 0 ; i < jFolderDialog.getSport().getPicklist().getItemCount() ; i++) {
-				jPicturesPanel.getSportList().addItem(jFolderDialog.getSport().getPicklist().getItemAt(i));
+			for (int i = 0 ; i < jFolderDialog.getSport().getCombobox().getItemCount() ; i++) {
+				jPicturesPanel.getSportList().addItem(jFolderDialog.getSport().getCombobox().getItemAt(i));
 			}
 		}
 	}
@@ -317,11 +317,11 @@ public class JMainFrame extends JFrame {
 			alias.setAccessible(true);
 			hPicklists.put(String.valueOf(alias.get(null)), lst);
 			if (c_.equals(Athlete.class)) {
-				jAllAthletes = new JEntityPicklist(null, Athlete.alias);
+				jAllAthletes = new JEntityPicklist(null, Athlete.alias, true);
 				SwingUtils.fillPicklist(jAllAthletes, lst, null);
 			}
 			else if (c_.equals(Team.class)) {
-				jAllTeams = new JEntityPicklist(null, Team.alias);
+				jAllTeams = new JEntityPicklist(null, Team.alias, true);
 				SwingUtils.fillPicklist(jAllTeams, lst, null);
 			}
 		}

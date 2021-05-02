@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JDialogButtonBar;
 import com.sporthenon.admin.component.JRoundPanel;
 import com.sporthenon.db.entity.City;
@@ -37,7 +38,7 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 	private int nbRounds = 0;
 	private String alias;
 	private Object param;
-	private static final int INITIAL_COUNT = 15;
+	private static final int INITIAL_COUNT = 20;
 
 	public JEditRoundsDialog(JEditResultDialog owner) {
 		super(owner);
@@ -60,7 +61,7 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 		jContentPane.add(getScrollPane(), BorderLayout.CENTER);
 		jContentPane.add(jButtonBar, BorderLayout.SOUTH);
 
-		this.setSize(new Dimension(850, 400));
+		this.setSize(new Dimension(850, 450));
 		this.setContentPane(jContentPane);
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setModal(true);
@@ -129,6 +130,12 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 		if (cmd.matches("\\D\\D\\-(add|find)")) {
 			SwingUtils.openAddFindDialog(e, parent.getResultType().getNumber());
 			return;
+		}
+		else if (cmd.equals("remove")) {
+			JRoundPanel rp = (JRoundPanel)((JCustomButton) e.getSource()).getParent();
+			rdPanels.remove(rp);
+			roundsPanel.remove(rp);
+			parent.getRoundsDeleted().add(rp.getId());
 		}
 		else if (cmd.equals("ok")) {
 			List<Round> rounds = new ArrayList<>();

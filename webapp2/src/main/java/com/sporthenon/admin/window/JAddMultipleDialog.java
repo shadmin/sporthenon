@@ -83,13 +83,15 @@ public class JAddMultipleDialog extends JDialog implements ActionListener {
 				Integer ev = JResultsPanel.getIdEvent();
 				Integer se = JResultsPanel.getIdSubevent();
 				Integer se2 = JResultsPanel.getIdSubevent2();
-				for (String s : jYears.getText().split("\n")) {
+				String[] tYears = jYears.getText().split("\n");
+				for (String s : tYears) {
 					String sql_ = "SELECT ID FROM year WHERE LABEL='" + s + "'";
-					String sql = "INSERT INTO result(id, id_sport, id_championship, id_event, id_subevent, id_subevent2, id_year, id_contributor, last_update) ";
-					sql += "VALUES (nextval('s_result')," + sp + "," + cp + "," + (ev != null && ev > 0 ? ev : "NULL") + "," + (se != null && se > 0 ? se : "NULL") + "," + (se2 != null && se > 0 ? se2 : "NULL") + ",(" + sql_ + ")," + JMainFrame.getContributor().getId() + ",now())";
+					String sql = "INSERT INTO result(id, id_sport, id_championship, id_event, id_subevent, id_subevent2, id_year, id_contributor, first_update, last_update) "
+						+ " VALUES (nextval('s_result')," + sp + "," + cp + "," + (ev != null && ev > 0 ? ev : "NULL") + "," + (se != null && se > 0 ? se : "NULL") + "," + (se2 != null && se > 0 ? se2 : "NULL") + ",(" + sql_ + ")," + JMainFrame.getContributor().getId() + ",now(),now())"
+						+ " RETURNING id";
 					DatabaseManager.executeUpdate(sql, null);
 				}
-				msg = "Years have been added successfully.";
+				msg = "Years (" + tYears.length + ") have been added successfully.";
 			}
 			catch (Exception e_) {
 				err = true;

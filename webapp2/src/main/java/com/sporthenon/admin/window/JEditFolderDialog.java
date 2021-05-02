@@ -130,27 +130,27 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 		jEditPanel.setBorder(BorderFactory.createTitledBorder(null, "Folder Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 		
 		JLabel lSport = new JLabel(" Sport:");
-		jSport = new JEntityPicklist(this, Sport.alias);
+		jSport = new JEntityPicklist(this, Sport.alias, false);
 		jEditPanel.add(lSport, null);
 		jEditPanel.add(jSport, null);
 		
 		JLabel lCategory1 = new JLabel(" Championship:");
-		jCategory1 = new JEntityPicklist(this, Championship.alias);
+		jCategory1 = new JEntityPicklist(this, Championship.alias, false);
 		jEditPanel.add(lCategory1, null);
 		jEditPanel.add(jCategory1, null);
 		
 		JLabel lCategory2 = new JLabel(" Event #1:");
-		jCategory2 = new JEntityPicklist(this, Event.alias);
+		jCategory2 = new JEntityPicklist(this, Event.alias, false);
 		jEditPanel.add(lCategory2, null);
 		jEditPanel.add(jCategory2, null);
 		
 		JLabel lCategory3 = new JLabel(" Event #2:");
-		jCategory3 = new JEntityPicklist(this, Event.alias);
+		jCategory3 = new JEntityPicklist(this, Event.alias, false);
 		jEditPanel.add(lCategory3, null);
 		jEditPanel.add(jCategory3, null);
 		
 		JLabel lCategory4 = new JLabel(" Event #3:");
-		jCategory4 = new JEntityPicklist(this, Event.alias);
+		jCategory4 = new JEntityPicklist(this, Event.alias, false);
 		jEditPanel.add(lCategory4, null);
 		jEditPanel.add(jCategory4, null);
 		

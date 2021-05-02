@@ -32,24 +32,24 @@ public class JHallOfFamePanel extends JAbstractEntityPanel implements ItemListen
         JLabel lLeague = new JLabel(" League:");
         lLeague.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lLeague);
-        jLeague = new JEntityPicklist(this, League.alias);
+        jLeague = new JEntityPicklist(this, League.alias, false);
         jLeague.getAddButton().setVisible(false);
         jLeague.setPreferredSize(TEXT_SIZE);
-        jLeague.getPicklist().addItemListener(this);
+        jLeague.getCombobox().addItemListener(this);
         gridPanel.add(jLeague);
         
         //Year
         JLabel lYear = new JLabel(" Year:");
         lYear.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lYear);
-        jYear = new JEntityPicklist(this, Year.alias);
+        jYear = new JEntityPicklist(this, Year.alias, false);
         gridPanel.add(jYear);
 
         //Person
         JLabel lPerson = new JLabel(" Person:");
         lPerson.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lPerson);
-        jPerson = new JEntityPicklist(this, Athlete.alias);
+        jPerson = new JEntityPicklist(this, Athlete.alias, true);
         gridPanel.add(jPerson);
         
         //Position

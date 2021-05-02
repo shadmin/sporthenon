@@ -49,14 +49,14 @@ public class JCityPanel extends JAbstractEntityPanel {
         JLabel lState = new JLabel(" State:");
         lState.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lState);
-        jState = new JEntityPicklist(this, State.alias);
+        jState = new JEntityPicklist(this, State.alias, false);
         gridPanel.add(jState);
         
         //Country
         JLabel lCountry = new JLabel(" Country:");
         lCountry.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lCountry);
-        jCountry = new JEntityPicklist(this, Country.alias);
+        jCountry = new JEntityPicklist(this, Country.alias, false);
         gridPanel.add(jCountry);
         
 		//Link

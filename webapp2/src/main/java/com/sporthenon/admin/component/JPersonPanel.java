@@ -37,7 +37,7 @@ public class JPersonPanel extends JPanel {
 		jNote.setPreferredSize(new Dimension(80, 21));
 		this.add(jNote, null);
 		
-		jPerson = new JEntityPicklist(listener, Athlete.alias);
+		jPerson = new JEntityPicklist(listener, Athlete.alias, true);
 		jPerson.setPreferredSize(new Dimension(260, 21));
 		this.add(jPerson, null);
 	}

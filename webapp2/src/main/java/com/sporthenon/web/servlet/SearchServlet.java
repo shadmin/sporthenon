@@ -106,8 +106,9 @@ public class SearchServlet extends AbstractServlet {
 					
 				// Load HTML results or export
 				HtmlUtils.setHeadInfo(request, html.toString());
-				if (mapParams.containsKey("export"))
+				if (mapParams.containsKey("export")) {
 					ExportUtils.export(response, html, String.valueOf(mapParams.get("export")), lang);
+				}
 				else {
 					request.setAttribute("menu", "search");
 					ServletHelper.writePageHtml(request, response, html, lang, mapParams.containsKey("print"));

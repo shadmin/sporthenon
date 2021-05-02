@@ -204,4 +204,5 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 	public JTextField getCredentialsFile() {
 		return jCredentialsFile;
 	}
+	
 }

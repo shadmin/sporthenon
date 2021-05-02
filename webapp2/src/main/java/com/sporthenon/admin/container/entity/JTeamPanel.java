@@ -49,14 +49,14 @@ public class JTeamPanel extends JAbstractEntityPanel {
         JLabel lSport = new JLabel(" Sport:");
         lSport.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lSport);
-        jSport = new JEntityPicklist(null, Sport.alias);
+        jSport = new JEntityPicklist(null, Sport.alias, false);
         gridPanel.add(jSport);
         
         //Country
         JLabel lCountry = new JLabel(" Country:");
         lCountry.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lCountry);
-        jCountry = new JEntityPicklist(null, Country.alias);
+        jCountry = new JEntityPicklist(null, Country.alias, false);
         gridPanel.add(jCountry);
         
         //Comment
@@ -93,7 +93,7 @@ public class JTeamPanel extends JAbstractEntityPanel {
         JLabel lLeague = new JLabel(" League:");
         lLeague.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lLeague);
-        jLeague = new JEntityPicklist(this, League.alias);
+        jLeague = new JEntityPicklist(this, League.alias, false);
         jLeague.getAddButton().setVisible(false);
         jLeague.setPreferredSize(TEXT_SIZE);
         gridPanel.add(jLeague);

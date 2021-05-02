@@ -35,24 +35,24 @@ public class JTeamStadiumPanel extends JAbstractEntityPanel implements ItemListe
         JLabel lLeague = new JLabel(" League:");
         lLeague.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lLeague);
-        jLeague = new JEntityPicklist(this, League.alias);
+        jLeague = new JEntityPicklist(this, League.alias, false);
         jLeague.getAddButton().setVisible(false);
         jLeague.setPreferredSize(TEXT_SIZE);
-        jLeague.getPicklist().addItemListener(this);
+        jLeague.getCombobox().addItemListener(this);
         gridPanel.add(jLeague);
         
         //Team
         JLabel lTeam = new JLabel(" Team:");
         lTeam.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lTeam);
-        jTeam = new JEntityPicklist(this, Team.alias);
+        jTeam = new JEntityPicklist(this, Team.alias, true);
         gridPanel.add(jTeam);
 
         //Complex
         JLabel lComplex = new JLabel(" Complex:");
         lComplex.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lComplex);
-        jComplex = new JEntityPicklist(this, Complex.alias);
+        jComplex = new JEntityPicklist(this, Complex.alias, true);
         gridPanel.add(jComplex);
         
         //Date1

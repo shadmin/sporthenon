@@ -49,21 +49,21 @@ public class JAthletePanel extends JAbstractEntityPanel {
 		JLabel lSport = new JLabel(" Sport:");
 		lSport.setHorizontalAlignment(LABEL_ALIGNMENT);
 		gridPanel.add(lSport);
-		jSport = new JEntityPicklist(this, Sport.alias);
+		jSport = new JEntityPicklist(this, Sport.alias, false);
 		gridPanel.add(jSport);
 
 		//Team
 		JLabel lTeam = new JLabel(" Team:");
 		lTeam.setHorizontalAlignment(LABEL_ALIGNMENT);
 		gridPanel.add(lTeam);
-		jTeam = new JEntityPicklist(this, Team.alias);
+		jTeam = new JEntityPicklist(this, Team.alias, true);
 		gridPanel.add(jTeam);
 
 		//Country
 		JLabel lCountry = new JLabel(" Country:");
 		lCountry.setHorizontalAlignment(LABEL_ALIGNMENT);
 		gridPanel.add(lCountry);
-		jCountry = new JEntityPicklist(this, Country.alias);
+		jCountry = new JEntityPicklist(this, Country.alias, false);
 		gridPanel.add(jCountry);
 		
 		//Link
