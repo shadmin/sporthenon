@@ -247,7 +247,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			jButtonBar.getOptional().setText("Rounds" + (!rounds.isEmpty() ? " (" + rounds.size() + ")" : ""));
 		}
 		else if (cmd.equals("photos")) {
-			jEditPhotosDialog.clear();
+			//jEditPhotosDialog.clear();
 			jEditPhotosDialog.open();
 		}
 		else if (cmd.equals("today")) {

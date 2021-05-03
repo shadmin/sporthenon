@@ -139,7 +139,7 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 						joins = "JOIN country CN ON CN.id = T.id_country";
 					}
 					else if (c.equals(Complex.class)) {
-						label = "label || ' [' || CT.label || ', ' || CN.code || ']'";
+						label = "T.label || ' [' || CT.label || ', ' || CN.code || ']'";
 						joins = "JOIN city CT ON CT.id = T.id_city JOIN country CN ON CN.id = CT.id_country";
 					}
 					else if (c.equals(Country.class)) {
@@ -181,7 +181,7 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 						label = "LG.label || ' - ' || TM.label";
 						joins = "JOIN league LG ON LG.id = T.id_league JOIN team TM ON TM.id = T.id_team";
 					}
-					label = (label != null ? label : "label") + " || ' [#' || T.id || ']'";
+					label = (label != null ? label : "T.label") + " || ' [#' || T.id || ']'";
 					String pattern = jText.getText().replaceAll("\\*", "%").toLowerCase();
 					String sql = "SELECT T.id," + label
 						+ " FROM " + DatabaseManager.getTable(c) + " T " + joins

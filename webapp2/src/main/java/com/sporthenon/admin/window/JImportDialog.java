@@ -301,7 +301,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 			final Map<String, String> hTitle = new HashMap<String, String>();
 			Vector<String> vHeaderLabel = new Vector<String>();
 			if (jTypeRS.isSelected()) {
-				vHeader = new Vector<String>(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rs4", "rk5", "rs5", "rk6", "rs6", "rk7", "rs7", "rk8", "rs8", "rk9", "rs9", "rk10", "rs10", "rk11", "rs11", "rk12", "rs12", "rk13", "rs13", "rk14", "rs14", "rk15", "rs15", "rk16", "rs16", "rk17", "rs17", "rk18", "rs18", "rk19", "rs19", "rk20", "rs20", "dt1", "dt2", "pl1", "pl2", "exa", "cmt", "exl"}));
+				vHeader = new Vector<String>(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rs4", "rk5", "rs5", "rk6", "rs6", "rk7", "rs7", "rk8", "rs8", "rk9", "rs9", "rk10", "rs10", "rk11", "rs11", "rk12", "rs12", "rk13", "rs13", "rk14", "rs14", "rk15", "rs15", "rk16", "rs16", "rk17", "rs17", "rk18", "rs18", "rk19", "rs19", "rk20", "rs20", "dt1", "dt2", "pl1", "pl2", "exa", "cmt", "exl1", "exl2", "exl3"}));
 				hTitle.put("msg", "Message");
 				hTitle.put("sp", "Sport");
 				hTitle.put("cp", "Championship");
@@ -319,7 +319,9 @@ public class JImportDialog extends JDialog implements ActionListener {
 				hTitle.put("pl2", "Place #2");
 				hTitle.put("exa", "Tie");
 				hTitle.put("cmt", "Comment");
-				hTitle.put("exl", "External Link");
+				hTitle.put("exl1", "External Link #1");
+				hTitle.put("exl2", "External Link #2");
+				hTitle.put("exl3", "External Link #3");
 			}
 			else if (jTypeRD.isSelected()) {
 				vHeader = new Vector<String>(Arrays.asList(new String[] {"idr", "rt", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rs4", "rk5", "rs5", "pl1", "pl2", "dt1", "dt2", "exa", "cmt"}));
@@ -365,7 +367,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 				i++;
 			}
 			jUpdateButton.setEnabled(!isError);
-			jProgressBar.setValue(100);
+			incrementProgress(100);
 			jProcessTable = new JTable(vFile, vHeaderLabel) {
 				private static final long serialVersionUID = 1L;
 				public boolean isCellEditable(int row, int column) {
