@@ -100,8 +100,9 @@ public class ImageServlet extends AbstractServlet {
 			else if (mapParams.containsKey("load")) {
 				if (mapParams.containsKey("directid")) {
 					Picture p = (Picture) DatabaseManager.loadEntity(Picture.class, mapParams.get("directid"));
-					if (p != null)
+					if (p != null) {
 						ServletHelper.writeText(response, p.getValue());
+					}
 				}
 				else {
 					String id = String.valueOf(mapParams.get("id"));
@@ -109,8 +110,9 @@ public class ImageServlet extends AbstractServlet {
 					String sql = "SELECT * FROM _picture WHERE entity = ? AND id_item = ? ORDER BY id";
 					for (Picture p : (List<Picture>) DatabaseManager.executeSelect(sql, Arrays.asList(entity, Integer.valueOf(id)), Picture.class)) {
 						sb.append("<li id='currentphoto-" + p.getId() + "' class='img'>");
-						if (p.isEmbedded())
+						if (p.isEmbedded()) {
 							sb.append(p.getValue());
+						}
 						else {
 							sb.append("<a target='_blank' href='" + ImageUtils.getUrl() + p.getValue() + "' title='" + p.getValue() + "'>");
 							sb.append("<img alt='' src='" + ImageUtils.getUrl() + p.getValue() + "'/></a>");

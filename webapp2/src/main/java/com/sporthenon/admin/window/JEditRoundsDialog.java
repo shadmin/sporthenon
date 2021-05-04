@@ -7,7 +7,9 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -35,6 +37,7 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 	private JScrollPane jScrollPane = null;
 	private JPanel roundsPanel = null;
 	private List<JRoundPanel> rdPanels = new ArrayList<>();
+	private Set<Integer> roundsDeleted = new HashSet<>();
 	private int nbRounds = 0;
 	private String alias;
 	private Object param;
@@ -135,7 +138,8 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 			JRoundPanel rp = (JRoundPanel)((JCustomButton) e.getSource()).getParent();
 			rdPanels.remove(rp);
 			roundsPanel.remove(rp);
-			parent.getRoundsDeleted().add(rp.getId());
+			roundsDeleted.add(rp.getId());
+			nbRounds--;
 		}
 		else if (cmd.equals("ok")) {
 			List<Round> rounds = new ArrayList<>();
@@ -168,6 +172,7 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 			}
 			parent.setRounds(rounds);
 			parent.setRoundsModified(true);
+			parent.setRoundsDeleted(roundsDeleted);
 		}
 		else if (cmd.equals("add")) {
 			addRounds(10);
@@ -180,6 +185,7 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 		roundsPanel.removeAll();
 		roundsPanel.add(getLabelsPanel());
 		nbRounds = 0;
+		roundsDeleted.clear();
 		addRounds(INITIAL_COUNT);
 	}
 

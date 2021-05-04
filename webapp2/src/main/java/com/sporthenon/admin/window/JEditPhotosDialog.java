@@ -14,7 +14,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,6 +55,8 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 	private JCustomButton jAddButton;
 	private JPanel jPhotos;
 	private List<Picture> pictures = new ArrayList<>();
+	private int nbPhotos = 0;
+	private Set<Integer> photosDeleted = new HashSet<>();
 	
 	public JEditPhotosDialog(JEditResultDialog owner) {
 		super(owner);
@@ -158,6 +162,14 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 				photoLabel.setText("[Embedded HTML]");
 			}
 			jPhotos.add(photoLabel);
+			JCustomButton delBtn = new JCustomButton(null, "remove.png", "Remove Photo #" + (nbPhotos + 1));
+			delBtn.addActionListener(this);
+			delBtn.setActionCommand("remove-" + nbPhotos);
+			jPhotos.add(delBtn);
+			JSeparator sep = new JSeparator();
+			sep.setPreferredSize(new Dimension(10, 0));
+			jPhotos.add(sep);
+			nbPhotos++;
 		}
 		catch (Exception e_) {
 			log.log(Level.WARNING, e_.getMessage(), e_);
@@ -171,6 +183,8 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 		jSource.setText("");
 		jPhotos.removeAll();
 		jAddButton.setEnabled(false);
+		nbPhotos = 0;
+		photosDeleted.clear();
 		for (Picture pic : getPictures()) {
 			addPhoto(pic, true);
 		}
@@ -205,7 +219,22 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 			}
 			addPhoto(pic, false);
 			pictures.add(pic);
+			jFile.setText("");
+			jEmbeddedHtml.setText("");
+			jSource.setText("");
 			jAddButton.setEnabled(false);
+		}
+		else if (e.getActionCommand().matches("remove-\\d+")) {
+			int index = Integer.valueOf(e.getActionCommand().replace("remove-", ""));
+			jPhotos.remove((index * 2) + 1);
+			jPhotos.remove(index * 2);
+			jPhotos.revalidate();
+			jPhotos.repaint();
+			Picture pic = pictures.get(index);
+			if (pic.getId() != null) {
+				photosDeleted.add(pic.getId());
+			}
+			nbPhotos--;
 		}
 		else if (e.getActionCommand().equals("ok")) {
 			parent.setPhotosAdded(pictures);

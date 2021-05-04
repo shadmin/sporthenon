@@ -6,7 +6,9 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -31,6 +33,7 @@ public class JEditPersonListDialog extends JDialog implements ActionListener {
 	private JScrollPane jScrollPane = null;
 	private JPanel personsPanel = null;
 	private List<JPersonPanel> prPanels = new ArrayList<>();
+	private Set<Integer> personListDeleted = new HashSet<>();
 	private int nbPersons = 0;
 	private Object param;
 	private Integer rank;
@@ -121,7 +124,8 @@ public class JEditPersonListDialog extends JDialog implements ActionListener {
 			JPersonPanel pp = (JPersonPanel)((JCustomButton) e.getSource()).getParent();
 			prPanels.remove(pp);
 			personsPanel.remove(pp);
-			parent.getPersonListDeleted().add(pp.getId());
+			personListDeleted.add(pp.getId());
+			nbPersons--;
 		}
 		else if (cmd.equals("ok")) {
 			List<PersonList> personlists = new ArrayList<>();
@@ -138,6 +142,7 @@ public class JEditPersonListDialog extends JDialog implements ActionListener {
 			}
 			parent.getMapPersonList().put(rank, personlists);
 			parent.getPersonListModified().add(rank);
+			parent.setPersonListDeleted(personListDeleted);
 		}
 		else if (cmd.equals("add")) {
 			addPersonLists(10);
@@ -150,6 +155,7 @@ public class JEditPersonListDialog extends JDialog implements ActionListener {
 		personsPanel.removeAll();
 		personsPanel.add(getLabelsPanel());
 		nbPersons = 0;
+		personListDeleted.clear();
 		addPersonLists(INITIAL_COUNT);
 	}
 

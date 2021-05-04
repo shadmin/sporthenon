@@ -7,7 +7,10 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -27,6 +30,8 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import org.apache.commons.io.IOUtils;
+
 import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JDialogButtonBar;
 import com.sporthenon.admin.component.JEntityPicklist;
@@ -40,6 +45,7 @@ import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.PersonList;
 import com.sporthenon.db.entity.meta.Picture;
+import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
 import com.sporthenon.utils.res.ResourceUtils;
@@ -82,8 +88,8 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private boolean roundsModified;
 	private Set<Integer> roundsDeleted = new HashSet<>();
 	private List<Picture> photos;
-	private List<Picture> photosAdded;
-	private Set<Integer> photosDeleted;
+	private List<Picture> photosAdded = new ArrayList<>();
+	private Set<Integer> photosDeleted = new HashSet<>();
 	private String alias;
 	private Object param;
 	private Integer idSport;
@@ -348,6 +354,41 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 				if (extlinksModified) {
 					DatabaseManager.saveExternalLinks(Result.alias, rs.getId(), extlinks);
 				}
+				if (!photosAdded.isEmpty()) {
+					int n = photos.size();
+					for (Picture pic : photosAdded) {
+						if (pic.getId() != null) {
+							continue;
+						}
+						pic.setEntity(Result.alias);
+						pic.setIdItem(rs.getId());
+						
+						if (!pic.isEmbedded()) {
+							try(FileInputStream inputStream = new FileInputStream(new File(pic.getValue()))) {
+								String ext = "." + pic.getValue().substring(pic.getValue().lastIndexOf(".") + 1).toLowerCase();
+								String fileName = "P" + StringUtils.encode(pic.getEntity() + "-" + id);
+								if (n > 0) {
+									fileName += n;
+								}
+								fileName += ext;
+								byte[] content = IOUtils.toByteArray(inputStream);
+								ImageUtils.uploadImage(null, fileName, content, JMainFrame.getOptionsDialog().getCredentialsFile().getText());
+								pic.setValue(fileName);
+							}
+							n++;
+						}
+						
+						DatabaseManager.saveEntity(pic, null);
+					}
+				}
+				if (!photosDeleted.isEmpty()) {
+					for (Picture pic : photosAdded) {
+						if (!pic.isEmbedded()) {
+							ImageUtils.removeImage(pic.getValue(), JMainFrame.getOptionsDialog().getCredentialsFile().getText());
+						}
+						DatabaseManager.removeEntity(pic);
+					}
+				}
 				msg = "Result #" + rs.getId() + " has been successfully " + (mode == EDIT ? "updated" : "created") + ".";
 			}
 			catch (Exception e_) {
@@ -407,6 +448,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		this.extlinksModified = false;
 		this.roundsModified = false;
 		this.personListModified.clear();
+		this.personListDeleted.clear();
+		this.roundsDeleted.clear();
+		this.photosAdded.clear();
+		this.photosDeleted.clear();
 		for (int i = 0 ; i < RANK_COUNT ; i++) {
 			jExaCheckbox[i].setSelected(false);
 		}
@@ -492,6 +537,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		return roundsDeleted;
 	}
 
+	public void setRoundsDeleted(Set<Integer> roundsDeleted) {
+		this.roundsDeleted = roundsDeleted;
+	}
+
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
@@ -510,6 +559,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	
 	public Set<Integer> getPersonListDeleted() {
 		return personListDeleted;
+	}
+
+	public void setPersonListDeleted(Set<Integer> personListDeleted) {
+		this.personListDeleted = personListDeleted;
 	}
 
 	public Map<Integer, List<PersonList>> getMapPersonList() {
