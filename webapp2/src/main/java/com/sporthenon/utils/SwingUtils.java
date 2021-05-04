@@ -1,6 +1,7 @@
 package com.sporthenon.utils;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.text.Collator;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -213,6 +215,13 @@ public class SwingUtils {
 				}
 			}
 		}
+	}
+	
+	public static ImageIcon resizeIcon(ImageIcon icon, int width, int height) {
+		Image image = icon.getImage(); // transform it 
+		Image newimg = image.getScaledInstance(width, height,  java.awt.Image.SCALE_SMOOTH); 
+		icon = new ImageIcon(newimg);
+		return icon;
 	}
 	
 }

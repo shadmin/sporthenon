@@ -54,6 +54,7 @@ import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.InactiveItem;
 import com.sporthenon.db.entity.meta.PersonList;
+import com.sporthenon.db.entity.meta.Picture;
 import com.sporthenon.db.entity.meta.TreeItem;
 import com.sporthenon.db.function.ResultsBean;
 import com.sporthenon.utils.StringUtils;
@@ -501,6 +502,9 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					// Rounds
 					List<Round> listR = (List<Round>) DatabaseManager.executeSelect("SELECT * FROM round where id_result = ? order by id", Arrays.asList(Integer.valueOf(resultId)), Round.class);
 					rdlg.setRounds(listR);
+					// Photos
+					List<Picture> listP = (List<Picture>) DatabaseManager.executeSelect("SELECT * FROM _picture where entity = ? and id_item = ? order by id", Arrays.asList(Result.alias, Integer.valueOf(resultId)), Picture.class);
+					rdlg.setPhotos(listP);
 					// Ext.links
 					StringBuffer sbLinks = new StringBuffer();
 					List<ExternalLink> listEL = (List<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link where entity = ? and id_item = ? order by id", Arrays.asList(Result.alias, Integer.valueOf(resultId)), ExternalLink.class);

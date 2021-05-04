@@ -32,12 +32,15 @@ public class JImagePanel extends JPanel {
 	public void setImage(Object o) {
 		try {
 			BufferedImage img = null;
-			if (o instanceof URL)
+			if (o instanceof URL) {
 				img = ImageIO.read((URL) o);
-			else
+			}
+			else {
 				img = ImageIO.read((File) o);
-			if (img != null)
+			}
+			if (img != null) {
 				label.setIcon(new ImageIcon(img));
+			}
 		}
 		catch (Exception e) {
 			//Logger.getLogger("sh").error(e.getMessage());

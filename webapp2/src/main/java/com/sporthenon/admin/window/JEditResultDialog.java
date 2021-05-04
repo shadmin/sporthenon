@@ -39,6 +39,7 @@ import com.sporthenon.db.entity.Round;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.PersonList;
+import com.sporthenon.db.entity.meta.Picture;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
 import com.sporthenon.utils.res.ResourceUtils;
@@ -80,6 +81,9 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private List<Round> rounds;
 	private boolean roundsModified;
 	private Set<Integer> roundsDeleted = new HashSet<>();
+	private List<Picture> photos;
+	private List<Picture> photosAdded;
+	private Set<Integer> photosDeleted;
 	private String alias;
 	private Object param;
 	private Integer idSport;
@@ -247,7 +251,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			jButtonBar.getOptional().setText("Rounds" + (!rounds.isEmpty() ? " (" + rounds.size() + ")" : ""));
 		}
 		else if (cmd.equals("photos")) {
-			//jEditPhotosDialog.clear();
+			jEditPhotosDialog.setPictures(photos);
 			jEditPhotosDialog.open();
 		}
 		else if (cmd.equals("today")) {
@@ -398,6 +402,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jButtonBar.getOptional().setText("Rounds" + (!rounds.isEmpty() ? " (" + rounds.size() + ")" : ""));
 		jButtonBar.getOptional2().setText("Comment" + (StringUtils.notEmpty(comment) ? " (1)" : ""));
 		jButtonBar.getOptional3().setText("Ext. Links" + (StringUtils.notEmpty(extlinks) ? " (" + extlinks.split("\r\n").length + ")" : ""));
+		jButtonBar.getOptional4().setText("Photos" + (!photos.isEmpty() ? " (" + photos.size() + ")" : ""));
 		this.setVisible(true);
 		this.extlinksModified = false;
 		this.roundsModified = false;
@@ -513,6 +518,26 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 
 	public void setMapPersonList(Map<Integer, List<PersonList>> mapPersonList) {
 		this.mapPersonList = mapPersonList;
+	}
+
+	public void setPhotos(List<Picture> photos) {
+		this.photos = photos;
+	}
+
+	public List<Picture> getPhotosAdded() {
+		return photosAdded;
+	}
+
+	public void setPhotosAdded(List<Picture> photosAdded) {
+		this.photosAdded = photosAdded;
+	}
+
+	public Set<Integer> getPhotosDeleted() {
+		return photosDeleted;
+	}
+
+	public void setPhotosDeleted(Set<Integer> photosDeleted) {
+		this.photosDeleted = photosDeleted;
 	}
 
 }

@@ -36,6 +36,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -199,6 +200,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 		else if (e.getActionCommand().equals("browse")) {
 			jFileChooser = new JFileChooser();
 			jFileChooser.setDialogTitle("Select File for Import");
+			jFileChooser.setFileFilter(new FileNameExtensionFilter("CSV Files (*.csv)", "csv"));
 			if (jFileChooser.showOpenDialog(this) == 0) {
 				File f = jFileChooser.getSelectedFile();
 				if (f != null) {
