@@ -2,6 +2,7 @@ package com.sporthenon.admin.window;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
@@ -55,7 +56,7 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 	private JCustomButton jAddButton;
 	private JPanel jPhotos;
 	private List<Picture> pictures = new ArrayList<>();
-	private int nbPhotos = 0;
+	private List<Picture> photosAdded = new ArrayList<>();
 	private Set<Integer> photosDeleted = new HashSet<>();
 	
 	public JEditPhotosDialog(JEditResultDialog owner) {
@@ -144,32 +145,29 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 		jAddButton.setEnabled((StringUtils.notEmpty(jFile.getText()) && jFile.getText().matches(".*\\.(png|jpg|gif)$")) || StringUtils.notEmpty(jEmbeddedHtml.getText()));
 	}
 	
-	private void addPhoto(Picture pic, boolean isURL) {
+	private void addPhoto(Picture pic) {
 		try {
 			JLabel photoLabel = new JLabel();
 			if (!pic.isEmbedded()) {
 				BufferedImage img = null;
-				if (isURL) {
+				if (pic.getId() != null) {
 					img = ImageIO.read(new URL(ImageUtils.getUrl() + pic.getValue()));
 				}
 				else {
 					img = ImageIO.read(new FileInputStream(pic.getValue()));
 				}
-				photoLabel.setPreferredSize(new Dimension(150, 150));
-				photoLabel.setIcon(SwingUtils.resizeIcon(new ImageIcon(img), 150, 150));
+				photoLabel.setPreferredSize(new Dimension(160, 160));
+				photoLabel.setIcon(SwingUtils.resizeIcon(new ImageIcon(img), 160, 160));
 			}
 			else {
 				photoLabel.setText("[Embedded HTML]");
 			}
+			photoLabel.setToolTipText(pic.getSource());
 			jPhotos.add(photoLabel);
-			JCustomButton delBtn = new JCustomButton(null, "remove.png", "Remove Photo #" + (nbPhotos + 1));
+			JCustomButton delBtn = new JCustomButton(null, "remove.png", "Remove");
 			delBtn.addActionListener(this);
-			delBtn.setActionCommand("remove-" + nbPhotos);
+			delBtn.setActionCommand("remove-" + (pic.getId() != null ? pic.getId() : ""));
 			jPhotos.add(delBtn);
-			JSeparator sep = new JSeparator();
-			sep.setPreferredSize(new Dimension(10, 0));
-			jPhotos.add(sep);
-			nbPhotos++;
 		}
 		catch (Exception e_) {
 			log.log(Level.WARNING, e_.getMessage(), e_);
@@ -183,10 +181,10 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 		jSource.setText("");
 		jPhotos.removeAll();
 		jAddButton.setEnabled(false);
-		nbPhotos = 0;
+		photosAdded.clear();
 		photosDeleted.clear();
 		for (Picture pic : getPictures()) {
-			addPhoto(pic, true);
+			addPhoto(pic);
 		}
 		this.setVisible(true);
 	}
@@ -217,27 +215,36 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 			if (StringUtils.notEmpty(jSource.getText())) {
 				pic.setSource(jSource.getText());
 			}
-			addPhoto(pic, false);
-			pictures.add(pic);
+			addPhoto(pic);
+			photosAdded.add(pic);
 			jFile.setText("");
 			jEmbeddedHtml.setText("");
 			jSource.setText("");
 			jAddButton.setEnabled(false);
 		}
-		else if (e.getActionCommand().matches("remove-\\d+")) {
-			int index = Integer.valueOf(e.getActionCommand().replace("remove-", ""));
-			jPhotos.remove((index * 2) + 1);
-			jPhotos.remove(index * 2);
+		else if (e.getActionCommand().matches("^remove-\\d*")) {
+			String id = e.getActionCommand().replace("remove-", "");
+			if (StringUtils.notEmpty(id)) {
+				photosDeleted.add(Integer.valueOf(id));
+			}
+			boolean found = false;
+			for (int i = jPhotos.getComponentCount() - 1 ; i >= 0 ; i--) {
+				Component comp = jPhotos.getComponent(i);
+				if (comp.equals(e.getSource())) {
+					jPhotos.remove(comp);
+					found = true;
+				}
+				else if (found && comp instanceof JLabel) {
+					jPhotos.remove(comp);
+					break;
+				}
+			}
 			jPhotos.revalidate();
 			jPhotos.repaint();
-			Picture pic = pictures.get(index);
-			if (pic.getId() != null) {
-				photosDeleted.add(pic.getId());
-			}
-			nbPhotos--;
 		}
 		else if (e.getActionCommand().equals("ok")) {
-			parent.setPhotosAdded(pictures);
+			parent.getPhotosAdded().addAll(photosAdded);
+			parent.getPhotos().addAll(photosAdded);
 		}
 		this.setVisible(!e.getActionCommand().matches("ok|cancel"));
 	}

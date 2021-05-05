@@ -257,8 +257,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			jButtonBar.getOptional().setText("Rounds" + (!rounds.isEmpty() ? " (" + rounds.size() + ")" : ""));
 		}
 		else if (cmd.equals("photos")) {
-			jEditPhotosDialog.setPictures(photos);
+			jEditPhotosDialog.getPictures().clear();
+			jEditPhotosDialog.getPictures().addAll(photos);
 			jEditPhotosDialog.open();
+			jButtonBar.getOptional4().setText("Photos" + (!photos.isEmpty() ? " (" + photos.size() + ")" : ""));
 		}
 		else if (cmd.equals("today")) {
 			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -275,6 +277,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			jCommentDialog.getComment().setText(extlinks);
 			jCommentDialog.setSize(new Dimension(600, 250));
 			jCommentDialog.open();
+			jButtonBar.getOptional3().setText("Ext. Links" + (StringUtils.notEmpty(extlinks) ? " (" + extlinks.split("\r\n").length + ")" : ""));
 		}
 		else if (cmd.matches("exacb.*")) {
 			int min = 100;
@@ -571,6 +574,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 
 	public void setMapPersonList(Map<Integer, List<PersonList>> mapPersonList) {
 		this.mapPersonList = mapPersonList;
+	}
+
+	public List<Picture> getPhotos() {
+		return photos;
 	}
 
 	public void setPhotos(List<Picture> photos) {
