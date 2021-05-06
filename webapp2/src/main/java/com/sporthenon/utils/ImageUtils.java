@@ -114,7 +114,9 @@ public class ImageUtils {
 	
 	public static void removeImageFromMap(String fileName) {
 		String key = fileName.replaceFirst("(\\.|\\_).+", "");
-		mapFiles.get(key).remove(fileName);
+		if (mapFiles.containsKey(key)) {
+			mapFiles.get(key).remove(fileName);
+		}
 	}
 	
 	public static void uploadImage(String key, String fileName, byte[] content, String credFile) throws IOException {

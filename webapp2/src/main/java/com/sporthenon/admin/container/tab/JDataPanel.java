@@ -8,6 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +51,7 @@ import com.sporthenon.admin.container.entity.JTeamStadiumPanel;
 import com.sporthenon.admin.container.entity.JWinLossPanel;
 import com.sporthenon.admin.container.entity.JYearPanel;
 import com.sporthenon.admin.window.JCommentDialog;
+import com.sporthenon.admin.window.JEditPhotosDialog;
 import com.sporthenon.admin.window.JFindEntityDialog;
 import com.sporthenon.admin.window.JMainFrame;
 import com.sporthenon.admin.window.JMergeEntityDialog;
@@ -77,6 +79,7 @@ import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Config;
 import com.sporthenon.db.entity.meta.ExternalLink;
+import com.sporthenon.db.entity.meta.Picture;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
 import com.sporthenon.utils.res.ResourceUtils;
@@ -92,7 +95,9 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 	private String alias = Championship.alias;
 	private String currentId;
 	private JQueryStatus jQueryStatus = null;
-	JCustomButton jPhotosButton = null;
+	private JCustomButton jPhotosButton = null;
+	private JEditPhotosDialog jEditPhotosDialog = null;
+	private List<Picture> photos = new ArrayList<>();
 	
 	public JDataPanel(JMainFrame parent) {
 		this.jQueryStatus = parent.getQueryStatus();
@@ -105,6 +110,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 	
 	private void initialize() {
 		initList();
+		jEditPhotosDialog = new JEditPhotosDialog(this);
 		JScrollPane leftPanel = new JScrollPane(jList);
 		leftPanel.setPreferredSize(new Dimension(150, 0));
 		leftPanel.setBorder(BorderFactory.createEmptyBorder());
@@ -218,7 +224,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		rightPanel.add(jExtLinksButton, null);
 		rightPanel.add(jPhotosButton, null);
 		
-		jPhotosButton p = new JPanel(new BorderLayout(0, 0));
+		JPanel p = new JPanel(new BorderLayout(0, 0));
 		p.setPreferredSize(new Dimension(0, 26));
 		p.add(leftPanel, BorderLayout.WEST);
 		p.add(rightPanel, BorderLayout.EAST);
@@ -296,7 +302,14 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			dialog.open();
 		}
 		else if (e.getActionCommand().equals("photos")) {
-			
+			jEditPhotosDialog.setAlias(alias);
+			jEditPhotosDialog.setId(Integer.valueOf(currentId));
+			jEditPhotosDialog.getPhotos().clear();
+			for (Picture pic: photos) {
+				jEditPhotosDialog.getPhotos().put(pic.getId(), pic);
+			}
+			jEditPhotosDialog.open();
+			jPhotosButton.setText("Photos" + (!photos.isEmpty() ? " (" + photos.size() + ")" : ""));
 		}
 		else if (e.getActionCommand().equals("new")) {
 			panel.clear();
@@ -384,6 +397,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void load(Object o) {
 		JAbstractEntityPanel panel = JMainFrame.getEntityPanels().get(alias);
 		panel.setId(currentId);
@@ -651,7 +665,14 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setValue(cg.getValue());
 			p.setValueHtml(cg.getValueHtml());
 		}
-		jPhotosButton.setEnabled(o instanceof Athlete || o instanceof Complex);
+		jPhotosButton.setEnabled(false);
+		if (o instanceof Athlete || o instanceof Complex || o instanceof HallOfFame || o instanceof Olympics) {
+			List<Picture> listP = (List<Picture>) DatabaseManager.executeSelect("SELECT * FROM _picture where entity = ? and id_item = ? order by id", Arrays.asList(alias, Integer.valueOf(currentId)), Picture.class);
+			photos.clear();
+			photos.addAll(listP);
+			jPhotosButton.setEnabled(true);
+			jPhotosButton.setText("Photos" + (!photos.isEmpty() ? " (" + photos.size() + ")" : ""));
+		}
 		jQueryStatus.clear();
 	}
 
@@ -686,6 +707,14 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		((CardLayout) jContainer.getLayout()).show(jContainer, alias);
 		jScrollPane.getVerticalScrollBar().setValue(jScrollPane.getVerticalScrollBar().getMinimum());
 		actionPerformed(new ActionEvent(this, 0, "last"));
+	}
+	
+	public List<Picture> getPhotos() {
+		return photos;
+	}
+
+	public void setPhotos(List<Picture> photos) {
+		this.photos = photos;
 	}
 	
 }

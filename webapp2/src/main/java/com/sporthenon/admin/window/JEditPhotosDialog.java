@@ -3,6 +3,7 @@ package com.sporthenon.admin.window;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
@@ -40,6 +41,7 @@ import org.apache.commons.io.IOUtils;
 
 import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JDialogButtonBar;
+import com.sporthenon.admin.container.tab.JDataPanel;
 import com.sporthenon.db.DatabaseManager;
 import com.sporthenon.db.entity.meta.Picture;
 import com.sporthenon.utils.ImageUtils;
@@ -51,22 +53,23 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(JEditPhotosDialog.class.getName());
 	
-	JEditResultDialog parent = null;
+	Container parent = null;
 	private JFileChooser jFileChooser;
 	private JTextField jFile;
 	private JTextArea jEmbeddedHtml;
 	private JTextField jSource;
 	private JCustomButton jAddButton;
 	private JPanel jPhotos;
+	private JLabel jEmptyLabel;
 	private Map<Integer, Picture> photos = new HashMap<>();
 	private List<Picture> photosDeleted = new ArrayList<>();
 	private int index;
 	private String alias;
 	private Integer id;
 	
-	public JEditPhotosDialog(JEditResultDialog owner) {
-		super(owner);
-		parent = (JEditResultDialog) this.getOwner();
+	public JEditPhotosDialog(Container owner) {
+		super();
+		this.parent = owner;
 		initialize();
 	}
 
@@ -79,7 +82,12 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setContentPane(jContentPane);
-
+		
+		jEmptyLabel = new JLabel("(empty)");
+		jEmptyLabel.setPreferredSize(new Dimension(155, 155));
+		jEmptyLabel.setHorizontalAlignment(JLabel.CENTER);
+		jEmptyLabel.setVerticalAlignment(JLabel.CENTER);
+		
 		JDialogButtonBar jButtonBar = new JDialogButtonBar(this);
 		jContentPane.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 4));
 		jContentPane.setLayout(new BorderLayout());
@@ -96,7 +104,7 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 		JLabel label = new JLabel("File:");
 		label.setPreferredSize(new Dimension(90, 21));;
 		p.add(label);
-		jFile = new JTextField(50);
+		jFile = new JTextField(55);
 		jFile.addKeyListener(this);
 		p.add(jFile);
 		JCustomButton btn = new JCustomButton(null, "folderimg.png", null);
@@ -106,7 +114,7 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 		btn.addActionListener(this);
 		p.add(btn);
 		JSeparator sep = new JSeparator(JSeparator.HORIZONTAL);
-		sep.setPreferredSize(new Dimension(50, 0));
+		sep.setPreferredSize(new Dimension(30, 0));
 		p.add(sep);
 		label = new JLabel("Embedded HTML:");
 		label.setPreferredSize(new Dimension(90, 21));
@@ -121,10 +129,10 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 		label = new JLabel("Source:");
 		label.setPreferredSize(new Dimension(90, 21));
 		p.add(label);
-		jSource = new JTextField(50);
+		jSource = new JTextField(55);
 		p.add(jSource);
 		sep = new JSeparator(JSeparator.HORIZONTAL);
-		sep.setPreferredSize(new Dimension(50, 0));
+		sep.setPreferredSize(new Dimension(30, 0));
 		p.add(sep);
 		jAddButton = new JCustomButton("Add photo", "upload.png", null);
 		jAddButton.setPreferredSize(new Dimension(90, 24));
@@ -151,9 +159,9 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 	}
 	
 	private void addPhoto(Picture pic) {
+		Integer key = (pic.getId() != null ? pic.getId() : index);
+		JLabel photoLabel = new JLabel();
 		try {
-			Integer key = (pic.getId() != null ? pic.getId() : index);
-			JLabel photoLabel = new JLabel();
 			if (!pic.isEmbedded()) {
 				BufferedImage img = null;
 				if (pic.getId() != null) {
@@ -168,17 +176,21 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 			else {
 				photoLabel.setText("[Embedded HTML]");
 			}
+		}
+		catch (Exception e_) {
+			log.log(Level.WARNING, e_.getMessage(), e_);
+			photoLabel.setText("Picture with URL Error");
+		}
+		finally {
 			photoLabel.setToolTipText(pic.getSource());
 			jPhotos.add(photoLabel);
 			JCustomButton delBtn = new JCustomButton(null, "remove.png", "Remove");
 			delBtn.addActionListener(this);
 			delBtn.setActionCommand("remove" + key);
+			jPhotos.remove(jEmptyLabel);
 			jPhotos.add(delBtn);
 			photos.put(key, pic);
 			index--;
-		}
-		catch (Exception e_) {
-			log.log(Level.WARNING, e_.getMessage(), e_);
 		}
 	}
 	
@@ -188,6 +200,7 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 		jEmbeddedHtml.setText("");
 		jSource.setText("");
 		jPhotos.removeAll();
+		jPhotos.add(jEmptyLabel);
 		jAddButton.setEnabled(false);
 		photosDeleted.clear();
 		index = 0;
@@ -234,6 +247,7 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 			if (key > 0) {
 				photosDeleted.add(photos.get(key));
 			}
+			photos.remove(key);
 			boolean found = false;
 			for (int i = jPhotos.getComponentCount() - 1 ; i >= 0 ; i--) {
 				Component comp = jPhotos.getComponent(i);
@@ -248,6 +262,9 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 			}
 			jPhotos.revalidate();
 			jPhotos.repaint();
+			if (jPhotos.getComponentCount() == 0) {
+				jPhotos.add(jEmptyLabel);
+			}
 		}
 		else if (e.getActionCommand().equals("ok")) {
 			try {
@@ -283,8 +300,14 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 					DatabaseManager.removeEntity(pic);
 					photos.remove(pic.getId());
 				}
-				parent.getPhotos().clear();
-				parent.getPhotos().addAll(photos.values());
+				if (parent instanceof JEditResultDialog) {
+					((JEditResultDialog)parent).getPhotos().clear();
+					((JEditResultDialog)parent).getPhotos().addAll(photos.values());
+				}
+				else {
+					((JDataPanel)parent).getPhotos().clear();
+					((JDataPanel)parent).getPhotos().addAll(photos.values());
+				}
 			}
 			catch (Exception e_) {
 				log.log(Level.WARNING, e_.getMessage(), e_);
