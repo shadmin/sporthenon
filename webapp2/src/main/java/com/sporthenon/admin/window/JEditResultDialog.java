@@ -7,8 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,8 +28,6 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import org.apache.commons.io.IOUtils;
-
 import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JDialogButtonBar;
 import com.sporthenon.admin.component.JEntityPicklist;
@@ -45,7 +41,6 @@ import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.PersonList;
 import com.sporthenon.db.entity.meta.Picture;
-import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
 import com.sporthenon.utils.res.ResourceUtils;
@@ -84,12 +79,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private Set<Integer> personListDeleted = new HashSet<>();
 	private String extlinks;
 	private boolean extlinksModified;
-	private List<Round> rounds;
+	private List<Round> rounds = new ArrayList<>();
 	private boolean roundsModified;
 	private Set<Integer> roundsDeleted = new HashSet<>();
-	private List<Picture> photos;
-	private List<Picture> photosAdded = new ArrayList<>();
-	private Set<Integer> photosDeleted = new HashSet<>();
+	private List<Picture> photos = new ArrayList<>();
 	private String alias;
 	private Object param;
 	private Integer idSport;
@@ -257,8 +250,12 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			jButtonBar.getOptional().setText("Rounds" + (!rounds.isEmpty() ? " (" + rounds.size() + ")" : ""));
 		}
 		else if (cmd.equals("photos")) {
-			jEditPhotosDialog.getPictures().clear();
-			jEditPhotosDialog.getPictures().addAll(photos);
+			jEditPhotosDialog.setAlias(Result.alias);
+			jEditPhotosDialog.setId(this.id);
+			jEditPhotosDialog.getPhotos().clear();
+			for (Picture pic: photos) {
+				jEditPhotosDialog.getPhotos().put(pic.getId(), pic);
+			}
 			jEditPhotosDialog.open();
 			jButtonBar.getOptional4().setText("Photos" + (!photos.isEmpty() ? " (" + photos.size() + ")" : ""));
 		}
@@ -357,41 +354,6 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 				if (extlinksModified) {
 					DatabaseManager.saveExternalLinks(Result.alias, rs.getId(), extlinks);
 				}
-				if (!photosAdded.isEmpty()) {
-					int n = photos.size();
-					for (Picture pic : photosAdded) {
-						if (pic.getId() != null) {
-							continue;
-						}
-						pic.setEntity(Result.alias);
-						pic.setIdItem(rs.getId());
-						
-						if (!pic.isEmbedded()) {
-							try(FileInputStream inputStream = new FileInputStream(new File(pic.getValue()))) {
-								String ext = "." + pic.getValue().substring(pic.getValue().lastIndexOf(".") + 1).toLowerCase();
-								String fileName = "P" + StringUtils.encode(pic.getEntity() + "-" + id);
-								if (n > 0) {
-									fileName += n;
-								}
-								fileName += ext;
-								byte[] content = IOUtils.toByteArray(inputStream);
-								ImageUtils.uploadImage(null, fileName, content, JMainFrame.getOptionsDialog().getCredentialsFile().getText());
-								pic.setValue(fileName);
-							}
-							n++;
-						}
-						
-						DatabaseManager.saveEntity(pic, null);
-					}
-				}
-				if (!photosDeleted.isEmpty()) {
-					for (Picture pic : photosAdded) {
-						if (!pic.isEmbedded()) {
-							ImageUtils.removeImage(pic.getValue(), JMainFrame.getOptionsDialog().getCredentialsFile().getText());
-						}
-						DatabaseManager.removeEntity(pic);
-					}
-				}
 				msg = "Result #" + rs.getId() + " has been successfully " + (mode == EDIT ? "updated" : "created") + ".";
 			}
 			catch (Exception e_) {
@@ -429,6 +391,9 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jDate1.setText("");
 		jDate2.setText("");
 		jDraft.setSelected(false);
+		rounds.clear();
+		photos.clear();
+		extlinks = "";
 		for (JEntityPicklist pl : jRanks) {
 			pl.clear();
 		}
@@ -447,14 +412,13 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jButtonBar.getOptional2().setText("Comment" + (StringUtils.notEmpty(comment) ? " (1)" : ""));
 		jButtonBar.getOptional3().setText("Ext. Links" + (StringUtils.notEmpty(extlinks) ? " (" + extlinks.split("\r\n").length + ")" : ""));
 		jButtonBar.getOptional4().setText("Photos" + (!photos.isEmpty() ? " (" + photos.size() + ")" : ""));
+		jButtonBar.getOptional4().setEnabled(this.id != null && this.id > 0);
 		this.setVisible(true);
 		this.extlinksModified = false;
 		this.roundsModified = false;
 		this.personListModified.clear();
 		this.personListDeleted.clear();
 		this.roundsDeleted.clear();
-		this.photosAdded.clear();
-		this.photosDeleted.clear();
 		for (int i = 0 ; i < RANK_COUNT ; i++) {
 			jExaCheckbox[i].setSelected(false);
 		}
@@ -582,22 +546,6 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 
 	public void setPhotos(List<Picture> photos) {
 		this.photos = photos;
-	}
-
-	public List<Picture> getPhotosAdded() {
-		return photosAdded;
-	}
-
-	public void setPhotosAdded(List<Picture> photosAdded) {
-		this.photosAdded = photosAdded;
-	}
-
-	public Set<Integer> getPhotosDeleted() {
-		return photosDeleted;
-	}
-
-	public void setPhotosDeleted(Set<Integer> photosDeleted) {
-		this.photosDeleted = photosDeleted;
 	}
 
 }

@@ -15,9 +15,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,8 +36,11 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.apache.commons.io.IOUtils;
+
 import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JDialogButtonBar;
+import com.sporthenon.db.DatabaseManager;
 import com.sporthenon.db.entity.meta.Picture;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
@@ -55,9 +58,11 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 	private JTextField jSource;
 	private JCustomButton jAddButton;
 	private JPanel jPhotos;
-	private List<Picture> pictures = new ArrayList<>();
-	private List<Picture> photosAdded = new ArrayList<>();
-	private Set<Integer> photosDeleted = new HashSet<>();
+	private Map<Integer, Picture> photos = new HashMap<>();
+	private List<Picture> photosDeleted = new ArrayList<>();
+	private int index;
+	private String alias;
+	private Integer id;
 	
 	public JEditPhotosDialog(JEditResultDialog owner) {
 		super(owner);
@@ -147,6 +152,7 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 	
 	private void addPhoto(Picture pic) {
 		try {
+			Integer key = (pic.getId() != null ? pic.getId() : index);
 			JLabel photoLabel = new JLabel();
 			if (!pic.isEmbedded()) {
 				BufferedImage img = null;
@@ -156,8 +162,8 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 				else {
 					img = ImageIO.read(new FileInputStream(pic.getValue()));
 				}
-				photoLabel.setPreferredSize(new Dimension(160, 160));
-				photoLabel.setIcon(SwingUtils.resizeIcon(new ImageIcon(img), 160, 160));
+				photoLabel.setPreferredSize(new Dimension(155, 155));
+				photoLabel.setIcon(SwingUtils.resizeIcon(new ImageIcon(img), 155, 155));
 			}
 			else {
 				photoLabel.setText("[Embedded HTML]");
@@ -166,8 +172,10 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 			jPhotos.add(photoLabel);
 			JCustomButton delBtn = new JCustomButton(null, "remove.png", "Remove");
 			delBtn.addActionListener(this);
-			delBtn.setActionCommand("remove-" + (pic.getId() != null ? pic.getId() : ""));
+			delBtn.setActionCommand("remove" + key);
 			jPhotos.add(delBtn);
+			photos.put(key, pic);
+			index--;
 		}
 		catch (Exception e_) {
 			log.log(Level.WARNING, e_.getMessage(), e_);
@@ -181,9 +189,9 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 		jSource.setText("");
 		jPhotos.removeAll();
 		jAddButton.setEnabled(false);
-		photosAdded.clear();
 		photosDeleted.clear();
-		for (Picture pic : getPictures()) {
+		index = 0;
+		for (Picture pic : photos.values()) {
 			addPhoto(pic);
 		}
 		this.setVisible(true);
@@ -216,16 +224,15 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 				pic.setSource(jSource.getText());
 			}
 			addPhoto(pic);
-			photosAdded.add(pic);
 			jFile.setText("");
 			jEmbeddedHtml.setText("");
 			jSource.setText("");
 			jAddButton.setEnabled(false);
 		}
-		else if (e.getActionCommand().matches("^remove-\\d*")) {
-			String id = e.getActionCommand().replace("remove-", "");
-			if (StringUtils.notEmpty(id)) {
-				photosDeleted.add(Integer.valueOf(id));
+		else if (e.getActionCommand().startsWith("remove")) {
+			Integer key = Integer.valueOf(e.getActionCommand().replace("remove", ""));
+			if (key > 0) {
+				photosDeleted.add(photos.get(key));
 			}
 			boolean found = false;
 			for (int i = jPhotos.getComponentCount() - 1 ; i >= 0 ; i--) {
@@ -243,8 +250,45 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 			jPhotos.repaint();
 		}
 		else if (e.getActionCommand().equals("ok")) {
-			parent.getPhotosAdded().addAll(photosAdded);
-			parent.getPhotos().addAll(photosAdded);
+			try {
+				int n = photos.size();
+				for (Picture pic : photos.values()) {
+					if (pic.getId() != null) {
+						continue;
+					}
+					pic.setEntity(this.alias);
+					pic.setIdItem(this.id);
+					
+					if (!pic.isEmbedded()) {
+						try(FileInputStream inputStream = new FileInputStream(new File(pic.getValue()))) {
+							String ext = "." + pic.getValue().substring(pic.getValue().lastIndexOf(".") + 1).toLowerCase();
+							String fileName = "P" + StringUtils.encode(pic.getEntity() + "-" + this.id);
+							if (n > 1) {
+								fileName += n;
+							}
+							fileName += ext;
+							byte[] content = IOUtils.toByteArray(inputStream);
+							ImageUtils.uploadImage(null, fileName, content, JMainFrame.getOptionsDialog().getCredentialsFile().getText());
+							pic.setValue(fileName);
+						}
+						n++;
+					}
+					
+					DatabaseManager.saveEntity(pic, null);
+				}
+				for (Picture pic : photosDeleted) {
+					if (!pic.isEmbedded()) {
+						ImageUtils.removeImage(pic.getValue(), JMainFrame.getOptionsDialog().getCredentialsFile().getText());
+					}
+					DatabaseManager.removeEntity(pic);
+					photos.remove(pic.getId());
+				}
+				parent.getPhotos().clear();
+				parent.getPhotos().addAll(photos.values());
+			}
+			catch (Exception e_) {
+				log.log(Level.WARNING, e_.getMessage(), e_);
+			}
 		}
 		this.setVisible(!e.getActionCommand().matches("ok|cancel"));
 	}
@@ -262,12 +306,20 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 		enableAddButton();
 	}
 
-	public List<Picture> getPictures() {
-		return pictures;
+	public Map<Integer, Picture> getPhotos() {
+		return photos;
 	}
 
-	public void setPictures(List<Picture> pictures) {
-		this.pictures = pictures;
+	public void setPhotos(Map<Integer, Picture> photos) {
+		this.photos = photos;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 }

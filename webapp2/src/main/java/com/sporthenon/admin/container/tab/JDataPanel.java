@@ -92,6 +92,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 	private String alias = Championship.alias;
 	private String currentId;
 	private JQueryStatus jQueryStatus = null;
+	JCustomButton jPhotosButton = null;
 	
 	public JDataPanel(JMainFrame parent) {
 		this.jQueryStatus = parent.getQueryStatus();
@@ -205,6 +206,9 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		jRemoveButton.addActionListener(this);
 		jRemoveButton.setActionCommand("remove");
 		jRemoveButton.setMnemonic(KeyEvent.VK_R);
+		jPhotosButton = new JCustomButton("Photos", "photos.png", "Photos");
+		jPhotosButton.addActionListener(this);
+		jPhotosButton.setActionCommand("photos");
 		rightPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 2, 1));
 		rightPanel.add(jAddButton, null);
 		rightPanel.add(jSaveButton, null);
@@ -212,8 +216,9 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		rightPanel.add(jCopyButton, null);
 		rightPanel.add(jMergeButton, null);
 		rightPanel.add(jExtLinksButton, null);
+		rightPanel.add(jPhotosButton, null);
 		
-		JPanel p = new JPanel(new BorderLayout(0, 0));
+		jPhotosButton p = new JPanel(new BorderLayout(0, 0));
 		p.setPreferredSize(new Dimension(0, 26));
 		p.add(leftPanel, BorderLayout.WEST);
 		p.add(rightPanel, BorderLayout.EAST);
@@ -290,13 +295,18 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			dialog.setSize(new Dimension(600, 250));
 			dialog.open();
 		}
+		else if (e.getActionCommand().equals("photos")) {
+			
+		}
 		else if (e.getActionCommand().equals("new")) {
 			panel.clear();
 			panel.focus();
+			jPhotosButton.setEnabled(false);
 		}
 		else if (e.getActionCommand().equals("copy")) {
 			panel.setId("");
 			panel.focus();
+			jPhotosButton.setEnabled(false);
 		}
 		else if (e.getActionCommand().equals("save")) {
 			boolean err = false;
@@ -641,6 +651,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setValue(cg.getValue());
 			p.setValueHtml(cg.getValueHtml());
 		}
+		jPhotosButton.setEnabled(o instanceof Athlete || o instanceof Complex);
 		jQueryStatus.clear();
 	}
 

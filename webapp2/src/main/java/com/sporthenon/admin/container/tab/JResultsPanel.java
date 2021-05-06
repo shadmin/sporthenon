@@ -530,8 +530,10 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 						res[i].setText(StringUtils.notEmpty(res_) ? String.valueOf(res_) : null);
 					}
 					// Person lists
-					List<PersonList> listPL = (List<PersonList>) DatabaseManager.executeSelect("SELECT * FROM _person_list where id_result = ? and rank = ? order by id", Arrays.asList(Integer.valueOf(resultId), i + 1), PersonList.class);
-					mapPersonList.put(i + 1, listPL);
+					if (!isAdd) {
+						List<PersonList> listPL = (List<PersonList>) DatabaseManager.executeSelect("SELECT * FROM _person_list where id_result = ? and rank = ? order by id", Arrays.asList(Integer.valueOf(resultId), i + 1), PersonList.class);
+						mapPersonList.put(i + 1, listPL);	
+					}
 				}
 				rdlg.setMapPersonList(mapPersonList);
 				rdlg.setIdSport(idSport);
