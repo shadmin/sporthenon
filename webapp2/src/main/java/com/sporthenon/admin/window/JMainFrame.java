@@ -168,7 +168,7 @@ public class JMainFrame extends JFrame {
 				lIcons.add(Toolkit.getDefaultToolkit().getImage(JMainFrame.class.getResource("/com/sporthenon/utils/res/img/icon" + size + ".png")));
 			}
 			this.setIconImages(lIcons);
-			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 		catch (Exception e) {
 			log.log(Level.WARNING, e.getMessage(), e);
@@ -603,14 +603,14 @@ public class JMainFrame extends JFrame {
 				jConnectInfoLabel.setText("Connecting to database...");
 				jBottomPanel.getQueryStatus().showProgress();
 				jBottomPanel.getConnectionStatus().set((short)1, null);
-				Map<String, String> h = new HashMap<>();
-				h.put("hibernate.connection.url", "jdbc:postgresql://" + jOptionsDialog.getHost().getText() + "/" + jOptionsDialog.getDatabase().getText());
-				h.put("hibernate.connection.username", jOptionsDialog.getLogin().getText());
-				h.put("hibernate.connection.password", new String(jPasswordDialog.getPassword().getPassword()));
-				h.put("hibernate.show_sql", "false");
-				h.put("hibernate.connection.driver_class", "org.postgresql.Driver");
-				h.put("hibernate.connection.autocommit", "true");
-				h.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+				
+				final String dbHost = jOptionsDialog.getHost().getText();
+				final String dbPort = jOptionsDialog.getPort().getText();
+				final String dbName = jOptionsDialog.getDatabase().getText();
+				final String dbUser = jOptionsDialog.getLogin().getText();
+				final String dbPwd = new String(jPasswordDialog.getPassword().getPassword());
+				DatabaseManager.createConnectionPool(dbHost, dbPort, dbName, dbUser, dbPwd);
+			
 				String sql = "SELECT * FROM _contributor WHERE login = '" + jOptionsDialog.getLogin().getText() + "' AND active = TRUE AND admin = TRUE";
 				List<Contributor> lst = (List<Contributor>) DatabaseManager.executeSelect(sql, Contributor.class);
 				if (lst == null || lst.isEmpty()) {
@@ -642,13 +642,14 @@ public class JMainFrame extends JFrame {
 		catch (Exception e) {
 			err = true;
 			connected = false;
-			log.log(Level.WARNING, e.getMessage(), e);
+			log.log(Level.SEVERE, e.getMessage(), e);
 			JOptionPane.showMessageDialog(this, "Failed to connect to database. See message below:\r\n\r\n" + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		finally {
 			jBottomPanel.getConnectionStatus().set((short)(connected ? 2 : 0), jOptionsDialog.getDatabase().getText());
-			if (!connected)
+			if (!connected) {
 				jConnectInfoLabel.setText("Not connected to database. Click on \"Connect\".");
+			}
 			jBottomPanel.getQueryStatus().hideProgress();
 		}
 		return !err;

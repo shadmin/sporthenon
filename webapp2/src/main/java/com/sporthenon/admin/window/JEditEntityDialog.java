@@ -45,7 +45,7 @@ public class JEditEntityDialog extends JDialog implements ActionListener {
 	private void initialize() {
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(450, 350));
+		this.setPreferredSize(new Dimension(400, 400));
 		this.setModal(true);
 		this.setResizable(true);
 		this.setContentPane(jContentPane);
@@ -65,9 +65,9 @@ public class JEditEntityDialog extends JDialog implements ActionListener {
 		jContainer = new Container();
 		jContainer.setLayout(new CardLayout());
 
-		JPanel jMainPanel = new JPanel();
+		JPanel jMainPanel = new JPanel(new BorderLayout());
 		jMainPanel.setBorder(BorderFactory.createTitledBorder(null, "Entity Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
-		jMainPanel.add(jContainer, null);
+		jMainPanel.add(jContainer, BorderLayout.CENTER);
 		return jMainPanel;
 	}
 	

@@ -22,6 +22,8 @@ public class JInfoDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
+	private static final String VERSION = "1.1.0";
+	
 	public JInfoDialog(JFrame owner) {
 		super(owner);
 		initialize();
@@ -58,7 +60,7 @@ public class JInfoDialog extends JDialog implements ActionListener {
 		l1.setHorizontalAlignment(JLabel.CENTER);
 		l1.setFont(new Font("Verdana", Font.BOLD, 13));
 		p_.add(l1);
-		JLabel l2 = new JLabel("Version 1.0.0");
+		JLabel l2 = new JLabel("Version " + VERSION);
 		l2.setHorizontalAlignment(JLabel.CENTER);
 		p_.add(l2);
 		JLabel l3 = new JLabel("(c) 2011-" + String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));

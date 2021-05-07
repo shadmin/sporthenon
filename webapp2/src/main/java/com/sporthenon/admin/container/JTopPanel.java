@@ -113,8 +113,9 @@ public class JTopPanel extends JPanel implements ActionListener {
 						jExtLinksButton.setEnabled(connected);
 						jUsersButton.setEnabled(connected);
 						jResultsButton.setSelected(connected);
-						if (connected)
+						if (connected) {
 							parent.changeTabPanel("results");
+						}
 					}
 				}
 			}).start();
@@ -132,7 +133,7 @@ public class JTopPanel extends JPanel implements ActionListener {
 			JMainFrame.getInfoDialog().open();
 		}
 		else if (e.getActionCommand().equals("close")) {
-			parent.dispose();
+			System.exit(0);
 		}
 	}
 

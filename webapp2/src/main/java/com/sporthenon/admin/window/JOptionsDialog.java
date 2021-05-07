@@ -41,6 +41,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 	private JTopPanel parent;
 	private JComboBox<String> jEnvironment;
 	private JTextField jHost;
+	private JTextField jPort;
 	private JTextField jDatabase;
 	private JTextField jLogin;
 	private JCheckBox jAlwaysTop = null;
@@ -50,6 +51,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 	private Map<String, String> hConfig = null;
 	private String userHomeDir = null;
 	private final String[] tHost = new String[] {"sporthenon.com", "localhost"};
+	private final String[] tPort = new String[] {"5432", "5432"};
 	private final String[] tDatabase = new String[] {"shdb", "shlocal"};
 
 	public JOptionsDialog(JFrame owner) {
@@ -77,7 +79,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		}
 		JPanel jContentPane = new JPanel();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		this.setPreferredSize(new Dimension(370, 320));
+		this.setPreferredSize(new Dimension(370, 350));
 		this.setSize(this.getPreferredSize());
 		this.setModal(true);
 		this.setLocationRelativeTo(null);
@@ -99,7 +101,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 	}
 
 	private JPanel getDatabasePanel() {
-		JPanel p = new JPanel(new GridLayout(4, 2, 5, 5));
+		JPanel p = new JPanel(new GridLayout(5, 2, 5, 5));
 		p.setBorder(BorderFactory.createTitledBorder(null, "Database", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 		jEnvironment = new JComboBox<String>();
 		jEnvironment.addItem("Prod");
@@ -122,6 +124,9 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		jHost = new JTextField(hConfig.get("db.host"));
 		p.add(new JLabel(" Host:"));
 		p.add(jHost);
+		jPort = new JTextField(hConfig.get("db.port"));
+		p.add(new JLabel(" Port:"));
+		p.add(jPort);
 		jDatabase = new JTextField(hConfig.get("db.name"));
 		p.add(new JLabel(" Database:"));
 		p.add(jDatabase);
@@ -129,6 +134,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 		p.add(new JLabel(" User ID:"));
 		p.add(jLogin);
 		jHost.setEnabled(jEnvironment.getSelectedIndex() == 2);
+		jPort.setEnabled(jEnvironment.getSelectedIndex() == 2);
 		jDatabase.setEnabled(jEnvironment.getSelectedIndex() == 2);
 		return p;
 	}
@@ -162,6 +168,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 				if (StringUtils.notEmpty(userHomeDir)) {
 					props = new Properties();
 					props.setProperty("db.host", jHost.getText());
+					props.setProperty("db.port", jPort.getText());
 					props.setProperty("db.name", jDatabase.getText());
 					props.setProperty("db.user", jLogin.getText());
 					props.setProperty("alwaystop", jAlwaysTop.isSelected() ? "1" : "0");
@@ -176,9 +183,11 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 			if (jEnvironment.getSelectedIndex() > -1) {
 				if (jEnvironment.getSelectedIndex() < tHost.length) {
 					jHost.setText(tHost[jEnvironment.getSelectedIndex()]);
+					jPort.setText(tPort[jEnvironment.getSelectedIndex()]);
 					jDatabase.setText(tDatabase[jEnvironment.getSelectedIndex()]);
 				}
 				jHost.setEnabled(jEnvironment.getSelectedIndex() == 2);
+				jPort.setEnabled(jEnvironment.getSelectedIndex() == 2);
 				jDatabase.setEnabled(jEnvironment.getSelectedIndex() == 2);
 			}
 		}
@@ -187,6 +196,10 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 
 	public JTextField getHost() {
 		return jHost;
+	}
+	
+	public JTextField getPort() {
+		return jPort;
 	}
 
 	public JTextField getDatabase() {

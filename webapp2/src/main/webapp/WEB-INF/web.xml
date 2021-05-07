@@ -11,5 +11,11 @@
 	<session-config>
 		<session-timeout>240</session-timeout>
 	</session-config>
+	
+	<listener>
+	    <listener-class>
+	        com.sporthenon.web.ContextListener
+	    </listener-class>
+	</listener>
 
 </web-app>

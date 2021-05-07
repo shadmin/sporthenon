@@ -236,8 +236,9 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		Map<String, JAbstractEntityPanel> panels = JMainFrame.getEntityPanels();
 		jContainer = new Container();
 		jContainer.setLayout(new CardLayout());
-		for (String key : panels.keySet())
+		for (String key : panels.keySet()) {
 			jContainer.add(panels.get(key), key);
+		}
 
 		JPanel jMainPanel = new JPanel();
 		jMainPanel.setBorder(BorderFactory.createEmptyBorder());
