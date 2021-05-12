@@ -201,6 +201,9 @@ table th, table td{
 #calendar .dateimg div{
 	width: 100%;
 }
+#calendar .label{
+	margin-left: -20px;
+}
 #calendar #spanbutton{
 	padding-left: 0px;
 	padding-top: 10px;

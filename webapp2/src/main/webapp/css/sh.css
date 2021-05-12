@@ -331,7 +331,7 @@ select.disabled{
 	height: 15px;
 	color: #FFF;
 	margin: 3px;
-	padding: 8px;
+	padding: 7px;
 	font-weight: bold;
 	background-position: left center;
 	background-repeat: no-repeat;
@@ -794,7 +794,6 @@ select.disabled{
 }
 #calendar .dateimg{
 	width: 120px;
-	height: 130px;
 	background: url(../img/db/calendar.png) center 10px no-repeat;
 	text-align: center;
 	padding: 10px;
