@@ -135,6 +135,7 @@ public class JAthletePanel extends JAbstractEntityPanel {
 		jCountry.clear();
 		jTeam.clear();
 		jLink.setText("");
+		setLinkLabel(" Linked to:");
 	}
 
 	public void focus() {

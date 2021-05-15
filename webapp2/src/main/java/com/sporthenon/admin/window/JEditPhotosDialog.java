@@ -189,6 +189,7 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 			delBtn.setActionCommand("remove" + key);
 			jPhotos.remove(jEmptyLabel);
 			jPhotos.add(delBtn);
+			jPhotos.repaint();
 			photos.put(key, pic);
 			index--;
 		}

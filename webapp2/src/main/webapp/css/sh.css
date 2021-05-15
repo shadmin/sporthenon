@@ -794,6 +794,7 @@ select.disabled{
 }
 #calendar .dateimg{
 	width: 120px;
+	height: 65px;
 	background: url(../img/db/calendar.png) center 10px no-repeat;
 	text-align: center;
 	padding: 10px;

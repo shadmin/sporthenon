@@ -966,17 +966,20 @@ public class HtmlConverter {
 				if (isTriple || isDouble) {
 					tEntity = StringUtils.removeNulls(tEntity);
 					tEntityRel = StringUtils.removeNulls(tEntityRel);
-					for (int i = lTies.size() - 1 ; i >= 0 ; i--)
-						if (lTies.get(i).isEmpty())
+					for (int i = lTies.size() - 1 ; i >= 0 ; i--) {
+						if (lTies.get(i).isEmpty()) {
 							lTies.remove(i);
+						}
+					}
 				}
 				String rspan = null;
-				for (int i = 0 ; i < MAX_RANKS ; i++)
+				for (int i = 0 ; i < MAX_RANKS ; i++) {
 					if (StringUtils.notEmpty(tEntity[i])) {
-						rspan = (!lTies.get(i).isEmpty() ? " rowspan='" + (lTies.get(i).size() + 1) + "'" : "");
+						rspan = (!lTies.get(i).isEmpty() ? " rowspan='" + (lTies.get(i).size() + 1) + "' class='vatop'" : "");
 						tEntityHtml[i] = ("<td>" + tEntity[i] + (plist != null && plist.size() > i ? "<table id='plist-" + id + "-" + i + "' class='plist' style='display:none;'>" + plist.get(i).toString() + "</table>" : "") + "</td>" + tEntityRel[i] + (StringUtils.notEmpty(tResult[i]) && !isScore ? "<td" + rspan + ">" + tResult[i] + "</td>" : ""));
 					}
-				rspan = (!lTies.get(0).isEmpty() ? " rowspan='" + (lTies.get(0).size() + 1) + "'" : "");
+				}
+				rspan = (!lTies.get(0).isEmpty() ? " rowspan='" + (lTies.get(0).size() + 1) + "' class='vatop'" : "");
 				html.append("</tbody></table>");
 				html.append("</li></ul></div>");
 				boolean isMedal = String.valueOf(r.getChampionship().getId()).matches(ConfigUtils.getValue("cp_medal_pattern"));
@@ -992,7 +995,7 @@ public class HtmlConverter {
 				}
 				for (int i = 1 ; i < MAX_RANKS ; i++)
 					if (StringUtils.notEmpty(tEntityHtml[i])) {
-						rspan = (!lTies.get(i).isEmpty() ? " rowspan='" + (lTies.get(i).size() + 1) + "'" : "");
+						rspan = (!lTies.get(i).isEmpty() ? " rowspan='" + (lTies.get(i).size() + 1) + "' class='vatop'" : "");
 						html.append("<tr>");
 						if (!isScore) {
 							html.append("<th" + rspan + ">" + (isMedal && i < 3 ? (i == 1 ? ImageUtils.getSilverMedImg(lang) : ImageUtils.getBronzeMedImg(lang)) : (i + 1) + ".") + "</th>");

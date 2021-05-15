@@ -101,6 +101,7 @@ public class JComplexPanel extends JAbstractEntityPanel {
 		jLabelFR.setText("");
 		jCity.clear();
 		jLink.setText("");
+		setLinkLabel(" Linked to:");
 	}
 	
 	public void focus() {

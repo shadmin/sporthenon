@@ -3154,6 +3154,7 @@ function saveConfig() {
 function toggleSearchM(){
 	$('shmenu').removeClassName('displayed');
 	$('headertop').toggleClassName('displayed');
+	$('dpattern').focus();
 }
 function toggleMenuM(){
 	$('headertop').removeClassName('displayed');

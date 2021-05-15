@@ -119,6 +119,7 @@ public class JCityPanel extends JAbstractEntityPanel {
 		jState.clear();
 		jCountry.clear();
 		jLink.setText("");
+		setLinkLabel(" Linked to:");
 	}
 	
 	public void focus() {

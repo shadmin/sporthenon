@@ -57,6 +57,7 @@ var todayM = '<%=(m < 10 ? "0" : "") + m%>';
 var todayD = '<%=d%>';
 window.onload = function() {
 	refreshDate(1);
+	refreshDate(2);
 }
 --></script>
 <jsp:include page="/jsp/common/footer.jsp"/>

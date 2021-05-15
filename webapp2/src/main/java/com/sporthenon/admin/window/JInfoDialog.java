@@ -16,13 +16,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.sporthenon.admin.component.JDialogButtonBar;
+import com.sporthenon.utils.ConfigUtils;
 
 
 public class JInfoDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	
-	private static final String VERSION = "1.1.0";
 	
 	public JInfoDialog(JFrame owner) {
 		super(owner);
@@ -60,13 +59,13 @@ public class JInfoDialog extends JDialog implements ActionListener {
 		l1.setHorizontalAlignment(JLabel.CENTER);
 		l1.setFont(new Font("Verdana", Font.BOLD, 13));
 		p_.add(l1);
-		JLabel l2 = new JLabel("Version " + VERSION);
+		JLabel l2 = new JLabel("Version " + ConfigUtils.getProperty("version"));
 		l2.setHorizontalAlignment(JLabel.CENTER);
 		p_.add(l2);
 		JLabel l3 = new JLabel("(c) 2011-" + String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
 		l3.setHorizontalAlignment(JLabel.CENTER);
 		p_.add(l3);
-		JLabel l4 = new JLabel("http://sporthenon.com");
+		JLabel l4 = new JLabel("https://sporthenon.com");
 		l4.setHorizontalAlignment(JLabel.CENTER);
 		p_.add(l4);
 		p_.add(new JLabel());

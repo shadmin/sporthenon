@@ -2,6 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<entry key="db.host">127.0.0.1</entry>
+	<entry key="db.port">5432</entry>
 	<entry key="db.name">shlocal</entry>
 	<entry key="db.user">***UserID***</entry>
 	<entry key="alwaystop">0</entry>

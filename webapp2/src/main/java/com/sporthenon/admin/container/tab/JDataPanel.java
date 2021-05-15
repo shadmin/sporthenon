@@ -95,8 +95,10 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 	private String alias = Championship.alias;
 	private String currentId;
 	private JQueryStatus jQueryStatus = null;
+	private JCustomButton jExtLinksButton = null;
 	private JCustomButton jPhotosButton = null;
 	private JEditPhotosDialog jEditPhotosDialog = null;
+	private String extLinks = "";
 	private List<Picture> photos = new ArrayList<>();
 	
 	public JDataPanel(JMainFrame parent) {
@@ -204,7 +206,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		jMergeButton.addActionListener(this);
 		jMergeButton.setActionCommand("merge");
 		jMergeButton.setMnemonic(KeyEvent.VK_M);
-		JCustomButton jExtLinksButton = new JCustomButton("Ext. Links", "weblinks.png", "External Links");
+		jExtLinksButton = new JCustomButton("Ext. Links", "weblinks.png", "External Links");
 		jExtLinksButton.addActionListener(this);
 		jExtLinksButton.setActionCommand("extlinks");
 		jExtLinksButton.setMnemonic(KeyEvent.VK_X);
@@ -246,7 +248,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		return jMainPanel;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void actionPerformed(ActionEvent e) {
 		JAbstractEntityPanel panel = JMainFrame.getEntityPanels().get(alias);
 		if (e.getActionCommand().matches("first|previous|next|last")) {
@@ -283,24 +284,15 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			}
 		}
 		else if (e.getActionCommand().equals("extlinks")) {
-			StringBuffer sbLinks = new StringBuffer();
-			try {
-				final String sql = "SELECT * FROM _external_link WHERE entity = ? and id_item = ? ORDER BY id";
-				List<ExternalLink> list = (List<ExternalLink>) DatabaseManager.executeSelect(sql, Arrays.asList(new Object[]{alias, Integer.valueOf(currentId)}), ExternalLink.class);
-				for (ExternalLink link : list) {
-					sbLinks.append(link.getUrl()).append("\r\n");
-				}
-			}
-			catch (Exception e_) {
-				log.log(Level.WARNING, e_.getMessage(), e_);
-			}
 			JCommentDialog dialog = JMainFrame.getCommentDialog();
 			dialog.setAlias(alias);
 			dialog.setId(Integer.parseInt(currentId));
 			dialog.setTitle("External Links (#" + currentId + ")");
-			dialog.getComment().setText(sbLinks.toString());
+			dialog.getComment().setText(extLinks);
 			dialog.setSize(new Dimension(600, 250));
 			dialog.open();
+			extLinks = dialog.getComment().getText();
+			jExtLinksButton.setText("Ext. Links" + (StringUtils.notEmpty(extLinks) ? " (" + extLinks.split("\n").length + ")" : ""));
 		}
 		else if (e.getActionCommand().equals("photos")) {
 			jEditPhotosDialog.setAlias(alias);
@@ -674,6 +666,14 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			jPhotosButton.setEnabled(true);
 			jPhotosButton.setText("Photos" + (!photos.isEmpty() ? " (" + photos.size() + ")" : ""));
 		}
+		StringBuffer sbLinks = new StringBuffer();
+		final String sql = "SELECT * FROM _external_link WHERE entity = ? and id_item = ? ORDER BY id";
+		List<ExternalLink> list = (List<ExternalLink>) DatabaseManager.executeSelect(sql, Arrays.asList(new Object[]{alias, Integer.valueOf(currentId)}), ExternalLink.class);
+		for (ExternalLink link : list) {
+			sbLinks.append(link.getUrl()).append("\r\n");
+		}
+		extLinks = sbLinks.toString();
+		jExtLinksButton.setText("Ext. Links" + (StringUtils.notEmpty(extLinks) ? " (" + extLinks.split("\r\n").length + ")" : ""));
 		jQueryStatus.clear();
 	}
 

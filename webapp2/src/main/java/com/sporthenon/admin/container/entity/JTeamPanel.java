@@ -245,6 +245,7 @@ public class JTeamPanel extends JAbstractEntityPanel {
 		jYear1.setText("");
 		jYear2.setText("");
 		jNopic.setSelected(false);
+		setLinkLabel(" Linked to:");
 	}
 	
 	public void focus() {

@@ -161,33 +161,36 @@ public class JExtLinksPanel extends JSplitPane implements ActionListener, ListSe
 		boolean err = false;
 		String msg = null;
 		try {
-			if (e.getActionCommand().equals("ok"))
+			if (e.getActionCommand().equals("ok")) {
 				loadLinks();
+			}
 			else if (e.getActionCommand().equals("check")) {
 				for (int i : jLinkTable.getSelectedRows()) {
 					String id = String.valueOf(jLinkTable.getValueAt(i, 0));
 					DatabaseManager.executeUpdate("UPDATE _external_link SET checked = TRUE WHERE id = ?", Arrays.asList(Integer.valueOf(id)));
-					jLinkTable.setValueAt("X", i, 6);
+					jLinkTable.setValueAt("X", i, 5);
 				}
 				msg = "Links checked successfully (" + jLinkTable.getSelectedRowCount() + ")";
 			}
 			else if (e.getActionCommand().equals("save")) {
 				for (int i : jLinkTable.getSelectedRows()) {
-					String id = String.valueOf(jLinkTable.getValueAt(i, 0));
-					DatabaseManager.executeUpdate("UPDATE _external_link SET url = ? WHERE id = ?", Arrays.asList(jLinkTable.getValueAt(i, 4), jLinkTable.getValueAt(i, 5), id));
+					int id = StringUtils.toInt(jLinkTable.getValueAt(i, 0));
+					DatabaseManager.executeUpdate("UPDATE _external_link SET url = ? WHERE id = ?", Arrays.asList(jLinkTable.getValueAt(i, 4), id));
 				}
 				msg = "Links updated successfully (" + jLinkTable.getSelectedRowCount() + ")";
 			}
-			else if (e.getActionCommand().equals("autoupdate"))
+			else if (e.getActionCommand().equals("autoupdate")) {
 				JMainFrame.getUrlUpdateDialog().open();
+			}
 		}
 		catch (Exception e_) {
 			err = true;
 			log.log(Level.WARNING, e_.getMessage(), e_);
 		}
 		finally {
-			if (msg != null)
+			if (msg != null) {
 				jQueryStatus.set(err ? JQueryStatus.FAILURE : JQueryStatus.SUCCESS, msg);
+			}
 		}
 	}
 
@@ -261,7 +264,7 @@ public class JExtLinksPanel extends JSplitPane implements ActionListener, ListSe
 			jLinkTable = new JTable(vLinks, vHeader) {
 				private static final long serialVersionUID = 1L;
 				public boolean isCellEditable(int row, int column) {
-					return true;
+					return column == 4;
 				}
 			};
 			jLinkTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

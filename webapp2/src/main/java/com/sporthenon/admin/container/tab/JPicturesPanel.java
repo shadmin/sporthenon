@@ -42,6 +42,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.io.IOUtils;
 
@@ -102,6 +103,8 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 	private void initialize() {
 		initList();
 		jFileChooser = new JFileChooser();
+		jFileChooser.setDialogTitle("Select Picture File");
+		jFileChooser.setFileFilter(new FileNameExtensionFilter("PNG files (*.png)", "png"));
 		JScrollPane leftPanel = new JScrollPane(jList);
 		leftPanel.setPreferredSize(new Dimension(150, 0));
 		leftPanel.setBorder(BorderFactory.createEmptyBorder());

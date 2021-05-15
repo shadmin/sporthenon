@@ -268,13 +268,14 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			jCommentDialog.getComment().setText(comment);
 			jCommentDialog.setSize(new Dimension(300, 250));
 			jCommentDialog.open();
+			jButtonBar.getOptional2().setText("Comment" + (StringUtils.notEmpty(comment) ? " (1)" : ""));
 		}
 		else if (cmd.equals("extlinks")) {
 			jCommentDialog.setTitle("External Links");
 			jCommentDialog.getComment().setText(extlinks);
 			jCommentDialog.setSize(new Dimension(600, 250));
 			jCommentDialog.open();
-			jButtonBar.getOptional3().setText("Ext. Links" + (StringUtils.notEmpty(extlinks) ? " (" + extlinks.split("\r\n").length + ")" : ""));
+			jButtonBar.getOptional3().setText("Ext. Links" + (StringUtils.notEmpty(extlinks) ? " (" + extlinks.split("\n").length + ")" : ""));
 		}
 		else if (cmd.matches("exacb.*")) {
 			int min = 100;

@@ -20,6 +20,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.sporthenon.admin.window.JFindEntityDialog;
 import com.sporthenon.admin.window.JMainFrame;
@@ -27,7 +30,7 @@ import com.sporthenon.db.PicklistItem;
 import com.sporthenon.utils.StringUtils;
 
 
-public class JEntityPicklist extends JPanel implements ItemListener, KeyListener, FocusListener {
+public class JEntityPicklist extends JPanel implements ItemListener, KeyListener, DocumentListener, FocusListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -82,8 +85,9 @@ public class JEntityPicklist extends JPanel implements ItemListener, KeyListener
         	jTextField = new JTextField();
         	jTextField.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         	jTextField.setBorder(BorderFactory.createCompoundBorder(jTextField.getBorder(), BorderFactory.createEmptyBorder(3, 3, 3, 3)));
-        	jTextField.addKeyListener(this);
+        	jTextField.getDocument().addDocumentListener(this);
         	jTextField.addFocusListener(this);
+        	jTextField.addKeyListener(this);
         	this.add(jTextField, BorderLayout.CENTER);
         }
         else {
@@ -232,7 +236,41 @@ public class JEntityPicklist extends JPanel implements ItemListener, KeyListener
 			setSelectedItem(null);
 		}
 	}
+	
+	@Override
+	public void insertUpdate(DocumentEvent e) {
+		String value = jTextField.getText();
+		String selectedText = jTextField.getSelectedText();
+		if (selectedText != null) {
+			value = value.replace(selectedText, "");
+		}
+		if (StringUtils.notEmpty(value) && value.length() >= 2) {
+			List<PicklistItem> items = getItemsFromText(value);
+			if (!items.isEmpty()) {
+				jTextField.getDocument().removeDocumentListener(this);
+				final String val = value;
+			    SwingUtilities.invokeLater(new Runnable() {
+			        @Override
+			        public void run() {
+						PicklistItem item = items.get(0);
+						setSelectedItem(item);
+						jTextField.setText(item.getText());
+						jTextField.select(val.length(), item.getText().length());
+						jTextField.getDocument().addDocumentListener((DocumentListener)jTextField.getParent());
+			        }
+			    });
+			}
+		}
+	}
 
+	@Override
+	public void removeUpdate(DocumentEvent e) {
+	}
+
+	@Override
+	public void changedUpdate(DocumentEvent e) {
+	}
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
@@ -245,10 +283,6 @@ public class JEntityPicklist extends JPanel implements ItemListener, KeyListener
 	public void keyReleased(KeyEvent e) {
 		String value = jTextField.getText();
 		if (e.getKeyCode() == KeyEvent.VK_ENTER && StringUtils.notEmpty(value)) {
-			String selectedText = jTextField.getSelectedText();
-			if (selectedText != null) {
-				value = value.replace(selectedText, "");
-			}
 			List<PicklistItem> items = getItemsFromText(value);
 			if (items.size() > 1) {
 				JFindEntityDialog dlg = JMainFrame.getFindDialog();
@@ -261,15 +295,6 @@ public class JEntityPicklist extends JPanel implements ItemListener, KeyListener
 			else if (items.size() == 1) {
 				setSelectedItem(items.get(0));
 				jTextField.setText(selectedItem.getText());
-			}
-		}
-		else if (e.getKeyCode() != 8 && StringUtils.notEmpty(value) && value.length() >= 2) {
-			List<PicklistItem> items = getItemsFromText(value);
-			if (!items.isEmpty()) {
-				PicklistItem item = items.get(0);
-				setSelectedItem(item);
-				jTextField.setText(item.getText());
-				jTextField.select(value.length(), item.getText().length());
 			}
 		}
 	}

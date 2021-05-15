@@ -64,7 +64,7 @@
 	border: none;
 	padding-left: 3px;
 }
-.render td th img{
+.render .vatop, .render td th img{
 	vertical-align: top;
 }
 .render .bold{
@@ -338,7 +338,7 @@
 .render .tsort tr:hover{
 	background-color: #FFD;
 }
-.render .tsort tr:hover td[rowspan] {
+.render .tsort tr:hover td[rowspan]{
 	background-color: #FFF;
 }
 .render .tsort table tr:hover, .render .tsort .moreitems:hover, #dupdates .tsort .moreitems:hover{
@@ -401,7 +401,7 @@
 .render .info .result tr:hover td{
 	background-color: #FFD;
 }
-.render .info .result tr:hover td[rowspan] {
+.render .info .result tr:hover td[rowspan]{
 	background-color: #FFF;
 }
 .render .info .result table.tsort{
@@ -431,7 +431,7 @@
 	display: list-item;
 	list-style-image: url(../img/bullet.gif?6);
 }
-.render #finalresult, .render #finalresult th, .render #finalresult td {
+.render #finalresult, .render #finalresult th, .render #finalresult td{
 	border: none;
 	background-color: #FFF;
 }
@@ -439,7 +439,7 @@
 	padding: 15px;
 	font-weight: bold;
 }
-.render #othyears {
+.render #othyears{
 	width: 410px;
 	padding: 6px;
 	margin-bottom: 10px;
