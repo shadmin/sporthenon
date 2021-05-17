@@ -162,7 +162,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jExa.setPreferredSize(new Dimension(60, 21));
 		
 		JSeparator jSeparator1 = new JSeparator(JSeparator.HORIZONTAL);
-		jSeparator1.setPreferredSize(new Dimension(350, 0));
+		jSeparator1.setPreferredSize(new Dimension(300, 0));
 		JSeparator jSeparator2 = new JSeparator(JSeparator.HORIZONTAL);
 		jSeparator2.setPreferredSize(new Dimension(180, 0));
 		JSeparator jSeparator3 = new JSeparator(JSeparator.HORIZONTAL);
