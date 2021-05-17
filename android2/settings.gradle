@@ -1,0 +1,2 @@
+rootProject.name = "Sporthenon"
+include ':app'

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/selector">
+
+    <TextView
+        android:id="@+id/rclabel"
+        style="@style/CustomTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:padding="5dip"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/rctype"
+        style="@style/CustomTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/rclabel"
+        android:padding="5dip"
+        android:textStyle="italic"
+        />
+
+    <TextView
+        android:id="@+id/rcranks"
+        style="@style/CustomTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/rctype"
+        android:padding="5dip"
+        />
+
+    <TextView
+        android:id="@+id/rcrecord"
+        style="@style/CustomTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/rcranks"
+        android:padding="5dip"
+        android:textStyle="bold"
+        />
+
+</RelativeLayout>

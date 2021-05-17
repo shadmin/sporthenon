@@ -1,0 +1,70 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#EEE"
+    tools:context="com.sporthenon.android.fragment.USLeaguesRecordTypeFragment">
+
+    <TextView
+        android:id="@+id/rctype_path"
+        style="@style/CustomPath"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="4dip"
+        android:background="@drawable/border1"
+        />
+
+    <Button
+        android:id="@+id/us_individual"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="0dp"
+        android:layout_below="@+id/rctype_path"
+        android:fontFamily="Verdana"
+        android:textSize="18sp"
+        android:text="@string/rc.individual"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:background="@drawable/selector2"
+        android:drawablePadding="3dp"
+        android:onClick="onRcType1Click"
+        />
+
+    <Button
+        android:id="@+id/us_team"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="0dp"
+        android:layout_below="@+id/us_individual"
+        android:fontFamily="Verdana"
+        android:textSize="18sp"
+        android:text="@string/rc.team"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:background="@drawable/selector2"
+        android:drawablePadding="3dp"
+        android:onClick="onRcType2Click"
+        />
+
+    <Button
+        android:id="@+id/us_both"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="0dp"
+        android:layout_below="@+id/us_team"
+        android:fontFamily="Verdana"
+        android:textSize="18sp"
+        android:text="@string/rc.both"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:background="@drawable/selector2"
+        android:drawablePadding="3dp"
+        android:onClick="onRcType3Click"
+        />
+
+</RelativeLayout>

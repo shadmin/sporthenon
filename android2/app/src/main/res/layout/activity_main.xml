@@ -1,0 +1,66 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#EAEAEA"
+    tools:context="com.sporthenon.android.fragment.ListFragment">
+
+    <EditText
+        android:id="@+id/filter_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:fontFamily="Verdana"
+        android:padding="3dip"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:background="#FFF"
+        android:hint="@string/filter"
+        />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="10dip"
+        android:indeterminate="true"
+        />
+
+    <TextView
+        android:id="@+id/path"
+        style="@style/CustomPath"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="4dip"
+        android:background="@drawable/border1"
+        />
+
+    <TextView
+        android:id="@+id/notice"
+        style="@style/CustomTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:padding="4dip"
+        android:background="@drawable/border2"
+        />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_below="@+id/path"
+        android:layout_above="@+id/notice"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:choiceMode="singleChoice"
+        android:layout_margin="0sp"
+        android:divider="#888"
+        android:dividerHeight="1.0sp"
+        android:listSelector="#00000000"
+        />
+
+</RelativeLayout>

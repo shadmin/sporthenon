@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/selector">
+
+    <TextView
+        android:id="@+id/cl_dates"
+        style="@style/CustomTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:padding="7dip"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/cl_sport_event"
+        style="@style/CustomTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="right"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:padding="7dip"
+        android:textSize="15sp"
+        />
+
+</RelativeLayout>
