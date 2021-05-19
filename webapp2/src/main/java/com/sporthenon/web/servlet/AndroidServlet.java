@@ -81,14 +81,18 @@ public class AndroidServlet extends AbstractServlet {
 	        Element root = doc.addElement("picklist");
 	        root.addAttribute("id", p2);
 	        
-			if (p2.equalsIgnoreCase(Result.alias)) // RESULTS
+			if (p2.equalsIgnoreCase(Result.alias)) { // RESULTS
 				processResults(doc, root, p.split("\\-"), lang);
-			else if (p2.equalsIgnoreCase(Calendar.alias)) // CALENDAR
+			}
+			else if (p2.equalsIgnoreCase(Calendar.alias)) { // CALENDAR
 				processCalendar(doc, root, p.split("\\-"), lang);
-			else if (p2.equalsIgnoreCase(Olympics.alias)) // OLYMPICS
+			}
+			else if (p2.equalsIgnoreCase(Olympics.alias)) { // OLYMPICS
 				processOlympics(doc, root, p.split("\\-"), lang);
-			else if (p2.equalsIgnoreCase("US")) // US LEAGUES
+			}
+			else if (p2.equalsIgnoreCase("US")) { // US LEAGUES
 				processUSLeagues(doc, root, p.split("\\-"), lang);
+			}
 			
 	        response.setContentType("text/xml");
 	        response.setCharacterEncoding("utf-8");
@@ -108,7 +112,7 @@ public class AndroidServlet extends AbstractServlet {
         //Inactive Events
 		List<String> lInactive = new ArrayList<String>();
 		if (code.matches("(?i:" + Event.alias + "|SE|SE2)")) {
-			for (InactiveItem item : (List<InactiveItem>) DatabaseManager.executeSelect("SELECT * FROM inactive_tem where id_sport=" + t[1], InactiveItem.class))
+			for (InactiveItem item : (List<InactiveItem>) DatabaseManager.executeSelect("SELECT * FROM _inactive_item where id_sport = ?", Arrays.asList(StringUtils.toInt(t[1])), InactiveItem.class))
 				lInactive.add(item.getIdChampionship() + "-" + item.getIdEvent() + (item.getIdSubevent() != null ? "-" + item.getIdSubevent() : "") + (item.getIdSubevent2() != null ? "-" + item.getIdSubevent2() : ""));
 		}
 		
@@ -121,28 +125,32 @@ public class AndroidServlet extends AbstractServlet {
 					+ " FROM championship CP "
 					+ " WHERE CP.id IN (SELECT id_championship FROM result WHERE id_sport = ?) "
 					+ " ORDER by CP.index, CP." + label;
-        	addItems(doc, root, ImageUtils.INDEX_SPORT_CHAMPIONSHIP, DatabaseManager.getPicklist(sql, Arrays.asList(t[1])), null, t[1], null, null);
+        	Collection<Integer> params = Arrays.asList(StringUtils.toInt(t[1]));
+        	addItems(doc, root, ImageUtils.INDEX_SPORT_CHAMPIONSHIP, DatabaseManager.getPicklist(sql, params), null, t[1], null, null);
         }
         else if (code.equalsIgnoreCase(Event.alias)) {
         	String sql = "SELECT EV.id, EV." + label
 					+ " FROM event EV "
 					+ " WHERE EV.id IN (SELECT id_event FROM result WHERE id_sport = ? AND id_championship = ?) "
 					+ " ORDER by EV.index, EV." + label;
-        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseManager.getPicklist(sql, Arrays.asList(t[1], t[2])), lInactive, t[1], t[2], "SELECT COUNT(DISTINCT id_subevent) from result WHERE id_sport=" + t[1] + " and id_championship=" + t[2] + " and id_event=#ID#");
+        	Collection<Integer> params = Arrays.asList(StringUtils.toInt(t[1]), StringUtils.toInt(t[2]));
+        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseManager.getPicklist(sql, params), lInactive, t[1], t[2], "SELECT COUNT(DISTINCT id_subevent) from result WHERE id_sport=" + t[1] + " and id_championship=" + t[2] + " and id_event=#ID#");
         }
         else if (code.equalsIgnoreCase("SE")) {
         	String sql = "SELECT EV.id, EV." + label
 					+ " FROM event EV "
 					+ " WHERE EV.id IN (SELECT id_subevent FROM result WHERE id_sport = ? AND id_championship = ? AND id_event = ?) "
 					+ " ORDER by EV.index, EV." + label;
-        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseManager.getPicklist(sql, Arrays.asList(t[1], t[2], t[3])), lInactive, t[1], t[2] + "-" + t[3], "SELECT COUNT(DISTINCT id_subevent2) FROM result WHERE id_sport = " + t[1] + " AND id_championship = " + t[2] + " AND id_event = " + t[3] + " AND id_subevent = #ID#");
+        	Collection<Integer> params = Arrays.asList(StringUtils.toInt(t[1]), StringUtils.toInt(t[2]), StringUtils.toInt(t[3]));
+        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseManager.getPicklist(sql, params), lInactive, t[1], t[2] + "-" + t[3], "SELECT COUNT(DISTINCT id_subevent2) FROM result WHERE id_sport = " + t[1] + " AND id_championship = " + t[2] + " AND id_event = " + t[3] + " AND id_subevent = #ID#");
         }
         else if (code.equalsIgnoreCase("SE2")) {
         	String sql = "SELECT EV.id, EV." + label
 					+ " FROM event EV "
 					+ " WHERE EV.id IN (SELECT id_subevent2 FROM result WHERE id_sport = ? AND id_championship = ? AND id_event = ? AND id_subevent = ?) "
 					+ " ORDER by EV.index, EV." + label;
-        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseManager.getPicklist(sql, Arrays.asList(t[1], t[2], t[3], t[4])), lInactive, t[1], t[2] + "-" + t[3] + "-" + t[4], null);
+        	Collection<Integer> params = Arrays.asList(StringUtils.toInt(t[1]), StringUtils.toInt(t[2]), StringUtils.toInt(t[3]), StringUtils.toInt(t[4]));
+        	addItems(doc, root, ImageUtils.INDEX_SPORT_EVENT, DatabaseManager.getPicklist(sql, params), lInactive, t[1], t[2] + "-" + t[3] + "-" + t[4], null);
         }
         else if (code.equalsIgnoreCase(Result.alias)) {
         	Integer sp = StringUtils.toInt(t[1]);
@@ -192,8 +200,9 @@ public class AndroidServlet extends AbstractServlet {
         	}
         	if (StringUtils.notEmpty(r.getDate2())) {
         		Element dates = root.addElement("dates");
-        		if (StringUtils.notEmpty(r.getDate1()))
+        		if (StringUtils.notEmpty(r.getDate1())) {
         			dates.addAttribute("date1", StringUtils.toTextDate(r.getDate1(), lang, "d MMMM yyyy"));
+        		}
         		dates.addAttribute("date2", StringUtils.toTextDate(r.getDate2(), lang, "d MMMM yyyy"));
         	}
 			if (StringUtils.notEmpty(r.getComplex2()) || StringUtils.notEmpty(r.getCity2())) {
@@ -309,24 +318,27 @@ public class AndroidServlet extends AbstractServlet {
 					if (StringUtils.notEmpty(tEntity[i])) {
 						d = Jsoup.parse(tEntity[i]);
 						StringBuffer sb = new StringBuffer();
-						for (org.jsoup.nodes.Element e : d.getElementsByTag("a"))
+						for (org.jsoup.nodes.Element e : d.getElementsByTag("a")) {
 							sb.append(sb.toString().length() > 0 ? "|" : "").append(e.text());
+						}
 						tEntity[i] = sb.toString();
 						Elements imgs = d.getElementsByTag("img");
-						if (imgs != null && imgs.size() > 0)
+						if (imgs != null && imgs.size() > 0) {
 							tEntityImg[i] = imgs.get(0).attr("src");
-						
+						}
 						if (StringUtils.notEmpty(tEntityRel[i])) {
 							d = Jsoup.parse(tEntityRel[i]);
 							if (tEntityImg[i] == null) {
 								sb = new StringBuffer();
-								for (org.jsoup.nodes.Element e : d.getElementsByTag("img"))
+								for (org.jsoup.nodes.Element e : d.getElementsByTag("img")) {
 									sb.append(sb.toString().length() > 0 ? "|" : "").append(e.attr("src"));
+								}
 								tEntityImg[i] = sb.toString();	
 							}
 							sb = new StringBuffer();
-							for (org.jsoup.nodes.Element e : d.getElementsByTag("a"))
+							for (org.jsoup.nodes.Element e : d.getElementsByTag("a")) {
 								sb.append(sb.toString().length() > 0 ? "|" : "").append(e.text());
+							}
 							tEntityRel[i] = sb.toString();
 						}
 							
@@ -349,8 +361,9 @@ public class AndroidServlet extends AbstractServlet {
 		}
 		else if (code.equalsIgnoreCase("MT")) {
 			ArrayList<PicklistItem> picklist = new ArrayList<PicklistItem>();
-			for (int i = 1 ; i <= 12 ; i++)
+			for (int i = 1 ; i <= 12 ; i++) {
 				picklist.add(new PicklistItem(i, ResourceUtils.getText("month." + i, lang)));
+			}
         	addItems(doc, root, (short)-1, picklist, null, null, null, null);
 		}
 		else if (code.equalsIgnoreCase(Calendar.alias)) {
@@ -376,26 +389,31 @@ public class AndroidServlet extends AbstractServlet {
 		if (code.equalsIgnoreCase(Olympics.alias)) {
 			String sql = "SELECT OL.id, CT." + label + " || ', ' || YR.label "
 					+ " FROM olympics OL "
-					+ " JOIN city CT ON CT.id_city = OL.id_city"
-					+ " JOIN year YR ON YR.id_year = OL.id_year"
+					+ " JOIN city CT ON CT.id = OL.id_city"
+					+ " JOIN year YR ON YR.id = OL.id_year"
 					+ " where OL.type = ? ORDER BY OL.id_year desc";
-        	addItems(doc, root, ImageUtils.INDEX_OLYMPICS, DatabaseManager.getPicklist(sql, Arrays.asList(t[1])), null, null, null, null);
+        	addItems(doc, root, ImageUtils.INDEX_OLYMPICS, DatabaseManager.getPicklist(sql, Arrays.asList(StringUtils.toInt(t[1]))), null, null, null, null);
         }
 		else if (code.matches("SP|EV|SE|SE2")) {
-			String where = "WHERE CP.id=1 AND SP.type=" + t[1] + " AND OL.id = " + t[2];
-			if (code.matches("EV|SE|SE2"))
+			String where = "WHERE CP.id = 1 AND SP.type=" + t[1] + " AND OL.id = " + t[2];
+			if (code.matches("EV|SE|SE2")) {
 				where += " AND SP.id = " + t[3];
-			if (code.matches("SE|SE2"))
+			}
+			if (code.matches("SE|SE2")) {
 				where += " AND EV.id = " + t[4];
-			if (code.matches("SE2"))
+			}
+			if (code.matches("SE2")) {
 				where += " AND SE.id = " + t[5];
+			}
 			List<Object> params = new ArrayList<Object>();
 			params.add(where);
 			params.add(ResourceUtils.getLocaleParam(lang));
 			ArrayList<PicklistItem> lPicklist = new ArrayList<PicklistItem>();
-			for (TreeItem item : (List<TreeItem>) DatabaseManager.callFunctionSelect("tree_results", params, TreeItem.class))
-				if ((item.getLevel() == 1 && code.equalsIgnoreCase(Sport.alias)) || (item.getLevel() == 3 && code.equalsIgnoreCase(Event.alias)) || (item.getLevel() == 4 && code.equalsIgnoreCase("SE")) || (item.getLevel() == 5 && code.equalsIgnoreCase("SE2")))
+			for (TreeItem item : (List<TreeItem>) DatabaseManager.callFunctionSelect("tree_results", params, TreeItem.class)) {
+				if ((item.getLevel() == 1 && code.equalsIgnoreCase(Sport.alias)) || (item.getLevel() == 3 && code.equalsIgnoreCase(Event.alias)) || (item.getLevel() == 4 && code.equalsIgnoreCase("SE")) || (item.getLevel() == 5 && code.equalsIgnoreCase("SE2"))) {
 					lPicklist.add(new PicklistItem(item.getIdItem(), item.getLabel()));
+				}
+			}
 			addItems(doc, root, code.equalsIgnoreCase(Sport.alias) ? ImageUtils.INDEX_SPORT : ImageUtils.INDEX_EVENT, lPicklist, null, null, null, null);
 		}
 		else if (code.equalsIgnoreCase(Result.alias)) {
@@ -453,7 +471,7 @@ public class AndroidServlet extends AbstractServlet {
 			else if (t[2].equals(USLeaguesServlet.TYPE_STATS)) {
 				String sql = "SELECT YR.id, YR.label"
 						+ " FROM year YR "
-						+ " WHERE YR.id IN (SELECT id_year FROM result RS JOIN event EV ON EV.id_event = RS.id_event WHERE id_championship = ? AND EV.label LIKE ?) "
+						+ " WHERE YR.id IN (SELECT id_year FROM result RS JOIN event EV ON EV.id = RS.id_event WHERE id_championship = ? AND EV.label LIKE ?) "
 						+ " ORDER by YR.id DESC";
 				addItems(doc, root, (short)-1, DatabaseManager.getPicklist(sql, Arrays.asList(USLeaguesServlet.HLEAGUES.get(league), "%" + uslStatEvLabel + "%")), null, null, null, null);
 			}
@@ -471,8 +489,8 @@ public class AndroidServlet extends AbstractServlet {
 				String filter = " AND EV.label LIKE ? AND TP.number" + (t[3].equals("i") ? " < 10" : " = 50");
 				String sql = "SELECT SE2.id, SE2.label"
 						+ " FROM event SE2 "
-						+ " JOIN type TP ON TP.id_type = SE2.id_type "
-						+ " WHERE SE2.id IN (SELECT id_subevent2 FROM result RS JOIN event EV ON EV.id_event = RS.id_event WHERE id_championship = ?" + filter + ")"
+						+ " JOIN type TP ON TP.id = SE2.id_type "
+						+ " WHERE SE2.id IN (SELECT id_subevent2 FROM result RS JOIN event EV ON EV.id = RS.id_event WHERE id_championship = ?" + filter + ")"
 						+ " ORDER by SE2.label DESC";
 				addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseManager.getPicklist(sql, Arrays.asList(USLeaguesServlet.HLEAGUES.get(league), "%" + uslStatEvLabel + "%")), null, null, null, null);
 			}
@@ -512,7 +530,7 @@ public class AndroidServlet extends AbstractServlet {
 			params.add(t[3]);
 			params.add(t.length > 4 && String.valueOf(t[4]).equals("1") ? true : false);
 			params.add(t.length > 5 && String.valueOf(t[5]).equals("1") ? true : false);
-			params.add("_en");
+			params.add("");
 			for (YearlyStatsBean bean : (Collection<YearlyStatsBean>) DatabaseManager.callFunction("get_yearly_stats", params, YearlyStatsBean.class)) {
 				Element item = root.addElement("item");
 				if (bean.getTpLabel().equalsIgnoreCase("individual")) {
@@ -558,7 +576,7 @@ public class AndroidServlet extends AbstractServlet {
 			List<Object> params = new ArrayList<Object>();
 			params.add(USLeaguesServlet.HLEAGUES.get(league));
 			params.add(t[2]);
-			params.add("_en");
+			params.add("");
 			for (USChampionshipsBean bean : (Collection<USChampionshipsBean>) DatabaseManager.callFunction("get_us_championships", params, USChampionshipsBean.class)) {
 				Element item = root.addElement("item");
 				item.addAttribute("year", bean.getYrLabel());
@@ -578,16 +596,17 @@ public class AndroidServlet extends AbstractServlet {
 			params.add(StringUtils.notEmpty(t[3]) ? t[3] : "0");
 			params.add(StringUtils.notEmpty(t[4]) ? t[4] : "i");
 			params.add(StringUtils.notEmpty(t[5]) && !t[5].equals("a") ? t[5] : "-");
-			params.add("_en");
+			params.add("");
 			params.set(3, USLeaguesServlet.HTYPE1.get(params.get(3)));
 			params.set(4, USLeaguesServlet.HTYPE2.get(params.get(4)));
 			if (String.valueOf(params.get(3)).matches(".*Team.*") && !String.valueOf(params.get(2)).equals("0")) {
 				String sql = "SELECT id FROM event EV "
-						+ " JOIN type TP ON TP.id_type = EV.id_type "
+						+ " JOIN type TP ON TP.id = EV.id_type "
 						+ " WHERE TP.number <= 50 AND EV.label IN (SELECT EV2.label FROM event EV2 WHERE EV2.id IN (" + String.valueOf(t[3]) + "))";
 				List<String> lstSe = new ArrayList<String>();
-				for (Integer i : (List<Integer>) DatabaseManager.executeSelect(sql, Integer.class))
+				for (Integer i : (List<Integer>) DatabaseManager.executeSelect(sql, Integer.class)) {
 					lstSe.add(String.valueOf(i));
+				}
 				params.set(2, StringUtils.join(lstSe , ","));
 			}
 			for (USRecordsBean bean : (Collection<USRecordsBean>) DatabaseManager.callFunction("get_us_records", params, USRecordsBean.class)) {
@@ -637,17 +656,18 @@ public class AndroidServlet extends AbstractServlet {
 				Element item = root.addElement("item");
 				int id = plb.getValue();
 				String text = plb.getText();
-				if (lInactive != null && lInactive.contains(currentPath + "-" + id))
+				if (lInactive != null && lInactive.contains(currentPath + "-" + id)) {
 					text = "+" + text;
+				}
 				item.addAttribute("value", String.valueOf(id));
 				item.addAttribute("text", text);
 				if (index > -1) {
 					String img = HtmlUtils.writeImage(index, (spid != null ? spid + "-" : "") + plb.getValue(), ImageUtils.SIZE_LARGE, null, null);
 					item.addAttribute("img", toImgURL(img));
 				}
-				Integer n = 1;
+				Long n = 1l;
 				if (subcountSQL != null) {
-					List<Integer> ln = (List<Integer>) DatabaseManager.executeSelect(subcountSQL.replace("#ID#", String.valueOf(id)), Integer.class);
+					List<Long> ln = (List<Long>) DatabaseManager.executeSelect(subcountSQL.replace("#ID#", String.valueOf(id)), Integer.class);
 					n = ln.get(0);
 				}
 				item.addAttribute("subcount", String.valueOf(n));
@@ -686,17 +706,20 @@ public class AndroidServlet extends AbstractServlet {
 							if (tp < 10) {
 								Integer tm = StringUtils.toInt(ResultsBean.class.getMethod("getEn" + i + "Rel1Id").invoke(bean));
 								Integer cn = StringUtils.toInt(ResultsBean.class.getMethod("getEn" + i + "Rel2Id").invoke(bean));
-								if (tm != null && tm> 0)
+								if (tm != null && tm> 0) {
 									img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, tm, ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
+								}
 								else {
 									img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, cn, ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
 									sbCode.append(sbCode.toString().length() > 0 ? "|" : "").append(ResultsBean.class.getMethod("getEn" + i + "Rel2Code").invoke(bean));
 								}
 							}
-							else if (tp == 50)
+							else if (tp == 50) {
 								img = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, id, ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
-							else if (tp == 99)
+							}
+							else if (tp == 99) {
 								img = HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, id, ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
+							}
 							sbImg.append(sbImg.toString().length() > 0 ? "|" : "").append(toImgURL(img));
 							
 						}
@@ -713,7 +736,7 @@ public class AndroidServlet extends AbstractServlet {
 				List<Object> lParams = new ArrayList<Object>();
 				lParams.add(StringUtils.join(lIds, ","));
 				lParams.add(ResourceUtils.getLocaleParam(lang));
-				List<RefItem> list_ = (List<RefItem>) DatabaseManager.callFunctionSelect("win_records", lParams, RefItem.class);
+				List<RefItem> list_ = (List<RefItem>) DatabaseManager.callFunctionSelect("win_records", lParams, RefItem.class, "count1 DESC, label");
 				if (list_ != null && list_.size() > 0) {
 					RefItem item = list_.get(0);
 					String str = item.getLabel();
