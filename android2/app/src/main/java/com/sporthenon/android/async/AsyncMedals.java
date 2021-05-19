@@ -37,7 +37,7 @@ public class AsyncMedals extends AsyncTask<Object, Boolean, String> {
         Integer olid = (Integer) params[1];
         medals = new ArrayList<MedalItem>();
         try {
-            String url = activity.getString(R.string.url) + "/android/OL/OR-0-" + olid + "?lang=" + activity.getLang();
+            String url = activity.getString(R.string.url) + "/android/OL/OR_-0-" + olid + "?lang=" + activity.getLang();
             HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
             connection.connect();
             InputStream input = connection.getInputStream();
