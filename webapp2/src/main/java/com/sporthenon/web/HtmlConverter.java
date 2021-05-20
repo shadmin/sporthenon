@@ -1564,7 +1564,7 @@ public class HtmlConverter {
 					html.append(MORE_ITEMS.replaceAll("#STYLE#", "").replaceAll("#P1#", StringUtils.encode(p.replaceAll("#LIMIT#", String.valueOf(ITEM_LIMIT)))).replaceAll("#P2#", StringUtils.encode(p.replaceAll("#LIMIT#", "100"))).replaceAll("#P3#", StringUtils.encode(p.replaceAll("#LIMIT#", "ALL"))).replaceAll("#COLSPAN#", String.valueOf(colspan)));
 				}
 				colspan = StringUtils.countIn(cols.toString(), "<th");
-				html.append(StringUtils.notEmpty(currentEntity) ? "</tbody></table>" : "");
+				html.append(StringUtils.notEmpty(currentEntity) ? "</tbody></table></div>" : "");
 				count = 0;
 				summary.append("<a href='#" + tableName.replaceAll("\\s|\\/", "_") + "'>" + ++ns + ". " + tableName + "</a><br/>");
 				if (isAllRef) {
