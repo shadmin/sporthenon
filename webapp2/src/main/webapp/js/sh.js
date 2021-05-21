@@ -120,13 +120,17 @@ function handleRender() {
 		$('loadtime').down('span').update(t);
 		$('loadtime').show();
 	}
+	if ($('msgerr')) {
+		$$('#topbar .toolbar')[0].hide();
+		$('errorlink').hide();
+	}
 	// Favorites
 	if ($('favimg')) {
 		var url = $$('#content .url')[0].innerHTML;
 		if (isFavorite(url)) {
 			$('favimg').onclick = function(){deleteFavorite();};
 			$('favimg').src = '/img/menu/favorites.png';
-			$('favimg').title = TX_DELFAV;			
+			$('favimg').title = TX_DELFAV;
 		}
 		else {
 			$('favimg').onclick = function(){addFavorite();};
@@ -1226,18 +1230,12 @@ function dpatternFocus() {
 		$('dpattern').addClassName('focus');
 		$('dpattern').value = '';
 	}
-	$$('#content .selmultiple').each(function(el){
-		$(el).style.visibility = 'hidden';
-	});
 }
 function dpatternBlur() {
 	if ($F('dpattern') == '') {
 		$('dpattern').removeClassName('focus');
 		$('dpattern').value = TX_SEARCH2;
 	}
-	$$('#content .selmultiple').each(function(el){
-		$(el).style.visibility = 'visible';
-	});
 }
 function directSearch(li) {
 	if (li && li.id && li.id != 'LR') {

@@ -344,14 +344,15 @@
 .render .tsort table tr:hover, .render .tsort .moreitems:hover, #dupdates .tsort .moreitems:hover{
 	background-color: transparent;
 }
-.render .noresult{
+.render #msgerr{
 	width: auto;
 	margin-top: 40px;
+	margin-bottom: 20px;
 	padding: 5px;
 	font-weight: bold;
 	text-align: center;
 	border: 1px solid #000;
-	background: #FDD url(../img/render/noresult.png) 5px center no-repeat;
+	background: #FDD url(../img/render/error.png) 5px center no-repeat;
 }
 /*.render .info td{
 	text-align: center;
@@ -469,10 +470,10 @@ th.sorted{
 	background-position: right center;
 }
 th.asc{
-	background-image: url(../img/render/sort-asc.png?4);
+	background-image: url(../img/render/sort-asc.png?5);
 }
 th.desc{
-	background-image: url(../img/render/sort-desc.png?4);
+	background-image: url(../img/render/sort-desc.png?5);
 }
 .moreitems td{
 	text-align: center;

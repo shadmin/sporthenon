@@ -56,7 +56,7 @@
 	<entry key="entity.EV">Events</entry>
 	<entry key="entity.HF">Hall of fame</entry>
 	<entry key="entity.OL">Olympic Games</entry>
-	<entry key="entity.OR">Olympic medals</entry>
+	<entry key="entity.OR_">Olympic medals</entry>
 	<entry key="entity.PR">Athletes</entry>
 	<entry key="entity.RC">Records</entry>
 	<entry key="entity.RD">Rounds/Matches</entry>
@@ -80,7 +80,7 @@
 	<entry key="entity.EV.1">Event</entry>
 	<entry key="entity.HF.1">Hall of fame</entry>
 	<entry key="entity.OL.1">Olympic Games</entry>
-	<entry key="entity.OR.1">Olympic medals</entry>
+	<entry key="entity.OR_.1">Olympic medals</entry>
 	<entry key="entity.PR.1">Athlete</entry>
 	<entry key="entity.RC.1">Record</entry>
 	<entry key="entity.RD.1">Round/Match</entry>

@@ -29,7 +29,7 @@ import com.sporthenon.utils.res.ResourceUtils;
 public class HtmlUtils {
 
 	public static String writeNoResult(String lang) {
-		return "<div class='noresult'>" + ResourceUtils.getText("no.result", lang) + "</div>";
+		return "<div id='msgerr'>" + ResourceUtils.getText("no.result", lang) + "</div>";
 	}
 	
 	public static String writeImage(short type, Object id, char size, String year, String title) {

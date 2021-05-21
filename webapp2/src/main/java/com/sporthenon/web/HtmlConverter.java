@@ -1831,8 +1831,9 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertResults(HttpServletRequest request, Collection<?> coll, Championship cp, Event ev, Contributor m, String lang) throws Exception {
-		if (coll == null || coll.isEmpty())
+		if (coll == null || coll.isEmpty()) {
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
+		}
 		final int MAX_RANKS = 3;
 		short entityCount = 0;
 		short[] tColspan = {1, 1, 1, 1, 1, 1, 1, 1, 1};
@@ -2072,8 +2073,9 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertCalendarResults(HttpServletRequest request, Collection<RefItem> coll, Contributor m, String lang) throws Exception {
-		if (coll == null || coll.isEmpty())
+		if (coll == null || coll.isEmpty()) {
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
+		}
 		Timestamp lastUpdate = null;
 		String currentEntity = null;
 		StringBuffer html = new StringBuffer();
@@ -2396,8 +2398,9 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertOlympicMedals(HttpServletRequest request, Collection<?> coll, String lang) throws Exception {
-		if (coll == null || coll.isEmpty())
+		if (coll == null || coll.isEmpty()) {
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
+		}
 		int currentOlympics = 0;
 		boolean isIndividual = false;
 		boolean isResult = false;
@@ -2487,8 +2490,9 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertOlympicRankings(HttpServletRequest request, Collection<?> coll, String lang) throws Exception {
-		if (coll == null || coll.isEmpty())
+		if (coll == null || coll.isEmpty()) {
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
+		}
 		String tmpImg = null;
 		long id = System.currentTimeMillis();
 		Timestamp lastUpdate = null;
@@ -2519,8 +2523,9 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertHallOfFame(HttpServletRequest request, Collection<?> coll, String lang) throws Exception {
-		if (coll == null || coll.isEmpty())
+		if (coll == null || coll.isEmpty()) {
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
+		}
 		StringBuffer html = new StringBuffer("<div class='mobile100'><table class='tsort'>");
 		long id = System.currentTimeMillis();
 		Timestamp lastUpdate = null;
@@ -2551,8 +2556,9 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertRetiredNumber(HttpServletRequest request, Collection<?> coll, String lang) throws Exception {
-		if (coll == null || coll.isEmpty())
+		if (coll == null || coll.isEmpty()) {
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
+		}
 		StringBuffer html = new StringBuffer("<div class='mobile100'><table class='tsort'>");
 		long id = System.currentTimeMillis();
 		Timestamp lastUpdate = null;
@@ -2579,8 +2585,9 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertTeamStadium(HttpServletRequest request, Collection<?> coll, String lang) throws Exception {
-		if (coll == null || coll.isEmpty())
+		if (coll == null || coll.isEmpty()) {
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
+		}
 		StringBuffer html = new StringBuffer("<div class='mobile100'><table class='tsort'>");
 		long id = System.currentTimeMillis();
 		Timestamp lastUpdate = null;
@@ -2612,8 +2619,9 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertUSChampionships(HttpServletRequest request, Collection<?> coll, String lang) throws Exception {
-		if (coll == null || coll.isEmpty())
+		if (coll == null || coll.isEmpty()) {
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
+		}
 		StringBuffer html = new StringBuffer("<div class='mobile100'><table class='tsort'>");
 		boolean isDate = false;
 		boolean isPlace = false;
@@ -2669,8 +2677,9 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertUSRecords(HttpServletRequest request, Collection<?> coll, String lang) throws Exception {
-		if (coll == null || coll.isEmpty())
+		if (coll == null || coll.isEmpty()) {
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
+		}
 		Timestamp lastUpdate = null;
 		StringBuffer html = new StringBuffer("<div class='mobile100'><table class='tsort'>");
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"0\", this, 0);'>" + ResourceUtils.getText("category", lang) + "</th><th onclick='sort(\"0\", this, 1);'>" + ResourceUtils.getText("scope", lang) + "</th><th onclick='sort(\"0\", this, 2);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"0\", this, 3);'>" + ResourceUtils.getText("period", lang) + "</th><th onclick='sort(\"0\", this, 4);'>" + ResourceUtils.getText("record", lang) + "</th><th colspan='2' onclick='sort(\"0\", this, 5);'>" + ResourceUtils.getText("record.holder", lang) + "</th><th onclick='sort(\"0\", this, 6);'>" + ResourceUtils.getText("date", lang) + "</th>");
@@ -2735,8 +2744,9 @@ public class HtmlConverter {
 	}
 
 	public static StringBuffer convertYearlyStats(HttpServletRequest request, Collection<?> coll, String lang) throws Exception {
-		if (coll == null || coll.isEmpty())
+		if (coll == null || coll.isEmpty()) {
 			return new StringBuffer(HtmlUtils.writeNoResult(lang));
+		}
 		Timestamp lastUpdate = null;
 		StringBuffer html = new StringBuffer("<div class='mobile100'><table class='tsort'>");
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"0\", this, 0);'>" + ResourceUtils.getText("type", lang) + "</th><th onclick='sort(\"0\", this, 1);'>" + ResourceUtils.getText("category", lang) + "</th><th onclick='sort(\"0\", this, 2);'>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><th onclick='sort(\"0\", this, 3);' colspan='2'>" + ResourceUtils.getText("rank.1", lang) + "</th><th onclick='sort(\"0\", this, 4);' colspan='2'>" + ResourceUtils.getText("rank.2", lang) + "</th><th onclick='sort(\"0\", this, 5);' colspan='2'>" + ResourceUtils.getText("rank.3", lang) + "</th>");

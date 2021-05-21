@@ -460,8 +460,10 @@ select.disabled{
 	background-position: 3px center;
 	background-repeat: no-repeat;
 	padding-left: 22px;
+	padding-top: 2px;
 	cursor: pointer;
 	border: 1px solid #AAA;
+	vertical-align: middle;
 }
 #buttons #bleft .button{
 	margin-right: 5px;
@@ -543,6 +545,9 @@ select.disabled{
 	padding-left: 21px;
 	background-position: left center;
 	background-repeat: no-repeat;
+}
+#home .homepanel h3{
+	font-family: Georgia;
 }
 #home .flexline{
 	display: flex;

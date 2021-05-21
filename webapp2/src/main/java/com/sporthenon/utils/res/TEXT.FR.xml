@@ -56,7 +56,7 @@
 	<entry key="entity.EV">Epreuves</entry>
 	<entry key="entity.HF">Hall of Fame</entry>
 	<entry key="entity.OL">Jeux Olympiques</entry>
-	<entry key="entity.OR">Médailles olympiques</entry>
+	<entry key="entity.OR_">Médailles olympiques</entry>
 	<entry key="entity.PR">Athlètes</entry>
 	<entry key="entity.RC">Records</entry>
 	<entry key="entity.RD">Tours/Matches</entry>
@@ -80,7 +80,7 @@
 	<entry key="entity.EV.1">Epreuve</entry>
 	<entry key="entity.HF.1">Hall of Fame</entry>
 	<entry key="entity.OL.1">Jeux Olympiques</entry>
-	<entry key="entity.OR.1">Médailles olympiques</entry>
+	<entry key="entity.OR_.1">Médailles olympiques</entry>
 	<entry key="entity.PR.1">Athlète</entry>
 	<entry key="entity.RC.1">Record</entry>
 	<entry key="entity.RD.1">Tour/Match</entry>

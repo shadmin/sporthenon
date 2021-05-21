@@ -19,12 +19,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
@@ -161,43 +161,47 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jExa = new JTextField();
 		jExa.setPreferredSize(new Dimension(60, 21));
 		
-		JSeparator jSeparator1 = new JSeparator(JSeparator.HORIZONTAL);
-		jSeparator1.setPreferredSize(new Dimension(300, 0));
-		JSeparator jSeparator2 = new JSeparator(JSeparator.HORIZONTAL);
-		jSeparator2.setPreferredSize(new Dimension(180, 0));
-		JSeparator jSeparator3 = new JSeparator(JSeparator.HORIZONTAL);
-		jSeparator3.setPreferredSize(new Dimension(180, 0));
 		JPanel jEventPanel = new JPanel();
-		jEventPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 4));
-		jEventPanel.setPreferredSize(new Dimension(0, 130));
+		jEventPanel.setLayout(new BoxLayout(jEventPanel, BoxLayout.Y_AXIS));
+		//jEventPanel.setPreferredSize(new Dimension(0, 125));
 		jEventPanel.setBorder(BorderFactory.createTitledBorder(null, "Event Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
-		jEventPanel.add(new JLabel("Year:"), null);
-		jEventPanel.add(jYear, null);
-		jEventPanel.add(new JLabel("From:"), null);
-		jEventPanel.add(jDate1, null);
-		jEventPanel.add(new JLabel("to:"), null);
-		jEventPanel.add(jDate2, null);
-		jEventPanel.add(jToday, null);
-		jEventPanel.add(jDraft, null);
-		jEventPanel.add(jSeparator1);
-		jEventPanel.add(new JLabel("Complex #1:"), null);
-		jEventPanel.add(jComplex1, null);
-		jEventPanel.add(new JLabel("City #1:"), null);
-		jEventPanel.add(jCity1, null);
-		jEventPanel.add(jSeparator2);
-		jEventPanel.add(new JLabel("Complex #2:"), null);
-		jEventPanel.add(jComplex2, null);
-		jEventPanel.add(new JLabel("City #2:"), null);
-		jEventPanel.add(jCity2, null);
-		jEventPanel.add(jSeparator3);
-		jEventPanel.add(new JLabel("Tie:"), null);
+
+		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 4));
+		panel.add(new JLabel("Year:"), null);
+		panel.add(jYear, null);
+		panel.add(new JLabel("From:"), null);
+		panel.add(jDate1, null);
+		panel.add(new JLabel("to:"), null);
+		panel.add(jDate2, null);
+		panel.add(jToday, null);
+		panel.add(jDraft, null);
+		jEventPanel.add(panel);
+		
+		panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 4));
+		panel.add(new JLabel("Complex #1:"), null);
+		panel.add(jComplex1, null);
+		panel.add(new JLabel("City #1:"), null);
+		panel.add(jCity1, null);
+		jEventPanel.add(panel);
+		
+		panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 4));
+		panel.add(new JLabel("Complex #2:"), null);
+		panel.add(jComplex2, null);
+		panel.add(new JLabel("City #2:"), null);
+		panel.add(jCity2, null);
+		jEventPanel.add(panel);
+
+		panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 4));
+		panel.add(new JLabel("Tie:"), null);
 		for (int i = 0 ; i < RANK_COUNT ; i++) {
 			jExaCheckbox[i] = new JCheckBox(String.valueOf(i + 1));
-			jEventPanel.add(jExaCheckbox[i], null);
+			panel.add(jExaCheckbox[i], null);
 			jExaCheckbox[i].setActionCommand("exacb-" + (i + 1));
 			jExaCheckbox[i].addActionListener(this);
 		}
-		jEventPanel.add(jExa, null);
+		panel.add(jExa, null);
+		jEventPanel.add(panel);
+		
 		return jEventPanel;
 	}
 

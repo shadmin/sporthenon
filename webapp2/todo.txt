@@ -1,2 +1,5 @@
 export pdf
 merge ext links
+fusionner tableaux ref palmares/Resultats
+verif ecrans update
+optimiser perf ranks shadmin - detecter modifs
