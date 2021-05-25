@@ -816,7 +816,7 @@ public class ImportUtils {
 	}
 	
 	private static void writeError(Vector<String> vLine, String msg) {
-		if (vLine != null && !vLine.get(0).contains("'red'") && (!StringUtils.notEmpty(vLine.get(0)) || vLine.get(0).equals("-") || vLine.get(0).contains("'orange'"))) {
+		if (vLine != null && !vLine.get(0).startsWith("ERROR") && (!StringUtils.notEmpty(vLine.get(0)) || vLine.get(0).equals("-") || vLine.get(0).startsWith("WARNING"))) {
 			vLine.set(0, msg);
 		}
 	}

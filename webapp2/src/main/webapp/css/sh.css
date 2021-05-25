@@ -767,6 +767,7 @@ select.disabled{
 }
 #browse .treediv{
 	width: 350px;
+	margin-left: 3px;
 	overflow: hidden;
 	border-right: 1px solid #DDD;
 }
@@ -844,7 +845,7 @@ select.disabled{
 	background: url(../img/menu/dbolympics.png) left center no-repeat;
 }
 #olympics{
-	margin-left: 10px;
+	margin-left: 3px;
 	margin-right: 10px;
 	height: 275px;
 }
@@ -854,7 +855,7 @@ select.disabled{
 	height: 240px;
 }
 #olympics #oltype div{
-	margin: 6px 6px;
+	margin: 6px;
 	margin-right: 0px;
 	padding: 3px;
 	text-align: center;

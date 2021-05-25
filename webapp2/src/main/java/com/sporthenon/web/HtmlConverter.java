@@ -478,8 +478,9 @@ public class HtmlConverter {
 			html.append("<td class='bar3'></td></tr></table></td>");
 			html.append("<td class='count'>" + item.getCount1() + "</td></tr>");
 		}
-		if (list.size() > MAX_WINREC)
+		if (list.size() > MAX_WINREC) {
 			html.append("<tr id='winrecmore'><td colspan='3' style='padding-bottom:5px;'><a href='javascript:$$(\"#winrec tr\").each(function(el){$(el).removeClassName(\"hidden\");});$(\"winrecmore\").hide();' class='otherimglink' style='float:right;'>" + ResourceUtils.getText("more", lang) + "</a></td></tr>");
+		}
 		return html.append("</tbody></table>");
 	}
 
@@ -2268,8 +2269,9 @@ public class HtmlConverter {
 		for (Object obj : coll) {
 			String s = ((RefItem) obj).getEntity();
 			s = (s.equals(Championship.alias) ? Event.alias : s);
-			if (!hCount.containsKey(s))
+			if (!hCount.containsKey(s)) {
 				hCount.put(s, 0);
+			}
 			hCount.put(s, hCount.get(s) + 1);
 		}
 		// Write items
@@ -2277,8 +2279,9 @@ public class HtmlConverter {
 		String link = null;
 		for (Object obj : coll) {
 			RefItem item = (RefItem) obj;
-			if (lastUpdate == null || item.getDate3().compareTo(lastUpdate) > 0)
+			if (lastUpdate == null || item.getDate3().compareTo(lastUpdate) > 0) {
 				lastUpdate = item.getDate3();
+			}
 			String en = item.getEntity();
 			en = (en.equals(Championship.alias) ? Event.alias : en);
 			if (!en.equals(currentEntity)) {
@@ -2294,7 +2297,7 @@ public class HtmlConverter {
 				else if (en.matches("CX|CT")) {
 					cols.append((en.matches("CX") ? "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("city", lang) + "</th>" : "") + "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("country", lang) + "</th>");
 				}
-				html.append(StringUtils.notEmpty(currentEntity) ? "</tbody></table>" : "");
+				html.append(StringUtils.notEmpty(currentEntity) ? "</tbody></table></div>" : "");
 				html.append("<div class='chaptertitle'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + en, lang) + " (" + hCount.get(en) + ")", false) + "</div>");
 				html.append("<div class='mobile100'><table class='tsort'>");
 				html.append("<thead><tr class='rsort'>" + cols.toString() + "<th onclick='sort(\"" + id + "\", this, " + sortIndex++ + ");'>" + ResourceUtils.getText("references", lang) + "</th></tr></thead><tbody class='tby' id='tb-" + id + "'>");

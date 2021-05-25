@@ -262,9 +262,9 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			idEvent = (t.length > 2 ? StringUtils.toInt(t[2]) : null);
 			idSubevent = (t.length > 3 ? StringUtils.toInt(t[3]) : null);
 			idSubevent2 = (t.length > 4 ? StringUtils.toInt(t[4]) : null);
-			jInactive.setEnabled(true);
 			if (node.isLeaf()) {
 				loadData(param);
+				jInactive.setEnabled(true);
 			}
 		}
 	}

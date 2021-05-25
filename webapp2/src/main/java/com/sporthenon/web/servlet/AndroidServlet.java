@@ -479,19 +479,19 @@ public class AndroidServlet extends AbstractServlet {
 		else if (code.equalsIgnoreCase(Event.alias)) {
 			if (t[2].equals(USLeaguesServlet.TYPE_RECORD)) {
 				String filter = (t[3].equals("i") ? " AND type1 = 'Individual'" : (t[3].equals("t") ? " AND type1 = 'Team'" : ""));
-				String sql = "SELECT SE.id, SE.label"
+				String sql = "SELECT SE.id, SE.label, SE.index"
 						+ " FROM event SE "
 						+ " WHERE SE.id IN (SELECT id_subevent FROM record WHERE id_championship = ?" + filter + ")"
-						+ " ORDER by SE.label DESC";
+						+ " ORDER by SE.index";
 				addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseManager.getPicklist(sql, Arrays.asList(USLeaguesServlet.HLEAGUES.get(league))), null, null, null, null);
 			}
 			else if (t[2].equals(USLeaguesServlet.TYPE_STATS)) {
 				String filter = " AND EV.label LIKE ? AND TP.number" + (t[3].equals("i") ? " < 10" : " = 50");
-				String sql = "SELECT SE2.id, SE2.label"
+				String sql = "SELECT SE2.id, SE2.label, SE2.index"
 						+ " FROM event SE2 "
 						+ " JOIN type TP ON TP.id = SE2.id_type "
 						+ " WHERE SE2.id IN (SELECT id_subevent2 FROM result RS JOIN event EV ON EV.id = RS.id_event WHERE id_championship = ?" + filter + ")"
-						+ " ORDER by SE2.label DESC";
+						+ " ORDER by SE2.index";
 				addItems(doc, root, ImageUtils.INDEX_EVENT, DatabaseManager.getPicklist(sql, Arrays.asList(USLeaguesServlet.HLEAGUES.get(league), "%" + uslStatEvLabel + "%")), null, null, null, null);
 			}
 		}

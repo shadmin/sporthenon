@@ -169,8 +169,9 @@ public class USLeaguesServlet extends AbstractServlet {
 					if (String.valueOf(params.get(3)).matches(".*Team.*") && !String.valueOf(params.get(2)).equals("0")) {
 						String sql = "SELECT id FROM event WHERE type.number <= 50 AND label IN (SELECT label FROM event WHERE id IN (" + String.valueOf(mapParams.get("ct")) + "))";
 						List<String> lstSe = new ArrayList<String>();
-						for (Integer i : (ArrayList<Integer>) DatabaseManager.executeSelect(sql, Integer.class))
+						for (Integer i : (ArrayList<Integer>) DatabaseManager.executeSelect(sql, Integer.class)) {
 							lstSe.add(String.valueOf(i));
+						}
 						params.set(2, StringUtils.join(lstSe , ","));
 					}
 					html.append(HtmlConverter.convertUSRecords(request, DatabaseManager.callFunction("get_us_records", params, USRecordsBean.class), "en"));

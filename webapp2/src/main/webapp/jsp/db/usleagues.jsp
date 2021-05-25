@@ -145,17 +145,20 @@ var tRcCtA = [];
 		}
 		out.print("tTm[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.teams", "en") + " ––</option>" + sb.toString() + "';\r\n");
 		// Record (Subevent)
-		c = DatabaseManager.getPicklist("SELECT DISTINCT SE.id, SE.label, RC.type1 FROM record RC JOIN event SE ON SE.id = RC.id_subevent WHERE id_championship = ? ORDER BY SE.label", Arrays.asList(USLeaguesServlet.HLEAGUES.get(i)));
+		c = DatabaseManager.getPicklist("SELECT DISTINCT SE.id, SE.label, RC.type1, SE.index FROM record RC JOIN event SE ON SE.id = RC.id_subevent WHERE id_championship = ? ORDER BY SE.index", Arrays.asList(USLeaguesServlet.HLEAGUES.get(i)));
 		StringBuffer sb1 = new StringBuffer();
 		StringBuffer sb2 = new StringBuffer();
 		StringBuffer sb3 = new StringBuffer();
 		for (PicklistItem plb : c) {
-			if (!sb1.toString().contains(">" + plb.getText() + "<"))
+			if (!sb1.toString().contains(">" + plb.getText() + "<")) {
 				sb1.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
-			if (plb.getParam() != null && String.valueOf(plb.getParam()).equalsIgnoreCase("individual"))
+			}
+			if (plb.getParam() != null && String.valueOf(plb.getParam()).equalsIgnoreCase("individual")) {
 				sb2.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
-			else if (plb.getParam() != null && String.valueOf(plb.getParam()).equalsIgnoreCase("team"))
+			}
+			else if (plb.getParam() != null && String.valueOf(plb.getParam()).equalsIgnoreCase("team")) {
 				sb3.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
+			}
 		}
 		out.print("tRcCtA[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.categories", "en") + " ––</option>" + sb1.toString() + "';\r\n");
 		out.print("tRcCtI[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.categories", "en") + " ––</option>" + sb2.toString() + "';\r\n");
@@ -171,11 +174,11 @@ var tRcCtA = [];
 			sb.append("<option value=\"" + plb.getValue() + "\">" + plb.getText() + "</option>");
 		out.print("tStatsYr[" + i + "] = '<option value=\"0\">–– " + ResourceUtils.getText("all.years", "en") + " ––</option>" + sb.toString() + "';\r\n");
 		// Yearly stats (category)
-		sql = "SELECT SE2.id, SE2.label, TP.number"
+		sql = "SELECT SE2.id, SE2.label, TP.number, SE2.index"
 				+ " FROM event SE2 "
 				+ " JOIN type TP ON TP.id = SE2.id_type "
 				+ " WHERE SE2.id IN (SELECT id_subevent2 FROM result RS JOIN event EV ON EV.id = RS.id_event WHERE id_championship = ? AND EV.label LIKE ?)"
-				+ " ORDER by SE2.label";
+				+ " ORDER by SE2.index";
 		c = DatabaseManager.getPicklist(sql, Arrays.asList(USLeaguesServlet.HLEAGUES.get(i), "%" + uslStatEvLabel + "%"));
 		sb1 = new StringBuffer();
 		sb2 = new StringBuffer();
