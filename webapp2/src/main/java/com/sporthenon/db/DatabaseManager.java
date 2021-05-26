@@ -67,17 +67,19 @@ public class DatabaseManager {
 	public static final short LAST = 3;
 
 	public static void createConnectionPool(String dbHost, String dbPort, String dbName, String dbUser, String dbPwd) throws ClassNotFoundException {
-		HikariConfig config = new HikariConfig();
-		config.setJdbcUrl(String.format("jdbc:postgresql://%s:%s/%s", dbHost, dbPort, dbName));
-		config.setUsername(dbUser);
-		config.setPassword(dbPwd);
-		config.setMaximumPoolSize(10);
-		config.setMinimumIdle(3);
-		config.setConnectionTimeout(10000);
-		config.setIdleTimeout(600000);
-		config.setMaxLifetime(1800000);
-		Class.forName("org.postgresql.Driver");
-		pool = new HikariDataSource(config);
+		if (pool == null) {
+			HikariConfig config = new HikariConfig();
+			config.setJdbcUrl(String.format("jdbc:postgresql://%s:%s/%s", dbHost, dbPort, dbName));
+			config.setUsername(dbUser);
+			config.setPassword(dbPwd);
+			config.setMaximumPoolSize(50);
+			config.setMinimumIdle(5);
+			config.setConnectionTimeout(10000);
+			config.setIdleTimeout(600000);
+			config.setMaxLifetime(1800000);
+			Class.forName("org.postgresql.Driver");
+			pool = new HikariDataSource(config);
+		}
 	}
 
 	private static Map<String, Method> getEntityMethods(Class<?> entity, String prefix) {

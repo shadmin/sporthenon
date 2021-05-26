@@ -498,8 +498,8 @@
 	<entry key="err.invalid.country">ERREUR: Pays invalide</entry>
 	<entry key="err.value.toolong">ERREUR: Valeur trop longue</entry>
 	<entry key="err.result.notexist">ERREUR: Résultat inexistant</entry>
+	<entry key="err.event.notexist">ERREUR: Epreuve inexistante</entry>
 	<entry key="warning.team.notexist">AVERTISSEMENT: Equipe inexistante</entry>
-	<entry key="warning.event.notexist">AVERTISSEMENT: Epreuve inexistante</entry>
 	<entry key="checked">Vérifié</entry>
 	<entry key="photos.source">Source photos</entry>
 	<entry key="linked.to">Lié à</entry>

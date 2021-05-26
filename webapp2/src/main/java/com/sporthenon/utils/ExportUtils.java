@@ -431,7 +431,8 @@ public class ExportUtils {
 		PdfWriter.getInstance(doc, output);
 		doc.open();
 		
-		BaseFont bf = BaseFont.createFont(ConfigUtils.getProperty("font.folder") + "verdana.ttf", BaseFont.IDENTITY_H, true);
+		//BaseFont bf = BaseFont.createFont(ConfigUtils.getProperty("font.folder") + "verdana.ttf", BaseFont.IDENTITY_H, true);
+		BaseFont bf = BaseFont.createFont();
 		com.itextpdf.text.Font font = new com.itextpdf.text.Font(bf, 9);
 		com.itextpdf.text.Font fontBold = new com.itextpdf.text.Font(bf, 9);
 		fontBold.setStyle(com.itextpdf.text.Font.BOLD);

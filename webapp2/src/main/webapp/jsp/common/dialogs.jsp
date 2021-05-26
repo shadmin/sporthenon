@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page import="com.sporthenon.db.entity.meta.Contributor"%>
 <%@ page import="com.sporthenon.utils.StringUtils"%>
+<%
+	Object o = session.getAttribute("user");
+	Contributor m = null;
+	if (o != null && o instanceof Contributor) {
+		m = (Contributor) o;
+	}
+%>
 <!-- Report Error -->
 <div id="d-error" class="dialog" style="display:none;">
 <div class="fieldset">
@@ -7,12 +15,6 @@
 	<div class="fscontent"><%=StringUtils.text("page.address", session)%>:<br/><input id="errlinkurl" disabled="disabled" style="width:650px;margin-top:3px;"/><br/><br/>
 	<%=StringUtils.text("error.description", session)%>:<br/><textarea id="errlinktext" rows="10" cols="80" style="width:650px;margin-top:3px;"></textarea></div>
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="saveError();"/><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dError);"/></div>
-</div>
-</div>
-<!-- Picture -->
-<div id="d-picture" class="dialog" style="display:none;">
-<div class="fieldset">
-	<div class="fscontent" id="dpicture-div"></div>
 </div>
 </div>
 <!-- Link -->
@@ -34,6 +36,13 @@
 		<tr><th><%=StringUtils.text("language", session)%></th><td></td></tr><tr><th><%=StringUtils.text("last.update", session)%></th><td></td></tr>
 	</table></div>
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dInfo);"/></div>
+</div>
+</div>
+<%if (m != null) {%>
+<!-- Picture -->
+<div id="d-picture" class="dialog" style="display:none;">
+<div class="fieldset">
+	<div class="fscontent" id="dpicture-div"></div>
 </div>
 </div>
 <!-- Person List -->
@@ -93,6 +102,23 @@
 	<div class="dlgbuttons"><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dFind);"/></div>
 </div>
 </div>
+<!-- Help -->
+<div id="d-help" class="dialog" style="display:none;">
+<div class="fieldset">
+	<div class="fstitle">Help</div>
+	<div class="fscontent" style="width:500px;height:300px;overflow:auto;">
+	<h3>Codes pays/équipes</h3>
+	<a href="javascript:loadDataTip('country');"><%=StringUtils.text("country.codes", session)%></a><br/><br/>
+	<a href="javascript:loadDataTip('state');"><%=StringUtils.text("country.states", session)%></a><br/><br/>
+	<a href="javascript:loadDataTip('team');"><%=StringUtils.text("entity.TM", session)%></a>
+	<div id="datatip" style="display:none;"></div>
+	<h3>Wiki</h3>
+	<a target="_blank" href="https://github.com/shadmin/sporthenon/wiki">https://github.com/shadmin/sporthenon/wiki</a>
+	</div>
+	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dHelp);"/></div>
+</div>
+</div>
+<%}%>
 <!-- Confirm -->
 <div id="d-question" class="dialog" style="display:none;">
 <div class="fieldset">
@@ -113,22 +139,6 @@
 		<tr><td><table style="width:auto;"><tr><td style="padding:1px;"><input type="radio" name="cmtmode" id="cmtmode1" checked="checked"/></td><td style="padding:1px;"><label for="cmtmode1"><%=StringUtils.text("show.tooltip", session)%></label></td><td style="padding:1px;"><img alt="" src="/img/render/note.png"/></td><td style="padding:1px;"><input type="radio" name="cmtmode" id="cmtmode2"/></td><td style="padding:1px;"><label for="cmtmode2"><%=StringUtils.text("show.normally", session)%></label> / <%=StringUtils.text("force.tooltip", session)%></td></tr></table></td></tr>
 	</table></div>
 	<div class="dlgbuttons"><input type="button" class="button cancel" value="<%=StringUtils.text("cancel", session)%>" onclick="closeDialog(dComment);"/><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="saveComment();"/></div>
-</div>
-</div>
-<!-- Help -->
-<div id="d-help" class="dialog" style="display:none;">
-<div class="fieldset">
-	<div class="fstitle">Help</div>
-	<div class="fscontent" style="width:500px;height:300px;overflow:auto;">
-	<h3>Codes pays/équipes</h3>
-	<a href="javascript:loadDataTip('country');"><%=StringUtils.text("country.codes", session)%></a><br/><br/>
-	<a href="javascript:loadDataTip('state');"><%=StringUtils.text("country.states", session)%></a><br/><br/>
-	<a href="javascript:loadDataTip('team');"><%=StringUtils.text("entity.TM", session)%></a>
-	<div id="datatip" style="display:none;"></div>
-	<h3>Wiki</h3>
-	<a target="_blank" href="https://github.com/shadmin/sporthenon/wiki">https://github.com/shadmin/sporthenon/wiki</a>
-	</div>
-	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dHelp);"/></div>
 </div>
 </div>
 <script><!--

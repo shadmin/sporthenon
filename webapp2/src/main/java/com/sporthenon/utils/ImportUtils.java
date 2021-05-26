@@ -131,7 +131,7 @@ public class ImportUtils {
 					}
 					else if (h.matches("ev|se|se2")) {
 						String[] tEv = s_.split("\\|");
-						sql = "SELECT T.id from event T LEFT JOIN type TP ON T.id_type=TP.id WHERE lower(T.label) ~ E'^" + StringUtils.toPatternString(tEv[0]) + "$'" + (tEv.length > 1 ? " AND lower(TP.label) ~ E'^" + tEv[1] + "$'" : "") + " ORDER BY T.id";
+						sql = "SELECT T.id from event T LEFT JOIN type TP ON T.id_type = TP.id WHERE lower(T.label) ~ E'^" + StringUtils.toPatternString(tEv[0]) + "$'" + (tEv.length > 1 ? " AND lower(TP.label) ~ E'^" + tEv[1] + "$'" : "") + " ORDER BY T.id";
 						if (tEv.length > 1) {
 							tp = tEv[1];
 						}
@@ -159,7 +159,7 @@ public class ImportUtils {
 							}
 							if (cx != null) {
 								h = "cx" + h.replaceAll("pl", "");
-								sql = "SELECT T.id from complex T LEFT JOIN city CT ON T.id_city=CT.id LEFT JOIN country CN ON CT.id_country=CN.id WHERE lower(CN.code) = '" + cn + "' AND lower(CT.label) ~ E'^" + ct + "$' AND lower(T.label) ~ E'^" + cx + "$'";
+								sql = "SELECT T.id from complex T LEFT JOIN city CT ON T.id_city = CT.id LEFT JOIN country CN ON CT.id_country = CN.id WHERE lower(CN.code) = '" + cn + "' AND lower(CT.label) ~ E'^" + ct + "$' AND lower(T.label) ~ E'^" + cx + "$'";
 								if (h.equals("cx1")) {
 									isComplex1 = true;
 								}
@@ -209,7 +209,7 @@ public class ImportUtils {
 									writeError(vLine, ResourceUtils.getText("err.invalid.format", lang) + " (" + ResourceUtils.getText("column", lang) + " \"" + getColumnTitle(h, lang) + "\")");
 								}
 								else {
-									String whereCond = (yr != null ? " and '" + yr + "' between year1 and (case year2 when null then '9999' when '' then '9999' else year2 end)" : "");
+									String whereCond = (yr != null ? " AND (year1 IS NULL OR ('" + yr + "' BETWEEN year1 AND (CASE year2 WHEN NULL THEN '9999' WHEN '' THEN '9999' ELSE year2 END)))" : "");
 									if (s_.matches(".*\\([a-z]{3}\\)$")) {
 										int p = s.indexOf(" (") + 2;
 										String tmLabel = s.substring(0, p - 2).toLowerCase();
@@ -253,7 +253,8 @@ public class ImportUtils {
 							writeError(vLine, ResourceUtils.getText("err.invalid.event", lang));
 						}
 						else if (h.matches("ev|se|se2")) {
-							writeError(vLine, ResourceUtils.getText("warning.event.notexist", lang) + " (" + ResourceUtils.getText("column", lang) + " \"" + getColumnTitle(h, lang) + "\")");
+							isError = true;
+							writeError(vLine, ResourceUtils.getText("err.event.notexist", lang) + " (" + ResourceUtils.getText("column", lang) + " \"" + getColumnTitle(h, lang) + "\")");
 						}
 						else if (h.equalsIgnoreCase(Year.alias)) {
 							isError = true;
@@ -475,10 +476,12 @@ public class ImportUtils {
 			}
 			catch (Exception e) {
 				err = e.getMessage();
+				log.log(Level.WARNING, "Error occured on line: " + vLine);
 				log.log(Level.WARNING, e.getMessage(), e);
 			}
-			if (err != null)
+			if (err != null) {
 				writeError(vLine, ResourceUtils.getText("error", lang).toUpperCase() + ": " + err);
+			}
 			else {
 				Result rs = new Result();
 				rs.setSport((Sport)DatabaseManager.loadEntity(Sport.class, idSp));
@@ -816,7 +819,7 @@ public class ImportUtils {
 	}
 	
 	private static void writeError(Vector<String> vLine, String msg) {
-		if (vLine != null && !vLine.get(0).startsWith("ERROR") && (!StringUtils.notEmpty(vLine.get(0)) || vLine.get(0).equals("-") || vLine.get(0).startsWith("WARNING"))) {
+		if (vLine != null && !vLine.get(0).startsWith("ERR") && (!StringUtils.notEmpty(vLine.get(0)) || vLine.get(0).equals("-") || !vLine.get(0).startsWith("ERR"))) {
 			vLine.set(0, msg);
 		}
 	}
@@ -1131,8 +1134,9 @@ public class ImportUtils {
 		Object o = null;
 		String msg = null;
 		try {
-			if (!s.toLowerCase().matches(StringUtils.PATTERN_PLACE))
+			if (!s.toLowerCase().matches(StringUtils.PATTERN_PLACE)) {
 				throw new Exception(ResourceUtils.getText("err.invalid.place", lang).replaceAll("#S#", s));
+			}
 			String[] t = s.split("\\,\\s");
 			String cx = null;
 			String ct = null;
@@ -1141,11 +1145,12 @@ public class ImportUtils {
 				cx = t[0];
 				ct = t[1];
 			}
-			else
+			else {
 				ct = t[0];
+			}
 			City ct_ = null;
 			if (cx != null) { // Set City (for complex)
-				String sql = "SELECT * FROM city CT JOIN country CN ON CN.id = CT.id_country "
+				String sql = "SELECT CT.* FROM city CT JOIN country CN ON CN.id = CT.id_country "
 						+ " WHERE LOWER(CT.label" + ResourceUtils.getLocaleParam(lang) + ") LIKE ? and LOWER(CN.code) = ?";
 				Object o_ = DatabaseManager.loadEntity(sql, Arrays.asList(ct.toLowerCase(), cn.toLowerCase()), City.class);
 				if (o_ == null) {

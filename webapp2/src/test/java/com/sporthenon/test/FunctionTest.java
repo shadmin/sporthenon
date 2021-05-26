@@ -3,6 +3,8 @@ package com.sporthenon.test;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.sporthenon.db.DatabaseManager;
 import com.sporthenon.db.entity.Athlete;
@@ -27,6 +29,24 @@ import junit.framework.TestCase;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class FunctionTest extends TestCase {
 
+	private static final Logger log = Logger.getLogger(FunctionTest.class.getName());
+	
+	@Override
+	protected void setUp() throws Exception {
+		final String dbHost = 	System.getenv("SHDB_HOST");
+		final String dbPort = 	System.getenv("SHDB_PORT");
+		final String dbName = 	System.getenv("SHDB_NAME");
+		final String dbUser = 	System.getenv("SHDB_USER");
+		final String dbPwd = 	System.getenv("SHDB_PWD");
+		try {
+			DatabaseManager.createConnectionPool(dbHost, dbPort, dbName, dbUser, dbPwd);
+		}
+		catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		super.setUp();
+	}
+	
 	public void testCountRef() throws Exception {
 		List<Object> params = new ArrayList<Object>();
 		params.add(String.valueOf(Athlete.alias));

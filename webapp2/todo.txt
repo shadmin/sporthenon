@@ -6,4 +6,4 @@ optimiser perf ranks shadmin - detecter modifs
 android last updates
 limiter plage recherche calendar
 W3c check referer
-shadmin import pas de prenom (falcao etc..)
+shadmin import pas de prenom (falcao etc..) + supprimer ligne tableau

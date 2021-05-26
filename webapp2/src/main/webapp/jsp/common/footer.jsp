@@ -8,7 +8,7 @@
 <div id="footer">
 	<div style="float:right;text-align:right;">
 		<img alt="top" onclick="backTop();" style="cursor:pointer;" title="<%=StringUtils.text("back.top", session)%>" src="/img/top.png"/>
-		<a target="_blank" title="Valid HTML5" href="https://validator.w3.org/nu/check/referer"><img src="/img/header/validhtml5.png" alt="Valid HTML5"/></a>
+		<a id="w3clink" target="_blank" title="Valid HTML5" href="#"><img src="/img/header/validhtml5.png" alt="Valid HTML5"/></a>
 		<div id="version">v<%=ConfigUtils.getProperty("version")%></div>
 	</div>
 	&copy;2011-<%=Calendar.getInstance().get(Calendar.YEAR)%> (sporthenon.com)<br/><br/>
@@ -17,6 +17,9 @@
 		<span id="loadtime" style="display:none;"> &ndash; <span></span> <%=StringUtils.text("seconds", session)%></span>
 	</span>
 </div>
+<script>
+	$('w3clink').href = 'https://validator.w3.org/nu/?doc=' + encodeURIComponent(window.location.href);
+</script>
 <%}%>
 </body>
 </html>
