@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
@@ -24,6 +25,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
+
+import org.apache.commons.io.IOUtils;
 
 import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JDialogButtonBar;
@@ -174,22 +177,23 @@ public class JQueryDialog extends JDialog implements ActionListener {
 			jQuery.setText(query);
 			executeQuery();
 		}
-		else if (cmd.equalsIgnoreCase("missing"))
+		else if (cmd.equalsIgnoreCase("missing")) {
 			missingPictures();
+		}
 		else if (cmd.equalsIgnoreCase("sitemap")) {
 			try {
-				StringBuffer sbSitemap = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>").append("\r\n");
-				sbSitemap.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">").append("\r\n");
+				StringBuffer sbResults = new StringBuffer();
 				Collection<Object[]> coll = DatabaseManager.executeSelect(UpdateUtils.queries.get(3));
 				for (Object[] t : coll) {
-					sbSitemap.append("<url><loc>http://sporthenon.com/results/");
-					sbSitemap.append(StringUtils.urlEscape(t[5] + "/" + t[6] + "/" + t[7] + (t[8] != null ? "/" + t[8] : "") + (t[9] != null ? "/" + t[9] : "")));
-					sbSitemap.append("/" + StringUtils.encode(t[0] + "-" + t[1] + "-" + t[2] + (t[3] != null ? "-" + t[3] : "") + (t[4] != null ? "-" + t[4] : "") + "-0"));
-					sbSitemap.append("</loc><changefreq>monthly</changefreq><priority>0.2</priority>");
-					sbSitemap.append("</url>\r\n");
+					sbResults.append("<url><loc>https://sporthenon.com/results/");
+					sbResults.append(StringUtils.urlEscape(t[5] + "/" + t[6] + "/" + t[7] + (t[8] != null ? "/" + t[8] : "") + (t[9] != null ? "/" + t[9] : "")));
+					sbResults.append("/" + StringUtils.encode(t[0] + "-" + t[1] + "-" + t[2] + (t[3] != null ? "-" + t[3] : "") + (t[4] != null ? "-" + t[4] : "") + "-0"));
+					sbResults.append("</loc><changefreq>monthly</changefreq><priority>0.5</priority>");
+					sbResults.append("</url>\r\n");
 				}
-				sbSitemap.append("</urlset>");
-				jQuery.setText(sbSitemap.toString());
+				String siteMap = IOUtils.toString(JQueryDialog.class.getResourceAsStream("/com/sporthenon/utils/res/sitemap.xml"), Charset.defaultCharset());
+				siteMap = siteMap.replace("{0}", sbResults.toString());
+				jQuery.setText(siteMap);
 			}
 			catch (Exception e_) {
 				log.log(Level.WARNING, e_.getMessage(), e_);

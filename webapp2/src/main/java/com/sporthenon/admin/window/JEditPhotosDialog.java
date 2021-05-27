@@ -31,7 +31,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
@@ -98,48 +97,52 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 	}
 
 	private JPanel getAddPhotoPanel() {
-		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		p.setBorder(BorderFactory.createTitledBorder(null, "Add Photo", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
-		p.setPreferredSize(new Dimension(0, 180));
+		JPanel photoPanel = new JPanel();
+		photoPanel.setLayout(new BoxLayout(photoPanel, BoxLayout.Y_AXIS));
+		photoPanel.setBorder(BorderFactory.createTitledBorder(null, "Add Photo", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
+		
+		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 4));
 		JLabel label = new JLabel("File:");
 		label.setPreferredSize(new Dimension(90, 21));;
-		p.add(label);
+		panel.add(label);
 		jFile = new JTextField(55);
 		jFile.addKeyListener(this);
-		p.add(jFile);
+		panel.add(jFile);
 		JCustomButton btn = new JCustomButton(null, "folderimg.png", null);
 		btn.setToolTipText("Browse");
 		btn.setActionCommand("browse");
 		btn.setMargin(new Insets(0, 0, 0, 0));
 		btn.addActionListener(this);
-		p.add(btn);
-		JSeparator sep = new JSeparator(JSeparator.HORIZONTAL);
-		sep.setPreferredSize(new Dimension(30, 0));
-		p.add(sep);
+		panel.add(btn);
+		photoPanel.add(panel);
+		
+		panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 4));
 		label = new JLabel("Embedded HTML:");
 		label.setPreferredSize(new Dimension(90, 21));
-		p.add(label);
+		panel.add(label);
 		jEmbeddedHtml = new JTextArea(4, 45);
 		jEmbeddedHtml.setFont(SwingUtils.getDefaultFont());
 		jEmbeddedHtml.addKeyListener(this);
-		p.add(new JScrollPane(jEmbeddedHtml));
-		sep = new JSeparator(JSeparator.HORIZONTAL);
-		sep.setPreferredSize(new Dimension(50, 0));
-		p.add(sep);
+		panel.add(new JScrollPane(jEmbeddedHtml));
+		photoPanel.add(panel);
+		
+		panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 4));
 		label = new JLabel("Source:");
 		label.setPreferredSize(new Dimension(90, 21));
-		p.add(label);
+		panel.add(label);
 		jSource = new JTextField(55);
-		p.add(jSource);
-		sep = new JSeparator(JSeparator.HORIZONTAL);
-		sep.setPreferredSize(new Dimension(30, 0));
-		p.add(sep);
+		panel.add(jSource);
+		photoPanel.add(panel);
+		
+		panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 4));
 		jAddButton = new JCustomButton("Add photo", "upload.png", null);
 		jAddButton.setPreferredSize(new Dimension(90, 24));
 		jAddButton.setActionCommand("add");
 		jAddButton.addActionListener(this);
-		p.add(jAddButton);
-		return p;
+		panel.add(jAddButton);
+		photoPanel.add(panel);
+		
+		return photoPanel;
 	}
 
 	private JPanel getPhotosPanel() {

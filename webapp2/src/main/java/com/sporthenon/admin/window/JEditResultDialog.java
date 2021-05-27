@@ -128,7 +128,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jEditRoundsDialog = new JEditRoundsDialog(this);
 		jEditPhotosDialog = new JEditPhotosDialog(this);
 		
-		this.setSize(new Dimension(935, 490));
+		this.setSize(new Dimension(935, 510));
         this.setContentPane(jContentPane);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setModal(true);
@@ -163,7 +163,6 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		
 		JPanel jEventPanel = new JPanel();
 		jEventPanel.setLayout(new BoxLayout(jEventPanel, BoxLayout.Y_AXIS));
-		//jEventPanel.setPreferredSize(new Dimension(0, 125));
 		jEventPanel.setBorder(BorderFactory.createTitledBorder(null, "Event Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 4));
