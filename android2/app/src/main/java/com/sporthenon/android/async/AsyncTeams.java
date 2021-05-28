@@ -49,7 +49,7 @@ public class AsyncTeams extends AsyncTask<Object, Boolean, String> {
                     Integer id = Integer.parseInt(e.getAttribute("value"));
                     String name = e.getAttribute("text").replaceAll("\\&nbsp;", " ");
                     String img = e.getAttribute("img");
-                    teams.add(new DataItem(id, name.toUpperCase(), AndroidUtils.getImage(activity, img)));
+                    teams.add(new DataItem(id, name, AndroidUtils.getImage(activity, img)));
                 }
             }
             connection.disconnect();

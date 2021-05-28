@@ -28,6 +28,7 @@ import com.sporthenon.android.fragment.USLeaguesRecordTypeFragment;
 import com.sporthenon.android.fragment.USLeaguesTypeFragment;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 @SuppressWarnings("deprecated")
 public abstract class AbstractActivity extends AppCompatActivity implements DrawerFragment.NavigationDrawerCallbacks, AdapterView.OnItemClickListener {
@@ -114,13 +115,14 @@ public abstract class AbstractActivity extends AppCompatActivity implements Draw
     public void setPath(String s) {
         if (s != null) {
             String[] t = s.split("\\|");
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0 ; i < t.length ; i++) {
                 if (i > 0) {
                     sb.append("\r\n");
-                    for (int j = i - 1 ; j > 0 ; j--)
+                    /*for (int j = i - 1 ; j > 0 ; j--) {
                         sb.append("   ");
-                    sb.append(" ― ");
+                    }
+                    sb.append(" ― ");*/
                 }
                 sb.append(t[i]);
             }
@@ -358,8 +360,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements Draw
         pagerAdapter = new MyPageAdapter(getSupportFragmentManager(), fList);
         pager.setAdapter(pagerAdapter);*/
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        lang = prefs.getString("lang", null);
+        lang = Locale.getDefault().getLanguage().equalsIgnoreCase("fr") ? "fr" : "en";
     }
 
     @Override

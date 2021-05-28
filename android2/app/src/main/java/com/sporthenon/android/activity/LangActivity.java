@@ -21,11 +21,13 @@ public class LangActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle state) {
         super.onCreate(state);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String lang = prefs.getString("lang", null);
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //String lang = prefs.getString("lang", null);
+        String lang = Locale.getDefault().getLanguage().equalsIgnoreCase("fr") ? "fr" : "en";
         String env = getResources().getString(R.string.env);
-        if (env.matches("local|test"))
+        if (env.matches("local")) {
             lang = null;
+        }
         if (lang != null) {
             setLocale(lang);
             nextActivity();

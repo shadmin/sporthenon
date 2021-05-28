@@ -57,7 +57,7 @@ public class AsyncSports extends AsyncTask<Object, Boolean, String> {
                     Integer id = Integer.parseInt(e.getAttribute("value"));
                     String name = e.getAttribute("text").replaceAll("\\&nbsp;", " ");
                     String img = e.getAttribute("img");
-                    sports.add(new DataItem(id, name.toUpperCase(), AndroidUtils.getImage(activity, img)));
+                    sports.add(new DataItem(id, name, AndroidUtils.getImage(activity, img)));
                 }
             }
             connection.disconnect();

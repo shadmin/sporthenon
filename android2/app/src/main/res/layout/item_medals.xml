@@ -10,10 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:padding="2dip"
-        android:paddingLeft="5dip">
+        android:paddingStart="5dip">
         <ImageView
             android:id="@+id/medal_img"
             android:layout_width="wrap_content"
@@ -28,9 +27,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/medal_thumbnail"
         android:layout_toEndOf="@+id/medal_thumbnail"
-        android:paddingLeft="5dip"
+        android:paddingStart="5dip"
         android:padding="7dip"
         android:textStyle="bold"
         />
@@ -41,10 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:paddingRight="5dip"
-        android:drawableLeft="@drawable/bronze"
+        android:paddingEnd="5dip"
+        android:drawableStart="@drawable/bronze"
         />
     <TextView
         android:id="@+id/medal_silver"
@@ -52,10 +49,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:paddingRight="45dip"
-        android:drawableLeft="@drawable/silver"
+        android:paddingEnd="45dip"
+        android:drawableStart="@drawable/silver"
         />
     <TextView
         android:id="@+id/medal_gold"
@@ -63,10 +59,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:paddingRight="85dip"
-        android:drawableLeft="@drawable/gold"
+        android:paddingEnd="85dip"
+        android:drawableStart="@drawable/gold"
         />
 
 </RelativeLayout>

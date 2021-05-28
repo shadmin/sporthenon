@@ -1,86 +1,98 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="#EEE"
+    android:stretchColumns="*"
     tools:context="com.sporthenon.android.fragment.LeagueFragment">
 
-    <Button
-        android:id="@+id/us_league_nfl"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_margin="10dp"
-        android:layout_marginRight="0dp"
-        android:layout_alignParentTop="true"
-        android:fontFamily="Verdana"
-        android:textSize="18sp"
-        android:text="NFL"
-        android:textStyle="bold"
-        android:textColor="#000"
-        android:background="@drawable/selector2"
-        android:paddingTop="8dp"
-        android:drawableTop="@drawable/nfl"
-        android:drawablePadding="3dp"
-        android:onClick="onUSLeague1Click"
-        />
+    <TableRow
+        android:id="@+id/us_league_row1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/us_league_nba"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_margin="10dp"
-        android:layout_marginRight="0dp"
-        android:fontFamily="Verdana"
-        android:textSize="18sp"
-        android:text="NBA"
-        android:textStyle="bold"
-        android:textColor="#000"
-        android:background="@drawable/selector2"
-        android:paddingTop="8dp"
-        android:drawableTop="@drawable/nba"
-        android:drawablePadding="3dp"
-        android:layout_toRightOf="@+id/us_league_nfl"
-        android:onClick="onUSLeague2Click"
-        />
+        <Button
+            android:id="@+id/us_league_nfl"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="15dp"
+            android:fontFamily="Verdana"
+            android:textSize="20sp"
+            android:text="@string/nfl"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:background="@drawable/selector"
+            android:paddingTop="8dp"
+            android:drawableTop="@drawable/nfl"
+            android:drawablePadding="3dp"
+            android:onClick="onUSLeague1Click"
+            style="?android:attr/buttonStyle"
+            />
 
-    <Button
-        android:id="@+id/us_league_nhl"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_margin="10dp"
-        android:layout_marginRight="0dp"
-        android:fontFamily="Verdana"
-        android:textSize="18sp"
-        android:text="NHL"
-        android:textStyle="bold"
-        android:textColor="#000"
-        android:background="@drawable/selector2"
-        android:paddingTop="8dp"
-        android:drawableTop="@drawable/nhl"
-        android:drawablePadding="3dp"
-        android:layout_below="@+id/us_league_nfl"
-        android:onClick="onUSLeague3Click"
-        />
+        <Button
+            android:id="@+id/us_league_nba"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:fontFamily="Verdana"
+            android:textSize="20sp"
+            android:text="@string/nba"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:background="@drawable/selector"
+            android:paddingTop="8dp"
+            android:drawableTop="@drawable/nba"
+            android:drawablePadding="3dp"
+            android:onClick="onUSLeague2Click"
+            style="?android:attr/buttonStyle"
+            />
 
-    <Button
-        android:id="@+id/us_league_mlb"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_margin="10dp"
-        android:layout_marginRight="0dp"
-        android:fontFamily="Verdana"
-        android:textSize="18sp"
-        android:text="MLB"
-        android:textStyle="bold"
-        android:textColor="#000"
-        android:background="@drawable/selector2"
-        android:paddingTop="8dp"
-        android:drawableTop="@drawable/mlb"
-        android:drawablePadding="3dp"
-        android:layout_toRightOf="@+id/us_league_nhl"
-        android:layout_below="@+id/us_league_nba"
-        android:onClick="onUSLeague4Click"
-        />
+    </TableRow>
 
-</RelativeLayout>
+    <TableRow
+        android:id="@+id/us_league_row2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/us_league_nhl"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:fontFamily="Verdana"
+            android:textSize="20sp"
+            android:text="@string/nhl"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:background="@drawable/selector"
+            android:paddingTop="8dp"
+            android:drawableTop="@drawable/nhl"
+            android:drawablePadding="3dp"
+            android:onClick="onUSLeague3Click"
+            style="?android:attr/buttonStyle"
+            />
+
+        <Button
+            android:id="@+id/us_league_mlb"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginEnd="15dp"
+            android:fontFamily="Verdana"
+            android:textSize="20sp"
+            android:text="@string/mlb"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:background="@drawable/selector"
+            android:paddingTop="8dp"
+            android:drawableTop="@drawable/mlb"
+            android:drawablePadding="3dp"
+            android:onClick="onUSLeague4Click"
+            style="?android:attr/buttonStyle"
+            />
+
+    </TableRow>
+
+</TableLayout>

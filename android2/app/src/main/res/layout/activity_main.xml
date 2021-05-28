@@ -23,19 +23,13 @@
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:padding="10dip"
+        android:layout_centerInParent="true"
         android:indeterminate="true"
         />
 
     <TextView
         android:id="@+id/path"
         style="@style/CustomPath"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:padding="7dip"
-        android:background="@drawable/border1"
         />
 
     <TextView
@@ -58,7 +52,7 @@
         android:layout_height="fill_parent"
         android:choiceMode="singleChoice"
         android:layout_margin="0sp"
-        android:divider="#888"
+        android:divider="#CCC"
         android:dividerHeight="1.0sp"
         android:listSelector="#00000000"
         />

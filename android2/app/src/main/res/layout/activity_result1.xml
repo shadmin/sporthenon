@@ -12,23 +12,12 @@
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:padding="5dip"
         android:indeterminate="true"
         />
 
     <TextView
         android:id="@+id/rs_label_event"
-        style="@style/CustomTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="2dip"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:textColor="#FFF"
-        android:layout_margin="0dip"
-        android:background="@drawable/border1"
+        style="@style/CustomPath"
         android:text="@string/event"
         />
 
@@ -102,16 +91,7 @@
 
     <TextView
         android:id="@+id/rs_label_date"
-        style="@style/CustomTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="2dip"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:textColor="#FFF"
-        android:layout_margin="0dip"
-        android:background="@drawable/border1"
+        style="@style/CustomPath"
         android:text="@string/date"
         />
 
@@ -128,16 +108,7 @@
 
     <TextView
         android:id="@+id/rs_label_place"
-        style="@style/CustomTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="2dip"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:textColor="#FFF"
-        android:layout_margin="0dip"
-        android:background="@drawable/border1"
+        style="@style/CustomPath"
         android:text="@string/place"
         />
 
@@ -165,16 +136,7 @@
 
     <TextView
         android:id="@+id/rs_label_result"
-        style="@style/CustomTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="2dip"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:textColor="#FFF"
-        android:layout_margin="0dip"
-        android:background="@drawable/border1"
+        style="@style/CustomPath"
         android:text="@string/result"
         />
 

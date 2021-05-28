@@ -3,7 +3,7 @@
 
     <string name="app_name" translatable="false">Sporthenon</string>
     <string name="app_version" translatable="false">V2.2</string>
-    <string name="env" translatable="false">prod</string><!-- local|test|prod -->
+    <string name="env" translatable="false">prod</string><!-- local|prod -->
     <string name="url" translatable="false">https://sporthenon.com</string>
     <!--<string name="url" translatable="false">http://10.0.2.2</string>-->
     <string name="select.language">Select Language</string>
@@ -19,7 +19,7 @@
     <string name="back">Back</string>
     <string name="search">Search</string>
     <string name="error">ERROR - Not found</string>
-    <string name="winrec">Win record</string>
+    <string name="winrec">Record</string>
     <string name="date">Date</string>
     <string name="place">Place</string>
     <string name="result">Result</string>
@@ -29,23 +29,27 @@
     <string name="ol.summer">Summer Olympic Games</string>
     <string name="ol.podium">Event results</string>
     <string name="ol.medals">Medals table</string>
-    <string name="us.type1" translatable="false">CHAMPIONSHIPS</string>
-    <string name="us.type2" translatable="false">RECORDS</string>
-    <string name="us.type3" translatable="false">STATS LEADERS</string>
-    <string name="us.type4" translatable="false">HALL OF FAME</string>
-    <string name="us.type5" translatable="false">RETIRED NUMBERS</string>
-    <string name="us.type6" translatable="false">TEAM STADIUMS</string>
+    <string name="us.type1" translatable="false">Championships</string>
+    <string name="us.type2" translatable="false">Records</string>
+    <string name="us.type3" translatable="false">Stats Leaders</string>
+    <string name="us.type4" translatable="false">Hall of Fame</string>
+    <string name="us.type5" translatable="false">Retired Numbers</string>
+    <string name="us.type6" translatable="false">Team Stadiums</string>
     <string name="rc.individual" translatable="false">Individual</string>
     <string name="rc.team" translatable="false">Team</string>
     <string name="rc.both" translatable="false">Both</string>
     <string name="records">Records</string>
     <string name="stats">Statistics</string>
     <string name="filter">Filter</string>
+    <string name="nfl" translatable="false">NFL</string>
+    <string name="nba" translatable="false">NBA</string>
+    <string name="nhl" translatable="false">NHL</string>
+    <string name="mlb" translatable="false">MLB</string>
 
     <string name="title_results">Results</string>
     <string name="title_calendar">Calendar</string>
     <string name="title_olympics">Olympics</string>
-    <string name="title_us_leagues">US leagues</string>
+    <string name="title_us_leagues">US Leagues</string>
     <string name="title_settings">Settings</string>
 
     <string name="month.1">January</string>

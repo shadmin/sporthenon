@@ -7,39 +7,42 @@
     tools:context="com.sporthenon.android.fragment.OlympicsTypeFragment">
 
     <Button
-        android:id="@+id/ol_winter"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_margin="10dp"
-        android:layout_alignParentTop="true"
-        android:fontFamily="Verdana"
-        android:textSize="18sp"
-        android:text="@string/ol.winter"
-        android:textStyle="bold"
-        android:textColor="#000"
-        android:background="@drawable/selector2"
-        android:paddingTop="8dp"
-        android:drawableTop="@drawable/winter"
-        android:drawablePadding="3dp"
-        android:onClick="onWinterClick"
-        />
-
-    <Button
         android:id="@+id/ol_summer"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_margin="10dp"
+        android:layout_height="100dp"
+        android:layout_margin="15dp"
+        android:layout_alignParentTop="true"
         android:fontFamily="Verdana"
-        android:textSize="18sp"
+        android:textSize="19sp"
         android:text="@string/ol.summer"
         android:textStyle="bold"
         android:textColor="#000"
-        android:background="@drawable/selector2"
-        android:paddingTop="8dp"
+        android:background="@drawable/selector"
+        android:paddingTop="15dp"
         android:drawableTop="@drawable/summer"
-        android:drawablePadding="3dp"
-        android:layout_below="@+id/ol_winter"
+        android:drawablePadding="0dp"
         android:onClick="onSummerClick"
+        style="?android:attr/buttonStyle"
+        />
+
+    <Button
+        android:id="@+id/ol_winter"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:fontFamily="Verdana"
+        android:textSize="19sp"
+        android:text="@string/ol.winter"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:background="@drawable/selector"
+        android:paddingTop="15dp"
+        android:drawableTop="@drawable/winter"
+        android:drawablePadding="0dp"
+        android:layout_below="@+id/ol_summer"
+        android:onClick="onWinterClick"
+        style="?android:attr/buttonStyle"
         />
 
 </RelativeLayout>

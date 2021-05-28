@@ -50,7 +50,7 @@ public class AsyncMonths extends AsyncTask<Object, Boolean, String> {
                     Element e = (Element) n;
                     Integer id = Integer.parseInt(e.getAttribute("value"));
                     String name = e.getAttribute("text");
-                    months.add(new DataItem(id, name.toUpperCase(), null));
+                    months.add(new DataItem(id, name, null));
                 }
             }
             connection.disconnect();

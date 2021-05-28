@@ -47,7 +47,7 @@ public class AsyncYears extends AsyncTask<Object, Boolean, String> {
                     Element e = (Element) n;
                     Integer id = Integer.parseInt(e.getAttribute("value"));
                     String name = e.getAttribute("text");
-                    years.add(new DataItem(id, name.toUpperCase(), null));
+                    years.add(new DataItem(id, name, null));
                 }
             }
             connection.disconnect();

@@ -10,10 +10,9 @@
         style="@style/CustomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:padding="2dip"
-        android:layout_marginLeft="5dip"
+        android:layout_marginStart="5dip"
         />
 
     <LinearLayout
@@ -21,15 +20,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/rank_index"
+        android:gravity="center_vertical"
         android:layout_toEndOf="@+id/rank_index"
-        android:padding="2dip"
-        android:paddingLeft="5dip">
+        android:padding="2dip">
         <ImageView
             android:id="@+id/rank_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="center_vertical"
             />
     </LinearLayout>
 
@@ -39,9 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/rank_thumbnail"
         android:layout_toEndOf="@+id/rank_thumbnail"
-        android:paddingLeft="5dip"
+        android:paddingStart="5dip"
         />
 
     <TextView
@@ -50,9 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:paddingRight="5dip"
+        android:paddingEnd="5dip"
         />
 
 </RelativeLayout>
