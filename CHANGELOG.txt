@@ -1,7 +1,24 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 1.0.2   |
+| Last Version: 2.0.0   |
 +-----------------------+
+
++-------+
+| 2.0.0 |
++-------+
+[28 May 2021]
+- Upgraded to Java 11 / Tomcat 9 / PostgreSQL 12
+- Migration to new hosting platform (GCP)
+o Website
+- New feature: <Browse> (=> website menu for browsing results with tree view)
+- Website now available in mobile version
+- New UI for clearer display, changed logo, redesigned home page
+- Complete rewrite of database access utils, object persistence, picture management
+- Many other bugfixes and improvements
+o Update tool (Swing app)
+- Changed pictures download/upload to be compatible with GCP buckets
+- Added "photos", "rounds" and "ext.links" in edit results dialog
+- Major bugfixes in import
 
 +-------+
 | 1.0.2 |
