@@ -68,8 +68,9 @@ public class SwingUtils {
 			for (int i = 0 ; x == 0 && i < pl.getCombobox().getItemCount() ; i++) {
 				String s1 = ((PicklistItem)pl.getCombobox().getItemAt(i)).getText().toLowerCase();
 				String s2 = value.getText().toLowerCase();
-				if (Collator.getInstance(Locale.ENGLISH).compare(s1, s2) > 0)
+				if (Collator.getInstance(Locale.ENGLISH).compare(s1, s2) > 0) {
 					x = i;
+				}
 			}
 			x = (x == 0 ? pl.getCombobox().getItemCount() : x);
 			pl.getCombobox().insertItemAt(value, x);
@@ -124,10 +125,12 @@ public class SwingUtils {
 				currentId = lst.get(0);
 			}
 			if (currentId.equals(lst.get(0))) {
-				if (toAdd && node.getChildCount() == 0)
+				if (toAdd && node.getChildCount() == 0) {
 					createTreeItem(tree, node, lst, 1);
-				else
+				}
+				else {
 					node = (DefaultMutableTreeNode)node.getChildAt(i);
+				}
 				for (int j = 0 ; j < node.getChildCount() ; j++) {
 					plb_ = (PicklistItem)((DefaultMutableTreeNode)node.getChildAt(j)).getUserObject();
 					currentId = plb_.getValue();
@@ -136,10 +139,12 @@ public class SwingUtils {
 						currentId = lst.get(1);
 					}
 					if (currentId.equals(lst.get(1)) && (!lst.get(2).equals(0) || !toAdd)) {
-						if (toAdd && node.getChildCount() == 0)
+						if (toAdd && node.getChildCount() == 0) {
 							createTreeItem(tree, node, lst, 2);
-						else
+						}
+						else {
 							node = (DefaultMutableTreeNode)node.getChildAt(j);
+						}
 						for (int k = 0 ; k < node.getChildCount() ; k++) {
 							plb_ = (PicklistItem)((DefaultMutableTreeNode)node.getChildAt(k)).getUserObject();
 							currentId = plb_.getValue();
@@ -148,10 +153,12 @@ public class SwingUtils {
 								currentId = lst.get(2);
 							}
 							if (currentId.equals(lst.get(2)) && (!lst.get(3).equals(0) || !toAdd)) {
-								if (node.getChildCount() > 0)
+								if (node.getChildCount() > 0) {
 									node = (DefaultMutableTreeNode)node.getChildAt(k);
-								if (toAdd)
+								}
+								if (toAdd) {
 									node = createTreeItem(tree, node, lst, 3);
+								}
 								else {
 									for (int l = 0 ; l < node.getChildCount() ; l++) {
 										plb_ = (PicklistItem)((DefaultMutableTreeNode)node.getChildAt(l)).getUserObject();
@@ -178,8 +185,9 @@ public class SwingUtils {
 		DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
 		DefaultMutableTreeNode node = getTreeItem(tree, lst, false);
 		ArrayList<DefaultMutableTreeNode> lstChilds = new ArrayList<DefaultMutableTreeNode>();
-		for (int i = 0 ; i < node.getChildCount() ; i++)
+		for (int i = 0 ; i < node.getChildCount() ; i++) {
 			lstChilds.add((DefaultMutableTreeNode)node.getChildAt(i));
+		}
 		model.removeNodeFromParent(node);
 		return lstChilds;
 	}

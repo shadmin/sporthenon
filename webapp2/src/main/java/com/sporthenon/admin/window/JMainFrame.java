@@ -345,7 +345,17 @@ public class JMainFrame extends JFrame {
 			params.put("pr-lastname", p.getLastName().getText());
 			params.put("pr-firstname", p.getFirstName().getText());
 			params.put("pr-link", p.getLink().getText());
-			pi.setText(params.get("pr-lastname") + ", " + params.get("pr-firstname") + " [" + SwingUtils.getText(p.getCountry()) + "]");
+			String piText = String.valueOf(params.get("pr-lastname"));
+			if (StringUtils.notEmpty(params.get("pr-firstname"))) {
+				piText += ", " + params.get("pr-firstname");
+			}
+			if (SwingUtils.getValue(p.getCountry()) != null) {
+				piText += " [" + SwingUtils.getText(p.getCountry()).replaceAll(".+\\[|\\]$", "") + "]";
+			}
+			if (SwingUtils.getValue(p.getTeam()) != null) {
+				piText += " [" + SwingUtils.getText(p.getTeam()).replaceAll("\\s\\[.+$", "") + "]";
+			}
+			pi.setText(piText);
 			pi.setParam(String.valueOf(params.get("pr-sport"))); 
 		}
 		else if (alias.equalsIgnoreCase(Calendar.alias)) {

@@ -23,7 +23,7 @@
 		    	<classPath mainClass="com.sporthenon.admin.Launcher">
 		    		<cp>libs.jar</cp>
 		    	</classPath>
-	        	<jre minVersion="1.8.0"/>
+	        	<jre minVersion="11.0"/>
 		  	</config>
 		</launch4j>
 		<!-- Sign EXE -->

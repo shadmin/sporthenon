@@ -91,10 +91,6 @@ public class JEditEntityDialog extends JDialog implements ActionListener {
 		else if (p instanceof JTeamPanel) {
 			SwingUtils.selectValue(((JTeamPanel)p).getSport(), JResultsPanel.getIdSport());
 		}
-//((JTeamPanel)p).setInactive(false);
-//		int width = p.getPreferredSize().width + 30;
-//		int height = p.getPreferredSize().height + 110;
-//		this.setSize(new Dimension(width, height));
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
@@ -104,6 +100,8 @@ public class JEditEntityDialog extends JDialog implements ActionListener {
 			try {
 				PicklistItem plb = JMainFrame.saveEntity(alias, null);
 				SwingUtils.insertValue(picklist, plb);
+				picklist.addItem(plb);
+				picklist.setValue(plb.getValue());
 			}
 			catch (Exception e_) {
 				JOptionPane.showMessageDialog(this, e_.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

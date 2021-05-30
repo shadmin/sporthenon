@@ -134,8 +134,8 @@ public class JEntityPicklist extends JPanel implements ItemListener, KeyListener
 		return jOptionalButton;
 	}
 	
-	public Collection<PicklistItem> getItemList() {
-		return itemList;
+	public void addItem(PicklistItem item) {
+		this.itemList.add(item);
 	}
 
 	public void setItemList(Collection<PicklistItem> items, Object param) {
