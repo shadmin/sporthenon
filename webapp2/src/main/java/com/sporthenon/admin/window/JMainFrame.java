@@ -356,7 +356,7 @@ public class JMainFrame extends JFrame {
 				piText += " [" + SwingUtils.getText(p.getTeam()).replaceAll("\\s\\[.+$", "") + "]";
 			}
 			pi.setText(piText);
-			pi.setParam(String.valueOf(params.get("pr-sport"))); 
+			pi.setParam(StringUtils.toInt(params.get("pr-sport"))); 
 		}
 		else if (alias.equalsIgnoreCase(Calendar.alias)) {
 			JCalendarPanel p = (JCalendarPanel) jEntityPanels.get(alias);
@@ -519,7 +519,7 @@ public class JMainFrame extends JFrame {
 			params.put("tm-inactive", p.getInactive().isSelected() ? "1" : "0");
 			params.put("tm-nopic", p.getNopic().isSelected() ? "1" : "0");
 			pi.setText(params.get("tm-label") + " [" + SwingUtils.getText(p.getSport()) + "]");
-			pi.setParam(String.valueOf(params.get("tm-sport"))); 
+			pi.setParam(StringUtils.toInt(params.get("tm-sport")));
 		}
 		else if (alias.equalsIgnoreCase(TeamStadium.alias)) {
 			JTeamStadiumPanel p = (JTeamStadiumPanel) jEntityPanels.get(alias);
