@@ -44,6 +44,7 @@ public class JEntityPicklist extends JPanel implements ItemListener, KeyListener
 	private JCustomButton jAddButton;
 	private JCustomButton jFindButton;
 	private JCustomButton jOptionalButton;
+	private boolean disableDocumentEvent = false;
 
 	public JEntityPicklist(ActionListener listener, String alias, boolean isTextfield) {
 		super();
@@ -166,7 +167,9 @@ public class JEntityPicklist extends JPanel implements ItemListener, KeyListener
 			for (PicklistItem item : itemList) {
 				if (item.getValue() == id) {
 					setSelectedItem(item);
+					disableDocumentEvent = true;
 					jTextField.setText(item.getText());
+					disableDocumentEvent = false;
 					break;
 				}
 			}
@@ -197,7 +200,7 @@ public class JEntityPicklist extends JPanel implements ItemListener, KeyListener
 	public void clear() {
 		if (isTextfield) {
 			jTextField.setText("");
-			this.selectedItem = null;
+			setSelectedItem(null);
 		}
 		else {
 			jCombobox.setSelectedIndex(0);
@@ -206,8 +209,26 @@ public class JEntityPicklist extends JPanel implements ItemListener, KeyListener
 	
 	public List<PicklistItem> getItemsFromText(String text) {
 		List<PicklistItem> list = new ArrayList<>();
+		String pattern = "^" + text.toLowerCase().replaceAll("\\*", ".*").replaceAll("\\_", ".") + ".*";
+		pattern = pattern.replaceAll("ae", "(ae|æ|Æ)");
+		pattern = pattern.replaceAll("a", "(a|á|à|ä|ă|ā|ã|å|â|Á|À|Ä|Ă|Ā|Ã|Å|Â)");
+		pattern = pattern.replaceAll("c", "(c|ć|č|ç|Ć|Č|Ç)");
+		pattern = pattern.replaceAll("d", "(d|đ|Đ)");
+		pattern = pattern.replaceAll("e", "(e|ė|é|è|ê|ë|ě|ę|ē|Ė|É|È|Ê|Ë|Ě|Ę|Ē)");
+		pattern = pattern.replaceAll("g", "(g|ğ|Ğ)");
+		pattern = pattern.replaceAll("i", "(i|î|ı|í|ï|Î|I|Í|Ï)");
+		pattern = pattern.replaceAll("l", "(l|ł|Ł)");
+		pattern = pattern.replaceAll("n", "(n|ń|ñ|Ń|Ñ)");
+		pattern = pattern.replaceAll("o", "(o|ô|ó|ò|ö|ō|ø|Ô|Ó|Ò|Ö|Ō|Ø)");
+		pattern = pattern.replaceAll("r", "(r|ř|Ř)");
+		pattern = pattern.replaceAll("ss", "(ss|ß)");
+		pattern = pattern.replaceAll("s", "(s|ś|š|ş|Ś|Š|Ş)");
+		pattern = pattern.replaceAll("t", "(t|ţ|Ţ)");
+		pattern = pattern.replaceAll("u", "(u|û|ū|ú|ü|Û|Ū|Ú|Ü)");
+		pattern = pattern.replaceAll("y", "(y|ÿ|ý|Ÿ|Ý)");
+		pattern = pattern.replaceAll("z", "(z|ż|ź|ž|Ż|Ź|Ž)");
 		for (PicklistItem item : itemList) {
-			if (item.getText().toLowerCase().startsWith(text.toLowerCase())) {
+			if (item.getText().toLowerCase().matches(pattern)) {
 				list.add(item);
 			}
 		}
@@ -239,26 +260,28 @@ public class JEntityPicklist extends JPanel implements ItemListener, KeyListener
 	
 	@Override
 	public void insertUpdate(DocumentEvent e) {
-		String value = jTextField.getText();
-		String selectedText = jTextField.getSelectedText();
-		if (selectedText != null) {
-			value = value.replace(selectedText, "");
-		}
-		if (StringUtils.notEmpty(value) && value.length() >= 2) {
-			List<PicklistItem> items = getItemsFromText(value);
-			if (!items.isEmpty()) {
-				jTextField.getDocument().removeDocumentListener(this);
-				final String val = value;
-			    SwingUtilities.invokeLater(new Runnable() {
-			        @Override
-			        public void run() {
-						PicklistItem item = items.get(0);
-						setSelectedItem(item);
-						jTextField.setText(item.getText());
-						jTextField.select(val.length(), item.getText().length());
-						jTextField.getDocument().addDocumentListener((DocumentListener)jTextField.getParent());
-			        }
-			    });
+		if (!disableDocumentEvent) {
+			String value = jTextField.getText();
+			String selectedText = jTextField.getSelectedText();
+			if (selectedText != null) {
+				value = value.replace(selectedText, "");
+			}
+			if (StringUtils.notEmpty(value) && value.length() >= 2) {
+				List<PicklistItem> items = getItemsFromText(value);
+				if (!items.isEmpty()) {
+					jTextField.getDocument().removeDocumentListener(this);
+					final String val = value;
+				    SwingUtilities.invokeLater(new Runnable() {
+				        @Override
+				        public void run() {
+							PicklistItem item = items.get(0);
+							setSelectedItem(item);
+							jTextField.setText(item.getText());
+							jTextField.select(val.length(), item.getText().length());
+							jTextField.getDocument().addDocumentListener((DocumentListener)jTextField.getParent());
+				        }
+				    });
+				}
 			}
 		}
 	}

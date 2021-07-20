@@ -28,6 +28,7 @@ private static final long serialVersionUID = 1L;
         lKey.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lKey);
         jKey = new JTextField();
+        jKey.addFocusListener(this);
         gridPanel.add(jKey);
         
         //Value

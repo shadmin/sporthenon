@@ -1,3 +1,19 @@
+------------
+-- 2.0.1
+------------
+- edit result clear : comment + ext links + input text tie
+- bordures noires clear edit result entity+complex
+- country1 + country2 results
+- verif chargement label FR complex "data"
+- rechargement dans jtable des place 1/2 date 1/2 apres save result
+- utilisation asterisque _ dans finddialog resutl
+- recherche car speciaux dans jfinddialog
+- selectionner tout le texte sur onfocus (tous les champs)
+- boutons photos gris� sur copie
+- verif ext links + comment loors de la copie
+- erreur copie rounds (supprimer IDs)
+- fournir shupdate.bat avec eXe
+------------
 export pdf
 merge ext links
 fusionner tableaux ref palmares/Resultats
@@ -8,3 +24,20 @@ limiter plage recherche calendar
 W3c check referer
 shadmin import pas de prenom (falcao etc..) + supprimer ligne tableau
 shadmin plusieurs jeditentitydialog cascade
+
+
+- order tabindex editresult (vertical)
+- bouton person list sur new result
+- verif format dates saisies result
+- entit� ajout�e en double complex+city dans les picklists [+] novi sad, serbia, SRB
+- tests new folder/edit folders
+- clic sur bouton "data" => chargement des donn�es athlete 
+- bandeau titre en haut results
+- retired numbers : pouvoir syupprimer num�ro + passer colonne en varchar + vider valeurs � -1 + pouvoir mettre equipe nuLL (entire league)
+------
+- overview bug
+- refresh map images webapp qd ajout bucket depuis shtool
+- hallof fame : team
+- suppr winloss
+- missing pictures
+- pictures test transparence

@@ -2,6 +2,8 @@ package com.sporthenon.admin.component;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -11,7 +13,7 @@ import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
 import com.sporthenon.db.entity.RoundType;
 
-public class JRoundPanel extends JPanel {
+public class JRoundPanel extends JPanel implements FocusListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,6 +55,7 @@ public class JRoundPanel extends JPanel {
 			jRanks[i].setPreferredSize(new Dimension(260, 21));
 			jRes[i] = new JTextField();
 			jRes[i].setPreferredSize(new Dimension(75, 21));
+			jRes[i].addFocusListener(this);
 			this.add(jRanks[i], null);
 			this.add(jRes[i], null);
 		}
@@ -67,12 +70,16 @@ public class JRoundPanel extends JPanel {
 		jCity2.setPreferredSize(new Dimension(220, 21));
 		jDate1 = new JTextField();
 		jDate1.setPreferredSize(new Dimension(70, 21));
+		jDate1.addFocusListener(this);
 		jDate2 = new JTextField();
 		jDate2.setPreferredSize(new Dimension(70, 21));
+		jDate2.addFocusListener(this);
 		jExa = new JTextField();
 		jExa.setPreferredSize(new Dimension(50, 21));
+		jExa.addFocusListener(this);
 		jComment = new JTextField();
 		jComment.setPreferredSize(new Dimension(250, 21));
+		jComment.addFocusListener(this);
 		
 		this.add(jComplex1, null);
 		this.add(jComplex2, null);
@@ -82,6 +89,15 @@ public class JRoundPanel extends JPanel {
 		this.add(jDate2, null);
 		this.add(jExa, null);
 		this.add(jComment, null);
+	}
+	
+	@Override
+	public void focusGained(FocusEvent e) {
+		((JTextField)e.getSource()).selectAll();
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
 	}
 
 	public Integer getId() {

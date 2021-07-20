@@ -87,8 +87,10 @@ private static final long serialVersionUID = 1L;
         lType.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lType);
         jType1 = new JTextField();
+        jType1.addFocusListener(this);
         gridPanel.add(jType1);
         jType2 = new JTextField();
+        jType2.addFocusListener(this);
         gridPanel.add(jType2);
         
         //City
@@ -103,6 +105,7 @@ private static final long serialVersionUID = 1L;
         lLabel.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lLabel);
         jLabel = new JTextField();
+        jLabel.addFocusListener(this);
         gridPanel.add(jLabel);
         
         // Rank1
@@ -112,8 +115,10 @@ private static final long serialVersionUID = 1L;
         jRank1 = new JEntityPicklist(this, null, true);
         gridPanel.add(jRank1);
         jRecord1 = new JTextField();
+        jRecord1.addFocusListener(this);
         gridPanel.add(jRecord1);
         jDate1 = new JTextField();
+        jDate1.addFocusListener(this);
         gridPanel.add(jDate1);
         
         // Rank2
@@ -123,8 +128,10 @@ private static final long serialVersionUID = 1L;
         jRank2 = new JEntityPicklist(this, null, true);
         gridPanel.add(jRank2);
         jRecord2 = new JTextField();
+        jRecord2.addFocusListener(this);
         gridPanel.add(jRecord2);
         jDate2 = new JTextField();
+        jDate2.addFocusListener(this);
         gridPanel.add(jDate2);
         
         // Rank3
@@ -134,8 +141,10 @@ private static final long serialVersionUID = 1L;
         jRank3 = new JEntityPicklist(this, null, true);
         gridPanel.add(jRank3);
         jRecord3 = new JTextField();
+        jRecord3.addFocusListener(this);
         gridPanel.add(jRecord3);
         jDate3 = new JTextField();
+        jDate3.addFocusListener(this);
         gridPanel.add(jDate3);
         
         // Rank4
@@ -145,8 +154,10 @@ private static final long serialVersionUID = 1L;
         jRank4 = new JEntityPicklist(this, null, true);
         gridPanel.add(jRank4);
         jRecord4 = new JTextField();
+        jRecord4.addFocusListener(this);
         gridPanel.add(jRecord4);
         jDate4 = new JTextField();
+        jDate4.addFocusListener(this);
         gridPanel.add(jDate4);
         
         // Rank5
@@ -156,8 +167,10 @@ private static final long serialVersionUID = 1L;
         jRank5 = new JEntityPicklist(this, null, true);
         gridPanel.add(jRank5);
         jRecord5 = new JTextField();
+        jRecord5.addFocusListener(this);
         gridPanel.add(jRecord5);
         jDate5 = new JTextField();
+        jDate5.addFocusListener(this);
         gridPanel.add(jDate5);
         
         //Counting
@@ -172,6 +185,7 @@ private static final long serialVersionUID = 1L;
         lIndex.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lIndex);
         jIndex = new JTextField();
+        jIndex.addFocusListener(this);
         gridPanel.add(jIndex);
         
         //Tie
@@ -179,6 +193,7 @@ private static final long serialVersionUID = 1L;
         lIndex.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lExa);
         jExa = new JTextField();
+        jExa.addFocusListener(this);
         gridPanel.add(jExa);
         
         //Comment

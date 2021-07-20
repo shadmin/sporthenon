@@ -57,6 +57,7 @@ public class JHallOfFamePanel extends JAbstractEntityPanel implements ItemListen
         lPosition.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lPosition);
         jPosition = new JTextField();
+        jPosition.addFocusListener(this);
         gridPanel.add(jPosition);
 	}
 	

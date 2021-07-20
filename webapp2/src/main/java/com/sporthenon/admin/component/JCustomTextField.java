@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -13,7 +15,7 @@ import javax.swing.JTextField;
 import com.sporthenon.admin.window.JMainFrame;
 
 
-public class JCustomTextField extends JPanel implements ActionListener {
+public class JCustomTextField extends JPanel implements ActionListener, FocusListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -30,6 +32,7 @@ public class JCustomTextField extends JPanel implements ActionListener {
         this.setPreferredSize(new Dimension(0, 21));
         
         jField = new JTextField();
+        jField.addFocusListener(this);
         this.add(getJPanel(), BorderLayout.EAST);
         this.add(jField, BorderLayout.CENTER);
 	}
@@ -51,6 +54,15 @@ public class JCustomTextField extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		JMainFrame.getCharsDialog().open(this);
+	}
+	
+	@Override
+	public void focusGained(FocusEvent e) {
+		((JTextField)e.getSource()).selectAll();
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
 	}
 	
 	public void setText(String s) {

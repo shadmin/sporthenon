@@ -65,6 +65,7 @@ private static final long serialVersionUID = 1L;
         lNumber.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lNumber);
         jNumber = new JTextField();
+        jNumber.addFocusListener(this);
         gridPanel.add(jNumber);
 	}
 	

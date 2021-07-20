@@ -25,6 +25,7 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
         gridPanel.add(lLabel);
         jLabel = new JTextField();
         jLabel.setPreferredSize(TEXT_SIZE);
+        jLabel.addFocusListener(this);
         gridPanel.add(jLabel);
         
         //Name (FR)
@@ -33,6 +34,7 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
         gridPanel.add(lLabelFR);
         jLabelFR = new JTextField();
         jLabelFR.setPreferredSize(TEXT_SIZE);
+        jLabelFR.addFocusListener(this);
         gridPanel.add(jLabelFR);
         
         //Index
@@ -40,6 +42,7 @@ public class JChampionshipPanel extends JAbstractEntityPanel {
         lIndex.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lIndex);
         jIndex = new JTextField();
+        jIndex.addFocusListener(this);
         gridPanel.add(jIndex);
         
         //Nopic

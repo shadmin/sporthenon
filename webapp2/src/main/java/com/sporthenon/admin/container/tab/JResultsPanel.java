@@ -319,19 +319,23 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				Vector<Object> v_ = new Vector<>();
 				v_.add(rb.getRsId());
 				v_.add(rb.getYrLabel());
-				for (int i = 1 ; i <= 10 ; i++)
+				for (int i = 1 ; i <= 3 ; i++) {
 					v_.add(getEntityTxt(type, rb, i));
+				}
 				v_.add(StringUtils.notEmpty(rb.getRsDate1()) ? rb.getRsDate1() : "");
 				v_.add(StringUtils.notEmpty(rb.getRsDate2()) ? rb.getRsDate2() : "");
-				v_.add((rb.getCx1Id() != null ? rb.getCx1Label() + " [" : "") + (rb.getCt1Id() != null ? rb.getCt1Label() + (rb.getSt1Id() != null ? ", " + rb.getSt1Code() : "") + ", " + rb.getCn1Code() : (rb.getCt2Id() != null ? rb.getCt2Label() + (rb.getSt2Id() != null ? ", " + rb.getSt2Code() : "") + ", " + rb.getCn2Code() : "")) + (rb.getCx1Id() != null ? "]" : ""));
-				v_.add((rb.getCx2Id() != null ? rb.getCx2Label() + " [" : "") + (rb.getCt3Id() != null ? rb.getCt3Label() + (rb.getSt3Id() != null ? ", " + rb.getSt3Code() : "") + ", " + rb.getCn3Code() : (rb.getCt4Id() != null ? rb.getCt4Label() + (rb.getSt4Id() != null ? ", " + rb.getSt4Code() : "") + ", " + rb.getCn4Code() : "")) + (rb.getCx2Id() != null ? "]" : ""));
+				v_.add((rb.getCx1Id() != null ? rb.getCx1Label() + " [" : "") + (rb.getCt1Id() != null ? rb.getCt1Label() + (rb.getSt1Id() != null ? ", " + rb.getSt1Code() : "") + ", " + rb.getCn1Code() : (rb.getCt2Id() != null ? rb.getCt2Label() + (rb.getSt2Id() != null ? ", " + rb.getSt2Code() : "") + ", " + rb.getCn2Code() : "")) + (rb.getCx1Id() != null ? "]" : (rb.getCn5Id() != null ? rb.getCn5Label() + " [" + rb.getCn5Code() + "]" : "")));
+				v_.add((rb.getCx2Id() != null ? rb.getCx2Label() + " [" : "") + (rb.getCt3Id() != null ? rb.getCt3Label() + (rb.getSt3Id() != null ? ", " + rb.getSt3Code() : "") + ", " + rb.getCn3Code() : (rb.getCt4Id() != null ? rb.getCt4Label() + (rb.getSt4Id() != null ? ", " + rb.getSt4Code() : "") + ", " + rb.getCn4Code() : "")) + (rb.getCx2Id() != null ? "]" : (rb.getCn6Id() != null ? rb.getCn6Label() + " [" + rb.getCn6Code() + "]" : "")));
+				v_.add(StringUtils.notEmpty(rb.getRsComment()) ? "X" : "");
+				v_.add(StringUtils.notEmpty(rb.getRsExa()) ? "X" : "");
+				v_.add(StringUtils.toTextDate(rb.getRsLastUpdate(), "", "dd/MM/yyyy HH:mm"));
 				v.add(v_);
 			}
 			Vector<String> cols = new Vector<>();
 			cols.add("ID");cols.add("Year");
-			cols.add("1st");cols.add("2nd");cols.add("3rd");cols.add("4th");cols.add("5th");
-			cols.add("6th");cols.add("7th");cols.add("8th");cols.add("9th");cols.add("10th");
+			cols.add("1st");cols.add("2nd");cols.add("3rd");
 			cols.add("Date #1");cols.add("Date #2");cols.add("Place #1");cols.add("Place #2");
+			cols.add("Cmt");cols.add("Tie");cols.add("Last update");
 			jResultTable = new JTable(v, cols) {
 				private static final long serialVersionUID = 1L;
 				@Override
@@ -342,8 +346,9 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			jResultTable.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-					if (e.getClickCount() == 2)
+					if (e.getClickCount() == 2) {
 						actionPerformed(new ActionEvent(jEditButton, 0, "edit-result"));
+					}
 					jEditButton.setEnabled(true);
 					jCopyButton.setEnabled(true);
 					jRemoveButton.setEnabled(true);
@@ -351,8 +356,10 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			});
 			jResultTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			jResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			for (int i = 0 ; i < jResultTable.getColumnCount() ; i++)
-				jResultTable.getColumnModel().getColumn(i).setPreferredWidth(i < 2 ? 50 : (i == 12 || i == 13 ? 80 : 200));
+			int[] tWidths = new int[] {35, 35, 175, 175, 175, 65, 65, 175, 175, 30, 30, 100};
+			for (int i = 0 ; i < jResultTable.getColumnCount() ; i++) {
+				jResultTable.getColumnModel().getColumn(i).setPreferredWidth(tWidths[i]);
+			}
 			jScrollPane.setViewportView(jResultTable);
 			jAddButton.setEnabled(true);
 			jAddMultipleButton.setEnabled(true);
@@ -373,8 +380,9 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 
 	public void resultCallback(short mode, Vector<Object> v, String msg, boolean err) {
 		if (!err) {
-			if (mode == JEditResultDialog.NEW || mode == JEditResultDialog.COPY)
+			if (mode == JEditResultDialog.NEW || mode == JEditResultDialog.COPY) {
 				((DefaultTableModel)jResultTable.getModel()).insertRow(0, v);
+			}
 			else {
 				for (int i = 0 ; i < jResultTable.getColumnCount() ; i++) {
 					jResultTable.setValueAt(v.get(i), jResultTable.getSelectedRow(), i);
@@ -406,8 +414,9 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 		try {
 			jQueryStatus.clear();
 			if (e.getActionCommand().matches("refresh-tree")) {
-				if (jResultTable != null)
+				if (jResultTable != null) {
 					jResultTable.setVisible(false);
+				}
 				setTree();
 			}
 			else if (e.getActionCommand().matches("(add|edit)-folder")) {
@@ -435,8 +444,9 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					sql += (idSubevent != null ? " AND id_subevent = " + idSubevent : "");
 					sql += (idSubevent2 != null ? " AND id_subevent2 = " + idSubevent2 : "");
 					Object o = DatabaseManager.loadEntity(sql, Arrays.asList(idSport, idChampionship, idEvent), InactiveItem.class);
-					if (o != null)
+					if (o != null) {
 						DatabaseManager.removeEntity(o);
+					}
 					if (jInactive.isSelected()) {
 						InactiveItem item = new InactiveItem();
 						item.setIdSport(idSport);
@@ -483,11 +493,17 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					if (rs.getCity1() != null) {
 						SwingUtils.selectValue(rdlg.getCity1(), rs.getCity1().getId());
 					}
+					if (rs.getCountry1() != null) {
+						SwingUtils.selectValue(rdlg.getCountry1(), rs.getCountry1().getId());
+					}
 					if (rs.getComplex2() != null) {
 						SwingUtils.selectValue(rdlg.getComplex2(), rs.getComplex2().getId());
 					}
 					if (rs.getCity2() != null) {
 						SwingUtils.selectValue(rdlg.getCity2(), rs.getCity2().getId());
+					}
+					if (rs.getCountry2() != null) {
+						SwingUtils.selectValue(rdlg.getCountry2(), rs.getCountry2().getId());
 					}
 					rdlg.getDate1().setText(StringUtils.notEmpty(rs.getDate1()) ? rs.getDate1() : null);
 					rdlg.getDate2().setText(StringUtils.notEmpty(rs.getDate2()) ? rs.getDate2() : null);

@@ -43,6 +43,7 @@ public class JOlympicRankingPanel extends JAbstractEntityPanel {
         lGold.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lGold);
         jGold = new JTextField();
+        jGold.addFocusListener(this);
         gridPanel.add(jGold);
         
         //Silver
@@ -50,6 +51,7 @@ public class JOlympicRankingPanel extends JAbstractEntityPanel {
         lSilver.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lSilver);
         jSilver = new JTextField();
+        jSilver.addFocusListener(this);
         gridPanel.add(jSilver);
         
         //Bronze
@@ -57,6 +59,7 @@ public class JOlympicRankingPanel extends JAbstractEntityPanel {
         lBronze.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lBronze);
         jBronze = new JTextField();
+        jBronze.addFocusListener(this);
         gridPanel.add(jBronze);
 	}
 	

@@ -96,6 +96,8 @@ private static final long serialVersionUID = 1L;
         gridPanel.add(lDate1);
         jDate1 = new JTextField();
         jDate1.setPreferredSize(TEXT_SIZE);
+        jDate1 = new JTextField();
+        jDate1.addFocusListener(this);
         gridPanel.add(jDate1);
         
         //Date2
@@ -104,6 +106,7 @@ private static final long serialVersionUID = 1L;
         gridPanel.add(lDate2);
         jDate2 = new JTextField();
         jDate2.setPreferredSize(TEXT_SIZE);
+        jDate2.addFocusListener(this);
         gridPanel.add(jDate2);
 	}
 	

@@ -43,6 +43,7 @@ public class JCityPanel extends JAbstractEntityPanel {
         gridPanel.add(lLabelFR);
         jLabelFR = new JTextField();
         jLabelFR.setPreferredSize(TEXT_SIZE);
+        jLabelFR.addFocusListener(this);
         gridPanel.add(jLabelFR);
 
         //State

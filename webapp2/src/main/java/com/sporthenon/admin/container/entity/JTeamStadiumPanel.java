@@ -60,6 +60,7 @@ public class JTeamStadiumPanel extends JAbstractEntityPanel implements ItemListe
         lDate1.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lDate1);
         jDate1 = new JTextField();
+        jDate1.addFocusListener(this);
         gridPanel.add(jDate1);
         
         //Date2
@@ -67,6 +68,7 @@ public class JTeamStadiumPanel extends JAbstractEntityPanel implements ItemListe
         lDate2.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lDate2);
         jDate2 = new JTextField();
+        jDate2.addFocusListener(this);
         gridPanel.add(jDate2);
         
         //Renamed

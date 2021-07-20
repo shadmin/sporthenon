@@ -24,6 +24,7 @@ private static final long serialVersionUID = 1L;
         gridPanel.add(lLabel);
         jLabel = new JTextField();
         jLabel.setPreferredSize(TEXT_SIZE);
+        jLabel.addFocusListener(this);
         gridPanel.add(jLabel);
         
         //Name (FR)
@@ -32,6 +33,7 @@ private static final long serialVersionUID = 1L;
         gridPanel.add(lLabelFR);
         jLabelFR = new JTextField();
         jLabelFR.setPreferredSize(TEXT_SIZE);
+        jLabelFR.addFocusListener(this);
         gridPanel.add(jLabelFR);
         
         //Index
@@ -39,6 +41,7 @@ private static final long serialVersionUID = 1L;
         lIndex.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lIndex);
         jIndex = new JTextField();
+        jIndex.addFocusListener(this);
         gridPanel.add(jIndex);
 	}
 

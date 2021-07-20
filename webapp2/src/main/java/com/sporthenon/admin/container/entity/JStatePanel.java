@@ -26,6 +26,7 @@ public class JStatePanel extends JAbstractEntityPanel {
         gridPanel.add(lLabel);
         jLabel = new JTextField();
         jLabel.setPreferredSize(TEXT_SIZE);
+        jLabel.addFocusListener(this);
         gridPanel.add(jLabel);
         
         //Name (FR)
@@ -34,6 +35,7 @@ public class JStatePanel extends JAbstractEntityPanel {
         gridPanel.add(lLabelFR);
         jLabelFR = new JTextField();
         jLabelFR.setPreferredSize(TEXT_SIZE);
+        jLabelFR.addFocusListener(this);
         gridPanel.add(jLabelFR);
         
         //Code
@@ -42,6 +44,7 @@ public class JStatePanel extends JAbstractEntityPanel {
         gridPanel.add(lCode);
         jCode = new JTextField();
         jCode.setPreferredSize(TEXT_SIZE);
+        jCode.addFocusListener(this);
         gridPanel.add(jCode);
         
         //Capital
@@ -50,6 +53,7 @@ public class JStatePanel extends JAbstractEntityPanel {
         gridPanel.add(lCapital);
         jCapital = new JTextField();
         jCapital.setPreferredSize(TEXT_SIZE);
+        jCapital.addFocusListener(this);
         gridPanel.add(jCapital);
         
         //Nopic

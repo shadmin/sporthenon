@@ -225,6 +225,8 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(((JCalendarPanel)jEntityPanels.get(Calendar.alias)).getComplex(), hPicklists.get(Complex.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(Country.alias)) {
+			SwingUtils.fillPicklist(jResultDialog.getCountry1(), hPicklists.get(Country.alias), null);
+			SwingUtils.fillPicklist(jResultDialog.getCountry2(), hPicklists.get(Country.alias), null);
 			SwingUtils.fillPicklist(((JCityPanel)jEntityPanels.get(City.alias)).getCountry(), hPicklists.get(Country.alias), null);
 			SwingUtils.fillPicklist(((JAthletePanel)jEntityPanels.get(Athlete.alias)).getCountry(), hPicklists.get(Country.alias), null);
 			SwingUtils.fillPicklist(((JTeamPanel)jEntityPanels.get(Team.alias)).getCountry(), hPicklists.get(Country.alias), null);

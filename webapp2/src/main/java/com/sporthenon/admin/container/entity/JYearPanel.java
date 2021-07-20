@@ -21,6 +21,7 @@ public class JYearPanel extends JAbstractEntityPanel {
         gridPanel.add(lLabel);
         jLabel = new JTextField();
         jLabel.setPreferredSize(TEXT_SIZE);
+        jLabel.addFocusListener(this);
         gridPanel.add(jLabel);
 	}
 

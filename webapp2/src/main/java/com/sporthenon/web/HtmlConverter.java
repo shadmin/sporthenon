@@ -2085,23 +2085,27 @@ public class HtmlConverter {
 			if (!isResult) {
 				Calendar c = Calendar.getInstance();
 				c.setTimeInMillis(item.getDate2().getTime());
-				if (Calendar.getInstance().after(c))
+				if (Calendar.getInstance().after(c)) {
 					continue;
+				}
 			}
 			if (currentEntity == null || !item.getEntity().equals(currentEntity)) {
 				long id = System.currentTimeMillis();
 				html.append("<div class='chaptertitle'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText((isResult ? "past" : "future") + ".events", lang), false) + "</div>");
 				html.append("<div class='mobile100'><table class='tsort'>");
 				html.append("<thead><tr class='rsort'>");
-				if (item.getEntity().equals(Result.alias))
+				if (item.getEntity().equals(Result.alias)) {
 					html.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("year", lang)  + "</th>" + "<th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("entity.RS.1", lang) + "</th><th onclick='sort(\"" + id + "\", this, 4);'>" + ResourceUtils.getText("date", lang) + "</th>");
-				else
+				}
+				else {
 					html.append("<th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("sport", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("event", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("dates", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("place", lang) + "</th>");
+				}
 				html.append("</tr></thead><tbody class='tby' id='tb-" + id + "'>");
 				currentEntity = item.getEntity();
 			}
-			if (lastUpdate == null || item.getDate3().compareTo(lastUpdate) > 0)
+			if (lastUpdate == null || item.getDate3().compareTo(lastUpdate) > 0) {
 				lastUpdate = item.getDate3();
+			}
 			String path = item.getLabelRel1() + "/" + item.getLabelRel12() + "/" + item.getLabelRel13() + "/" + item.getLabelRel14() + (item.getIdRel5() != null ? "/" + item.getLabelRel15() : "") + (item.getIdRel18() != null ? "/" + item.getLabelRel16() : "");
 			String sport = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, item.getIdRel2(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2(), item.getLabelRel12()));
 			String event = "<a href='" + HtmlUtils.writeURL("/results", item.getIdRel2() + "-" + item.getIdRel3() + (item.getIdRel4() != null ? "-" + item.getIdRel4() : "") + (item.getIdRel5() != null ? "-" + item.getIdRel5() : "") + (item.getIdRel18() != null ? "-" + item.getIdRel18() : ""), item.getLabelRel12() + "/" + item.getLabelRel13() + (item.getIdRel4() != null ? "/" + item.getLabelRel14() : "") + (item.getIdRel5() != null ? "/" + item.getLabelRel15() : "") + (item.getIdRel18() != null ? "/" + item.getLabelRel16() : "")) + "'>" + (item.getLabelRel3() + (item.getIdRel4() != null ? " " + StringUtils.SEP1 + " " + item.getLabelRel4() : "") + (item.getIdRel5() != null ? " " + StringUtils.SEP1 + " " + item.getLabelRel5() : "") + (item.getIdRel18() != null ? " " + StringUtils.SEP1 + " " + item.getLabelRel18() : "")) + "</a>";
@@ -2109,13 +2113,16 @@ public class HtmlConverter {
 			String d2 = StringUtils.toTextDate(item.getDate2(), lang, "dd/MM/yyyy");
 			String dates = "";
 			if (StringUtils.notEmpty(d1) && StringUtils.notEmpty(d2)) {
-				if (d1.substring(3).equals(d2.substring(3)))
+				if (d1.substring(3).equals(d2.substring(3))) {
 					dates = HtmlUtils.writeDateLink(d1, d2, d1.substring(0, 2).replaceFirst("^0", "") + StringUtils.SEP1 + StringUtils.toTextDate(d2, lang, "d MMMM"));
-				else
+				}
+				else {
 					dates = HtmlUtils.writeDateLink(d1, d2, StringUtils.toTextDate(d1, lang, "d MMMM") + StringUtils.SEP1 + StringUtils.toTextDate(d2, lang, "d MMMM"));
+				}
 			}
-			else if (StringUtils.notEmpty(d2))
+			else if (StringUtils.notEmpty(d2)) {
 				dates = HtmlUtils.writeDateLink(null, d2, StringUtils.toTextDate(d2, lang, "d MMMM"));
+			}
 			d2 = (StringUtils.notEmpty(d2) ? StringUtils.toTextDate(d2.replaceFirst("\\d\\d\\d\\d$", "1900"), lang, "yyyyMMdd") : "");
 			String alias = item.getComment();
 			if (isResult) { // Past events (final results+rounds)

@@ -66,6 +66,7 @@ private static final long serialVersionUID = 1L;
         lWin.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lWin);
         jWin = new JTextField();
+        jWin.addFocusListener(this);
         gridPanel.add(jWin);
         
         //Loss
@@ -73,6 +74,7 @@ private static final long serialVersionUID = 1L;
         lLoss.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lLoss);
         jLoss = new JTextField();
+        jLoss.addFocusListener(this);
         gridPanel.add(jLoss);
         
         //Tie
@@ -80,6 +82,7 @@ private static final long serialVersionUID = 1L;
         lTie.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lTie);
         jTie = new JTextField();
+        jTie.addFocusListener(this);
         gridPanel.add(jTie);
         
         //OT Loss
@@ -87,6 +90,7 @@ private static final long serialVersionUID = 1L;
         lOtLoss.setHorizontalAlignment(LABEL_ALIGNMENT);
         gridPanel.add(lOtLoss);
         jOtLoss = new JTextField();
+        jOtLoss.addFocusListener(this);
         gridPanel.add(jOtLoss);
 	}
 	

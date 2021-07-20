@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,6 +37,7 @@ import com.sporthenon.admin.container.tab.JResultsPanel;
 import com.sporthenon.db.DatabaseManager;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
+import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Round;
 import com.sporthenon.db.entity.Year;
@@ -45,7 +48,7 @@ import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 
-public class JEditResultDialog extends JDialog implements ActionListener {
+public class JEditResultDialog extends JDialog implements ActionListener, FocusListener {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(JEditResultDialog.class.getName());
@@ -55,8 +58,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 	private JEntityPicklist jYear = null;
 	private JEntityPicklist jCity1 = null;
 	private JEntityPicklist jComplex1 = null;
+	private JEntityPicklist jCountry1 = null;
 	private JEntityPicklist jCity2 = null;
 	private JEntityPicklist jComplex2 = null;
+	private JEntityPicklist jCountry2 = null;
 	private JTextField jDate1 = null;
 	private JTextField jDate2 = null;
 	private JCheckBox jDraft = null;
@@ -140,17 +145,23 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jYear = new JEntityPicklist(this, Year.alias, false);
 		jYear.setPreferredSize(new Dimension(130, 21));
 		jCity1 = new JEntityPicklist(this, City.alias, true);
-		jCity1.setPreferredSize(new Dimension(250, 21));
+		jCity1.setPreferredSize(new Dimension(220, 21));
 		jComplex1 = new JEntityPicklist(this, Complex.alias, true);
-		jComplex1.setPreferredSize(new Dimension(350, 21));
+		jComplex1.setPreferredSize(new Dimension(300, 21));
+		jCountry1 = new JEntityPicklist(this, Country.alias, true);
+		jCountry1.setPreferredSize(new Dimension(190, 21));
 		jCity2 = new JEntityPicklist(this, City.alias, true);
-		jCity2.setPreferredSize(new Dimension(250, 21));
+		jCity2.setPreferredSize(new Dimension(220, 21));
 		jComplex2 = new JEntityPicklist(this, Complex.alias, true);
-		jComplex2.setPreferredSize(new Dimension(350, 21));
+		jComplex2.setPreferredSize(new Dimension(300, 21));
+		jCountry2 = new JEntityPicklist(this, Country.alias, true);
+		jCountry2.setPreferredSize(new Dimension(190, 21));
 		jDate1 = new JTextField();
 		jDate1.setPreferredSize(new Dimension(72, 21));
+		jDate1.addFocusListener(this);
 		jDate2 = new JTextField();
 		jDate2.setPreferredSize(new Dimension(72, 21));
+		jDate2.addFocusListener(this);
 		JCustomButton jToday = new JCustomButton(null, "today.png", null);
 		jToday.setMargin(new Insets(0, 0, 0, 0));
 		jToday.setToolTipText("Today");
@@ -160,6 +171,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jDraft.setText("Not published (only rounds)");
 		jExa = new JTextField();
 		jExa.setPreferredSize(new Dimension(60, 21));
+		jExa.addFocusListener(this);
 		
 		JPanel jEventPanel = new JPanel();
 		jEventPanel.setLayout(new BoxLayout(jEventPanel, BoxLayout.Y_AXIS));
@@ -181,6 +193,8 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		panel.add(jComplex1, null);
 		panel.add(new JLabel("City #1:"), null);
 		panel.add(jCity1, null);
+		panel.add(new JLabel("Country #1:"), null);
+		panel.add(jCountry1, null);
 		jEventPanel.add(panel);
 		
 		panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 4));
@@ -188,6 +202,8 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		panel.add(jComplex2, null);
 		panel.add(new JLabel("City #2:"), null);
 		panel.add(jCity2, null);
+		panel.add(new JLabel("Country #2:"), null);
+		panel.add(jCountry2, null);
 		jEventPanel.add(panel);
 
 		panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 4));
@@ -220,6 +236,7 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 			labels[i].setPreferredSize(new Dimension(28, 21));
 			jRes[i] = new JTextField();
 			jRes[i].setPreferredSize(new Dimension(90, 21));
+			jRes[i].addFocusListener(this);
 		}
 		
 		JPanel jStandingsPanel = new JPanel();
@@ -318,6 +335,8 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 				rs.setIdCity2(SwingUtils.getValue(jCity2));
 				rs.setIdComplex1(SwingUtils.getValue(jComplex1));
 				rs.setIdComplex2(SwingUtils.getValue(jComplex2));
+				rs.setIdCountry1(SwingUtils.getValue(jCountry1));
+				rs.setIdCountry2(SwingUtils.getValue(jCountry2));
 				rs.setDate1(StringUtils.notEmpty(jDate1.getText()) ? jDate1.getText() : null);
 				rs.setDate2(StringUtils.notEmpty(jDate2.getText()) ? jDate2.getText() : null);
 				rs.setComment(StringUtils.notEmpty(comment) ? comment : null);
@@ -372,17 +391,29 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		this.setVisible(cmd.matches("rounds|photos|comment|extlinks|today|persons.+|exacb.+"));
 	}
 	
+	@Override
+	public void focusGained(FocusEvent e) {
+		((JTextField)e.getSource()).selectAll();
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+	}
+	
 	private Vector<Object> getDataVector(Result rs) {
 		Vector<Object> v = new Vector<Object>();
 		v.add(rs.getId());
 		v.add(SwingUtils.getText(jYear));
-		for (int i = 0 ; i < jRanks.length ; i++) {
+		for (int i = 0 ; i < 3 ; i++) {
 			v.add(SwingUtils.getText(jRanks[i]) + (StringUtils.notEmpty(jRes[i].getText()) ? " - " + jRes[i].getText() : ""));
 		}
 		v.add(StringUtils.notEmpty(jDate1.getText()) ? jDate1.getText() : "");
 		v.add(StringUtils.notEmpty(jDate2.getText()) ? jDate2.getText() : "");
-		v.add(StringUtils.notEmpty(SwingUtils.getText(jComplex1)) ? SwingUtils.getText(jComplex1) : SwingUtils.getText(jCity1));
-		v.add(StringUtils.notEmpty(SwingUtils.getText(jComplex2)) ? SwingUtils.getText(jComplex2) : SwingUtils.getText(jCity2));
+		v.add(StringUtils.notEmpty(SwingUtils.getText(jComplex1)) ? SwingUtils.getText(jComplex1) : (StringUtils.notEmpty(SwingUtils.getText(jCity1)) ? SwingUtils.getText(jCity1) : SwingUtils.getText(jCountry1)));
+		v.add(StringUtils.notEmpty(SwingUtils.getText(jComplex2)) ? SwingUtils.getText(jComplex2) : (StringUtils.notEmpty(SwingUtils.getText(jCity2)) ? SwingUtils.getText(jCity2) : SwingUtils.getText(jCountry2)));
+		v.add(StringUtils.notEmpty(comment) ? "X" : "");
+		v.add(StringUtils.notEmpty(jExa.getText()) ? "X" : "");
+		v.add("Now");
 		return v;
 	}
 	
@@ -390,13 +421,16 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jYear.clear();
 		jComplex1.clear();
 		jCity1.clear();
+		jCountry1.clear();
 		jComplex2.clear();
 		jCity2.clear();
+		jCountry2.clear();
 		jDate1.setText("");
 		jDate2.setText("");
 		jDraft.setSelected(false);
 		rounds.clear();
 		photos.clear();
+		comment = "";
 		extlinks = "";
 		for (JEntityPicklist pl : jRanks) {
 			pl.clear();
@@ -404,6 +438,10 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		for (JTextField tf : jRes) {
 			tf.setText("");
 		}
+		for (int i = 0 ; i < RANK_COUNT ; i++) {
+			jExaCheckbox[i].setSelected(false);
+		}
+		jExa.setText("");
 	}
 	
 	public void open(JResultsPanel parent, Integer id, Integer drawId, short mode, com.sporthenon.db.entity.Type type) {
@@ -416,16 +454,25 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		jButtonBar.getOptional2().setText("Comment" + (StringUtils.notEmpty(comment) ? " (1)" : ""));
 		jButtonBar.getOptional3().setText("Ext. Links" + (StringUtils.notEmpty(extlinks) ? " (" + extlinks.split("\r\n").length + ")" : ""));
 		jButtonBar.getOptional4().setText("Photos" + (!photos.isEmpty() ? " (" + photos.size() + ")" : ""));
-		jButtonBar.getOptional4().setEnabled(this.id != null && this.id > 0);
-		this.setVisible(true);
+		jButtonBar.getOptional4().setEnabled(this.id != null && this.id > 0 && mode != JEditResultDialog.COPY);
 		this.extlinksModified = false;
 		this.roundsModified = false;
 		this.personListModified.clear();
 		this.personListDeleted.clear();
 		this.roundsDeleted.clear();
-		for (int i = 0 ; i < RANK_COUNT ; i++) {
-			jExaCheckbox[i].setSelected(false);
+		if (mode == JEditResultDialog.COPY) {
+			if (StringUtils.notEmpty(this.extlinks)) {
+				this.extlinksModified = true;
+			}
+			if (!this.rounds.isEmpty()) {
+				for (Round round : this.rounds) {
+					round.setId(null);
+					round.setIdResult(null);
+				}
+				this.roundsModified = true;
+			}
 		}
+		this.setVisible(true);
 	}
 	
 	public Integer getId() {
@@ -444,12 +491,20 @@ public class JEditResultDialog extends JDialog implements ActionListener {
 		return jComplex1;
 	}
 
+	public JEntityPicklist getCountry1() {
+		return jCountry1;
+	}
+	
 	public JEntityPicklist getCity2() {
 		return jCity2;
 	}
 
 	public JEntityPicklist getComplex2() {
 		return jComplex2;
+	}
+	
+	public JEntityPicklist getCountry2() {
+		return jCountry2;
 	}
 	
 	public JEntityPicklist[] getRanks() {

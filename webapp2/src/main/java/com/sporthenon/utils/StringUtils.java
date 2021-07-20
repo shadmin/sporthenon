@@ -123,14 +123,18 @@ public class StringUtils {
 
 	public static String[] removeNulls(String[] t) {
 		Vector<String> v = new Vector<String>();
-		for (String s : t)
+		for (String s : t) {
 			v.add(s);
-		for (int i = v.size() - 1 ; i >= 0 ; i--)
-			if (v.get(i) == null)
+		}
+		for (int i = v.size() - 1 ; i >= 0 ; i--) {
+			if (v.get(i) == null) {
 				v.remove(i);
+			}
+		}
 		String[] t_ = new String[t.length];
-		for (int i = 0 ; i < t_.length ; i++)
+		for (int i = 0 ; i < t_.length ; i++) {
 			t_[i] = (v.size() > i ? v.get(i) : null);
+		}
 		return t_;
 	}
 
@@ -140,8 +144,9 @@ public class StringUtils {
 			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 			SimpleDateFormat dftxt = new SimpleDateFormat(notEmpty(format) ? format : "d MMM", l);
 			if (dt != null) {
-				if (!dt.matches(".*\\d\\d\\:\\d\\d$"))
+				if (!dt.matches(".*\\d\\d\\:\\d\\d$")) {
 					dt += " 00:00";
+				}
 				dt = dftxt.format(df.parse(dt));
 			}
 		}
@@ -158,17 +163,21 @@ public class StringUtils {
 
 	public static String formatNumber(Object n, String lang) {
 		Integer n_ = null;
-		if (n instanceof Integer)
+		if (n instanceof Integer) {
 			n_ = (Integer) n;
+		}
 		else {
 			String s = String.valueOf(n);
-			if (s.matches("\\d+"))
+			if (s.matches("\\d+")) {
 				n_ = Integer.parseInt(s);
+			}
 		}
-		if (n_ != null)
+		if (n_ != null) {
 			return ((DecimalFormat) NumberFormat.getNumberInstance(lang != null && lang.equalsIgnoreCase("fr") ? Locale.FRENCH : Locale.ENGLISH)).format(n_);
-		else
+		}
+		else {
 			return (n != null ? String.valueOf(n) : "");
+		}
 	}
 	
 	public static String formatResult(Object s, String lang) {
@@ -276,10 +285,12 @@ public class StringUtils {
 		if (notEmpty(name)) {
 			if (name.toLowerCase().matches(".+\\,\\s.+\\|.+")) {
 				String[] t = name.split("\\,\\s", -1);
-				if (name.matches(".*\\((" + PATTERN_REVERT_NAME + ")\\)"))
+				if (name.matches(".*\\((" + PATTERN_REVERT_NAME + ")\\)")) {
 					name = t[0] + (t.length > 1 && StringUtils.notEmpty(t[1]) ? " " + t[1].charAt(0) + "." : "");
-				else
+				}
+				else {
 					name = (t.length > 1 && StringUtils.notEmpty(t[1]) ? t[1].charAt(0) + ". " : "") + t[0];
+				}
 			}
 			name = name.replaceAll("\\|.*", "");
 		}
@@ -288,10 +299,12 @@ public class StringUtils {
 	
 	public static final String toFullName(String ln, String fn, String country, boolean uc) {
 		String result = "";
-		if (isRevertName(country, ln + " " + fn))
+		if (isRevertName(country, ln + " " + fn)) {
 			result = (ln != null ? (uc ? ln.toUpperCase()  : ln) : "") + (StringUtils.notEmpty(fn) ? " " + fn : "");
-		else
+		}
+		else {
 			result = (StringUtils.notEmpty(fn) ? fn + " " : "") + (ln != null ? (uc ? ln.toUpperCase()  : ln) : "");
+		}
 		return result;
 	}
 	

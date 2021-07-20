@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,8 +14,7 @@ import javax.swing.JTextField;
 
 import com.sporthenon.utils.SwingUtils;
 
-
-public abstract class JAbstractEntityPanel extends JPanel implements ActionListener {
+public abstract class JAbstractEntityPanel extends JPanel implements ActionListener, FocusListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -60,6 +61,15 @@ public abstract class JAbstractEntityPanel extends JPanel implements ActionListe
 	
 	public void actionPerformed(ActionEvent e) {
 		SwingUtils.openAddFindDialog(e, null);
+	}
+	
+	@Override
+	public void focusGained(FocusEvent e) {
+		((JTextField)e.getSource()).selectAll();
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
 	}
 
 }

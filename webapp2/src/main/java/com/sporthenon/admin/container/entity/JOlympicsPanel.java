@@ -51,6 +51,7 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
         gridPanel.add(lType);
         jType = new JTextField();
         jType.setPreferredSize(TEXT_SIZE);
+        jType.addFocusListener(this);
         gridPanel.add(jType);
         
         //Start
@@ -59,6 +60,7 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
         gridPanel.add(lStart);
         jStart = new JTextField();
         jStart.setPreferredSize(TEXT_SIZE);
+        jStart.addFocusListener(this);
         gridPanel.add(jStart);
         
         //End
@@ -67,6 +69,7 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
         gridPanel.add(lEnd);
         jEnd = new JTextField();
         jEnd.setPreferredSize(TEXT_SIZE);
+        jEnd.addFocusListener(this);
         gridPanel.add(jEnd);
         
         //Sports
@@ -75,6 +78,7 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
         gridPanel.add(lSports);
         jSports = new JTextField();
         jSports.setPreferredSize(TEXT_SIZE);
+        jSports.addFocusListener(this);
         gridPanel.add(jSports);
         
         //Events
@@ -83,6 +87,7 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
         gridPanel.add(lEvents);
         jEvents = new JTextField();
         jEvents.setPreferredSize(TEXT_SIZE);
+        jEvents.addFocusListener(this);
         gridPanel.add(jEvents);
 
         //Countries
@@ -91,6 +96,7 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
         gridPanel.add(lCountries);
         jCountries = new JTextField();
         jCountries.setPreferredSize(TEXT_SIZE);
+        jCountries.addFocusListener(this);
         gridPanel.add(jCountries);
         
         //Persons
@@ -99,6 +105,7 @@ public class JOlympicsPanel extends JAbstractEntityPanel {
         gridPanel.add(lPersons);
         jPersons = new JTextField();
         jPersons.setPreferredSize(TEXT_SIZE);
+        jPersons.addFocusListener(this);
         gridPanel.add(jPersons);
         
         //Nopic

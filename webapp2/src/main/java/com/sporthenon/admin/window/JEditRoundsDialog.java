@@ -194,6 +194,8 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 		this.param = param;
 		clear();
 		setValues(rounds);
+		jScrollPane.getHorizontalScrollBar().setValue(jScrollPane.getHorizontalScrollBar().getMinimum());
+		jScrollPane.getVerticalScrollBar().setValue(jScrollPane.getVerticalScrollBar().getMinimum());
 		this.setTitle("Edit Rounds");
 		this.setVisible(true);
 	}

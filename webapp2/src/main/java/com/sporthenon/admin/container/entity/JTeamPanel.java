@@ -65,6 +65,7 @@ public class JTeamPanel extends JAbstractEntityPanel {
         gridPanel.add(lComment);
         jComment = new JTextField();
         jComment.setPreferredSize(TEXT_SIZE);
+        jComment.addFocusListener(this);
         gridPanel.add(jComment);
         
 		//Link
@@ -104,6 +105,7 @@ public class JTeamPanel extends JAbstractEntityPanel {
         gridPanel.add(lConference);
         jConference = new JTextField();
         jConference.setPreferredSize(TEXT_SIZE);
+        jConference.addFocusListener(this);
         gridPanel.add(jConference);
         
         //Division
@@ -112,6 +114,7 @@ public class JTeamPanel extends JAbstractEntityPanel {
         gridPanel.add(lDivision);
         jDivision = new JTextField();
         jDivision.setPreferredSize(TEXT_SIZE);
+        jDivision.addFocusListener(this);
         gridPanel.add(jDivision);
         
         //Year1
@@ -120,6 +123,7 @@ public class JTeamPanel extends JAbstractEntityPanel {
         gridPanel.add(lYear1);
         jYear1 = new JTextField();
         jYear1.setPreferredSize(TEXT_SIZE);
+        jYear1.addFocusListener(this);
         gridPanel.add(jYear1);
         
         //Year2
@@ -128,6 +132,7 @@ public class JTeamPanel extends JAbstractEntityPanel {
         gridPanel.add(lYear2);
         jYear2 = new JTextField();
         jYear2.setPreferredSize(TEXT_SIZE);
+        jYear2.addFocusListener(this);
         gridPanel.add(jYear2);
 	}
 
