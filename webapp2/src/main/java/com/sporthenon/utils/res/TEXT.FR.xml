@@ -67,7 +67,6 @@
 	<entry key="entity.ST">Etats US</entry>
 	<entry key="entity.TM">Equipes</entry>
 	<entry key="entity.TS">Stades</entry>
-	<entry key="entity.WL">Victoires/Défaites</entry>
 	<entry key="entity.YR">Années</entry>
 	<entry key="entity.CG.1">Config</entry>
 	<entry key="entity.CB.1">Contributeur</entry>
@@ -91,7 +90,6 @@
 	<entry key="entity.ST.1">Etat US</entry>
 	<entry key="entity.TM.1">Equipe</entry>
 	<entry key="entity.TS.1">Stade</entry>
-	<entry key="entity.WL.1">Victoire/Défaite</entry>
 	<entry key="entity.YR.1">Année</entry>
 	<entry key="rank.winner">Vainqueur</entry>
 	<entry key="rank.1">1er</entry>

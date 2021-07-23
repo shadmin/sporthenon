@@ -1,8 +1,10 @@
 package com.sporthenon.admin.container.tab;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -10,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,7 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -40,6 +44,7 @@ import javax.swing.tree.TreeSelectionModel;
 import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JEntityPicklist;
 import com.sporthenon.admin.component.JQueryStatus;
+import com.sporthenon.admin.window.JAddEventDialog;
 import com.sporthenon.admin.window.JEditFolderDialog;
 import com.sporthenon.admin.window.JEditResultDialog;
 import com.sporthenon.admin.window.JMainFrame;
@@ -70,6 +75,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 	private JScrollPane jScrollPane = null;
 	private JTree jTree = null;
 	private JTable jResultTable = null;
+	private JLabel jTitle = null;
 	private static Integer idSport = null;
 	private static Integer idChampionship = null;
 	private static Integer idEvent = null;
@@ -99,6 +105,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 		jScrollPane = new JScrollPane();
 		jScrollPane.setBorder(BorderFactory.createEmptyBorder());
 		jScrollPane.setViewportView(jResultTable);
+		rightPanel.add(getTitlePanel(), BorderLayout.NORTH);
 		rightPanel.add(getButtonPanel(), BorderLayout.SOUTH);
 		rightPanel.add(jScrollPane, BorderLayout.CENTER);
 		rightPanel.setMinimumSize(new Dimension(0, 0));
@@ -132,14 +139,14 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				plb = new PicklistItem(item.getIdItem(), item.getStdLabel(), item.getIdItem());
 				level1Node = new DefaultMutableTreeNode(plb);
 				root.add(level1Node);
-				treeItems.add(plb);
+				//treeItems.add(plb);
 				for (j = i + 1 ; j < lst.size() ; j++) {
 					TreeItem item2 = (TreeItem) lst.get(j);
 					if (item2.getLevel() < 2) {j--; break;}
 					plb = new PicklistItem(item2.getIdItem(), item2.getStdLabel(), item.getIdItem() + "," + item2.getIdItem());
 					level2Node = new DefaultMutableTreeNode(plb);
 					level1Node.add(level2Node);
-					treeItems.add(new PicklistItem(plb.getValue(), item.getStdLabel() + " | " + item2.getStdLabel(), plb.getParam()));
+					//treeItems.add(new PicklistItem(plb.getValue(), item.getStdLabel() + " | " + item2.getStdLabel(), plb.getParam()));
 					for (k = j + 1 ; k < lst.size() ; k++) {
 						TreeItem item3 = (TreeItem) lst.get(k);
 						if (item3.getLevel() < 3) {k--; break;}
@@ -194,12 +201,22 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 		}
 	}
 
+	private JPanel getTitlePanel() {
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.setPreferredSize(new Dimension(0, 28));
+		panel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 5));
+		jTitle = new JLabel();
+		jTitle.setFont(new Font("Verdana", Font.BOLD, 11));
+		panel.add(jTitle, BorderLayout.CENTER);
+		return panel;
+	}
+	
 	private JPanel getButtonPanel() {
 		JPanel leftPanel = new JPanel();
 		JCustomButton jRefreshTreeButton = new JCustomButton("Refresh", "common/refresh.png", "Refresh Tree");
 		jRefreshTreeButton.addActionListener(this);
 		jRefreshTreeButton.setActionCommand("refresh-tree");
-		JCustomButton jNewFolderButton = new JCustomButton("New Folder", "newfolder.png", "New Folder");
+		JCustomButton jNewFolderButton = new JCustomButton("Add Event", "newfolder.png", "Add Event");
 		jNewFolderButton.addActionListener(this);
 		jNewFolderButton.setActionCommand("add-folder");
 		JCustomButton jEditFolderButton = new JCustomButton("Edit Folders", "editfolder.png", "Edit Folder");
@@ -265,6 +282,17 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			if (node.isLeaf()) {
 				loadData(param);
 				jInactive.setEnabled(true);
+				List<String> texts = new ArrayList<>();
+				texts.add(((PicklistItem)info).getText());
+				DefaultMutableTreeNode n = (DefaultMutableTreeNode) node.getParent();
+				while (n != null) {
+					if (n.getUserObject() != null) {
+						texts.add(((PicklistItem)n.getUserObject()).getText());
+					}
+					n = (DefaultMutableTreeNode) n.getParent();
+				}
+				Collections.reverse(texts);
+				jTitle.setText(StringUtils.join(texts, " - "));
 			}
 		}
 	}
@@ -377,7 +405,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			log.log(Level.WARNING, e.getMessage(), e);
 		}
 	}
-
+	
 	public void resultCallback(short mode, Vector<Object> v, String msg, boolean err) {
 		if (!err) {
 			if (mode == JEditResultDialog.NEW || mode == JEditResultDialog.COPY) {
@@ -392,7 +420,101 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 		jQueryStatus.set(err ? JQueryStatus.FAILURE : JQueryStatus.SUCCESS, msg);
 	}
 
-	public void folderCallback(String msg, boolean err) {
+	public void addEventCallback() {
+		JAddEventDialog dlg = JMainFrame.getAddEventDialog();
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode) jTree.getModel().getRoot();
+		// Sport
+		Integer idSport = SwingUtils.getValue(dlg.getSport());
+		DefaultMutableTreeNode nodeSport = null;
+		for (int i = 0 ; i < root.getChildCount() ; i++) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(i);
+			PicklistItem item = (PicklistItem) node.getUserObject();
+			if (idSport.equals(item.getValue())) {
+				nodeSport = node;
+				break;
+			}
+		}
+		if (nodeSport == null) {
+			PicklistItem item = new PicklistItem(idSport, SwingUtils.getText(dlg.getSport()), idSport);
+			nodeSport = new DefaultMutableTreeNode(item);
+			root.add(nodeSport);
+		}
+		// Championship
+		Integer idChampionship = SwingUtils.getValue(dlg.getCategory1());
+		DefaultMutableTreeNode nodeChampionship = null;
+		for (int i = 0 ; i < nodeSport.getChildCount() ; i++) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) nodeSport.getChildAt(i);
+			PicklistItem item = (PicklistItem) node.getUserObject();
+			if (idChampionship.equals(item.getValue())) {
+				nodeChampionship = node;
+				break;
+			}
+		}
+		if (nodeChampionship == null) {
+			PicklistItem item = new PicklistItem(idChampionship, SwingUtils.getText(dlg.getCategory1()), idSport + "," + idChampionship);
+			nodeChampionship = new DefaultMutableTreeNode(item);
+			nodeSport.add(nodeChampionship);
+		}
+		// Event
+		Integer idEvent = SwingUtils.getValue(dlg.getCategory2());
+		DefaultMutableTreeNode nodeEvent = null;
+		for (int i = 0 ; i < nodeChampionship.getChildCount() ; i++) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) nodeChampionship.getChildAt(i);
+			PicklistItem item = (PicklistItem) node.getUserObject();
+			if (idEvent.equals(item.getValue())) {
+				nodeEvent = node;
+				break;
+			}
+		}
+		if (nodeEvent == null) {
+			PicklistItem item = new PicklistItem(idEvent, SwingUtils.getText(dlg.getCategory2()), idSport + "," + idChampionship + "," + idEvent);
+			nodeEvent = new DefaultMutableTreeNode(item);
+			nodeChampionship.add(nodeEvent);
+		}
+		TreePath selectedPath = new TreePath(nodeEvent.getPath());
+		// Subevent
+		Integer idSubevent = SwingUtils.getValue(dlg.getCategory3());
+		DefaultMutableTreeNode nodeSubevent = null;
+		if (idSubevent != null) {
+			for (int i = 0 ; i < nodeEvent.getChildCount() ; i++) {
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) nodeEvent.getChildAt(i);
+				PicklistItem item = (PicklistItem) node.getUserObject();
+				if (idSubevent.equals(item.getValue())) {
+					nodeSubevent = node;
+					break;
+				}
+			}
+			if (nodeSubevent == null) {
+				PicklistItem item = new PicklistItem(idSubevent, SwingUtils.getText(dlg.getCategory3()), idSport + "," + idChampionship + "," + idEvent + "," + idSubevent);
+				nodeSubevent = new DefaultMutableTreeNode(item);
+				nodeEvent.add(nodeSubevent);
+			}
+			selectedPath = new TreePath(nodeSubevent.getPath());
+		}
+		// Subevent2
+		Integer idSubevent2 = SwingUtils.getValue(dlg.getCategory4());
+		if (idSubevent2 != null) {
+			DefaultMutableTreeNode nodeSubevent2 = null;
+			for (int i = 0 ; i < nodeSubevent.getChildCount() ; i++) {
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) nodeSubevent.getChildAt(i);
+				PicklistItem item = (PicklistItem) node.getUserObject();
+				if (idSubevent2.equals(item.getValue())) {
+					nodeSubevent2 = node;
+					break;
+				}
+			}
+			if (nodeSubevent2 == null) {
+				PicklistItem item = new PicklistItem(idSubevent2, SwingUtils.getText(dlg.getCategory4()), idSport + "," + idChampionship + "," + idEvent + "," + idSubevent + "," + idSubevent2);
+				nodeSubevent2 = new DefaultMutableTreeNode(item);
+				nodeSubevent.add(nodeSubevent2);
+			}
+			selectedPath = new TreePath(nodeSubevent2.getPath());
+		}
+		((DefaultTreeModel)jTree.getModel()).reload();
+		jTree.setSelectionPath(selectedPath);
+	}
+	
+	public void editFoldersCallback(String msg, boolean err) {
 		if (!err) {
 			if (jResultTable != null) {
 				jResultTable.setVisible(false);
@@ -419,8 +541,17 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				}
 				setTree();
 			}
-			else if (e.getActionCommand().matches("(add|edit)-folder")) {
-				JEditFolderDialog dlg = JMainFrame.getFolderDialog();
+			else if (e.getActionCommand().matches("add-folder")) {
+				JAddEventDialog dlg = JMainFrame.getAddEventDialog();
+				SwingUtils.selectValue(dlg.getSport(), idSport);
+				SwingUtils.selectValue(dlg.getCategory1(), idChampionship);
+				SwingUtils.selectValue(dlg.getCategory2(), idEvent);
+				SwingUtils.selectValue(dlg.getCategory3(), idSubevent);
+				SwingUtils.selectValue(dlg.getCategory4(), idSubevent2);
+				dlg.open(this);
+			}
+			else if (e.getActionCommand().matches("edit-folder")) {
+				JEditFolderDialog dlg = JMainFrame.getEditFoldersDialog();
 				SwingUtils.selectValue(dlg.getSport(), idSport);
 				SwingUtils.selectValue(dlg.getCategory1(), idChampionship);
 				SwingUtils.selectValue(dlg.getCategory2(), idEvent);
@@ -432,7 +563,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 						DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
 						Object info = node.getUserObject();
 						list.add((PicklistItem)info);
-					}	
+					}
 				}
 				dlg.open(this, list);
 			}
@@ -549,6 +680,9 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					if (!isAdd) {
 						List<PersonList> listPL = (List<PersonList>) DatabaseManager.executeSelect("SELECT * FROM _person_list where id_result = ? and rank = ? order by id", Arrays.asList(Integer.valueOf(resultId), i + 1), PersonList.class);
 						mapPersonList.put(i + 1, listPL);	
+					}
+					else {
+						mapPersonList.put(i + 1, new ArrayList<>());	
 					}
 				}
 				rdlg.setMapPersonList(mapPersonList);

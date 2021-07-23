@@ -38,7 +38,6 @@ import com.sporthenon.db.entity.Record;
 import com.sporthenon.db.entity.RetiredNumber;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
-import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.utils.StringUtils;
 
 public class JFindEntityDialog extends JDialog implements ActionListener, KeyListener {
@@ -174,10 +173,6 @@ public class JFindEntityDialog extends JDialog implements ActionListener, KeyLis
 						joins = "JOIN league LG ON LG.id = T.id_league JOIN team TM ON TM.id = T.id_team";
 					}
 					else if (c.equals(TeamStadium.class)) {
-						label = "LG.label || ' - ' || TM.label";
-						joins = "JOIN league LG ON LG.id = T.id_league JOIN team TM ON TM.id = T.id_team";
-					}
-					else if (c.equals(WinLoss.class)) {
 						label = "LG.label || ' - ' || TM.label";
 						joins = "JOIN league LG ON LG.id = T.id_league JOIN team TM ON TM.id = T.id_team";
 					}

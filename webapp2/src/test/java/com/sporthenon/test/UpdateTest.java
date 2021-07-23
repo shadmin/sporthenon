@@ -26,7 +26,6 @@ import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.Type;
-import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Contributor;
 
@@ -1270,58 +1269,6 @@ public class UpdateTest extends TestCase {
 		err = false;
 		try {
 			DatabaseManager.removeEntity(ts);
-		}
-		catch (Exception e) {
-			log.log(Level.SEVERE, e.getMessage(), e);
-			err = true;
-		}
-		assertFalse(err);
-	}
-	
-	public void testWinLoss() {
-		// Create
-		WinLoss wl = new WinLoss();
-		wl.setLeague(new League(1));
-		wl.setTeam(new Team(1));
-		wl.setType("1");
-		wl.setCountWin(1);
-		wl.setCountLoss(1);
-		wl.setCountTie(1);
-		wl.setCountOtloss(1);
-		boolean err = false;
-		try {
-			wl = (WinLoss) DatabaseManager.saveEntity(wl, new Contributor(1));	
-		}
-		catch (Exception e) {
-			log.log(Level.SEVERE, e.getMessage(), e);
-			err = true;
-		}
-		assertNotNull(wl.getId());
-		assertFalse(err);
-		
-		// Update
-		wl.setLeague(new League(2));
-		wl.setTeam(new Team(2));
-		wl.setType("2");
-		wl.setCountWin(2);
-		wl.setCountLoss(2);
-		wl.setCountTie(2);
-		wl.setCountOtloss(2);
-		err = false;
-		try {
-			wl = (WinLoss) DatabaseManager.saveEntity(wl, new Contributor(1));	
-		}
-		catch (Exception e) {
-			log.log(Level.SEVERE, e.getMessage(), e);
-			err = true;
-		}
-		assertNotNull(wl.getId());
-		assertFalse(err);
-		
-		// Delete
-		err = false;
-		try {
-			DatabaseManager.removeEntity(wl);
 		}
 		catch (Exception e) {
 			log.log(Level.SEVERE, e.getMessage(), e);

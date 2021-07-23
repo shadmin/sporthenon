@@ -25,12 +25,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.TableColumnModel;
 
 import org.apache.commons.io.IOUtils;
 
 import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JDialogButtonBar;
 import com.sporthenon.db.DatabaseManager;
+import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.UpdateUtils;
 
@@ -246,47 +248,41 @@ public class JQueryDialog extends JDialog implements ActionListener {
 	}
 
 	private void missingPictures() {
-//		try {
-//			Vector cols = new Vector();
-//			cols.add("TYPE");
-//			cols.add("INDEX");
-//			cols.add("ID");
-//			cols.add("NAME");
-//			Vector v = new Vector();
-//			URL url = new URL(ConfigUtils.getProperty("url") + "ImageServlet?missing=1");
-//			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//			if (conn.getResponseCode() == 200) {
-//				PlainTextInputStream pis = (PlainTextInputStream) conn.getContent();
-//				DataInputStream dis = new DataInputStream(pis);
-//				String s = dis.readLine();
-//				for (String s_ : s.split("\\|")) {
-//					String[] t = s_.split(";");
-//					Vector v_ = new Vector();
-//					v_.add(t[0]);
-//					v_.add(t[1]);
-//					v_.add(t[2]);
-//					v_.add(t[3]);
-//					v.add(v_);
-//				}
-//			}
-//			jResult = new JTable(v, cols) {
-//				private static final long serialVersionUID = 1L;
-//				public boolean isCellEditable(int row, int column) {
-//					return true;
-//				}
-//			};
-//			jResult.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-//			TableColumnModel tcm = jResult.getColumnModel();
-//			tcm.getColumn(0).setPreferredWidth(50);
-//			tcm.getColumn(1).setPreferredWidth(50);
-//			tcm.getColumn(2).setPreferredWidth(50);
-//			tcm.getColumn(3).setPreferredWidth(250);
-//			jResultPane.setViewportView(jResult);
-//		}
-//		catch (Exception e_) {
-//			log.log(Level.WARNING, e_.getMessage(), e_);
-//			JOptionPane.showMessageDialog(this, e_.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-//		}
+		try {
+			Vector<String> cols = new Vector<>();
+			cols.add("Type");
+			cols.add("Index");
+			cols.add("ID");
+			cols.add("Name");
+			Vector<Vector<String>> v = new Vector<>();
+			final String missing = ImageUtils.getMissingPictures();
+			for (String s_ : missing.split("\r\n")) {
+				String[] t = s_.split(";");
+				Vector<String> v_ = new Vector<>();
+				v_.add(t[0]);
+				v_.add(t[1]);
+				v_.add(t[2]);
+				v_.add(t[3]);
+				v.add(v_);
+			}
+			jResult = new JTable(v, cols) {
+				private static final long serialVersionUID = 1L;
+				public boolean isCellEditable(int row, int column) {
+					return true;
+				}
+			};
+			jResult.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+			TableColumnModel tcm = jResult.getColumnModel();
+			tcm.getColumn(0).setPreferredWidth(50);
+			tcm.getColumn(1).setPreferredWidth(50);
+			tcm.getColumn(2).setPreferredWidth(50);
+			tcm.getColumn(3).setPreferredWidth(250);
+			jResultPane.setViewportView(jResult);
+		}
+		catch (Exception e_) {
+			log.log(Level.WARNING, e_.getMessage(), e_);
+			JOptionPane.showMessageDialog(this, e_.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 }

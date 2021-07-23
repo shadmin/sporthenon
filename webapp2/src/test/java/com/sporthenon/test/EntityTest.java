@@ -26,7 +26,6 @@ import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.Type;
-import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
 
 import junit.framework.TestCase;
@@ -194,13 +193,6 @@ public class EntityTest extends TestCase {
 	
 	public void testType() {
 		List<Type> lst = (List<Type>) DatabaseManager.executeSelect("SELECT * FROM type LIMIT 10", Type.class);
-		assertNotNull(lst);
-		assertFalse(lst.isEmpty());
-		log.log(Level.FINEST, lst.toString());
-	}
-	
-	public void testWinLoss() {
-		List<WinLoss> lst = (List<WinLoss>) DatabaseManager.executeSelect(WinLoss.query + " LIMIT 10", WinLoss.class);
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());
 		log.log(Level.FINEST, lst.toString());

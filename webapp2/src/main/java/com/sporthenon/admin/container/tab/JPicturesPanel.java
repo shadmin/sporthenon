@@ -457,6 +457,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 					if (StringUtils.notEmpty(value) && !value.equals("null")) {
 						jRemoteFile.setText(ImageUtils.getUrl() + value);
 						jRemotePanel.setImage(new URL(jRemoteFile.getText()));
+						jRemotePanel.setBackground(Color.LIGHT_GRAY); ss
 					}
 					else
 						throw new MalformedURLException();

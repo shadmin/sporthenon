@@ -48,7 +48,6 @@ import com.sporthenon.admin.container.entity.JSportPanel;
 import com.sporthenon.admin.container.entity.JStatePanel;
 import com.sporthenon.admin.container.entity.JTeamPanel;
 import com.sporthenon.admin.container.entity.JTeamStadiumPanel;
-import com.sporthenon.admin.container.entity.JWinLossPanel;
 import com.sporthenon.admin.container.entity.JYearPanel;
 import com.sporthenon.admin.window.JCommentDialog;
 import com.sporthenon.admin.window.JEditPhotosDialog;
@@ -75,7 +74,6 @@ import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
-import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Config;
 import com.sporthenon.db.entity.meta.ExternalLink;
@@ -146,7 +144,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		v.add("State");
 		v.add("Team");
 		v.add("Team Stadiums");
-		v.add("Win/Loss");
 		v.add("Year");
 //		if (JMainFrame.getContributor().isAdmin()) {
 			v.add("---------------");
@@ -633,19 +630,6 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setDate2(String.valueOf(ts.getDate2()));
 			p.setRenamed(ts.getRenamed() != null && ts.getRenamed());
 		}
-		else if (o instanceof WinLoss) {
-			WinLoss wl = (WinLoss) o;
-			JWinLossPanel p = (JWinLossPanel) panel;
-			int leagueId = wl.getLeague().getId();
-			SwingUtils.fillPicklist(p.getTeam(), JMainFrame.getPicklists().get(Team.alias), leagueId == 1 ? 23 : (leagueId == 2 ? 24 : (leagueId == 3 ? 25 : 26)));
-			p.setLeague(wl.getLeague().getId());
-			p.setTeam(wl.getTeam().getId());
-			p.setType(wl.getType());
-			p.setWin(wl.getCountWin() != null ? String.valueOf(wl.getCountWin()) : "");
-			p.setLoss(wl.getCountLoss() != null ? String.valueOf(wl.getCountLoss()) : "");
-			p.setTie(wl.getCountTie() != null ? String.valueOf(wl.getCountTie()) : "");
-			p.setOtLoss(wl.getCountOtloss() != null ? String.valueOf(wl.getCountOtloss()) : "");
-		}
 		else if (o instanceof Year) {
 			Year yr = (Year) o;
 			JYearPanel p = (JYearPanel) panel;
@@ -700,9 +684,8 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			case 14: alias = State.alias; break;
 			case 15: alias = Team.alias; break;
 			case 16: alias = TeamStadium.alias; break;
-			case 17: alias = WinLoss.alias; break;
-			case 18: alias = Year.alias; break;
-			case 20: alias = Config.alias; break;
+			case 17: alias = Year.alias; break;
+			case 19: alias = Config.alias; break;
 		}
 		jContainer.add(JMainFrame.getEntityPanels().get(alias), alias);
 		((CardLayout) jContainer.getLayout()).show(jContainer, alias);

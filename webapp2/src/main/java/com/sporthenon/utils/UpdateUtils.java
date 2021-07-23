@@ -25,7 +25,6 @@ import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
-import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Config;
 import com.sporthenon.db.entity.meta.Contributor;
@@ -291,16 +290,6 @@ public class UpdateUtils {
 			en.setDate1(StringUtils.notEmpty(params.get("ts-date1")) ? StringUtils.toInt(params.get("ts-date1")) : null);
 			en.setDate2(StringUtils.notEmpty(params.get("ts-date2")) ? StringUtils.toInt(params.get("ts-date2")) : null);
 			en.setRenamed(StringUtils.notEmpty(params.get("ts-renamed")) ? String.valueOf(params.get("ts-renamed")).equals("1") : null);
-		}
-		else if (alias.equalsIgnoreCase(WinLoss.alias)) {
-			WinLoss en = (WinLoss) o;
-			en.setIdLeague(StringUtils.toInt(params.get("wl-league")));
-			en.setIdTeam(StringUtils.toInt(params.get("wl-team")));
-			en.setType(StringUtils.notEmpty(params.get("wl-type")) ? String.valueOf(params.get("wl-type")) : null);
-			en.setCountWin(StringUtils.notEmpty(params.get("wl-win")) ? StringUtils.toInt(params.get("wl-win")) : null);
-			en.setCountLoss(StringUtils.notEmpty(params.get("wl-loss")) ? StringUtils.toInt(params.get("wl-loss")) : null);
-			en.setCountTie(StringUtils.notEmpty(params.get("wl-tie")) ? StringUtils.toInt(params.get("wl-tie")) : null);
-			en.setCountOtloss(StringUtils.notEmpty(params.get("wl-otloss")) ? StringUtils.toInt(params.get("wl-otloss")) : null);
 		}
 		else if (alias.equalsIgnoreCase(Year.alias)) {
 			Year en = (Year) o;

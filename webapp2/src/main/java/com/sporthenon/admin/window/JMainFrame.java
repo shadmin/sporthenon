@@ -47,7 +47,6 @@ import com.sporthenon.admin.container.entity.JSportPanel;
 import com.sporthenon.admin.container.entity.JStatePanel;
 import com.sporthenon.admin.container.entity.JTeamPanel;
 import com.sporthenon.admin.container.entity.JTeamStadiumPanel;
-import com.sporthenon.admin.container.entity.JWinLossPanel;
 import com.sporthenon.admin.container.entity.JYearPanel;
 import com.sporthenon.admin.container.tab.JDataPanel;
 import com.sporthenon.admin.container.tab.JExtLinksPanel;
@@ -75,7 +74,6 @@ import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
-import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Config;
 import com.sporthenon.db.entity.meta.Contributor;
@@ -100,7 +98,8 @@ public class JMainFrame extends JFrame {
 	private JLabel jConnectInfoLabel = null;
 	private static JPasswordDialog jPasswordDialog = null;
 	private static JEditResultDialog jResultDialog = null;
-	private static JEditFolderDialog jFolderDialog = null;
+	private static JEditFolderDialog jEditFoldersDialog = null;
+	private static JAddEventDialog jAddEventDialog = null;
 	private static JEditEntityDialog jEntityDialog = null;
 	private static JFindEntityDialog jFindDialog = null;
 	private static JMergeEntityDialog jMergeDialog = null;
@@ -147,7 +146,6 @@ public class JMainFrame extends JFrame {
 			jEntityPanels.put(State.alias, new JStatePanel());
 			jEntityPanels.put(Team.alias, new JTeamPanel());
 			jEntityPanels.put(TeamStadium.alias, new JTeamStadiumPanel());
-			jEntityPanels.put(WinLoss.alias, new JWinLossPanel());
 			jEntityPanels.put(Year.alias, new JYearPanel());
 			jEntityPanels.put(Config.alias, new JConfigPanel());
 			
@@ -182,7 +180,8 @@ public class JMainFrame extends JFrame {
 		}
 		jResultsPanel.setTree();
 		jResultDialog  = new JEditResultDialog(this);
-		jFolderDialog  = new JEditFolderDialog(this);
+		jAddEventDialog = new JAddEventDialog(this);
+		jEditFoldersDialog  = new JEditFolderDialog(this);
 		jEntityDialog  = new JEditEntityDialog(this);
 		jFindDialog  = new JFindEntityDialog(this);
 		jMergeDialog  = new JMergeEntityDialog(this);
@@ -193,8 +192,8 @@ public class JMainFrame extends JFrame {
 		if (!quickload) {
 			fillPicklists(null);
 			jPicturesPanel.getSportList().removeAllItems();
-			for (int i = 0 ; i < jFolderDialog.getSport().getCombobox().getItemCount() ; i++) {
-				jPicturesPanel.getSportList().addItem(jFolderDialog.getSport().getCombobox().getItemAt(i));
+			for (int i = 0 ; i < jEditFoldersDialog.getSport().getCombobox().getItemCount() ; i++) {
+				jPicturesPanel.getSportList().addItem(jEditFoldersDialog.getSport().getCombobox().getItemAt(i));
 			}
 		}
 	}
@@ -206,7 +205,8 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(jAllAthletes, hPicklists.get(Athlete.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(Championship.alias)) {
-			SwingUtils.fillPicklist(jFolderDialog.getCategory1(), hPicklists.get(Championship.alias), null);
+			SwingUtils.fillPicklist(jAddEventDialog.getCategory1(), hPicklists.get(Championship.alias), null);
+			SwingUtils.fillPicklist(jEditFoldersDialog.getCategory1(), hPicklists.get(Championship.alias), null);
 			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getChampionship(), hPicklists.get(Championship.alias), null);
 			SwingUtils.fillPicklist(((JCalendarPanel)jEntityPanels.get(Calendar.alias)).getChampionship(), hPicklists.get(Championship.alias), null);
 		}
@@ -234,9 +234,12 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(((JCalendarPanel)jEntityPanels.get(Calendar.alias)).getCountry(), hPicklists.get(Country.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(Event.alias)) {
-			SwingUtils.fillPicklist(jFolderDialog.getCategory2(), hPicklists.get(Event.alias), null);
-			SwingUtils.fillPicklist(jFolderDialog.getCategory3(), hPicklists.get(Event.alias), null);
-			SwingUtils.fillPicklist(jFolderDialog.getCategory4(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(jAddEventDialog.getCategory2(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(jAddEventDialog.getCategory3(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(jAddEventDialog.getCategory4(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(jEditFoldersDialog.getCategory2(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(jEditFoldersDialog.getCategory3(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(jEditFoldersDialog.getCategory4(), hPicklists.get(Event.alias), null);
 			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getEvent(), hPicklists.get(Event.alias), null);
 			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getSubevent(), hPicklists.get(Event.alias), null);
 			SwingUtils.fillPicklist(((JCalendarPanel)jEntityPanels.get(Calendar.alias)).getEvent(), hPicklists.get(Event.alias), null);
@@ -248,13 +251,13 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(((JHallOfFamePanel)jEntityPanels.get(HallOfFame.alias)).getLeague(), hPicklists.get(League.alias), null);
 			SwingUtils.fillPicklist(((JRetiredNumberPanel)jEntityPanels.get(RetiredNumber.alias)).getLeague(), hPicklists.get(League.alias), null);
 			SwingUtils.fillPicklist(((JTeamStadiumPanel)jEntityPanels.get(TeamStadium.alias)).getLeague(), hPicklists.get(League.alias), null);
-			SwingUtils.fillPicklist(((JWinLossPanel)jEntityPanels.get(WinLoss.alias)).getLeague(), hPicklists.get(League.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(Olympics.alias)) {
 			SwingUtils.fillPicklist(((JOlympicRankingPanel)jEntityPanels.get(OlympicRanking.alias)).getOlympics(), hPicklists.get(Olympics.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(Sport.alias)) {
-			SwingUtils.fillPicklist(jFolderDialog.getSport(), hPicklists.get(Sport.alias), null);
+			SwingUtils.fillPicklist(jAddEventDialog.getSport(), hPicklists.get(Sport.alias), null);
+			SwingUtils.fillPicklist(jEditFoldersDialog.getSport(), hPicklists.get(Sport.alias), null);
 			SwingUtils.fillPicklist(((JAthletePanel)jEntityPanels.get(Athlete.alias)).getSport(), hPicklists.get(Sport.alias), null);
 			SwingUtils.fillPicklist(((JTeamPanel)jEntityPanels.get(Team.alias)).getSport(), hPicklists.get(Sport.alias), null);
 			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getSport(), hPicklists.get(Sport.alias), null);
@@ -267,7 +270,6 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(((JAthletePanel)jEntityPanels.get(Athlete.alias)).getTeam(), hPicklists.get(Team.alias), null);
 			SwingUtils.fillPicklist(((JRetiredNumberPanel)jEntityPanels.get(RetiredNumber.alias)).getTeam(), hPicklists.get(Team.alias), null);
 			SwingUtils.fillPicklist(((JTeamStadiumPanel)jEntityPanels.get(TeamStadium.alias)).getTeam(), hPicklists.get(Team.alias), null);
-			SwingUtils.fillPicklist(((JWinLossPanel)jEntityPanels.get(WinLoss.alias)).getTeam(), hPicklists.get(Team.alias), null);
 			SwingUtils.fillPicklist(jAllTeams, hPicklists.get(Team.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(com.sporthenon.db.entity.Type.alias)) {
@@ -388,14 +390,14 @@ public class JMainFrame extends JFrame {
 			params.put("ct-state", SwingUtils.getValue(p.getState()));
 			params.put("ct-country", SwingUtils.getValue(p.getCountry()));
 			params.put("ct-link", p.getLink().getText());
-			pi.setText(params.get("ct-label") + ", " + SwingUtils.getText(p.getCountry()));
+			pi.setText(params.get("ct-label") + ", " + SwingUtils.getText(p.getCountry()).replaceAll(".+\\[|\\]$", ""));
 		}
 		else if (alias.equalsIgnoreCase(Complex.alias)) {
 			JComplexPanel p = (JComplexPanel) jEntityPanels.get(alias);
 			params.put("cx-label", p.getLabel().getText());
 			params.put("cx-city", SwingUtils.getValue(p.getCity()));
 			params.put("cx-link", p.getLink().getText());
-			pi.setText(params.get("cx-label") + ", " + SwingUtils.getText(p.getCity()));
+			pi.setText(params.get("cx-label") + " [" + SwingUtils.getText(p.getCity()) + "]");
 		}
 		else if (alias.equalsIgnoreCase(Country.alias)) {
 			JCountryPanel p = (JCountryPanel) jEntityPanels.get(alias);
@@ -531,16 +533,6 @@ public class JMainFrame extends JFrame {
 			params.put("ts-date1", p.getDate1().getText());
 			params.put("ts-date2", p.getDate2().getText());
 			params.put("ts-renamed", p.getRenamed().isSelected() ? "1" : "0");
-		}
-		else if (alias.equalsIgnoreCase(WinLoss.alias)) {
-			JWinLossPanel p = (JWinLossPanel) jEntityPanels.get(alias);
-			params.put("wl-league", SwingUtils.getValue(p.getLeague()));
-			params.put("wl-team", SwingUtils.getValue(p.getTeam()));
-			params.put("wl-type", p.getType().getSelectedItem());
-			params.put("wl-win", p.getWin().getText());
-			params.put("wl-loss", p.getLoss().getText());
-			params.put("wl-tie", p.getTie().getText());
-			params.put("wl-otloss", p.getOtLoss().getText());
 		}
 		else if (alias.equalsIgnoreCase(Year.alias)) {
 			JYearPanel p = (JYearPanel) jEntityPanels.get(alias);
@@ -679,10 +671,14 @@ public class JMainFrame extends JFrame {
 		return jResultDialog;
 	}
 
-	public static JEditFolderDialog getFolderDialog() {
-		return jFolderDialog;
+	public static JAddEventDialog getAddEventDialog() {
+		return jAddEventDialog;
 	}
 
+	public static JEditFolderDialog getEditFoldersDialog() {
+		return jEditFoldersDialog;
+	}
+	
 	public static JEditEntityDialog getEntityDialog() {
 		return jEntityDialog;
 	}
@@ -733,6 +729,10 @@ public class JMainFrame extends JFrame {
 
 	public static Map<String, JAbstractEntityPanel> getEntityPanels() {
 		return jEntityPanels;
+	}
+	
+	public JDataPanel getDataPanel() {
+		return jDataPanel;
 	}
 
 	public static Contributor getContributor() {

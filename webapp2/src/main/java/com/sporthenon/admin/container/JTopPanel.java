@@ -9,9 +9,11 @@ import java.awt.event.ActionListener;
 import javax.swing.AbstractButton;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
 
 import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JCustomToggleButton;
+import com.sporthenon.admin.container.tab.JDataPanel;
 import com.sporthenon.admin.window.JMainFrame;
 import com.sporthenon.admin.window.JOptionsDialog;
 
@@ -160,6 +162,11 @@ public class JTopPanel extends JPanel implements ActionListener {
 					jPicturesButton.setSelected(e.getActionCommand().equalsIgnoreCase("pictures"));
 					jExtLinksButton.setSelected(e.getActionCommand().equalsIgnoreCase("extlinks"));
 					jUsersButton.setSelected(e.getActionCommand().equalsIgnoreCase("users"));
+					if (jDataButton.isSelected()) {
+						JDataPanel jDataPanel = parent.getDataPanel();
+						jDataPanel.valueChanged(new ListSelectionEvent(jDataPanel.getList(), 0, 0, false));
+						jDataPanel.actionPerformed(new ActionEvent(jDataPanel, 0, "last"));
+					}
 				}
 			});
 		}

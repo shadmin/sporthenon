@@ -67,7 +67,6 @@
 	<entry key="entity.ST">US States</entry>
 	<entry key="entity.TM">Teams</entry>
 	<entry key="entity.TS">Team Stadiums</entry>
-	<entry key="entity.WL">Wins/Losses</entry>
 	<entry key="entity.YR">Years</entry>
 	<entry key="entity.CG.1">Config</entry>
 	<entry key="entity.CB.1">Contributor</entry>
@@ -91,7 +90,6 @@
 	<entry key="entity.ST.1">US State</entry>
 	<entry key="entity.TM.1">Team</entry>
 	<entry key="entity.TS.1">Team stadium</entry>
-	<entry key="entity.WL.1">Win/Loss</entry>
 	<entry key="entity.YR.1">Year</entry>
 	<entry key="rank.winner">Winner</entry>
 	<entry key="rank.1">1st</entry>

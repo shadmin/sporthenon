@@ -99,8 +99,10 @@ public class JEditEntityDialog extends JDialog implements ActionListener {
 		if (e.getActionCommand().equals("ok")) {
 			try {
 				PicklistItem plb = JMainFrame.saveEntity(alias, null);
-				SwingUtils.insertValue(picklist, plb);
-				picklist.addItem(plb);
+				if (plb.getParam() != null) {
+					SwingUtils.insertValue(picklist, plb);
+					picklist.addItem(plb);	
+				}
 				picklist.setValue(plb.getValue());
 			}
 			catch (Exception e_) {

@@ -8,8 +8,8 @@
 	
 	<target name="shupdate.exe">
 		<!-- Initialize -->
-		<move file="${dest}/classes/com/sporthenon/admin/shupdate.bat" tofile="${dest}/shupdate.bat"/>
-		<move file="${dest}/shupdate.jar" tofile="${dest}/libs.jar"/>
+		<move file="${dest}/classes/com/sporthenon/admin/shupdate.bat" tofile="${dest}/shupdate.bat" failonerror="false"/>
+		<move file="${dest}/shupdate.jar" tofile="${dest}/libs.jar" failonerror="false"/>
 		<taskdef name="launch4j"
 		    classname="net.sf.launch4j.ant.Launch4jTask"
 		    classpath="${launch4j}/launch4j.jar:${launch4j}/lib/xstream.jar"/>
@@ -33,8 +33,8 @@
 		</exec>
 		<!-- Make ZIP -->
 		<zip destfile="${dest}/shupdate.zip"
-		     basedir="${dest}"
-		     includes="**/shupdate.bat, **/shupdate.exe, **/libs.jar"/>
+		     basedir="${dest}" 
+		     includes="shupdate.bat, shupdate.exe, libs.jar"/>
 	</target>
 	
 </project>

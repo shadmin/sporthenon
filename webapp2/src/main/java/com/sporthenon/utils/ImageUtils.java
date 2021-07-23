@@ -21,6 +21,9 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.Storage.BlobListOption;
 import com.google.cloud.storage.StorageOptions;
 import com.sporthenon.db.DatabaseManager;
+import com.sporthenon.db.PicklistItem;
+import com.sporthenon.db.entity.Olympics;
+import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.meta.Picture;
 import com.sporthenon.utils.res.ResourceUtils;
 
@@ -167,6 +170,39 @@ public class ImageUtils {
 			sb.append("<div class='enlarge'><a href='javascript:enlargePhoto(" + p.getId() + ");'><img src='" + getRenderUrl() + "enlarge.png' title='" + ResourceUtils.getText("enlarge", lang) + "'/></a></div></li>");
 		}
 		return (sb.length() > 0 ? sb : null);
+	}
+	
+	public static String getMissingPictures() throws Exception {
+		StringBuffer sbResult = new StringBuffer();
+		for (String entity_ : new String[]{"CP", "EV", "SP", "CN", "OL", "TM"}) {
+			String table = (String) DatabaseManager.getClassFromAlias(entity_).getField("table").get(null);
+			String sql = null;
+			if (entity_.equals(Olympics.alias)) {
+				sql = "SELECT OL.id, YR.label || ' - ' || CT.label, OL.no_pic "
+						+ " FROM olympics OL JOIN year YR ON YR.id = OL.id_year JOIN city CT ON CT.id = OL.id_city "
+						+ " ORDER BY OL.id";
+			}
+			else if (entity_.equals(Team.alias)) {
+				sql = "SELECT TM.id, TM.label || ' - ' || SP.label, TM.no_pic "
+						+ " FROM team TM JOIN sport SP ON SP.id = TM.id_sport "
+						+ " ORDER BY TM.label";
+			}
+			else {
+				sql = "SELECT id, label, no_pic FROM " + table + " ORDER BY label";
+			}
+			Collection<PicklistItem> lst = DatabaseManager.getPicklist(sql, null);
+			int n = 0;
+			for (PicklistItem o : lst) {
+				if (o.getParam() != null && o.getParam().equals("true")) {
+					continue;
+				}
+				Collection<String> list = ImageUtils.getImages(ImageUtils.getIndex(entity_.toUpperCase()), o.getValue(), ImageUtils.SIZE_LARGE);
+				if (list == null || list.isEmpty()) {
+					sbResult.append(entity_).append(";").append(++n).append(";").append(o.getValue()).append(";").append(o.getText()).append("\r\n");
+				}
+			}
+		}
+		return sbResult.toString();
 	}
 	
 	public static String getRenderUrl() {

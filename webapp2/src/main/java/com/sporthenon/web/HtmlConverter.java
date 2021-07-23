@@ -41,7 +41,6 @@ import com.sporthenon.db.entity.Sport;
 import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
-import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Contribution;
 import com.sporthenon.db.entity.meta.Contributor;
@@ -1424,14 +1423,6 @@ public class HtmlConverter {
 					sb.append("</tr></table>");
 				}
 				hInfo.put("entity.TS", sb.toString());
-			}
-			// Wins/Losses
-			List<WinLoss> lWl = (List<WinLoss>) DatabaseManager.executeSelect(WinLoss.query + " WHERE T.id_team = ?", Arrays.asList(e.getId()), WinLoss.class);
-			if (lWl != null && !lWl.isEmpty()) {
-				StringBuffer sb = new StringBuffer();
-				for (WinLoss wl : lWl)
-					sb.append(wl.getType() + " : " + wl.getCountWin() + "-" + wl.getCountLoss() + (wl.getCountTie() != null ? "-" + wl.getCountTie() : "") + (wl.getCountOtloss() != null ? "-" + wl.getCountOtloss() : "")).append("<br/>");
-				hInfo.put("entity.WL", sb.toString());
 			}
 			lastUpdate = e.getMetadata().getLastUpdate();
 		}

@@ -92,7 +92,6 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 		jList1.setName("list1");
 		jList1.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		jList1.setLayoutOrientation(JList.VERTICAL);
-//		jList1.addListSelectionListener(this);
 		JScrollPane jList1Panel = new JScrollPane(jList1);
 		jList1Panel.setPreferredSize(new Dimension(400, 300));
 		return jList1Panel;
@@ -295,7 +294,7 @@ public class JEditFolderDialog extends JDialog implements ActionListener {
 				log.log(Level.WARNING, e_.getMessage(), e_);
 			}
 			finally {
-				parent.folderCallback(msg, err);
+				parent.editFoldersCallback(msg, err);
 			}
 		}
 		this.setVisible(false);

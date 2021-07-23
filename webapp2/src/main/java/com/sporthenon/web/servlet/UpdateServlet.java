@@ -54,7 +54,6 @@ import com.sporthenon.db.entity.State;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.TeamStadium;
 import com.sporthenon.db.entity.Type;
-import com.sporthenon.db.entity.WinLoss;
 import com.sporthenon.db.entity.Year;
 import com.sporthenon.db.entity.meta.Config;
 import com.sporthenon.db.entity.meta.Contributor;
@@ -99,64 +98,92 @@ public class UpdateServlet extends AbstractServlet {
 			String lang = getLocale(request);
 			Contributor cb = getUser(request);
 			HashMap<String, Object> params = ServletHelper.getParams(request);
-			if (params.containsKey("p2") && params.get("p2").equals("ajax"))
+			if (params.containsKey("p2") && params.get("p2").equals("ajax")) {
 				ajaxAutocomplete(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("save"))
-				saveResult(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("delete"))
-				deleteResult(response, params, lang, cb);
-			else if (params.containsKey("p2") && params.get("p2").equals("data"))
-				dataTips(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("load-entity"))
-				loadEntity(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("save-entity"))
-				saveEntity(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("delete-entity"))
-				deleteEntity(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("load-overview"))
-				loadOverview(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("set-overview-flag"))
-				setOverviewFlag(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("save-config"))
-				saveConfig(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("execute-query"))
-				executeQuery(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("merge"))
-				mergeEntity(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("execute-import"))
-				executeImport(request, response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("check-progress-import")) {
-				if (IMPORT_PROGESS != null)
-					ServletHelper.writeText(response, String.valueOf(IMPORT_PROGESS.toString()));
 			}
-			else if (params.containsKey("p") && params.get("p").equals("load-template"))
+			else if (params.containsKey("p") && params.get("p").equals("save")) {
+				saveResult(response, params, lang, cb);
+			}
+			else if (params.containsKey("p") && params.get("p").equals("delete")) {
+				deleteResult(response, params, lang, cb);
+			}
+			else if (params.containsKey("p2") && params.get("p2").equals("data")) {
+				dataTips(response, params, lang, cb);
+			}
+			else if (params.containsKey("p") && params.get("p").equals("load-entity")) {
+				loadEntity(response, params, lang, cb);
+			}
+			else if (params.containsKey("p") && params.get("p").equals("save-entity")) {
+				saveEntity(response, params, lang, cb);
+			}
+			else if (params.containsKey("p") && params.get("p").equals("delete-entity")) {
+				deleteEntity(response, params, lang, cb);
+			}
+			else if (params.containsKey("p") && params.get("p").equals("load-overview")) {
+				loadOverview(response, params, lang, cb);
+			}
+			else if (params.containsKey("p") && params.get("p").equals("set-overview-flag")) {
+				setOverviewFlag(response, params, lang, cb);
+			}
+			else if (params.containsKey("p") && params.get("p").equals("save-config")) {
+				saveConfig(response, params, lang, cb);
+			}
+			else if (params.containsKey("p") && params.get("p").equals("execute-query")) {
+				executeQuery(response, params, lang, cb);
+			}
+			else if (params.containsKey("p") && params.get("p").equals("merge")) {
+				mergeEntity(response, params, lang, cb);
+			}
+			else if (params.containsKey("p") && params.get("p").equals("execute-import")) {
+				executeImport(request, response, params, lang, cb);
+			}
+			else if (params.containsKey("p") && params.get("p").equals("check-progress-import")) {
+				if (IMPORT_PROGESS != null) {
+					ServletHelper.writeText(response, String.valueOf(IMPORT_PROGESS.toString()));
+				}
+			}
+			else if (params.containsKey("p") && params.get("p").equals("load-template")) {
 				loadTemplate(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("load-extlinks"))
+			}
+			else if (params.containsKey("p") && params.get("p").equals("load-extlinks")) {
 				loadExternalLinks(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("save-extlinks"))
+			}
+			else if (params.containsKey("p") && params.get("p").equals("save-extlinks")) {
 				saveExternalLinks(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("delete-extlink"))
+			}
+			else if (params.containsKey("p") && params.get("p").equals("delete-extlink")) {
 				deleteExternalLink(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("updateauto-extlinks"))
+			}
+			else if (params.containsKey("p") && params.get("p").equals("updateauto-extlinks")) {
 				updateAutoExternalLinks(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("load-translations"))
+			}
+			else if (params.containsKey("p") && params.get("p").equals("load-translations")) {
 				loadTranslations(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("save-translations"))
+			}
+			else if (params.containsKey("p") && params.get("p").equals("save-translations")) {
 				saveTranslations(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("load-folders"))
+			}
+			else if (params.containsKey("p") && params.get("p").equals("load-folders")) {
 				loadFolders(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("save-folders"))
+			}
+			else if (params.containsKey("p") && params.get("p").equals("save-folders")) {
 				saveFolders(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("load-errors"))
+			}
+			else if (params.containsKey("p") && params.get("p").equals("load-errors")) {
 				loadErrors(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("remove-error"))
+			}
+			else if (params.containsKey("p") && params.get("p").equals("remove-error")) {
 				removeError(response, params);
-			else if (params.containsKey("p") && params.get("p").equals("load-redirections"))
+			}
+			else if (params.containsKey("p") && params.get("p").equals("load-redirections")) {
 				loadRedirections(response, params, lang, cb);
-			else if (params.containsKey("p") && params.get("p").equals("save-redirections"))
+			}
+			else if (params.containsKey("p") && params.get("p").equals("save-redirections")) {
 				saveRedirections(response, params, lang, cb);
-			else
+			}
+			else {
 				loadResult(request, response, params, lang, cb);
+			}
 		}
 		catch (Exception e) {
 			handleException(request, response, e);
@@ -268,7 +295,7 @@ public class UpdateServlet extends AbstractServlet {
 			joins += " LEFT JOIN championship CP ON T.id_championship=CP.id";
 			joins += " LEFT JOIN event EV ON T.id_event=EV.id";
 		}
-		else if (field.toUpperCase().matches(RetiredNumber.alias + "|" + TeamStadium.alias + "|" + WinLoss.alias)) {
+		else if (field.toUpperCase().matches(RetiredNumber.alias + "|" + TeamStadium.alias)) {
 			labelHQL = "LG.label || ' - ' || TM.label";
 			joins += " LEFT JOIN league LG ON T.id_league=LG.id";
 			joins += " LEFT JOIN team TM ON T.id_team=TM.id";
@@ -320,7 +347,7 @@ public class UpdateServlet extends AbstractServlet {
 			if (list.contains(id))
 				continue;
 			Object o = DatabaseManager.loadEntity(DatabaseManager.getClassFromAlias(alias_), id);
-			if (!(o instanceof Athlete) && !(o instanceof Complex) && !(o instanceof League) && !(o instanceof Team) && !(o instanceof Result) && !(o instanceof Contributor) && !(o instanceof HallOfFame) && !(o instanceof Olympics) && !(o instanceof Record) && !(o instanceof RetiredNumber) && !(o instanceof TeamStadium) && !(o instanceof WinLoss)) {
+			if (!(o instanceof Athlete) && !(o instanceof Complex) && !(o instanceof League) && !(o instanceof Team) && !(o instanceof Result) && !(o instanceof Contributor) && !(o instanceof HallOfFame) && !(o instanceof Olympics) && !(o instanceof Record) && !(o instanceof RetiredNumber) && !(o instanceof TeamStadium)) {
 				Method m2 = o.getClass().getMethod("getLabel", String.class);
 				text = String.valueOf(m2.invoke(o, lang));
 			}
@@ -382,11 +409,7 @@ public class UpdateServlet extends AbstractServlet {
 				TeamStadium t_ = (TeamStadium) o;
 				text = t_.toString2();
 			}
-			else if (o instanceof WinLoss) {
-				WinLoss w = (WinLoss) o;
-				text = w.toString2();
-			}
-			
+
 			text += "<div class='ajaxid'> [#" + id + "]</div>";
 			html.append("<li id='" + field_ + "|" + id + (o instanceof Event ? "|" + ((Event)o).getType().getNumber() : "") + "'>" + text + "</li>");
 			list.add(id);
@@ -1685,18 +1708,6 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(StringUtils.notEmpty(ts.getDate1()) ? ts.getDate1() : "").append("~");
 				sb.append(StringUtils.notEmpty(ts.getDate2()) ? ts.getDate2() : "").append("~");
 				sb.append(ts.getRenamed() != null && ts.getRenamed() ? "1" : "0").append("~");
-			}
-			else if (o instanceof WinLoss) {
-				WinLoss wl = (WinLoss) o;
-				sb.append(wl.getLeague() != null ? wl.getLeague().getId() : 0).append("~");
-				sb.append(wl.getLeague() != null ? wl.getLeague().getLabel() : "").append("~");
-				sb.append(wl.getTeam() != null ? wl.getTeam().getId() : 0).append("~");
-				sb.append(wl.getTeam() != null ? wl.getTeam().getLabel() : "").append("~");
-				sb.append(StringUtils.notEmpty(wl.getType()) ? wl.getType() : "").append("~");
-				sb.append(StringUtils.notEmpty(wl.getCountWin()) ? wl.getCountWin() : "").append("~");
-				sb.append(StringUtils.notEmpty(wl.getCountLoss()) ? wl.getCountLoss() : "").append("~");
-				sb.append(StringUtils.notEmpty(wl.getCountTie()) ? wl.getCountTie() : "").append("~");
-				sb.append(StringUtils.notEmpty(wl.getCountLoss()) ? wl.getCountLoss() : "").append("~");
 			}
 		}
 		ServletHelper.writeText(response, sb.toString());

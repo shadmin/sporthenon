@@ -22,9 +22,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import com.sporthenon.db.DatabaseManager;
-import com.sporthenon.db.PicklistItem;
-import com.sporthenon.db.entity.Olympics;
-import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.meta.Picture;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.HtmlUtils;
@@ -164,39 +161,10 @@ public class ImageServlet extends AbstractServlet {
 				DatabaseManager.saveEntity(o, null);
 			}
 			else if (mapParams.containsKey("missing")) {
-				StringBuffer sbResult = new StringBuffer();
-				for (String entity_ : new String[]{"CP", "EV", "SP", "CN", "OL", "TM"}) {
-					String table = (String) DatabaseManager.getClassFromAlias(entity_).getField("table").get(null);
-					String sql = null;
-					if (entity_.equals(Olympics.alias)) {
-						sql = "SELECT OL.id, YR.label || ' - ' || CT.label, nopic "
-								+ " FROM olympics OL JOIN year YR ON YR.id = OL.id_year JOIN city CT ON CT.id = OL.id_city "
-								+ " ORDER BY TM.label";
-					}
-					else if (entity_.equals(Team.alias)) {
-						sql = "SELECT TM.id, TM.label || ' - ' || SP.label, nopic "
-								+ " FROM team TM JOIN sport SP ON SP.id = TM.id_sport "
-								+ " ORDER BY TM.label";
-					}
-					else {
-						sql = "SELECT id, label, nopic FROM " + table + " ORDER BY label";
-					}
-					Collection<PicklistItem> lst = DatabaseManager.getPicklist(sql, null);
-					int n = 0;
-					for (PicklistItem o : lst) {
-						if (o.getParam() != null && o.getParam().equals("true")) {
-							continue;
-						}
-						Collection<String> list = ImageUtils.getImages(ImageUtils.getIndex(entity_.toUpperCase()), o.getValue(), ImageUtils.SIZE_LARGE);
-						if (list == null || list.isEmpty()) {
-							sbResult.append(entity_).append(";").append(++n).append(";").append(o.getValue()).append(";").append(o.getText()).append("\r\n");
-						}
-					}
-				}
 				response.setContentType("text/plain");
 				response.setCharacterEncoding("utf-8");
 				response.setHeader("Content-Disposition", "attachment;filename=Sporthenon_missing_pics.csv");
-				response.getWriter().write(sbResult.toString());
+				response.getWriter().write(ImageUtils.getMissingPictures());
 				response.flushBuffer();
 			}
 		}

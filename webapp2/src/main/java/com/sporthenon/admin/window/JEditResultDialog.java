@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,6 +27,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
@@ -233,23 +235,35 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 			optionalBtn.addActionListener(this);
 			jRanks[i].getButtonPanel2().setPreferredSize(new Dimension(69, 0));
 			labels[i] = new JLabel(ResourceUtils.getText("rank." + (i + 1), ResourceUtils.LGDEFAULT) + ":");
-			labels[i].setPreferredSize(new Dimension(28, 21));
+			labels[i].setPreferredSize(new Dimension(30, 21));
 			jRes[i] = new JTextField();
 			jRes[i].setPreferredSize(new Dimension(90, 21));
 			jRes[i].addFocusListener(this);
 		}
-		
+
 		JPanel jStandingsPanel = new JPanel();
-		jStandingsPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 4));
-		jStandingsPanel.setPreferredSize(new Dimension(0, 80));
+		jStandingsPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 2, 2));
 		jStandingsPanel.setBorder(BorderFactory.createTitledBorder(null, "Final standings", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
-		for (int i = 0 ; i < 10 ; i++) {
-			jStandingsPanel.add(labels[i]);
-			jStandingsPanel.add(jRanks[i]);
-			jStandingsPanel.add(jRes[i]);
-			jStandingsPanel.add(labels[i + 10]);
-			jStandingsPanel.add(jRanks[i + 10]);
-			jStandingsPanel.add(jRes[i + 10]);
+		for (int col = 1 ; col <= 6 ; col++) {
+			JPanel columnPanel = new JPanel();
+			columnPanel.setLayout(new BoxLayout(columnPanel, BoxLayout.Y_AXIS));
+			int index1 = (col <= 3 ? 0 : 10);
+			int index2 = (col <= 3 ? 10 : 20);
+			for (int i = index1 ; i < index2 ; i++) {
+				if (col == 1 || col == 4) {
+					columnPanel.add(labels[i]);	
+				}
+				if (col == 2 || col == 5) {
+					columnPanel.add(jRanks[i]);	
+				}
+				if (col == 3 || col == 6) {
+					columnPanel.add(jRes[i]);	
+				}
+				JPanel sep = new JPanel();
+				sep.setPreferredSize(new Dimension(0, 5));
+				columnPanel.add(sep);
+			}
+			jStandingsPanel.add(columnPanel);
 		}
 
 		return jStandingsPanel;
@@ -319,6 +333,9 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 			}
 		}
 		else if (cmd.equals("ok")) {
+			if (!checkErrors()) {
+				return;
+			}
 			Contributor cb = JMainFrame.getContributor();
 			Result rs = null;
 			String msg = null;
@@ -370,7 +387,7 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 				if (roundsModified) {
 					for (Round round : rounds) {
 						round.setIdResult(rs.getId());
-						round.setIdResultType(type.getId());
+						round.setIdResultType(type.getNumber());
 						DatabaseManager.saveEntity(round, cb);
 					}
 				}
@@ -398,6 +415,41 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 
 	@Override
 	public void focusLost(FocusEvent e) {
+	}
+	
+	private boolean checkErrors() {
+		boolean err = false;
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+		df.setLenient(false);
+		try {
+			jDate1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+			if (StringUtils.notEmpty(jDate1.getText())) {
+				if (!jDate1.getText().matches(StringUtils.PATTERN_DATE)) {
+					throw new ParseException(null, 0);
+				}
+				df.parse(jDate1.getText());	
+			}
+		}
+		catch (ParseException e) {
+			jDate1.setBorder(BorderFactory.createLineBorder(Color.RED));
+			JOptionPane.showMessageDialog(this, "The value of field 'From' is invalid (should be DD/MM/YYYY).", "Error", JOptionPane.ERROR_MESSAGE);
+			err = true;
+		}
+		try {
+			jDate2.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+			if (StringUtils.notEmpty(jDate2.getText())) {
+				if (!jDate2.getText().matches(StringUtils.PATTERN_DATE)) {
+					throw new ParseException(null, 0);
+				}
+				df.parse(jDate2.getText());	
+			}
+		}
+		catch (ParseException e) {
+			jDate2.setBorder(BorderFactory.createLineBorder(Color.RED));
+			JOptionPane.showMessageDialog(this, "The value of field 'To' is invalid (should be DD/MM/YYYY).", "Error", JOptionPane.ERROR_MESSAGE);
+			err = true;
+		}
+		return !err;
 	}
 	
 	private Vector<Object> getDataVector(Result rs) {
@@ -455,6 +507,8 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 		jButtonBar.getOptional3().setText("Ext. Links" + (StringUtils.notEmpty(extlinks) ? " (" + extlinks.split("\r\n").length + ")" : ""));
 		jButtonBar.getOptional4().setText("Photos" + (!photos.isEmpty() ? " (" + photos.size() + ")" : ""));
 		jButtonBar.getOptional4().setEnabled(this.id != null && this.id > 0 && mode != JEditResultDialog.COPY);
+		jDate1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		jDate2.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 		this.extlinksModified = false;
 		this.roundsModified = false;
 		this.personListModified.clear();

@@ -2882,9 +2882,9 @@ function loadTemplate(ext) {
 }
 /*========== QUERY ==========*/
 function executeQuery(index) {
-	var isYearReport = (index == 9);
+	var isYearReport = (index == 2);
 	var output = (isYearReport ? 'ovcontent' : 'qresults')
-	var url = '/update/execute-query?index=' + index + (!isYearReport && $('rcsv').checked ? '&csv=1' : '') + (isYearReport ? '&year=' + $F('year') + '&sport=' + $F('ovsport') : '');
+	var url = '/update/execute-query?index=' + index + (!isYearReport && $('rcsv') && $('rcsv').checked ? '&csv=1' : '') + (isYearReport ? '&year=' + $F('year') + '&sport=' + $F('ovsport') : '');
 	if (index == -1) {
 		url += '&query=' + escape($F('query'));
 	}
