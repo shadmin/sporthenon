@@ -467,7 +467,8 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			}
 		}
 		if (nodeEvent == null) {
-			PicklistItem item = new PicklistItem(idEvent, SwingUtils.getText(dlg.getCategory2()), idSport + "," + idChampionship + "," + idEvent);
+			String strEvent = SwingUtils.getText(dlg.getCategory2()).replaceFirst("\\s\\[.*", "");
+			PicklistItem item = new PicklistItem(idEvent, strEvent, idSport + "," + idChampionship + "," + idEvent);
 			nodeEvent = new DefaultMutableTreeNode(item);
 			nodeChampionship.add(nodeEvent);
 		}
@@ -485,7 +486,8 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				}
 			}
 			if (nodeSubevent == null) {
-				PicklistItem item = new PicklistItem(idSubevent, SwingUtils.getText(dlg.getCategory3()), idSport + "," + idChampionship + "," + idEvent + "," + idSubevent);
+				String strSubevent = SwingUtils.getText(dlg.getCategory3()).replaceFirst("\\s\\[.*", "");
+				PicklistItem item = new PicklistItem(idSubevent, strSubevent, idSport + "," + idChampionship + "," + idEvent + "," + idSubevent);
 				nodeSubevent = new DefaultMutableTreeNode(item);
 				nodeEvent.add(nodeSubevent);
 			}
@@ -504,7 +506,8 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				}
 			}
 			if (nodeSubevent2 == null) {
-				PicklistItem item = new PicklistItem(idSubevent2, SwingUtils.getText(dlg.getCategory4()), idSport + "," + idChampionship + "," + idEvent + "," + idSubevent + "," + idSubevent2);
+				String strSubevent2 = SwingUtils.getText(dlg.getCategory4()).replaceFirst("\\s\\[.*", "");
+				PicklistItem item = new PicklistItem(idSubevent2, strSubevent2, idSport + "," + idChampionship + "," + idEvent + "," + idSubevent + "," + idSubevent2);
 				nodeSubevent2 = new DefaultMutableTreeNode(item);
 				nodeSubevent.add(nodeSubevent2);
 			}

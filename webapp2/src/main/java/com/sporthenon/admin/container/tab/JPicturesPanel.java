@@ -26,8 +26,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -87,7 +89,9 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 	private JFileChooser jFileChooser = null;
 	private JLabel jDescription = null;
 	private JComboBox<PicklistItem> jSportList = null;
-
+	private JCheckBox jTestAlpha1 = null;
+	private JCheckBox jTestAlpha2 = null;
+	
 	public JPicturesPanel(JMainFrame parent) {
 		initialize();
 	}
@@ -203,6 +207,10 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		JPanel p_ = new JPanel();
 		jLocalPanel = new JImagePanel();
 		p_.add(jLocalPanel);
+		jTestAlpha1 = new JCheckBox("Test transparency");
+		jTestAlpha1.addActionListener(this);
+		jTestAlpha1.setActionCommand("testalpha1");
+		p_.add(jTestAlpha1);
 		pTop.add(p_, BorderLayout.CENTER);
 		p_ = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		jLocalFile = new JTextField(60);
@@ -241,6 +249,10 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		p_ = new JPanel();
 		jRemotePanel = new JImagePanel();
 		p_.add(jRemotePanel);
+		jTestAlpha2 = new JCheckBox("Test transparency");
+		jTestAlpha2.addActionListener(this);
+		jTestAlpha2.setActionCommand("testalpha2");
+		p_.add(jTestAlpha2);
 		pBottom.add(p_, BorderLayout.CENTER);
 		p_ = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		jRemoteFile = new JTextField(40);
@@ -322,6 +334,12 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 				}
 				ImageUtils.removeImage(jRemoteList.getSelectedValue(), JMainFrame.getOptionsDialog().getCredentialsFile().getText());
 				loadImageList(alias_, id_);
+			}
+			else if (e.getActionCommand().equals("testalpha1")) {
+				jLocalPanel.setAlphaTest(jTestAlpha1.isSelected());
+			}
+			else if (e.getActionCommand().equals("testalpha2")) {
+				jRemotePanel.setAlphaTest(jTestAlpha2.isSelected());
 			}
 			else {
 				loadImageList(alias_, id_);
@@ -457,7 +475,6 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 					if (StringUtils.notEmpty(value) && !value.equals("null")) {
 						jRemoteFile.setText(ImageUtils.getUrl() + value);
 						jRemotePanel.setImage(new URL(jRemoteFile.getText()));
-						jRemotePanel.setBackground(Color.LIGHT_GRAY); ss
 					}
 					else
 						throw new MalformedURLException();

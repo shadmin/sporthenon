@@ -24,7 +24,7 @@ public class JImagePanel extends JPanel {
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(240, 130));
 		setBorder(BorderFactory.createBevelBorder(1));
-		setBackground(Color.white);
+		setBackground(Color.WHITE);
 		label = new JLabel();
 		add(label);
 	}
@@ -49,6 +49,10 @@ public class JImagePanel extends JPanel {
 			}
 			catch (Exception e_) {}
 		}
+	}
+	
+	public void setAlphaTest(boolean enabled) {
+		this.setBackground(enabled ? Color.LIGHT_GRAY : Color.WHITE);
 	}
 
 }
