@@ -230,7 +230,7 @@ public class UpdateUtils {
 			en.setIdTeam(StringUtils.toInt(params.get("rn-team")));
 			en.setIdPerson(StringUtils.toInt(params.get("rn-person")));
 			en.setIdYear(StringUtils.toInt(params.get("rn-year")));
-			en.setNumber(StringUtils.notEmpty(params.get("rn-number")) ? StringUtils.toInt(params.get("rn-number")) : null);
+			en.setNumber(StringUtils.notEmpty(params.get("rn-number")) ? String.valueOf(params.get("rn-number")) : null);
 		}
 		else if (alias.equalsIgnoreCase(RoundType.alias)) {
 			RoundType en = (RoundType) o;

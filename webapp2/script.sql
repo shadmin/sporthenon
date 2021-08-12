@@ -1,3 +1,18 @@
+ALTER TABLE retired_number
+    ALTER COLUMN id_team DROP NOT NULL;
+
+ALTER TABLE retired_number
+    ADD COLUMN number2 character varying(10);
+    
+UPDATE retired_number SET number2 = "number";
+
+UPDATE retired_number set number2 = NULL where number2 = '-1';
+
+ALTER TABLE retired_number DROP COLUMN "number";
+
+ALTER TABLE retired_number
+    RENAME number2 TO "number";
+    
 DROP SEQUENCE s_win_loss;
 
 DROP TABLE win_loss;

@@ -562,7 +562,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			SwingUtils.fillPicklist(p.getTeam(), JMainFrame.getPicklists().get(Team.alias), leagueId == 1 ? 23 : (leagueId == 2 ? 24 : (leagueId == 3 ? 25 : 26)));
 			SwingUtils.fillPicklist(p.getPerson(), JMainFrame.getPicklists().get(Athlete.alias), leagueId == 1 ? 23 : (leagueId == 2 ? 24 : (leagueId == 3 ? 25 : 26)));
 			p.setLeague(rn.getLeague().getId());
-			p.setTeam(rn.getTeam().getId());
+			p.setTeam(rn.getTeam() != null ? rn.getTeam().getId() : null);
 			p.setPerson(rn.getPerson().getId());
 			p.setYear(rn.getYear() != null ? rn.getYear().getId() : null);
 			p.setNumber(String.valueOf(rn.getNumber()));

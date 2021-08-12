@@ -12,7 +12,7 @@ public class RetiredNumber extends AbstractEntity {
 	private Team 	team;
 	private Athlete person;
 	private Year 	year;
-	private Integer number;
+	private String 	number;
 	
 	public static final transient String alias 	= "RN";
 	public static final transient String table 	= "retired_number";
@@ -53,7 +53,7 @@ public class RetiredNumber extends AbstractEntity {
 				setYear(new Year());
 				getYear().setValuesFromMap(extractEntityColumns(Year.alias, idYear, mapValues));
 			}
-			setNumber((Integer)mapValues.get("number"));
+			setNumber((String)mapValues.get("number"));
 			setMetadata(new Metadata((Integer)mapValues.get("id_contributor"), (Timestamp)mapValues.get("first_update"), (Timestamp)mapValues.get("last_update")));
 		}
 	}
@@ -90,11 +90,11 @@ public class RetiredNumber extends AbstractEntity {
 		this.person = person;
 	}
 
-	public Integer getNumber() {
+	public String getNumber() {
 		return number;
 	}
 
-	public void setNumber(Integer number) {
+	public void setNumber(String number) {
 		this.number = number;
 	}
 

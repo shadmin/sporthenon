@@ -13,7 +13,7 @@ public class RetiredNumberBean {
 	private String prFirstName;
 	private Integer yrId;
 	private String yrLabel;
-	private Integer rnNumber;
+	private String rnNumber;
 
 	public Integer getRnId() {
 		return rnId;
@@ -63,11 +63,11 @@ public class RetiredNumberBean {
 		this.prFirstName = prFirstName;
 	}
 
-	public Integer getRnNumber() {
+	public String getRnNumber() {
 		return rnNumber;
 	}
 
-	public void setRnNumber(Integer rnNumber) {
+	public void setRnNumber(String rnNumber) {
 		this.rnNumber = rnNumber;
 	}
 

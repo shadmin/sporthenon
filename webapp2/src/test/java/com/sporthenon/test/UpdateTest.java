@@ -852,7 +852,7 @@ public class UpdateTest extends TestCase {
 		rn.setTeam(new Team(1));
 		rn.setPerson(new Athlete(1));
 		rn.setYear(new Year(1));
-		rn.setNumber(1);
+		rn.setNumber("1");
 		boolean err = false;
 		try {
 			rn = (RetiredNumber) DatabaseManager.saveEntity(rn, new Contributor(1));	
@@ -869,7 +869,7 @@ public class UpdateTest extends TestCase {
 		rn.setTeam(new Team(2));
 		rn.setPerson(new Athlete(2));
 		rn.setYear(new Year(2));
-		rn.setNumber(2);
+		rn.setNumber("2");
 		err = false;
 		try {
 			rn = (RetiredNumber) DatabaseManager.saveEntity(rn, new Contributor(1));	
