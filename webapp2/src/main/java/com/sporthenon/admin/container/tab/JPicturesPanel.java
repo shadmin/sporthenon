@@ -26,7 +26,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
@@ -316,7 +315,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 					if (f != null) {
 						jLocalFile.setText(f.getPath());
 						jLocalPanel.setImage(new File(f.getPath()));
-						uploadBtn.setEnabled(true);
+						uploadBtn.setEnabled(StringUtils.notEmpty(JMainFrame.getOptionsDialog().getCredentialsFile().getText()));
 					}
 				}
 			}
@@ -444,7 +443,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 			jRemoteList.setSelectedIndex(0);
 		}
 		downloadBtn.setEnabled(model.getSize() > 0);
-		removeBtn.setEnabled(model.getSize() > 0);
+		removeBtn.setEnabled(model.getSize() > 0 && JMainFrame.getContributor().isAdmin());
 	}
 	
 	public void changeEntity(int index) {

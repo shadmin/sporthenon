@@ -51,6 +51,9 @@
 	</ul>
 </div>
 <%@include file="../../html/buttons.html"%>
+<div id="errperiod">
+	<%=StringUtils.text("err.period.too.large", session)%>
+</div>
 <script><!--
 var todayY = '<%=y%>';
 var todayM = '<%=(m < 10 ? "0" : "") + m%>';

@@ -1402,9 +1402,10 @@ public class UpdateServlet extends AbstractServlet {
 		String action = String.valueOf(params.get("action"));
 		String id = String.valueOf(params.get("id"));
 		String alias = String.valueOf(params.get("alias"));
-		String filter = (alias.matches(Athlete.alias + "|" + Team.alias + "|" + Sport.alias) ? (cb != null && !cb.isAdmin() ? (alias.equalsIgnoreCase(Sport.alias) ? "" : "sport.") + "id in (" + cb.getSports() + ")" : null) : null);
-		if (StringUtils.notEmpty(params.get("sp")))
-			filter = (filter != null ? filter + " and " : "") + "sport.id=" + params.get("sp");
+		String filter = (alias.matches(Athlete.alias + "|" + Team.alias) ? (cb != null && !cb.isAdmin() ? "id_sport in (" + cb.getSports() + ")" : null) : null);
+		if (StringUtils.notEmpty(params.get("sp"))) {
+			filter = (filter != null ? filter + " and " : "") + "id_sport=" + params.get("sp");
+		}
 		Class<?> c = DatabaseManager.getClassFromAlias(alias);
 		Object o = (action.equals("direct") ? DatabaseManager.loadEntity(c, id) : DatabaseManager.move(c, id, hLocs.get(action), filter));
 		StringBuffer sb = new StringBuffer();

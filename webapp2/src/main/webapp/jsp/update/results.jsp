@@ -79,8 +79,8 @@ var treeItems = null;
 			</div>
 			<div id="treediv" class="treediv"><div id="treeview">
 				<table>
-				<thead><tr><th style="text-align:right;"><img alt="" src="/img/render/expand.gif?v=2" class="toggleimg" onclick="toggleContent(this);"/><span class="toggletext" onclick="toggleContent(this);"><%=StringUtils.text("tree", session)%></span></th></tr></thead>
-				<tbody class="tby"><tr style="display:none;"><td id="tree">
+				<thead><tr><th style="text-align:right;"><img alt="" src="/img/render/expand.png?v=2" class="toggleimg" onclick="toggleContent(this);"/><span class="toggletext" onclick="toggleContent(this);"><%=StringUtils.text("tree", session)%></span></th></tr></thead>
+				<tbody class="tby"><tr><td id="tree" style="vertical-align:top;">
 				<script>new Tree(treeItems, treeTemplate);</script>
 				</td></tr></tbody></table>
 			</div></div>
@@ -151,7 +151,7 @@ var treeItems = null;
 			<!-- RANKINGS -->
 			<ul><li>
 			<fieldset>
-				<legend><a href="javascript:toggle('rankings');"><img id="img-rankings" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("rankings", session)%></a>&nbsp;<a href="#help-rankings" style="color:#00C;">[?]</a><a href="javascript:clearFieldset('rankings');" style="color:#00C;">[X]</a></legend>
+				<legend><a href="javascript:toggle('rankings');"><img id="img-rankings" alt="" src="/img/render/collapse.png" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("rankings", session)%></a>&nbsp;<a href="#help-rankings" style="color:#00C;">[?]</a><a href="javascript:clearFieldset('rankings');" style="color:#00C;">[X]</a></legend>
 				<table id="rankings" style="margin-top:0px;width:876px;">
 					<tr><td><input type="text" id="rk1" tabindex="100" name="<%=StringUtils.text("rank.1", session)%>"/><a href="javascript:clearValue('rk1', true);">[X]</a></td><td><a href="javascript:initPersonList(1);"><img alt="" src="/img/update/personlist.png"/></a></td><td> <input type="text" id="rs1" tabindex="101" name="<%=StringUtils.text("result.score", session)%>" style="width:120px;"/></td><td><input type="text" id="rk11" tabindex="120" name="<%=StringUtils.text("rank.11", session)%>"/><a href="javascript:clearValue('rk11', true);">[X]</a></td><td><a href="javascript:initPersonList(11);"><img alt="" src="/img/update/personlist.png"/></a></td><td> <input type="text" id="rs11" tabindex="121" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
 					<tr><td><input type="text" id="rk2" tabindex="102" name="<%=StringUtils.text("rank.2", session)%>"/><a href="javascript:clearValue('rk2', true);">[X]</a></td><td><a href="javascript:initPersonList(2);"><img alt="" src="/img/update/personlist.png"/></a></td><td> <input type="text" id="rs2" tabindex="103" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td><td><input type="text" id="rk12" tabindex="122" name="<%=StringUtils.text("rank.12", session)%>"/><a href="javascript:clearValue('rk12', true);">[X]</a></td><td><a href="javascript:initPersonList(12);"><img alt="" src="/img/update/personlist.png"/></a></td><td> <input type="text" id="rs12" tabindex="123" name="<%=StringUtils.text("entity.RS.1", session)%>" style="width:120px;"/></td></tr>
@@ -169,14 +169,14 @@ var treeItems = null;
 			<!-- ROUNDS -->
 			<ul><li>
 			<fieldset>
-				<legend><a href="javascript:toggle('rounds');"><img id="img-rounds" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("matches.rounds", session)%></a>&nbsp;<a href="#help-rounds" style="color:#00C;">[?]</a><a href="javascript:clearFieldset('rounds');" style="color:#00C;">[X]</a></legend>
+				<legend><a href="javascript:toggle('rounds');"><img id="img-rounds" alt="" src="/img/render/collapse.png" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("matches.rounds", session)%></a>&nbsp;<a href="#help-rounds" style="color:#00C;">[?]</a><a href="javascript:clearFieldset('rounds');" style="color:#00C;">[X]</a></legend>
 				<div id="rounds"><table style="margin-top:0px;"><tr><td></td></tr></table><a href="javascript:addRounds();">[+10]</a></div>
 			</fieldset>
 			</li></ul>
 			<!-- PHOTOS -->
 			<ul><li>
 			<fieldset id="imgzone">
-				<legend><a href="javascript:toggle('photos');"><img id="img-photos" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("photos", session)%></a></legend>
+				<legend><a href="javascript:toggle('photos');"><img id="img-photos" alt="" src="/img/render/collapse.png" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("photos", session)%></a></legend>
 				<div id="photos">
 				<legend><%=StringUtils.text("photos", session)%></legend>
 				<div id="dz-file" style="float:left;"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>

@@ -47,6 +47,7 @@ public class JUsersPanel extends JSplitPane implements ActionListener, ListSelec
 	private JCheckBox jAdmin = null;
 	private JTextField jSports = null;
 	private JQueryStatus jQueryStatus = null;
+	JCustomButton jSaveButton = null;
 
 	public JUsersPanel(JMainFrame parent) {
 		this.jQueryStatus = parent.getQueryStatus();
@@ -87,7 +88,7 @@ public class JUsersPanel extends JSplitPane implements ActionListener, ListSelec
 
 	private JPanel getBottomPanel() {
 		JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 1));
-		JCustomButton jSaveButton = new JCustomButton("Save", "save.png", "Save");
+		jSaveButton = new JCustomButton("Save", "save.png", "Save");
 		jSaveButton.addActionListener(this);
 		jSaveButton.setActionCommand("save");
 		rightPanel.add(jSaveButton);
@@ -204,6 +205,10 @@ public class JUsersPanel extends JSplitPane implements ActionListener, ListSelec
 		catch (Exception e_) {
 			log.log(Level.WARNING, e_.getMessage(), e_);
 		}
+	}
+
+	public JCustomButton getSaveButton() {
+		return jSaveButton;
 	}
 
 }

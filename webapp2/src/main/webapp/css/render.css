@@ -441,9 +441,10 @@
 	font-weight: bold;
 }
 .render #othyears{
-	width: 410px;
+	text-align: center;
 	padding: 6px;
 	margin-bottom: 10px;
+	white-space: normal !important;
 }
 .render .chaptertitle{
 	padding: 5px;

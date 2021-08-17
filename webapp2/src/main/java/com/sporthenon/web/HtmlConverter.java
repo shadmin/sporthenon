@@ -1065,27 +1065,32 @@ public class HtmlConverter {
 					String date2 = String.valueOf(t[3]);
 					String s = "";
 					if (ly.contains(label) || (n < l.size() - 1 && l.get(n + 1)[1].equals(label))) {
-						if (StringUtils.notEmpty(date2) && !date2.equals("null"))
+						if (StringUtils.notEmpty(date2) && !date2.equals("null")) {
 							s = StringUtils.toTextDate(date2, lang, "MMM");
-						if (StringUtils.notEmpty(comment) && comment.startsWith("##"))
+						}
+						if (StringUtils.notEmpty(comment) && comment.startsWith("##")) {
 							s += (StringUtils.notEmpty(s) ? ", " : "") + comment.replaceAll("\\{\\{.*\\}\\}|##", "");
+						}
 						s = " (" + s + ")";
 					}
-					if (!id_.equals(r.getId()))
+					if (!id_.equals(r.getId())) {
 						sbOtherYears.append(HtmlUtils.writeLink(Result.alias, id_, label + s, label + "/" + path));
-					else
+					}
+					else {
 						sbOtherYears.append("<b>" + label + s + "</b>");
+					}
 					if (++n != l.size()) {
 						sbOtherYears.append("<span class='bullet'>&#8226;</span>");
-						if (n % 10 == 0)
+						if (n % 10 == 0) {
 							sbOtherYears.append("<br/>");
+						}
 					}
 					ly.add(label);
 				}
 				String anchor = ResourceUtils.getText("entity.YR", lang).replaceAll("\\s|\\/", "_");
 				summary.append("<a href='#" + anchor + "'>" + ++ns + ". " + ResourceUtils.getText("entity.YR", lang) + "</a><br/>");
 				html.append("<div id='" + anchor + "' class='chaptertitle'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity.YR", lang), false) + "</div>");
-				html.append("<div id='othyears' class='border1 centered mobile100'>").append(sbOtherYears.toString()).append("</div>");
+				html.append("<div id='othyears' class='centered mobile100'>").append(sbOtherYears.toString()).append("</div>");
 			}
 			// Rounds
 			params = new ArrayList<Object>();
@@ -1754,9 +1759,14 @@ public class HtmlConverter {
 			else if (en.equals(RetiredNumber.alias)) {
 				Short cp = USLeaguesServlet.HLEAGUES.get(Short.valueOf(item.getIdRel3().toString()));
 				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_CHAMPIONSHIP, cp, ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Championship.alias, cp, item.getComment(), null));
-				c2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, item.getIdRel1(), item.getLabelRel1(), null));
+				if (item.getIdRel1() != null) {
+					c2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, item.getIdRel1(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, item.getIdRel1(), item.getLabelRel1(), null));	
+				}
+				else {
+					c2 = ResourceUtils.getText("entire.league", lang);
+				}
 				c3 = HtmlUtils.writeLink(Athlete.alias, item.getIdRel2(), StringUtils.toFullName(item.getLabelRel2(), item.getLabelRel3(), null, true), item.getLabelRel3() + " " + item.getLabelRel2());
-				c4 = String.valueOf(item.getIdRel4());
+				c4 = (StringUtils.notEmpty(item.getLabelRel4()) ? item.getLabelRel4() : "-");
 			}
 			else if (en.equals(Round.alias)) {
 				c1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, item.getIdRel2(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Sport.alias, item.getIdRel2(), item.getLabelRel2(), item.getLabelRel12()));
@@ -2566,15 +2576,22 @@ public class HtmlConverter {
 		html.append("<thead><tr class='rsort'><th onclick='sort(\"" + id + "\", this, 0);'>" + ResourceUtils.getText("team", lang) + "</th><th onclick='sort(\"" + id + "\", this, 1);'>" + ResourceUtils.getText("number", lang) + "</th><th onclick='sort(\"" + id + "\", this, 2);'>" + ResourceUtils.getText("name", lang) + "</th><th onclick='sort(\"" + id + "\", this, 3);'>" + ResourceUtils.getText("year", lang) + "</th></tr></thead><tbody class='tby' id='tb-" + id + "'>");
 		for (Object obj : coll) {
 			RetiredNumberBean bean = (RetiredNumberBean) obj;
-			if (lastUpdate == null || bean.getRnLastUpdate().compareTo(lastUpdate) > 0)
+			if (lastUpdate == null || bean.getRnLastUpdate().compareTo(lastUpdate) > 0) {
 				lastUpdate = bean.getRnLastUpdate();
+			}
 			
 			// Evaluate bean
-			String teamImg = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTmId(), ImageUtils.SIZE_SMALL, null, null);
-			String team = HtmlUtils.writeLink(Team.alias, bean.getTmId(), bean.getTmLabel(), null);
-			team = HtmlUtils.writeImgTable(teamImg, team);
+			String team = null;
+			if (bean.getTmId() != null) {
+				String teamImg = HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTmId(), ImageUtils.SIZE_SMALL, null, null);
+				team = HtmlUtils.writeLink(Team.alias, bean.getTmId(), bean.getTmLabel(), null);
+				team = HtmlUtils.writeImgTable(teamImg, team);	
+			}
+			else {
+				team = ResourceUtils.getText("entire.league", lang);
+			}
 			String name = HtmlUtils.writeLink(Athlete.alias, bean.getPrId(), StringUtils.toFullName(bean.getPrLastName(), bean.getPrFirstName(), null, true), bean.getPrFirstName() + " " + bean.getPrLastName());
-			String number = String.valueOf(bean.getRnNumber());
+			String number = (StringUtils.notEmpty(bean.getRnNumber()) ? bean.getRnNumber() : "-");
 			String year = (bean.getYrId() != null ? HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null) : "-");
 			
 			// Write line

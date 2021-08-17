@@ -615,7 +615,7 @@ public class JMainFrame extends JFrame {
 				final String dbPwd = new String(jPasswordDialog.getPassword().getPassword());
 				DatabaseManager.createConnectionPool(dbHost, dbPort, dbName, dbUser, dbPwd);
 			
-				String sql = "SELECT * FROM _contributor WHERE login = '" + jOptionsDialog.getLogin().getText() + "' AND active = TRUE AND admin = TRUE";
+				String sql = "SELECT * FROM _contributor WHERE login = '" + jOptionsDialog.getLogin().getText() + "' AND active = TRUE AND (admin = TRUE OR contrib = TRUE)";
 				List<Contributor> lst = (List<Contributor>) DatabaseManager.executeSelect(sql, Contributor.class);
 				if (lst == null || lst.isEmpty()) {
 					throw new Exception("Your account is not active or has not admin rights.");
@@ -629,6 +629,7 @@ public class JMainFrame extends JFrame {
 				jExtLinksPanel.valueChanged(new ListSelectionEvent(this, 0, 0, true));
 				jUsersPanel.initList();
 				jUsersPanel.valueChanged(new ListSelectionEvent(jUsersPanel.getList(), 0, 0, true));
+				jUsersPanel.getSaveButton().setEnabled(contributor.isAdmin());
 			}
 			else {
 				contributor = null;

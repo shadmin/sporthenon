@@ -352,6 +352,7 @@
 	<entry key="this.month">This month</entry>
 	<entry key="past.events">Past events</entry>
 	<entry key="future.events">Future events</entry>
+	<entry key="err.period.too.large">Please define a period smaller than 1 year.</entry>
 <!-- US LEAGUES -->
 	<entry key="league">League</entry>
 	<entry key="championships">Championships</entry>
@@ -380,6 +381,7 @@
 	<entry key="western.conf">Western conference</entry>
 	<entry key="nba.finals">NBA Finals</entry>
 	<entry key="nhl.finals">Stanley Cup Finals</entry>
+	<entry key="entire.league">Entire league</entry>
 <!-- SEARCH -->
 	<entry key="search.for">Search</entry>
 	<entry key="advanced.search">Advanced search</entry>

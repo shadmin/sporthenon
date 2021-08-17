@@ -916,6 +916,7 @@ function showDate2() {
 	isDate2 = true;
 }
 function runCalendar() {
+	$("errperiod").hide();
 	var tm = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 	t1 = currentTime();
 	var yr1 = $F('yr1');
@@ -935,8 +936,15 @@ function runCalendar() {
 	}
 	mo1 = (mo1 == '' ? '01' : mo1);
 	dt1 = (dt1 == '' ? '01' : dt1);
-	var h = $H({dt1: yr1 + mo1 + dt1, dt2: yr2 + mo2 + dt2});
-	window.location.href = '/SearchCalendar?' + h.toQueryString();
+	var d1 = Date.parse(yr1 + '-' + mo1 + '-' + dt1);
+	var d2 = Date.parse(yr2 + '-' + mo2 + '-' + dt2);
+	if (d2 - d1 > 365 * 24 * 60 * 60 * 1000) {
+		$("errperiod").style.display = 'block';
+	}
+	else {
+		var h = $H({dt1: yr1 + mo1 + dt1, dt2: yr2 + mo2 + dt2});
+		window.location.href = '/SearchCalendar?' + h.toQueryString();
+	}
 }
 function resetCalendar() {
 	$('spanbutton').show();
@@ -948,6 +956,7 @@ function resetCalendar() {
 	$('dt1').value = todayD;
 	refreshDate(1);
 	isDate2 = false;
+	$("errperiod").hide();
 }
 /*==============================
   ========== OLYMPICS ========== 

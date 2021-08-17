@@ -834,6 +834,12 @@ select.disabled{
 #calendar td{
 	padding: 5px;
 }
+#errperiod{
+	display: none;
+	color: #F00;
+	font-weight: bold;
+	padding: 10px;
+}
 /*==============================
   ========== OLYMPICS ========== 
   ==============================*/
@@ -1322,7 +1328,7 @@ select.disabled{
 }
 #update-overview .fscontent td.warning_{
 	font-size: 9px;
-	background: url(../img/update/warning.gif) 2px center no-repeat;
+	background: url(../img/update/warning.png) 2px center no-repeat;
 	padding-left: 20px;
 	white-space: nowrap;
 }

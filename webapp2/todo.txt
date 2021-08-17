@@ -24,14 +24,15 @@
 - suppr winloss
 - missing pictures
 - overview bug
-bug super bowl results type = individual => team (idem euro 2020 details)
+- retired numbers : pouvoir supprimer numero + passer colonne en varchar + vider valeurs � -1 + pouvoir mettre equipe nuLL (entire league)
+- bug super bowl results type = individual => team (idem euro 2020 details)
+- limiter plage recherche calendar
 ------------
 export pdf
 merge ext links
 fusionner tableaux ref palmares/Resultats
 verif ecrans update
 android last updates
-limiter plage recherche calendar
 hallof fame : team
 W3c check referer
 shadmin import pas de prenom (falcao etc..) + supprimer ligne tableau
@@ -39,4 +40,3 @@ shadmin plusieurs jeditentitydialog cascade
 shadmin refresh map images webapp qd ajout bucket depuis shtool
 
 - tests new folder/edit folders
-- retired numbers : pouvoir supprimer numero + passer colonne en varchar + vider valeurs � -1 + pouvoir mettre equipe nuLL (entire league)

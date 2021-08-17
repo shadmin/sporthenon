@@ -56,6 +56,7 @@ import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.Result;
 import com.sporthenon.db.entity.Round;
 import com.sporthenon.db.entity.Team;
+import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.InactiveItem;
 import com.sporthenon.db.entity.meta.PersonList;
@@ -122,8 +123,9 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			DefaultMutableTreeNode level3Node = null;
 			DefaultMutableTreeNode level4Node = null;
 			DefaultMutableTreeNode level5Node = null;
+			Contributor cb = JMainFrame.getContributor();
 			List<Object> params = new ArrayList<>();
-			params.add(new String(""));
+			params.add(cb != null && StringUtils.notEmpty(cb.getSports()) ? " where SP.id in (" + cb.getSports() + ")" : "");
 			params.add(new String(""));
 			Collection<TreeItem> coll = (Collection<TreeItem>) DatabaseManager.callFunctionSelect("tree_results", params, TreeItem.class);
 			treeItems = new ArrayList<>();

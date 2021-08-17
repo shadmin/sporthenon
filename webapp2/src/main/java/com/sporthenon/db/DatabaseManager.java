@@ -282,10 +282,12 @@ public class DatabaseManager {
 	
 	public static Object move(Class<?> class_, Object id, short l, String filter) throws Exception {
 		String sql = "SELECT " + (l == FIRST || l == NEXT ? "MIN" : "MAX") + "(id) FROM " + getTable(class_);
-		if (l == PREVIOUS || l == NEXT)
+		if (l == PREVIOUS || l == NEXT) {
 			sql += " WHERE id " + (l == PREVIOUS ? "<" : ">") + id;
-		if (StringUtils.notEmpty(filter))
+		}
+		if (StringUtils.notEmpty(filter)) {
 			sql += (sql.indexOf(" WHERE ") != -1 ? " AND " : " WHERE ") + filter;
+		}
 		Integer id_ = ((List<Integer>) executeSelect(sql, Integer.class)).get(0);
 		id_ = (id_ == null ? 0 : id_);
 		return loadEntity(class_, id_);
@@ -445,6 +447,11 @@ public class DatabaseManager {
 				+ " FROM " + table + " x"
 				+ (StringUtils.notEmpty(ids) ? " WHERE x.id IN (" + ids + ")" : "");
 		return (Collection<String>) executeSelect(sql, String.class);
+	}
+	
+	public static void createUser(String userName, String userPassword) throws Exception {
+		executeUpdate("CREATE ROLE " + userName + " WITH LOGIN NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION PASSWORD '" + userPassword + "'", null);
+		executeUpdate("GRANT shcontributor TO " + userName, null);
 	}
 
 }

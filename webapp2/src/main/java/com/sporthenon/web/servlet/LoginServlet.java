@@ -43,9 +43,9 @@ public class LoginServlet extends AbstractServlet {
 				String sql = "SELECT * FROM _contributor WHERE LOWER(login) = ? and password = ?";
 				List<Contributor> contributors = (List<Contributor>) DatabaseManager.executeSelect(sql, Arrays.asList(new Object[]{userName.toLowerCase(), StringUtils.toMD5(password)}), Contributor.class);
 				if (contributors != null && contributors.size() > 0) {
-					Contributor m = contributors.get(0);
-					if (Boolean.TRUE.equals(m.getActive())) {
-						request.getSession().setAttribute("user", m);
+					Contributor cb = contributors.get(0);
+					if (cb.isActive() && (cb.isContrib() || cb.isAdmin())) {
+						request.getSession().setAttribute("user", cb);
 						redirect(request, response, "/update/overview", ConfigUtils.isProd());
 						isMsg = false;
 					}
@@ -72,16 +72,18 @@ public class LoginServlet extends AbstractServlet {
 						ServletHelper.writeText(response, "ERR|" + ResourceUtils.getText("msg.login.err4", lang).replaceFirst("\\{1\\}", String.valueOf(MAX_SPORTS)));
 					}
 					else {
+						final String pwd = String.valueOf(mapParams.get("rpassword"));
 						Contributor m = new Contributor();
 						m.setLogin(String.valueOf(mapParams.get("rlogin")));
-						m.setPassword(StringUtils.toMD5(String.valueOf(mapParams.get("rpassword"))));
+						m.setPassword(StringUtils.toMD5(pwd));
 						m.setEmail(String.valueOf(mapParams.get("remail")));
 						m.setPublicName(String.valueOf(mapParams.get("rpublicname")));
 						m.setSports(rsports);
 						m.setActive(true);
 						m.setAdmin(false);
 						DatabaseManager.saveEntity(m, null);
-						ServletHelper.writeText(response, "OK");	
+						DatabaseManager.createUser(m.getLogin(), pwd);
+						ServletHelper.writeText(response, "OK");
 					}
 				}
 				isMsg = false;
@@ -95,8 +97,9 @@ public class LoginServlet extends AbstractServlet {
 			if (isMsg) {
 				request.setAttribute("msg", msg);
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
-				if (dispatcher != null)
+				if (dispatcher != null) {
 					dispatcher.forward(request, response);
+				}
 			}
 		}
 		catch (Exception e) {

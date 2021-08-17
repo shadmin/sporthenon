@@ -54,14 +54,16 @@ public class InfoRefServlet extends AbstractServlet {
 					Result rs = (Result) DatabaseManager.loadEntity(Result.class, params[1]);
 					p = rs.getSport().getId() + "-" + rs.getChampionship().getId() + "-" + rs.getEvent().getId() + "-" + (rs.getSubevent() != null ? rs.getSubevent().getId() : "") + "-" + (rs.getSubevent2() != null ? rs.getSubevent2().getId() : "") + "-0";
 				}
-				else
+				else {
 					p = params[1] + "-" + params[2] + "-" + params[3] + "-" + (params.length > 4 ? params[4] : "") + "-" + (params.length > 5 ? params[5] : "") + "-0";
+				}
 				redirect(request, response, "/results/" + StringUtils.encode(p), false);
 			}
 			else {
 				int id = (params.length > 1 ? StringUtils.toInt(params[1]) : 0);
-				if (id == 0)
+				if (id == 0) {
 					throw new EmptyIdException();
+				}
 				List<Object> params_ = new ArrayList<Object>();
 				params_.add(params[0]);
 				params_.add(id);

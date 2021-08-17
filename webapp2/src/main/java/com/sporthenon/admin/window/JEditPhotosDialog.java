@@ -158,9 +158,13 @@ public class JEditPhotosDialog extends JDialog implements ActionListener, KeyLis
 	}
 	
 	private void enableAddButton() {
-		jAddButton.setEnabled((StringUtils.notEmpty(jFile.getText()) && jFile.getText().matches(".*\\.(png|jpg|gif)$")) || StringUtils.notEmpty(jEmbeddedHtml.getText()));
+		boolean isPhotoFile = StringUtils.notEmpty(JMainFrame.getOptionsDialog().getCredentialsFile().getText())
+				&& StringUtils.notEmpty(jFile.getText())
+				&& jFile.getText().toLowerCase().matches(".*\\.(png|jpg|gif)$");
+		boolean isEmbeddedImg = StringUtils.notEmpty(jEmbeddedHtml.getText());
+		jAddButton.setEnabled(isPhotoFile || isEmbeddedImg);
 	}
-	
+
 	private void addPhoto(Picture pic) {
 		Integer key = (pic.getId() != null ? pic.getId() : index);
 		JLabel photoLabel = new JLabel();

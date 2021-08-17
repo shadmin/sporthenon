@@ -130,7 +130,7 @@
 				<tr><th><%=StringUtils.text("linked.to", session)%></th><td><input type="hidden" id="tm-link"/><input type="text" id="tm-link-l"/><a href="javascript:clearValue('tm-link');">[X]</a></td></tr>
 			</table>
 			<fieldset style="width:600px;">
-				<legend><a href="javascript:toggle('tmusleagues');"><img id="img-tmusleagues" alt="" src="/img/render/expand.gif?v=2" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("menu.usleagues.2", session)%></a></legend>
+				<legend><a href="javascript:toggle('tmusleagues');"><img id="img-tmusleagues" alt="" src="/img/render/expand.png?v=2" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("menu.usleagues.2", session)%></a></legend>
 				<table id="tmusleagues" style="margin-top:0px;padding:5px;width:auto;display:none;">
 				<tr><th><%=StringUtils.text("league", session)%></th><td><input type="hidden" id="tm-league"/><input type="text" id="tm-league-l"/><a href="javascript:clearValue('tm-league');">[X]</a></td></tr>
 				<tr><th><%=StringUtils.text("conference", session)%></th><td><input type="text" id="tm-conference"/></td></tr>
@@ -217,12 +217,12 @@
 			</table>
 			<!-- Ext.links -->
 			<fieldset id="table-exl" style="display:none;">
-				<legend><a href="javascript:toggle('extlinks');"><img id="img-extlinks" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("ext.links", session)%></a></legend>
+				<legend><a href="javascript:toggle('extlinks');"><img id="img-extlinks" alt="" src="/img/render/collapse.png" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("ext.links", session)%></a></legend>
 				<table id="extlinks"><tr><td style="border:none;"><textarea id="exl" tabindex="14" cols="100" rows="5" style="width:780px;"></textarea></td></tr></table>
 			</fieldset>
 			<!-- Photos -->
 			<fieldset id="imgzone">
-				<legend><a href="javascript:toggle('photos');"><img id="img-photos" alt="" src="/img/render/collapse.gif" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("photos", session)%></a></legend>
+				<legend><a href="javascript:toggle('photos');"><img id="img-photos" alt="" src="/img/render/collapse.png" class="toggleimg" onclick="toggleContent(this);"/><%=StringUtils.text("photos", session)%></a></legend>
 				<div id="photos">
 				<div id="dz-file" style="float:left;"><p><%=StringUtils.text("click.drag.drop", session)%></p></div>
 				<div id="embimg">

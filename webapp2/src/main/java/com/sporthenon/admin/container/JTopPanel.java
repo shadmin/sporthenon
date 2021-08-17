@@ -200,11 +200,4 @@ public class JTopPanel extends JPanel implements ActionListener {
 		return jQueryButton;
 	}
 	
-	//	private JSeparator getSeparator() {
-	//		JSeparator separator = new JSeparator(JSeparator.VERTICAL);
-	//		separator.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-	//		separator.setPreferredSize(new Dimension(10, this.getSize().height));
-	//		return separator;
-	//	}
-
 }

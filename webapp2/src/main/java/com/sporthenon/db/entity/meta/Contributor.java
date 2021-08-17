@@ -16,10 +16,11 @@ public class Contributor extends AbstractEntity {
 	private Boolean active;
 	private Boolean admin;
 	private String 	sports;
+	private Boolean contrib;
 	
 	public static final transient String alias 	= "CB";
 	public static final transient String table 	= "_contributor";
-	public static final transient String cols 	= "login,public_name,password,email,active,admin,sports";
+	public static final transient String cols 	= "login,public_name,password,email,active,admin,sports,contrib";
 	
 	public Contributor() {}
 	
@@ -37,6 +38,7 @@ public class Contributor extends AbstractEntity {
 			setActive((Boolean)mapValues.get("active"));
 			setAdmin((Boolean)mapValues.get("admin"));
 			setSports((String)mapValues.get("sports"));
+			setContrib((Boolean)mapValues.get("contrib"));
 		}
 	}
 	
@@ -104,6 +106,14 @@ public class Contributor extends AbstractEntity {
 		this.sports = sports;
 	}
 
+	public Boolean getContrib() {
+		return contrib;
+	}
+
+	public void setContrib(Boolean contrib) {
+		this.contrib = contrib;
+	}
+
 	public boolean isActive() {
 		return (active != null && active);
 	}
@@ -112,6 +122,10 @@ public class Contributor extends AbstractEntity {
 		return (admin != null && admin);
 	}
 
+	public boolean isContrib() {
+		return (contrib != null && contrib);
+	}
+	
 	public boolean isSport(Integer id) {
 		return ((admin != null && admin) || (StringUtils.notEmpty(sports) && sports.matches("(^|.*\\,)" + id + "(\\,.*|$)")));
 	}
