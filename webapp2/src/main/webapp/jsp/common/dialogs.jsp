@@ -38,13 +38,13 @@
 	<div class="dlgbuttons"><input type="button" class="button ok" value="<%=StringUtils.text("ok", session)%>" onclick="closeDialog(dInfo);"/></div>
 </div>
 </div>
-<%if (m != null) {%>
 <!-- Picture -->
 <div id="d-picture" class="dialog" style="display:none;">
 <div class="fieldset">
 	<div class="fscontent" id="dpicture-div"></div>
 </div>
 </div>
+<%if (m != null) {%>
 <!-- Person List -->
 <div id="d-plist" class="dialog" style="display:none;">
 <div class="fieldset">

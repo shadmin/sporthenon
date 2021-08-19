@@ -1,3 +1,9 @@
+ALTER TABLE _ref_item
+    ADD COLUMN date4 timestamp without time zone;
+    
+ALTER TABLE _ref_item
+    ADD COLUMN id_rel19 integer;
+
 ALTER TABLE retired_number
     ALTER COLUMN id_team DROP NOT NULL;
 
@@ -343,6 +349,11 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO shcontrib
 GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO shcontributor;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO shcontributor;
 
+REVOKE DELETE ON _contribution FROM shcontributor;
+REVOKE INSERT, UPDATE, DELETE ON _contributor FROM shcontributor;
+REVOKE DELETE ON _import FROM shcontributor;
+REVOKE DELETE ON olympics FROM shcontributor;
+
 ALTER TABLE _contributor
     ADD COLUMN contrib boolean;
 
@@ -476,20 +487,21 @@ begin
 		END IF;
 	END IF;
 	
-	-- References in: [Final Results]
+	-- References in: [Results/Rounds]
 	IF (_entity ~ 'CN|DT|PR|TM|CP|EV|CT|SP|CX|OL|YR' AND (_entity_ref = 'RS' OR _entity_ref = '')) THEN
 		_type1 = 1;
 		_type2 = 99;
 		IF _entity = 'CN' THEN _type1 = 99;_type2 = 99;
 		ELSIF _entity = 'PR' THEN _type1 = 1;_type2 = 10;
 		ELSIF _entity = 'TM' THEN _type1 = 50;_type2 = 50; END IF;
-		_query = 'SELECT RS.id, YR.id, YR.label, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, RS.id_rank1, RS.id_rank2, RS.id_rank3, RS.id_rank4, RS.id_rank5, RS.id_rank6, RS.id_rank7, RS.id_rank8, RS.id_rank9, RS.id_rank10, TP1.number, TP2.number, TP3.number, RS.date1, RS.date2';
+		
+		_query = 'SELECT RS.id, YR.id AS __yr_id, YR.label, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, RS.id_rank1, RS.id_rank2, RS.id_rank3, RS.id_rank4, RS.id_rank5, RS.id_rank6, RS.id_rank7, RS.id_rank8, RS.id_rank9, RS.id_rank10, RS.date1, RS.date2, RS.first_update AS __first_update, RS.last_update, TP1.number, TP2.number, TP3.number, NULL, NULL';
 		IF (_entity = 'PR') THEN
 			_query = _query || ', PL.rank';
 		ELSE
 			_query = _query || ', 0';
 		END IF;
-		_query = _query || ', RS.last_update';
+		_query = _query || ' ,(CASE WHEN RS.date2 IS NOT NULL AND RS.date2 <> '''' THEN to_date(RS.date2, ''dd/MM/yyyy'') ELSE (''-infinity''::timestamptz) END) AS __sort_date ';
 		_query = _query || ' FROM result RS';
 		_query = _query || ' LEFT JOIN year YR ON RS.id_year = YR.id';
 		_query = _query || ' LEFT JOIN sport SP ON RS.id_sport = SP.id';
@@ -531,63 +543,133 @@ begin
 		ELSIF _entity = 'YR' THEN
 			_query = _query || ' AND RS.id_year = ' || _id;
 		END IF;
-		_query = _query || ' ORDER BY YR.id DESC, (CASE WHEN RS.date2 IS NOT NULL AND RS.date2<>'''' THEN to_date(RS.date2, ''dd/MM/yyyy'') ELSE RS.first_update END) DESC LIMIT ' || _limit || ' OFFSET ' || _offset;
+		
+		_query = _query || ' UNION SELECT RD.id, YR.id AS __yr_id, YR.label, SP.id, SP.label' || _lang || ', CP.id, CP.label' || _lang || ', EV.id, EV.label' || _lang || ', SE.id, SE.label' || _lang || ', SE2.id, SE2.label' || _lang || ', SP.label, CP.label, EV.label, SE.label, SE2.label, RD.id_rank1, RD.id_rank2, RD.id_rank3, RD.id_rank4, RD.id_rank5, NULL, NULL, NULL, NULL, NULL, RD.date1, RD.date, RD.first_update AS __first_update, RD.last_update, RD.id_result_type, NULL, NULL, RD.id_result, RT.label' || _lang || ', 0 ';
+		_query = _query || ' ,(CASE WHEN RD.date IS NOT NULL AND RD.date <> '''' THEN to_date(RD.date, ''dd/MM/yyyy'') ELSE (''-infinity''::timestamptz) END) AS __sort_date ';
+		_query = _query || ' FROM round RD';
+		_query = _query || ' LEFT JOIN result RS ON RD.id_result = RS.id';
+		_query = _query || ' LEFT JOIN round_type RT ON RD.id_round_type = RT.id';
+		_query = _query || ' LEFT JOIN year YR ON RS.id_year = YR.id';
+		_query = _query || ' LEFT JOIN sport SP ON RS.id_sport = SP.id';
+		_query = _query || ' LEFT JOIN championship CP ON RS.id_championship = CP.id';
+		_query = _query || ' LEFT JOIN event EV ON RS.id_event = EV.id';
+		_query = _query || ' LEFT JOIN event SE ON RS.id_subevent = SE.id';
+		_query = _query || ' LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id';
+		_query = _query || ' WHERE (id_result_type BETWEEN ' || _type1 || ' AND ' || _type2 || ')';
+		IF _entity = 'CN' THEN
+			_query = _query || ' AND (RD.id_rank1 = ' || _id || ' OR RD.id_rank2 = ' || _id || ' OR RD.id_rank3 = ' || _id || ')';
+		ELSIF _entity = 'DT' THEN
+			_query = _query || ' AND to_date(RD.date, ''DD/MM/YYYY'') = to_date(''' || _date || ''', ''YYYYMMDD'')';
+		ELSIF _entity = 'PR' THEN
+			_query = _query || ' AND (RD.id_rank1 IN (' || _pr_list || ') OR RD.id_rank2 IN (' || _pr_list || ') OR RD.id_rank3 IN (' || _pr_list || '))';
+		ELSIF _entity = 'TM' THEN
+			_query = _query || ' AND (RD.id_rank1 IN (' || _tm_list || ') OR RD.id_rank2 IN (' || _tm_list || ') OR RD.id_rank3 IN (' || _tm_list || '))';
+		ELSIF _entity = 'SP' THEN
+			_query = _query || ' AND RS.id_sport = ' || _id;
+		ELSIF _entity = 'CP' THEN
+			_query = _query || ' AND RS.id_championship = ' || _id;
+		ELSIF _entity = 'EV' THEN
+			_query = _query || ' AND  (RS.id_event = ' || _id || ' OR RS.id_subevent = ' || _id || ' OR RS.id_subevent2 = ' || _id || ')';
+		ELSIF _entity = 'CT' THEN
+			_query = _query || ' AND  (RD.id_city IN (' || _ct_list || ') OR RD.id_city IN (' || _ct_list || '))';
+		ELSIF _entity = 'CX' THEN
+			_query = _query || ' AND  (RD.id_complex IN (' || _cx_list || ') OR RD.id_complex IN (' || _cx_list || '))';
+		ELSIF _entity = 'YR' THEN
+			_query = _query || ' AND RS.id_year = ' || _id;
+		END IF;
+
+		_query = _query || ' ORDER BY __yr_id DESC, __sort_date DESC, __first_update DESC ';
+		_query = _query || ' LIMIT ' || _limit || ' OFFSET ' || _offset;
+		
 		OPEN _c FOR EXECUTE _query;
 		LOOP
-			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _id1, _id2, _id3, _id4, _id5, _id6, _id7, _id8, _id9, _id10, _type1, _type2, _type3, _date1, _date2, _item.count1, _item.date3;
+			FETCH _c INTO _item.id_item, _item.id_rel1, _item.label_rel1, _item.id_rel2, _item.label_rel2, _item.id_rel3, _item.label_rel3, _item.id_rel4, _item.label_rel4, _item.id_rel5, _item.label_rel5, _item.id_rel18, _item.label_rel18, _item.label_rel12, _item.label_rel13, _item.label_rel14, _item.label_rel15, _item.label_rel16, _id1, _id2, _id3, _id4, _id5, _id6, _id7, _id8, _id9, _id10, _date1, _date2, _item.date3, _item.date4, _type1, _type2, _type3, _item.id_rel19, _item.label, _item.count1;
 			EXIT WHEN NOT FOUND;
-			IF _type3 IS NOT NULL THEN
-				_type1 = _type3;
-			ELSIF _type2 IS NOT NULL THEN
-				_type1 = _type2;
-			END IF;
-			IF _type1 <= 10 THEN
-				SELECT id_rank1, id_rank2, id_rank3, id_rank4, id_rank5, id_rank6, PR1.last_name || (CASE WHEN length(PR1.first_name) > 0 THEN ', ' || PR1.first_name ELSE '' END), (CASE WHEN length(PR1.first_name) > 0 THEN PR1.first_name || ' ' ELSE '' END) || PR1.last_name, CN1.id, (CASE WHEN _lang = '_fr' THEN CN1.label_fr ELSE CN1.label END), TM1.label, PR2.last_name || (CASE WHEN length(PR2.first_name) > 0 THEN ', ' || PR2.first_name ELSE '' END), (CASE WHEN length(PR2.first_name) > 0 THEN PR2.first_name || ' ' ELSE '' END) || PR2.last_name, CN2.id, (CASE WHEN _lang = '_fr' THEN CN2.label_fr ELSE CN2.label END), TM2.label, PR3.last_name || (CASE WHEN length(PR3.first_name) > 0 THEN ', ' || PR3.first_name ELSE '' END), (CASE WHEN length(PR3.first_name) > 0 THEN PR3.first_name || ' ' ELSE '' END) || PR3.last_name, CN3.id, (CASE WHEN _lang = '_fr' THEN CN3.label_fr ELSE CN3.label END), TM3.label, PR4.last_name || (CASE WHEN length(PR4.first_name) > 0 THEN ', ' || PR4.first_name ELSE '' END), (CASE WHEN length(PR4.first_name) > 0 THEN PR4.first_name || ' ' ELSE '' END) || PR4.last_name, CN4.id, (CASE WHEN _lang = '_fr' THEN CN4.label_fr ELSE CN4.label END), TM4.label, PR5.last_name || (CASE WHEN length(PR5.first_name) > 0 THEN ', ' || PR5.first_name ELSE '' END), (CASE WHEN length(PR5.first_name) > 0 THEN PR5.first_name || ' ' ELSE '' END) || PR5.last_name, CN5.id, (CASE WHEN _lang = '_fr' THEN CN5.label_fr ELSE CN5.label END), TM5.label, PR6.last_name || (CASE WHEN length(PR6.first_name) > 0 THEN ', ' || PR6.first_name ELSE '' END), (CASE WHEN length(PR6.first_name) > 0 THEN PR6.first_name || ' ' ELSE '' END) || PR6.last_name, CN6.id, (CASE WHEN _lang = '_fr' THEN CN6.label_fr ELSE CN6.label END), TM6.label, RS.result1, RS.result2, RS.result3, RS.comment, RS.exa
-				INTO _item.id_rel6, _item.id_rel7, _item.id_rel8, _item.id_rel9, _item.id_rel10, _item.id_rel11, _item.label_rel6, _item.label_rel20, _item.id_rel12, _cn1, _tm1, _item.label_rel7, _item.label_rel21, _item.id_rel13, _cn2, _tm2, _item.label_rel8, _item.label_rel22, _item.id_rel14, _cn3, _tm3, _item.label_rel9, _item.label_rel23, _item.id_rel15, _cn4, _tm4, _item.label_rel10, _item.label_rel24, _item.id_rel16, _cn5, _tm5, _item.label_rel11, _item.label_rel25, _item.id_rel17, _cn6, _tm6, _item.txt1, _item.txt2, _item.txt5, _item.txt3, _item.txt4
-				FROM result RS LEFT JOIN athlete PR1 ON RS.id_rank1 = PR1.id LEFT JOIN athlete PR2 ON RS.id_rank2 = PR2.id LEFT JOIN athlete PR3 ON RS.id_rank3 = PR3.id LEFT JOIN athlete PR4 ON RS.id_rank4 = PR4.id LEFT JOIN athlete PR5 ON RS.id_rank5 = PR5.id LEFT JOIN athlete PR6 ON RS.id_rank6 = PR6.id LEFT JOIN country CN1 ON PR1.id_country = CN1.id LEFT JOIN country CN2 ON PR2.id_country = CN2.id LEFT JOIN country CN3 ON PR3.id_country = CN3.id LEFT JOIN country CN4 ON PR4.id_country = CN4.id LEFT JOIN country CN5 ON PR5.id_country = CN5.id LEFT JOIN country CN6 ON PR6.id_country = CN6.id LEFT JOIN team TM1 ON PR1.id_team = TM1.id LEFT JOIN team TM2 ON PR2.id_team = TM2.id LEFT JOIN team TM3 ON PR3.id_team = TM3.id LEFT JOIN team TM4 ON PR4.id_team = TM4.id LEFT JOIN team TM5 ON PR5.id_team = TM5.id LEFT JOIN team TM6 ON PR6.id_team = TM6.id
-				WHERE RS.id = _item.id_item;
-				IF _cn1 IS NOT NULL THEN _item.label_rel6 = _item.label_rel6 || '|' || _cn1;
-				ELSIF _tm1 IS NOT NULL THEN _item.label_rel6 = _item.label_rel6 || '|' || _tm1; END IF;
-				IF _cn2 IS NOT NULL THEN _item.label_rel7 = _item.label_rel7 || '|' || _cn2;
-				ELSIF _tm2 IS NOT NULL THEN _item.label_rel7 = _item.label_rel7 || '|' || _tm2; END IF;
-				IF _cn3 IS NOT NULL THEN _item.label_rel8 = _item.label_rel8 || '|' || _cn3;
-				ELSIF _tm3 IS NOT NULL THEN _item.label_rel8 = _item.label_rel8 || '|' || _tm3; END IF;
-				IF _cn4 IS NOT NULL THEN _item.label_rel9 = _item.label_rel9 || '|' || _cn4;
-				ELSIF _tm4 IS NOT NULL THEN _item.label_rel9 = _item.label_rel9 || '|' || _tm4; END IF;
-				IF _cn5 IS NOT NULL THEN _item.label_rel10 = _item.label_rel10 || '|' || _cn5;
-				ELSIF _tm5 IS NOT NULL THEN _item.label_rel10 = _item.label_rel10 || '|' || _tm5; END IF;
-				IF _cn6 IS NOT NULL THEN _item.label_rel11 = _item.label_rel11 || '|' || _cn6;
-				ELSIF _tm6 IS NOT NULL THEN _item.label_rel11 = _item.label_rel11 || '|' || _tm6; END IF;
-				IF _type1 = 4 OR _item.txt3 = '#DOUBLE#' THEN
-					_item.txt4 = '1-2/3-4/5-6';
-				ELSIF _type1 = 5 OR _item.txt3 = '#TRIPLE#' THEN
-					_item.txt4 = '1-3/4-6/7-9';
+			IF _item.id_rel19 IS NULL THEN -- Result
+				IF _type3 IS NOT NULL THEN
+					_type1 = _type3;
+				ELSIF _type2 IS NOT NULL THEN
+					_type1 = _type2;
 				END IF;
-				_item.comment = 'PR';
-				_array_id = string_to_array(_pr_list, ',')::integer[];
-			ELSIF _type1 = 50 THEN
-				SELECT id_rank1, id_rank2, id_rank3, id_rank4, id_rank5, id_rank6, TM1.label, TM2.label, TM3.label, TM4.label, TM5.label, TM6.label, NULL, NULL, NULL, NULL, NULL, NULL, RS.result1, RS.result2, RS.result3, RS.comment, RS.exa
-				INTO _item.id_rel6, _item.id_rel7, _item.id_rel8, _item.id_rel9, _item.id_rel10, _item.id_rel11, _item.label_rel6, _item.label_rel7, _item.label_rel8, _item.label_rel9, _item.label_rel10, _item.label_rel11, _item.label_rel20, _item.label_rel21, _item.label_rel22, _item.label_rel23, _item.label_rel24, _item.label_rel25, _item.txt1, _item.txt2, _item.txt5, _item.txt3, _item.txt4
-				FROM result RS LEFT JOIN team TM1 ON RS.id_rank1 = TM1.id LEFT JOIN team TM2 ON RS.id_rank2 = TM2.id LEFT JOIN team TM3 ON RS.id_rank3 = TM3.id LEFT JOIN team TM4 ON RS.id_rank4 = TM4.id LEFT JOIN team TM5 ON RS.id_rank5 = TM5.id LEFT JOIN team TM6 ON RS.id_rank6 = TM6.id
-				WHERE RS.id = _item.id_item;
-				_item.comment = 'TM';
-				_array_id = string_to_array(_tm_list, ',')::integer[];
-			ELSIF _type1 = 99 THEN
-				_query = 'SELECT id_rank1, id_rank2, id_rank3, id_rank4, id_rank5, id_rank6, CN1.label' || _lang || ', CN2.label' || _lang || ', CN3.label' || _lang || ', CN4.label' || _lang || ', CN5.label' || _lang || ', CN6.label' || _lang || ', CN1.label, CN2.label, CN3.label, CN4.label, CN5.label, CN6.label, RS.result1, RS.result2, RS.result3, RS.comment, RS.exa';
-				_query = _query || ' FROM result RS LEFT JOIN country CN1 ON RS.id_rank1 = CN1.id LEFT JOIN country CN2 ON RS.id_rank2 = CN2.id LEFT JOIN country CN3 ON RS.id_rank3 = CN3.id LEFT JOIN country CN4 ON RS.id_rank4 = CN4.id LEFT JOIN country CN5 ON RS.id_rank5 = CN5.id LEFT JOIN country CN6 ON RS.id_rank6 = CN6.id';
-				_query = _query || ' WHERE RS.id = ' || _item.id_item;
-				OPEN __c FOR EXECUTE _query;
-				FETCH __c INTO _item.id_rel6, _item.id_rel7, _item.id_rel8, _item.id_rel9, _item.id_rel10, _item.id_rel11, _item.label_rel6, _item.label_rel7, _item.label_rel8, _item.label_rel9, _item.label_rel10, _item.label_rel11, _item.label_rel20, _item.label_rel21, _item.label_rel22, _item.label_rel23, _item.label_rel24, _item.label_rel25, _item.txt1, _item.txt2, _item.txt5, _item.txt3, _item.txt4;
-				CLOSE __c;
-				_item.comment = 'CN';
-				_array_id = ARRAY[_id];
+				IF _type1 <= 10 THEN
+					SELECT id_rank1, id_rank2, id_rank3, id_rank4, id_rank5, id_rank6, PR1.last_name || (CASE WHEN length(PR1.first_name) > 0 THEN ', ' || PR1.first_name ELSE '' END), (CASE WHEN length(PR1.first_name) > 0 THEN PR1.first_name || ' ' ELSE '' END) || PR1.last_name, CN1.id, (CASE WHEN _lang = '_fr' THEN CN1.label_fr ELSE CN1.label END), TM1.label, PR2.last_name || (CASE WHEN length(PR2.first_name) > 0 THEN ', ' || PR2.first_name ELSE '' END), (CASE WHEN length(PR2.first_name) > 0 THEN PR2.first_name || ' ' ELSE '' END) || PR2.last_name, CN2.id, (CASE WHEN _lang = '_fr' THEN CN2.label_fr ELSE CN2.label END), TM2.label, PR3.last_name || (CASE WHEN length(PR3.first_name) > 0 THEN ', ' || PR3.first_name ELSE '' END), (CASE WHEN length(PR3.first_name) > 0 THEN PR3.first_name || ' ' ELSE '' END) || PR3.last_name, CN3.id, (CASE WHEN _lang = '_fr' THEN CN3.label_fr ELSE CN3.label END), TM3.label, PR4.last_name || (CASE WHEN length(PR4.first_name) > 0 THEN ', ' || PR4.first_name ELSE '' END), (CASE WHEN length(PR4.first_name) > 0 THEN PR4.first_name || ' ' ELSE '' END) || PR4.last_name, CN4.id, (CASE WHEN _lang = '_fr' THEN CN4.label_fr ELSE CN4.label END), TM4.label, PR5.last_name || (CASE WHEN length(PR5.first_name) > 0 THEN ', ' || PR5.first_name ELSE '' END), (CASE WHEN length(PR5.first_name) > 0 THEN PR5.first_name || ' ' ELSE '' END) || PR5.last_name, CN5.id, (CASE WHEN _lang = '_fr' THEN CN5.label_fr ELSE CN5.label END), TM5.label, PR6.last_name || (CASE WHEN length(PR6.first_name) > 0 THEN ', ' || PR6.first_name ELSE '' END), (CASE WHEN length(PR6.first_name) > 0 THEN PR6.first_name || ' ' ELSE '' END) || PR6.last_name, CN6.id, (CASE WHEN _lang = '_fr' THEN CN6.label_fr ELSE CN6.label END), TM6.label, RS.result1, RS.result2, RS.result3, RS.comment, RS.exa
+					INTO _item.id_rel6, _item.id_rel7, _item.id_rel8, _item.id_rel9, _item.id_rel10, _item.id_rel11, _item.label_rel6, _item.label_rel20, _item.id_rel12, _cn1, _tm1, _item.label_rel7, _item.label_rel21, _item.id_rel13, _cn2, _tm2, _item.label_rel8, _item.label_rel22, _item.id_rel14, _cn3, _tm3, _item.label_rel9, _item.label_rel23, _item.id_rel15, _cn4, _tm4, _item.label_rel10, _item.label_rel24, _item.id_rel16, _cn5, _tm5, _item.label_rel11, _item.label_rel25, _item.id_rel17, _cn6, _tm6, _item.txt1, _item.txt2, _item.txt5, _item.txt3, _item.txt4
+					FROM result RS LEFT JOIN athlete PR1 ON RS.id_rank1 = PR1.id LEFT JOIN athlete PR2 ON RS.id_rank2 = PR2.id LEFT JOIN athlete PR3 ON RS.id_rank3 = PR3.id LEFT JOIN athlete PR4 ON RS.id_rank4 = PR4.id LEFT JOIN athlete PR5 ON RS.id_rank5 = PR5.id LEFT JOIN athlete PR6 ON RS.id_rank6 = PR6.id LEFT JOIN country CN1 ON PR1.id_country = CN1.id LEFT JOIN country CN2 ON PR2.id_country = CN2.id LEFT JOIN country CN3 ON PR3.id_country = CN3.id LEFT JOIN country CN4 ON PR4.id_country = CN4.id LEFT JOIN country CN5 ON PR5.id_country = CN5.id LEFT JOIN country CN6 ON PR6.id_country = CN6.id LEFT JOIN team TM1 ON PR1.id_team = TM1.id LEFT JOIN team TM2 ON PR2.id_team = TM2.id LEFT JOIN team TM3 ON PR3.id_team = TM3.id LEFT JOIN team TM4 ON PR4.id_team = TM4.id LEFT JOIN team TM5 ON PR5.id_team = TM5.id LEFT JOIN team TM6 ON PR6.id_team = TM6.id
+					WHERE RS.id = _item.id_item;
+					IF _cn1 IS NOT NULL THEN _item.label_rel6 = _item.label_rel6 || '|' || _cn1;
+					ELSIF _tm1 IS NOT NULL THEN _item.label_rel6 = _item.label_rel6 || '|' || _tm1; END IF;
+					IF _cn2 IS NOT NULL THEN _item.label_rel7 = _item.label_rel7 || '|' || _cn2;
+					ELSIF _tm2 IS NOT NULL THEN _item.label_rel7 = _item.label_rel7 || '|' || _tm2; END IF;
+					IF _cn3 IS NOT NULL THEN _item.label_rel8 = _item.label_rel8 || '|' || _cn3;
+					ELSIF _tm3 IS NOT NULL THEN _item.label_rel8 = _item.label_rel8 || '|' || _tm3; END IF;
+					IF _cn4 IS NOT NULL THEN _item.label_rel9 = _item.label_rel9 || '|' || _cn4;
+					ELSIF _tm4 IS NOT NULL THEN _item.label_rel9 = _item.label_rel9 || '|' || _tm4; END IF;
+					IF _cn5 IS NOT NULL THEN _item.label_rel10 = _item.label_rel10 || '|' || _cn5;
+					ELSIF _tm5 IS NOT NULL THEN _item.label_rel10 = _item.label_rel10 || '|' || _tm5; END IF;
+					IF _cn6 IS NOT NULL THEN _item.label_rel11 = _item.label_rel11 || '|' || _cn6;
+					ELSIF _tm6 IS NOT NULL THEN _item.label_rel11 = _item.label_rel11 || '|' || _tm6; END IF;
+					IF _type1 = 4 OR _item.txt3 = '#DOUBLE#' THEN
+						_item.txt4 = '1-2/3-4/5-6';
+					ELSIF _type1 = 5 OR _item.txt3 = '#TRIPLE#' THEN
+						_item.txt4 = '1-3/4-6/7-9';
+					END IF;
+					_item.comment = 'PR';
+					_array_id = string_to_array(_pr_list, ',')::integer[];
+				ELSIF _type1 = 50 THEN
+					SELECT id_rank1, id_rank2, id_rank3, id_rank4, id_rank5, id_rank6, TM1.label, TM2.label, TM3.label, TM4.label, TM5.label, TM6.label, NULL, NULL, NULL, NULL, NULL, NULL, RS.result1, RS.result2, RS.result3, RS.comment, RS.exa
+					INTO _item.id_rel6, _item.id_rel7, _item.id_rel8, _item.id_rel9, _item.id_rel10, _item.id_rel11, _item.label_rel6, _item.label_rel7, _item.label_rel8, _item.label_rel9, _item.label_rel10, _item.label_rel11, _item.label_rel20, _item.label_rel21, _item.label_rel22, _item.label_rel23, _item.label_rel24, _item.label_rel25, _item.txt1, _item.txt2, _item.txt5, _item.txt3, _item.txt4
+					FROM result RS LEFT JOIN team TM1 ON RS.id_rank1 = TM1.id LEFT JOIN team TM2 ON RS.id_rank2 = TM2.id LEFT JOIN team TM3 ON RS.id_rank3 = TM3.id LEFT JOIN team TM4 ON RS.id_rank4 = TM4.id LEFT JOIN team TM5 ON RS.id_rank5 = TM5.id LEFT JOIN team TM6 ON RS.id_rank6 = TM6.id
+					WHERE RS.id = _item.id_item;
+					_item.comment = 'TM';
+					_array_id = string_to_array(_tm_list, ',')::integer[];
+				ELSIF _type1 = 99 THEN
+					_query = 'SELECT id_rank1, id_rank2, id_rank3, id_rank4, id_rank5, id_rank6, CN1.label' || _lang || ', CN2.label' || _lang || ', CN3.label' || _lang || ', CN4.label' || _lang || ', CN5.label' || _lang || ', CN6.label' || _lang || ', CN1.label, CN2.label, CN3.label, CN4.label, CN5.label, CN6.label, RS.result1, RS.result2, RS.result3, RS.comment, RS.exa';
+					_query = _query || ' FROM result RS LEFT JOIN country CN1 ON RS.id_rank1 = CN1.id LEFT JOIN country CN2 ON RS.id_rank2 = CN2.id LEFT JOIN country CN3 ON RS.id_rank3 = CN3.id LEFT JOIN country CN4 ON RS.id_rank4 = CN4.id LEFT JOIN country CN5 ON RS.id_rank5 = CN5.id LEFT JOIN country CN6 ON RS.id_rank6 = CN6.id';
+					_query = _query || ' WHERE RS.id = ' || _item.id_item;
+					OPEN __c FOR EXECUTE _query;
+					FETCH __c INTO _item.id_rel6, _item.id_rel7, _item.id_rel8, _item.id_rel9, _item.id_rel10, _item.id_rel11, _item.label_rel6, _item.label_rel7, _item.label_rel8, _item.label_rel9, _item.label_rel10, _item.label_rel11, _item.label_rel20, _item.label_rel21, _item.label_rel22, _item.label_rel23, _item.label_rel24, _item.label_rel25, _item.txt1, _item.txt2, _item.txt5, _item.txt3, _item.txt4;
+					CLOSE __c;
+					_item.comment = 'CN';
+					_array_id = ARRAY[_id];
+				END IF;
+				IF ((_item.count1 IS NULL OR _item.count1 = 0) AND _entity ~ 'CN|PR|TM') THEN
+					SELECT * INTO _rs FROM result RS WHERE RS.id = _item.id_item;
+					SELECT get_rank(_rs, _type1, _array_id) INTO _item.count1;
+				END IF;
+			ELSE -- Round
+				IF _type1 <= 10 THEN
+					SELECT id_rank1, id_rank2, id_rank3, PR1.last_name || (CASE WHEN length(PR1.first_name) > 0 THEN ', ' || PR1.first_name ELSE '' END), (CASE WHEN length(PR1.first_name) > 0 THEN PR1.first_name || ' ' ELSE '' END) || PR1.last_name, CN1.id, (CASE WHEN _lang = '_fr' THEN CN1.label_fr ELSE CN1.label END), TM1.label, PR2.last_name || (CASE WHEN length(PR2.first_name) > 0 THEN ', ' || PR2.first_name ELSE '' END), (CASE WHEN length(PR2.first_name) > 0 THEN PR2.first_name || ' ' ELSE '' END) || PR2.last_name, CN2.id, (CASE WHEN _lang = '_fr' THEN CN2.label_fr ELSE CN2.label END), TM2.label, PR3.last_name || (CASE WHEN length(PR3.first_name) > 0 THEN ', ' || PR3.first_name ELSE '' END), (CASE WHEN length(PR3.first_name) > 0 THEN PR3.first_name || ' ' ELSE '' END) || PR3.last_name, CN3.id, (CASE WHEN _lang = '_fr' THEN CN3.label_fr ELSE CN3.label END), TM3.label, RD.result1, RD.result2, RD.result3
+					INTO _item.id_rel6, _item.id_rel7, _item.id_rel8, _item.label_rel6, _item.label_rel20, _item.id_rel12, _cn1, _tm1, _item.label_rel7, _item.label_rel21, _item.id_rel13, _cn2, _tm2, _item.label_rel8, _item.label_rel22, _item.id_rel14, _cn3, _tm3, _item.txt1, _item.txt2, _item.txt3
+					FROM round RD LEFT JOIN athlete PR1 ON RD.id_rank1 = PR1.id LEFT JOIN athlete PR2 ON RD.id_rank2 = PR2.id LEFT JOIN athlete PR3 ON RD.id_rank3 = PR3.id LEFT JOIN country CN1 ON PR1.id_country = CN1.id LEFT JOIN country CN2 ON PR2.id_country = CN2.id LEFT JOIN country CN3 ON PR3.id_country = CN3.id LEFT JOIN team TM1 ON PR1.id_team = TM1.id LEFT JOIN team TM2 ON PR2.id_team = TM2.id LEFT JOIN team TM3 ON PR3.id_team = TM3.id
+					WHERE RD.id = _item.id_item;
+					IF _cn1 IS NOT NULL THEN _item.label_rel6 = _item.label_rel6 || '|' || _cn1;
+					ELSIF _tm1 IS NOT NULL THEN _item.label_rel6 = _item.label_rel6 || '|' || _tm1; END IF;
+					IF _cn2 IS NOT NULL THEN _item.label_rel7 = _item.label_rel7 || '|' || _cn2;
+					ELSIF _tm2 IS NOT NULL THEN _item.label_rel7 = _item.label_rel7 || '|' || _tm2; END IF;
+					IF _cn3 IS NOT NULL THEN _item.label_rel8 = _item.label_rel8 || '|' || _cn3;
+					ELSIF _tm3 IS NOT NULL THEN _item.label_rel8 = _item.label_rel8 || '|' || _tm3; END IF;
+					_item.comment = 'PR';
+					_array_id = string_to_array(_pr_list, ',')::integer[];
+				ELSIF _type1 = 50 THEN
+					SELECT id_rank1, id_rank2, id_rank3, TM1.label, TM2.label, TM3.label, RD.result1, RD.result2, RD.result3
+					INTO _item.id_rel6, _item.id_rel7, _item.id_rel8, _item.label_rel6, _item.label_rel7, _item.label_rel8, _item.txt1, _item.txt2, _item.txt3
+					FROM round RD LEFT JOIN team TM1 ON RD.id_rank1 = TM1.id LEFT JOIN team TM2 ON RD.id_rank2 = TM2.id LEFT JOIN team TM3 ON RD.id_rank3 = TM3.id
+					WHERE RD.id = _item.id_item;
+					_item.comment = 'TM';
+					_array_id = string_to_array(_tm_list, ',')::integer[];
+				ELSIF _type1 = 99 THEN
+					_query = 'SELECT id_rank1, id_rank2, id_rank3, CN1.label' || _lang || ', CN2.label' || _lang || ', CN3.label' || _lang || ', CN1.label, CN2.label, CN3.label, RD.result1, RD.result2, RD.result3';
+					_query = _query || ' FROM round RD LEFT JOIN country CN1 ON RD.id_rank1 = CN1.id LEFT JOIN country CN2 ON RD.id_rank2 = CN2.id LEFT JOIN country CN3 ON RD.id_rank3 = CN3.id';
+					_query = _query || ' WHERE RD.id = ' || _item.id_item;
+					OPEN __c FOR EXECUTE _query;
+					FETCH __c INTO _item.id_rel6, _item.id_rel7, _item.id_rel8, _item.label_rel6, _item.label_rel7, _item.label_rel8, _item.label_rel9, _item.label_rel10, _item.label_rel11, _item.txt1, _item.txt2, _item.txt3;
+					CLOSE __c;
+					_item.comment = 'CN';
+					_array_id = ARRAY[_id];
+				END IF;
 			END IF;
 			_item.date1 := to_date(_date1, 'DD/MM/YYYY');
 			_item.date2 := to_date(_date2, 'DD/MM/YYYY');
-			IF ((_item.count1 IS NULL OR _item.count1 = 0) AND _entity ~ 'CN|PR|TM') THEN
-				SELECT * INTO _rs FROM result RS WHERE RS.id = _item.id_item;
-				SELECT get_rank(_rs, _type1, _array_id) INTO _item.count1;
-			END IF;
 			_item.id = _index;
 			_item.entity = 'RS';
 			RETURN NEXT _item;
@@ -597,7 +679,7 @@ begin
 	END IF;
 
 	-- References in: [Rounds]
-	IF (_entity ~ 'CN|DT|PR|TM|CP|EV|SP|CX|CT|YR' AND (_entity_ref = 'RD' OR _entity_ref = '')) THEN
+	/*IF (_entity ~ 'ZZZ' AND (_entity_ref = 'RD' OR _entity_ref = '')) THEN
 		_type1 = 1;
 		_type2 = 99;
 		IF _entity = 'CN' THEN _type1 = 99;_type2 = 99;
@@ -676,7 +758,7 @@ begin
 			_index = _index + 1;
 		END LOOP;
 		CLOSE _c;
-	END IF;
+	END IF;*/
 
 	-- References in: [Events]
 	IF (_entity ~ 'CP|EV|SP' AND (_entity_ref = 'EV' OR _entity_ref = '')) THEN
@@ -1002,6 +1084,7 @@ begin
 	RETURN;
 end;
 $BODY$;
+
 
 
     

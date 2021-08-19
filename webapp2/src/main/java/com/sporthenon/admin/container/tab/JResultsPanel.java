@@ -224,6 +224,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 		JCustomButton jEditFolderButton = new JCustomButton("Edit Folders", "editfolder.png", "Edit Folder");
 		jEditFolderButton.addActionListener(this);
 		jEditFolderButton.setActionCommand("edit-folder");
+		jEditFolderButton.setEnabled(false);
 		leftPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 1));
 		jInactive = new JCheckBox("Inactive event");
 		jInactive.addActionListener(this);

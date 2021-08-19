@@ -1,7 +1,30 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 2.0.0   |
+| Last Version: 2.0.1   |
 +-----------------------+
+
++-------+
+| 2.0.1 |
++-------+
+[19 Aug 2021]
+- Created role shcontributor with default read/write access for contributors
+- Removed table win_loss
+- Changes on retired numbers : nullable VARCHAR column for number, team can be empty
+o Website
+- Results and rounds merged in the same table (references)
+- Calendar search period now limited to 1 year to avoid huge queries
+o Update tool (Swing app)
+- New feature: <Add Event> (=> create new event node in the tree if not exists)
+- New feature: <Test transparency> (=> check if background of pictures is transparent)
+- Vertical tab order instead of horizontal in edit results dialog
+- Format of dates is checked before saving results
+- Manage special characters in search patterns (find entity dialog)
+- Added fields country #1 and country #2 in edit results dialog
+- Bugfix: query "missing pictures" was disabled
+- Bugfix: result type not set properly in "edit rounds" dialog
+- Bugfix: comments/ext.links/tie inputs not cleared properly in results dialog
+- Bugifx: some entities are added twice in picklists after being created
+- Bugfix: round IDs are not reset when a result is copied (rounds are removed from original result)
 
 +-------+
 | 2.0.0 |

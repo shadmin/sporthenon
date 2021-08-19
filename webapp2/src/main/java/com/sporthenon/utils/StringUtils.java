@@ -149,6 +149,7 @@ public class StringUtils {
 					dt += " 00:00";
 				}
 				dt = dftxt.format(df.parse(dt));
+				dt = dt.substring(0, 1).toUpperCase() + dt.substring(1);
 			}
 		}
 		return dt;
@@ -329,6 +330,10 @@ public class StringUtils {
 	
 	public static String getTitle(String s) {
 		return s.replaceAll("\\-", StringUtils.SEP1) + (s.toLowerCase().startsWith("sporthenon") ? "" : " | Sporthenon");
+	}
+	
+	public static String getRoundTypeLabel(String s) {
+		return (s != null ? s.replaceFirst("\\s\\#.+", "") : null);
 	}
 	
 }

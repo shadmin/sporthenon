@@ -156,6 +156,8 @@
 .render .info td.photo{
 	text-align: center;
 	white-space: nowrap;
+	max-width: 550px;
+	overflow: auto;
 }
 .render .info td.photo img, .render .info td.photo li{
 	display: inline-block;
@@ -166,10 +168,12 @@
 	max-height: 150px;
 }
 .render .info td.photo li{
-	height: 168px;
-	max-height: 168px;
+	max-height: 185px;
 	text-align: center;
 	margin-right: 5px;
+}
+.render .info td.photo li a{
+	display: block;
 }
 .render .info .enlarge{
 	margin-left: auto;
@@ -276,8 +280,11 @@
 	padding: 3px 3px;
 }
 .render .info #titlename{
+	font-family: Georgia;
+	font-size: 14px;
 	border-bottom: 2px solid #999;
-	padding: 4px;
+	padding: 3px;
+	padding-top: 4px;
 }
 .render .info #titlename2{
 	font-style: italic;
@@ -444,7 +451,9 @@
 	text-align: center;
 	padding: 6px;
 	margin-bottom: 10px;
-	white-space: normal !important;
+}
+.render #othyears a{
+	display: inline-block;
 }
 .render .chaptertitle{
 	padding: 5px;

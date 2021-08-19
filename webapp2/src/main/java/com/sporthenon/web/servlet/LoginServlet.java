@@ -81,6 +81,7 @@ public class LoginServlet extends AbstractServlet {
 						m.setSports(rsports);
 						m.setActive(true);
 						m.setAdmin(false);
+						m.setContrib(true);
 						DatabaseManager.saveEntity(m, null);
 						DatabaseManager.createUser(m.getLogin(), pwd);
 						ServletHelper.writeText(response, "OK");

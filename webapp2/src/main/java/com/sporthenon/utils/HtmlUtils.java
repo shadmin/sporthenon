@@ -276,30 +276,46 @@ public class HtmlUtils {
 		StringBuffer sbRecord = new StringBuffer();
 		String currentHeader = null;
 		for (RefItem item : cRecord) {
+			if ((item.getCount1() == null || item.getCount1() == 0)
+					&& (item.getCount2() == null || item.getCount2() == 0)
+					&& (item.getCount3() == null || item.getCount3() == 0)
+					&& (item.getCount4() == null || item.getCount4() == 0)
+					&& (item.getCount5() == null || item.getCount5() == 0)) {
+				continue;
+			}
 			if (currentHeader == null || !currentHeader.equals(item.getTxt1() + item.getTxt2() + item.getTxt3())) {
-				if (currentHeader != null)
+				if (currentHeader != null) {
 					sbRecord.append("</table>");
+				}
 				sbRecord.append("<table" + (sbRecord.toString().length() > 0 ? " style='margin-top:5px;'" : "") + "><tr><td style='border:none;'></td>");
-				if (StringUtils.notEmpty(item.getTxt1()))
+				if (StringUtils.notEmpty(item.getTxt1())) {
 					sbRecord.append("<th>" + (item.getTxt1().equalsIgnoreCase("#GOLD#") ? ImageUtils.getGoldMedImg(lang) : ResourceUtils.getText(item.getTxt1(), lang)) + "</th>");
-				if (StringUtils.notEmpty(item.getTxt2()))
+				}
+				if (StringUtils.notEmpty(item.getTxt2())) {
 					sbRecord.append("<th>" + (item.getTxt2().equalsIgnoreCase("#SILVER#") ? ImageUtils.getSilverMedImg(lang) : ResourceUtils.getText(item.getTxt2(), lang)) + "</th>");
-				if (StringUtils.notEmpty(item.getTxt3()))
+				}
+				if (StringUtils.notEmpty(item.getTxt3())) {
 					sbRecord.append("<th>" + (item.getTxt3().equalsIgnoreCase("#BRONZE#") ? ImageUtils.getBronzeMedImg(lang) : ResourceUtils.getText(item.getTxt3(), lang)) + "</th>");
-				if (StringUtils.notEmpty(item.getTxt4()))
+				}
+				if (StringUtils.notEmpty(item.getTxt4())) {
 					sbRecord.append("<th>" + item.getTxt4() + "</th>");
+				}
 				sbRecord.append("</tr>");
 				currentHeader = item.getTxt1() + item.getTxt2() + item.getTxt3();
 			}
 			sbRecord.append("<tr><td style='text-align:right;padding-left:10px;font-weight:normal;text-decoration:underline;'>" + ResourceUtils.getText("rec." + item.getLabel(), lang) + "</td>");
-			if (StringUtils.notEmpty(item.getTxt1()))
+			if (StringUtils.notEmpty(item.getTxt1())) {
 				sbRecord.append("<td>" + item.getCount1() + "</td>");
-			if (StringUtils.notEmpty(item.getTxt2()))
+			}
+			if (StringUtils.notEmpty(item.getTxt2())) {
 				sbRecord.append("<td>" + item.getCount2() + "</td>");
-			if (StringUtils.notEmpty(item.getTxt3()))	
+			}
+			if (StringUtils.notEmpty(item.getTxt3())) {
 				sbRecord.append("<td>" + item.getCount3() + "</td>");
-			if (StringUtils.notEmpty(item.getTxt4()))
+			}
+			if (StringUtils.notEmpty(item.getTxt4())) {
 				sbRecord.append("<td>" + item.getCount4() + "</td>");
+			}
 			sbRecord.append("</tr>");
 		}
 		if (sbRecord.toString().length() > 0)

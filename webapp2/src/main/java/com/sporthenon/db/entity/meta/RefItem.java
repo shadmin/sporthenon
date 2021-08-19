@@ -31,6 +31,7 @@ public class RefItem extends AbstractEntity {
 	private Integer idRel16;
 	private Integer idRel17;
 	private Integer idRel18;
+	private Integer idRel19;
 	private Integer link;
 	private String 	labelRel1;
 	private String 	labelRel2;
@@ -71,6 +72,7 @@ public class RefItem extends AbstractEntity {
 	private Timestamp date1;
 	private Timestamp date2;
 	private Timestamp date3;
+	private Timestamp date4;
 	private String comment;
 	
 	public static final transient String table 	= "_ref_item";
@@ -102,6 +104,7 @@ public class RefItem extends AbstractEntity {
 		setIdRel16((Integer)mapValues.get("id_rel16"));
 		setIdRel17((Integer)mapValues.get("id_rel17"));
 		setIdRel18((Integer)mapValues.get("id_rel18"));
+		setIdRel19((Integer)mapValues.get("id_rel19"));
 		setLink((Integer)mapValues.get("link"));
 		setLabelRel1((String)mapValues.get("label_rel1"));
 		setLabelRel2((String)mapValues.get("label_rel2"));
@@ -142,6 +145,7 @@ public class RefItem extends AbstractEntity {
 		setDate1((Timestamp)mapValues.get("date1"));
 		setDate2((Timestamp)mapValues.get("date2"));
 		setDate3((Timestamp)mapValues.get("date3"));
+		setDate4((Timestamp)mapValues.get("date4"));
 		setComment((String)mapValues.get("comment"));
 	}
 	
@@ -663,6 +667,22 @@ public class RefItem extends AbstractEntity {
 
 	public void setDate3(Timestamp date3) {
 		this.date3 = date3;
+	}
+
+	public Integer getIdRel19() {
+		return idRel19;
+	}
+
+	public void setIdRel19(Integer idRel19) {
+		this.idRel19 = idRel19;
+	}
+
+	public Timestamp getDate4() {
+		return date4;
+	}
+
+	public void setDate4(Timestamp date4) {
+		this.date4 = date4;
 	}
 
 	@Override
