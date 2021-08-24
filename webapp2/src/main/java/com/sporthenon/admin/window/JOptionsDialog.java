@@ -67,7 +67,7 @@ public class JOptionsDialog extends JDialog implements ActionListener {
 			catch (Exception e) {}
 			props = new Properties();
 			File f = new File(userHomeDir + "\\shupdate.xml");
-			InputStream is = (StringUtils.notEmpty(userHomeDir) && f.exists() ? new FileInputStream(f) : ConfigUtils.class.getResourceAsStream("/com/sporthenon/admin/options.xml"));
+			InputStream is = (StringUtils.notEmpty(userHomeDir) && f.exists() ? new FileInputStream(f) : ConfigUtils.class.getResourceAsStream("/com/sporthenon/admin/options.default.xml"));
 			props.loadFromXML(is);
 			hConfig = new HashMap<String, String>();
 			for (Object key : props.keySet()) {

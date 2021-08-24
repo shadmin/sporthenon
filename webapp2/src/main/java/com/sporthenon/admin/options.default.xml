@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<entry key="db.host">127.0.0.1</entry>
+	<entry key="db.host">sporthenon.com</entry>
 	<entry key="db.port">5432</entry>
-	<entry key="db.name">shlocal</entry>
+	<entry key="db.name">shdb</entry>
 	<entry key="db.user">***UserID***</entry>
 	<entry key="alwaystop">0</entry>
-	<entry key="cred.file">C:\TEMP\shbucket.json</entry>
+	<entry key="cred.file"></entry>
 </properties>

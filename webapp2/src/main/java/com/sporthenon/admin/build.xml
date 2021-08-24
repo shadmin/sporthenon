@@ -10,10 +10,13 @@
 		<!-- Initialize -->
 		<move file="${dest}/classes/com/sporthenon/admin/shupdate.bat" tofile="${dest}/shupdate.bat" failonerror="false"/>
 		<move file="${dest}/shupdate.jar" tofile="${dest}/libs.jar" failonerror="false"/>
+		<!--
 		<taskdef name="launch4j"
 		    classname="net.sf.launch4j.ant.Launch4jTask"
 		    classpath="${launch4j}/launch4j.jar:${launch4j}/lib/xstream.jar"/>
+		-->
 		<!-- Make EXE -->
+		<!--
 		<launch4j>
 		  	<config
 		  		headerType="gui"
@@ -27,14 +30,17 @@
 	        	<jre minVersion="11.0"/>
 		  	</config>
 		</launch4j>
+		-->
 		<!-- Sign EXE -->
+		<!--
 		<exec executable="${launch4j}/sign4j/sign4j.exe">
-		  <arg line="java -jar '${launch4j}/sign4j/jsign-2.0.jar' -s '${p12key}' -a shupdate --storepass ${env.SHUPDATE_PWD} --storetype pkcs12 ${dest}/shupdate.exe"/>
+		  <arg line="java -jar '${launch4j}/sign4j/jsign-2.0.jar' -s '${p12key}' -a shupdate -storepass ${env.SHUPDATE_PWD} -storetype pkcs12 ${dest}/shupdate.exe"/>
 		</exec>
+		-->
 		<!-- Make ZIP -->
 		<zip destfile="${dest}/shupdate.zip"
 		     basedir="${dest}" 
-		     includes="shupdate.bat, shupdate.exe, libs.jar"/>
+		     includes="shupdate.bat, libs.jar"/>
 	</target>
 	
 </project>
