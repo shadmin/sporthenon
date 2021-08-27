@@ -40,8 +40,9 @@ public class ServletHelper {
         		Element item = root.addElement("item");
         		item.addAttribute("value", String.valueOf(plb.getValue()));
         		item.addAttribute("text", plb.getText());
-        		if (plb.getParam() != null)
+        		if (plb.getParam() != null) {
         			item.addAttribute("param", String.valueOf(plb.getParam()));
+        		}
         	}
         response.setContentType("text/xml");
         response.setCharacterEncoding("utf-8");

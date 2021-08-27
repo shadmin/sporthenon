@@ -64,7 +64,7 @@ public class Result extends AbstractEntity {
 	private String 	result20;
 	private String 	comment;
 	private String 	exa;
-	private Boolean draft;
+	private Boolean inProgress;
 	private Boolean noPlace;
 	private Boolean noDate;
 	
@@ -75,7 +75,7 @@ public class Result extends AbstractEntity {
 			+ "id_rank11,id_rank12,id_rank13,id_rank14,id_rank15,id_rank16,id_rank17,id_rank18,id_rank19,id_rank20,"
 			+ "result1,result2,result3,result4,result5,result6,result7,result8,result9,result10,"
 			+ "result11,result12,result13,result14,result15,result16,result17,result18,result19,result20,"
-			+ "comment,exa,draft,no_place,no_date";
+			+ "comment,exa,in_progress,no_place,no_date";
 	public static final transient String query 	= "SELECT T.*, SP.label AS sp_label, SP.label_fr AS sp_label_fr, CP.label AS cp_label, CP.label_fr AS cp_label_fr, "
 			+ " EV.label AS ev_label, EV.label_fr AS ev_label_fr, EV.id_type AS ev_id_type, TP1.label AS ev_tp_label, TP1.number AS ev_tp_number, "
 			+ " SE.label AS se_label, SE.label_fr AS se_label_fr, SE.id_type AS se_id_type, TP2.label AS se_tp_label, TP2.number AS se_tp_number, "
@@ -222,7 +222,7 @@ public class Result extends AbstractEntity {
 			setResult20((String)mapValues.get("result20"));
 			setComment((String)mapValues.get("comment"));
 			setExa((String)mapValues.get("exa"));
-			setDraft((Boolean)mapValues.get("draft"));
+			setInProgress((Boolean)mapValues.get("in_progress"));
 			setNoPlace((Boolean)mapValues.get("no_place"));
 			setNoDate((Boolean)mapValues.get("no_date"));
 			setMetadata(new Metadata((Integer)mapValues.get("id_contributor"), (Timestamp)mapValues.get("first_update"), (Timestamp)mapValues.get("last_update")));
@@ -685,15 +685,15 @@ public class Result extends AbstractEntity {
 		this.country2 = country2;
 	}
 
-	public Boolean getDraft() {
-		return draft;
+	public Boolean getInProgress() {
+		return inProgress;
 	}
 
-	public void setDraft(Boolean draft) {
-		if (draft == null) {
-			draft = false;
+	public void setInProgress(Boolean inProgress) {
+		if (inProgress == null) {
+			inProgress = false;
 		}
-		this.draft = draft;
+		this.inProgress = inProgress;
 	}
 
 	public Boolean getNoPlace() {

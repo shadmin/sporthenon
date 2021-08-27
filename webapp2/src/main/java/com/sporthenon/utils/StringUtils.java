@@ -54,17 +54,20 @@ public class StringUtils {
 	}
 
 	public static String decode(String s) {
-		if (s != null)
-			while (s.length() % 4 > 0)
+		if (s != null) {
+			while (s.length() % 4 > 0) {
 				s += "=";
+			}
+		}
 		Base32 b32 = new Base32();
 		return new String(b32.decode(s));
 	}
 
 	public static String join(Iterable<String> tValues, String sSeparator) {
 		StringBuilder sb = new StringBuilder();
-		for (String s : tValues)
+		for (String s : tValues) {
 			sb.append(sb.length() > 0 ? sSeparator : "").append(s);
+		}
 		return sb.toString();
 	}
 	
@@ -114,10 +117,12 @@ public class StringUtils {
 				s_ = s_.replaceAll("\\D", "");
 				int n1 = Integer.parseInt(String.valueOf(s_.charAt(0)));
 				int n2 = (s_.length() > 1 ? Integer.parseInt(String.valueOf(s_.charAt(1))) : n1);
-				if (lst.size() > 0)
+				if (lst.size() > 0) {
 					lst.add(-1);
-				for (int i = n1 ; i <= n2 ; i++)
+				}
+				for (int i = n1 ; i <= n2 ; i++) {
 					lst.add(i);
+				}
 			}
 		return lst;
 	}

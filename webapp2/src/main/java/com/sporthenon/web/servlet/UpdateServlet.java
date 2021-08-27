@@ -613,7 +613,7 @@ public class UpdateServlet extends AbstractServlet {
 				result.setDate2(null);
 			result.setComment(StringUtils.notEmpty(params.get("cmt-l")) ? String.valueOf(params.get("cmt-l")) : null);
 			result.setExa(StringUtils.notEmpty(params.get("exa-l")) ? String.valueOf(params.get("exa-l")) : null);
-			result.setDraft(String.valueOf(params.get("draft")).equals("1"));
+			result.setInProgress(String.valueOf(params.get("inprogress")).equals("1"));
 			result.setNoDate(String.valueOf(params.get("nodate")).equals("1"));
 			result.setNoPlace(String.valueOf(params.get("noplace")).equals("1"));
 			// Inactive item
@@ -1226,8 +1226,8 @@ public class UpdateServlet extends AbstractServlet {
 						+ (rs.getSubevent2() != null ? " and id_subevent2 = " + rs.getSubevent2().getId() : "");
 				Object inact = DatabaseManager.loadEntity(sql, Arrays.asList(rs.getSport().getId(), rs.getChampionship().getId(), rs.getEvent().getId()), InactiveItem.class);
 				sb.append(inact != null ? "1" : "0").append("~");
-				// Draft
-				sb.append(rs.getDraft() != null && rs.getDraft() ? "1" : "0").append("~");
+				// In progress
+				sb.append(rs.getInProgress() != null && rs.getInProgress() ? "1" : "0").append("~");
 				// No_date / No_place
 				sb.append(rs.getNoDate() != null && rs.getNoDate() ? "1" : "0").append("~");
 				sb.append(rs.getNoPlace() != null && rs.getNoPlace() ? "1" : "0").append("~");

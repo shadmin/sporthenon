@@ -12,6 +12,7 @@ import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.db.entity.meta.TreeItem;
 import com.sporthenon.db.function.HallOfFameBean;
+import com.sporthenon.db.function.LastUpdateBean;
 import com.sporthenon.db.function.OlympicMedalsBean;
 import com.sporthenon.db.function.OlympicRankingsBean;
 import com.sporthenon.db.function.PersonListBean;
@@ -168,7 +169,7 @@ public class FunctionTest extends TestCase {
 		List<Object> params = new ArrayList<Object>();
 		params.add(StringUtils.toInt(2));
 		params.add(String.valueOf("0"));
-		params.add(Short.valueOf("23"));
+		params.add(String.valueOf("23"));
 		Collection col = DatabaseManager.callFunction("get_retired_numbers", params, RetiredNumberBean.class);
 		assertNotNull(col);
 		assertTrue(col.size() > 0);
@@ -287,6 +288,19 @@ public class FunctionTest extends TestCase {
 		assertTrue(col.size() > 0);
 		List<Object> lst = new ArrayList<Object>(col);
 		assertTrue(lst.get(0) instanceof RefItem);
+	}
+	
+	public void testLastUpdates() throws Exception {
+		List<Object> params = new ArrayList<Object>();
+		params.add(StringUtils.toInt(1));
+		params.add(StringUtils.toInt(10));
+		params.add(StringUtils.toInt(15));
+		params.add(String.valueOf(""));
+		Collection col = DatabaseManager.callFunction("_last_updates", params, LastUpdateBean.class);
+		assertNotNull(col);
+		assertTrue(col.size() > 0);
+		List<Object> lst = new ArrayList<Object>(col);
+		assertTrue(lst.get(0) instanceof LastUpdateBean);
 	}
 	
 }

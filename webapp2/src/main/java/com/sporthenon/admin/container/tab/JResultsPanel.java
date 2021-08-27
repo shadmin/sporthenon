@@ -357,6 +357,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				v_.add(StringUtils.notEmpty(rb.getRsDate2()) ? rb.getRsDate2() : "");
 				v_.add((rb.getCx1Id() != null ? rb.getCx1Label() + " [" : "") + (rb.getCt1Id() != null ? rb.getCt1Label() + (rb.getSt1Id() != null ? ", " + rb.getSt1Code() : "") + ", " + rb.getCn1Code() : (rb.getCt2Id() != null ? rb.getCt2Label() + (rb.getSt2Id() != null ? ", " + rb.getSt2Code() : "") + ", " + rb.getCn2Code() : "")) + (rb.getCx1Id() != null ? "]" : (rb.getCn5Id() != null ? rb.getCn5Label() + " [" + rb.getCn5Code() + "]" : "")));
 				v_.add((rb.getCx2Id() != null ? rb.getCx2Label() + " [" : "") + (rb.getCt3Id() != null ? rb.getCt3Label() + (rb.getSt3Id() != null ? ", " + rb.getSt3Code() : "") + ", " + rb.getCn3Code() : (rb.getCt4Id() != null ? rb.getCt4Label() + (rb.getSt4Id() != null ? ", " + rb.getSt4Code() : "") + ", " + rb.getCn4Code() : "")) + (rb.getCx2Id() != null ? "]" : (rb.getCn6Id() != null ? rb.getCn6Label() + " [" + rb.getCn6Code() + "]" : "")));
+				v_.add(Boolean.TRUE.equals(rb.getRsInProgress()) ? "X" : "");
 				v_.add(StringUtils.notEmpty(rb.getRsComment()) ? "X" : "");
 				v_.add(StringUtils.notEmpty(rb.getRsExa()) ? "X" : "");
 				v_.add(StringUtils.toTextDate(rb.getRsLastUpdate(), "", "dd/MM/yyyy HH:mm"));
@@ -366,7 +367,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			cols.add("ID");cols.add("Year");
 			cols.add("1st");cols.add("2nd");cols.add("3rd");
 			cols.add("Date #1");cols.add("Date #2");cols.add("Place #1");cols.add("Place #2");
-			cols.add("Cmt");cols.add("Tie");cols.add("Last update");
+			cols.add("Prg");cols.add("Cmt");cols.add("Tie");cols.add("Last update");
 			jResultTable = new JTable(v, cols) {
 				private static final long serialVersionUID = 1L;
 				@Override
@@ -387,7 +388,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			});
 			jResultTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			jResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			int[] tWidths = new int[] {35, 35, 175, 175, 175, 65, 65, 175, 175, 30, 30, 100};
+			int[] tWidths = new int[] {35, 35, 175, 175, 175, 65, 65, 175, 175, 30, 30, 30, 100};
 			for (int i = 0 ; i < jResultTable.getColumnCount() ; i++) {
 				jResultTable.getColumnModel().getColumn(i).setPreferredWidth(tWidths[i]);
 			}
@@ -646,7 +647,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 					rdlg.getDate2().setText(StringUtils.notEmpty(rs.getDate2()) ? rs.getDate2() : null);
 					rdlg.setComment(StringUtils.notEmpty(rs.getComment()) ? rs.getComment() : null);
 					rdlg.getExa().setText(StringUtils.notEmpty(rs.getExa()) ? rs.getExa() : null);
-					rdlg.getDraft().setSelected(Boolean.TRUE.equals(rs.getDraft()));
+					rdlg.getInProgress().setSelected(Boolean.TRUE.equals(rs.getInProgress()));
 					List<Integer> lTie = StringUtils.tieList(rs.getExa());
 					for (int i = 0 ; i < 10 ; i++) {
 						rdlg.getExaCheckbox()[i].setSelected(lTie.contains(i + 1));

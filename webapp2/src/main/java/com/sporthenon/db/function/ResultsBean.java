@@ -50,6 +50,7 @@ public class ResultsBean {
 	private String rsResult20;
 	private String rsComment;
 	private String rsExa;
+	private Boolean rsInProgress;
 	private Integer yrId;
 	private String yrLabel;
 	private Integer cx1Id;
@@ -2743,6 +2744,18 @@ public class ResultsBean {
 
 	public void setRsLastUpdate(Timestamp rsLastUpdate) {
 		this.rsLastUpdate = rsLastUpdate;
+	}
+	
+	public Boolean getRsInProgress() {
+		return rsInProgress;
+	}
+
+	public void setRsInProgress(Boolean rsInProgress) {
+		this.rsInProgress = rsInProgress;
+	}
+	
+	public Boolean isInProgress() {
+		return Boolean.TRUE.equals(this.rsInProgress);
 	}
 
 	@Override

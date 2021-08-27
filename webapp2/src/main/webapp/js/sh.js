@@ -451,7 +451,7 @@ function share(type) {
 function exportPage(type) {
 	var url = $$('#content .url')[0].innerHTML;
 	if (url) {
-		location.href = url + '?export=' + type;
+		location.href = url + (url.indexOf('?') == -1 ? '?' : '&') + 'export=' + type;
 		$('exportopt').hide();
 	}
 }
@@ -1526,7 +1526,7 @@ function loadResValues(value) {
 			tValues['cmt'] = t[23]; if (t[23] != '') {$('cmt').value = t[23]; $('cmt').addClassName('completed2');} else {$('cmt').value = $('cmt').name; $('cmt').removeClassName('completed2');}
 			$('metadata').update(t[24]);
 			tValues['inact'] = t[25]; $('inact').checked = (t[25] == '1');
-			tValues['draft'] = t[26]; $('draft').checked = (t[26] == '1');
+			tValues['inprogress'] = t[26]; $('inprogress').checked = (t[26] == '1');
 			tValues['nodate'] = t[27]; $('nodate').checked = (t[27] == '1');
 			tValues['noplace'] = t[28]; $('noplace').checked = (t[29] == '1');
 			tValues['exl'] = t[29]; if (t[29] != '') {$('exl').value = t[29].replace(/\|/gi, '\r\n'); $('exl').addClassName('completed2');} else {$('exl').value = $('exl').name; $('exl').removeClassName('completed2');}
@@ -1788,7 +1788,7 @@ function saveResult() {
 		}
 	});
 	h.set('inact', $('inact').checked ? '1' : '0');
-	h.set('draft', $('draft').checked ? '1' : '0');
+	h.set('inprogress', $('inprogress').checked ? '1' : '0');
 	h.set('nodate', $('nodate').checked ? '1' : '0');
 	h.set('noplace', $('noplace').checked ? '1' : '0');
 	new Ajax.Request('/update/save', {

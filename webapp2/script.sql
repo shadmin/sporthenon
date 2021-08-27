@@ -1,362 +1,189 @@
-ALTER TABLE _ref_item
-    ADD COLUMN date4 timestamp without time zone;
+ALTER TABLE result
+    RENAME draft TO in_progress;
     
-ALTER TABLE _ref_item
-    ADD COLUMN id_rel19 integer;
-
-ALTER TABLE retired_number
-    ALTER COLUMN id_team DROP NOT NULL;
-
-ALTER TABLE retired_number
-    ADD COLUMN number2 character varying(10);
-    
-UPDATE retired_number SET number2 = "number";
-
-UPDATE retired_number set number2 = NULL where number2 = '-1';
-
-ALTER TABLE retired_number DROP COLUMN "number";
-
-ALTER TABLE retired_number
-    RENAME number2 TO "number";
-    
-DROP SEQUENCE s_win_loss;
-
-DROP TABLE win_loss;
-
-CREATE OR REPLACE FUNCTION update_ref()
-    RETURNS trigger
+CREATE OR REPLACE FUNCTION public.tree_months(
+	_filter character varying,
+	_lang character varying)
+    RETURNS SETOF _tree_item 
     LANGUAGE 'plpgsql'
     COST 100
-    VOLATILE NOT LEAKPROOF
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
 AS $BODY$
-DECLARE
-	_row record;
-	_entity varchar(2);
-	_id_event integer;
-	_id_subevent integer;
-	_id_subevent2 integer;
-	_id_olympics integer;
-	_sp_type integer;
-	_type integer;
-BEGIN
-	_entity := TG_ARGV[0];
-	IF (TG_OP = 'DELETE') THEN
-		_row := OLD;
-	ELSIF (TG_OP IN ('INSERT', 'UPDATE')) THEN
-		_row := NEW;
-	END IF;
-
-	IF _entity = 'CT' THEN
-		UPDATE state SET REF = count_ref('ST', _row.id_state) WHERE id=_row.id_state;
-		UPDATE country SET REF = count_ref('CN', _row.id_country) WHERE id=_row.id_country;
-	ELSIF _entity = 'CX' THEN
-		UPDATE city SET REF = count_ref('CT', _row.id_city) WHERE id=_row.id_city;
-	ELSIF _entity = 'HF' THEN
-		UPDATE year SET REF = count_ref('YR', _row.id_year) WHERE id=_row.id_year;
-		UPDATE athlete SET REF = count_ref('PR', _row.id_person) WHERE id=_row.id_person;
-	ELSIF _entity = 'OL' THEN
-		UPDATE year SET REF = count_ref('YR', _row.id_year) WHERE id=_row.id_year;
-		UPDATE city SET REF = count_ref('CT', _row.id_city) WHERE id=_row.id_city;
-	ELSIF _entity = 'OR' THEN
-		UPDATE olympics SET REF = count_ref('OL', _row.id_olympics) WHERE id=_row.id_olympics;
-		UPDATE country SET REF = count_ref('CN', _row.id_country) WHERE id=_row.id_country;
-	ELSIF _entity = 'PL' THEN
-		UPDATE athlete SET REF = count_ref('PR', _row.id_person) WHERE id=_row.id_person;
-	ELSIF _entity = 'PR' THEN
-		UPDATE country SET REF = count_ref('CN', _row.id_country) WHERE id=_row.id_country;
-		UPDATE team SET REF = count_ref('TM', _row.id_team) WHERE id=_row.id_team;
-		UPDATE sport SET REF = count_ref('SP', _row.id_sport) WHERE id=_row.id_sport;
-	ELSIF _entity = 'RC' THEN
-		UPDATE sport SET REF = count_ref('SP', _row.id_sport) WHERE id=_row.id_sport;
-		UPDATE championship SET REF = count_ref('CP', _row.id_championship) WHERE id=_row.id_championship;
-		UPDATE event SET REF = count_ref('EV', _row.id_event) WHERE id=_row.id_event;
-		UPDATE event SET REF = count_ref('EV', _row.id_subevent) WHERE id=_row.id_subevent;
-		UPDATE city SET REF = count_ref('CT', _row.id_city) WHERE id=_row.id_city;
-
-		IF (lower(_row.type1) = 'individual') THEN
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank1) WHERE id=_row.id_rank1;
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank2) WHERE id=_row.id_rank2;
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank3) WHERE id=_row.id_rank3;
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank4) WHERE id=_row.id_rank4;
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank5) WHERE id=_row.id_rank5;
-		ELSIF (lower(_row.type1) = 'team') THEN
-			UPDATE team SET REF = count_ref('TM', _row.id_rank1) WHERE id=_row.id_rank1;
-			UPDATE team SET REF = count_ref('TM', _row.id_rank2) WHERE id=_row.id_rank2;
-			UPDATE team SET REF = count_ref('TM', _row.id_rank3) WHERE id=_row.id_rank3;
-			UPDATE team SET REF = count_ref('TM', _row.id_rank4) WHERE id=_row.id_rank4;
-			UPDATE team SET REF = count_ref('TM', _row.id_rank5) WHERE id=_row.id_rank5;
-		ELSIF (lower(_row.type1) = 'country') THEN
-			UPDATE country SET REF = count_ref('CN', _row.id_rank1) WHERE id=_row.id_rank1;
-			UPDATE country SET REF = count_ref('CN', _row.id_rank2) WHERE id=_row.id_rank2;
-			UPDATE country SET REF = count_ref('CN', _row.id_rank3) WHERE id=_row.id_rank3;
-			UPDATE country SET REF = count_ref('CN', _row.id_rank4) WHERE id=_row.id_rank4;
-			UPDATE country SET REF = count_ref('CN', _row.id_rank5) WHERE id=_row.id_rank5;
+declare
+	_item _tree_item%rowtype;
+	_c refcursor;
+	_month_label varchar(8);
+	_sp_id integer;
+	_sp_label varchar(50);
+	_sp_label_en varchar(50);
+	_count integer;
+	_index smallint;
+	_current_month varchar(8);
+	_current_sp integer;
+begin
+	_index := 1;
+	_current_month := '';
+	_current_sp := 0;
+	OPEN _c FOR EXECUTE
+	'SELECT (CASE WHEN RS.date2 IS NOT NULL AND RS.date2<>'''' THEN substring(RS.date2, 4) ELSE YR.label END) AS M, SP.id, SP.label' || _lang || ', SP.label, COUNT(*)
+		FROM result RS LEFT JOIN sport SP ON RS.id_sport = SP.id
+		LEFT JOIN year YR ON RS.id_year = YR.id
+		WHERE RS.in_progress = false AND ' || _filter || '
+		GROUP BY M, SP.id, SP.label' || _lang || '
+		ORDER BY M, SP.label' || _lang;
+	LOOP
+		FETCH _c INTO _month_label, _sp_id, _sp_label, _sp_label_en, _count;
+		EXIT WHEN NOT FOUND;
+		
+		IF _month_label <> _current_month THEN
+			_item.id = _index;
+			_item.id_item = (CASE WHEN length(_month_label) = 4 THEN 0 ELSE substring(_month_label, 0, 3)::integer END);
+			_item.label = _month_label;
+			_item.level = 1;
+			RETURN NEXT _item;
+			_current_month := _month_label;
+			_current_sp := 0;
+			_index := _index + 1;
 		END IF;
-	ELSIF _entity = 'RS' THEN
-		UPDATE year SET REF = count_ref('YR', _row.id_year) WHERE id=_row.id_year;
-		UPDATE sport SET REF = count_ref('SP', _row.id_sport) WHERE id=_row.id_sport;
-		UPDATE championship SET REF = count_ref('CP', _row.id_championship) WHERE id=_row.id_championship;
-		UPDATE event SET REF = count_ref('EV', _row.id_event) WHERE id=_row.id_event;
-		UPDATE event SET REF = count_ref('EV', _row.id_subevent) WHERE id=_row.id_subevent;
-		UPDATE event SET REF = count_ref('EV', _row.id_subevent2) WHERE id=_row.id_subevent2;
-		UPDATE complex SET REF = count_ref('CX', _row.id_complex1) WHERE id=_row.id_complex1;
-		UPDATE complex SET REF = count_ref('CX', _row.id_complex2) WHERE id=_row.id_complex2;
-		UPDATE city SET REF = count_ref('CT', _row.id_city1) WHERE id=_row.id_city1;
-		UPDATE city SET REF = count_ref('CT', _row.id_city2) WHERE id=_row.id_city2;
-		IF _row.id_championship = 1 THEN
-			SELECT SP.type INTO _sp_type FROM sport SP WHERE SP.id=_row.id_sport;
-			SELECT OL.id INTO _id_olympics FROM olympics OL WHERE OL.id_year=_row.id_year AND OL.type=_sp_type;
-			UPDATE olympics SET REF = count_ref('OL', _id_olympics) WHERE id=_id_olympics;
+		IF _sp_id <> _current_sp THEN
+			_item.id = _index;
+			_item.id_item = _sp_id;
+			_item.label = _sp_label || ' (' || _count || ')';
+			_item.label_en = _sp_label_en;
+			_item.level = 2;
+			RETURN NEXT _item;
+			_current_sp := _sp_id;
+			_index := _index + 1;
 		END IF;
-		IF _row.id_subevent2 IS NOT NULL AND _row.id_subevent2 <> 0 THEN
-			SELECT TP.number INTO _type FROM event EV LEFT JOIN type TP ON EV.id_type = TP.id WHERE EV.id = _row.id_subevent2;
-		ELSIF _row.id_subevent IS NOT NULL AND _row.id_subevent <> 0 THEN
-			SELECT TP.number INTO _type FROM event EV LEFT JOIN type TP ON EV.id_type = TP.id WHERE EV.id = _row.id_subevent;
-		ELSE
-			SELECT TP.number INTO _type FROM event EV LEFT JOIN type TP ON EV.id_type = TP.id WHERE EV.id = _row.id_event;
-		END IF;
-
-		IF _type < 10 THEN
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank1) WHERE id=_row.id_rank1;
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank2) WHERE id=_row.id_rank2;
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank3) WHERE id=_row.id_rank3;
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank4) WHERE id=_row.id_rank4;
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank5) WHERE id=_row.id_rank5;
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank6) WHERE id=_row.id_rank6;
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank7) WHERE id=_row.id_rank7;
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank8) WHERE id=_row.id_rank8;
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank9) WHERE id=_row.id_rank9;
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank10) WHERE id=_row.id_rank10;
-		ELSIF _type = 50 THEN
-			UPDATE team SET REF = count_ref('TM', _row.id_rank1) WHERE id=_row.id_rank1;
-			UPDATE team SET REF = count_ref('TM', _row.id_rank2) WHERE id=_row.id_rank2;
-			UPDATE team SET REF = count_ref('TM', _row.id_rank3) WHERE id=_row.id_rank3;
-			UPDATE team SET REF = count_ref('TM', _row.id_rank4) WHERE id=_row.id_rank4;
-			UPDATE team SET REF = count_ref('TM', _row.id_rank5) WHERE id=_row.id_rank5;
-			UPDATE team SET REF = count_ref('TM', _row.id_rank6) WHERE id=_row.id_rank6;
-			UPDATE team SET REF = count_ref('TM', _row.id_rank7) WHERE id=_row.id_rank7;
-			UPDATE team SET REF = count_ref('TM', _row.id_rank8) WHERE id=_row.id_rank8;
-			UPDATE team SET REF = count_ref('TM', _row.id_rank9) WHERE id=_row.id_rank9;
-			UPDATE team SET REF = count_ref('TM', _row.id_rank10) WHERE id=_row.id_rank10;
-		ELSIF _type = 99 THEN
-			UPDATE country SET REF = count_ref('CN', _row.id_rank1) WHERE id=_row.id_rank1;
-			UPDATE country SET REF = count_ref('CN', _row.id_rank2) WHERE id=_row.id_rank2;
-			UPDATE country SET REF = count_ref('CN', _row.id_rank3) WHERE id=_row.id_rank3;
-			UPDATE country SET REF = count_ref('CN', _row.id_rank4) WHERE id=_row.id_rank4;
-			UPDATE country SET REF = count_ref('CN', _row.id_rank5) WHERE id=_row.id_rank5;
-			UPDATE country SET REF = count_ref('CN', _row.id_rank6) WHERE id=_row.id_rank6;
-			UPDATE country SET REF = count_ref('CN', _row.id_rank7) WHERE id=_row.id_rank7;
-			UPDATE country SET REF = count_ref('CN', _row.id_rank8) WHERE id=_row.id_rank8;
-			UPDATE country SET REF = count_ref('CN', _row.id_rank9) WHERE id=_row.id_rank9;
-			UPDATE country SET REF = count_ref('CN', _row.id_rank10) WHERE id=_row.id_rank10;
-		END IF;
-	ELSIF _entity = 'RD' THEN
-		UPDATE complex SET REF = count_ref('CX', _row.id_complex) WHERE id=_row.id_complex;
-		UPDATE city SET REF = count_ref('CT', _row.id_city) WHERE id=_row.id_city;
-		IF _row.id_result_type < 10 THEN
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank1) WHERE id=_row.id_rank1;
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank2) WHERE id=_row.id_rank2;
-			UPDATE athlete SET REF = count_ref('PR', _row.id_rank3) WHERE id=_row.id_rank3;
-		ELSIF _type = 50 THEN
-			UPDATE team SET REF = count_ref('TM', _row.id_rank1) WHERE id=_row.id_rank1;
-			UPDATE team SET REF = count_ref('TM', _row.id_rank2) WHERE id=_row.id_rank2;
-			UPDATE team SET REF = count_ref('TM', _row.id_rank3) WHERE id=_row.id_rank3;
-		ELSIF _type = 99 THEN
-			UPDATE country SET REF = count_ref('CN', _row.id_rank1) WHERE id=_row.id_rank1;
-			UPDATE country SET REF = count_ref('CN', _row.id_rank2) WHERE id=_row.id_rank2;
-			UPDATE country SET REF = count_ref('CN', _row.id_rank3) WHERE id=_row.id_rank3;
-		END IF;
-	ELSIF _entity = 'RN' THEN
-		UPDATE team SET REF = count_ref('TM', _row.id_team) WHERE id=_row.id_team;
-		UPDATE athlete SET REF = count_ref('PR', _row.id_person) WHERE id=_row.id_person;
-	ELSIF _entity = 'TM' THEN
-		UPDATE team SET REF = count_ref('TM', _row.link) WHERE id=_row.link;
-	ELSIF _entity = 'TS' THEN
-		UPDATE team SET REF = count_ref('TM', _row.id_team) WHERE id=_row.id_team;
-		UPDATE complex SET REF = count_ref('CX', _row.id_complex) WHERE id=_row.id_complex;
-	END IF;
+	END LOOP;
+	CLOSE _c;
 	
-        RETURN NULL;
-    END;
+	RETURN;
+end;
 $BODY$;
 
-CREATE OR REPLACE FUNCTION count_ref(
-	_entity character varying,
-	_id integer)
-    RETURNS integer
+CREATE OR REPLACE FUNCTION public.get_results(
+	_id_sport integer,
+	_id_championship integer,
+	_id_event integer,
+	_id_subevent integer,
+	_id_subevent2 integer,
+	_years text,
+	_id_result integer,
+	_lang character varying)
+    RETURNS refcursor
     LANGUAGE 'plpgsql'
     COST 100
     VOLATILE PARALLEL UNSAFE
 AS $BODY$
 declare
-	_count integer;
-	_n integer;
-	_type1 integer;
-	_type2 integer;
+    _c refcursor;
+    _type integer;
+    _columns text;
+    _joins text;
+    _ev integer;
+    _ev1 integer := _id_event;
+    _ev2 integer := _id_subevent;
+    _ev3 integer := _id_subevent2;
+    _event_condition text;
+    _year_condition text;
 begin
-	IF _id IS NULL THEN
-		RETURN 0;
+	-- Get entity type (person, country, team)
+	IF _id_result <> 0 THEN
+	    SELECT RS.id_event, RS.id_subevent, RS.id_subevent2
+	    INTO _ev1, _ev2, _ev3
+	    FROM result RS
+	    WHERE RS.id = _id_result;
+	    --WHERE RS.id = _id_result OR (RS.id_sport = _id_sport AND RS.id_championship = _id_championship);
 	END IF;
-	_count := 0;
+	IF _ev3 IS NOT NULL AND _ev3 <> 0 THEN _ev := _ev3;
+	ELSIF _ev2 IS NOT NULL AND _ev2 <> 0 THEN _ev := _ev2;
+	ELSE _ev := _ev1; END IF;
+	SELECT TP.number INTO _type FROM event EV LEFT JOIN type TP ON EV.id_type = TP.id WHERE EV.id = _ev;
+	
+	-- Build entity-specific columns/joins
+	_columns := '';
+	_joins := '';
+	FOR i IN 1..20 LOOP
+	    IF _type < 10 THEN -- Person
+	        _columns := _columns || ', PR' || i || '.last_name AS en' || i || '_str1, PR' || i || '.first_name AS en' || i || '_str2, NULL AS en' || i || '_str3';
+	        _columns := _columns || ', PRTM' || i || '.id AS en' || i || '_rel1_id, NULL AS en' || i || '_rel1_code, PRTM' || i || '.label AS en' || i || '_rel1_label';
+	        _columns := _columns || ', PRCN' || i || '.id AS en' || i || '_rel2_id, PRCN' || i || '.code AS en' || i || '_rel2_code, PRCN' || i || '.label' || _lang || ' AS en' || i || '_rel2_label, PRCN' || i || '.label AS en' || i || '_rel2_label_en';
+	        _joins := _joins || ' LEFT JOIN athlete PR' || i || ' ON RS.id_rank' || i || ' = PR' || i || '.id';
+	        _joins := _joins || ' LEFT JOIN team PRTM' || i || ' ON PR' || i || '.id_team = PRTM' || i || '.id';
+	        _joins := _joins || ' LEFT JOIN country PRCN' || i || ' ON PR' || i || '.id_country = PRCN' || i || '.id';
+	    ELSIF _type = 50 THEN -- Team
+	        _columns := _columns || ', NULL AS en' || i || '_str1, TM' || i || '.label AS en' || i || '_str2, NULL AS en' || i || '_str3';
+	        _columns := _columns || ', NULL AS en' || i || '_rel1_id, NULL AS en' || i || '_rel1_code, NULL AS en' || i || '_rel1_label';
+	        _columns := _columns || ', TMCN' || i || '.id AS en' || i || '_rel2_id, TMCN' || i || '.code AS en' || i || '_rel2_code, TMCN' || i || '.label' || _lang || ' AS en' || i || '_rel2_label, TMCN' || i || '.label AS en' || i || '_rel2_label_en';
+	        _joins := _joins || ' LEFT JOIN team TM' || i || ' ON RS.id_rank' || i || ' = TM' || i || '.id';
+	        _joins := _joins || ' LEFT JOIN country TMCN' || i || ' ON TM' || i || '.id_country = TMCN' || i || '.id';
+	    ELSIF _type = 99 THEN -- Country
+	        _columns := _columns || ', _CN' || i || '.code AS en' || i || '_str1, _CN' || i || '.label' || _lang || ' AS en' || i || '_str2, _CN' || i || '.label AS en' || i || '_str3';
+	        _columns := _columns || ', NULL AS en' || i || '_rel1_id, NULL AS en' || i || '_rel1_code, NULL AS en' || i || '_rel1_label';
+	        _columns := _columns || ', NULL AS en' || i || '_rel2_id, NULL AS en' || i || '_rel2_code, NULL AS en' || i || '_rel2_label, NULL AS en' || i || '_rel2_label_en';
+	        _joins := _joins || ' LEFT JOIN country _CN' || i || ' ON RS.id_rank' || i || ' = _CN' || i || '.id';
+	    END IF;
+	END LOOP;
 
-	-- Count '_id' referenced in: Cities
-	IF _entity = 'CN' THEN -- Country
-		SELECT COUNT(*) INTO _n FROM city CT WHERE CT.id_country = _id; _count := _count + _n;
-	ELSIF _entity = 'ST' THEN -- State
-		SELECT COUNT(*) INTO _n FROM city CT WHERE CT.id_state = _id; _count := _count + _n;
+	-- Handle null event/subevent
+	_event_condition := '';
+	IF _id_event <> 0 THEN
+	    _event_condition := ' AND RS.id_event = ' ||_id_event;
 	END IF;
-
-	-- Count '_id' referenced in: Complexes
-	IF _entity = 'CT' THEN -- City
-		SELECT COUNT(*) INTO _n FROM complex CX WHERE CX.id_city = _id; _count := _count + _n;
+	IF _id_subevent <> 0 THEN
+	    _event_condition := _event_condition || ' AND RS.id_subevent = ' ||_id_subevent;
 	END IF;
-
-	-- Count '_id' referenced in: Hall of Fame
-	IF _entity = 'YR' THEN -- Year
-		SELECT COUNT(*) INTO _n FROM hall_of_fame HF WHERE HF.id_year = _id; _count := _count + _n;
-	ELSIF _entity = 'PR' THEN -- Person
-		SELECT COUNT(*) INTO _n FROM hall_of_fame HF WHERE HF.id_person = _id; _count := _count + _n;
-	END IF;
-
-	-- Count '_id' referenced in: Olympics
-	IF _entity = 'YR' THEN -- Year
-		SELECT COUNT(*) INTO _n FROM olympics OL WHERE OL.id_year = _id; _count := _count + _n;
-	ELSIF _entity = 'CT' THEN -- City
-		SELECT COUNT(*) INTO _n FROM olympics OL WHERE OL.id_city = _id; _count := _count + _n;
-	END IF;
-
-	-- Count '_id' referenced in: Olympic Rankings
-	IF _entity = 'OL' THEN -- Olympics
-		SELECT COUNT(*) INTO _n FROM olympic_ranking OR_ WHERE OR_.id_olympics = _id; _count := _count + _n;
-	ELSIF _entity = 'CN' THEN -- Country
-		SELECT COUNT(*) INTO _n FROM olympic_ranking OR_ WHERE OR_.id_country = _id; _count := _count + _n;
-	END IF;
-
-	-- Count '_id' referenced in: Athletes
-	IF _entity = 'CN' THEN -- Country
-		SELECT COUNT(*) INTO _n FROM athlete PR WHERE PR.id_country = _id; _count := _count + _n;
-	ELSIF _entity = 'TM' THEN -- Team
-		SELECT COUNT(*) INTO _n FROM athlete PR WHERE PR.id_team = _id; _count := _count + _n;
-	ELSIF _entity = 'SP' THEN -- Sport
-		SELECT COUNT(*) INTO _n FROM athlete PR WHERE PR.id_sport = _id; _count := _count + _n;
-	END IF;
-
-	-- Count '_id' referenced in: Person Lists
-	IF _entity = 'PR' THEN -- Person
-		SELECT COUNT(*) INTO _n FROM _person_list PL WHERE PL.id_person = _id; _count := _count + _n;
+	IF _id_subevent2 <> 0 THEN
+	    _event_condition := _event_condition || ' AND RS.id_subevent2 = ' ||_id_subevent2;
 	END IF;
 
-	-- Count '_id' referenced in: Records
-	IF _entity ~ 'CN|PR|TM' THEN -- Country/Person/Team
-		IF _entity = 'CN' THEN _type1 = 99;_type2 = 99;
-		ELSIF _entity = 'PR' THEN _type1 = 1;_type2 = 10;
-		ELSIF _entity = 'TM' THEN _type1 = 50;_type2 = 50; END IF;
-		SELECT COUNT(*) INTO _n FROM record RC
-			LEFT JOIN event EV ON RC.id_event = EV.id
-			LEFT JOIN type TP ON EV.id_type = TP.id
-		WHERE (RC.ID_RANK1 = _id OR RC.ID_RANK2 = _id OR RC.ID_RANK3 = _id OR RC.ID_RANK4 = _id OR RC.ID_RANK5 = _id) AND lower(RC.type1) = (CASE WHEN _type1 = 50 THEN 'team' ELSE 'individual' END);
-		_count := _count + _n;
-	ELSIF _entity = 'SP' THEN -- Sport
-		SELECT COUNT(*) INTO _n FROM record RC WHERE RC.id_sport = _id; _count := _count + _n;
-	ELSIF _entity = 'CP' THEN -- Championship
-		SELECT COUNT(*) INTO _n FROM record RC WHERE RC.id_championship = _id; _count := _count + _n;
-	ELSIF _entity = 'EV' THEN -- Event
-		SELECT COUNT(*) INTO _n FROM record RC WHERE RC.id_event = _id OR RC.id_subevent = _id; _count := _count + _n;
-	ELSIF _entity = 'CT' THEN -- City
-		SELECT COUNT(*) INTO _n FROM record RC WHERE RC.id_city = _id; _count := _count + _n;
-	END IF;
-
-	-- Count '_id' referenced in: Results
-	IF _entity ~ 'CN|PR|TM' THEN -- Country/Person/Team
-		IF _entity = 'CN' THEN _type1 = 99;_type2 = 99;
-		ELSIF _entity = 'PR' THEN _type1 = 1;_type2 = 10;
-		ELSIF _entity = 'TM' THEN _type1 = 50;_type2 = 50; END IF;
-		SELECT COUNT(*) INTO _n FROM result RS
-			LEFT JOIN event EV ON RS.id_event = EV.id
-			LEFT JOIN event SE ON RS.id_subevent = SE.id
-			LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id
-			LEFT JOIN type TP1 ON EV.id_type = TP1.id
-			LEFT JOIN type TP2 ON SE.id_type = TP2.id
-			LEFT JOIN type TP3 ON SE2.id_type = TP3.id
-		WHERE (RS.id_rank1 = _id OR RS.id_rank2 = _id OR RS.id_rank3 = _id OR RS.id_rank4 = _id OR RS.id_rank5 = _id OR RS.id_rank6 = _id OR RS.id_rank7 = _id OR RS.id_rank8 = _id OR RS.id_rank9 = _id OR RS.id_rank10 = _id)
-			AND ((TP1.number BETWEEN _type1 AND _type2 AND TP2.number IS NULL) OR (TP2.number BETWEEN _type1 AND _type2 AND TP3.number IS NULL) OR TP3.number BETWEEN _type1 AND _type2);
-		_count := _count + _n;
-	ELSIF _entity = 'SP' THEN -- Sport
-		SELECT COUNT(*) INTO _n FROM result RS WHERE RS.id_sport = _id; _count := _count + _n;
-	ELSIF _entity = 'CP' THEN -- Championship
-		SELECT COUNT(*) INTO _n FROM result RS WHERE RS.id_championship = _id; _count := _count + _n;
-	ELSIF _entity = 'EV' THEN -- Event
-		SELECT COUNT(*) INTO _n FROM result RS WHERE RS.id_event = _id OR RS.id_subevent = _id OR RS.id_subevent2 = _id; _count := _count + _n;
-	ELSIF _entity = 'CT' THEN -- City
-		SELECT COUNT(*) INTO _n FROM result RS WHERE RS.id_city1 = _id OR RS.id_city2 = _id; _count := _count + _n;
-	ELSIF _entity = 'CX' THEN -- Complex
-		SELECT COUNT(*) INTO _n FROM result RS WHERE RS.id_complex1 = _id OR RS.id_complex2 = _id; _count := _count + _n;
-	ELSIF _entity = 'YR' THEN -- Year
-		SELECT COUNT(*) INTO _n FROM result RS WHERE RS.id_year = _id; _count := _count + _n;
-	ELSIF _entity = 'OL' THEN -- Olympics
-		SELECT COUNT(*) INTO _n FROM result RS LEFT JOIN olympics OL ON RS.id_year = OL.id_year LEFT JOIN sport SP ON RS.id_sport = SP.id WHERE OL.id = _id AND RS.id_championship = 1 AND SP.type = OL.type; _count := _count + _n;
-	END IF;
-
-	-- Count '_id' referenced in: Retired Numbers
-	IF _entity = 'TM' THEN -- Team
-		SELECT COUNT(*) INTO _n FROM retired_number RN WHERE RN.id_team = _id; _count := _count + _n;
-	ELSIF _entity = 'PR' THEN -- Person
-		SELECT COUNT(*) INTO _n FROM retired_number RN WHERE RN.id_person = _id; _count := _count + _n;
-	END IF;
-
-	-- Count '_id' referenced in: Rounds
-	IF _entity ~ 'CN|PR|TM' THEN -- Country/Person/Team
-		IF _entity = 'CN' THEN _type1 = 99;
-		ELSIF _entity = 'PR' THEN _type1 = 1;
-		ELSIF _entity = 'TM' THEN _type1 = 50; END IF;
-		SELECT COUNT(*) INTO _n FROM round RD
-		WHERE RD.id_result_type = _type1 AND RD.id_rank1 = _id OR RD.id_rank2 = _id OR RD.id_rank3 = _id;
-		_count := _count + _n;
-	ELSIF _entity = 'CT' THEN -- City
-		SELECT COUNT(*) INTO _n FROM round RD WHERE RD.id_city = _id; _count := _count + _n;
-	ELSIF _entity = 'CX' THEN -- Complex
-		SELECT COUNT(*) INTO _n FROM round RD WHERE RD.id_complex = _id; _count := _count + _n;
-	END IF;
-
-	-- Count '_id' referenced in: Teams
-	IF _entity = 'SP' THEN -- Sport
-		SELECT COUNT(*) INTO _n FROM team TM WHERE TM.id_sport = _id; _count := _count + _n;
-	ELSIF _entity = 'CN' THEN -- Country
-		SELECT COUNT(*) INTO _n FROM team TM WHERE TM.id_country = _id; _count := _count + _n;
-	END IF;
-
-	-- Count '_id' referenced in: Team Stadiums
-	IF _entity = 'TM' THEN -- Team
-		SELECT COUNT(*) INTO _n FROM team_stadium TS WHERE TS.id_team = _id; _count := _count + _n;
-	ELSIF _entity = 'CX' THEN -- Complex
-		SELECT COUNT(*) INTO _n FROM team_stadium TS WHERE TS.id_complex = _id; _count := _count + _n;
+	-- Set year condition
+	_year_condition := '';
+	IF _years <> '0' THEN
+		_year_condition := ' AND YR.id IN (' || _years || ')';
 	END IF;
 	
-	RETURN _count;
+	-- Open cursor
+	OPEN _c FOR EXECUTE
+	'SELECT
+		RS.id AS rs_id, RS.last_update AS rs_last_update, RS.date1 AS rs_date1, RS.date2 AS rs_date2, RS.id_rank1 AS rs_rank1, RS.id_rank2 AS rs_rank2, RS.id_rank3 AS rs_rank3, RS.id_rank4 AS rs_rank4, RS.id_rank5 AS rs_rank5, RS.id_rank6 AS rs_rank6, RS.id_rank7 AS rs_rank7, RS.id_rank8 AS rs_rank8, RS.id_rank9 AS rs_rank9, RS.id_rank10 AS rs_rank10, RS.id_rank11 AS rs_rank11, RS.id_rank12 AS rs_rank12, RS.id_rank13 AS rs_rank13, RS.id_rank14 AS rs_rank14, RS.id_rank15 AS rs_rank15, RS.id_rank16 AS rs_rank16, RS.id_rank17 AS rs_rank17, RS.id_rank18 AS rs_rank18, RS.id_rank19 AS rs_rank19, RS.id_rank20 AS rs_rank20,
+		RS.result1 AS rs_result1, RS.result2 AS rs_result2, RS.result3 AS rs_result3, RS.result4 AS rs_result4, RS.result5 AS rs_result5, RS.result6 AS rs_result6, RS.result7 AS rs_result7, RS.result8 AS rs_result8, RS.result9 AS rs_result9, RS.result10 AS rs_result10, RS.result11 AS rs_result11, RS.result12 AS rs_result12, RS.result13 AS rs_result13, RS.result14 AS rs_result14, RS.result15 AS rs_result15, RS.result16 AS rs_result16, RS.result17 AS rs_result17, RS.result18 AS rs_result18, RS.result19 AS rs_result19, RS.result20 AS rs_result20,
+		RS.comment AS rs_comment, RS.exa AS rs_exa, RS.in_progress AS rs_in_progress, YR.id AS yr_id, YR.label AS yr_label, CX1.id AS cx1_id, CX1.label AS cx1_label, CX2.id AS cx2_id, CX2.label AS cx2_label,
+		CT1.id AS ct1_id, CT1.label' || _lang || ' AS ct1_label, CT1.label AS ct1_label_en, CT2.id AS ct2_id, CT2.label' || _lang || ' AS ct2_label, CT2.label AS ct2_label_en, CT3.id AS ct3_id, CT3.label' || _lang || ' AS ct3_label, CT3.label AS ct3_label_en, CT4.id AS ct4_id, CT4.label' || _lang || ' AS ct4_label, CT4.label AS ct4_label_en, ST1.id AS st1_id, ST1.code AS st1_code, ST1.label' || _lang || ' AS st1_label, ST1.label AS st1_label_en, ST2.id AS st2_id, ST2.code AS st2_code,
+		ST2.label' || _lang || ' AS st2_label, ST2.label AS st2_label_en, ST3.id AS st3_id, ST3.code AS st3_code, ST3.label' || _lang || ' AS st3_label, ST3.label AS st3_label_en, ST4.id AS st4_id, ST4.code AS st4_code, ST4.label' || _lang || ' AS st4_label, ST4.label AS st4_label_en, CN1.id AS cn1_id, CN1.code AS cn1_code, CN1.label' || _lang || ' AS cn1_label, CN1.label AS cn1_label_en, CN2.id AS cn2_id, CN2.code AS cn2_code, CN2.label' || _lang || ' AS cn2_label, CN2.label AS cn2_label_en, CN3.id AS cn3_id, CN3.code AS cn3_code, CN3.label' || _lang || ' AS cn3_label, CN3.label AS cn3_label_en, CN4.id AS cn4_id, CN4.code AS cn4_code, CN4.label' || _lang || ' AS cn4_label, CN4.label AS cn4_label_en, CN5.id AS cn5_id, CN5.code AS cn5_code, CN5.label' || _lang || ' AS cn5_label, CN5.label AS cn5_label_en, CN6.id AS cn6_id, CN6.code AS cn6_code, CN6.label' || _lang || ' AS cn6_label, CN6.label AS cn6_label_en' ||
+		_columns || '
+	FROM
+		result RS
+		LEFT JOIN year YR ON RS.id_year = YR.id
+		LEFT JOIN complex CX1 ON RS.id_complex1 = CX1.id
+		LEFT JOIN complex CX2 ON RS.id_complex2 = CX2.id
+		LEFT JOIN city CT1 ON CX1.id_city = CT1.id
+		LEFT JOIN city CT2 ON RS.id_city1 = CT2.id
+		LEFT JOIN city CT3 ON CX2.id_city = CT3.id
+		LEFT JOIN city CT4 ON RS.id_city2 = CT4.id
+		LEFT JOIN state ST1 ON CT1.id_state = ST1.id
+		LEFT JOIN state ST2 ON CT2.id_state = ST2.id
+		LEFT JOIN state ST3 ON CT3.id_state = ST3.id
+		LEFT JOIN state ST4 ON CT4.id_state = ST4.id
+		LEFT JOIN country CN1 ON CT1.id_country = CN1.id
+		LEFT JOIN country CN2 ON CT2.id_country = CN2.id
+		LEFT JOIN country CN3 ON CT3.id_country = CN3.id
+		LEFT JOIN country CN4 ON CT4.id_country = CN4.id
+		LEFT JOIN country CN5 ON RS.id_country1 = CN5.id
+		LEFT JOIN country CN6 ON RS.id_country2 = CN6.id' ||
+		_joins || '
+	WHERE
+		(RS.id = ' || _id_result || ' OR (RS.id_sport = ' || _id_sport || ' AND
+		RS.id_championship = ' || _id_championship ||
+		_event_condition || _year_condition || '))
+	ORDER BY RS.id_year DESC, RS.id DESC';
+	
+	RETURN  _c;
 end;
 $BODY$;
-
-CREATE ROLE shcontributor WITH
-	NOLOGIN
-	NOSUPERUSER
-	NOCREATEDB
-	NOCREATEROLE
-	INHERIT
-	NOREPLICATION
-	CONNECTION LIMIT -1;
-	
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO shcontributor;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO shcontributor;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO shcontributor;
-
-REVOKE DELETE ON _contribution FROM shcontributor;
-REVOKE INSERT, UPDATE, DELETE ON _contributor FROM shcontributor;
-REVOKE DELETE ON _import FROM shcontributor;
-REVOKE DELETE ON olympics FROM shcontributor;
-
-ALTER TABLE _contributor
-    ADD COLUMN contrib boolean;
-
 
 CREATE OR REPLACE FUNCTION public.entity_ref(
 	_entity character varying,
@@ -519,7 +346,7 @@ begin
 			_type2 = 99;
 			_query = _query || ' LEFT JOIN _person_list PL ON PL.id_result = RS.id';
 		END IF;
-		_query = _query || ' WHERE RS.draft = false AND ((TP1.number BETWEEN ' || _type1 || ' AND ' || _type2 || ' AND TP2.number IS NULL) OR (TP2.number BETWEEN ' || _type1 || ' AND ' || _type2 || ' AND TP3.number IS NULL) OR (TP3.number BETWEEN ' || _type1 || ' AND ' || _type2 || '))';
+		_query = _query || ' WHERE RS.in_progress = false AND ((TP1.number BETWEEN ' || _type1 || ' AND ' || _type2 || ' AND TP2.number IS NULL) OR (TP2.number BETWEEN ' || _type1 || ' AND ' || _type2 || ' AND TP3.number IS NULL) OR (TP3.number BETWEEN ' || _type1 || ' AND ' || _type2 || '))';
 		IF _entity = 'CN' THEN
 			_query = _query || ' AND (RS.id_rank1 = ' || _id || ' OR RS.id_rank2 = ' || _id || ' OR RS.id_rank3 = ' || _id || ' OR RS.id_rank4 = ' || _id || ' OR RS.id_rank5 = ' || _id || ' OR RS.id_rank6 = ' || _id || ' OR RS.id_rank7 = ' || _id || ' OR RS.id_rank8 = ' || _id || ' OR RS.id_rank9 = ' || _id || ' OR RS.id_rank10 = ' || _id || ' OR RS.id_rank11 = ' || _id || ' OR RS.id_rank12 = ' || _id || ' OR RS.id_rank13 = ' || _id || ' OR RS.id_rank14 = ' || _id || ' OR RS.id_rank15 = ' || _id || ' OR RS.id_rank16 = ' || _id || ' OR RS.id_rank17 = ' || _id || ' OR RS.id_rank18 = ' || _id || ' OR RS.id_rank19 = ' || _id || ' OR RS.id_rank20 = ' || _id || ')';
 		ELSIF _entity = 'DT' THEN
@@ -1085,6 +912,137 @@ begin
 end;
 $BODY$;
 
+DROP FUNCTION public.get_retired_numbers(integer, text, smallint);
+
+CREATE OR REPLACE FUNCTION public.get_retired_numbers(
+	_id_league integer,
+	_teams text,
+	_number varchar)
+    RETURNS refcursor
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+declare
+    _c refcursor;
+    _team_condition text;
+    _number_condition text;
+begin
+	-- Set team condition ('All teams' = Empty condition)
+	_team_condition := '';
+	IF _teams <> '0' THEN
+		_team_condition := ' AND TM.id IN (' || _teams || ')';
+	END IF;
+	-- Set deceased condition
+	_number_condition := '';
+	IF _number <> '-1' THEN
+		_number_condition := ' AND RN.number = ''' || _number || '''';
+	END IF;
+	
+	-- Open cursor
+	OPEN _c FOR EXECUTE
+	'SELECT
+		RN.id AS rn_id, RN.last_update AS rn_last_update, TM.id AS tm_id, TM.label AS tm_label, 
+		PR.id AS pr_id, PR.last_name AS pr_last_name, PR.first_name AS pr_first_name, YR.id AS yr_id, YR.label AS yr_label, RN.number AS rn_number,
+		REGEXP_REPLACE(rn.number, ''\D'', ''9'', ''g'')::integer AS sort_col
+	FROM
+		retired_number RN
+		LEFT JOIN team TM ON RN.id_team = TM.id
+		LEFT JOIN athlete PR ON RN.id_person = PR.id
+		LEFT JOIN year YR ON RN.id_year = YR.id
+	WHERE
+		RN.id_league = ' || _id_league || _team_condition || _number_condition || '
+	ORDER BY
+		TM.label, sort_col';
+	
+	RETURN  _c;
+end;
+$BODY$;
+
+ALTER FUNCTION public.get_retired_numbers(integer, text, varchar)
+    OWNER TO shadmin;
+		
+
+CREATE OR REPLACE FUNCTION public._last_updates(
+	_sport integer,
+	_count integer,
+	_offset integer,
+	_lang character varying)
+    RETURNS refcursor
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+declare
+	_c refcursor;
+begin
+	OPEN _c FOR EXECUTE
+	'SELECT RS.id AS id, RS.last_update AS last_update, RS.id AS rs_id, YR.id AS yr_id, YR.label AS yr_label, SP.id AS sp_id, CP.id AS cp_id, EV.id AS ev_id, SE.id AS se_id, SE2.id AS se2_id, SP.label' || _lang || ' AS sp_label, CP.label' || _lang || ' AS cp_label, EV.label' || _lang || ' AS ev_label, SE.label' || _lang || ' AS se_label, SE2.label' || _lang || ' AS se2_label, SP.label AS sp_label_en, CP.label AS cp_label_en, EV.label AS ev_label_en, SE.label AS se_label_en, SE2.label AS se2_label_en, TP1.number as tp1_number, TP2.number AS tp2_number, TP3.number AS tp3_number,
+	  PR1.id AS pr1_id, PR1.first_name AS pr1_first_name, PR1.last_name AS pr1_last_name, PR1.id_team AS pr1_team, PR1.id_country AS pr1_country, PRCN1.code AS pr1_country_code, TM1.id AS tm1_id, TM1.label AS tm1_label, CN1.id AS cn1_id, CN1.code AS cn1_code, CN1.label' || _lang || ' AS cn1_label, CN1.label AS cn1_label_en, 
+	  PR2.id AS pr2_id, PR2.first_name AS pr2_first_name, PR2.last_name AS pr2_last_name, PR2.id_team AS pr2_team, PR2.id_country AS pr2_country, PRCN2.code AS pr2_country_code, TM2.id AS tm2_id, TM2.label AS tm2_label, CN2.id AS cn2_id, CN2.code AS cn2_code, CN2.label' || _lang || ' AS cn2_label, CN2.label AS cn2_label_en,
+	  PR3.id AS pr3_id, PR3.first_name AS pr3_first_name, PR3.last_name AS pr3_last_name, PR3.id_team AS pr3_team, PR3.id_country AS pr3_country, PRCN3.code AS pr3_country_code, TM3.id AS tm3_id, TM3.label AS tm3_label, CN3.id AS cn3_id, CN3.code AS cn3_code, CN3.label' || _lang || ' AS cn3_label, CN3.label AS cn3_label_en,
+	  PR4.id AS pr4_id, PR4.first_name AS pr4_first_name, PR4.last_name AS pr4_last_name, PR4.id_team AS pr4_team, PR4.id_country AS pr4_country, PRCN4.code AS pr4_country_code, TM4.id AS tm4_id, TM4.label AS tm4_label, CN4.id AS cn4_id, CN4.code AS cn4_code, CN4.label' || _lang || ' AS cn4_label, CN4.label AS cn4_label_en,
+	  RS.result1 AS rs_text1, RS.result2 AS rs_text2, RS.exa AS rs_text3, RS.comment AS rs_text4, NULL AS rs_text5, (CASE WHEN RS.date2 IS NOT NULL AND RS.date2<>'''' THEN to_date(RS.date2, ''dd/MM/yyyy'') ELSE RS.first_update END) AS rs_date, 1000 AS rt_index
+	  FROM result RS
+		LEFT JOIN year YR ON RS.id_year=YR.id
+		LEFT JOIN sport SP ON RS.id_sport=SP.id
+		LEFT JOIN championship CP ON RS.id_championship=CP.id
+		LEFT JOIN event EV ON RS.id_event=EV.id
+		LEFT JOIN event SE ON RS.id_subevent=SE.id
+		LEFT JOIN event SE2 ON RS.id_subevent2=SE2.id
+		LEFT JOIN type TP1 ON EV.id_type=TP1.id
+		LEFT JOIN type TP2 ON SE.id_type=TP2.id
+		LEFT JOIN type TP3 ON SE2.id_type=TP3.id
+		LEFT JOIN athlete PR1 ON RS.id_rank1=PR1.id
+		LEFT JOIN athlete PR2 ON RS.id_rank2=PR2.id
+		LEFT JOIN athlete PR3 ON RS.id_rank3=PR3.id
+		LEFT JOIN athlete PR4 ON RS.id_rank4=PR4.id
+		LEFT JOIN country PRCN1 ON PR1.id_country=PRCN1.id
+		LEFT JOIN country PRCN2 ON PR2.id_country=PRCN2.id
+		LEFT JOIN country PRCN3 ON PR3.id_country=PRCN3.id
+		LEFT JOIN country PRCN4 ON PR4.id_country=PRCN4.id
+		LEFT JOIN team TM1 ON RS.id_rank1=TM1.id
+		LEFT JOIN team TM2 ON RS.id_rank2=TM2.id
+		LEFT JOIN team TM3 ON RS.id_rank3=TM3.id
+		LEFT JOIN team TM4 ON RS.id_rank4=TM4.id
+		LEFT JOIN country CN1 ON RS.id_rank1=CN1.id
+		LEFT JOIN country CN2 ON RS.id_rank2=CN2.id
+		LEFT JOIN country CN3 ON RS.id_rank3=CN3.id
+		LEFT JOIN country CN4 ON RS.id_rank4=CN4.id
+	WHERE RS.in_progress = false' || (CASE WHEN _sport > 0 THEN ' AND SP.id=' || _sport ELSE '' END) ||'
+	UNION
+	SELECT RD.id AS id, RD.last_update AS last_update, RS.id AS rs_id, YR.id AS yr_id, YR.label AS yr_label, SP.id AS sp_id, CP.id AS cp_id, EV.id AS ev_id, SE.id AS se_id, SE2.id AS se2_id, SP.label' || _lang || ' AS sp_label, CP.label' || _lang || ' AS cp_label, EV.label' || _lang || ' AS ev_label, SE.label' || _lang || ' AS se_label, SE2.label' || _lang || ' AS se2_label, SP.label AS sp_label_en, CP.label AS cp_label_en, EV.label AS ev_label_en, SE.label AS se_label_en, SE2.label AS se2_label_en, TP1.number as tp1_number, TP2.number AS tp2_number, TP3.number AS tp3_number,
+	  PR1.id AS pr1_id, PR1.first_name AS pr1_first_name, PR1.last_name AS pr1_last_name, PR1.id_team AS pr1_team, PR1.id_country AS pr1_country, PRCN1.code AS pr1_country_code, TM1.id AS tm1_id, TM1.label AS tm1_label, CN1.id AS cn1_id, CN1.code AS cn1_code, CN1.label' || _lang || ' AS cn1_label, CN1.label AS cn1_label_en, 
+	  PR2.id AS pr2_id, PR2.first_name AS pr2_first_name, PR2.last_name AS pr2_last_name, PR2.id_team AS pr2_team, PR2.id_country AS pr2_country, PRCN2.code AS pr2_country_code, TM2.id AS tm2_id, TM2.label AS tm2_label, CN2.id AS cn2_id, CN2.code AS cn2_code, CN2.label' || _lang || ' AS cn2_label, CN2.label AS cn2_label_en,
+	  PR3.id AS pr3_id, PR3.first_name AS pr3_first_name, PR3.last_name AS pr3_last_name, PR3.id_team AS pr3_team, PR3.id_country AS pr3_country, PRCN3.code AS pr3_country_code, TM3.id AS tm3_id, TM3.label AS tm3_label, CN3.id AS cn3_id, CN3.code AS cn3_code, CN3.label' || _lang || ' AS cn3_label, CN3.label AS cn3_label_en, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+	  RD.result1 AS rs_text1, RD.result2 AS rs_text2, RD.exa AS rs_text3, RD.comment AS rs_text4, RT.label' || _lang || ' AS rs_text5, (CASE WHEN RD.date IS NOT NULL AND RD.date<>'''' THEN to_date(RD.date, ''dd/MM/yyyy'') ELSE RD.first_update END) AS rs_date, RT.index AS rt_index
+	  FROM round RD
+		LEFT JOIN round_type RT ON RD.id_round_type=RT.id
+		LEFT JOIN result RS ON RD.id_result=RS.id
+		LEFT JOIN year YR ON RS.id_year=YR.id
+		LEFT JOIN sport SP ON RS.id_sport=SP.id
+		LEFT JOIN championship CP ON RS.id_championship=CP.id
+		LEFT JOIN event EV ON RS.id_event=EV.id
+		LEFT JOIN event SE ON RS.id_subevent=SE.id
+		LEFT JOIN event SE2 ON RS.id_subevent2=SE2.id
+		LEFT JOIN type TP1 ON EV.id_type=TP1.id
+		LEFT JOIN type TP2 ON SE.id_type=TP2.id
+		LEFT JOIN type TP3 ON SE2.id_type=TP3.id
+		LEFT JOIN athlete PR1 ON RD.id_rank1=PR1.id
+		LEFT JOIN athlete PR2 ON RD.id_rank2=PR2.id
+		LEFT JOIN athlete PR3 ON RD.id_rank3=PR3.id
+		LEFT JOIN country PRCN1 ON PR1.id_country=PRCN1.id
+		LEFT JOIN country PRCN2 ON PR2.id_country=PRCN2.id
+		LEFT JOIN country PRCN3 ON PR3.id_country=PRCN3.id
+		LEFT JOIN team TM1 ON RD.id_rank1=TM1.id
+		LEFT JOIN team TM2 ON RD.id_rank2=TM2.id
+		LEFT JOIN team TM3 ON RD.id_rank3=TM3.id
+		LEFT JOIN country CN1 ON RD.id_rank1=CN1.id
+		LEFT JOIN country CN2 ON RD.id_rank2=CN2.id
+		LEFT JOIN country CN3 ON RD.id_rank3=CN3.id' || (CASE WHEN _sport > 0 THEN ' WHERE SP.id=' || _sport ELSE '' END) ||'
+	ORDER BY yr_id DESC, rs_date DESC, rt_index DESC, rs_id DESC LIMIT ' || _count || ' OFFSET ' || _offset;
+	RETURN  _c;
+end;
+$BODY$;
 
 
-    

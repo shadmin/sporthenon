@@ -552,7 +552,7 @@
 	<entry key="test.transparency">Test transparency</entry>
 	<entry key="missing.pictures">Missing pictures</entry>
 	<entry key="warning.team.created">warning: team {1} dit not exist and has been created</entry>
-	<entry key="draft">Draft</entry>
+	<entry key="event.inprogress">Event in progress</entry>
 	<entry key="metadata">Creation: {1} / Last modification: {2} by {3}</entry>
 	<entry key="force.tooltip">Use {{}} to force tooltip</entry>
 	<entry key="open.dialog">Open in dialog</entry>

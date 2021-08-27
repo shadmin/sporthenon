@@ -53,7 +53,7 @@ public class RetiredNumber extends AbstractEntity {
 				setYear(new Year());
 				getYear().setValuesFromMap(extractEntityColumns(Year.alias, idYear, mapValues));
 			}
-			setNumber((String)mapValues.get("number"));
+			setNumber(mapValues.get("number") != null ? (String)mapValues.get("number") : null);
 			setMetadata(new Metadata((Integer)mapValues.get("id_contributor"), (Timestamp)mapValues.get("first_update"), (Timestamp)mapValues.get("last_update")));
 		}
 	}

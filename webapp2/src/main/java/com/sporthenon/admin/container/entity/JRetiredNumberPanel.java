@@ -106,7 +106,7 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	public void setNumber(String s) {
-		jNumber.setText(s);
+		jNumber.setText(s != null ? s : "");
 	}
 
 	public void clear() {

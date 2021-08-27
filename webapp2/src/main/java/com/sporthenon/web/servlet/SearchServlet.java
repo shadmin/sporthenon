@@ -103,7 +103,7 @@ public class SearchServlet extends AbstractServlet {
 				params.add(ResourceUtils.getLocaleParam(lang));
 				StringBuffer html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_SEARCH, params, getUser(request), lang);
 				html.append(HtmlConverter.convertSearch(request, DatabaseManager.callFunctionSelect("search", params, RefItem.class, "count_ref DESC", max), String.valueOf(mapParams.get("pattern")), lang));
-					
+
 				// Load HTML results or export
 				HtmlUtils.setHeadInfo(request, html.toString());
 				if (mapParams.containsKey("export")) {

@@ -748,7 +748,7 @@ public class UpdateTest extends TestCase {
 		rs.setDate2("02/01/2000");
 		rs.setComment("comment");
 		rs.setExa("exa");
-		rs.setDraft(false);
+		rs.setInProgress(false);
 		rs.setNoDate(false);
 		rs.setNoPlace(false);
 		boolean err = false;
@@ -819,7 +819,7 @@ public class UpdateTest extends TestCase {
 		rs.setDate2("04/01/2000");
 		rs.setComment("comment2");
 		rs.setExa("exa2");
-		rs.setDraft(true);
+		rs.setInProgress(true);
 		rs.setNoDate(true);
 		rs.setNoPlace(true);
 		err = false;

@@ -306,74 +306,89 @@ public class ExportUtils {
 				List<String> l2 = new ArrayList<String>();
 				for (int j = 1 ; j < l.size() ; j++) {
 					String s = l.get(j).replaceAll("^\\#.*\\#", "");
-					if (l.get(j).startsWith("#TITLENAME#"))
+					if (l.get(j).startsWith("#TITLENAME#")) {
 						titleName = s;
-					else if (j % 2 == 0)
+					}
+					else if (j % 2 == 0) {
 						l1.add(s);
-					else
+					}
+					else {
 						l2.add(s);
+					}
 				}
 				int maxlength = (titleName != null ? titleName.length() : 0);
 				for (int i = 0 ; i < l1.size() ; i++) {
 					int n_ = l1.get(i).length() + l2.get(i).length() + 2;
-					if (n_ > maxlength)
+					if (n_ > maxlength) {
 						maxlength = n_;
+					}
 				}
 				sbSep = new StringBuffer("+");
-				for (int i = 0 ; i < maxlength + 2 ; i++)
+				for (int i = 0 ; i < maxlength + 2 ; i++) {
 					sbSep.append("-");
+				}
 				sbSep.append("+").append("\r\n");
 				sbText.append(sbSep).append("| ").append(titleName);
-				for (int i = titleName.length() + 1 ; i < maxlength + 2 ; i++)
+				for (int i = titleName.length() + 1 ; i < maxlength + 2 ; i++) {
 					sbText.append(" ");
+				}
 				sbText.append("|").append("\r\n").append(sbSep);
 				for (int i = 0 ; i < l1.size() ; i++) {
 					int n_ = l1.get(i).length() + l2.get(i).length() + 2;
 					sbText.append("| ").append(l1.get(i)).append(": ").append(l2.get(i));
-					for (int j = n_ + 1 ; j < maxlength + 2 ; j++)
+					for (int j = n_ + 1 ; j < maxlength + 2 ; j++) {
 						sbText.append(" ");
+					}
 					sbText.append("|").append("\r\n");
 				}
 				sbText.append(sbSep).append("\r\n");
 				sbSep = null;
 			}
 			else if (l != null && l.size() == 1 && l.get(0).equalsIgnoreCase("--NEW--")) {
-				if (sbSep != null)
+				if (sbSep != null) {
 					sbText.append("\r\n").append(sbSep).append("\r\n\r\n");
+				}
 				List<String> lTh_ = lTh.get(nth++);
 				if (lTh_ != null && !lTh_.isEmpty() && lTh_.get(0).equalsIgnoreCase("--TTEXT--")) {
 					sbText.append("[" + lTh_.get(1) + "]");
 					lTh_.remove(0);
 					lTh_.remove(0);
-					if (!lTh_.isEmpty())
+					if (!lTh_.isEmpty()) {
 						sbText.append("\r\n");
+					}
 				}
 				tMaxLength = new int[!lTh_.isEmpty() ? lTh_.size() : 2];
-				for (int i = 0 ; i < lTh_.size() ; i++)
+				for (int i = 0 ; i < lTh_.size() ; i++) {
 					tMaxLength[i] = lTh_.get(i).replaceAll("^\\#.*\\#", "").length();
+				}
 				for (int i = index + 1 ; i < lTd.size() ; i++) {
 					List<String> l_ = lTd.get(i);
-					if (l_ != null && l_.size() == 1 && l_.get(0).equalsIgnoreCase("--NEW--"))
+					if (l_ != null && l_.size() == 1 && l_.get(0).equalsIgnoreCase("--NEW--")) {
 						break;
+					}
 					for (int j = 0 ; j < l_.size() ; j++) {
 						String s = l_.get(j).replaceAll("^\\#.*\\#", "");
-						if (j < tMaxLength.length && s.length() > tMaxLength[j])
+						if (j < tMaxLength.length && s.length() > tMaxLength[j]) {
 							tMaxLength[j] = s.length() + 1;
+						}
 					}
 				}
 				sbSep = new StringBuffer("+");
 				for (int i = 0 ; i < tMaxLength.length ; i++) {
-					for (int j = 0 ; j < tMaxLength[i] ; j++)
+					for (int j = 0 ; j < tMaxLength[i] ; j++) {
 						sbSep.append("-");
+					}
 					sbSep.append("+");
 				}
-				if (!lTh_.isEmpty())
-					sbText.append(sbSep).append("\r\n|");	
+				if (!lTh_.isEmpty()) {
+					sbText.append(sbSep).append("\r\n|");
+				}
 				for (int i = 0 ; i < lTh_.size() ; i++) {
 					String s = lTh_.get(i).replaceAll("^\\#.*\\#", "");
 					sbText.append(s);
-					for (int j = s.length() ; j < tMaxLength[i] ; j++)
+					for (int j = s.length() ; j < tMaxLength[i] ; j++) {
 						sbText.append(" ");
+					}
 					sbText.append("|");
 				}
 				sbText.append("\r\n").append(sbSep);
@@ -391,17 +406,20 @@ public class ExportUtils {
 					if (l.get(i) != null) {
 						String s = l.get(i).replaceAll("^\\#.*\\#", "");
 						sbText.append(s);
-						if (tMaxLength.length > i)
-							for (int j = s.length() ; j < tMaxLength[i] ; j++)
+						if (tMaxLength.length > i) {
+							for (int j = s.length() ; j < tMaxLength[i] ; j++) {
 								sbText.append(" ");
+							}
+						}
 						sbText.append("|");
 					}
 				}
 			}
 			index++;
 		}
-		if (sbSep != null)
+		if (sbSep != null) {
 			sbText.append("\r\n").append(sbSep);
+		}
 		pw.write(sbText.toString());
 	}
 	

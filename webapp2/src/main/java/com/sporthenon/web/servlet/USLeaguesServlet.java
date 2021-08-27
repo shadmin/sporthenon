@@ -118,7 +118,7 @@ public class USLeaguesServlet extends AbstractServlet {
 				StringBuffer html = null;
 				if (type.equals(TYPE_RETNUM)) {
 					params.add(teams);
-					params.add(StringUtils.notEmpty(mapParams.get("num")) ? Short.valueOf(String.valueOf(mapParams.get("num"))) : -1);
+					params.add(StringUtils.notEmpty(mapParams.get("num")) ? String.valueOf(mapParams.get("num")) : "-1");
 					html = HtmlConverter.getHeader(request, HtmlConverter.HEADER_US_LEAGUES_RETNUM, params, getUser(request), lang);
 					html.append(HtmlConverter.convertRetiredNumber(request, DatabaseManager.callFunction("get_retired_numbers", params, RetiredNumberBean.class), "en"));
 				}

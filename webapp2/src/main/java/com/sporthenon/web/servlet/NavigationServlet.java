@@ -61,9 +61,9 @@ public class NavigationServlet extends AbstractServlet {
 		mapServlet = new HashMap<>();
 		mapServlet.put("results", "/SearchResults");
 		mapServlet.put("calendar", "/SearchCalendar");
-		mapServlet.put("olympics", "/OlympicsServlet");
-		mapServlet.put("usleagues", "/USLeaguesServlet");
-		mapServlet.put("search", "/SearchServlet");
+		mapServlet.put("olympics", "/SearchOlympics");
+		mapServlet.put("usleagues", "/SearchUSLeagues");
+		mapServlet.put("search", "/Search");
 		mapServlet.put("login", "/LoginServlet");
 		mapServlet.put("update", "/UpdateServlet");
 		mapServlet.put("update-overview", "/UpdateServlet");

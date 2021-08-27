@@ -549,7 +549,7 @@
 	<entry key="test.transparency">Tester la transparence</entry>
 	<entry key="missing.pictures">Images manquantes</entry>
 	<entry key="warning.team.created">avertissement: l'équipe {1} n'existait pas et a été créée</entry>
-	<entry key="draft">Brouillon</entry>
+	<entry key="event.inprogress">Epreuve en cours</entry>
 	<entry key="metadata">Création : {1} / Dernière modification : {2} par {3}</entry>
 	<entry key="force.tooltip">Utiliser {{}} pour forcer l'info-bulle</entry>
 	<entry key="open.dialog">Ouvrir dans un dialogue</entry>

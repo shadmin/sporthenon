@@ -565,7 +565,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			p.setTeam(rn.getTeam() != null ? rn.getTeam().getId() : null);
 			p.setPerson(rn.getPerson().getId());
 			p.setYear(rn.getYear() != null ? rn.getYear().getId() : null);
-			p.setNumber(String.valueOf(rn.getNumber()));
+			p.setNumber(rn.getNumber());
 		}
 		else if (o instanceof RoundType) {
 			RoundType rt = (RoundType) o;

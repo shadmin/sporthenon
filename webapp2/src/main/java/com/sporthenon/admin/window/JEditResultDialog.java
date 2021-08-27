@@ -66,7 +66,7 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 	private JEntityPicklist jCountry2 = null;
 	private JTextField jDate1 = null;
 	private JTextField jDate2 = null;
-	private JCheckBox jDraft = null;
+	private JCheckBox jInProgress = null;
 	private JTextField jExa = null;
 	private JCheckBox[] jExaCheckbox = new JCheckBox[RANK_COUNT];
 	private JEntityPicklist[] jRanks = new JEntityPicklist[RANK_COUNT];
@@ -169,8 +169,8 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 		jToday.setToolTipText("Today");
 		jToday.setActionCommand("today");
 		jToday.addActionListener(this);
-		jDraft = new JCheckBox();
-		jDraft.setText("Not published (only rounds)");
+		jInProgress = new JCheckBox();
+		jInProgress.setText("Event in progress");
 		jExa = new JTextField();
 		jExa.setPreferredSize(new Dimension(60, 21));
 		jExa.addFocusListener(this);
@@ -187,7 +187,7 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 		panel.add(new JLabel("to:"), null);
 		panel.add(jDate2, null);
 		panel.add(jToday, null);
-		panel.add(jDraft, null);
+		panel.add(jInProgress, null);
 		jEventPanel.add(panel);
 		
 		panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 3, 4));
@@ -358,7 +358,7 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 				rs.setDate2(StringUtils.notEmpty(jDate2.getText()) ? jDate2.getText() : null);
 				rs.setComment(StringUtils.notEmpty(comment) ? comment : null);
 				rs.setExa(StringUtils.notEmpty(jExa.getText()) ? jExa.getText() : null);
-				rs.setDraft(jDraft.isSelected());
+				rs.setInProgress(jInProgress.isSelected());
 				for (int i = 0 ; i < jRanks.length ; i++) {
 					Integer id = SwingUtils.getValue(jRanks[i]);
 					Result.class.getMethod("setIdRank" + (i + 1), Integer.class).invoke(rs, id);
@@ -463,6 +463,7 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 		v.add(StringUtils.notEmpty(jDate2.getText()) ? jDate2.getText() : "");
 		v.add(StringUtils.notEmpty(SwingUtils.getText(jComplex1)) ? SwingUtils.getText(jComplex1) : (StringUtils.notEmpty(SwingUtils.getText(jCity1)) ? SwingUtils.getText(jCity1) : SwingUtils.getText(jCountry1)));
 		v.add(StringUtils.notEmpty(SwingUtils.getText(jComplex2)) ? SwingUtils.getText(jComplex2) : (StringUtils.notEmpty(SwingUtils.getText(jCity2)) ? SwingUtils.getText(jCity2) : SwingUtils.getText(jCountry2)));
+		v.add(jInProgress.isSelected() ? "X" : "");
 		v.add(StringUtils.notEmpty(comment) ? "X" : "");
 		v.add(StringUtils.notEmpty(jExa.getText()) ? "X" : "");
 		v.add("Now");
@@ -479,7 +480,7 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 		jCountry2.clear();
 		jDate1.setText("");
 		jDate2.setText("");
-		jDraft.setSelected(false);
+		jInProgress.setSelected(false);
 		rounds.clear();
 		photos.clear();
 		comment = "";
@@ -585,8 +586,8 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 		return jRes;
 	}
 	
-	public JCheckBox getDraft() {
-		return jDraft;
+	public JCheckBox getInProgress() {
+		return jInProgress;
 	}
 	
 	public com.sporthenon.db.entity.Type getResultType() {

@@ -1,11 +1,19 @@
+-------------------------
+shadm retired number null si vide + tri des numéros a l'affichage + image (mike)
+bug export olympics 
+shadm vérifier chargement resultat si draft et changer draft = event in progress
+-------------------------
 export pdf
 merge ext links
 verif ecrans update
 android last updates
 hallof fame : team
 shadmin import pas de prenom (falcao etc..) + supprimer ligne tableau
+shadm import détection automatique type country + autoriser espace apres virgule nom prenom
 shadmin plusieurs jeditentitydialog cascade
 shadmin refresh map images webapp qd ajout bucket depuis shtool
 shadmin verf si erreur message rouge barre etat (ex pas de droits)
+shadm message pour préciser userID
+mettre virgule &nbspn quand 2 places
 
 - tests new folder/edit folders

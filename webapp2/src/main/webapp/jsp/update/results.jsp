@@ -140,8 +140,8 @@ var treeItems = null;
 					<tr><td style="width:200px;"><input type="text" id="exa" tabindex="11" name="<%=StringUtils.text("tie", session)%>" style="width:150px;"/></td>
 						<td style="width:20px;"><input id="inact" type="checkbox" onclick="showWarning();"/></td>
 						<td><label for="inact"><%=StringUtils.text("event.notheld", session)%></label></td>
-						<td style="width:20px;padding-left:30px;"><input id="draft" type="checkbox" onclick="showWarning();"/></td>
-						<td><label for="draft"><%=StringUtils.text("draft", session)%></label></td></tr>
+						<td style="width:20px;padding-left:30px;"><input id="inprogress" type="checkbox" onclick="showWarning();"/></td>
+						<td><label for="inprogress"><%=StringUtils.text("event.inprogress", session)%></label></td></tr>
 					<tr><td colspan="5"><input type="text" id="cmt" tabindex="12" name="<%=StringUtils.text("comment", session)%>" style="width:500px;"/></td><td><input type="button" class="button" title="<%=StringUtils.text("manage.comment", session)%>" onclick="openCommentDialog();" value="..." style="padding-left:5px;"/></td></tr>
 					<tr><td colspan="5"><textarea id="exl" tabindex="14" name="<%=StringUtils.text("extlinks", session)%>" cols="100" rows="4" style="width:500px;"><%=StringUtils.text("extlinks", session)%></textarea></td></tr>
 				</table>
