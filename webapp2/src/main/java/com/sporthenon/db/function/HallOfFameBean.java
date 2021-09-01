@@ -12,6 +12,7 @@ public class HallOfFameBean {
 	private Integer prId;
 	private String prLastName;
 	private String prFirstName;
+	private String hfText;
 	private String hfPosition;
 
 	public Integer getHfId() {
@@ -62,6 +63,14 @@ public class HallOfFameBean {
 		this.prFirstName = prFirstName;
 	}
 
+	public String getHfText() {
+		return hfText;
+	}
+
+	public void setHfText(String hfText) {
+		this.hfText = hfText;
+	}
+
 	public String getHfPosition() {
 		return hfPosition;
 	}
@@ -88,10 +97,9 @@ public class HallOfFameBean {
 
 	@Override
 	public String toString() {
-		return "HallOfFameBean [hfPosition=" + hfPosition + ", hfId=" + hfId
-				+ ", prFirstName=" + prFirstName + ", prId=" + prId
-				+ ", prLastName=" + prLastName + ", yrId=" + yrId
-				+ ", yrLabel=" + yrLabel + "]";
+		return "HallOfFameBean [hfId=" + hfId + ", hfLastUpdate=" + hfLastUpdate + ", lgId=" + lgId + ", yrId=" + yrId
+				+ ", yrLabel=" + yrLabel + ", prId=" + prId + ", prLastName=" + prLastName + ", prFirstName="
+				+ prFirstName + ", hfText=" + hfText + ", hfPosition=" + hfPosition + "]";
 	}
-	
+
 }

@@ -20,10 +20,11 @@ public class JHallOfFamePanel extends JAbstractEntityPanel implements ItemListen
 	public JEntityPicklist jLeague;
 	public JEntityPicklist jYear;
 	public JEntityPicklist jPerson;
+	public JTextField jText;
 	public JTextField jPosition;
 	
 	public JHallOfFamePanel() {
-		super(5);
+		super(7);
 		initialize();
 	}
 
@@ -52,6 +53,14 @@ public class JHallOfFamePanel extends JAbstractEntityPanel implements ItemListen
         jPerson = new JEntityPicklist(this, Athlete.alias, true);
         gridPanel.add(jPerson);
         
+        //Text
+        JLabel lText = new JLabel(" Text:");
+        lText.setHorizontalAlignment(LABEL_ALIGNMENT);
+        gridPanel.add(lText);
+        jText = new JTextField();
+        jText.addFocusListener(this);
+        gridPanel.add(jText);
+        
         //Position
         JLabel lPosition = new JLabel(" Position:");
         lPosition.setHorizontalAlignment(LABEL_ALIGNMENT);
@@ -73,6 +82,10 @@ public class JHallOfFamePanel extends JAbstractEntityPanel implements ItemListen
 		return jPerson;
 	}
 	
+	public JTextField getText() {
+		return jText;
+	}
+	
 	public JTextField getPosition() {
 		return jPosition;
 	}
@@ -89,6 +102,10 @@ public class JHallOfFamePanel extends JAbstractEntityPanel implements ItemListen
 		SwingUtils.selectValue(jPerson, id);
 	}
 	
+	public void setText(String s) {
+		jText.setText(s);
+	}
+	
 	public void setPosition(String s) {
 		jPosition.setText(s);
 	}
@@ -98,6 +115,7 @@ public class JHallOfFamePanel extends JAbstractEntityPanel implements ItemListen
 		jLeague.clear();
 		jYear.clear();
 		jPerson.clear();
+		jText.setText("");
 		jPosition.setText("");
 	}
 	

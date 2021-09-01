@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -39,6 +40,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.container.JTopPanel;
@@ -60,6 +62,8 @@ public class JImportDialog extends JDialog implements ActionListener {
 	private JCustomButton jUpdateButton;
 	private JScrollPane jScrollPane;
 	private JTable jProcessTable;
+	private JTextField jLines;
+	private JButton jRemoveButton;
 	private JProgressBar jProgressBar;
 	private JImportReportDialog jImportReportDialog;
 	private Vector<String> vHeader = null;
@@ -113,6 +117,7 @@ public class JImportDialog extends JDialog implements ActionListener {
 		jTypeRS = new JRadioButton("Results");
 		jTypeRD = new JRadioButton("Rounds");
 		jTypeRS.setSelected(true);
+		jTypeRD.setEnabled(false);
 		ButtonGroup grp = new ButtonGroup();
 		grp.add(jTypeRS);
 		grp.add(jTypeRD);
@@ -160,10 +165,12 @@ public class JImportDialog extends JDialog implements ActionListener {
 		btn = new JCustomButton("Rounds (XLS)", null, null);
 		btn.setActionCommand("template-RD-xls");
 		btn.addActionListener(this);
+		btn.setEnabled(false);
 		p.add(btn);
 		btn = new JCustomButton("Rounds (CSV)", null, null);
 		btn.setActionCommand("template-RD-csv");
 		btn.addActionListener(this);
+		btn.setEnabled(false);
 		p.add(btn);
 		return p;
 	}
@@ -175,7 +182,22 @@ public class JImportDialog extends JDialog implements ActionListener {
 		jScrollPane = new JScrollPane();
 		jScrollPane.setBorder(BorderFactory.createEtchedBorder());
 		jScrollPane.setViewportView(jProcessTable);
-		p.add(jScrollPane);
+		p.add(jScrollPane, BorderLayout.CENTER);
+		JPanel pbtn = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		pbtn.add(new JLabel("Remove line: "));
+		jLines = new JTextField();
+		jLines.setPreferredSize(new Dimension(50, 21));
+		jLines.setText("1-10");
+		jLines.setEnabled(false);
+		pbtn.add(jLines);
+		jRemoveButton = new JButton();
+		jRemoveButton.setText("OK");
+		jRemoveButton.setActionCommand("remove");
+		jRemoveButton.addActionListener(this);
+		jRemoveButton.setEnabled(false);
+		pbtn.add(jRemoveButton);
+		pbtn.setPreferredSize(new Dimension(0, 30));
+		p.add(pbtn, BorderLayout.SOUTH);
 		return p;
 	}
 
@@ -184,6 +206,8 @@ public class JImportDialog extends JDialog implements ActionListener {
 		jProcessButton.setEnabled(false);
 		jUpdateButton.setEnabled(false);
 		jScrollPane.setViewportView(null);
+		jLines.setEnabled(false);
+		jRemoveButton.setEnabled(false);
 		jProcessButton.setText("Process");
 		jTypeRS.setSelected(true);
 		jProgressBar.setValue(0);
@@ -224,7 +248,19 @@ public class JImportDialog extends JDialog implements ActionListener {
 					processAll(true, true);
 					jImportReportDialog.enableOk();
 				}
-			}).start ();
+			}).start();
+		}
+		else if (e.getActionCommand().equals("remove")) {
+			String[] tLines = jLines.getText().replaceAll("[^\\d\\-]", "").split("\\-");
+			int l1 = Integer.parseInt(tLines[0]);
+			int l2 = (tLines.length > 1 && StringUtils.notEmpty(tLines[1]) ? Integer.parseInt(tLines[1]) : l1);
+			DefaultTableModel model = (DefaultTableModel)jProcessTable.getModel();
+			for (int i = l2 ; i >= l1 ; i--) {
+				model.removeRow(i - 1);	
+			}
+			for (int i = 0 ; i < model.getRowCount() ; i++) {
+				model.setValueAt((i + 1) + ".", i, 0);
+			}
 		}
 		else if (e.getActionCommand().matches("template.*")) {
 			jFileChooser = new JFileChooser();
@@ -303,7 +339,8 @@ public class JImportDialog extends JDialog implements ActionListener {
 			final Map<String, String> hTitle = new HashMap<String, String>();
 			Vector<String> vHeaderLabel = new Vector<String>();
 			if (jTypeRS.isSelected()) {
-				vHeader = new Vector<String>(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rs4", "rk5", "rs5", "rk6", "rs6", "rk7", "rs7", "rk8", "rs8", "rk9", "rs9", "rk10", "rs10", "rk11", "rs11", "rk12", "rs12", "rk13", "rs13", "rk14", "rs14", "rk15", "rs15", "rk16", "rs16", "rk17", "rs17", "rk18", "rs18", "rk19", "rs19", "rk20", "rs20", "dt1", "dt2", "pl1", "pl2", "exa", "cmt", "exl1", "exl2", "exl3"}));
+				vHeader = new Vector<String>(Arrays.asList(new String[] {"n", "msg", "sp", "cp", "ev", "se", "se2", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rs4", "rk5", "rs5", "rk6", "rs6", "rk7", "rs7", "rk8", "rs8", "rk9", "rs9", "rk10", "rs10", "rk11", "rs11", "rk12", "rs12", "rk13", "rs13", "rk14", "rs14", "rk15", "rs15", "rk16", "rs16", "rk17", "rs17", "rk18", "rs18", "rk19", "rs19", "rk20", "rs20", "dt1", "dt2", "pl1", "pl2", "exa", "cmt", "exl1", "exl2", "exl3"}));
+				hTitle.put("n", "#");
 				hTitle.put("msg", "Message");
 				hTitle.put("sp", "Sport");
 				hTitle.put("cp", "Championship");
@@ -350,11 +387,14 @@ public class JImportDialog extends JDialog implements ActionListener {
 			for (Vector<String> v : vFile) {
 				StringBuffer processReport = new StringBuffer();
 				if (!isReprocess) {
-					v.insertElementAt("", 0);
+					v.insertElementAt("", 0); // Msg
+					v.insertElementAt((i + 1) + ".", 0); // # line
 				}
 				else {
-					v.set(0, "");
+					v.set(0, (i + 1) + "."); // # line
+					v.set(1, ""); // Msg
 				}
+				
 				if (jTypeRS.isSelected()) {
 					isError |= ImportUtils.processLineRS(i, vHeader, v, isUpdate, processReport, JMainFrame.getContributor(), ResourceUtils.LGDEFAULT);
 				}
@@ -384,11 +424,11 @@ public class JImportDialog extends JDialog implements ActionListener {
 					String s = String.valueOf(value);
 					Color color = (s.indexOf("[#") > -1 ? new Color(0, 120, 0) : new Color(0, 0, 0));
 					component.setForeground(color);
-					if (String.valueOf(table.getValueAt(row, 0)).matches("^ERROR\\:.*")) {
+					if (String.valueOf(table.getValueAt(row, 1)).matches("^ERROR\\:.*")) {
 						component.setForeground(Color.white);
 						component.setBackground(Color.red);
 					}
-					else if (String.valueOf(table.getValueAt(row, 0)).matches("^WARNING\\:.*")) {
+					else if (String.valueOf(table.getValueAt(row, 1)).matches("^WARNING\\:.*")) {
 						component.setForeground(Color.white);
 						component.setBackground(Color.orange);
 					}
@@ -401,12 +441,20 @@ public class JImportDialog extends JDialog implements ActionListener {
 			jProcessTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			for (int j = 0 ; j < jProcessTable.getColumnCount() ; j++) {
 				String h = vHeader.get(j);
-				jProcessTable.getColumnModel().getColumn(j).setPreferredWidth(h.matches("rk\\d|pl\\d") ? 200 : (h.matches("(rs|dt)\\d") ? 80 : 150));
+				TableColumn column = jProcessTable.getColumnModel().getColumn(j);
+				if (j == 0) {
+					column.setPreferredWidth(40);
+				}
+				else {
+					column.setPreferredWidth(h.matches("rk\\d|pl\\d") ? 200 : (h.matches("(rs|dt)\\d") ? 80 : 150));
+				}
 			}
 			jProcessTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			jProcessTable.getTableHeader().setReorderingAllowed(false);
 			jScrollPane.setViewportView(jProcessTable);
 			jProcessButton.setText("Reprocess");
+			jLines.setEnabled(true);
+			jRemoveButton.setEnabled(true);
 		}
 		catch (Exception e_) {
 			log.log(Level.WARNING, e_.getMessage(), e_);

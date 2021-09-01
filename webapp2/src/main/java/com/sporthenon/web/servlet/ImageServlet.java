@@ -120,31 +120,13 @@ public class ImageServlet extends AbstractServlet {
 				}
 			}
 			else if (mapParams.containsKey("add")) {
-//				String name = String.valueOf(mapParams.get("name"));
-//				ImageUtils.addImage(name);
+				String key = String.valueOf(mapParams.get("key"));
+				String file = String.valueOf(mapParams.get("file"));
+				ImageUtils.addImageToMap(key, file);
 			}
 			else if (mapParams.containsKey("remove")) {
-//				String name = String.valueOf(mapParams.get("name"));
-//				ImageUtils.removeImage(name);
-//				DatabaseManager.executeUpdate("DELETE FROM _picture WHERE ID=" + mapParams.get("id"), null);
-			}
-			else if (mapParams.containsKey("copy")) {
-//				String id1 = String.valueOf(mapParams.get("id1"));
-//				String id2 = String.valueOf(mapParams.get("id2"));
-//				boolean found = false;
-//				List<String> lAdded = new ArrayList<String>();
-//				for (String s : ImageUtils.getImgFiles()) {
-//					if (s.indexOf(ImageUtils.getIndex(entity) + "-" + id1 + "-") == 0) {
-//						File f1 = new File(ConfigUtils.getProperty("img.folder") + s);
-//						File f2 = new File(ConfigUtils.getProperty("img.folder") + s.replaceFirst("\\-" + id1 + "\\-", "-" + id2 + "-"));
-//						FileUtils.copyFile(f1, f2);
-//						lAdded.add(f2.getName());
-//						found = true;
-//					}
-//					else if (found)
-//						break;
-//				}
-//				ImageUtils.getImgFiles().addAll(lAdded);
+				String file = String.valueOf(mapParams.get("file"));
+				ImageUtils.removeImageFromMap(file);
 			}
 			else if (mapParams.containsKey("url")) {
 				String id = String.valueOf(mapParams.get("id"));

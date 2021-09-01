@@ -47,7 +47,7 @@ public class JUsersPanel extends JSplitPane implements ActionListener, ListSelec
 	private JCheckBox jAdmin = null;
 	private JTextField jSports = null;
 	private JQueryStatus jQueryStatus = null;
-	JCustomButton jSaveButton = null;
+	private JCustomButton jSaveButton = null;
 
 	public JUsersPanel(JMainFrame parent) {
 		this.jQueryStatus = parent.getQueryStatus();
@@ -75,8 +75,9 @@ public class JUsersPanel extends JSplitPane implements ActionListener, ListSelec
 	@SuppressWarnings("unchecked")
 	public void initList() throws Exception {
 		Vector<PicklistItem> v = new Vector<PicklistItem>();
-		for (Contributor cb : (Collection<Contributor>) DatabaseManager.executeSelect("SELECT * FROM _contributor ORDER BY login", Contributor.class))
+		for (Contributor cb : (Collection<Contributor>) DatabaseManager.executeSelect("SELECT * FROM _contributor ORDER BY login", Contributor.class)) {
 			v.add(new PicklistItem(cb.getId(), cb.getLogin()));
+		}
 		jList = new JList<>(v);
 		jList.setName("mainlist");
 		jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -169,22 +170,21 @@ public class JUsersPanel extends JSplitPane implements ActionListener, ListSelec
 				cb.setAdmin(jAdmin.isSelected());
 				cb.setSports(jSports.getText());
 				DatabaseManager.saveEntity(cb, null);
-//				if (jAdmin.isSelected())
-//					DatabaseHelper.executeUpdate("CREATE ROLE " + cb.getLogin() + " LOGIN ENCRYPTED PASSWORD 'md5" + StringUtils.toMD5(cb.getLogin() + cb.getPassword()) + "' SUPERUSER VALID UNTIL 'infinity'");
-//				else
-//					DatabaseHelper.executeUpdate("DROP ROLE " + cb.getLogin());
 				msg = "User '" + cb.getLogin() + "' saved successfully.";
 			}
 		}
 		catch (Exception e_) {
 			err = true;
+			msg = e_.getMessage();
 			log.log(Level.WARNING, e_.getMessage(), e_);
-			if (e_ instanceof BatchUpdateException)
+			if (e_ instanceof BatchUpdateException) {
 				((BatchUpdateException)e_).getNextException().printStackTrace();
+			}
 		}
 		finally {
-			if (msg != null)
+			if (msg != null) {
 				jQueryStatus.set(err ? JQueryStatus.FAILURE : JQueryStatus.SUCCESS, msg);
+			}
 		}
 	}
 

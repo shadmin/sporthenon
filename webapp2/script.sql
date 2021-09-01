@@ -1,3 +1,124 @@
+CREATE TABLE public._position
+(
+    id_sport integer,
+    code character varying(10),
+    label character varying(50)
+);
+
+ALTER TABLE public._position
+    OWNER to shadmin;
+    
+insert into _position(id_sport,code,label) values(23,'AD','Administrator');
+insert into _position(id_sport,code,label) values(23,'C','Center');
+insert into _position(id_sport,code,label) values(23,'CB','Cornerback');
+insert into _position(id_sport,code,label) values(23,'CH','Coach');
+insert into _position(id_sport,code,label) values(23,'CM','Commissioner');
+insert into _position(id_sport,code,label) values(23,'CT','Contributor');
+insert into _position(id_sport,code,label) values(23,'DE','Defensive End');
+insert into _position(id_sport,code,label) values(23,'DG','Defensive Guard');
+insert into _position(id_sport,code,label) values(23,'DT','Defensive Tackle');
+insert into _position(id_sport,code,label) values(23,'E','End');
+insert into _position(id_sport,code,label) values(23,'FB','Fullback');
+insert into _position(id_sport,code,label) values(23,'FK','Flanker');
+insert into _position(id_sport,code,label) values(23,'G','Guard');
+insert into _position(id_sport,code,label) values(23,'HB','Halfback');
+insert into _position(id_sport,code,label) values(23,'K','Kicker');
+insert into _position(id_sport,code,label) values(23,'KR','Kick Returner');
+insert into _position(id_sport,code,label) values(23,'LB','Linebacker');
+insert into _position(id_sport,code,label) values(23,'O','Franchise Owner');
+insert into _position(id_sport,code,label) values(23,'OE','Offensive End');
+insert into _position(id_sport,code,label) values(23,'OF','Official');
+insert into _position(id_sport,code,label) values(23,'OG','Offensive Guard');
+insert into _position(id_sport,code,label) values(23,'OT','Offensive Tackle');
+insert into _position(id_sport,code,label) values(23,'QB','Quarterback');
+insert into _position(id_sport,code,label) values(23,'RB','Runningback');
+insert into _position(id_sport,code,label) values(23,'S','Safety');
+insert into _position(id_sport,code,label) values(23,'T','Tackle');
+insert into _position(id_sport,code,label) values(23,'TE','Tight End');
+insert into _position(id_sport,code,label) values(23,'WR','Wide Receiver');
+insert into _position(id_sport,code,label) values(23,'GM','General Manager');
+insert into _position(id_sport,code,label) values(23,'P','Punter');
+update hall_of_fame set position = 'DE-LB' where position = 'LB-DE';
+insert into _position(id_sport,code,label) values(23,'DE-LB','Defensive End, Linebacker');
+insert into _position(id_sport,code,label) values(23,'CB-KR','Cornerback, Kick Returner');
+insert into _position(id_sport,code,label) values(23,'HB-K','Halfback, Kicker');
+insert into _position(id_sport,code,label) values(23,'QB-K','Quarterback, Kicker');
+update hall_of_fame set position = 'CB-S' where position = 'CB-S-KR';
+insert into _position(id_sport,code,label) values(23,'CB-S','Cornerback, Safety');
+insert into _position(id_sport,code,label) values(23,'WR-PR','Wide Receiver, Punt Returner');
+insert into _position(id_sport,code,label) values(23,'OG-T','Offensive Guard, Tackle');
+insert into _position(id_sport,code,label) values(23,'T-G','Tackle, Guard');
+insert into _position(id_sport,code,label) values(23,'S-P','Safety, Punter');
+insert into _position(id_sport,code,label) values(23,'OT-G','Offensive Tackle, Guard');
+insert into _position(id_sport,code,label) values(23,'OT-K','Offensive Tackle, Kicker');
+insert into _position(id_sport,code,label) values(23,'S-KR','Safety, Kick Returner');
+update hall_of_fame set position = 'E-CH' where position in ('CH-OE', 'OE-CH');
+insert into _position(id_sport,code,label) values(23,'E-CH','End, Coach');
+insert into _position(id_sport,code,label) values(23,'DE-T','Defensive End, Tackle');
+insert into _position(id_sport,code,label) values(23,'DT-E','Defensive Tackle, End');
+insert into _position(id_sport,code,label) values(23,'GM-PT','General Manager, President');
+update hall_of_fame set position = 'RB-CH' where position = 'O-CH-HB';
+insert into _position(id_sport,code,label) values(23,'RB-CH','Runningback, Coach');
+update hall_of_fame set position = 'LB-G-K' where position = 'LB-C-K';
+insert into _position(id_sport,code,label) values(23,'LB-G-K','Linebacker, Guard, Kicker');
+
+insert into _position(id_sport,code,label) values(24,'C','Center');
+insert into _position(id_sport,code,label) values(24,'CH','Coach');
+insert into _position(id_sport,code,label) values(24,'F','Forward');
+insert into _position(id_sport,code,label) values(24,'G','Guard');
+insert into _position(id_sport,code,label) values(24,'PF','Power Forward');
+insert into _position(id_sport,code,label) values(24,'PG','Point Guard');
+insert into _position(id_sport,code,label) values(24,'SF','Small Forward');
+insert into _position(id_sport,code,label) values(24,'SG','Shooting Guard');
+insert into _position(id_sport,code,label) values(24,'CT','Contributor');
+insert into _position(id_sport,code,label) values(24,'F-G','Forward, Guard');
+insert into _position(id_sport,code,label) values(24,'F-C','Forward, Center');
+insert into _position(id_sport,code,label) values(24,'PG-F','Point Guard, Forward');
+insert into _position(id_sport,code,label) values(24,'C-F','Center, Forward');
+insert into _position(id_sport,code,label) values(24,'SG-SF','Shooting Guard, Small Forward');
+insert into _position(id_sport,code,label) values(24,'G-F','Guard, Forward');
+
+insert into _position(id_sport,code,label) values(25,'C','Center');
+insert into _position(id_sport,code,label) values(25,'D','Defenseman');
+insert into _position(id_sport,code,label) values(25,'F','Forward');
+insert into _position(id_sport,code,label) values(25,'G','Goaltender');
+insert into _position(id_sport,code,label) values(25,'LW','Left Wing');
+insert into _position(id_sport,code,label) values(25,'OC','Official');
+insert into _position(id_sport,code,label) values(25,'RW','Right Wing');
+insert into _position(id_sport,code,label) values(25,'R','Rover');
+update hall_of_fame set position = 'C-RW' where position = 'C-R';
+insert into _position(id_sport,code,label) values(25,'C-RW','Center, Right Wing');
+insert into _position(id_sport,code,label) values(25,'C-D','Center, Defenseman');
+insert into _position(id_sport,code,label) values(25,'D-LW','Defenseman, Left Wing');
+update hall_of_fame set position = 'D-RW' where position = 'D-R';
+insert into _position(id_sport,code,label) values(25,'D-RW','Defenseman, Right Wing');
+insert into _position(id_sport,code,label) values(25,'LW-RW','Left Wing, Right Wing');
+insert into _position(id_sport,code,label) values(25,'C-LW','Center, Left Wing');
+insert into _position(id_sport,code,label) values(25,'CH','Coach');
+
+insert into _position(id_sport,code,label) values(26,'P','Pitcher');
+insert into _position(id_sport,code,label) values(26,'C','Catcher');
+insert into _position(id_sport,code,label) values(26,'1B','1st Baseman');
+insert into _position(id_sport,code,label) values(26,'2B','2nd Baseman');
+insert into _position(id_sport,code,label) values(26,'3B','3rd Baseman');
+insert into _position(id_sport,code,label) values(26,'SS','Shortstop');
+insert into _position(id_sport,code,label) values(26,'LF','Left Fielder');
+insert into _position(id_sport,code,label) values(26,'CF','Center Fielder');
+insert into _position(id_sport,code,label) values(26,'RF','Right Fielder');
+insert into _position(id_sport,code,label) values(26,'MGR','Manager');
+insert into _position(id_sport,code,label) values(26,'EX','Executive');
+insert into _position(id_sport,code,label) values(26,'PIO','Pioneer Contributor');
+insert into _position(id_sport,code,label) values(26,'OF','Official');
+insert into _position(id_sport,code,label) values(26,'DH','Designated Hitter');
+insert into _position(id_sport,code,label) values(26,'UMP','Umpire');
+insert into _position(id_sport,code,label) values(26,'EX-PIO','Executive / Pioneer contributor');
+
+ALTER TABLE public.hall_of_fame
+    ADD COLUMN text character varying(100);
+    
+ALTER TABLE public.hall_of_fame
+    ALTER COLUMN id_person DROP NOT NULL;
+    
 ALTER TABLE result
     RENAME draft TO in_progress;
     
@@ -1046,3 +1167,48 @@ end;
 $BODY$;
 
 
+CREATE OR REPLACE FUNCTION public.get_hall_of_fame(
+	_id_league integer,
+	_years text,
+	_position character varying)
+    RETURNS refcursor
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+declare
+    _c refcursor;
+    _year_condition text;
+    _position_condition text;
+begin
+	-- Set year condition ('All years' = Empty condition)
+	_year_condition := '';
+	IF _years <> '0' THEN
+		_year_condition := ' AND YR.id IN (' || _years || ')';
+	END IF;
+
+	-- Set position condition
+	_position_condition := '';
+	IF _position <> '' THEN
+		_position_condition := ' AND HF.position ~* ''(^|-)' || _position || '($|-)''';
+	END IF;
+	
+	-- Open cursor
+	OPEN _c FOR EXECUTE
+	'SELECT
+		HF.id AS hf_id, HF.last_update AS hf_last_update, HF.id_league AS lg_id, YR.id AS yr_id, YR.label AS yr_label, PR.id AS pr_id, PR.last_name AS pr_last_name,
+		PR.first_name AS pr_first_name, HF.text AS hf_text, COALESCE(PS.label, HF.position) AS hf_position
+	FROM
+		hall_of_fame HF
+		LEFT JOIN year YR ON HF.id_year = YR.id
+		LEFT JOIN athlete PR ON HF.id_person = PR.id
+		LEFT JOIN _position PS ON PS.code = HF.position AND PS.id_sport =
+			CASE WHEN HF.id_league = 1 THEN 23 WHEN HF.id_league = 2 THEN 24 WHEN HF.id_league = 3 THEN 25 WHEN HF.id_league = 4 THEN 26 END
+	WHERE
+		HF.id_league = ' || _id_league || _year_condition || _position_condition || '
+	ORDER BY
+		YR.id DESC, PR.last_name';
+	
+	RETURN  _c;
+end;
+$BODY$;

@@ -56,9 +56,4 @@ public abstract class AbstractServlet extends HttpServlet {
 		response.sendRedirect(url);
 	}
 	
-	protected boolean isBot(HttpServletRequest request) {
-		String ua = request.getHeader("user-agent");
-		return (StringUtils.notEmpty(ua) && ua.toLowerCase().matches(".*(" + ConfigUtils.getValue("robot_pattern") + ").*"));
-	}
-	
 }

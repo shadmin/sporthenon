@@ -135,7 +135,7 @@ public class DatabaseManager {
 		return results;
 	}
 	
-	public static Collection<?> callFunction(final String functionName, Collection<?> params, Class<?> class_) {
+	public static Collection<?> callFunction(final String functionName, Collection<?> params, Class<?> class_) throws Exception {
  		List<Object> results = new ArrayList<>();
 		try (Connection conn = pool.getConnection()) {
  			conn.setAutoCommit(false);
@@ -153,11 +153,12 @@ public class DatabaseManager {
  		}
  		catch (Exception e) {
  			log.log(Level.SEVERE, "Error occured with PSQL function '" + functionName + "'", e);
+ 			throw e;
  		}
  		return results;
 	}
 	
-	public static Collection<?> callFunctionSelect(final String functionName, Collection<?> params, Class<?> class_, Object... options) {
+	public static Collection<?> callFunctionSelect(final String functionName, Collection<?> params, Class<?> class_, Object... options) throws Exception {
 		final String sql = "SELECT * FROM " + functionName
 				+ (params != null ? "(" + StringUtils.repeat("?", params.size(), ",") + ")" : "")
 				+ (options != null && options.length > 0 && options[0] != null ? " ORDER BY " + options[0] : "")
@@ -165,7 +166,7 @@ public class DatabaseManager {
 		return executeSelect(sql, params, class_);
 	}
 	
-	public static Collection<?> executeSelect(final String sql, Collection<?> params, Class<?> class_) {
+	public static Collection<?> executeSelect(final String sql, Collection<?> params, Class<?> class_) throws Exception {
  		List<Object> results = new ArrayList<>();
 		try (Connection conn = pool.getConnection()) {
  			try (PreparedStatement ps = conn.prepareStatement(sql);) {
@@ -181,11 +182,12 @@ public class DatabaseManager {
  		}
  		catch (Exception e) {
  			log.log(Level.SEVERE, "Error occured with PSQL SELECT '" + sql + "'", e);
+ 			throw e;
  		}
  		return results;
 	}
 	
-	public static Collection<?> executeSelect(final String sql, Class<?> class_) {
+	public static Collection<?> executeSelect(final String sql, Class<?> class_) throws Exception {
  		List<Object> results = new ArrayList<>();
 		try (Connection conn = pool.getConnection()) {
  			try (Statement st = conn.createStatement();) {
@@ -195,11 +197,12 @@ public class DatabaseManager {
  		}
  		catch (Exception e) {
  			log.log(Level.SEVERE, "Error occured with PSQL SELECT '" + sql + "'", e);
+ 			throw e;
  		}
  		return results;
 	}
 	
-	public static Collection<Object[]> executeSelect(final String sql) {
+	public static Collection<Object[]> executeSelect(final String sql) throws Exception {
  		List<Object[]> results = new ArrayList<>();
 		try (Connection conn = pool.getConnection()) {
  			try (Statement st = conn.createStatement();) {
@@ -216,11 +219,12 @@ public class DatabaseManager {
  		}
  		catch (Exception e) {
  			log.log(Level.SEVERE, "Error occured with PSQL SELECT '" + sql + "'", e);
+ 			throw e;
  		}
  		return results;
 	}
 	
-	public static Object loadEntity(Class<?> class_, Object id) {
+	public static Object loadEntity(Class<?> class_, Object id) throws Exception {
 		Object result = null;
 		try {
 			final String table = getTable(class_);
@@ -240,11 +244,12 @@ public class DatabaseManager {
 		}
 		catch (Exception e) {
  			log.log(Level.SEVERE, "Error occured while loading entity #" + id + "", e);
+ 			throw e;
  		}
 		return result;
 	}
 	
-	public static Object loadEntity(final String sql, Collection<?> params, Class<?> class_) {
+	public static Object loadEntity(final String sql, Collection<?> params, Class<?> class_) throws Exception {
 		List<Object> results = (List<Object>) executeSelect(sql, params, class_);
 		return (results != null && !results.isEmpty() ? results.get(0) : null);
 	}
@@ -315,6 +320,7 @@ public class DatabaseManager {
  		}
  		catch (Exception e) {
  			log.log(Level.SEVERE, "Error occured with PSQL SELECT '" + sql + "'", e);
+ 			throw e;
  		}
 		return id;
 	}

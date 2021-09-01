@@ -514,8 +514,8 @@ public class HtmlConverter {
 			}
 			if (e.getLink() != null && e.getLink() >= 0) {
 				Athlete e_ = (Athlete) DatabaseManager.loadEntity(Athlete.class, e.getLink());
-				String wId = "(-1" + (e_ != null && e_.getId() > 0 ? "," + e_.getId() : "") + (e_ != null && e_.getLink() > 0 ? "," + e_.getLink() : "") + (e.getId() > 0 ? "," + e.getId() : "") + (e.getLink() > 0 ? "," + e.getLink() : "") + ")";
-				lAthlete.addAll((List<Athlete>)DatabaseManager.executeSelect(Athlete.query + " WHERE T.id IN " + wId + " OR T.link IN " + wId + " ORDER BY T.id", Athlete.class));
+				String wId = "(-1" + (e_ != null && e_.getId() > 0 ? "," + e_.getId() : "") + (e_ != null && e_.getLink() != null && e_.getLink() > 0 ? "," + e_.getLink() : "") + (e_ != null && e.getId() > 0 ? "," + e.getId() : "") + (e_ != null && e_.getLink() != null && e.getLink() > 0 ? "," + e.getLink() : "") + ")";
+				lAthlete.addAll((List<Athlete>)DatabaseManager.executeSelect(Athlete.query + " WHERE T.id = " + id + " OR T.id IN " + wId + " OR T.link IN " + wId + " ORDER BY T.id", Athlete.class));
 				id = lAthlete.get(0).getId();
 			}
 			else {
@@ -1747,7 +1747,7 @@ public class HtmlConverter {
 				if (StringUtils.notEmpty(item.getTxt1())) {
 					StringBuffer sbPos = new StringBuffer();
 					for (String s : item.getTxt1().split("\\-")) {
-						sbPos.append((!sbPos.toString().isEmpty() ? " / " : "") + StringUtils.getUSPosition(item.getIdRel3(), s));
+						sbPos.append((!sbPos.toString().isEmpty() ? " / " : "") + s);
 					}
 					c4 = sbPos.toString();
 				}
@@ -2099,7 +2099,7 @@ public class HtmlConverter {
 			}
 			String places = null;
 			if (place1 != null) {
-				places = "<table><tr><td>" + place1 + "</td><td> - </td><td>" + place2 + "</td></tr></table>";
+				places = "<table><tr><td>" + place1 + "</td><td>&nbsp;&ndash;&nbsp;</td><td>" + place2 + "</td></tr></table>";
 			}
 			else if (place2 != null) {
 				places = place2;
@@ -2710,17 +2710,18 @@ public class HtmlConverter {
 			}
 			
 			// Evaluate bean
-			String ln = bean.getPrLastName();
+			String ln = null;
 			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
-			String name = HtmlUtils.writeLink(Athlete.alias, bean.getPrId(), StringUtils.toFullName(ln, bean.getPrFirstName(), null, true), bean.getPrFirstName() + " " + bean.getPrLastName());
-			String position = "-";
-			if (StringUtils.notEmpty(bean.getHfPosition())) {
-				StringBuffer sbPos = new StringBuffer();
-				for (String s : bean.getHfPosition().split("\\-")) {
-					sbPos.append((!sbPos.toString().isEmpty() ? " / " : "") + StringUtils.getUSPosition(bean.getLgId(), s));
-				}
-				position = sbPos.toString();
+			String name = "";
+			if (bean.getPrId() != null) {
+				ln = bean.getPrLastName();
+				name = HtmlUtils.writeLink(Athlete.alias, bean.getPrId(), StringUtils.toFullName(ln, bean.getPrFirstName(), null, true), bean.getPrFirstName() + " " + bean.getPrLastName());
 			}
+			else {
+				ln = bean.getHfText();
+				name = bean.getHfText();
+			}
+			String position = (bean.getHfPosition() != null ? bean.getHfPosition() : "-");
 				
 			// Write line
 			html.append("<tr><td class='srt'>" + year + "</td><td id='" + ln.replaceAll("\\s", "-") + "-" + bean.getHfId() + "' class='srt'><b>" + name + "</b></td><td class='srt'>" + position + "</td></tr>");

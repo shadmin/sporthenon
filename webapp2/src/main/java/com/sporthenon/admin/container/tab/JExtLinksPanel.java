@@ -185,6 +185,7 @@ public class JExtLinksPanel extends JSplitPane implements ActionListener, ListSe
 		}
 		catch (Exception e_) {
 			err = true;
+			msg = e_.getMessage();
 			log.log(Level.WARNING, e_.getMessage(), e_);
 		}
 		finally {

@@ -11,11 +11,12 @@ public class HallOfFame extends AbstractEntity {
 	private League 	league;
 	private Year 	year;
 	private Athlete person;
+	private String text;
 	private String 	position;
 	
 	public static final transient String alias 	= "HF";
 	public static final transient String table 	= "hall_of_fame";
-	public static final transient String cols 	= "id_league,id_year,id_person,position";
+	public static final transient String cols 	= "id_league,id_year,id_person,text,position";
 	public static final transient String query 	= "SELECT T.*, LG.label AS lg_label, "
 			+ " PR.last_name AS pr_last__name, PR.first_name AS pr_first_name, YR.label AS yr_label "
 			+ " FROM hall_of_fame T LEFT JOIN league LG ON LG.id = T.id_league "
@@ -47,6 +48,7 @@ public class HallOfFame extends AbstractEntity {
 				getPerson().setValuesFromMap(extractEntityColumns(Athlete.alias, idPerson, mapValues));
 			}
 			setPosition((String)mapValues.get("position"));
+			setText(mapValues.get("text") != null ? (String)mapValues.get("text") : null);
 			setMetadata(new Metadata((Integer)mapValues.get("id_contributor"), (Timestamp)mapValues.get("first_update"), (Timestamp)mapValues.get("last_update")));
 		}
 	}
@@ -91,6 +93,14 @@ public class HallOfFame extends AbstractEntity {
 		this.position = position;
 	}
 
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
 	public Integer getIdLeague() {
 		return (league != null ? league.getId() : null);
 	}
@@ -117,9 +127,10 @@ public class HallOfFame extends AbstractEntity {
 	
 	@Override
 	public String toString() {
-		return "HallOfFame [id=" + id + ", league=" + league + ", year=" + year + ", person=" + person + ", position=" + position + "]";
+		return "HallOfFame [id=" + id + ", league=" + league + ", year=" + year + ", person=" + person + ", text="
+				+ text + ", position=" + position + "]";
 	}
-	
+
 	public String toString2() {
 		return league.getLabel() + " - " + year.getLabel();
 	}

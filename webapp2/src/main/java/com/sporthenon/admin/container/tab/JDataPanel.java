@@ -493,7 +493,8 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			SwingUtils.fillPicklist(p.getPerson(), JMainFrame.getPicklists().get(Athlete.alias), leagueId == 1 ? 23 : (leagueId == 2 ? 24 : (leagueId == 3 ? 25 : 26)));
 			p.setLeague(hf.getLeague().getId());
 			p.setYear(hf.getYear().getId());
-			p.setPerson(hf.getPerson().getId());
+			p.setPerson(hf.getPerson() != null ? hf.getPerson().getId() : null);
+			p.setText(hf.getText());
 			p.setPosition(hf.getPosition());
 		}
 		else if (o instanceof Olympics) {
@@ -644,17 +645,27 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 		}
 		jPhotosButton.setEnabled(false);
 		if (o instanceof Athlete || o instanceof Complex || o instanceof HallOfFame || o instanceof Olympics) {
-			List<Picture> listP = (List<Picture>) DatabaseManager.executeSelect("SELECT * FROM _picture where entity = ? and id_item = ? order by id", Arrays.asList(alias, Integer.valueOf(currentId)), Picture.class);
 			photos.clear();
-			photos.addAll(listP);
+			try {
+				List<Picture> listP = (List<Picture>) DatabaseManager.executeSelect("SELECT * FROM _picture where entity = ? and id_item = ? order by id", Arrays.asList(alias, Integer.valueOf(currentId)), Picture.class);
+				photos.addAll(listP);	
+			}
+			catch (Exception e) {
+				log.log(Level.WARNING, "Error occured while loading photos");
+			}
 			jPhotosButton.setEnabled(true);
 			jPhotosButton.setText("Photos" + (!photos.isEmpty() ? " (" + photos.size() + ")" : ""));
 		}
 		StringBuffer sbLinks = new StringBuffer();
-		final String sql = "SELECT * FROM _external_link WHERE entity = ? and id_item = ? ORDER BY id";
-		List<ExternalLink> list = (List<ExternalLink>) DatabaseManager.executeSelect(sql, Arrays.asList(new Object[]{alias, Integer.valueOf(currentId)}), ExternalLink.class);
-		for (ExternalLink link : list) {
-			sbLinks.append(link.getUrl()).append("\r\n");
+		try {
+			final String sql = "SELECT * FROM _external_link WHERE entity = ? and id_item = ? ORDER BY id";
+			List<ExternalLink> list = (List<ExternalLink>) DatabaseManager.executeSelect(sql, Arrays.asList(new Object[]{alias, Integer.valueOf(currentId)}), ExternalLink.class);
+			for (ExternalLink link : list) {
+				sbLinks.append(link.getUrl()).append("\r\n");
+			}
+		}
+		catch (Exception e) {
+			log.log(Level.WARNING, "Error occured while loading external links");
 		}
 		extLinks = sbLinks.toString();
 		jExtLinksButton.setText("Ext. Links" + (StringUtils.notEmpty(extLinks) ? " (" + extLinks.split("\r\n").length + ")" : ""));

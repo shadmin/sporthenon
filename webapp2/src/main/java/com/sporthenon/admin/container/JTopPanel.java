@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.AbstractButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
@@ -16,6 +17,7 @@ import com.sporthenon.admin.component.JCustomToggleButton;
 import com.sporthenon.admin.container.tab.JDataPanel;
 import com.sporthenon.admin.window.JMainFrame;
 import com.sporthenon.admin.window.JOptionsDialog;
+import com.sporthenon.utils.StringUtils;
 
 public class JTopPanel extends JPanel implements ActionListener {
 
@@ -101,6 +103,11 @@ public class JTopPanel extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("connect")) {
+			final String userID = JMainFrame.getOptionsDialog().getLogin().getText();
+			if (!StringUtils.notEmpty(userID) || "***UserID***".equals(userID)) {
+				JOptionPane.showMessageDialog(parent, "Please set your user ID before connecting to database.\n\nGo to: Options > Database > User ID", "User ID not set", JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
 			new Thread (new Runnable() {
 				public void run() {
 					if (parent.connectCallback(!connected)) {

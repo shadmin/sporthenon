@@ -819,8 +819,9 @@ public class ImportUtils {
 	}
 	
 	private static void writeError(Vector<String> vLine, String msg) {
-		if (vLine != null && !vLine.get(0).startsWith("ERR") && (!StringUtils.notEmpty(vLine.get(0)) || vLine.get(0).equals("-") || !vLine.get(0).startsWith("ERR"))) {
-			vLine.set(0, msg);
+		final int INDEX_ERR = 1;
+		if (vLine != null && !vLine.get(INDEX_ERR).startsWith("ERR") && (!StringUtils.notEmpty(vLine.get(INDEX_ERR)) || vLine.get(INDEX_ERR).equals("-") || !vLine.get(INDEX_ERR).startsWith("ERR"))) {
+			vLine.set(INDEX_ERR, msg);
 		}
 	}
 	

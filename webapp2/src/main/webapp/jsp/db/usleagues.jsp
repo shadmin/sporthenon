@@ -209,7 +209,7 @@ window.onload = function() {
 	for (Object[] tObj : l) {
 		String league = String.valueOf(tObj[0]);
 		String position = String.valueOf(tObj[1]);
-		String labelpos = StringUtils.getUSPosition(StringUtils.toInt(league), position);
+		String labelpos = position;
 		if (!position.matches(".*\\-.*")) {
 			//out.print("tPos[" + league + "] = (tPos[" + league + "] ? tPos[" + league + "] + '\\r\\n' : '') + '" + position + "' - '" + labelpos + "'");
 		}

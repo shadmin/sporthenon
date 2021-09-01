@@ -171,6 +171,7 @@ public class UpdateUtils {
 			en.setIdLeague(StringUtils.toInt(params.get("hf-league")));
 			en.setIdYear(StringUtils.toInt(params.get("hf-year")));
 			en.setIdPerson(StringUtils.toInt(params.get("hf-person")));
+			en.setText(StringUtils.notEmpty(params.get("hf-text")) ? String.valueOf(params.get("hf-text")) : null);
 			en.setPosition(StringUtils.notEmpty(params.get("hf-position")) ? String.valueOf(params.get("hf-position")) : null);
 		}
 		else if (alias.equalsIgnoreCase(Olympics.alias)) {

@@ -2,6 +2,8 @@ package com.sporthenon.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -129,6 +131,12 @@ public class ImageUtils {
 		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("image/png").build();
 		storage.create(blobInfo, content);
 		addImageToMap(key, fileName);
+		// Add to website
+		String url = ConfigUtils.getValue("url") + "ImageServlet?add=1&key=" + key + "&file=" + fileName;
+		HttpURLConnection conn_ = (HttpURLConnection) new URL(url).openConnection();
+		if (conn_.getResponseCode() == 200) {
+			log.log(Level.INFO, "Image " + fileName + " added successfully to website");
+		}
 	}
 	
 	public static void removeImage(String fileName, String credFile) throws IOException {
@@ -137,6 +145,12 @@ public class ImageUtils {
 		BlobId blobId = BlobId.of(getBucket(), getFolder() + fileName);
 		storage.delete(blobId);
 		removeImageFromMap(fileName);
+		// Remove from website
+		String url = ConfigUtils.getValue("url") + "ImageServlet?remove=1&file=" + fileName;
+		HttpURLConnection conn_ = (HttpURLConnection) new URL(url).openConnection();
+		if (conn_.getResponseCode() == 200) {
+			log.log(Level.INFO, "Image " + fileName + " removed successfully from website");
+		}
 	}
 	
 	public static Collection<String> getImages(String key) {

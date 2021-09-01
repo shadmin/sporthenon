@@ -421,6 +421,7 @@ public class JMainFrame extends JFrame {
 			params.put("hf-league", SwingUtils.getValue(p.getLeague()));
 			params.put("hf-year", SwingUtils.getValue(p.getYear()));
 			params.put("hf-person", SwingUtils.getValue(p.getPerson()));
+			params.put("hf-text", p.getText().getText());
 			params.put("hf-position", p.getPosition().getText());		
 		}
 		else if (alias.equalsIgnoreCase(Olympics.alias)) {
@@ -629,7 +630,7 @@ public class JMainFrame extends JFrame {
 				jExtLinksPanel.valueChanged(new ListSelectionEvent(this, 0, 0, true));
 				jUsersPanel.initList();
 				jUsersPanel.valueChanged(new ListSelectionEvent(jUsersPanel.getList(), 0, 0, true));
-				jUsersPanel.getSaveButton().setEnabled(contributor.isAdmin());
+			//	jUsersPanel.getSaveButton().setEnabled(contributor.isAdmin());
 			}
 			else {
 				contributor = null;
