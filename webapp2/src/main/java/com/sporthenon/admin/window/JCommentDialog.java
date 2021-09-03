@@ -91,9 +91,6 @@ public class JCommentDialog extends JDialog implements ActionListener {
 					rdlg.setExtLinksModified(true);
 				}
 			}
-			else {
-				DatabaseManager.saveExternalLinks(alias, id, getComment().getText());
-			}
 		}
 		this.setVisible(false);
 	}

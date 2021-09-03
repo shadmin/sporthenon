@@ -420,7 +420,7 @@ public class DatabaseManager {
 			}
 		}
 		catch (Exception e_) {
-			log.log(Level.FINE, e_.getMessage(), e_);
+			log.log(Level.WARNING, e_.getMessage(), e_);
 		}
 	}
 	

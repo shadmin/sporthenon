@@ -1,5 +1,6 @@
 package com.sporthenon.utils;
 
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -19,6 +21,7 @@ import javax.swing.tree.DefaultTreeModel;
 import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JEntityPicklist;
 import com.sporthenon.admin.component.JLinkTextField;
+import com.sporthenon.admin.window.JEditEntityDialog;
 import com.sporthenon.admin.window.JFindEntityDialog;
 import com.sporthenon.admin.window.JMainFrame;
 import com.sporthenon.db.DatabaseManager;
@@ -207,7 +210,15 @@ public class SwingUtils {
 			if (alias.equalsIgnoreCase("EN") && number != null) {
 				alias = (number < 10 ? "PR" : (number == 50 ? "TM" : "CN"));
 			}
-			JMainFrame.getEntityDialog().open(alias, srcPicklist);
+			JFrame frame = null;
+			while (!(parent instanceof JFrame)) {
+				parent = ((Container)parent).getParent();
+			}
+			frame = (JFrame) parent;
+			if (frame != null) {
+				JEditEntityDialog entityDialog  = new JEditEntityDialog(frame);
+				entityDialog.open(alias, srcPicklist);
+			}
 		}
 		else {
 			JFindEntityDialog dlg = JMainFrame.getFindDialog();

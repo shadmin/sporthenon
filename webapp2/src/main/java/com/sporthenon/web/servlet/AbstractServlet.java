@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sporthenon.db.entity.meta.Contributor;
-import com.sporthenon.utils.ConfigUtils;
-import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 import com.sporthenon.web.ServletHelper;
 

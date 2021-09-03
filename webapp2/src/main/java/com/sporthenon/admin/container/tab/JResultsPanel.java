@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -44,8 +45,7 @@ import javax.swing.tree.TreeSelectionModel;
 import com.sporthenon.admin.component.JCustomButton;
 import com.sporthenon.admin.component.JEntityPicklist;
 import com.sporthenon.admin.component.JQueryStatus;
-import com.sporthenon.admin.window.JAddEventDialog;
-import com.sporthenon.admin.window.JEditFolderDialog;
+import com.sporthenon.admin.window.JEditEventDialog;
 import com.sporthenon.admin.window.JEditResultDialog;
 import com.sporthenon.admin.window.JMainFrame;
 import com.sporthenon.db.DatabaseManager;
@@ -58,6 +58,7 @@ import com.sporthenon.db.entity.Round;
 import com.sporthenon.db.entity.Team;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.ExternalLink;
+import com.sporthenon.db.entity.meta.FolderHistory;
 import com.sporthenon.db.entity.meta.InactiveItem;
 import com.sporthenon.db.entity.meta.PersonList;
 import com.sporthenon.db.entity.meta.Picture;
@@ -82,6 +83,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 	private static Integer idEvent = null;
 	private static Integer idSubevent = null;
 	private static Integer idSubevent2 = null;
+	private JCustomButton jEditFolderButton;
 	private JCustomButton jAddMultipleButton = null;
 	private JCustomButton jAddButton = null;
 	private JCustomButton jEditButton = null;
@@ -221,10 +223,10 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 		JCustomButton jNewFolderButton = new JCustomButton("Add Event", "newfolder.png", "Add Event");
 		jNewFolderButton.addActionListener(this);
 		jNewFolderButton.setActionCommand("add-folder");
-		JCustomButton jEditFolderButton = new JCustomButton("Edit Folders", "editfolder.png", "Edit Folder");
+		jEditFolderButton = new JCustomButton("Move Event", "editfolder.png", "Move Event");
+		jEditFolderButton.setEnabled(false);
 		jEditFolderButton.addActionListener(this);
 		jEditFolderButton.setActionCommand("edit-folder");
-		jEditFolderButton.setEnabled(false);
 		leftPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 3, 1));
 		jInactive = new JCheckBox("Inactive event");
 		jInactive.addActionListener(this);
@@ -297,6 +299,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				Collections.reverse(texts);
 				jTitle.setText(StringUtils.join(texts, " - "));
 			}
+			jEditFolderButton.setEnabled(node.isLeaf());
 		}
 	}
 
@@ -425,7 +428,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 	}
 
 	public void addEventCallback() {
-		JAddEventDialog dlg = JMainFrame.getAddEventDialog();
+		JEditEventDialog dlg = JMainFrame.getEditEventDialog();
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode) jTree.getModel().getRoot();
 		// Sport
 		Integer idSport = SwingUtils.getValue(dlg.getSport());
@@ -521,12 +524,70 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 		jTree.setSelectionPath(selectedPath);
 	}
 	
-	public void editFoldersCallback(String msg, boolean err) {
-		if (!err) {
-			if (jResultTable != null) {
-				jResultTable.setVisible(false);
+	public void moveEventCallback() {
+		JEditEventDialog dlg = JMainFrame.getEditEventDialog();
+		String msg = null;
+		boolean err = false;
+		try {
+			DatabaseManager.executeUpdate("ALTER TABLE result DISABLE TRIGGER trigger_rs", null);
+			Integer idSport_ = SwingUtils.getValue(dlg.getSport());
+			Integer idCategory1_ = SwingUtils.getValue(dlg.getCategory1());
+			Integer idCategory2_ = SwingUtils.getValue(dlg.getCategory2());
+			Integer idCategory3_ = SwingUtils.getValue(dlg.getCategory3());
+			Integer idCategory4_ = SwingUtils.getValue(dlg.getCategory4());
+			StringBuffer sql = new StringBuffer("UPDATE result SET id_sport = " + idSport);
+			if (idCategory1_ != null && idCategory1_ > 0) {
+				sql.append(", id_championship = " + idCategory1_);
 			}
-			setTree();
+			if (idCategory2_ != null && idCategory2_ > 0) {
+				sql.append(", id_event = " + idCategory2_);
+			}
+			if (idCategory3_ != null && idCategory3_ > 0) {
+				sql.append(", id_subevent = " + idCategory3_);
+			}
+			else {
+				sql.append(", id_subevent = NULL");
+			}
+			if (idCategory4_ != null && idCategory4_ > 0) {
+				sql.append(", id_subevent2 = " + idCategory4_);
+			}
+			else {
+				sql.append(", id_subevent2 = NULL");
+			}
+			sql.append(" WHERE id_sport = " + idSport);
+			sql.append(" AND id_championship = " + idChampionship);
+			sql.append(" AND id_event = " + idEvent);
+			sql.append(" AND " + (idSubevent != null ? "id_subevent = " + idSubevent : "id_subevent IS NULL"));
+			sql.append(" AND " + (idSubevent2 != null ? "id_subevent2 = " + idSubevent2 : "id_subevent2 IS NULL"));
+			DatabaseManager.executeUpdate(sql.toString(), null);
+			DatabaseManager.executeUpdate(sql.toString().replaceAll("Result", "~InactiveItem"), null);
+			
+			// Keep previous path in folders history (for redirection)
+			String previousParams = idSport + (idChampionship != null && idChampionship > 0 ? "-" + idChampionship : "") + (idEvent != null && idEvent > 0 ? "-" + idEvent : "") + (idSubevent != null && idSubevent > 0 ? "-" + idSubevent : "") + (idSubevent2 != null && idSubevent2 > 0 ? "-" + idSubevent2 : "");
+			String currentParams = idSport_ + (idCategory1_ != null && idCategory1_ > 0 ? "-" + idCategory1_ : "") + (idCategory2_ != null && idCategory2_ > 0 ? "-" + idCategory2_ : "") + (idCategory3_ != null && idCategory3_ > 0 ? "-" + idCategory3_ : "") + (idCategory4_ != null && idCategory4_ > 0 ? "-" + idCategory4_ : "");
+			String currentPath = SwingUtils.getText(dlg.getSport()) + (idCategory1_ != null && idCategory1_ > 0 ? "/" + SwingUtils.getText(dlg.getCategory1()) : "") + (idCategory2_ != null && idCategory2_ > 0 ? "/" + SwingUtils.getText(dlg.getCategory2()).replaceAll("\\s\\[.+$", "") : "") + (idCategory3_ != null && idCategory3_ > 0 ? "/" + SwingUtils.getText(dlg.getCategory3()).replaceAll("\\s\\[.+$", "") : "") + (idCategory4_ != null && idCategory4_ > 0 ? "/" + SwingUtils.getText(dlg.getCategory4()).replaceAll("\\s\\[.+$", "") : "");
+			FolderHistory fh = new FolderHistory();
+			fh.setPreviousParams(previousParams);
+			fh.setCurrentParams(currentParams);
+			fh.setCurrentPath(currentPath);
+			fh.setDate(new Timestamp(System.currentTimeMillis()));
+			DatabaseManager.saveEntity(fh, null);
+			
+			DatabaseManager.executeUpdate("ALTER TABLE result ENABLE TRIGGER trigger_rs", null);
+			msg = "Event has been moved successfully.";
+		}
+		catch (Exception e_) {
+			err = true;
+			msg = e_.getMessage();
+			log.log(Level.WARNING, e_.getMessage(), e_);
+		}
+		finally {
+			if (!err) {
+				if (jResultTable != null) {
+					jResultTable.setVisible(false);
+				}
+				setTree();
+			}
 		}
 		jQueryStatus.set(err ? JQueryStatus.FAILURE : JQueryStatus.SUCCESS, msg);
 	}
@@ -549,7 +610,8 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				setTree();
 			}
 			else if (e.getActionCommand().matches("add-folder")) {
-				JAddEventDialog dlg = JMainFrame.getAddEventDialog();
+				JEditEventDialog dlg = JMainFrame.getEditEventDialog();
+				dlg.setType(JEditEventDialog.ADD);
 				SwingUtils.selectValue(dlg.getSport(), idSport);
 				SwingUtils.selectValue(dlg.getCategory1(), idChampionship);
 				SwingUtils.selectValue(dlg.getCategory2(), idEvent);
@@ -558,21 +620,14 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				dlg.open(this);
 			}
 			else if (e.getActionCommand().matches("edit-folder")) {
-				JEditFolderDialog dlg = JMainFrame.getEditFoldersDialog();
+				JEditEventDialog dlg = JMainFrame.getEditEventDialog();
+				dlg.setType(JEditEventDialog.MOVE);
 				SwingUtils.selectValue(dlg.getSport(), idSport);
 				SwingUtils.selectValue(dlg.getCategory1(), idChampionship);
 				SwingUtils.selectValue(dlg.getCategory2(), idEvent);
 				SwingUtils.selectValue(dlg.getCategory3(), idSubevent);
 				SwingUtils.selectValue(dlg.getCategory4(), idSubevent2);
-				List<PicklistItem> list = new ArrayList<PicklistItem>();
-				if (jTree.getSelectionPaths() != null) {
-					for (TreePath path : jTree.getSelectionPaths()) {
-						DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-						Object info = node.getUserObject();
-						list.add((PicklistItem)info);
-					}
-				}
-				dlg.open(this, list);
+				dlg.open(this);
 			}
 			else if (e.getActionCommand().matches("set-inactive")) {
 				String msg = null;

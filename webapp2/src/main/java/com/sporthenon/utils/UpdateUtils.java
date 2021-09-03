@@ -311,4 +311,8 @@ public class UpdateUtils {
 		return o;
 	}
 	
+	public static void mergeEntities(String alias, Integer id1, Integer id2) throws Exception {
+		DatabaseManager.executeSelect("select _merge('" + alias + "', " + id1 + ", " + id2 + ")");
+	}
+	
 }

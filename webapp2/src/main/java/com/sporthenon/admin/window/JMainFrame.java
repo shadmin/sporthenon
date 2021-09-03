@@ -98,9 +98,7 @@ public class JMainFrame extends JFrame {
 	private JLabel jConnectInfoLabel = null;
 	private static JPasswordDialog jPasswordDialog = null;
 	private static JEditResultDialog jResultDialog = null;
-	private static JEditFolderDialog jEditFoldersDialog = null;
-	private static JAddEventDialog jAddEventDialog = null;
-	private static JEditEntityDialog jEntityDialog = null;
+	private static JEditEventDialog jEditEventDialog = null;
 	private static JFindEntityDialog jFindDialog = null;
 	private static JMergeEntityDialog jMergeDialog = null;
 	private static JAddMultipleDialog jAddMultipleDialog = null;
@@ -180,9 +178,7 @@ public class JMainFrame extends JFrame {
 		}
 		jResultsPanel.setTree();
 		jResultDialog  = new JEditResultDialog(this);
-		jAddEventDialog = new JAddEventDialog(this);
-		jEditFoldersDialog  = new JEditFolderDialog(this);
-		jEntityDialog  = new JEditEntityDialog(this);
+		jEditEventDialog = new JEditEventDialog(this);
 		jFindDialog  = new JFindEntityDialog(this);
 		jMergeDialog  = new JMergeEntityDialog(this);
 		jAddMultipleDialog = new JAddMultipleDialog(this);
@@ -192,8 +188,8 @@ public class JMainFrame extends JFrame {
 		if (!quickload) {
 			fillPicklists(null);
 			jPicturesPanel.getSportList().removeAllItems();
-			for (int i = 0 ; i < jEditFoldersDialog.getSport().getCombobox().getItemCount() ; i++) {
-				jPicturesPanel.getSportList().addItem(jEditFoldersDialog.getSport().getCombobox().getItemAt(i));
+			for (int i = 0 ; i < jEditEventDialog.getSport().getCombobox().getItemCount() ; i++) {
+				jPicturesPanel.getSportList().addItem(jEditEventDialog.getSport().getCombobox().getItemAt(i));
 			}
 		}
 	}
@@ -205,8 +201,8 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(jAllAthletes, hPicklists.get(Athlete.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(Championship.alias)) {
-			SwingUtils.fillPicklist(jAddEventDialog.getCategory1(), hPicklists.get(Championship.alias), null);
-			SwingUtils.fillPicklist(jEditFoldersDialog.getCategory1(), hPicklists.get(Championship.alias), null);
+			SwingUtils.fillPicklist(jEditEventDialog.getCategory1(), hPicklists.get(Championship.alias), null);
+			SwingUtils.fillPicklist(jEditEventDialog.getCategory1(), hPicklists.get(Championship.alias), null);
 			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getChampionship(), hPicklists.get(Championship.alias), null);
 			SwingUtils.fillPicklist(((JCalendarPanel)jEntityPanels.get(Calendar.alias)).getChampionship(), hPicklists.get(Championship.alias), null);
 		}
@@ -234,12 +230,12 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(((JCalendarPanel)jEntityPanels.get(Calendar.alias)).getCountry(), hPicklists.get(Country.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(Event.alias)) {
-			SwingUtils.fillPicklist(jAddEventDialog.getCategory2(), hPicklists.get(Event.alias), null);
-			SwingUtils.fillPicklist(jAddEventDialog.getCategory3(), hPicklists.get(Event.alias), null);
-			SwingUtils.fillPicklist(jAddEventDialog.getCategory4(), hPicklists.get(Event.alias), null);
-			SwingUtils.fillPicklist(jEditFoldersDialog.getCategory2(), hPicklists.get(Event.alias), null);
-			SwingUtils.fillPicklist(jEditFoldersDialog.getCategory3(), hPicklists.get(Event.alias), null);
-			SwingUtils.fillPicklist(jEditFoldersDialog.getCategory4(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(jEditEventDialog.getCategory2(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(jEditEventDialog.getCategory3(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(jEditEventDialog.getCategory4(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(jEditEventDialog.getCategory2(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(jEditEventDialog.getCategory3(), hPicklists.get(Event.alias), null);
+			SwingUtils.fillPicklist(jEditEventDialog.getCategory4(), hPicklists.get(Event.alias), null);
 			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getEvent(), hPicklists.get(Event.alias), null);
 			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getSubevent(), hPicklists.get(Event.alias), null);
 			SwingUtils.fillPicklist(((JCalendarPanel)jEntityPanels.get(Calendar.alias)).getEvent(), hPicklists.get(Event.alias), null);
@@ -256,8 +252,8 @@ public class JMainFrame extends JFrame {
 			SwingUtils.fillPicklist(((JOlympicRankingPanel)jEntityPanels.get(OlympicRanking.alias)).getOlympics(), hPicklists.get(Olympics.alias), null);
 		}
 		if (alias == null || alias.equalsIgnoreCase(Sport.alias)) {
-			SwingUtils.fillPicklist(jAddEventDialog.getSport(), hPicklists.get(Sport.alias), null);
-			SwingUtils.fillPicklist(jEditFoldersDialog.getSport(), hPicklists.get(Sport.alias), null);
+			SwingUtils.fillPicklist(jEditEventDialog.getSport(), hPicklists.get(Sport.alias), null);
+			SwingUtils.fillPicklist(jEditEventDialog.getSport(), hPicklists.get(Sport.alias), null);
 			SwingUtils.fillPicklist(((JAthletePanel)jEntityPanels.get(Athlete.alias)).getSport(), hPicklists.get(Sport.alias), null);
 			SwingUtils.fillPicklist(((JTeamPanel)jEntityPanels.get(Team.alias)).getSport(), hPicklists.get(Sport.alias), null);
 			SwingUtils.fillPicklist(((JRecordPanel)jEntityPanels.get(Record.alias)).getSport(), hPicklists.get(Sport.alias), null);
@@ -555,10 +551,6 @@ public class JMainFrame extends JFrame {
 		return pi;
 	}
 
-	public static void mergeEntities(String alias, Integer id1, Integer id2) throws Exception {
-		DatabaseManager.executeSelect("select _merge('" + alias + "', " + id1 + ", " + id2 + ")");
-	}
-	
 	private JPanel getJContentPane() {
 		jContentPane = new JPanel();
 		jBottomPanel = new JBottomPanel();
@@ -673,16 +665,8 @@ public class JMainFrame extends JFrame {
 		return jResultDialog;
 	}
 
-	public static JAddEventDialog getAddEventDialog() {
-		return jAddEventDialog;
-	}
-
-	public static JEditFolderDialog getEditFoldersDialog() {
-		return jEditFoldersDialog;
-	}
-	
-	public static JEditEntityDialog getEntityDialog() {
-		return jEntityDialog;
+	public static JEditEventDialog getEditEventDialog() {
+		return jEditEventDialog;
 	}
 
 	public static JFindEntityDialog getFindDialog() {

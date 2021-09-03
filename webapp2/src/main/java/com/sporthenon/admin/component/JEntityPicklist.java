@@ -149,11 +149,13 @@ public class JEntityPicklist extends JPanel implements ItemListener, KeyListener
 			}
 		}
 		if (!isTextfield) {
+			int index = jCombobox.getSelectedIndex();
 			jCombobox.removeAllItems();
 			jCombobox.addItem(new PicklistItem(0, ""));
 			for (PicklistItem item : itemList) {
 				jCombobox.addItem(item);
 			}
+			jCombobox.setSelectedIndex(index);
 		}
 	}
 	

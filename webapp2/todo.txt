@@ -1,18 +1,17 @@
 -------------------------
+merge ext links
 hallof fame : free text instead of athlete
 shadm retired number null si vide + tri des numéros a l'affichage + image (mike)
-bug export olympics 
+bug export olympics
 shadm vérifier chargement resultat si draft et changer draft = event in progress
 shadm message pour préciser userID
 shadmin verf si erreur message rouge barre etat (ex pas de droits)
 shadmin refresh map images webapp qd ajout bucket depuis shtool
 shadmin import pas de prenom (falcao etc..) + supprimer ligne tableau
+shadmin plusieurs jeditentitydialog cascade
+- tests new folder/edit folders
 -------------------------
 export pdf
-merge ext links
 verif ecrans update
 android last updates
 shadm import détection automatique type country
-shadmin plusieurs jeditentitydialog cascade
-
-- tests new folder/edit folders

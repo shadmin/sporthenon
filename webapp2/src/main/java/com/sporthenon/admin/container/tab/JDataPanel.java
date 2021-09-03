@@ -80,6 +80,7 @@ import com.sporthenon.db.entity.meta.ExternalLink;
 import com.sporthenon.db.entity.meta.Picture;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
+import com.sporthenon.utils.UpdateUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 
 public class JDataPanel extends JSplitPane implements ActionListener, ListSelectionListener {
@@ -97,6 +98,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 	private JCustomButton jPhotosButton = null;
 	private JEditPhotosDialog jEditPhotosDialog = null;
 	private String extLinks = "";
+	private boolean extLinksModified = false;
 	private List<Picture> photos = new ArrayList<>();
 	
 	public JDataPanel(JMainFrame parent) {
@@ -288,7 +290,10 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			dialog.getComment().setText(extLinks);
 			dialog.setSize(new Dimension(600, 250));
 			dialog.open();
-			extLinks = dialog.getComment().getText();
+			if (!dialog.getComment().getText().equalsIgnoreCase(extLinks)) {
+				extLinks = dialog.getComment().getText();
+				extLinksModified = true;
+			}
 			jExtLinksButton.setText("Ext. Links" + (StringUtils.notEmpty(extLinks) ? " (" + extLinks.split("\n").length + ")" : ""));
 		}
 		else if (e.getActionCommand().equals("photos")) {
@@ -310,6 +315,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			panel.setId("");
 			panel.focus();
 			jPhotosButton.setEnabled(false);
+			extLinksModified = true;
 		}
 		else if (e.getActionCommand().equals("save")) {
 			boolean err = false;
@@ -317,8 +323,12 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			try {
 				String id = panel.getId().getText();
 				PicklistItem plb = JMainFrame.saveEntity(alias, StringUtils.toInt(id));
-				msg = ResourceUtils.getText("entity." + alias.toUpperCase() + ".1", ResourceUtils.LGDEFAULT) + " #" + plb.getValue() + " successfully " + (StringUtils.notEmpty(id) ? "updated" : "created") + ".";
-				panel.setId(String.valueOf(plb.getValue()));
+				int newId = plb.getValue();
+				if (extLinksModified) {
+					DatabaseManager.saveExternalLinks(alias, newId, extLinks);
+				}
+				msg = ResourceUtils.getText("entity." + alias.toUpperCase() + ".1", ResourceUtils.LGDEFAULT) + " #" + newId + " successfully " + (StringUtils.notEmpty(id) ? "updated" : "created") + ".";
+				panel.setId(String.valueOf(newId));
 				currentId = panel.getId().getText();
 			}
 			catch (Exception e_) {
@@ -370,7 +380,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 					dlg_.getlEntity2().setText(data2.toString());
 					dlg_.open(alias, Integer.parseInt(id1), Integer.parseInt(id2));
 					if (dlg_.getAlias() != null) {
-						JMainFrame.mergeEntities(dlg_.getAlias(), dlg_.getIdEntity1(), dlg_.getIdEntity2());
+						UpdateUtils.mergeEntities(dlg_.getAlias(), dlg_.getIdEntity1(), dlg_.getIdEntity2());
 						msg = "Entities #" + id1 + " and #" + id2 + " merged successfully.";
 					}
 				}
@@ -668,6 +678,7 @@ public class JDataPanel extends JSplitPane implements ActionListener, ListSelect
 			log.log(Level.WARNING, "Error occured while loading external links");
 		}
 		extLinks = sbLinks.toString();
+		extLinksModified = false;
 		jExtLinksButton.setText("Ext. Links" + (StringUtils.notEmpty(extLinks) ? " (" + extLinks.split("\r\n").length + ")" : ""));
 		jQueryStatus.clear();
 	}

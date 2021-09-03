@@ -1212,3 +1212,128 @@ begin
 	RETURN  _c;
 end;
 $BODY$;
+
+
+CREATE OR REPLACE FUNCTION public._merge(
+	_alias character varying,
+	_id1 integer,
+	_id2 integer)
+    RETURNS boolean
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+declare
+begin
+	IF _alias = 'CP' THEN
+		UPDATE result SET id_championship = _id2 WHERE id_championship = _id1;
+		UPDATE record SET id_championship = _id2 WHERE id_championship = _id1;
+		DELETE FROM championship WHERE id = _id1;
+	ELSIF _alias = 'CT' THEN
+		UPDATE complex SET id_city = _id2 WHERE id_city = _id1;
+		UPDATE olympics SET id_city = _id2 WHERE id_city = _id1;
+		UPDATE result SET id_city1 = _id2 WHERE id_city1 = _id1;
+		UPDATE result SET id_city2 = _id2 WHERE id_city2 = _id1;
+		UPDATE record SET id_city = _id2 WHERE id_city = _id1;
+		UPDATE round SET id_city = _id2 WHERE id_city = _id1;
+		DELETE FROM city WHERE id = _id1;
+	ELSIF _alias = 'CN' THEN
+		UPDATE city SET id_country = _id2 WHERE id_country = _id1;
+		UPDATE olympic_ranking SET id_country = _id2 WHERE id_country = _id1;
+		UPDATE athlete SET id_country = _id2 WHERE id_country = _id1;
+		UPDATE round SET id_rank1 = _id2 WHERE id_rank1 = _id1 AND id_result_type=99;
+		UPDATE round SET id_rank2 = _id2 WHERE id_rank2 = _id1 AND id_result_type=99;
+		UPDATE round SET id_rank3 = _id2 WHERE id_rank3 = _id1 AND id_result_type=99;
+		UPDATE result SET id_rank1 = _id2 WHERE id_rank1 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=99) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=99) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=99));
+		UPDATE result SET id_rank2 = _id2 WHERE id_rank2 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=99) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=99) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=99));
+		UPDATE result SET id_rank3 = _id2 WHERE id_rank3 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=99) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=99) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=99));
+		UPDATE result SET id_rank4 = _id2 WHERE id_rank4 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=99) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=99) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=99));
+		UPDATE result SET id_rank5 = _id2 WHERE id_rank5 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=99) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=99) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=99));
+		UPDATE result SET id_rank6 = _id2 WHERE id_rank6 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=99) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=99) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=99));
+		UPDATE result SET id_rank7 = _id2 WHERE id_rank7 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=99) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=99) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=99));
+		UPDATE result SET id_rank8 = _id2 WHERE id_rank8 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=99) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=99) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=99));
+		UPDATE result SET id_rank9 = _id2 WHERE id_rank9 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=99) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=99) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=99));
+		UPDATE result SET id_rank10 = _id2 WHERE id_rank10 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=99) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=99) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=99));
+		UPDATE record SET id_rank1 = _id2 WHERE id_rank1 = _id1 AND id IN (SELECT RC.id FROM record RC LEFT JOIN event EV ON RC.id_event = EV.id LEFT JOIN event SE ON RC.id_subevent = SE.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number=99) OR (RC.id_subevent IS NOT NULL AND TP2.number=99));
+		UPDATE record SET id_rank2 = _id2 WHERE id_rank2 = _id1 AND id IN (SELECT RC.id FROM record RC LEFT JOIN event EV ON RC.id_event = EV.id LEFT JOIN event SE ON RC.id_subevent = SE.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number=99) OR (RC.id_subevent IS NOT NULL AND TP2.number=99));
+		UPDATE record SET id_rank3 = _id2 WHERE id_rank3 = _id1 AND id IN (SELECT RC.id FROM record RC LEFT JOIN event EV ON RC.id_event = EV.id LEFT JOIN event SE ON RC.id_subevent = SE.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number=99) OR (RC.id_subevent IS NOT NULL AND TP2.number=99));
+		UPDATE record SET id_rank4 = _id2 WHERE id_rank4 = _id1 AND id IN (SELECT RC.id FROM record RC LEFT JOIN event EV ON RC.id_event = EV.id LEFT JOIN event SE ON RC.id_subevent = SE.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number=99) OR (RC.id_subevent IS NOT NULL AND TP2.number=99));
+		UPDATE record SET id_rank5 = _id2 WHERE id_rank5 = _id1 AND id IN (SELECT RC.id FROM record RC LEFT JOIN event EV ON RC.id_event = EV.id LEFT JOIN event SE ON RC.id_subevent = SE.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number=99) OR (RC.id_subevent IS NOT NULL AND TP2.number=99));
+		UPDATE team SET id_country = _id2 WHERE id_country = _id1;
+		DELETE FROM country WHERE id = _id1;
+	ELSIF _alias = 'CX' THEN
+		UPDATE result SET id_complex1 = _id2 WHERE id_complex1 = _id1;
+		UPDATE result SET id_complex2 = _id2 WHERE id_complex2 = _id1;
+		UPDATE round SET id_complex = _id2 WHERE id_complex = _id1;
+		UPDATE team_stadium SET id_complex = _id2 WHERE id_complex = _id1;
+		DELETE FROM complex WHERE id = _id1;
+	ELSIF _alias = 'EV' THEN
+		UPDATE result SET id_event = _id2 WHERE id_event = _id1;
+		UPDATE result SET id_subevent = _id2 WHERE id_subevent = _id1;
+		UPDATE result SET id_subevent2 = _id2 WHERE id_subevent2 = _id1;
+		UPDATE record SET id_event = _id2 WHERE id_event = _id1;
+		UPDATE record SET id_subevent = _id2 WHERE id_subevent = _id1;
+		DELETE FROM event WHERE id = _id1;
+	ELSIF _alias = 'PR' THEN
+		UPDATE hall_of_fame SET id_person = _id2 WHERE id_person = _id1;
+		UPDATE round SET id_rank1 = _id2 WHERE id_rank1 = _id1 AND id_result_type<10;
+		UPDATE round SET id_rank2 = _id2 WHERE id_rank2 = _id1 AND id_result_type<10;
+		UPDATE round SET id_rank3 = _id2 WHERE id_rank3 = _id1 AND id_result_type<10;
+		UPDATE result SET id_rank1 = _id2 WHERE id_rank1 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number<10) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number<10) OR (RS.id_subevent2 IS NOT NULL AND TP3.number<10));
+		UPDATE result SET id_rank2 = _id2 WHERE id_rank2 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number<10) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number<10) OR (RS.id_subevent2 IS NOT NULL AND TP3.number<10));
+		UPDATE result SET id_rank3 = _id2 WHERE id_rank3 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number<10) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number<10) OR (RS.id_subevent2 IS NOT NULL AND TP3.number<10));
+		UPDATE result SET id_rank4 = _id2 WHERE id_rank4 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number<10) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number<10) OR (RS.id_subevent2 IS NOT NULL AND TP3.number<10));
+		UPDATE result SET id_rank5 = _id2 WHERE id_rank5 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number<10) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number<10) OR (RS.id_subevent2 IS NOT NULL AND TP3.number<10));
+		UPDATE result SET id_rank6 = _id2 WHERE id_rank6 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number<10) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number<10) OR (RS.id_subevent2 IS NOT NULL AND TP3.number<10));
+		UPDATE result SET id_rank7 = _id2 WHERE id_rank7 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number<10) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number<10) OR (RS.id_subevent2 IS NOT NULL AND TP3.number<10));
+		UPDATE result SET id_rank8 = _id2 WHERE id_rank8 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number<10) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number<10) OR (RS.id_subevent2 IS NOT NULL AND TP3.number<10));
+		UPDATE result SET id_rank9 = _id2 WHERE id_rank9 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number<10) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number<10) OR (RS.id_subevent2 IS NOT NULL AND TP3.number<10));
+		UPDATE result SET id_rank10 = _id2 WHERE id_rank10 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number<10) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number<10) OR (RS.id_subevent2 IS NOT NULL AND TP3.number<10));
+		UPDATE record SET id_rank1 = _id2 WHERE id_rank1 = _id1 AND id IN (SELECT RC.id FROM record RC LEFT JOIN event EV ON RC.id_event = EV.id LEFT JOIN event SE ON RC.id_subevent = SE.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number<10) OR (RC.id_subevent IS NOT NULL AND TP2.number<10));
+		UPDATE record SET id_rank2 = _id2 WHERE id_rank2 = _id1 AND id IN (SELECT RC.id FROM record RC LEFT JOIN event EV ON RC.id_event = EV.id LEFT JOIN event SE ON RC.id_subevent = SE.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number<10) OR (RC.id_subevent IS NOT NULL AND TP2.number<10));
+		UPDATE record SET id_rank3 = _id2 WHERE id_rank3 = _id1 AND id IN (SELECT RC.id FROM record RC LEFT JOIN event EV ON RC.id_event = EV.id LEFT JOIN event SE ON RC.id_subevent = SE.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number<10) OR (RC.id_subevent IS NOT NULL AND TP2.number<10));
+		UPDATE record SET id_rank4 = _id2 WHERE id_rank4 = _id1 AND id IN (SELECT RC.id FROM record RC LEFT JOIN event EV ON RC.id_event = EV.id LEFT JOIN event SE ON RC.id_subevent = SE.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number<10) OR (RC.id_subevent IS NOT NULL AND TP2.number<10));
+		UPDATE record SET id_rank5 = _id2 WHERE id_rank5 = _id1 AND id IN (SELECT RC.id FROM record RC LEFT JOIN event EV ON RC.id_event = EV.id LEFT JOIN event SE ON RC.id_subevent = SE.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number<10) OR (RC.id_subevent IS NOT NULL AND TP2.number<10));
+		UPDATE retired_number SET id_person = _id2 WHERE id_person = _id1;
+		UPDATE _person_list SET id_person = _id2 WHERE id_person = _id1;
+		DELETE FROM athlete WHERE id = _id1;
+	ELSIF _alias = 'SP' THEN
+		UPDATE athlete SET id_sport = _id2 WHERE id_sport = _id1;
+		UPDATE result SET id_sport = _id2 WHERE id_sport = _id1;
+		UPDATE record SET id_sport = _id2 WHERE id_sport = _id1;
+		DELETE FROM sport WHERE id = _id1;
+	ELSIF _alias = 'ST' THEN
+		UPDATE city SET id_state = _id2 WHERE id_state = _id1;
+		DELETE FROM state WHERE id = _id1;
+	ELSIF _alias = 'TM' THEN
+		UPDATE round SET id_rank1 = _id2 WHERE id_rank1 = _id1 AND id_result_type=50;
+		UPDATE round SET id_rank2 = _id2 WHERE id_rank2 = _id1 AND id_result_type=50;
+		UPDATE round SET id_rank3 = _id2 WHERE id_rank3 = _id1 AND id_result_type=50;
+		UPDATE result SET id_rank1 = _id2 WHERE id_rank1 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=50) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=50) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=50));
+		UPDATE result SET id_rank2 = _id2 WHERE id_rank2 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=50) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=50) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=50));
+		UPDATE result SET id_rank3 = _id2 WHERE id_rank3 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=50) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=50) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=50));
+		UPDATE result SET id_rank4 = _id2 WHERE id_rank4 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=50) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=50) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=50));
+		UPDATE result SET id_rank5 = _id2 WHERE id_rank5 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=50) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=50) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=50));
+		UPDATE result SET id_rank6 = _id2 WHERE id_rank6 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=50) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=50) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=50));
+		UPDATE result SET id_rank7 = _id2 WHERE id_rank7 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=50) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=50) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=50));
+		UPDATE result SET id_rank8 = _id2 WHERE id_rank8 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=50) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=50) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=50));
+		UPDATE result SET id_rank9 = _id2 WHERE id_rank9 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=50) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=50) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=50));
+		UPDATE result SET id_rank10 = _id2 WHERE id_rank10 = _id1 AND id IN (SELECT RS.id FROM result RS LEFT JOIN event EV ON RS.id_event = EV.id LEFT JOIN event SE ON RS.id_subevent = SE.id LEFT JOIN event SE2 ON RS.id_subevent2 = SE2.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id LEFT JOIN type TP3 ON SE2.id_type = TP3.id WHERE (RS.id_subevent IS NULL AND TP1.number=50) OR (RS.id_subevent IS NOT NULL AND RS.id_subevent2 IS NULL AND TP2.number=50) OR (RS.id_subevent2 IS NOT NULL AND TP3.number=50));
+		UPDATE record SET id_rank1 = _id2 WHERE id_rank1 = _id1 AND id IN (SELECT RC.id FROM record RC LEFT JOIN event EV ON RC.id_event = EV.id LEFT JOIN event SE ON RC.id_subevent = SE.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number=50) OR (RC.id_subevent IS NOT NULL AND TP2.number=50));
+		UPDATE record SET id_rank2 = _id2 WHERE id_rank2 = _id1 AND id IN (SELECT RC.id FROM record RC LEFT JOIN event EV ON RC.id_event = EV.id LEFT JOIN event SE ON RC.id_subevent = SE.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number=50) OR (RC.id_subevent IS NOT NULL AND TP2.number=50));
+		UPDATE record SET id_rank3 = _id2 WHERE id_rank3 = _id1 AND id IN (SELECT RC.id FROM record RC LEFT JOIN event EV ON RC.id_event = EV.id LEFT JOIN event SE ON RC.id_subevent = SE.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number=50) OR (RC.id_subevent IS NOT NULL AND TP2.number=50));
+		UPDATE record SET id_rank4 = _id2 WHERE id_rank4 = _id1 AND id IN (SELECT RC.id FROM record RC LEFT JOIN event EV ON RC.id_event = EV.id LEFT JOIN event SE ON RC.id_subevent = SE.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number=50) OR (RC.id_subevent IS NOT NULL AND TP2.number=50));
+		UPDATE record SET id_rank5 = _id2 WHERE id_rank5 = _id1 AND id IN (SELECT RC.id FROM record RC LEFT JOIN event EV ON RC.id_event = EV.id LEFT JOIN event SE ON RC.id_subevent = SE.id LEFT JOIN type TP1 ON EV.id_type = TP1.id LEFT JOIN type TP2 ON SE.id_type = TP2.id WHERE (RC.id_subevent IS NULL AND TP1.number=50) OR (RC.id_subevent IS NOT NULL AND TP2.number=50));
+		UPDATE athlete SET id_team = _id2 WHERE id_team = _id1;
+		UPDATE retired_number SET id_team = _id2 WHERE id_team = _id1;
+		UPDATE team_stadium SET id_team = _id2 WHERE id_team = _id1;
+		UPDATE win_loss SET id_team = _id2 WHERE id_team = _id1;
+		DELETE FROM team WHERE id = _id1;
+	END IF;
+	UPDATE _external_link SET id_item = _id2 WHERE entity = _alias AND id_item = _id1;
+	UPDATE _picture SET id_item = _id2 WHERE entity = _alias AND id_item = _id1;
+	RETURN true;
+end;
+$BODY$;
+
+
