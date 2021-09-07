@@ -23,7 +23,7 @@ import com.sporthenon.web.ServletHelper;
     name = "NavigationServlet",
     urlPatterns = {"/index", "/results/*", "/browse/*", "/calendar/*", "/olympics/*", "/usleagues/*", "/search/*", "/contribute/*", "/login/*", "/update/*", "/android/*",
     		"/athlete/*", "/championship/*", "/city/*", "/complex/*", "/contributor/*", "/country/*", "/entity/*", "/event/*", "/olympicgames/*", "/result/*", "/sport/*", "/usstate/*", "/team/*", "/year/*",
-    		"/fr/*", "/en/*"}
+    		"/fr/*", "/en/*", "/error"}
 )
 public class NavigationServlet extends AbstractServlet {
 
@@ -114,6 +114,13 @@ public class NavigationServlet extends AbstractServlet {
 			String url = ServletHelper.getURL(request).replaceFirst("(\\&|\\?)lang\\=..", "");
 			String uri = request.getRequestURI().replace(CONTEXT_ROOT, "");
 			HashMap<String, Object> mapParams = ServletHelper.getParams(request);
+			
+			// Check error in URI
+			if (url.matches(".*(\\/error)$")) {
+				request.setAttribute("title", ResourceUtils.getText("title.error", getLocale(request)) + " | Sporthenon");
+				request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+				return;
+			}
 			
 			// Check NULL parameter
 			if (url.matches(".*(\\/null)$")) {

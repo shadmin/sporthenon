@@ -3,7 +3,8 @@
 <properties>
 	<entry key="version">2.0.2</entry>
 	<entry key="date">26/08/2021</entry>
-	<entry key="url">https://sporthenon.com/</entry>
+	<!--<entry key="url">https://sporthenon.com/</entry>-->
+	<entry key="url">http://localhost/</entry>
 	<entry key="bucket.name">sh_bucket</entry>
 	<entry key="bucket.folder">shimg</entry>
 	<entry key="temp.folder">/tmp/</entry>

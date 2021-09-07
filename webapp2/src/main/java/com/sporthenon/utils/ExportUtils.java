@@ -4,6 +4,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,12 +42,14 @@ public class ExportUtils {
 	protected static class MergedCell {
 		private int row;
 		private int cell;
-		private int span;
+		private int cspan;
+		private int rspan;
 		
-		protected MergedCell(int row, int cell, int span) {
+		protected MergedCell(int row, int cell, int cspan, int rspan) {
 			this.row = row;
 			this.cell = cell;
-			this.span = span;
+			this.cspan = cspan;
+			this.rspan = rspan;
 		}
 		
 		protected int getRow() {
@@ -55,8 +58,8 @@ public class ExportUtils {
 		protected int getCell() {
 			return cell;
 		}
-		protected int getSpan() {
-			return span;
+		protected int getCspan() {
+			return cspan;
 		}
 		protected void setRow(int row) {
 			this.row = row;
@@ -64,8 +67,14 @@ public class ExportUtils {
 		protected void setCell(int cell) {
 			this.cell = cell;
 		}
-		protected void setSpan(int span) {
-			this.span = span;
+		protected void setCspan(int cspan) {
+			this.cspan = cspan;
+		}
+		public int getRspan() {
+			return rspan;
+		}
+		public void setRspan(int rspan) {
+			this.rspan = rspan;
 		}
 
 		@Override
@@ -79,7 +88,7 @@ public class ExportUtils {
 
 		@Override
 		public String toString() {
-			return "MergedCell [row=" + row + ", cell=" + cell + ", span=" + span + "]";
+			return "MergedCell [row=" + row + ", cell=" + cell + ", cspan=" + cspan + ", rspan=" + rspan + "]";
 		}
 	}
 
@@ -147,11 +156,12 @@ public class ExportUtils {
 							row = sheet.createRow(rowIndex++);
 							(cell = row.createCell(0)).setCellValue(l.get(j).replaceAll("^\\#.*\\#", ""));
 							cell.setCellStyle(headerStyle);
-							lMerge.add(new MergedCell(0, 0, 2));
+							lMerge.add(new MergedCell(0, 0, 2, 1));
 						}
 						else {
-							if (j % 2 == 0)
+							if (j % 2 == 0) {
 								row = sheet.createRow(rowIndex++);
+							}
 							(cell = row.createCell(j % 2)).setCellValue(l.get(j).replaceAll("^\\#.*\\#", ""));
 							cell.setCellStyle(j % 2 == 0 ? headerStyle : normalStyle);
 						}
@@ -172,8 +182,9 @@ public class ExportUtils {
 							cell.setCellStyle(headerStyle);
 							lTh_.remove(0);
 							lTh_.remove(0);
-							if (!lTh_.isEmpty())
+							if (!lTh_.isEmpty()) {
 								row = sheet.createRow(rowIndex++);
+							}
 						}					
 						for (String s : lTh.get(n)) {
 							(cell = row.createCell(i++)).setCellValue(s.replaceAll("^\\#.*\\#", ""));
@@ -181,8 +192,9 @@ public class ExportUtils {
 						}
 						n++;
 					}
-					if (n > cols)
+					if (n > cols) {
 						cols = n;
+					}
 				}
 				// TD
 				else {
@@ -213,22 +225,31 @@ public class ExportUtils {
 							(cell = row.createCell(i++)).setCellValue("");
 							cell.setCellStyle(headerStyle);
 						}
-						if (isCaption)
+						if (isCaption) {
 							cell.setCellStyle(headerStyle);
+						}
 						n_++;
 					}
-					if (n_ > cols)
+					if (n_ > cols) {
 						cols = n_;
+					}
 				}
 			}
 			// Merging
 			if (lMerge != null) {
 				for (MergedCell mc : lMerge) {
 					int offset = 0;
-					for (Short sh : lBlankRow)
-						if (mc.getRow() + offset >= sh)
+					for (Short sh : lBlankRow) {
+						if (mc.getRow() + offset >= sh) {
 							offset++;
-					sheet.addMergedRegion(new CellRangeAddress(mc.getRow() + offset, mc.getRow() + offset, mc.getCell(), mc.getCell() + mc.getSpan() - 1));
+						}
+					}
+					try {
+						sheet.addMergedRegion(new CellRangeAddress(mc.getRow() + offset, mc.getRow() + mc.getRspan() - 1 + offset, mc.getCell(), mc.getCell() + mc.getCspan() - 1));	
+					}
+					catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 			// Auto-Sizing
@@ -449,12 +470,11 @@ public class ExportUtils {
 		PdfWriter.getInstance(doc, output);
 		doc.open();
 		
-		//BaseFont bf = BaseFont.createFont(ConfigUtils.getProperty("font.folder") + "verdana.ttf", BaseFont.IDENTITY_H, true);
 		BaseFont bf = BaseFont.createFont();
 		com.itextpdf.text.Font font = new com.itextpdf.text.Font(bf, 9);
 		com.itextpdf.text.Font fontBold = new com.itextpdf.text.Font(bf, 9);
 		fontBold.setStyle(com.itextpdf.text.Font.BOLD);
-		BaseColor thcolor = new BaseColor(192, 226, 252);
+		BaseColor thcolor = BaseColor.LIGHT_GRAY;
 		Float padding = 5.0f;
 		PdfPTable t = new PdfPTable(new float[] { 1.0f });
 		t.setWidthPercentage(100.0f);
@@ -466,11 +486,13 @@ public class ExportUtils {
 		hWidth.put(ResourceUtils.getText("entity.EV.1", lang), 0.6f);
 		hWidth.put(ResourceUtils.getText("entity.SP.1", lang), 0.3f);
 		hWidth.put(ResourceUtils.getText("entity.RS.1", lang), 0.4f);
-		hWidth.put(ResourceUtils.getText("entity.YR.1", lang), 0.25f);
+		hWidth.put(ResourceUtils.getText("entity.YR.1", lang), 0.3f);
 		hWidth.put(ResourceUtils.getText("result.detail", lang), 1.0f);
 		hWidth.put(ResourceUtils.getText("score", lang), 0.7f);
 		hWidth.put(ResourceUtils.getText("date", lang), 0.5f);
-		hWidth.put(ResourceUtils.getText("place", lang), 1.4f);
+		hWidth.put(ResourceUtils.getText("place", lang), 1.5f);
+		int row = -1;
+		int currentRspan = 1;
 		for (List<String> l : lTd) {
 			if (l != null && l.size() > 1 && l.get(0).equalsIgnoreCase("--INFO--")) {
 				table = new PdfPTable(2);
@@ -505,15 +527,22 @@ public class ExportUtils {
 				if (n < lTh.size()) {
 					List<String> l_ = lTh.get(n);
 					if (l_ != null && !l_.isEmpty() && l_.get(0).equalsIgnoreCase("--TTEXT--")) {
-//						doc.add(new Phrase(l_.get(1), font));
-						l_.remove(0);
-						l_.remove(0);
+						//l_.remove(0);
+						l_.set(0, "-");
+					}
+					if (l_ == null || l_.isEmpty()) {
+						continue;
 					}
 					float[] tf = new float[l_.size()];
-					for (int i = 0 ; i < l_.size() ; i++)
-						tf[i] = (hWidth.containsKey(l_.get(i)) ? hWidth.get(l_.get(i).replaceAll("^\\#.*\\#", "")) : 0.5f);
+					for (int i = 0 ; i < l_.size() ; i++) {
+						if (i == 0 && "".equals(l_.get(i))) {
+							tf[i] = 0f;
+						}
+						else {
+							tf[i] = (hWidth.containsKey(l_.get(i)) ? hWidth.get(l_.get(i).replaceAll("^\\#.*\\#", "")) : 0.5f);
+						}
+					}
 					table = new PdfPTable(tf);
-					table.setWidthPercentage(100.0f);
 					for (int i = 0 ; i < l_.size() ; i++) {
 						if (i == 0 && l_.size() > 1 && l_.get(0).startsWith("#")) {
 							cell = new PdfPCell(new Phrase(l_.get(0).replaceAll("^\\#.*\\#", ""), fontBold));
@@ -524,24 +553,32 @@ public class ExportUtils {
 							table.addCell(cell);
 						}
 						String s = l_.get(i).replaceAll("^\\#.*\\#", "");
-						int mcindex = lMerge.indexOf(new MergedCell(n, i, 0));
 						cell = new PdfPCell(new Phrase(s, fontBold));
 						cell.setBackgroundColor(thcolor);
 						cell.setPadding(padding);
+						int mcindex = lMerge.indexOf(new MergedCell(n, i, 0, 0));
 						if (mcindex > -1) {
-							int span = lMerge.get(mcindex).getSpan();
-							cell.setColspan(span);
-							i += (span - 1);
+							int cspan = lMerge.get(mcindex).getCspan();
+							cell.setColspan(cspan);
+							i += (cspan - 1);
 						}
-						else
-							cell.setColspan(1);
 						cell.setHorizontalAlignment(com.itextpdf.text.Element.ALIGN_LEFT);
 						table.addCell(cell);
 					}
 					n++;
+					row = 0;
 				}
 			}
 			else {
+				int col = 0;
+				if (currentRspan > 1) {
+					for (int i = l.size() - 1 ; i >= 0 ; i--) {
+						if ("".equals(l.get(i))) {
+							l.remove(i);
+						}
+					}
+					currentRspan--;
+				}
 				for (String s : l) {
 					String txt = s.replaceAll("^\\#.+\\#", "");
 					cell = new PdfPCell(new Phrase(txt, font));
@@ -562,19 +599,30 @@ public class ExportUtils {
 							table_.addCell(cell);
 						}
 					}
-					if (table_ != null)
-						table.addCell(table_);
-					else
-						table.addCell(cell);
+					if (table_ != null) {
+						cell = new PdfPCell(table_);
+					}
+					int mcindex = lMerge.indexOf(new MergedCell(row, col, 0, 0));
+					if (mcindex > -1) {
+						int cspan = lMerge.get(mcindex).getCspan();
+						cell.setColspan(cspan);
+						int rspan = lMerge.get(mcindex).getRspan();
+						cell.setRowspan(rspan);
+						currentRspan = rspan;
+					}
+					table.addCell(cell);
+					col++;
 				}
 			}
+			row++;
 		}
 		PdfPCell c = new PdfPCell(table);
 		c.setBorderWidth(2);
 		t.addCell(c);
 		doc.add(t);
-		if (doc.isOpen())
+		if (doc.isOpen()) {
 			doc.close();
+		}
 	}
 
 	public static void parseHTML(Document doc, List<List<String>> lTh, List<List<String>> lTd, List<MergedCell> lMerge) throws Exception {
@@ -636,7 +684,7 @@ public class ExportUtils {
 				Integer span = (StringUtils.notEmpty(th.attr("colspan")) ? StringUtils.toInt(th.attr("colspan")) : 1);
 				lTh_.add((th1 != null && th1.nextElementSibling() == null && lTh_.isEmpty() ? "#" + th1.text() + "#" : "") + th.text());
 				if (span > 1) {
-					lMerge.add(new MergedCell(row, cell, span));
+					lMerge.add(new MergedCell(row, cell, span, 1));
 					cell += span;
 					span--;
 					while (span > 0) {
@@ -644,41 +692,75 @@ public class ExportUtils {
 						span--;
 					}
 				}
-				else
+				else {
 					cell++;
+				}
 				th = th.nextElementSibling();
 			}
 			row++;
 			lTh.add(lTh_);
 			tr = tbody.getElementsByTag("tr").get(0);
+			int[] trspan = new int[100];
+			Arrays.fill(trspan, 1);
 			while(tr != null) {
 				lTd_ = new ArrayList<String>();
 				Element td = tr.getElementsByTag("td").get(0);
+				boolean rowspan = false;
 				cell = 0;
 				while (td != null) {
-					Integer span = (StringUtils.notEmpty(td.attr("colspan")) ? StringUtils.toInt(td.attr("colspan")) : 1);
+					Integer cspan = (StringUtils.notEmpty(td.attr("colspan")) ? StringUtils.toInt(td.attr("colspan")) : 1);
+					Integer rspan = (StringUtils.notEmpty(td.attr("rowspan")) ? StringUtils.toInt(td.attr("rowspan")) : 1);
 					String title_ = td.attr("title");
-					if (StringUtils.notEmpty(title_))
+					if (StringUtils.notEmpty(title_)) {
 						lTd_.add(title_);
+					}
 					else {
 						String img = "";
 						Elements imgs = td.getElementsByTag("img");
-						if (!imgs.isEmpty())
+						if (!imgs.isEmpty()) {
 							img = "#" + imgs.get(0).attr("src") + "#";
+						}
 						lTd_.add(img + td.text());
 					}
-					if (span > 1) {
-						lMerge.add(new MergedCell(row, cell, span));
-						cell += span;
-						span--;
-						while (span > 0) {
+					// Colpsan
+					if (cspan > 1) {
+						lMerge.add(new MergedCell(row, cell, cspan, 1));
+						cell += cspan;
+						cspan--;
+						while (cspan > 0) {
 							lTd_.add("");
-							span--;
+							cspan--;
 						}
 					}
-					else
+					else {
 						cell++;
+					}
+					// Rowspan
+					if (rspan > 1) {
+						lMerge.add(new MergedCell(row, cell - cspan, 1, rspan));
+						trspan[cell - cspan] = rspan;
+						rowspan = true;
+					}
 					td = td.nextElementSibling();
+				}
+				// Check rowspans to apply on row
+				if (!rowspan) {
+					int max = 0;
+					for (int i = 0 ; i < trspan.length ; i++) {
+						max = trspan[i] > 1 ? i : max;
+					}
+					for (int i = 0 ; i <= max ; i++) {
+						int rspan = trspan[i];
+						if (rspan > 1) {
+							if (i <= lTd_.size()) {
+								lTd_.add(i, "");
+							}
+							else {
+								lTd_.add("");
+							}
+							trspan[i] = rspan - 1;
+						}
+					}
 				}
 				lTd.add(lTd_);
 				tr = tr.nextElementSibling();
@@ -695,7 +777,7 @@ public class ExportUtils {
 			lTh_.add("--TTEXT--");
 			lTh_.add(twinrec.getElementsByTag("th").get(0).text());
 			lTh.add(lTh_);
-			lMerge.add(new MergedCell(row + 1, 0, 2));
+			lMerge.add(new MergedCell(row + 1, 0, 2, 1));
 			for (Element tr : twinrec.getElementsByTag("tr")) {
 				List<Element> lCaption = tr.getElementsByClass("caption");
 				if (lCaption != null && !lCaption.isEmpty()) {
