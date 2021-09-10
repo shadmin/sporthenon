@@ -561,4 +561,6 @@
 	<entry key="no.date">No date</entry>
 	<entry key="no.place">No place</entry>
 	<entry key="year.report">Year report</entry>
+	<entry key="in">in</entry>
+	<entry key="limit">Limit</entry>
 </properties>

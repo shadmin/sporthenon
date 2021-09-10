@@ -15,7 +15,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import com.sporthenon.admin.component.JDialogButtonBar;
-import com.sporthenon.db.DatabaseManager;
 import com.sporthenon.utils.SwingUtils;
 
 public class JCommentDialog extends JDialog implements ActionListener {

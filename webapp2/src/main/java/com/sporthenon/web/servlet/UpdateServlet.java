@@ -59,14 +59,12 @@ import com.sporthenon.db.entity.meta.Config;
 import com.sporthenon.db.entity.meta.Contributor;
 import com.sporthenon.db.entity.meta.ErrorReport;
 import com.sporthenon.db.entity.meta.ExternalLink;
-import com.sporthenon.db.entity.meta.FolderHistory;
 import com.sporthenon.db.entity.meta.Import;
 import com.sporthenon.db.entity.meta.InactiveItem;
 import com.sporthenon.db.entity.meta.PersonList;
 import com.sporthenon.db.entity.meta.Redirection;
 import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.db.entity.meta.Translation;
-import com.sporthenon.db.entity.meta.TreeItem;
 import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.ExportUtils;
 import com.sporthenon.utils.HtmlUtils;
@@ -162,12 +160,6 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			else if (params.containsKey("p") && params.get("p").equals("save-translations")) {
 				saveTranslations(response, params, lang, cb);
-			}
-			else if (params.containsKey("p") && params.get("p").equals("load-folders")) {
-				loadFolders(response, params, lang, cb);
-			}
-			else if (params.containsKey("p") && params.get("p").equals("save-folders")) {
-				saveFolders(response, params, lang, cb);
 			}
 			else if (params.containsKey("p") && params.get("p").equals("load-errors")) {
 				loadErrors(response, params, lang, cb);
@@ -853,22 +845,30 @@ public class UpdateServlet extends AbstractServlet {
 				if (currentEntity != null)
 					html.append("</tbody></table>");
 				html.append("<table><thead><tr>");
-				if (item.getEntity().equals(Result.alias))
-					html.append("<th colspan='9' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><th>" + ResourceUtils.getText("entity.EV.1", lang) + "</th><th>" + ResourceUtils.getText("entity.RS.1", lang) + "</th><th>" + ResourceUtils.getText("place", lang) + "</th><th>" + ResourceUtils.getText("dates", lang) + "</th><th>" + ResourceUtils.getText("entity.RD", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photos", lang) + "</th>");
-				else if (item.getEntity().equals(Athlete.alias))
-					html.append("<th colspan='9' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("entity.TM.1", lang) + "</th><th>" + ResourceUtils.getText("linked.to", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photos", lang) + "</th>");
-				else if (item.getEntity().equals(Team.alias))
-					html.append("<th colspan='9' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Team.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("league", lang) + "</th><th>" + ResourceUtils.getText("linked.to", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("logo", lang) + "</th>");
-				else if (item.getEntity().equals(Sport.alias))
-					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Sport.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("pictures", lang) + "</th>");
-				else if (item.getEntity().equals(Championship.alias))
-					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Championship.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("pictures", lang) + "</th>");
-				else if (item.getEntity().equals(Event.alias))
-					html.append("<th colspan='5' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Event.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("pictures", lang) + "</th>");
-				else if (item.getEntity().equals(City.alias))
-					html.append("<th colspan='7' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + City.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("linked.to", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("pictures", lang) + "</th>");
-				else if (item.getEntity().equals(Complex.alias))
-					html.append("<th colspan='7' style='text-align:center;'>" + HtmlUtils.writeToggleTitle(ResourceUtils.getText("entity." + Complex.alias, lang).toUpperCase(), false) + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.CT.1", lang) + "</th><th>" + ResourceUtils.getText("linked.to", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("pictures", lang) + "</th>");
+				if (item.getEntity().equals(Result.alias)) {
+					html.append("<th colspan='9' style='text-align:center;'>" + ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase() + "</th></tr><tr><th>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><th>" + ResourceUtils.getText("entity.EV.1", lang) + "</th><th>" + ResourceUtils.getText("entity.RS.1", lang) + "</th><th>" + ResourceUtils.getText("place", lang) + "</th><th>" + ResourceUtils.getText("dates", lang) + "</th><th>" + ResourceUtils.getText("entity.RD", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photos", lang) + "</th>");
+				}
+				else if (item.getEntity().equals(Athlete.alias)) {
+					html.append("<th colspan='9' style='text-align:center;'>" + ResourceUtils.getText("entity." + Athlete.alias, lang).toUpperCase() + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("entity.TM.1", lang) + "</th><th>" + ResourceUtils.getText("linked.to", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photos", lang) + "</th>");
+				}
+				else if (item.getEntity().equals(Team.alias)) {
+					html.append("<th colspan='9' style='text-align:center;'>" + ResourceUtils.getText("entity." + Team.alias, lang).toUpperCase() + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.SP.1", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("league", lang) + "</th><th>" + ResourceUtils.getText("linked.to", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("logo", lang) + "</th>");
+				}
+				else if (item.getEntity().equals(Sport.alias)) {
+					html.append("<th colspan='5' style='text-align:center;'>" + ResourceUtils.getText("entity." + Sport.alias, lang).toUpperCase() + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("pictures", lang) + "</th>");
+				}
+				else if (item.getEntity().equals(Championship.alias)) {
+					html.append("<th colspan='5' style='text-align:center;'>" + ResourceUtils.getText("entity." + Championship.alias, lang).toUpperCase() + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("pictures", lang) + "</th>");
+				}
+				else if (item.getEntity().equals(Event.alias)) {
+					html.append("<th colspan='5' style='text-align:center;'>" + ResourceUtils.getText("entity." + Event.alias, lang).toUpperCase() + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("pictures", lang) + "</th>");
+				}
+				else if (item.getEntity().equals(City.alias)) {
+					html.append("<th colspan='7' style='text-align:center;'>" + ResourceUtils.getText("entity." + City.alias, lang).toUpperCase() + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.CN.1", lang) + "</th><th>" + ResourceUtils.getText("linked.to", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("pictures", lang) + "</th>");
+				}
+				else if (item.getEntity().equals(Complex.alias)) {
+					html.append("<th colspan='7' style='text-align:center;'>" + ResourceUtils.getText("entity." + Complex.alias, lang).toUpperCase() + "</th></tr><tr><th>" + ResourceUtils.getText("name", lang) + "</th><th>" + ResourceUtils.getText("entity.CT.1", lang) + "</th><th>" + ResourceUtils.getText("linked.to", lang) + "</th><th>" + ResourceUtils.getText("ref", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("pictures", lang) + "</th>");
+				}
 				html.append("<th>" + ResourceUtils.getText("completion.pct", lang) + "</th>");
 				html.append("</tr></thead><tbody class='tby'>");
 				currentEntity = item.getEntity();
@@ -894,26 +894,36 @@ public class UpdateServlet extends AbstractServlet {
 				int dtcount = (StringUtils.notEmpty(tdate[0]) && !tdate[0].equals("0") ? 1 : 0) + (StringUtils.notEmpty(tdate[1]) && !tdate[1].equals("0") ? 1 : 0);
 				html.append("<td>" + item.getLabelRel1() + "</td>");
 				html.append("<td><a href='/update/results/" + StringUtils.encode(Result.alias + "-" + item.getIdItem()) + "' target='_blank'>" + item.getLabelRel2() + " - " + item.getLabelRel3() + (StringUtils.notEmpty(item.getLabelRel4()) ? " - " + item.getLabelRel4() : "") + (StringUtils.notEmpty(item.getLabelRel5()) ? " - " + item.getLabelRel5() : "") + (StringUtils.notEmpty(item.getLabelRel6()) ? " - " + item.getLabelRel6() : "") + "</a></td>");
-				if (rkcount >= 3)
+				if (rkcount >= 3) {
 					html.append("<td class='tick'>" + ResourceUtils.getText("podium", lang) + " (" + rkcount + ")</td>");
-				else if (isScore)
+				}
+				else if (isScore) {
 					html.append("<td class='tick'>" + ResourceUtils.getText("final", lang) + "+" + ResourceUtils.getText("score", lang) + "</td>");
-				else if (rkcount > 0)
+				}
+				else if (rkcount > 0) {
 					html.append("<td class='warning_'>" + rkcount + "</td>");
-				else
+				}
+				else {
 					html.append("<td class='missing'></td>");
-				if (cxcount > 0)
+				}
+				if (cxcount > 0) {
 					html.append("<td class='tick'>" + ResourceUtils.getText("entity.CX.1", lang) + " (" + cxcount + ")</td>");
-				else if (ctcount > 0)
+				}
+				else if (ctcount > 0) {
 					html.append("<td class='tick'>" + ResourceUtils.getText("entity.CT.1", lang) + " (" + ctcount + ")</td>");
-				else if (isNoPlace)
+				}
+				else if (isNoPlace) {
 					html.append("<td class='tick'></td>");
-				else
+				}
+				else {
 					html.append("<td class='warning_'><input type='checkbox' title='" + ResourceUtils.getText("no.place", lang) + "' onclick=\"setOverviewFlag('no_place', " + item.getIdItem() + ");\"/></td>");
-				if (dtcount > 0 || isNoDate)
+				}
+				if (dtcount > 0 || isNoDate) {
 					html.append("<td class='tick'></td>");
-				else
-					html.append("<td class='warning_'><input type='checkbox' title='" + ResourceUtils.getText("no.date", lang) + "' onclick=\"setOverviewFlag('no_date', " + item.getIdItem() + ");\"/></td>");					
+				}
+				else {
+					html.append("<td class='warning_'><input type='checkbox' title='" + ResourceUtils.getText("no.date", lang) + "' onclick=\"setOverviewFlag('no_date', " + item.getIdItem() + ");\"/></td>");
+				}
 				html.append(StringUtils.notEmpty(item.getTxt6()) ? "<td class='tick'>" + item.getTxt6().split("\\,").length + "</td>" : "<td></td>");
 				comp = (rkcount > 0 ? 1 : 0) + (cxcount > 0 || ctcount > 0 || isNoPlace ? 1 : 0) + (dtcount > 0 || isNoDate ? 1 : 0) + (StringUtils.notEmpty(item.getTxt6()) ? 1 : 0);
 				comp += (rkcount >= 3 || isScore ? 1 : 0);
@@ -984,8 +994,9 @@ public class UpdateServlet extends AbstractServlet {
 				short index = ImageUtils.getIndex(item.getEntity());
 				if (index != -1) {
 					html.append("<td>");
-					for (String img : ImageUtils.getImages(index, item.getIdItem(), ImageUtils.SIZE_SMALL))
+					for (String img : ImageUtils.getImages(index, item.getIdItem(), ImageUtils.SIZE_SMALL)) {
 						html.append("<a href='" + ImageUtils.getUrl() + img.replaceFirst("\\-S", "\\-L") + "' target='_blank'><img title='" + img + "' src='" + ImageUtils.getUrl() + img + "'/></a>");
+					}
 					html.append("</td>");
 				}
 			}
@@ -2099,142 +2110,6 @@ public class UpdateServlet extends AbstractServlet {
 				tr.setChecked(t[2].equals("1"));
 				DatabaseManager.saveEntity(tr, cb);
 			}
-			sbMsg.append(ResourceUtils.getText("update.ok", lang));
-		}
-		catch (Exception e) {
-			log.log(Level.WARNING, e.getMessage(), e);
-			sbMsg.append("ERR:" + e.getMessage());
-		}
-		finally {
-			ServletHelper.writeText(response, sbMsg.toString());
-		}
-	}
-	
-	private static void loadFolders(HttpServletResponse response, Map<?, ?> params, String lang, Contributor cb) throws Exception {
-		try {
-			List<Object> params_ = new ArrayList<Object>();
-			params_.add(cb != null && !cb.isAdmin() ? " where SP.id in (" + cb.getSports() + ")" : "");
-			params_.add(ResourceUtils.getLocaleParam(lang));
-			Collection<Object> coll = (Collection<Object>) DatabaseManager.callFunctionSelect("tree_results", params_, TreeItem.class);
-			StringBuffer sb = new StringBuffer();
-			List<Object> lst = new ArrayList<Object>(coll);
-			int i, j, k, l, m;
-			for (i = 0 ; i < lst.size() ; i++) {
-				TreeItem item = (TreeItem) lst.get(i);
-				sb.append("<option value='" + item.getIdItem() + "'>" + item.getStdLabel() + "</option>");
-				for (j = i + 1 ; j < lst.size() ; j++) {
-					TreeItem item2 = (TreeItem) lst.get(j);
-					if (item2.getLevel() < 2) {j--; break;}
-					sb.append("<option value='" + item.getIdItem() + "," + item2.getIdItem() + "'>" + item.getStdLabel() + "-" + item2.getStdLabel() + "</option>");	
-					for (k = j + 1 ; k < lst.size() ; k++) {
-						TreeItem item3 = (TreeItem) lst.get(k);
-						if (item3.getLevel() < 3) {k--; break;}
-						sb.append("<option value='" + item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem() + "'>" + item.getStdLabel() + "-" + item2.getStdLabel() + "-" + item3.getStdLabel() + "</option>");
-						for (l = k + 1 ; l < lst.size() ; l++) {
-							TreeItem item4 = (TreeItem) lst.get(l);
-							if (item4.getLevel() < 4) {l--; break;}
-							sb.append("<option value='" + item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem() + "," + item4.getIdItem() + "'>" + item.getStdLabel() + "-" + item2.getStdLabel() + "-" + item3.getStdLabel() + "-" + item4.getStdLabel() + "</option>");
-							for (m = l + 1 ; m < lst.size() ; m++) {
-								TreeItem item5 = (TreeItem) lst.get(m);
-								if (item5.getLevel() < 5) {m--; break;}
-								sb.append("<option value='" + item.getIdItem() + "," + item2.getIdItem() + "," + item3.getIdItem() + "," + item4.getIdItem() + "," + item5.getIdItem() + "'>" + item.getStdLabel() + "-" + item2.getStdLabel() + "-" + item3.getStdLabel() + "-" + item4.getStdLabel() + "-" + item5.getStdLabel() + "</option>");
-							}
-							l = m;
-						}
-						k = l;
-					}
-					j = k;
-				}
-				i = j;
-			}
-			ServletHelper.writeText(response, sb.toString());
-		}
-		catch (Exception e) {
-			log.log(Level.WARNING, e.getMessage(), e);
-		}
-	}
-	
-	private static void saveFolders(HttpServletResponse response, Map<?, ?> params, String lang, Contributor cb) throws Exception {
-		StringBuffer sbMsg = new StringBuffer();
-		try {
-			DatabaseManager.executeUpdate("ALTER TABLE result DISABLE TRIGGER trigger_RS", null);
-			Integer sp = StringUtils.toInt(params.get("sp"));
-			Integer c1 = StringUtils.toInt(params.get("cp"));
-			Integer c2 = StringUtils.toInt(params.get("ev1"));
-			Integer c3 = StringUtils.toInt(params.get("ev2"));
-			Integer c4 = StringUtils.toInt(params.get("ev3"));
-			Integer autose = StringUtils.toInt(params.get("cb1"));
-			Integer clearse1 = StringUtils.toInt(params.get("cb2"));
-			Integer clearse2 = StringUtils.toInt(params.get("cb3"));
-			String splabel = ((Sport) DatabaseManager.loadEntity(Sport.class, sp)).getLabel();
-			String cplabel = null;
-			String ev1label = null;
-			String ev2label = null;
-			String ev3label = null;
-			StringBuffer sql_ = new StringBuffer("UPDATE result SET id_sport  =" + sp);
-			if (c1 != null && c1 > 0) {
-				sql_.append(", id_championship=" + c1);
-				cplabel = ((Championship) DatabaseManager.loadEntity(Championship.class, c1)).getLabel();
-			}
-			if (c2 != null && c2 > 0) {
-				sql_.append(", id_event=" + c2);
-				ev1label = ((Event) DatabaseManager.loadEntity(Event.class, c2)).getLabel();
-			}
-			if (c3 != null && c3 > 0) {
-				sql_.append(", id_subevent=" + c3);
-				ev2label = ((Event) DatabaseManager.loadEntity(Event.class, c3)).getLabel();
-			}
-			if (c4 != null && c4 > 0) {
-				sql_.append(", id_subevent2=" + c4);
-				ev3label = ((Event) DatabaseManager.loadEntity(Event.class, c4)).getLabel();
-			}
-			if (clearse1 == 1)
-				sql_.append(", id_subevent=NULL");
-			if (clearse2 == 1)
-				sql_.append(", id_subevent2=NULL");
-			for (String s : String.valueOf(params.get("list")).split("\\~")) {
-				String[] t = s.split("\\,");
-				StringBuffer sql = new StringBuffer(sql_);
-				if (autose == 1) {
-					if (t.length == 3 && (c3 == null || c3 == 0))
-						sql.append(", id_subevent=" + t[2]);
-					else if (t.length == 4 && (c4 == null || c4 == 0))
-						sql.append(", id_subevent2=" + t[3]);
-				}
-				sql.append(" WHERE id_sport=" + t[0]);
-				if (t.length > 1)
-					sql.append(" AND id_championship=" + t[1]);
-				if (t.length > 2)
-					sql.append(" AND id_event=" + t[2]);
-				if (t.length > 3)
-					sql.append(" AND id_subevent=" + t[3]);
-				if (t.length > 4)
-					sql.append(" AND id_subevent2=" + t[4]);
-				DatabaseManager.executeUpdate(sql.toString(), null);
-				DatabaseManager.executeUpdate(sql.toString().replaceAll("Result", "~InactiveItem"), null);
-				// Keep previous path in folders history (for redirection)
-				String currentParams = sp + (c1 != null && c1 > 0 ? "-" + c1 : "") + (c2 != null && c2 > 0 ? "-" + c2 : "") + (c3 != null && c3 > 0 ? "-" + c3 : "") + (c4 != null && c4 > 0 ? "-" + c4 : "");
-				String currentPath = splabel + (c1 != null && c1 > 0 ? "/" + cplabel : "") + (c2 != null && c2 > 0 ? "/" + ev1label : "") + (c3 != null && c3 > 0 ? "/" + ev2label : "") + (c4 != null && c4 > 0 ? "/" + ev3label : "");
-				if (autose == 1) {
-					String s_ = ((Sport) DatabaseManager.loadEntity(Sport.class, t[0])).getLabel() + (t.length > 1 ? " | " + ((Championship) DatabaseManager.loadEntity(Championship.class, t[1])).getLabel() : "") + (t.length > 2 ? " | " + ((Event) DatabaseManager.loadEntity(Event.class, t[2])).getLabel() : "") + (t.length > 3 ? " | " + ((Event) DatabaseManager.loadEntity(Event.class, t[3])).getLabel() : "") + (t.length > 4 ? " | " + ((Event) DatabaseManager.loadEntity(Event.class, t[4])).getLabel() : "");
-					String[] t_ = s_.split("\\s\\|\\s");
-					if (t.length == 3 && (c3 == null || c3 == 0)) {
-						currentParams += "-" + t[2];
-						currentPath += "/" + t_[2];
-					}
-					else if (t.length == 4 && (c4 == null || c4 == 0)) {
-						currentParams += "-" + t[3];
-						currentPath += "/" + t_[3];
-					}
-				}
-				FolderHistory fh = new FolderHistory();
-				fh.setPreviousParams(StringUtils.join(Arrays.asList(t),"-"));
-				fh.setCurrentParams(currentParams);
-				fh.setCurrentPath(currentPath);
-				fh.setDate(new Timestamp(System.currentTimeMillis()));
-				DatabaseManager.saveEntity(fh, null);
-			}
-			DatabaseManager.executeUpdate("ALTER TABLE result ENABLE TRIGGER trigger_RS", null);
 			sbMsg.append(ResourceUtils.getText("update.ok", lang));
 		}
 		catch (Exception e) {

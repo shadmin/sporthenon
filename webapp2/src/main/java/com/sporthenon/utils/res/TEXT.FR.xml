@@ -558,4 +558,6 @@
 	<entry key="no.date">Pas de date</entry>
 	<entry key="no.place">Pas de lieu</entry>
 	<entry key="year.report">Rapport année</entry>
+	<entry key="in">dans</entry>
+	<entry key="limit">Limite</entry>
 </properties>

@@ -3037,59 +3037,6 @@ function saveTranslations() {
 		parameters: $H({entity: currentTranslationEntity, value: t.join('|')})
 	});
 }
-/*========== FOLDERS ==========*/
-function loadFolders() {
-	new Ajax.Updater($('list1'), '/update/load-folders');
-	$('list2').update();
-	$('sp').value = '';
-	$('cp').value = '';
-	$('ev1').value = '';
-	$('ev2').value = '';
-	$('ev3').value = '';
-	$('cb1').checked = false;
-	$('cb2').checked = false;
-	$('cb3').checked = false;
-}
-function moveFolder(list1, list2) {
-	var opt = null;
-	var t = null;
-	for (var i = $(list1).options.length - 1 ; i >= 0 ; i--) {
-		opt = $(list1).options[i];
-		if (opt.selected) {
-			$(list2).options.add(opt);
-			opt.selected = false;
-			t = opt.value.split(',');
-			$('sp').value = t[0];
-			if (t.length > 1) {
-				$('cp').value = t[1];
-				if (t.length > 2) {
-					$('ev1').value = t[2];
-					if (t.length > 3) {
-						$('ev2').value = t[3];
-						if (t.length > 4) {
-							$('ev3').value = t[4];
-						}
-					}
-				}
-			}
-		}
-	}
-}
-function saveFolders() {
-	var t = [];
-	$$('#list2 option').each(function(el){
-		t.push($(el).value);
-	});
-	new Ajax.Request('/update/save-folders', {
-		onSuccess: function(response){
-			var text = response.responseText;
-			$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
-			$('msg').update('<div>' + text.replace(/^ERR\:/i, '') + '</div>');
-			loadFolders();
-		},
-		parameters: $H({list: t.join('~'), sp: $F('sp'), cp: $F('cp'), ev1: $F('ev1'), ev2: $F('ev2'), ev3: $F('ev3'), cb1: ($('cb1').checked ? '1' : '0'), cb2: ($('cb2').checked ? '1' : '0'), cb3: ($('cb3').checked ? '1' : '0')})
-	});
-}
 /*========== ERRORS ==========*/
 function loadErrors() {
 	$('ercontent').update('<img src="/img/db/loading.gif?6"/>');

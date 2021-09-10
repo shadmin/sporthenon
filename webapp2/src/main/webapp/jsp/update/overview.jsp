@@ -29,27 +29,32 @@
 					}
 				%>
 				</select></td>
-				<td><%=StringUtils.text("count", session)%> :</td>
-				<td><input id="ovcount" type="text" value="50" style="width:50px;"/></td>
-				<td><%=StringUtils.text("find", session)%> :</td>
+				<td>&nbsp;<%=StringUtils.text("find", session)%> :</td>
 				<td><input id="ovpattern" type="text" style="width:100px;"/></td>
-				<td><%=StringUtils.text("show", session)%> :</td>
+				<td>&nbsp;<%=StringUtils.text("in", session)%> :</td>
 				<td><select id="oventity">
-				<option value="RS"><%=StringUtils.text("entity.RS", session)%></option>
-				<option value="PR"><%=StringUtils.text("entity.PR", session)%></option>
-				<option value="TM"><%=StringUtils.text("entity.TM", session)%></option>
-				<option value="SP"><%=StringUtils.text("entity.SP", session)%></option>
-				<option value="CP"><%=StringUtils.text("entity.CP", session)%></option>
-				<option value="EV"><%=StringUtils.text("entity.EV", session)%></option>
-				<option value="CT"><%=StringUtils.text("entity.CT", session)%></option>
-				<option value="CX"><%=StringUtils.text("entity.CX", session)%></option>
-				<option value="">[<%=StringUtils.text("all", session)%>]</option>
-				</select></td>
+					<option value="">-- <%=StringUtils.text("all", session)%> --</option>
+					<option value="RS"><%=StringUtils.text("entity.RS", session)%></option>
+					<option value="PR"><%=StringUtils.text("entity.PR", session)%></option>
+					<option value="TM"><%=StringUtils.text("entity.TM", session)%></option>
+					<option value="SP"><%=StringUtils.text("entity.SP", session)%></option>
+					<option value="CP"><%=StringUtils.text("entity.CP", session)%></option>
+					<option value="EV"><%=StringUtils.text("entity.EV", session)%></option>
+					<option value="CT"><%=StringUtils.text("entity.CT", session)%></option>
+					<option value="CX"><%=StringUtils.text("entity.CX", session)%></option>
+				</select></td>				
+				<td>&nbsp;<%=StringUtils.text("limit", session)%> :</td>
+				<td><input id="ovcount" type="text" value="20" style="width:50px;"/></td>
 				<td><input id="showimg" type="checkbox"/></td>
-				<td><label for="showimg"><%=StringUtils.text("show.img", session)%></label></td>
-				<td><input type="button" value="OK" onclick="loadOverview();"/></td>
-				<td><fieldset><legend><%=StringUtils.text("year.report", session)%></legend><input id="year" type="text" value="<%=Calendar.getInstance().get(Calendar.YEAR)%>" style="width:50px;"/>&nbsp;<input type="button" value="OK" onclick="executeQuery(2);"/></fieldset></td>
+				<td><label for="showimg"><%=StringUtils.text("show.img", session)%></label>&nbsp;</td>
+				<td><input type="button" value="<%=StringUtils.text("search.for", session)%>" onclick="loadOverview();"/></td>
 			</tr></table>
+			<div style="position:absolute;top:120px;right:25px;">
+				<fieldset>
+					<legend><%=StringUtils.text("year.report", session)%></legend>
+					<input id="year" type="text" value="<%=Calendar.getInstance().get(Calendar.YEAR)%>" style="width:50px;"/>&nbsp;<input type="button" value="OK" onclick="executeQuery(2);"/>
+				</fieldset>
+			</div>
 			<div id="ovcontent"></div>
 		</div>
 	</div>

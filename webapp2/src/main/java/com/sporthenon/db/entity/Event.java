@@ -18,7 +18,7 @@ public class Event extends AbstractEntity {
 	public static final transient String alias 	= "EV";
 	public static final transient String table 	= "event";
 	public static final transient String cols 	= "label,label_fr,index,id_type,ref,no_pic";
-	public static final transient String query 	= "SELECT T.*, TP.label AS tp_label, TP.number AS tp_number "
+	public static final transient String query 	= "SELECT T.*, TP.label AS tp_label, TP.label_fr AS tp_label_fr, TP.number AS tp_number "
 			+ " FROM event T LEFT JOIN type TP ON TP.id = T.id_type";
 	
 	public Event() {}
@@ -37,6 +37,7 @@ public class Event extends AbstractEntity {
 			if (idType != null) {
 				setType(new Type(idType));
 				getType().setLabel((String)mapValues.get("tp_label"));
+				getType().setLabelFr((String)mapValues.get("tp_label_fr"));
 				getType().setNumber((Integer)mapValues.get("tp_number"));
 			}
 			setRef((Integer)mapValues.get("ref"));

@@ -21,6 +21,7 @@ import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -107,6 +108,7 @@ public class ExportUtils {
 			defaultFont.setBold(false);
 			normalStyle.setFont(defaultFont);
 			normalStyle.setAlignment(HorizontalAlignment.LEFT);
+			normalStyle.setVerticalAlignment(VerticalAlignment.TOP);
 			normalStyle.setBorderBottom(BorderStyle.THIN);
 			normalStyle.setBorderTop(BorderStyle.THIN);
 			normalStyle.setBorderRight(BorderStyle.THIN);
@@ -121,6 +123,7 @@ public class ExportUtils {
 			boldFont.setBold(true);
 			headerStyle.setFont(boldFont);
 			headerStyle.setAlignment(HorizontalAlignment.CENTER);
+			headerStyle.setVerticalAlignment(VerticalAlignment.TOP);
 			headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 			headerStyle.setFillForegroundColor(HSSFColorPredefined.LIGHT_YELLOW.getIndex());
 			
@@ -471,8 +474,8 @@ public class ExportUtils {
 		doc.open();
 		
 		BaseFont bf = BaseFont.createFont();
-		com.itextpdf.text.Font font = new com.itextpdf.text.Font(bf, 9);
-		com.itextpdf.text.Font fontBold = new com.itextpdf.text.Font(bf, 9);
+		com.itextpdf.text.Font font = new com.itextpdf.text.Font(bf, 8);
+		com.itextpdf.text.Font fontBold = new com.itextpdf.text.Font(bf, 8);
 		fontBold.setStyle(com.itextpdf.text.Font.BOLD);
 		BaseColor thcolor = BaseColor.LIGHT_GRAY;
 		Float padding = 5.0f;
@@ -570,7 +573,6 @@ public class ExportUtils {
 				}
 			}
 			else {
-				int col = 0;
 				if (currentRspan > 1) {
 					for (int i = l.size() - 1 ; i >= 0 ; i--) {
 						if ("".equals(l.get(i))) {
@@ -579,7 +581,9 @@ public class ExportUtils {
 					}
 					currentRspan--;
 				}
-				for (String s : l) {
+				int col = 0;
+				while (col < l.size()) {
+					String s = l.get(col);
 					String txt = s.replaceAll("^\\#.+\\#", "");
 					cell = new PdfPCell(new Phrase(txt, font));
 					cell.setPadding(2.0f);
@@ -603,15 +607,17 @@ public class ExportUtils {
 						cell = new PdfPCell(table_);
 					}
 					int mcindex = lMerge.indexOf(new MergedCell(row, col, 0, 0));
+					int cspan = 1;
 					if (mcindex > -1) {
-						int cspan = lMerge.get(mcindex).getCspan();
+						MergedCell mc = lMerge.get(mcindex);
+						cspan = mc.getCspan();
 						cell.setColspan(cspan);
-						int rspan = lMerge.get(mcindex).getRspan();
+						int rspan = mc.getRspan();
 						cell.setRowspan(rspan);
 						currentRspan = rspan;
 					}
 					table.addCell(cell);
-					col++;
+					col += cspan;
 				}
 			}
 			row++;
@@ -724,12 +730,12 @@ public class ExportUtils {
 					}
 					// Colpsan
 					if (cspan > 1) {
-						lMerge.add(new MergedCell(row, cell, cspan, 1));
+						if (rspan == 1) {
+							lMerge.add(new MergedCell(row, cell, cspan, 1));	
+						}
 						cell += cspan;
-						cspan--;
-						while (cspan > 0) {
+						for (int i = cspan - 1 ; i > 0 ; i--) {
 							lTd_.add("");
-							cspan--;
 						}
 					}
 					else {
@@ -737,8 +743,10 @@ public class ExportUtils {
 					}
 					// Rowspan
 					if (rspan > 1) {
-						lMerge.add(new MergedCell(row, cell - cspan, 1, rspan));
-						trspan[cell - cspan] = rspan;
+						lMerge.add(new MergedCell(row, cell - cspan, cspan, rspan));
+						for (int i = cspan ; i > 0 ; i--) {
+							trspan[cell - i] = rspan;
+						}
 						rowspan = true;
 					}
 					td = td.nextElementSibling();
@@ -796,8 +804,9 @@ public class ExportUtils {
 		try {
 			String html_ = html.toString();
 			html_ = html_.replaceAll("\\&ndash\\;", "-").replaceAll("\\>" + ResourceUtils.getText("details", lang) + "\\<", "><");
-			if (format.matches("csv|xls|txt"))
+			if (format.matches("csv|xls|txt")) {
 				html_ = html_.replaceAll("&nbsp;", " ").replaceAll("<br/>", "&nbsp;/&nbsp;");
+			}
 			Document doc = Jsoup.parse(html_, "utf-8");
 			Element elTitle = doc.getElementsByAttributeValue("class", "title").first();
 			String title = elTitle.text().replaceAll("\\,\\s", "_");
