@@ -1406,7 +1406,7 @@ function loadPhotos() {
 	new Ajax.Updater('currentphotos', '/ImageServlet?load&entity=' + currentAlias + '&id=' + currentId, {});
 }
 function removePhoto(id, name) {
-	new Ajax.Request('/ImageServlet?remove=1&id=' + id + '&name=' + name, {
+	new Ajax.Request('/ImageServlet?remove-photo=1&id=' + id + '&name=' + name, {
 		onSuccess: function(response){
 			$('currentphoto-' + id).hide();
 			$('currentphoto-rm-' + id).hide();
@@ -1415,23 +1415,13 @@ function removePhoto(id, name) {
 }
 function showLoading() {
 	$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
-	if ($('msg2')) {
-		$('msg2').update('<div><img src="/img/db/loading2.gif?6"/></div>');
-	}
 }
 function showMessage(text) {
 	$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
 	$('msg').update('<div>' + text.replace(/ERR\:/i, '') + '</div>');
-	if ($('msg2')) {
-		$('msg2').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
-		$('msg2').update('<div>' + text.replace(/ERR\:/i, '') + '</div>');
-	}
 }
 function showWarning() {
 	$('msg').update('<div class="warning">' + TX_MODIF_WARNING + '</div>');
-	if ($('msg2')) {
-		$('msg2').update('<div class="warning">' + TX_MODIF_WARNING + '</div>');
-	}
 }
 /*========== RESULTS ==========*/
 var tValues = [];
@@ -1493,15 +1483,13 @@ function initUpdateResults(value) {
 }
 function loadResValues(value) {
 	$('msg').update('');
-	if ($('msg2')) {
-		$('msg2').update();
-	}
 	$('pagelink1').hide();
 	$('pagelink2').hide();
 	var t = value.split('~');
 	if (t != null && t	.length > 1) {
 		$('modifmode1').checked = true;
-		$('modifmode2').checked = true;
+		$('shortcutdiv').show();
+		$('treediv').style.marginTop = '85px';
 		tValues['sp'] = t[0]; $('sp').value = t[1]; $('sp').addClassName('completed');
 		tValues['cp'] = t[2]; $('cp').value = t[3]; $('cp').addClassName('completed');
 		tValues['ev'] = t[4]; $('ev').value = t[5]; updateType('ev', t[6]); $('ev').addClassName('completed');
@@ -1951,12 +1939,6 @@ function deletePersonList(index) {
 	}
 	$('plrow' + index).remove();
 }
-function displayShortcuts() {
-	$$('#shortcutdiv a')[0].remove();
-	$('shortcuts1').show();
-	$('shortcuts2').show();
-	$('treediv').style.marginTop = '80px';
-}
 var rdCount = 0;
 var rdDlgCurrent = 0;
 function addRounds(clear) {
@@ -2280,9 +2262,6 @@ function loadEntity(action_, id_) {
 		parameters: h
 	});
 	$('msg').update();
-	if ($('msg2')) {
-		$('msg2').update();
-	}
 }
 function setEntityValues(text) {
 	var t = text.split('~');
@@ -2924,9 +2903,6 @@ function loadExtLinks() {
 	});
 	currentExtLinkEntity = $F('elentity');
 	$('msg').update();
-	if ($('msg2')) {
-		$('msg2').update();
-	}
 }
 function checkAllLinks() {
 	$$('#elcontent input').each(function(el){
@@ -3087,7 +3063,7 @@ function addRedirection(id) {
 }
 /*========== ADMIN ==========*/
 function saveConfig() {
-	$('msg2').update('<div><img src="/img/db/loading.gif?6"/></div>');
+	$('msg').update('<div><img src="/img/db/loading.gif?6"/></div>');
 	var h = $H();
 	$$('#tconfig input, #tconfig textarea').each(function(el){
 		h.set('p_' + $(el).id, $(el).value);
@@ -3096,8 +3072,8 @@ function saveConfig() {
 	new Ajax.Request('/update/save-config', {
 		onSuccess: function(response){
 			var text = response.responseText;
-			$('msg2').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
-			$('msg2').update('<div>' + text.replace(/^ERR\:/i, '') + '</div>');
+			$('msg').style.color = (text.indexOf('ERR:') > -1 ? '#F00' : '#0A0');
+			$('msg').update('<div>' + text.replace(/^ERR\:/i, '') + '</div>');
 		},
 		parameters: h
 	});

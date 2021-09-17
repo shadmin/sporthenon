@@ -18,6 +18,7 @@ public class ConfigUtils {
 	
 	private static Properties properties = null;
 	private static String env = null;
+	private static String credFile = null;
 	private static Map<String, String> mapValues = new HashMap<>();
 	
 	static {
@@ -60,6 +61,13 @@ public class ConfigUtils {
 	
 	public static boolean isProd() {
 		return (env != null && env.equalsIgnoreCase("prod"));
+	}
+	
+	public static String getCredFile() {
+		if (credFile == null) {
+			credFile = System.getenv("SH_CRED_FILE");
+		}
+		return credFile;
 	}
 	
 }

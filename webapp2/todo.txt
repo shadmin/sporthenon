@@ -10,7 +10,9 @@ shadmin verf si erreur message rouge barre etat (ex pas de droits)
 shadmin refresh map images webapp qd ajout bucket depuis shtool
 shadmin import pas de prenom (falcao etc..) + supprimer ligne tableau
 shadmin plusieurs jeditentitydialog cascade
+boutons de date d-1 d-2 jeditresult
 - tests new folder/edit folders
+contrainte unique sur athlete
 -------------------------
 verif ecrans update
 android last updates

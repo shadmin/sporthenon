@@ -1337,3 +1337,15 @@ end;
 $BODY$;
 
 
+ALTER TABLE public.athlete
+    ALTER COLUMN id_country SET NOT NULL;
+    
+ALTER TABLE public.athlete
+    DROP CONSTRAINT "PERSON_last_name_key";
+
+CREATE UNIQUE INDEX idx_athlete_unique1 ON athlete (last_name , first_name , id_country , id_team , id_sport)
+WHERE id_team IS NOT NULL;
+
+CREATE UNIQUE INDEX idx_athlete_unique2 ON athlete (last_name , first_name , id_country , id_sport)
+WHERE id_team IS NULL;
+

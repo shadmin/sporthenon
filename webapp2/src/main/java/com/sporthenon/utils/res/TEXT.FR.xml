@@ -326,11 +326,11 @@
 	<entry key="sport">Sport</entry>
 	<entry key="event">Epreuve</entry>
 	<entry key="years">Années</entry>
-	<entry key="event.notheld">Epreuve non disputée aujourd'hui</entry>
 	<entry key="select.tree">Sélectionner dans l'arborescence</entry>
 	<entry key="expand">Agrandir</entry>
 	<entry key="collapse">Réduire</entry>
 	<entry key="tree">ARBORESCENCE</entry>
+	<entry key="event.notheld">Epreuve non disputée aujourd'hui</entry>
 <!-- OLYMPICS -->
 	<entry key="summer.games">Jeux Olympiques d'été</entry>
 	<entry key="winter.games">Jeux Olympiques d'hiver</entry>

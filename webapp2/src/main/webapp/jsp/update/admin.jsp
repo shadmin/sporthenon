@@ -59,7 +59,6 @@
 				<td><input id="upd-save" type="button" class="button upd-save" onclick="saveConfig();" value="<%=StringUtils.text("save", session)%>"/></td>
 			</tr>
 		</table>
-		<div id="msg2" style="float:left;"></div>
 		</div>
 	</div>
 </div>

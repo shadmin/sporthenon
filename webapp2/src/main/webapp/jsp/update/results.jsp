@@ -51,7 +51,7 @@ var treeItems = null;
 	<div id="help-rounds" class="rendertip" style="display:none;"><%=ConfigUtils.getValue("html_helprounds_" + lang)%></div>
 	<jsp:include page="/jsp/update/toolbar.jsp"/>
 	<div class="fieldset">
-		<div class="fstitle"><%=StringUtils.text("update.results", session).toUpperCase()%><div id="msg2"></div></div>
+		<div class="fstitle"><%=StringUtils.text("update.results", session).toUpperCase()%><div id="msg"></div></div>
 		<div class="fscontent" style="height:auto;">
 			<!-- ID -->
 			<div style="float:right;">
@@ -59,15 +59,15 @@ var treeItems = null;
 				<td>ID:</td><td><input id="id" type="text" disabled="disabled" style="width:50px;"/></td>
 				</tr></table>
 			</div>
-			<div id="shortcutdiv"><a href="javascript:displayShortcuts();">[+] <%=StringUtils.text("actions.bar", session)%></a>
-				<table id="shortcuts1" class="toolbar" style="display:none;position:relative;top:0;right:0;float:right;margin-top:0px;">
+			<div id="shortcutdiv" style="display:none;">
+				<table id="shortcuts1" class="toolbar" style="position:relative;top:0;right:0;float:right;margin-top:0px;">
 					<tr>
-						<td style="padding:0px;"><table style="border:1px solid #AAA;margin:0px;"><tr><td> <%=StringUtils.text("mode", session)%>:</td><td><input id="addmode1" type="radio" name="mode1" checked="checked" onclick="$('addmode2').checked = true;"/></td><td><label for="addmode1" style="color:green;"><b><%=StringUtils.text("button.add", session)%></b></label></td><td><input id="modifmode1" type="radio" name="mode1" onclick="$('modifmode2').checked = true;"/></td><td><label for="modifmode1" style="color:orange;"><b><%=StringUtils.text("button.modify", session)%></b></label> </td></tr></table></td>
+						<td style="padding:0px;"><table style="border:1px solid #AAA;margin:0px;"><tr><td> <%=StringUtils.text("mode", session)%>:</td><td><input id="addmode1" type="radio" name="mode1" checked="checked"/></td><td><label for="addmode1" style="color:green;"><b><%=StringUtils.text("button.add", session)%></b></label></td><td><input id="modifmode1" type="radio" name="mode1"/></td><td><label for="modifmode1" style="color:orange;"><b><%=StringUtils.text("button.modify", session)%></b></label> </td></tr></table></td>
 						<td><input id="upd-save" type="button" class="button upd-save" onclick="saveResult();"/></td>
 						<td><input id="upd-delete" type="button" class="button upd-delete" onclick="deleteResult();"/></td>
 					</tr>
 				</table>
-				<table id="shortcuts2" class="toolbar" style="display:none;position:relative;top:0;right:0;clear:right;float:right;margin-top:0px;">
+				<table id="shortcuts2" class="toolbar" style="position:relative;top:0;right:0;clear:right;float:right;margin-top:0px;">
 					<tr>
 						<td><input id="upd-first" type="button" class="button upd-first" onclick="loadResult('first');"/></td>
 						<td><input id="upd-previous" type="button" class="button upd-previous" onclick="loadResult('prev');"/></td>
@@ -79,7 +79,7 @@ var treeItems = null;
 			</div>
 			<div id="treediv" class="treediv"><div id="treeview">
 				<table>
-				<thead><tr><th style="text-align:right;"><img alt="" src="/img/render/expand.png?v=2" class="toggleimg" onclick="toggleContent(this);"/><span class="toggletext" onclick="toggleContent(this);"><%=StringUtils.text("tree", session)%></span></th></tr></thead>
+				<thead><tr><th style="text-align:right;"><%=StringUtils.text("tree", session)%></th></tr></thead>
 				<tbody class="tby"><tr><td id="tree" style="vertical-align:top;">
 				<script>new Tree(treeItems, treeTemplate);</script>
 				</td></tr></tbody></table>
@@ -194,24 +194,6 @@ var treeItems = null;
 			<a id="pagelink1" target="_blank" href="#" style="display:none;font-size:12px;"><%=StringUtils.text("test.page", session)%> (1)</a>
 			<a id="pagelink2" target="_blank" href="#" style="display:none;font-size:12px;"><%=StringUtils.text("test.page", session)%> (2)</a>
 			</li></ul>
-			<!-- BUTTON PANEL -->
-			<table class="toolbar" style="position:relative;top:0;right:0;float:right;margin-top:15px;">
-				<tr>
-					<td style="padding:0px;"><table style="border:1px solid #AAA;margin:0px;"><tr><td> <%=StringUtils.text("update.mode", session)%>:</td><td><input id="addmode2" type="radio" name="mode2" checked="checked" onclick="$('addmode1').checked = true;"/></td><td><label for="addmode2" style="color:green;"><b><%=StringUtils.text("button.add", session)%></b></label></td><td><input id="modifmode2" type="radio" name="mode2" onclick="$('modifmode1').checked = true;"/></td><td><label for="modifmode2" style="color:orange;"><b><%=StringUtils.text("button.modify", session)%></b></label> </td></tr></table></td>
-					<td><input id="upd-save2" type="button" class="button upd-save" onclick="saveResult();" value="<%=StringUtils.text("save", session)%>"/></td>
-					<td><input id="upd-delete2" type="button" class="button upd-delete" onclick="deleteResult();" value="<%=StringUtils.text("button.delete", session)%>"/></td>
-				</tr>
-			</table><br/>
-			<table class="toolbar" style="position:relative;top:0;right:0;clear:right;float:right;margin-top:5px;">
-				<tr>
-					<td><input id="upd-first2" type="button" class="button upd-first" onclick="loadResult('first');" value="<%=StringUtils.text("first", session)%>"/></td>
-					<td><input id="upd-previous2" type="button" class="button upd-previous" onclick="loadResult('prev');" value="<%=StringUtils.text("previous", session)%>"/></td>
-					<td><input id="upd-find2" type="button" class="button upd-find" onclick="findEntity(0);" value="<%=StringUtils.text("find", session)%>"/></td>
-					<td><input id="upd-next2" type="button" class="button upd-next" onclick="loadResult('next');" value="<%=StringUtils.text("next", session)%>"/></td>
-					<td><input id="upd-last2" type="button" class="button upd-last" onclick="loadResult('last');" value="<%=StringUtils.text("last", session)%>"/></td>
-				</tr>
-			</table>
-			<div id="msg" style="float:left;"></div>
 		</div>
 	</div>
 	<br/>
@@ -220,7 +202,6 @@ var treeItems = null;
 <script><!--
 window.onload = function() {
 	initUpdateResults("<%=request.getAttribute("value")%>");
-	
 	
 	$$('#update-results .rendertip').each(function(el) {
 		new Control.Window($(document.body).down('[href=#' + el.id + ']'),{

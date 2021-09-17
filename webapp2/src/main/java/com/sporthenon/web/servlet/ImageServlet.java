@@ -1,13 +1,12 @@
 package com.sporthenon.web.servlet;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -65,7 +64,7 @@ public class ImageServlet extends AbstractServlet {
 					p.setValue(value);
 				}
 				else {
-					byte[] b = null;
+					byte[] content = null;
 					FileItemFactory factory = new DiskFileItemFactory();
 					ServletFileUpload upload = new ServletFileUpload(factory);
 					Collection<FileItem> items = upload.parseRequest(request);
@@ -73,26 +72,29 @@ public class ImageServlet extends AbstractServlet {
 					for (FileItem fitem : items) {
 						if (!fitem.isFormField() && fitem.getFieldName().equalsIgnoreCase("photo-file")) {
 							name = fitem.getName();
-							b = fitem.get();
+							content = fitem.get();
 						}
 					}
 					String ext = "." + name.substring(name.lastIndexOf(".") + 1).toLowerCase();
-					String fileName = "P" + StringUtils.encode(entity + "-" + id);
-					File f = new File(ConfigUtils.getProperty("img.folder") + fileName + ext);
-					if (f.exists()) {
-						int i = 1;
-						while (f.exists()) {
-							f = new File(ConfigUtils.getProperty("img.folder") + fileName + i + ext);
-							i++;
-						}
-					}
-					FileOutputStream fos = new FileOutputStream(f);
-					fos.write(b);
-					fos.close();
+					String fileName = "P" + StringUtils.encode(entity + "-" + id) + ext;
+					ImageUtils.uploadImage(null, fileName, content, ConfigUtils.getCredFile());
 					p.setEmbedded(false);
-					p.setValue(f.getName());
+					p.setValue(fileName);
 				}
 				DatabaseManager.saveEntity(p, null);
+			}
+			else if (mapParams.containsKey("remove-photo")) {
+				try {
+					String id = String.valueOf(mapParams.get("id"));
+					String name = String.valueOf(mapParams.get("name"));
+					ImageUtils.removeImage(name, ConfigUtils.getCredFile());
+					Picture pic = new Picture();
+					pic.setId(StringUtils.toInt(id));
+					DatabaseManager.removeEntity(pic);
+				}
+				catch (Exception e_) {
+					log.log(Level.WARNING, e_.getMessage(), e_);
+				}
 			}
 			else if (mapParams.containsKey("load")) {
 				if (mapParams.containsKey("directid")) {
@@ -119,12 +121,12 @@ public class ImageServlet extends AbstractServlet {
 					ServletHelper.writeText(response, sb.toString());
 				}
 			}
-			else if (mapParams.containsKey("add")) {
+			else if (mapParams.containsKey("add")) { // Refresh map remotely
 				String key = String.valueOf(mapParams.get("key"));
 				String file = String.valueOf(mapParams.get("file"));
 				ImageUtils.addImageToMap(key, file);
 			}
-			else if (mapParams.containsKey("remove")) {
+			else if (mapParams.containsKey("remove")) { // Refresh map remotely
 				String file = String.valueOf(mapParams.get("file"));
 				ImageUtils.removeImageFromMap(file);
 			}

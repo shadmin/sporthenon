@@ -132,7 +132,7 @@ public class ImageUtils {
 		storage.create(blobInfo, content);
 		addImageToMap(key, fileName);
 		// Add to website
-		String url = ConfigUtils.getValue("url") + "ImageServlet?add=1&key=" + key + "&file=" + fileName;
+		String url = ConfigUtils.getProperty("url") + "ImageServlet?add=1&key=" + key + "&file=" + fileName;
 		HttpURLConnection conn_ = (HttpURLConnection) new URL(url).openConnection();
 		if (conn_.getResponseCode() == 200) {
 			log.log(Level.INFO, "Image " + fileName + " added successfully to website");
@@ -146,7 +146,7 @@ public class ImageUtils {
 		storage.delete(blobId);
 		removeImageFromMap(fileName);
 		// Remove from website
-		String url = ConfigUtils.getValue("url") + "ImageServlet?remove=1&file=" + fileName;
+		String url = ConfigUtils.getProperty("url") + "ImageServlet?remove=1&file=" + fileName;
 		HttpURLConnection conn_ = (HttpURLConnection) new URL(url).openConnection();
 		if (conn_.getResponseCode() == 200) {
 			log.log(Level.INFO, "Image " + fileName + " removed successfully from website");

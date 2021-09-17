@@ -1249,22 +1249,22 @@ select.disabled{
 	width: 16px;
 	height: 16px;
 }
-#msg, #msg2{
+#msg{
 	position: relative;
 	font-weight: bold;
 	min-height: 50px;
 	white-space: nowrap;
 }
-#msg div, #msg2 div{
+#msg div{
 	position: absolute;
 	left: 5px;
 	bottom: 20px;
 }
-.fstitle #msg2{
+.fstitle #msg{
 	position: absolute;
 	right: 25px;
 }
-.fstitle #msg2 div{
+.fstitle #msg div{
 	position: relative;
 	text-align: right;
 	bottom: 15px;
@@ -1339,9 +1339,6 @@ select.disabled{
 #update-results .fstitle{
 	background-image: url(../img/update/results.png);
 }
-#update-results .fscontent{
-	padding-bottom: 70px;
-}
 #update-results fieldset{
 	border: 1px solid #AAA;
 }
@@ -1380,14 +1377,14 @@ select.disabled{
 	background-color: #FFF;
 	white-space: nowrap;
 	margin: 0px;
-	margin-top: 45px;
+	margin-top: 25px;
 }
 #update-results #tree{
 	overflow: auto;
 	border: 1px solid #DDD;
 	border-top: none;
 	width: 300px;
-	height: 1150px;
+	height: 1100px;
 	padding: 3px;
 	margin: 0px;
 	padding-right: 30px;
@@ -1411,7 +1408,7 @@ select.disabled{
 	font-weight: bold;
 }
 #update-results #shortcutdiv .toolbar td{
-	padding: 0px;
+	padding: 2px;
 }
 #update-results #shortcutdiv .toolbar input.button{
 	background-position: center center;

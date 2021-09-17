@@ -212,32 +212,31 @@ public class UpdateServlet extends AbstractServlet {
 			field_ = t[0];
 		}
 		HashMap<String, String> hTable = new HashMap<String, String>();
-		hTable.put("sp", "Sport"); hTable.put("sport", "Sport");
-		hTable.put("cp", "Championship"); hTable.put("championship", "Championship");
-		hTable.put("ev", "Event"); hTable.put("event", "Event"); hTable.put("subevent", "Event"); hTable.put("subevent2", "Event");
-		hTable.put("se", "Event");
-		hTable.put("se2", "Event");
-		hTable.put("tp", "Type"); hTable.put("type", "Type");
-		hTable.put("yr", "Year"); hTable.put("year", "Year");
-		hTable.put("cx", "Complex"); hTable.put("complex", "Complex");
-		hTable.put("ct", "City"); hTable.put("city", "City");
-		hTable.put("st", "State"); hTable.put("state", "State");
-		hTable.put("pl1", "Complex"); hTable.put("complex", "Complex");
-		hTable.put("pl2", "Complex"); hTable.put("complex", "Complex");
-		hTable.put("pr", "Athlete"); hTable.put("athlete", "Athlete"); hTable.put("person", "Athlete");
-		hTable.put("tm", "Team"); hTable.put("team", "Team");
-		hTable.put("cn", "Country"); hTable.put("country", "Country");
-		hTable.put("cb", "Contributor"); hTable.put("contributor", "Contributor");
-		hTable.put("lg", "League"); hTable.put("league", "League");
-		hTable.put("rs", "Result"); hTable.put("result", "Result");
-		hTable.put("ol", "Olympics"); hTable.put("olympics", "Olympics");
-		hTable.put("rt", "RoundType");
-		hTable.put("hf", "HallOfFame");
-		hTable.put("rc", "Record");
-		hTable.put("rn", "RetiredNumber");
-		hTable.put("ts", "TeamStadium");
-		hTable.put("wl", "WinLoss");
-		String alias = (String) Class.forName("com.sporthenon.db.entity." + hTable.get(field)).getField("alias").get(null);
+		hTable.put("sp", "sport"); hTable.put("sport", "Sport");
+		hTable.put("cp", "championship"); hTable.put("championship", "Championship");
+		hTable.put("ev", "event"); hTable.put("event", "Event"); hTable.put("subevent", "Event"); hTable.put("subevent2", "Event");
+		hTable.put("se", "event");
+		hTable.put("se2", "event");
+		hTable.put("tp", "type"); hTable.put("type", "type");
+		hTable.put("yr", "year"); hTable.put("year", "year");
+		hTable.put("cx", "complex"); hTable.put("complex", "complex");
+		hTable.put("ct", "city"); hTable.put("city", "city");
+		hTable.put("st", "state"); hTable.put("state", "state");
+		hTable.put("pl1", "complex"); hTable.put("complex", "complex");
+		hTable.put("pl2", "complex"); hTable.put("complex", "complex");
+		hTable.put("pr", "athlete"); hTable.put("athlete", "athlete"); hTable.put("person", "athlete");
+		hTable.put("tm", "team"); hTable.put("team", "team");
+		hTable.put("cn", "country"); hTable.put("country", "country");
+		hTable.put("cb", "contributor"); hTable.put("contributor", "contributor");
+		hTable.put("lg", "league"); hTable.put("league", "league");
+		hTable.put("rs", "result"); hTable.put("result", "result");
+		hTable.put("ol", "olympics"); hTable.put("olympics", "olympics");
+		hTable.put("rt", "round_type");
+		hTable.put("hf", "hall_of_fame");
+		hTable.put("rc", "record");
+		hTable.put("rn", "retired_number");
+		hTable.put("ts", "team_stadium");
+		String alias = field.toUpperCase();
 		String labelHQL = "T.label" + (lang != null && !lang.equalsIgnoreCase(ResourceUtils.LGDEFAULT) && !field.matches("cx|pl1|pl2|lg|tm|yr|complex|league|team|year") ? "_" + lang : "");
 		String l_ = "label" + ResourceUtils.getLocaleParam(lang);
 		String whereHQL = "";
@@ -247,24 +246,31 @@ public class UpdateServlet extends AbstractServlet {
 			whereHQL += (sport != null ? " and T.id_sport=" + sport : "");
 			whereHQL += (cb != null && !cb.isAdmin() ? " and T.id_sport in (" + cb.getSports() + ")" : "");
 			joins += " LEFT JOIN country CN ON T.id_country=CN.id";
+			alias = Athlete.alias;
 		}
 		else if (field.matches(Team.alias.toLowerCase() + "|team")) {
 			whereHQL += (sport != null ? " and T.id_sport=" + sport : "");
 			whereHQL += (cb != null && !cb.isAdmin() ? " and T.id_sport in (" + cb.getSports() + ")" : "");
+			alias = Team.alias;
 		}
-		else if (field.equalsIgnoreCase(Sport.alias) && cb != null && StringUtils.notEmpty(cb.getSports()))
+		else if (field.equalsIgnoreCase(Sport.alias) && cb != null && StringUtils.notEmpty(cb.getSports())) {
 			whereHQL += (" and T.id in (" + cb.getSports() + ")");
-		else if (field.equalsIgnoreCase(Contributor.alias))
+			alias = Sport.alias;
+		}
+		else if (field.equalsIgnoreCase(Contributor.alias)) {
 			labelHQL = "login";
+		}
 		else if (field.matches("pl\\d|complex")) {
 			labelHQL = "T.label || ', ' || CT." + l_ + " || ', ' || CN.code";
 			joins += " LEFT JOIN city CT ON T.id_city=CT.id";
 			joins += " LEFT JOIN country CN ON CT.id_country=CN.id";
+			alias = Complex.alias;
 		}
 		else if (field.matches(Olympics.alias.toLowerCase() + "|olympics")) {
 			labelHQL = "YR.label || ' ' || CT." + l_;
 			joins += " LEFT JOIN city CT ON T.id_city=CT.id";
 			joins += " LEFT JOIN year YR ON T.id_year=YR.id";
+			alias = Olympics.alias;
 		}
 		else if (field.equalsIgnoreCase(Result.alias)) {
 			value = "%" + value;
@@ -291,9 +297,11 @@ public class UpdateServlet extends AbstractServlet {
 			labelHQL = "LG.label || ' - ' || TM.label";
 			joins += " LEFT JOIN league LG ON T.id_league=LG.id";
 			joins += " LEFT JOIN team TM ON T.id_team=TM.id";
+			alias = RetiredNumber.alias;
 		}
-		if (StringUtils.notEmpty(currentId))
+		if (StringUtils.notEmpty(currentId)) {
 			whereHQL += " and T.id <> " + currentId;
+		}
 		// Execute query
 		String regexp = StringUtils.toPatternString(value);
 		String sql = "SELECT T.id, " + labelHQL + ", CAST('" + alias + "' AS VARCHAR) "
@@ -331,13 +339,15 @@ public class UpdateServlet extends AbstractServlet {
 		int n = 0;
 		List<String> list = new ArrayList<String>();
 		for (Object[] t : l) {
-			if (n++ == MAX_AUTOCOMPLETE_RESULTS)
+			if (n++ == MAX_AUTOCOMPLETE_RESULTS) {
 				break;
+			}
 			String id = String.valueOf(t[0]);
 			String text = String.valueOf(t[1]);
 			String alias_ = String.valueOf(t[2]);
-			if (list.contains(id))
+			if (list.contains(id)) {
 				continue;
+			}
 			Object o = DatabaseManager.loadEntity(DatabaseManager.getClassFromAlias(alias_), id);
 			if (!(o instanceof Athlete) && !(o instanceof Complex) && !(o instanceof League) && !(o instanceof Team) && !(o instanceof Result) && !(o instanceof Contributor) && !(o instanceof HallOfFame) && !(o instanceof Olympics) && !(o instanceof Record) && !(o instanceof RetiredNumber) && !(o instanceof TeamStadium)) {
 				Method m2 = o.getClass().getMethod("getLabel", String.class);
@@ -1159,14 +1169,18 @@ public class UpdateServlet extends AbstractServlet {
 
 		if (tp != null) {
 			String where = null;
-			if (String.valueOf(tp).equalsIgnoreCase("direct"))
+			if (String.valueOf(tp).equalsIgnoreCase("direct")) {
 				where = "T.id = " + params.get("id");
-			else if (String.valueOf(tp).equalsIgnoreCase("year") && StringUtils.notEmpty(params.get("yrfind")))
+			}
+			else if (String.valueOf(tp).equalsIgnoreCase("year") && StringUtils.notEmpty(params.get("yrfind"))) {
 				where = "YR.label='" + params.get("yrfind") + "' AND id_sport = " + params.get("sp") + " AND id_championship = " + params.get("cp") + " AND id_event = " + params.get("ev") + (StringUtils.notEmpty(params.get("se")) ? " AND id_subevent = " + params.get("se") : "") + (StringUtils.notEmpty(params.get("se2")) ? " AND id_subevent2 = " + params.get("se2") : "");
-			else if (String.valueOf(tp).matches("first|last"))
-				where = "id_sport = " + params.get("sp") + " AND id_championship = " + params.get("cp") + " AND id_event = " + params.get("ev") + (StringUtils.notEmpty(params.get("se")) ? " AND id_subevent = " + params.get("se") : "") + (StringUtils.notEmpty(params.get("se2")) ? " AND id_subevent2 = " + params.get("se2") : "") + " ORDER BY id_year " + (tp.equals("first") ? "ASC" : "DESC");			
-			else if (StringUtils.notEmpty(params.get("yr")))
+			}
+			else if (String.valueOf(tp).matches("first|last")) {
+				where = "id_sport = " + params.get("sp") + " AND id_championship = " + params.get("cp") + " AND id_event = " + params.get("ev") + (StringUtils.notEmpty(params.get("se")) ? " AND id_subevent = " + params.get("se") : "") + (StringUtils.notEmpty(params.get("se2")) ? " AND id_subevent2 = " + params.get("se2") : "") + " ORDER BY id_year " + (tp.equals("first") ? "ASC" : "DESC");
+			}
+			else if (StringUtils.notEmpty(params.get("yr"))) {
 				where = "id_year " + (tp.equals("next") ? ">" : "<") + " " + params.get("yr") + " AND id_sport = " + params.get("sp") + " AND id_championship = " + params.get("cp") + " AND id_event = " + params.get("ev") + (StringUtils.notEmpty(params.get("se")) ? " AND id_subevent = " + params.get("se") : "") + (StringUtils.notEmpty(params.get("se2")) ? " AND id_subevent2 = " + params.get("se2") : "") + " ORDER BY id_year " + (tp.equals("next") ? "ASC" : "DESC");
+			}
 			if (where != null) {
 				lResult = (List<Result>) DatabaseManager.executeSelect(Result.query + " WHERE " + where, Result.class);
 				if (lResult != null && !lResult.isEmpty()) {
@@ -1179,13 +1193,16 @@ public class UpdateServlet extends AbstractServlet {
 				t[0] = rs.getSport().getId();
 				t[1] = rs.getChampionship().getId();
 				t[2] = rs.getEvent().getId();
-				if (rs.getSubevent() != null)
+				if (rs.getSubevent() != null) {
 					t[3] = rs.getSubevent().getId();
-				if (rs.getSubevent2() != null)
+				}
+				if (rs.getSubevent2() != null) {
 					t[4] = rs.getSubevent2().getId();
+				}
 			}
-			else
+			else {
 				t = null;
+			}
 		}
 
 		if (t != null) {
@@ -1246,18 +1263,21 @@ public class UpdateServlet extends AbstractServlet {
 				StringBuffer sbLinks = new StringBuffer();
 				try {
 					List<ExternalLink> list = (List<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link WHERE entity = ? and id_item = ? ORDER BY id", Arrays.asList(Result.alias, rs.getId()), ExternalLink.class);
-					for (ExternalLink link : list)
+					for (ExternalLink link : list) {
 						sbLinks.append(link.getUrl()).append("|");
+					}
 				}
 				catch (Exception e_) {
 					log.log(Level.WARNING, e_.getMessage(), e_);
 				}
 				sb.append(sbLinks.toString()).append("~");
 				Integer n = ev.getType().getNumber();
-				if (se != null)
+				if (se != null) {
 					n = se.getType().getNumber();
-				if (se2 != null)
+				}
+				if (se2 != null) {
 					n = se2.getType().getNumber();
+				}
 				// Rankings
 				for (int i = 1 ; i <= MAX_RANKS ; i++) {
 					Integer id = null;
@@ -1265,14 +1285,16 @@ public class UpdateServlet extends AbstractServlet {
 					String result = null;
 					Method m = Result.class.getMethod("getIdRank" + i);
 					Object o = m.invoke(rs);
-					if (o != null)
+					if (o != null) {
 						id = (Integer) o;
+					}
 					if (id != null && id > 0) {
 						rank = getEntityLabel(n, id, lang);
 						m = Result.class.getMethod("getResult" + i);
 						o = m.invoke(rs);
-						if (o != null)
+						if (o != null) {
 							result = String.valueOf(o);
+						}
 					}
 					sb.append(id != null ? id : "").append("~");
 					sb.append(rank != null ? rank : "").append("~");
@@ -1284,8 +1306,9 @@ public class UpdateServlet extends AbstractServlet {
 					List<String> l = new ArrayList<String>();
 					for (PersonList pl : (List<PersonList>) lPList) {
 						int rk = pl.getRank();
-						if (l.size() < rk)
+						if (l.size() < rk) {
 							l.add("");
+						}
 						Athlete a = (Athlete) DatabaseManager.loadEntity(Athlete.class, pl.getIdPerson());
 						l.set(rk - 1, (StringUtils.notEmpty(l.get(rk - 1)) ? l.get(rk - 1) + "|" : "") + pl.getId() + ":" + pl.getIdPerson() + ":" + a.toString2() + ":" + (StringUtils.notEmpty(pl.getIndex()) ? pl.getIndex() : ""));
 					}
@@ -1384,24 +1407,29 @@ public class UpdateServlet extends AbstractServlet {
 				sb.append(StringUtils.encode("RS-" + rs.getId() + "-1")).append("~"); // Link to single result
 				if (lResult != null && lResult.size() > 1) {
 					StringBuffer sb_ = new StringBuffer();
-					for (Result rs_ : lResult)
-						if (rs != null && rs.getYear().getId().equals(rs_.getYear().getId()))
+					for (Result rs_ : lResult) {
+						if (rs != null && rs.getYear().getId().equals(rs_.getYear().getId())) {
 							sb_.append(sb_.length() > 0 ?  "," : "").append(rs_.getId());
+						}
+					}
 					sb.append(sb_).append("~");
 				}
-				else
+				else {
 					sb.append("~");
+				}
 			}
 			String result = sb.toString().replaceAll("~null~", "~~").replaceAll("~null~", "~~").replaceAll("\"", "\\\\\"");
-			if (tp != null)
+			if (tp != null) {
 				ServletHelper.writeText(response, result);
+			}
 			else {
 				request.setAttribute("value", result);
 				request.getRequestDispatcher("/jsp/update/results.jsp").forward(request, response);			
 			}
 		}
-		else
+		else {
 			ServletHelper.writeText(response, "");
+		}
 	}
 	
 	private static void loadEntity(HttpServletResponse response, Map<?, ?> params, String lang, Contributor cb) throws Exception {

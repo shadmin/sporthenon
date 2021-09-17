@@ -330,10 +330,10 @@
 	<entry key="sport">Sport</entry>
 	<entry key="event">Event</entry>
 	<entry key="years">Years</entry>
-	<entry key="event.notheld">Event not held anymore</entry>
 	<entry key="select.tree">Select in tree</entry>
 	<entry key="expand">Expand</entry>
 	<entry key="collapse">Collapse</entry>
+	<entry key="event.notheld">Event not held anymore</entry>
 <!-- OLYMPICS -->
 	<entry key="summer.games">Summer Olympic Games</entry>
 	<entry key="winter.games">Winter Olympic Games</entry>

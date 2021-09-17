@@ -4,8 +4,9 @@
 <%
 	Object o = session.getAttribute("user");
 	Contributor cb = null;
-	if (o != null && o instanceof Contributor)
+	if (o != null && o instanceof Contributor) {
 		cb = (Contributor) o;
+	}
 %>
 <table class="toolbar noborder">
 	<tr>

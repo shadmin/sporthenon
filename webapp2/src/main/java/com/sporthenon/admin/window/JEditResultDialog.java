@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -164,11 +163,18 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 		jDate2 = new JTextField();
 		jDate2.setPreferredSize(new Dimension(72, 21));
 		jDate2.addFocusListener(this);
-		JCustomButton jToday = new JCustomButton(null, "today.png", null);
-		jToday.setMargin(new Insets(0, 0, 0, 0));
-		jToday.setToolTipText("Today");
-		jToday.setActionCommand("today");
-		jToday.addActionListener(this);
+		JCustomButton jDateBtn1 = new JCustomButton("Today", "date.png", null);
+		jDateBtn1.setActionCommand("today");
+		jDateBtn1.addActionListener(this);
+		JCustomButton jDateBtn2 = new JCustomButton("Yesterday", "date.png", null);
+		jDateBtn2.setActionCommand("yesterday");
+		jDateBtn2.addActionListener(this);
+		JCustomButton jDateBtn3 = new JCustomButton("2 days ago", "date.png", null);
+		jDateBtn3.setActionCommand("2dago");
+		jDateBtn3.addActionListener(this);
+		JCustomButton jDateBtn4 = new JCustomButton("3 days ago", "date.png", null);
+		jDateBtn4.setActionCommand("3dago");
+		jDateBtn4.addActionListener(this);
 		jInProgress = new JCheckBox();
 		jInProgress.setText("Event in progress");
 		jExa = new JTextField();
@@ -186,7 +192,10 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 		panel.add(jDate1, null);
 		panel.add(new JLabel("to:"), null);
 		panel.add(jDate2, null);
-		panel.add(jToday, null);
+		panel.add(jDateBtn1, null);
+		panel.add(jDateBtn2, null);
+		panel.add(jDateBtn3, null);
+		panel.add(jDateBtn4, null);
 		panel.add(jInProgress, null);
 		jEventPanel.add(panel);
 		
@@ -293,9 +302,19 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 			jEditPhotosDialog.open();
 			jButtonBar.getOptional4().setText("Photos" + (!photos.isEmpty() ? " (" + photos.size() + ")" : ""));
 		}
-		else if (cmd.equals("today")) {
+		else if (cmd.matches("today|yesterday|2dago|3dago")) {
 			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-			jDate2.setText(df.format(Calendar.getInstance().getTime()));
+			Calendar cal = Calendar.getInstance();
+			if (cmd.equals("yesterday")) {
+				cal.add(Calendar.DAY_OF_YEAR, -1);
+			}
+			if (cmd.equals("2dago")) {
+				cal.add(Calendar.DAY_OF_YEAR, -2);
+			}
+			if (cmd.equals("3dago")) {
+				cal.add(Calendar.DAY_OF_YEAR, -3);
+			}
+			jDate2.setText(df.format(cal.getTime()));
 		}
 		else if (cmd.equals("comment")) {
 			jCommentDialog.setTitle("Edit Comment");
@@ -405,7 +424,7 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 				parent.resultCallback(mode, getDataVector(rs), msg, err);
 			}
 		}
-		this.setVisible(cmd.matches("rounds|photos|comment|extlinks|today|persons.+|exacb.+"));
+		this.setVisible(cmd.matches("rounds|photos|comment|extlinks|today|yesterday|2dago|3dago|persons.+|exacb.+"));
 	}
 	
 	@Override

@@ -93,6 +93,9 @@ public class AndroidServlet extends AbstractServlet {
 			else if (p2.equalsIgnoreCase("US")) { // US LEAGUES
 				processUSLeagues(doc, root, p.split("\\-"), lang);
 			}
+			else if (p2.equalsIgnoreCase("LU")) { // LAST UPDATES
+				processLastUpdates(doc, root, p.split("\\-"), lang);
+			}
 			
 	        response.setContentType("text/xml");
 	        response.setCharacterEncoding("utf-8");
@@ -639,6 +642,10 @@ public class AndroidServlet extends AbstractServlet {
 				item.addAttribute("date5", (bean.getEvLabel() != null && bean.getEvLabel().equals("Super Bowl") ? bean.getEvLabel() + " " : "") + (bean.getRcDate5() != null ? bean.getRcDate5() : StringUtils.EMPTY));
 			}
 		}
+	}
+	
+	private void processLastUpdates(Document doc, Element root, String[] t, String lang) throws Exception {
+		
 	}
 	
 	public static String getImage(short type, Object id, char size, String year, String title) {
