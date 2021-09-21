@@ -85,7 +85,7 @@ public class UpdateServlet extends AbstractServlet {
 	private static final long serialVersionUID = 1L;
 	private static final int MAX_RANKS = 20;
 	private static final int MAX_AUTOCOMPLETE_RESULTS = 50;
-	private static ImportUtils.Progress IMPORT_PROGESS;
+	private static ImportUtils.Progress IMPORT_PROGRESS;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -136,8 +136,8 @@ public class UpdateServlet extends AbstractServlet {
 				executeImport(request, response, params, lang, cb);
 			}
 			else if (params.containsKey("p") && params.get("p").equals("check-progress-import")) {
-				if (IMPORT_PROGESS != null) {
-					ServletHelper.writeText(response, String.valueOf(IMPORT_PROGESS.toString()));
+				if (IMPORT_PROGRESS != null) {
+					ServletHelper.writeText(response, String.valueOf(IMPORT_PROGRESS.toString()));
 				}
 			}
 			else if (params.containsKey("p") && params.get("p").equals("load-template")) {
@@ -1124,7 +1124,7 @@ public class UpdateServlet extends AbstractServlet {
 			sb.append("</table>");
 
 		if (isCSV) {
-			response.setCharacterEncoding("UTF-8");
+			response.setCharacterEncoding("utf-8");
 			response.setHeader("Content-Disposition", "attachment;filename=query" + (params.get("index"))+ ".csv");
 			response.setContentType("text/csv");
 			response.getWriter().write(sb.toString());
@@ -1453,8 +1453,9 @@ public class UpdateServlet extends AbstractServlet {
 			String exl = null;
 			if (alias.matches(Athlete.alias + "|" + Championship.alias + "|" + City.alias + "|" + Complex.alias + "|" + Country.alias + "|" + Event.alias + "|" + Olympics.alias + "|" + Sport.alias + "|" + State.alias + "|" + Team.alias)) {
 				StringBuffer sbexl = new StringBuffer();
-				for (ExternalLink exl_ : (Collection<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link WHERE entity = ? AND id_item = ? ORDER BY id", Arrays.asList(alias, Integer.valueOf(id)), ExternalLink.class))
+				for (ExternalLink exl_ : (Collection<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link WHERE entity = ? AND id_item = ? ORDER BY id", Arrays.asList(alias, Integer.valueOf(id)), ExternalLink.class)) {
 					sbexl.append(exl_.getUrl()).append("\r\n");
+				}
 				exl = sbexl.toString();
 			}
 			sb.append(id).append("~");
@@ -1478,10 +1479,12 @@ public class UpdateServlet extends AbstractServlet {
 						log.log(Level.WARNING, e.getMessage());
 					}
 				}
-				else if (at.getLink() != null && at.getLink() == 0)
+				else if (at.getLink() != null && at.getLink() == 0) {
 					sb.append("0~[root]~");
-				else
+				}
+				else {
 					sb.append("~~");
+				}
 				sb.append(exl).append("~");
 			}
 			else if (o instanceof com.sporthenon.db.entity.Calendar) {
@@ -1531,10 +1534,12 @@ public class UpdateServlet extends AbstractServlet {
 						log.log(Level.WARNING, e.getMessage());
 					}
 				}
-				else if (ct.getLink() != null && ct.getLink() == 0)
+				else if (ct.getLink() != null && ct.getLink() == 0) {
 					sb.append("0~[root]~");
-				else
+				}
+				else {
 					sb.append("~~");
+				}
 				sb.append(exl).append("~");
 			}
 			else if (o instanceof Complex) {
@@ -1552,10 +1557,12 @@ public class UpdateServlet extends AbstractServlet {
 						log.log(Level.WARNING, e.getMessage());
 					}
 				}
-				else if (cx.getLink() != null && cx.getLink() == 0)
+				else if (cx.getLink() != null && cx.getLink() == 0) {
 					sb.append("0~[root]~");
-				else
+				}
+				else {
 					sb.append("~~");
+				}
 				sb.append(exl).append("~");
 			}
 			else if (o instanceof Contributor) {
@@ -1659,10 +1666,12 @@ public class UpdateServlet extends AbstractServlet {
 						log.log(Level.WARNING, e.getMessage());
 					}
 				}
-				else if (tm.getLink() != null && tm.getLink() == 0)
+				else if (tm.getLink() != null && tm.getLink() == 0) {
 					sb.append("0~[root]~");
-				else
+				}
+				else {
 					sb.append("~~");
+				}
 				sb.append(exl).append("~");
 				sb.append(tm.getNopic() != null && tm.getNopic() ? "1" : "0");
 			}
@@ -1683,10 +1692,12 @@ public class UpdateServlet extends AbstractServlet {
 			else if (o instanceof Record) {
 				Record rc = (Record) o;
 				Integer n = rc.getEvent().getType().getNumber();
-				if (StringUtils.notEmpty(rc.getType1()))
+				if (StringUtils.notEmpty(rc.getType1())) {
 					n = (rc.getType1().equalsIgnoreCase("individual") ? 1 : 50);
-				else if (rc.getSubevent() != null)
+				}
+				else if (rc.getSubevent() != null) {
 					n = rc.getSubevent().getType().getNumber();
+				}
 				sb.append(rc.getSport() != null ? rc.getSport().getId() : 0).append("~");
 				sb.append(rc.getSport() != null ? rc.getSport().getLabel(lang) : "").append("~");
 				sb.append(rc.getChampionship() != null ? rc.getChampionship().getId() : 0).append("~");
@@ -1759,10 +1770,12 @@ public class UpdateServlet extends AbstractServlet {
 			String id = String.valueOf(params.get("id"));
 			Result r = (Result) DatabaseManager.loadEntity(Result.class, id);
 			if (r != null) {
-				if (flag.equals("no_date"))
+				if (flag.equals("no_date")) {
 					r.setNoDate(true);
-				else
+				}
+				else {
 					r.setNoPlace(true);
+				}
 				DatabaseManager.saveEntity(r, cb);
 			}
 		}
@@ -1796,18 +1809,20 @@ public class UpdateServlet extends AbstractServlet {
 			byte[] b = IOUtils.toByteArray(fis);
 			response.setHeader("Content-Disposition", "attachment;filename=" + file);
 			response.setContentType("text/html");
+			response.setCharacterEncoding("utf-8");
 			response.getWriter().write(new String(b));
 			response.flushBuffer();
 			fis.close();
 		}
 		else {
-			IMPORT_PROGESS = new ImportUtils.Progress();
+			IMPORT_PROGRESS = new ImportUtils.Progress();
 			InputStream input = null;
 			FileItemFactory factory = new DiskFileItemFactory();
 			ServletFileUpload upload = new ServletFileUpload(factory);
 			Collection<FileItem> items = upload.parseRequest(request);
-			for (FileItem fitem : items)
+			for (FileItem fitem : items) {
 				input = fitem.getInputStream();
+			}
 			Vector<Vector<String>> v = new Vector<>();
 			BufferedReader bf = new BufferedReader(new InputStreamReader(input, "UTF8"));
 			StringBuffer sb = new StringBuffer();
@@ -1815,27 +1830,33 @@ public class UpdateServlet extends AbstractServlet {
 			while ((s = bf.readLine()) != null) {
 				if (StringUtils.notEmpty(s)) {
 					Vector<String> v_ = new Vector<>();
-					for (String s_ : s.split(";", -1))
+					for (String s_ : s.split(";", -1)) {
 						v_.add(s_.trim());
+					}
 					v.add(v_);
 					sb.append(s).append("\r\n");
 				}
 			}
 			String type = String.valueOf(params.get("type"));
 			String update = String.valueOf(params.get("update"));
-			String result = ImportUtils.processAll(IMPORT_PROGESS,  v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Round.alias), type.equalsIgnoreCase(Record.alias), cb, lang);
-			IMPORT_PROGESS.percent = 100;
+			String result = ImportUtils.processAll(IMPORT_PROGRESS,  v, update.equals("1"), type.equalsIgnoreCase(Result.alias), type.equalsIgnoreCase(Round.alias), type.equalsIgnoreCase(Record.alias), cb, lang);
+			IMPORT_PROGRESS.percent = 100;
 			if (update.equals("1")) {
-				String f = "import" + System.currentTimeMillis() + ".html";
-				String css = "<style>table{border-collapse: collapse;}th,td{white-space: nowrap;border: 1px solid gray;padding: 2px;}div{margin-top: 10px;font-style: italic;}</style>";
-				FileOutputStream fos = new FileOutputStream(ConfigUtils.getProperty("temp.folder") + f);
-				fos.write((css + result).getBytes());
-				fos.close();
-				result = f;
-				Import i = new Import();
-				i.setDate(new Timestamp(System.currentTimeMillis()));
-				i.setCsvContent(sb.toString());
-				DatabaseManager.saveEntity(i, null);
+				try {
+					String f = "import" + System.currentTimeMillis() + ".html";
+					String css = "<style>table{border-collapse: collapse;}th,td{white-space: nowrap;border: 1px solid gray;padding: 2px;}div{margin-top: 10px;font-style: italic;}</style>";
+					FileOutputStream fos = new FileOutputStream(ConfigUtils.getProperty("temp.folder") + f);
+					fos.write((css + result).getBytes());
+					fos.close();
+					result = f;
+					Import i = new Import();
+					i.setDate(new Timestamp(System.currentTimeMillis()));
+					i.setCsvContent(sb.toString());
+					DatabaseManager.saveEntity(i, null);	
+				}
+				catch (Exception e) {
+					log.log(Level.WARNING, e.getMessage(), e);
+				}
 			}
 			ServletHelper.writeText(response, result);
 		}
@@ -1896,14 +1917,18 @@ public class UpdateServlet extends AbstractServlet {
 			StringBuffer where = new StringBuffer(" where t.id<=" + idmax);
 			where.append(entity.matches(Athlete.alias + "|" + Team.alias + "|" + Sport.alias) ? (cb != null && !cb.isAdmin() ? " and " + (entity.equalsIgnoreCase(Sport.alias) ? "" : "sport.") + "id in (" + cb.getSports() + ")" : "") : "");
 			String label_ = (entity.equals(Athlete.alias) ? "lastName || ', ' || firstName || ' - ' || sport.label" : (entity.equals(Team.alias) ? "label || ' - ' || sport.label" : (entity.equals(Olympics.alias) ? "city.label || ' ' || year.label" : "label")));
-			if (entity.equalsIgnoreCase(City.alias))
+			if (entity.equalsIgnoreCase(City.alias)) {
 				label_ = "label || '<i> - ' || country.code || '</i>', labelFR";
-			else if (entity.equalsIgnoreCase(Complex.alias))
+			}
+			else if (entity.equalsIgnoreCase(Complex.alias)) {
 				label_ = "label || '<i> - ' || city.label || ', ' || city.country.code || '</i>'";
-			if (StringUtils.notEmpty(pattern))
+			}
+			if (StringUtils.notEmpty(pattern)) {
 				where.append(" and lower(" + label_ + ") like '%" + pattern.toLowerCase() + "%'");
-			if (entity.matches(Athlete.alias + "|" + Team.alias) && !sport.equals("0"))
+			}
+			if (entity.matches(Athlete.alias + "|" + Team.alias) && !sport.equals("0")) {
 				where.append(" and sport.id=" + sport);
+			}
 			Collection<Object[]> items = DatabaseManager.executeSelect("select id, " + label_ + " from " + DatabaseManager.getClassFromAlias(entity).getName() + " t " + where.toString() + " ORDER BY id desc LIMIT " + Integer.parseInt(count));
 			
 			List<ExternalLink> links = (List<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link WHERE entity = ? ORDER BY entity, id_item", Arrays.asList(entity), ExternalLink.class);
@@ -1930,8 +1955,9 @@ public class UpdateServlet extends AbstractServlet {
 						html.append("<td><a href='javascript:modifyExtLink(" + el.getId() + ");'><img alt='' src='/img/component/button/modify.png'/></a></td>");
 						html.append("<td><a href='javascript:removeExtLink(" + el.getId() + ");'><img alt='' src='/img/component/button/delete.png'/></a></td></tr>");
 					}
-					else if (isLink)
+					else if (isLink) {
 						break;
+					}
 				}
 				if (!isLink && !isExclude) {
 					html.append("<tr><td style='display:none;'>0</td>");
@@ -1985,8 +2011,9 @@ public class UpdateServlet extends AbstractServlet {
 		try {
 			String id = String.valueOf(params.get("id"));
 			ExternalLink el = (ExternalLink) DatabaseManager.loadEntity(ExternalLink.class, id);
-			if (el != null)
+			if (el != null) {
 				DatabaseManager.removeEntity(el);
+			}
 		}
 		catch (Exception e) {
 			log.log(Level.WARNING, e.getMessage(), e);
@@ -2011,25 +2038,30 @@ public class UpdateServlet extends AbstractServlet {
 				lSql.add("SELECT * FROM athlete WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' and url like '%hockey-reference%') ORDER BY id desc");
 				lSql.add("SELECT * FROM athlete WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Athlete.alias + "' and url like '%baseball-reference%') ORDER BY id desc");
 			}
-			if (entity.equalsIgnoreCase(Championship.alias))
+			if (entity.equalsIgnoreCase(Championship.alias)) {
 				lSql.add("SELECT * FROM championship WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Championship.alias + "' and url like '%wikipedia%') ORDER BY id desc");
-			if (entity.equalsIgnoreCase(City.alias))
+			}
+			if (entity.equalsIgnoreCase(City.alias)) {
 				lSql.add("SELECT * FROM city WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + City.alias + "' and url like '%wikipedia%') ORDER BY id desc");
-			if (entity.equalsIgnoreCase(Complex.alias))
+			}
+			if (entity.equalsIgnoreCase(Complex.alias)) {
 				lSql.add("SELECT * FROM complex WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Complex.alias + "' and url like '%wikipedia%') ORDER BY id desc");
+			}
 			if (entity.equalsIgnoreCase(Country.alias)) {
 				lSql.add("SELECT * FROM country WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Country.alias + "' and url like '%wikipedia%') ORDER BY id desc");
 			}
-			if (entity.equalsIgnoreCase(Event.alias))
+			if (entity.equalsIgnoreCase(Event.alias)) {
 				lSql.add("SELECT * FROM event WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Event.alias + "' and url like '%wikipedia%') ORDER BY id desc");
+			}
 			if (entity.equalsIgnoreCase(Olympics.alias)) {
 				lSql.add("SELECT * FROM olympics WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Olympics.alias + "' and url like '%wikipedia%') ORDER BY id desc");
 			}
 			if (entity.equalsIgnoreCase(Sport.alias)) {
 				lSql.add("SELECT * FROM sport WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Sport.alias + "' and url like '%wikipedia%') ORDER BY id desc");
 			}
-			if (entity.equalsIgnoreCase(State.alias))
+			if (entity.equalsIgnoreCase(State.alias)) {
 				lSql.add("SELECT * FROM state WHERE id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + State.alias + "' and url like '%wikipedia%') ORDER BY id desc");
+			}
 			if (entity.equalsIgnoreCase(Team.alias)) {
 				lSql.add("SELECT * FROM team WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Team.alias + "' and url like '%wikipedia%') ORDER BY id desc");
 				lSql.add("SELECT * FROM team WHERE" + (!sport.equals("0") ? " sport.id=" + sport + " and" : "") + " id <= " + idmax + " AND id NOT IN (SELECT id_item FROM _external_link WHERE entity = '" + Team.alias + "' and url like '%basketball-reference%') ORDER BY id desc");
@@ -2065,8 +2097,9 @@ public class UpdateServlet extends AbstractServlet {
 			
 			String[] tIds = range.split("\\-");
 			StringBuffer sql = new StringBuffer("SELECT * FROM _translation WHERE entity = ?");
-			if (tIds.length > 1 && pattern.length() == 0)
-				sql.append(" and id_item BETWEEN " + tIds[0] + " AND " + tIds[1]);		
+			if (tIds.length > 1 && pattern.length() == 0) {
+				sql.append(" and id_item BETWEEN " + tIds[0] + " AND " + tIds[1]);
+			}
 			sql.append(" ORDER BY id_item");
 
 			String sql_ = null;
@@ -2104,8 +2137,9 @@ public class UpdateServlet extends AbstractServlet {
 						html.append("<td>" + labelFR + "</td>");
 						html.append("<td><input type='checkbox'" + (tr.isChecked() ? " checked='checked'" : "") + "/></td></tr>");
 					}
-					else if (isTranslation)
+					else if (isTranslation) {
 						break;
+					}
 				}
 				if (!isTranslation && !isExclude) {
 					html.append("<tr><td style='display:none;'>0</td>");
@@ -2172,8 +2206,9 @@ public class UpdateServlet extends AbstractServlet {
 		StringBuffer sbMsg = new StringBuffer();
 		try {
 			String value = String.valueOf(params.get("value"));
-			if (StringUtils.notEmpty(value))
+			if (StringUtils.notEmpty(value)) {
 				DatabaseManager.removeEntity(DatabaseManager.loadEntity(ErrorReport.class, Integer.parseInt(value)));
+			}
 		}
 		catch (Exception e) {
 			log.log(Level.WARNING, e.getMessage(), e);
@@ -2228,18 +2263,21 @@ public class UpdateServlet extends AbstractServlet {
 		String label = null;
 		if (n < 10) {
 			Athlete a = (Athlete) DatabaseManager.loadEntity(Athlete.class, id);
-			if (a != null)
-				label = a.toString2();
+			if (a != null) {
+				label = a.toString2();	
+			}
 		}
 		else if (n == 50) {
 			Team t_ = (Team) DatabaseManager.loadEntity(Team.class, id);
-			if (t_ != null)
+			if (t_ != null) {
 				label = t_.getLabel() + (t_.getCountry() != null ? " (" + t_.getCountry().getCode() + ")" : "");
+			}
 		}
 		else {
 			Country c = (Country) DatabaseManager.loadEntity(Country.class, id);
-			if (c != null)
+			if (c != null) {
 				label = c.getLabel(lang);
+			}
 		}
 		return label;
 	}
@@ -2314,8 +2352,9 @@ public class UpdateServlet extends AbstractServlet {
 			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 24) {
 				url = "http://www.basketball-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.html";	
 			}
-			if (url != null)
+			if (url != null) {
 				sql.append("insert into _external_link (select nextval('_s_external_link'), '" + alias + "', " + id + ", '" + StringUtils.normalize(url) + "', FALSE, NULL);\r\n");
+			}
 		}
 		// BASEBALL-REFERENCE
 		if (hql.matches(".*baseball\\-reference.*")) {
@@ -2323,8 +2362,9 @@ public class UpdateServlet extends AbstractServlet {
 			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 26) {
 				url = "http://www.baseball-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.shtml";	
 			}
-			if (url != null)
+			if (url != null) {
 				sql.append("insert into _external_link (select nextval('_s_external_link'), '" + alias + "', " + id + ", '" + StringUtils.normalize(url) + "', FALSE, NULL);\r\n");
+			}
 		}
 		// PRO-FOOTBALL-REFERENCE
 		if (hql.matches(".*pro\\-football\\-reference.*")) {
@@ -2332,8 +2372,9 @@ public class UpdateServlet extends AbstractServlet {
 			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 23) {
 				url = "http://www.pro-football-reference.com/players/" + str2.substring(0, 1) + "/" + str2.substring(0, str2.length() > 4 ? 4 : str2.length()) + str1.substring(0, 2) + "00.htm";	
 			}
-			if (url != null)
+			if (url != null) {
 				sql.append("insert into _external_link (select nextval('_s_external_link'), '" + alias + "', " + id + ", '" + StringUtils.normalize(url) + "', FALSE, NULL);\r\n");
+			}
 		}
 		// HOCKEY-REFERENCE
 		if (hql.matches(".*hockey\\-reference.*")) {
@@ -2341,8 +2382,9 @@ public class UpdateServlet extends AbstractServlet {
 			if (o instanceof Athlete && ((Athlete)o).getSport().getId() == 25) {
 				url = "http://www.hockey-reference.com/players/" + str2.substring(0, 1).toLowerCase() + "/" + str2.substring(0, str2.length() > 5 ? 5 : str2.length()).toLowerCase() + str1.substring(0, 2).toLowerCase() + "01.html";	
 			}
-			if (url != null)
+			if (url != null) {
 				sql.append("insert into _external_link (select nextval('_s_external_link'), '" + alias + "', " + id + ", '" + StringUtils.normalize(url) + "', FALSE, NULL);\r\n");
+			}
 		}
 		return sql.toString();
 	}

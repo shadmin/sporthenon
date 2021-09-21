@@ -1,8 +1,10 @@
 package com.sporthenon.utils;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -309,6 +311,30 @@ public class UpdateUtils {
 			DatabaseManager.saveExternalLinks(alias, Integer.parseInt(id_), String.valueOf(params.get("exl")));
 		}
 		return o;
+	}
+	
+	public static void uploadPicture(String alias, String id, char size, String y1, String y2, byte[] content, String credFile) throws IOException {
+		final short idx = ImageUtils.getIndex(alias);
+		final String ext = ".png";
+		
+		// Set file name
+		String key = idx + "-" + id + "-" + size;
+		String fileName = key + (StringUtils.notEmpty(y1) ? "_" + y1 + "-" + y2 : "");
+		int index = -1;
+		Collection<String> lExisting = ImageUtils.getImages(idx, id, size);
+		for (String s : lExisting) {
+			if (s.indexOf(fileName) == 0) {
+				index = 0;
+				if (s.matches(".*\\_\\d+\\.png$")) {
+					index = Integer.parseInt(s.replaceAll(".*\\_|\\.png$", ""));
+				}
+				index++;
+				break;
+			}
+		}
+		fileName = fileName + (index > -1 ? "_" + index : "") + ext;
+		
+		ImageUtils.uploadImage(key, fileName, content, credFile);
 	}
 	
 	public static void mergeEntities(String alias, Integer id1, Integer id2) throws Exception {

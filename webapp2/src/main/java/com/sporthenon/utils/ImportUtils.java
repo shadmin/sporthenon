@@ -59,14 +59,11 @@ public class ImportUtils {
 		try {
 			Vector<String> vHeader = null;
 			if (isRS) {
-				vHeader = new Vector<>(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rk5", "rk6", "rk7", "rk8", "rk9", "dt1", "dt2", "pl1", "pl2", "exa", "cmt", "exl1", "exl2", "exl3"}));	
+				vHeader = new Vector<String>(Arrays.asList(new String[] {"n", "msg", "sp", "cp", "ev", "se", "se2", "yr", "rk1", "rs1", "rk2", "rs2", "rk3", "rs3", "rk4", "rs4", "rk5", "rs5", "rk6", "rs6", "rk7", "rs7", "rk8", "rs8", "rk9", "rs9", "rk10", "rs10", "rk11", "rs11", "rk12", "rs12", "rk13", "rs13", "rk14", "rs14", "rk15", "rs15", "rk16", "rs16", "rk17", "rs17", "rk18", "rs18", "rk19", "rs19", "rk20", "rs20", "dt1", "dt2", "pl1", "pl2", "exa", "cmt", "exl1", "exl2", "exl3"}));
 			}
-			else if (isDR) {
-				vHeader = new Vector<>(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "se2", "yr", "qf1w", "qf1r", "qf1s", "qf2w", "qf2r", "qf2s", "qf3w", "qf3r", "qf3s", "qf4w", "qf4r", "qf4s", "sf1w", "sf1r", "sf1s", "sf2w", "sf2r", "sf2s", "thdw", "thdr", "thds"}));
-			}
-			else if (isRC) {
-				vHeader = new Vector<>(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "tp1", "tp2", "label", "rk1", "rc1", "dt1", "rk2", "rc2", "dt2", "rk3", "rc3", "dt3", "rk4", "rc4", "dt4", "rk5", "rc5", "dt5", "idx", "exa", "cmt"}));
-			}
+//			else if (isRC) {
+//				vHeader = new Vector<>(Arrays.asList(new String[] {"msg", "sp", "cp", "ev", "se", "tp1", "tp2", "label", "rk1", "rc1", "dt1", "rk2", "rc2", "dt2", "rk3", "rc3", "dt3", "rk4", "rc4", "dt4", "rk5", "rc5", "dt5", "idx", "exa", "cmt"}));
+//			}
 			html.append("<tr>");
 			for (String s : vHeader) {
 				html.append("<th>").append(getColumnTitle(s, lang)).append("</th>");
@@ -76,19 +73,20 @@ public class ImportUtils {
 			int pg = 0;
 			progress.total = vFile.size();
 			for (Vector<String> v : vFile) {
-				v.insertElementAt("-", 0);
+				v.insertElementAt("", 0); // Msg
+				v.insertElementAt((i + 1) + ".", 0); // # line
 				if (isRS) {
 					processLineRS(i, vHeader, v, isUpdate, report, cb, lang);
 				}
-				else if (isRC) {
-					processLineRC(i, vHeader, v, isUpdate, report, cb, lang);
-				}
+//				else if (isRC) {
+//					processLineRC(i, vHeader, v, isUpdate, report, cb, lang);
+//				}
 				html.append("<tr><td>").append(StringUtils.join(v, "</td><td>")).append("</td></tr>");
 				if (i * 100 / vFile.size() > pg) {
 					pg = i * 100 / vFile.size();
 					progress.percent = pg;
 				}
-				progress.current = i;	
+				progress.current = i + 1;	
 				i++;
 			}
 		}
@@ -97,7 +95,7 @@ public class ImportUtils {
 		}
 		html.append("</table>");
 		if (isUpdate) {
-			html.append("<div>").append(report.toString()).append("</div>");
+			html.append("<div>").append(report.toString().replaceAll("\r\n", "<br/>")).append("</div>");
 		}
 		return html.toString();
 	}
@@ -921,6 +919,7 @@ public class ImportUtils {
 	
 	private static final String getColumnTitle(String s, String lang) {
 		HashMap<String, String> hTitle = new HashMap<String, String>();
+		hTitle.put("n", "#");
 		hTitle.put("msg", ResourceUtils.getText("message", lang));
 		hTitle.put("sp", ResourceUtils.getText("entity.SP.1", lang));
 		hTitle.put("cp", ResourceUtils.getText("entity.CP.1", lang));

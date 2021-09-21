@@ -153,6 +153,21 @@ public class ImageUtils {
 		}
 	}
 	
+	public static void copyImage(String key, String fileName1, String fileName2, String credFile) throws IOException {
+		GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream(credFile));
+		Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+		BlobId blobId = BlobId.of(getBucket(), getFolder() + fileName1);
+		Blob blob = storage.get(blobId);
+		blob.copyTo(getBucket(), getFolder() + fileName2);
+		addImageToMap(key, fileName2);
+		// Add to website
+		String url = ConfigUtils.getProperty("url") + "ImageServlet?add=1&key=" + key + "&file=" + fileName2;
+		HttpURLConnection conn_ = (HttpURLConnection) new URL(url).openConnection();
+		if (conn_.getResponseCode() == 200) {
+			log.log(Level.INFO, "Image " + fileName2 + " added successfully to website");
+		}
+	}
+	
 	public static Collection<String> getImages(String key) {
 		if (mapFiles == null) {
 			initFileMap();

@@ -2386,7 +2386,7 @@ function setEntityValues(text) {
 		$('exl').value = t[i++];
 		$('table-exl').show();
 	}
-	else if (currentAlias == 'OR') {
+	else if (currentAlias == 'OR_') {
 		$('or-id').value = currentId;
 		$('or-olympics').value = t[i++];
 		$('or-olympics-l').value = t[i++];
@@ -2741,21 +2741,23 @@ function uploadPicture() {
 			id_ = sp + "-" + id_;
 		}
 		dzp.options.url = '/ImageServlet?upload=1&entity=' + alias_ + '&id=' + id_ + '&size=' + ($('size1').checked ? 'L' : 'S') + '&y1=' + $F('year1') + '&y2=' + $F('year2');
-		dzp.processFile(fp);	
+		dzp.processFile(fp);
 	}
 }
 function downloadPicture() {
 	if ($F('list-remote') != null) {
-		location.href = '/ImageServlet?download=1&name=' + $F('list-remote');	
+		window.open(IMG_URL + $F('list-remote'), '_blank');
 	}
 }
 function deletePicture() {
 	if ($F('list-remote') != null) {
-		new Ajax.Request('/ImageServlet?remove=1&name=' + $F('list-remote'), {
-			onSuccess: function(response){
-				loadPictures('direct');
-			}
-		});
+		if (confirm('Confirm ?')) {
+			new Ajax.Request('/ImageServlet?remove-pic=1&name=' + $F('list-remote'), {
+				onSuccess: function(response){
+					loadPictures('direct');
+				}
+			});
+		}
 	}
 }
 function loadPicture() {

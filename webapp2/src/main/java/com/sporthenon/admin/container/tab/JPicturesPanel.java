@@ -18,7 +18,6 @@ import java.io.FileOutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -64,6 +63,7 @@ import com.sporthenon.db.entity.Team;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
 import com.sporthenon.utils.SwingUtils;
+import com.sporthenon.utils.UpdateUtils;
 
 public class JPicturesPanel extends JSplitPane implements ActionListener, ListSelectionListener, ItemListener {
 
@@ -397,33 +397,14 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 	}
 
 	private void uploadImage(String alias_, String id_) throws Exception {
-		short idx = ImageUtils.getIndex(alias_);
 		char size = (largeRadioBtn.isSelected() ? ImageUtils.SIZE_LARGE : ImageUtils.SIZE_SMALL);
 		String y1 = jYear1.getText();
 		String y2 = jYear2.getText();
-		String ext = ".png";
-		
-		// Set file name
-		String key = idx + "-" + id_ + "-" + size;
-		String fileName = key + (StringUtils.notEmpty(y1) ? "_" + y1 + "-" + y2 : "");
-		int index = -1;
-		Collection<String> lExisting = ImageUtils.getImages(idx, id_, size);
-		for (String s : lExisting) {
-			if (s.indexOf(fileName) == 0) {
-				index = 0;
-				if (s.matches(".*\\_\\d+\\.png$")) {
-					index = Integer.parseInt(s.replaceAll(".*\\_|\\.png$", ""));
-				}
-				index++;
-				break;
-			}
-		}
-		fileName = fileName + (index > -1 ? "_" + index : "") + ext;
 		
 		// Upload to bucket
 		try(FileInputStream inputStream = new FileInputStream(new File(jLocalFile.getText()))) {
 			byte[] content = IOUtils.toByteArray(inputStream);
-			ImageUtils.uploadImage(key, fileName, content, JMainFrame.getOptionsDialog().getCredentialsFile().getText());
+			UpdateUtils.uploadPicture(alias_, id_, size, y1, y2, content, JMainFrame.getOptionsDialog().getCredentialsFile().getText());	
 		}
 
 		// Refresh UI

@@ -1,5 +1,9 @@
 package com.sporthenon.web.servlet;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -26,6 +30,7 @@ import com.sporthenon.utils.ConfigUtils;
 import com.sporthenon.utils.HtmlUtils;
 import com.sporthenon.utils.ImageUtils;
 import com.sporthenon.utils.StringUtils;
+import com.sporthenon.utils.UpdateUtils;
 import com.sporthenon.utils.res.ResourceUtils;
 import com.sporthenon.web.ServletHelper;
 
@@ -135,6 +140,68 @@ public class ImageServlet extends AbstractServlet {
 				String size = String.valueOf(mapParams.get("size"));
 				String s = HtmlUtils.writeImage(ImageUtils.getIndex(entity), StringUtils.toInt(id), size.charAt(0), null, null);
 				ServletHelper.writeText(response, s.replaceAll(".*src\\=\\'", "").replaceAll("\\'\\/\\>", ""));
+			}
+			else if (mapParams.containsKey("list")) {
+				String id = String.valueOf(mapParams.get("id"));
+				String size = String.valueOf(mapParams.get("size"));
+				StringBuffer sb = new StringBuffer();
+				for (String s : ImageUtils.getImages(ImageUtils.getIndex(entity), id, size.charAt(0))) {
+					sb.append(s).append(",");
+				}
+				ServletHelper.writeText(response, sb.toString());
+			}
+			else if (mapParams.containsKey("download")) {
+				String fname = String.valueOf(mapParams.get("name"));
+				File f = new File(ConfigUtils.getProperty("img.folder") + fname);
+				response.setHeader("Content-Disposition", "attachment;filename=" + fname);
+				response.setContentType("text/html");
+				BufferedInputStream in = new BufferedInputStream(new FileInputStream(f));
+				BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+				int i;
+				while ((i = in.read()) != -1) {
+					out.write(i);
+				}
+				out.flush();
+				out.close();
+				in.close();
+			}
+			else if (mapParams.containsKey("upload")) {
+				String id = String.valueOf(mapParams.get("id"));
+				char size = String.valueOf(mapParams.get("size")).charAt(0);
+				String y1 = String.valueOf(mapParams.get("y1"));
+				String y2 = String.valueOf(mapParams.get("y2"));
+				
+				byte[] b = null;
+				FileItemFactory factory = new DiskFileItemFactory();
+				ServletFileUpload upload = new ServletFileUpload(factory);
+				Collection<FileItem> items = upload.parseRequest(request);
+				for (FileItem fitem : items) {
+					if (!fitem.isFormField() && fitem.getFieldName().equalsIgnoreCase("f")) {
+						b = fitem.get();
+					}
+				}
+				
+				UpdateUtils.uploadPicture(entity, id, size, y1, y2, b, ConfigUtils.getCredFile());
+			}
+			else if (mapParams.containsKey("remove-pic")) {
+				if (StringUtils.notEmpty(mapParams.get("name"))) {
+					String fname = String.valueOf(mapParams.get("name"));
+					ImageUtils.removeImage(fname, ConfigUtils.getCredFile());
+				}
+				//DatabaseManager.executeUpdate("DELETE FROM _picture WHERE id = ?", Arrays.asList(mapParams.get("id")));
+			}
+			else if (mapParams.containsKey("copy")) {
+				String id1 = String.valueOf(mapParams.get("id1"));
+				String id2 = String.valueOf(mapParams.get("id2"));
+				String key = ImageUtils.getIndex(entity) + "-" + id2;
+				Collection<String> imgList = ImageUtils.getImages(ImageUtils.getIndex(entity), id1, ImageUtils.SIZE_LARGE);
+				for (String img : imgList) {
+					ImageUtils.copyImage(key + "-" + ImageUtils.SIZE_LARGE, img, img.replaceFirst("\\-" + id1 + "\\-", "-" + id2 + "-"), ConfigUtils.getCredFile());
+				}
+				imgList = ImageUtils.getImages(ImageUtils.getIndex(entity), id1, ImageUtils.SIZE_SMALL);
+				for (String img : imgList) {
+					ImageUtils.copyImage(key + "-" + ImageUtils.SIZE_SMALL, img, img.replaceFirst("\\-" + id1 + "\\-", "-" + id2 + "-"), ConfigUtils.getCredFile());
+				}
 			}
 			else if (mapParams.containsKey("nopic")) {
 				String id = String.valueOf(mapParams.get("id"));
