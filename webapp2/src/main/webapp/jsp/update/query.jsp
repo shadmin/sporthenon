@@ -15,7 +15,7 @@
 				<a href="javascript:executeQuery(4);">Untranslated items</a><br/>
 				<a href="javascript:executeQuery(5);">Incomplete event results</a><br/>
 				<a href="javascript:executeQuery(6);">Athletes/teams without country</a><br/>
-				<a href="javascript:executeQuery(7);">Entities without external link</a>
+				<a href="javascript:executeQuery(7);">Entities without external link</a><br/>
 				<a href="javascript:executeQuery(8);">Duplicate cities</a><br/>
 				</fieldset>
 			</li>

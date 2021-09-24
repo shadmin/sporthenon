@@ -14,7 +14,7 @@
 			</table>
 			<table id="options"><tr>
 				<td>IDs :</td>
-				<td><input id="trrange" type="text" value="1-50" style="width:90px;"/></td>
+				<td><input id="trrange" type="text" value="1-500" style="width:90px;"/></td>
 				<td><%=StringUtils.text("find", session)%> :</td>
 				<td><input id="trpattern" type="text" style="width:100px;"/></td>
 				<td><%=StringUtils.text("show", session)%> :</td>

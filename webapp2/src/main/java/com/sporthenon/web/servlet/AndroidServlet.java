@@ -2,6 +2,7 @@ package com.sporthenon.web.servlet;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,10 +25,12 @@ import org.jsoup.select.Elements;
 
 import com.sporthenon.db.DatabaseManager;
 import com.sporthenon.db.PicklistItem;
+import com.sporthenon.db.entity.Athlete;
 import com.sporthenon.db.entity.Calendar;
 import com.sporthenon.db.entity.Championship;
 import com.sporthenon.db.entity.City;
 import com.sporthenon.db.entity.Complex;
+import com.sporthenon.db.entity.Country;
 import com.sporthenon.db.entity.Event;
 import com.sporthenon.db.entity.OlympicRanking;
 import com.sporthenon.db.entity.Olympics;
@@ -39,6 +42,7 @@ import com.sporthenon.db.entity.meta.InactiveItem;
 import com.sporthenon.db.entity.meta.RefItem;
 import com.sporthenon.db.entity.meta.TreeItem;
 import com.sporthenon.db.function.HallOfFameBean;
+import com.sporthenon.db.function.LastUpdateBean;
 import com.sporthenon.db.function.OlympicMedalsBean;
 import com.sporthenon.db.function.OlympicRankingsBean;
 import com.sporthenon.db.function.ResultsBean;
@@ -115,8 +119,9 @@ public class AndroidServlet extends AbstractServlet {
         //Inactive Events
 		List<String> lInactive = new ArrayList<String>();
 		if (code.matches("(?i:" + Event.alias + "|SE|SE2)")) {
-			for (InactiveItem item : (List<InactiveItem>) DatabaseManager.executeSelect("SELECT * FROM _inactive_item where id_sport = ?", Arrays.asList(StringUtils.toInt(t[1])), InactiveItem.class))
+			for (InactiveItem item : (List<InactiveItem>) DatabaseManager.executeSelect("SELECT * FROM _inactive_item where id_sport = ?", Arrays.asList(StringUtils.toInt(t[1])), InactiveItem.class)) {
 				lInactive.add(item.getIdChampionship() + "-" + item.getIdEvent() + (item.getIdSubevent() != null ? "-" + item.getIdSubevent() : "") + (item.getIdSubevent2() != null ? "-" + item.getIdSubevent2() : ""));
+			}
 		}
 		
 		if (code.equalsIgnoreCase(Sport.alias)) {
@@ -645,7 +650,127 @@ public class AndroidServlet extends AbstractServlet {
 	}
 	
 	private void processLastUpdates(Document doc, Element root, String[] t, String lang) throws Exception {
-		
+		final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_lastupdates_limit"));
+    	List<Object> params = new ArrayList<Object>();
+    	params.add(0); // sport
+    	params.add(ITEM_LIMIT); // count
+    	params.add(0); // offset
+    	params.add(ResourceUtils.getLocaleParam(lang));
+		for (LastUpdateBean bean : (Collection<LastUpdateBean>) DatabaseManager.callFunction("_last_updates", params, LastUpdateBean.class)) {
+			String pos1 = null;
+			String pos2 = null;
+			String pos3 = null;
+			String pos4 = null;
+			Integer number = (bean.getTp3Number() != null ? bean.getTp3Number() : (bean.getTp2Number() != null ? bean.getTp2Number() : bean.getTp1Number()));
+			if (number == null) {
+				continue;
+			}
+			if (number < 10) {
+				if (bean.getPr1LastName() != null) {
+					pos1 = (StringUtils.isRevertName(bean.getPr1CountryCode(), bean.getPr1FirstName() + " " + bean.getPr1LastName()) ? (StringUtils.notEmpty(bean.getPr1LastName()) ? bean.getPr1LastName().substring(0, 1) + "." : "") + bean.getPr1FirstName() : (StringUtils.notEmpty(bean.getPr1FirstName()) ? bean.getPr1FirstName().substring(0, 1) + "." : "") + bean.getPr1LastName());
+					pos1 = HtmlUtils.writeLink(Athlete.alias, bean.getPr1Id(), pos1, StringUtils.toFullName(bean.getPr1LastName(), bean.getPr1FirstName(), null, false));
+					if (bean.getPr1Team() != null) {
+						pos1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getPr1Team(), ImageUtils.SIZE_SMALL, null, null), pos1);
+					}
+					if (bean.getPr1Country() != null) {
+						pos1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getPr1Country(), ImageUtils.SIZE_SMALL, null, null), pos1);
+					}
+				}
+				if (bean.getPr2LastName() != null) {
+					pos2 = (StringUtils.isRevertName(bean.getPr2CountryCode(), bean.getPr2FirstName() + " " + bean.getPr2LastName()) ? (StringUtils.notEmpty(bean.getPr2LastName()) ? bean.getPr2LastName().substring(0, 1) + "." : "") + bean.getPr2FirstName() : (StringUtils.notEmpty(bean.getPr2FirstName()) ? bean.getPr2FirstName().substring(0, 1) + "." : "") + bean.getPr2LastName());
+					pos2 = HtmlUtils.writeLink(Athlete.alias, bean.getPr2Id(), pos2, StringUtils.toFullName(bean.getPr2LastName(), bean.getPr2FirstName(), null, false));
+					if (bean.getPr2Team() != null) {
+						pos2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getPr2Team(), ImageUtils.SIZE_SMALL, null, null), pos2);
+					}
+					if (bean.getPr2Country() != null) {
+						pos2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getPr2Country(), ImageUtils.SIZE_SMALL, null, null), pos2);
+					}
+				}
+				if (bean.getPr3LastName() != null) {
+					pos3 = (StringUtils.isRevertName(bean.getPr3CountryCode(), bean.getPr3FirstName() + " " + bean.getPr3LastName()) ? (StringUtils.notEmpty(bean.getPr3LastName()) ? bean.getPr3LastName().substring(0, 1) + "." : "") + bean.getPr3FirstName() : (StringUtils.notEmpty(bean.getPr3FirstName()) ? bean.getPr3FirstName().substring(0, 1) + "." : "") + bean.getPr3LastName());
+					pos3 = HtmlUtils.writeLink(Athlete.alias, bean.getPr3Id(), pos3, StringUtils.toFullName(bean.getPr3LastName(), bean.getPr3FirstName(), bean.getPr3CountryCode(), false));
+					if (bean.getPr3Team() != null) {
+						pos3 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getPr3Team(), ImageUtils.SIZE_SMALL, null, null), pos3);
+					}
+					if (bean.getPr3Country() != null) {
+						pos3 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getPr3Country(), ImageUtils.SIZE_SMALL, null, null), pos3);
+					}
+				}
+				if (bean.getPr4LastName() != null) {
+					pos4 = (StringUtils.isRevertName(bean.getPr4CountryCode(), bean.getPr4FirstName() + " " + bean.getPr4LastName()) ? (StringUtils.notEmpty(bean.getPr4LastName()) ? bean.getPr4LastName().substring(0, 1) + "." : "") + bean.getPr4FirstName() : (StringUtils.notEmpty(bean.getPr4FirstName()) ? bean.getPr4FirstName().substring(0, 1) + "." : "") + bean.getPr4LastName());
+					pos4 = HtmlUtils.writeLink(Athlete.alias, bean.getPr4Id(), pos4, StringUtils.toFullName(bean.getPr4LastName(), bean.getPr4FirstName(), bean.getPr4CountryCode(), false));
+					if (bean.getPr4Team() != null) {
+						pos4 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getPr4Team(), ImageUtils.SIZE_SMALL, null, null), pos4);
+					}
+					if (bean.getPr4Country() != null) {
+						pos4 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getPr4Country(), ImageUtils.SIZE_SMALL, null, null), pos4);
+					}
+				}
+			}
+			else if (number == 50 && bean.getTm1Id() != null) {
+				pos1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTm1Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, bean.getTm1Id(), bean.getTm1Label(), null));
+				if (bean.getTm2Id() != null) {
+					pos2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTm2Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, bean.getTm2Id(), bean.getTm2Label(), null));
+				}
+				if (bean.getTm3Id() != null) {
+					pos3 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTm3Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, bean.getTm3Id(), bean.getTm3Label(), null));
+				}
+				if (bean.getTm4Id() != null) {
+					pos4 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_TEAM, bean.getTm4Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Team.alias, bean.getTm4Id(), bean.getTm4Label(), null));
+				}
+			}
+			else if (number == 99 && bean.getCn1Id() != null) {
+				pos1 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, bean.getCn1Id(), bean.getCn1Label(), bean.getCn1LabelEN()));
+				if (bean.getCn2Id() != null) {
+					pos2 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn2Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, bean.getCn2Id(), bean.getCn2Label(), bean.getCn2LabelEN()));
+				}
+				if (bean.getCn3Id() != null) {
+					pos3 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn3Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, bean.getCn3Id(), bean.getCn3Label(), bean.getCn3LabelEN()));
+				}
+				if (bean.getCn4Id() != null) {
+					pos4 = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_COUNTRY, bean.getCn4Id(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Country.alias, bean.getCn4Id(), bean.getCn4Label(), bean.getCn4LabelEN()));
+				}
+			}
+			String year = HtmlUtils.writeLink(Year.alias, bean.getYrId(), bean.getYrLabel(), null);
+			String sport = HtmlUtils.writeImgTable(HtmlUtils.writeImage(ImageUtils.INDEX_SPORT, bean.getSpId(), ImageUtils.SIZE_SMALL, null, null), HtmlUtils.writeLink(Sport.alias, bean.getSpId(), bean.getSpLabel(), bean.getSpLabelEN()));
+			String date = HtmlUtils.writeDateLink(null, bean.getRsDate(), StringUtils.toTextDate(bean.getRsDate(), lang, "d MMM yyyy"));
+			String date_ = new SimpleDateFormat("yyyyMMddHHmm").format(bean.getRsDate());
+			String path = bean.getYrLabel() + "/" + bean.getSpLabelEN() + "/" + bean.getCpLabelEN() + "/" + bean.getEvLabelEN() + (bean.getSeId() != null ? "/" + bean.getSeLabelEN() : "") + (bean.getSe2Id() != null ? "/" + bean.getSe2LabelEN() : "");
+			String tie = bean.getRsText3();
+			boolean isScore = (pos1 != null && pos2 != null && StringUtils.notEmpty(bean.getRsText1()) && !StringUtils.notEmpty(bean.getRsText2()));
+			boolean isDouble = (pos1 != null && pos2 != null && (number == 4 || (bean.getRsText4() != null && bean.getRsText4().equals("#DOUBLE#")) || (tie != null && tie.equals("1-2"))));
+			boolean isTriple = (pos1 != null && pos2 != null && pos3 != null && (number == 5 || (bean.getRsText4() != null && bean.getRsText4().equals("#TRIPLE#")) || (tie != null && tie.matches("^1\\-(3|4|5|6|7|8|9).*"))));
+			String link = "/results/" + StringUtils.urlEscape(bean.getSpLabelEN() + "/" + bean.getCpLabelEN() + "/" + bean.getEvLabelEN() + (bean.getSeId() != null ? "/" + bean.getSeLabelEN() : "") + (bean.getSe2Id() != null ? "/" + bean.getSe2LabelEN() : "")) + "/" + StringUtils.encode(bean.getSpId() + "-" + bean.getCpId() + "-" + bean.getEvId() + "-" + (bean.getSeId() != null ? bean.getSeId() : 0) + "-" + (bean.getSe2Id() != null ? bean.getSe2Id() : 0) + "-0");
+			String event = "<a href='" + link + "'>" + bean.getCpLabel() + " " + StringUtils.SEP1 + " " + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? " " + StringUtils.SEP1 + " " + bean.getSeLabel() : "") + (StringUtils.notEmpty(bean.getSe2Label()) ? " " + StringUtils.SEP1 + " " + bean.getSe2Label() : "") + "</a>";
+			if (StringUtils.notEmpty(bean.getRsText5())) {
+				event += " [" + StringUtils.getRoundTypeLabel(bean.getRsText5()) + "]";
+			}
+			String eventImg = null;
+			if (!StringUtils.notEmpty(eventImg) && bean.getSe2Id() != null && !bean.getSe2LabelEN().matches("Men|Women")) {
+				eventImg = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT_EVENT, bean.getSpId() + "-" + bean.getSe2Id(), ImageUtils.SIZE_SMALL, null, bean.getSe2Label());
+			}
+			if (!StringUtils.notEmpty(eventImg) && bean.getSeId() != null && !bean.getSeLabelEN().matches("Men|Women")) {
+				eventImg = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT_EVENT, bean.getSpId() + "-" + bean.getSeId(), ImageUtils.SIZE_SMALL, null, bean.getSeLabel());
+			}
+			if (!StringUtils.notEmpty(eventImg) && bean.getEvId() != null && !bean.getEvLabelEN().matches("Men|Women")) {
+				eventImg = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT_EVENT, bean.getSpId() + "-" + bean.getEvId(), ImageUtils.SIZE_SMALL, null, bean.getEvLabel());
+			}
+			if (!StringUtils.notEmpty(eventImg) && bean.getCpId() != null) {
+				eventImg = HtmlUtils.writeImage(ImageUtils.INDEX_SPORT_CHAMPIONSHIP, bean.getSpId() + "-" + bean.getCpId(), ImageUtils.SIZE_SMALL, null, bean.getCpLabel());
+			}
+			if (StringUtils.notEmpty(eventImg)) {
+				event = HtmlUtils.writeImgTable(eventImg, event);
+			}
+//			Element item = root.addElement("item");
+//			item.addAttribute("year", bean.getYrLabel());
+//			item.addAttribute("rank1", bean.getRsTeam1());
+//			item.addAttribute("img1", getImage(ImageUtils.INDEX_TEAM, bean.getRsRank1(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null));	
+//			item.addAttribute("rank2", bean.getRsTeam2());
+//			item.addAttribute("img2", getImage(ImageUtils.INDEX_TEAM, bean.getRsRank2(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null));
+//			item.addAttribute("result", bean.getRsResult());
+//			item.addAttribute("date1", StringUtils.toTextDate(bean.getRsDate1(), lang, null));
+//			item.addAttribute("date2", StringUtils.toTextDate(bean.getRsDate2(), lang, null));
+		}
 	}
 	
 	public static String getImage(short type, Object id, char size, String year, String title) {

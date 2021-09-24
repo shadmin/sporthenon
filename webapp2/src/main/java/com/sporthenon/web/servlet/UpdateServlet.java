@@ -376,8 +376,9 @@ public class UpdateServlet extends AbstractServlet {
 			else if (o instanceof Athlete) {
 				Athlete a = (Athlete) o;
 				text = a.toString2();
-				if (a.getLink() != null && a.getLink() == 0)
+				if (a.getLink() != null && a.getLink() == 0) {
 					text = "<b>" + text + "</b>";
+				}
 			}
 			else if (o instanceof Team) {
 				Team t_ = (Team) o;
@@ -426,8 +427,9 @@ public class UpdateServlet extends AbstractServlet {
 		try {
 			int tp = 0;
 			HashMap<String, Type> hType = new HashMap<String, Type>();
-			for (Type type : (List<Type>) DatabaseManager.executeSelect("SELECT * FROM type", Type.class))
+			for (Type type : (List<Type>) DatabaseManager.executeSelect("SELECT * FROM type", Type.class)) {
 				hType.put(type.getLabel(lang), type);
+			}
 			Integer idRS = (StringUtils.notEmpty(params.get("id")) ? StringUtils.toInt(params.get("id")) : null);
 			Result result = (idRS != null ? (Result)DatabaseManager.loadEntity(Result.class, idRS) : new Result());
 			// Sport
@@ -514,8 +516,9 @@ public class UpdateServlet extends AbstractServlet {
 				}
 				tp = result.getSubevent2().getType().getNumber();
 			}
-			else
+			else {
 				result.setSubevent2(null);
+			}
 			// Year
 			result.setYear((Year)DatabaseManager.loadEntity(Year.class, params.get("yr")));
 			if (result.getYear() == null) {
@@ -530,15 +533,19 @@ public class UpdateServlet extends AbstractServlet {
 					String[] t = String.valueOf(params.get("pl" + i + "-l")).toLowerCase().split("\\,\\s");
 					boolean isComplex = false;
 					boolean isCity = false;
-					if (t.length > 2)
+					if (t.length > 2) {
 						isComplex = true;
-					else if (t.length > 1)
+					}
+					else if (t.length > 1) {
 						isCity = true;
+					}
 					int id = 0;
-					if (StringUtils.notEmpty(params.get("pl" + i)))
+					if (StringUtils.notEmpty(params.get("pl" + i))) {
 						id = StringUtils.toInt(params.get("pl" + i));
-					else
+					}
+					else {
 						id = ImportUtils.insertPlace(0, String.valueOf(params.get("pl" + i + "-l")), cb, null, lang);
+					}
 					if (isComplex) {
 						if (i == 1) {
 							result.setComplex1((Complex)DatabaseManager.loadEntity(Complex.class, id));
@@ -599,8 +606,9 @@ public class UpdateServlet extends AbstractServlet {
 				}
 				result.setDate1(dt);
 			}
-			else
+			else {
 				result.setDate1(null);
+			}
 			if (StringUtils.notEmpty(params.get("dt2-l"))) {
 				String dt = String.valueOf(params.get("dt2-l"));
 				try {
@@ -611,8 +619,9 @@ public class UpdateServlet extends AbstractServlet {
 				}
 				result.setDate2(dt);
 			}
-			else
+			else {
 				result.setDate2(null);
+			}
 			result.setComment(StringUtils.notEmpty(params.get("cmt-l")) ? String.valueOf(params.get("cmt-l")) : null);
 			result.setExa(StringUtils.notEmpty(params.get("exa-l")) ? String.valueOf(params.get("exa-l")) : null);
 			result.setInProgress(String.valueOf(params.get("inprogress")).equals("1"));
@@ -625,8 +634,9 @@ public class UpdateServlet extends AbstractServlet {
 			Object o = DatabaseManager.loadEntity(hql, Arrays.asList(result.getSport().getId(), result.getChampionship().getId(), result.getEvent().getId()), InactiveItem.class);
 			String inact = (o != null ? "1" : "0");
 			if (!inact.equals(String.valueOf(params.get("inact")))) {
-				if (o != null)
+				if (o != null) {
 					DatabaseManager.removeEntity(o);
+				}
 				else {
 					InactiveItem item = new InactiveItem();
 					item.setIdSport(result.getSport().getId());
@@ -642,14 +652,16 @@ public class UpdateServlet extends AbstractServlet {
 				Integer id = (StringUtils.notEmpty(params.get("rk" + i)) ? StringUtils.toInt(params.get("rk" + i)) : 0);
 				o = params.get("rk" + i + "-l");
 				if (id == 0 && StringUtils.notEmpty(o)) {
-					if (hInserted.keySet().contains(o))
+					if (hInserted.keySet().contains(o)) {
 						id = hInserted.get(o);
+					}
 					else {
 						StringBuffer sb = new StringBuffer();
 						id = ImportUtils.insertEntity(0, tp, result.getSport() != null ? result.getSport().getId() : 0, String.valueOf(o), result.getYear().getLabel(), cb, sb, lang);
 						hInserted.put(o, id);
-						if (sb != null && sb.toString().contains("New Team"))
+						if (sb != null && sb.toString().contains("New Team")) {
 							sbMsgW.append("<span style='color:orange;'>(" + ResourceUtils.getText("warning.team.created", lang).replaceAll("\\{1\\}", "\"" + sb.toString().replaceAll("\\,.*", "").split("\\|")[1].trim() + "\"") + ")</span>");
+						}
 					}
 				}
 				Result.class.getMethod("setIdRank" + i, Integer.class).invoke(result, id > 0 ? id : null);
@@ -673,10 +685,12 @@ public class UpdateServlet extends AbstractServlet {
 								PersonList plist = (StringUtils.notEmpty(id) && !id.equals("0") ? (PersonList) DatabaseManager.loadEntity(PersonList.class, id) : new PersonList());
 								plist.setIdResult(result.getId());
 								plist.setRank(i);
-								if (idp.matches("\\d+"))
+								if (idp.matches("\\d+")) {
 									plist.setIdPerson(Integer.parseInt(idp));
-								else
+								}
+								else {
 									plist.setIdPerson(ImportUtils.insertEntity(0, 1, result.getSport() != null ? result.getSport().getId() : 0, idp, result.getYear().getLabel(), cb, null, lang));
+								}
 								plist.setIndex(StringUtils.notEmpty(index) && !index.equals("null") ? index : null);
 								DatabaseManager.saveEntity(plist, cb);
 							}
@@ -687,9 +701,11 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			if (params.containsKey("pldel") && idRS != null) {
 				String[] t = String.valueOf(params.get("pldel")).split("\\|", 0);
-				for (String value : t)
-					if (StringUtils.notEmpty(value))
+				for (String value : t) {
+					if (StringUtils.notEmpty(value)) {
 						DatabaseManager.removeEntity(DatabaseManager.loadEntity(PersonList.class, value));
+					}
+				}
 			}
 			// Rounds
 			if (params.containsKey("rdlist")) {
@@ -699,8 +715,9 @@ public class UpdateServlet extends AbstractServlet {
 					if (t_.length > 1) {
 						String idr = (idRS != null ? t_[0] : null);
 						RoundType rdRt = null;
-						if (StringUtils.notEmpty(t_[1]))
+						if (StringUtils.notEmpty(t_[1])) {
 							rdRt = (RoundType) DatabaseManager.loadEntity(RoundType.class, t_[1]);
+						}
 						else {
 							RoundType rdt = new RoundType();
 							rdt.setLabel(t_[2]);
@@ -726,28 +743,36 @@ public class UpdateServlet extends AbstractServlet {
 							String[] tpl = t_[21].toLowerCase().split("\\,\\s");
 							if (tpl.length > 1) {
 								int id = 0;
-								if (StringUtils.notEmpty(t_[20]))
+								if (StringUtils.notEmpty(t_[20])) {
 									id = StringUtils.toInt(t_[20]);
-								else
+								}
+								else {
 									id = ImportUtils.insertPlace(0, String.valueOf(t_[21]), cb, null, lang);
-								if (tpl.length > 2)
+								}
+								if (tpl.length > 2) {
 									rdCx1 = (Complex) DatabaseManager.loadEntity(Complex.class, id);
-								else
+								}
+								else {
 									rdCt1 = (City) DatabaseManager.loadEntity(City.class, id);
+								}
 							}
 						}
 						if (StringUtils.notEmpty(t_[22]) || StringUtils.notEmpty(t_[23])) {
 							String[] tpl = t_[23].toLowerCase().split("\\,\\s");
 							if (tpl.length > 1) {
 								int id = 0;
-								if (StringUtils.notEmpty(t_[22]))
+								if (StringUtils.notEmpty(t_[22])) {
 									id = StringUtils.toInt(t_[22]);
-								else
+								}
+								else {
 									id = ImportUtils.insertPlace(0, String.valueOf(t_[23]), cb, null, lang);
-								if (tpl.length > 2)
+								}
+								if (tpl.length > 2) {
 									rdCx2 = (Complex) DatabaseManager.loadEntity(Complex.class, id);
-								else
+								}
+								else {
 									rdCt2 = (City) DatabaseManager.loadEntity(City.class, id);
+								}
 							}
 						}
 						String rdExa = (StringUtils.notEmpty(t_[24]) ? t_[24] : null);
@@ -780,13 +805,16 @@ public class UpdateServlet extends AbstractServlet {
 			}
 			if (params.containsKey("rddel") && idRS != null) {
 				String[] t = String.valueOf(params.get("rddel")).split("\\|", 0);
-				for (String value : t)
-					if (StringUtils.notEmpty(value))
+				for (String value : t) {
+					if (StringUtils.notEmpty(value)) {
 						DatabaseManager.removeEntity(DatabaseManager.loadEntity(Round.class, value));
+					}
+				}
 			}
 			sbMsg.append(result.getId() + "#" + ResourceUtils.getText("result." + (idRS != null ? "modified" : "created"), lang));
-			if (sbMsgW.length() > 0)
+			if (sbMsgW.length() > 0) {
 				sbMsg.append(" ").append(sbMsgW);
+			}
 		}
 		catch (Exception e) {
 			log.log(Level.WARNING, e.getMessage(), e);
@@ -822,8 +850,9 @@ public class UpdateServlet extends AbstractServlet {
 			hSql.put("country", "SELECT label" + lang_ + ", code FROM country ORDER BY 1");
 			hSql.put("state", "SELECT label" + lang_ + ", code FROM state ORDER BY 1");
 			List<Object[]> list = (List<Object[]>) DatabaseManager.executeSelect(hSql.get(params.get("p")));
-			for (Object[] t : list)
+			for (Object[] t : list) {
 				html.append("<tr><td>" + t[0] + "</td><td>" + t[1] + "</td></tr>");
+			}
 			ServletHelper.writeText(response, html.append("</table>").toString());
 		}
 		catch (Exception e) {
@@ -852,8 +881,9 @@ public class UpdateServlet extends AbstractServlet {
 		String currentEntity = null;
 		for (RefItem item : (List<RefItem>) DatabaseManager.callFunctionSelect("_overview", params_, RefItem.class, "id")) {
 			if (currentEntity == null || !item.getEntity().equals(currentEntity)) {
-				if (currentEntity != null)
+				if (currentEntity != null) {
 					html.append("</tbody></table>");
+				}
 				html.append("<table><thead><tr>");
 				if (item.getEntity().equals(Result.alias)) {
 					html.append("<th colspan='9' style='text-align:center;'>" + ResourceUtils.getText("entity." + Result.alias, lang).toUpperCase() + "</th></tr><tr><th>" + ResourceUtils.getText("entity.YR.1", lang) + "</th><th>" + ResourceUtils.getText("entity.EV.1", lang) + "</th><th>" + ResourceUtils.getText("entity.RS.1", lang) + "</th><th>" + ResourceUtils.getText("place", lang) + "</th><th>" + ResourceUtils.getText("dates", lang) + "</th><th>" + ResourceUtils.getText("entity.RD", lang) + "</th><th>" + ResourceUtils.getText("ext.links", lang) + "</th><th>" + ResourceUtils.getText("photos", lang) + "</th>");
@@ -1102,26 +1132,30 @@ public class UpdateServlet extends AbstractServlet {
 			int i = 0;
 			boolean isFirstRow = true;
 			for (Object[] t : list)  {
-				if (!isCSV)
+				if (!isCSV) {
 					sb.append("<tr>");
+				}
 				if (isFirstRow && index != 9) {
-					for (i = 1 ; i <= t.length ; i++)
+					for (i = 1 ; i <= t.length ; i++) {
 						sb.append(!isCSV ? "<th>" : (i > 1 ? "," : "")).append("Col." + i).append(!isCSV ? "</th>" : "");
+					}
 					sb.append(isCSV ? "\r\n" : "</tr><tr>");
 					isFirstRow = false;
 				}
 				i = 0;
 				for (Object o : t) {
-					if (index != 9 || (i < 5 || i > 8))
+					if (index != 9 || (i < 5 || i > 8)) {
 						sb.append(!isCSV ? "<td>" : (i > 0 ? "," : "")).append(o != null ? String.valueOf(o) : "").append(!isCSV ? "</td>" : "");
+					}
 					i++;
 				}
 				sb.append(isCSV ? "\r\n" : "</tr>");
 			}
 		}
 
-		if (!isCSV)
+		if (!isCSV) {
 			sb.append("</table>");
+		}
 
 		if (isCSV) {
 			response.setCharacterEncoding("utf-8");
@@ -1129,8 +1163,9 @@ public class UpdateServlet extends AbstractServlet {
 			response.setContentType("text/csv");
 			response.getWriter().write(sb.toString());
 		}
-		else
+		else {
 			ServletHelper.writeText(response, sb.toString());
+		}
 	}
 	
 	private static void mergeEntity(HttpServletResponse response, Map<?, ?> params, String lang, Contributor cb) throws Exception {
@@ -1141,8 +1176,9 @@ public class UpdateServlet extends AbstractServlet {
 			Integer id2 = StringUtils.toInt(params.get("id2"));
 			Object o1 = DatabaseManager.loadEntity(DatabaseManager.getClassFromAlias(alias), id1);
 			Object o2 = DatabaseManager.loadEntity(DatabaseManager.getClassFromAlias(alias), id2);
-			if (params.containsKey("confirm"))
+			if (params.containsKey("confirm")) {
 				msg = ResourceUtils.getText("confirm.merge", lang).replaceFirst("\\{1\\}", "<br/><b>" + o1.toString() + "</b><br/><br/>").replaceFirst("\\{2\\}", "<br/><b>" + o2.toString() + "</b>");
+			}
 			else {
 				DatabaseManager.executeSelect("select _merge('" + alias + "', " + id1 + ", " + id2 + ")");
 				msg = ResourceUtils.getText("merge.success", lang).replaceFirst("\\{1\\}", String.valueOf(id1)).replaceFirst("\\{2\\}", String.valueOf(id2));
@@ -1914,22 +1950,38 @@ public class UpdateServlet extends AbstractServlet {
 			String entity = String.valueOf(params.get("entity"));
 			String includechecked = String.valueOf(params.get("includechecked"));
 			
-			StringBuffer where = new StringBuffer(" where t.id<=" + idmax);
-			where.append(entity.matches(Athlete.alias + "|" + Team.alias + "|" + Sport.alias) ? (cb != null && !cb.isAdmin() ? " and " + (entity.equalsIgnoreCase(Sport.alias) ? "" : "sport.") + "id in (" + cb.getSports() + ")" : "") : "");
-			String label_ = (entity.equals(Athlete.alias) ? "lastName || ', ' || firstName || ' - ' || sport.label" : (entity.equals(Team.alias) ? "label || ' - ' || sport.label" : (entity.equals(Olympics.alias) ? "city.label || ' ' || year.label" : "label")));
-			if (entity.equalsIgnoreCase(City.alias)) {
-				label_ = "label || '<i> - ' || country.code || '</i>', labelFR";
+			StringBuffer where = new StringBuffer(" WHERE T.id <= " + idmax);
+			String joins = "";
+			where.append(entity.matches(Athlete.alias + "|" + Team.alias + "|" + Sport.alias) ? (cb != null && !cb.isAdmin() ? " AND " + (entity.equalsIgnoreCase(Sport.alias) ? "T.id" : "T.id_sport") + " in (" + cb.getSports() + ")" : "") : "");
+			String label_ = "T.label";
+			if (entity.equalsIgnoreCase(Athlete.alias)) {
+				label_ = "last_name || ', ' || first_name || ' - ' || SP.label";
+				joins = " JOIN sport SP ON SP.id = T.id_sport ";
+			}
+			else if (entity.equalsIgnoreCase(City.alias)) {
+				label_ = "T.label || '<i> - ' || CN.code || '</i>', T.label_fr";
+				joins = " JOIN country CN ON CN.id = T.id_country ";
 			}
 			else if (entity.equalsIgnoreCase(Complex.alias)) {
-				label_ = "label || '<i> - ' || city.label || ', ' || city.country.code || '</i>'";
+				label_ = "T.label || '<i> - ' || CT.label || ', ' || CN.code || '</i>'";
+				joins = " JOIN city CT ON CT.id = T.id_city JOIN country CN ON CN.id = CT.id_country ";
+			}
+			else if (entity.equalsIgnoreCase(Olympics.alias)) {
+				label_ = "CT.label || ' ' || YR.label";
+				joins = " JOIN city CT ON CT.id = T.id_city JOIN year YR ON YR.id = T.id_year ";
+			}
+			else if (entity.equalsIgnoreCase(Team.alias)) {
+				label_ = "T.label || ' - ' || SP.label";
+				joins = " JOIN sport SP ON SP.id = T.id_sport ";
 			}
 			if (StringUtils.notEmpty(pattern)) {
-				where.append(" and lower(" + label_ + ") like '%" + pattern.toLowerCase() + "%'");
+				where.append(" AND LOWER(" + label_ + ") LIKE '%" + pattern.toLowerCase() + "%'");
 			}
 			if (entity.matches(Athlete.alias + "|" + Team.alias) && !sport.equals("0")) {
-				where.append(" and sport.id=" + sport);
+				where.append(" AND T.id_sport = " + sport);
 			}
-			Collection<Object[]> items = DatabaseManager.executeSelect("select id, " + label_ + " from " + DatabaseManager.getClassFromAlias(entity).getName() + " t " + where.toString() + " ORDER BY id desc LIMIT " + Integer.parseInt(count));
+			Class<?> c = DatabaseManager.getClassFromAlias(entity);
+			Collection<Object[]> items = DatabaseManager.executeSelect("SELECT T.id, " + label_ + " FROM " + DatabaseManager.getTable(c) + " T " + joins + where.toString() + " ORDER BY T.id desc LIMIT " + Integer.parseInt(count));
 			
 			List<ExternalLink> links = (List<ExternalLink>) DatabaseManager.executeSelect("SELECT * FROM _external_link WHERE entity = ? ORDER BY entity, id_item", Arrays.asList(entity), ExternalLink.class);
 			html.append("<thead><th>ID</th><th>" + ResourceUtils.getText("label", lang) + "</th><th>" + ResourceUtils.getText("type", lang) + "</th><th>URL</th><th>" + ResourceUtils.getText("checked", lang) + " <input type='checkbox' onclick='checkAllLinks();'/></th></thead><tbody>");
@@ -1989,11 +2041,11 @@ public class UpdateServlet extends AbstractServlet {
 					el.setIdItem(Integer.parseInt(t[1]));
 					el.setUrl(t[2]);
 					el.setChecked(t[3].equals("1"));
-					DatabaseManager.saveEntity(el, cb);
+					DatabaseManager.saveEntity(el, null);
 				}
 				else if (t.length == 2 && el.getId() != null) {
 					el.setChecked(t[1].equals("1"));
-					DatabaseManager.saveEntity(el, cb);
+					DatabaseManager.saveEntity(el, null);
 				}
 			}
 			sbMsg.append(ResourceUtils.getText("update.ok", lang));
@@ -2104,14 +2156,14 @@ public class UpdateServlet extends AbstractServlet {
 
 			String sql_ = null;
 			if (entity.equalsIgnoreCase(City.alias)) {
-				sql_ = "SELECT T.id, T.label || '<i> - ' || CN.code || '</i>', T.label_fr from city T JOIN country CN ON CN.id = T.id_country ";
+				sql_ = "SELECT T.id, T.label || '<i> - ' || CN.code || '</i>', T.label_fr FROM city T JOIN country CN ON CN.id = T.id_country ";
 			}
 			else if (entity.equalsIgnoreCase(Complex.alias)) {
-				sql_ = "SELECT T.id, T.label || '<i> - ' || CT.label || ', ' || CN.code || '</i>' from complex T JOIN city CT ON CT.id = T.id_city JOIN country CN ON CN.id = CT.id_country ";
+				sql_ = "SELECT T.id, T.label || '<i> - ' || CT.label || ', ' || CN.code || '</i>' FROM complex T JOIN city CT ON CT.id = T.id_city JOIN country CN ON CN.id = CT.id_country ";
 			}
 			else  {
 				String table = (String) DatabaseManager.getClassFromAlias(entity).getField("table").get(null);
-				sql_ = "SELECT T.id, T.label, T.label_fr " + table + " T";
+				sql_ = "SELECT T.id, T.label, T.label_fr FROM " + table + " T";
 			}
 			sql_ += " WHERE 1 = 1" + (tIds.length > 1 ? " AND T.id BETWEEN " + tIds[0] + " AND " + tIds[1] : "") + 
 					(StringUtils.notEmpty(pattern) ? " and (LOWER(T.label) LIKE '" + pattern + "%' OR LOWER(T.label_fr) LIKE '" + pattern + "%')" : "") + " ORDER BY T.id";
@@ -2170,7 +2222,7 @@ public class UpdateServlet extends AbstractServlet {
 					tr.setEntity(entity);
 				}
 				tr.setChecked(t[2].equals("1"));
-				DatabaseManager.saveEntity(tr, cb);
+				DatabaseManager.saveEntity(tr, null);
 			}
 			sbMsg.append(ResourceUtils.getText("update.ok", lang));
 		}
@@ -2246,7 +2298,7 @@ public class UpdateServlet extends AbstractServlet {
 				Redirection re = (id.equals("0") ? new Redirection() : (Redirection) DatabaseManager.loadEntity(Redirection.class, id));
 				re.setPreviousPath(t[1]);
 				re.setCurrentPath(t[2]);
-				DatabaseManager.saveEntity(re, cb);
+				DatabaseManager.saveEntity(re, null);
 			}
 			sbMsg.append(ResourceUtils.getText("update.ok", lang));
 		}
