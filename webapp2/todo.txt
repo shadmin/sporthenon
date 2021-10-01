@@ -13,7 +13,8 @@ shadmin plusieurs jeditentitydialog cascade
 boutons de date d-1 d-2 jeditresult
 - tests new folder/edit folders
 contrainte unique sur athlete
--------------------------
+ajouter firstupdate/lastupdate dans eduit result dialog
 verif ecrans update
+-------------------------
 android last updates
 shadm import détection automatique type country

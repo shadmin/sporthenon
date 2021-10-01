@@ -92,6 +92,7 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 	private String alias;
 	private Object param;
 	private Integer idSport;
+	private String firstUpdate;
 	public static final short NEW = 1;
 	public static final short EDIT = 2;
 	public static final short COPY = 3;
@@ -485,6 +486,7 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 		v.add(jInProgress.isSelected() ? "X" : "");
 		v.add(StringUtils.notEmpty(comment) ? "X" : "");
 		v.add(StringUtils.notEmpty(jExa.getText()) ? "X" : "");
+		v.add(firstUpdate);
 		v.add("Now");
 		return v;
 	}
@@ -651,6 +653,10 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 	
 	public void setIdSport(Integer idSport) {
 		this.idSport = idSport;
+	}
+
+	public void setFirstUpdate(String firstUpdate) {
+		this.firstUpdate = firstUpdate;
 	}
 
 	public Set<Integer> getPersonListModified() {

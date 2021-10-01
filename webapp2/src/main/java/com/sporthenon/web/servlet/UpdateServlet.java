@@ -845,11 +845,11 @@ public class UpdateServlet extends AbstractServlet {
 		try {
 			String lang_ = ResourceUtils.getLocaleParam(lang);
 			StringBuffer html = new StringBuffer("<table>");
-			HashMap<String, String> hSql = new HashMap<String, String>();
-			hSql.put("team", "SELECT TM.label, SP.label" + lang_ + " FROM team JOIN sport SP ON SP.id = TM.id_sport ORDER BY 1");
-			hSql.put("country", "SELECT label" + lang_ + ", code FROM country ORDER BY 1");
-			hSql.put("state", "SELECT label" + lang_ + ", code FROM state ORDER BY 1");
-			List<Object[]> list = (List<Object[]>) DatabaseManager.executeSelect(hSql.get(params.get("p")));
+			HashMap<String, String> sql = new HashMap<String, String>();
+			sql.put("team", "SELECT TM.label, SP.label" + lang_ + " FROM team TM JOIN sport SP ON SP.id = TM.id_sport ORDER BY 1");
+			sql.put("country", "SELECT label" + lang_ + ", code FROM country ORDER BY 1");
+			sql.put("state", "SELECT label" + lang_ + ", code FROM state ORDER BY 1");
+			List<Object[]> list = (List<Object[]>) DatabaseManager.executeSelect(sql.get(params.get("p")));
 			for (Object[] t : list) {
 				html.append("<tr><td>" + t[0] + "</td><td>" + t[1] + "</td></tr>");
 			}
@@ -2257,9 +2257,9 @@ public class UpdateServlet extends AbstractServlet {
 	private static void removeError(HttpServletResponse response, Map<?, ?> params) throws Exception {
 		StringBuffer sbMsg = new StringBuffer();
 		try {
-			String value = String.valueOf(params.get("value"));
+			Object value = params.get("value");
 			if (StringUtils.notEmpty(value)) {
-				DatabaseManager.removeEntity(DatabaseManager.loadEntity(ErrorReport.class, Integer.parseInt(value)));
+				DatabaseManager.removeEntity(DatabaseManager.loadEntity(ErrorReport.class, Integer.parseInt(String.valueOf(value))));
 			}
 		}
 		catch (Exception e) {

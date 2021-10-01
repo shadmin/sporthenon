@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 public class ResultsBean {
 
 	private Integer rsId;
+	private Timestamp rsFirstUpdate;
 	private Timestamp rsLastUpdate;
 	private String rsDate1;
 	private String rsDate2;
@@ -2736,6 +2737,14 @@ public class ResultsBean {
 
 	public void setCn6LabelEN(String cn6LabelEN) {
 		this.cn6LabelEN = cn6LabelEN;
+	}
+
+	public Timestamp getRsFirstUpdate() {
+		return rsFirstUpdate;
+	}
+
+	public void setRsFirstUpdate(Timestamp rsFirstUpdate) {
+		this.rsFirstUpdate = rsFirstUpdate;
 	}
 
 	public Timestamp getRsLastUpdate() {

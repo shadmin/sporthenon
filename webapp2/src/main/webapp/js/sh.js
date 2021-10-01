@@ -3021,14 +3021,16 @@ function loadErrors() {
 	new Ajax.Updater($('ercontent'), '/update/load-errors');
 }
 function removeError(id) {
-	$('ercontent').update('<img src="/img/db/loading.gif?6"/>');
-	new Ajax.Request('/update/remove-error', {
-		onSuccess: function(response){
-			loadErrors();
-		},
-		parameters: $H({value: id})
-	});
-	new Ajax.Updater($('ercontent'), '/update/remove-error');
+	if (confirm('Confirm ?')) {
+		$('ercontent').update('<img src="/img/db/loading.gif?6"/>');
+		new Ajax.Request('/update/remove-error', {
+			onSuccess: function(response){
+				loadErrors();
+			},
+			parameters: $H({value: id})
+		});
+		new Ajax.Updater($('ercontent'), '/update/remove-error');
+	}
 }
 /*========== REDIRECTIONS ==========*/
 function loadRedirections() {

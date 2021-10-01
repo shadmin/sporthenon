@@ -89,9 +89,10 @@ public class HtmlUtils {
 		url.append("/" + StringUtils.encode(alias + "-" + id + (alias.equals(Result.alias) ? "-1" : "")));
 		if (text1 != null) {
 			html.append("<a href='").append(url).append("'");
-			if (alias.equals(Athlete.alias) && StringUtils.notEmpty(text2) && !text1.toLowerCase().equals(text2.toLowerCase()))
+			if (alias.equals(Athlete.alias) && StringUtils.notEmpty(text2) && !text1.toLowerCase().equals(text2.toLowerCase())) {
 				html.append(" title=\"" + text2.replaceAll("\\\"", "'") + "\"");
-				html.append(">" + text1 + "</a>");
+			}
+			html.append(">" + text1 + "</a>");
 		}
 		else {
 			html.append("/" + url.toString().substring(1));			

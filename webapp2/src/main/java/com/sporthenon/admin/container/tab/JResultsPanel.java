@@ -363,6 +363,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				v_.add(Boolean.TRUE.equals(rb.getRsInProgress()) ? "X" : "");
 				v_.add(StringUtils.notEmpty(rb.getRsComment()) ? "X" : "");
 				v_.add(StringUtils.notEmpty(rb.getRsExa()) ? "X" : "");
+				v_.add(StringUtils.toTextDate(rb.getRsFirstUpdate(), "", "dd/MM/yyyy HH:mm"));
 				v_.add(StringUtils.toTextDate(rb.getRsLastUpdate(), "", "dd/MM/yyyy HH:mm"));
 				v.add(v_);
 			}
@@ -370,7 +371,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			cols.add("ID");cols.add("Year");
 			cols.add("1st");cols.add("2nd");cols.add("3rd");
 			cols.add("Date #1");cols.add("Date #2");cols.add("Place #1");cols.add("Place #2");
-			cols.add("Prg");cols.add("Cmt");cols.add("Tie");cols.add("Last update");
+			cols.add("Prg");cols.add("Cmt");cols.add("Tie");cols.add("First update");cols.add("Last update");
 			jResultTable = new JTable(v, cols) {
 				private static final long serialVersionUID = 1L;
 				@Override
@@ -391,7 +392,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 			});
 			jResultTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			jResultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			int[] tWidths = new int[] {35, 35, 175, 175, 175, 65, 65, 175, 175, 30, 30, 30, 100};
+			int[] tWidths = new int[] {35, 35, 175, 175, 175, 65, 65, 175, 175, 30, 30, 30, 100, 100};
 			for (int i = 0 ; i < jResultTable.getColumnCount() ; i++) {
 				jResultTable.getColumnModel().getColumn(i).setPreferredWidth(tWidths[i]);
 			}
@@ -679,6 +680,7 @@ public class JResultsPanel extends JSplitPane implements TreeSelectionListener, 
 				else {
 					resultId = String.valueOf(jResultTable.getValueAt(jResultTable.getSelectedRow(), 0));
 					rs = (Result) DatabaseManager.loadEntity(Result.class, resultId);
+					rdlg.setFirstUpdate(StringUtils.toTextDate(rs.getMetadata().getFirstUpdate(), "", "dd/MM/yyyy HH:mm"));
 					SwingUtils.selectValue(rdlg.getYear(), rs.getYear().getId());
 					if (rs.getComplex1() != null) {
 						SwingUtils.selectValue(rdlg.getComplex1(), rs.getComplex1().getId());
