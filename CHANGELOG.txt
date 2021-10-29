@@ -1,7 +1,29 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 2.0.1   |
+| Last Version: 2.0.2   |
 +-----------------------+
+
++-------+
+| 2.0.2 |
++-------+
+[29 Oct 2021]
+- Unique constraint improved on athletes (to avoid duplicates)
+- Changed "draft" boolean to "event in progress"
+o Website
+- Retired numbers improved : number can be empty, number can be a free text or image
+- Many enhancements and bugfixes in export feature (especially with ties)
+- Bugfixes in contributor area
+o Update tool (Swing app)
+- New feature: <New Folder/Move Folder> (=> create and move events in the tree of results)
+- Creation date (first update) has been added in the table view of results
+- Added info message if userID has not been defined in options dialog
+- Added buttons "Today, Yesterday, 2d ago, 3d ago" in edit result dialog
+- Refresh remove list of website images when adding/removing a picture in bucket
+- Added button to remove selected line in import results
+- Bugfix: creating multiple entities in a row using "+" button was not possible
+- Bugfix: some errors are not properly thrown causing OK message (green) to be displayed instead of error message (red)
+o Android
+- New feature: <Last Updates> (=> new menu to display the last results created)
 
 +-------+
 | 2.0.1 |

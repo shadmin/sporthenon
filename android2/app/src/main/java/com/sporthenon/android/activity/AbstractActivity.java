@@ -43,7 +43,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements Draw
     protected static final int INDEX_CALENDAR = 1;
     protected static final int INDEX_OLYMPICS = 2;
     protected static final int INDEX_USLEAGUES = 3;
-    //protected static final int INDEX_SETTINGS = 4;
+    protected static final int INDEX_LAST_UPDATES = 4;
 
     protected Integer index;
     protected String lang;
@@ -360,7 +360,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements Draw
         pagerAdapter = new MyPageAdapter(getSupportFragmentManager(), fList);
         pager.setAdapter(pagerAdapter);*/
 
-        lang = Locale.getDefault().getLanguage().equalsIgnoreCase("fr") ? "fr" : "en";
+        lang = getResources().getConfiguration().locale.getLanguage();
     }
 
     @Override
@@ -372,14 +372,21 @@ public abstract class AbstractActivity extends AppCompatActivity implements Draw
     @Override
     public void onNavigationDrawerItemSelected(int n) {
         Class c = null;
-        if (n == INDEX_RESULTS)
+        if (n == INDEX_RESULTS) {
             c = SportActivity.class;
-        else if (n == INDEX_CALENDAR)
+        }
+        else if (n == INDEX_CALENDAR) {
             c = YearActivity.class;
-        else if (n == INDEX_OLYMPICS)
+        }
+        else if (n == INDEX_OLYMPICS) {
             c = OlympicsTypeActivity.class;
-        else if (n == INDEX_USLEAGUES)
+        }
+        else if (n == INDEX_USLEAGUES) {
             c = LeagueActivity.class;
+        }
+        else if (n == INDEX_LAST_UPDATES) {
+            c = LastUpdatesActivity.class;
+        }
         Intent i = new Intent(this, c);
         startActivity(i);
         finish();
@@ -397,7 +404,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements Draw
             case 4:
                 title = getString(R.string.title_us_leagues); break;
             case 5:
-                title = getString(R.string.title_settings); break;
+                title = getString(R.string.title_last_updates); break;
         }
         setTitle(title);
     }

@@ -20,18 +20,21 @@ import androidx.fragment.app.Fragment;
 import com.sporthenon.android.R;
 import com.sporthenon.android.activity.AbstractActivity;
 import com.sporthenon.android.activity.CalendarActivity;
+import com.sporthenon.android.activity.LastUpdatesActivity;
 import com.sporthenon.android.activity.OlympicsMedalsActivity;
 import com.sporthenon.android.activity.OlympicsPodiumsActivity;
 import com.sporthenon.android.activity.ResultActivity;
 import com.sporthenon.android.activity.USLeaguesRequestActivity;
 import com.sporthenon.android.adapter.CalendarListAdapter;
 import com.sporthenon.android.adapter.ItemListAdapter;
+import com.sporthenon.android.adapter.LastUpdateListAdapter;
 import com.sporthenon.android.adapter.MedalListAdapter;
 import com.sporthenon.android.adapter.PodiumListAdapter;
 import com.sporthenon.android.adapter.RecordListAdapter;
 import com.sporthenon.android.adapter.ResultListAdapter;
 import com.sporthenon.android.data.CalendarItem;
 import com.sporthenon.android.data.DataItem;
+import com.sporthenon.android.data.LastUpdateItem;
 import com.sporthenon.android.data.MedalItem;
 import com.sporthenon.android.data.PodiumItem;
 import com.sporthenon.android.data.RecordItem;
@@ -129,8 +132,9 @@ public class ListFragment extends Fragment {
             ArrayList<ResultItem> list_ = new ArrayList<>();
             for (Object o : itemList) {
                 ResultItem item = (ResultItem) o;
-                if (text.length() == 0 || item.getYear().matches(".*" + text + ".*") || item.getTxt1().toLowerCase().matches(".*" + text + ".*"))
+                if (text.length() == 0 || item.getYear().matches(".*" + text + ".*") || item.getTxt1().toLowerCase().matches(".*" + text + ".*")) {
                     list_.add(item);
+                }
             }
             list.setAdapter(new ResultListAdapter(activity.getApplicationContext(), list_));
         }
@@ -138,8 +142,9 @@ public class ListFragment extends Fragment {
             ArrayList<CalendarItem> list_ = new ArrayList<>();
             for (Object o : itemList) {
                 CalendarItem item = (CalendarItem) o;
-                if (text.length() == 0 || item.getSport().toLowerCase().matches(".*" + text + ".*") || item.getEvent().toLowerCase().matches(".*" + text + ".*"))
+                if (text.length() == 0 || item.getSport().toLowerCase().matches(".*" + text + ".*") || item.getEvent().toLowerCase().matches(".*" + text + ".*")) {
                     list_.add(item);
+                }
             }
             list.setAdapter(new CalendarListAdapter(activity.getApplicationContext(), list_));
         }
@@ -147,8 +152,9 @@ public class ListFragment extends Fragment {
             ArrayList<MedalItem> list_ = new ArrayList<>();
             for (Object o : itemList) {
                 MedalItem item = (MedalItem) o;
-                if (text.length() == 0 || item.getCountry().toLowerCase().matches(".*" + text + ".*"))
+                if (text.length() == 0 || item.getCountry().toLowerCase().matches(".*" + text + ".*")) {
                     list_.add(item);
+                }
             }
             list.setAdapter(new MedalListAdapter(activity.getApplicationContext(), list_));
         }
@@ -156,8 +162,9 @@ public class ListFragment extends Fragment {
             ArrayList<PodiumItem> list_ = new ArrayList<>();
             for (Object o : itemList) {
                 PodiumItem item = (PodiumItem) o;
-                if (text.length() == 0 || item.getEvent().toLowerCase().matches(".*" + text + ".*") || item.getTxt1().toLowerCase().matches(".*" + text + ".*"))
+                if (text.length() == 0 || item.getEvent().toLowerCase().matches(".*" + text + ".*") || item.getTxt1().toLowerCase().matches(".*" + text + ".*")) {
                     list_.add(item);
+                }
             }
             list.setAdapter(new PodiumListAdapter(activity.getApplicationContext(), list_));
         }
@@ -165,17 +172,29 @@ public class ListFragment extends Fragment {
             ArrayList<RecordItem> list_ = new ArrayList<>();
             for (Object o : itemList) {
                 RecordItem item = (RecordItem) o;
-                if (text.length() == 0 || item.getLabel().toLowerCase().matches(".*" + text + ".*") || item.getType1().toLowerCase().matches(".*" + text + ".*") || item.getType2().toLowerCase().matches(".*" + text + ".*"))
+                if (text.length() == 0 || item.getLabel().toLowerCase().matches(".*" + text + ".*") || item.getType1().toLowerCase().matches(".*" + text + ".*") || item.getType2().toLowerCase().matches(".*" + text + ".*")) {
                     list_.add(item);
+                }
             }
             list.setAdapter(new RecordListAdapter(activity.getApplicationContext(), list_));
+        }
+        else if (activity instanceof LastUpdatesActivity) {
+            ArrayList<LastUpdateItem> list_ = new ArrayList<>();
+            for (Object o : itemList) {
+                LastUpdateItem item = (LastUpdateItem) o;
+                if (text.length() == 0 || item.getYear().matches(".*" + text + ".*") || item.getSport().toLowerCase().matches(".*" + text + ".*") || item.getPos1().toLowerCase().matches(".*" + text + ".*")) {
+                    list_.add(item);
+                }
+            }
+            list.setAdapter(new LastUpdateListAdapter(activity.getApplicationContext(), list_));
         }
         else {
             ArrayList<DataItem> list_ = new ArrayList<>();
             for (Object o : itemList) {
                 DataItem item = (DataItem) o;
-                if (text.length() == 0 || item.getName().toLowerCase().matches(".*" + text + ".*"))
+                if (text.length() == 0 || item.getName().toLowerCase().matches(".*" + text + ".*")) {
                     list_.add(item);
+                }
             }
             list.setAdapter(new ItemListAdapter(activity.getApplicationContext(), list_));
         }

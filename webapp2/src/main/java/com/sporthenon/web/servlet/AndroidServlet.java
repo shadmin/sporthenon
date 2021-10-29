@@ -100,7 +100,7 @@ public class AndroidServlet extends AbstractServlet {
 			
 	        response.setContentType("text/xml");
 	        response.setCharacterEncoding("utf-8");
-	        XMLWriter writer = new XMLWriter(response.getOutputStream(), OutputFormat.createPrettyPrint());
+	        XMLWriter writer = new XMLWriter(response.getOutputStream(), new OutputFormat("", false, "UTF-8"));
 	        writer.write(doc);
 	        writer.flush();
 	        response.flushBuffer();
@@ -647,17 +647,18 @@ public class AndroidServlet extends AbstractServlet {
 	}
 	
 	private void processLastUpdates(Document doc, Element root, String lang) throws Exception {
-		final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_lastupdates_limit"));
+		//final int ITEM_LIMIT = Integer.parseInt(ConfigUtils.getValue("default_lastupdates_limit"));
     	List<Object> params = new ArrayList<Object>();
     	params.add(0); // sport
-    	params.add(ITEM_LIMIT); // count
+    	params.add(100); // count
     	params.add(0); // offset
     	params.add(ResourceUtils.getLocaleParam(lang));
 		for (LastUpdateBean bean : (Collection<LastUpdateBean>) DatabaseManager.callFunction("_last_updates", params, LastUpdateBean.class)) {
+			Integer rsId = bean.getRsId();
 			String pos1 = null; Integer pos1Id = null; String pos1Img = null;
 			String pos2 = null; Integer pos2Id = null; String pos2Img = null;
 			String pos3 = null; Integer pos3Id = null; String pos3Img = null;
-			String pos4 = null; Integer pos4Id = null; String pos4Img = null;
+			String pos4 = null;
 			Integer number = (bean.getTp3Number() != null ? bean.getTp3Number() : (bean.getTp2Number() != null ? bean.getTp2Number() : bean.getTp1Number()));
 			if (number == null) {
 				continue;
@@ -695,19 +696,14 @@ public class AndroidServlet extends AbstractServlet {
 				}
 				if (bean.getPr4LastName() != null) {
 					pos4 = (StringUtils.isRevertName(bean.getPr4CountryCode(), bean.getPr4FirstName() + " " + bean.getPr4LastName()) ? (StringUtils.notEmpty(bean.getPr4LastName()) ? bean.getPr4LastName().substring(0, 1) + "." : "") + bean.getPr4FirstName() : (StringUtils.notEmpty(bean.getPr4FirstName()) ? bean.getPr4FirstName().substring(0, 1) + "." : "") + bean.getPr4LastName());
-					pos4Id = bean.getPr4Id();
-					if (bean.getPr4Team() != null) {
-						pos4Img = getImage(ImageUtils.INDEX_TEAM, bean.getPr4Team(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
-					}
-					if (bean.getPr4Country() != null) {
-						pos4Img = getImage(ImageUtils.INDEX_COUNTRY, bean.getPr3Country(), ImageUtils.SIZE_SMALL, bean.getYrLabel(), null);
-					}
 				}
 			}
 			else if (number == 50 && bean.getTm1Id() != null) {
-				pos1 = bean.getTm1Label();
-				pos1Id = bean.getTm1Id();
-				pos1Img = getImage(ImageUtils.INDEX_TEAM, bean.getTm1Id(), ImageUtils.SIZE_SMALL, null, null);
+				if (bean.getTm1Id() != null) {
+					pos1 = bean.getTm1Label();
+					pos1Id = bean.getTm1Id();
+					pos1Img = getImage(ImageUtils.INDEX_TEAM, bean.getTm1Id(), ImageUtils.SIZE_SMALL, null, null);	
+				}
 				if (bean.getTm2Id() != null) {
 					pos2 = bean.getTm2Label();
 					pos2Id = bean.getTm2Id();
@@ -720,14 +716,14 @@ public class AndroidServlet extends AbstractServlet {
 				}
 				if (bean.getTm4Id() != null) {
 					pos4 = bean.getTm4Label();
-					pos4Id = bean.getTm4Id();
-					pos4Img = getImage(ImageUtils.INDEX_TEAM, bean.getTm4Id(), ImageUtils.SIZE_SMALL, null, null);
 				}
 			}
 			else if (number == 99 && bean.getCn1Id() != null) {
-				pos1 = bean.getCn1Label();
-				pos1Id = bean.getCn1Id();
-				pos1Img = getImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, null, null);
+				if (bean.getCn1Id() != null) {
+					pos1 = bean.getCn1Label();
+					pos1Id = bean.getCn1Id();
+					pos1Img = getImage(ImageUtils.INDEX_COUNTRY, bean.getCn1Id(), ImageUtils.SIZE_SMALL, null, null);
+				}
 				if (bean.getCn2Id() != null) {
 					pos2 = bean.getCn2Label();
 					pos2Id = bean.getCn2Id();
@@ -740,41 +736,65 @@ public class AndroidServlet extends AbstractServlet {
 				}
 				if (bean.getCn4Id() != null) {
 					pos4 = bean.getCn4Label();
-					pos4Id = bean.getCn4Id();
-					pos4Img = getImage(ImageUtils.INDEX_COUNTRY, bean.getCn4Id(), ImageUtils.SIZE_SMALL, null, null);
 				}
 			}
 			String year = bean.getYrLabel();
 			String sport = bean.getSpLabel();
-			String sportImg = getImage(ImageUtils.INDEX_SPORT, bean.getSpId(), ImageUtils.SIZE_SMALL, null, null);
+			String sportImg = getImage(ImageUtils.INDEX_SPORT, bean.getSpId(), ImageUtils.SIZE_LARGE, null, null);
 			String date = StringUtils.toTextDate(bean.getRsDate(), lang, "d MMM yyyy");
-//			String tie = bean.getRsText3();
+			String tie = bean.getRsText3();
 			boolean isScore = (pos1 != null && pos2 != null && StringUtils.notEmpty(bean.getRsText1()) && !StringUtils.notEmpty(bean.getRsText2()));
-//			boolean isDouble = (pos1 != null && pos2 != null && (number == 4 || (bean.getRsText4() != null && bean.getRsText4().equals("#DOUBLE#")) || (tie != null && tie.equals("1-2"))));
-//			boolean isTriple = (pos1 != null && pos2 != null && pos3 != null && (number == 5 || (bean.getRsText4() != null && bean.getRsText4().equals("#TRIPLE#")) || (tie != null && tie.matches("^1\\-(3|4|5|6|7|8|9).*"))));
-			String event = bean.getCpLabel() + " " + StringUtils.SEP1 + " " + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? " " + StringUtils.SEP1 + " " + bean.getSeLabel() : "") + (StringUtils.notEmpty(bean.getSe2Label()) ? " " + StringUtils.SEP1 + " " + bean.getSe2Label() : "");
+			boolean isDouble = (pos1 != null && pos2 != null && (number == 4 || (bean.getRsText4() != null && bean.getRsText4().equals("#DOUBLE#")) || (tie != null && tie.equals("1-2"))));
+			boolean isTriple = (pos1 != null && pos2 != null && pos3 != null && (number == 5 || (bean.getRsText4() != null && bean.getRsText4().equals("#TRIPLE#")) || (tie != null && tie.matches("^1\\-(3|4|5|6|7|8|9).*"))));
+			String event = bean.getCpLabel() + " - " + bean.getEvLabel() + (StringUtils.notEmpty(bean.getSeLabel()) ? " - " + bean.getSeLabel() : "") + (StringUtils.notEmpty(bean.getSe2Label()) ? " - " + bean.getSe2Label() : "");
 			if (StringUtils.notEmpty(bean.getRsText5())) {
 				event += " [" + StringUtils.getRoundTypeLabel(bean.getRsText5()) + "]";
 			}
+			
+			// Handle ties
+			String pos1_ = pos1;
+			String pos2_ = (isTriple ? null : (pos2 != null ? pos2 : null));
+			String pos3_ = (isDouble || isTriple ? null : (pos3 != null ? pos3 : null));
+			if (isDouble || isTriple) {
+				if (pos2 != null) {
+					pos1_ = pos1 + " / " + pos2 + (isTriple && pos3 != null ? " / " + pos3 + (tie != null && tie.matches("^1\\-(4|5|6|7|8|9).*") ? " / ..." : "") : "");
+				}
+				if (isDouble && pos3 != null) {
+					pos2_ = pos3 + (pos4 != null ? " / " + pos4 : "");
+				}
+				else if (isDouble || pos2 == null) {
+					pos2_ = null;
+				}
+			}
+			else if (tie != null && tie.matches("^2\\-(3|4|5|6|7|8|9).*") && pos2 != null) {
+				pos2_ = pos2 + (pos3 != null ? " / " + pos3 : "");
+				pos3_ = null;
+			}
+			
 			Element item = root.addElement("item");
+			item.addAttribute("rs_id", String.valueOf(rsId));
 			item.addAttribute("year", year);
 			item.addAttribute("sport", sport);
 			item.addAttribute("sport-img", sportImg);
 			item.addAttribute("event", event);
-			item.addAttribute("pos1", pos1);
-			item.addAttribute("pos1_id", String.valueOf(pos1Id));
-			item.addAttribute("pos1_img", pos1Img);
-			item.addAttribute("pos2", pos2);
-			item.addAttribute("pos2_id", String.valueOf(pos2Id));
-			item.addAttribute("pos2_img", pos2Img);
-			item.addAttribute("pos3", pos3);
-			item.addAttribute("pos3_id", String.valueOf(pos3Id));
-			item.addAttribute("pos3_img", pos3Img);
-			item.addAttribute("pos4", pos4);
-			item.addAttribute("pos4_id", String.valueOf(pos4Id));
-			item.addAttribute("pos4_img", pos4Img);
-			item.addAttribute("score", isScore ? StringUtils.formatResult(bean.getRsText1(), lang) : "");
+			if (pos1Id != null) {
+				item.addAttribute("pos1", pos1_);
+				item.addAttribute("pos1_id", String.valueOf(pos1Id));
+				item.addAttribute("pos1_img", pos1Img);	
+			}
+			if (pos2Id != null) {
+				item.addAttribute("pos2", pos2_);
+				item.addAttribute("pos2_id", String.valueOf(pos2Id));
+				item.addAttribute("pos2_img", pos2Img);
+			}
+			if (pos3Id != null) {
+				item.addAttribute("pos3", pos3_);
+				item.addAttribute("pos3_id", String.valueOf(pos3Id));
+				item.addAttribute("pos3_img", pos3Img);
+			}
+			item.addAttribute("score", isScore ? bean.getRsText1() : null);
 			item.addAttribute("date", date);
+			item.addAttribute("tie", tie);
 		}
 	}
 	

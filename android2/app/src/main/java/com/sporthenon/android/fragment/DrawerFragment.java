@@ -78,16 +78,16 @@ public class DrawerFragment extends Fragment {
                 selectItem(position, true);
             }
         });
-        String[] t = new String[]{getString(R.string.title_results), getString(R.string.title_calendar), getString(R.string.title_olympics), getString(R.string.title_us_leagues)};
+        String[] t = new String[]{getString(R.string.title_results), getString(R.string.title_calendar), getString(R.string.title_olympics), getString(R.string.title_us_leagues), getString(R.string.title_last_updates)};
         ArrayAdapter adapter = new ArrayAdapter<Object>(getActionBar().getThemedContext(), R.layout.item_menu, R.id.menu_item_title, t){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View view = inflater.inflate(R.layout.item_menu, parent, false);
 
-                int[] tBgd = new int[]{R.drawable.selector_rs, R.drawable.selector_cl, R.drawable.selector_ol, R.drawable.selector_us};
-                int[] tImg = new int[]{R.drawable.results, R.drawable.calendar, R.drawable.olympics, R.drawable.usleagues};
-                int[] tTitle = new int[]{R.string.title_results, R.string.title_calendar, R.string.title_olympics, R.string.title_us_leagues};
+                int[] tBgd = new int[]{R.drawable.selector_rs, R.drawable.selector_cl, R.drawable.selector_ol, R.drawable.selector_us, R.drawable.selector_lu};
+                int[] tImg = new int[]{R.drawable.results, R.drawable.calendar, R.drawable.olympics, R.drawable.usleagues, R.drawable.lastupdates};
+                int[] tTitle = new int[]{R.string.title_results, R.string.title_calendar, R.string.title_olympics, R.string.title_us_leagues, R.string.title_last_updates};
 
                 ImageView img = (ImageView) view.findViewById(R.id.menu_item_icon);
                 TextView title = (TextView) view.findViewById(R.id.menu_item_title);
@@ -121,8 +121,9 @@ public class DrawerFragment extends Fragment {
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 getActionBar().setTitle(R.string.app_name);
-                if (!isAdded())
+                if (!isAdded()) {
                     return;
+                }
                 if (!userLearnedDrawer) {
                     userLearnedDrawer = true;
                     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -134,8 +135,9 @@ public class DrawerFragment extends Fragment {
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 getActionBar().setTitle(getActivity().getTitle());
-                if (!isAdded())
+                if (!isAdded()) {
                     return;
+                }
                 getActivity().invalidateOptionsMenu();
             }
         };
@@ -158,8 +160,9 @@ public class DrawerFragment extends Fragment {
         for (int i = 0; i < 3; i++) {
             actionBar.addTab(actionBar.newTab().setText("Tab " + (i + 1)).setTabListener(tabListener));
         }*/
-        if (!userLearnedDrawer && !fromSavedInstanceState)
+        if (!userLearnedDrawer && !fromSavedInstanceState) {
             this.drawerLayout.openDrawer(fragmentContainerView);
+        }
 
         this.drawerLayout.post(new Runnable() {
             @Override
@@ -172,13 +175,16 @@ public class DrawerFragment extends Fragment {
 
     public void selectItem(int position, boolean redirect) {
         currentIndex = position;
-        if (drawerList != null)
+        if (drawerList != null) {
             drawerList.setItemChecked(position, true);
-        if (drawerLayout != null)
+        }
+        if (drawerLayout != null) {
             drawerLayout.closeDrawer(fragmentContainerView);
-        if (callbacks != null && redirect)
+        }
+        if (callbacks != null && redirect) {
             callbacks.onNavigationDrawerItemSelected(position);
-        String[] tColor = new String[]{"#389f47", "#f47322", "#1482c5", "#de1f26", "#AAA"};
+        }
+        String[] tColor = new String[]{"#389f47", "#f47322", "#1482c5", "#de1f26", "#ddc126"};
         getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(tColor[position])));
     }
 
@@ -218,8 +224,9 @@ public class DrawerFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item))
+        if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

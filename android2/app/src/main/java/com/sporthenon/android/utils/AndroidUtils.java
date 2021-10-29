@@ -28,16 +28,14 @@ public class AndroidUtils {
             if (img != null && img.length() > 0) {
                 File dir = activity.getApplicationContext().getDir("sh", Context.MODE_PRIVATE);
                 File file = new File(dir, img.substring(img.lastIndexOf("/") + 1));
-                if (file.exists())
+                if (file.exists()) {
                     bd = new BitmapDrawable(new FileInputStream(file));
+                }
                 else if (!img.contains("noimage.png")) {
-                    /*String env = Resources.getSystem().getString(R.string.env);
-                    if (env != null && env.equals("local"))
-                        img = img.replaceAll("localhost", "10.0.2.2");
-                    */
-                    if (!img.startsWith("http"))
+                    if (!img.startsWith("http")) {
                         img = "http:" + img;
-                    connection = (HttpURLConnection) new URL(img) .openConnection();
+                    }
+                    connection = (HttpURLConnection) new URL(img).openConnection();
                     connection.connect();
                     InputStream input = connection.getInputStream();
                     bd = new BitmapDrawable(BitmapFactory.decodeStream(input));

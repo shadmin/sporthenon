@@ -40,6 +40,8 @@
         <activity android:name=".activity.USLeaguesRecordTypeActivity" />
         <activity android:name=".activity.USLeaguesTypeActivity" />
         <activity android:name=".activity.USLeaguesRequestActivity" />
+        <!--LAST UPDATES-->
+        <activity android:name=".activity.LastUpdatesActivity" />
     </application>
 
 </manifest>
