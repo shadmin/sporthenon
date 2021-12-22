@@ -282,7 +282,7 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		if (cmd.matches("\\D\\D\\-(add|find)")) {
-			SwingUtils.openAddFindDialog(e, type.getNumber());
+			SwingUtils.openAddFindDialog(e, type.getNumber(), true);
 			return;
 		}
 		else if (cmd.startsWith("persons")) {

@@ -195,7 +195,7 @@ public class SwingUtils {
 		return lstChilds;
 	}
 	
-	public static void openAddFindDialog(ActionEvent e, Integer number) {
+	public static void openAddFindDialog(ActionEvent e, Integer number, boolean fromDialog) {
 		String cmd = e.getActionCommand();
 		String alias = cmd.substring(0, 2);
 		Object parent = ((JCustomButton)e.getSource()).getParent().getParent();
@@ -217,7 +217,7 @@ public class SwingUtils {
 			frame = (JFrame) parent;
 			if (frame != null) {
 				JEditEntityDialog entityDialog  = new JEditEntityDialog(frame);
-				entityDialog.open(alias, srcPicklist);
+				entityDialog.open(alias, srcPicklist, fromDialog);
 			}
 		}
 		else {

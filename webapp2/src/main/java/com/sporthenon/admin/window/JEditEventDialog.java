@@ -194,7 +194,7 @@ public class JEditEventDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		if (cmd.matches("\\D\\D\\-(add|find)")) {
-			SwingUtils.openAddFindDialog(e, null);
+			SwingUtils.openAddFindDialog(e, null, true);
 			return;
 		}
 		else if (cmd.equals("ok")) {

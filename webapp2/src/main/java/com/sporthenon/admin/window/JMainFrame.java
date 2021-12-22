@@ -284,20 +284,20 @@ public class JMainFrame extends JFrame {
 		for (Class<?> c_ : t) {
 			String sql = null;
 			if (c_.equals(City.class)) {
-				sql = "SELECT CT.id, CT.label || case when id_state is not null then ', ' || ST.code else '' end || ', ' || CN.code as text "
-					+ " FROM city CT left join state ST on CT.id_state=ST.id left join country CN on CT.id_country=CN.id ORDER BY text";
+				sql = "SELECT CT.id, CT.label || CASE WHEN id_state IS NOT NULL THEN ', ' || ST.code ELSE '' END || ', ' || CN.code AS text "
+					+ " FROM city CT LEFT JOIN state ST ON CT.id_state=ST.id LEFT JOIN country CN ON CT.id_country = CN.id ORDER BY text";
 			}
 			else if (c_.equals(Complex.class)) {
-				sql = "SELECT CX.id, CX.label || ' [' || CT.label || case when id_state is not null then ', ' || ST.code else '' end || ', ' || CN.code || ']' as text "
-					+ " FROM complex CX left join city CT on CX.id_city=CT.id left join state ST on CT.id_state=ST.id left join country CN on CT.id_country=CN.id ORDER BY text";
+				sql = "SELECT CX.id, CX.label || ' [' || CT.label || CASE WHEN id_state IS NOT NULL THEN ', ' || ST.code ELSE '' END || ', ' || CN.code || ']' AS text "
+					+ " FROM complex CX LEFT JOIN city CT ON CX.id_city = CT.id LEFT JOIN state ST ON CT.id_state = ST.id LEFT JOIN country CN ON CT.id_country = CN.id ORDER BY text";
 			}
 			else if (c_.equals(Athlete.class)) {
-				sql = "SELECT PR.id, last_name || ', ' || first_name || case when PR.id_country is not null then ' [' || CN.code || ']' else '' end || case when PR.id_team is not null then ' [' || TM.label || ']' else '' end as text, PR.id_sport "
-					+ " FROM athlete PR left join country CN on PR.id_country=CN.id left join team TM on PR.id_team=TM.id ORDER BY text";
+				sql = "SELECT PR.id, last_name || ', ' || first_name || CASE WHEN PR.id_country IS NOT NULL THEN ' [' || CN.code || ']' ELSE '' END || CASE WHEN PR.id_team IS NOT NULL THEN ' [' || TM.label || ']' ELSE '' END AS text, PR.id_sport "
+					+ " FROM athlete PR LEFT JOIN country CN ON PR.id_country = CN.id LEFT JOIN team TM ON PR.id_team = TM.id ORDER BY text";
 			}
 			else if (c_.equals(Team.class)) {
-				sql = "SELECT TM.id, TM.label || case when id_country is not null then ' [' || CN.code || ']' else '' end || case when TM.year1 is not null and TM.year1 <> '' then ' [' || TM.year1 || ']' else '' end || case when TM.year2 is not null and TM.year2 <> '' then ' [' || TM.year2 || ']' else '' end as text, TM.id_sport "
-					+ " FROM team TM left join country CN on TM.id_country=CN.id order by text";
+				sql = "SELECT TM.id, TM.label || CASE WHEN id_country IS NOT NULL THEN ' [' || CN.code || ']' ELSE '' END || ' [' || SP.label || ']' || CASE WHEN TM.year1 IS NOT NULL AND TM.year1 <> '' THEN ' [' || TM.year1 || ']' ELSE '' END || CASE WHEN TM.year2 IS NOT NULL AND TM.year2 <> '' THEN ' [' || TM.year2 || ']' ELSE '' END AS text, TM.id_sport "
+					+ " FROM team TM LEFT JOIN country CN ON TM.id_country = CN.id LEFT JOIN sport SP ON TM.id_sport = SP.id ORDER BY text";
 			}
 			else if (c_.equals(Country.class)) {
 				sql = "SELECT id, label || ' [' || code || ']' FROM country ORDER BY label";
@@ -410,7 +410,7 @@ public class JMainFrame extends JFrame {
 			params.put("ev-type", SwingUtils.getValue(p.getType()));
 			params.put("ev-index", p.getIndex().getText());
 			params.put("ev-nopic", p.getNopic().isSelected() ? "1" : "0");
-			pi.setText(String.valueOf(params.get("ev-label")));
+			pi.setText(String.valueOf(params.get("ev-label")) + " [" + SwingUtils.getText(p.getType()) + "]");
 		}
 		else if (alias.equalsIgnoreCase(HallOfFame.alias)) {
 			JHallOfFamePanel p = (JHallOfFamePanel) jEntityPanels.get(alias);
@@ -519,7 +519,7 @@ public class JMainFrame extends JFrame {
 			params.put("tm-link", p.getLink().getText());
 			params.put("tm-inactive", p.getInactive().isSelected() ? "1" : "0");
 			params.put("tm-nopic", p.getNopic().isSelected() ? "1" : "0");
-			pi.setText(params.get("tm-label") + " [" + SwingUtils.getText(p.getSport()) + "]");
+			pi.setText(params.get("tm-label") + (SwingUtils.getValue(p.getCountry()) > 0 ? " [" + SwingUtils.getText(p.getCountry()) + "]" : "") + " [" + SwingUtils.getText(p.getSport()) + "]");
 			pi.setParam(StringUtils.toInt(params.get("tm-sport")));
 		}
 		else if (alias.equalsIgnoreCase(TeamStadium.alias)) {

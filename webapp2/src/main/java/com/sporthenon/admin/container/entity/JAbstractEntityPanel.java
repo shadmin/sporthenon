@@ -60,7 +60,7 @@ public abstract class JAbstractEntityPanel extends JPanel implements ActionListe
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		SwingUtils.openAddFindDialog(e, null);
+		SwingUtils.openAddFindDialog(e, null, false);
 	}
 	
 	@Override

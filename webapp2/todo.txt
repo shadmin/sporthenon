@@ -1,3 +1,9 @@
+quand j'ai ajouté deux event (Nations Cup et Under 25), ils apparaissent pas avec la valeur [single] et [country] dans la liste quand j'ajoute
+shadmin mentionner sport dans teams (confusion constructeur moto)
 --------------------------------------------------
 shadm import détection automatique type country
 gestion ex aequo dans android (tous écrans)
+shadmin donner info tailles logos a uploader + verif tailles
+affichage couleur event in progress + debug affichage resultat
+sur add+, met une date et tu peux cliquer plusieurs fois sur le OK, ca créé plusieurs fois + verif toutes fenetres
+faciliter navigation entre tableau resultats année précédente suivante/ épreuves de meme catégorie etc..

@@ -131,7 +131,7 @@ public class JEditRoundsDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		if (cmd.matches("\\D\\D\\-(add|find)")) {
-			SwingUtils.openAddFindDialog(e, parent.getResultType().getNumber());
+			SwingUtils.openAddFindDialog(e, parent.getResultType().getNumber(), true);
 			return;
 		}
 		else if (cmd.equals("remove")) {

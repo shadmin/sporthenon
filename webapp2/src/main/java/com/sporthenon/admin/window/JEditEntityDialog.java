@@ -36,6 +36,7 @@ public class JEditEntityDialog extends JDialog implements ActionListener {
 	private JDialogButtonBar jButtonBar = null;
 	private String alias = null;
 	private JEntityPicklist picklist = null;
+	private boolean fromDialog = false;
 	
 	public JEditEntityDialog(JFrame owner) {
 		super(owner);
@@ -71,7 +72,7 @@ public class JEditEntityDialog extends JDialog implements ActionListener {
 		return jMainPanel;
 	}
 	
-	public void open(String alias, JEntityPicklist picklist) {
+	public void open(String alias, JEntityPicklist picklist, boolean fromDialog) {
 		Map<String, JAbstractEntityPanel> panels = JMainFrame.getEntityPanels();
 		JAbstractEntityPanel p = panels.get(alias);
 		for (String key : panels.keySet()) {
@@ -80,6 +81,7 @@ public class JEditEntityDialog extends JDialog implements ActionListener {
 		jContainer.add(p, alias);
 		this.alias = alias;
 		this.picklist = picklist;
+		this.fromDialog = fromDialog;
 		this.setTitle("Add " + ResourceUtils.getText("entity." + alias + ".1", ResourceUtils.LGDEFAULT));
 		((CardLayout) jContainer.getLayout()).show(jContainer, alias);
 		this.pack();
@@ -99,7 +101,7 @@ public class JEditEntityDialog extends JDialog implements ActionListener {
 		if (e.getActionCommand().equals("ok")) {
 			try {
 				PicklistItem plb = JMainFrame.saveEntity(alias, null);
-				if (plb.getParam() != null) {
+				if (fromDialog && plb.getParam() != null) {
 					SwingUtils.insertValue(picklist, plb);
 					picklist.addItem(plb);	
 				}

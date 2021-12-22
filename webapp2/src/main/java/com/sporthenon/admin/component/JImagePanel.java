@@ -18,6 +18,8 @@ public class JImagePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel label = null;
+	private int imageWidth;
+	private int imageHeight;
 
 	public JImagePanel() {
 		super();
@@ -39,7 +41,10 @@ public class JImagePanel extends JPanel {
 				img = ImageIO.read((File) o);
 			}
 			if (img != null) {
-				label.setIcon(new ImageIcon(img));
+				ImageIcon icon = new ImageIcon(img);
+				label.setIcon(icon);
+				imageWidth = icon.getIconWidth();
+				imageHeight = icon.getIconHeight();
 			}
 		}
 		catch (Exception e) {
@@ -53,6 +58,14 @@ public class JImagePanel extends JPanel {
 	
 	public void setAlphaTest(boolean enabled) {
 		this.setBackground(enabled ? Color.LIGHT_GRAY : Color.WHITE);
+	}
+
+	public int getImageWidth() {
+		return imageWidth;
+	}
+
+	public int getImageHeight() {
+		return imageHeight;
 	}
 
 }

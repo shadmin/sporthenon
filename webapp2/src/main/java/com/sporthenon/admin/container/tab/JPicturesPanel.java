@@ -88,8 +88,12 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 	private JFileChooser jFileChooser = null;
 	private JLabel jDescription = null;
 	private JComboBox<PicklistItem> jSportList = null;
+	private TitledBorder panelTopBorder = null;
+	private TitledBorder panelBottomBorder = null;
 	private JCheckBox jTestAlpha1 = null;
 	private JCheckBox jTestAlpha2 = null;
+	private int[] sizesL = new int[]{0, 0, 0, 0, 0, 0, 0};
+	private int[] sizesS = new int[]{0, 0, 0, 0, 0, 0, 0};
 	
 	public JPicturesPanel(JMainFrame parent) {
 		initialize();
@@ -202,7 +206,8 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		p.setBorder(BorderFactory.createEmptyBorder());
 
 		JPanel pTop = new JPanel(new BorderLayout(5, 5));
-		pTop.setBorder(BorderFactory.createTitledBorder(null, "Local File", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
+		panelTopBorder = BorderFactory.createTitledBorder(null, "Local File", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black);
+		pTop.setBorder(panelTopBorder);
 		JPanel p_ = new JPanel();
 		jLocalPanel = new JImagePanel();
 		p_.add(jLocalPanel);
@@ -244,7 +249,8 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		p.add(pMiddle, BorderLayout.CENTER);
 
 		JPanel pBottom = new JPanel(new BorderLayout(5, 5));
-		pBottom.setBorder(BorderFactory.createTitledBorder(null, "Remote File", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
+		panelBottomBorder = BorderFactory.createTitledBorder(null, "Remote File", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black);
+		pBottom.setBorder(panelBottomBorder);
 		p_ = new JPanel();
 		jRemotePanel = new JImagePanel();
 		p_.add(jRemotePanel);
@@ -315,6 +321,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 					if (f != null) {
 						jLocalFile.setText(f.getPath());
 						jLocalPanel.setImage(new File(f.getPath()));
+						panelTopBorder.setTitle("Local File (" + jLocalPanel.getImageWidth() + "x" + jLocalPanel.getImageHeight() + ")");
 						uploadBtn.setEnabled(StringUtils.notEmpty(JMainFrame.getOptionsDialog().getCredentialsFile().getText()));
 					}
 				}
@@ -455,6 +462,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 					if (StringUtils.notEmpty(value) && !value.equals("null")) {
 						jRemoteFile.setText(ImageUtils.getUrl() + value);
 						jRemotePanel.setImage(new URL(jRemoteFile.getText()));
+						panelBottomBorder.setTitle("Remote File (" + jRemotePanel.getImageWidth() + "x" + jRemotePanel.getImageHeight() + ")");
 					}
 					else
 						throw new MalformedURLException();
@@ -462,6 +470,7 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 				catch (MalformedURLException e_) {
 					jRemoteFile.setText("");
 					jRemotePanel.setImage(null);
+					panelBottomBorder.setTitle("Remote File");
 				}
 			}
 		}
