@@ -1,8 +1,8 @@
 package com.sporthenon.admin.component;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
@@ -12,23 +12,30 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class JImagePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel label = null;
+	private JTextField text = null;
 	private int imageWidth;
 	private int imageHeight;
 
 	public JImagePanel() {
 		super();
-		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(240, 130));
-		setBorder(BorderFactory.createBevelBorder(1));
+		setLayout(new BorderLayout());
+		setPreferredSize(new Dimension(240, 140));
 		setBackground(Color.WHITE);
 		label = new JLabel();
-		add(label);
+		label.setBorder(BorderFactory.createBevelBorder(1));
+		label.setHorizontalAlignment(JLabel.CENTER);
+		add(label, BorderLayout.CENTER);
+		text = new JTextField("-");
+		text.setEditable(false);
+		text.setHorizontalAlignment(JTextField.CENTER);
+		add(text, BorderLayout.SOUTH);
 	}
 
 	public void setImage(Object o) {
@@ -43,8 +50,8 @@ public class JImagePanel extends JPanel {
 			if (img != null) {
 				ImageIcon icon = new ImageIcon(img);
 				label.setIcon(icon);
-				imageWidth = icon.getIconWidth();
-				imageHeight = icon.getIconHeight();
+				imageWidth = img.getWidth();
+				imageHeight = img.getHeight();
 			}
 		}
 		catch (Exception e) {
@@ -54,6 +61,14 @@ public class JImagePanel extends JPanel {
 			}
 			catch (Exception e_) {}
 		}
+	}
+	
+	public String getText() {
+		return text.getText();
+	}
+
+	public void setText(String s) {
+		text.setText(s);
 	}
 	
 	public void setAlphaTest(boolean enabled) {

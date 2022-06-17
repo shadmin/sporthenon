@@ -51,6 +51,18 @@ public class SwingUtils {
 		pl.setValue(id);
 	}
 	
+	public static void selectValue(JEntityPicklist pl, String text) {
+		if (!pl.isTextfield()) {
+			for (int i = 0 ; i < pl.getCombobox().getItemCount() ; i++) {
+				String value = ((PicklistItem)pl.getCombobox().getItemAt(i)).getText();
+				if (value.equalsIgnoreCase(text)) {
+					pl.getCombobox().setSelectedIndex(i);
+					break;
+				}
+			}
+		}
+	}
+	
 	public static Integer getValue(JEntityPicklist pl) {
 		if (pl.getSelectedItem() != null) {
 			int value = ((PicklistItem)pl.getSelectedItem()).getValue();

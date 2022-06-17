@@ -296,8 +296,8 @@ public class JMainFrame extends JFrame {
 					+ " FROM athlete PR LEFT JOIN country CN ON PR.id_country = CN.id LEFT JOIN team TM ON PR.id_team = TM.id ORDER BY text";
 			}
 			else if (c_.equals(Team.class)) {
-				sql = "SELECT TM.id, TM.label || CASE WHEN id_country IS NOT NULL THEN ' [' || CN.code || ']' ELSE '' END || ' [' || SP.label || ']' || CASE WHEN TM.year1 IS NOT NULL AND TM.year1 <> '' THEN ' [' || TM.year1 || ']' ELSE '' END || CASE WHEN TM.year2 IS NOT NULL AND TM.year2 <> '' THEN ' [' || TM.year2 || ']' ELSE '' END AS text, TM.id_sport "
-					+ " FROM team TM LEFT JOIN country CN ON TM.id_country = CN.id LEFT JOIN sport SP ON TM.id_sport = SP.id ORDER BY text";
+				sql = "SELECT TM.id, TM.label || CASE WHEN id_country IS NOT NULL THEN ' [' || CN.code || ']' ELSE '' END || ' [' || SP.label || ']' || CASE WHEN TM.year1 IS NOT NULL AND TM.year1 <> '' THEN ' [' || TM.year1 ELSE '' END || CASE WHEN TM.year2 IS NOT NULL AND TM.year2 <> '' THEN '-' || TM.year2 || ']' ELSE CASE WHEN TM.year1 IS NOT NULL AND TM.year1 <> '' THEN ']' ELSE '' END END AS text, TM.id_sport "
+					+ " FROM team TM LEFT JOIN country CN ON TM.id_country = CN.id LEFT JOIN sport SP ON TM.id_sport = SP.id ORDER BY TM.label, TM.year1 DESC";
 			}
 			else if (c_.equals(Country.class)) {
 				sql = "SELECT id, label || ' [' || code || ']' FROM country ORDER BY label";
@@ -310,7 +310,7 @@ public class JMainFrame extends JFrame {
 			}
 			else {
 				String table = (String) c_.getField("table").get(null);
-				sql = "SELECT id, label FROM " + table + " ORDER BY label";
+				sql = "SELECT id, label FROM " + table + " ORDER BY label" + (c_.equals(Year.class) ? " DESC" : "");
 			}
 			List<PicklistItem> lst = (List<PicklistItem>) DatabaseManager.getPicklist(sql, null);
 			Field alias = c_.getDeclaredField("alias");

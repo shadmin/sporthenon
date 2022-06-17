@@ -23,8 +23,10 @@ public class Olympics extends AbstractEntity {
 	public static final transient String alias 	= "OL";
 	public static final transient String table 	= "olympics";
 	public static final transient String cols 	= "id_year,id_city,count_country,count_person,count_sport,count_event,date1,date2,type,ref,no_pic";
-	public static final transient String query 	= "SELECT T.*, YR.label AS yr_label, ct.label AS ct_label, ct.label_fr AS ct_label_fr "
+	public static final transient String query 	= "SELECT T.*, YR.label AS yr_label, ct.label AS ct_label, ct.label_fr AS ct_label_fr, "
+			+ " CN.id AS ct_id_country, CN.code AS ct_cn_code, CN.label AS ct_cn_label, CN.label_fr AS ct_cn_label_fr "
 			+ " FROM olympics T LEFT JOIN city CT ON CT.id = T.id_city "
+			+ " LEFT JOIN country CN ON CN.id = CT.id_country "
 			+ " LEFT JOIN year YR ON YR.id = T.id_year";
 	
 	public Olympics() {}

@@ -73,4 +73,12 @@ public class JDialogButtonBar extends JPanel {
 		return jOptional4;
 	}
 	
+	public void enableOk() {
+		jOk.setEnabled(true);
+	}
+	
+	public void disableOk() {
+		jOk.setEnabled(false);
+	}
+	
 }

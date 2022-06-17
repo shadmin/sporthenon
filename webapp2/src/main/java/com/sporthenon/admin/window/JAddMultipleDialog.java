@@ -27,6 +27,7 @@ public class JAddMultipleDialog extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(JAddMultipleDialog.class.getName());
 	
+	private JDialogButtonBar jButtonBar;
 	private JTextArea jYears = null;
 	private JResultsPanel parent;
 	
@@ -48,7 +49,7 @@ public class JAddMultipleDialog extends JDialog implements ActionListener {
 		
 		BorderLayout layout = new BorderLayout();
 		layout.setVgap(5);
-		JDialogButtonBar jButtonBar = new JDialogButtonBar(this);
+		jButtonBar = new JDialogButtonBar(this);
 		jContentPane.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 4));
 		jContentPane.setLayout(layout);
 		jContentPane.add(getMainPanel(), BorderLayout.CENTER);
@@ -70,11 +71,13 @@ public class JAddMultipleDialog extends JDialog implements ActionListener {
 		this.parent = parent;
 		this.jYears.setText("");
 		this.jYears.requestFocus();
+		this.jButtonBar.enableOk();
 		this.setVisible(true);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("ok")) {
+			jButtonBar.disableOk();
 			String msg = null;
 			boolean err = false;
 			try {
@@ -97,6 +100,7 @@ public class JAddMultipleDialog extends JDialog implements ActionListener {
 				err = true;
 				msg = e_.getMessage();
 				log.log(Level.WARNING, e_.getMessage(), e_);
+				jButtonBar.enableOk();
 			}
 			finally {
 				parent.addMultipleCallback(msg, err);

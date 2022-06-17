@@ -80,7 +80,7 @@ public class InfoRefServlet extends AbstractServlet {
 				if (params.length == 2 || isResult1) {
 					StringBuffer ri = HtmlConverter.getRecordInfo(request, params[0], id, lang);
 					if (ri == null) {
-						throw new RemovedEntityException("Entity removed: " + params[0] + "-" + id);
+						throw new RemovedEntityException("Entity not found: " + params[0] + "-" + id);
 					}
 					params_.add(ri.substring(0, ri.indexOf("</span>")).replaceFirst(".*title'\\>", ""));
 					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_REF, params_, getUser(request), lang));

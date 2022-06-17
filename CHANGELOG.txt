@@ -1,7 +1,23 @@
 +-----------------------+
 | Sporthenon Change Log |
-| Last Version: 2.0.2   |
+| Last Version: 2.0.3   |
 +-----------------------+
+
++-------+
+| 2.0.3 |
++-------+
+[17 Jun 2022]
+- New trigger to link automatically athletes with same last name/first name/sport
+o Website
+- Added list of sibling events at the bottom of results pages for better navigation
+- Events in progress are marked with a specific color
+- Bugfix: an error occured when opening pages with URL https://sporthenon.com/olympicgames/*
+o Update tool (Swing app)
+- Years sorted with most recent first in results dialog (+ current year selected by default)
+- Image sizes are displayed in "Pictures" tab (+ size control on upload)
+- Added sport name along in team picklists to avoid confusion
+- Active teams appear first in picklists when teams with the same name exist
+- Bugfix: consecutive clicks on "OK" button was possible in some dialogs
 
 +-------+
 | 2.0.2 |

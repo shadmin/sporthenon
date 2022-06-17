@@ -92,9 +92,17 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 	private TitledBorder panelBottomBorder = null;
 	private JCheckBox jTestAlpha1 = null;
 	private JCheckBox jTestAlpha2 = null;
-	private int[] sizesL = new int[]{0, 0, 0, 0, 0, 0, 0};
-	private int[] sizesS = new int[]{0, 0, 0, 0, 0, 0, 0};
-	
+	private String[] sizesL = new String[]{"Nx100", "Nx80", "Nx100", "Nx100", "100x100", "Nx70", "Nx100"};
+	private String[] sizesS = new String[]{"30x30", "21x14", "30x30", "50x50", "30x30", "21x14", "30x30"};
+	/*
+		v.add("Championship");
+		v.add("Country");
+		v.add("Event");
+		v.add("Olympics");
+		v.add("Sport");
+		v.add("State");
+		v.add("Team");
+	 */
 	public JPicturesPanel(JMainFrame parent) {
 		initialize();
 	}
@@ -321,7 +329,8 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 					if (f != null) {
 						jLocalFile.setText(f.getPath());
 						jLocalPanel.setImage(new File(f.getPath()));
-						panelTopBorder.setTitle("Local File (" + jLocalPanel.getImageWidth() + "x" + jLocalPanel.getImageHeight() + ")");
+						int index = jList.getSelectedIndex();
+						jLocalPanel.setText("Size: " + jLocalPanel.getImageWidth() + "x" + jLocalPanel.getImageHeight() + " (must be: " + (largeRadioBtn.isSelected() ? sizesL[index] : sizesS[index]) + ")");
 						uploadBtn.setEnabled(StringUtils.notEmpty(JMainFrame.getOptionsDialog().getCredentialsFile().getText()));
 					}
 				}
@@ -432,6 +441,10 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 		}
 		downloadBtn.setEnabled(model.getSize() > 0);
 		removeBtn.setEnabled(model.getSize() > 0 && JMainFrame.getContributor().isAdmin());
+		if (!"".equals(jLocalPanel.getText())) {
+			int index = jList.getSelectedIndex();
+			jLocalPanel.setText(jLocalPanel.getText().replaceFirst("\\(must be.*", "(must be: " + (largeRadioBtn.isSelected() ? sizesL[index] : sizesS[index]) + ")"));
+		}
 	}
 	
 	public void changeEntity(int index) {
@@ -462,15 +475,16 @@ public class JPicturesPanel extends JSplitPane implements ActionListener, ListSe
 					if (StringUtils.notEmpty(value) && !value.equals("null")) {
 						jRemoteFile.setText(ImageUtils.getUrl() + value);
 						jRemotePanel.setImage(new URL(jRemoteFile.getText()));
-						panelBottomBorder.setTitle("Remote File (" + jRemotePanel.getImageWidth() + "x" + jRemotePanel.getImageHeight() + ")");
+						jRemotePanel.setText("Size: " + jRemotePanel.getImageWidth() + "x" + jRemotePanel.getImageHeight());
 					}
-					else
+					else {
 						throw new MalformedURLException();
+					}
 				}
 				catch (MalformedURLException e_) {
 					jRemoteFile.setText("");
 					jRemotePanel.setImage(null);
-					panelBottomBorder.setTitle("Remote File");
+					jRemotePanel.setText("-");
 				}
 			}
 		}

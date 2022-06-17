@@ -84,6 +84,7 @@ public class ResultServlet extends AbstractServlet {
 					StringBuffer html = new StringBuffer();
 					html.append(HtmlConverter.getHeader(request, HtmlConverter.HEADER_RESULTS, params, getUser(request), lang));
 					html.append(HtmlConverter.convertResults(request, c, oCp, oEv, getUser(request), lang));
+					html.append(HtmlConverter.getOtherEvents(params, lang));
 
 					// Load HTML results or export
 					HtmlUtils.setHeadInfo(request, html.toString());

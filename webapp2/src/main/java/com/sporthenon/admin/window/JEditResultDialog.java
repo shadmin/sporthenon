@@ -356,6 +356,7 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 			if (!checkErrors()) {
 				return;
 			}
+			jButtonBar.disableOk();
 			Contributor cb = JMainFrame.getContributor();
 			Result rs = null;
 			String msg = null;
@@ -420,6 +421,7 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 				err = true;
 				msg = e_.getMessage();
 				log.log(Level.WARNING, e_.getMessage(), e_);
+				jButtonBar.enableOk();
 			}
 			finally {
 				parent.resultCallback(mode, getDataVector(rs), msg, err);
@@ -548,6 +550,10 @@ public class JEditResultDialog extends JDialog implements ActionListener, FocusL
 				this.roundsModified = true;
 			}
 		}
+		if (mode == JEditResultDialog.NEW || mode == JEditResultDialog.COPY) {
+			SwingUtils.selectValue(jYear, String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+		}
+		this.jButtonBar.enableOk();
 		this.setVisible(true);
 	}
 	

@@ -23,6 +23,9 @@
 	text-align: left;
 	white-space: nowrap;
 }
+.render .inprogress{
+	background-color: #DFEEFF;
+}
 .render a{
 	color: #00C;
 	text-decoration: none;
@@ -464,12 +467,21 @@
 	border-bottom: 2px solid #BBB;
 	text-align: center;
 }
+.render .tlegend{
+	margin-top: 25px;
+}
+.render .tlegend th{
+	width: 25px;
+}
+.render .tlegend td{
+	padding: 6px;
+}
 tr.rsort th{
 	cursor: pointer;
 	text-decoration: none;
 }
 tr.rsort th:hover, .render tr.rsort th:hover td{
-	text-decoration:  underline;
+	text-decoration: underline;
 }
 th.sorted{
 	padding: 1px 20px 1px 10px;
